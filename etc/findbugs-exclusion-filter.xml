@@ -1,0 +1,20 @@
+<FindBugsFilter>
+  <Match>
+      <Class name="~.*\$.*" />
+  </Match>
+  <Match>
+      <Bug code="CD" />
+      <Class name="~.*" />
+  </Match>
+  <Match>
+      <Class name="~.*Messages" />
+  </Match>
+  <Match>
+      <Bug code="UwF, SIC, NP, Dm" />
+      <Class name="~.*Test.*" />
+  </Match>
+  <Match>
+      <Bug code="UwF" />
+      <Class name="~.*View.*" />
+  </Match>
+</FindBugsFilter>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>edu.hm.hafner</groupId>
+  <artifactId>codingstyle</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <packaging>jar</packaging>
+
+  <name>Example Java project that integrates several static analysis tools in Maven, Eclipse and IntelliJ</name>
+  <description>Provides all necessary resources for a Java project to enforce the coding style used in the lecture
+    software development. It configures several static analysis tools for Maven, Eclipse and IntelliJ. Moreover,
+    it provides some sample classes that already use this style guide. This classes can be used as such but are not
+    required in this project. These classes also use some additional libraries that are included using the Maven
+    dependency mechanism. If the sample classes are deleted then the dependencies can be safely deleted, too.
+  </description>
+
+  <scm>
+    <connection>scm:git:git://github.com/uhafner/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:git@github.com:uhafner/${project.artifactId}.git</developerConnection>
+    <url>https://github.com/uhafner/${project.artifactId}</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>MIT license</name>
+      <comments>All source code is under the MIT license.</comments>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Ullrich Hafner</name>
+      <id>uhafner</id>
+      <email>ullrich.hafner@gmail.com</email>
+    </developer>
+  </developers>
+
+  <url>http://www.cs.hm.edu/die_fakultaet/ansprechpartner/professoren/hafner/index.de.html</url>
+
+  <properties>
+    <source.encoding>UTF-8</source.encoding>
+    <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+
+    <!-- Project Dependencies Configuration -->
+    <findbugs.annotations>2.0.0</findbugs.annotations>
+    <guava.version>15.0</guava.version>
+    <commons.lang.version>3.1</commons.lang.version>
+    <junit.version>4.11</junit.version>
+    <mockito.version>1.9.5</mockito.version>
+
+    <!-- Maven Plug-ins Configuration -->
+    <site.maven.plugin>3.4</site.maven.plugin>
+    <compiler.maven.plugin>3.1</compiler.maven.plugin>
+    <resources.maven.plugin>2.7</resources.maven.plugin>
+    <buildhelper.maven.plugin>1.9.1</buildhelper.maven.plugin>
+    <surefire.maven.plugin>2.17</surefire.maven.plugin>
+    <pmd.maven.plugin>3.2</pmd.maven.plugin>
+    <checkstyle.maven.plugin>2.13</checkstyle.maven.plugin>
+    <findbugs.maven.plugin>3.0.0</findbugs.maven.plugin>
+    <cobertura.maven.plugin>2.6</cobertura.maven.plugin>
+    <projectinfo.maven.plugin>2.7</projectinfo.maven.plugin>
+    <jxr.maven.plugin>2.4</jxr.maven.plugin>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+      <version>${findbugs.annotations}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons.lang.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>${mockito.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>etc</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${compiler.maven.plugin}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <testSource>${java.version}</testSource>
+          <testTarget>${java.version}</testTarget>
+        </configuration>
+      </plugin>
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${site.maven.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${surefire.maven.plugin}</version>
+          <configuration>
+            <argLine>-XX:-UseSplitVerifier</argLine>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${resources.maven.plugin}</version>
+          <configuration>
+            <encoding>${source.encoding}</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>${cobertura.maven.plugin}</version>
+          <configuration>
+            <check>false</check>
+            <formats>
+              <format>html</format>
+              <format>xml</format>
+            </formats>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${checkstyle.maven.plugin}</version>
+          <configuration>
+            <sourceDirectory>assignments</sourceDirectory>
+            <configLocation>etc/checkstyle-configuration.xml</configLocation>
+            <suppressionsLocation>etc/checkstyle-suppressions.xml</suppressionsLocation>
+            <propertyExpansion>config_loc=${project.build.outputDirectory}</propertyExpansion>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${pmd.maven.plugin}</version>
+          <configuration>
+            <rulesets>
+              <ruleset>etc/pmd-configuration.xml</ruleset>
+            </rulesets>
+            <targetJdk>${java.version}</targetJdk>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>${findbugs.maven.plugin}</version>
+          <configuration>
+            <xmlOutput>true</xmlOutput>
+            <findbugsXmlOutput>true</findbugsXmlOutput>
+            <threshold>Low</threshold>
+            <effort>Max</effort>
+            <relaxed>false</relaxed>
+            <fork>true</fork>
+            <excludeFilterFile>etc/findbugs-exclusion-filter.xml</excludeFilterFile>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${projectinfo.maven.plugin}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>${jxr.maven.plugin}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${surefire.maven.plugin}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>${cobertura.maven.plugin}</version>
+        <configuration>
+          <check>false</check>
+          <formats>
+            <format>html</format>
+            <format>xml</format>
+          </formats>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle.maven.plugin}</version>
+        <configuration>
+          <configLocation>etc/checkstyle-configuration.xml</configLocation>
+          <suppressionsLocation>etc/checkstyle-suppressions.xml</suppressionsLocation>
+          <propertyExpansion>config_loc=${project.build.outputDirectory}</propertyExpansion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${pmd.maven.plugin}</version>
+        <configuration>
+          <rulesets>
+            <ruleset>etc/pmd-configuration.xml</ruleset>
+          </rulesets>
+          <skipEmptyReport>false</skipEmptyReport>
+          <targetJdk>${java.version}</targetJdk>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>${findbugs.maven.plugin}</version>
+        <configuration>
+          <xmlOutput>true</xmlOutput>
+          <xmlOutput>true</xmlOutput>
+          <findbugsXmlOutput>true</findbugsXmlOutput>
+          <threshold>Low</threshold>
+          <effort>Max</effort>
+          <relaxed>false</relaxed>
+          <fork>true</fork>
+          <excludeFilterFile>etc/findbugs-exclusion-filter.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>
