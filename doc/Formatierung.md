@@ -60,3 +60,17 @@ finally {
     ...
 }
 ```
+
+## Leerzeichen
+
+Quelltext ohne Leerzeichen lässt sich deutlich schlechter lesen und verstehen. Daher nutzen wir **genau** 
+ein Leerzeichen an den folgenden Stellen:
+- Zwischen einer Anweisung und der folgenden öffnenden runden ( oder geschweiften { Klammer 
+- Zwischen einer schließenden runden ) und einer öffnenden geschweiften { Klammer 
+- Zwischen binärem Operator und seinen beiden Operanden
+- Nach jedem Komma in der Parameterliste einer Methode
+
+Für die folgenden Konstrukte wird kein Leerzeichen verwendet:
+- Zwischem unärem Operator und seinem Operand
+- Zwischen Methodenname und öffnender runden ( Klammer 
+- Bedingung innerhalb der runden Klammern () im `if` oder `while`   
