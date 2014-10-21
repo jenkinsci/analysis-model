@@ -19,12 +19,12 @@ von Maven hat zudem den Vorteil, dass die Ergebnisse hinterher leicht in den Con
 [Jenkins](http://jenkins-ci.org/) eingebunden werden können. 
 
 Die Idee für diesen Styleguide lieferte das Buch "The Elements of Java Style" von Vermeulen, Ambler, Bumgardner, Metz, 
-Misfeldt, Shur und Thompson. Es ist bereits im Jahr 2000 in der Cambridge University Press erschienen. Anregungen für 
+Misfeldt, Shur und Thompson [1]. Es ist bereits im Jahr 2000 in der Cambridge University Press erschienen. Anregungen für 
 zusätzliche Inhalte kommen auch aus den folgenden Büchern, die allesamt Standardwerke in der Softwareentwicklung sind:
-- "The Pragmatic Programmer. From Journeyman to Master", Andrew Hunt, David Thomas, Ward Cunningham, Addison Wesley, 1999
-- "Code Complete: A Practical Handbook of Software Construction: A Practical Handbook of Software Costruction", 
+- [2] "The Pragmatic Programmer. From Journeyman to Master", Andrew Hunt, David Thomas, Ward Cunningham, Addison Wesley, 1999
+- [3] "Code Complete: A Practical Handbook of Software Construction: A Practical Handbook of Software Costruction", 
     Steve McConnell, Microsoft Press, 2004
-- "Clean Code: A Handbook of Agile Software Craftsmanship", Robert C. Martin, Prentice Hall, 2008
+- [4] "Clean Code: A Handbook of Agile Software Craftsmanship", Robert C. Martin, Prentice Hall, 2008
 
 Der Styleguide entsteht erst in diesem Semester und ist daher noch nicht vollumfänglich. Aktuell besteht er aus den 
 folgenden Abschnitten:
