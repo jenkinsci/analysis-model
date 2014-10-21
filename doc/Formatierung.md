@@ -7,10 +7,12 @@ einem einfachen Kommando angewendet werden können.
 ## Einrücken
 
 Die öffnende Klammer eines Blocks steht immer auf der gleichen Zeile wie die Anweisung davor. Die folgenden Anweisungen
-eines geschachtelten Blocks werden alle mit 4 Leerzeichen eingerückt. Die schließende Klammer steht dann genau unterhalb
-der Anweisung, die die öffnende Klammer enthält.
+eines geschachtelten Blocks werden alle mit 4 Leerzeichen eingerückt. Tabs dürfen nicht verwendet werden, da
+diese nicht überall mit der gleichen Leerzeichenanzahl dargestellt werden (z.B. im Browser). 
+Die schließende Klammer steht dann genau unterhalb der Anweisung, die die öffnende Klammer enthält.
  
 An Beispielen wird das leichter deutlich:
+
 ```java
 if (expression1) {
     statement1;
@@ -28,8 +30,9 @@ while (expression2) {
 }
 ```
 
-*Achtung:* gemäß [3] wird bei einem *if-else* und *try-catch* Konstrukt die schließende Klammer immer alleine auf einer 
- Zeile:
+**Achtung:** gemäß [3] steht bei einem `if-else` und `try-catch` Konstrukt die schließende Klammer immer 
+alleine auf einer Zeile:
+
 ```java
 if (expression1) {
     statement1;
