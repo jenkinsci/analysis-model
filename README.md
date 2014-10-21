@@ -29,4 +29,4 @@ zusätzliche Inhalte kommen auch aus den folgenden Büchern, die allesamt Standa
 Der Styleguide entsteht erst in diesem Semester und ist daher noch nicht vollumfänglich. Aktuell besteht er aus den 
 folgenden Abschnitten:
 
-[Formatierung](../blob/master/doc/Formatierung.md)
+[Formatierung](../master/doc/Formatierung.md)
