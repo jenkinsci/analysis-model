@@ -75,9 +75,8 @@ Für die folgenden Konstrukte wird kein Leerzeichen verwendet:
 - Zwischen Methodenname und öffnender runden ( Klammer 
 - Bedingung innerhalb der runden Klammern () im `if` oder `while`   
 
-Beispiele: 
+Hier einige Beispiele, in denen das Leerzeichen durch das Sonderzeichen `⋅` hervorgehoben wurde:
 
-Beispiele:
 ```java
 if⋅(treeRight())⋅{
     ...
