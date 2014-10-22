@@ -74,3 +74,23 @@ Für die folgenden Konstrukte wird kein Leerzeichen verwendet:
 - Zwischem unärem Operator und seinem Operand
 - Zwischen Methodenname und öffnender runden ( Klammer 
 - Bedingung innerhalb der runden Klammern () im `if` oder `while`   
+
+Beispiele: 
+
+Beispiele:
+```java
+if⋅(treeRight())⋅{
+    …
+}
+else⋅if⋅(treeLeft())⋅{
+    …
+}
+else⋅{
+    …
+}
+
+while⋅(!onLeaf()⋅&&⋅(treeFront()⋅||⋅mushroomFront()))⋅{
+    …
+}
+```
+
