@@ -77,7 +77,7 @@ Für die folgenden Konstrukte wird kein Leerzeichen verwendet:
 
 Hier einige Beispiele, in denen das Leerzeichen durch das Sonderzeichen `⋅` hervorgehoben wurde:
 
-```java
+```
 if⋅(treeRight())⋅{
     ...
 }
