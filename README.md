@@ -18,6 +18,12 @@ dass egal wie die Sourcen weiterverarbeitet werden, immer die gleichen Warnungen
 von Maven hat zudem den Vorteil, dass die Ergebnisse hinterher leicht in den Continuous Integration Server 
 [Jenkins](http://jenkins-ci.org/) eingebunden werden können. 
 
+Der Styleguide entsteht erst in diesem Semester und ist daher noch nicht vollumfänglich. Aktuell besteht er aus den 
+folgenden Abschnitten:
+
+[Formatierung](../master/doc/Formatierung.md)
+[Namensgebung](../master/doc/Namensgebung.md)
+
 Die Idee für diesen Styleguide lieferte das Buch "The Elements of Java Style" von Vermeulen, Ambler, Bumgardner, Metz, 
 Misfeldt, Shur und Thompson [1]. Es ist bereits im Jahr 2000 in der Cambridge University Press erschienen. Anregungen für 
 zusätzliche Inhalte kommen auch aus den folgenden Büchern, die allesamt Standardwerke in der Softwareentwicklung sind:
@@ -26,7 +32,4 @@ zusätzliche Inhalte kommen auch aus den folgenden Büchern, die allesamt Standa
     Steve McConnell, Microsoft Press, 2004
 - [4] "Clean Code: A Handbook of Agile Software Craftsmanship", Robert C. Martin, Prentice Hall, 2008
 
-Der Styleguide entsteht erst in diesem Semester und ist daher noch nicht vollumfänglich. Aktuell besteht er aus den 
-folgenden Abschnitten:
 
-[Formatierung](../master/doc/Formatierung.md)
