@@ -30,12 +30,12 @@ Zum Thema Namensgebung finden sich einige schöne Anti-Beispiele im Essay
 Methodennamen enthalten ein Verb im Aktiv, z.B. computeSum, moveForward, turnRight, compareToIgnoreCase. Sie beginnen
 immer mit einem kleinen Buchstaben. Liefert eine Methode einen `boolean` zurück, dann beginnt der Name i.A. mit einem
 `is`, z.B. isEmpty, isTreeFront, isNotRunning, etc. Macht das grammatikalisch keinen Sinn, kann statt dessen auch 
-`can`, `has` oder ähnliches verwendet werden. WHauptsache ist, dass sich boolsche Methoden wie eine Frage lesen: equals,
+`can`, `has` oder ähnliches verwendet werden. Hauptsache ist, dass sich boolesche Methoden wie eine Frage lesen: equals,
 exists, contains, etc.
 
 ## Variablennamen
 
 Variablennamen beginnen mit einem kleinen Buchstaben. Variablen vom Typ `boolean` nutzen meist den Präfix `is`, siehe 
-Abschnitt zu boolschen Methodennamen. Alle anderen Variablennamen sind im Allgemeinen ein Substantiv, da ein Objekt
+Abschnitt zu booleschen Methodennamen. Alle anderen Variablennamen sind im Allgemeinen ein Substantiv, da ein Objekt
 gespeichert wird. Werden in einer Variablen mehrere Objekte gespeichert (Array, Listen, etc.), dann wird die Mehrzahl
 verwendet. Beispiele: counter, isLeaf, numberOfTrees, months, etc.

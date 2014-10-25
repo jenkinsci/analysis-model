@@ -13,7 +13,7 @@ if (onLeaf() || (treeLeft() && treeRight())) {
 ```
 Klammern helfen die Intention zu verdeutlichen, auch wenn diese - wie in diesem Beispiel - nicht nötig wären, 
 da über die Priorität der Operatoren das selbe Resultat erzielt
-würde. Denn nicht jeder hat die 
+würde. Aber nicht jeder hat die 
 [Operatorreihenfolgetabelle](http://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html) im Kopf. 
 
 Für unäre Operatoren wie die Negation `!` oder einfache binäre Bedingungen mit 2 Operanden werden keine Klammern genutzt.

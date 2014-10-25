@@ -2,8 +2,8 @@
 
 Java kennt drei verschiedene Varianten von Kommentaren:
  - der einzeilige Kommentar wird mit `//` eingeleitet und geht bis zum Zeilenende
- - der mehrzeilige Kommentar wird mit `/*` gestartet und mit '*/' beendet
- - der JavaDoc Kommentar wird mit `/**` gestartet und mit '*/' beendet. 
+ - der mehrzeilige Kommentar wird mit `/*` gestartet und mit `*/` beendet
+ - der JavaDoc Kommentar wird mit `/**` gestartet und mit `*/` beendet. 
       
 ## Kommentare zum Quelltext
 
@@ -13,8 +13,8 @@ ersten Varianten genutzt werden. Diese erklären des Ziel des Quelltextes und ve
 
 Wichtig zu beachten sind aber die folgenden Aussagen von Brian W. Kernighan:
  - Make sure comments and code agree.
- - Don't just echo the code with comments -- make every comment count.
- - Don't comment bad code -- rewrite it.
+ - Don't just echo the code with comments - make every comment count.
+ - Don't comment bad code - rewrite it.
 
 (Aus dem Klassiker: B. W. Kernighan and P. J. Plauger, The Elements of Programming Style, McGraw-Hill, New York, 1974)
 
