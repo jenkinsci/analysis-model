@@ -7,12 +7,35 @@ Das erste Zeichen darf keine Ziffer sein und
 [ca. 50 Schlüsselwörter](http://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html) 
 sind vom System reserviert und für eigenen Namen verboten, z.B. class, import, public, etc.
 
-Neben dieser formalen Syntax haben sich folgenden Konventionen eingebürgert.
+Neben dieser formalen Syntax haben sich folgenden Konventionen eingebürgert. 
+
+## Gemeinsame Konventionen 
  
+Bezeichner in Java verwenden American English und nutzen damit automatisch nur ASCII Zeichen (keine Umlaute). Der
+Underscore `_` wird i.A. nicht verwendet. Auch angehängte Zahlen sind untypisch und meistens ein Zeichen für schlechten
+Stil (*Code Smell* [6]).
+ 
+Bezeichner sind stets aussagekräftig und bestehen damit oft aus mehreren Teilwörtern. Wir verwenden dann die Schreibweise 
+[CamelCase](http://c2.com/cgi/wiki?CamelCase). Bezeichner nutzen i.A. keine Abkürzungen, die Autovervollständigung der 
+Entwicklungsumgebungen ergänzt lange Bezeichner komfortabel. 
+
+Zum Thema Abkürzung noch ein schönes Zitat von Ken Thompson auf die Frage was er ändern würde, wenn er UNIX 
+nochmals erfinden dürfte: “I‘d spell creat with an e.“
+
+Zum Thema Namensgebung finden sich einige schöne Anti-Beispiele im Essay
+["How To Write Unmaintainable Code"](https://www.thc.org/root/phun/unmaintain.html) von Roedy Green.
+                   
 ## Methodennamen
 
-Wir verwenden American English für Methodennamen und nutzen damit automatisch nur ASCII Zeichen (keine Umlaute). 
-Methodennamen bestehen i.A. aus mehreren Teilwörtern, die die Methode aussagekräftig beschreiben. 
-Eines dieser Wörter ist ein Verb im Aktiv, z.B. computeSum, moveForward, turnRight, compareToIgnoreCase. 
-Methodennamen beginnen mit einem kleinen Buchstaben - jedes weitere Teilwort wird dann wieder mit einem Großbuchstaben 
-begonnen. Diese Notation wird auch [CamelCase](http://c2.com/cgi/wiki?CamelCase) genannt.
+Methodennamen enthalten ein Verb im Aktiv, z.B. computeSum, moveForward, turnRight, compareToIgnoreCase. Sie beginnen
+immer mit einem kleinen Buchstaben. Liefert eine Methode einen `boolean` zurück, dann beginnt der Name i.A. mit einem
+`is`, z.B. isEmpty, isTreeFront, isNotRunning, etc. Macht das grammatikalisch keinen Sinn, kann statt dessen auch 
+`can`, `has` oder ähnliches verwendet werden. WHauptsache ist, dass sich boolsche Methoden wie eine Frage lesen: equals,
+exists, contains, etc.
+
+## Variablennamen
+
+Variablennamen beginnen mit einem kleinen Buchstaben. Variablen vom Typ `boolean` nutzen meist den Präfix `is`, siehe 
+Abschnitt zu boolschen Methodennamen. Alle anderen Variablennamen sind im Allgemeinen ein Substantiv, da ein Objekt
+gespeichert wird. Werden in einer Variablen mehrere Objekte gespeichert (Array, Listen, etc.), dann wird die Mehrzahl
+verwendet. Beispiele: counter, isLeaf, numberOfTrees, months, etc.

@@ -4,6 +4,12 @@ In diesem Dokument wird die Formatierung von Java Code beschrieben. Das Dokument
 da alle modernen Entwicklungsumgebungen vordefinierte Formatierungseinstellungen verwenden können und diese mit
 einem einfachen Kommando angewendet werden können.
 
+**Achtung:** Greenfoot korrigiert nur die Einrückung, nicht aber die Verwendung von Leerzeichen. 
+
+Gute und sinnvolle Formatierung des Quelltextes ist eine wichtige Aufgabe, denn 
+Quelltext wird einmal geschrieben und zigmal gelesen. Das Layout sollte immer 
+der logischen Struktur des Codes folgen: Layout ist damit auch eine Kommunikationsform. 
+
 ## Einrücken
 
 Die öffnende Klammer eines Blocks steht immer auf der gleichen Zeile wie die Anweisung davor. Die folgenden Anweisungen
@@ -71,7 +77,7 @@ ein Leerzeichen an den folgenden Stellen:
 - Nach jedem Komma in der Parameterliste einer Methode
 
 Für die folgenden Konstrukte wird kein Leerzeichen verwendet:
-- Zwischem unärem Operator und seinem Operand
+- Zwischen unärem Operator und seinem Operand
 - Zwischen Methodenname und öffnender runden ( Klammer 
 - Bedingung innerhalb der runden Klammern () im `if` oder `while`   
 

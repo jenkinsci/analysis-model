@@ -23,13 +23,15 @@ folgenden Abschnitten:
 
 - [Formatierung](../master/doc/Formatierung.md)
 - [Namensgebung](../master/doc/Namensgebung.md)
+- [Kommentare](../master/doc/Kommentare.md)
+- [Best Practice](../master/doc/Best-Practice.md)
 
-Die Idee für diesen Styleguide lieferte das Buch "The Elements of Java Style" von Vermeulen, Ambler, Bumgardner, Metz, 
-Misfeldt, Shur und Thompson [1]. Es ist bereits im Jahr 2000 in der Cambridge University Press erschienen. Anregungen für 
-zusätzliche Inhalte kommen auch aus den folgenden Büchern, die allesamt Standardwerke in der Softwareentwicklung sind:
+Ideen und Inhalte für diesen Styleguide lieferten verschiedene Bücher, insbesondere aber das Buch 
+"The Elements of Java Style" [1]. Diese Bücher sind allesamt wegweisend für die Softwareentwicklung und sind 
+damit Pflichtlektüre für Berufstätige in der Softwareentwicklung:
+- [1] "The Elements of Java Style", Vermeulen, Ambler, Bumgardner, Metz, Misfeldt, Shur und Thompson, Cambridge University Press, 2000
 - [2] "The Pragmatic Programmer. From Journeyman to Master", Andrew Hunt, David Thomas, Ward Cunningham, Addison Wesley, 1999
-- [3] "Code Complete: A Practical Handbook of Software Construction: A Practical Handbook of Software Costruction", 
-    Steve McConnell, Microsoft Press, 2004
+- [3] "Code Complete: A Practical Handbook of Software Construction", Steve McConnell, Microsoft Press, 2004
 - [4] "Clean Code: A Handbook of Agile Software Craftsmanship", Robert C. Martin, Prentice Hall, 2008
-
-
+- [5] "Effective Java", Second Edition, Joshua Bloch, Addison Wesley, 2008
+- [6] "Refactoring: Improving the Design of Existing Code", Martin Fowler, Addison Wesley, 1999 
