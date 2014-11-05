@@ -1,7 +1,6 @@
 package edu.hm.hafner.util;
 
-import java.util.List;
-import java.util.Set;
+import javax.annotation.CheckForNull;
 
 import org.junit.Test;
 
@@ -14,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Tests the class {@link Singleton}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class SingletonTest {
     /**
@@ -67,7 +66,7 @@ public class SingletonTest {
      * Verifies the handling of null.
      */
     @Test
-    @SuppressWarnings("NullArgumentToVariableArgMethod")
+    @SuppressWarnings({"NullArgumentToVariableArgMethod", "ConstantConditions"})
     public void shouldThrowExceptionWhenCollectionIsNullOrContainsNull() {
         expect(() -> {
             Singleton.get(asSet(null));
@@ -77,11 +76,11 @@ public class SingletonTest {
         }).toThrow(NullPointerException.class);
     }
 
-    private Set<Object> asSet(final Object... elements) {
+    private Iterable<Object> asSet(@CheckForNull final Object... elements) {
         return Sets.newHashSet(elements);
     }
 
-    private List<Object> asList(final Object... elements) {
+    private Iterable<Object> asList(@CheckForNull final Object... elements) {
         return Lists.newArrayList(elements);
     }
 }

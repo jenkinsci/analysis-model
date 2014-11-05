@@ -19,7 +19,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <ul>
  * <li>Boolean assertions, e.g.,
  * {@code
- *   Ensure.that(collection.contains(element)).isTrue();
+ *   Ensure.that(condition).isTrue();
  * }
  * </li>
  * <li>String assertions, e.g.,
@@ -45,9 +45,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * </ul>
  *
  * @see <a href="http://en.wikipedia.org/wiki/Design_by_contract"> Design by Contract (Wikipedia)</a>
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
-@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+@SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "ConstantConditions"})
 public final class Ensure {
     /**
      * Returns a boolean condition.
@@ -56,6 +56,7 @@ public final class Ensure {
      *            the value to check
      * @return a boolean condition
      */
+    @SuppressWarnings("BooleanParameter")
     public static BooleanCondition that(final boolean value) {
         return new BooleanCondition(value);
     }
@@ -69,7 +70,7 @@ public final class Ensure {
      *            the additional values to check
      * @return an object condition
      */
-    public static ObjectCondition that(@CheckForNull final Object value, final Object... additionalValues) {
+    public static ObjectCondition that(@CheckForNull final Object value, @CheckForNull final Object... additionalValues) {
         return new ObjectCondition(value, additionalValues);
     }
 
@@ -91,7 +92,7 @@ public final class Ensure {
      *            the value to check
      * @return an array condition
      */
-    public static ArrayCondition that(@CheckForNull final Object[] value) {
+    public static ArrayCondition that(@CheckForNull final Object... value) {
         return new ArrayCondition(value);
     }
 
@@ -260,20 +261,20 @@ public final class Ensure {
      * Assertions for iterables.
      */
     public static class ArrayCondition extends ObjectCondition {
-        private final Object[] value;
+        private final Object[] values;
 
         /**
          * Creates a new instance of {@link IterableCondition}.
          *
-         * @param value
+         * @param values
          *            value of the condition
          */
         @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
         @SuppressFBWarnings("EI2")
-        public ArrayCondition(@CheckForNull final Object[] value) {
-            super(value);
+        public ArrayCondition(@CheckForNull final Object... values) {
+            super(values);
 
-            this.value = value;
+            this.values = values;
         }
 
         /**
@@ -309,11 +310,11 @@ public final class Ensure {
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
 
-            if (value.length == 0) {
+            if (values.length == 0) {
                 throwException(explanation, args);
             }
             else {
-                for (Object object : value) {
+                for (Object object : values) {
                     if (object == null) {
                         throwException(explanation, args);
                     }
@@ -448,7 +449,7 @@ public final class Ensure {
          */
         @SuppressFBWarnings("EI2")
         @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
-        public ObjectCondition(@CheckForNull final Object value, final Object[] additionalValues) {
+        public ObjectCondition(@CheckForNull final Object value, @CheckForNull final Object... additionalValues) {
             this.value = value;
             this.additionalValues = additionalValues;
         }
@@ -582,6 +583,7 @@ public final class Ensure {
          * @param value
          *            value of the condition
          */
+        @SuppressWarnings("BooleanParameter")
         public BooleanCondition(final boolean value) {
             this.value = value;
         }

@@ -9,8 +9,9 @@ import static edu.hm.hafner.util.ExceptionTester.*;
 /**
  * Tests the class {@link Ensure}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
+@SuppressWarnings({"ConstantConditions", "NullArgumentToVariableArgMethod"})
 public class EnsureTest {
     private static final String SOME_STRING = "-";
     private static final String EMPTY_STRING = "";
@@ -27,7 +28,7 @@ public class EnsureTest {
         Ensure.that(EMPTY_STRING).isNotNull();
         Ensure.that(EMPTY_STRING, EMPTY_STRING).isNotNull();
         Ensure.that(null, (Object)null).isNull();
-        Ensure.that(new String[]{EMPTY_STRING}).isNotEmpty();
+        Ensure.that(EMPTY_STRING).isNotEmpty();
         Ensure.that(SOME_STRING).isNotEmpty();
         Ensure.that(SOME_STRING).isNotBlank();
         Ensure.that(EMPTY_STRING).isInstanceOf(String.class);
@@ -73,7 +74,6 @@ public class EnsureTest {
     /**
      * Checks whether we throw an exception if a contract is violated.
      */
-    @SuppressWarnings("NullArgumentToVariableArgMethod")
     @Test
     public void shouldThrowNpeIfContractIsViolated() {
         expect(() -> {
@@ -106,6 +106,12 @@ public class EnsureTest {
         expect(() -> {
             Ensure.that((String)null).isNotEmpty(ERROR_MESSAGE);
         }).toThrow(NullPointerException.class);
+        expect(() -> {
+            Ensure.that((Object[])null).isNotEmpty();
+        }).toThrow(NullPointerException.class);
+        expect(() -> {
+            Ensure.that((String)null).isNotEmpty();
+        }).toThrow(NullPointerException.class);
     }
 
     /**
@@ -120,13 +126,31 @@ public class EnsureTest {
             Ensure.that(Lists.newArrayList(EMPTY_STRING, null, EMPTY_STRING)).isNotEmpty(ERROR_MESSAGE);
         }).toThrow(AssertionError.class);
         expect(() -> {
-            Ensure.that(new String[]{EMPTY_STRING, null, EMPTY_STRING}).isNotEmpty(ERROR_MESSAGE);
+            Ensure.that(EMPTY_STRING, null, EMPTY_STRING).isNotEmpty(ERROR_MESSAGE);
         }).toThrow(AssertionError.class);
         expect(() -> {
             Ensure.that(EMPTY_STRING).isNotEmpty(ERROR_MESSAGE);
         }).toThrow(AssertionError.class);
         expect(() -> {
             Ensure.that(" ").isNotBlank(ERROR_MESSAGE);
+        }).toThrow(AssertionError.class);
+        expect(() -> {
+            Ensure.that(EMPTY_STRING).isInstanceOf(Integer.class, ERROR_MESSAGE);
+        }).toThrow(AssertionError.class);
+         expect(() -> {
+            Ensure.that(new String[0]).isNotEmpty();
+        }).toThrow(AssertionError.class);
+        expect(() -> {
+            Ensure.that(Lists.newArrayList(EMPTY_STRING, null, EMPTY_STRING)).isNotEmpty();
+        }).toThrow(AssertionError.class);
+        expect(() -> {
+            Ensure.that(EMPTY_STRING, null, EMPTY_STRING).isNotEmpty();
+        }).toThrow(AssertionError.class);
+        expect(() -> {
+            Ensure.that(EMPTY_STRING).isNotEmpty();
+        }).toThrow(AssertionError.class);
+        expect(() -> {
+            Ensure.that(" ").isNotBlank();
         }).toThrow(AssertionError.class);
         expect(() -> {
             Ensure.that(EMPTY_STRING).isInstanceOf(Integer.class, ERROR_MESSAGE);

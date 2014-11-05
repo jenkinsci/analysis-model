@@ -8,7 +8,7 @@ import java.util.Iterator;
  *
  * @see Collections#singleton(Object)
  * @see Collections#singletonList(Object)
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public final class Singleton {
     /**
