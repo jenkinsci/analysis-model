@@ -20,6 +20,7 @@ public class EnsureTest {
      * Checks whether no exception is thrown if we adhere to all contracts.
      */
     @Test
+    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     public void shouldNotThrowExceptionIfContractIsValid() {
         Ensure.that(false).isFalse();
         Ensure.that(true).isTrue();
@@ -38,7 +39,7 @@ public class EnsureTest {
     @Test
     public void shouldThrowExceptionIfContractIsViolated() {
         expect(() -> {
-            Ensure.that(new IllegalArgumentException()).isNeverThrown(ERROR_MESSAGE);
+            Ensure.that(new IllegalArgumentException(ERROR_MESSAGE)).isNeverThrown(ERROR_MESSAGE);
         }).toThrow(AssertionError.class);
         expect(() -> {
             Ensure.that(true).isFalse();
@@ -72,6 +73,7 @@ public class EnsureTest {
     /**
      * Checks whether we throw an exception if a contract is violated.
      */
+    @SuppressWarnings("NullArgumentToVariableArgMethod")
     @Test
     public void shouldThrowNpeIfContractIsViolated() {
         expect(() -> {
@@ -81,7 +83,7 @@ public class EnsureTest {
             Ensure.that(SOME_STRING, (Object)null).isNotNull(ERROR_MESSAGE);
         }).toThrow(NullPointerException.class);
         expect(() -> {
-            Ensure.that((Object)null, SOME_STRING).isNotNull(ERROR_MESSAGE);
+            Ensure.that(null, SOME_STRING).isNotNull(ERROR_MESSAGE);
         }).toThrow(NullPointerException.class);
         expect(() -> {
             Ensure.that(null, null).isNotNull(ERROR_MESSAGE);
@@ -93,7 +95,7 @@ public class EnsureTest {
             Ensure.that(SOME_STRING, (Object)null).isNotNull();
         }).toThrow(NullPointerException.class);
         expect(() -> {
-            Ensure.that((Object)null, SOME_STRING).isNotNull();
+            Ensure.that(null, SOME_STRING).isNotNull();
         }).toThrow(NullPointerException.class);
         expect(() -> {
             Ensure.that(null, null).isNotNull();

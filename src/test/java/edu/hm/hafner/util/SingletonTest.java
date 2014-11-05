@@ -67,6 +67,7 @@ public class SingletonTest {
      * Verifies the handling of null.
      */
     @Test
+    @SuppressWarnings("NullArgumentToVariableArgMethod")
     public void shouldThrowExceptionWhenCollectionIsNullOrContainsNull() {
         expect(() -> {
             Singleton.get(asSet(null));

@@ -1,9 +1,12 @@
 package edu.hm.hafner.util;
 
 import javax.annotation.CheckForNull;
+import java.util.Formatter;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Provides several helper methods to validate method arguments and class
@@ -15,35 +18,36 @@ import com.google.common.collect.Lists;
  * Available checks:
  * <ul>
  * <li>Boolean assertions, e.g.,
- * <code>
+ * {@code
  *   Ensure.that(collection.contains(element)).isTrue();
- * </code>
+ * }
  * </li>
  * <li>String assertions, e.g.,
- * <code>
+ * {@code
  *   Ensure.that(string).isNotEmpty();
- * </code>
+ * }
  * </li>
  * <li>Object assertions, e.g.,
- * <code>
+ * {@code
  *   Ensure.that(element).isNotNull();
- * </code>
+ * }
  * </li>
  * <li>Array assertions, e.g.,
- * <code>
+ * {@code
  *   Ensure.that(array).isNotEmpty();
- * </code>
+ * }
  * </li>
  * <li>Iterable assertions, e.g.,
- * <code>
+ * {@code
  *   Ensure.that(collection).isNotNull();
- * </code>
+ * }
  * </li>
  * </ul>
  *
  * @see <a href="http://en.wikipedia.org/wiki/Design_by_contract"> Design by Contract (Wikipedia)</a>
  * @author Ulli Hafner
  */
+@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
 public final class Ensure {
     /**
      * Returns a boolean condition.
@@ -130,7 +134,7 @@ public final class Ensure {
      * Always throws an {@link AssertionError}.
      *
      * @param explanation
-     *            a {@link java.util.Formatter formatted message} explaining the assertion
+     *            a {@link Formatter formatted message} explaining the assertion
      * @param args
      *            Arguments referenced by the format specifiers in the formatted
      *            explanation. If there are more arguments than format
@@ -151,7 +155,7 @@ public final class Ensure {
      * message.
      *
      * @param message
-     *            a {@link java.util.Formatter formatted message} with the description of
+     *            a {@link Formatter formatted message} with the description of
      *            the error
      * @param args
      *            Arguments referenced by the format specifiers in the formatted
@@ -170,7 +174,7 @@ public final class Ensure {
      * message.
      *
      * @param message
-     *            a {@link java.util.Formatter formatted message} with the description of
+     *            a {@link Formatter formatted message} with the description of
      *            the error
      * @param args
      *            Arguments referenced by the format specifiers in the formatted
@@ -195,7 +199,7 @@ public final class Ensure {
         private final Iterable<?> value;
 
         /**
-         * Creates a new instance of {@link edu.hm.hafner.util.Ensure.IterableCondition}.
+         * Creates a new instance of {@code IterableCondition}.
          *
          * @param value
          *            value of the condition
@@ -207,25 +211,25 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given iterable is not <code>null</code> and contains
+         * Ensures that the given iterable is not {@code null} and contains
          * at least one element. Additionally, ensures that each element of the
-         * iterable is not <code>null</code>.
+         * iterable is not {@code null}.
          *
          * @throws AssertionError
-         *             if the iterable is empty (or <code>null</code>), or at least
-         *             one iterable element is <code>null</code>.
+         *             if the iterable is empty (or {@code null}), or at least
+         *             one iterable element is {@code null}.
          */
         public void isNotEmpty() {
             isNotEmpty("Iterable is empty or NULL");
         }
 
         /**
-         * Ensures that the given iterable is not <code>null</code> and contains
+         * Ensures that the given iterable is not {@code null} and contains
          * at least one element. Additionally, ensures that each element of the
-         * iterable is not <code>null</code>.
+         * iterable is not {@code null}.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -233,8 +237,8 @@ public final class Ensure {
          *            specifiers, the extra arguments are ignored. The number of
          *            arguments is variable and may be zero.
          * @throws AssertionError
-         *             if the iterable is empty (or <code>null</code>), or at
-         *             least one iterable element is <code>null</code>.
+         *             if the iterable is empty (or {@code null}), or at
+         *             least one iterable element is {@code null}.
          */
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
@@ -259,13 +263,13 @@ public final class Ensure {
         private final Object[] value;
 
         /**
-         * Creates a new instance of {@link edu.hm.hafner.util.Ensure.IterableCondition}.
+         * Creates a new instance of {@link IterableCondition}.
          *
          * @param value
          *            value of the condition
          */
-        @SuppressWarnings("PMD.ArrayIsStoredDirectly")
-        @edu.umd.cs.findbugs.annotations.SuppressWarnings("EI2")
+        @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
+        @SuppressFBWarnings("EI2")
         public ArrayCondition(@CheckForNull final Object[] value) {
             super(value);
 
@@ -273,25 +277,25 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given array is not <code>null</code> and contains
+         * Ensures that the given array is not {@code null} and contains
          * at least one element. Additionally, ensures that each element of the
-         * array is not <code>null</code>.
+         * array is not {@code null}.
          *
          * @throws AssertionError
-         *             if the array is empty (or <code>null</code>), or at least
-         *             one array element is <code>null</code>.
+         *             if the array is empty (or {@code null}), or at least
+         *             one array element is {@code null}.
          */
         public void isNotEmpty() {
             isNotEmpty("Array is empty or NULL");
         }
 
         /**
-         * Ensures that the given array is not <code>null</code> and contains
+         * Ensures that the given array is not {@code null} and contains
          * at least one element. Additionally, ensures that each element of the
-         * array is not <code>null</code>.
+         * array is not {@code null}.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -299,8 +303,8 @@ public final class Ensure {
          *            specifiers, the extra arguments are ignored. The number of
          *            arguments is variable and may be zero.
          * @throws AssertionError
-         *             if the array is empty (or <code>null</code>), or at least
-         *             one array element is <code>null</code>.
+         *             if the array is empty (or {@code null}), or at least
+         *             one array element is {@code null}.
          */
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
@@ -325,7 +329,7 @@ public final class Ensure {
         private final String value;
 
         /**
-         * Creates a new instance of {@link edu.hm.hafner.util.Ensure.StringCondition}.
+         * Creates a new instance of {@code StringCondition}.
          *
          * @param value
          *            value of the condition
@@ -337,22 +341,22 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given string is not <code>null</code> and contains
+         * Ensures that the given string is not {@code null} and contains
          * at least one character.
          *
          * @throws AssertionError
-         *             if the string is empty (or <code>null</code>)
+         *             if the string is empty (or {@code null})
          */
         public void isNotEmpty() {
             isNotEmpty("The string is empty or NULL");
         }
 
         /**
-         * Ensures that the given string is not <code>null</code> and contains
+         * Ensures that the given string is not {@code null} and contains
          * at least one character.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -360,33 +364,33 @@ public final class Ensure {
          *            specifiers, the extra arguments are ignored. The number of
          *            arguments is variable and may be zero.
          * @throws AssertionError
-         *             if the string is empty (or <code>null</code>)
+         *             if the string is empty (or {@code null})
          */
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
 
-            if (value.length() == 0) {
+            if (value.isEmpty()) {
                 throwException(explanation, args);
             }
         }
 
         /**
-         * Ensures that the given string is not <code>null</code> and contains
+         * Ensures that the given string is not {@code null} and contains
          * at least one non-whitespace character.
          *
          * @throws AssertionError
-         *             if the string is empty (or <code>null</code>)
+         *             if the string is empty (or {@code null})
          */
         public void isNotBlank() {
             isNotBlank("The string is blank");
         }
 
         /**
-         * Ensures that the given string is not <code>null</code> and contains
+         * Ensures that the given string is not {@code null} and contains
          * at least one non-whitespace character.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -394,7 +398,7 @@ public final class Ensure {
          *            specifiers, the extra arguments are ignored. The number of
          *            arguments is variable and may be zero.
          * @throws AssertionError
-         *             if the string is empty (or <code>null</code>)
+         *             if the string is empty (or {@code null})
          */
         public void isNotBlank(final String explanation, final Object... args) {
             isNotNull();
@@ -405,7 +409,7 @@ public final class Ensure {
         }
 
         private boolean isBlank() {
-            if (value.length() == 0) {
+            if (value.isEmpty()) {
                 return true;
             }
             for (int i = 0; i < value.length(); i++) {
@@ -425,7 +429,7 @@ public final class Ensure {
         private final Object[] additionalValues;
 
         /**
-         * Creates a new instance of {@link edu.hm.hafner.util.Ensure.ObjectCondition}.
+         * Creates a new instance of {@code ObjectCondition}.
          *
          * @param value
          *            value of the condition
@@ -435,35 +439,35 @@ public final class Ensure {
         }
 
         /**
-         * Creates a new instance of {@link edu.hm.hafner.util.Ensure.ObjectCondition}.
+         * Creates a new instance of {@code ObjectCondition}.
          *
          * @param value
          *            value of the condition
          * @param additionalValues
          *            additional values of the condition
          */
-        @edu.umd.cs.findbugs.annotations.SuppressWarnings("EI2")
-        @SuppressWarnings("PMD.ArrayIsStoredDirectly")
+        @SuppressFBWarnings("EI2")
+        @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
         public ObjectCondition(@CheckForNull final Object value, final Object[] additionalValues) {
             this.value = value;
             this.additionalValues = additionalValues;
         }
 
         /**
-         * Ensures that the given object is not <code>null</code>.
+         * Ensures that the given object is not {@code null}.
          *
          * @throws AssertionError
-         *             if the object is <code>null</code>
+         *             if the object is {@code null}
          */
         public void isNotNull() {
             isNotNull("Object is NULL");
         }
 
         /**
-         * Ensures that the given object is not <code>null</code>.
+         * Ensures that the given object is not {@code null}.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -471,7 +475,7 @@ public final class Ensure {
          *            specifiers, the extra arguments are ignored. The number of
          *            arguments is variable and may be zero.
          * @throws AssertionError
-         *             if the object is <code>null</code>
+         *             if the object is {@code null}
          */
         public void isNotNull(final String explanation, final Object... args) {
             if (value == null) {
@@ -485,20 +489,20 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given object is <code>null</code>.
+         * Ensures that the given object is {@code null}.
          *
          * @throws AssertionError
-         *             if the object is not <code>null</code>
+         *             if the object is not {@code null}
          */
         public void isNull() {
             isNull("Object is not NULL");
         }
 
         /**
-         * Ensures that the given object is <code>null</code>.
+         * Ensures that the given object is {@code null}.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -506,8 +510,9 @@ public final class Ensure {
          *            specifiers, the extra arguments are ignored. The number of
          *            arguments is variable and may be zero.
          * @throws AssertionError
-         *             if the object is not <code>null</code>
+         *             if the object is not {@code null}
          */
+        @SuppressWarnings("VariableNotUsedInsideIf")
         public void isNull(final String explanation, final Object... args) {
             if (value != null) {
                 throwException(explanation, args);
@@ -523,7 +528,7 @@ public final class Ensure {
          *            the additional types to check the specified object for
          * @throws AssertionError
          *             the specified object is not an instance of the given type (or
-         *             <code>null</code>)
+         *             {@code null})
          */
         public void isInstanceOf(final Class<?> type, final Class<?>... additionalTypes) {
             isNotNull();
@@ -543,7 +548,7 @@ public final class Ensure {
          * @param type
          *            the type to check the specified object for
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -552,7 +557,7 @@ public final class Ensure {
          *            arguments is variable and may be zero.
          * @throws AssertionError
          *             the specified object is not an instance of the given type (or
-         *             <code>null</code>)
+         *             {@code null})
          */
         public void isInstanceOf(final Class<?> type, final String explanation, final Object... args) {
             isNotNull(explanation);
@@ -572,7 +577,7 @@ public final class Ensure {
         private final boolean value;
 
         /**
-         * Creates a new instance of {@link edu.hm.hafner.util.Ensure.BooleanCondition}.
+         * Creates a new instance of {@code BooleanCondition}.
          *
          * @param value
          *            value of the condition
@@ -582,10 +587,10 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given condition is <code>false</code>.
+         * Ensures that the given condition is {@code false}.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -593,7 +598,7 @@ public final class Ensure {
          *            format specifiers, the extra arguments are ignored. The
          *            number of arguments is variable and may be zero.
          * @throws AssertionError
-         *             if the condition is <code>true</code>
+         *             if the condition is {@code true}
          */
         public void isFalse(final String explanation, final Object... args) {
             if (value) {
@@ -602,20 +607,20 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given condition is <code>false</code>.
+         * Ensures that the given condition is {@code false}.
          *
          * @throws AssertionError
-         *             if the condition is <code>true</code>
+         *             if the condition is {@code true}
          */
         public void isFalse() {
             isFalse("Value is not FALSE");
         }
 
         /**
-         * Ensures that the given condition is <code>true</code>.
+         * Ensures that the given condition is {@code true}.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the
@@ -623,7 +628,7 @@ public final class Ensure {
          *            specifiers, the extra arguments are ignored. The number of
          *            arguments is variable and may be zero.
          * @throws AssertionError
-         *             if the condition is <code>false</code>
+         *             if the condition is {@code false}
          */
         public void isTrue(final String explanation, final Object... args) {
             if (!value) {
@@ -632,10 +637,10 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given condition is <code>true</code>.
+         * Ensures that the given condition is {@code true}.
          *
          * @throws AssertionError
-         *             if the condition is <code>false</code>
+         *             if the condition is {@code false}
          */
         public void isTrue() {
             isTrue("Value is not TRUE");
@@ -650,7 +655,7 @@ public final class Ensure {
         private final Throwable value;
 
         /**
-         * Creates a new instance of {@link edu.hm.hafner.util.Ensure.BooleanCondition}.
+         * Creates a new instance of {@link BooleanCondition}.
          *
          * @param value
          *            value of the condition
@@ -664,7 +669,7 @@ public final class Ensure {
          * always throw an {@link AssertionError}.
          *
          * @param explanation
-         *            a {@link java.util.Formatter formatted message} explaining the
+         *            a {@link Formatter formatted message} explaining the
          *            assertion
          * @param args
          *            Arguments referenced by the format specifiers in the

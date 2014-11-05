@@ -1,12 +1,13 @@
 package edu.hm.hafner.util;
 
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
  * Provides a simple access to the element of a singleton collection.
  *
- * @see java.util.Collections#singleton(Object)
- * @see java.util.Collections#singletonList(Object)
+ * @see Collections#singleton(Object)
+ * @see Collections#singletonList(Object)
  * @author Ulli Hafner
  */
 public final class Singleton {
