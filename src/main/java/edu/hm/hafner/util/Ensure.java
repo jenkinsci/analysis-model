@@ -92,7 +92,7 @@ public final class Ensure {
      *            the value to check
      * @return an array condition
      */
-    public static ArrayCondition that(@CheckForNull final Object... value) {
+    public static ArrayCondition that(@CheckForNull final Object[] value) {
         return new ArrayCondition(value);
     }
 
@@ -271,7 +271,7 @@ public final class Ensure {
          */
         @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
         @SuppressFBWarnings("EI2")
-        public ArrayCondition(@CheckForNull final Object... values) {
+        public ArrayCondition(@CheckForNull final Object[] values) {
             super(values);
 
             this.values = values;
@@ -449,7 +449,7 @@ public final class Ensure {
          */
         @SuppressFBWarnings("EI2")
         @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
-        public ObjectCondition(@CheckForNull final Object value, @CheckForNull final Object... additionalValues) {
+        public ObjectCondition(@CheckForNull final Object value, @CheckForNull final Object[] additionalValues) {
             this.value = value;
             this.additionalValues = additionalValues;
         }

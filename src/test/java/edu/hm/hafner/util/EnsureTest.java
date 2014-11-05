@@ -28,7 +28,7 @@ public class EnsureTest {
         Ensure.that(EMPTY_STRING).isNotNull();
         Ensure.that(EMPTY_STRING, EMPTY_STRING).isNotNull();
         Ensure.that(null, (Object)null).isNull();
-        Ensure.that(EMPTY_STRING).isNotEmpty();
+        Ensure.that(new String[]{EMPTY_STRING}).isNotEmpty();
         Ensure.that(SOME_STRING).isNotEmpty();
         Ensure.that(SOME_STRING).isNotBlank();
         Ensure.that(EMPTY_STRING).isInstanceOf(String.class);
@@ -126,7 +126,7 @@ public class EnsureTest {
             Ensure.that(Lists.newArrayList(EMPTY_STRING, null, EMPTY_STRING)).isNotEmpty(ERROR_MESSAGE);
         }).toThrow(AssertionError.class);
         expect(() -> {
-            Ensure.that(EMPTY_STRING, null, EMPTY_STRING).isNotEmpty(ERROR_MESSAGE);
+            Ensure.that(new String[] {EMPTY_STRING, null, EMPTY_STRING}).isNotEmpty(ERROR_MESSAGE);
         }).toThrow(AssertionError.class);
         expect(() -> {
             Ensure.that(EMPTY_STRING).isNotEmpty(ERROR_MESSAGE);
@@ -144,7 +144,7 @@ public class EnsureTest {
             Ensure.that(Lists.newArrayList(EMPTY_STRING, null, EMPTY_STRING)).isNotEmpty();
         }).toThrow(AssertionError.class);
         expect(() -> {
-            Ensure.that(EMPTY_STRING, null, EMPTY_STRING).isNotEmpty();
+            Ensure.that(new String[] {EMPTY_STRING, null, EMPTY_STRING}).isNotEmpty();
         }).toThrow(AssertionError.class);
         expect(() -> {
             Ensure.that(EMPTY_STRING).isNotEmpty();
