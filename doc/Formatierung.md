@@ -1,14 +1,18 @@
 # Formatierung
 
-In diesem Dokument wird die Formatierung von Java Code beschrieben. Das Dokument kann recht kurz gehalten werden,
-da alle modernen Entwicklungsumgebungen vordefinierte Formatierungseinstellungen verwenden können und diese mit
-einem einfachen Kommando angewendet werden können.
+Gute und sinnvolle Formatierung des Quelltextes ist eine wichtige Aufgabe, denn
+Quelltext wird einmal geschrieben und zigmal gelesen. Das Layout sollte immer
+der logischen Struktur des Codes folgen: Layout ist damit auch eine Kommunikationsform.
 
-**Achtung:** Greenfoot korrigiert nur die Einrückung, nicht aber die Verwendung von Leerzeichen. 
+In den folgenden Abschnitten sind die wichtigsten Richtlinien zur Formatierung
+von Java Code beschrieben. Eine detaillierte Beschreibung unterbleibt explizit,
+da alle modernen Entwicklungsumgebungen vordefinierte Formatierungseinstellungen verwenden
+können. Diese können bei Bedarf mit einem einfachen Kommando angewendet werden. D.h. um
+die korrekte Formatierung eines Quelltextstücks zu sehen, ist lediglich das entsprechende
+Kommando der Entwicklungsumgebung aufzurufen.
 
-Gute und sinnvolle Formatierung des Quelltextes ist eine wichtige Aufgabe, denn 
-Quelltext wird einmal geschrieben und zigmal gelesen. Das Layout sollte immer 
-der logischen Struktur des Codes folgen: Layout ist damit auch eine Kommunikationsform. 
+**Achtung:** Greenfoot selbst ist nicht so mächtig und korrigiert nur die Einrückung,
+nicht aber die Verwendung von Leerzeichen.
 
 ## Einrücken
 
@@ -17,22 +21,25 @@ eines geschachtelten Blocks werden alle mit 4 Leerzeichen eingerückt. Tabs dür
 diese nicht überall mit der gleichen Leerzeichenanzahl dargestellt werden (z.B. im Browser). 
 Die schließende Klammer steht dann genau unterhalb der Anweisung, die die öffnende Klammer enthält.
  
-An Beispielen wird das leichter deutlich:
+An Beispielen wird das leichter deutlich, das zum Einrücken verwendete Leerzeichen wird zur besseren Lesbarkeit
+durch das Sonderzeichen `⋅` hervorgehoben:
 
 ```java
 if (expression1) {
-    statement1;
-    statement2;
-    ...
+⋅⋅⋅⋅statement1;
+⋅⋅⋅⋅statement2;
+⋅⋅⋅⋅etc.
 }
 
 while (expression2) {
-    statement3;
-    if (expression3) {
-        statement3;
-        statement4;
-        ...
-    }
+⋅⋅⋅⋅statement3;
+⋅⋅⋅⋅statement4;
+⋅⋅⋅⋅etc.
+⋅⋅⋅⋅if (expression3) {
+⋅⋅⋅⋅⋅⋅⋅⋅statement5;
+⋅⋅⋅⋅⋅⋅⋅⋅statement6;
+⋅⋅⋅⋅⋅⋅⋅⋅etc.
+⋅⋅⋅⋅}
 }
 ```
 
@@ -41,29 +48,29 @@ alleine auf einer Zeile:
 
 ```java
 if (expression1) {
-    statement1;
-    ...
+⋅⋅⋅⋅statement1;
+⋅⋅⋅⋅etc.
 }
 else if (expression2) {
-    statement2;
-    ...
+⋅⋅⋅⋅statement2;
+⋅⋅⋅⋅etc.
 }
 else {
-    statement3;
-    ...
+⋅⋅⋅⋅statement3;
+⋅⋅⋅⋅etc.
 }
 
 try {
-    statement1;
-    ...
+⋅⋅⋅⋅statement4;
+⋅⋅⋅⋅etc.
 }
 catch (Exception exception1) {
-    statement2;
-    ...
+⋅⋅⋅⋅statement5;
+⋅⋅⋅⋅etc.
 }
 finally {
-    statement3;
-    ...
+⋅⋅⋅⋅statement6;
+⋅⋅⋅⋅etc.
 }
 ```
 

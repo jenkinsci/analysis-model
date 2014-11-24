@@ -18,8 +18,12 @@ Wichtig zu beachten sind aber die folgenden Aussagen von Brian W. Kernighan:
 
 (Aus dem Klassiker: B. W. Kernighan and P. J. Plauger, The Elements of Programming Style, McGraw-Hill, New York, 1974)
 
-Insgesamt gilt: so wenig Kommentare wie nötig verwenden. Besser Bezeichner passend auswählen und komplexen Code 
-vereinfachen. In [4] findet sich ein ganzes Kapitel, das sich diesem Thema widmet.
+Insgesamt gilt: so wenig Kommentare wie nötig verwenden. Besser Bezeichner passend auswählen und komplexen Code vereinfachen oder
+z.B. durch zusätzliche Methoden strukturieren. D.h. bevor ein Kommentar für einen komplexen
+Programmausschnitt erstellt wird, sollte dieser Ausschnitt in eine Methode ausgelagert werden. Die Methode selbst wird dann
+ mit dem beabsichtigten Kommentar benannt. Eine ausführlichere Behandliung dieses Themas findet sich in [4], dort
+sind  viele Beispiele und Negativbeispiele aufgeführt.
+
 
 ## Spezielle Kommentare
 
@@ -41,5 +45,6 @@ Versionsverwaltung abgelegt und sind somit redundant.
 JavaDoc wird genutzt um die öffentliche Schnittstelle eines Programms zu dokumentieren. Diese sind unerlässlich und müssen
 für alle Klassen und Methoden verfasst werden, die mindestens die Sichtbarkeit `protected` haben. Die 
 [Java Bibliotheken](http://docs.oracle.com/javase/8/docs/api/) selbst bieten schöne Beispiele, wie solche Kommentare 
-auszusehen haben und wie nützlich diese sind.  
+auszusehen haben und wie nützlich diese sind. Eine kleine Einführung zu diesem Thema ist auf den
+[Oracle Seiten](http://www.oracle.com/technetwork/java/javase/documentation/javadoc-137458.html) zu finden.
 

@@ -25,13 +25,26 @@ nochmals erfinden dürfte: “I‘d spell creat with an e.“
 Zum Thema Namensgebung finden sich einige schöne Anti-Beispiele im Essay
 ["How To Write Unmaintainable Code"](https://www.thc.org/root/phun/unmaintain.html) von Roedy Green.
                    
-## Methodennamen
+## Gestaltung von Methoden
 
-Methodennamen enthalten ein Verb im Aktiv, z.B. computeSum, moveForward, turnRight, compareToIgnoreCase. Sie beginnen
+Die wichtigste Regel beim Erstellen von Methoden lautet: in der Kürze liegt die Würze! D.h., Methoden sollten immer
+möglichst kurz sein. Es ist schwierig ein absolutes Maß dafür zu definieren, aber generell sollte eine Methode immer
+auf eine Bildschirmseite passen. D.h. Scrolling ist weder horizontal noch vertikal erforderlich. Meistens sind Methoden
+daher zwischen 1 und 10 Zeilen lang. Hin und wieder kann sich auch mal eine Methode mit 20 Zeilen einschleichen...
+
+Hier ein schönes Beispiel:
+```
+boolean isEven(final long value) {
+    return (value % 2) == 0;
+```
+
+### Methodennamen
+
+Methodennamen enthalten ein Verb im Aktiv, z.B. `computeSum`, `moveForward`, `turnRight`, `compareToIgnoreCase`. Sie beginnen
 immer mit einem kleinen Buchstaben. Liefert eine Methode einen `boolean` zurück, dann beginnt der Name i.A. mit einem
-`is`, z.B. isEmpty, isTreeFront, isNotRunning, etc. Macht das grammatikalisch keinen Sinn, kann statt dessen auch 
-`can`, `has` oder ähnliches verwendet werden. Hauptsache ist, dass sich boolesche Methoden wie eine Frage lesen: equals,
-exists, contains, etc.
+`is`, z.B. `isEmpty`, `isTreeFront`, `isNotRunning`, etc. Macht das grammatikalisch keinen Sinn, kann statt dessen auch
+`can`, `has`, `should` oder ähnliches verwendet werden. Hauptsache ist, dass sich boolesche Methoden wie eine Frage lesen: d.h. `equals`,
+`exists`, `contains` etc. sind auch in Ordnung.
 
 ## Variablennamen
 
@@ -39,3 +52,4 @@ Variablennamen beginnen mit einem kleinen Buchstaben. Variablen vom Typ `boolean
 Abschnitt zu booleschen Methodennamen. Alle anderen Variablennamen sind im Allgemeinen ein Substantiv, da ein Objekt
 gespeichert wird. Werden in einer Variablen mehrere Objekte gespeichert (Array, Listen, etc.), dann wird die Mehrzahl
 verwendet. Beispiele: counter, isLeaf, numberOfTrees, months, etc.
+
