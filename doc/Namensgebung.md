@@ -35,7 +35,8 @@ daher zwischen 1 und 10 Zeilen lang. Hin und wieder kann sich auch mal eine Meth
 Hier ein schönes Beispiel:
 ```
 boolean isEven(final long value) {
-    return (value % 2) == 0;
+    return value % 2 == 0;
+}
 ```
 
 ### Methodennamen
