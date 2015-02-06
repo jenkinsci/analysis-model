@@ -90,7 +90,7 @@ Für die folgenden Konstrukte wird kein Leerzeichen verwendet:
 
 Hier einige Beispiele, in denen das Leerzeichen durch das Sonderzeichen `⋅` hervorgehoben wurde:
 
-```
+```java
 if⋅(treeRight())⋅{
     ...
 }
@@ -106,12 +106,58 @@ while⋅(!onLeaf()⋅&&⋅(treeFront()⋅||⋅mushroomFront()))⋅{
 }
 ```
 
+## Zeilenumbruch
+
+Heutzutage ist es selten nötig, eine Quelltextzeile umzubrechen, da meistens die Monitore breit genug sind. Wird
+eine Zeile doch einmal zu lang, dann muss sie umgebrochen werden (typischerweise nach 120 Zeichen Breite): so wird
+horizontales Scrolling im Editor vermieden.
+
+Bei einem Umbruch ist darauf zu achten, dass i.A. vor einem Operator umgebrochen wird. Die umgebrochene Zeile wird dann
+mit 8 Zeichen zusätzlich zur vorhergehenden Zeile eingerückt.
+
+```java
+if (column >= half - limit + 1
+        && column < half + limit) {
+    putLeaf();
+}
+```
+
+## Leerzeilen
+
+Auch Leerzeilen können die Struktur von Programmen verbessern. Zusammenhängende Anweisungen sollten gruppiert werden
+und durch Leerzeilen von unzusammenhängenden Anweisungen getrennt werden. Dadurch laässt sich eine Methode in
+mehrere zusammenhängende Blöcke gruppieren. Die einzelnen Blöcke einer Methode sind dann durch **genau** eine Leerzeile
+voneinander getrennt.
+
+```java
+public void foo() {
+    block1-anweisung1;
+    block1-anweisung2;
+    block1-anweisung3;
+
+    block2-anweisung1;
+    block2-anweisung2;
+
+    block3-anweisung1;
+    block3-anweisung2;
+    block3-anweisung3;
+}
+```
+
+Die erste Anweisung beginnt dabei direkt nach dem Methodenkopf, die letzte hört direkt vor der schließenden Klammer auf,
+hier werden keinen extra Leerzeilen mehr eingefuügt.
+
+Innerhalb einer Klasse hat es sich eingebürgert, zwei Methoden oder Konstruktoren durch eine Leerzeile zu trennen.
+Instanzvariablen können wie Methodenblöcke gruppiert werden, wenn dies thematisch sinnvoll ist. Zwischen Instanzvariablen
+und Methoden bzw. Konstruktoren befindet sich wieder eine Leerzeile. I.a. werden alle Instanzvariablen direkt nach dem
+Klassenkopf aufgeführt, dann alle Konstruktoren, dann alle Methoden. Am Schluss stehen dann alle inneren Klassen.
+
 ## Komplettes Beispiel
 
 Am besten lassen sich die Regeln an einem realem Beispiel erkennen. Das folgenden Programm erzeugt einen Diamanten
 in Karas Welt und zeigt dabei auch die typische Java Formatierung.
 
-```
+```java
 /**
  * Solution for assignment 8.
  *
