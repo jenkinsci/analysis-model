@@ -122,6 +122,24 @@ if (column >= half - limit + 1
 }
 ```
 
+Das gleiche Schema wird verwendet beim Umbruch von Methodenparametern:
+
+```java
+    /**
+     * Draws a horizontal line of the specified {@code length}. Start of the line is at ({@code x}, {@code y}).
+     *
+     * @param world  Karas world
+     * @param x      x coordinate of start
+     * @param y      y coordinate of start
+     * @param length length of the line
+     */
+    public void drawHorizontalLine(final boolean[][] world, final int x, final int y,
+            final int length) {
+        drawHorizontalLine(world, x, y,
+                length, true);
+    }
+```
+
 ## Leerzeilen
 
 Auch Leerzeilen können die Struktur von Programmen verbessern. Zusammenhängende Anweisungen sollten gruppiert werden
