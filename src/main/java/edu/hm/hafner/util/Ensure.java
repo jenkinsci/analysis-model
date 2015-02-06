@@ -258,7 +258,7 @@ public final class Ensure {
     }
 
     /**
-     * Assertions for iterables.
+     * Assertions for arrays.
      */
     public static class ArrayCondition extends ObjectCondition {
         private final Object[] values;
