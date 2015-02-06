@@ -163,7 +163,7 @@ public void foo() {
 ```
 
 Die erste Anweisung beginnt dabei direkt nach dem Methodenkopf, die letzte hört direkt vor der schließenden Klammer auf,
-hier werden keinen extra Leerzeilen mehr eingefuügt.
+hier werden keinen extra Leerzeilen mehr eingefügt.
 
 Innerhalb einer Klasse hat es sich eingebürgert, zwei Methoden oder Konstruktoren durch eine Leerzeile zu trennen.
 Instanzvariablen können wie Methodenblöcke gruppiert werden, wenn dies thematisch sinnvoll ist. Zwischen Instanzvariablen

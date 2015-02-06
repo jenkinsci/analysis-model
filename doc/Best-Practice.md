@@ -6,7 +6,7 @@ Diese sind in diesem Dokument unsortiert aufgeführt.
 ## Klammern
 
 Runde Klammern steigern die Lesbarkeit, wenn in einer boolesche Bedingungen verschiedene Operatoren verwendet werden:  
-```
+```java
 if (onLeaf() || (treeLeft() && treeRight())) {
     ...
 }

@@ -9,7 +9,7 @@ sind vom System reserviert und für eigenen Namen verboten, z.B. class, import, 
 
 Neben dieser formalen Syntax haben sich folgenden Konventionen eingebürgert. 
 
-## Gemeinsame Konventionen 
+## Allgemeine Konventionen
  
 Bezeichner in Java verwenden American English und nutzen damit automatisch nur ASCII Zeichen (keine Umlaute). Der
 Underscore `_` wird i.A. nicht verwendet. Auch angehängte Zahlen sind untypisch und meistens ein Zeichen für schlechten
@@ -33,7 +33,7 @@ auf eine Bildschirmseite passen. D.h. Scrolling ist weder horizontal noch vertik
 daher zwischen 1 und 10 Zeilen lang. Hin und wieder kann sich auch mal eine Methode mit 20 Zeilen einschleichen...
 
 Hier ein schönes Beispiel:
-```
+```java
 boolean isEven(final long value) {
     return value % 2 == 0;
 }

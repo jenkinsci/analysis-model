@@ -21,7 +21,7 @@ Wichtig zu beachten sind aber die folgenden Aussagen von Brian W. Kernighan:
 Insgesamt gilt: so wenig Kommentare wie nötig verwenden. Besser Bezeichner passend auswählen und komplexen Code vereinfachen oder
 z.B. durch zusätzliche Methoden strukturieren. D.h. bevor ein Kommentar für einen komplexen
 Programmausschnitt erstellt wird, sollte dieser Ausschnitt in eine Methode ausgelagert werden. Die Methode selbst wird dann
- mit dem beabsichtigten Kommentar benannt. Eine ausführlichere Behandliung dieses Themas findet sich in [4], dort
+ mit dem beabsichtigten Kommentar benannt. Eine ausführlichere Behandlung dieses Themas findet sich in [4], dort
 sind  viele Beispiele und Negativbeispiele aufgeführt.
 
 
