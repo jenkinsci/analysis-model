@@ -69,6 +69,7 @@ hilft Fehler zu minimieren und Programme leichter zu parallelisieren.
 In [5] beschreibt Joshua Bloch fünf Schritte, um zu einer unveränderlichen Klasse zu kommen. Auch im
 [Java Tutorial](http://docs.oracle.com/javase/tutorial/essential/concurrency/imstrat.html) wird dies vorgeführt.
 Hier die wichtigsten Regeln auf einen Blick:
+
 1. Alle Instanzvariablen müssen als **private** und **final** deklariert sein.
 2. Keine Methode darf den Zustand (d.h. die Eigenschaften) einer Instanz verändern.
 3. Keine Methode (auch kein Konstruktor) darf veränderbare Parameter in Instanzvariablen ablegen.
