@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?p2f version='1.0.0'?>
+<p2f version='1.0.0'>
+  <ius size='20'>
+    <iu id='com.android.ide.eclipse.ddms.feature.feature.group' name='Android DDMS' version='23.0.4.1468518'>
+      <repositories size='1'>
+        <repository location='https://dl-ssl.google.com/android/eclipse/'/>
+      </repositories>
+    </iu>
+    <iu id='com.android.ide.eclipse.adt.feature.feature.group' name='Android Development Tools' version='23.0.4.1468518'>
+      <repositories size='1'>
+        <repository location='https://dl-ssl.google.com/android/eclipse/'/>
+      </repositories>
+    </iu>
+    <iu id='com.android.ide.eclipse.hierarchyviewer.feature.feature.group' name='Android Hierarchy Viewer' version='23.0.4.1468518'>
+      <repositories size='1'>
+        <repository location='https://dl-ssl.google.com/android/eclipse/'/>
+      </repositories>
+    </iu>
+    <iu id='com.android.ide.eclipse.ndk.feature.feature.group' name='Android Native Development Tools' version='23.0.4.1468518'>
+      <repositories size='1'>
+        <repository location='https://dl-ssl.google.com/android/eclipse/'/>
+      </repositories>
+    </iu>
+    <iu id='com.android.ide.eclipse.traceview.feature.feature.group' name='Android Traceview' version='23.0.4.1468518'>
+      <repositories size='1'>
+        <repository location='https://dl-ssl.google.com/android/eclipse/'/>
+      </repositories>
+    </iu>
+    <iu id='com.mountainminds.eclemma.feature.feature.group' name='EclEmma Java Code Coverage' version='2.3.2.201409141915'>
+      <repositories size='1'>
+        <repository location='http://update.eclemma.org/'/>
+      </repositories>
+    </iu>
+    <iu id='net.sf.eclipsecs.feature.group' name='Eclipse Checkstyle Plug-in' version='6.2.0.201501101308'>
+      <repositories size='1'>
+        <repository location='http://eclipse-cs.sourceforge.net/update/'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.mylyn.github.feature.feature.group' name='Eclipse GitHub integration with task focused interface' version='3.4.2.201412180340-r'>
+      <repositories size='2'>
+        <repository location='http://download.eclipse.org/releases/luna'/>
+        <repository location='http://download.jboss.org/jbosstools/updates/stable/luna/'/>
+      </repositories>
+    </iu>
+    <iu id='epp.package.java' name='Eclipse IDE for Java Developers' version='4.4.1.20150109-0740'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/releases/luna'/>
+      </repositories>
+    </iu>
+    <iu id='ch.acanda.eclipse.pmd.feature.feature.group' name='Eclipse PMD Plug-in' version='1.4.0.201412211449'>
+      <repositories size='1'>
+        <repository location='http://www.acanda.ch/eclipse-pmd/release/latest'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.wst.xml_ui.feature.feature.group' name='Eclipse XML Editors and Tools' version='3.6.1.v201409111852'>
+      <repositories size='3'>
+        <repository location='http://download.jboss.org/jbosstools/targetplatforms/jbosstoolstarget/luna/'/>
+        <repository location='http://download.eclipse.org/releases/luna'/>
+        <repository location='http://download.jboss.org/jbosstools/updates/stable/luna/'/>
+      </repositories>
+    </iu>
+    <iu id='edu.umd.cs.findbugs.plugin.eclipse.feature.group' name='FindBugs Feature' version='3.0.0.20140706-2cfb468'>
+      <repositories size='2'>
+        <repository location='http://findbugs.cs.umd.edu/eclipse'/>
+        <repository location='http://download.jboss.org/jbosstools/updates/stable/luna/'/>
+      </repositories>
+    </iu>
+    <iu id='org.codehaus.groovy.m2eclipse.feature.feature.group' name='Groovy-Eclipse M2E integration' version='2.9.1.xx-201411061335-e44-RELEASE'>
+      <repositories size='1'>
+        <repository location='http://dist.springsource.org/release/GRECLIPSE/e4.4'/>
+      </repositories>
+    </iu>
+    <iu id='org.jboss.tools.m2e.jdt.feature.feature.group' name='M2E connector for the Eclipse JDT Compiler' version='1.0.1.201209200903'>
+      <repositories size='1'>
+        <repository location='http://download.jboss.org/jbosstools/updates/m2e-extensions/m2e-jdt-compiler/'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.m2e.wtp.feature.feature.group' name='m2e-wtp - Maven Integration for WTP' version='1.1.0.20140611-1646'>
+      <repositories size='4'>
+        <repository location='http://download.jboss.org/jbosstools/targetplatforms/jbosstoolstarget/luna/'/>
+        <repository location='http://download.eclipse.org/releases/luna'/>
+        <repository location='http://download.eclipse.org/m2e-wtp/releases/luna/1.1'/>
+        <repository location='http://download.jboss.org/jbosstools/updates/stable/luna/'/>
+      </repositories>
+    </iu>
+    <iu id='org.jboss.tools.maven.apt.feature.feature.group' name='Maven Integration for Eclipse JDT APT' version='1.1.1.201411262015'>
+      <repositories size='3'>
+        <repository location='http://download.jboss.org/jbosstools/targetplatforms/jbosstoolstarget/luna/'/>
+        <repository location='http://download.jboss.org/jbosstools/updates/m2e-extensions/m2e-apt/'/>
+        <repository location='http://download.jboss.org/jbosstools/updates/stable/luna/'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.cdt.mylyn.feature.group' name='Mylyn Context Connector: C/C++ Development' version='5.9.0.v20140702-2225'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/releases/luna'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.mylyn.pde_feature.feature.group' name='Mylyn Context Connector: Plug-in Development' version='3.13.0.v20140702-2225'>
+      <repositories size='2'>
+        <repository location='http://download.eclipse.org/releases/luna'/>
+        <repository location='http://download.jboss.org/jbosstools/updates/stable/luna/'/>
+      </repositories>
+    </iu>
+    <iu id='de.bastiankrol.startexplorer.feature.feature.group' name='StartExplorer  Feature' version='1.6.1'>
+      <repositories size='1'>
+        <repository location='http://basti1302.github.com/startexplorer/update/'/>
+      </repositories>
+    </iu>
+    <iu id='com.android.ide.eclipse.gldebugger.feature.feature.group' name='Tracer for OpenGL ES' version='23.0.4.1468518'>
+      <repositories size='1'>
+        <repository location='https://dl-ssl.google.com/android/eclipse/'/>
+      </repositories>
+    </iu>
+  </ius>
+</p2f>
