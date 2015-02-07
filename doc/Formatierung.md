@@ -143,7 +143,7 @@ Das gleiche Schema wird verwendet beim Umbruch von Methodenparametern:
 ## Leerzeilen
 
 Auch Leerzeilen können die Struktur von Programmen verbessern. Zusammenhängende Anweisungen sollten gruppiert werden
-und durch Leerzeilen von unzusammenhängenden Anweisungen getrennt werden. Dadurch laässt sich eine Methode in
+und durch Leerzeilen von unzusammenhängenden Anweisungen getrennt werden. Dadurch lässt sich eine Methode in
 mehrere zusammenhängende Blöcke gruppieren. Die einzelnen Blöcke einer Methode sind dann durch **genau** eine Leerzeile
 voneinander getrennt.
 
@@ -166,7 +166,7 @@ Die erste Anweisung beginnt dabei direkt nach dem Methodenkopf, die letzte hört
 hier werden keinen extra Leerzeilen mehr eingefügt.
 
 Innerhalb einer Klasse hat es sich eingebürgert, zwei Methoden oder Konstruktoren durch eine Leerzeile zu trennen.
-Instanzvariablen können wie Methodenblöcke gruppiert werden, wenn dies thematisch sinnvoll ist. Zwischen Instanzvariablen
+Instanzvariablen können wie Anweisungen gruppiert werden, wenn dies thematisch sinnvoll ist. Zwischen Instanzvariablen
 und Methoden bzw. Konstruktoren befindet sich wieder eine Leerzeile. I.a. werden alle Instanzvariablen direkt nach dem
 Klassenkopf aufgeführt, dann alle Konstruktoren, dann alle Methoden. Am Schluss stehen dann alle inneren Klassen.
 
