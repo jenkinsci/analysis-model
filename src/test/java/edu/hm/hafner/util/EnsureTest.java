@@ -37,8 +37,8 @@ public class EnsureTest {
     /**
      * Checks whether we throw an exception if a contract is violated.
      */
-    @SuppressWarnings("Convert2MethodRef")
     @Test
+    @SuppressWarnings("Convert2MethodRef")
     public void shouldThrowExceptionIfContractIsViolated() {
         assertThatThrownBy(() -> {
             Ensure.that(new IllegalArgumentException(ERROR_MESSAGE)).isNeverThrown(ERROR_MESSAGE);
