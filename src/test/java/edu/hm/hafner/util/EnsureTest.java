@@ -42,34 +42,34 @@ public class EnsureTest {
     public void shouldThrowExceptionIfContractIsViolated() {
         assertThatThrownBy(() -> {
             Ensure.that(new IllegalArgumentException(ERROR_MESSAGE)).isNeverThrown(ERROR_MESSAGE);
-        }).isInstanceOf(AssertionError.class);
+        }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that(true).isFalse();
         }).isInstanceOf(AssertionError.class);
         assertThatThrownBy(() -> {
             Ensure.that(true).isFalse(ERROR_MESSAGE);
-        }).isInstanceOf(AssertionError.class);
+        }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that(false).isTrue();
         }).isInstanceOf(AssertionError.class);
         assertThatThrownBy(() -> {
             Ensure.that(false).isTrue(ERROR_MESSAGE);
-        }).isInstanceOf(AssertionError.class);
+        }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.thatStatementIsNeverReached();
         }).isInstanceOf(AssertionError.class);
         assertThatThrownBy(() -> {
             Ensure.thatStatementIsNeverReached(ERROR_MESSAGE);
-        }).isInstanceOf(AssertionError.class);
+        }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that(SOME_STRING).isNull();
         }).isInstanceOf(AssertionError.class);
         assertThatThrownBy(() -> {
             Ensure.that(SOME_STRING).isNull(ERROR_MESSAGE);
-        }).isInstanceOf(AssertionError.class);
+        }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that(SOME_STRING, SOME_STRING).isNull(ERROR_MESSAGE);
-        }).isInstanceOf(AssertionError.class);
+        }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
     }
 
     /**
@@ -79,16 +79,16 @@ public class EnsureTest {
     public void shouldThrowNpeIfContractIsViolated() {
         assertThatThrownBy(() -> {
             Ensure.that((Object)null).isNotNull(ERROR_MESSAGE);
-        }).isInstanceOf(NullPointerException.class);
+        }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that(SOME_STRING, (Object)null).isNotNull(ERROR_MESSAGE);
-        }).isInstanceOf(NullPointerException.class);
+        }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that(null, SOME_STRING).isNotNull(ERROR_MESSAGE);
-        }).isInstanceOf(NullPointerException.class);
+        }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that(null, null).isNotNull(ERROR_MESSAGE);
-        }).isInstanceOf(NullPointerException.class);
+        }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that((Object)null).isNotNull();
         }).isInstanceOf(NullPointerException.class);
@@ -106,7 +106,7 @@ public class EnsureTest {
         }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that((String)null).isNotEmpty(ERROR_MESSAGE);
-        }).isInstanceOf(NullPointerException.class);
+        }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that((Object[])null).isNotEmpty();
         }).isInstanceOf(NullPointerException.class);
