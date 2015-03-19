@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import static edu.hm.hafner.util.ExceptionTester.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -37,13 +36,13 @@ public class SingletonTest {
      */
     @Test
     public void shouldThrowExceptionForEmptyCollections() {
-        expect(() -> {
+        assertThatThrownBy(() -> {
             Singleton.get(Sets.newHashSet());
-        }).toThrow(AssertionError.class);
+        }).isInstanceOf(AssertionError.class);
 
-        expect(() -> {
+        assertThatThrownBy(() -> {
             Singleton.get(Lists.newArrayList());
-        }).toThrow(AssertionError.class);
+        }).isInstanceOf(AssertionError.class);
     }
 
     /**
@@ -51,15 +50,15 @@ public class SingletonTest {
      */
     @Test
     public void shouldThrowExceptionForTooLargeCollections() {
-        expect(() -> {
+        assertThatThrownBy(() -> {
             Singleton.get(asSet("1", "2"));
-        }).toThrow(AssertionError.class);
-        expect(() -> {
+        }).isInstanceOf(AssertionError.class);
+        assertThatThrownBy(() -> {
             Singleton.get(asList("1", "2"));
-        }).toThrow(AssertionError.class);
-        expect(() -> {
+        }).isInstanceOf(AssertionError.class);
+        assertThatThrownBy(() -> {
             Singleton.get(asList(1, 2, 3));
-        }).toThrow(AssertionError.class);
+        }).isInstanceOf(AssertionError.class);
     }
 
     /**
@@ -68,12 +67,12 @@ public class SingletonTest {
     @Test
     @SuppressWarnings({"NullArgumentToVariableArgMethod", "ConstantConditions"})
     public void shouldThrowExceptionWhenCollectionIsNullOrContainsNull() {
-        expect(() -> {
+        assertThatThrownBy(() -> {
             Singleton.get(asSet(null));
-        }).toThrow(NullPointerException.class);
-        expect(() -> {
+        }).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> {
             Singleton.get(null);
-        }).toThrow(NullPointerException.class);
+        }).isInstanceOf(NullPointerException.class);
     }
 
     private Iterable<Object> asSet(@CheckForNull final Object... elements) {
