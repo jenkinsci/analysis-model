@@ -50,22 +50,23 @@
     <findbugs.annotations>3.0.0</findbugs.annotations>
     <guava.version>18.0</guava.version>
     <commons.lang.version>3.3.2</commons.lang.version>
+    <commons.io.version>2.4</commons.io.version>
     <junit.version>4.12</junit.version>
     <mockito.version>1.10.19</mockito.version>
-    <assertj.version>1.7.1</assertj.version>
+    <assertj.version>2.0.0</assertj.version>
 
     <!-- Maven Plug-ins Configuration -->
     <site.maven.plugin>3.4</site.maven.plugin>
-    <compiler.maven.plugin>3.1</compiler.maven.plugin>
+    <compiler.maven.plugin>3.2</compiler.maven.plugin>
     <resources.maven.plugin>2.7</resources.maven.plugin>
     <buildhelper.maven.plugin>1.9.1</buildhelper.maven.plugin>
-    <surefire.maven.plugin>2.17</surefire.maven.plugin>
-    <pmd.maven.plugin>3.2</pmd.maven.plugin>
-    <checkstyle.maven.plugin>2.13</checkstyle.maven.plugin>
+    <surefire.maven.plugin>2.18.1</surefire.maven.plugin>
+    <pmd.maven.plugin>3.4</pmd.maven.plugin>
+    <checkstyle.maven.plugin>2.14</checkstyle.maven.plugin>
     <findbugs.maven.plugin>3.0.0</findbugs.maven.plugin>
-    <cobertura.maven.plugin>2.6</cobertura.maven.plugin>
-    <projectinfo.maven.plugin>2.7</projectinfo.maven.plugin>
-    <jxr.maven.plugin>2.4</jxr.maven.plugin>
+    <cobertura.maven.plugin>2.7</cobertura.maven.plugin>
+    <projectinfo.maven.plugin>2.8</projectinfo.maven.plugin>
+    <jxr.maven.plugin>2.5</jxr.maven.plugin>
   </properties>
 
   <dependencies>
@@ -83,6 +84,11 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons.lang.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons.io.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -107,6 +113,10 @@
       <resource>
         <directory>etc</directory>
         <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
       </resource>
     </resources>
 
@@ -134,9 +144,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${surefire.maven.plugin}</version>
-          <configuration>
-            <argLine>-XX:-UseSplitVerifier</argLine>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

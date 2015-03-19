@@ -14,10 +14,12 @@
     <orderEntry type="library" name="Maven: com.google.code.findbugs:annotations:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.3.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.10.19" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:1.7.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:2.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.github.marschall:memoryfilesystem:0.6.4" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
