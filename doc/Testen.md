@@ -30,6 +30,9 @@ und ergänzen im JavaDoc in einem knappen Satz das Ziel des Tests. Testmethoden 
 
 An einem Beispiel lassen sich diese Konventionen am besten erkennen:
 ```java
+import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+
 /**
  * Tests the class {@link MathUtils}.
  *
@@ -69,7 +72,7 @@ Benötigte Objekte sollten immer neu mit passenden *create* Methoden erzeugt wer
 sollten als Konstanten definiert werden.
 - Tests nutzen die selben Kodierungsrichtlinien wie normale Klassen.
 
-## State-based vs. Interaction-based Testing
+## State Based vs. Interaction Based Testing
 
 Prinzipiell gibt es 2 Varianten des Testings. Beim **State Based Testing** wird das Testobjekt nach Aufruf der zu 
 testenden Methoden durch Abfrage seines internen Zustands verifiziert. Analog dazu kann natürlich auch der Zustand 
