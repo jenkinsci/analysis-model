@@ -16,6 +16,7 @@ legen wir in der zugehörigen Klasse `FooTest` ab. Die Tests werden im Verzeichn
 sie separat von den eigentlichen Klassen liegen (diese liegen unter  *src/main/java*). 
  
 Ein Modultest besteht immer aus drei Schritten, die ggf. zusammenfallen können:
+
 1. **Given**: Das zu testende Objekt wird erzeugt (Subject Under Test: SUT). Sind dazu weitere Objekte nötig, 
 so werden diese in diesem Schritt ebenso erzeugt. 
 2. **When**: Die zu überprüfende Funktionalität wird aufgerufen. Sind dazu weitere Objekte nötig (z.B. als Methodenparameter),
