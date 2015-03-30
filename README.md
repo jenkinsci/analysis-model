@@ -24,6 +24,7 @@ folgenden Abschnitten:
 - [Formatierung](../master/doc/Formatierung.md)
 - [Namensgebung](../master/doc/Namensgebung.md)
 - [Kommentare](../master/doc/Kommentare.md)
+- [Testen](../master/doc/Testen.md)
 - [Best Practice](../master/doc/Best-Practice.md)
 
 Ideen und Inhalte für diesen Styleguide lieferten verschiedene Bücher, insbesondere aber das Buch 
@@ -35,3 +36,7 @@ damit Pflichtlektüre für Berufstätige in der Softwareentwicklung:
 - [4] "Clean Code: A Handbook of Agile Software Craftsmanship", Robert C. Martin, Prentice Hall, 2008
 - [5] "Effective Java", Second Edition, Joshua Bloch, Addison Wesley, 2008
 - [6] "Refactoring: Improving the Design of Existing Code", Martin Fowler, Addison Wesley, 1999 
+
+Die gesamten Dokumente dieser Kodierungsrichtlinien unterliegen der
+[Creative Commons Attribution 4.0 International Lizenz](http://creativecommons.org/licenses/by/4.0/). Der 
+Quelltext aller Beispiele und Klassen unterliegt der [MIT Lizenz](http://opensource.org/licenses/MIT).

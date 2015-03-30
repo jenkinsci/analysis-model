@@ -29,6 +29,10 @@
       <name>MIT license</name>
       <comments>All source code is under the MIT license.</comments>
     </license>
+    <license>
+      <name>Creative Commons Attribution 4.0 International License</name>
+      <comments>All documents are licensed under a Creative Commons Attribution 4.0 International License</comments>
+    </license>
   </licenses>
 
   <developers>
