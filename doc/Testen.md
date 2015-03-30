@@ -16,11 +16,11 @@ legen wir in der zugehörigen Klasse `FooTest` ab. Die Tests werden im Verzeichn
 sie separat von den eigentlichen Klassen liegen (diese liegen unter  *src/main/java*). 
  
 Ein Modultest besteht immer aus drei Schritten, die ggf. zusammenfallen können:
-1.) **Given**: Das zu testende Objekt wird erzeugt (Subject Under Test: SUT). Sind dazu weitere Objekte nötig, 
+1. **Given**: Das zu testende Objekt wird erzeugt (Subject Under Test: SUT). Sind dazu weitere Objekte nötig, 
 so werden diese in diesem Schritt ebenso erzeugt. 
-2.) **When**: Die zu überprüfende Funktionalität wird aufgerufen. Sind dazu weitere Objekte nötig (z.B. als Methodenparameter),
+2. **When**: Die zu überprüfende Funktionalität wird aufgerufen. Sind dazu weitere Objekte nötig (z.B. als Methodenparameter),
 sollten diese bereits in Schritt 1.) erzeugt werden.
-3.) **Then**: Es wird überprüft, ob die im letzten Schritt aufgerufene Funktionalität korrekt ist. Dazu kann z.B. der
+3. **Then**: Es wird überprüft, ob die im letzten Schritt aufgerufene Funktionalität korrekt ist. Dazu kann z.B. der
 Rückgabewert einer Methode oder der innere Zustand einer Klasse herangezogen werden. Zum Prüfen verwenden wir Assertions
 des JUnit Frameworks [AssertJ](http://joel-costigliola.github.io/assertj/assertj-core-features-highlight.html)
 
