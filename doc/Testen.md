@@ -70,9 +70,9 @@ Prinzip charakterisieren, das sich folgendermaßen zusammenfassen lässt:
 ## Tipps und Tricks
 
 Hier noch einige Anregungen bei der Gestaltung von Modultests:
-- Modultests greifen nie auf Datenbank, Dateisystem oder Web Services zu.
 - Eine Testmethode sollte nur einen Aspekt testen: d.h. wir testen ein bestimmtes Verhalten und nur indirekt eine Methode.
 - Eine Testmethoden sollten ca. 5-15 Zeilen umfassen.
+- Modultests greifen nie auf Datenbank, Dateisystem oder Web Services zu.
 - Test Klassen sollten keine Objektvariablen besitzen. 
 Benötigte Objekte sollten immer neu mit passenden *create* Methoden erzeugt werden. Eine Verwendung eines allgemeingültigen Testsetup  Häufig verwendete Eingangsparameter
 sollten als Konstanten definiert werden. 
@@ -87,6 +87,7 @@ herangezogen werden:
   - Eingabeparameter mit unerwarteten Werten (null, {}, etc.) belegen
 - Äquivalenzklassen bilden: minimale Anzahl Tests für maximale Variation der Testdaten
 - Zu jedem entdeckten Fehler (z.B. durch einen Bug Report) einen passenden Testfall erstellen
+
 Sinnvollerweise nutzt man die [Coverage Übersicht](https://www.jetbrains.com/idea/help/code-coverage.html) 
 der Entwicklungsumgebung, um zu überprüfen, welcher Teil des Quelltextes bereits getestet wurde.
 
