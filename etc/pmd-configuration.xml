@@ -174,7 +174,6 @@
   <rule ref="rulesets/java/strictexception.xml/ExceptionAsFlowControl"/>
   <rule ref="rulesets/java/strictexception.xml/AvoidCatchingNPE"/>
   <rule ref="rulesets/java/strictexception.xml/AvoidThrowingRawExceptionTypes"/>
-  <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNullPointerException"/>
   <rule ref="rulesets/java/strictexception.xml/AvoidRethrowingException"/>
   <rule ref="rulesets/java/strictexception.xml/DoNotExtendJavaLangError"/>
   <rule ref="rulesets/java/strictexception.xml/DoNotThrowExceptionInFinally"/>
