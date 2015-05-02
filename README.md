@@ -25,6 +25,7 @@ folgenden Abschnitten:
 - [Namensgebung](../master/doc/Namensgebung.md)
 - [Kommentare](../master/doc/Kommentare.md)
 - [Testen](../master/doc/Testen.md)
+- [Fehlerbehandlung](../master/doc/Fehlerbehandlung.md)
 - [Best Practice](../master/doc/Best-Practice.md)
 
 Ideen und Inhalte für diesen Styleguide lieferten verschiedene Bücher, insbesondere aber das Buch 
