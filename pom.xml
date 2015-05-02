@@ -174,7 +174,6 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>${checkstyle.maven.plugin}</version>
           <configuration>
-            <sourceDirectory>assignments</sourceDirectory>
             <configLocation>etc/checkstyle-configuration.xml</configLocation>
           </configuration>
         </plugin>
