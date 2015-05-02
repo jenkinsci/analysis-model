@@ -39,7 +39,7 @@ Java bietet als einzige Programmiersprache zwei verschiedene Exception Kategorie
 - unchecked Exceptions: können deklariert und gefangen werden
 
 Das Konzept hat sich in der Praxis nicht bewährt (Details gibt es im Artikel
-[Does Java need Checked Exceptions?](http://www.mindview.net/Etc/Discussions/CheckedExceptions), 
+[Does Java need Checked Exceptions?](http://www.mindview.net/Etc/Discussions/CheckedExceptions)), 
 daher nutzen wir möglichst immer unchecked Exceptions. Werden Bibliotheken genutzt, die mit checked Exceptions arbeiten,
 bietet es sich an, diese an der Aufrufstelle zu fangen und in eine äquivalente unchecked Exception umzuwandeln. 
 
@@ -52,14 +52,14 @@ und im JavaDoc mit einem `@throws` Tag dokumentiert werden. Dort sollte auch imm
 
 Wird eine Exception geworfen, muss der Fehlerursache (d.h. der Kontext) genau lokalisiert werden, und als Text im 
 Konstruktor der Exception übergeben werden. D.h. was ist das Problem? Wie konnte das Problem auftreten? 
-Welche Parameterwerte sind Ursache? Diese Meldung ist i.A. nur sichtbar für Entwicklungsteam und kann z.B. auch dafür
+Welche Parameterwerte sind Ursache? Diese Meldung ist i.A. nur sichtbar für das Entwicklungsteam und kann z.B. auch dafür
 passend formuliert werden. Wird darüber hinaus eine andere Exception gefangen und umgewandelt,
 so ist diese auch im Konstruktor der neuen Exception zu übergeben. Generell gilt: Der Default-Konstruktor einer 
 Exception darf **nie** verwendet werden. 
 
 ## Testen von Exceptions
 
-Das korrekte Werden von Exceptions sollte generell getestet werden, siehe dazu den passenden Abschnitt im Abschnitt 
+Das korrekte Werden von Exceptions sollte generell getestet werden, siehe dazu den passenden Abschnitt im Kapitel zum 
 [Testen](Testen.md).
 
 ## Best practice 
@@ -68,8 +68,8 @@ Exceptions dürfen nur für außergewöhnliche Ereignisse verwendet werden, d.h.
 niemals über Exceptions durchgeführt werden.
  
 Exceptions können mit try/catch/finally Blöcken gefangen werden. Dadurch wird der Code recht schnell 
-unübersichtlich, da das **Single Responsibility Principle** verletzt wird. Sinnvoll ist daher das Aufteilen des
-Programmstücks in die folgenden Teile:
+unübersichtlich, da das **Single Responsibility Principle** (siehe [4, S. 138-139]) verletzt wird. 
+Sinnvoll ist daher das Aufteilen des Programmstücks in die folgenden Teile:
 - im try Block: Aufruf einer Untermethode (keine Fehlerbehandlung)
 - im catch Block: Fehlerbehandlung
 - im finally Block: ggf. Aufräumen
