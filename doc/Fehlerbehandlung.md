@@ -61,7 +61,7 @@ Exception darf **nie** verwendet werden.
 
 ## Testen von Exceptions
 
-Das korrekte Werden von Exceptions sollte generell getestet werden, siehe dazu den passenden Abschnitt im Kapitel zum 
+Das korrekte Werfen von Exceptions sollte generell getestet werden, siehe dazu den passenden Abschnitt im Kapitel zum 
 [Testen](Testen.md#testen-von-exceptions).
 
 ## Best practice 
