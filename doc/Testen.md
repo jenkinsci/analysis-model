@@ -45,7 +45,7 @@ import static org.assertj.core.api.Assertions.*;
 public class MathUtilsTest {
     /** Verifies that {@link MathUtils#max} works with positive and negative values. */
     @Test
-    public void testMaxWithPositiveAndNegativeValues() {
+    public void shouldFindMaximumForPositiveAndNegativeValues() {
         // Given
         MathUtils utils = new MathUtils();
         int[] inputValues = {1, -2, 0};
@@ -57,6 +57,39 @@ public class MathUtilsTest {
     }
 }
 ```
+
+## Testen von Exceptions
+
+Kann ein Konstruktor oder eine Methode eine Exception werfen, so muss dies auch getestet werden. Dazu wird das gleiche
+Vorgehen verwendet, d.g. der Test in die drei Teile **Given-When-Then** aufgeteilt. Am elegantesten wird ein Exception
+Test mit [Lambda-Ausdrücken](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html) 
+und der Assertion `assertThatThrownBy` aus AssertJ:
+ 
+```java
+    /** Verifies that at least one number is provided. */
+    @Test
+    public void shouldThrowExceptionIfArrayIsEmpty() {
+        assertThatThrownBy(() -> {
+            // Given
+            MathUtils utils = new MathUtils();
+            // When
+            int actual = utils.max(new int[0]);
+        }) // Then
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("empty");
+    }
+``` 
+
+## Aussagekräftige Fehlermeldungen
+
+Ein wichtiger Schritt im TDD ist die Validierung, ob ein Test überhaupt korrekt ist. D.h. es wird sichergestellt, 
+dass ein Fehler entsteht, wenn die zu testende Methode noch unvollständig ist. An dieser Stelle lohnt es sich,
+die Fehlermeldung zu analysieren: ist diese nicht aussagekräftig, sollte diese mit der Methode `as` entsprechend 
+angepasst werden: 
+
+```java
+        assertThat(list.size()).as("Wrong number of list elements").isEqualTo(5);
+```   
 
 ## Eigenschaften von Modultests
 
@@ -72,10 +105,12 @@ Prinzip charakterisieren, das sich folgendermaßen zusammenfassen lässt:
 Hier noch einige Anregungen bei der Gestaltung von Modultests:
 - Eine Testmethode sollte nur einen Aspekt testen: d.h. wir testen ein bestimmtes Verhalten und nur indirekt eine Methode.
 - Eine Testmethoden sollten ca. 5-15 Zeilen umfassen.
-- Modultests greifen nie auf Datenbank, Dateisystem oder Web Services zu.
-- Test Klassen sollten keine Objektvariablen besitzen. 
-Benötigte Objekte sollten immer neu mit passenden *create* Methoden erzeugt werden. Eine Verwendung eines allgemeingültigen Testsetup  Häufig verwendete Eingangsparameter
-sollten als Konstanten definiert werden. 
+- Modultests greifen i.A. nie auf Datenbank, Dateisystem oder Web Services zu.
+- Test Klassen sollten keine Objektvariablen besitzen. Statt dessen sollten benötigte Objekte sollten immer neu mit
+  passenden **create** Methoden erzeugt werden. Eine Verwendung eines allgemeingültigen Testsetup für alle Methoden
+  ist nicht sinnvoll, da hierdurch schnell die Übersicht verloren geht und auch die einzelnen Tests nicht mehr unabhängig 
+  geändert werden können.
+- Häufig verwendete Eingangsparameter sollten als Konstanten definiert werden. 
 - Tests nutzen die selben Kodierungsrichtlinien wie normale Klassen.
 
 ## Testfall Anzahl

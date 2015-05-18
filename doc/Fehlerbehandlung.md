@@ -22,7 +22,7 @@ Wird keine Fehlerbehandlung umgesetzt, wird das Programm mit einem Stacktrace be
 
 Sichere und robuste Software vertraut niemals Eingabewerten. Es gilt der Grundsatz: „all input is evil“. D.h. in 
 öffentlichen Methoden und Konstruktoren müssen die Parameter immer validiert werden. 
-Genügen diese Parameter nicht dem erwarteten Vertrag, muss eine Exception geworfen werfen. I.A. ist dafür am besten die
+Genügen diese Parameter nicht dem erwarteten Vertrag, muss eine Exception geworfen werfen. I.A. ist dafür die
 `IllegalArgumentExeption` geeignet. Ggf. kann davon abgewichen werden, um z.B. mit der `IndexOutOfBoundsException` oder
 der `IllegalStateException` eine genauere Fehlerursache aufzuzeigen. Die `NullPointerException` hat einen Sonderstatus,
 sie wird i.A. automatisch geworfen bei Zugriff auf `null`. Ein Werfen dieser Exception ist nur nötig, falls ein
@@ -45,8 +45,10 @@ bietet es sich an, diese an der Aufrufstelle zu fangen und in eine äquivalente 
 
 ## Dokumentation von Exceptions
 
-Wenn Methoden oder Konstruktoren eine Exception werfen können, muss dies im Methodenkopf mit einer `throws` Klausel 
-und im JavaDoc mit einem `@throws` Tag dokumentiert werden. Dort sollte auch immer der Grund beschrieben sein.
+Wenn Methoden oder Konstruktoren eine Exception werfen können, sollte dies im Methodenkopf mit einer `throws` Klausel 
+und im JavaDoc mit einem `@throws` Tag dokumentiert werden. Dort sollte auch immer der Grund beschrieben sein. Dies ist 
+nicht kaskadierend erforderlich, d.h. eine Methode die mehrere Methoden aufruft, die Exceptions werfen muss diese nicht
+mehr aufführen, sondern nur die selbst geworfenen Exceptions. 
 
 ## Fehlerursache (Kontext)
 
