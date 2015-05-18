@@ -61,23 +61,23 @@ public class MathUtilsTest {
 ## Testen von Exceptions
 
 Kann ein Konstruktor oder eine Methode eine Exception werfen, so muss dies auch getestet werden. Dazu wird das gleiche
-Vorgehen verwendet, d.g. der Test in die drei Teile **Given-When-Then** aufgeteilt. Am elegantesten wird ein Exception
+Vorgehen verwendet, d.h. der Test wird in **Given-When-Then** aufgeteilt. Am elegantesten wird ein Exception
 Test mit [Lambda-Ausdrücken](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html) 
 und der Assertion `assertThatThrownBy` aus AssertJ:
  
 ```java
-    /** Verifies that at least one number is provided. */
-    @Test
-    public void shouldThrowExceptionIfArrayIsEmpty() {
-        assertThatThrownBy(() -> {
-            // Given
-            MathUtils utils = new MathUtils();
-            // When
-            int actual = utils.max(new int[0]);
-        }) // Then
-          .isInstanceOf(IllegalArgumentException.class)
-          .hasMessageContaining("empty");
-    }
+/** Verifies that at least one number is provided. */
+@Test
+public void shouldThrowExceptionIfArrayIsEmpty() {
+    assertThatThrownBy(() -> {
+        // Given
+        MathUtils utils = new MathUtils();
+        // When
+        int actual = utils.max(new int[0]);
+    }) // Then
+      .isInstanceOf(IllegalArgumentException.class)
+      .hasMessageContaining("empty");
+}
 ``` 
 
 ## Aussagekräftige Fehlermeldungen
@@ -85,10 +85,10 @@ und der Assertion `assertThatThrownBy` aus AssertJ:
 Ein wichtiger Schritt im TDD ist die Validierung, ob ein Test überhaupt korrekt ist. D.h. es wird sichergestellt, 
 dass ein Fehler entsteht, wenn die zu testende Methode noch unvollständig ist. An dieser Stelle lohnt es sich,
 die Fehlermeldung zu analysieren: ist diese nicht aussagekräftig, sollte diese mit der Methode `as` entsprechend 
-angepasst werden: 
+verbessert werden: 
 
 ```java
-        assertThat(list.size()).as("Wrong number of list elements").isEqualTo(5);
+assertThat(list.size()).as("Wrong number of list elements").isEqualTo(5);
 ```   
 
 ## Eigenschaften von Modultests
@@ -106,7 +106,7 @@ Hier noch einige Anregungen bei der Gestaltung von Modultests:
 - Eine Testmethode sollte nur einen Aspekt testen: d.h. wir testen ein bestimmtes Verhalten und nur indirekt eine Methode.
 - Eine Testmethoden sollten ca. 5-15 Zeilen umfassen.
 - Modultests greifen i.A. nie auf Datenbank, Dateisystem oder Web Services zu.
-- Test Klassen sollten keine Objektvariablen besitzen. Statt dessen sollten benötigte Objekte sollten immer neu mit
+- Test Klassen sollten keine Objektvariablen besitzen. Statt dessen sollten benötigte Objekte immer neu mit
   passenden **create** Methoden erzeugt werden. Eine Verwendung eines allgemeingültigen Testsetup für alle Methoden
   ist nicht sinnvoll, da hierdurch schnell die Übersicht verloren geht und auch die einzelnen Tests nicht mehr unabhängig 
   geändert werden können.
