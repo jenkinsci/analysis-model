@@ -69,5 +69,6 @@ Interfacenamen sind entweder ein Substantiv (siehe Abschnitt Klassennamen) oder 
 und beginnen mit einem großen Buchstaben. Vor oder nach dem Substantiv bzw. Adverb können
 ggf. weitere beschreibende Wörter verwendet werden, z.B. `Counter`, `Observable`, `WeakListener`, 
 `Set`, `SortedSet`. Manche Projekte (z.B. Eclipse) verwenden das Anti-Pattern der
-[Ungarischen Notation](http://de.wikipedia.org/wiki/Ungarische_Notation) und stellen jedem Interface den 
-Präfix `I` voraus. Das ist nur in seltenen Fällen sinnvoll und sollte vermieden werden.
+[Ungarischen Notation](http://msdn.microsoft.com/de-de/library/aa260976(VS.60).aspx) 
+und stellen jedem Interface den Präfix `I` voraus. Das ist nur in seltenen Fällen sinnvoll und sollte 
+vermieden werden.

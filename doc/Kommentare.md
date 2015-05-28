@@ -42,8 +42,8 @@ Versionsverwaltung abgelegt und sind somit redundant.
 
 ## JavaDoc
 
-JavaDoc wird genutzt um die öffentliche Schnittstelle eines Programms zu dokumentieren. Diese sind unerlässlich und müssen
-für alle Klassen und Methoden verfasst werden, die mindestens die Sichtbarkeit `protected` haben. Wird eine Klasse
+JavaDoc wird genutzt um die öffentliche Schnittstelle eines Programms zu dokumentieren. Diese Kommentare sind unerlässlich 
+und müssen für alle Klassen und Methoden verfasst werden, die mindestens die Sichtbarkeit `protected` haben. Wird eine Klasse
 serialisiert (z.B. wenn sie die Schnittstelle `Serializable` implementiert), dann müssen auch
 private Attribute kommentiert werden, da in diesem Fall auch diese zur öffentlichen Schnittstelle einer Klasse gehören. 
 
@@ -51,11 +51,11 @@ Die [Java Bibliotheken](http://docs.oracle.com/javase/8/docs/api/) selbst bieten
 auszusehen haben und wie nützlich diese sind. Eine kleine Einführung zu diesem Thema ist auf den
 [Oracle Seiten](http://www.oracle.com/technetwork/java/javase/documentation/javadoc-137458.html) zu finden.
 
-Alle JavaDoc Kommentare werden im aktiv geschrieben. Der erste Satz (der mit einem Punkt abgeschlossen wird) muss eine
+JavaDoc Kommentare werden im aktiv geschrieben. Der erste Satz (der mit einem Punkt abgeschlossen wird) muss eine
 Zusammenfassung sein. Dieser wird im generierten HTML Dokument als Überschrift dargestellt. Das zu beschreibende Element 
 wird dabei nicht noch einmal wiederholt, der Kommentar wird dadurch möglichst knapp.
-D.h. *An ordered collection (also known as a sequence).* statt *This interface defines an ordered collection.*, oder 
-*Returns whether this list contains no elements.* statt *This method returns whether this list contains no elements.*.
+D.h. **"An ordered collection"** statt **"This interface defines an ordered collection"**, oder 
+**"Returns whether this list contains no elements"** statt **"This method returns whether this list contains no elements"**.
 Die folgenden Sätze können dann das Element genauer beschreiben, hilfreich ist hierbei oft die Angabe eines 
 Anwendungsbeispiels. Werden dabei Codestücke bzw. Variablen in die Beschreibung eingebettet, so müssen diese die Syntax 
 `{@code ...}` nutzen. Werden Klassen oder Methoden referenziert, so werden diese mit der Syntax `{@link ...}` bzw. 
@@ -66,26 +66,23 @@ Ganze Quelltext-Abschnitte, die über mehrere Zeilen gehen, werden mit der Synta
 Beispiel:
 
 ```java
-/**
- * Encodes this {@code String} into a sequence of bytes using the given
- * {@link java.nio.charset.Charset charset}, storing the result into a
- * new byte array.
- *
- * <p> This method always replaces malformed-input and unmappable-character
- * sequences with this charset's default replacement byte array.  The
- * {@link java.nio.charset.CharsetEncoder} class should be used when more
- * control over the encoding process is required.
- *
- * @param  charset
- *         The {@linkplain java.nio.charset.Charset} to be used to encode
- *         the {@code String}
- *
- * @return  The resultant byte array
- *
- * @since  1.6
- */
-public byte[] getBytes(Charset charset) {
-    if (charset == null) throw new NullPointerException();
-    return StringCoding.encode(charset, value, 0, value.length);
-}
+  /**
+     * Checks if a {@link CharSequence} is empty ("") or {@code null}.
+     *
+     * <pre>{@code
+     * StringUtils.isEmpty(null)      = true
+     * StringUtils.isEmpty("")        = true
+     * StringUtils.isEmpty(" ")       = false
+     * StringUtils.isEmpty("bob")     = false
+     * StringUtils.isEmpty("  bob  ") = false
+     * }</pre>
+     *
+     * @param cs  the CharSequence to check, may be {@code null}
+     * @return {@code true} if the CharSequence is empty or null
+     * @since 3.0 Changed signature from isEmpty(String) to isEmpty(CharSequence)
+     */
+    public static boolean isEmpty(final CharSequence cs) {
+        return cs == null || cs.length() == 0;
+    }
+
 ```
