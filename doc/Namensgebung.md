@@ -2,7 +2,7 @@
 
 Bezeichner (*Identifier*) sind in Java beliebig lang und bestehen aus einer Zeichenkette 
 von großen und kleinen Buchstaben, Ziffern oder dem Underscore `_`. Hierbei werden Groß und Kleinschreibung 
-unterschieden (klein ist nicht Klein). Folgende Einschränkungen sind dabei zu beachten: 
+unterschieden (klein ist nicht Klein). Folgende Einschränkungen sind dabei zu beachten: 
 Das erste Zeichen darf keine Ziffer sein und 
 [ca. 50 Schlüsselwörter](http://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html) 
 sind vom System reserviert und für eigenen Namen verboten, z.B. class, import, public, etc.
@@ -54,3 +54,20 @@ Abschnitt zu booleschen Methodennamen. Alle anderen Variablennamen sind im Allge
 gespeichert wird. Werden in einer Variablen mehrere Objekte gespeichert (Array, Listen, etc.), dann wird die Mehrzahl
 verwendet. Beispiele: counter, isLeaf, numberOfTrees, months, etc.
 
+## Klassennamen
+
+Klassennamen sind ein Substantiv und beginnen mit einem großen Buchstaben. Vor oder nach dem Substantiv können
+ggf. weitere beschreibende Wörter verwendet werden, z.B. `Counter`, `LimitedCounter`, `OpenCounter`, `HashMap`, 
+`ConcurrentHashMap`. Abstrakte Klassen halten sich i.A. auch an dieses Schema - manchmal macht es aber auch Sinn
+diese durch den Präfix `Abstract` als solche zu markieren, z.B. `AbstractList` oder `AbstractDocument`. Testklassen
+haben immer den Suffix `Test` nach dem eigentlichen Namen der Klasse, die getestet werden soll, z.B. `CounterTest`
+oder `HashMapTest`.
+
+## Interfacenamen
+
+Interfacenamen sind entweder ein Substantiv (siehe Abschnitt Klassennamen) oder ein Adverb
+und beginnen mit einem großen Buchstaben. Vor oder nach dem Substantiv bzw. Adverb können
+ggf. weitere beschreibende Wörter verwendet werden, z.B. `Counter`, `Observable`, `WeakListener`, 
+`Set`, `SortedSet`. Manche Projekte (z.B. Eclipse) verwenden das Anti-Pattern der
+[Ungarischen Notation](http://de.wikipedia.org/wiki/Ungarische_Notation) und stellen jedem Interface den 
+Präfix `I` voraus. Das ist nur in seltenen Fällen sinnvoll und sollte vermieden werden.

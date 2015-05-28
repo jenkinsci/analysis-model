@@ -21,7 +21,7 @@ Wichtig zu beachten sind aber die folgenden Aussagen von Brian W. Kernighan:
 Insgesamt gilt: so wenig Kommentare wie nötig verwenden. Besser Bezeichner passend auswählen und komplexen Code vereinfachen oder
 z.B. durch zusätzliche Methoden strukturieren. D.h. bevor ein Kommentar für einen komplexen
 Programmausschnitt erstellt wird, sollte dieser Ausschnitt in eine Methode ausgelagert werden. Die Methode selbst wird dann
- mit dem beabsichtigten Kommentar benannt. Eine ausführlichere Behandlung dieses Themas findet sich in [4], dort
+mit dem beabsichtigten Kommentar benannt. Eine ausführlichere Behandlung dieses Themas findet sich in [4], dort
 sind  viele Beispiele und Negativbeispiele aufgeführt.
 
 
@@ -43,8 +43,49 @@ Versionsverwaltung abgelegt und sind somit redundant.
 ## JavaDoc
 
 JavaDoc wird genutzt um die öffentliche Schnittstelle eines Programms zu dokumentieren. Diese sind unerlässlich und müssen
-für alle Klassen und Methoden verfasst werden, die mindestens die Sichtbarkeit `protected` haben. Die 
-[Java Bibliotheken](http://docs.oracle.com/javase/8/docs/api/) selbst bieten schöne Beispiele, wie solche Kommentare 
+für alle Klassen und Methoden verfasst werden, die mindestens die Sichtbarkeit `protected` haben. Wird eine Klasse
+serialisiert (z.B. wenn sie die Schnittstelle `Serializable` implementiert), dann müssen auch
+private Attribute kommentiert werden, da in diesem Fall auch diese zur öffentlichen Schnittstelle einer Klasse gehören. 
+
+Die [Java Bibliotheken](http://docs.oracle.com/javase/8/docs/api/) selbst bieten schöne Beispiele, wie solche Kommentare 
 auszusehen haben und wie nützlich diese sind. Eine kleine Einführung zu diesem Thema ist auf den
 [Oracle Seiten](http://www.oracle.com/technetwork/java/javase/documentation/javadoc-137458.html) zu finden.
 
+Alle JavaDoc Kommentare werden im aktiv geschrieben. Der erste Satz (der mit einem Punkt abgeschlossen wird) muss eine
+Zusammenfassung sein. Dieser wird im generierten HTML Dokument als Überschrift dargestellt. Das zu beschreibende Element 
+wird dabei nicht noch einmal wiederholt, der Kommentar wird dadurch möglichst knapp.
+D.h. *An ordered collection (also known as a sequence).* statt *This interface defines an ordered collection.*, oder 
+*Returns whether this list contains no elements.* statt *This method returns whether this list contains no elements.*.
+Die folgenden Sätze können dann das Element genauer beschreiben, hilfreich ist hierbei oft die Angabe eines 
+Anwendungsbeispiels. Werden dabei Codestücke bzw. Variablen in die Beschreibung eingebettet, so müssen diese die Syntax 
+`{@code ...}` nutzen. Werden Klassen oder Methoden referenziert, so werden diese mit der Syntax `{@link ...}` bzw. 
+`{@linkplain ...}` eingefügt, nur so kann die IDE die Kommentare mit entsprechenden Hyperlinks anzeigen (*linkplain* verwendet
+einen Zeichensatz mit variabler, *link* mit fester Breite). 
+Ganze Quelltext-Abschnitte, die über mehrere Zeilen gehen, werden mit der Syntax `<pre>{@code ...}</pre>` eingebettet.
+
+Beispiel:
+
+```java
+/**
+ * Encodes this {@code String} into a sequence of bytes using the given
+ * {@link java.nio.charset.Charset charset}, storing the result into a
+ * new byte array.
+ *
+ * <p> This method always replaces malformed-input and unmappable-character
+ * sequences with this charset's default replacement byte array.  The
+ * {@link java.nio.charset.CharsetEncoder} class should be used when more
+ * control over the encoding process is required.
+ *
+ * @param  charset
+ *         The {@linkplain java.nio.charset.Charset} to be used to encode
+ *         the {@code String}
+ *
+ * @return  The resultant byte array
+ *
+ * @since  1.6
+ */
+public byte[] getBytes(Charset charset) {
+    if (charset == null) throw new NullPointerException();
+    return StringCoding.encode(charset, value, 0, value.length);
+}
+```

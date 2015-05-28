@@ -117,27 +117,27 @@ mit 8 Zeichen zusätzlich zur vorhergehenden Zeile eingerückt.
 
 ```java
 if (column >= half - limit + 1
-        && column < half + limit) {
-    putLeaf();
+⋅⋅⋅⋅⋅⋅⋅⋅&& column < half + limit) {
+⋅⋅⋅⋅putLeaf();
 }
 ```
 
 Das gleiche Schema wird verwendet beim Umbruch von Methodenparametern:
 
 ```java
-    /**
-     * Draws a horizontal line of the specified {@code length}. Start of the line is at ({@code x}, {@code y}).
-     *
-     * @param world  Karas world
-     * @param x      x coordinate of start
-     * @param y      y coordinate of start
-     * @param length length of the line
-     */
-    public void drawHorizontalLine(final boolean[][] world, final int x, final int y,
-            final int length) {
-        drawHorizontalLine(world, x, y,
-                length, true);
-    }
+/**
+ * Draws a horizontal line of the specified {@code length}. Start of the line is at ({@code x}, {@code y}).
+ *
+ * @param world  Karas world
+ * @param x      x coordinate of start
+ * @param y      y coordinate of start
+ * @param length length of the line
+ */
+public void drawHorizontalLine(final boolean[][] world, final int x, final int y,
+⋅⋅⋅⋅⋅⋅⋅⋅final int length) {
+⋅⋅⋅⋅drawHorizontalLine(world, x, y,
+⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅length, true);
+}
 ```
 
 ## Leerzeilen
@@ -165,7 +165,9 @@ public void foo() {
 Die erste Anweisung beginnt dabei direkt nach dem Methodenkopf, die letzte hört direkt vor der schließenden Klammer auf,
 hier werden keinen extra Leerzeilen mehr eingefügt.
 
-Innerhalb einer Klasse hat es sich eingebürgert, zwei Methoden oder Konstruktoren durch eine Leerzeile zu trennen.
+Innerhalb einer Klasse hat es sich eingebürgert, zwei Methoden oder Konstruktoren durch eine Leerzeile zu trennen. 
+Nach dem Klassenkopf und vor der schließenden Klammer einer Klasse steht keine extra Leerzeile, ebenso nicht nach dem
+Methodenkopf und der schließenden Klammer einer Methode.
 Instanzvariablen können wie Anweisungen gruppiert werden, wenn dies thematisch sinnvoll ist. Zwischen Instanzvariablen
 und Methoden bzw. Konstruktoren befindet sich wieder eine Leerzeile. I.a. werden alle Instanzvariablen direkt nach dem
 Klassenkopf aufgeführt, dann alle Konstruktoren, dann alle Methoden. Am Schluss stehen dann alle inneren Klassen.
