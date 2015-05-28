@@ -66,23 +66,23 @@ Ganze Quelltext-Abschnitte, die über mehrere Zeilen gehen, werden mit der Synta
 Beispiel:
 
 ```java
-  /**
-     * Checks if a {@link CharSequence} is empty ("") or {@code null}.
-     *
-     * <pre>{@code
-     * StringUtils.isEmpty(null)      = true
-     * StringUtils.isEmpty("")        = true
-     * StringUtils.isEmpty(" ")       = false
-     * StringUtils.isEmpty("bob")     = false
-     * StringUtils.isEmpty("  bob  ") = false
-     * }</pre>
-     *
-     * @param cs  the CharSequence to check, may be {@code null}
-     * @return {@code true} if the CharSequence is empty or null
-     * @since 3.0 Changed signature from isEmpty(String) to isEmpty(CharSequence)
-     */
-    public static boolean isEmpty(final CharSequence cs) {
-        return cs == null || cs.length() == 0;
-    }
+/**
+ * Checks if a {@link CharSequence} is empty ("") or {@code null}.
+ *
+ * <pre>{@code
+ * StringUtils.isEmpty(null)      = true
+ * StringUtils.isEmpty("")        = true
+ * StringUtils.isEmpty(" ")       = false
+ * StringUtils.isEmpty("bob")     = false
+ * StringUtils.isEmpty("  bob  ") = false
+ * }</pre>
+ *
+ * @param cs  the CharSequence to check, may be {@code null}
+ * @return {@code true} if the CharSequence is empty or null
+ * @since 3.0 Changed signature from isEmpty(String) to isEmpty(CharSequence)
+ */
+public static boolean isEmpty(final CharSequence cs) {
+    return cs == null || cs.length() == 0;
+}
 
 ```
