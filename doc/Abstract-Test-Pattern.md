@@ -64,8 +64,8 @@ public abstract class AbstractEqualsTest {
 
 Jede Klasse, die `equals` überschreibt, kann den Schnittstellenvertrag mit folgenden 2 Schritten prüfen:
 
-1.) Erzeugen einer Subklasse von [AbstractEqualsTest](../../master/src/test/java/edu/hm/hafner/util/AbstractEqualsTest.java).
-2.) Überschrieben der Factory Method `createSut`.
+1. Erzeugen einer Subklasse von [AbstractEqualsTest](../../master/src/test/java/edu/hm/hafner/util/AbstractEqualsTest.java).
+2. Überschrieben der Factory Method `createSut`.
 
 Die restlichen Tests der zu überprüfenden Klassen werden anschließend wie gewohnt in der Testklasse kodiert.
 
