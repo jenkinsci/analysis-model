@@ -25,6 +25,7 @@ folgenden Abschnitten:
 - [Namensgebung](../master/doc/Namensgebung.md)
 - [Kommentare](../master/doc/Kommentare.md)
 - [Testen](../master/doc/Testen.md)
+- [Testen von Schnittstellen und Basisklassen](../master/doc/Abstract-Test-Pattern.md)
 - [Fehlerbehandlung](../master/doc/Fehlerbehandlung.md)
 - [Best Practice](../master/doc/Best-Practice.md)
 

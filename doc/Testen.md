@@ -80,6 +80,11 @@ public void shouldThrowExceptionIfArrayIsEmpty() {
 }
 ``` 
 
+## Testen von Basisklassen
+
+Abstrakte Klassen und Schnittstellen lassen sich ebenso testen: dazu wird das 
+Abstract Test Pattern benutzt, das in einem [eigenen Abschnitt](Abstract-Test-Pattern.md) beschrieben ist.
+
 ## Aussagekräftige Fehlermeldungen
 
 Ein wichtiger Schritt im TDD ist die Validierung, ob ein Test überhaupt korrekt ist. D.h. es wird sichergestellt, 

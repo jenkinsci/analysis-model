@@ -95,7 +95,6 @@ public class Queue {
 }
 ```
 
-
 ## Variablendefinition und -initialisierung
 
 In Java werden Variablen möglichst erst dann definiert, wenn Sie gebraucht werden. 
@@ -104,3 +103,4 @@ sofort zu initialisieren. (Siehe auch Item 45 in [5].)
 
 Dies wird in anderen Programmiersprachen wie C und C++ anders gehandhabt, dort werden diese als Block am Anfang 
 einer Methode definiert. 
+
