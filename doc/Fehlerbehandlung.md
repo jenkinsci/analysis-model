@@ -66,8 +66,14 @@ Das korrekte Werfen von Exceptions sollte generell getestet werden, siehe dazu d
 
 ## Best practice 
 
-Exceptions dürfen nur für außergewöhnliche Ereignisse verwendet werden, d.h. die Programmflusssteuerung sollte 
-niemals über Exceptions durchgeführt werden.
+Exceptions dürfen nur für außergewöhnliche Ereignisse verwendet werden, d.h. die Programmflusssteuerung darf 
+niemals über Exceptions durchgeführt werden. Dies lässt sich umso leichter erreichen, wenn es zu jede Methode **x** eine
+zweite Methode **y** gibt, die prüft, ob die Methode **x** mit den gegebenen Eingabeparametern 
+eine Exception werfen würde.
+
+Beispiele: Eine `IndexOutOfBoundsException` lässt sich bei `list.get(0)` vermeiden, wenn vorab die Anzahl der Elemente 
+geprüft wird (mit `isEmpty()` oder `size()`). Analoge Methodenpaare finden sich z.B. bei `get(object)` und `contains(object)`,
+oder `new FileInputStream(file)` und `file.exists()`, oder `iterator.next()` und `iterator.hasNext()`.
  
 Exceptions können mit try/catch/finally Blöcken gefangen werden. Dadurch wird der Code recht schnell 
 unübersichtlich, da das **Single Responsibility Principle** (siehe [4, S. 138-139]) verletzt wird. 
