@@ -8,6 +8,8 @@
 <module name="Checker">
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
+    <module name="SuppressWarningsHolder" />
+
     <module name="OneStatementPerLine"/>
     <module name="OuterTypeFilename"/>
     <module name="NestedForDepth">
@@ -145,6 +147,7 @@
   <module name="FileLength">
     <property name="fileExtensions" value="jelly, java"/>
   </module>
+  <module name="SuppressWarningsFilter" />
   <module name="SuppressionCommentFilter">
     <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="Coupling Checks"/>
     <property name="offCommentFormat" value="CHECKSTYLE\:COUPLING-OFF"/>
