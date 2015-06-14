@@ -1,5 +1,7 @@
 package edu.hm.hafner.sokoban;
 
+import edu.hm.hafner.util.Point;
+
 /**
  * Reads and creates a Sokoban level in ASCII format. Each level is decorated with a border using {@link
  * Field#BACKGROUND}.

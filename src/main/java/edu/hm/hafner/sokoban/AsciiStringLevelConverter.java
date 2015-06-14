@@ -2,6 +2,8 @@ package edu.hm.hafner.sokoban;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.util.Point;
+
 /**
  * Reads and creates a Sokoban level in ASCII format.
  *

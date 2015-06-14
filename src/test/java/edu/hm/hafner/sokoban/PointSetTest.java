@@ -2,7 +2,7 @@ package edu.hm.hafner.sokoban;
 
 import org.junit.Test;
 
-import edu.hm.hafner.sokoban.PointSet;
+import edu.hm.hafner.util.Point;
 import static org.assertj.core.api.Assertions.*;
 
 /**

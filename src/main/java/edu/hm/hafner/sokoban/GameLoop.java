@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import edu.hm.hafner.util.Point;
 import static edu.hm.hafner.sokoban.Field.*;
 import static edu.hm.hafner.sokoban.Orientation.*;
 

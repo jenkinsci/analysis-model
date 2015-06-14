@@ -1,5 +1,7 @@
 package edu.hm.hafner.sokoban;
 
+import edu.hm.hafner.util.Point;
+
 /**
  * Defines all operations required to play Sokoban.
  *

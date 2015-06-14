@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import edu.hm.hafner.util.Point;
 import static org.assertj.core.api.Assertions.*;
 
 /**

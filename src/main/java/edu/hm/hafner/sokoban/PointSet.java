@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import edu.hm.hafner.util.Point;
+
 /**
  * A collection of points that contains no duplicates. More formally, a {@link PointSet} contains no pair of elements
  * {@code p1} and {@code p2} such that {@code p1.isEqualTo(p2)}. The order of the added elements is preserved.

@@ -1,5 +1,7 @@
 package edu.hm.hafner.sokoban;
 
+import edu.hm.hafner.util.Point;
+
 /**
  * Represents the game field of Sokoban.
  *

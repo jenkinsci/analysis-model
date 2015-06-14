@@ -2,6 +2,7 @@ package edu.hm.hafner.sokoban;
 
 import org.junit.Test;
 
+import edu.hm.hafner.util.Point;
 import static edu.hm.hafner.sokoban.Field.*;
 import static edu.hm.hafner.sokoban.SokobanAssertions.*;
 import static org.assertj.core.api.Assertions.*;
