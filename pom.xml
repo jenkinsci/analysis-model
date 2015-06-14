@@ -33,6 +33,14 @@
       <name>Creative Commons Attribution 4.0 International License</name>
       <comments>All documents are licensed under a Creative Commons Attribution 4.0 International License</comments>
     </license>
+    <license>
+      <comments>All icons in the resources folder are copyrighted by Alexander Thümler.
+        You are not allowed to reuse this icons.</comments>
+    </license>
+    <license>
+      <comments>All Sokoban level files are copyrighted by their authors.
+        The license is included in every level file.</comments>
+    </license>
   </licenses>
 
   <developers>
