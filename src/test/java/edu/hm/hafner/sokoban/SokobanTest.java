@@ -108,7 +108,7 @@ public class SokobanTest {
         assertThatThrownBy(() -> {
             // Given
             Field[][] level = getLevel();
-            level[0][0] = null;
+            level[0][0] = null;  // NOPMD
 
             // When
             new Sokoban(level, new Point(3, 4),
@@ -227,7 +227,7 @@ public class SokobanTest {
         for (Point outsidePoint : outsidePlayers) {
             assertThatThrownBy(() -> {
                 // Given When
-                Sokoban sokoban = new Sokoban(new Field[][]{
+                new Sokoban(new Field[][]{
                         {WALL, WALL},
                         {WALL, TARGET},
                 }, outsidePoint, new PointSet(new Point(1, 1)));
@@ -250,7 +250,7 @@ public class SokobanTest {
         for (Point outsidePoint : outsidePlayers) {
             assertThatThrownBy(() -> {
                 // Given When
-                Sokoban sokoban = new Sokoban(new Field[][]{
+                new Sokoban(new Field[][]{
                         {WALL, WALL},
                         {WALL, TARGET},
                 }, new Point(1, 1), new PointSet(outsidePoint));

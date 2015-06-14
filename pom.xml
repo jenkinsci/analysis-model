@@ -170,6 +170,11 @@
           <artifactId>cobertura-maven-plugin</artifactId>
           <version>${cobertura.maven.plugin}</version>
           <configuration>
+            <instrumentation>
+              <excludes>
+                <exclude>**/*GameLoop*</exclude>
+              </excludes>
+            </instrumentation>
             <check>false</check>
             <formats>
               <format>html</format>
@@ -240,6 +245,11 @@
         <artifactId>cobertura-maven-plugin</artifactId>
         <version>${cobertura.maven.plugin}</version>
         <configuration>
+          <instrumentation>
+            <excludes>
+              <exclude>**/*GameLoop*</exclude>
+            </excludes>
+          </instrumentation>
           <check>false</check>
           <formats>
             <format>html</format>

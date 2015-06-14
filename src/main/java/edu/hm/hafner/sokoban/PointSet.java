@@ -43,6 +43,15 @@ public class PointSet implements Iterable<Point> {
     }
 
     /**
+     * Creates a set of points.
+     *
+     * @param initialElements the initial elements of this set
+     */
+    public PointSet(final Iterable<Point> initialElements) {
+        elements = Sets.newHashSet(initialElements);
+    }
+
+    /**
      * Adds the specified point to the tail of this set. If this set already contains a point at the same coordinates
      * then the set will not be changed.
      *

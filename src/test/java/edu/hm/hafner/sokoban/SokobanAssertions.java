@@ -1,9 +1,5 @@
 package edu.hm.hafner.sokoban;
 
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import edu.hm.hafner.util.Point;
 import static org.assertj.core.api.Assertions.*;
 
@@ -24,8 +20,8 @@ public final class SokobanAssertions {
      * @param treasures the expected treasure positions
      */
     public static void assertThatTreasuresAreAt(final SokobanGame sokoban, final Point... treasures) {
-        Set<Point> actualTreasures = Sets.newHashSet(sokoban.getTreasures());
-        Set<Point> expectedTreasures = Sets.newHashSet(treasures);
+        PointSet actualTreasures = new PointSet(sokoban.getTreasures());
+        PointSet expectedTreasures = new PointSet(treasures);
         assertThat(actualTreasures).as("Wrong set of treasures").isEqualTo(expectedTreasures);
     }
 

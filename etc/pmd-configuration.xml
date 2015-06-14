@@ -274,7 +274,6 @@
   <rule ref="rulesets/java/j2ee.xml/LocalInterfaceSessionNamingConvention"/>
   <rule ref="rulesets/java/j2ee.xml/LocalHomeNamingConvention"/>
   <rule ref="rulesets/java/j2ee.xml/RemoteInterfaceNamingConvention"/>
-  <rule ref="rulesets/java/j2ee.xml/DoNotCallSystemExit"/>
   <rule ref="rulesets/java/j2ee.xml/StaticEJBFieldShouldBeFinal"/>
   <rule ref="rulesets/jsp/basic-jsf.xml/DontNestJsfInJstlIteration"/>
   <rule ref="rulesets/ecmascript/unnecessary.xml/UnnecessaryParentheses"/>

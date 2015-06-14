@@ -12,7 +12,7 @@ import edu.hm.hafner.util.Point;
 public class AsciiStringLevelConverter implements StringLevelConverter {
     private static final String COMMENT = "::";
 
-    @Override @SuppressWarnings("IfStatementWithTooManyBranches")
+    @Override @SuppressWarnings({"IfStatementWithTooManyBranches", "PMD.CyclomaticComplexity"})
     public SokobanGame convert(final String[] lines) {
         int width = computeWidth(lines);
         int height = computeHeight(lines);

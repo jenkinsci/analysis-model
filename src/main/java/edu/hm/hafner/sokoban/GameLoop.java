@@ -14,7 +14,6 @@ import java.io.InputStream;
 
 import edu.hm.hafner.util.Point;
 import static edu.hm.hafner.sokoban.Field.*;
-import static edu.hm.hafner.sokoban.Orientation.*;
 
 /**
  * Entry point for Sokoban.
@@ -65,7 +64,7 @@ public class GameLoop extends JPanel {
 
     private static void showLevel(final SokobanGame sokoban, final String name) {
         SokobanGameRenderer painter = new SokobanGameRenderer();
-        BufferedImage bitmap = painter.toImage(sokoban, DOWN);
+        BufferedImage bitmap = painter.toImage(sokoban, Orientation.DOWN);
         GameLoop game = new GameLoop(bitmap);
         game.setFocusable(true);
 
@@ -76,28 +75,30 @@ public class GameLoop extends JPanel {
         frame.setFocusable(true);
         frame.setVisible(true);
         frame.setTitle(createTitleMessage(sokoban, name));
-        frame.addKeyListener(new KeyAdapter() {
-            @Override @SuppressWarnings("IfStatementWithTooManyBranches")
+        @SuppressWarnings("checkstyle:anoninnerlength")
+        KeyAdapter keyHandler = new KeyAdapter() {
+            @Override
+            @SuppressWarnings("IfStatementWithTooManyBranches")
             public void keyPressed(final KeyEvent event) {
                 if (event.getKeyCode() == KeyEvent.VK_LEFT) {
                     sokoban.moveLeft();
-                    game.setOrientation(LEFT);
+                    game.setOrientation(Orientation.LEFT);
                 }
                 else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
                     sokoban.moveRight();
-                    game.setOrientation(RIGHT);
+                    game.setOrientation(Orientation.RIGHT);
                 }
                 else if (event.getKeyCode() == KeyEvent.VK_UP) {
                     sokoban.moveUp();
-                    game.setOrientation(UP);
+                    game.setOrientation(Orientation.UP);
                 }
                 else if (event.getKeyCode() == KeyEvent.VK_DOWN) {
                     sokoban.moveDown();
-                    game.setOrientation(DOWN);
+                    game.setOrientation(Orientation.DOWN);
                 }
                 else if (event.getKeyCode() == KeyEvent.VK_R) {
                     sokoban.restart();
-                    game.setOrientation(DOWN);
+                    game.setOrientation(Orientation.DOWN);
                 }
                 else if (event.getKeyCode() == KeyEvent.VK_U) {
                     sokoban.undo();
@@ -109,7 +110,8 @@ public class GameLoop extends JPanel {
                 frame.setTitle(createTitleMessage(sokoban, name));
                 frame.repaint();
             }
-        });
+        };
+        frame.addKeyListener(keyHandler);
     }
 
     private static String createTitleMessage(final SokobanGame sokoban, final String name) {
@@ -127,7 +129,7 @@ public class GameLoop extends JPanel {
     }
 
     private transient BufferedImage image;
-    private Orientation orientation = DOWN;
+    private Orientation orientation = Orientation.DOWN;
 
     /**
      * Creates a new instance of {@link GameLoop}.
@@ -148,11 +150,11 @@ public class GameLoop extends JPanel {
         graphics.drawImage(image, 0, 0, this);
     }
 
-    Orientation getOrientation() {
+    private Orientation getOrientation() {
         return orientation;
     }
 
-    void setOrientation(final Orientation orientation) {
+    private void setOrientation(final Orientation orientation) {
         this.orientation = orientation;
     }
 
@@ -215,5 +217,21 @@ public class GameLoop extends JPanel {
                 return ImageIO.read(stream);
             }
         }
+    }
+
+    /**
+     * Player orientation. Used to provide different player graphics.
+     *
+     * @author Ullrich Hafner
+     */
+    private enum Orientation {
+        /** Player looks to the left. */
+        LEFT,
+        /** Player looks to the right. */
+        RIGHT,
+        /** Player looks up. */
+        UP,
+        /** Player looks down. */
+        DOWN
     }
 }
