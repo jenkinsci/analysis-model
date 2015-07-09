@@ -138,7 +138,9 @@ Folgende Richtlinien haben sich in Java als sinnvoll herausgestellt:
  sofort klar, welchen Wert die Variablen z.B. am Ende einer Methode hat.
 - Lokale Variable **werden nie** mit `final` ausgezeichnet. Andernfalls geht der Blick auf des Wesentliche verloren. Im 
  Englischen spricht man hier häufig von *clutter* oder *noise*, die die Verwendung von `final` an jeder möglichen Stelle
- erzeugt. 
+ erzeugt. Die [Scala](http://www.scala-lang.org/) Erfinder haben dies besser gemacht: 
+ hier gibt die Sprache gleich zwei verschiedene Schlüsselwörter
+ für die zwei Varianten vor (`var` und `val`). 
  
 ### final für Methoden und Klassen
  
@@ -153,3 +155,14 @@ puristisch. Daher lautet die pragmatische Empfehlung:
  Wiederverwendung. 
 - Methoden sollten nur dann als `final` gekennzeichnet, wenn durch das Überschreiben tatsächlich ein Fehler entstehen wird. 
  Z.B. dürfen in Konstruktoren **niemals** Methoden aufgerufen werden, die nicht `final` sind!
+ 
+## Nutzung von anonymen Klassen
+
+In Java hat es sich gerade in Lehrbüchern eingebürgert, anonyme Klassen für Callbacks zu verwenden: man spart  
+sich einige Zeilen Quelltext und das Buch wird wohl dadurch einige Cents billiger. 
+
+Anonyme Klassen machen den Quelltext leider schwer lesbar und unübersichtlich. Daher gilt grundsätzlich, dass diese nur in
+wenigen Ausnahmefällen verwendet werden sollten. Wenn trotzdem eine Anonyme Klassen benötigt wird, dann sollte diese genau
+eine Methode implementieren und die Implementierung selbst sollte wenn möglich genau eine Anweisung enthalten. Mit den 
+[Lambda-Ausdrücken](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html) aus Java 8
+lassen sich deutlich eleganter solche Anforderungen umsetzen.
