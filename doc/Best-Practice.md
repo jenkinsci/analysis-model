@@ -205,6 +205,7 @@ public class CorrectObserverImplementation {
     }
 
     private void delegate(final Observable o, final Object arg) {
+        ...
     }
 }
 ```

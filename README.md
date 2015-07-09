@@ -1,5 +1,3 @@
-Java Kodierungsrichtlinien
-==========================
 
 In jedem Java Projekt sollte der gesamte Quelltext die gleichen Kriterien bei Stil, Formatierung, etc.
 verwenden. In diesem Projekt werden die Kodierungsrichtlinien meiner Vorlesung Softwareentwicklung an der Hochschule
@@ -31,6 +29,13 @@ Aktuell bestehen diese aus den folgenden Abschnitten:
 - [Testen von Schnittstellen und Basisklassen](../master/doc/Abstract-Test-Pattern.md)
 - [Fehlerbehandlung](../master/doc/Fehlerbehandlung.md)
 - [Best Practice](../master/doc/Best-Practice.md)
+
+Geplant sind u.a. noch folgende Themen, die im Rahmen von Softwareengineering behandelt werden:
+- Testen mit Stubs und Mocks
+- Verwenden von Annotationen zum Markieren von Schnittstellen-Verträgen
+
+Zur besseren Verdeutlichung der angesprochenen Themen sind diesem Projekt auch [Java Beispiele](../master/src/) angefügt, 
+die sich möglichst genau an diese Richtlinien halten.
 
 Ideen und Inhalte für diesen Styleguide lieferten verschiedene Bücher, insbesondere aber das Buch 
 "The Elements of Java Style" [1]. Diese Bücher sind allesamt wegweisend für die Softwareentwicklung und sind 
