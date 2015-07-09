@@ -165,4 +165,4 @@ Anonyme Klassen machen den Quelltext leider schwer lesbar und unübersichtlich. 
 wenigen Ausnahmefällen verwendet werden sollten. Wenn trotzdem eine Anonyme Klassen benötigt wird, dann sollte diese genau
 eine Methode implementieren und die Implementierung selbst sollte wenn möglich genau eine Anweisung enthalten. Mit den 
 [Lambda-Ausdrücken](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html) aus Java 8
-lassen sich deutlich eleganter solche Anforderungen umsetzen.
+lassen sich solche Anforderungen deutlich eleganter umsetzen.
