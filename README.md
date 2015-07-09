@@ -2,24 +2,27 @@ Java Kodierungsrichtlinien
 ==========================
 
 In jedem Java Projekt sollte der gesamte Quelltext die gleichen Kriterien bei Stil, Formatierung, etc.
-verwenden. In diesem Projekt werden die Kodierungsrichtlinien der Vorlesung Softwareentwicklung an der Hochschule
+verwenden. In diesem Projekt werden die Kodierungsrichtlinien meiner Vorlesung Softwareentwicklung an der Hochschule
 München zusammengefasst. 
 
-Das Projekt enthält neben der Dokumentation der Kodierungsrichtlinien auch gleichzeitig eine sinnvolle Konfiguration
-der wichtigsten statischen Java Codeanalysetools, die diese Richtlinien soweit wie möglich prüfen:
+Diese Projekt enthält neben der Dokumentation der wichtigsten Kodierungsrichtlinien auch gleichzeitig eine sinnvolle 
+Konfiguration aller kostenlos verfügbaren statischen Codeanalysetools. Diese dort enthaltenen und automatisch prüfbaren 
+Richtlinien werden - soweit wie möglich - nicht mehr extra im Text erwähnt. Damit kann diese Projekt gleichzeitig als
+Vorlage für neue Projekte genutzt werden.
 - [Checkstyle](http://checkstyle.sourceforge.net/)
 - [PMD](http://pmd.sourceforge.net/)
 - [FindBugs](http://findbugs.sourceforge.net/)
+- [IntelliJ](https://www.jetbrains.com/idea/documentation/static_code_analysis.html)
 
-Die Richtlinien können entweder direkt als Warnungen in der Entwicklungsumgebung angezeigt werden (unterstützt
-werden [Eclipse](http://www.eclipse.org/) und [IntelliJ](https://www.jetbrains.com/idea/)) 
+Die automatisch prüfbaren Richtlinien können entweder direkt als Warnungen in der Entwicklungsumgebung angezeigt werden
+(unterstützt werden [Eclipse](http://www.eclipse.org/) und [IntelliJ](https://www.jetbrains.com/idea/)) 
 oder aber mit dem Build Management Tool [Maven](http://maven.apache.org/) überprüft werden. Somit ist sichergestellt,
-dass egal wie die Sourcen weiterverarbeitet werden, immer die gleichen Warnungen angezeigt werden. Die Verwendung
+dass immer die gleichen Warnungen angezeigt werden - egal wie und wo die Java Dateien weiterverarbeitet werden. Die Verwendung
 von Maven hat zudem den Vorteil, dass die Ergebnisse hinterher leicht in den Continuous Integration Server 
 [Jenkins](http://jenkins-ci.org/) eingebunden werden können. 
 
-Der Styleguide entsteht erst in diesem Semester und ist daher noch nicht vollumfänglich. Aktuell besteht er aus den 
-folgenden Abschnitten:
+Der Richtlinien sind im Winter und Sommersemester 2014/2015 entstanden und noch nicht vollumfänglich. 
+Aktuell bestehen diese aus den folgenden Abschnitten:
 
 - [Formatierung](../master/doc/Formatierung.md)
 - [Namensgebung](../master/doc/Namensgebung.md)

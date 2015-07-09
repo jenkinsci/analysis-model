@@ -133,7 +133,7 @@ der Entwicklungsumgebung, um zu überprüfen, welcher Teil des Quelltextes berei
 
 ## State Based vs. Interaction Based Testing
 
-Prinzipiell gibt es 2 Varianten des Testings. Beim **State Based Testing** wird das Testobjekt nach Aufruf der zu 
+Prinzipiell gibt es zwei Varianten des Testings. Beim **State Based Testing** wird das Testobjekt nach Aufruf der zu 
 testenden Methoden durch Abfrage seines internen Zustands verifiziert. Analog dazu kann natürlich auch der Zustand 
 der im Test verwendeten Parameter bzw. Rückgabewerte analysiert werden. Alle bisher beschriebenen Tests laufen nach diesem
 Muster ab und können folgendermaßen formuliert werden:
@@ -162,7 +162,8 @@ typischer Testfall nach dem Interaction Based Testing ist folgendermaßen aufgeb
 @Test
 public void should[restlicher Methodenname der den Test fachliche beschreibt]() {
     // Given
-    [Test Setup: Erzeugung der Mocks, die zur Verifikation benötigt werden]
+    [Test Setup 1: Erzeugung der Mocks, die zur Verifikation benötigt werden]
+    [Test Setup 2: Erzeugung der Stubs, die das SUT zum Erzeugen bzw. beim Aufruf benötigt]
     [Erzeugung des SUT]
     // When
     [Aufruf der zu testenden Methoden]
@@ -171,4 +172,4 @@ public void should[restlicher Methodenname der den Test fachliche beschreibt]() 
 }
 ```
 
-Details zu diesem Vorgehen werden in einem separaten Abschnitt beschrieben.
+Details zu diesem Vorgehen werden später in einem separaten Abschnitt beschrieben.

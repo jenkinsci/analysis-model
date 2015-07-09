@@ -1,10 +1,10 @@
 # Fehlerbehandlung mit Exceptions 
 
 In einem Java-Programm können zur Laufzeit verschiedene Fehler auftreten:
-- logische Fehler (Programmierfehler)
-- Problem im Java-Laufzeitsystem (Speichermangel)
-- Probleme mit der Peripherie (Internet, Datenbank, Dateisystem)
-- fehlerhafte Bedienung (Benutzereingaben)
+- logische Fehler (z.B. Programmierfehler)
+- Problem im Java-Laufzeitsystem (z.B. Speichermangel)
+- Probleme mit der Peripherie (z.B. mit Internet, Datenbank, Dateisystem)
+- fehlerhafte Bedienung (z.B. Benutzereingaben)
 
 Zum Melden eines solchen Fehlers benutzen wir i.A. Exceptions. D.h. bei Auftritt eines dieser Fehler wird das 
 Programm an der aktuellen Stelle abgebrochen und eine Exception wird geworfen. Dies hat den Vorteil, dass diese
@@ -21,12 +21,12 @@ Wird keine Fehlerbehandlung umgesetzt, wird das Programm mit einem Stacktrace be
 ## Validieren von Eingabeparametern
 
 Sichere und robuste Software vertraut niemals Eingabewerten. Es gilt der Grundsatz: „all input is evil“. D.h. in 
-öffentlichen Methoden und Konstruktoren müssen die Parameter immer validiert werden. 
+öffentlichen Methoden und Konstruktoren müssen Parameter immer validiert werden. 
 Genügen diese Parameter nicht dem erwarteten Vertrag, muss eine Exception geworfen werfen. I.A. ist dafür die
 `IllegalArgumentExeption` geeignet. Ggf. kann davon abgewichen werden, um z.B. mit der `IndexOutOfBoundsException` oder
 der `IllegalStateException` eine genauere Fehlerursache aufzuzeigen. Die `NullPointerException` hat einen Sonderstatus,
 sie wird i.A. automatisch geworfen bei Zugriff auf `null`. Ein Werfen dieser Exception ist nur nötig, falls ein
-Parameter ohne direkte Nutzung in einer Methode als Objektvariable gespeichert wird.
+Parameter ohne direkte Nutzung in einer Objektvariable gespeichert wird.
 
 ## Exception-Typen
 

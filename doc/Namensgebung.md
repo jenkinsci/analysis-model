@@ -24,21 +24,7 @@ nochmals erfinden dürfte: “I‘d spell creat with an e.“
 
 Zum Thema Namensgebung finden sich einige schöne Anti-Beispiele im Essay
 ["How To Write Unmaintainable Code"](https://www.thc.org/root/phun/unmaintain.html) von Roedy Green.
-                   
-## Gestaltung von Methoden
-
-Die wichtigste Regel beim Erstellen von Methoden lautet: in der Kürze liegt die Würze! D.h., Methoden sollten immer
-möglichst kurz sein. Es ist schwierig ein absolutes Maß dafür zu definieren, aber generell sollte eine Methode immer
-auf eine Bildschirmseite passen. D.h. Scrolling ist weder horizontal noch vertikal erforderlich. Meistens sind Methoden
-daher zwischen 1 und 10 Zeilen lang. Hin und wieder kann sich auch mal eine Methode mit 20 Zeilen einschleichen...
-
-Hier ein schönes Beispiel:
-```java
-boolean isEven(final long value) {
-    return value % 2 == 0;
-}
-```
-
+                  
 ### Methodennamen
 
 Methodennamen enthalten ein Verb im Aktiv, z.B. `computeSum`, `moveForward`, `turnRight`, `compareToIgnoreCase`. Sie beginnen

@@ -11,8 +11,8 @@ können. Diese können bei Bedarf mit einem einfachen Kommando angewendet werden
 die korrekte Formatierung eines Quelltextstücks zu sehen, ist lediglich das entsprechende
 Kommando der Entwicklungsumgebung aufzurufen.
 
-**Achtung:** Greenfoot selbst ist nicht so mächtig und korrigiert nur die Einrückung,
-nicht aber die Verwendung von Leerzeichen.
+**Achtung:** Die Entwicklungsumgebung [Greenfoot](http://www.greenfoot.org) selbst ist nicht 
+so mächtig und korrigiert nur die Einrückung, nicht aber die Verwendung von Leerzeichen.
 
 ## Einrücken
 
@@ -43,8 +43,9 @@ while (expression2) {
 }
 ```
 
-**Achtung:** gemäß [3] steht bei einem `if-else` und `try-catch` Konstrukt die schließende Klammer immer 
-alleine auf einer Zeile:
+**Achtung:** Zur besseren Unterstützung der visuellen Struktur steht gemäß [3] 
+bei einem `if-else` und `try-catch` Konstrukt die schließende Klammer immer alleine auf einer Zeile. 
+Viele Java Entwicklungsteams (z.B. das Oracle JDK Team) halten dies anders.
 
 ```java
 if (expression1) {

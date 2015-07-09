@@ -17,7 +17,7 @@ würde. Aber nicht jeder hat die
 [Operatorreihenfolgetabelle](http://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html) im Kopf. 
 
 Für unäre Operatoren wie die Negation `!` oder einfache binäre Bedingungen mit 2 Operanden sollten
-allerdings keine Klammern genutzt werden.
+allerdings möglichst keine Klammern genutzt werden.
 
 ```java
 boolean canGoAhead = !mushroomFront() && !treeFront();
@@ -60,6 +60,20 @@ navigieren.
 
 ```
 
+## Gestaltung von Methoden
+
+Die wichtigste Regel beim Erstellen von Methoden lautet: in der Kürze liegt die Würze! D.h., Methoden sollten immer
+möglichst kurz sein. Es ist schwierig ein absolutes Maß dafür zu definieren, aber generell sollte eine Methode immer
+auf eine Bildschirmseite passen. D.h. Scrolling ist weder horizontal noch vertikal erforderlich. Meistens sind Methoden
+daher zwischen 1 und 10 Zeilen lang. Hin und wieder kann sich auch mal eine Methode mit 20 Zeilen einschleichen...
+
+Hier ein schönes Beispiel:
+```java
+boolean isEven(final long value) {
+    return value % 2 == 0;
+}
+```
+
 ## Immutable Classes
 
 Klassen sollten wenn möglich immer als unveränderlich (*immutable*) gestaltet werden. D.h. alle Eigenschaften einer
@@ -76,8 +90,7 @@ Hier die wichtigsten Regeln auf einen Blick:
 4. Keine Methode darf veränderbare Instanzvariablen als Rückgabewerte haben.
 
 Die letzten beiden Punkte klingen auf den ersten Blick recht unscheinbar, haben es aber in sich: Arrays, Collections
-sowie viele Instanzen bestehender JDK Klassen (z.B. `Date`) sind immutable und dürfen daher nur als Kopien gespeichert
-werden.
+sowie viele Instanzen bestehender JDK Klassen (z.B. `Date`) sind mutable und müssen daher immer kopiert werden!
 
 Hier ein Beispiel, das diese Vorgabe korrekt umsetzt: eine `Queue` kann mit einer vorgegebenen Liste an Elementen
 erzeugt werden. Da das übergebene Array veränderbar ist (der **Inhalt**, nicht die Länge), **muss** der Parameter
@@ -104,3 +117,39 @@ sofort zu initialisieren. (Siehe auch Item 45 in [5].)
 Dies wird in anderen Programmiersprachen wie C und C++ anders gehandhabt, dort werden diese als Block am Anfang 
 einer Methode definiert. 
 
+## Nutzung von final
+
+Das Schlüsselwort `final` wird in Java an zwei Stellen verwendet. 
+Es können damit Variablen bzw. Methoden und Klassen als unveränderlich markiert werden.
+
+### final für unveränderliche Variablenreferenzen bzw. -werte
+
+Wird eine Variable mit `final` ausgezeichnet (Objektvariable, lokale Variable oder Parameter), dann ist der Wert der Variable
+nach der ersten Zuweisung nicht mehr änderbar. Gerade Java Neulinge interpretieren dies oft nur bei primitiven Datentypen
+richtig: hier ist tatsächlich der Wert nicht mehr änderbar. Bei Variablen, die ein Objekt referenzieren, ist allerdings
+nur gesichert, dass die bestehende Objektreferenz nicht mehr geändert wird. D.h. der Zustand des referenzierten Objektes kann 
+sich trotzdem ändern. Nur bei immutable Klassen ist auch das Objekt nicht mehr veränderbar, dies muss aber wie bei 
+[Immutable Classes](#immutable-classes) beschrieben, selbst sicher gestellt werden. Java selbst bietet dazu kein Sprachmittel
+an, um neben der Objektreferenz auch den Inhalt als unveränderlich zu markieren.
+
+Folgende Richtlinien haben sich in Java als sinnvoll herausgestellt:
+- Objektvariablen (d.h. Fields) **sollten immer** mit `final` ausgezeichnet werden, wenn dies möglich ist. 
+- Parameter **müssen immer** mit `final` ausgezeichnet werden, nur so ist beim Lesen des Quelltextes (Code Review, Debugging)
+ sofort klar, welchen Wert die Variablen z.B. am Ende einer Methode hat.
+- Lokale Variable **werden nie** mit `final` ausgezeichnet. Andernfalls geht der Blick auf des Wesentliche verloren. Im 
+ Englischen spricht man hier häufig von *clutter* oder *noise*, die die Verwendung von `final` an jeder möglichen Stelle
+ erzeugt. 
+ 
+### final für Methoden und Klassen
+ 
+Wird eine Methode mit `final` ausgezeichnet, so ist ein Überschreiben dieser Methode in einer Subklasse nicht möglich. 
+Ist die gesamte Klasse mit `final` ausgezeichnet, so kann von dieser Klasse gar nicht abgeleitet werden. 
+
+Während in [5] empfohlen wird, Klassen oder Methoden möglichst immer mit `final` zu kennzeichnen, wenn man sich nicht 
+wirklich Gedanken über die Nutzung in Subklassen gemacht hat, sehen viele andere Java Architekten dies nicht so 
+puristisch. Daher lautet die pragmatische Empfehlung:
+- Klassen sollten in den seltensten Fällen als `final` gekennzeichnet werden. Durch TDD lassen sich durch Vererbung
+ verursachte Fehler recht schnell finden. Ein "Versiegeln" von Klassen ist nicht wirklich erforderlich und hemmt die
+ Wiederverwendung. 
+- Methoden sollten nur dann als `final` gekennzeichnet, wenn durch das Überschreiben tatsächlich ein Fehler entstehen wird. 
+ Z.B. dürfen in Konstruktoren **niemals** Methoden aufgerufen werden, die nicht `final` sind!
