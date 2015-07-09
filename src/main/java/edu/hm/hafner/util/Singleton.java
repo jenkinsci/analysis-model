@@ -28,8 +28,8 @@ public final class Singleton {
 
         T element = iterator.next();
 
-        Ensure.that(iterator.hasNext()).isFalse("Collection contains more than one element.");
-        Ensure.that(element).isNotNull("Element in collection must be not NULL.");
+        Ensure.that(iterator.hasNext()).isFalse("Collection contains more than one element: %s", collection);
+        Ensure.that(element).isNotNull("Element in collection must be not NULL: %s", collection);
 
         return element;
     }

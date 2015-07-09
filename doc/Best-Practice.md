@@ -166,3 +166,47 @@ wenigen Ausnahmefällen verwendet werden sollten. Wenn trotzdem eine Anonyme Kla
 eine Methode implementieren und die Implementierung selbst sollte wenn möglich genau eine Anweisung enthalten. Mit den 
 [Lambda-Ausdrücken](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html) aus Java 8
 lassen sich solche Anforderungen deutlich eleganter umsetzen.
+
+## Nutzung von Methodenreferenzen (d.h. Delegates)
+
+Häufig muss sich eine Klasse als Listener für Events registrieren. Beispielsweise registrieren sich UI Actions immer am 
+Modell, um den eigenen Zustand zu aktualisieren. Java bietet seit Java 8 endlich die Möglichkeit, an dieser Stelle
+Methoden-Referenzen zu verwenden (siehe auch Delegates in C#). Damit ist es nicht mehr erforderlich, dass die registrierende 
+Klasse das erforderliche Interface selbst implementiert: es reicht wenn eine Referenz auf eine private Methode übergeben wird,
+die die Schnittstelle umsetzt.
+
+Bisher wurde gerade in vielen Java Lehrbüchern das folgende Anti-Pattern benutzt, das konzeptionell falsch ist: 
+
+```java
+public class BrokenObserverImplementation implements Observer {
+    public void attach(final Observable observable) {
+        observable.addObserver(this);
+    }
+
+    @Override
+    public void update(final Observable o, final Object arg) {
+        ...    
+    }
+}
+```
+
+In dieser unsauberen Variante wird die Methode `update` Teil des API, da sie wegen des Interfaces `public` sein muss. 
+Die Methode kann daher später nie wieder entfernt werden. Weitere Nachteile dieses Anti-Patterns:
+- Die Methode kann von Nutzern der Klasse zu jedem Zeitpunkt aufgerufen werden, was unerwartete Seiteneffekte nach sich ziehen kann.
+- Muss auf mehrere Events reagiert werden, funktioniert das Pattern nur mit Einsatz von `if-else` Kaskaden, was wiederum die
+Lesbarkeit reduziert.
+
+Mit Java 8 lässt sich das gleiche erreichen, indem die Klasse folgendermaßen gestaltet wird:
+
+```java
+public class CorrectObserverImplementation {
+    public void attach(final Observable observable) {
+        observable.addObserver(this::delegate);
+    }
+
+    private void delegate(final Observable o, final Object arg) {
+    }
+}
+```
+D.h. die Callback Methode kann nun als private markiert werden und ist nach außen nicht mehr sichtbar. 
+Je nach Anwendungsfall kann statt der Methoden-Referenz auch ein Lambda Ausdruck verwendet werden.
