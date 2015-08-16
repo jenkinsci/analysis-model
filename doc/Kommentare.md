@@ -9,7 +9,7 @@ Java kennt drei verschiedene Varianten von Kommentaren:
 
 Wohlüberlegte Kommentare *können* die Qualität des Quelltextes steigern. Sie sind i.A. ein notwendiges Übel und 
 helfen uns darüber hinweg, dass wir nicht alles durch Code alleine ausdrücken können. Dafür kann eine der beiden
-ersten Varianten genutzt werden. Diese erklären des Ziel des Quelltextes und verdeutlichen damit unsere Absicht.
+ersten Varianten genutzt werden. Diese erklären das Ziel des Quelltextes und verdeutlichen damit unsere Absicht.
 
 Wichtig zu beachten sind aber die folgenden Aussagen von Brian W. Kernighan:
  - Make sure comments and code agree.

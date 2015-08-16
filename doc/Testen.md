@@ -109,7 +109,7 @@ Prinzip charakterisieren, das sich folgendermaßen zusammenfassen lässt:
 
 Hier noch einige Anregungen bei der Gestaltung von Modultests:
 - Eine Testmethode sollte nur einen Aspekt testen: d.h. wir testen ein bestimmtes Verhalten und nur indirekt eine Methode.
-- Eine Testmethoden sollten ca. 5-15 Zeilen umfassen.
+- Testmethoden sollten ca. 5-15 Zeilen umfassen.
 - Modultests greifen i.A. nie auf Datenbank, Dateisystem oder Web Services zu.
 - Test Klassen sollten keine Objektvariablen besitzen. Statt dessen sollten benötigte Objekte immer neu mit
   passenden **create** Methoden erzeugt werden. Eine Verwendung eines allgemeingültigen Testsetup für alle Methoden
@@ -141,7 +141,7 @@ Muster ab und können folgendermaßen formuliert werden:
 ```java
 /** [Kurze Beschreibung: was genau macht der Test] */
 @Test
-public void should[restlicher Methodenname der den Test fachliche beschreibt]() {
+public void should[restlicher Methodenname der den Test fachlich beschreibt]() {
     // Given
     [Test Setup: Erzeugung der Parameter, die das SUT zum Erzeugen bzw. beim Aufruf benötigt]
     [Erzeugung des SUT]

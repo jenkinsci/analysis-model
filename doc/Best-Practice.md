@@ -1,6 +1,6 @@
 # Best Practice
 
-Neben eher formellen Konventionen gibt es eine Vielzahl von Tipps und Tricks zur Verbesserung der eigenen Programmierstils.
+Neben eher formellen Konventionen gibt es eine Vielzahl von Tipps und Tricks zur Verbesserung des eigenen Programmierstils.
 Diese sind in diesem Dokument unsortiert aufgeführt.
 
 ## Verwendung von redundanten Klammern
@@ -135,8 +135,8 @@ an, um neben der Objektreferenz auch den Inhalt als unveränderlich zu markieren
 Folgende Richtlinien haben sich in Java als sinnvoll herausgestellt:
 - Objektvariablen (d.h. Fields) **sollten immer** mit `final` ausgezeichnet werden, wenn dies möglich ist. 
 - Parameter **müssen immer** mit `final` ausgezeichnet werden, nur so ist beim Lesen des Quelltextes (Code Review, Debugging)
- sofort klar, welchen Wert die Variablen z.B. am Ende einer Methode hat.
-- Lokale Variable **werden nie** mit `final` ausgezeichnet. Andernfalls geht der Blick auf des Wesentliche verloren. Im 
+ sofort klar, welchen Wert die Variablen z.B. am Ende einer Methode haben.
+- Lokale Variable **werden nie** mit `final` ausgezeichnet. Andernfalls geht der Blick auf das Wesentliche verloren. Im 
  Englischen spricht man hier häufig von *clutter* oder *noise*, die die Verwendung von `final` an jeder möglichen Stelle
  erzeugt. Die [Scala](http://www.scala-lang.org/) Erfinder haben dies besser gemacht: 
  hier gibt die Sprache gleich zwei verschiedene Schlüsselwörter
@@ -162,7 +162,7 @@ In Java hat es sich gerade in Lehrbüchern eingebürgert, anonyme Klassen für C
 sich einige Zeilen Quelltext und das Buch wird wohl dadurch einige Cents billiger. 
 
 Anonyme Klassen machen den Quelltext leider schwer lesbar und unübersichtlich. Daher gilt grundsätzlich, dass diese nur in
-wenigen Ausnahmefällen verwendet werden sollten. Wenn trotzdem eine Anonyme Klassen benötigt wird, dann sollte diese genau
+wenigen Ausnahmefällen verwendet werden sollten. Wenn trotzdem eine anonyme Klasse benötigt wird, dann sollte diese genau
 eine Methode implementieren und die Implementierung selbst sollte wenn möglich genau eine Anweisung enthalten. Mit den 
 [Lambda-Ausdrücken](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html) aus Java 8
 lassen sich solche Anforderungen deutlich eleganter umsetzen.

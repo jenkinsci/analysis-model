@@ -7,7 +7,7 @@ Das erste Zeichen darf keine Ziffer sein und
 [ca. 50 Schlüsselwörter](http://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html) 
 sind vom System reserviert und für eigenen Namen verboten, z.B. class, import, public, etc.
 
-Neben dieser formalen Syntax haben sich folgenden Konventionen eingebürgert. 
+Neben dieser formalen Syntax haben sich folgende Konventionen eingebürgert. 
 
 ## Allgemeine Konventionen
  

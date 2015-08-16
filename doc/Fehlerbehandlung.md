@@ -52,7 +52,7 @@ mehr aufführen, sondern nur die selbst geworfenen Exceptions.
 
 ## Fehlerursache (Kontext)
 
-Wird eine Exception geworfen, muss der Fehlerursache (d.h. der Kontext) genau lokalisiert werden, und als Text im 
+Wird eine Exception geworfen, muss die Fehlerursache (d.h. der Kontext) genau lokalisiert werden, und als Text im 
 Konstruktor der Exception übergeben werden. D.h. was ist das Problem? Wie konnte das Problem auftreten? 
 Welche Parameterwerte sind Ursache? Diese Meldung ist i.A. nur sichtbar für das Entwicklungsteam und kann z.B. auch dafür
 passend formuliert werden. Wird darüber hinaus eine andere Exception gefangen und umgewandelt,
@@ -67,7 +67,7 @@ Das korrekte Werfen von Exceptions sollte generell getestet werden, siehe dazu d
 ## Best practice 
 
 Exceptions dürfen nur für außergewöhnliche Ereignisse verwendet werden, d.h. die Programmflusssteuerung darf 
-niemals über Exceptions durchgeführt werden. Dies lässt sich umso leichter erreichen, wenn es zu jede Methode **x** eine
+niemals über Exceptions durchgeführt werden. Dies lässt sich umso leichter erreichen, wenn es zu jeder Methode **x** eine
 zweite Methode **y** gibt, die prüft, ob die Methode **x** mit den gegebenen Eingabeparametern 
 eine Exception werfen würde.
 

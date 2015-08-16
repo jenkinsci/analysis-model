@@ -164,7 +164,7 @@ public void foo() {
 ```
 
 Die erste Anweisung beginnt dabei direkt nach dem Methodenkopf, die letzte hört direkt vor der schließenden Klammer auf,
-hier werden keinen extra Leerzeilen mehr eingefügt.
+hier werden keine extra Leerzeilen mehr eingefügt.
 
 Innerhalb einer Klasse hat es sich eingebürgert, zwei Methoden oder Konstruktoren durch eine Leerzeile zu trennen. 
 Nach dem Klassenkopf und vor der schließenden Klammer einer Klasse steht keine extra Leerzeile, ebenso nicht nach dem
@@ -175,7 +175,7 @@ Klassenkopf aufgeführt, dann alle Konstruktoren, dann alle Methoden. Am Schluss
 
 ## Komplettes Beispiel
 
-Am besten lassen sich die Regeln an einem realem Beispiel erkennen. Das folgenden Programm erzeugt einen Diamanten
+Am besten lassen sich die Regeln an einem realem Beispiel erkennen. Das folgende Programm erzeugt einen Diamanten
 in Karas Welt und zeigt dabei auch die typische Java Formatierung.
 
 ```java

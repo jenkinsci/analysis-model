@@ -3,7 +3,7 @@ In jedem Java Projekt sollte der gesamte Quelltext die gleichen Kriterien bei St
 verwenden. In diesem Projekt werden die Kodierungsrichtlinien meiner Vorlesung Softwareentwicklung an der Hochschule
 München zusammengefasst. 
 
-Diese Projekt enthält neben der Dokumentation der wichtigsten Kodierungsrichtlinien auch gleichzeitig eine sinnvolle 
+Dieses Projekt enthält neben der Dokumentation der wichtigsten Kodierungsrichtlinien auch gleichzeitig eine sinnvolle 
 Konfiguration aller kostenlos verfügbaren statischen Codeanalysetools. Diese dort enthaltenen und automatisch prüfbaren 
 Richtlinien werden - soweit wie möglich - nicht mehr extra im Text erwähnt. Damit kann diese Projekt gleichzeitig als
 Vorlage für neue Projekte genutzt werden.
@@ -19,7 +19,7 @@ dass immer die gleichen Warnungen angezeigt werden - egal wie und wo die Java Da
 von Maven hat zudem den Vorteil, dass die Ergebnisse hinterher leicht in den Continuous Integration Server 
 [Jenkins](http://jenkins-ci.org/) eingebunden werden können. 
 
-Der Richtlinien sind im Winter und Sommersemester 2014/2015 entstanden und noch nicht vollumfänglich. 
+Die Richtlinien sind im Winter und Sommersemester 2014/2015 entstanden und noch nicht vollumfänglich. 
 Aktuell bestehen diese aus den folgenden Abschnitten:
 
 - [Formatierung](../master/doc/Formatierung.md)
