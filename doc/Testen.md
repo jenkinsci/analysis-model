@@ -30,7 +30,8 @@ Die Benennung der drei Schritte in **Given-When-Then** stammt aus dem
 [Artikel von Martin Fowler](http://martinfowler.com/bliki/GivenWhenThen.html) gut beschrieben. 
 
 Damit im Fehlerfall schnell die Ursache gefunden wird, benennen wir eine Testmethode mit einem sinnvollen (und langen) Namen
-und ergänzen im JavaDoc in einem knappen Satz das Ziel des Tests. Testmethoden sollten i.A. immer mit dem Präfix *should* beginnen.
+und ergänzen im JavaDoc in einem knappen Satz das Ziel des Tests. Testmethoden sollten wenn möglich mit dem Präfix *should* beginnen.
+Der Rest des Namens sollte die Eigenschaften des SUT beschreiben, die im Test überprüft werden (bzw. das Ziel des Tests). 
 
 An einem Beispiel lassen sich diese Konventionen am besten erkennen:
 ```java
