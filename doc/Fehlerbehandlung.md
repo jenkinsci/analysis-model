@@ -83,7 +83,8 @@ Sinnvoll ist daher das Aufteilen des Programmstücks in die folgenden Teile:
 - im finally Block: ggf. Aufräumen
 - in der Untermethode: Implementierung der Anforderungen ohne Rücksicht auf Exceptions
 
-In einem finally Block sollte niemals eine Exception geworfen werden.
+In einem finally Block sollte niemals eine Exception geworfen werden. Außerdem sollte im finally Block niemals die 
+Methode mit return beendet werden.
 
 Ebenso sollten Exceptions niemals ignoriert werden. Sollte es erforderlich sein, einen leeren catch Block zu verwenden, so muss
 dies mit einem Kommentar versehen werden!
