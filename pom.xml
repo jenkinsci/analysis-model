@@ -60,24 +60,24 @@
 
     <!-- Project Dependencies Configuration -->
     <findbugs.annotations>3.0.0</findbugs.annotations>
-    <guava.version>18.0</guava.version>
-    <commons.lang.version>3.3.2</commons.lang.version>
-    <commons.io.version>2.4</commons.io.version>
+    <guava.version>20.0</guava.version>
+    <commons.lang.version>3.5</commons.lang.version>
+    <commons.io.version>2.5</commons.io.version>
     <junit.version>4.12</junit.version>
     <mockito.version>1.10.19</mockito.version>
-    <assertj.version>2.0.0</assertj.version>
+    <assertj.version>3.6.1</assertj.version>
 
     <!-- Maven Plug-ins Configuration -->
-    <site.maven.plugin>3.4</site.maven.plugin>
-    <compiler.maven.plugin>3.2</compiler.maven.plugin>
-    <resources.maven.plugin>2.7</resources.maven.plugin>
-    <buildhelper.maven.plugin>1.9.1</buildhelper.maven.plugin>
-    <surefire.maven.plugin>2.18.1</surefire.maven.plugin>
-    <pmd.maven.plugin>3.5</pmd.maven.plugin>
-    <checkstyle.maven.plugin>2.16</checkstyle.maven.plugin>
-    <findbugs.maven.plugin>3.0.0</findbugs.maven.plugin>
+    <site.maven.plugin>3.6</site.maven.plugin>
+    <compiler.maven.plugin>3.6.0</compiler.maven.plugin>
+    <resources.maven.plugin>3.0.2</resources.maven.plugin>
+    <buildhelper.maven.plugin>1.12</buildhelper.maven.plugin>
+    <surefire.maven.plugin>2.19.1</surefire.maven.plugin>
+    <pmd.maven.plugin>3.7</pmd.maven.plugin>
+    <checkstyle.maven.plugin>2.17</checkstyle.maven.plugin>
+    <findbugs.maven.plugin>3.0.4</findbugs.maven.plugin>
     <cobertura.maven.plugin>2.7</cobertura.maven.plugin>
-    <projectinfo.maven.plugin>2.8</projectinfo.maven.plugin>
+    <projectinfo.maven.plugin>2.9</projectinfo.maven.plugin>
     <jxr.maven.plugin>2.5</jxr.maven.plugin>
     <taglist.maven.plugin>2.4</taglist.maven.plugin>
   </properties>
