@@ -58,6 +58,8 @@
     <junit.version>4.12</junit.version>
     <mockito.version>2.7.11</mockito.version>
     <assertj.version>3.6.2</assertj.version>
+    <checkstyle.version>7.5.1</checkstyle.version>
+    <pmd.version>5.5.3</pmd.version>
 
     <!-- Maven Plug-ins Configuration -->
     <site.maven.plugin>3.6</site.maven.plugin>
@@ -102,7 +104,7 @@
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
+      <artifactId>mockito-core</artifactId>
       <version>${mockito.version}</version>
     </dependency>
     <dependency>
@@ -178,6 +180,13 @@
             <configLocation>etc/checkstyle-configuration.xml</configLocation>
             <includeTestSourceDirectory>true</includeTestSourceDirectory>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>${checkstyle.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -191,6 +200,18 @@
             <includeTests>true</includeTests>
             <minimumTokens>50</minimumTokens>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-core</artifactId>
+              <version>${pmd.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-java</artifactId>
+              <version>${pmd.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
