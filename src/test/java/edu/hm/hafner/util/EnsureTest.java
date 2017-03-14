@@ -138,9 +138,9 @@ public class EnsureTest {
         assertThatThrownBy(() -> {
             Ensure.that(EMPTY_STRING).isInstanceOf(Integer.class, ERROR_MESSAGE);
         }).isInstanceOf(AssertionError.class);
-         assertThatThrownBy(() -> {
-             Ensure.that(new String[0]).isNotEmpty();
-         }).isInstanceOf(AssertionError.class);
+        assertThatThrownBy(() -> {
+            Ensure.that(new String[0]).isNotEmpty();
+        }).isInstanceOf(AssertionError.class);
         assertThatThrownBy(() -> {
             Ensure.that(Lists.newArrayList(EMPTY_STRING, null, EMPTY_STRING)).isNotEmpty();
         }).isInstanceOf(AssertionError.class);
