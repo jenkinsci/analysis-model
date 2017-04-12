@@ -15,7 +15,6 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author Ullrich Hafner
  */
 public final class Integers {
-
     /**
      * Shuffles the specified array values.
      *
@@ -37,8 +36,9 @@ public final class Integers {
      * @param message message presented to the user on the console
      * @return the integer value read
      */
+    @SuppressWarnings("PMD.SystemPrintln")
     public static int read(final String message) {
-        try (Scanner scanner = new Scanner(System.in)) {
+        try (Scanner scanner = new Scanner(System.in, "UTF-8")) {
             while (true) {
                 try {
                     System.out.println(message);

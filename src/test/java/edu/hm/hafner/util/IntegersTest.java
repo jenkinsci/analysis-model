@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.*;
  * @author Ullrich Hafner
  */
 public class IntegersTest {
+    /** Mocks standard input. */
     @Rule
     public final TextFromStandardInputStream input = TextFromStandardInputStream.emptyStandardInputStream();
 
