@@ -17,7 +17,8 @@ Stil (*Code Smell* [6]).
  
 Bezeichner sind stets aussagekräftig und bestehen damit oft aus mehreren Teilwörtern. Wir verwenden dann die Schreibweise 
 [CamelCase](http://c2.com/cgi/wiki?CamelCase). Bezeichner nutzen i.A. keine Abkürzungen, die Autovervollständigung der 
-Entwicklungsumgebungen ergänzt lange Bezeichner komfortabel. 
+Entwicklungsumgebungen ergänzt lange Bezeichner komfortabel. Wenn ein Bezeichner doch einmal eine Abkürzung enthält,
+dann wird auch hier nur der 1. Buchstabe Groß geschrieben, z.B. `loadXmlDocument`, `writeAsJson`.
 
 Zum Thema Abkürzung noch ein schönes Zitat von Ken Thompson auf die Frage was er ändern würde, wenn er UNIX 
 nochmals erfinden dürfte: “I‘d spell creat with an e.“
