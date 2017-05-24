@@ -3,8 +3,9 @@
 Wenn möglich, nutzen wir das Prinzip des Test Driven Development. D.h. Tests werden vorab bzw. zeitgleich mit
 den zu erstellenden Klassen geschrieben. Details zu diesem Ansatz finden sich in [4] in Kapitel 9. Dies hat viele
 Vorteile:
-- Es werden nur die Anforderungen umgesetzt, die auch wirklich nötig sind (YAGNI: You ain‘t gonna need it, 
-KISS: Keep it simple, stupid!).
+- Es werden nur die Anforderungen umgesetzt, die auch wirklich nötig sind.
+    - **YAGNI**: You ain‘t gonna need it!
+    - **KISS**: Keep it simple, stupid!
 - Das Softwaredesign orientiert sich an der Nutzung von Klassen, da die Tests die ersten "Anwender" des API sind.
 - Testfälle dokumentieren eine Klasse (und ergänzen somit die Spezifikation).
 - Testbarkeit eines Programms ist per Definition garantiert und zudem erhalten wir automatisch eine hohe Testabdeckung.
@@ -30,14 +31,15 @@ Die Benennung der drei Schritte in **Given-When-Then** stammt aus dem
 [Artikel von Martin Fowler](http://martinfowler.com/bliki/GivenWhenThen.html) gut beschrieben. 
 
 Damit im Fehlerfall schnell die Ursache gefunden wird, benennen wir eine Testmethode mit einem sinnvollen (und langen) Namen
-und ergänzen im JavaDoc in einem knappen Satz das Ziel des Tests. Testmethoden sollten wenn möglich mit dem Präfix *should* beginnen.
-Der Rest des Namens sollte die Eigenschaften des SUT beschreiben, die im Test überprüft werden (bzw. das Ziel des Tests). 
+und ergänzen im JavaDoc in einem knappen Satz das Ziel des Tests. Eine sinnvolle Namenskonvention für Tests ist der 
+Präfix *should* mit einer angehängten Beschreibung, die die Eigenschaften des SUT beschreiben, die im Test überprüft werden 
+(bzw. das Ziel des Tests). 
 
 An einem Beispiel lassen sich diese Konventionen am besten erkennen:
 ```java
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
-
+ 
 /**
  * Tests the class {@link MathUtils}.
  *
@@ -50,11 +52,12 @@ public class MathUtilsTest {
         // Given
         MathUtils utils = new MathUtils();
         int[] inputValues = {1, -2, 0};
+        
         // When
         int actual = utils.max(inputValues);
-
+ 
         // Then
-        assertThat(actual).isEqualTo(1);
+        assertThat(actual).as("Wrong maximum for %s", Arrays.toString(inputValues)).isEqualTo(1);
     }
 }
 ```
@@ -70,16 +73,27 @@ und der Assertion `assertThatThrownBy` aus AssertJ:
 /** Verifies that at least one number is provided. */
 @Test
 public void shouldThrowExceptionIfArrayIsEmpty() {
-    assertThatThrownBy(() -> {
-        // Given
-        MathUtils utils = new MathUtils();
-        // When
-        int actual = utils.max(new int[0]);
-    }) // Then
-      .isInstanceOf(IllegalArgumentException.class)
-      .hasMessageContaining("empty");
-}
+    // Given
+    MathUtils utils = new MathUtils();
+    assertThatThrownBy(() -> utils.max(new int[0])) // When 
+            .isInstanceOf(IllegalArgumentException.class) // Then
+            .hasMessageContaining("empty");
+ }
 ``` 
+Wichtig ist, dass der Lambda Block nur genau die Anweisung enthält, die die Exception wirft. Dies hat den Vorteil -
+auch gegenüber dem JUnit Pedant `@Test(expected = Exception.class)` - dass die Exception nur an der genau bestimmten
+ Stelle überprüft wird. Wird eine Exception zufällig an einer anderen Stelle geworfen, so wird das als Testfehler
+  markiert.
+
+## Allgemeine Testszenarien
+
+In JUnit gibt es die Möglichkeit, sich ein oder mehrere Testszenarien über speziell dafür markierte Methoden aufzubauen.
+Dazu müssen diese Methoden mit `@Before`, `@BeforeClass`, `@After, etc. annotiert werden, und die erzeugten SUT (und 
+abhängigen Objekte) in Objektvariablen (Fields) gespeichert werden. Dieses Vorgehen ist bequem, macht Testfalle jedoch
+unübersichtlich und schwer verständlich, da die im Test verwendenten Objekte nicht direkt sichtbar sind. 
+Daher verwenden wir diese Annotationen nicht. Generell gilt: Test Klassen sollen keine Objektvariablen besitzen. Statt 
+dessen sollten benötigte Objekte immer neu mit passenden **create** Methoden erzeugt werden: so können die erzeugten 
+Objekte in den einzelnen Tests unabhängig voneinander geändert werden können.
 
 ## Testen von Basisklassen
 
@@ -112,10 +126,6 @@ Hier noch einige Anregungen bei der Gestaltung von Modultests:
 - Eine Testmethode sollte nur einen Aspekt testen: d.h. wir testen ein bestimmtes Verhalten und nur indirekt eine Methode.
 - Testmethoden sollten ca. 5-15 Zeilen umfassen.
 - Modultests greifen i.A. nie auf Datenbank, Dateisystem oder Web Services zu.
-- Test Klassen sollten keine Objektvariablen besitzen. Statt dessen sollten benötigte Objekte immer neu mit
-  passenden **create** Methoden erzeugt werden. Eine Verwendung eines allgemeingültigen Testsetup für alle Methoden
-  ist nicht sinnvoll, da hierdurch schnell die Übersicht verloren geht und auch die einzelnen Tests nicht mehr unabhängig 
-  geändert werden können.
 - Häufig verwendete Eingangsparameter sollten als Konstanten definiert werden. 
 - Tests nutzen die selben Kodierungsrichtlinien wie normale Klassen.
 
