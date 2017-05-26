@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Integer utilities.
@@ -49,26 +48,29 @@ public final class Integers {
         Scanner scanner = new Scanner(System.in, "UTF-8");
         while (true) {
             try {
-                System.out.format(format, args);
-                if (!StringUtils.endsWith(format, "\n")) {
-                    System.out.println();
-                }
+                print(format, args);
                 if (scanner.hasNextInt()) {
                     return scanner.nextInt();
                 }
                 else {
                     String notAccepted = scanner.next();
-                    System.out.format("Der Text '%s' kann nicht in einen Integer umgewandelt werden, bitte nochmal versuchen\n",
-                            notAccepted);
+                    print(notAccepted);
                 }
             }
             catch (InputMismatchException exception) {
-                System.out.format("Der Text kann nicht in einen Integer umgewandelt werden, bitte nochmal versuchen: %s\n",
-                        exception.getMessage());
+                print(exception.getMessage());
             }
         }
     }
 
+    private static void print(final Object object) {
+        print("Der Text kann nicht in einen Integer umgewandelt werden, bitte nochmal versuchen: %s%n", object);
+    }
+
+    @SuppressWarnings("PMD.SystemPrintln")
+    private static void print(final String format, final Object... args) {
+        System.out.format(format, args);
+    }
 
     private Integers() {
         // prevents instantiation
