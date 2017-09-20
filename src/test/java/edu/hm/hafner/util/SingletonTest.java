@@ -2,7 +2,7 @@ package edu.hm.hafner.util;
 
 import javax.annotation.CheckForNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

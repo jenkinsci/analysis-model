@@ -1,6 +1,6 @@
 package edu.hm.hafner.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -20,7 +20,8 @@ public abstract class AbstractEqualsTest {
     /**
      * Verifies that for any non-null reference value {@code x}, {@code x.equals(null)} should return {@code false}.
      */
-    @Test @SuppressWarnings({"PMD.EqualsNull", "checkstyle:equalsavoidnull"})
+    @Test
+    @SuppressWarnings({"PMD.EqualsNull", "checkstyle:equalsavoidnull"})
     public void shouldReturnFalseOnEqualsNull() {
         assertThat(createSut().equals(null)).isFalse();
     }

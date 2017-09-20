@@ -1,6 +1,7 @@
 package edu.hm.hafner.util;
 
 import javax.annotation.CheckForNull;
+import java.util.Collection;
 import java.util.Formatter;
 import java.util.List;
 
@@ -9,51 +10,23 @@ import com.google.common.collect.Lists;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Provides several helper methods to validate method arguments and class
- * invariants thus supporting the design by contract concept (DBC).
- * <p>
- * Note: the static methods provided by this class use a fluent interface, i.e.,
- * in order to verify an assertion a method sequence needs to be called.
- * </p>
- * Available checks:
- * <ul>
- * <li>Boolean assertions, e.g.,
- * {@code
- *   Ensure.that(condition).isTrue();
- * }
- * </li>
- * <li>String assertions, e.g.,
- * {@code
- *   Ensure.that(string).isNotEmpty();
- * }
- * </li>
- * <li>Object assertions, e.g.,
- * {@code
- *   Ensure.that(element).isNotNull();
- * }
- * </li>
- * <li>Array assertions, e.g.,
- * {@code
- *   Ensure.that(array).isNotEmpty();
- * }
- * </li>
- * <li>Iterable assertions, e.g.,
- * {@code
- *   Ensure.that(collection).isNotNull();
- * }
- * </li>
- * </ul>
+ * Provides several helper methods to validate method arguments and class invariants thus supporting the design by
+ * contract concept (DBC). <p> Note: the static methods provided by this class use a fluent interface, i.e., in order to
+ * verify an assertion a method sequence needs to be called. </p> Available checks: <ul> <li>Boolean assertions, e.g.,
+ * {@code Ensure.that(condition).isTrue(); } </li> <li>String assertions, e.g., {@code Ensure.that(string).isNotEmpty();
+ * } </li> <li>Object assertions, e.g., {@code Ensure.that(element).isNotNull(); } </li> <li>Array assertions, e.g.,
+ * {@code Ensure.that(array).isNotEmpty(); } </li> <li>Iterable assertions, e.g., {@code
+ * Ensure.that(collection).isNotNull(); } </li> </ul>
  *
- * @see <a href="http://en.wikipedia.org/wiki/Design_by_contract"> Design by Contract (Wikipedia)</a>
  * @author Ullrich Hafner
+ * @see <a href="http://en.wikipedia.org/wiki/Design_by_contract"> Design by Contract (Wikipedia)</a>
  */
 @SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "ConstantConditions"})
 public final class Ensure {
     /**
      * Returns a boolean condition.
      *
-     * @param value
-     *            the value to check
+     * @param value the value to check
      * @return a boolean condition
      */
     @SuppressWarnings("BooleanParameter")
@@ -64,10 +37,8 @@ public final class Ensure {
     /**
      * Returns an object condition.
      *
-     * @param value
-     *            the value to check
-     * @param additionalValues
-     *            the additional values to check
+     * @param value            the value to check
+     * @param additionalValues the additional values to check
      * @return an object condition
      */
     public static ObjectCondition that(@CheckForNull final Object value, @CheckForNull final Object... additionalValues) {
@@ -77,8 +48,7 @@ public final class Ensure {
     /**
      * Returns an iterable condition.
      *
-     * @param value
-     *            the value to check
+     * @param value the value to check
      * @return an iterable condition
      */
     public static IterableCondition that(@CheckForNull final Iterable<?> value) {
@@ -86,10 +56,19 @@ public final class Ensure {
     }
 
     /**
+     * Returns a collection condition.
+     *
+     * @param value the value to check
+     * @return a collection condition
+     */
+    public static CollectionCondition that(@CheckForNull final Collection<?> value) {
+        return new CollectionCondition(value);
+    }
+
+    /**
      * Returns an array condition.
      *
-     * @param value
-     *            the value to check
+     * @param value the value to check
      * @return an array condition
      */
     public static ArrayCondition that(@CheckForNull final Object[] value) {
@@ -99,8 +78,7 @@ public final class Ensure {
     /**
      * Returns a string condition.
      *
-     * @param value
-     *            the value to check
+     * @param value the value to check
      * @return a string condition
      */
     public static StringCondition that(@CheckForNull final String value) {
@@ -110,8 +88,7 @@ public final class Ensure {
     /**
      * Returns an exception condition.
      *
-     * @param value
-     *            the value to check
+     * @param value the value to check
      * @return an exception condition
      */
     public static ExceptionCondition that(@CheckForNull final Throwable value) {
@@ -121,9 +98,8 @@ public final class Ensure {
     /**
      * Always throws an {@link AssertionError}.
      *
+     * @param <T> return type
      * @return nothing since an {@link AssertionError} is thrown
-     * @param <T>
-     *            return type
      */
     public static <T> T thatStatementIsNeverReached() {
         throwException("This statement should never be reached.");
@@ -134,16 +110,12 @@ public final class Ensure {
     /**
      * Always throws an {@link AssertionError}.
      *
-     * @param explanation
-     *            a {@link Formatter formatted message} explaining the assertion
-     * @param args
-     *            Arguments referenced by the format specifiers in the formatted
-     *            explanation. If there are more arguments than format
-     *            specifiers, the extra arguments are ignored. The number of
-     *            arguments is variable and may be zero.
+     * @param explanation a {@link Formatter formatted message} explaining the assertion
+     * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are more
+     *                    arguments than format specifiers, the extra arguments are ignored. The number of arguments is
+     *                    variable and may be zero.
+     * @param <T>         return type
      * @return nothing since an {@link AssertionError} is thrown
-     * @param <T>
-     *            return type
      */
     public static <T> T thatStatementIsNeverReached(final String explanation, final Object... args) {
         throwException(explanation, args);
@@ -152,38 +124,26 @@ public final class Ensure {
     }
 
     /**
-     * Throws an {@link AssertionError} with the specified detail
-     * message.
+     * Throws an {@link AssertionError} with the specified detail message.
      *
-     * @param message
-     *            a {@link Formatter formatted message} with the description of
-     *            the error
-     * @param args
-     *            Arguments referenced by the format specifiers in the formatted
-     *            message. If there are more arguments than format specifiers,
-     *            the extra arguments are ignored. The number of arguments is
-     *            variable and may be zero.
-     * @exception AssertionError
-     *                always thrown
+     * @param message a {@link Formatter formatted message} with the description of the error
+     * @param args    Arguments referenced by the format specifiers in the formatted message. If there are more
+     *                arguments than format specifiers, the extra arguments are ignored. The number of arguments is
+     *                variable and may be zero.
+     * @throws AssertionError always thrown
      */
     private static void throwException(final String message, final Object... args) {
         throw new AssertionError(String.format(message, args));
     }
 
     /**
-     * Throws a {@link NullPointerException} with the specified detail
-     * message.
+     * Throws a {@link NullPointerException} with the specified detail message.
      *
-     * @param message
-     *            a {@link Formatter formatted message} with the description of
-     *            the error
-     * @param args
-     *            Arguments referenced by the format specifiers in the formatted
-     *            message. If there are more arguments than format specifiers,
-     *            the extra arguments are ignored. The number of arguments is
-     *            variable and may be zero.
-     * @exception AssertionError
-     *                always thrown
+     * @param message a {@link Formatter formatted message} with the description of the error
+     * @param args    Arguments referenced by the format specifiers in the formatted message. If there are more
+     *                arguments than format specifiers, the extra arguments are ignored. The number of arguments is
+     *                variable and may be zero.
+     * @throws AssertionError always thrown
      */
     private static void throwNullPointerException(final String message, final Object... args) {
         throw new NullPointerException(String.format(message, args)); // NOPMD
@@ -202,8 +162,7 @@ public final class Ensure {
         /**
          * Creates a new instance of {@code IterableCondition}.
          *
-         * @param value
-         *            value of the condition
+         * @param value value of the condition
          */
         public IterableCondition(@CheckForNull final Iterable<?> value) {
             super(value);
@@ -212,34 +171,26 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given iterable is not {@code null} and contains
-         * at least one element. Additionally, ensures that each element of the
-         * iterable is not {@code null}.
+         * Ensures that the given iterable is not {@code null} and contains at least one element. Additionally, ensures
+         * that each element of the iterable is not {@code null}.
          *
-         * @throws AssertionError
-         *             if the iterable is empty (or {@code null}), or at least
-         *             one iterable element is {@code null}.
+         * @throws AssertionError if the iterable is empty (or {@code null}), or at least one iterable element is {@code
+         *                        null}.
          */
         public void isNotEmpty() {
             isNotEmpty("Iterable is empty or NULL");
         }
 
         /**
-         * Ensures that the given iterable is not {@code null} and contains
-         * at least one element. Additionally, ensures that each element of the
-         * iterable is not {@code null}.
+         * Ensures that the given iterable is not {@code null} and contains at least one element. Additionally, ensures
+         * that each element of the iterable is not {@code null}.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than format
-         *            specifiers, the extra arguments are ignored. The number of
-         *            arguments is variable and may be zero.
-         * @throws AssertionError
-         *             if the iterable is empty (or {@code null}), or at
-         *             least one iterable element is {@code null}.
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the iterable is empty (or {@code null}), or at least one iterable element is {@code
+         *                        null}.
          */
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
@@ -258,6 +209,82 @@ public final class Ensure {
     }
 
     /**
+     * Assertions for iterables.
+     */
+    public static class CollectionCondition extends IterableCondition {
+        private final Collection<?> value;
+
+        /**
+         * Creates a new instance of {@code CollectionCondition}.
+         *
+         * @param value value of the condition
+         */
+        public CollectionCondition(@CheckForNull final Collection<?> value) {
+            super(value);
+
+            this.value = value;
+        }
+
+        /**
+         * Ensures that the given collection is not {@code null} and contains the specified element.
+         *
+         * @param element the element to find
+         * @throws AssertionError if the collection is {@code null} or if the specified element is not found
+         */
+        public void contains(final Object element) {
+            contains(element, "Collection %s does not contain element '%s'", value, element);
+        }
+
+        /**
+         * Ensures that the given collection is not {@code null} and contains the specified element.
+         *
+         * @param element     the element to find
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the collection is {@code null} or if the specified element is not found
+         */
+        public void contains(final Object element, final String explanation, final Object... args) {
+            isNotNull(explanation, args);
+
+            if (!value.contains(element)) {
+                throwException(explanation, args);
+            }
+        }
+
+        /**
+         * Ensures that the given collection is not {@code null} and does not contain the specified element.
+         *
+         * @param element the element that must not be in the collection
+         * @throws AssertionError if the collection is {@code null} or if the specified element is part of the
+         *                        collection
+         */
+        public void doesNotContain(final Object element) {
+            doesNotContain(element, "Collection %s contains element '%s", value, element);
+        }
+
+        /**
+         * Ensures that the given collection is not {@code null} and does not contain the specified element.
+         *
+         * @param element     the element that must not be in the collection
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the collection is {@code null} or if the specified element is part of the
+         *                        collection
+         */
+        public void doesNotContain(final Object element, final String explanation, final Object... args) {
+            isNotNull(explanation, args);
+
+            if (value.contains(element)) {
+                throwException(explanation, args);
+            }
+        }
+    }
+
+    /**
      * Assertions for arrays.
      */
     public static class ArrayCondition extends ObjectCondition {
@@ -266,8 +293,7 @@ public final class Ensure {
         /**
          * Creates a new instance of {@link IterableCondition}.
          *
-         * @param values
-         *            value of the condition
+         * @param values value of the condition
          */
         @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
         @SuppressFBWarnings("EI2")
@@ -278,34 +304,26 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given array is not {@code null} and contains
-         * at least one element. Additionally, ensures that each element of the
-         * array is not {@code null}.
+         * Ensures that the given array is not {@code null} and contains at least one element. Additionally, ensures
+         * that each element of the array is not {@code null}.
          *
-         * @throws AssertionError
-         *             if the array is empty (or {@code null}), or at least
-         *             one array element is {@code null}.
+         * @throws AssertionError if the array is empty (or {@code null}), or at least one array element is {@code
+         *                        null}.
          */
         public void isNotEmpty() {
             isNotEmpty("Array is empty or NULL");
         }
 
         /**
-         * Ensures that the given array is not {@code null} and contains
-         * at least one element. Additionally, ensures that each element of the
-         * array is not {@code null}.
+         * Ensures that the given array is not {@code null} and contains at least one element. Additionally, ensures
+         * that each element of the array is not {@code null}.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than format
-         *            specifiers, the extra arguments are ignored. The number of
-         *            arguments is variable and may be zero.
-         * @throws AssertionError
-         *             if the array is empty (or {@code null}), or at least
-         *             one array element is {@code null}.
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the array is empty (or {@code null}), or at least one array element is {@code
+         *                        null}.
          */
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
@@ -332,8 +350,7 @@ public final class Ensure {
         /**
          * Creates a new instance of {@code StringCondition}.
          *
-         * @param value
-         *            value of the condition
+         * @param value value of the condition
          */
         public StringCondition(@CheckForNull final String value) {
             super(value);
@@ -342,30 +359,22 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given string is not {@code null} and contains
-         * at least one character.
+         * Ensures that the given string is not {@code null} and contains at least one character.
          *
-         * @throws AssertionError
-         *             if the string is empty (or {@code null})
+         * @throws AssertionError if the string is empty (or {@code null})
          */
         public void isNotEmpty() {
             isNotEmpty("The string is empty or NULL");
         }
 
         /**
-         * Ensures that the given string is not {@code null} and contains
-         * at least one character.
+         * Ensures that the given string is not {@code null} and contains at least one character.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than format
-         *            specifiers, the extra arguments are ignored. The number of
-         *            arguments is variable and may be zero.
-         * @throws AssertionError
-         *             if the string is empty (or {@code null})
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the string is empty (or {@code null})
          */
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
@@ -376,30 +385,22 @@ public final class Ensure {
         }
 
         /**
-         * Ensures that the given string is not {@code null} and contains
-         * at least one non-whitespace character.
+         * Ensures that the given string is not {@code null} and contains at least one non-whitespace character.
          *
-         * @throws AssertionError
-         *             if the string is empty (or {@code null})
+         * @throws AssertionError if the string is empty (or {@code null})
          */
         public void isNotBlank() {
             isNotBlank("The string is blank");
         }
 
         /**
-         * Ensures that the given string is not {@code null} and contains
-         * at least one non-whitespace character.
+         * Ensures that the given string is not {@code null} and contains at least one non-whitespace character.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than format
-         *            specifiers, the extra arguments are ignored. The number of
-         *            arguments is variable and may be zero.
-         * @throws AssertionError
-         *             if the string is empty (or {@code null})
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the string is empty (or {@code null})
          */
         public void isNotBlank(final String explanation, final Object... args) {
             isNotNull();
@@ -432,8 +433,7 @@ public final class Ensure {
         /**
          * Creates a new instance of {@code ObjectCondition}.
          *
-         * @param value
-         *            value of the condition
+         * @param value value of the condition
          */
         public ObjectCondition(@CheckForNull final Object value) {
             this(value, new Object[0]);
@@ -442,10 +442,8 @@ public final class Ensure {
         /**
          * Creates a new instance of {@code ObjectCondition}.
          *
-         * @param value
-         *            value of the condition
-         * @param additionalValues
-         *            additional values of the condition
+         * @param value            value of the condition
+         * @param additionalValues additional values of the condition
          */
         @SuppressFBWarnings("EI2")
         @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
@@ -457,8 +455,7 @@ public final class Ensure {
         /**
          * Ensures that the given object is not {@code null}.
          *
-         * @throws AssertionError
-         *             if the object is {@code null}
+         * @throws AssertionError if the object is {@code null}
          */
         public void isNotNull() {
             isNotNull("Object is NULL");
@@ -467,16 +464,11 @@ public final class Ensure {
         /**
          * Ensures that the given object is not {@code null}.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than format
-         *            specifiers, the extra arguments are ignored. The number of
-         *            arguments is variable and may be zero.
-         * @throws AssertionError
-         *             if the object is {@code null}
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the object is {@code null}
          */
         public void isNotNull(final String explanation, final Object... args) {
             if (value == null) {
@@ -492,8 +484,7 @@ public final class Ensure {
         /**
          * Ensures that the given object is {@code null}.
          *
-         * @throws AssertionError
-         *             if the object is not {@code null}
+         * @throws AssertionError if the object is not {@code null}
          */
         public void isNull() {
             isNull("Object is not NULL");
@@ -502,16 +493,11 @@ public final class Ensure {
         /**
          * Ensures that the given object is {@code null}.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than format
-         *            specifiers, the extra arguments are ignored. The number of
-         *            arguments is variable and may be zero.
-         * @throws AssertionError
-         *             if the object is not {@code null}
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the object is not {@code null}
          */
         @SuppressWarnings("VariableNotUsedInsideIf")
         public void isNull(final String explanation, final Object... args) {
@@ -523,13 +509,9 @@ public final class Ensure {
         /**
          * Ensures that the given object is an instance of one of the specified types.
          *
-         * @param type
-         *            the type to check the specified object for
-         * @param additionalTypes
-         *            the additional types to check the specified object for
-         * @throws AssertionError
-         *             the specified object is not an instance of the given type (or
-         *             {@code null})
+         * @param type            the type to check the specified object for
+         * @param additionalTypes the additional types to check the specified object for
+         * @throws AssertionError the specified object is not an instance of the given type (or {@code null})
          */
         public void isInstanceOf(final Class<?> type, final Class<?>... additionalTypes) {
             isNotNull();
@@ -546,19 +528,12 @@ public final class Ensure {
         /**
          * Ensures that the given object is an instance of the specified type.
          *
-         * @param type
-         *            the type to check the specified object for
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than format
-         *            specifiers, the extra arguments are ignored. The number of
-         *            arguments is variable and may be zero.
-         * @throws AssertionError
-         *             the specified object is not an instance of the given type (or
-         *             {@code null})
+         * @param type        the type to check the specified object for
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError the specified object is not an instance of the given type (or {@code null})
          */
         public void isInstanceOf(final Class<?> type, final String explanation, final Object... args) {
             isNotNull(explanation);
@@ -580,8 +555,7 @@ public final class Ensure {
         /**
          * Creates a new instance of {@code BooleanCondition}.
          *
-         * @param value
-         *            value of the condition
+         * @param value value of the condition
          */
         @SuppressWarnings("BooleanParameter")
         public BooleanCondition(final boolean value) {
@@ -591,16 +565,11 @@ public final class Ensure {
         /**
          * Ensures that the given condition is {@code false}.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than
-         *            format specifiers, the extra arguments are ignored. The
-         *            number of arguments is variable and may be zero.
-         * @throws AssertionError
-         *             if the condition is {@code true}
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the condition is {@code true}
          */
         public void isFalse(final String explanation, final Object... args) {
             if (value) {
@@ -611,8 +580,7 @@ public final class Ensure {
         /**
          * Ensures that the given condition is {@code false}.
          *
-         * @throws AssertionError
-         *             if the condition is {@code true}
+         * @throws AssertionError if the condition is {@code true}
          */
         public void isFalse() {
             isFalse("Value is not FALSE");
@@ -621,16 +589,11 @@ public final class Ensure {
         /**
          * Ensures that the given condition is {@code true}.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than format
-         *            specifiers, the extra arguments are ignored. The number of
-         *            arguments is variable and may be zero.
-         * @throws AssertionError
-         *             if the condition is {@code false}
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @throws AssertionError if the condition is {@code false}
          */
         public void isTrue(final String explanation, final Object... args) {
             if (!value) {
@@ -641,8 +604,7 @@ public final class Ensure {
         /**
          * Ensures that the given condition is {@code true}.
          *
-         * @throws AssertionError
-         *             if the condition is {@code false}
+         * @throws AssertionError if the condition is {@code false}
          */
         public void isTrue() {
             isTrue("Value is not TRUE");
@@ -659,30 +621,22 @@ public final class Ensure {
         /**
          * Creates a new instance of {@link BooleanCondition}.
          *
-         * @param value
-         *            value of the condition
+         * @param value value of the condition
          */
         public ExceptionCondition(@CheckForNull final Throwable value) {
             this.value = value;
         }
 
         /**
-         * Ensures that the exception is never thrown. I.e., this method will
-         * always throw an {@link AssertionError}.
+         * Ensures that the exception is never thrown. I.e., this method will always throw an {@link AssertionError}.
          *
-         * @param explanation
-         *            a {@link Formatter formatted message} explaining the
-         *            assertion
-         * @param args
-         *            Arguments referenced by the format specifiers in the
-         *            formatted explanation. If there are more arguments than
-         *            format specifiers, the extra arguments are ignored. The
-         *            number of arguments is variable and may be zero.
-         * @throws AssertionError
-         *             always thrown
+         * @param explanation a {@link Formatter formatted message} explaining the assertion
+         * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
+         *                    more arguments than format specifiers, the extra arguments are ignored. The number of
+         *                    arguments is variable and may be zero.
+         * @param <T>         return type
          * @return nothing since an {@link AssertionError} is thrown
-         * @param <T>
-         *            return type
+         * @throws AssertionError always thrown
          */
         public <T> T isNeverThrown(final String explanation, final Object... args) {
             throw new AssertionError(String.format(explanation, args), value);
