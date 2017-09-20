@@ -23,7 +23,6 @@
     <module name="PackageAnnotation"/>
     <module name="EqualsAvoidNull"/>
     <module name="GenericWhitespace"/>
-    <module name="FileContentsHolder"/>
     <module name="JavadocType"/>
     <module name="JavadocMethod">
       <property name="scope" value="protected"/>
@@ -149,17 +148,4 @@
     <property name="fileExtensions" value="jelly, java"/>
   </module>
   <module name="SuppressWarningsFilter" />
-  <module name="SuppressionCommentFilter">
-    <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="Coupling Checks"/>
-    <property name="offCommentFormat" value="CHECKSTYLE\:COUPLING-OFF"/>
-    <property name="onCommentFormat" value="CHECKSTYLE\:COUPLING-ON"/>
-    <property name="checkFormat" value=".*(Coupling|Complexity)"/>
-  </module>
-  <module name="SuppressionCommentFilter">
-    <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="All Checks"/>
-  </module>
-  <module name="SuppressWithNearbyCommentFilter">
-    <property name="commentFormat" value="NOCHECKSTYLE"/>
-    <property name="checkFormat" value=".*"/>
-  </module>
 </module>

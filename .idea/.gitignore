@@ -1,1 +1,6 @@
-workspace.xml
+*.xml
+!checkstyle-idea.xml
+!codeStyleSettings.xml
+
+libraries
+scopes
