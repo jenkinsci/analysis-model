@@ -261,7 +261,7 @@ public final class Ensure {
          *                        collection
          */
         public void doesNotContain(final Object element) {
-            doesNotContain(element, "Collection %s contains element '%s", value, element);
+            doesNotContain(element, "Collection '%s' contains element '%s'", value, element);
         }
 
         /**

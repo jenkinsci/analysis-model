@@ -1,5 +1,6 @@
 package edu.hm.hafner.util;
 
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
