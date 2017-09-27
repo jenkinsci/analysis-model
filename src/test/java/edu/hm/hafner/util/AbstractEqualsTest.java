@@ -21,8 +21,7 @@ public abstract class AbstractEqualsTest {
     /**
      * Verifies that for any non-null reference value {@code x}, {@code x.equals(null)} should return {@code false}.
      */
-    @Test
-    @SuppressWarnings({"PMD.EqualsNull", "checkstyle:equalsavoidnull"})
+    @Test @SuppressWarnings({"PMD.EqualsNull", "checkstyle:equalsavoidnull", "ObjectEqualsNull"})
     public void shouldReturnFalseOnEqualsNull() {
         assertThat(createSut().equals(null)).isFalse();
     }
@@ -31,7 +30,7 @@ public abstract class AbstractEqualsTest {
      * Verifies that equals is <i>reflexive</i>: for any non-null reference value {@code x}, {@code x.equals(x)} should
      * return {@code true}.
      */
-    @Test
+    @Test @SuppressWarnings("EqualsWithItself")
     public void shouldReturnTrueOnEqualsThis() {
         Object sut = createSut();
 

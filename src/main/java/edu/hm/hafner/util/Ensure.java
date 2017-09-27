@@ -97,14 +97,9 @@ public final class Ensure {
 
     /**
      * Always throws an {@link AssertionError}.
-     *
-     * @param <T> return type
-     * @return nothing since an {@link AssertionError} is thrown
      */
-    public static <T> T thatStatementIsNeverReached() {
+    public static void thatStatementIsNeverReached() {
         throwException("This statement should never be reached.");
-
-        return null;
     }
 
     /**
@@ -114,13 +109,9 @@ public final class Ensure {
      * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are more
      *                    arguments than format specifiers, the extra arguments are ignored. The number of arguments is
      *                    variable and may be zero.
-     * @param <T>         return type
-     * @return nothing since an {@link AssertionError} is thrown
      */
-    public static <T> T thatStatementIsNeverReached(final String explanation, final Object... args) {
+    public static void thatStatementIsNeverReached(final String explanation, final Object... args) {
         throwException(explanation, args);
-
-        return null;
     }
 
     /**
@@ -634,11 +625,9 @@ public final class Ensure {
          * @param args        Arguments referenced by the format specifiers in the formatted explanation. If there are
          *                    more arguments than format specifiers, the extra arguments are ignored. The number of
          *                    arguments is variable and may be zero.
-         * @param <T>         return type
-         * @return nothing since an {@link AssertionError} is thrown
          * @throws AssertionError always thrown
          */
-        public <T> T isNeverThrown(final String explanation, final Object... args) {
+        public void isNeverThrown(final String explanation, final Object... args) {
             throw new AssertionError(String.format(explanation, args), value);
         }
     }

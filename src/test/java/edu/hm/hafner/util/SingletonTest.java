@@ -1,7 +1,5 @@
 package edu.hm.hafner.util;
 
-import javax.annotation.CheckForNull;
-
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Lists;
@@ -68,18 +66,18 @@ public class SingletonTest {
     @SuppressWarnings({"NullArgumentToVariableArgMethod", "ConstantConditions"})
     public void shouldThrowExceptionWhenCollectionIsNullOrContainsNull() {
         assertThatThrownBy(() -> {
-            Singleton.get(asSet(null));
+            Singleton.get(Sets.newHashSet(new Object[] {null}));
         }).isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> {
             Singleton.get(null);
         }).isInstanceOf(NullPointerException.class);
     }
 
-    private Iterable<Object> asSet(@CheckForNull final Object... elements) {
+    private Iterable<Object> asSet(final Object... elements) {
         return Sets.newHashSet(elements);
     }
 
-    private Iterable<Object> asList(@CheckForNull final Object... elements) {
+    private Iterable<Object> asList(final Object... elements) {
         return Lists.newArrayList(elements);
     }
 }
