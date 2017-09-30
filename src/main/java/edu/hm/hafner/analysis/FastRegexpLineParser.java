@@ -1,10 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.io.Reader;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
-
 /**
  * Parses an input stream line by line for compiler warnings using the provided regular expression. Multi-line regular
  * expressions are not supported, each warning has to be one a single line. A parser must implement some fast checks
@@ -13,8 +8,6 @@ import org.apache.commons.io.LineIterator;
  * @author Ullrich Hafner
  */
 public abstract class FastRegexpLineParser extends RegexpLineParser {
-    private int currentLine = 0;
-
     /**
      * Creates a new instance of {@link FastRegexpLineParser}.
      *
@@ -26,34 +19,10 @@ public abstract class FastRegexpLineParser extends RegexpLineParser {
     }
 
     @Override
-    public Issues parse(final Reader reader) throws ParsingCanceledException {
-        Issues issues = new Issues();
-        LineIterator iterator = IOUtils.lineIterator(reader);
-        try {
-            currentLine = 0;
-            while (iterator.hasNext()) {
-                String line = processLine(iterator.nextLine());
-                if (isLineInteresting(line)) {
-                    findAnnotations(line, issues);
-                }
-                currentLine++;
-            }
+    protected void findAnnotations(final String content, final Issues issues) throws ParsingCanceledException {
+        if (isLineInteresting(content)) {
+            super.findAnnotations(content, issues);
         }
-        finally {
-            iterator.close();
-        }
-
-        return postProcessWarnings(issues);
-    }
-
-    /**
-     * Returns the number of the current line in the parsed file.
-     *
-     * @return the current line
-     */
-    @Override
-    public int getCurrentLine() {
-        return currentLine;
     }
 
     /**

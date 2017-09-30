@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Functions;
@@ -30,8 +31,7 @@ public abstract class AbstractWarningsParser implements Serializable {
 
     private final String id;
 
-    // FIXME: must be serializable?
-    private Function<String, String> transformer = Functions.identity();
+    private transient Function<String, String> transformer;
 
     /**
      * Creates a new instance of {@link AbstractWarningsParser}.
@@ -147,12 +147,7 @@ public abstract class AbstractWarningsParser implements Serializable {
      * @return the transformer to use
      */
     public Function<String, String> getTransformer() {
-        return transformer;
-    }
-
-    @CheckReturnValue
-    protected String processLine(final String nextLine) {
-        return transformer.apply(nextLine);
+        return ObjectUtils.defaultIfNull(transformer, Functions.identity());
     }
 
     /**

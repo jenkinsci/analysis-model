@@ -33,7 +33,8 @@ public abstract class RegexpLineParser extends RegexpParser {
         try {
             currentLine = 0;
             while (iterator.hasNext()) {
-                findAnnotations(processLine(iterator.nextLine()), issues);
+                String line = getTransformer().apply(iterator.nextLine());
+                findAnnotations(line, issues);
                 currentLine++;
             }
         }
