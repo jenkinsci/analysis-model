@@ -1,11 +1,13 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckReturnValue;
-import java.io.IOException;
 import java.io.Reader;
 import java.io.Serializable;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.base.Functions;
 
 import edu.hm.hafner.util.Ensure;
 
@@ -14,7 +16,6 @@ import edu.hm.hafner.util.Ensure;
  * expression you can extend from the existing base classes {@link RegexpLineParser} or {@link RegexpDocumentParser}.
  *
  * @author Ullrich Hafner
- *
  * @see RegexpLineParser
  * @see RegexpDocumentParser
  * @see edu.hm.hafner.analysis.parser.CppLintParser
@@ -28,7 +29,9 @@ public abstract class AbstractWarningsParser implements Serializable {
     public static final String PROPRIETARY_API = "Proprietary API";
 
     private final String id;
-    private PostProcessor postProcessor = new NullPostProcessor();
+
+    // FIXME: must be serializable
+    private Function<String, String> transformer = Functions.identity();
 
     /**
      * Creates a new instance of {@link AbstractWarningsParser}.
@@ -40,18 +43,18 @@ public abstract class AbstractWarningsParser implements Serializable {
     }
 
     /**
-     * Parses the specified input stream for issues. Note that the implementor of this method must not close the given
-     * reader, this is done by the framework. FIXME: close is not done by framework?
+     * Parses the specified input stream for issues.
      *
      * @param reader the reader to get the text from
      * @return the parsed issues
+     * @throws ParsingException         Signals that during parsing a non recoverable error has been occurred
      * @throws ParsingCanceledException Signals that the parsing has been aborted by the user
      */
-    public abstract Issues parse(final Reader reader) throws IOException;
+    public abstract Issues parse(Reader reader) throws ParsingCanceledException, ParsingException;
 
     @Override
     public String toString() {
-        return String.format("s (%s)", getId(), getClass().getSimpleName());
+        return String.format("%s (%s)", getId(), getClass().getSimpleName());
     }
 
     /**
@@ -86,7 +89,7 @@ public abstract class AbstractWarningsParser implements Serializable {
             try {
                 return Integer.parseInt(lineNumber);
             }
-            catch (NumberFormatException exception) {
+            catch (NumberFormatException ignored) {
                 // ignore and return 0
             }
         }
@@ -125,15 +128,19 @@ public abstract class AbstractWarningsParser implements Serializable {
         return category;
     }
 
-    public void setPostProcessor(final PostProcessor postProcessor) {
-        Ensure.that(postProcessor).isNotNull();
+    public void setTransformer(final Function<String, String> transformer) {
+        Ensure.that(transformer).isNotNull();
 
-        this.postProcessor = postProcessor;
+        this.transformer = transformer;
+    }
+
+    public Function<String, String> getTransformer() {
+        return transformer;
     }
 
     @CheckReturnValue
     protected String processLine(final String nextLine) {
-        return postProcessor.processLine(nextLine);
+        return transformer.apply(nextLine);
     }
 
     @CheckReturnValue

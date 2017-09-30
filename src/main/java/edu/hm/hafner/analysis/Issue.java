@@ -28,14 +28,6 @@ public class Issue {
     private final int columnEnd;
     private final UUID uuid;
 
-    /** The name of the module that contains this issue. */
-    private String moduleName;
-    /**
-     * Finger print of this issue. Used to decide if two issues are equal even if the equals method returns {@code
-     * false} since some of the properties differ due to code refactorings.
-     */
-    private String fingerprint;
-
     /**
      * Creates a new instance of {@link Issue} using the specified properties.
      *
@@ -51,8 +43,10 @@ public class Issue {
      * @param message     the detail message of this issue
      * @param description the description for this issue
      */
-    Issue(final String fileName, final int lineStart, final int lineEnd, final int columnStart, final int columnEnd, final String category,
-                 final String type, final String packageName, final Priority priority, final String message, final String description) {
+    @SuppressWarnings("ParameterNumber")
+    Issue(final String fileName, final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
+          final String category, final String type, final String packageName, final Priority priority,
+          final String message, final String description) {
         this.fileName = StringUtils.replace(StringUtils.strip(fileName), "\\", "/");
         this.lineStart = lineStart;
         this.lineEnd = lineEnd;
@@ -68,60 +62,115 @@ public class Issue {
         uuid = UUID.randomUUID();
     }
 
-    public final UUID getUuid() {
+    /**
+     * Returns the unique ID of this issue.
+     *
+     * @return the unique ID
+     */
+    public final UUID getId() {
         return uuid;
     }
 
+    /**
+     * Returns the name of the file that contains this issue.
+     *
+     * @return the name of the file that contains this issue
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * Returns the category of this issue (depends on the available categories of the static analysis tool). Examples
+     * for categories are "Deprecation", "Design", or "JavaDoc".
+     *
+     * @return the category
+     */
     public String getCategory() {
         return category;
     }
 
+    /**
+     * Returns the type of this issue (depends on the available types of the static analysis tool). The type typically
+     * is the associated rule of the static analysis tool that reported this issue.
+     *
+     * @return the type
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Returns the priority of this issue.
+     *
+     * @return the priority
+     */
     public Priority getPriority() {
         return priority;
     }
 
+    /**
+     * Returns the detailed message for this issue.
+     *
+     * @return the message
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Returns an additional description for this issue. Static analysis tools might provide some additional information
+     * about this issue. This description may contain valid HTML.
+     *
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Returns the first line of this issue (lines start at 1; 0 indicates the whole file).
+     *
+     * @return the first line
+     */
     public int getLineStart() {
         return lineStart;
     }
 
+    /**
+     * Returns the last line of this issue (lines start at 1).
+     *
+     * @return the last line
+     */
     public int getLineEnd() {
         return lineStart;
     }
 
+    /**
+     * Returns the first column of this issue (columns start at 1, 0 indicates the whole line).
+     *
+     * @return the first column
+     */
     public int getColumnStart() {
         return columnStart;
     }
 
+    /**
+     * Returns the last column of this issue (columns start at 1).
+     *
+     * @return the last column
+     */
     public int getColumnEnd() {
         return columnEnd;
     }
 
-    public String getModuleName() {
-        return moduleName;
-    }
-
+    /**
+     * Returns the name of the package or name space (or similar concept) that contains this issue.
+     *
+     * @return the package name
+     */
     public String getPackageName() {
         return packageName;
-    }
-
-    public String getFingerprint() {
-        return fingerprint;
     }
 
     @Override
@@ -130,15 +179,16 @@ public class Issue {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    @SuppressWarnings({"all", "PMD"})
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        Issue issue = (Issue) o;
+        Issue issue = (Issue) obj;
 
         if (lineStart != issue.lineStart) {
             return false;
@@ -173,10 +223,11 @@ public class Issue {
         if (packageName != null ? !packageName.equals(issue.packageName) : issue.packageName != null) {
             return false;
         }
-        return moduleName != null ? moduleName.equals(issue.moduleName) : issue.moduleName == null;
+        return true;
     }
 
     @Override
+    @SuppressWarnings({"all", "PMD"})
     public int hashCode() {
         int result = fileName != null ? fileName.hashCode() : 0;
         result = 31 * result + (category != null ? category.hashCode() : 0);
@@ -189,7 +240,6 @@ public class Issue {
         result = 31 * result + lineEnd;
         result = 31 * result + columnStart;
         result = 31 * result + columnEnd;
-        result = 31 * result + (moduleName != null ? moduleName.hashCode() : 0);
         return result;
     }
 }

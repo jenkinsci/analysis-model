@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.stream.Collectors;
 
 /**
  * Parses an input stream as a whole document for compiler warnings using the provided regular expression.
@@ -22,27 +23,24 @@ public abstract class RegexpDocumentParser extends RegexpParser {
      *                       sequence. By default these expressions only match at the beginning and the end of the
      *                       entire input sequence.
      */
-    public RegexpDocumentParser(final String id,
-                                final String warningPattern, final boolean useMultiLine) {
+    protected RegexpDocumentParser(final String id,
+                                   final String warningPattern, final boolean useMultiLine) {
         super(id, warningPattern, useMultiLine);
     }
 
     @Override
-    public Issues parse(final Reader file) throws IOException, ParsingCanceledException {
-        BufferedReader reader = new BufferedReader(file);
-        StringBuilder buf = new StringBuilder();
-        String line = reader.readLine();
-        while (line != null) {
-            buf.append(processLine(line)).append('\n');
-            line = reader.readLine();
+    public Issues parse(final Reader reader) throws ParsingCanceledException {
+        try (BufferedReader bufferedReader = new BufferedReader(reader)) {
+            String text = bufferedReader.lines().map(getTransformer()).collect(Collectors.joining("\n"));
+
+            Issues warnings = new Issues();
+            findAnnotations(text + "\n", warnings);
+            return warnings;
+
+        }
+        catch (IOException e) {
+            throw new ParsingException(e);
         }
 
-        String content = buf.toString();
-
-        file.close();
-
-        Issues warnings = new Issues();
-        findAnnotations(content, warnings);
-        return warnings;
     }
 }

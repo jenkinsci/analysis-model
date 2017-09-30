@@ -3,6 +3,22 @@ package edu.hm.hafner.analysis;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the
+ * builder will be set to their default value.
+ * <p>Example:</p>
+ *
+ * <blockquote><pre>
+ * Issue issue = new IssueBuilder()
+ *                      .setFileName("affected.file")
+ *                      .setLineStart(0)
+ *                      .setCategory("JavaDoc")
+ *                      .setMessage("Missing JavaDoc")
+ *                      .setPriority(Priority.LOW);
+ * </pre></blockquote>
+ * @author Ullrich Hafner
+ */
+@SuppressWarnings("JavadocMethod")
 public class IssueBuilder {
     private static final String UNDEFINED = "-";
 
@@ -73,6 +89,12 @@ public class IssueBuilder {
         return this;
     }
 
+    /**
+     * Initializes this builder with an exact copy of aal properties of the specified issue.
+     *
+     * @param copy the issue to copy the properties from
+     * @return the initialized builder
+     */
     public IssueBuilder copy(final Issue copy) {
         fileName = copy.getFileName();
         lineStart = copy.getLineStart();
@@ -89,6 +111,11 @@ public class IssueBuilder {
         return this;
     }
 
+    /**
+     * Creates a new {@link Issue} based on the specified properties.
+     *
+     * @return the created issue
+     */
     public Issue build() {
         return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type, packageName, priority, message, description);
     }

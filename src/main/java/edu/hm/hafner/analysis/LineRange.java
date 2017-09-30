@@ -85,6 +85,7 @@ public class LineRange implements Iterable<Integer> {
      * @param other the other line
      * @return {@code true} if this range intersects with the specified line, {@code false} otherwise
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean intersects(final LineRange other) {
         return from <= other.values()[other.size() - 1] && to >= other.values()[0];
     }

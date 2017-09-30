@@ -112,7 +112,6 @@
   <rule ref="rulesets/java/optimizations.xml/AvoidArrayLoops"/>
   <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
   <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
-  <rule ref="rulesets/java/optimizations.xml/RedundantFieldInitializer"/>
   <rule ref="rulesets/java/optimizations.xml/PrematureDeclaration"/>
   <rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor"/>
   <rule ref="rulesets/java/controversial.xml/NullAssignment"/>
@@ -153,7 +152,11 @@
   <rule ref="rulesets/java/android.xml/CallSuperFirst"/>
   <rule ref="rulesets/java/android.xml/CallSuperLast"/>
   <rule ref="rulesets/java/android.xml/DoNotHardCodeSDCard"/>
-  <rule ref="rulesets/java/empty.xml/EmptyCatchBlock"/>
+  <rule ref="rulesets/java/empty.xml/EmptyCatchBlock">
+    <properties>
+      <property name="allowCommentedBlocks" value="true"/>
+    </properties>
+  </rule>
   <rule ref="rulesets/java/empty.xml/EmptyIfStmt"/>
   <rule ref="rulesets/java/empty.xml/EmptyWhileStmt"/>
   <rule ref="rulesets/java/empty.xml/EmptyTryBlock"/>
@@ -245,7 +248,6 @@
   <rule ref="rulesets/java/naming.xml/GenericsNaming"/>
   <rule ref="rulesets/java/codesize.xml/NPathComplexity"/>
   <rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength"/>
-  <rule ref="rulesets/java/codesize.xml/ExcessiveParameterList"/>
   <rule ref="rulesets/java/codesize.xml/ExcessiveClassLength"/>
   <rule ref="rulesets/java/codesize.xml/CyclomaticComplexity">
     <properties>

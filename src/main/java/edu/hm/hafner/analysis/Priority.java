@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,7 +36,7 @@ public enum Priority {
      * @return the priorities starting from the specified priority
      */
     public static Collection<Priority> collectPrioritiesFrom(final Priority minimumPriority) {
-        ArrayList<Priority> priorities = new ArrayList<Priority>();
+        List<Priority> priorities = new ArrayList<>();
         priorities.add(Priority.HIGH);
         if (minimumPriority == Priority.NORMAL) {
             priorities.add(Priority.NORMAL);

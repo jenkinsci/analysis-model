@@ -4,5 +4,7 @@
  *
  * @author Ullrich Hafner
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@ParametersAreNonnullByDefault
 package edu.hm.hafner.util;
+
+import javax.annotation.ParametersAreNonnullByDefault;

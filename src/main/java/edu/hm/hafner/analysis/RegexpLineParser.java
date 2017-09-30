@@ -21,7 +21,7 @@ public abstract class RegexpLineParser extends RegexpParser {
      */
     private final boolean isStringMatchActivated;
 
-    private int currentLine;
+    private int currentLine = 0;
 
     /**
      * Creates a new instance of {@link RegexpDocumentParser}.
@@ -31,7 +31,7 @@ public abstract class RegexpLineParser extends RegexpParser {
      * @param isStringMatchActivated determines if a line is checked for a string existence before the regular
      *                               expression is applied
      */
-    public RegexpLineParser(final String id, final String warningPattern, final boolean isStringMatchActivated) {
+    protected RegexpLineParser(final String id, final String warningPattern, final boolean isStringMatchActivated) {
         super(id, warningPattern, false);
 
         this.isStringMatchActivated = isStringMatchActivated;
@@ -43,14 +43,14 @@ public abstract class RegexpLineParser extends RegexpParser {
      * @param id             ID of the parser
      * @param warningPattern pattern of compiler warnings.
      */
-    public RegexpLineParser(final String id, final String warningPattern) {
+    protected RegexpLineParser(final String id, final String warningPattern) {
         this(id, warningPattern, false);
     }
 
     @Override
-    public Issues parse(final Reader file) throws ParsingCanceledException {
+    public Issues parse(final Reader reader) throws ParsingCanceledException {
         Issues issues = new Issues();
-        LineIterator iterator = IOUtils.lineIterator(file);
+        LineIterator iterator = IOUtils.lineIterator(reader);
         try {
             currentLine = 0;
             if (isStringMatchActivated) {
@@ -101,7 +101,7 @@ public abstract class RegexpLineParser extends RegexpParser {
      * if a required condition is met.
      *
      * @param line the line to inspect
-     * @return <code>true</code> if the line should be handed over to the regular expression scanner, <code>false</code>
+     * @return {@code true} if the line should be handed over to the regular expression scanner, {@code false}
      * if the line does not contain a warning.
      */
     protected boolean isLineInteresting(final String line) {
