@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.CheckReturnValue;
 import java.io.Reader;
 import java.io.Serializable;
@@ -73,27 +74,8 @@ public abstract class AbstractWarningsParser implements Serializable {
      * @param lineNumber the line number (as a string)
      * @return the line number
      */
-    protected final int getLineNumber(final String lineNumber) {
-        return convertLineNumber(lineNumber);
-    }
-
-    /**
-     * Converts a string line number to an integer value. If the string is not a valid line number, then 0 is returned
-     * which indicates a Issue at the top of the file.
-     *
-     * @param lineNumber the line number (as a string)
-     * @return the line number
-     */
-    public static int convertLineNumber(final String lineNumber) {
-        if (StringUtils.isNotBlank(lineNumber)) {
-            try {
-                return Integer.parseInt(lineNumber);
-            }
-            catch (NumberFormatException ignored) {
-                // ignore and return 0
-            }
-        }
-        return 0;
+    public int parseInt(@CheckForNull final String lineNumber) {
+        return new IntegerParser().parseInt(lineNumber);
     }
 
     /**
@@ -102,7 +84,7 @@ public abstract class AbstractWarningsParser implements Serializable {
      * @param message the message to check
      * @return warning category, empty string if unknown
      */
-    public static String classifyWarning(final String message) {
+    public String guessCategory(@CheckForNull final String message) {
         if (StringUtils.contains(message, "proprietary")) {
             return PROPRIETARY_API;
         }
@@ -116,16 +98,16 @@ public abstract class AbstractWarningsParser implements Serializable {
      * Returns a category for the current warning. If the provided category is not empty, then a capitalized string is
      * returned. Otherwise the category is obtained from the specified message text.
      *
-     * @param group   the warning category (might be empty)
-     * @param message the warning message
+     * @param category the warning category (might be empty)
+     * @param message  the warning message
      * @return the actual category
      */
-    public static String classifyIfEmpty(final String group, final String message) {
-        String category = StringUtils.capitalize(group);
-        if (StringUtils.isEmpty(category)) {
-            category = classifyWarning(message);
+    public String guessCategoryIfEmpty(@CheckForNull final String category, @CheckForNull final String message) {
+        String capitalized = StringUtils.capitalize(category);
+        if (StringUtils.isEmpty(capitalized)) {
+            capitalized = guessCategory(message);
         }
-        return category;
+        return capitalized;
     }
 
     /**

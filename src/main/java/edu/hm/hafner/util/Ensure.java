@@ -21,7 +21,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Ullrich Hafner
  * @see <a href="http://en.wikipedia.org/wiki/Design_by_contract"> Design by Contract (Wikipedia)</a>
  */
-@SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "ConstantConditions"})
+@SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "ConstantConditions", "CyclicClassDependency"})
 public final class Ensure {
     /**
      * Returns a boolean condition.
@@ -210,6 +210,7 @@ public final class Ensure {
          *
          * @param value value of the condition
          */
+        @SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
         public CollectionCondition(@CheckForNull final Collection<?> value) {
             super(value);
 
@@ -286,7 +287,7 @@ public final class Ensure {
          *
          * @param values value of the condition
          */
-        @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
+        @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter"})
         @SuppressFBWarnings("EI2")
         public ArrayCondition(@CheckForNull final Object[] values) {
             super(values);
@@ -437,7 +438,7 @@ public final class Ensure {
          * @param additionalValues additional values of the condition
          */
         @SuppressFBWarnings("EI2")
-        @SuppressWarnings({"PMD.ArrayIsStoredDirectly", "AssignmentToCollectionOrArrayFieldFromParameter"})
+        @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter"})
         public ObjectCondition(@CheckForNull final Object value, @CheckForNull final Object[] additionalValues) {
             this.value = value;
             this.additionalValues = additionalValues;
