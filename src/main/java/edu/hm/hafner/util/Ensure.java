@@ -287,7 +287,7 @@ public final class Ensure {
          *
          * @param values value of the condition
          */
-        @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter"})
+        @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter", "PMD.ArrayIsStoredDirectly"})
         @SuppressFBWarnings("EI2")
         public ArrayCondition(@CheckForNull final Object[] values) {
             super(values);
@@ -438,7 +438,7 @@ public final class Ensure {
          * @param additionalValues additional values of the condition
          */
         @SuppressFBWarnings("EI2")
-        @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter"})
+        @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter", "PMD.ArrayIsStoredDirectly"})
         public ObjectCondition(@CheckForNull final Object value, @CheckForNull final Object[] additionalValues) {
             this.value = value;
             this.additionalValues = additionalValues;

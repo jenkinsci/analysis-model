@@ -14,8 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 public class Issue {
     private static final String UNDEFINED = "-";
 
-    public static final String DEFAULT_CATEGORY = "";
-
     private final String fileName;
     private final String category;
     private final String type;
@@ -197,8 +195,7 @@ public class Issue {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
 
-    @Override
-    @SuppressWarnings({"all", "PMD"})
+    @Override @SuppressWarnings("all")
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
@@ -239,14 +236,10 @@ public class Issue {
         if (description != null ? !description.equals(issue.description) : issue.description != null) {
             return false;
         }
-        if (packageName != null ? !packageName.equals(issue.packageName) : issue.packageName != null) {
-            return false;
-        }
-        return true;
+        return packageName != null ? packageName.equals(issue.packageName) : issue.packageName == null;
     }
 
-    @Override
-    @SuppressWarnings({"all", "PMD"})
+    @Override @SuppressWarnings("all")
     public int hashCode() {
         int result = fileName != null ? fileName.hashCode() : 0;
         result = 31 * result + (category != null ? category.hashCode() : 0);

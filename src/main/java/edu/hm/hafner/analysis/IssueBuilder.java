@@ -15,7 +15,7 @@ package edu.hm.hafner.analysis;
  * </pre></blockquote>
  * @author Ullrich Hafner
  */
-@SuppressWarnings("JavadocMethod")
+@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod"})
 public class IssueBuilder {
     private String fileName;
     private int lineStart = 0;

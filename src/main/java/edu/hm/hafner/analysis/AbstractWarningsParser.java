@@ -27,12 +27,14 @@ import edu.hm.hafner.util.Ensure;
 public abstract class AbstractWarningsParser implements Serializable {
     private static final long serialVersionUID = 8466657735514387654L;
 
+    /** Category for warnings due to usage of deprecate API. */
     public static final String DEPRECATION = "Deprecation";
+    /** Category for warnings due to the usage of proprietary API. */
     public static final String PROPRIETARY_API = "Proprietary API";
 
     private final String id;
 
-    private transient Function<String, String> transformer;
+    private transient Function<String, String> transformer = Functions.identity();
 
     /**
      * Creates a new instance of {@link AbstractWarningsParser}.

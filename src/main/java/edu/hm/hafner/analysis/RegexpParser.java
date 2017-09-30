@@ -39,7 +39,7 @@ public abstract class RegexpParser extends AbstractWarningsParser {
      *                       sequence. By default these expressions only match at the beginning and the end of the
      *                       entire input sequence.
      */
-    public RegexpParser(final String id, final String warningPattern, final boolean useMultiLine) {
+    protected RegexpParser(final String id, final String warningPattern, final boolean useMultiLine) {
         super(id);
 
         setPattern(warningPattern, useMultiLine);

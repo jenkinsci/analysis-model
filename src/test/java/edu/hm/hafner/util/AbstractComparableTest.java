@@ -16,6 +16,7 @@ public abstract class AbstractComparableTest<T extends Comparable<T>> {
      * Verifies that a negative integer, zero, or a positive integer as this object is less than, equal to, or greater
      * than the specified object.
      */
+    @SuppressWarnings("EqualsWithItself")
     @Test
     public void shouldBeNegativeIfThisIsSmaller() {
         T smaller = createSmallerSut();

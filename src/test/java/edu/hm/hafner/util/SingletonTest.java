@@ -63,7 +63,7 @@ public class SingletonTest {
      * Verifies the handling of null.
      */
     @Test
-    @SuppressWarnings({"NullArgumentToVariableArgMethod", "ConstantConditions"})
+    @SuppressWarnings("ConstantConditions")
     public void shouldThrowExceptionWhenCollectionIsNullOrContainsNull() {
         assertThatThrownBy(() -> {
             Singleton.get(Sets.newHashSet(new Object[] {null}));
