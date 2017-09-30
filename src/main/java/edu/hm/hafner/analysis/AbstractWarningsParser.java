@@ -30,7 +30,7 @@ public abstract class AbstractWarningsParser implements Serializable {
 
     private final String id;
 
-    // FIXME: must be serializable
+    // FIXME: must be serializable?
     private Function<String, String> transformer = Functions.identity();
 
     /**
@@ -128,12 +128,24 @@ public abstract class AbstractWarningsParser implements Serializable {
         return category;
     }
 
+    /**
+     * Sets an optional line transformer. This transformer will be called during parsing: each line of the input file
+     * will be transformed using the provided transformer before it is handed over to the actual parser.
+     *
+     * @param transformer the transformer
+     */
     public void setTransformer(final Function<String, String> transformer) {
         Ensure.that(transformer).isNotNull();
 
         this.transformer = transformer;
     }
 
+    /**
+     * Returns the specified line transformer. If no such transformer has been set then an transformer is returned that
+     * does not modify the input lines.
+     *
+     * @return the transformer to use
+     */
     public Function<String, String> getTransformer() {
         return transformer;
     }
@@ -143,6 +155,11 @@ public abstract class AbstractWarningsParser implements Serializable {
         return transformer.apply(nextLine);
     }
 
+    /**
+     * Returns a new issue builder that has the ID of this warning set as type property.
+     *
+     * @return a new issue builder
+     */
     @CheckReturnValue
     protected IssueBuilder issueBuilder() {
         return new IssueBuilder().setType(getId());
