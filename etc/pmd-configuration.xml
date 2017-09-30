@@ -121,7 +121,6 @@
   <rule ref="rulesets/java/controversial.xml/SuspiciousOctalEscape"/>
   <rule ref="rulesets/java/controversial.xml/CallSuperInConstructor"/>
   <rule ref="rulesets/java/controversial.xml/UnnecessaryParentheses"/>
-  <rule ref="rulesets/java/controversial.xml/DefaultPackage"/>
   <rule ref="rulesets/java/controversial.xml/AvoidFinalLocalVariable"/>
   <rule ref="rulesets/java/controversial.xml/AvoidUsingShortType"/>
   <rule ref="rulesets/java/controversial.xml/AvoidUsingVolatile"/>

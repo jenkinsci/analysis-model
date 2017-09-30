@@ -29,7 +29,7 @@ class ArrayListAssertJTest {
     void shouldBeEmptyWhenCreatedShortFormImplicitSoftly() {
         List<String> strings = new ArrayList<>();
 
-        SoftAssertions.assertSoftly((softly) -> {
+        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(strings).hasSize(0);
             softly.assertThat(strings).isEmpty();
         });
