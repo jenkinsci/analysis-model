@@ -1,7 +1,9 @@
 package edu.hm.hafner.analysis;
 
+import javax.annotation.CheckForNull;
 import java.util.UUID;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -10,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
  * @author Ullrich Hafner
  */
 public class Issue {
+    private static final String UNDEFINED = "-";
+
     public static final String DEFAULT_CATEGORY = "";
 
     private final String fileName;
@@ -44,22 +48,37 @@ public class Issue {
      * @param description the description for this issue
      */
     @SuppressWarnings("ParameterNumber")
-    Issue(final String fileName, final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-          final String category, final String type, final String packageName, final Priority priority,
-          final String message, final String description) {
-        this.fileName = StringUtils.replace(StringUtils.strip(fileName), "\\", "/");
-        this.lineStart = lineStart;
-        this.lineEnd = lineEnd;
-        this.columnStart = columnStart;
-        this.columnEnd = columnEnd == 0 ? columnStart : columnEnd;
-        this.category = category;
-        this.type = type;
-        this.packageName = packageName;
-        this.priority = priority;
-        this.message = StringUtils.strip(message);
-        this.description = StringUtils.strip(description);
+    Issue(@CheckForNull final String fileName,
+          final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
+          @CheckForNull final String category, @CheckForNull final String type, @CheckForNull final String packageName,
+          @CheckForNull final Priority priority,
+          @CheckForNull final String message, @CheckForNull final String description) {
+        this.fileName = defaultString(StringUtils.replace(StringUtils.strip(fileName), "\\", "/"));
+
+        this.lineStart = defaultInteger(lineStart);
+        this.lineEnd = lineEnd == 0 ? lineStart : defaultInteger(lineEnd);
+        this.columnStart = defaultInteger(columnStart);
+        this.columnEnd = columnEnd == 0 ? columnStart : defaultInteger(columnEnd);
+
+        this.category = StringUtils.defaultString(category);
+        this.type = defaultString(type);
+
+        this.packageName = defaultString(packageName);
+
+        this.priority = ObjectUtils.defaultIfNull(priority, Priority.NORMAL);
+        this.message = StringUtils.stripToEmpty(message);
+        this.description = StringUtils.stripToEmpty(description);
 
         uuid = UUID.randomUUID();
+    }
+
+
+    private int defaultInteger(final int integer) {
+        return integer < 0 ? 0 : integer;
+    }
+
+    private String defaultString(@CheckForNull final String string) {
+        return StringUtils.defaultIfEmpty(string, UNDEFINED);
     }
 
     /**
