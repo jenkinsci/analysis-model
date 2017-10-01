@@ -19,7 +19,7 @@ node {
 
         checkstyle()
         pmd()
-        findbugs()
+        findbugs pattern: '**/target/findbugsXml.xml'
         dry()
         openTasks high: 'FIXME', normal: 'TODO'
     }
