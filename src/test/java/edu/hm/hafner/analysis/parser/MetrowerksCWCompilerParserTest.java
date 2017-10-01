@@ -1,15 +1,14 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link MetrowerksCWCompilerParser}.
@@ -19,22 +18,21 @@ public class MetrowerksCWCompilerParserTest extends ParserTester {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
-    private static final String WARNING_TYPE = new MetrowerksCWCompilerParser().getGroup();
+    private static final String WARNING_TYPE = new MetrowerksCWCompilerParser().getId();
 
     /**
      * Parses a file with CodeWarrior warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new MetrowerksCWCompilerParser().parse(openFile());
+        Issues warnings = new MetrowerksCWCompilerParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 5, warnings.size());
+        assertEquals(5, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 570,
                 "Warning-directive found: EEPROM_QUEUE_BUFFER_SIZE instead of MONITOR_ERROR_DATA_LENGTH is used here. This must be fixed sooner or later",

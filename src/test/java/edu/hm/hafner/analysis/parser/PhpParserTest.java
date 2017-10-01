@@ -1,15 +1,15 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link PhpParser}.
@@ -17,7 +17,7 @@ import hudson.plugins.analysis.util.model.Priority;
  * @author Shimi Kiviti
  */
 public class PhpParserTest extends ParserTester {
-    private static final String TYPE = new PhpParser().getGroup();
+    private static final String TYPE = new PhpParser().getId();
 
     private static final String PARSE_ERROR_CATEGORY = "PHP Parse error";
     private static final String FATAL_ERROR_CATEGORY = "PHP Fatal error";
@@ -31,10 +31,10 @@ public class PhpParserTest extends ParserTester {
      */
     @Test
     public void issue27681() throws IOException {
-        Collection<FileAnnotation> warnings = new PhpParser().parse(openFile("issue27681.txt"));
+        Issues warnings = new PhpParser().parse(openFile("issue27681.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1, warnings.size());
-        FileAnnotation annotation = warnings.iterator().next();
+        assertEquals(1, warnings.size());
+        Issue annotation = warnings.iterator().next();
 
         checkWarning(annotation,
                 0, "SOAP-ERROR: Parsing WSDL: Couldn't load from '...' : failed to load external entity \"...\"",
@@ -48,11 +48,11 @@ public class PhpParserTest extends ParserTester {
      */
     @Test
     public void testParse() throws IOException {
-        Collection<FileAnnotation> results = createParser().parse(openFile());
+        Issues results = createParser().parse(openFile());
         assertEquals(5, results.size());
 
-        Iterator<FileAnnotation> iterator = results.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = results.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 25, "include_once(): Failed opening \'RegexpLineParser.php\' for inclusion (include_path=\'.:/usr/share/pear\') in PhpParser.php on line 25",
                 "PhpParser.php", TYPE, WARNING_CATEGORY, Priority.NORMAL);

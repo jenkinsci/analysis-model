@@ -1,74 +1,62 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
-import org.jvnet.localizer.Localizable;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the MSBuild/PcLint compiler warnings.
  *
  * @author Ulli Hafner
  */
-@Extension
 public class MsBuildParser extends RegexpLineParser {
     private static final long serialVersionUID = -2141974437420906595L;
-    static final String WARNING_TYPE = "MSBuild";
-    private static final String MS_BUILD_WARNING_PATTERN = "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])|"
-            + ANT_TASK + "(?:(?:\\s*\\d+>)?(?:(?:(?:(.*)\\((\\d*)(?:,(\\d+))?.*\\)|.*LINK)\\s*:|(.*):)\\s*([A-z-_]*\\s?(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))\\s*:?\\s*([A-Za-z0-9]+)\\s*:\\s(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*(.*?)(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
-            + "|(.*)\\s*:.*error\\s*(LNK[0-9]+):\\s*(.*)))$";
+    private static final String MS_BUILD_WARNING_PATTERN = "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)" +
+            "\\s*\\[(.*)\\])|" + ANT_TASK + "(?:(?:\\s*\\d+>)?(?:(?:(?:(.*)\\((\\d*)(?:,(\\d+))?.*\\)|.*LINK)\\s*:|(" +
+            ".*):)\\s*([A-z-_]*\\s?(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))\\s*:?\\s*([A-Za-z0-9]+)" +
+            "\\s*:\\s(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*(.*?)(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?" + "|(.*)\\s*:" +
+            ".*error\\s*(LNK[0-9]+):\\s*(.*)))$";
 
     /**
      * Creates a new instance of {@link MsBuildParser}.
      */
     public MsBuildParser() {
-        this(Messages._Warnings_MSBuild_ParserName(),
-                Messages._Warnings_MSBuild_LinkName(),
-                Messages._Warnings_MSBuild_TrendName());
-    }
-
-    /**
-     * Creates a new instance of {@link MsBuildParser}.
-     *
-     * @param parserName
-     *            name of the parser
-     * @param linkName
-     *            name of the project action link
-     * @param trendName
-     *            name of the trend graph
-     */
-    public MsBuildParser(final Localizable parserName, final Localizable linkName, final Localizable trendName) {
-        super(parserName, linkName, trendName, MS_BUILD_WARNING_PATTERN);
+        super("msbuild", MS_BUILD_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String fileName = determineFileName(matcher);
         if (StringUtils.isNotBlank(matcher.group(2))) {
-            return createWarning(fileName, 0, matcher.group(1), matcher.group(2), Priority.NORMAL);
+            return issueBuilder().setFileName(fileName).setLineStart(0).setCategory(matcher.group(1))
+                                 .setMessage(matcher.group(2)).setPriority(Priority.NORMAL).build();
         }
         else if (StringUtils.isNotBlank(matcher.group(13))) {
-            return createWarning(fileName, 0, matcher.group(14), matcher.group(15), Priority.HIGH);
+            return issueBuilder().setFileName(fileName).setLineStart(0).setCategory(matcher.group(14))
+                                 .setMessage(matcher.group(15)).setPriority(Priority.HIGH).build();
         }
         else {
-            Warning warning;
+            Issue warning;
             if (StringUtils.isNotEmpty(matcher.group(10))) {
-                warning = createWarning(fileName, getLineNumber(matcher.group(5)),
-                        matcher.group(10), matcher.group(9), matcher.group(11), determinePriority(matcher));
+                warning = issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(5)))
+                                        .setColumnStart(parseInt(matcher.group(6))).setCategory(matcher.group(9))
+                                        .setType(matcher.group(10)).setMessage(matcher.group(11))
+                                        .setPriority(determinePriority(matcher)).build();
             }
             else {
                 String category = matcher.group(9);
                 if ("Expected".matches(category)) {
                     return FALSE_POSITIVE;
                 }
-                warning = createWarning(fileName, getLineNumber(matcher.group(5)),
-                        category, matcher.group(11), determinePriority(matcher));
+                warning = issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(5)))
+                                        .setColumnStart(parseInt(matcher.group(6))).setCategory(category)
+                                        .setMessage(matcher.group(11)).setPriority(determinePriority(matcher)).build();
             }
-            warning.setColumnPosition(getLineNumber(matcher.group(6)));
             return warning;
         }
     }
@@ -76,8 +64,7 @@ public class MsBuildParser extends RegexpLineParser {
     /**
      * Determines the name of the file that is cause of the warning.
      *
-     * @param matcher
-     *            the matcher to get the matches from
+     * @param matcher the matcher to get the matches from
      * @return the name of the file with a warning
      */
     private String determineFileName(final Matcher matcher) {
@@ -102,9 +89,8 @@ public class MsBuildParser extends RegexpLineParser {
         }
 
         final String projectDir = matcher.group(12);
-        if (StringUtils.isNotBlank(projectDir)
-            && FilenameUtils.getPrefixLength(fileName) == 0
-            && !fileName.trim().equals("MSBUILD")) {
+        if (StringUtils.isNotBlank(projectDir) && FilenameUtils.getPrefixLength(fileName) == 0 && !fileName.trim()
+                                                                                                           .equals("MSBUILD")) {
             // resolve fileName relative to projectDir
             fileName = FilenameUtils.concat(projectDir, fileName);
         }
@@ -114,8 +100,7 @@ public class MsBuildParser extends RegexpLineParser {
     /**
      * Determines the priority of the warning.
      *
-     * @param matcher
-     *            the matcher to get the matches from
+     * @param matcher the matcher to get the matches from
      * @return the priority of the warning
      */
     private Priority determinePriority(final Matcher matcher) {
@@ -131,10 +116,8 @@ public class MsBuildParser extends RegexpLineParser {
     /**
      * Returns whether the warning type is of the specified type.
      *
-     * @param matcher
-     *            the matcher
-     * @param type
-     *            the type to match with
+     * @param matcher the matcher
+     * @param type    the type to match with
      * @return <code>true</code> if the warning type is of the specified type
      */
     private boolean isOfType(final Matcher matcher, final String type) {

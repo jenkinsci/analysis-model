@@ -1,10 +1,9 @@
-package hudson.plugins.warnings.parser.jcreport;
+package edu.hm.hafner.analysis.parser.jcreport;
 
 /**
- * This the Item-Class
- * The Java-Bean-Conformity was chosen due to the digesters style of assigning.
- * It represents the Item-Tags within the report.xml.
- * Items have properties, that are mandatory to create a warning.
+ * This the Item-Class The Java-Bean-Conformity was chosen due to the digesters style of assigning. It represents the
+ * Item-Tags within the report.xml. Items have properties, that are mandatory to create a warning.
+ *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
 public class Item {
@@ -18,15 +17,14 @@ public class Item {
     private String endcolumn;
 
     /**
-     * Although this property is not used.
-     * It was decided to keep it
-     * available when Jenkins is modified and needs
-     * access to this field;
+     * Although this property is not used. It was decided to keep it available when Jenkins is modified and needs access
+     * to this field;
      */
-        private String endline;
+    private String endline;
 
     /**
      * Getter for column-Field.
+     *
      * @return column -> string
      */
     public String getColumn() {
@@ -35,6 +33,7 @@ public class Item {
 
     /**
      * Setter for Column-Field.
+     *
      * @param column -> setter
      */
     public void setColumn(final String column) {
@@ -43,6 +42,7 @@ public class Item {
 
     /**
      * Getter for findingtype-Field.
+     *
      * @return findingtype -> getter
      */
     public String getFindingtype() {
@@ -51,6 +51,7 @@ public class Item {
 
     /**
      * Setter for findingtype-Field.
+     *
      * @param findingtype -> setter
      */
     public void setFindingtype(final String findingtype) {
@@ -59,6 +60,7 @@ public class Item {
 
     /**
      * Getter for line-Field.
+     *
      * @return line -> getter
      */
     public String getLine() {
@@ -67,6 +69,7 @@ public class Item {
 
     /**
      * Setter for line-Field.
+     *
      * @param line -> setter
      */
     public void setLine(final String line) {
@@ -75,6 +78,7 @@ public class Item {
 
     /**
      * Getter for message-Field.
+     *
      * @return message -> getter
      */
     public String getMessage() {
@@ -83,6 +87,7 @@ public class Item {
 
     /**
      * Setter for message-Field.
+     *
      * @param message -> setter
      */
     public void setMessage(final String message) {
@@ -91,6 +96,7 @@ public class Item {
 
     /**
      * Getter for origin-Field.
+     *
      * @return origin -> getter
      */
     public String getOrigin() {
@@ -99,6 +105,7 @@ public class Item {
 
     /**
      * Setter for origin-Field.
+     *
      * @param origin -> setter
      */
     public void setOrigin(final String origin) {
@@ -107,6 +114,7 @@ public class Item {
 
     /**
      * Getter for severity-Field.
+     *
      * @return severity -> getter
      */
     public String getSeverity() {
@@ -115,6 +123,7 @@ public class Item {
 
     /**
      * Setter for severtiy-Field.
+     *
      * @param severity -> setter
      */
     public void setSeverity(final String severity) {
@@ -124,6 +133,7 @@ public class Item {
 
     /**
      * Getter for endline-Field.
+     *
      * @return endline -> getter
      */
     public String getEndline() {
@@ -133,6 +143,7 @@ public class Item {
 
     /**
      * Setter for endline-Field.
+     *
      * @param endline -> setter
      */
     public void setEndline(final String endline) {
@@ -141,6 +152,7 @@ public class Item {
 
     /**
      * Getter for endcolumn-Field.
+     *
      * @return endcolumn -> getter
      */
     public String getEndcolumn() {
@@ -149,6 +161,7 @@ public class Item {
 
     /**
      * Setter for endcolumn-Field.
+     *
      * @param endcolumn -> setter
      */
     public void setEndcolumn(final String endcolumn) {

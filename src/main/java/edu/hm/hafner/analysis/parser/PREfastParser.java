@@ -1,18 +1,16 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for Microsoft PREfast (aka Code Analysis for C/C++) XML files.
  *
- * @see MSDN: "/analyze (Code Analysis)"
- * http://msdn.microsoft.com/en-us/library/ms173498.aspx
- *
  * @author Charles Chan
+ * @see <a href="http://msdn.microsoft.com/en-us/library/ms173498.aspx" ></a>
  */
-@Extension
 public class PREfastParser extends RegexpLineParser {
     private static final long serialVersionUID = 1409381677034028504L;
 
@@ -55,25 +53,28 @@ public class PREfastParser extends RegexpLineParser {
      * <DESCRIPTION>(.+?)</DESCRIPTION>
      *     - capture group 4 to get the description
      */
-    private static final String PREFAST_PATTERN_WARNING = "<DEFECT.*?>.*?<FILENAME>(.+?)</FILENAME>.*?<LINE>(.+?)</LINE>.*?<DEFECTCODE>(.+?)</DEFECTCODE>.*?<DESCRIPTION>(.+?)</DESCRIPTION>.*?</DEFECT>";
+    private static final String PREFAST_PATTERN_WARNING = "<DEFECT.*?>.*?<FILENAME>(.+?)</FILENAME>.*?<LINE>(.+?)" +
+            "</LINE>.*?<DEFECTCODE>(.+?)</DEFECTCODE>.*?<DESCRIPTION>(.+?)</DESCRIPTION>.*?</DEFECT>";
 
     /**
      * Creates a new instance of {@link PREfastParser}.
      */
     public PREfastParser() {
-        super(Messages._Warnings_PREfast_ParserName(),
-                Messages._Warnings_PREfast_LinkName(),
-                Messages._Warnings_PREfast_TrendName(),
-                PREFAST_PATTERN_WARNING);
+        super("pre-fast", PREFAST_PATTERN_WARNING);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
-        final String fileName = matcher.group(1);
-        final String lineNumber = matcher.group(2);
-        final String category = matcher.group(3);
-        final String message = matcher.group(4);
+    protected Issue createWarning(final Matcher matcher) {
+        String fileName = matcher.group(1);
+        String lineNumber = matcher.group(2);
+        String category = matcher.group(3);
+        String message = matcher.group(4);
 
-        return createWarning(fileName, getLineNumber(lineNumber), category, message);
+        return issueBuilder()
+                .setFileName(fileName)
+                .setLineStart(parseInt(lineNumber))
+                .setCategory(category)
+                .setMessage(message)
+                .build();
     }
 }

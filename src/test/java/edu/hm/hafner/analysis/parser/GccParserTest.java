@@ -1,21 +1,20 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link GccParser}.
  */
 public class GccParserTest extends ParserTester {
-    private static final String TYPE = new GccParser().getGroup();
+    private static final String TYPE = new GccParser().getId();
     private static final String GCC_ERROR = GccParser.GCC_ERROR;
     private static final String GCC_WARNING = "GCC warning";
 
@@ -26,9 +25,9 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue34141() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue34141.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue34141.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 0, warnings.size());
+        assertEquals(0, warnings.size());
     }
 
     /**
@@ -38,10 +37,10 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue17309() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue17309.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue17309.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1, warnings.size());
-        FileAnnotation annotation = warnings.iterator().next();
+        assertEquals(1, warnings.size());
+        Issue annotation = warnings.iterator().next();
         checkWarning(annotation, 4, "dereferencing pointer &apos;&lt;anonymous&gt;&apos; does break strict-aliasing rules",
                 "foo.cc", TYPE, GCC_ERROR, Priority.HIGH);
     }
@@ -49,16 +48,15 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
     public void issue9926() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue9926.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue9926.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1, warnings.size());
-        FileAnnotation annotation = warnings.iterator().next();
+        assertEquals(1, warnings.size());
+        Issue annotation = warnings.iterator().next();
         checkWarning(annotation, 52, "large integer implicitly truncated to unsigned type",
                 "src/test_simple_sgs_message.cxx",
                 TYPE, GCC_WARNING, Priority.NORMAL);
@@ -67,17 +65,16 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a file with two GCC warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile());
+        Issues warnings = new GccParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 8, warnings.size());
+        assertEquals(8, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 451,
                 "`void yyunput(int, char*)&apos; defined but not used",
@@ -130,16 +127,15 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with 2 new GCC warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3897">Issue 3897</a>
      */
     @Test
     public void issue3897and3898() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue3897.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue3897.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        assertEquals(3, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 12,
                 "file.h: No such file or directory",
@@ -160,16 +156,15 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with 2 GCC warnings, one of them a note.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
     public void issue4712() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue4712.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue4712.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 2, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        assertEquals(2, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 352,
                 "&apos;s2.mepSector2::lubrications&apos; may be used",
@@ -185,30 +180,28 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with a ClearCase command line that should not be parsed as a warning.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
     public void issue4700() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue4700.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue4700.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 0, warnings.size());
+        assertEquals(0, warnings.size());
     }
 
     /**
      * Parses a warning log with [exec] prefix.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4707</a>
      */
     @Test
     public void issue4707() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue4707.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue4707.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 22, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        assertEquals(22, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 1128,
                 "NULL used in arithmetic",
@@ -219,16 +212,15 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a linker error.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4010">Issue 4010</a>
      */
     @Test
     public void issue4010() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue4010.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue4010.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        assertEquals(1, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 0,
                 "cannot find -lMyLib",
@@ -239,16 +231,15 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with 6 new objective C warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4274">Issue 4274</a>
      */
     @Test
     public void issue4274() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue4274.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue4274.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 4, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        assertEquals(4, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 638,
                 "local declaration of &quot;command&quot; hides instance variable",
@@ -274,15 +265,14 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a file with one warning and matching warning that will be excluded afterwards.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
      */
     @Test
     public void issue4260() throws IOException {
-        Collection<FileAnnotation> warnings = new GccParser().parse(openFile("issue4260.txt"));
+        Issues warnings = new GccParser().parse(openFile("issue4260.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1, warnings.size());
+        assertEquals(1, warnings.size());
     }
 
     @Override

@@ -1,35 +1,32 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the Texas Instruments Code Composer Studio compiler warnings.
  *
  * @author Jan Linnenkohl
  */
-@Extension
 public class TiCcsParser extends RegexpLineParser {
     private static final long serialVersionUID = -8253481365175984661L;
-    private static final String TI_CCS_WARNING_PATTERN = "^((\"(.*)\",\\s*)(line\\s*(\\d+)(\\s*\\(.*\\))?:)?\\s*)?(WARNING|ERROR|remark|warning|(fatal\\s*)?error)(!\\s*at line\\s(\\d+))?\\s*([^:]*)\\s*:\\s*(.*)$";
+    private static final String TI_CCS_WARNING_PATTERN = "^((\"(.*)\",\\s*)(line\\s*(\\d+)(\\s*\\(.*\\))?:)?\\s*)?" +
+            "(WARNING|ERROR|remark|warning|(fatal\\s*)?error)(!\\s*at line\\s(\\d+))?\\s*([^:]*)\\s*:\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link TiCcsParser}.
      */
     public TiCcsParser() {
-        super(Messages._Warnings_TexasI_ParserName(),
-                Messages._Warnings_TexasI_LinkName(),
-                Messages._Warnings_TexasI_TrendName(),
-                TI_CCS_WARNING_PATTERN);
+        super("ticcs", TI_CCS_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         Priority priority;
         if (isOfType(matcher, "remark")) {
             priority = Priority.LOW;
@@ -48,16 +45,16 @@ public class TiCcsParser extends RegexpLineParser {
         if (StringUtils.isBlank(lineNumber)) {
             lineNumber = matcher.group(10);
         }
-        return createWarning(fileName, getLineNumber(lineNumber), matcher.group(11), matcher.group(12), priority);
+        return issueBuilder().setFileName(fileName).setLineStart(parseInt(lineNumber))
+                             .setCategory(matcher.group(11)).setMessage(matcher.group(12)).setPriority(priority)
+                             .build();
     }
 
     /**
      * Returns whether the warning type is of the specified type.
      *
-     * @param matcher
-     *            the matcher
-     * @param type
-     *            the type to match with
+     * @param matcher the matcher
+     * @param type    the type to match with
      * @return <code>true</code> if the warning type is of the specified type
      */
     private boolean isOfType(final Matcher matcher, final String type) {

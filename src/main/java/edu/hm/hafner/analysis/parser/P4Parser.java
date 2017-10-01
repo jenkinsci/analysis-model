@@ -1,18 +1,18 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for Perforce execution.
  *
  * @author Adrian Deccico
  */
-@Extension
-public class P4Parser extends RegexpLineParser {
+public class P4Parser extends FastRegexpLineParser {
     private static final long serialVersionUID = -8106854254745366432L;
 
     private static final String ALREADY_OPENED = "already opened for edit";
@@ -23,27 +23,18 @@ public class P4Parser extends RegexpLineParser {
     private static final String OR = "|";
 
     /** Pattern of perforce compiler warnings. */
-    private static final String PERFORCE_WARNING_PATTERN =    "^(.*) - "
-                                                            + "("
-                                                            + CANT_ADD + OR
-                                                            + WARNING_ADD_OF + OR
-                                                            + OPENED_FOR_EDIT + OR
-                                                            + NOTHING_CHANGED
-                                                            + ")"
-                                                            + "(.*)$";
+    private static final String PERFORCE_WARNING_PATTERN = "^(.*) - " + "(" + CANT_ADD + OR + WARNING_ADD_OF + OR +
+            OPENED_FOR_EDIT + OR + NOTHING_CHANGED + ")" + "(.*)$";
 
     /**
      * Creates a new instance of {@link P4Parser}.
      */
     public P4Parser() {
-        super(Messages._Warnings_Perforce_ParserName(),
-                Messages._Warnings_Perforce_LinkName(),
-                Messages._Warnings_Perforce_TrendName(),
-                PERFORCE_WARNING_PATTERN, true);
+        super("perforce", PERFORCE_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String category = matcher.group(2).trim();
         String fileName = matcher.group(1).trim();
         String message = fileName;
@@ -51,7 +42,8 @@ public class P4Parser extends RegexpLineParser {
         if (category.contains(ALREADY_OPENED) || category.equals(NOTHING_CHANGED)) {
             p = Priority.LOW;
         }
-        return createWarning(fileName, 0, category, message, p);
+        return issueBuilder().setFileName(fileName).setLineStart(0).setCategory(category).setMessage(message)
+                             .setPriority(p).build();
     }
 
     @Override

@@ -1,49 +1,28 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
-import org.jvnet.localizer.Localizable;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * A parser for messages from the Intel C and Fortran compilers.
  *
  * @author Vangelis Livadiotis
  */
-@Extension
-public class IntelParser extends RegexpLineParser {
+public class IntelParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 8409744276858003050L;
-    private static final String INTEL_PATTERN = "^(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*((?:remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";
+    private static final String INTEL_PATTERN = "^(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*(" +
+            "(?:remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link IntelParser}.
      */
     public IntelParser() {
-        this(Messages._Warnings_IntelC_ParserName(), Messages._Warnings_IntelC_LinkName(),
-                Messages._Warnings_IntelC_TrendName());
-    }
-
-    /**
-     * Creates a new instance of {@link IntelParser} using the specified names.
-     *
-     * @param parserName
-     *            name of the parser
-     * @param linkName
-     *            name of the project action link
-     * @param trendName
-     *            name of the trend graph
-     */
-    public IntelParser(final Localizable parserName, final Localizable linkName, final Localizable trendName) {
-        super(parserName, linkName, trendName, INTEL_PATTERN, true);
-    }
-
-    @Override
-    protected String getId() {
-        return "Intel compiler";
+        super("intel", INTEL_PATTERN);
     }
 
     @Override
@@ -52,7 +31,7 @@ public class IntelParser extends RegexpLineParser {
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String category = StringUtils.capitalize(matcher.group(4));
 
         Priority priority;
@@ -66,8 +45,9 @@ public class IntelParser extends RegexpLineParser {
             priority = Priority.NORMAL;
         }
 
-        Warning warning = createWarning(matcher.group(1), getLineNumber(matcher.group(2)), category, matcher.group(5), priority);
-        warning.setColumnPosition(getLineNumber(matcher.group(3)));
+        Issue warning = issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                                      .setColumnStart(parseInt(matcher.group(3))).setCategory(category)
+                                      .setMessage(matcher.group(5)).setPriority(priority).build();
         return warning;
     }
 }

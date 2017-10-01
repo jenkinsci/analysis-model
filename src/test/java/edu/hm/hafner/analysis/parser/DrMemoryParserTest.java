@@ -1,35 +1,34 @@
-package hudson.plugins.warnings.parser;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
-import org.junit.Test;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link DrMemoryParser}.
  */
 public class DrMemoryParserTest extends ParserTester {
-    private static final String TYPE = new DrMemoryParser().getGroup();
+    private static final String TYPE = new DrMemoryParser().getId();
 
     /**
      * Parses a file with two Dr. Memory warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new DrMemoryParser().parse(openFile());
+        Issues warnings = new DrMemoryParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 8, warnings.size());
+        assertEquals(8, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 7,
                 "LEAK 150 direct bytes 0x005a2540-0x005a25d6 + 0 indirect bytes<br>" +

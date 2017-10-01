@@ -1,14 +1,13 @@
-package hudson.plugins.warnings.parser.jcreport;
+package edu.hm.hafner.analysis.parser.jcreport;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * File-Class.
- * Stores field to create a warning.
- * It represents the File-Tags within the report.xml.
- * The Java-Bean-Conformity was chosen due to the digesters style of assigning.
+ * File-Class. Stores field to create a warning. It represents the File-Tags within the report.xml. The
+ * Java-Bean-Conformity was chosen due to the digesters style of assigning.
+ *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
 public class File {
@@ -18,10 +17,8 @@ public class File {
     private final transient List<Item> items = new ArrayList<Item>();
 
     /**
-     * These properties are not used to create Warnings.
-     * It was decided to keep them
-     * available when Jenkins is modified and needs
-     * access to these fields;
+     * These properties are not used to create Warnings. It was decided to keep them available when Jenkins is modified
+     * and needs access to these fields;
      */
     private String level;
     private String loc;
@@ -30,7 +27,8 @@ public class File {
 
     /**
      * Getter for the Item-Collection.
-     * @return  unmodifiable collection of Item-Objects
+     *
+     * @return unmodifiable collection of Item-Objects
      */
     public List<Item> getItems() {
         return Collections.unmodifiableList(items);
@@ -38,6 +36,7 @@ public class File {
 
     /**
      * Adds an Item-Object to the collection items.
+     *
      * @param item -> add this item.
      */
     public void addItem(final Item item) {
@@ -47,6 +46,7 @@ public class File {
 
     /**
      * Getter for className-Field.
+     *
      * @return String className.
      */
     public String getClassname() {
@@ -55,6 +55,7 @@ public class File {
 
     /**
      * Setter for className-Field.
+     *
      * @param classname -> classNamesetter
      */
     public void setClassname(final String classname) {
@@ -63,6 +64,7 @@ public class File {
 
     /**
      * Getter for level-Field.
+     *
      * @return level
      */
     public String getLevel() {
@@ -72,6 +74,7 @@ public class File {
 
     /**
      * Setter for level-Field.
+     *
      * @param level -> set level
      */
     public void setLevel(final String level) {
@@ -79,9 +82,9 @@ public class File {
     }
 
 
-
     /**
      * Getter for loc-Field.
+     *
      * @return loc -> loc
      */
     public String getLoc() {
@@ -90,6 +93,7 @@ public class File {
 
     /**
      * Setter for loc-Field.
+     *
      * @param loc -> locsetter
      */
     public void setLoc(final String loc) {
@@ -99,6 +103,7 @@ public class File {
 
     /**
      * Getter for name-Field.
+     *
      * @return name -> name
      */
     public String getName() {
@@ -107,6 +112,7 @@ public class File {
 
     /**
      * Setter for Name-Field.
+     *
      * @param name -> name
      */
     public void setName(final String name) {
@@ -116,6 +122,7 @@ public class File {
 
     /**
      * Getter for packageName-Field.
+     *
      * @return packageName -> packageName.
      */
     public String getPackageName() {
@@ -124,6 +131,7 @@ public class File {
 
     /**
      * Setter for packageName-Field.
+     *
      * @param packageName -> packageName Setter
      */
     public void setPackageName(final String packageName) {
@@ -132,6 +140,7 @@ public class File {
 
     /**
      * Getter for srcdir-Field.
+     *
      * @return srcdir -> srcdir.
      */
     public String getSrcdir() {
@@ -140,6 +149,7 @@ public class File {
 
     /**
      * Setter for srcdir-Field.
+     *
      * @param srcdir -> srcdir
      */
     public void setSrcdir(final String srcdir) {

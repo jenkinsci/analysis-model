@@ -1,17 +1,16 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for C++ Lint compiler warnings.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
-@Extension
 public class CppLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 1737791073711198075L;
     private static final String PATTERN = "^\\s*(.*)\\s*[(:](\\d*)\\)?:\\s*(.*)\\s*\\[(.*)\\] \\[(.*)\\]$";
@@ -20,21 +19,19 @@ public class CppLintParser extends RegexpLineParser {
      * Creates a new instance of {@link CppLintParser}.
      */
     public CppLintParser() {
-        super(Messages._Warnings_CppLint_ParserName(),
-                Messages._Warnings_CppLint_LinkName(),
-                Messages._Warnings_CppLint_TrendName(),
-                PATTERN);
+        super("cpp-lint", PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         Priority priority = mapPriority(matcher.group(5));
 
-        return createWarning(matcher.group(1), getLineNumber(matcher.group(2)), matcher.group(4), matcher.group(3), priority);
+        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                             .setCategory(matcher.group(4)).setMessage(matcher.group(3)).setPriority(priority).build();
     }
 
     private Priority mapPriority(final String priority) {
-        int value = getLineNumber(priority);
+        int value = parseInt(priority);
         if (value >= 5) {
             return Priority.HIGH;
         }

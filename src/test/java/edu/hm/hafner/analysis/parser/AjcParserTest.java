@@ -1,42 +1,38 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the class {@link hudson.plugins.warnings.parser.AjcParser}.
+ * Tests the class {@link AjcParser}.
  */
 public class AjcParserTest extends ParserTester {
-    private static final String WARNING_TYPE = Messages._Warnings_AjcParser_ParserName().toString(Locale.ENGLISH);
+    private static final String WARNING_TYPE = new AjcParser().getId();
 
     /**
-     * Parses a file with various warnings:
-     *   - message not found / unknown source
-     *   - deprecation (class / method)
-     *   - advice not applied
-     *
+     * Parses a file with various warnings: - message not found / unknown source - deprecation (class / method) - advice
+     * not applied
+     * <p>
      * Both unix and windows file paths.
      *
-     * @throws java.io.IOException
-     *      if the file could not be read
+     * @throws java.io.IOException if the file could not be read
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Collection<FileAnnotation> warnings = new AjcParser().parse(openFile());
+        Issues warnings = new AjcParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 9, warnings.size());
+        assertEquals(9, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 0,
                 "incorrect classpath: /home/hudson/.m2/repository/org/apache/cxf/cxf/2.6.1/cxf-2.6.1.pom",
@@ -48,42 +44,42 @@ public class AjcParserTest extends ParserTester {
                 12,
                 "The type SimpleFormController is deprecated",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/BarController.java",
-                WARNING_TYPE, RegexpParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 19,
                 "The type SimpleFormController is deprecated",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/BarController.java",
-                WARNING_TYPE, RegexpParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 32,
                 "The method BarController.initBinder(HttpServletRequest, ServletRequestDataBinder) overrides a deprecated method from BaseCommandController",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/BarController.java",
-                WARNING_TYPE, RegexpParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 33,
                 "The method initBinder(HttpServletRequest, ServletRequestDataBinder) from the type BaseCommandController is deprecated",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/BarController.java",
-                WARNING_TYPE, RegexpParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 31,
                 "The method NewBarController.initBinder(HttpServletRequest, ServletRequestDataBinder) overrides a deprecated method from BaseCommandController",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/NewBarController.java",
-                WARNING_TYPE, RegexpParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 28,
                 "The method NewFooController.onSubmit(HttpServletRequest, HttpServletResponse, Object, BindException) overrides a deprecated method from SimpleFormController",
                 "C:/Users/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/NewFooController.java",
-                WARNING_TYPE, RegexpParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,

@@ -1,45 +1,30 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
 
 /**
  * A parser for the ant javac compiler warnings.
  *
  * @author Ulli Hafner
  */
-@Extension
-public class AntJavacParser extends RegexpLineParser {
+public class AntJavacParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
-    /** Pattern of javac compiler warnings. */
-    private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK
-            + "\\s*(.*java):(\\d*):\\s*(?:warning|\u8b66\u544a)\\s*:\\s*(?:\\[(\\w*)\\])?\\s*(.*)$"
-            + "|^\\s*\\[.*\\]\\s*warning.*\\]\\s*(.*\"(.*)\".*)$"
-            + "|^(.*class)\\s*:\\s*warning\\s*:\\s*(.*)$";
+    private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*" +
+            "(?:warning|\u8b66\u544a)\\s*:\\s*(?:\\[(\\w*)\\])?\\s*(.*)$" + "|^\\s*\\[.*\\]\\s*warning.*\\]\\s*(.*\"(" +
+            ".*)\".*)$" + "|^(.*class)\\s*:\\s*warning\\s*:\\s*(.*)$";
     // \u8b66\u544a is Japanese l10n
 
     /**
      * Creates a new instance of {@link AntJavacParser}.
      */
     public AntJavacParser() {
-        super(Messages._Warnings_JavaParser_ParserName(),
-                Messages._Warnings_JavaParser_LinkName(),
-                Messages._Warnings_JavaParser_TrendName(),
-                ANT_JAVAC_WARNING_PATTERN, true);
-    }
-
-    @Override
-    public String getSmallImage() {
-        return JavacParser.JAVA_SMALL_ICON;
-    }
-
-    @Override
-    public String getLargeImage() {
-        return JavacParser.JAVA_LARGE_ICON;
+        super("ant-javac", ANT_JAVAC_WARNING_PATTERN);
     }
 
     @Override
@@ -48,24 +33,21 @@ public class AntJavacParser extends RegexpLineParser {
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
-            return createWarning(matcher.group(7), 0, getGroup(), matcher.group(8));
+            return issueBuilder().setFileName(matcher.group(7)).setLineStart(0).setCategory(getId())
+                                 .setMessage(matcher.group(8)).build();
         }
         else if (StringUtils.isBlank(matcher.group(5))) {
             String message = matcher.group(4);
-            String category = classifyIfEmpty(matcher.group(3), message);
-            return createWarning(matcher.group(1), getLineNumber(matcher.group(2)), category, message);
+            String category = guessCategoryIfEmpty(matcher.group(3), message);
+            return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                                 .setCategory(category).setMessage(message).build();
         }
         else {
-            return createWarning(matcher.group(6), 0, "Path", matcher.group(5));
+            return issueBuilder().setFileName(matcher.group(6)).setLineStart(0).setCategory("Path")
+                                 .setMessage(matcher.group(5)).build();
         }
     }
-
-    @Override
-    protected String getId() {
-        return "Java Compiler"; // old ID in serialization
-    }
-
 }
 

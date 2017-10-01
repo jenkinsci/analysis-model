@@ -1,82 +1,79 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JavacParser}.
  */
 public class JavacParserTest extends ParserTester {
-    private static final String WARNING_TYPE = Messages._Warnings_JavaParser_ParserName().toString(Locale.ENGLISH);
+    private static final String WARNING_TYPE = new JavacParser().getId();
 
     /**
      * Parses a warning log with two false positives.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>
      */
     @Test
     public void issue14043() throws IOException {
-        Collection<FileAnnotation> warnings = parse("issue14043.txt");
+        Issues warnings = parse("issue14043.txt");
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 0, warnings.size());
+        assertEquals(0, warnings.size());
     }
 
     /**
      * Parses a warning log with 15 warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12482">Issue 12482</a>
      */
     @Test
     public void issue12482() throws IOException {
-        Collection<FileAnnotation> java6 = parse("issue12482-java6.txt");
+        Issues java6 = parse("issue12482-java6.txt");
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 62, java6.size());
+        assertEquals(62, java6.size());
 
-        Collection<FileAnnotation> java7 = parse("issue12482-java7.txt");
+        Issues java7 = parse("issue12482-java7.txt");
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 62, java7.size());
+        assertEquals(62, java7.size());
     }
 
     @Test
     public void kotlinMavenPlugin() throws IOException {
-        Collection<FileAnnotation> warnings = parse("kotlin-maven-plugin.txt");
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 4, warnings.size());
+        Issues warnings = parse("kotlin-maven-plugin.txt");
+        assertEquals(4, warnings.size());
     }
 
     /**
      * Parses a file with two deprecation warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Collection<FileAnnotation> warnings = new JavacParser().parse(openFile());
+        Issues warnings = new JavacParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 2, warnings.size());
+        assertEquals(2, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         annotation = iterator.next();
         checkWarning(annotation,
                 40, 36,
                 "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated",
                 "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java",
-                WARNING_TYPE, RegexpParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
     }
 
     /**
@@ -86,11 +83,11 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void parseArrayInDeprecatedMethod() throws IOException {
-        Collection<FileAnnotation> warnings = parse("issue5868.txt");
+        Issues warnings = parse("issue5868.txt");
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1, warnings.size());
+        assertEquals(1, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 14,
                 "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated",
@@ -105,25 +102,25 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void parseParallelPipelineOutput() throws IOException {
-        Collection<FileAnnotation> warnings = parse("javac-parallel-pipeline.txt");
+        Issues warnings = parse("javac-parallel-pipeline.txt");
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 2, warnings.size());
+        assertEquals(2, warnings.size());
 
         String fileName = "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java";
-        Iterator<Warning> expectedWarnings = Arrays.asList(
-                new Warning(fileName, 12, WARNING_TYPE, "Deprecation", "org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated"),
-                new Warning(fileName, 40, WARNING_TYPE, "Deprecation", "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                ).iterator();
+        Iterator<Issue> expectedWarnings = Arrays.asList(
+                new IssueBuilder().setFileName(fileName).setLineStart(12).setType(WARNING_TYPE).setCategory("Deprecation").setMessage("org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated").build(),
+                new IssueBuilder().setFileName(fileName).setLineStart(40).setType(WARNING_TYPE).setCategory("Deprecation").setMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated").build()
+        ).iterator();
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        Iterator<Issue> iterator = warnings.iterator();
         while (iterator.hasNext()) {
-            assertTrue(WRONG_NUMBER_OF_WARNINGS_DETECTED, expectedWarnings.hasNext());
-            Warning expectedWarning = expectedWarnings.next();
-            checkWarning(iterator.next(), expectedWarning.getPrimaryLineNumber(), expectedWarning.getMessage(), expectedWarning.getFileName(), expectedWarning.getType(), expectedWarning.getCategory(), expectedWarning.getPriority());
+            assertTrue(expectedWarnings.hasNext(), WRONG_NUMBER_OF_WARNINGS_DETECTED);
+            Issue expectedWarning = expectedWarnings.next();
+            checkWarning(iterator.next(), expectedWarning.getLineStart(), expectedWarning.getMessage(), expectedWarning.getFileName(), expectedWarning.getType(), expectedWarning.getCategory(), expectedWarning.getPriority());
         }
     }
 
-    private Collection<FileAnnotation> parse(final String fileName) throws IOException {
+    private Issues parse(final String fileName) throws IOException {
         return new JavacParser().parse(openFile(fileName));
     }
 

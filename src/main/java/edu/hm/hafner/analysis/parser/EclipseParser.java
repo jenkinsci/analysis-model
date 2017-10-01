@@ -1,24 +1,22 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
-
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
  * A parser for Eclipse compiler warnings.
  *
  * @author Ulli Hafner
  */
-@Extension
 public class EclipseParser extends RegexpDocumentParser {
     private static final long serialVersionUID = 425883472788422955L;
-    private static final String ANT_ECLIPSE_WARNING_PATTERN =
-            "\\[?(WARNING|ERROR)\\]?" +      // group 1 'type': WARNING or ERROR in optional []
+    private static final String ANT_ECLIPSE_WARNING_PATTERN = "\\[?(WARNING|ERROR)\\]?" +      // group 1 'type':
+            // WARNING or ERROR in optional []
             "\\s*(?:in)?" +                  // optional " in"
             "\\s*(.*)" +                     // group 2 'filename'
             "(?:\\(at line\\s*(\\d+)\\)|" +  // either group 3 'lineNumber': at line dd
@@ -33,29 +31,11 @@ public class EclipseParser extends RegexpDocumentParser {
      * Creates a new instance of {@link EclipseParser}.
      */
     public EclipseParser() {
-        super(Messages._Warnings_EclipseParser_ParserName(),
-                Messages._Warnings_EclipseParser_LinkName(),
-                Messages._Warnings_EclipseParser_TrendName(),
-                ANT_ECLIPSE_WARNING_PATTERN, true);
+        super("ejc", ANT_ECLIPSE_WARNING_PATTERN, true);
     }
 
     @Override
-    protected String getId() {
-        return "Eclipse Java Compiler";
-    }
-
-    @Override
-    public String getSmallImage() {
-        return JavacParser.JAVA_SMALL_ICON;
-    }
-
-    @Override
-    public String getLargeImage() {
-        return JavacParser.JAVA_LARGE_ICON;
-    }
-
-    @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String type = StringUtils.capitalize(matcher.group(1));
         Priority priority;
         if ("warning".equalsIgnoreCase(type)) {
@@ -64,13 +44,16 @@ public class EclipseParser extends RegexpDocumentParser {
         else {
             priority = Priority.HIGH;
         }
-        Warning warning = createWarning(matcher.group(2), getLineNumber(getLine(matcher)), matcher.group(7), priority);
 
         int columnStart = StringUtils.defaultString(matcher.group(5)).length();
         int columnEnd = columnStart + matcher.group(6).length();
-        warning.setColumnPosition(columnStart, columnEnd);
 
-        return warning;
+        Issue issue = issueBuilder().setFileName(matcher.group(2)).setLineStart(parseInt(getLine(matcher)))
+                                    .setColumnStart(columnStart).setColumnEnd(columnEnd).setType(getId())
+                                    .setCategory(StringUtils.EMPTY).setMessage(matcher.group(7)).setPriority(priority)
+                                    .build();
+
+        return issue;
     }
 
     private String getLine(final Matcher matcher) {

@@ -1,36 +1,34 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link GhsMultiParser}.
  */
 public class GhsMultiParserTest extends ParserTester {
-    private static final String TYPE = new GhsMultiParser().getGroup();
+    private static final String TYPE = new GhsMultiParser().getId();
 
     /**
      * Parses a file with two deprecation warnings.
      *
-     * @throws IOException
-     *             if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseMultiLine() throws IOException {
-        Collection<FileAnnotation> warnings = new GhsMultiParser().parse(openFile());
+        Issues warnings = new GhsMultiParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, warnings.size());
+        assertEquals(3, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation, 37,
                 "transfer of control bypasses initialization of:\n            variable \"CF_TRY_FLAG\" (declared at line 42)\n            variable \"CF_EXCEPTION_NOT_CAUGHT\" (declared at line 42)\n        CF_TRY_CHECK_EX(ex2);",
                 "/maindir/tests/TestCase_0101.cpp\"", TYPE, "#546-D",

@@ -1,35 +1,34 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link DiabCParser}.
  */
 public class DiabCParserTest extends ParserTester {
-    private static final String TYPE = new DiabCParser().getGroup();
+    private static final String TYPE = new DiabCParser().getId();
+
     /**
-     * Parses a file with 5 warnings.
+     * Parses a file with 13 warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseDiabCpp() throws IOException {
-        Collection<FileAnnotation> warnings = new DiabCParser().parse(openFile());
+        Issues warnings = new DiabCParser().parse(openFile());
 
-        assertEquals("Wrong number of warnings detected.", 13, warnings.size());
+        assertEquals(13, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 7,
                 "missing return expression",

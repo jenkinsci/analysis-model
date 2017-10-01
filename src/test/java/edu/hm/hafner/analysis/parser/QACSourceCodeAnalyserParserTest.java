@@ -1,15 +1,14 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link QACSourceCodeAnalyserParser}.
@@ -17,22 +16,21 @@ import hudson.plugins.analysis.util.model.Priority;
 public class QACSourceCodeAnalyserParserTest extends ParserTester {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
-    private static final String TYPE = new QACSourceCodeAnalyserParser().getGroup();
+    private static final String TYPE = new QACSourceCodeAnalyserParser().getId();
 
     /**
      * Parses a file with QAC warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new QACSourceCodeAnalyserParser().parse(openFile());
+        Issues warnings = new QACSourceCodeAnalyserParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 9, warnings.size());
+        assertEquals(9, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 34,
                 "[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.",
@@ -80,14 +78,13 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                 "Cannot find test.h - Perhaps the appropriate search path was not given?",
                 "C:/PATH/PATH/Test8.h",
                 TYPE, ERROR_CATEGORY, Priority.HIGH);
-        annotation = iterator.next();		
+        annotation = iterator.next();
         checkWarning(annotation,
                 178,
                 "Macro parameter not enclosed in ().",
                 "C:/PATH/Test9.h",
                 TYPE, WARNING_CATEGORY, Priority.NORMAL);
     }
-
 
 
     /** {@inheritDoc} */

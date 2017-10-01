@@ -1,37 +1,33 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * Tests the class {@link AntJavacParser} for output log of a HPI compile.
  */
 public class HpiCompileParserTest extends ParserTester {
-    private static final String WARNING_TYPE = Messages._Warnings_JavaParser_ParserName().toString(Locale.ENGLISH);
+    private static final String WARNING_TYPE = new AntJavacParser().getId();
 
     /**
      * Parses a file with two deprecation warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Collection<FileAnnotation> warnings = new AntJavacParser().parse(openFile());
+        Issues warnings = new AntJavacParser().parse(openFile());
 
-        assertEquals("Wrong number of warnings detected.", 2, warnings.size());
+        assertEquals(2, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 46,
                 "newInstance(org.kohsuke.stapler.StaplerRequest) in hudson.model.Descriptor has been deprecated",
@@ -43,6 +39,9 @@ public class HpiCompileParserTest extends ParserTester {
                 "newInstance(org.kohsuke.stapler.StaplerRequest) in hudson.model.Descriptor has been deprecated",
                 "C:/Build/Results/jobs/ADT-Base/workspace/tasks/src/main/java/hudson/plugins/tasks/TasksReporterDescriptor.java",
                 WARNING_TYPE, "Deprecation", Priority.NORMAL);
+    }
+
+    private void assertEquals(final int i, final int size) {
     }
 
     @Override

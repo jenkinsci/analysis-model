@@ -1,18 +1,16 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
-
-import hudson.Extension;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the Sphinx build warnings.
  *
  * @author Robert Williams
  */
-@Extension
 public class SphinxBuildParser extends RegexpLineParser {
     private static final long serialVersionUID = 1L;
     private static final String SPHINX_BUILD_WARNING_PATTERN = "^(.*):(\\d+|None|): (.*?): (.*)";
@@ -21,24 +19,22 @@ public class SphinxBuildParser extends RegexpLineParser {
      * Creates a new instance of {@link SphinxBuildParser}.
      */
     public SphinxBuildParser() {
-        super(Messages._Warnings_SphinxBuild_ParserName(),
-                Messages._Warnings_SphinxBuild_LinkName(),
-                Messages._Warnings_SphinxBuild_TrendName(),
-                SPHINX_BUILD_WARNING_PATTERN);
+        super("sphinx", SPHINX_BUILD_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String message = matcher.group(4);
-        String category = classifyIfEmpty(matcher.group(3), message);
-        return createWarning(matcher.group(1), getLineNumber(matcher.group(2)), category, message, mapPriority(category));
+        String category = guessCategoryIfEmpty(matcher.group(3), message);
+        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                             .setCategory(category).setMessage(message).setPriority(mapPriority(category)).build();
     }
 
     private Priority mapPriority(final String priority) {
-        if ("error".equalsIgnoreCase(priority)){
+        if ("error".equalsIgnoreCase(priority)) {
             return Priority.HIGH;
         }
-        else { 
+        else {
             return Priority.NORMAL;
         }
     }

@@ -1,38 +1,36 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link TiCcsParser}.
  */
 public class TiCcsParserTest extends ParserTester {
-    private static final String TYPE = new TiCcsParser().getGroup();
+    private static final String TYPE = new TiCcsParser().getId();
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
 
     /**
      * Parses a file with warnings of the TI CodeComposer tools.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseWarnings() throws IOException {
-        Collection<FileAnnotation> sortedWarnings = new TiCcsParser().parse(openFile());
+        Issues sortedWarnings = new TiCcsParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 10, sortedWarnings.size());
+        assertEquals(10, sortedWarnings.size());
 
-        Iterator<FileAnnotation> iterator = sortedWarnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = sortedWarnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 341,
                 "parameter \"params\" was never referenced",

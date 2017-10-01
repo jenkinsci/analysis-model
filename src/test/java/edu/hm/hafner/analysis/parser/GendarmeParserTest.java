@@ -1,16 +1,15 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
-import hudson.plugins.warnings.parser.gendarme.GendarmeParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link GendarmeParser}.
@@ -21,18 +20,17 @@ public class GendarmeParserTest extends ParserTester {
     /**
      * Tests the Gendarme parser with a file of 3 warnings.
      *
-     * @throws IOException
-     *             in case of an exception
+     * @throws IOException in case of an exception
      */
     @Test
     public void testParseViolationData() throws IOException {
-        Collection<FileAnnotation> results = new GendarmeParser().parse(openFile());
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, results.size());
+        Issues results = new GendarmeParser().parse(openFile());
+        assertEquals(3, results.size());
 
-        Iterator<FileAnnotation> iterator = results.iterator();
+        Iterator<Issue> iterator = results.iterator();
 
         checkWarning(iterator.next(), 0, "This assembly is not decorated with the [CLSCompliant] attribute.",
-                "", "MarkAssemblyWithCLSCompliantRule", Priority.HIGH);
+                "-", "MarkAssemblyWithCLSCompliantRule", Priority.HIGH);
         checkWarning(iterator.next(), 10, "This method does not use any instance fields, properties or methods and can be made static.",
                 "c:/Dev/src/hudson/Hudson.Domain/Dog.cs", "MethodCanBeMadeStaticRule", Priority.LOW);
         checkWarning(iterator.next(), 22, "This method does not use any instance fields, properties or methods and can be made static.",

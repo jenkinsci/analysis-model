@@ -1,33 +1,33 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.google.common.collect.Lists;
-
-import hudson.Extension;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
-import hudson.plugins.warnings.util.XmlElementUtil;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.XmlElementUtil;
 
 /**
  * Parses a StyleCop (http://code.msdn.microsoft.com/sourceanalysis/) xml report file.
  *
  * @author Sebastian Seidl
  */
-@Extension
 public class StyleCopParser extends AbstractWarningsParser {
     private static final long serialVersionUID = 1L;
 
@@ -35,18 +35,15 @@ public class StyleCopParser extends AbstractWarningsParser {
      * Creates a new instance of {@link StyleCopParser}.
      */
     public StyleCopParser() {
-        super(Messages._Warnings_StyleCop_ParserName(),
-                Messages._Warnings_StyleCop_LinkName(),
-                Messages._Warnings_StyleCop_TrendName());
+        super("style-cop");
     }
 
     @Override
-    public Collection<FileAnnotation> parse(final Reader reader) throws IOException, ParsingCanceledException {
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder;
+    public Issues parse(final Reader reader) throws ParsingException, ParsingCanceledException {
         try {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
-            docBuilder = docBuilderFactory.newDocumentBuilder();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(new InputSource(reader));
 
             // Pre v4.3 uses SourceAnalysisViolations as the parent node name
@@ -56,29 +53,30 @@ public class StyleCopParser extends AbstractWarningsParser {
                 mainNode = doc.getElementsByTagName("StyleCopViolations");
             }
 
-            Element rootElement = (Element)mainNode.item(0);
+            Element rootElement = (Element) mainNode.item(0);
             return parseViolations(XmlElementUtil.getNamedChildElements(rootElement, "Violation"));
         }
-        catch (ParserConfigurationException exception) {
-            throw new IOException(exception);
+        catch (IOException | ParserConfigurationException | SAXException e) {
+            throw new ParsingException(e);
         }
-        catch (SAXException exception) {
-            throw new IOException(exception);
+        finally {
+            IOUtils.closeQuietly(reader);
         }
     }
 
     /**
      * Parses the "Violation" tag and adds one warning for each element.
      *
-     * @param elements
-     *            list of Violation tags
+     * @param elements list of Violation tags
      * @return the corresponding warnings
      */
-    private Collection<FileAnnotation> parseViolations(final List<Element> elements) {
-        Collection<FileAnnotation> warnings = Lists.newArrayList();
+    private Issues parseViolations(final List<Element> elements) {
+        Issues warnings = new Issues();
         for (Element element : elements) {
-            Warning warning = createWarning(getString(element, "Source"), getLineNumber(element),
-                    getString(element, "Rule"), getCategory(element), element.getTextContent(), Priority.NORMAL);
+            Issue warning = issueBuilder().setFileName(getString(element, "Source"))
+                                          .setLineStart(getLineNumber(element)).setCategory(getCategory(element))
+                                          .setType(getString(element, "Rule")).setMessage(element.getTextContent())
+                                          .setPriority(Priority.NORMAL).build();
 
             warnings.add(warning);
         }
@@ -88,8 +86,7 @@ public class StyleCopParser extends AbstractWarningsParser {
     /**
      * Returns the Category of a StyleCop Violation.
      *
-     * @param element
-     *            The Element which represents the violation
+     * @param element The Element which represents the violation
      * @return Category of violation
      */
     private String getCategory(final Element element) {
@@ -132,7 +129,7 @@ public class StyleCopParser extends AbstractWarningsParser {
      */
     private int getLineNumber(final Element violation) {
         if (violation.hasAttribute("LineNumber")) {
-            return getLineNumber(violation.getAttribute("LineNumber"));
+            return parseInt(violation.getAttribute("LineNumber"));
         }
         else {
             return 0;

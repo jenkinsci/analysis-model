@@ -1,39 +1,36 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.AbstractAnnotation;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link SunCParser}.
  */
 public class SunCParserTest extends ParserTester {
-    private static final String TYPE = new SunCParser().getGroup();
+    private static final String TYPE = new SunCParser().getId();
     private static final String MESSAGE = "String literal converted to char* in formal argument 1 in call to userlog(char*, ...).";
     private static final String CATEGORY = "badargtypel2w";
 
     /**
      * Parses a file with 8 warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseSunCpp() throws IOException {
-        Collection<FileAnnotation> warnings = new SunCParser().parse(openFile());
+        Issues warnings = new SunCParser().parse(openFile());
 
-        assertEquals("Wrong number of warnings detected.", 8, warnings.size());
+        assertEquals(8, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 212,
                 MESSAGE,
@@ -76,7 +73,7 @@ public class SunCParserTest extends ParserTester {
                 "warner.cpp",
                 TYPE, "wbadlkgasg", Priority.NORMAL);
         annotation = iterator.next();
-	// test warning where -errtags=yes was not used
+        // test warning where -errtags=yes was not used
         checkWarning(annotation,
                 32,
                 "statement is unreachable.",

@@ -1,37 +1,35 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link GnatParser}.
  */
 public class GnatParserTest extends ParserTester {
-    private static final String TYPE = new GnatParser().getGroup();
+    private static final String TYPE = new GnatParser().getId();
     private static final String GNAT_WARNING = "GNAT warning";
 
     /**
      * Parses a file with 9 Gnat warnings.
      *
-     * @throws IOException
-     *             if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new GnatParser().parse(openFile());
+        Issues warnings = new GnatParser().parse(openFile());
 
-        assertEquals("Wrong number of warnings detected.", 9, warnings.size());
+        assertEquals(9, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/class_utilities.adb:402:23:
         // warning: call to obsolescent procedure "Very_Verbose" declared at

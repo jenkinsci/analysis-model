@@ -1,32 +1,31 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the Perl::Critic warnings.
  *
  * @author Mihail Menev, menev@hm.edu
  */
-@Extension
 public class PerlCriticParser extends RegexpLineParser {
     private static final long serialVersionUID = -6481203155449490873L;
 
-    private static final String PERLCRITIC_WARNING_PATTERN = "(?:(.*?):)?(.*)\\s+at\\s+line\\s+(\\d+),\\s+column\\s+(\\d+)\\.\\s*(?:See page[s]?\\s+)?(.*)\\.\\s*\\(?Severity:\\s*(\\d)\\)?";
+    private static final String PERLCRITIC_WARNING_PATTERN = "(?:(.*?):)?(.*)\\s+at\\s+line\\s+(\\d+),\\s+column\\s+"
+            + "(\\d+)\\.\\s*(?:See page[s]?\\s+)?(.*)\\.\\s*\\(?Severity:\\s*(\\d)\\)?";
 
     /**
      * Creates a new instance of {@link PerlCriticParser}.
      */
     public PerlCriticParser() {
-        super(Messages._Warnings_PerlCritic_ParserName(), Messages._Warnings_PerlCritic_LinkName(),
-                Messages._Warnings_PerlCritic_TrendName(), PERLCRITIC_WARNING_PATTERN, true);
+        super("perl-critic", PERLCRITIC_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String filename;
         if (matcher.group(1) == null) {
             filename = "-";
@@ -36,21 +35,19 @@ public class PerlCriticParser extends RegexpLineParser {
         }
 
         String message = matcher.group(2);
-        int line = getLineNumber(matcher.group(3));
-        int column = getLineNumber(matcher.group(4));
+        int line = parseInt(matcher.group(3));
+        int column = parseInt(matcher.group(4));
         String category = matcher.group(5);
         Priority priority = checkPriority(Integer.parseInt(matcher.group(6)));
 
-        Warning warning = createWarning(filename, line, category, message, priority);
-        warning.setColumnPosition(column, column);
-        return warning;
+        return issueBuilder().setFileName(filename).setLineStart(line).setColumnStart(column).setCategory(category)
+                             .setMessage(message).setPriority(priority).build();
     }
 
     /**
      * Checks the severity level, parsed from the warning and return the priority level.
      *
-     * @param priority
-     *            the severity level of the warning.
+     * @param priority the severity level of the warning.
      * @return the priority level.
      */
     private Priority checkPriority(final int priority) {

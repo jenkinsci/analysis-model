@@ -1,18 +1,17 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * A parser for the tnsdl translator warnings.
  *
  * @author Shaohua Wen
  */
-@Extension
-public class TnsdlParser extends RegexpLineParser {
+public class TnsdlParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -7740789998865369930L;
     static final String WARNING_CATEGORY = "Error";
     private static final String TNSDL_WARNING_PATTERN = "^tnsdl((.*)?):\\(.*\\) (.*) \\((.*)\\):(.*)$";
@@ -21,10 +20,7 @@ public class TnsdlParser extends RegexpLineParser {
      * Creates a new instance of {@link TnsdlParser}.
      */
     public TnsdlParser() {
-        super(Messages._Warnings_TNSDL_ParserName(),
-                Messages._Warnings_TNSDL_LinkName(),
-                Messages._Warnings_TNSDL_TrendName(),
-                TNSDL_WARNING_PATTERN, true);
+        super("tnsdl", TNSDL_WARNING_PATTERN);
     }
 
     @Override
@@ -33,9 +29,9 @@ public class TnsdlParser extends RegexpLineParser {
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String fileName = matcher.group(3);
-        int lineNumber = getLineNumber(matcher.group(4));
+        int lineNumber = parseInt(matcher.group(4));
         String message = matcher.group(5);
         Priority priority;
 
@@ -46,7 +42,8 @@ public class TnsdlParser extends RegexpLineParser {
             priority = Priority.NORMAL;
         }
 
-        return createWarning(fileName, lineNumber, WARNING_CATEGORY, message, priority);
+        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(WARNING_CATEGORY)
+                             .setMessage(message).setPriority(priority).build();
     }
 }
 

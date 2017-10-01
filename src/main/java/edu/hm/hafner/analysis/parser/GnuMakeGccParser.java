@@ -1,18 +1,16 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
- * A parser for the GNU Make and Gcc4 compiler warnings. Read GNU Make output to
- * know where compilation are run.
+ * A parser for the GNU Make and Gcc4 compiler warnings. Read GNU Make output to know where compilation are run.
  *
  * @author vichak
  */
-@Extension
 public class GnuMakeGccParser extends RegexpLineParser {
     private static final String SLASH = "/";
     private static final long serialVersionUID = -67701741403245309L;
@@ -21,11 +19,9 @@ public class GnuMakeGccParser extends RegexpLineParser {
     static final String GCC_ERROR = "GCC error";
     static final String LINKER_ERROR = "Linker error";
 
-    private static final String GNUMAKEGCC_WARNING_PATTERN = "^("
-            + "(?:.*\\[.*\\])?\\s*" // ANT_TASK
+    private static final String GNUMAKEGCC_WARNING_PATTERN = "^(" + "(?:.*\\[.*\\])?\\s*" // ANT_TASK
             + "(.*\\.[chpimxsola0-9]+):(\\d+):(?:\\d+:)? (warning|error): (.*)$" // GCC 4 warning
-            + ")|("
-            + "(^g?make(\\[.*\\])?: Entering directory)\\s*(['`]((.*))\\')" // handle make entering directory
+            + ")|(" + "(^g?make(\\[.*\\])?: Entering directory)\\s*(['`]((.*))\\')" // handle make entering directory
             + ")";
     private String directory = "";
 
@@ -40,23 +36,16 @@ public class GnuMakeGccParser extends RegexpLineParser {
 
     /**
      * Creates a new instance of {@link GnuMakeGccParser} assuming the operating system given in os
+     *
      * @param os A string representing the operating system - mainly used for faking
      */
     public GnuMakeGccParser(final String os) {
-        super(Messages._Warnings_GnuMakeGcc_ParserName(),
-                Messages._Warnings_GnuMakeGcc_LinkName(),
-                Messages._Warnings_GnuMakeGcc_TrendName(),
-                GNUMAKEGCC_WARNING_PATTERN);
+        super("gmake-gcc", GNUMAKEGCC_WARNING_PATTERN);
         isWindows = os.toLowerCase().contains("windows");
     }
 
     @Override
-    protected String getId() {
-        return "GNU Make + GNU Compiler (gcc)";
-    }
-
-    @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         if (matcher.group(1) == null) {
             return handleDirectory(matcher);
         }
@@ -65,9 +54,9 @@ public class GnuMakeGccParser extends RegexpLineParser {
         }
     }
 
-    private Warning handleWarning(final Matcher matcher) {
+    private Issue handleWarning(final Matcher matcher) {
         String fileName = matcher.group(2);
-        int lineNumber = getLineNumber(matcher.group(3));
+        int lineNumber = parseInt(matcher.group(3));
         String message = matcher.group(5);
         Priority priority;
         String category;
@@ -80,17 +69,17 @@ public class GnuMakeGccParser extends RegexpLineParser {
             category = "Warning";
         }
         if (fileName.startsWith(SLASH)) {
-            return createWarning(fileName, lineNumber, category, message, priority);
+            return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category)
+                                 .setMessage(message).setPriority(priority).build();
         }
         else {
-            return createWarning(directory + fileName, lineNumber, category, message, priority);
+            return issueBuilder().setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
+                                 .setMessage(message).setPriority(priority).build();
         }
     }
 
-    private String fixMsysTypeDirectory(String directory)
-    {
-        if (isWindows && directory.matches("/[a-z]/.*"))
-        {
+    private String fixMsysTypeDirectory(String directory) {
+        if (isWindows && directory.matches("/[a-z]/.*")) {
             //MSYS make on Windows replaces the drive letter and colon (C:) with unix-type absolute paths (/c/)
             //Reverse this operation here
             directory = directory.substring(1, 2) + ":" + directory.substring(2);
@@ -98,7 +87,7 @@ public class GnuMakeGccParser extends RegexpLineParser {
         return directory;
     }
 
-    private Warning handleDirectory(final Matcher matcher) {
+    private Issue handleDirectory(final Matcher matcher) {
         directory = matcher.group(10) + SLASH;
         directory = fixMsysTypeDirectory(directory);
 

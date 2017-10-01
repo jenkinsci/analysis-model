@@ -1,18 +1,16 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.warnings.WarningsDescriptor;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
- * A parser for the go vet tool in the Go toolchain
+ * A parser for the go vet tool in the Go toolchain.
  *
  * @author Ryan Cox
  */
-@Extension
-public class GoVetParser extends GoBaseParser {
+public class GoVetParser extends RegexpLineParser {
 
     private static final long serialVersionUID = 1451787851164850844L;
 
@@ -23,19 +21,15 @@ public class GoVetParser extends GoBaseParser {
      * Creates a new instance of {@link GoVetParser}.
      */
     public GoVetParser() {
-
-        super(Messages._Warnings_GoVetParser_ParserName(),
-                Messages._Warnings_GoVetParser_LinkName(),
-                Messages._Warnings_GoVetParser_TrendName(),
-                GOVET_WARNING_PATTERN, true);
+        super("go-vet", GOVET_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String message = matcher.group(3);
-        String category = classifyIfEmpty("", message);
+        String category = guessCategory(message);
 
-        Warning warning = createWarning(matcher.group(1), getLineNumber(matcher.group(2)), category, message);
-        return warning;
+        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                             .setCategory(category).setMessage(message).build();
     }
 }

@@ -1,41 +1,37 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * A parser for armcc5 compiler warnings.
  *
  * @author Dmytro Kutianskyi
  */
-@Extension
-public class Armcc5CompilerParser extends RegexpLineParser {
+public class Armcc5CompilerParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -2677728927938443701L;
 
     private static final String ARMCC5_WARNING_PATTERN = "^(.+)\\((\\d+)\\): (warning|error):  #(.+): (.+)$";
-    
+
     /**
      * Creates a new instance of {@link Armcc5CompilerParser}.
      */
     public Armcc5CompilerParser() {
-        super(Messages._Warnings_Armcc_ParserName(),
-                Messages._Warnings_Armcc_LinkName(),
-                Messages._Warnings_Armcc_TrendName(),
-            ARMCC5_WARNING_PATTERN, true);
+        super("armcc5", ARMCC5_WARNING_PATTERN);
     }
-    
+
     @Override
     protected boolean isLineInteresting(final String line) {
         return line.contains("#");
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String fileName = matcher.group(1);
-        int lineNumber = getLineNumber(matcher.group(2));
+        int lineNumber = parseInt(matcher.group(2));
         String type = matcher.group(3);
         String errorCode = matcher.group(4);
         String message = matcher.group(5);
@@ -48,7 +44,8 @@ public class Armcc5CompilerParser extends RegexpLineParser {
             priority = Priority.NORMAL;
         }
 
-        return createWarning(fileName, lineNumber, errorCode + " - " + message, priority);
+        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setMessage(errorCode + " - " + message)
+                             .setPriority(priority).build();
     }
 }
 

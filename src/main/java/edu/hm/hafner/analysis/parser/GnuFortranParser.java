@@ -1,19 +1,18 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
  * A parser for (compile-time) messages from the GNU Fortran Compiler.
  *
  * @author Mat Cross.
  */
-@Extension
 public class GnuFortranParser extends RegexpDocumentParser {
     private static final String LINE_REGEXP = " at \\(\\d\\)";
     private static final long serialVersionUID = 0L;
@@ -33,27 +32,34 @@ public class GnuFortranParser extends RegexpDocumentParser {
      * Creates a new instance of {@link GnuFortranParser}.
      */
     public GnuFortranParser() {
-        super(Messages._Warnings_GnuFortran_ParserName(), Messages._Warnings_GnuFortran_LinkName(), Messages
-                ._Warnings_GnuFortran_TrendName(), GFORTRAN_MSG_PATTERN, true);
+        super("gnu-fortran", GFORTRAN_MSG_PATTERN, true);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String columnStart = matcher.group(3);
         String columnEnd = matcher.group(4);
         String category = matcher.group(5).replaceAll(LINE_REGEXP, "");
         Priority priority = "Warning".equals(category) ? Priority.NORMAL : Priority.HIGH;
-        Warning warning = createWarning(matcher.group(1), getLineNumber(matcher.group(2)), category,
-                matcher.group(6).replaceAll(LINE_REGEXP, ""), priority);
 
         if (StringUtils.isNotEmpty(columnStart)) {
             if (StringUtils.isNotEmpty(columnEnd)) {
-                warning.setColumnPosition(getLineNumber(columnStart), getLineNumber(columnEnd));
+                return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                                     .setColumnStart(parseInt(columnStart)).setColumnEnd(parseInt(columnEnd))
+                                     .setCategory(category).setMessage(matcher.group(6).replaceAll(LINE_REGEXP, ""))
+                                     .setPriority(priority).build();
             }
             else {
-                warning.setColumnPosition(getLineNumber(columnStart));
+                return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                                     .setColumnStart(parseInt(columnStart)).setCategory(category)
+                                     .setMessage(matcher.group(6).replaceAll(LINE_REGEXP, "")).setPriority(priority)
+                                     .build();
             }
         }
-        return warning;
+        else {
+            return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                                 .setCategory(category).setMessage(matcher.group(6).replaceAll(LINE_REGEXP, ""))
+                                 .setPriority(priority).build();
+        }
     }
 }

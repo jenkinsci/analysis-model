@@ -1,64 +1,52 @@
-package hudson.plugins.warnings.parser.fxcop;
+package edu.hm.hafner.analysis.parser.fxcop;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Collection;
-import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.google.common.collect.Lists;
-
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import hudson.Extension;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
-import hudson.plugins.warnings.parser.AbstractWarningsParser;
-import hudson.plugins.warnings.parser.Messages;
-import hudson.plugins.warnings.parser.ParsingCanceledException;
-import hudson.plugins.warnings.parser.Warning;
-import hudson.plugins.warnings.util.XmlElementUtil;
-
 /**
- * Parses a fxcop xml report file. This does not uses the XML Pull parser as it
- * can not handle the FxCop XML files. The bug is registered at Sun as http:
- * //bugs.sun.com/bugdatabase/view_bug.do?bug_id=4508058
- * <p>
- * Note that instances of this parser are not thread safe.
- * </p>
+ * Parses a fxcop xml report file. This does not uses the XML Pull parser as it can not handle the FxCop XML files. The
+ * bug is registered at Sun as http: //bugs.sun.com/bugdatabase/view_bug.do?bug_id=4508058 <p> Note that instances of
+ * this parser are not thread safe. </p>
  */
 @SuppressWarnings("unused")
-@Extension
 public class FxCopParser extends AbstractWarningsParser {
     private static final long serialVersionUID = -7208558002331355408L;
 
     private transient FxCopRuleSet ruleSet;
     @SuppressFBWarnings("SE")
-    private transient List<FileAnnotation> warnings;
+    private transient Issues warnings;
 
     /**
      * Creates a new instance of {@link FxCopParser}.
      */
     public FxCopParser() {
-        super(Messages._Warnings_FxCop_ParserName(),
-                Messages._Warnings_FxCop_LinkName(),
-                Messages._Warnings_FxCop_TrendName());
+        super("fxcop");
     }
 
     @Override
-    public Collection<FileAnnotation> parse(final Reader reader)
-            throws IOException, ParsingCanceledException {
+    public Issues parse(final Reader reader) throws ParsingException, ParsingCanceledException {
         try {
             ruleSet = new FxCopRuleSet();
-            warnings = Lists.newArrayList();
+            warnings = new Issues();
 
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder;
@@ -75,11 +63,11 @@ public class FxCopParser extends AbstractWarningsParser {
 
             return warnings;
         }
-        catch (ParserConfigurationException exception) {
-            throw new IOException(exception);
+        catch (IOException | ParserConfigurationException | SAXException e) {
+            throw new ParsingException(e);
         }
-        catch (SAXException exception) {
-            throw new IOException(exception);
+        finally {
+            IOUtils.closeQuietly(reader);
         }
     }
 
@@ -123,8 +111,7 @@ public class FxCopParser extends AbstractWarningsParser {
 
     private void parseNamespaces(final Element namespacesElement, final String parentName) {
         if (namespacesElement != null) {
-            for (Element namespace : XmlElementUtil.getNamedChildElements(namespacesElement,
-                    "Namespace")) {
+            for (Element namespace : XmlElementUtil.getNamedChildElements(namespacesElement, "Namespace")) {
                 String name = getString(namespace, "Name");
 
                 parseMessages(XmlElementUtil.getFirstElementByTagName(namespace, "Messages"), name);
@@ -154,8 +141,7 @@ public class FxCopParser extends AbstractWarningsParser {
 
     private void parseAccessors(final Element accessorsElement, final String parentName) {
         if (accessorsElement != null) {
-            for (Element member : XmlElementUtil
-                    .getNamedChildElements(accessorsElement, "Accessor")) {
+            for (Element member : XmlElementUtil.getNamedChildElements(accessorsElement, "Accessor")) {
                 parseMember(member, parentName);
             }
         }
@@ -209,11 +195,13 @@ public class FxCopParser extends AbstractWarningsParser {
         String fileName = getString(issue, "File");
         String fileLine = getString(issue, "Line");
 
-        Warning warning = createWarning(filePath + "/" + fileName, getLineNumber(fileLine), category, msgBuilder.toString(), getPriority(issueLevel));
+        IssueBuilder builder = issueBuilder().setFileName(filePath + "/" + fileName).setLineStart(parseInt(fileLine))
+                                      .setCategory(category).setMessage(msgBuilder.toString())
+                                      .setPriority(getPriority(issueLevel));
         if (rule != null) {
-            warning.setToolTip(rule.getDescription());
+            builder.setDescription(rule.getDescription());
         }
-        warnings.add(warning);
+        warnings.add(builder.build());
     }
 
     private String getString(final Element element, final String name) {

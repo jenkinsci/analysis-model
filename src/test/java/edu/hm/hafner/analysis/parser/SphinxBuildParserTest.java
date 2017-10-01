@@ -1,22 +1,20 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link SphinxBuildParser}.
  */
 public class SphinxBuildParserTest extends ParserTester {
-    private static final String WARNING_TYPE = Messages._Warnings_SphinxBuild_ParserName().toString(Locale.ENGLISH);
+    private static final String WARNING_TYPE = new SphinxBuildParser().getId();
     private static final String SPHINX_BUILD_ERROR = "ERROR";
     private static final String SPHINX_BUILD_WARNING = "WARNING";
 
@@ -24,17 +22,16 @@ public class SphinxBuildParserTest extends ParserTester {
     /**
      * Parses a file with six SphinxBuild warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new SphinxBuildParser().parse(openFile());
+        Issues warnings = new SphinxBuildParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 6, warnings.size());
+        assertEquals(6, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 12,
                 "Unknown directive type \"blockdiag\".",

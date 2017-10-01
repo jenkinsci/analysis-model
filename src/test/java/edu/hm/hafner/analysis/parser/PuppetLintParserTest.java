@@ -1,15 +1,15 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link PuppetLintParser}.
@@ -17,22 +17,21 @@ import hudson.plugins.analysis.util.model.Priority;
  * @author Jan Vansteenkiste <jan@vstone.eu>
  */
 public class PuppetLintParserTest extends ParserTester {
-    private static final String TYPE = new PuppetLintParser().getGroup();
+    private static final String TYPE = new PuppetLintParser().getId();
 
     /**
      * Tests the Puppet-Lint parsing.
      *
-     * @throws IOException
-     *             in case of an error
+     * @throws IOException in case of an error
      */
     @Test
     public void testParse() throws IOException {
-        Collection<FileAnnotation> results = createParser().parse(openFile());
+        Issues results = createParser().parse(openFile());
         assertEquals(5, results.size());
 
-        Iterator<FileAnnotation> iterator = results.iterator();
+        Iterator<Issue> iterator = results.iterator();
 
-        FileAnnotation annotation = iterator.next();
+        Issue annotation = iterator.next();
         checkLintWarning(annotation,
                 1, "failtest not in autoload module layout",
                 "failtest.pp", TYPE, "autoloader_layout", Priority.HIGH, "-");
@@ -61,27 +60,19 @@ public class PuppetLintParserTest extends ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param annotation
-     *            the warning to check
-     * @param lineNumber
-     *            the expected line number
-     * @param message
-     *            the expected message
-     * @param fileName
-     *            the expected filename
-     * @param type
-     *            the expected type
-     * @param category
-     *            the expected category
-     * @param priority
-     *            the expected priority
-     * @param packageName
-     *            the expected package name
+     * @param annotation  the warning to check
+     * @param lineNumber  the expected line number
+     * @param message     the expected message
+     * @param fileName    the expected filename
+     * @param type        the expected type
+     * @param category    the expected category
+     * @param priority    the expected priority
+     * @param packageName the expected package name
      */
     // CHECKSTYLE:OFF
-    private void checkLintWarning(final FileAnnotation annotation, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority, final String packageName) {
+    private void checkLintWarning(final Issue annotation, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority, final String packageName) {
         checkWarning(annotation, lineNumber, message, fileName, type, category, priority);
-        assertEquals("Wrong packageName detected.", packageName, annotation.getPackageName());
+        assertEquals(packageName, annotation.getPackageName(), "Wrong packageName detected.");
     }
     // CHECKSTYLE:ON
 

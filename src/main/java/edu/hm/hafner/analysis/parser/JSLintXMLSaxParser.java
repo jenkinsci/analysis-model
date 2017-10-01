@@ -1,20 +1,21 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.IntegerParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * Handles parsing.
  */
 public class JSLintXMLSaxParser extends DefaultHandler {
-    private final List<FileAnnotation> warnings;
+    private final Issues issues;
     private String fileName;
     private final String type;
 
@@ -26,21 +27,19 @@ public class JSLintXMLSaxParser extends DefaultHandler {
     /**
      * Creates a new instance of {@link JSLintXMLSaxParser}.
      *
-     * @param type
-     *            type of the parser
-     * @param warnings
-     *            the warnings output
+     * @param type   type of the parser
+     * @param issues the issues
      */
-    public JSLintXMLSaxParser(final String type, final List<FileAnnotation> warnings) {
+    public JSLintXMLSaxParser(final String type, final Issues issues) {
         super();
 
         this.type = type;
-        this.warnings = warnings;
+        this.issues = issues;
     }
 
     @Override
-    public void startElement(final String namespaceURI, final String localName, final String qName,
-            final Attributes atts) throws SAXException {
+    public void startElement(final String namespaceURI, final String localName, final String qName, final Attributes
+            atts) throws SAXException {
         String key = qName;
 
         if (isLintDerivate(key)) {
@@ -81,14 +80,25 @@ public class JSLintXMLSaxParser extends DefaultHandler {
             category = CATEGORY_FORMATTING;
         }
 
-        int lineNumber = AbstractWarningsParser.convertLineNumber(attributes.getValue("line"));
-        Warning warning = new Warning(fileName, lineNumber, type, category, message, priority);
+        int lineNumber = parseInt(attributes.getValue("line"));
 
         String column = extractFrom(attributes, "column", "char");
+        Issue warning;
         if (StringUtils.isNotBlank(column)) {
-            warning.setColumnPosition(AbstractWarningsParser.convertLineNumber(column));
+            warning = new IssueBuilder().setFileName(fileName).setLineStart(lineNumber)
+                                        .setColumnStart(parseInt(column)).setType(type).setCategory(category)
+                                        .setMessage(message).setPriority(priority).build();
         }
-        warnings.add(warning);
+        else {
+            warning = new IssueBuilder().setFileName(fileName).setLineStart(lineNumber).setType(type)
+                                        .setCategory(category).setMessage(message).setPriority(priority).build();
+
+        }
+        issues.add(warning);
+    }
+
+    private int parseInt(final String line) {
+        return new IntegerParser().parseInt(line);
     }
 
     private String extractFrom(final Attributes atts, final String first, final String second) {

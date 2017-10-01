@@ -1,27 +1,25 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
 
 /**
  * A parser for Flex SDK compiler warnings.
  *
  * @author Vivien Tintillier
  */
-@Extension
-public class FlexSDKParser extends RegexpLineParser {
+public class FlexSDKParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -185055018399324311L;
-    private static final String FLEX_SDK_WARNING_PATTERN = "^\\s*(?:\\[.*\\])?\\s*(.*\\.as|.*\\.mxml)\\((\\d*)\\):\\s*(?:col:\\s*\\d*\\s*)?(?:Warning)\\s*:\\s*(.*)$";
+    private static final String FLEX_SDK_WARNING_PATTERN = "^\\s*(?:\\[.*\\])?\\s*(.*\\.as|.*\\.mxml)\\((\\d*)\\)" +
+            ":\\s*(?:col:\\s*\\d*\\s*)?(?:Warning)\\s*:\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link FlexSDKParser}.
      */
     public FlexSDKParser() {
-        super(Messages._Warnings_Flex_ParserName(),
-                Messages._Warnings_Flex_LinkName(),
-                Messages._Warnings_Flex_TrendName(),
-                FLEX_SDK_WARNING_PATTERN, true);
+        super("flex", FLEX_SDK_WARNING_PATTERN);
     }
 
     @Override
@@ -30,8 +28,9 @@ public class FlexSDKParser extends RegexpLineParser {
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
-        return createWarning(matcher.group(1), getLineNumber(matcher.group(2)), matcher.group(3));
+    protected Issue createWarning(final Matcher matcher) {
+        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                             .setMessage(matcher.group(3)).build();
     }
 }
 

@@ -1,54 +1,42 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
-import org.jvnet.localizer.Localizable;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the CodeAnalysis compiler warnings.
  *
  * @author Rafal Jasica
  */
-@Extension
 public class CodeAnalysisParser extends RegexpLineParser {
     private static final long serialVersionUID = -125874563249851L;
-    private static final String WARNING_PATTERN = ANT_TASK
-            + "((MSBUILD)|((.+)\\((\\d+)\\)))\\s*:\\s*[Ww]arning\\s*:?\\s*(\\w*)\\s*:\\s*(Microsoft\\.|)(\\w*(\\.\\w*)*)\\s*:\\s*(.*)\\[(.*)\\]\\s*$";
+    private static final String WARNING_PATTERN = ANT_TASK + "((MSBUILD)|((.+)\\((\\d+)\\)))" +
+            "\\s*:\\s*[Ww]arning\\s*:?\\s*(\\w*)\\s*:\\s*(Microsoft\\.|)" + "(\\w*(\\.\\w*)*)\\s*:\\s*(.*)\\[(.*)" +
+            "\\]\\s*$";
 
     /**
      * Creates a new instance of {@link CodeAnalysisParser}.
      */
     public CodeAnalysisParser() {
-        this(Messages._Warnings_CodeAnalysis_ParserName(), Messages._Warnings_CodeAnalysis_LinkName(),
-                Messages._Warnings_CodeAnalysis_TrendName());
-    }
-
-    /**
-     * Creates a new instance of {@link CodeAnalysisParser}.
-     *
-     * @param parserName
-     *            name of the parser
-     * @param linkName
-     *            name of the project action link
-     * @param trendName
-     *            name of the trend graph
-     */
-    public CodeAnalysisParser(final Localizable parserName, final Localizable linkName, final Localizable trendName) {
-        super(parserName, linkName, trendName, WARNING_PATTERN);
+        super("code-analysis", WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         if (StringUtils.isNotBlank(matcher.group(2))) {
-            return createWarning(matcher.group(11), 0, matcher.group(6), matcher.group(8), matcher.group(10), Priority.NORMAL);
+            return issueBuilder().setFileName(matcher.group(11)).setLineStart(0).setCategory(matcher.group(8))
+                                 .setType(matcher.group(6)).setMessage(matcher.group(10)).setPriority(Priority.NORMAL)
+                                 .build();
         }
         else {
-            return createWarning(matcher.group(4), getLineNumber(matcher.group(5)), matcher.group(6), matcher.group(8), matcher.group(10), Priority.NORMAL);
+            return issueBuilder().setFileName(matcher.group(4)).setLineStart(parseInt(matcher.group(5)))
+                                 .setCategory(matcher.group(8)).setType(matcher.group(6)).setMessage(matcher.group(10))
+                                 .setPriority(Priority.NORMAL).build();
         }
     }
 }

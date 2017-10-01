@@ -1,18 +1,17 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * A parser for the Pep8 compiler warnings.
  *
  * @author Marvin Schütz
  */
-@Extension
-public class Pep8Parser extends RegexpLineParser {
+public class Pep8Parser extends FastRegexpLineParser {
     private static final long serialVersionUID = -8444940209330966997L;
 
     private static final String PEP8_WARNING_PATTERN = "(.*):(\\d+):(\\d+): (\\D\\d*) (.*)";
@@ -21,20 +20,17 @@ public class Pep8Parser extends RegexpLineParser {
      * Creates a new instance of {@link Pep8Parser}.
      */
     public Pep8Parser() {
-        super(Messages._Warnings_Pep8_ParserName(),
-                Messages._Warnings_Pep8_LinkName(),
-                Messages._Warnings_Pep8_TrendName(),
-                PEP8_WARNING_PATTERN, true);
+        super("pep8", PEP8_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String message = matcher.group(5);
-        String category = classifyIfEmpty(matcher.group(4), message);
+        String category = guessCategoryIfEmpty(matcher.group(4), message);
 
-        Warning warning = createWarning(matcher.group(1), getLineNumber(matcher.group(2)), category, message, mapPriority(category));
-        warning.setColumnPosition(getLineNumber(matcher.group(3)));
-        return warning;
+        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                             .setColumnStart(parseInt(matcher.group(3))).setCategory(category).setMessage(message)
+                             .setPriority(mapPriority(category)).build();
     }
 
     @Override

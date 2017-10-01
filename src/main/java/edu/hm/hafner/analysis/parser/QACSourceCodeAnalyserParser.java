@@ -1,18 +1,16 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for PRQA QA-C Sourcecode Analyser warnings.
  *
  * @author Sven Lübke
  */
-@Extension
 public class QACSourceCodeAnalyserParser extends RegexpLineParser {
     /** Pattern of QA-C Sourcecode Analyser warnings. */
     private static final String QAC_WARNING_PATTERN = "^(.+?)\\((\\d+),(\\d+)\\): (Err|Msg)\\((\\d+):(\\d+)\\) (.+?)$";
@@ -21,16 +19,13 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
      * Creates a new instance of <code>QACSourceCodeAnalyserParser</code>.
      */
     public QACSourceCodeAnalyserParser() {
-        super(Messages._Warnings_QAC_ParserName(),
-                Messages._Warnings_QAC_LinkName(),
-                Messages._Warnings_QAC_TrendName(),
-                QAC_WARNING_PATTERN);
+        super("qac", QAC_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String fileName = matcher.group(1);
-        int lineNumber = getLineNumber(matcher.group(2));
+        int lineNumber = parseInt(matcher.group(2));
         String message = matcher.group(7);
         Priority priority;
 
@@ -43,7 +38,8 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return createWarning(fileName, lineNumber, category, message, priority);
+        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
+                             .setPriority(priority).build();
     }
 }
 

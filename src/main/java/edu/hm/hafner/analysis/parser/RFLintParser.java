@@ -1,51 +1,39 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
-import hudson.Extension;
-import hudson.console.ConsoleNote;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
-
-import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * A parser for <a href="http://robotframework.org/">Robot Framework</a>
- * Parse output from <a href="https://github.com/boakley/robotframework-lint">robotframework-lint</a>
- * To generate rflint file
- * cmd$ pip install robotframework-lint
- * cmd$ rflint path/to/test.robot
- * Created by traitanit on 3/27/2017 AD.
- */
-@Extension
-public class RFLintParser extends RegexpLineParser {
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
+
+/**
+ * A parser for <a href="http://robotframework.org/">Robot Framework</a> Parse output from <a
+ * href="https://github.com/boakley/robotframework-lint">robotframework-lint</a> To generate rflint file cmd$ pip
+ * install robotframework-lint cmd$ rflint path/to/test.robot Created by traitanit on 3/27/2017 AD.
+ */
+public class RFLintParser extends RegexpLineParser {
     private static final String RFLINT_ERROR_PATTERN = "([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)";
     private static final String RFLINT_FILE_PATTERN = "\\+\\s(.*)";
     private String fileName;
 
-    public RFLintParser(){
-        super(Messages._Warnings_RFLint_ParserName(),
-                Messages._Warnings_RFLint_LinkName(),
-                Messages._Warnings_RFLint_TrendName(),
-                RFLINT_ERROR_PATTERN);
+    public RFLintParser() {
+        super("rf-lint", RFLINT_ERROR_PATTERN);
     }
 
     @Override
-    public Collection<FileAnnotation> parse(Reader file) throws IOException {
-        List<FileAnnotation> warnings = new ArrayList<FileAnnotation>();
+    public Issues parse(Reader file) {
+        Issues warnings = new Issues();
         LineIterator iterator = IOUtils.lineIterator(file);
         Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
         try {
             while (iterator.hasNext()) {
-                String line = ConsoleNote.removeNotes(iterator.nextLine());
-                // check if line contains file name.
+                String line = getTransformer().apply(iterator.nextLine());
                 Matcher matcher = filePattern.matcher(line);
                 if (matcher.find()) {
                     fileName = matcher.group(1);
@@ -60,11 +48,11 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Warning createWarning(Matcher matcher) {
+    protected Issue createWarning(Matcher matcher) {
         String message = matcher.group(4);
-        String category = classifyIfEmpty(matcher.group(1), message);
+        String category = guessCategoryIfEmpty(matcher.group(1), message);
         Priority priority = Priority.LOW;
-        switch (category.charAt(0)){
+        switch (category.charAt(0)) {
             case 'E':
                 priority = Priority.HIGH;
                 category = "ERROR";
@@ -80,6 +68,7 @@ public class RFLintParser extends RegexpLineParser {
             default:
                 break;
         }
-        return createWarning(fileName, getLineNumber(matcher.group(2)), category, message, priority);
+        return issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
+                             .setMessage(message).setPriority(priority).build();
     }
 }

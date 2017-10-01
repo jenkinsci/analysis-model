@@ -1,18 +1,17 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * A parser for the Coolflux DSP Compiler warnings.
  *
  * @author Vangelis Livadiotis
  */
-@Extension
-public class CoolfluxChessccParser extends RegexpLineParser {
+public class CoolfluxChessccParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 4742509996511002391L;
     private static final String CHESSCC_PATTERN = "^.*?Warning in \"([^\"]+)\", line (\\d+),.*?:\\s*(.*)$";
 
@@ -20,15 +19,7 @@ public class CoolfluxChessccParser extends RegexpLineParser {
      * Creates a new instance of {@link CoolfluxChessccParser}.
      */
     public CoolfluxChessccParser() {
-        super(Messages._Warnings_Coolflux_ParserName(),
-                Messages._Warnings_Coolflux_LinkName(),
-                Messages._Warnings_Coolflux_TrendName(),
-                CHESSCC_PATTERN, true);
-    }
-
-    @Override
-    protected String getId() {
-        return "Coolflux DSP Compiler";
+        super("coolflux-dsp", CHESSCC_PATTERN);
     }
 
     @Override
@@ -37,8 +28,9 @@ public class CoolfluxChessccParser extends RegexpLineParser {
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
-        return createWarning(matcher.group(1), getLineNumber(matcher.group(2)), matcher.group(3), Priority.HIGH);
+    protected Issue createWarning(final Matcher matcher) {
+        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                             .setMessage(matcher.group(3)).setPriority(Priority.HIGH).build();
     }
 }
 

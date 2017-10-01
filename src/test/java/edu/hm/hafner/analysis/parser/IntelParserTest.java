@@ -1,36 +1,34 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link IntelParserTest}.
  */
 public class IntelParserTest extends ParserTester {
-    private static final String TYPE = new IntelParser().getGroup();
+    private static final String TYPE = new IntelParser().getId();
 
     /**
      * Parses a file of messages from the Intel C and Fortran compilers.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new IntelParser().parse(openFile());
+        Issues warnings = new IntelParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 7, warnings.size());
+        assertEquals(7, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 1460, 20,
                 "LOOP WAS VECTORIZED.",
@@ -58,37 +56,36 @@ public class IntelParserTest extends ParserTester {
         annotation = iterator.next();
         // Messages from the Fortran compiler:
         checkWarning(annotation,
-                     1,
-                     "A dummy argument with an explicit INTENT(OUT) declaration is not given an explicit value.   [X]",
-                     "/path/to/file1.f90",
-                     TYPE, "Warning #6843", Priority.NORMAL);
+                1,
+                "A dummy argument with an explicit INTENT(OUT) declaration is not given an explicit value.   [X]",
+                "/path/to/file1.f90",
+                TYPE, "Warning #6843", Priority.NORMAL);
         annotation = iterator.next();
         checkWarning(annotation,
-                     806,
-                     "The scale factor (k) and number of fractional digits (d) do not have the allowed combination of either -d < k <= 0 or 0 < k < d+2. Expect asterisks as output.",
-                     "/path/to/file2.f",
-                     TYPE, "Remark #8577", Priority.LOW);
+                806,
+                "The scale factor (k) and number of fractional digits (d) do not have the allowed combination of either -d < k <= 0 or 0 < k < d+2. Expect asterisks as output.",
+                "/path/to/file2.f",
+                TYPE, "Remark #8577", Priority.LOW);
         annotation = iterator.next();
         checkWarning(annotation,
-                     1,
-                     "Syntax error, found END-OF-STATEMENT when expecting one of: ( % [ : . = =>",
-                     "t.f90",
-                     TYPE, "Error #5082", Priority.HIGH);
+                1,
+                "Syntax error, found END-OF-STATEMENT when expecting one of: ( % [ : . = =>",
+                "t.f90",
+                TYPE, "Error #5082", Priority.HIGH);
     }
 
     /**
      * Parses a warning log with 3 warnings and 1 error.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5402">Issue 5402</a>
      */
     @Test
     public void issue5402() throws IOException {
-        Collection<FileAnnotation> warnings = new IntelParser().parse(openFile("issue5402.txt"));
+        Issues warnings = new IntelParser().parse(openFile("issue5402.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 4, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        assertEquals(4, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 980,
                 "label \"find_rule\" was declared but never referenced",

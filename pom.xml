@@ -56,6 +56,10 @@
     <guava.version>23.0</guava.version>
     <commons.lang.version>3.6</commons.lang.version>
     <commons.io.version>2.5</commons.io.version>
+    <commons.digester.version>3.2</commons.digester.version>
+    <commons.text.version>1.1</commons.text.version>
+
+    <!-- Project Test Dependencies Configuration -->
     <mockito.version>2.9.0</mockito.version>
     <assertj.version>3.8.0</assertj.version>
     <checkstyle.version>8.2</checkstyle.version>
@@ -94,6 +98,16 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons.io.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-digester3</artifactId>
+      <version>${commons.digester.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>${commons.text.version}</version>
     </dependency>
 
     <!-- Test Dependencies -->

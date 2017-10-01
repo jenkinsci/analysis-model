@@ -1,19 +1,20 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.nio.charset.Charset;
 
-import org.apache.tools.ant.util.ReaderInputStream;
-import org.jvnet.localizer.Localizable;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.xml.sax.SAXException;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.ParsingException;
 
 /**
  * Base class for parsers based on {@link JSLintXMLSaxParser}.
@@ -26,33 +27,29 @@ public abstract class LintParser extends AbstractWarningsParser {
     /**
      * Creates a new instance of {@link LintParser}.
      *
-     * @param parserName
-     *            name of the parser
-     * @param linkName
-     *            name of the project action link
-     * @param trendName
-     *            name of the trend graph
+     * @param id ID of the parser
      */
-    protected LintParser(final Localizable parserName, final Localizable linkName, final Localizable trendName) {
-        super(parserName, linkName, trendName);
+    protected LintParser(final String id) {
+        super(id);
     }
 
     @Override
-    public Collection<FileAnnotation> parse(final Reader file) throws IOException, ParsingCanceledException {
+    public Issues parse(final Reader file) throws ParsingException, ParsingCanceledException {
         try {
-            List<FileAnnotation> warnings = new ArrayList<FileAnnotation>();
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             SAXParser parser = parserFactory.newSAXParser();
-            parser.parse(new ReaderInputStream(file, "UTF-8"), new JSLintXMLSaxParser(getGroup(), warnings));
 
-            return warnings;
+            Issues issues = new Issues();
+            parser.parse(new ReaderInputStream(file, Charset
+                    .forName("UTF-8")), new JSLintXMLSaxParser(getId(), issues));
+            return issues;
         }
-        catch (SAXException exception) {
-            throw new IOException(exception);
+        catch (IOException | ParserConfigurationException | SAXException e) {
+            throw new ParsingException(e);
         }
-        catch (ParserConfigurationException exception) {
-            throw new IOException(exception);
+        finally {
+            IOUtils.closeQuietly(file);
         }
     }
 }

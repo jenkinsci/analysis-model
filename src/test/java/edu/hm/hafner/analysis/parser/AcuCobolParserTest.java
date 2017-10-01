@@ -1,36 +1,34 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link AcuCobolParser}.
  */
 public class AcuCobolParserTest extends ParserTester {
-    private static final String TYPE = new AcuCobolParser().getGroup();
+    private static final String TYPE = new AcuCobolParser().getId();
 
     /**
      * Parses a file with 4 COBOL warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseFile() throws IOException {
-        Collection<FileAnnotation> warnings = new AcuCobolParser().parse(openFile());
+        Issues warnings = new AcuCobolParser().parse(openFile());
 
-        assertEquals("Wrong number of warnings detected.", 4, warnings.size());
+        assertEquals(4, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 39,
                 "Imperative statement required",

@@ -1,25 +1,21 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.collect.Lists;
-
-import hudson.Extension;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * A parser for maven console warnings.
  *
  * @author Ulli Hafner
  */
-@Extension
-public class MavenConsoleParser extends RegexpLineParser {
+public class MavenConsoleParser extends FastRegexpLineParser {
     private static final String CONSOLE = "";
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
@@ -33,10 +29,7 @@ public class MavenConsoleParser extends RegexpLineParser {
      * Creates a new instance of {@link MavenConsoleParser}.
      */
     public MavenConsoleParser() {
-        super(Messages._Warnings_Maven_ParserName(),
-                Messages._Warnings_Maven_LinkName(),
-                Messages._Warnings_Maven_TrendName(),
-                PATTERN, true);
+        super("maven", PATTERN);
     }
 
     @Override
@@ -45,7 +38,7 @@ public class MavenConsoleParser extends RegexpLineParser {
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         Priority priority;
         String category;
         if (ERROR.equals(matcher.group(1))) {
@@ -56,24 +49,27 @@ public class MavenConsoleParser extends RegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return createWarning(CONSOLE, getCurrentLine(), category, matcher.group(2), priority);
+        return issueBuilder().setFileName(CONSOLE).setLineStart(getCurrentLine()).setCategory(category)
+                             .setMessage(matcher.group(2)).setPriority(priority).build();
     }
 
-    // FIXME: post processing is quite slow for large number of warnings, see JENKINS-25278
+    // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
     @Override
-    protected Collection<FileAnnotation> postProcessWarnings(final List<FileAnnotation> warnings) {
-        LinkedList<FileAnnotation> condensed = new LinkedList<FileAnnotation>();
+    protected Issues postProcessWarnings(final Issues warnings) {
+        LinkedList<Issue> condensed = new LinkedList<>();
         int line = -1;
-        for (FileAnnotation warning : warnings) {
-            if (warning.getPrimaryLineNumber() == line + 1 && !condensed.isEmpty()) {
-                FileAnnotation previous = condensed.getLast();
+        for (Issue warning : warnings) {
+            if (warning.getLineStart() == line + 1 && !condensed.isEmpty()) {
+                Issue previous = condensed.getLast();
                 if (previous.getPriority() == warning.getPriority()) {
                     condensed.removeLast();
                     if (previous.getMessage().length() + warning.getMessage().length() >= MAX_MESSAGE_LENGTH) {
-                        condensed.add(new Warning(previous, warning.getPrimaryLineNumber()));
+                        condensed.add(issueBuilder().copy(previous).setLineStart(warning.getLineStart()).build());
                     }
                     else {
-                        condensed.add(new Warning(previous, warning.getMessage(), warning.getPrimaryLineNumber()));
+                        condensed.add(issueBuilder().copy(previous).setLineStart(warning.getLineStart())
+                                                    .setMessage(previous.getMessage() + "\n" + warning.getMessage())
+                                                    .build());
                     }
                 }
                 else {
@@ -83,15 +79,16 @@ public class MavenConsoleParser extends RegexpLineParser {
             else {
                 condensed.add(warning);
             }
-            line = warning.getPrimaryLineNumber();
+            line = warning.getLineStart();
         }
-        List<FileAnnotation> noBlank = Lists.newArrayList();
-        for (FileAnnotation warning : condensed) {
+        Issues noBlank = new Issues();
+        for (Issue warning : condensed) {
             if (StringUtils.isNotBlank(warning.getMessage())) {
                 noBlank.add(warning);
             }
         }
         return noBlank;
     }
+
 }
 

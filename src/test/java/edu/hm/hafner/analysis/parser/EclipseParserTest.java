@@ -1,20 +1,16 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import com.google.common.collect.Lists;
-
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.core.ParserResult;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.ConsolePostProcessor;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static java.time.Duration.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link EclipseParser}.
@@ -25,185 +21,168 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     /**
      * Parses a warning log with previously undetected warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
      */
     @Test
     public void issue21377() throws IOException {
-        Collection<FileAnnotation> warnings = createParser().parse(openFile("issue21377.txt"));
+        Issues warnings = createParser().parse(openFile("issue21377.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1, warnings.size());
+        assertEquals(1, warnings.size());
 
-        ParserResult result = new ParserResult(warnings);
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1, result.getNumberOfAnnotations());
-
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 13,
                 "The method getOldValue() from the type SomeType is deprecated",
                 "/path/to/job/job-name/module/src/main/java/com/example/Example.java",
-                getType(), CATEGORY, Priority.NORMAL);
+                TYPE, CATEGORY, Priority.NORMAL);
     }
 
     /**
      * Parses a warning log with 2 previously undetected warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-13969">Issue 13969</a>
      */
     @Test
     public void issue13969() throws IOException {
-        Collection<FileAnnotation> warnings = createParser().parse(openFile("issue13969.txt"));
+        Issues warnings = createParser().parse(openFile("issue13969.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, warnings.size());
+        assertEquals(3, warnings.size());
 
-        ParserResult result = new ParserResult(warnings);
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, result.getNumberOfAnnotations());
-
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 369,
                 "The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally",
                 "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java",
-                getType(), CATEGORY, Priority.NORMAL);
+                TYPE, CATEGORY, Priority.NORMAL);
         checkWarning(iterator.next(),
                 391,
                 "The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally",
                 "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java",
-                getType(), CATEGORY, Priority.NORMAL);
+                TYPE, CATEGORY, Priority.NORMAL);
         checkWarning(iterator.next(),
                 56,
                 "The value of the field PropertyImporterTest.ERROR_RESPONSE is not used",
                 "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java",
-                getType(), CATEGORY, Priority.NORMAL);
+                TYPE, CATEGORY, Priority.NORMAL);
     }
 
     /**
      * Parses a warning log with 15 warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12822">Issue 12822</a>
      */
     @Test
     public void issue12822() throws IOException {
-        Collection<FileAnnotation> warnings = createParser().parse(openFile("issue12822.txt"));
+        Issues warnings = createParser().parse(openFile("issue12822.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 15, warnings.size());
-
-        ParserResult result = new ParserResult(warnings);
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 15, result.getNumberOfAnnotations());
+        assertEquals(15, warnings.size());
     }
 
     /**
      * Parses a warning log with console annotations which are removed.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-11675">Issue 11675</a>
      */
     @Test
     public void issue11675() throws IOException {
-        Collection<FileAnnotation> warnings = createParser().parse(openFile("issue11675.txt"));
+        EclipseParser parser = new EclipseParser();
+        parser.setTransformer(new ConsolePostProcessor());
+        Issues warnings = parser.parse(openFile("issue11675.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 8, warnings.size());
+        assertEquals(8, warnings.size());
 
-        for (FileAnnotation annotation : warnings) {
+        for (Issue annotation : warnings) {
             checkWithAnnotation(annotation);
         }
     }
 
-    private void checkWithAnnotation(final FileAnnotation annotation) {
-        assertTrue("Wrong first characted in message", annotation.getMessage().matches("[a-zA-Z].*"));
+    private void checkWithAnnotation(final Issue annotation) {
+        assertTrue(annotation.getMessage().matches("[a-zA-Z].*"), "Wrong first character in message");
     }
 
     /**
      * Parses a warning log with a ClearCase command line that should not be parsed as a warning.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6427">Issue 6427</a>
      */
     @Test
     public void issue6427() throws IOException {
-        Collection<FileAnnotation> warnings = createParser().parse(openFile("issue6427.txt"));
+        Issues warnings = createParser().parse(openFile("issue6427.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 18, warnings.size());
+        assertEquals(18, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 10,
                 "The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used",
                 "/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java",
-                getType(), CATEGORY, Priority.NORMAL);
+                TYPE, CATEGORY, Priority.NORMAL);
     }
 
     /**
      * Parses a warning log with 2 eclipse messages, the affected source text spans one and two lines.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
      */
     @Test
     public void issue7077() throws IOException {
-        Collection<FileAnnotation> warnings = createParser().parse(openFile("issue7077.txt"));
-        List<FileAnnotation> sorted = Lists.newArrayList(warnings);
-        Collections.sort(sorted);
+        Issues warnings = createParser().parse(openFile("issue7077.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 2, warnings.size());
+        assertEquals(2, warnings.size());
 
-        checkWarning(sorted.get(0),
+        checkWarning(warnings.get(0),
                 90,
                 "Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized",
                 "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java",
-                getType(), CATEGORY, Priority.NORMAL);
-        checkWarning(sorted.get(1),
+                TYPE, CATEGORY, Priority.NORMAL);
+        checkWarning(warnings.get(1),
                 90,
                 "Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>",
                 "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java",
-                getType(), CATEGORY, Priority.NORMAL);
+                TYPE, CATEGORY, Priority.NORMAL);
     }
 
     /**
      * Parses a warning log with several eclipse messages.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
      */
     @Test
     public void issue7077all() throws IOException {
-        Collection<FileAnnotation> warnings = createParser().parse(openFile("issue7077-all.txt"));
-        List<FileAnnotation> sorted = Lists.newArrayList(warnings);
-        Collections.sort(sorted);
+        Issues sorted = createParser().parse(openFile("issue7077-all.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 45, sorted.size());
+        assertEquals(45, sorted.size());
 
         int number = 0;
-        for (FileAnnotation fileAnnotation : sorted) {
+        for (Issue fileAnnotation : sorted) {
             boolean containsHat = fileAnnotation.getMessage().contains("^");
-            assertFalse("Message " + number + " contains ^", containsHat);
+            assertFalse(containsHat, "Message " + number + " contains ^");
             number++;
         }
     }
 
     /**
-     * Parses a warning log which doesn't contain any Eclipse warnings, but
-     * shows some pretty bad performance when matching the regular expression.
+     * Parses a warning log which doesn't contain any Eclipse warnings, but shows some pretty bad performance when
+     * matching the regular expression.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-27664">Issue 27664</a>
      */
-    @Test(timeout = 10000)
+    @Test
     public void issue27664() throws IOException {
-        Collection<FileAnnotation> warnings = createParser().parse(openFile("issue27664.txt"));
+        assertTimeout(ofSeconds(10), () -> {
+            Issues warnings = createParser().parse(openFile("issue27664.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 0, warnings.size());
+            assertEquals(0, warnings.size());
+        }, "Parsing took more than 5 seconds");
     }
 }
 

@@ -1,43 +1,39 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
-import hudson.Extension;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the gcc compiler warnings.
  *
  * @author Greg Roth
  */
-@Extension
 public class GccParser extends RegexpLineParser {
     private static final long serialVersionUID = 2020182274225690532L;
     static final String GCC_ERROR = "GCC error";
     static final String LINKER_ERROR = "Linker error";
-    private static final String GCC_WARNING_PATTERN = "^(?:\\s*(?:\\[.*\\]\\s*)?([^ ]*\\.[chpimxsola0-9]+):(?:(\\d*):(?:\\d*:)*\\s*(?:(warning|error|note)\\s*:|\\s*(.*))|\\s*(undefined reference to.*))(.*)|.*ld:\\s*(.*-l(.*)))$";
+    private static final String GCC_WARNING_PATTERN = "^(?:\\s*(?:\\[.*\\]\\s*)?([^ ]*\\.[chpimxsola0-9]+):(?:(\\d*):" +
+            "(?:\\d*:)*\\s*(?:(warning|error|note)\\s*:|\\s*(.*))|\\s*(undefined reference to.*))(.*)|.*ld:\\s*(.*-l(" +
+            ".*)))$";
 
     /**
      * Creates a new instance of {@link GccParser}.
      */
     public GccParser() {
-        super(Messages._Warnings_gcc3_ParserName(),
-                Messages._Warnings_gcc3_LinkName(),
-                Messages._Warnings_gcc3_TrendName(),
-                GCC_WARNING_PATTERN);
+        super("gcc", GCC_WARNING_PATTERN);
     }
 
     @Override
-    protected String getId() {
-        return "GNU compiler (gcc)";
-    }
-
-    @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
-            return createWarning(matcher.group(8), 0, LINKER_ERROR, matcher.group(7), Priority.HIGH);
+            return issueBuilder().setFileName(matcher.group(8)).setLineStart(0).setCategory(LINKER_ERROR)
+                                 .setMessage(matcher.group(7)).setPriority(Priority.HIGH).build();
         }
         String fileName = matcher.group(1);
         if (StringUtils.contains(fileName, "cleartool")) {
@@ -57,13 +53,17 @@ public class GccParser extends RegexpLineParser {
             if (matcher.group(4).contains("instantiated from here")) {
                 return FALSE_POSITIVE;
             }
-            return createWarning(fileName, getLineNumber(matcher.group(2)), GCC_ERROR, escapeXml(matcher.group(4)), Priority.HIGH);
+            return issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(2)))
+                                 .setCategory(GCC_ERROR).setMessage(StringEscapeUtils.escapeXml10(matcher.group(4)))
+                                 .setPriority(Priority.HIGH).build();
         }
         else {
-            return createWarning(fileName, 0, GCC_ERROR, escapeXml(matcher.group(5)), Priority.HIGH);
+            return issueBuilder().setFileName(fileName).setLineStart(0).setCategory(GCC_ERROR)
+                                 .setMessage(StringEscapeUtils.escapeXml10(matcher.group(5))).setPriority(Priority.HIGH).build();
         }
         String category = "GCC " + matcher.group(3);
-        return createWarning(fileName, getLineNumber(matcher.group(2)), category, escapeXml(matcher.group(6)), priority);
+        return issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
+                             .setMessage(StringEscapeUtils.escapeXml10(matcher.group(6))).setPriority(priority).build();
     }
 
 }

@@ -1,35 +1,31 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for TASKING VX compiler warnings.
  *
  * @author Sven Lübke
  */
-@Extension
 public class TaskingVXCompilerParser extends RegexpLineParser {
     /** Pattern of TASKING VX compiler warnings. */
-    private static final String TASKING_VX_COMPILER_WARNING_PATTERN = "^.*? (I|W|E|F)(\\d+): (?:\\[\"(.*?)\" (\\d+)\\/(\\d+)\\] )?(.*)$";
-                                                                      
+    private static final String TASKING_VX_COMPILER_WARNING_PATTERN = "^.*? (I|W|E|F)(\\d+): (?:\\[\"(.*?)\" (\\d+)" +
+            "\\/(\\d+)\\] )?(.*)$";
+
 
     /**
      * Creates a new instance of <code>TaskingVXCompilerParser</code>.
      */
     public TaskingVXCompilerParser() {
-        super(Messages._Warnings_TaskingVXCompiler_ParserName(),
-                Messages._Warnings_TaskingVXCompiler_LinkName(),
-                Messages._Warnings_TaskingVXCompiler_TrendName(),
-                TASKING_VX_COMPILER_WARNING_PATTERN);
+        super("tasking-vx", TASKING_VX_COMPILER_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String fileName;
         String msgType = matcher.group(1);
         int lineNumber;
@@ -37,18 +33,18 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
         Priority priority;
         String category;
 
-        if(matcher.group(3) != null) {
-          fileName = matcher.group(3);
+        if (matcher.group(3) != null) {
+            fileName = matcher.group(3);
         }
         else {
-          fileName = "";
+            fileName = "";
         }
 
-        if(matcher.group(4) != null) {
-          lineNumber = getLineNumber(matcher.group(4));
+        if (matcher.group(4) != null) {
+            lineNumber = parseInt(matcher.group(4));
         }
         else {
-          lineNumber = 0;
+            lineNumber = 0;
         }
 
         if ("E".equals(msgType)) {
@@ -67,7 +63,8 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return createWarning(fileName, lineNumber, category, message, priority);
+        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
+                             .setPriority(priority).build();
     }
 }
 

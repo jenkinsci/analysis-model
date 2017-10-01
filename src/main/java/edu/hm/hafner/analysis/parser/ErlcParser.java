@@ -1,41 +1,33 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the erlc compiler warnings.
  *
  * @author Stefan Brausch
  */
-@Extension
 public class ErlcParser extends RegexpLineParser {
     private static final long serialVersionUID = 8986478184830773892L;
     /** Pattern of erlc compiler warnings. */
-    private static final String ERLC_WARNING_PATTERN = "^(.+\\.(?:erl|yrl|mib|bin|rel|asn1|idl)):(\\d*): ([wW]arning: )?(.+)$";
+    private static final String ERLC_WARNING_PATTERN = "^(.+\\.(?:erl|yrl|mib|bin|rel|asn1|idl)):(\\d*): ([wW]arning:" +
+            " )?(.+)$";
 
     /**
      * Creates a new instance of {@link ErlcParser}.
      */
     public ErlcParser() {
-        super(Messages._Warnings_Erlang_ParserName(),
-                Messages._Warnings_Erlang_LinkName(),
-                Messages._Warnings_Erlang_TrendName(),
-                ERLC_WARNING_PATTERN);
+        super("erlc", ERLC_WARNING_PATTERN);
     }
 
     @Override
-    protected String getId() {
-        return "Erlang Compiler";
-    }
-
-    @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String filename = matcher.group(1);
-        int linenumber = getLineNumber(matcher.group(2));
+        int lineNumber = parseInt(matcher.group(2));
         Priority priority;
         String category;
         String message = matcher.group(4);
@@ -49,7 +41,8 @@ public class ErlcParser extends RegexpLineParser {
             priority = Priority.HIGH;
             category = "Error";
         }
-        return createWarning(filename, linenumber, category, message, priority);
+        return issueBuilder().setFileName(filename).setLineStart(lineNumber).setCategory(category).setMessage(message)
+                             .setPriority(priority).build();
     }
 }
 

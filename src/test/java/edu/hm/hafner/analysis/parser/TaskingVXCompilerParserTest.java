@@ -1,15 +1,14 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link TaskingVXCompilerParser}.
@@ -21,22 +20,21 @@ public class TaskingVXCompilerParserTest extends ParserTester {
     private static final String ERROR_CATEGORY = "ERROR";
     private static final String LICERROR_CATEGORY = "License issue";
 
-    private static final String WARNING_TYPE = new TaskingVXCompilerParser().getGroup();
+    private static final String WARNING_TYPE = new TaskingVXCompilerParser().getId();
 
     /**
      * Parses a file with TASKING VX compiler warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new TaskingVXCompilerParser().parse(openFile());
+        Issues warnings = new TaskingVXCompilerParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 8, warnings.size());
+        assertEquals(8, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 8796,
                 "condition is always true",
@@ -65,7 +63,7 @@ public class TaskingVXCompilerParserTest extends ParserTester {
                 860,
                 "unused static function \"TcpIp_Tcp_checkRemoteAddr\"",
                 "C:/Projects/a/b/c/d/e/f/g/TcpIp_Tcp.c",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);        
+                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
         annotation = iterator.next();
         checkWarning(annotation,
                 380,

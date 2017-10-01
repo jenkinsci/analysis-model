@@ -1,13 +1,12 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issues;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
@@ -18,13 +17,12 @@ public class CssLintParserTest extends ParserTester {
     /**
      * Tests parsing of CSS-Lint files.
      *
-     * @throws IOException
-     *             in case of an error
+     * @throws IOException in case of an error
      */
     @Test
     public void testCssLint() throws IOException {
-        Collection<FileAnnotation> results = createParser().parse(openFile());
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 51, results.size());
+        Issues results = createParser().parse(openFile());
+        assertEquals(51, results.size());
     }
 
     /**

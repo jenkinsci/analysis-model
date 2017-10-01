@@ -1,36 +1,33 @@
-package hudson.plugins.warnings.parser;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
-import org.junit.Test;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the class {@link RFLintParser}.
- * Created by traitanit on 3/27/2017 AD.
+ * Tests the class {@link RFLintParser}. Created by traitanit on 3/27/2017 AD.
  */
 public class RFLintParserTest extends ParserTester {
-    private static final String WARNING_TYPE = Messages._Warnings_RFLint_ParserName().toString(Locale.ENGLISH);
+    private static final String WARNING_TYPE = new RFLintParser().getId();
 
     /**
      * Parses a txt file, containing 6 warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void rfLintTest() throws IOException {
-        Collection<FileAnnotation> warnings = new RFLintParser().parse(openFile());
+        Issues warnings = new RFLintParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 6, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation warning;
+        assertEquals(6, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue warning;
 
         warning = iterator.next();
         checkWarning(warning,

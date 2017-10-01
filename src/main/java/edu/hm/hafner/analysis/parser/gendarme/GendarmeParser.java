@@ -1,4 +1,4 @@
-package hudson.plugins.warnings.parser.gendarme;
+package edu.hm.hafner.analysis.parser.gendarme;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -7,35 +7,32 @@ import java.io.IOException;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import hudson.Extension;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
-import hudson.plugins.violations.types.fxcop.XmlElementUtil;
-import hudson.plugins.warnings.parser.AbstractWarningsParser;
-import hudson.plugins.warnings.parser.Messages;
-import hudson.plugins.warnings.parser.ParsingCanceledException;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.XmlElementUtil;
 
 /**
  * Parses Gendarme violations.
  *
  * @author mathias.kluba@gmail.com
  */
-@Extension
 public class GendarmeParser extends AbstractWarningsParser {
     private static final long serialVersionUID = 1677715364464119907L;
 
@@ -45,13 +42,11 @@ public class GendarmeParser extends AbstractWarningsParser {
      * Creates a new instance of {@link GendarmeParser}.
      */
     public GendarmeParser() {
-        super(Messages._Warnings_Gendarme_ParserName(),
-                Messages._Warnings_Gendarme_LinkName(),
-                Messages._Warnings_Gendarme_TrendName());
+        super("gendarme");
     }
 
     @Override
-    public Collection<FileAnnotation> parse(final Reader reader) throws IOException, ParsingCanceledException {
+    public Issues parse(final Reader reader) throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -66,16 +61,16 @@ public class GendarmeParser extends AbstractWarningsParser {
             Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getNamedChildElements(rulesElement, "rule"));
             return parseViolations(XmlElementUtil.getNamedChildElements(resultsElement, "rule"), rules);
         }
-        catch (ParserConfigurationException pce) {
-            throw new IOException(pce);
+        catch (IOException | ParserConfigurationException | SAXException e) {
+            throw new ParsingException(e);
         }
-        catch (SAXException se) {
-            throw new IOException(se);
+        finally {
+            IOUtils.closeQuietly(reader);
         }
     }
 
-    private List<FileAnnotation> parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
-        List<FileAnnotation> warnings = new ArrayList<FileAnnotation>();
+    private Issues parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
+        Issues warnings = new Issues();
         for (Element ruleElement : ruleElements) {
             String ruleName = ruleElement.getAttribute("Name");
             String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
@@ -88,9 +83,10 @@ public class GendarmeParser extends AbstractWarningsParser {
 
                 String fileName = extractFileNameMatch(rule, source, 1);
                 Priority priority = extractPriority(defectElement);
-                int line = convertLineNumber(extractFileNameMatch(rule, source, 2));
+                int line = parseInt(extractFileNameMatch(rule, source, 2));
 
-                warnings.add(createWarning(fileName, line, rule.getName(), problem, priority));
+                warnings.add(issueBuilder().setFileName(fileName).setLineStart(line).setCategory(rule.getName())
+                                           .setMessage(problem).setPriority(priority).build());
             }
         }
         return warnings;

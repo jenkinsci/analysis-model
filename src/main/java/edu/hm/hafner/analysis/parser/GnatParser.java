@@ -1,33 +1,30 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the Gnat compiler warnings.
  *
  * @author Bernhard Berger
  */
-@Extension
 public class GnatParser extends RegexpLineParser {
     private static final long serialVersionUID = -7139298560308123856L;
-    private static final String GNAT_WARNING_PATTERN = "^(.+.(?:ads|adb)):(\\d+):(\\d+): ((?:error:)|(?:warning:)|(?:\\(style\\))) (.+)$";
+    private static final String GNAT_WARNING_PATTERN = "^(.+.(?:ads|adb)):(\\d+):(\\d+): ((?:error:)|(?:warning:)|" +
+            "(?:\\(style\\))) (.+)$";
 
     /**
      * Creates a new instance of {@link GnatParser}.
      */
     public GnatParser() {
-        super(Messages._Warnings_gnat_ParserName(),
-                Messages._Warnings_gnat_LinkName(),
-                Messages._Warnings_gnat_TrendName(),
-                GNAT_WARNING_PATTERN);
+        super("gnat", GNAT_WARNING_PATTERN);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         Priority priority;
         String category;
 
@@ -43,6 +40,7 @@ public class GnatParser extends RegexpLineParser {
             priority = Priority.HIGH;
             category = "GNAT error";
         }
-        return createWarning(matcher.group(1), getLineNumber(matcher.group(2)), category, matcher.group(5), priority);
+        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                             .setCategory(category).setMessage(matcher.group(5)).setPriority(priority).build();
     }
 }

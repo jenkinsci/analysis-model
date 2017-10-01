@@ -1,44 +1,36 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for gcc 4.x linker warnings.
  *
  * @author Frederic Chateau
  */
-@Extension
 public class Gcc4LinkerParser extends RegexpLineParser {
     private static final long serialVersionUID = -2792019431810134790L;
     /** A GCC error. */
     static final String WARNING_CATEGORY = "GCC4 Linker Error";
     /** Pattern of gcc 4 linker warnings. */
-    private static final String LINKER_WARNING_PATTERN = "^(?:(.+?)(?:(?::(?:(\\d+):)? (undefined reference to .*))|(?::?\\(\\.\\w+\\+0x[0-9a-fA-F]+\\)): (?:(warning): )?(.*))|.*/ld(?:\\.exe)?: (?:(warning): )?(.*))$";
+    private static final String LINKER_WARNING_PATTERN = "^(?:(.+?)(?:(?::(?:(\\d+):)? (undefined reference to .*))|" +
+            "(?::?\\(\\.\\w+\\+0x[0-9a-fA-F]+\\)): (?:(warning): )?(.*))|.*/ld(?:\\.exe)?: (?:(warning): )?(.*))$";
 
     /**
      * Creates a new instance of <code>Gcc4LinkerParser</code>.
      */
     public Gcc4LinkerParser() {
-        super(Messages._Warnings_gcc4_ParserName(),
-                Messages._Warnings_gcc4_LinkName(),
-                Messages._Warnings_gcc4_TrendName(),
-                LINKER_WARNING_PATTERN);
+        super("gcc4-linker", LINKER_WARNING_PATTERN);
     }
 
     @Override
-    protected String getId() {
-        return "GNU compiler 4 (gcc)";
-    }
-
-    @Override
-    protected Warning createWarning(final Matcher matcher) {
-        Priority priority = Priority.LOW;
+    protected Issue createWarning(final Matcher matcher) {
+        Priority priority;
 
         String message;
         if (StringUtils.isNotBlank(matcher.group(7))) {
@@ -75,8 +67,9 @@ public class Gcc4LinkerParser extends RegexpLineParser {
         }
 
         String fileName = StringUtils.defaultString(matcher.group(1));
-        int lineNumber = getLineNumber(matcher.group(2));
-        return createWarning(fileName, lineNumber, WARNING_CATEGORY, message, priority);
+        int lineNumber = parseInt(matcher.group(2));
+        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(WARNING_CATEGORY)
+                             .setMessage(message).setPriority(priority).build();
     }
 }
 

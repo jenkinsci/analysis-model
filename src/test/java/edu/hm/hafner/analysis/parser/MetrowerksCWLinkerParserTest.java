@@ -1,15 +1,14 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link MetrowerksCWLinkerParser}.
@@ -18,22 +17,21 @@ public class MetrowerksCWLinkerParserTest extends ParserTester {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
-    private static final String TYPE = new MetrowerksCWLinkerParser().getGroup();
+    private static final String TYPE = new MetrowerksCWLinkerParser().getId();
 
     /**
      * Parses a file with two GCC warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Collection<FileAnnotation> warnings = new MetrowerksCWLinkerParser().parse(openFile());
+        Issues warnings = new MetrowerksCWLinkerParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, warnings.size());
+        assertEquals(3, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 0,
                 "L1822: Symbol TestFunction in file e:/work/PATH/PATH/PATH/PATH/appl_src.lib is undefined",
@@ -52,7 +50,6 @@ public class MetrowerksCWLinkerParserTest extends ParserTester {
                 "See Warning message",
                 TYPE, INFO_CATEGORY, Priority.LOW);
     }
-
 
 
     /** {@inheritDoc} */

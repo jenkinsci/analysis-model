@@ -1,15 +1,14 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the Perl::Critic Parser.
@@ -20,30 +19,28 @@ public class PerlCriticParserTest extends ParserTester {
     /**
      * Parses a mixed log file with 105 perlcritic warnings and /var/log/ messages.
      *
-     * @throws IOException
-     *             if the file cannot be read.
+     * @throws IOException if the file cannot be read.
      */
     @Test
     public void testPerlCriticParser() throws IOException {
-        Collection<FileAnnotation> warnings = parse("perlcritic.txt");
+        Issues warnings = parse("perlcritic.txt");
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 105, warnings.size());
+        assertEquals(105, warnings.size());
     }
 
     /**
      * Parses a file with three warnings.
      *
-     * @throws IOException
-     *             if the file cannot be read.
+     * @throws IOException if the file cannot be read.
      */
     @Test
     public void testPerlCriticParserCreateWarning() throws IOException {
-        Collection<FileAnnotation> warnings = parse("issue17792.txt");
+        Issues warnings = parse("issue17792.txt");
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, warnings.size());
+        assertEquals(3, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
 
         checkWarning(annotation, 1, 1, "Code is not tidy", "perl/dir_handler.pl", "33 of PBP", Priority.LOW);
 
@@ -58,17 +55,16 @@ public class PerlCriticParserTest extends ParserTester {
     /**
      * Parses a file with three warnings without the filename in the warning.
      *
-     * @throws IOException
-     *             if the file cannot be read
+     * @throws IOException if the file cannot be read
      */
     @Test
     public void testPerlCriticParserCreateWarningNoFileName() throws IOException {
-        Collection<FileAnnotation> warnings = parse("issue17792-nofilename.txt");
+        Issues warnings = parse("issue17792-nofilename.txt");
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, warnings.size());
+        assertEquals(3, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
 
         checkWarning(annotation, 18, 77, "Found \"\\N{SPACE}\" at the end of the line", "-", "Don't use whitespace at the end of lines", Priority.LOW);
 
@@ -79,7 +75,7 @@ public class PerlCriticParserTest extends ParserTester {
         checkWarning(annotation, 15, 1, "Bareword file handle opened", "-", "202,204 of PBP", Priority.HIGH);
     }
 
-    private Collection<FileAnnotation> parse(final String fileName) throws IOException {
+    private Issues parse(final String fileName) throws IOException {
         return new PerlCriticParser().parse(openFile(fileName));
     }
 

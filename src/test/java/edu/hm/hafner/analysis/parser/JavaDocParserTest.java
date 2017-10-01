@@ -1,50 +1,47 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JavaDocParser}.
  */
 public class JavaDocParserTest extends ParserTester {
-    private static final String TYPE = new JavaDocParser().getGroup();
+    private static final String TYPE = new JavaDocParser().getId();
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     /**
      * Parses a warning log with JavaDoc 1.8 warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void falseJavaDocPositives() throws IOException {
-        Collection<FileAnnotation> warnings = new JavaDocParser().parse(openFile("all.txt"));
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 8, warnings.size());
+        Issues warnings = new JavaDocParser().parse(openFile("all.txt"));
+        assertEquals(8, warnings.size());
     }
 
     /**
      * Parses a warning log with JavaDoc 1.8 errors.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-37975">Issue 37975</a>
      */
     @Test
     public void issue37975() throws IOException {
-        Collection<FileAnnotation> warnings = new JavaDocParser().parse(openFile("issue37975.txt"));
+        Issues warnings = new JavaDocParser().parse(openFile("issue37975.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 3, warnings.size());
+        assertEquals(3, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 79,
                 "malformed HTML",
@@ -73,10 +70,10 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue32298() throws IOException {
-        Collection<FileAnnotation> warnings = new JavaDocParser().parse(openFile("issue32298.txt"));
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 7, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Issues warnings = new JavaDocParser().parse(openFile("issue32298.txt"));
+        assertEquals(7, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 683,
                 "no description for @param",
@@ -124,17 +121,16 @@ public class JavaDocParserTest extends ParserTester {
     /**
      * Parses a file with 6 warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseJavaDocWarnings() throws IOException {
-        Collection<FileAnnotation> warnings = new JavaDocParser().parse(openFile());
+        Issues warnings = new JavaDocParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 6, warnings.size());
+        assertEquals(6, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation,
                 116,
                 "Tag @link: can't find removeSpecChangeListener(ChangeListener, String) in chenomx.ccma.common.graph.module.GraphListenerRegistry",
@@ -145,16 +141,15 @@ public class JavaDocParserTest extends ParserTester {
     /**
      * Parses a warning log with 2 JavaDoc warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4576">Issue 4576</a>
      */
     @Test
     public void issue4576() throws IOException {
-        Collection<FileAnnotation> warnings = new JavaDocParser().parse(openFile("issue4576.txt"));
+        Issues warnings = new JavaDocParser().parse(openFile("issue4576.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 2, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        assertEquals(2, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 0,
                 "Multiple sources of package comments found for package \"org.hamcrest\"",
@@ -170,30 +165,28 @@ public class JavaDocParserTest extends ParserTester {
     /**
      * Parses a log with Junit message (false positive).
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-8630">Issue 8630</a>
      */
     @Test
     public void issue8630() throws IOException {
-        Collection<FileAnnotation> warnings = new JavaDocParser().parse(openFile("issue8630.txt"));
+        Issues warnings = new JavaDocParser().parse(openFile("issue8630.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 0, warnings.size());
+        assertEquals(0, warnings.size());
     }
 
     /**
      * Parses a warning log with several JavaDoc warnings.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7718">Issue 7718</a>
      */
     @Test
     public void issue7718() throws IOException {
-        Collection<FileAnnotation> warnings = new JavaDocParser().parse(openFile("issue7718.txt"));
+        Issues warnings = new JavaDocParser().parse(openFile("issue7718.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 7, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        assertEquals(7, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
                 0,
                 "Text of tag @sys.prop in class ch.post.pf.mw.service.common.alarm.AlarmingService is too long!",

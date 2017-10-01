@@ -1,30 +1,28 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for puppet-lint checks warnings.
  *
  * @author Jan Vansteenkiste <jan@vstone.eu>
  */
-@Extension
 public class PuppetLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 7492869677427430346L;
     private static final String SEPARATOR = "::";
 
     /** Pattern of puppet-lint compiler warnings. */
-    private static final String PUPPET_LINT_PATTERN_WARNING =
-        "^\\s*((?:[A-Za-z]:)?[^:]+):([0-9]+):([^:]+):((?:WARNING)|(?:ERROR)):\\s*(.*)$";
+    private static final String PUPPET_LINT_PATTERN_WARNING = "^\\s*((?:[A-Za-z]:)?[^:]+):([0-9]+):([^:]+):(" +
+            "(?:WARNING)|(?:ERROR)):\\s*(.*)$";
 
-    private static final String PUPPET_LINT_PATTERN_PACKAGE =
-        "^(.*/?modules/)?([^/]*)/manifests(.*)?(/([^/]*)\\.pp)$";
+    private static final String PUPPET_LINT_PATTERN_PACKAGE = "^(.*/?modules/)?([^/]*)/manifests(.*)?(/([^/]*)\\.pp)$";
 
     private final Pattern packagePattern;
 
@@ -32,16 +30,13 @@ public class PuppetLintParser extends RegexpLineParser {
      * Creates a new instance of {@link PuppetLintParser}.
      */
     public PuppetLintParser() {
-        super(Messages._Warnings_Puppet_ParserName(),
-                Messages._Warnings_Puppet_LinkName(),
-                Messages._Warnings_Puppet_TrendName(),
-                PUPPET_LINT_PATTERN_WARNING);
+        super("puppet-lint", PUPPET_LINT_PATTERN_WARNING);
 
         packagePattern = Pattern.compile(PUPPET_LINT_PATTERN_PACKAGE);
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         final String fileName = matcher.group(1);
         final String start = matcher.group(2);
         final String category = matcher.group(3);
@@ -53,12 +48,9 @@ public class PuppetLintParser extends RegexpLineParser {
             priority = Priority.HIGH;
         }
 
-        Warning warning = createWarning(fileName, Integer.parseInt(start), category, message, priority);
-        String moduleName = detectModuleName(fileName);
-        if (StringUtils.isNotBlank(moduleName)) {
-            warning.setPackageName(moduleName);
-        }
-        return warning;
+        return issueBuilder().setFileName(fileName).setLineStart(Integer.parseInt(start)).setType(getId())
+                             .setCategory(category).setPackageName(detectModuleName(fileName)).setMessage(message)
+                             .setPriority(priority).build();
     }
 
     private String detectModuleName(final String fileName) {

@@ -1,21 +1,16 @@
-package hudson.plugins.warnings.parser;
-
-import static org.junit.Assert.*;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import com.google.common.collect.Lists;
-
-import hudson.plugins.analysis.util.model.DefaultAnnotationContainer;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
-import hudson.plugins.analysis.util.model.WorkspaceFile;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
@@ -28,17 +23,16 @@ public class JSLintParserTest extends ParserTester {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @throws IOException
-     *      if the file could not be read
+     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-19127">Issue 19127</a>
      */
     @Test
     public void issue19127() throws IOException {
-        Collection<FileAnnotation> warnings = new JSLintParser().parse(openFile("jslint/jslint.xml"));
+        Issues warnings = new JSLintParser().parse(openFile("jslint/jslint.xml"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 197, warnings.size());
+        assertEquals(197, warnings.size());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
+        Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(), 3, 5,
                 "'window' is not defined.", "C:/DVR/lint_Mobile-Localization_ws/evWebService/WebClientApi/api-v1.js",
                 JSLintXMLSaxParser.CATEGORY_UNDEFINED_VARIABLE, Priority.HIGH);
@@ -47,55 +41,46 @@ public class JSLintParserTest extends ParserTester {
     /**
      * Tests the JS-Lint parsing for warnings in different files.
      *
-     * @throws IOException
-     *             in case of an error
+     * @throws IOException in case of an error
      */
     @Test
     public void testParse() throws IOException {
-        Collection<FileAnnotation> results = createParser().parse(openFile());
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 102, results.size());
+        Issues results = createParser().parse(openFile());
+        assertEquals(102, results.size());
 
-        DefaultAnnotationContainer container = new DefaultAnnotationContainer(results);
-        Collection<WorkspaceFile> files = container.getFiles();
-        assertEquals("Wrong number of files", 2, files.size());
+        assertThat(results.getFiles()).hasSize(2);
+        assertThat(results.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
-        List<WorkspaceFile> sortedFiles = Lists.newArrayList(files);
-        Collections.sort(sortedFiles);
-
-        verifyFileName(sortedFiles, EXPECTED_FILE_NAME, 0);
-        verifyFileName(sortedFiles, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js", 1);
-
-        FileAnnotation firstWarning = results.iterator().next();
+        Issue firstWarning = results.iterator().next();
         checkWarning(firstWarning, 10, 3, "Expected 'Version' to have an indentation at 5 instead at 3.",
                 EXPECTED_FILE_NAME, JSLintXMLSaxParser.CATEGORY_PARSING, Priority.HIGH);
     }
 
+    /*
     private void verifyFileName(final List<WorkspaceFile> sortedFiles, final String expectedName, final int position) {
         assertEquals("Wrong file found: ", expectedName, sortedFiles.get(position).getName());
     }
-
+*/
     /**
      * Tests the JS-Lint parsing for warnings in a single file.
      *
-     * @throws IOException
-     *             in case of an error
+     * @throws IOException in case of an error
      */
     @Test
     public void testParseWithSingleFile() throws IOException {
-        Collection<FileAnnotation> results = createParser().parse(openFile("jslint/single.xml"));
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 51, results.size());
+        Issues results = createParser().parse(openFile("jslint/single.xml"));
+        assertEquals(51, results.size());
     }
 
     /**
      * Tests parsing of CSS-Lint files.
      *
-     * @throws IOException
-     *             in case of an error
+     * @throws IOException in case of an error
      */
     @Test
     public void testCssLint() throws IOException {
-        Collection<FileAnnotation> results = createParser().parse(openFile("jslint/csslint.xml"));
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 51, results.size());
+        Issues results = createParser().parse(openFile("jslint/csslint.xml"));
+        assertEquals(51, results.size());
     }
 
     /**

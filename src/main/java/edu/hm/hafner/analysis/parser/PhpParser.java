@@ -1,35 +1,27 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import hudson.Extension;
-
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * A parser for PHP runtime errors and warnings.
  *
  * @author Shimi Kiviti
  */
-@Extension
-public class PhpParser extends RegexpLineParser {
+public class PhpParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -5154327854315791181L;
 
-    private static final String PHP_WARNING_PATTERN = "^.*(PHP Warning|PHP Notice|PHP Fatal error|PHP Parse error):\\s+(?:(.+ in (.+) on line (\\d+))|(SOAP-ERROR:\\s+.*))$";
+    private static final String PHP_WARNING_PATTERN = "^.*(PHP Warning|PHP Notice|PHP Fatal error|PHP Parse error)" +
+            ":\\s+(?:(.+ in (.+) on line (\\d+))|(SOAP-ERROR:\\s+.*))$";
 
     /**
      * Creates a new instance of {@link PhpParser}.
      */
     public PhpParser() {
-        super(Messages._Warnings_PHP_ParserName(),
-                Messages._Warnings_PHP_LinkName(),
-                Messages._Warnings_PHP_TrendName(),
-                PHP_WARNING_PATTERN, true);
-    }
-
-    @Override
-    protected String getId() {
-        return "PHP Runtime Warning";
+        super("php", PHP_WARNING_PATTERN);
     }
 
     @Override
@@ -38,7 +30,7 @@ public class PhpParser extends RegexpLineParser {
     }
 
     @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String category = matcher.group(1);
 
         Priority priority = Priority.NORMAL;
@@ -48,13 +40,15 @@ public class PhpParser extends RegexpLineParser {
         }
 
         if (matcher.group(5) != null) {
-            return createWarning("-", 0, category, matcher.group(5), priority);
+            return issueBuilder().setFileName("-").setLineStart(0).setCategory(category).setMessage(matcher.group(5))
+                                 .setPriority(priority).build();
         }
         else {
             String message = matcher.group(2);
             String fileName = matcher.group(3);
             String start = matcher.group(4);
-            return createWarning(fileName, Integer.parseInt(start), category, message, priority);
+            return issueBuilder().setFileName(fileName).setLineStart(Integer.parseInt(start)).setCategory(category)
+                                 .setMessage(message).setPriority(priority).build();
         }
     }
 }

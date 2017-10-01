@@ -1,21 +1,18 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import hudson.plugins.analysis.core.ParserResult;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link CppLintParser}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class CppLintParserTest extends ParserTester {
     @Override
@@ -23,26 +20,18 @@ public class CppLintParserTest extends ParserTester {
         return "cpplint.txt";
     }
 
-    /**
-     * Parses a file with 1031 warnings.
-     *
-     * @throws IOException
-     *      if the file could not be read
-     */
+    /** Parses a file with 1031 warnings. */
     @Test
-    public void testParser() throws IOException {
-        Collection<FileAnnotation> warnings = new CppLintParser().parse(openFile());
+    public void shouldFindAll1031Warnings() {
+        Issues issues = new CppLintParser().parse(openFile());
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 1031, warnings.size());
+        assertEquals(1031, issues.size());
 
-        ParserResult result = new ParserResult(warnings);
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 81, result.getNumberOfAnnotations(Priority.HIGH));
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 201, result.getNumberOfAnnotations(Priority.NORMAL));
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 749, result.getNumberOfAnnotations(Priority.LOW));
+        assertEquals(81, issues.getHighPrioritySize());
+        assertEquals(201, issues.getNormalPrioritySize());
+        assertEquals(749, issues.getLowPrioritySize());
 
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
-        checkWarning(annotation,
+        checkWarning(issues.get(0),
                 824,
                 "Tab found; better to use spaces",
                 "c:/Workspace/Trunk/Project/P1/class.cpp",
@@ -52,17 +41,15 @@ public class CppLintParserTest extends ParserTester {
     /**
      * Parses a file with CPP Lint warnings in the new format.
      *
-     * @throws IOException
-     *      if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18290">Issue 18290</a>
      */
     @Test
-    public void issue18290() throws IOException {
-        Collection<FileAnnotation> warnings = new CppLintParser().parse(openFile("issue18290.txt"));
+    public void issue18290() {
+        Issues warnings = new CppLintParser().parse(openFile("issue18290.txt"));
 
-        assertEquals(WRONG_NUMBER_OF_WARNINGS_DETECTED, 2, warnings.size());
-        Iterator<FileAnnotation> iterator = warnings.iterator();
-        FileAnnotation annotation = iterator.next();
+        assertEquals(2, warnings.size());
+        Iterator<Issue> iterator = warnings.iterator();
+        Issue annotation = iterator.next();
         checkWarning(annotation, 399, "Missing space before {",
                 "/opt/ros/fuerte/stacks/Mule/Mapping/Local_map/src/LocalCostMap.cpp",
                 "whitespace/braces", Priority.HIGH);

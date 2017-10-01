@@ -1,30 +1,28 @@
-package hudson.plugins.warnings.parser;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import hudson.Extension;
-import hudson.plugins.analysis.util.model.Priority;
+import edu.hm.hafner.analysis.FastRegexpLineParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
 
 /**
  * A parser for the ant JavaDoc compiler warnings.
  *
  * @author Ulli Hafner
  */
-@Extension
-public class JavaDocParser extends RegexpLineParser {
+public class JavaDocParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 7127568148333474921L;
-    private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";
+    private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit" +
+            " code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";
 
     /**
      * Creates a new instance of {@link JavaDocParser}.
      */
     public JavaDocParser() {
-        super(Messages._Warnings_JavaDoc_ParserName(),
-                Messages._Warnings_JavaDoc_LinkName(),
-                Messages._Warnings_JavaDoc_TrendName(),
-                JAVA_DOC_WARNING_PATTERN, true);
+        super("javadoc", JAVA_DOC_WARNING_PATTERN);
     }
 
     @Override
@@ -33,12 +31,7 @@ public class JavaDocParser extends RegexpLineParser {
     }
 
     @Override
-    protected String getId() {
-        return "JavaDoc";
-    }
-
-    @Override
-    protected Warning createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher) {
         String message = matcher.group(4);
         String type = matcher.group(3);
         Priority priority;
@@ -50,7 +43,8 @@ public class JavaDocParser extends RegexpLineParser {
         }
         String fileName = StringUtils.defaultIfEmpty(matcher.group(1), " - ");
 
-        return createWarning(fileName, getLineNumber(matcher.group(2)), message, priority);
+        return issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setMessage(message)
+                             .setPriority(priority).build();
     }
 }
 
