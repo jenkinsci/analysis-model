@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.Priority;
 /**
  * A parser for the Pep8 compiler warnings.
  *
- * @author Marvin Schütz
+ * @author Marvin SchÃ¼tz
  */
 public class Pep8Parser extends FastRegexpLineParser {
     private static final long serialVersionUID = -8444940209330966997L;

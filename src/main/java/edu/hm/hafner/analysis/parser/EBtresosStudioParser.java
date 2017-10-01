@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 /**
  * A parser for EB tresos Studio warnings.
  *
- * @author Sven Lübke
+ * @author Sven LÃ¼bke
  */
 public class EBtresosStudioParser extends RegexpLineParser {
     /** Pattern of EB tresos warnings. */

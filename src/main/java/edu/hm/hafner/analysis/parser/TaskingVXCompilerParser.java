@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 /**
  * A parser for TASKING VX compiler warnings.
  *
- * @author Sven Lübke
+ * @author Sven LÃ¼bke
  */
 public class TaskingVXCompilerParser extends RegexpLineParser {
     /** Pattern of TASKING VX compiler warnings. */

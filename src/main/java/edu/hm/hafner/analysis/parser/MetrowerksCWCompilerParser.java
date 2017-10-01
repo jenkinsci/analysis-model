@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 /**
  * A parser for Metrowerks Codewarrior 4.x compiler warnings.
  *
- * @author Sven Lübke
+ * @author Sven LÃ¼bke
  */
 public class MetrowerksCWCompilerParser extends RegexpLineParser {
     /** Pattern of MW CodeWarrior compiler warnings. */

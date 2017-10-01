@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests the class {@link Pep8Parser}.
  *
- * @author Marvin Schütz
+ * @author Marvin SchÃ¼tz
  */
 public class Pep8ParserTest extends ParserTester {
     private static final String WARNING_TYPE = new Pep8Parser().getId();

@@ -18,7 +18,7 @@ node {
         sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs"
 
         checkstyle()
-        pmd()
+        pmd()MetrowerksCWLinkerParser
         findbugs pattern: '**/target/findbugsXml.xml'
         dry()
         openTasks high: 'FIXME', normal: 'TODO'

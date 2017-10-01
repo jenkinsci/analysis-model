@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 /**
  * A parser for PRQA QA-C Sourcecode Analyser warnings.
  *
- * @author Sven Lübke
+ * @author Sven LÃ¼bke
  */
 public class QACSourceCodeAnalyserParser extends RegexpLineParser {
     /** Pattern of QA-C Sourcecode Analyser warnings. */
