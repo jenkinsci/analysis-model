@@ -4,24 +4,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>edu.hm.hafner</groupId>
-  <artifactId>codingstyle</artifactId>
-  <version>1.2017.0-SNAPSHOT</version>
+  <artifactId>analysis-model</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
-  <name>Java coding style</name>
-  <description>Provides all necessary resources for a Java project to enforce the coding style used in the lecture
-    software development. It configures several static analysis tools for Maven and IntelliJ. Moreover,
-    it provides some sample classes that already use this style guide. This classes can be used as such but are not
-    required in this project. These classes also use some additional libraries that are included using the Maven
-    dependency mechanism. If the sample classes are deleted then the dependencies can be safely deleted, too.
+  <name>Static Analysis Model</name>
+  <description>This 'analysis-model' project is a library to read static analysis reports into a Java object model.
+    Currently it is used only by Jenkins' warnings plug-in. Since this library has no dependencies to the Jenkins
+    project it might be used by other static analysis visualization tools as well in the future.
   </description>
 
   <scm>
-    <connection>scm:git:git://github.com/uhafner/${project.artifactId}.git</connection>
-    <developerConnection>scm:git:git@github.com:uhafner/${project.artifactId}.git</developerConnection>
-    <url>https://github.com/uhafner/${project.artifactId}</url>
+    <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}.git</developerConnection>
+    <url>https://github.com/jenkinsci/${project.artifactId}</url>
   </scm>
 
   <licenses>
