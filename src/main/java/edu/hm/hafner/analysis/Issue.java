@@ -28,7 +28,10 @@ public class Issue {
     private final int lineEnd;
     private final int columnStart;
     private final int columnEnd;
+
     private final UUID uuid;
+
+    private String fingerprint;
 
     /**
      * Creates a new instance of {@link Issue} using the specified properties.
@@ -190,12 +193,35 @@ public class Issue {
         return packageName;
     }
 
+    /**
+     * Returns the finger print for this issue. Used to decide if two issues are equal even if the equals method returns
+     * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
+     * analyzing the content of the affected file.
+     *
+     * @return the fingerprint of this issue
+     */
+    // TODO: should the fingerprint be part of equals/hashcode?
+    public String getFingerprint() {
+        return defaultString(fingerprint);
+    }
+
+    /**
+     * Sets the finger print for this issue.
+     *
+     * @param fingerprint the fingerprint for this issue
+     * @see #getFingerprint()
+     */
+    public void setFingerprint(final String fingerprint) {
+        this.fingerprint = fingerprint;
+    }
+
     @Override
     public String toString() {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
 
-    @Override @SuppressWarnings("all")
+    @Override
+    @SuppressWarnings("all")
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
@@ -204,7 +230,7 @@ public class Issue {
             return false;
         }
 
-        Issue issue = (Issue) obj;
+        Issue issue = (Issue)obj;
 
         if (lineStart != issue.lineStart) {
             return false;
@@ -239,7 +265,8 @@ public class Issue {
         return packageName != null ? packageName.equals(issue.packageName) : issue.packageName == null;
     }
 
-    @Override @SuppressWarnings("all")
+    @Override
+    @SuppressWarnings("all")
     public int hashCode() {
         int result = fileName != null ? fileName.hashCode() : 0;
         result = 31 * result + (category != null ? category.hashCode() : 0);
