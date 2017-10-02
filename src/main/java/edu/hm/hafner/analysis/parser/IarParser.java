@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.Priority;
  * are started with option '----no_wrap_diagnostics'. Then the IAR compilers will create single-line warnings.
  *
  * @author Claus Klein
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  * @author Kay van der Zander
  */
 public class IarParser extends FastRegexpLineParser {

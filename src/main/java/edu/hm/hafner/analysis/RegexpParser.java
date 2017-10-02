@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  *
  * @author Ullrich Hafner
  */
-public abstract class RegexpParser extends AbstractWarningsParser {
+public abstract class RegexpParser extends AbstractParser {
     private static final long serialVersionUID = -82635675595933170L;
 
     /** Used to define a false positive warnings that should be excluded after the regular expression scan. */

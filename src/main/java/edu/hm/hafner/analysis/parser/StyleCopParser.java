@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -28,7 +28,7 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author Sebastian Seidl
  */
-public class StyleCopParser extends AbstractWarningsParser {
+public class StyleCopParser extends AbstractParser {
     private static final long serialVersionUID = 1L;
 
     /**

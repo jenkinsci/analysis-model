@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -28,7 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * this parser are not thread safe. </p>
  */
 @SuppressWarnings("unused")
-public class FxCopParser extends AbstractWarningsParser {
+public class FxCopParser extends AbstractParser {
     private static final long serialVersionUID = -7208558002331355408L;
 
     private transient FxCopRuleSet ruleSet;

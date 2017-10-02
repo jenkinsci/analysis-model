@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.Issue;
 /**
  * A parser for the ant javac compiler warnings.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class AntJavacParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 1737791073711198075L;

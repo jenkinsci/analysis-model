@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 /**
  * A parser for the MSBuild/PcLint compiler warnings.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class MsBuildParser extends RegexpLineParser {
     private static final long serialVersionUID = -2141974437420906595L;

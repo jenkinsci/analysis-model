@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests the class {@link MavenConsoleParser}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class MavenConsoleParserTest extends ParserTester {
     /**

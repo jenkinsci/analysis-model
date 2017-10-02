@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 /**
  * A parser for the SUN Studio C++ compiler warnings.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class SunCParser extends RegexpLineParser {
     private static final long serialVersionUID = -1251248150596418456L;

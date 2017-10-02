@@ -24,7 +24,7 @@ import edu.hm.hafner.util.Ensure;
  * @see edu.hm.hafner.analysis.parser.EclipseParser
  * @see edu.hm.hafner.analysis.parser.StyleCopParser
  */
-public abstract class AbstractWarningsParser implements Serializable {
+public abstract class AbstractParser implements Serializable {
     private static final long serialVersionUID = 8466657735514387654L;
 
     /** Category for warnings due to usage of deprecate API. */
@@ -37,11 +37,11 @@ public abstract class AbstractWarningsParser implements Serializable {
     private transient Function<String, String> transformer = Functions.identity();
 
     /**
-     * Creates a new instance of {@link AbstractWarningsParser}.
+     * Creates a new instance of {@link AbstractParser}.
      *
      * @param id ID of the parser
      */
-    protected AbstractWarningsParser(final String id) {
+    protected AbstractParser(final String id) {
         this.id = id;
     }
 

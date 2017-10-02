@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issues;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class CssLintParserTest extends ParserTester {
     /**
@@ -30,7 +30,7 @@ public class CssLintParserTest extends ParserTester {
      *
      * @return the warnings parser
      */
-    protected AbstractWarningsParser createParser() {
+    protected AbstractParser createParser() {
         return new CssLintParser();
     }
 

@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
@@ -73,7 +73,7 @@ public class JavacParserTest extends ParserTester {
                 40, 36,
                 "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated",
                 "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java",
-                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
     }
 
     /**

@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -81,7 +81,7 @@ public class PuppetLintParserTest extends ParserTester {
      *
      * @return the warnings parser
      */
-    protected AbstractWarningsParser createParser() {
+    protected AbstractParser createParser() {
         return new PuppetLintParser();
     }
 

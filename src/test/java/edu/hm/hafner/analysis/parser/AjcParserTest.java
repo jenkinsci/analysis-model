@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -44,42 +44,42 @@ public class AjcParserTest extends ParserTester {
                 12,
                 "The type SimpleFormController is deprecated",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/BarController.java",
-                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 19,
                 "The type SimpleFormController is deprecated",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/BarController.java",
-                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 32,
                 "The method BarController.initBinder(HttpServletRequest, ServletRequestDataBinder) overrides a deprecated method from BaseCommandController",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/BarController.java",
-                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 33,
                 "The method initBinder(HttpServletRequest, ServletRequestDataBinder) from the type BaseCommandController is deprecated",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/BarController.java",
-                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 31,
                 "The method NewBarController.initBinder(HttpServletRequest, ServletRequestDataBinder) overrides a deprecated method from BaseCommandController",
                 "/home/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/NewBarController.java",
-                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,
                 28,
                 "The method NewFooController.onSubmit(HttpServletRequest, HttpServletResponse, Object, BindException) overrides a deprecated method from SimpleFormController",
                 "C:/Users/hudson/workspace/project/project-ejb/src/main/java/com/product/foo/pro/controllers/NewFooController.java",
-                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
 
         annotation = iterator.next();
         checkWarning(annotation,

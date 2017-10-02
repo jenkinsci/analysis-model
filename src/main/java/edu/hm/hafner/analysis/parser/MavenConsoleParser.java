@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.Priority;
 /**
  * A parser for maven console warnings.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class MavenConsoleParser extends FastRegexpLineParser {
     private static final String CONSOLE = "";

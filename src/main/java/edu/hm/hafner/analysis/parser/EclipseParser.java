@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.RegexpDocumentParser;
 /**
  * A parser for Eclipse compiler warnings.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class EclipseParser extends RegexpDocumentParser {
     private static final long serialVersionUID = 425883472788422955L;

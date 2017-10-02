@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -22,7 +22,7 @@ import edu.hm.hafner.analysis.Priority;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
-public class JcReportParser extends AbstractWarningsParser {
+public class JcReportParser extends AbstractParser {
     private static final long serialVersionUID = -1302787609831475403L;
 
     /**

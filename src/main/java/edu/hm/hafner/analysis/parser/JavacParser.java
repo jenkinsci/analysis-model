@@ -8,7 +8,7 @@ import edu.hm.hafner.analysis.Issue;
 /**
  * A parser for the javac compiler warnings.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class JavacParser extends FastRegexpLineParser {
 

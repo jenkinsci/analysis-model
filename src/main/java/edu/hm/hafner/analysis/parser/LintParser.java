@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -19,9 +19,9 @@ import edu.hm.hafner.analysis.ParsingException;
 /**
  * Base class for parsers based on {@link JSLintXMLSaxParser}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
-public abstract class LintParser extends AbstractWarningsParser {
+public abstract class LintParser extends AbstractParser {
     private static final long serialVersionUID = 3341424685245834156L;
 
     /**

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests the class {@link IarParser}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class IarParserTest extends ParserTester {
     private static final String TYPE = new IarParser().getId();

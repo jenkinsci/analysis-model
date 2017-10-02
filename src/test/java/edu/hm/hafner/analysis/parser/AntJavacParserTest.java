@@ -8,7 +8,7 @@ import java.util.Iterator;
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -94,7 +94,7 @@ public class AntJavacParserTest extends ParserTester {
                 51,
                 "<T>stubVoid(T) in org.mockito.Mockito has been deprecated",
                 "/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/stubbing/StubbingWithThrowablesTest.java",
-                WARNING_TYPE, AbstractWarningsParser.DEPRECATION, Priority.NORMAL);
+                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
     }
 
     /**

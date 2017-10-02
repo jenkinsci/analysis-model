@@ -6,7 +6,7 @@ import java.io.Reader;
 
 import org.apache.commons.io.IOUtils;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingException;
 
@@ -16,7 +16,7 @@ import edu.hm.hafner.analysis.ParsingException;
  *
  * @author Tom Diamond
  */
-public class AjcParser extends AbstractWarningsParser {
+public class AjcParser extends AbstractParser {
     private static final long serialVersionUID = -9123765511497052454L;
 
     static final String ADVICE = "Advice";
@@ -57,7 +57,7 @@ public class AjcParser extends AbstractWarningsParser {
                             message = line.replaceAll("\\[WARNING\\] ", "");
 
                             if (message.contains("is deprecated") || message.contains("overrides a deprecated")) {
-                                category = AbstractWarningsParser.DEPRECATION;
+                                category = AbstractParser.DEPRECATION;
                             }
                             else if (message.contains("adviceDidNotMatch")) {
                                 category = AjcParser.ADVICE;

@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 /**
  * A parser for Oracle Invalids.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class InvalidsParser extends RegexpLineParser {
     private static final long serialVersionUID = 440910718005095427L;

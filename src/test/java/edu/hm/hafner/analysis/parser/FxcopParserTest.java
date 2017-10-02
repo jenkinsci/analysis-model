@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests the class {@link FxCopParser}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class FxcopParserTest extends ParserTester {
     /**

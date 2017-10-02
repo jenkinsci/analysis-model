@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests the class {@link GendarmeParser}.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class GendarmeParserTest extends ParserTester {
     /**

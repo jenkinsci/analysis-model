@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Basic tests for the Eclipse parser.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public abstract class AbstractEclipseParserTest extends ParserTester {
     protected static final String TYPE = new EclipseParser().getId();
@@ -24,7 +24,7 @@ public abstract class AbstractEclipseParserTest extends ParserTester {
      *
      * @return the created parser
      */
-    protected AbstractWarningsParser createParser() {
+    protected AbstractParser createParser() {
         return new EclipseParser();
     }
 

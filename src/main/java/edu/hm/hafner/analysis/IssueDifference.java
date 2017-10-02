@@ -6,7 +6,7 @@ import java.util.Optional;
  * Computes old, new, and fixed issues based on the reports of two consecutive static analysis runs for the same
  * software artifact.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class IssueDifference {
     private final Issues newIssues;

@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -26,7 +26,7 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author Alex Lopashev, alexlopashev@gmail.com
  */
-public class IdeaInspectionParser extends AbstractWarningsParser {
+public class IdeaInspectionParser extends AbstractParser {
     private static final long serialVersionUID = 3307389086106375473L;
 
     /**

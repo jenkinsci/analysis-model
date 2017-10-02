@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractWarningsParser;
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -33,7 +33,7 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author mathias.kluba@gmail.com
  */
-public class GendarmeParser extends AbstractWarningsParser {
+public class GendarmeParser extends AbstractParser {
     private static final long serialVersionUID = 1677715364464119907L;
 
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");

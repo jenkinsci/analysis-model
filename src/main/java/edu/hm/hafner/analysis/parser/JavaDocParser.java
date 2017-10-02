@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.Priority;
 /**
  * A parser for the ant JavaDoc compiler warnings.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class JavaDocParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 7127568148333474921L;
