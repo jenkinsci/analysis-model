@@ -24,13 +24,19 @@ node ('linux') {
                 writeFile file: settingsXml, text: libraryResource('settings-azure.xml')
                 mavenOptions += "-s $settingsXml"
             }
-            mavenOptions += "clean install"
+            mavenOptions += "clean install checkstyle:checkstyle findbugs:findbugs"
             command = "mvn ${mavenOptions.join(' ')}"
             env << "PATH+MAVEN=${tool 'mvn'}/bin"
 
             withEnv(env) {
                 sh command
             }
+
+            junit testResults: '**/target/surefire-reports/TEST-*.xml'
+            warnings consoleParsers: [[parserName: 'Java Compiler (javac)'], [parserName: 'JavaDoc']]
+
+            checkstyle pattern:  '**/target/checkstyle-report.xml'
+            findbugs pattern: '**/target/findbugsXml.xml'
         }
     }
 
