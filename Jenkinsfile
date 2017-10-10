@@ -36,9 +36,6 @@ node ('linux') {
             warnings consoleParsers: [[parserName: 'Java Compiler (javac)'], [parserName: 'JavaDoc']]
             checkstyle pattern: '**/target/checkstyle-result.xml'
             findbugs pattern: '**/target/findbugsXml.xml'
-            pmd pattern: '**/target/pmd.xml'
-            openTasks high: 'FIXME', normal: 'TODO'
-            jacoco()
         }
     }
 
