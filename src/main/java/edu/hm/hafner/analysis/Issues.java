@@ -107,6 +107,11 @@ public class Issues implements Iterable<Issue> {
                 .collect(collectingAndThen(toList(), ImmutableList::copyOf));
     }
 
+    @Override
+    public Iterator<Issue> iterator() {
+        return elements.iterator();
+    }
+
     /**
      * Returns the number of issues in this container.
      *
@@ -123,11 +128,6 @@ public class Issues implements Iterable<Issue> {
      */
     public int getSize() {
         return size();
-    }
-
-    @Override
-    public Iterator<Issue> iterator() {
-        return elements.iterator();
     }
 
     /**

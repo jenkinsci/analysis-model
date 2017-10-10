@@ -1,34 +1,43 @@
-node {
-    stage ('Checkout') {
-        checkout scm
+node (linux) {
+    timeout(60) {
+        stage ('Checkout') {
+            checkout scm
+        }
+
+        stage ('Build') {
+            String jdk = '8'
+            String jdkTool = "jdk${jdk}"
+            List<String> env = [
+                    "JAVA_HOME=${tool jdkTool}",
+                    'PATH+JAVA=${JAVA_HOME}/bin',
+            ]
+            String command
+            List<String> mavenOptions = [
+                    '--batch-mode',
+                    '--errors',
+                    '--update-snapshots',
+                    '-Dmaven.test.failure.ignore',
+            ]
+            if (jdk.toInteger() > 7 && infra.isRunningOnJenkinsInfra()) {
+                /* Azure mirror only works for sufficiently new versions of the JDK due to Letsencrypt cert */
+                def settingsXml = "${pwd tmp: true}/settings-azure.xml"
+                writeFile file: settingsXml, text: libraryResource('settings-azure.xml')
+                mavenOptions += "-s $settingsXml"
+            }
+            mavenOptions += "clean install"
+            if (runFindbugs) {
+                mavenOptions += "findbugs:findbugs"
+            }
+            if (runCheckstyle) {
+                mavenOptions += "checkstyle:checkstyle"
+            }
+            command = "mvn ${mavenOptions.join(' ')}"
+            env << "PATH+MAVEN=${tool 'mvn'}/bin"
+
+            withEnv(env) {
+                sh command
+            }
+        }
     }
 
-    stage ('Build') {
-        def mvnHome = tool 'mvn-default'
-
-        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false"
-
-        junit testResults: '**/target/surefire-reports/TEST-*.xml'
-        warnings consoleParsers: [[parserName: 'Java Compiler (javac)']]
-    }
-
-    stage ('Analysis') {
-        def mvnHome = tool 'mvn-default'
-
-        sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs"
-
-        checkstyle()
-        pmd()
-        findbugs pattern: '**/target/findbugsXml.xml'
-        dry()
-        openTasks high: 'FIXME', normal: 'TODO'
-    }
-
-    stage ('Coverage') {
-        def mvnHome = tool 'mvn-default'
-
-        sh "${mvnHome}/bin/mvn -batch-mode -V -U -e clean jacoco:prepare-agent test jacoco:report"
-
-        jacoco()
-    }
 }
