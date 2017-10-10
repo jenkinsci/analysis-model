@@ -34,9 +34,11 @@ node ('linux') {
 
             junit testResults: '**/target/surefire-reports/TEST-*.xml'
             warnings consoleParsers: [[parserName: 'Java Compiler (javac)'], [parserName: 'JavaDoc']]
-
-            checkstyle pattern:  '**/target/checkstyle-report.xml'
+            checkstyle pattern: '**/target/checkstyle-result.xml'
             findbugs pattern: '**/target/findbugsXml.xml'
+            pmd pattern: '**/target/pmd.xml'
+            openTasks high: 'FIXME', normal: 'TODO'
+            jacoco()
         }
     }
 
