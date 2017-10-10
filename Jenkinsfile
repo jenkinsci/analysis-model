@@ -25,12 +25,6 @@ node ('linux') {
                 mavenOptions += "-s $settingsXml"
             }
             mavenOptions += "clean install"
-            if (runFindbugs) {
-                mavenOptions += "findbugs:findbugs"
-            }
-            if (runCheckstyle) {
-                mavenOptions += "checkstyle:checkstyle"
-            }
             command = "mvn ${mavenOptions.join(' ')}"
             env << "PATH+MAVEN=${tool 'mvn'}/bin"
 
