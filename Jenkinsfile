@@ -1,4 +1,4 @@
-node (linux) {
+node ('linux') {
     timeout(60) {
         stage ('Checkout') {
             checkout scm
