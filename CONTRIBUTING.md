@@ -7,14 +7,14 @@ project overall, check out https://jenkins.io/participate/.
  
 ## Getting started
 
-1. Fork the repository on GitHub
-2. Clone the forked repository to your machine
+1. Fork the repository on GitHub.
+2. Clone the forked repository to your machine.
 3. Install the development tools. In order to contribute to Jenkins' Static Analysis Suite, you need the following tools:
-  * Java Development Kit (JDK) 8.
-  * Maven 3.3.9 or above. You can download it [here](https://maven.apache.org/download.cgi)
-  * Any IDE which supports importing Maven projects
+   * Java Development Kit (JDK) 8.
+   * Maven 3.3.9 or above. You can download it [here](https://maven.apache.org/download.cgi).
+   * Any IDE which supports importing Maven projects.
 4. Setup your development environment as described in 
-[Preparing for Plugin Development](https://jenkins.io/doc/developer/tutorial/prepare/)
+[Preparing for Plugin Development](https://jenkins.io/doc/developer/tutorial/prepare/).
 
 ## Coding Guidelines
 
@@ -44,11 +44,11 @@ To submit a pull request:
 
 1. Commit changes and push them to your fork on GitHub.
 It is a good practice is to create branches instead of pushing to master.
-2. In GitHub Web UI click the **New Pull Request** button
-3. Select `analysis-model` as **base fork** and `master` as **base**, then click **Create Pull Request**
+2. In GitHub Web UI click the **New Pull Request** button.
+3. Select `analysis-model` as **base fork** and `master` as **base**, then click **Create Pull Request**.
 4. Fill in the Pull Request description. It should reflect the changes, the reason behind the changes, and if available a
-reference to the Jenkins ticket in our [issue tracker](https://issues.jenkins-ci.org/)
-5. Click **Create Pull Request**
+reference to the Jenkins ticket in our [issue tracker](https://issues.jenkins-ci.org/).
+5. Click **Create Pull Request**.
 6. Wait for CI results, reviews. 
 7. Process the feedback (see previous step). If there are changes required, commit them in your local branch and push them
 again to GitHub. Your pull request will be updated automatically. Review comments for changed lines will become outdated.
@@ -65,10 +65,6 @@ Contributions under MIT-compatible licenses may be also rejected if they are not
 We **Do NOT** require pull request submitters to sign the 
 [contributor agreement](https://wiki.jenkins.io/display/JENKINS/Copyright+on+source+code)
 as long as the code is licensed under MIT and merged by one of the contributors with the signed agreement.
-
-We still encourage people to sign the contributor agreement if they intend to submit more than a few pull requests.
-Signing is also a mandatory prerequisite for getting merge/push permissions to core repositories
-and for joining teams like [Jenkins Security Team](https://jenkins.io/security/#team).
 
 ## Continuous Integration
 
