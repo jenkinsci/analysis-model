@@ -53,7 +53,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getPriority(), priority)) {
-            failWithMessage("Expected issue's priority to be <%s> but was <%s>", type, actual.getId());
+            failWithMessage("Expected issue's priority to be <%s> but was <%s>", priority, actual.getId());
         }
         return this;
     }
@@ -62,7 +62,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getMessage(), message)) {
-            failWithMessage("Expected issue's message to be <%s> but was <%s>", type, actual.getId());
+            failWithMessage("Expected issue's message to be <%s> but was <%s>", message, actual.getId());
         }
         return this;
     }
@@ -71,16 +71,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getDescription(), description)) {
-            failWithMessage("Expected issue's description to be <%s> but was <%s>", type, actual.getId());
-        }
-        return this;
-    }
-
-    public IssueAssert hasDescription(String description) {
-        isNotNull();
-
-        if (!Objects.equals(actual.getDescription(), description)) {
-            failWithMessage("Expected issue's description to be <%s> but was <%s>", type, actual.getId());
+            failWithMessage("Expected issue's description to be <%s> but was <%s>", description, actual.getId());
         }
         return this;
     }
@@ -88,8 +79,8 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasLineStart(int lineStart) {
         isNotNull();
 
-        if (!Objects.equals(actual.getLineStart(), lineStart)) {
-            failWithMessage("Expected issue's line start to be <%d> but was <%d>", type, actual.getId());
+        if (actual.getLineStart() != lineStart) {
+            failWithMessage("Expected issue's line start to be <%d> but was <%d>", lineStart, actual.getId());
         }
         return this;
     }
@@ -97,8 +88,8 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasLineEnd(int lineEnd) {
         isNotNull();
 
-        if (!Objects.equals(actual.getLineEnd(), lineEnd)) {
-            failWithMessage("Expected issue's line end to be <%d> but was <%d>", type, actual.getId());
+        if (actual.getLineEnd() != lineEnd) {
+            failWithMessage("Expected issue's line end to be <%d> but was <%d>", lineEnd, actual.getId());
         }
         return this;
     }
@@ -106,8 +97,8 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasColumnStart(int columnStart) {
         isNotNull();
 
-        if (!Objects.equals(actual.getLineStart(), columnStart)) {
-            failWithMessage("Expected issue's column start to be <%d> but was <%d>", type, actual.getId());
+        if (actual.getColumnStart() != columnStart) {
+            failWithMessage("Expected issue's column start to be <%d> but was <%d>", columnStart, actual.getId());
         }
         return this;
     }
@@ -115,8 +106,8 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasColumnEnd(int columnEnd) {
         isNotNull();
 
-        if (!Objects.equals(actual.getLineEnd(), columnEnd)) {
-            failWithMessage("Expected issue's column end to be <%d> but was <%d>", type, actual.getId());
+        if (actual.getColumnEnd() != columnEnd) {
+            failWithMessage("Expected issue's column end to be <%d> but was <%d>", columnEnd, actual.getId());
         }
         return this;
     }
@@ -125,7 +116,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getPackageName(), packageName)) {
-            failWithMessage("Expected issue's package name to be <%s> but was <%s>", type, actual.getId());
+            failWithMessage("Expected issue's package name to be <%s> but was <%s>", packageName, actual.getId());
         }
         return this;
     }
@@ -134,7 +125,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getFingerprint(), fingerprint)) {
-            failWithMessage("Expected issue's fingerprint to be <%s> but was <%s>", type, actual.getId());
+            failWithMessage("Expected issue's fingerprint to be <%s> but was <%s>", fingerprint, actual.getId());
         }
         return this;
     }
