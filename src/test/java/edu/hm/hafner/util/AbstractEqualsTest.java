@@ -3,6 +3,7 @@ package edu.hm.hafner.util;
 
 import org.junit.jupiter.api.Test;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -23,6 +24,7 @@ public abstract class AbstractEqualsTest {
      */
     @Test
     @SuppressWarnings({"ObjectEqualsNull", "PMD.EqualsNull"})
+    @SuppressFBWarnings("EC")
     public void shouldReturnFalseOnEqualsNull() {
         assertThat(createSut().equals(null)).isFalse();
     }
