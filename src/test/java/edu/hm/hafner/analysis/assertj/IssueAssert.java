@@ -13,6 +13,10 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         super(actual, IssueAssert.class);
     }
 
+    public static IssueAssert assertThat(final Issue actual) {
+        return new IssueAssert(actual);
+    }
+
     public IssueAssert hasId(final UUID id) {
         isNotNull();
 
