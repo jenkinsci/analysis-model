@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.Issues;
 
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     public IssuesAssert(final Issues actual) {
-        super(actual, IssueAssert.class);
+        super(actual, IssuesAssert.class);
     }
 
     public static IssuesAssert assertThat(final Issues actual) {
@@ -16,7 +16,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     public IssuesAssert hasSize(final int size) {
         isNotNull();
 
-        if (actual.size() != size) {
+        if (actual.getSize() != size) {
             failWithMessage("Expected issues' size to be <%s> but was <%s>", size, actual.size());
         }
         return this;
