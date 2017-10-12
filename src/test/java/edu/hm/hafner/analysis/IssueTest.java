@@ -2,8 +2,9 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.assertj.AnalysisSoftAssertions;
+import static edu.hm.hafner.analysis.assertj.AnalysisSoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.SoftAssertions.*;
 
 /**
  * Unit test for {@link Issue}.
@@ -28,21 +29,21 @@ class IssueTest {
     void testIssue() {
         Issue issue = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, PRIORITY, MESSAGE, DESCRIPTION);
 
-        assertSoftly(softly -> {
-            softly.assertThat(issue.getId()).isNotNull();
-            softly.assertThat(issue.getFileName()).isEqualTo(FILE_NAME);
-            softly.assertThat(issue.getCategory()).isEqualTo(CATEGORY);
-            softly.assertThat(issue.getLineStart()).isEqualTo(LINE_START);
-            softly.assertThat(issue.getLineEnd()).isEqualTo(LINE_END);
-            softly.assertThat(issue.getColumnStart()).isEqualTo(COLUMN_START);
-            softly.assertThat(issue.getColumnEnd()).isEqualTo(COLUMN_END);
-            softly.assertThat(issue.getType()).isEqualTo(TYPE);
-            softly.assertThat(issue.getPackageName()).isEqualTo(PACKAGE_NAME);
-            softly.assertThat(issue.getPriority()).isEqualTo(PRIORITY);
-            softly.assertThat(issue.getMessage()).isEqualTo(MESSAGE);
-            softly.assertThat(issue.getDescription()).isEqualTo(DESCRIPTION);
-            softly.assertThat(issue.getFingerprint()).isEqualTo(UNDEFINED);
-        });
+        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
+        softly.assertThat(issue.getId()).isNotNull();
+        softly.assertThat(issue).hasFileName(FILE_NAME);
+        softly.assertThat(issue).hasCategory(CATEGORY);
+        softly.assertThat(issue).hasLineStart(LINE_START);
+        softly.assertThat(issue).hasLineEnd(LINE_END);
+        softly.assertThat(issue).hasColumnStart(COLUMN_START);
+        softly.assertThat(issue).hasColumnEnd(COLUMN_END);
+        softly.assertThat(issue).hasType(TYPE);
+        softly.assertThat(issue).hasPackageName(PACKAGE_NAME);
+        softly.assertThat(issue).hasPriority(PRIORITY);
+        softly.assertThat(issue).hasMessage(MESSAGE);
+        softly.assertThat(issue).hasDescription(DESCRIPTION);
+        softly.assertThat(issue).hasFingerprint(UNDEFINED);
+        softly.assertAll();
     }
 
     @Test
@@ -60,32 +61,32 @@ class IssueTest {
     }
 
     void assertIsDefaultIssue(final Issue issue) {
-        assertSoftly(softly -> {
-            softly.assertThat(issue.getId()).isNotNull();
-            softly.assertThat(issue.getFileName()).isEqualTo(UNDEFINED);
-            softly.assertThat(issue.getCategory()).isEqualTo(EMPTY);
-            softly.assertThat(issue.getLineStart()).isEqualTo(0);
-            softly.assertThat(issue.getLineEnd()).isEqualTo(0);
-            softly.assertThat(issue.getColumnStart()).isEqualTo(0);
-            softly.assertThat(issue.getColumnEnd()).isEqualTo(0);
-            softly.assertThat(issue.getType()).isEqualTo(UNDEFINED);
-            softly.assertThat(issue.getPackageName()).isEqualTo(UNDEFINED);
-            softly.assertThat(issue.getMessage()).isEqualTo(EMPTY);
-            softly.assertThat(issue.getDescription()).isEqualTo(EMPTY);
-            softly.assertThat(issue.getFingerprint()).isEqualTo(UNDEFINED);
-        });
+        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
+        softly.assertThat(issue.getId()).isNotNull();
+        softly.assertThat(issue).hasFileName(UNDEFINED);
+        softly.assertThat(issue).hasCategory(EMPTY);
+        softly.assertThat(issue).hasLineStart(0);
+        softly.assertThat(issue).hasLineEnd(0);
+        softly.assertThat(issue).hasColumnStart(0);
+        softly.assertThat(issue).hasColumnEnd(0);
+        softly.assertThat(issue).hasType(UNDEFINED);
+        softly.assertThat(issue).hasPackageName(UNDEFINED);
+        softly.assertThat(issue).hasMessage(EMPTY);
+        softly.assertThat(issue).hasDescription(EMPTY);
+        softly.assertThat(issue).hasFingerprint(UNDEFINED);
+        softly.assertAll();
     }
 
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
         Issue issue = new Issue(FILE_NAME, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE, PACKAGE_NAME, null, MESSAGE, DESCRIPTION);
 
-        assertSoftly(softly -> {
-            softly.assertThat(issue.getLineStart()).isEqualTo(LINE_START);
-            softly.assertThat(issue.getLineEnd()).isEqualTo(LINE_START);
-            softly.assertThat(issue.getColumnStart()).isEqualTo(COLUMN_START);
-            softly.assertThat(issue.getColumnEnd()).isEqualTo(COLUMN_START);
-        });
+        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
+        softly.assertThat(issue).hasLineStart(LINE_START);
+        softly.assertThat(issue).hasLineEnd(LINE_START);
+        softly.assertThat(issue).hasColumnStart(COLUMN_START);
+        softly.assertThat(issue).hasColumnEnd(COLUMN_START);
+        softly.assertAll();
     }
 
     @Test
