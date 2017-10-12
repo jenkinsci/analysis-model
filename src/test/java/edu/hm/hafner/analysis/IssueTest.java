@@ -46,24 +46,28 @@ class IssueTest {
     }
 
     @Test
-    void testIssueNullStringsDefaultToUndefinedOrNull() {
-        Issue issue = new Issue(null, LINE_START, LINE_END, COLUMN_START, COLUMN_END, null, null, null, PRIORITY, null, null);
+    void testDefaultIssueNullStringsNegativeIntegers() {
+        Issue issue = new Issue(null, 0, 0, 0, 0, null, null, null, PRIORITY, null, null);
 
-        assertStringsDefaultToUndefinedOrEmpty(issue);
+        assertIsDefaultIssue(issue);
     }
 
     @Test
-    void testIssueEmptyStringsDefaultToUndefinedOrNull() {
-        Issue issue = new Issue(EMPTY, LINE_START, LINE_END, COLUMN_START, COLUMN_END, EMPTY, EMPTY, EMPTY, PRIORITY, EMPTY, EMPTY);
+    void testDefaultIssueEmptyStringsNegativeIntegers() {
+        Issue issue = new Issue(EMPTY, -1, -1, -1, -1, EMPTY, EMPTY, EMPTY, PRIORITY, EMPTY, EMPTY);
 
-        assertStringsDefaultToUndefinedOrEmpty(issue);
+        assertIsDefaultIssue(issue);
     }
 
-    void assertStringsDefaultToUndefinedOrEmpty(final Issue issue) {
+    void assertIsDefaultIssue(final Issue issue) {
         assertSoftly(softly -> {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue.getFileName()).isEqualTo(UNDEFINED);
             softly.assertThat(issue.getCategory()).isEqualTo(EMPTY);
+            softly.assertThat(issue.getLineStart()).isEqualTo(0);
+            softly.assertThat(issue.getLineEnd()).isEqualTo(0);
+            softly.assertThat(issue.getColumnStart()).isEqualTo(0);
+            softly.assertThat(issue.getColumnEnd()).isEqualTo(0);
             softly.assertThat(issue.getType()).isEqualTo(UNDEFINED);
             softly.assertThat(issue.getPackageName()).isEqualTo(UNDEFINED);
             softly.assertThat(issue.getMessage()).isEqualTo(EMPTY);
@@ -73,26 +77,14 @@ class IssueTest {
     }
 
     @Test
-    void testNegativeIntegersDefaultToZero() {
-        Issue issue = new Issue(FILE_NAME, -1, -1, -1, -1, CATEGORY, TYPE, PACKAGE_NAME, null, MESSAGE, DESCRIPTION);
-
-        assertSoftly(softly -> {
-            softly.assertThat(issue.getLineStart()).isEqualTo(0);
-            softly.assertThat(issue.getLineEnd()).isEqualTo(0);
-            softly.assertThat(issue.getColumnStart()).isEqualTo(0);
-            softly.assertThat(issue.getColumnEnd()).isEqualTo(0);
-        });
-    }
-
-    @Test
-    void testLowerLineColumnEndsDefaultToLineColumnStarts() {
-        Issue issue = new Issue(FILE_NAME, LINE_START, LINE_START - 1, COLUMN_START, COLUMN_START - 1, CATEGORY, TYPE, PACKAGE_NAME, null, MESSAGE, DESCRIPTION);
+    void testZeroLineColumnEndsDefaultToLineColumnStarts() {
+        Issue issue = new Issue(FILE_NAME, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE, PACKAGE_NAME, null, MESSAGE, DESCRIPTION);
 
         assertSoftly(softly -> {
             softly.assertThat(issue.getLineStart()).isEqualTo(LINE_START);
             softly.assertThat(issue.getLineEnd()).isEqualTo(LINE_START);
-            softly.assertThat(issue.getColumnStart()).isEqualTo(LINE_START);
-            softly.assertThat(issue.getColumnEnd()).isEqualTo(LINE_START);
+            softly.assertThat(issue.getColumnStart()).isEqualTo(COLUMN_START);
+            softly.assertThat(issue.getColumnEnd()).isEqualTo(COLUMN_START);
         });
     }
 
