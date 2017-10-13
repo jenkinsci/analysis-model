@@ -11,6 +11,16 @@ class IssueBuilderTest {
     void buildEmptyIssue() {
         final Issue sut = new IssueBuilder().build();
         assertThat(sut)
-                .hasFileName("-");
+                .hasFileName("-")
+                .hasCategory("")
+                .hasType("-")
+                .hasPriority(Priority.NORMAL)
+                .hasMessage("")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
     }
 }
