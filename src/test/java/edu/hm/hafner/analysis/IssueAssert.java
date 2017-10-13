@@ -33,7 +33,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert,Issue> {
      */
     IssueAssert hasLineEnd(int lineEnd){
         if(actual.getLineEnd() != (lineEnd))
-            failWithMessage("actual lineEnd is: "+actual.getLineStart()+  " buts shout be "+lineEnd);
+            failWithMessage("actual lineEnd is: "+actual.getLineEnd()+  " buts shout be "+lineEnd);
         return this;
     }
     /**
