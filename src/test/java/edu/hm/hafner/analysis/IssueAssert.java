@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import org.assertj.core.api.AbstractAssert;
 
@@ -31,7 +32,56 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getCategory(), category)) {
-            failWithMessage("Expected Category to be <%s> but was <%s>", category, actual.getCategory());
+            failWithMessage("Expected category to be <%s> but was <%s>", category, actual.getCategory());
+        }
+        return this;
+    }
+
+    public IssueAssert hasPackageName(String packageName) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getPackageName(), packageName)) {
+            failWithMessage("Expected package Name to be <%s> but was <%s>", packageName, actual.getPackageName());
+        }
+        return this;
+    }
+
+    public IssueAssert hasDescription(String description) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getDescription(), description)) {
+            failWithMessage("Expected description to be <%s> but was <%s>", description, actual.getDescription());
+        }
+        return this;
+    }
+
+    public IssueAssert hasLineStart(int lineStart){
+        isNotNull();
+
+        if(actual.getLineStart() != lineStart){
+            failWithMessage("Expected line start to be <%s> but was <%s>", lineStart, actual.getLineStart());
+
+        }
+        return this;
+    }
+
+
+    public IssueAssert hasColumnStart(int columnStart){
+        isNotNull();
+
+        if(actual.getColumnStart() != columnStart){
+            failWithMessage("Expected column start to be <%s> but was <%s>", columnStart, actual.getColumnStart());
+
+        }
+        return this;
+    }
+
+    public IssueAssert hasId(UUID id){
+        isNotNull();
+
+        if(!actual.getId().equals(id)){
+            failWithMessage("Expected id to be <%s> but was <%s>", id, actual.getId());
+
         }
         return this;
     }
