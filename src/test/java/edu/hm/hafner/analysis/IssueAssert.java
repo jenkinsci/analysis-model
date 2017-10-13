@@ -5,11 +5,11 @@ import java.util.Objects;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.description.Description;
 
-class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
+public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
 
     public IssueAssert(final Issue actual) {
-        super(actual, Issue.class);
+        super(actual, IssueAssert.class);
     }
 
     public static IssueAssert assertThat(final Issue actual) {
