@@ -51,11 +51,11 @@ class IssueBuilderTest {
 
     @Test
     void testCopy() {
-        Issue issue = new IssueBuilder()
+        Issue copy = new IssueBuilder()
                 .copy(FILLED_ISSUE)
                 .build();
 
-        assertThat(issue).isNotSameAs(FILE_NAME);
-        assertThat(issue).isEqualTo(FILLED_ISSUE);
+        assertThat(copy).isNotSameAs(FILE_NAME);
+        assertThat(copy).isEqualTo(FILLED_ISSUE);
     }
 }
