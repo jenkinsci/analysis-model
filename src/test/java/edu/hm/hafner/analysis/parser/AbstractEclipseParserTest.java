@@ -9,7 +9,8 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import static edu.hm.hafner.analysis.assertj.IssueAssert.assertThat;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
 
 /**
  * Basic tests for the Eclipse parser.
@@ -46,10 +47,12 @@ public abstract class AbstractEclipseParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                3,
-                "The serializable class AttributeException does not declare a static final serialVersionUID field of type long",
-                "C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java",
-                TYPE, DEFAULT_CATEGORY, Priority.NORMAL);
+        assertThat(annotation).hasPriority(Priority.NORMAL)
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasLineStart(3)
+                .hasLineEnd(3)
+                .hasMessage("The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
+                .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java")
+                .hasType(TYPE);
     }
 }
