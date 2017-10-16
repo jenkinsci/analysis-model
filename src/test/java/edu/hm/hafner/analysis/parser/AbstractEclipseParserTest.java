@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 
 /**
  * Basic tests for the Eclipse parser.
@@ -42,7 +42,7 @@ public abstract class AbstractEclipseParserTest extends ParserTester {
     public void parseDeprecation() throws IOException {
         Issues warnings = createParser().parse(openFile());
 
-        assertEquals(8, warnings.size());
+        assertThat(warnings).hasSize(8);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();

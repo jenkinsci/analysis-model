@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 
 /**
  * Tests the class {@link AnsibleLintParser}
@@ -25,7 +25,7 @@ public class AnsibleLintTest extends ParserTester {
     @Test
     public void testWarningParserError() throws IOException {
         Issues warnings = new AnsibleLintParser().parse(openFile());
-        assertEquals(4, warnings.size(), WRONG_NUMBER_OF_WARNINGS_DETECTED);
+        assertThat(warnings).hasSize(4);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
