@@ -9,7 +9,8 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the class {@link AjcParser}.
@@ -29,7 +30,7 @@ public class AjcParserTest extends ParserTester {
     public void parseDeprecation() throws IOException {
         Issues warnings = new AjcParser().parse(openFile());
 
-        assertEquals(9, warnings.size());
+        assertThat(warnings).hasSize(9);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
@@ -95,7 +96,7 @@ public class AjcParserTest extends ParserTester {
                 "/home/hudson/.m2/repository/org/springframework/spring-aspects/3.2.8.RELEASE/spring-aspects-3.2.8.RELEASE.jar!org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.class",
                 WARNING_TYPE, AjcParser.ADVICE, Priority.NORMAL);
 
-        assertFalse(iterator.hasNext());
+        assertThat(iterator.hasNext()).isFalse();
     }
 
     @Override
