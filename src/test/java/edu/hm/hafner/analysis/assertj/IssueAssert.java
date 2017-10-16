@@ -30,7 +30,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getFileName(), fileName)) {
-            failWithMessage("Expected issue's file name to be <%s> but was <%s>", fileName, actual.getId());
+            failWithMessage("Expected issue's file name to be <%s> but was <%s>", fileName, actual.getFileName());
         }
         return this;
     }
@@ -39,7 +39,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getCategory(), category)) {
-            failWithMessage("Expected issue's category to be <%s> but was <%s>", category, actual.getId());
+            failWithMessage("Expected issue's category to be <%s> but was <%s>", category, actual.getCategory());
         }
         return this;
     }
@@ -48,7 +48,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getType(), type)) {
-            failWithMessage("Expected issue's type to be <%s> but was <%s>", type, actual.getId());
+            failWithMessage("Expected issue's type to be <%s> but was <%s>", type, actual.getType());
         }
         return this;
     }
@@ -57,7 +57,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getPriority(), priority)) {
-            failWithMessage("Expected issue's priority to be <%s> but was <%s>", priority, actual.getId());
+            failWithMessage("Expected issue's priority to be <%s> but was <%s>", priority, actual.getPriority());
         }
         return this;
     }
@@ -66,7 +66,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getMessage(), message)) {
-            failWithMessage("Expected issue's message to be <%s> but was <%s>", message, actual.getId());
+            failWithMessage("Expected issue's message to be <%s> but was <%s>", message, actual.getMessage());
         }
         return this;
     }
@@ -75,7 +75,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getDescription(), description)) {
-            failWithMessage("Expected issue's description to be <%s> but was <%s>", description, actual.getId());
+            failWithMessage("Expected issue's description to be <%s> but was <%s>", description, actual.getDescription());
         }
         return this;
     }
@@ -84,7 +84,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineStart() != lineStart) {
-            failWithMessage("Expected issue's line start to be <%d> but was <%d>", lineStart, actual.getId());
+            failWithMessage("Expected issue's line start to be <%d> but was <%d>", lineStart, actual.getLineStart());
         }
         return this;
     }
@@ -93,7 +93,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineEnd() != lineEnd) {
-            failWithMessage("Expected issue's line end to be <%d> but was <%d>", lineEnd, actual.getId());
+            failWithMessage("Expected issue's line end to be <%d> but was <%d>", lineEnd, actual.getLineEnd());
         }
         return this;
     }
@@ -102,7 +102,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnStart() != columnStart) {
-            failWithMessage("Expected issue's column start to be <%d> but was <%d>", columnStart, actual.getId());
+            failWithMessage("Expected issue's column start to be <%d> but was <%d>", columnStart, actual.getColumnStart());
         }
         return this;
     }
@@ -111,7 +111,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnEnd() != columnEnd) {
-            failWithMessage("Expected issue's column end to be <%d> but was <%d>", columnEnd, actual.getId());
+            failWithMessage("Expected issue's column end to be <%d> but was <%d>", columnEnd, actual.getColumnEnd());
         }
         return this;
     }
@@ -120,7 +120,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getPackageName(), packageName)) {
-            failWithMessage("Expected issue's package name to be <%s> but was <%s>", packageName, actual.getId());
+            failWithMessage("Expected issue's package name to be <%s> but was <%s>", packageName, actual.getPackageName());
         }
         return this;
     }
@@ -129,7 +129,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getFingerprint(), fingerprint)) {
-            failWithMessage("Expected issue's fingerprint to be <%s> but was <%s>", fingerprint, actual.getId());
+            failWithMessage("Expected issue's fingerprint to be <%s> but was <%s>", fingerprint, actual.getFingerprint());
         }
         return this;
     }
