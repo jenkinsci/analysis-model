@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import static edu.hm.hafner.analysis.assertj.IssueAssert.assertThat;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
 
 /**
  * Tests the class {@link AcuCobolParser}.
@@ -29,29 +30,37 @@ public class AcuCobolParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                39,
-                "Imperative statement required",
-                "COPY/zzz.CPY",
-                TYPE, DEFAULT_CATEGORY, Priority.NORMAL);
+        assertThat(annotation).hasPriority(Priority.NORMAL)
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasLineStart(39)
+                .hasLineEnd(39)
+                .hasMessage("Imperative statement required")
+                .hasFileName("COPY/zzz.CPY")
+                .hasType(TYPE);
         annotation = iterator.next();
-        checkWarning(annotation,
-                111,
-                "Don't run with knives",
-                "C:/Documents and Settings/xxxx/COB/bbb.COB",
-                TYPE, DEFAULT_CATEGORY, Priority.NORMAL);
+        assertThat(annotation).hasPriority(Priority.NORMAL)
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasLineStart(111)
+                .hasLineEnd(111)
+                .hasMessage("Don't run with knives")
+                .hasFileName("C:/Documents and Settings/xxxx/COB/bbb.COB")
+                .hasType(TYPE);
         annotation = iterator.next();
-        checkWarning(annotation,
-                115,
-                "Don't run with knives",
-                "C:/Documents and Settings/xxxx/COB/bbb.COB",
-                TYPE, DEFAULT_CATEGORY, Priority.NORMAL);
+        assertThat(annotation).hasPriority(Priority.NORMAL)
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasLineStart(115)
+                .hasLineEnd(115)
+                .hasMessage("Don't run with knives")
+                .hasFileName("C:/Documents and Settings/xxxx/COB/bbb.COB")
+                .hasType(TYPE);
         annotation = iterator.next();
-        checkWarning(annotation,
-                123,
-                "I'm a green banana",
-                "C:/Documents and Settings/xxxx/COB/ccc.COB",
-                TYPE, DEFAULT_CATEGORY, Priority.NORMAL);
+        assertThat(annotation).hasPriority(Priority.NORMAL)
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasLineStart(123)
+                .hasLineEnd(123)
+                .hasMessage("I'm a green banana")
+                .hasFileName("C:/Documents and Settings/xxxx/COB/ccc.COB")
+                .hasType(TYPE);
     }
 
     @Override
