@@ -1,11 +1,8 @@
-package edu.hm.hafner.analysis;
+package edu.hm.balz;
 
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Priority;
 import org.assertj.core.api.AbstractAssert;
-
-import java.util.UUID;
-
-
-
 
 
 public class IssueAssert extends AbstractAssert<IssueAssert,Issue> {

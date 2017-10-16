@@ -1,5 +1,7 @@
-package edu.hm.hafner.analysis;
+package edu.hm.balz;
 
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
 import org.assertj.core.api.AbstractAssert;
 
 /**

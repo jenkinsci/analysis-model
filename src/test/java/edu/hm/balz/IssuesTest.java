@@ -1,12 +1,12 @@
-package edu.hm.hafner.analysis;
+package edu.hm.balz;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collection;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
