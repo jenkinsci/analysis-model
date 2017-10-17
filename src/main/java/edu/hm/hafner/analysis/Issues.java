@@ -1,18 +1,24 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
+import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
 import static java.util.stream.Collectors.*;
 
@@ -23,14 +29,44 @@ import static java.util.stream.Collectors.*;
  * @author Ullrich Hafner
  */
 // TODO: findByProperty with hardcoded properties?
-public class Issues implements Iterable<Issue> {
+public class Issues implements Iterable<Issue>, Serializable {
     private final List<Issue> elements = new ArrayList<>();
+    private final StringBuilder logMessages = new StringBuilder();
     private final int[] sizeOfPriority = new int[Priority.values().length];
+    private String path;
+    private String moduleName;
+
+    /**
+     * Returns a new issues container. Appends all of the issues in the specified array to the end of this container.
+     * The order of the issues in the individual containers is preserved.
+     *
+     * @param issues
+     *         the issues to merge
+     */
+    public static Issues merge(final Issues... issues) {
+        Issues merged = new Issues();
+        merged.addAll(issues);
+        return merged;
+    }
+
+    public Issues(final String path) {
+        this.path = path;
+    }
+
+    public Issues() {
+        this(StringUtils.EMPTY);
+    }
+
+    public Issues(final Collection<? extends Issue> issues) {
+        addAll(issues);
+    }
 
     /**
      * Appends the specified element to the end of this container.
      *
-     * @param issue the issue to append
+     * @param issue
+     *         the issue to append
+     *
      * @return returns the appended issue
      */
     public Issue add(final Issue issue) {
@@ -44,7 +80,9 @@ public class Issues implements Iterable<Issue> {
      * Appends all of the elements in the specified collection to the end of this container, in the order that they are
      * returned by the specified collection's iterator.
      *
-     * @param issues the issues to append
+     * @param issues
+     *         the issues to append
+     *
      * @return returns the appended issues
      */
     public Collection<? extends Issue> addAll(final Collection<? extends Issue> issues) {
@@ -54,13 +92,30 @@ public class Issues implements Iterable<Issue> {
         return issues;
     }
 
+    /**
+     * Appends all of the elements in the specified array of issues to the end of this container, in the order that they
+     * are returned by the specified collection's iterator.
+     *
+     * @param issues
+     *         the issues to append
+     */
+    public void addAll(final Issues... issues) {
+        Ensure.that(issues).isNotEmpty();
+
+        for (Issues container : issues) {
+            addAll(container.elements);
+        }
+    }
 
     /**
      * Removes the the issue with the specified ID.
      *
-     * @param id the ID of the issue
+     * @param id
+     *         the ID of the issue
+     *
      * @return the removed issue
-     * @throws NoSuchElementException if there is no such issue found
+     * @throws NoSuchElementException
+     *         if there is no such issue found
      */
     public Issue remove(final UUID id) {
         for (int i = 0; i < elements.size(); i++) {
@@ -85,9 +140,12 @@ public class Issues implements Iterable<Issue> {
     /**
      * Returns the issue with the specified ID.
      *
-     * @param id the ID of the issue
+     * @param id
+     *         the ID of the issue
+     *
      * @return the found issue
-     * @throws NoSuchElementException if there is no such issue found
+     * @throws NoSuchElementException
+     *         if there is no such issue found
      */
     public Issue findById(final UUID id) {
         for (Issue issue : elements) {
@@ -101,12 +159,29 @@ public class Issues implements Iterable<Issue> {
     /**
      * Finds all issues that match the specified criterion.
      *
-     * @param criterion the filter criterion
+     * @param criterion
+     *         the filter criterion
+     *
      * @return the found issues
      */
     public ImmutableList<Issue> findByProperty(final Predicate<? super Issue> criterion) {
-        return elements.stream().filter(criterion)
-                .collect(collectingAndThen(toList(), ImmutableList::copyOf));
+        return filterElements(criterion).collect(collectingAndThen(toList(), ImmutableList::copyOf));
+    }
+
+    /**
+     * Finds all issues that match the specified criterion.
+     *
+     * @param criterion
+     *         the filter criterion
+     *
+     * @return the found issues
+     */
+    public Issues filter(final Predicate<? super Issue> criterion) {
+        return new Issues(filterElements(criterion).collect(toList()));
+    }
+
+    private Stream<Issue> filterElements(final Predicate<? super Issue> criterion) {
+        return elements.stream().filter(criterion);
     }
 
     @Override
@@ -124,6 +199,26 @@ public class Issues implements Iterable<Issue> {
     }
 
     /**
+     * Returns whether this container is empty.
+     *
+     * @return {@code true} if this container is empty, {@code false} otherwise
+     * @see #isNotEmpty()
+     */
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    /**
+     * Returns whether this container is not empty.
+     *
+     * @return {@code true} if this container is not empty, {@code false} otherwise
+     * @see #isEmpty()
+     */
+    public boolean isNotEmpty() {
+        return !isEmpty();
+    }
+
+    /**
      * Returns the number of issues in this container.
      *
      * @return total number of issues
@@ -133,12 +228,36 @@ public class Issues implements Iterable<Issue> {
     }
 
     /**
+     * Returns the number of issues of the specified priority.
+     *
+     * @param priority
+     *         the priority of the issues
+     *
+     * @return total number of issues
+     */
+    public int getSizeOf(final Priority priority) {
+        return sizeOfPriority[priority.ordinal()];
+    }
+
+    /**
+     * Returns the number of issues of the specified priority.
+     *
+     * @param priority
+     *         the priority of the issues
+     *
+     * @return total number of issues
+     */
+    public int sizeOf(final Priority priority) {
+        return getSizeOf(priority);
+    }
+
+    /**
      * Returns the number of high priority issues in this container.
      *
      * @return total number of high priority issues
      */
     public int getHighPrioritySize() {
-        return sizeOfPriority[Priority.HIGH.ordinal()];
+        return getSizeOf(Priority.HIGH);
     }
 
     /**
@@ -147,7 +266,7 @@ public class Issues implements Iterable<Issue> {
      * @return total number of normal priority issues
      */
     public int getNormalPrioritySize() {
-        return sizeOfPriority[Priority.NORMAL.ordinal()];
+        return getSizeOf(Priority.NORMAL);
     }
 
     /**
@@ -156,13 +275,15 @@ public class Issues implements Iterable<Issue> {
      * @return total number of low priority of issues
      */
     public int getLowPrioritySize() {
-        return sizeOfPriority[Priority.LOW.ordinal()];
+        return getSizeOf(Priority.LOW);
     }
 
     /**
      * Returns the issue with the specified index.
      *
-     * @param index the index
+     * @param index
+     *         the index
+     *
      * @return the issue at the specified index
      */
     public Issue get(final int index) {
@@ -175,6 +296,24 @@ public class Issues implements Iterable<Issue> {
     }
 
     /**
+     * Returns the affected modules for all issues of this container.
+     *
+     * @return the affected modules
+     */
+    public SortedSet<String> getModules() {
+        return getProperties(issue -> issue.getModuleName());
+    }
+
+    /**
+     * Returns the affected packages for all issues of this container.
+     *
+     * @return the affected packages
+     */
+    public SortedSet<String> getPackages() {
+        return getProperties(issue -> issue.getPackageName());
+    }
+
+    /**
      * Returns the affected files for all issues of this container.
      *
      * @return the affected files
@@ -184,11 +323,38 @@ public class Issues implements Iterable<Issue> {
     }
 
     /**
-     * Returns the number of affected files for all issues of this container.
+     * Returns the used categories for all issues of this container.
      *
-     * @return the number of affected files
+     * @return the used categories
      */
-    public int getNumberOfFiles() {
+    public SortedSet<String> getCategories() {
+        return getProperties(issue -> issue.getCategory());
+    }
+
+    /**
+     * Returns the used types for all issues of this container.
+     *
+     * @return the used types
+     */
+    public SortedSet<String> getTypes() {
+        return getProperties(issue -> issue.getType());
+    }
+
+    /**
+     * Returns the names of the tools that did report the issues of this container.
+     *
+     * @return the tools
+     */
+    public SortedSet<String> getToolNames() {
+        return getProperties(issue -> issue.getOrigin());
+    }
+
+    /**
+     * Returns the number of tools that did report the issues of this container.
+     *
+     * @return the number of tools
+     */
+    public int getNumberOfTools() {
         return getFiles().size();
     }
 
@@ -198,14 +364,21 @@ public class Issues implements Iterable<Issue> {
     /**
      * Returns the different values for a given property for all issues of this container.
      *
-     * @param propertiesMapper the properties mapper
-     * @param <R>              the type of the returned values
+     * @param propertiesMapper
+     *         the properties mapper
+     * @param <R>
+     *         the type of the returned values
+     *
      * @return the set of different values
      * @see #getFiles()
      */
     public <R> SortedSet<R> getProperties(final Function<? super Issue, ? extends R> propertiesMapper) {
         return elements.stream().map(propertiesMapper)
                 .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
+    }
+
+    public Map<String, Long> getPropertyCount(final Function<? super Issue, ? extends String> propertiesMapper) {
+        return elements.stream().collect(groupingBy(propertiesMapper, counting()));
     }
 
     /**
@@ -217,5 +390,49 @@ public class Issues implements Iterable<Issue> {
         Issues copied = new Issues();
         copied.addAll(all());
         return copied;
+    }
+
+    /**
+     * Sets the absolute path for all affected files to the specified value.
+     *
+     * @param path
+     *         the path
+     */
+    public void setPath(final String path) {
+        this.path = path;
+        // TODO: issue property? Or is this better suited in the AbsoluteFileNamesMapper
+    }
+
+    public void setModuleName(final String moduleName) {
+        this.moduleName = moduleName;
+        // TODO: issue property?
+    }
+
+    /**
+     * Logs the specified message.
+     *
+     * @param format
+     *         A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args
+     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
+     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
+     *         zero.
+     */
+    public void log(final String format, final Object... args) {
+        logMessages.append(String.format(format, args));
+        logMessages.append('\n');
+    }
+
+    public String getLogMessages() {
+        return logMessages.toString();
+    }
+
+    public Issues withOrigin(final String id) {
+        IssueBuilder builder = new IssueBuilder();
+        Issues copy = new Issues();
+        for (Issue element : elements) {
+            copy.add(builder.copy(element).setOrigin(id).build());
+        }
+        return copy;
     }
 }
