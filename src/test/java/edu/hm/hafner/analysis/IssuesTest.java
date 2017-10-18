@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
+import static edu.hm.hafner.analysis.IssuesAssert.*;
 
 
 class IssuesTest {
@@ -42,9 +43,7 @@ class IssuesTest {
         list.add(firstIssue);
         list.add(secondIssue);
 
-        //assertThat(list).hasIssueonIndex(firstIssue,1);
-
-
+        assertThat(list).hasIssueonIndex(firstIssue,0);
 
 
     }
