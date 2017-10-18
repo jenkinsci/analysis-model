@@ -89,7 +89,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineStart() != lineStart) {
-            failWithMessage("Expected issue's packageName to be <%s> but was <%s>", lineStart, actual.getLineStart());
+            failWithMessage("Expected issue's lineStart to be <%s> but was <%s>", lineStart, actual.getLineStart());
         }
 
         return this;
@@ -99,7 +99,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineEnd() != lineEnd) {
-            failWithMessage("Expected issue's packageName to be <%s> but was <%s>", lineEnd, actual.getLineEnd());
+            failWithMessage("Expected issue's lineEnd to be <%s> but was <%s>", lineEnd, actual.getLineEnd());
         }
 
         return this;
@@ -109,7 +109,17 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnStart() != columnStart) {
-            failWithMessage("Expected issue's packageName to be <%s> but was <%s>", columnStart, actual.getColumnStart());
+            failWithMessage("Expected issue's columnStart to be <%s> but was <%s>", columnStart, actual.getColumnStart());
+        }
+
+        return this;
+    }
+
+    public IssueAssert hasColumnEnd(final int columnEnd) {
+        isNotNull();
+
+        if (actual.getColumnStart() != columnEnd) {
+            failWithMessage("Expected issue's columnEnd to be <%s> but was <%s>", columnEnd, actual.getColumnEnd());
         }
 
         return this;
