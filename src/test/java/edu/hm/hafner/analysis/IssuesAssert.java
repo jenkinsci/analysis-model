@@ -26,4 +26,52 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
         return this;
     }
+
+    public IssuesAssert hasSize(final int size) {
+        isNotNull();
+
+        if (actual.size() != size) {
+            failWithMessage("Expected issues's files to be <%s> but was <%s>", size, actual.size());
+        }
+
+        return this;
+    }
+
+    public IssuesAssert hasHighPrioritySize(final int size) {
+        isNotNull();
+
+        if (actual.getHighPrioritySize() != size) {
+            failWithMessage("Expected issues's highPrioritySize to be <%s> but was <%s>", size, actual.getHighPrioritySize());
+        }
+
+        return this;
+    }
+
+    public IssuesAssert hasNormalPrioritySize(final int size) {
+        isNotNull();
+
+        if (actual.getNormalPrioritySize() != size) {
+            failWithMessage(
+                    "Expected issues's normalPrioritySize to be <%s> but was <%s>",
+                    size,
+                    actual.getNormalPrioritySize()
+            );
+        }
+
+        return this;
+    }
+
+    public IssuesAssert hasLowPrioritySize(final int size) {
+        isNotNull();
+
+        if (actual.getLowPrioritySize() != size) {
+            failWithMessage(
+                    "Expected issues's lowPrioritySize to be <%s> but was <%s>",
+                    size,
+                    actual.getLowPrioritySize()
+            );
+        }
+
+        return this;
+    }
 }
