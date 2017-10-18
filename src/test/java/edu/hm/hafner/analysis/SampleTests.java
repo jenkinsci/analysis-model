@@ -16,17 +16,11 @@ class SampleTests {
         builder.setLineStart(123);
         Issue testissue = builder.build();
 
-        MySoftAssertions softly = new MySoftAssertions();
+        IssueSoftAssertion softly = new IssueSoftAssertion();
         softly.assertThat(testissue)
                 .hasMessage("Hello again!")
                 .hasLineStart(123);
-
         softly.assertAll();
-
-
-
-
-
 
     }
     @Test
@@ -39,10 +33,8 @@ class SampleTests {
         Issue firstIssue = builder.build();
         builder.setLineStart(200);
         Issue secondIssue = builder.build();
-
         list.add(firstIssue);
         list.add(secondIssue);
-
         assertThat(list).hasIssueonIndex(firstIssue,0);
 
 
