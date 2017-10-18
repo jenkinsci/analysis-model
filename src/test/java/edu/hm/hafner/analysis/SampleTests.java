@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static edu.hm.hafner.analysis.IssuesAssert.*;
 
 
-class IssuesTest {
+class SampleTests {
 
     @Test
     void SampleTest(){
