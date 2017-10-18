@@ -1,7 +1,9 @@
 package edu.hm.hafner.analysis;
 
-import org.assertj.core.api.SoftAssertions;
+
 import org.junit.jupiter.api.Test;
+
+
 
 class IssuesTest {
 
@@ -20,6 +22,27 @@ class IssuesTest {
 
         softly.assertAll();
 
+
+
+
+
+
+    }
+    @Test
+    void secondSample(){
+
+        Issues list = new Issues();
+        IssueBuilder builder = new IssueBuilder();
+        builder.setMessage("Hello again!");
+        builder.setLineStart(123);
+        Issue firstIssue = builder.build();
+        builder.setLineStart(200);
+        Issue secondIssue = builder.build();
+
+        list.add(firstIssue);
+        list.add(secondIssue);
+
+        //assertThat(list).hasIssueonIndex(firstIssue,1);
 
 
 

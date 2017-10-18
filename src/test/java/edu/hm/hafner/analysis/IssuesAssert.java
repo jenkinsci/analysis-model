@@ -6,9 +6,20 @@ import org.assertj.core.api.AbstractAssert;
 
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
-    public IssuesAssert(final Issues issues, final Class<?> selfType) {
+   /* public IssuesAssert(final Issues issues, final Class<?> selfType) {
         super(issues, selfType);
     }
+    */
+
+
+    public IssuesAssert(Issues actual){
+        super(actual,IssuesAssert.class);
+    }
+
+    public static IssuesAssert assertThat(Issues actual) {
+        return new IssuesAssert(actual);
+    }
+
 
     public IssuesAssert hasSize(int size) {
         isNotNull();
