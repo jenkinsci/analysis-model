@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis;
 
-import com.google.common.collect.ImmutableSet;
 import edu.hm.hafner.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import static edu.hm.hafner.analysis.IssuesAssert.assertThat;
 import static edu.hm.hafner.analysis.IssueAssert.assertThat;
+import static edu.hm.hafner.analysis.IssuesAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class IssuesTest {
 
