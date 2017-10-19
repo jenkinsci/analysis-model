@@ -99,8 +99,8 @@ class IssuesTest {
 
         assertThat(removed).isEqualTo(ISSUE_1);
         assertThat(issues.all()).containsOnly(ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
-        assertThat(issues).hasSize(2);
-        assertThat(issues).hasNumberOfFiles(2);
+        assertThat(issues).hasSize(5);
+        assertThat(issues).hasNumberOfFiles(5);
         assertThat(issues).hasHighPrioritySize(0);
         assertThat(issues).hasNormalPrioritySize(2);
         assertThat(issues).hasLowPrioritySize(3);
@@ -130,7 +130,7 @@ class IssuesTest {
     }
 
     @Test
-    void testFindById1() {
+    void testFindByIdSingleIssue() {
         Issues issues = new Issues();
         issues.addAll(ImmutableList.of(ISSUE_1));
 
@@ -140,7 +140,7 @@ class IssuesTest {
     }
 
     @Test
-    void testFindById2() {
+    void testFindByIdSingleIssueNotExisting() {
         Issues issues = new Issues();
         issues.addAll(ImmutableList.of(ISSUE_1));
 
@@ -151,7 +151,7 @@ class IssuesTest {
     }
 
     @Test
-    void testFindById3() {
+    void testFindByIdMultipleIssues() {
         Issues issues = new Issues();
         issues.addAll(ImmutableList.of(ISSUE_1, ISSUE_2));
 
@@ -161,7 +161,7 @@ class IssuesTest {
     }
 
     @Test
-    void testFindById4() {
+    void testFindByIdMultipleIssuesNotExisting() {
         Issues issues = new Issues();
         issues.addAll(ImmutableList.of(ISSUE_1, ISSUE_2));
 
