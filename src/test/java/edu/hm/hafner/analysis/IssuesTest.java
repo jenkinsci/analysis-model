@@ -130,9 +130,9 @@ class IssuesTest {
     }
 
     @Test
-    void testFindById() {
+    void testFindById1() {
         Issues issues = new Issues();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
+        issues.addAll(ImmutableList.of(ISSUE_1));
 
         Issue found = issues.findById(ISSUE_1.getId());
 
@@ -140,33 +140,35 @@ class IssuesTest {
     }
 
     @Test
-    void testFindByIdNotExisting() {
+    void testFindById2() {
         Issues issues = new Issues();
+        issues.addAll(ImmutableList.of(ISSUE_1));
 
-        assertThatThrownBy(() -> issues.findById(ISSUE_1.getId()))
+        assertThatThrownBy(() -> issues.findById(ISSUE_2.getId()))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasNoCause()
-                .hasMessageContaining(ISSUE_1.getId().toString());
+                .hasMessageContaining(ISSUE_2.getId().toString());
     }
 
     @Test
-    void testFindSingleByProperty() {
+    void testFindById3() {
         Issues issues = new Issues();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
+        issues.addAll(ImmutableList.of(ISSUE_1, ISSUE_2));
 
-        ImmutableList<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.HIGH));
+        Issue found = issues.findById(ISSUE_2.getId());
 
-        assertThat(found).contains(ISSUE_1);
+        assertThat(found).isEqualTo(ISSUE_2);
     }
 
     @Test
-    void testFindMultipleByProperty() {
+    void testFindById4() {
         Issues issues = new Issues();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
+        issues.addAll(ImmutableList.of(ISSUE_1, ISSUE_2));
 
-        ImmutableList<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.NORMAL));
-
-        assertThat(found).contains(ISSUE_2, ISSUE_3);
+        assertThatThrownBy(() -> issues.findById(ISSUE_3.getId()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasNoCause()
+                .hasMessageContaining(ISSUE_3.getId().toString());
     }
 
     @Test
