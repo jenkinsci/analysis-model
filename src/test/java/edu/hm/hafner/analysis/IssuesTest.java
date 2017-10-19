@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import edu.hm.hafner.util.NoSuchElementException;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -117,16 +118,23 @@ class IssuesTest {
     public void findIdInEmptyIssues() {
         final Issues sut = new Issues();
 
-        assertThatThrownBy(() -> sut.remove(new IssueBuilder().build().getId()))
-                .isInstanceOf(NoSuchElementException.class);
+        // softly assertion
+
+        SoftAssertions.assertSoftly((softly) -> {
+            softly.assertThatThrownBy(() -> sut.remove(new IssueBuilder().build().getId()))
+                    .isInstanceOf(NoSuchElementException.class);
+        });
     }
 
     @Test
     public void findNullIdInEmptyIssues() {
         final Issues sut = new Issues();
 
-        assertThatThrownBy(() -> sut.remove(null))
-                .isInstanceOf(NoSuchElementException.class);
+        SoftAssertions.assertSoftly((softly) -> {
+            softly.assertThatThrownBy(() -> sut.remove(null))
+                    .isInstanceOf(NoSuchElementException.class);
+        });
+
     }
 
     @Test
