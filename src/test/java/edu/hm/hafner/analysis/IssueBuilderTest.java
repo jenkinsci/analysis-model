@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static edu.hm.hafner.analysis.IssueAssert.assertThat;
 
 class IssueBuilderTest {
     @Test
@@ -79,6 +80,54 @@ class IssueBuilderTest {
 
 
         assertThat(sut.build()).isEqualTo(want);
+    }
+
+    @Test
+    public void copyFromIssueNotEqualsOtherIssue() {
+        final Issue want = new Issue(
+                "asdf",
+                0,
+                0,
+                0,
+                0,
+                "qweqr",
+                "qwer",
+                "asdf",
+                Priority.NORMAL,
+                "jkl",
+                "zuio"
+        );
+
+        final IssueBuilder sut = new IssueBuilder().copy(want);
+
+
+        assertThat(sut.build()).isNotEqualTo(new IssueBuilder().build());
+    }
+
+    @Test
+    public void fillWithUnAllowedValues() {
+        final IssueBuilder sut = new IssueBuilder();
+
+        sut
+                .setLineStart(-1)
+                .setLineEnd(-1)
+                .setColumnStart(-1)
+                .setColumnEnd(-1)
+                .setPriority(null);
+
+        assertThat(sut.build())
+                .hasFileName("-")
+                .hasCategory("")
+                .hasType("-")
+                .hasPriority(Priority.NORMAL)
+                .hasMessage("")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
+                .hasFingerPrint("-");
     }
 
 }

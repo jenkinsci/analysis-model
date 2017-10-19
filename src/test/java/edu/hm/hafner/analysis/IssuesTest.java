@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static edu.hm.hafner.analysis.IssueAssert.assertThat;
 import static edu.hm.hafner.analysis.IssuesAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -28,7 +27,7 @@ class IssuesTest {
                 .hasHighPrioritySize(0)
                 .hasNormalPrioritySize(1)
                 .hasLowPrioritySize(0);
-        assertThat(sut.get(0))
+        IssueAssert.assertThat(sut.get(0))
                 .hasFileName("asdf");
     }
 
@@ -64,7 +63,7 @@ class IssuesTest {
         sut.addAll(collection);
 
         assertThat(sut).hasSize(1);
-        assertThat(sut.get(0)).hasFileName("asdf");
+        IssueAssert.assertThat(sut.get(0)).hasFileName("asdf");
     }
 
     @Test
@@ -93,7 +92,7 @@ class IssuesTest {
         assertThat(sut).hasSize(1);
         final Issue removedIssue = sut.remove(issue.getId());
         assertThat(sut).hasSize(0);
-        assertThat(removedIssue).isEqualTo(issue);
+        IssueAssert.assertThat(removedIssue).isEqualTo(issue);
     }
 
     @Test
@@ -110,7 +109,7 @@ class IssuesTest {
 
         final Issue removedIssue = sut.remove(tenth.getId());
 
-        assertThat(removedIssue).isEqualTo(tenth);
+        IssueAssert.assertThat(removedIssue).isEqualTo(tenth);
         assertThat(sut).hasSize(9);
     }
 
@@ -118,12 +117,9 @@ class IssuesTest {
     public void findIdInEmptyIssues() {
         final Issues sut = new Issues();
 
-        // softly assertion
+        assertThatThrownBy(() -> sut.remove(new IssueBuilder().build().getId()))
+                .isInstanceOf(NoSuchElementException.class);
 
-        SoftAssertions.assertSoftly((softly) -> {
-            softly.assertThatThrownBy(() -> sut.remove(new IssueBuilder().build().getId()))
-                    .isInstanceOf(NoSuchElementException.class);
-        });
     }
 
     @Test
@@ -145,7 +141,7 @@ class IssuesTest {
         sut.add(issue);
         assertThat(sut).hasSize(1);
         final Issue foundIssue = sut.findById(issue.getId());
-        assertThat(foundIssue).isEqualTo(issue);
+        IssueAssert.assertThat(foundIssue).isEqualTo(issue);
     }
 
     @Test
@@ -162,7 +158,7 @@ class IssuesTest {
 
         final Issue foundIssue = sut.findById(tenth.getId());
 
-        assertThat(foundIssue).isEqualTo(tenth);
+        IssueAssert.assertThat(foundIssue).isEqualTo(tenth);
     }
 
     @Test
@@ -202,7 +198,7 @@ class IssuesTest {
             sut.add(new IssueBuilder().build());
         }
 
-        assertThat(sut.get(9)).isEqualTo(tenth);
+        IssueAssert.assertThat(sut.get(9)).isEqualTo(tenth);
     }
 
     @Test
