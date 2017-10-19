@@ -19,12 +19,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
  * Unit test for {@link Issues}.
  */
 class IssuesTest {
-    private static final Issue ISSUE_1 = new IssueBuilder().setFileName("issue-1").setPriority(Priority.HIGH).build();
-    private static final Issue ISSUE_2 = new IssueBuilder().setFileName("issue-2").build();
-    private static final Issue ISSUE_3 = new IssueBuilder().setFileName("issue-3").build();
-    private static final Issue ISSUE_4 = new IssueBuilder().setFileName("issue-4").setPriority(Priority.LOW).build();
-    private static final Issue ISSUE_5 = new IssueBuilder().setFileName("issue-5").setPriority(Priority.LOW).build();
-    private static final Issue ISSUE_6 = new IssueBuilder().setFileName("issue-6").setPriority(Priority.LOW).build();
+    private static final Issue ISSUE_1 = new IssueBuilder().setMessage("issue-1").setFileName("file-1").setPriority(Priority.HIGH).build();
+    private static final Issue ISSUE_2 = new IssueBuilder().setMessage("issue-2").setFileName("file-1").build();
+    private static final Issue ISSUE_3 = new IssueBuilder().setMessage("issue-3").setFileName("file-1").build();
+    private static final Issue ISSUE_4 = new IssueBuilder().setMessage("issue-4").setFileName("file-2").setPriority(Priority.LOW).build();
+    private static final Issue ISSUE_5 = new IssueBuilder().setMessage("issue-5").setFileName("file-2").setPriority(Priority.LOW).build();
+    private static final Issue ISSUE_6 = new IssueBuilder().setMessage("issue-6").setFileName("file-3").setPriority(Priority.LOW).build();
 
     @Test
     void testEmptyIssues() {
@@ -71,7 +71,7 @@ class IssuesTest {
     private void assertAllIssuesAdded(Issues issues) {
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
         softly.assertThat(issues).hasSize(6);
-        softly.assertThat(issues).hasNumberOfFiles(6);
+        softly.assertThat(issues).hasNumberOfFiles(3);
         softly.assertThat(issues).hasHighPrioritySize(1);
         softly.assertThat(issues).hasNormalPrioritySize(2);
         softly.assertThat(issues).hasLowPrioritySize(3);
@@ -86,7 +86,7 @@ class IssuesTest {
 
         assertThat(issues.all()).contains(ISSUE_1, ISSUE_1);
         assertThat(issues).hasSize(2);
-        assertThat(issues).hasNumberOfFiles(2);
+        assertThat(issues).hasNumberOfFiles(1);
         assertThat(issues).hasHighPrioritySize(2);
     }
 
@@ -100,7 +100,7 @@ class IssuesTest {
         assertThat(removed).isEqualTo(ISSUE_1);
         assertThat(issues.all()).containsOnly(ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
         assertThat(issues).hasSize(5);
-        assertThat(issues).hasNumberOfFiles(5);
+        assertThat(issues).hasNumberOfFiles(3);
         assertThat(issues).hasHighPrioritySize(0);
         assertThat(issues).hasNormalPrioritySize(2);
         assertThat(issues).hasLowPrioritySize(3);
@@ -221,9 +221,9 @@ class IssuesTest {
     @Test
     void testGetFiles() {
         Issues issues = new Issues();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
+        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
 
-        assertThat(issues.getFiles()).contains("issue-1", "issue-2", "issue-3");
+        assertThat(issues.getFiles()).contains("file-1", "file-1", "file-3");
     }
 
     @Test
@@ -237,14 +237,14 @@ class IssuesTest {
     @Test
     void testGetProperties() {
         Issues issues = new Issues();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
+        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
 
-        SortedSet<String> properties = issues.getProperties(issue -> issue.getPriority().name() + ": " + issue.getFileName());
+        SortedSet<String> properties = issues.getProperties(issue -> issue.getMessage());
 
         assertThat(properties)
-                .contains("HIGH: issue-1")
-                .contains("NORMAL: issue-2")
-                .contains("NORMAL: issue-3");
+                .contains(ISSUE_1.getMessage())
+                .contains(ISSUE_2.getMessage())
+                .contains(ISSUE_3.getMessage());
     }
 
     @Test
