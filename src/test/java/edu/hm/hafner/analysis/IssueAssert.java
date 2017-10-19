@@ -19,7 +19,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getFileName(), fileName)) {
-            failWithMessage("Expected issue's name to be <%s> but was <%s>", fileName, actual.getFileName());
+            failWithMessage("Expected issue's fileName to be <%s> but was <%s>", fileName, actual.getFileName());
         }
 
         return this;
@@ -48,7 +48,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasPriority(final Priority priority) {
         isNotNull();
 
-        if (!Objects.equals(actual.getMessage(), priority)) {
+        if (!Objects.equals(actual.getPriority(), priority)) {
             failWithMessage("Expected issue's priority to be <%s> but was <%s>", priority, actual.getPriority());
         }
 
@@ -78,7 +78,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasPackageName(final String packageName) {
         isNotNull();
 
-        if (!Objects.equals(actual.getType(), packageName)) {
+        if (!Objects.equals(actual.getPackageName(), packageName)) {
             failWithMessage("Expected issue's packageName to be <%s> but was <%s>", packageName, actual.getPackageName());
         }
 
@@ -125,11 +125,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasUUID(final UUID uuid) {
+    public IssueAssert hasId(final UUID uuid) {
         isNotNull();
 
         if (!Objects.equals(actual.getId(), uuid)) {
-            failWithMessage("Expected issue's packageName to be <%s> but was <%s>", uuid, actual.getId());
+            failWithMessage("Expected issue's id to be <%s> but was <%s>", uuid, actual.getId());
         }
 
         return this;
@@ -139,7 +139,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getFingerprint(), fingerPrint)) {
-            failWithMessage("Expected issue's packageName to be <%s> but was <%s>", fingerPrint, actual.getFingerprint());
+            failWithMessage("Expected issue's fingerPrint to be <%s> but was <%s>", fingerPrint, actual.getFingerprint());
         }
 
         return this;

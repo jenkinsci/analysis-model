@@ -156,4 +156,61 @@ class IssuesTest {
 
         assertThat(foundIssue).isEqualTo(tenth);
     }
+
+    @Test
+    public void containsNoHighNormalLowPriorities() {
+        final Issues sut = new Issues();
+        assertThat(sut)
+                .hasHighPrioritySize(0)
+                .hasNormalPrioritySize(0)
+                .hasLowPrioritySize(0);
+    }
+
+    @Test
+    public void containsOneOfAllPriorities() {
+        final Issues sut = new Issues();
+        final IssueBuilder builder = new IssueBuilder();
+        sut.add(builder.setPriority(Priority.HIGH).build());
+        sut.add(builder.setPriority(Priority.NORMAL).build());
+        sut.add(builder.setPriority(Priority.LOW).build());
+
+        assertThat(sut)
+                .hasHighPrioritySize(1)
+                .hasNormalPrioritySize(1)
+                .hasLowPrioritySize(1);
+    }
+
+    @Test
+    public void getTenthIssue() {
+        final Issues sut = new Issues();
+        for (int i = 0; i < 9; i++) {
+            sut.add(new IssueBuilder().build());
+        }
+
+        final Issue tenth = new IssueBuilder().setFileName("tenthFile").build();
+        sut.add(tenth);
+
+        for (int i = 0; i < 9; i++) {
+            sut.add(new IssueBuilder().build());
+        }
+
+        assertThat(sut.get(9)).isEqualTo(tenth);
+    }
+
+    @Test
+    public void stringRepresentationOfEmptyIssues() {
+        final Issues sut = new Issues();
+
+        assertThat(sut).hasToString("0 issues");
+    }
+
+    @Test
+    public void stringRepresentationOfIssuesWithTenElements() {
+        final Issues sut = new Issues();
+        for (int i = 0; i < 10; i++) {
+            sut.add(new IssueBuilder().build());
+        }
+
+        assertThat(sut).hasToString("10 issues");
+    }
 }
