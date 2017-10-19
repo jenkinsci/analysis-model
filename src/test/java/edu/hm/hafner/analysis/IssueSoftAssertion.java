@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.function.Consumer;
+
 import org.assertj.core.api.SoftAssertions;
 
 public class IssueSoftAssertion extends SoftAssertions {
@@ -8,8 +10,10 @@ public class IssueSoftAssertion extends SoftAssertions {
         return proxy(IssueAssert.class, Issue.class, actual);
     }
 
-    /*public IssuesAssert assertThat(Issues actual) {
-        return proxy(IssuesAssert.class, Issues.class, actual);
+
+    public static void assertIssueSoftly(Consumer<IssueSoftAssertion> softly) {
+        IssueSoftAssertion assertions = new IssueSoftAssertion();
+        softly.accept(assertions);
+        assertions.assertAll();
     }
-    */
 }
