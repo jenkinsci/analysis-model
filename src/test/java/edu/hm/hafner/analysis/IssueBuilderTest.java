@@ -10,6 +10,7 @@ class IssueBuilderTest {
     @Test
     void buildEmptyIssue() {
         final Issue sut = new IssueBuilder().build();
+        System.out.println(sut.getId());
         assertThat(sut)
                 .hasFileName("-")
                 .hasCategory("")
