@@ -1,4 +1,4 @@
-package edu.hm.balz;
+package edu.hm.hafner;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
@@ -128,4 +128,5 @@ public class IssueAssert extends AbstractAssert<IssueAssert,Issue> {
     public IssueAssert(Issue issue, Class<?> selfType) {
         super(issue, selfType);
     }
+    public IssueAssert(final Issue i){super(i,IssueAssert.class);}
 }

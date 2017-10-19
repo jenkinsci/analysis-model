@@ -1,4 +1,4 @@
-package edu.hm.balz;
+package edu.hm.hafner;
 
 import edu.hm.hafner.analysis.Issue;
 import org.assertj.core.api.SoftAssertions;
@@ -21,6 +21,9 @@ import org.assertj.core.api.SoftAssertions;
 
 public class IssueSoftAssert extends SoftAssertions{
 
+    public IssueSoftAssert(){
+
+    }
     public IssueAssert assertThat(Issue actual){
         return proxy(IssueAssert.class, Issue.class, actual);
     }

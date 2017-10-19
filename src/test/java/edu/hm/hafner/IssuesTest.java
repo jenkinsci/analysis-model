@@ -1,4 +1,4 @@
-package edu.hm.balz;
+package edu.hm.hafner;
 
 import com.google.common.collect.ImmutableList;
 import edu.hm.hafner.analysis.Issue;
@@ -83,6 +83,8 @@ class IssuesTest {
         IssuesAssert.assertThat(iy).containsNot(i1).contains(i2);
     }
 
+
+
      @Test void findByUUID(){
          Issues i = new Issues();
          Issue i1= new IssueBuilder().setPriority(Priority.HIGH).setType("t1").setPackageName("p1").setMessage("m1").setFileName("f1").build();
@@ -152,25 +154,17 @@ class IssuesTest {
     @Test void getAllIssuesAndChangeThem(){
 
         Issue i1= new IssueBuilder().setPriority(Priority.HIGH).setType("t1").setPackageName("p1").setMessage("m1").setFileName("f1").build();
-        Issue i2= new IssueBuilder().setPriority(Priority.LOW).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
-        Issue i3= new IssueBuilder().setPriority(Priority.NORMAL).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
-        Issues ix = new Issues();
-        i1.setFingerprint("i1");
-        i2.setFingerprint("i2");
-        i3.setFingerprint("i3");
-        ix.add(i1);
-        ix.add(i2);
-        ix.add(i3);
-        Issues iy = new Issues();
-        iy.addAll(ix.all());
-        ImmutableList<Issue> list =  ix.all().asList();
+        Issues issues = new Issues();
+        issues.add(i1);
+        ImmutableList<Issue> list =  issues.all().asList();
         list.get(0).setFingerprint("ixxx1");
-        list.get(1).setFingerprint("ixxx2");
-        list.get(2).setFingerprint("ixxx3");
-        Issue x = ix.findById(i1.getId());
-        Issue y = iy.findById(i1.getId());
-        assertThat(x.getFingerprint()).isEqualTo("i1");
-        assertThat(y.getFingerprint()).isEqualTo("i1");
+        assertThat(list.get(0).getFingerprint()).isEqualTo("ixxx1");
+        Issue x = issues.findById(i1.getId());
+        assertThat(x.getFingerprint()).isEqualTo("ixxx1");
 
     }
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package edu.hm.balz;
+package edu.hm.hafner;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
