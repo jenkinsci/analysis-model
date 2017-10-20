@@ -1,12 +1,15 @@
 package edu.hm.hafner;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
+
+import java.util.Iterator;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -141,7 +144,6 @@ class IssuesTest {
 
     }
     @Test void getAllIssues(){
-        Issues iy = new Issues();
         Issue i1= new IssueBuilder().setPriority(Priority.HIGH).setType("t1").setPackageName("p1").setMessage("m1").setFileName("f1").build();
         Issue i2= new IssueBuilder().setPriority(Priority.LOW).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
         Issue i3= new IssueBuilder().setPriority(Priority.NORMAL).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
@@ -149,6 +151,14 @@ class IssuesTest {
         ix.add(i1);
         ix.add(i2);
         ix.add(i3);
+        ImmutableList<Issue> l = ix.all().asList();
+        assertThat(l.size()).isEqualTo(3);
+       IssueAssert.assertThat(l.get(0)).isEqualTo(i1);
+        IssueAssert.assertThat(l.get(1)).isEqualTo(i2);
+        IssueAssert.assertThat(l.get(2)).isEqualTo(i3);
+        assertThatThrownBy(()->l.get(3)).isInstanceOf(ArrayIndexOutOfBoundsException.class).hasMessage("3");
+
+
     }
 
     @Test void getAllIssuesAndChangeThem(){
@@ -164,7 +174,28 @@ class IssuesTest {
 
     }
 
+@Test void removeElementWichDoesNotExist(){
+    Issue i1= new IssueBuilder().setPriority(Priority.HIGH).setType("t1").setPackageName("p1").setMessage("m1").setFileName("f1").build();
+    Issues issues = new Issues();
+    assertThatThrownBy(()->issues.findById(i1.getId())).isInstanceOf(NoSuchElementException.class).hasMessage("No issue found with id "+i1.getId()+".");
 
+}
 
-
+@Test void getItterator(){
+    Issue i1= new IssueBuilder().setPriority(Priority.HIGH).setType("t1").setPackageName("p1").setMessage("m1").setFileName("f1").build();
+    Issue i2= new IssueBuilder().setPriority(Priority.LOW).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
+    Issue i3= new IssueBuilder().setPriority(Priority.NORMAL).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
+    Issues ix = new Issues();
+    ix.add(i1);
+    ix.add(i2);
+    ix.add(i3);
+    Iterator<Issue> i = ix.iterator();
+    assertThat(i.hasNext()).isTrue();
+    assertThat(i.next()).isEqualTo(i1);
+    assertThat(i.hasNext()).isTrue();
+    assertThat(i.next()).isEqualTo(i2);
+    assertThat(i.hasNext()).isTrue();
+    assertThat(i.next()).isEqualTo(i3);
+    assertThat(i.hasNext()).isFalse();
+}
 }
