@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.SortedSet;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.function.Predicate;
@@ -13,6 +14,7 @@ import org.assertj.core.api.AbstractAssert;
 
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
@@ -188,8 +190,33 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions isACopyOf(final Issues issues){
+        // check actual not null
+        this.isNotNull();
+        // check condition
+        if(this.actual == issues){
+            failWithMessage("Issues is no copy its the same");
+        }
+        ImmutableSet<Issue> actualList = this.actual.all();
+        ImmutableSet<Issue> expectedList = issues.all();
+        if (actualList.size() != expectedList.size()) {
+            failWithMessage("Issues has a size of <%s> but expect <%s>", actualList.size(), expectedList.size());
+        }
+        Iterator<Issue> actualIssueIterator = this.actual.iterator();
+        Iterator<Issue> expectedIssueIterator = issues.iterator();
+        while(actualIssueIterator.hasNext()){
+            Issue actualIssue = actualIssueIterator.next();
+            Issue expectedIssue = expectedIssueIterator.next();
+            if(!Objects.equals(actualIssue, expectedIssue)){
+                failWithMessage("Issues expect element<%s> but was <%s>", expectedIssue, actualIssue);
+            }
+        }
 
+        return this;
+    }
 
+    //<editor-fold desc="Issue test">
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasIssuesWithFileName(final int count, final String filename) {
         return hasIssuesWithProperty(count, issue -> filename.equals(issue.getFileName()));
@@ -255,6 +282,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     public IssuesAssertions hasIssuesWithId(final int count, final UUID uuid) {
         return hasIssuesWithProperty(count, issue -> uuid == issue.getId());
     }
+    //</editor-fold>
 
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions isString(final String expected) {
@@ -265,6 +293,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    //<editor-fold desc="Helper">
     private IssuesAssertions hasIssuesWithProperty( final int count, final Predicate<? super Issue> criterion) {
         // check actual not null
         this.isNotNull();
@@ -288,6 +317,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     private String issueListToString(final Collection<? extends Issue> issues){
         return "{" + issues.stream().map(Issue::toString).reduce((a,b) -> a + "," + b)+ "}";
     }
+    //</editor-fold>
 
 
 

@@ -264,6 +264,23 @@ public class IssuesTest {
 
     }
 
+    @Test
+    public void shouldCopyHaveElementsInSameOrder(){
+
+        Issues ius = new Issues();
+        Issue iu1 = ius.add(getGoodIssueBuilder().setFileName("test1").build());
+        Issue iu2 = ius.add(getGoodIssueBuilder().setFileName("test2").build());
+        Issue iu3 = ius.add(getGoodIssueBuilder().setFileName("test3").build());
+
+        Issues copy = ius.copy();
+        //Check if list is ok
+        IssuesSoftAssertions isa = new IssuesSoftAssertions();
+        isa.assertThat(ius)
+                .isACopyOf(copy);
+        isa.assertAll();
+
+    }
+
     private IssueBuilder getGoodIssueBuilder(){
         return new IssueBuilder()
                 .setFileName("\\test\\")
