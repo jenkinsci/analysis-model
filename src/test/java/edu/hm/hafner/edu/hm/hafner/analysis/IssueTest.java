@@ -165,7 +165,7 @@ public class IssueTest {
         isa.assertThat(issue)
                .isEqualTo(issue)
                 .isEqualTo(getGoodIssueBuilder().build());
-        ;
+
         isa.assertAll();
     }
 
@@ -227,8 +227,6 @@ public class IssueTest {
                 .setPriority(Priority.HIGH)
                 .setMessage("Test Message")
                 .setDescription("Test Description");
-
-
     }
 
 

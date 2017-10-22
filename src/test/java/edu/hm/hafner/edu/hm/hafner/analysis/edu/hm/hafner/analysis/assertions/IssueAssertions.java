@@ -130,7 +130,6 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         return this;
     }
 
-
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssertions hasFingerprint(final String fingerprint) {
         // check actual not null

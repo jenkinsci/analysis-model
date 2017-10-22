@@ -1,21 +1,30 @@
 package edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions;
 
+import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+import java.util.function.Predicate;
+import java.util.UUID;
+import java.util.Arrays;
 import org.assertj.core.api.AbstractAssert;
 
-import com.google.common.collect.Streams;
+
+import com.google.common.collect.ImmutableList;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.util.NoSuchElementException;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
 
     //<editor-fold desc="Creation">
     public IssuesAssertions(final Issues actual) {
-        super(actual, IssueAssertions.class);
+        super(actual, IssuesAssertions.class);
     }
     public static IssuesAssertions assertThat(final Issues actual){
         return new IssuesAssertions(actual);
@@ -23,12 +32,80 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     //</editor-fold>
 
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasElementWithUuid(final UUID uuid) {
+        // check actual not null
+        this.isNotNull();
+        // check condition
+        if (!uuid.equals(actual.findById(uuid).getId())) {
+            failWithMessage("Element <%s> was not in list but should", uuid);
+        }
+        return this;
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasNoElementWithUuid(final UUID uuid) {
+        // check actual not null
+        this.isNotNull();
+        // check condition
+        Throwable exception = assertThrows(NoSuchElementException.class, () -> {
+            actual.findById(uuid);
+        });
+        if (exception == null) {
+            failWithMessage("Element <%s> was in list but shouldn't", uuid);
+        }
+        return this;
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasElement(final Issue issue) {
         // check actual not null
         this.isNotNull();
         // check condition
-        if (!this.getIteratorOfActualAsStream().anyMatch(i -> Objects.equals(i, issue))) {
-            failWithMessage("Element <%s> was not in list", issue);
+        if (this.getStreamOfAllIssues().noneMatch((elem) -> issue.equals(elem))) {
+            failWithMessage("Element <%s> was not in list but should", issue);
+        }
+        return this;
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasNotElement(final Issue issue) {
+        // check actual not null
+        this.isNotNull();
+        // check condition
+        if (this.getStreamOfAllIssues().anyMatch((elem) -> issue.equals(elem))) {
+            failWithMessage("Element <%s> was in list but shouldn't", issue);
+        }
+        // Return this for Fluent.
+        return this;
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasElements(final Collection<? extends Issue> issues) {
+        // check actual not null
+        this.isNotNull();
+        // check condition
+        Collection<Issue> currentIssues = this.getStreamOfAllIssues().collect(Collectors.toList());
+        if (currentIssues.size() != issues.size()) {
+            failWithMessage("Expected issue's element size to be <%s> but was <%s>", issues.size(), currentIssues.size());
+        }
+        else if(currentIssues.stream().anyMatch(f -> !issues.contains(f))){
+            failWithMessage("Expected issue's elements to be <%s> but was <%s>", issueListToString(issues), issueListToString(currentIssues));
+        }
+        // Return this for Fluent.
+        return this;
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasAllElements(final Collection<? extends Issue> issues) {
+        // check actual not null
+        this.isNotNull();
+        // check condition
+        Collection<Issue> currentIssues = actual.all();
+        if (currentIssues.size() != issues.size()) {
+            failWithMessage("Expected issue's element size to be <%s> but was <%s>", issues.size(), currentIssues.size());
+        }
+        else if(currentIssues.stream().anyMatch(f -> !issues.contains(f))){
+            failWithMessage("Expected issue's elements to be <%s> but was <%s>", issueListToString(issues), issueListToString(currentIssues));
         }
         // Return this for Fluent.
         return this;
@@ -79,7 +156,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         this.isNotNull();
         // check condition
-        final long count = getIteratorOfActualAsStream().count();
+        final long count = getStreamOfAllIssues().count();
         if ( count <= index) {
             failWithMessage("Expected issues's get-Method index <%d> out of range <%d>", index, count);
         }
@@ -112,15 +189,104 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     }
 
 
-    private Stream<Issue> getIteratorOfActualAsStream() {
 
-        return Streams.stream(this.actual.iterator());
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithFileName(final int count, final String filename) {
+        return hasIssuesWithProperty(count, issue -> filename.equals(issue.getFileName()));
     }
 
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithLineStart(final int count, final int lineStart) {
+        return hasIssuesWithProperty(count, issue -> lineStart == issue.getLineStart());
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithLineEnd(final int count, final int lineEnd) {
+        return hasIssuesWithProperty(count, issue -> lineEnd == issue.getLineEnd());
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithColumnStart(final int count, final int columnStart) {
+        return hasIssuesWithProperty(count, issue -> columnStart == issue.getColumnStart());
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithColumnEnd(final int count, final int columnEnd) {
+        return hasIssuesWithProperty(count, issue -> columnEnd == issue.getColumnEnd());
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithCategory(final int count, final String category) {
+        return hasIssuesWithProperty(count, issue -> Objects.equals(category, issue.getCategory()));
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithType(final int count, final String type) {
+        return hasIssuesWithProperty(count, issue -> Objects.equals(type, issue.getType()));
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithPackageName(final int count, final String packageName) {
+        return hasIssuesWithProperty(count, issue -> Objects.equals(packageName, issue.getPackageName()));
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithPriority(final int count, final Priority priority) {
+        return hasIssuesWithProperty(count, issue -> priority == issue.getPriority());
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithDescription(final int count, final String description) {
+        return hasIssuesWithProperty(count, issue -> Objects.equals(description, issue.getDescription()));
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithMessage(final int count, final String message) {
+        return hasIssuesWithProperty(count, issue -> Objects.equals(message, issue.getMessage()));
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithFingerprint(final int count, final String fingerprint) {
+        return hasIssuesWithProperty(count, issue -> Objects.equals(fingerprint, issue.getFingerprint()));
+    }
+
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions hasIssuesWithId(final int count, final UUID uuid) {
+        return hasIssuesWithProperty(count, issue -> uuid == issue.getId());
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssertions isString(final String expected) {
+        // check actual not null
+        this.isNotNull();
+        // check condition
+        propertyEqualsCheck(actual.toString(), expected, "toString");
+        return this;
+    }
+
+    private IssuesAssertions hasIssuesWithProperty( final int count, final Predicate<? super Issue> criterion) {
+        // check actual not null
+        this.isNotNull();
+        // check condition
+        ImmutableList<Issue> results = this.actual.findByProperty(criterion);
+        if (results.size() != count) {
+            failWithMessage("Expected issues elements by <%s> expect count of <%s> but was <%s>", criterion.toString(), count, results.size());
+        }
+        // Return this for Fluent.
+        return this;
+    }
+    private Stream<Issue> getStreamOfAllIssues() {
+
+        return actual.all().stream();
+    }
     private <T> void propertyEqualsCheck(final T actualValue, final T expected, final String propertyName){
         if (!Objects.equals(actualValue, expected)) {
             failWithMessage("Expected issues's "+propertyName+" to be <%s> but was <%s>", expected, actualValue);
         }
+    }
+    private String issueListToString(final Collection<? extends Issue> issues){
+        return "{" + issues.stream().map(Issue::toString).reduce((a,b) -> a + "," + b)+ "}";
     }
 
 
