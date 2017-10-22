@@ -3,25 +3,29 @@ package edu.hm.hafner.edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
+
+import com.google.common.collect.ImmutableSortedSet;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssueAssertions;
-import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesAssertions;
 import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 import edu.hm.hafner.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("JUnitTestMethodWithNoAssertions")
 public class IssuesTest {
+
 
     @Test
     public void shouldBeEmptyAndNoPriorities(){
 
-        final Issues ius = new Issues();
+        Issues ius = new Issues();
         IssuesSoftAssertions isa = new IssuesSoftAssertions();
         isa.assertThat(ius)
               .hasSize(0)
@@ -53,6 +57,23 @@ public class IssuesTest {
     }
 
     @Test
+    public void shouldIncreaseFileCounter(){
+
+        Issues ius = new Issues();
+        ius.add(getGoodIssueBuilder().setFileName("File1").build());
+        ius.add(getGoodIssueBuilder().setFileName("File1").build());
+        ius.add(getGoodIssueBuilder().setFileName("File2").build());
+        ius.add(getGoodIssueBuilder().setFileName("File3").build());
+
+        IssuesSoftAssertions isa = new IssuesSoftAssertions();
+        isa.assertThat(ius)
+                .hasSize(4)
+                .hasNumberOfFiles(3)
+                .hasFiles(ImmutableSortedSet.copyOf(Arrays.asList("File1", "File2", "File3")));
+        isa.assertAll();
+    }
+
+    @Test
     public void shouldContainsSingleAddedElements(){
 
         Issues ius = new Issues();
@@ -64,6 +85,9 @@ public class IssuesTest {
         IssuesSoftAssertions isa = new IssuesSoftAssertions();
         isa.assertThat(ius)
                 .hasSize(3)
+                .hasElementAtPosition(0,iu1)
+                .hasElementAtPosition(1,iu2)
+                .hasElementAtPosition(2,iu3)
                 .hasElement(iu1)
                 .hasElement(iu2)
                 .hasElement(iu3);
@@ -73,6 +97,7 @@ public class IssuesTest {
     @Test
     public void shouldContainsAllAddedElements(){
 
+        @SuppressWarnings("CloneableClassWithoutClone")
         Collection<Issue> issues = new ArrayList<Issue>(){
             {
                 add(getGoodIssueBuilder().setFileName("test1").build());
@@ -170,7 +195,7 @@ public class IssuesTest {
         Throwable exception = assertThrows(NoSuchElementException.class, () -> {
             ius.remove(notExistingUuid);
         });
-        assertEquals("No issue found with id "+notExistingUuid+".", exception.getMessage());
+        assertEquals( "No issue found with id "+notExistingUuid+".", exception.getMessage(), "Wrong text");
 
 
         //Check if list is ok
@@ -208,8 +233,8 @@ public class IssuesTest {
     public void shouldNotFindIssueById(){
 
         Issues ius = new Issues();
-        Issue iu1 = ius.add(getGoodIssueBuilder().setFileName("test1").build());
-        Issue iu3 = ius.add(getGoodIssueBuilder().setFileName("test3").build());
+        ius.add(getGoodIssueBuilder().setFileName("test1").build());
+        ius.add(getGoodIssueBuilder().setFileName("test3").build());
         UUID notExistingUuid = UUID.randomUUID();
         //Check if list is ok
         IssuesSoftAssertions isa = new IssuesSoftAssertions();
@@ -227,6 +252,7 @@ public class IssuesTest {
 
         Issues ius = new Issues();
         Issue iu1 = ius.add(getGoodIssueBuilder().setFileName("test1").build());
+        iu1.setFingerprint("testFP");
         Issue iu2 = ius.add(getGoodIssueBuilder().setFileName("test2").setPriority(Priority.LOW).build());
         //Check if list is ok
         IssuesSoftAssertions isa = new IssuesSoftAssertions();
@@ -244,7 +270,8 @@ public class IssuesTest {
                 .hasIssuesWithColumnStart(2, iu1.getColumnStart())
                 .hasIssuesWithColumnEnd(2, iu2.getColumnEnd())
                 .hasIssuesWithId(1, iu1.getId())
-                .hasIssuesWithId(1, iu2.getId());
+                .hasIssuesWithId(1, iu2.getId())
+                .hasIssuesWithFingerprint(1, iu1.getFingerprint());
         isa.assertAll();
     }
 
@@ -252,9 +279,9 @@ public class IssuesTest {
     public void shouldStringShowSize(){
 
         Issues ius = new Issues();
-        Issue iu1 = ius.add(getGoodIssueBuilder().setFileName("test1").build());
-        Issue iu2 = ius.add(getGoodIssueBuilder().setFileName("test2").build());
-        Issue iu3 = ius.add(getGoodIssueBuilder().setFileName("test3").build());
+        ius.add(getGoodIssueBuilder().setFileName("test1").build());
+        ius.add(getGoodIssueBuilder().setFileName("test2").build());
+        ius.add(getGoodIssueBuilder().setFileName("test3").build());
 
         //Check if list is ok
         IssuesSoftAssertions isa = new IssuesSoftAssertions();
@@ -268,9 +295,9 @@ public class IssuesTest {
     public void shouldCopyHaveElementsInSameOrder(){
 
         Issues ius = new Issues();
-        Issue iu1 = ius.add(getGoodIssueBuilder().setFileName("test1").build());
-        Issue iu2 = ius.add(getGoodIssueBuilder().setFileName("test2").build());
-        Issue iu3 = ius.add(getGoodIssueBuilder().setFileName("test3").build());
+        ius.add(getGoodIssueBuilder().setFileName("test1").build());
+        ius.add(getGoodIssueBuilder().setFileName("test2").build());
+        ius.add(getGoodIssueBuilder().setFileName("test3").build());
 
         Issues copy = ius.copy();
         //Check if list is ok
