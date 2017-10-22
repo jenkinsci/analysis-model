@@ -3,7 +3,8 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.IssuesAssert.*;
+import edu.hm.hafner.analysis.Assertions.IssueSoftAssertion;
+import static edu.hm.hafner.analysis.Assertions.IssuesAssert.*;
 
 
 class SampleTests {
@@ -35,7 +36,7 @@ class SampleTests {
         Issue secondIssue = builder.build();
         list.add(firstIssue);
         list.add(secondIssue);
-        assertThat(list).hasIssueonIndex(firstIssue,0);
+        assertThat(list).hasIssueOnIndex(firstIssue,0);
 
 
     }

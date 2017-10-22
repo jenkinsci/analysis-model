@@ -1,8 +1,11 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.analysis.Assertions;
 
 import java.util.SortedSet;
 
 import org.assertj.core.api.AbstractAssert;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
 
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
@@ -66,7 +69,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasIssueonIndex(Issue issue, int index) {
+    public IssuesAssert hasIssueOnIndex(Issue issue, int index) {
         isNotNull();
 
         if (actual.get(index) != issue) {

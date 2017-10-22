@@ -2,7 +2,8 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.IssueAssert.*;
+import edu.hm.hafner.analysis.Assertions.IssueSoftAssertion;
+import static edu.hm.hafner.analysis.Assertions.IssueAssert.*;
 
 
 class IssueBuilderTest {

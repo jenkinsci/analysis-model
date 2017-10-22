@@ -1,8 +1,10 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.analysis.Assertions;
 
 import java.util.function.Consumer;
 
 import org.assertj.core.api.SoftAssertions;
+
+import edu.hm.hafner.analysis.Issue;
 
 public class IssueSoftAssertion extends SoftAssertions {
 
