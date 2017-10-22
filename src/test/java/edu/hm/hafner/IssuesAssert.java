@@ -1,5 +1,7 @@
 package edu.hm.hafner;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import org.assertj.core.api.AbstractAssert;
@@ -27,7 +29,7 @@ public IssueAssert(Issue issue, Class<?> selfType) {
         }
  *
  */
-public class IssuesAssert extends AbstractAssert<IssuesAssert,Issues> {
+class IssuesAssert extends AbstractAssert<IssuesAssert,Issues> {
 
 
 
@@ -53,14 +55,14 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert,Issues> {
         return this;
     }
     IssuesAssert hasSize(int size){
-       if(size != actual.size())
+       if(size != actual.getSize() || size != actual.size())
            failWithMessage("actual size is: "+actual.size() +  " but shout be "+size);
         return this;
     }
     static IssuesAssert assertThat(Issues actual){
         return new IssuesAssert(actual,IssuesAssert.class);
     }
-    public IssuesAssert(Issues issues, Class<?> selfType) {
+    private IssuesAssert(Issues issues, Class<?> selfType) {
         super(issues, selfType);
     }
     IssuesAssert contains(Issue that){
@@ -73,6 +75,20 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert,Issues> {
         if(actual.all().contains(that))
             failWithMessage("issues does contain "+that);
 
+        return this;
+    }
+    IssuesAssert isEqualTo(Issues that){
+        ImmutableSet<Issue> origin = actual.all();
+        ImmutableSet<Issue> should = that.all();
+       if(!origin.equals(should))
+           failWithMessage("Both Issues are not equal but should ");
+        return this;
+    }
+    IssuesAssert isNotEqualTo(Issues that){
+        ImmutableSet<Issue> origin = actual.all();
+        ImmutableSet<Issue> should = that.all();
+        if(origin.equals(should))
+            failWithMessage("Both Issues are equal but should not ");
         return this;
     }
 
