@@ -22,6 +22,7 @@ class IssueBuilderTest {
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasColumnStart(0)
-                .hasColumnEnd(0);
+                .hasColumnEnd(0)
+                .hasToString("-(0,0): -: : ");
     }
 }
