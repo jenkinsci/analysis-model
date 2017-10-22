@@ -1,6 +1,5 @@
 package edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions;
 
-import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.SortedSet;
@@ -9,7 +8,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.function.Predicate;
 import java.util.UUID;
-import java.util.Arrays;
 import org.assertj.core.api.AbstractAssert;
 
 
@@ -22,21 +20,22 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("UnusedReturnValue")
 public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
 
     //<editor-fold desc="Creation">
     public IssuesAssertions(final Issues actual) {
         super(actual, IssuesAssertions.class);
     }
-    public static IssuesAssertions assertThat(final Issues actual){
-        return new IssuesAssertions(actual);
+    public static IssuesAssertions assertThat(final Issues actualIssues){
+        return new IssuesAssertions(actualIssues);
     }
     //</editor-fold>
 
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasElementWithUuid(final UUID uuid) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         if (!uuid.equals(actual.findById(uuid).getId())) {
             failWithMessage("Element <%s> was not in list but should", uuid);
@@ -47,7 +46,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasNoElementWithUuid(final UUID uuid) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         Throwable exception = assertThrows(NoSuchElementException.class, () -> {
             actual.findById(uuid);
@@ -61,9 +60,9 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasElement(final Issue issue) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
-        if (this.getStreamOfAllIssues().noneMatch((elem) -> issue.equals(elem))) {
+        if (getStreamOfAllIssues().noneMatch((elem) -> issue.equals(elem))) {
             failWithMessage("Element <%s> was not in list but should", issue);
         }
         return this;
@@ -72,9 +71,9 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasNotElement(final Issue issue) {
         // check actual not null
-        this.isNotNull();
+       isNotNull();
         // check condition
-        if (this.getStreamOfAllIssues().anyMatch((elem) -> issue.equals(elem))) {
+        if (getStreamOfAllIssues().anyMatch((elem) -> issue.equals(elem))) {
             failWithMessage("Element <%s> was in list but shouldn't", issue);
         }
         // Return this for Fluent.
@@ -84,9 +83,9 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasElements(final Collection<? extends Issue> issues) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
-        Collection<Issue> currentIssues = this.getStreamOfAllIssues().collect(Collectors.toList());
+        Collection<Issue> currentIssues = getStreamOfAllIssues().collect(Collectors.toList());
         if (currentIssues.size() != issues.size()) {
             failWithMessage("Expected issue's element size to be <%s> but was <%s>", issues.size(), currentIssues.size());
         }
@@ -100,7 +99,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasAllElements(final Collection<? extends Issue> issues) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         Collection<Issue> currentIssues = actual.all();
         if (currentIssues.size() != issues.size()) {
@@ -116,7 +115,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasSize(final int size) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         propertyEqualsCheck(actual.getSize(), size, "size");
         // Return this for Fluent.
@@ -126,7 +125,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasHighPrioritySize(final int size) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         propertyEqualsCheck(actual.getHighPrioritySize(), size, "high priority size");
         // Return this for Fluent.
@@ -136,7 +135,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasNormalPrioritySize(final int size) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         propertyEqualsCheck(actual.getNormalPrioritySize(), size, "normal priority size");
         // Return this for Fluent.
@@ -146,7 +145,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasLowPrioritySize(final int size) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         propertyEqualsCheck(actual.getLowPrioritySize(), size, "low priority size");
         // Return this for Fluent.
@@ -156,13 +155,13 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasElementAtPosition(final int index, final Issue issue) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
-        final long count = getStreamOfAllIssues().count();
+        long count = getStreamOfAllIssues().count();
         if ( count <= index) {
             failWithMessage("Expected issues's get-Method index <%d> out of range <%d>", index, count);
         }
-        final Issue getIssue = actual.get(index);
+        Issue getIssue = actual.get(index);
         if (!Objects.equals(getIssue, issue)) {
             failWithMessage("Expected issues contains <%s> at position <%d> but was <%s>", issue, index, getIssue);
         }
@@ -173,7 +172,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasFiles(final SortedSet<String> files) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         propertyEqualsCheck(actual.getFiles(), files, "files");
         // Return this for Fluent.
@@ -183,7 +182,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasNumberOfFiles(final int numberOfFiles) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         propertyEqualsCheck(actual.getNumberOfFiles(), numberOfFiles, "NumberOfFiles");
         // Return this for Fluent.
@@ -193,17 +192,17 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions isACopyOf(final Issues issues){
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
-        if(this.actual == issues){
+        if(actual == issues){
             failWithMessage("Issues is no copy its the same");
         }
-        ImmutableSet<Issue> actualList = this.actual.all();
+        ImmutableSet<Issue> actualList = actual.all();
         ImmutableSet<Issue> expectedList = issues.all();
         if (actualList.size() != expectedList.size()) {
             failWithMessage("Issues has a size of <%s> but expect <%s>", actualList.size(), expectedList.size());
         }
-        Iterator<Issue> actualIssueIterator = this.actual.iterator();
+        Iterator<Issue> actualIssueIterator = actual.iterator();
         Iterator<Issue> expectedIssueIterator = issues.iterator();
         while(actualIssueIterator.hasNext()){
             Issue actualIssue = actualIssueIterator.next();
@@ -287,18 +286,19 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions isString(final String expected) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
         propertyEqualsCheck(actual.toString(), expected, "toString");
         return this;
     }
 
     //<editor-fold desc="Helper">
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     private IssuesAssertions hasIssuesWithProperty( final int count, final Predicate<? super Issue> criterion) {
         // check actual not null
-        this.isNotNull();
+        isNotNull();
         // check condition
-        ImmutableList<Issue> results = this.actual.findByProperty(criterion);
+        ImmutableList<Issue> results = actual.findByProperty(criterion);
         if (results.size() != count) {
             failWithMessage("Expected issues elements by <%s> expect count of <%s> but was <%s>", criterion.toString(), count, results.size());
         }

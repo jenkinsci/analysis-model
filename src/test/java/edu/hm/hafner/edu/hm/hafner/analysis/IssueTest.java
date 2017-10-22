@@ -1,18 +1,16 @@
 package edu.hm.hafner.edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
-
-
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
 
-@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+@SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "JUnitTestMethodWithNoAssertions"})
 public class IssueTest {
     private static final String UNDEFINED = "-";
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldConvertedToDefaultValue(){
         // Create a object which forces all default values
@@ -93,13 +91,13 @@ public class IssueTest {
     @Test
     public void shouldGetAllSetValues(){
         // Create a object which forces all default values
-        final Issue issue = getGoodIssueBuilder().build();
+        Issue issue = getGoodIssueBuilder().build();
         issue.setFingerprint("testFingerPrint");
 
         // Check
         IssueSoftAssertions isa = new IssueSoftAssertions();
         isa.assertThat(issue)
-                .hasFileName("/test/")
+                .hasFingerprint("testFingerPrint")
                 .hasLineStart(10)
                 .hasLineEnd(42)
                 .hasColumnStart(5)
@@ -110,13 +108,13 @@ public class IssueTest {
                 .hasPriority(Priority.HIGH)
                 .hasMessage("Test Message")
                 .hasDescription("Test Description")
-                .hasFingerprint("testFingerPrint");
+                .hasFileName("/test/");
         isa.assertAll();
     }
     @Test
     public void shouldValuesConvertToString(){
         // Create a object which forces all default values
-        final Issue issue = getGoodIssueBuilder().build();
+        Issue issue = getGoodIssueBuilder().build();
         issue.setFingerprint("testFingerPrint");
         // Check
         IssueSoftAssertions isa = new IssueSoftAssertions();
@@ -125,15 +123,16 @@ public class IssueTest {
         isa.assertAll();
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldNotBeEquals(){
         // Create a object which forces all default values
-        final Issue issue = getGoodIssueBuilder().build();
+        Issue issue = getGoodIssueBuilder().build();
         // Check
         IssueSoftAssertions isa = new IssueSoftAssertions();
         isa.assertThat(issue)
                 .isNotEqualTo(null)
-                .isNotEqualTo(new String())
+                .isNotEqualTo("")
                 .isNotEqualTo(getGoodIssueBuilder().setLineStart(5).build())
                 .isNotEqualTo(getGoodIssueBuilder().setLineEnd(100).build())
                 .isNotEqualTo(getGoodIssueBuilder().setColumnStart(2).build())
@@ -159,7 +158,7 @@ public class IssueTest {
     @Test
     public void shouldBeEquals(){
         // Create a object which forces all default values
-        final Issue issue = getGoodIssueBuilder().build();
+        Issue issue = getGoodIssueBuilder().build();
         // Check
         IssueSoftAssertions isa = new IssueSoftAssertions();
         isa.assertThat(issue)
@@ -172,24 +171,24 @@ public class IssueTest {
     @Test
     public void shouldHaveSameHashCode(){
         // Create a object which forces all default values
-        final Issue issue = getGoodIssueBuilder().build();
+        Issue issue = getGoodIssueBuilder().build();
         // Check
         IssueSoftAssertions isa = new IssueSoftAssertions();
         isa.assertThat(issue)
                 .hasHashCode(issue.hashCode())
                 .hasHashCode(getGoodIssueBuilder().build().hashCode());
-        ;
         isa.assertAll();
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldNotHaveSameHashCode(){
         // Create a object which forces all default values
-        final Issue issue = getGoodIssueBuilder().build();
+        Issue issue = getGoodIssueBuilder().build();
         // Check
         IssueSoftAssertions isa = new IssueSoftAssertions();
         isa.assertThat(issue)
-                .hasNotHashCode(new String().hashCode())
+                .hasNotHashCode("".hashCode())
                 .hasNotHashCode(getGoodIssueBuilder().setLineStart(5).build().hashCode())
                 .hasNotHashCode(getGoodIssueBuilder().setLineEnd(100).build().hashCode())
                 .hasNotHashCode(getGoodIssueBuilder().setColumnStart(2).build().hashCode())
