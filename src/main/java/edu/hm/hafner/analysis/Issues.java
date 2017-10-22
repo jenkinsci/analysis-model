@@ -56,7 +56,7 @@ public class Issues implements Iterable<Issue> {
 
 
     /**
-     * Removes the the issue with the specified ID.
+     * Removes the issue with the specified ID.
      *
      * @param id the ID of the issue
      * @return the removed issue
