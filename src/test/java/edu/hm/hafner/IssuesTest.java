@@ -61,7 +61,6 @@ class IssuesTest {
         IssuesAssert.assertThat(i).hasSize(1).hasHighPrioritySize(0).hasLowPrioritySize(0).hasNormalPrioritySize(1);
         i.add(i2);
         IssuesAssert.assertThat(i).hasSize(2).hasHighPrioritySize(0).hasLowPrioritySize(0).hasNormalPrioritySize(2);
-
     }
 
     /**
@@ -78,7 +77,6 @@ class IssuesTest {
         IssuesAssert.assertThat(i).hasSize(1).hasHighPrioritySize(0).hasLowPrioritySize(1).hasNormalPrioritySize(0);
         i.add(i2);
         IssuesAssert.assertThat(i).hasSize(2).hasHighPrioritySize(0).hasLowPrioritySize(2).hasNormalPrioritySize(0);
-
     }
 
     /**
@@ -94,7 +92,6 @@ class IssuesTest {
         IssuesAssert.assertThat(i).hasSize(1).hasHighPrioritySize(1).hasLowPrioritySize(0).hasNormalPrioritySize(0);
         i.add(i2);
         IssuesAssert.assertThat(i).hasSize(2).hasHighPrioritySize(2).hasLowPrioritySize(0).hasNormalPrioritySize(0);
-
     }
 
     /**
@@ -165,7 +162,6 @@ class IssuesTest {
         IssueAssert.assertThat(i.findById(i1.getId())).isEqualTo(i1);
         IssueAssert.assertThat(i.findById(i2.getId())).isEqualTo(i2);
         IssueAssert.assertThat(i.findById(i3.getId())).isEqualTo(i3);
-
     }
 
     /**
@@ -178,7 +174,6 @@ class IssuesTest {
         ix.add(i3);
         iy.addAll(ix.all());
         assertThat(ix.all()).isEqualTo(iy.all());
-
     }
 
     /**
@@ -194,8 +189,6 @@ class IssuesTest {
         IssueAssert.assertThat(l.get(1)).isEqualTo(i2);
         IssueAssert.assertThat(l.get(2)).isEqualTo(i3);
         assertThatThrownBy(() -> l.get(3)).isInstanceOf(ArrayIndexOutOfBoundsException.class).hasMessage("3");
-
-
     }
 
     /**
@@ -203,7 +196,6 @@ class IssuesTest {
      */
     @Test
     void getAllIssuesAndChangeThem() {
-
         Issues issues = new Issues();
         issues.add(i1);
         ImmutableList<Issue> list = issues.all().asList();
@@ -211,7 +203,6 @@ class IssuesTest {
         assertThat(list.get(0).getFingerprint()).isEqualTo("ixxx1");
         Issue x = issues.findById(i1.getId());
         assertThat(x.getFingerprint()).isEqualTo("ixxx1");
-
     }
 
     /**
@@ -221,7 +212,6 @@ class IssuesTest {
     void removeElementWichDoesNotExist() {
         Issues issues = new Issues();
         assertThatThrownBy(() -> issues.findById(i1.getId())).isInstanceOf(NoSuchElementException.class).hasMessage("No issue found with id " + i1.getId() + ".");
-
     }
 
     /**
@@ -238,7 +228,7 @@ class IssuesTest {
         assertThat(i.hasNext()).isTrue();
         assertThat(i.next()).isEqualTo(i3);
         assertThat(i.hasNext()).isFalse();
-        assertThatThrownBy(()->i.next()).isInstanceOf(java.util.NoSuchElementException.class);
+        assertThatThrownBy(() -> i.next()).isInstanceOf(java.util.NoSuchElementException.class);
     }
 
     /**
@@ -285,7 +275,6 @@ class IssuesTest {
         assertThat(ix.getNumberOfFiles()).isEqualTo(2);
         ix.add(i2);
         assertThat(ix.getNumberOfFiles()).isEqualTo(2);
-
     }
 
     /**
@@ -315,14 +304,13 @@ class IssuesTest {
         s = ix.findByProperty((issue) -> issue.getPriority().equals(Priority.HIGH));
         assertThat(s.size()).isEqualTo(1);
         IssueAssert.assertThat(s.get(0)).isEqualTo(i1);
-
-        s = ix.findByProperty((issue) -> issue.getPriority().equals(Priority.HIGH));
     }
 
     /**
      * Test getFileName.
      */
-    @Test void getFileNames(){
+    @Test
+    void getFileNames() {
         Issues i = getDefaultIssues();
         assertThat(i.getFiles().size()).isEqualTo(3);
         Issue i4 = new IssueBuilder().copy(i3).setMessage("m4").setLineEnd(99).build();
@@ -335,10 +323,11 @@ class IssuesTest {
      * Test add the same issue
      * What happepen if i add the same Issue twice...
      */
-    @Test void addTheSameIssue(){
+    @Test
+    void addTheSameIssue() {
         Issues i = getDefaultIssues();
         Issue coppy = i.add(new IssueBuilder().copy(i1).build());
-        assertThatThrownBy(()->i.add(coppy)).isInstanceOf(Exception.class);
+        assertThatThrownBy(() -> i.add(coppy)).isInstanceOf(Exception.class);
     }
 
 }

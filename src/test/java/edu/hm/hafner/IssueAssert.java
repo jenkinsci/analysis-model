@@ -5,7 +5,7 @@ import edu.hm.hafner.analysis.Priority;
 import org.assertj.core.api.AbstractAssert;
 
 
- class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
+class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
 
     /**
@@ -131,11 +131,11 @@ import org.assertj.core.api.AbstractAssert;
         return new IssueAssert(actual, IssueAssert.class);
     }
 
-     private IssueAssert(Issue issue, Class<?> selfType) {
+    private IssueAssert(Issue issue, Class<?> selfType) {
         super(issue, selfType);
     }
 
-     IssueAssert(final Issue i) {
+    IssueAssert(final Issue i) {
         super(i, IssueAssert.class);
     }
 }

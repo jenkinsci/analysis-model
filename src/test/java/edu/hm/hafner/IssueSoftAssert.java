@@ -16,12 +16,13 @@ import org.assertj.core.api.SoftAssertions;
  * **
  * *****************************************************************
  */
-class IssueSoftAssert extends SoftAssertions{
+class IssueSoftAssert extends SoftAssertions {
 
-     IssueSoftAssert(){
+    IssueSoftAssert() {
 
     }
-    IssueAssert assertThat(Issue actual){
+
+    IssueAssert assertThat(Issue actual) {
         return proxy(IssueAssert.class, Issue.class, actual);
     }
 
