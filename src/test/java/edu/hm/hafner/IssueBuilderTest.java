@@ -54,6 +54,9 @@ class IssueBuilderTest {
 
         Issue coppy = new IssueBuilder().copy(i).build();
         IssueAssert.assertThat(coppy).isEqualTo(i);
+        Issue cp2 = new IssueBuilder().copy(i).setFileName("XXX").build();
+        IssueAssert.assertThat(i).hasFileName("1");
+        IssueAssert.assertThat(cp2).hasFileName("XXX");
     }
 
     /**

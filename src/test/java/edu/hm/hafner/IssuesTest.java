@@ -31,7 +31,7 @@ class IssuesTest {
     void initIssues() {
         i1 = new IssueBuilder().setPriority(Priority.HIGH).setType("t1").setPackageName("p1").setMessage("m1").setFileName("f1").build();
         i2 = new IssueBuilder().setPriority(Priority.LOW).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
-        i3 = new IssueBuilder().setPriority(Priority.NORMAL).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
+        i3 = new IssueBuilder().setPriority(Priority.NORMAL).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f3").build();
     }
 
     /**
@@ -150,7 +150,7 @@ class IssuesTest {
         assertThat(i.findById(i2.getId())).isEqualTo(i2);
         assertThat(i.remove(i2.getId())).isEqualTo(i2);
         assertThatThrownBy(() -> i.findById(i2.getId())).isInstanceOf(NoSuchElementException.class).hasMessage("No issue found with id " + i2.getId() + ".");
-
+        assertThat(i.getLowPrioritySize()).isEqualTo(0);
     }
 
     /**
@@ -187,6 +187,7 @@ class IssuesTest {
     @Test
     void getAllIssues() {
         Issues ix = getDefaultIssues();
+
         ImmutableList<Issue> l = ix.all().asList();
         assertThat(l.size()).isEqualTo(3);
         IssueAssert.assertThat(l.get(0)).isEqualTo(i1);
@@ -237,6 +238,7 @@ class IssuesTest {
         assertThat(i.hasNext()).isTrue();
         assertThat(i.next()).isEqualTo(i3);
         assertThat(i.hasNext()).isFalse();
+        assertThatThrownBy(()->i.next()).isInstanceOf(java.util.NoSuchElementException.class);
     }
 
     /**
@@ -252,6 +254,8 @@ class IssuesTest {
         IssueAssert.assertThat(ix.get(2)).isEqualTo(i3);
         assertThatThrownBy(() -> ix.get(3)).isInstanceOf(IndexOutOfBoundsException.class).hasMessage("Index: 3, Size: 3");
         assertThatThrownBy(() -> ix.get(-1)).isInstanceOf(IndexOutOfBoundsException.class).hasMessage("-1");
+        ix.remove(i3.getId());
+        assertThatThrownBy(() -> ix.get(2)).isInstanceOf(IndexOutOfBoundsException.class).hasMessage("Index: 2, Size: 2");
     }
 
     /**
@@ -312,5 +316,29 @@ class IssuesTest {
         assertThat(s.size()).isEqualTo(1);
         IssueAssert.assertThat(s.get(0)).isEqualTo(i1);
 
+        s = ix.findByProperty((issue) -> issue.getPriority().equals(Priority.HIGH));
     }
+
+    /**
+     * Test getFileName.
+     */
+    @Test void getFileNames(){
+        Issues i = getDefaultIssues();
+        assertThat(i.getFiles().size()).isEqualTo(3);
+        Issue i4 = new IssueBuilder().copy(i3).setMessage("m4").setLineEnd(99).build();
+        i.add(i4);
+        assertThat(i.getFiles().size()).isEqualTo(3);
+        assertThat(i.all().size()).isEqualTo(4);
+    }
+
+    /**
+     * Test add the same issue
+     * What happepen if i add the same Issue twice...
+     */
+    @Test void addTheSameIssue(){
+        Issues i = getDefaultIssues();
+        Issue coppy = i.add(new IssueBuilder().copy(i1).build());
+        assertThatThrownBy(()->i.add(coppy)).isInstanceOf(Exception.class);
+    }
+
 }
