@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -28,6 +29,15 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
             failWithMessage("Issues's element contains <%s>", issue);
         }
         return this;
+    }
+
+    public IssueAssert get(int index) {
+        Iterable<Issue> iterable = () -> actual.iterator();
+        Optional<Issue> optionalResult = StreamSupport.stream(iterable.spliterator(), false).skip(index).findFirst();
+        if(!optionalResult.isPresent()) {
+            failWithMessage("Issues's element <%s> does not exist", index);
+        }
+        return IssueAssert.assertThat(optionalResult.get());
     }
 
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
