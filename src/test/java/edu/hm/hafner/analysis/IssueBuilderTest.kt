@@ -1,14 +1,14 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.analysis
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static edu.hm.hafner.analysis.IssueAssert.assertThat;
+import edu.hm.hafner.analysis.IssueAssert.Companion.assertThat
 
-class IssueBuilderTest {
+internal class IssueBuilderTest {
+
     @Test
-    public void createIssueWithDefaultValues() {
-        final Issue want = new Issue(
+    fun createIssueWithDefaultValues() {
+        val want = Issue(
                 "",
                 0,
                 0,
@@ -20,9 +20,9 @@ class IssueBuilderTest {
                 Priority.NORMAL,
                 "",
                 ""
-        );
+        )
 
-        final IssueBuilder sut = new IssueBuilder()
+        val sut = IssueBuilder()
                 .setLineStart(0)
                 .setLineEnd(0)
                 .setColumnStart(0)
@@ -33,36 +33,28 @@ class IssueBuilderTest {
                 .setPackageName("")
                 .setPriority(Priority.NORMAL)
                 .setMessage("")
-                .setDescription("");
+                .setDescription("")
 
-
-        assertThat(sut.build()).isEqualTo(want);
+        assertThat(sut.build()).isEqualTo(want)
     }
 
     @Test
-    public void createIssueWithNullValues() {
-        final Issue want = new Issue(
-                null,
+    fun createIssueWithNullValues() {
+        val want = Issue(null,
                 0,
                 0,
                 0,
-                0,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+                0, null, null, null, null, null, null
+        )
 
-        final IssueBuilder sut = new IssueBuilder();
+        val sut = IssueBuilder()
 
-        assertThat(sut.build()).isEqualTo(want);
+        assertThat(sut.build()).isEqualTo(want)
     }
 
     @Test
-    public void copyFromIssueEqualsTheSameIssue() {
-        final Issue want = new Issue(
+    fun copyFromIssueEqualsTheSameIssue() {
+        val want = Issue(
                 "asdf",
                 0,
                 0,
@@ -74,17 +66,17 @@ class IssueBuilderTest {
                 Priority.NORMAL,
                 "jkl",
                 "zuio"
-        );
+        )
 
-        final IssueBuilder sut = new IssueBuilder().copy(want);
+        val sut = IssueBuilder().copy(want)
 
 
-        assertThat(sut.build()).isEqualTo(want);
+        assertThat(sut.build()).isEqualTo(want)
     }
 
     @Test
-    public void copyFromIssueNotEqualsOtherIssue() {
-        final Issue want = new Issue(
+    fun copyFromIssueNotEqualToOtherIssue() {
+        val want = Issue(
                 "asdf",
                 0,
                 0,
@@ -96,24 +88,24 @@ class IssueBuilderTest {
                 Priority.NORMAL,
                 "jkl",
                 "zuio"
-        );
+        )
 
-        final IssueBuilder sut = new IssueBuilder().copy(want);
+        val sut = IssueBuilder().copy(want)
 
 
-        assertThat(sut.build()).isNotEqualTo(new IssueBuilder().build());
+        assertThat(sut.build()).isNotEqualTo(IssueBuilder().build())
     }
 
     @Test
-    public void fillWithUnAllowedValues() {
-        final IssueBuilder sut = new IssueBuilder();
+    fun fillWithUnAllowedValues() {
+        val sut = IssueBuilder()
 
         sut
                 .setLineStart(-1)
                 .setLineEnd(-1)
                 .setColumnStart(-1)
                 .setColumnEnd(-1)
-                .setPriority(null);
+                .setPriority(null)
 
         assertThat(sut.build())
                 .hasFileName("-")
@@ -127,7 +119,6 @@ class IssueBuilderTest {
                 .hasLineEnd(0)
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
-                .hasFingerPrint("-");
+                .hasFingerPrint("-")
     }
-
 }

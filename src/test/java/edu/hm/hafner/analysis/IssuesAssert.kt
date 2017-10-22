@@ -1,0 +1,75 @@
+package edu.hm.hafner.analysis
+
+import org.assertj.core.api.AbstractAssert
+
+import java.util.Collections
+import java.util.Objects
+import java.util.SortedSet
+
+class IssuesAssert(actual: Issues) : AbstractAssert<IssuesAssert, Issues>(actual, IssuesAssert::class.java) {
+
+    fun hasFiles(files: SortedSet<String>): IssuesAssert {
+        isNotNull
+
+        if (actual.files != files) {
+            failWithMessage("Expected issues's files to be <%s> but was <%s>", files, actual.files)
+        }
+
+        return this
+    }
+
+    fun hasSize(size: Int): IssuesAssert {
+        isNotNull
+
+        if (actual.size() != size) {
+            failWithMessage("Expected issues's files to be <%s> but was <%s>", size, actual.size())
+        }
+
+        return this
+    }
+
+    fun hasHighPrioritySize(size: Int): IssuesAssert {
+        isNotNull
+
+        if (actual.highPrioritySize != size) {
+            failWithMessage("Expected issues's highPrioritySize to be <%s> but was <%s>", size, actual.highPrioritySize)
+        }
+
+        return this
+    }
+
+    fun hasNormalPrioritySize(size: Int): IssuesAssert {
+        isNotNull
+
+        if (actual.normalPrioritySize != size) {
+            failWithMessage(
+                    "Expected issues's normalPrioritySize to be <%s> but was <%s>",
+                    size,
+                    actual.normalPrioritySize
+            )
+        }
+
+        return this
+    }
+
+    fun hasLowPrioritySize(size: Int): IssuesAssert {
+        isNotNull
+
+        if (actual.lowPrioritySize != size) {
+            failWithMessage(
+                    "Expected issues's lowPrioritySize to be <%s> but was <%s>",
+                    size,
+                    actual.lowPrioritySize
+            )
+        }
+
+        return this
+    }
+
+    companion object {
+
+        fun assertThat(actual: Issues): IssuesAssert {
+            return IssuesAssert(actual)
+        }
+    }
+}
