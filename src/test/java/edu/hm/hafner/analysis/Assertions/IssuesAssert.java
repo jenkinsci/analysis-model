@@ -15,16 +15,16 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     */
 
 
-    public IssuesAssert(Issues actual){
+    public IssuesAssert(final Issues actual){
         super(actual,IssuesAssert.class);
     }
 
-    public static IssuesAssert assertThat(Issues actual) {
+    public static IssuesAssert assertThat(final Issues actual) {
         return new IssuesAssert(actual);
     }
 
 
-    public IssuesAssert hasSize(int size) {
+    public IssuesAssert hasSize(final int size) {
         isNotNull();
 
         if (actual.getSize() != size) {
@@ -33,7 +33,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasHighPrioritySize(int highPrioritySize) {
+    public IssuesAssert hasHighPrioritySize(final int highPrioritySize) {
         isNotNull();
 
         if (actual.getHighPrioritySize() != highPrioritySize) {
@@ -42,7 +42,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasNormalPrioritySize(int normalPrioritySize) {
+    public IssuesAssert hasNormalPrioritySize(final int normalPrioritySize) {
         isNotNull();
 
         if (actual.getNormalPrioritySize() != normalPrioritySize) {
@@ -51,7 +51,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasLowPrioritySize(int lowPrioritySize) {
+    public IssuesAssert hasLowPrioritySize(final int lowPrioritySize) {
         isNotNull();
 
         if (actual.getLowPrioritySize() != lowPrioritySize) {
@@ -60,7 +60,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasNumberOfFiles(int numberOfFiles) {
+    public IssuesAssert hasNumberOfFiles(final int numberOfFiles) {
         isNotNull();
 
         if (actual.getNumberOfFiles() != numberOfFiles) {
@@ -69,7 +69,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasIssueOnIndex(Issue issue, int index) {
+    public IssuesAssert hasIssueOnIndex(final Issue issue, final int index) {
         isNotNull();
 
         if (actual.get(index) != issue) {
@@ -87,14 +87,5 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    /*
-    public IssuesAssert hasProperties(<R> SortedSet<R> properties) {
-        isNotNull();
-
-        if (actual.getFiles().equals(files)) {
-            failWithMessage("Expected sets are not the same");
-        }
-        return this;
-    }*/
 
 }
