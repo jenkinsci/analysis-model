@@ -18,7 +18,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
     public IssuesAssert assertContains(final Issue issue) {
         Iterable<Issue> iterable = () -> actual.iterator();
-        if(!StreamSupport.stream(iterable.spliterator(), false).filter(a -> a.equals(issue)).findFirst().isPresent()) {
+        if(!StreamSupport.stream(iterable.spliterator(), false).anyMatch(a -> a.equals(issue))) {
             failWithMessage("Issues's element does not contain <%s>", issue);
         }
         return this;
@@ -26,7 +26,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
     public IssuesAssert assertDoesNotContain(final Issue issue) {
         Iterable<Issue> iterable = () -> actual.iterator();
-        if(StreamSupport.stream(iterable.spliterator(), false).filter(a -> a.equals(issue)).findFirst().isPresent()) {
+        if(StreamSupport.stream(iterable.spliterator(), false).anyMatch(a -> a.equals(issue))) {
             failWithMessage("Issues's element contains <%s>", issue);
         }
         return this;
