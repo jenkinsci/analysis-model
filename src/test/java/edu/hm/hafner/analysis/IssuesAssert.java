@@ -33,12 +33,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     }
 
     public IssueAssert get(final int index) {
-        Iterable<Issue> iterable = () -> actual.iterator();
-        Optional<Issue> optionalResult = StreamSupport.stream(iterable.spliterator(), false).skip(index).findFirst();
-        if(!optionalResult.isPresent()) {
-            failWithMessage("Issues's element <%s> does not exist", index);
-        }
-        return IssueAssert.assertThat(optionalResult.get());
+        return IssueAssert.assertThat(actual.get(index));
     }
 
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
