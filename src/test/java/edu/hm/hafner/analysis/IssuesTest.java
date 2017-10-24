@@ -8,8 +8,9 @@ import static edu.hm.hafner.analysis.Assertions.IssuesAssert.assertThat;
 import static org.assertj.core.api.Java6Assertions.*;
 
 class IssuesTest {
+
     @Test
-    void addBasicIssuesTest(){
+    void addBasicIssueTest() {
 
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
@@ -21,10 +22,10 @@ class IssuesTest {
                 .hasHighPrioritySize(0)
                 .hasLowPrioritySize(0)
                 .hasNormalPrioritySize(1)
-                .hasIssueOnIndex(firstIssue,0)
+                .hasIssueOnIndex(firstIssue, 0)
                 .hasNumberOfFiles(1)
                 .hasToString(String.format("%d issues", issues.size()));
-                //files ?
+        //files ?
 
         assertThat(issues.get(0))
                 .hasLineStart(0)
@@ -44,30 +45,7 @@ class IssuesTest {
     }
 
     @Test
-    void removeBasicIssueIssuesShoudBeEmpty(){
-
-        Issues issues = new Issues();
-        IssueBuilder builder = new IssueBuilder();
-        Issue firstIssue = builder.build();
-        issues.add(firstIssue);
-        issues.remove(firstIssue.getId());
-
-        assertThat(issues)
-                .hasSize(0)
-                .hasHighPrioritySize(0)
-                .hasLowPrioritySize(0)
-                .hasNormalPrioritySize(0)
-                .hasNumberOfFiles(0);
-        //files ?
-        assertThatThrownBy(()-> issues.get(0))
-        .isInstanceOf(IndexOutOfBoundsException.class)
-                .hasMessageContaining("0")
-                .hasNoCause();
-
-    }
-
-    @Test
-    void removeNotExistingIssue(){
+    void removeNotExistingIssueTest() {
 
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
@@ -81,14 +59,37 @@ class IssuesTest {
 
         issues.add(firstIssue);
 
-        //files ?
-        assertThatThrownBy(()-> issues.remove(secondIssue.getId()))
+        assertThatThrownBy(() -> issues.remove(secondIssue.getId()))
                 .isInstanceOf(NoSuchElementException.class);
-
     }
 
     @Test
-    void findByIdTest(){
+    void removeBasicIssueTest() {
+
+        Issues issues = new Issues();
+        IssueBuilder builder = new IssueBuilder();
+        Issue firstIssue = builder.build();
+        issues.add(firstIssue);
+        issues.remove(firstIssue.getId());
+
+        assertThat(issues)
+                .hasSize(0)
+                .hasHighPrioritySize(0)
+                .hasLowPrioritySize(0)
+                .hasNormalPrioritySize(0)
+                .hasNumberOfFiles(0);
+    }
+
+    @Test
+    void getElementFromEmptyIssuesTest() {
+        Issues issues = new Issues();
+
+        assertThatThrownBy(() -> issues.get(0))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
+    void findByIdTest() {
 
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
@@ -114,7 +115,7 @@ class IssuesTest {
     }
 
     @Test
-    void NotFoundByIdTest(){
+    void NotFoundByIdTest() {
 
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
@@ -125,15 +126,14 @@ class IssuesTest {
         Issue secondIssue = builder.build();
 
 
-        assertThatThrownBy(()->issues.findById(secondIssue.getId()))
+        assertThatThrownBy(() -> issues.findById(secondIssue.getId()))
                 .isInstanceOf(NoSuchElementException.class);
-
 
 
     }
 
     @Test
-    void copyBasicIssues(){
+    void copyBasicIssuesTest() {
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
         Issue firstIssue = builder.build();
@@ -146,7 +146,7 @@ class IssuesTest {
                 .hasHighPrioritySize(0)
                 .hasLowPrioritySize(0)
                 .hasNormalPrioritySize(1)
-                .hasIssueOnIndex(firstIssue,0)
+                .hasIssueOnIndex(firstIssue, 0)
                 .hasNumberOfFiles(1)
                 .hasToString(String.format("%d issues", issues.size()));
         //files ?
@@ -166,10 +166,81 @@ class IssuesTest {
                 .hasToString(String.format("%s(%d,%d): %s: %s: %s", "-", 0, 0, "-", "", ""));
 
 
+    }
 
+    @Test
+    void addAllTest() {
+        Issues firstIssues = new Issues();
+        Issues secondIssues = new Issues();
+
+        IssueBuilder builder = new IssueBuilder();
+        Issue firstIssue = builder.build();
+        Issue secondIssue = builder
+                .setLineStart(2)
+                .setPriority(Priority.LOW)
+                .setFileName("second issue")
+                .build();
+        Issue thirdIssue = builder
+                .setLineStart(3)
+                .setPriority(Priority.HIGH)
+                .setFileName("third issue")
+                .build();
+
+        firstIssues.add(firstIssue);
+        firstIssues.add(secondIssue);
+        secondIssues.add(thirdIssue);
+
+        firstIssues.addAll(secondIssues.all());
+
+        assertThat(firstIssues)
+                .hasSize(3)
+                .hasHighPrioritySize(1)
+                .hasLowPrioritySize(1)
+                .hasNormalPrioritySize(1)
+                .hasIssueOnIndex(firstIssue, 0)
+                .hasNumberOfFiles(3)
+                .hasToString(String.format("%d issues", firstIssues.size()));
 
     }
 
+    @Test
+    void findByPropertyTest() {
+        Issues firstIssues = new Issues();
+        Issues filteredIssues = new Issues();
 
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue firstIssue = builder
+                .setLineStart(1)
+                .setPriority(Priority.LOW)
+                .setFileName("first issue")
+                .build();
+        Issue secondIssue = builder
+                .setLineStart(2)
+                .setPriority(Priority.LOW)
+                .setFileName("second issue")
+                .build();
+        Issue thirdIssue = builder
+                .setLineStart(3)
+                .setPriority(Priority.HIGH)
+                .setFileName("third issue")
+                .build();
+
+
+        firstIssues.add(firstIssue);
+        firstIssues.add(secondIssue);
+        firstIssues.add(thirdIssue);
+
+        filteredIssues.addAll(firstIssues.findByProperty((n) -> n.getPriority() == Priority.LOW));
+
+        assertThat(filteredIssues)
+                .hasSize(2)
+                .hasHighPrioritySize(0)
+                .hasLowPrioritySize(2)
+                .hasNormalPrioritySize(0)
+                .hasIssueOnIndex(firstIssue, 0)
+                .hasNumberOfFiles(2)
+                .hasToString(String.format("%d issues", filteredIssues.size()));
+    }
 
 }
