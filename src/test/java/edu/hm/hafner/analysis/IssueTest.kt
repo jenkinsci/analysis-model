@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis
 
-import edu.hm.hafner.analysis.IssueAssert.Companion.assertThat
 import edu.hm.hafner.analysis.assertj.assertSoftly
 import org.junit.jupiter.api.Test
 
@@ -104,27 +103,35 @@ internal class IssueTest {
                 .setFileName("\\random\\folder\\filename")
                 .build()
 
-        assertThat(sut).hasFileName("/random/folder/filename")
+        assertSoftly<IssueSoftAssertions> {
+            assertThat(sut).hasFileName("/random/folder/filename")
+        }
     }
 
     @Test
     fun setFingerPrintToNullAndReplaceWithDefault() {
-        val sut = IssueBuilder().build()
-        sut.fingerprint = null
-        assertThat(sut).hasFingerPrint("-")
+        val sut = IssueBuilder().build().apply { fingerprint = null }
+
+
+        assertSoftly<IssueSoftAssertions> {
+            assertThat(sut).hasFingerPrint("-")
+        }
     }
 
     @Test
     fun setFingerPrintToEmptyStringAndReplaceWithDefault() {
-        val sut = IssueBuilder().build()
-        sut.fingerprint = ""
-        assertThat(sut).hasFingerPrint("-")
+        val sut = IssueBuilder().build().apply { fingerprint = "" }
+        assertSoftly<IssueSoftAssertions> {
+            assertThat(sut).hasFingerPrint("-")
+        }
     }
 
     @Test
     fun stringRepresentationOfDefaultIssue() {
         val sut = IssueBuilder().build()
-        assertThat(sut).hasToString("-(0,0): -: : ")
+        assertSoftly<IssueSoftAssertions> {
+            assertThat(sut).hasToString("-(0,0): -: : ")
+        }
     }
 
     @Test
@@ -143,8 +150,10 @@ internal class IssueTest {
                 .setPackageName("package")
                 .build().apply { fingerprint = "fingerprint" }
 
-        assertThat(sut).hasToString(with(sut) {
-            "$fileName($lineStart,$columnStart): $type: $category: $message"
-        })
+        assertSoftly<IssueSoftAssertions> {
+            assertThat(sut).hasToString(with(sut) {
+                "$fileName($lineStart,$columnStart): $type: $category: $message"
+            })
+        }
     }
 }

@@ -1,37 +1,43 @@
 package edu.hm.hafner.analysis
 
-import edu.hm.hafner.util.NoSuchElementException
-import org.assertj.core.api.SoftAssertions
-import org.junit.jupiter.api.Test
-
-import java.util.ArrayList
-
 import edu.hm.hafner.analysis.IssuesAssert.Companion.assertThat
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.Test
 
 internal class IssuesTest {
 
     @Test
     fun emptyIssues() {
-        assertThat(Issues()).hasSize(0)
-    }
 
-    @Test
-    fun addIssueToEmptyIssues() {
-        val sut = Issues()
-
-        sut.add(IssueBuilder().setFileName("asdf").build())
-        assertThat(sut)
-                .hasSize(1)
+        assertThat(Issues())
+                .hasSize(0)
                 .hasHighPrioritySize(0)
-                .hasNormalPrioritySize(1)
+                .hasNormalPrioritySize(0)
                 .hasLowPrioritySize(0)
-        IssueAssert.assertThat(sut.get(0))
-                .hasFileName("asdf")
+                .hasNumberOfFiles(0)
     }
 
     @Test
-    fun addNullToEmptyIssuesAndThrowNPE() {
+    fun addIssueTwice() {
+        val sut = Issues().apply {
+            val issue = IssueBuilder().setFileName("fileName").build()
+            add(issue)
+            add(issue)
+        }
+
+        assertThat(sut)
+                .hasSize(2)
+                .hasHighPrioritySize(0)
+                .hasNormalPrioritySize(2)
+                .hasLowPrioritySize(0)
+                .hasNumberOfFiles(1)
+                .hasIssueAt(0, IssueBuilder().setFileName("fileName").build())
+
+    }
+
+    @Test
+    fun addNullAndThrowNPE() {
         val sut = Issues()
 
         assertThatThrownBy { sut.add(null) }
@@ -39,7 +45,7 @@ internal class IssuesTest {
     }
 
     @Test
-    fun addAllWithNullCollection() {
+    fun addAllWithNullCollectionAndThrowNPE() {
         assertThatThrownBy { Issues().addAll(null) }
                 .isInstanceOf(NullPointerException::class.java)
     }
@@ -48,25 +54,42 @@ internal class IssuesTest {
     fun addAllWithEmptyCollection() {
         val sut = Issues()
 
-        sut.addAll(ArrayList())
-        assertThat(sut).hasSize(0)
+        sut.addAll(emptyList())
+        assertThat(sut)
+                .hasSize(0)
+                .hasHighPrioritySize(0)
+                .hasNormalPrioritySize(0)
+                .hasLowPrioritySize(0)
+                .hasNumberOfFiles(0)
     }
 
     @Test
-    fun addAllWithSingleElementCollection() {
+    fun addAllWithThreeIssuesWithDifferentPriorities() {
 
-        val sut = Issues()
-        val issue = IssueBuilder().setFileName("asdf").build()
-        val collection = ArrayList<Issue>()
-        collection.add(issue)
-        sut.addAll(collection)
+        val sut = Issues().apply {
+            val builder = IssueBuilder()
+            val collection = mutableListOf<Issue>().apply {
+                builder.setFileName("fileName1").setPriority(Priority.HIGH)
+                add(builder.build())
+                builder.setFileName("fileName2").setPriority(Priority.NORMAL)
+                add(builder.build())
+                builder.setFileName("fileName3").setPriority(Priority.LOW)
+                add(builder.build())
+            }
 
-        assertThat(sut).hasSize(1)
-        IssueAssert.assertThat(sut.get(0)).hasFileName("asdf")
+            addAll(collection)
+        }
+
+        assertThat(sut)
+                .hasSize(3)
+                .hasHighPrioritySize(1)
+                .hasNormalPrioritySize(1)
+                .hasLowPrioritySize(1)
+                .hasNumberOfFiles(3)
     }
 
     @Test
-    fun removeWithNull() {
+    fun removeNullId() {
         val sut = Issues()
 
         assertThatThrownBy { sut.remove(null) }
@@ -76,44 +99,59 @@ internal class IssuesTest {
     @Test
     fun removeNotContainingIssue() {
         val sut = Issues()
-        assertThat(sut).hasSize(0)
         assertThatThrownBy { sut.remove(IssueBuilder().build().id) }
                 .isInstanceOf(NoSuchElementException::class.java)
-        assertThat(sut).hasSize(0)
     }
 
     @Test
-    fun removeIssueAfterAddingIt() {
+    fun removingIssueAfterAddingIt() {
         val sut = Issues()
-        val issue = IssueBuilder().setFileName("asdf").build()
+        val issue = IssueBuilder().setFileName("fileName").build()
 
         sut.add(issue)
-        assertThat(sut).hasSize(1)
+        assertThat(sut)
+                .hasSize(1)
+                .hasNormalPrioritySize(1)
+                .hasNumberOfFiles(1)
         val removedIssue = sut.remove(issue.id)
-        assertThat(sut).hasSize(0)
+        assertThat(sut)
+                .hasSize(0)
+                .hasNormalPrioritySize(0)
+                .hasNumberOfFiles(0)
+
         IssueAssert.assertThat(removedIssue).isEqualTo(issue)
     }
 
     @Test
-    fun removeTenthIssue() {
-        val sut = Issues()
-        for (i in 0..8) {
-            sut.add(IssueBuilder().build())
+    fun removeAll() {
+        val sut = Issues().apply {
+            val builder = IssueBuilder()
+            val collection = mutableListOf<Issue>().apply {
+                builder.setFileName("fileName1").setPriority(Priority.HIGH)
+                add(builder.build())
+                builder.setFileName("fileName2").setPriority(Priority.NORMAL)
+                add(builder.build())
+                builder.setFileName("fileName3").setPriority(Priority.LOW)
+                add(builder.build())
+            }
+
+            addAll(collection)
         }
 
-        val tenth = IssueBuilder().setFileName("tenthFile").build()
+        repeat(3) {
+            sut.remove(sut[0].id)
+        }
 
-        sut.add(tenth)
-        assertThat(sut).hasSize(10)
-
-        val removedIssue = sut.remove(tenth.id)
-
-        IssueAssert.assertThat(removedIssue).isEqualTo(tenth)
-        assertThat(sut).hasSize(9)
+        assertThat(sut)
+                .hasSize(0)
+                .hasHighPrioritySize(0)
+                .hasNormalPrioritySize(0)
+                .hasLowPrioritySize(0)
+                .hasNumberOfFiles(0)
     }
 
     @Test
-    fun findIdInEmptyIssues() {
+    fun tryToFindIdInEmptyIssuesAndThrowNSEE() {
         val sut = Issues()
 
         assertThatThrownBy { sut.remove(IssueBuilder().build().id) }
@@ -122,20 +160,18 @@ internal class IssuesTest {
     }
 
     @Test
-    fun findNullIdInEmptyIssues() {
+    fun tryToFindNullIdInEmptyIssuesAndThrowNSEE() {
         val sut = Issues()
 
-        SoftAssertions.assertSoftly { softly ->
-            softly.assertThatThrownBy { sut.remove(null) }
-                    .isInstanceOf(NoSuchElementException::class.java)
-        }
+        assertThatThrownBy { sut.remove(null) }
+                .isInstanceOf(NoSuchElementException::class.java)
 
     }
 
     @Test
     fun findIdInIssuesContainingASingleElement() {
         val sut = Issues()
-        val issue = IssueBuilder().setFileName("asdf").build()
+        val issue = IssueBuilder().setFileName("fileName").build()
 
         sut.add(issue)
         assertThat(sut).hasSize(1)
@@ -144,9 +180,9 @@ internal class IssuesTest {
     }
 
     @Test
-    fun findTenthId() {
+    fun findTenthById() {
         val sut = Issues()
-        for (i in 0..8) {
+        repeat(9) {
             sut.add(IssueBuilder().build())
         }
 
@@ -161,43 +197,45 @@ internal class IssuesTest {
     }
 
     @Test
-    fun containsNoHighNormalLowPriorities() {
-        val sut = Issues()
-        assertThat(sut)
-                .hasHighPrioritySize(0)
-                .hasNormalPrioritySize(0)
-                .hasLowPrioritySize(0)
-    }
-
-    @Test
-    fun containsOneOfAllPriorities() {
-        val sut = Issues()
+    fun getFirstAndSecondElement() {
         val builder = IssueBuilder()
-        sut.add(builder.setPriority(Priority.HIGH).build())
-        sut.add(builder.setPriority(Priority.NORMAL).build())
-        sut.add(builder.setPriority(Priority.LOW).build())
+        val first = builder.setFileName("fileName1").build()
+        val second = builder.setFileName("fileName2").build()
 
-        assertThat(sut)
-                .hasHighPrioritySize(1)
-                .hasNormalPrioritySize(1)
-                .hasLowPrioritySize(1)
+        val sut = Issues().apply { addAll(listOf(first, second)) }
+        IssueAssert.assertThat(sut[0])
+                .hasFileName("fileName1")
+
+        IssueAssert.assertThat(sut[1])
+                .hasFileName("fileName2")
+
     }
 
     @Test
-    fun getTenthIssue() {
+    fun getPropertiesInEmptyIssues() {
         val sut = Issues()
-        for (i in 0..8) {
-            sut.add(IssueBuilder().build())
+
+        val list = sut.getProperties {
+            it.fileName
         }
 
-        val tenth = IssueBuilder().setFileName("tenthFile").build()
-        sut.add(tenth)
+        Assertions.assertThat(list).isEmpty()
+    }
 
-        for (i in 0..8) {
-            sut.add(IssueBuilder().build())
+    @Test
+    fun getPropertiesInTwoElementIssues() {
+        val sut = Issues().apply {
+            add(IssueBuilder().setFileName("fileName1").build())
+            add(IssueBuilder().setFileName("fileName2").build())
         }
 
-        IssueAssert.assertThat(sut.get(9)).isEqualTo(tenth)
+        val list = sut.getProperties {
+            it.fileName
+        }
+
+        Assertions.assertThat(list)
+                .isNotEmpty
+                .contains("fileName1", "fileName2")
     }
 
     @Test
@@ -210,10 +248,20 @@ internal class IssuesTest {
     @Test
     fun stringRepresentationOfIssuesWithTenElements() {
         val sut = Issues()
-        for (i in 0..9) {
+        repeat(10) {
             sut.add(IssueBuilder().build())
         }
 
         assertThat(sut).hasToString("10 issues")
+    }
+
+    @Test
+    fun copyStringRepresentationEqualsOriginalStringRepresentation() {
+        val sut = Issues().apply {
+            add(IssueBuilder().setFileName("fileName1").build())
+            add(IssueBuilder().setFileName("fileName2").build())
+        }
+
+        Assertions.assertThat(sut.toString()).isEqualTo(sut.copy().toString())
     }
 }

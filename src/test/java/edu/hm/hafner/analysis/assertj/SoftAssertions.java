@@ -1,16 +1,13 @@
 package edu.hm.hafner.analysis.assertj;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import org.assertj.core.api.ErrorCollector;
 import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.internal.cglib.proxy.Enhancer;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import java.util.List;
+import java.util.function.Consumer;
 
-import static org.assertj.core.groups.Properties.*;
+import static org.assertj.core.groups.Properties.extractProperty;
 
 /**
  * Entry point for assertions of different data types. Each method in this class is a static factory for the
