@@ -2,13 +2,13 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class IssueTest {
     @Test
     void buildEmptyIssue() {
-        final Issue sut = new IssueBuilder().build();
-        final IssueAssertSoft softly = new IssueAssertSoft();
+        Issue sut = new IssueBuilder().build();
+        IssueAssertSoft softly = new IssueAssertSoft();
         softly.assertThat(sut)
                 .hasFileName("-")
                 .hasCategory("")
@@ -21,13 +21,14 @@ class IssueTest {
                 .hasLineEnd(0)
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
+                .hasFingerprint("-")
                 .hasToString("-(0,0): -: : ");
         softly.assertAll();
     }
 
     @Test
     void issueSameStartAndEndLineAndColumn() {
-        final Issue sut = new IssueBuilder()
+        Issue sut = new IssueBuilder()
                 .setDescription("Test same LineStart, LineEnd, ColumnStart and ColumnEnd")
                 .setPackageName("edu.hm.hafner.analysis")
                 .setPriority(Priority.LOW)
@@ -40,7 +41,7 @@ class IssueTest {
                 .setColumnStart(2)
                 .setColumnEnd(2)
                 .build();
-        final IssueAssertSoft softly = new IssueAssertSoft();
+        IssueAssertSoft softly = new IssueAssertSoft();
         softly.assertThat(sut)
                 .hasFileName("IssuesTest.java")
                 .hasCategory("Category")
@@ -53,13 +54,14 @@ class IssueTest {
                 .hasLineEnd(1)
                 .hasColumnStart(2)
                 .hasColumnEnd(2)
+                .hasFingerprint("-")
                 .hasToString("IssuesTest.java(1,2): Type: Category: Message - Test same LineStart, LineEnd, ColumnStart and ColumnEnd");
         softly.assertAll();
     }
 
     @Test
     void issueDifferentStartAndEndLineAndColumn() {
-        final Issue sut = new IssueBuilder()
+        Issue sut = new IssueBuilder()
                 .setDescription("Test different LineStart, LineEnd, ColumnStart and ColumnEnd")
                 .setPackageName("edu.hm.hafner.analysis")
                 .setPriority(Priority.HIGH)
@@ -72,7 +74,7 @@ class IssueTest {
                 .setColumnStart(2)
                 .setColumnEnd(5)
                 .build();
-        final IssueAssertSoft softly = new IssueAssertSoft();
+        IssueAssertSoft softly = new IssueAssertSoft();
         softly.assertThat(sut)
                 .hasFileName("IssuesTest.java")
                 .hasCategory("Category")
@@ -85,7 +87,60 @@ class IssueTest {
                 .hasLineEnd(4)
                 .hasColumnStart(2)
                 .hasColumnEnd(5)
+                .hasFingerprint("-")
                 .hasToString("IssuesTest.java(1,2): Type: Category: Message - Test different LineStart, LineEnd, ColumnStart and ColumnEnd");
         softly.assertAll();
+    }
+
+    @Test
+    void testSetFingerprint() {
+        Issue sut = new IssueBuilder().build();
+        IssueAssertSoft softly = new IssueAssertSoft();
+
+        // Check issue object before modification
+        softly.assertThat(sut)
+                .hasFileName("-")
+                .hasCategory("")
+                .hasType("-")
+                .hasPriority(Priority.NORMAL)
+                .hasMessage("")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
+                .hasFingerprint("-")
+                .hasToString("-(0,0): -: : ");
+        softly.assertAll();
+
+        sut.setFingerprint("new fingerprint");
+
+        // Check that only the fingerprint has changed
+        softly.assertThat(sut)
+                .hasFileName("-")
+                .hasCategory("")
+                .hasType("-")
+                .hasPriority(Priority.NORMAL)
+                .hasMessage("")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
+                .hasFingerprint("new fingerprint")
+                .hasToString("-(0,0): -: : ");
+        softly.assertAll();
+    }
+
+    @Test
+    void uuidIsUnique() {
+        Issue sut1 = new IssueBuilder().build();
+        Issue sut2 = new IssueBuilder().build();
+        assertThat(sut1.getId()).as("The uuid of a issue is not equal to it's own uuid").isEqualTo(sut1.getId());
+        assertThat(sut2.getId()).as("The uuid of a issue is not equal to it's own uuid").isEqualTo(sut2.getId());
+        assertThat(sut1.getId()).as("The uuid of equal issues is the same").isNotEqualTo(sut2.getId());
+        assertThat(sut2.getId()).as("The uuid of equal issues is the same").isNotEqualTo(sut1.getId());
     }
 }

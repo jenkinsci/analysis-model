@@ -62,6 +62,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     }
 
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssueAssert hasFingerprint(final String fingerprint) {
+        checkString("fingerprint", fingerprint, actual.getFingerprint());
+        return this;
+    }
+
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasLineStart(final int lineStart) {
         checkInt("lineStart", lineStart, actual.getLineStart());
         return this;
