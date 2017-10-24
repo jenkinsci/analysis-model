@@ -65,6 +65,7 @@ public class Issues implements Iterable<Issue> {
     public Issue remove(final UUID id) {
         for (int i = 0; i < elements.size(); i++) {
             if (elements.get(i).getId().equals(id)) {
+                sizeOfPriority[elements.get(i).getPriority().ordinal()]--;
                 return elements.remove(i);
             }
         }
@@ -207,7 +208,7 @@ public class Issues implements Iterable<Issue> {
     }
 
     /**
-     * Returns a swallow copy of this issue container.
+     * Returns a shallow copy of this issue container.
      *
      * @return a new issue container that contains the same elements in the same order
      */
