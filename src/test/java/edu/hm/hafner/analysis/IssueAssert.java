@@ -12,8 +12,8 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         super(actual, IssueAssert.class);
     }
 
-    public static IssueAssert assertThat(final Issue actual) {
-        return new IssueAssert(actual);
+    public static IssueAssert assertThat(final Issue actualIssue) {
+        return new IssueAssert(actualIssue);
     }
 
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
@@ -91,17 +91,19 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    private void checkString(final String usage, final String expected, final String actual) {
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    private void checkString(final String usage, final String expected, final String actualString) {
         isNotNull();
-        if (!Objects.equals(actual, expected)) {
-            failWithMessage("Expected issue's %s to be <%s> but was <%s>", usage, expected, actual);
+        if (!Objects.equals(actualString, expected)) {
+            failWithMessage("Expected issue's %s to be <%s> but was <%s>", usage, expected, actualString);
         }
     }
 
-    private void checkInt(final String usage, final int expected, final int actual) {
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    private void checkInt(final String usage, final int expected, final int actualInt) {
         isNotNull();
-        if (actual != expected) {
-            failWithMessage("Expected issue's %s to be <%s> but was <%s>", usage, expected, actual);
+        if (actualInt != expected) {
+            failWithMessage("Expected issue's %s to be <%s> but was <%s>", usage, expected, actualInt);
         }
     }
 }

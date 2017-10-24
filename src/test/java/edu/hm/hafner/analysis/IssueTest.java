@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class IssueTest {
+    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void buildEmptyIssue() {
         Issue sut = new IssueBuilder().build();
@@ -26,6 +27,7 @@ class IssueTest {
         softly.assertAll();
     }
 
+    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void issueSameStartAndEndLineAndColumn() {
         Issue sut = new IssueBuilder()
@@ -59,6 +61,7 @@ class IssueTest {
         softly.assertAll();
     }
 
+    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void issueDifferentStartAndEndLineAndColumn() {
         Issue sut = new IssueBuilder()
@@ -92,6 +95,7 @@ class IssueTest {
         softly.assertAll();
     }
 
+    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void testSetFingerprint() {
         Issue sut = new IssueBuilder().build();
