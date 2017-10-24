@@ -8,20 +8,36 @@ import org.assertj.core.api.AbstractAssert;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
 
+/**
+ * Custom assertion for issue.
+ */
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
-  /*  public IssueAssert(final Issue issue, final Class<?> selfType) {
-        super(issue, selfType);
-    }*/
-
+    /**
+     * Custom constructor.
+     *
+     * @param actual current issue
+     */
     public IssueAssert(Issue actual) {
         super(actual, IssueAssert.class);
     }
 
+    /**
+     * Custom assert function for issue.
+     *
+     * @param actual current issue
+     * @return custom assertion
+     */
     public static IssueAssert assertThat(Issue actual) {
         return new IssueAssert(actual);
     }
 
+    /**
+     * Check issue for specific file name.
+     *
+     * @param fileName filter for file name
+     * @return custom assertion
+     */
     public IssueAssert hasFileName(String fileName) {
         isNotNull();
 
@@ -31,6 +47,13 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
+
+    /**
+     * Check issue for specific category.
+     *
+     * @param category filter for category
+     * @return custom assertion
+     */
     public IssueAssert hasCategory(String category) {
         isNotNull();
 
@@ -40,6 +63,13 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
+
+    /**
+     * Check issue for specific package name.
+     *
+     * @param packageName filter for package name
+     * @return custom assertion
+     */
     public IssueAssert hasPackageName(String packageName) {
         isNotNull();
 
@@ -49,6 +79,13 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
+
+    /**
+     * Check issue for specific description.
+     *
+     * @param description filter for description
+     * @return custom assertion
+     */
     public IssueAssert hasDescription(String description) {
         isNotNull();
 
@@ -58,37 +95,60 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasLineStart(int lineStart){
+    /**
+     * Check issue for specific line start.
+     *
+     * @param lineStart filter for line start
+     * @return custom assertion
+     */
+    public IssueAssert hasLineStart(int lineStart) {
         isNotNull();
 
-        if(actual.getLineStart() != lineStart){
+        if (actual.getLineStart() != lineStart) {
             failWithMessage("Expected line start to be <%s> but was <%s>", lineStart, actual.getLineStart());
 
         }
         return this;
     }
 
-
-    public IssueAssert hasColumnStart(int columnStart){
+    /**
+     * Check issue for specific column start.
+     *
+     * @param columnStart filter for column start
+     * @return custom assertion
+     */
+    public IssueAssert hasColumnStart(int columnStart) {
         isNotNull();
 
-        if(actual.getColumnStart() != columnStart){
+        if (actual.getColumnStart() != columnStart) {
             failWithMessage("Expected column start to be <%s> but was <%s>", columnStart, actual.getColumnStart());
 
         }
         return this;
     }
 
-    public IssueAssert hasId(UUID id){
+    /**
+     * Check issue for specific id.
+     *
+     * @param id filter for id
+     * @return custom assertion
+     */
+    public IssueAssert hasId(UUID id) {
         isNotNull();
 
-        if(!actual.getId().equals(id)){
+        if (!actual.getId().equals(id)) {
             failWithMessage("Expected id to be <%s> but was <%s>", id, actual.getId());
 
         }
         return this;
     }
 
+    /**
+     * Check issue for specific type.
+     *
+     * @param type filter for type
+     * @return custom assertion
+     */
     public IssueAssert hasType(String type) {
         isNotNull();
 
@@ -98,6 +158,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
+    /**
+     * Check issue for specific message.
+     *
+     * @param message filter for message
+     * @return custom assertion
+     */
     public IssueAssert hasMessage(String message) {
         isNotNull();
 
@@ -107,6 +173,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
+    /**
+     * Check issue for specific fingerprint.
+     *
+     * @param fingerprint filter for fingerprint
+     * @return custom assertion
+     */
     public IssueAssert hasFingerprint(String fingerprint) {
         isNotNull();
 
@@ -116,6 +188,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
+    /**
+     * Check issue for specific line end.
+     *
+     * @param lineEnd filter for line end
+     * @return custom assertion
+     */
     public IssueAssert hasLineEnd(int lineEnd) {
         isNotNull();
 
@@ -125,6 +203,13 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
+
+    /**
+     * Check issue for specific column end.
+     *
+     * @param columnEnd filter for column end
+     * @return custom assertion
+     */
     public IssueAssert hasColumnEnd(int columnEnd) {
         isNotNull();
 
@@ -134,6 +219,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
+    /**
+     * Check issue for specific priority.
+     *
+     * @param priority filter for priority
+     * @return custom assertion
+     */
     public IssueAssert hasPriority(Priority priority) {
         isNotNull();
 

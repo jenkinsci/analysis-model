@@ -7,6 +7,9 @@ import static edu.hm.hafner.analysis.Assertions.IssueAssert.assertThat;
 import static edu.hm.hafner.analysis.Assertions.IssuesAssert.assertThat;
 import static org.assertj.core.api.Java6Assertions.*;
 
+/**
+ * Test class for issues.
+ */
 class IssuesTest {
 
     @Test
@@ -115,7 +118,7 @@ class IssuesTest {
     }
 
     @Test
-    void NotFoundByIdTest() {
+    void notFoundByIdTest() {
 
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
@@ -231,7 +234,7 @@ class IssuesTest {
         firstIssues.add(secondIssue);
         firstIssues.add(thirdIssue);
 
-        filteredIssues.addAll(firstIssues.findByProperty((n) -> n.getPriority() == Priority.LOW));
+        filteredIssues.addAll(firstIssues.findByProperty(n -> n.getPriority() == Priority.LOW));
 
         assertThat(filteredIssues)
                 .hasSize(2)

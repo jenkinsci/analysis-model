@@ -7,23 +7,36 @@ import org.assertj.core.api.AbstractAssert;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 
+/**
+ * Custom assertion for issues.
+ */
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
-   /* public IssuesAssert(final Issues issues, final Class<?> selfType) {
-        super(issues, selfType);
+    /**
+     * Custom constructor.
+     *
+     * @param actual current issues
+     */
+    public IssuesAssert(final Issues actual) {
+        super(actual, IssuesAssert.class);
     }
-    */
 
-
-    public IssuesAssert(final Issues actual){
-        super(actual,IssuesAssert.class);
-    }
-
+    /**
+     * Custom assert function for issues.
+     *
+     * @param actual current issues
+     * @return custom assertion
+     */
     public static IssuesAssert assertThat(final Issues actual) {
         return new IssuesAssert(actual);
     }
 
-
+    /**
+     * Check issues for specific size.
+     *
+     * @param size filter for size
+     * @return custom assertion
+     */
     public IssuesAssert hasSize(final int size) {
         isNotNull();
 
@@ -33,6 +46,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Check issues for high priority size.
+     *
+     * @param highPrioritySize filter high priority size
+     * @return custom assertion
+     */
     public IssuesAssert hasHighPrioritySize(final int highPrioritySize) {
         isNotNull();
 
@@ -42,6 +61,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Check issues for normal priority size.
+     *
+     * @param normalPrioritySize filter normal priority size
+     * @return custom assertion
+     */
     public IssuesAssert hasNormalPrioritySize(final int normalPrioritySize) {
         isNotNull();
 
@@ -51,6 +76,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Check issues for low priority size.
+     *
+     * @param lowPrioritySize filter low priority size
+     * @return custom assertion
+     */
     public IssuesAssert hasLowPrioritySize(final int lowPrioritySize) {
         isNotNull();
 
@@ -60,6 +91,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Check issues for number of files.
+     *
+     * @param numberOfFiles filter number of files
+     * @return custom assertion
+     */
     public IssuesAssert hasNumberOfFiles(final int numberOfFiles) {
         isNotNull();
 
@@ -69,6 +106,13 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Check if issue is at specific index.
+     *
+     * @param issue current issue
+     * @param index position
+     * @return custom assertion
+     */
     public IssuesAssert hasIssueOnIndex(final Issue issue, final int index) {
         isNotNull();
 
@@ -78,6 +122,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Check if issues has specific files.
+     *
+     * @param files files in a set
+     * @return custom assertion
+     */
     public IssuesAssert hasFiles(SortedSet<String> files) {
         isNotNull();
 
