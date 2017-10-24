@@ -55,7 +55,17 @@ class IssueBuilderTest {
                 .copy(FILLED_ISSUE)
                 .build();
 
-        assertThat(copy).isNotSameAs(FILE_NAME);
+        assertThat(copy).isNotSameAs(FILLED_ISSUE);
         assertThat(copy).isEqualTo(FILLED_ISSUE);
+    }
+
+    @Test
+    void testBuildNewInstance() {
+        IssueBuilder builder = new IssueBuilder().copy(FILLED_ISSUE);
+        Issue issue1 = builder.build();
+        Issue issue2 = builder.build();
+
+        assertThat(issue1).isNotSameAs(issue2);
+        assertThat(issue1).isEqualTo(issue2);
     }
 }
