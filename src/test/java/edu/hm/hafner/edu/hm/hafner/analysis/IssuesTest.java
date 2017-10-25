@@ -22,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class IssuesTest {
 
 
+    /**
+     * Check if a new Issues has no elements and no priority entry.
+     */
     @Test
     public void shouldBeEmptyAndNoPriorities(){
 
@@ -36,6 +39,9 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if adding a element increases the element and priority counter.
+     */
     @Test
     public void shouldIncreasePriorityCounter(){
 
@@ -56,6 +62,10 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if adding a element increases ths file counter.
+     * If a file already exits, counter doesn't increases the counter.
+     */
     @Test
     public void shouldIncreaseFileCounter(){
 
@@ -73,6 +83,9 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if adding of a single element works fine.
+     */
     @Test
     public void shouldContainsSingleAddedElements(){
 
@@ -94,6 +107,9 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if adding a list of elements works fine.
+     */
     @Test
     public void shouldContainsAllAddedElements(){
 
@@ -116,6 +132,10 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if removing of a element at the beginning works fine.
+     * --> Don't lost teh other.
+     */
     @Test
     public void shouldRemoveSingleElementAtBeginningOtherStay(){
 
@@ -138,6 +158,11 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+
+    /**
+     * Check if removing of a element at the end works fine.
+     * --> List have to work after this.
+     */
     @Test
     public void shouldRemoveSingleElementAtEndOtherStay(){
 
@@ -160,6 +185,10 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if removing of a element in the middle works fine.
+     * --> List have to work after this.
+     */
     @Test
     public void shouldRemoveSingleElementInMiddleOtherStay(){
 
@@ -182,6 +211,10 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if removing of a not existing element works fine.
+     * --> List have to work after this.
+     */
     @Test
     public void shouldRemoveNotExistingElementInMiddleOtherStay(){
 

@@ -10,6 +10,10 @@ import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.Is
 public class IssueTest {
     private static final String UNDEFINED = "-";
 
+
+    /**
+     * Check if Constructor sets all values and use default values if input is bad.
+     */
     @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldConvertedToDefaultValue(){
@@ -45,6 +49,10 @@ public class IssueTest {
                         .hasAId();
                 isa.assertAll();
     }
+
+    /**
+     * Check if path separator in file is replaced correctly. No \ only /.
+     */
     @Test
     public void shouldReplacePathSeparator(){
         // Create issue with windows path separator
@@ -58,6 +66,10 @@ public class IssueTest {
                 .hasFileName("c:/test/");
         isa.assertAll();
     }
+
+    /**
+     * Check if line end is set to line start when end is 0. --> Single line
+     */
     @Test
     public void shouldLineEndBe0UseLineStartAsValue(){
         // Create issue with windows path separator
@@ -73,6 +85,10 @@ public class IssueTest {
                 .hasLineEnd(42);
         isa.assertAll();
     }
+
+    /**
+     * Check if C. removes all unnecessary whitespaces in message and description.
+     */
     @Test
     public void shouldRemoveSuperfluousWhitespacesByFreeText(){
         // Create issue with windows path separator
@@ -88,6 +104,10 @@ public class IssueTest {
                 .hasDescription("EFGH");
         isa.assertAll();
     }
+
+    /**
+     * Check if all getter deliver the correct values from constructor.
+     */
     @Test
     public void shouldGetAllSetValues(){
         // Create a object which forces all default values
@@ -111,6 +131,10 @@ public class IssueTest {
                 .hasFileName("/test/");
         isa.assertAll();
     }
+
+    /**
+     * Check if to toString creates correct string.
+     */
     @Test
     public void shouldValuesConvertToString(){
         // Create a object which forces all default values
@@ -123,6 +147,9 @@ public class IssueTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if equals detect a different in each property.
+     */
     @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldNotBeEquals(){
@@ -155,6 +182,9 @@ public class IssueTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if equals detects are equal object.
+     */
     @Test
     public void shouldBeEquals(){
         // Create a object which forces all default values
@@ -168,6 +198,9 @@ public class IssueTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if equals objects have a equal hashCode.
+     */
     @Test
     public void shouldHaveSameHashCode(){
         // Create a object which forces all default values
@@ -180,6 +213,9 @@ public class IssueTest {
         isa.assertAll();
     }
 
+    /**
+     * Check if different objects have different hasCodes.
+     */
     @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldNotHaveSameHashCode(){
@@ -212,7 +248,10 @@ public class IssueTest {
     }
 
 
-
+    /**
+     * Creats a IssueBuilder with values which won't force a special case.
+     * @return a IssueBuilder
+     */
     private IssueBuilder getGoodIssueBuilder(){
         return new IssueBuilder()
                 .setFileName("\\test\\")
