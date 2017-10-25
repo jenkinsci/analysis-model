@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
