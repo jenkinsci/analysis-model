@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis
 
-import edu.hm.hafner.analysis.IssuesAssert.Companion.assertThat
+import edu.hm.hafner.analysis.assertj.assertSoftly
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
@@ -9,31 +9,32 @@ internal class IssuesTest {
 
     @Test
     fun emptyIssues() {
-
-        assertThat(Issues())
-                .hasSize(0)
-                .hasHighPrioritySize(0)
-                .hasNormalPrioritySize(0)
-                .hasLowPrioritySize(0)
-                .hasNumberOfFiles(0)
+        assertSoftly<IssuesSoftAssertions> {
+            assertThat(Issues())
+                    .hasSize(0)
+                    .hasHighPrioritySize(0)
+                    .hasNormalPrioritySize(0)
+                    .hasLowPrioritySize(0)
+                    .hasNumberOfFiles(0)
+        }
     }
 
     @Test
     fun addIssueTwice() {
-        val sut = Issues().apply {
-            val issue = IssueBuilder().setFileName("fileName").build()
-            add(issue)
-            add(issue)
+        assertSoftly<IssuesSoftAssertions> {
+            val sut = Issues().apply {
+                val issue = IssueBuilder().setFileName("fileName").build()
+                add(issue)
+                add(issue)
+            }
+            assertThat(sut)
+                    .hasSize(2)
+                    .hasHighPrioritySize(0)
+                    .hasNormalPrioritySize(2)
+                    .hasLowPrioritySize(0)
+                    .hasNumberOfFiles(1)
+                    .hasIssueAt(0, IssueBuilder().setFileName("fileName").build())
         }
-
-        assertThat(sut)
-                .hasSize(2)
-                .hasHighPrioritySize(0)
-                .hasNormalPrioritySize(2)
-                .hasLowPrioritySize(0)
-                .hasNumberOfFiles(1)
-                .hasIssueAt(0, IssueBuilder().setFileName("fileName").build())
-
     }
 
     @Test
@@ -52,40 +53,40 @@ internal class IssuesTest {
 
     @Test
     fun addAllWithEmptyCollection() {
-        val sut = Issues()
-
-        sut.addAll(emptyList())
-        assertThat(sut)
-                .hasSize(0)
-                .hasHighPrioritySize(0)
-                .hasNormalPrioritySize(0)
-                .hasLowPrioritySize(0)
-                .hasNumberOfFiles(0)
+        assertSoftly<IssuesSoftAssertions> {
+            val sut = Issues().apply { addAll(emptyList()) }
+            assertThat(sut)
+                    .hasSize(0)
+                    .hasHighPrioritySize(0)
+                    .hasNormalPrioritySize(0)
+                    .hasLowPrioritySize(0)
+                    .hasNumberOfFiles(0)
+        }
     }
 
     @Test
     fun addAllWithThreeIssuesWithDifferentPriorities() {
+        assertSoftly<IssuesSoftAssertions> {
+            val sut = Issues().apply {
+                val builder = IssueBuilder()
+                val collection = mutableListOf<Issue>().apply {
+                    builder.setFileName("fileName1").setPriority(Priority.HIGH)
+                    add(builder.build())
+                    builder.setFileName("fileName2").setPriority(Priority.NORMAL)
+                    add(builder.build())
+                    builder.setFileName("fileName3").setPriority(Priority.LOW)
+                    add(builder.build())
+                }
 
-        val sut = Issues().apply {
-            val builder = IssueBuilder()
-            val collection = mutableListOf<Issue>().apply {
-                builder.setFileName("fileName1").setPriority(Priority.HIGH)
-                add(builder.build())
-                builder.setFileName("fileName2").setPriority(Priority.NORMAL)
-                add(builder.build())
-                builder.setFileName("fileName3").setPriority(Priority.LOW)
-                add(builder.build())
+                addAll(collection)
             }
-
-            addAll(collection)
+            assertThat(sut)
+                    .hasSize(3)
+                    .hasHighPrioritySize(1)
+                    .hasNormalPrioritySize(1)
+                    .hasLowPrioritySize(1)
+                    .hasNumberOfFiles(3)
         }
-
-        assertThat(sut)
-                .hasSize(3)
-                .hasHighPrioritySize(1)
-                .hasNormalPrioritySize(1)
-                .hasLowPrioritySize(1)
-                .hasNumberOfFiles(3)
     }
 
     @Test
@@ -108,75 +109,75 @@ internal class IssuesTest {
         val sut = Issues()
         val issue = IssueBuilder().setFileName("fileName").build()
 
-        sut.add(issue)
-        assertThat(sut)
-                .hasSize(1)
-                .hasNormalPrioritySize(1)
-                .hasNumberOfFiles(1)
-        val removedIssue = sut.remove(issue.id)
-        assertThat(sut)
-                .hasSize(0)
-                .hasNormalPrioritySize(0)
-                .hasNumberOfFiles(0)
+        assertSoftly<IssuesSoftAssertions> {
+            sut.add(issue)
+            assertThat(sut)
+                    .hasSize(1)
+                    .hasNormalPrioritySize(1)
+                    .hasNumberOfFiles(1)
+            val removedIssue = sut.remove(issue.id)
+            assertThat(sut)
+                    .hasSize(0)
+                    .hasNormalPrioritySize(0)
+                    .hasNumberOfFiles(0)
 
-        IssueAssert.assertThat(removedIssue).isEqualTo(issue)
+            IssueAssert.assertThat(removedIssue).isEqualTo(issue)
+        }
     }
 
     @Test
     fun removeAll() {
-        val sut = Issues().apply {
-            val builder = IssueBuilder()
-            val collection = mutableListOf<Issue>().apply {
-                builder.setFileName("fileName1").setPriority(Priority.HIGH)
-                add(builder.build())
-                builder.setFileName("fileName2").setPriority(Priority.NORMAL)
-                add(builder.build())
-                builder.setFileName("fileName3").setPriority(Priority.LOW)
-                add(builder.build())
+        assertSoftly<IssuesSoftAssertions> {
+            val sut = Issues().apply {
+                val builder = IssueBuilder()
+                val collection = mutableListOf<Issue>().apply {
+                    builder.setFileName("fileName1").setPriority(Priority.HIGH)
+                    add(builder.build())
+                    builder.setFileName("fileName2").setPriority(Priority.NORMAL)
+                    add(builder.build())
+                    builder.setFileName("fileName3").setPriority(Priority.LOW)
+                    add(builder.build())
+                }
+
+                addAll(collection)
             }
 
-            addAll(collection)
+            repeat(3) {
+                sut.remove(sut[0].id)
+            }
+            assertThat(sut)
+                    .hasSize(0)
+                    .hasHighPrioritySize(0)
+                    .hasNormalPrioritySize(0)
+                    .hasLowPrioritySize(0)
+                    .hasNumberOfFiles(0)
         }
-
-        repeat(3) {
-            sut.remove(sut[0].id)
-        }
-
-        assertThat(sut)
-                .hasSize(0)
-                .hasHighPrioritySize(0)
-                .hasNormalPrioritySize(0)
-                .hasLowPrioritySize(0)
-                .hasNumberOfFiles(0)
     }
 
     @Test
     fun tryToFindIdInEmptyIssuesAndThrowNSEE() {
-        val sut = Issues()
-
-        assertThatThrownBy { sut.remove(IssueBuilder().build().id) }
+        assertThatThrownBy { Issues().remove(IssueBuilder().build().id) }
                 .isInstanceOf(NoSuchElementException::class.java)
 
     }
 
     @Test
     fun tryToFindNullIdInEmptyIssuesAndThrowNSEE() {
-        val sut = Issues()
-
-        assertThatThrownBy { sut.remove(null) }
+        assertThatThrownBy { Issues().remove(null) }
                 .isInstanceOf(NoSuchElementException::class.java)
-
     }
 
     @Test
     fun findIdInIssuesContainingASingleElement() {
-        val sut = Issues()
-        val issue = IssueBuilder().setFileName("fileName").build()
+        assertSoftly<IssuesSoftAssertions> {
+            val sut = Issues()
+            val issue = IssueBuilder().setFileName("fileName").build()
+            sut.add(issue)
 
-        sut.add(issue)
-        assertThat(sut).hasSize(1)
-        val foundIssue = sut.findById(issue.id)
-        IssueAssert.assertThat(foundIssue).isEqualTo(issue)
+            assertThat(sut).hasSize(1)
+
+            val foundIssue = sut.findById(issue.id)
+            IssueAssert.assertThat(foundIssue).isEqualTo(issue) }
     }
 
     @Test
@@ -189,11 +190,12 @@ internal class IssuesTest {
         val tenth = IssueBuilder().setFileName("tenthFile").build()
 
         sut.add(tenth)
-        assertThat(sut).hasSize(10)
 
+        IssuesAssert.assertThat(sut).hasSize(10)
         val foundIssue = sut.findById(tenth.id)
 
         IssueAssert.assertThat(foundIssue).isEqualTo(tenth)
+
     }
 
     @Test
@@ -242,7 +244,9 @@ internal class IssuesTest {
     fun stringRepresentationOfEmptyIssues() {
         val sut = Issues()
 
-        assertThat(sut).hasToString("0 issues")
+        assertSoftly<IssuesSoftAssertions> {
+            assertThat(sut).hasToString("0 issues")
+        }
     }
 
     @Test
@@ -252,7 +256,10 @@ internal class IssuesTest {
             sut.add(IssueBuilder().build())
         }
 
-        assertThat(sut).hasToString("10 issues")
+        assertSoftly<IssuesSoftAssertions> {
+            assertThat(sut).hasToString("10 issues")
+        }
+
     }
 
     @Test

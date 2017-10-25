@@ -112,7 +112,6 @@ internal class IssueTest {
     fun setFingerPrintToNullAndReplaceWithDefault() {
         val sut = IssueBuilder().build().apply { fingerprint = null }
 
-
         assertSoftly<IssueSoftAssertions> {
             assertThat(sut).hasFingerPrint("-")
         }

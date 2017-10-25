@@ -6,7 +6,7 @@ import java.util.Collections
 import java.util.Objects
 import java.util.SortedSet
 
-class IssuesAssert(actual: Issues) : AbstractAssert<IssuesAssert, Issues>(actual, IssuesAssert::class.java) {
+open class IssuesAssert(actual: Issues) : AbstractAssert<IssuesAssert, Issues>(actual, IssuesAssert::class.java) {
 
     fun hasFiles(files: SortedSet<String>): IssuesAssert {
         isNotNull

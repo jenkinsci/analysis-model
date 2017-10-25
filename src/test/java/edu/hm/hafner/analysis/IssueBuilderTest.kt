@@ -33,9 +33,9 @@ internal class IssueBuilderTest {
                 .setPackageName("")
                 .setPriority(Priority.NORMAL)
                 .setMessage("")
-                .setDescription("")
+                .setDescription("").build()
 
-        assertThat(sut.build()).isEqualTo(want)
+        assertThat(sut).isEqualTo(want)
     }
 
     @Test
@@ -47,9 +47,9 @@ internal class IssueBuilderTest {
                 0, null, null, null, null, null, null
         )
 
-        val sut = IssueBuilder()
+        val sut = IssueBuilder().build()
 
-        assertThat(sut.build()).isEqualTo(want)
+        assertThat(sut).isEqualTo(want)
     }
 
     @Test
@@ -68,10 +68,10 @@ internal class IssueBuilderTest {
                 "zuio"
         )
 
-        val sut = IssueBuilder().copy(want)
+        val sut = IssueBuilder().copy(want).build()
 
 
-        assertThat(sut.build()).isEqualTo(want)
+        assertThat(sut).isEqualTo(want)
     }
 
     @Test
@@ -90,22 +90,21 @@ internal class IssueBuilderTest {
                 "zuio"
         )
 
-        val sut = IssueBuilder().copy(want)
+        val sut = IssueBuilder().copy(want).build()
 
 
-        assertThat(sut.build()).isNotEqualTo(IssueBuilder().build())
+        assertThat(sut).isNotEqualTo(IssueBuilder().build())
     }
 
     @Test
     fun fillWithUnAllowedValues() {
-        val sut = IssueBuilder()
-
-        sut
-                .setLineStart(-1)
-                .setLineEnd(-1)
-                .setColumnStart(-1)
-                .setColumnEnd(-1)
-                .setPriority(null)
+        val sut = IssueBuilder().apply {
+            setLineStart(-1)
+            setLineEnd(-1)
+            setColumnStart(-1)
+            setColumnEnd(-1)
+            setPriority(null)
+        }
 
         assertThat(sut.build())
                 .hasFileName("-")
