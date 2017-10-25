@@ -5,13 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
 
 import com.google.common.collect.ImmutableSet;
 
 import edu.hm.hafner.util.NoSuchElementException;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static edu.hm.hafner.analysis.IssuesAssert.assertThat;
+
 
 class IssuesTest {
 
@@ -156,7 +157,7 @@ class IssuesTest {
             asserter.assertContains(issue);
         }
         for (Iterator<Issue> it = sut.iterator(); it.hasNext(); ) {
-            org.assertj.core.api.Assertions.assertThat(setOfIssues).contains(it.next());
+            Assertions.assertThat(setOfIssues).contains(it.next());
         }
 
     }
@@ -184,7 +185,7 @@ class IssuesTest {
         Issues copy = sut.copy();
         ImmutableSet<Issue> sutSet = sut.all();
         ImmutableSet<Issue> copySet = copy.all();
-        org.assertj.core.api.Assertions.assertThat(sutSet).isEqualTo(copySet).as("The issues object and the copy of it does not contains the equal elements");
+        Assertions.assertThat(sutSet).isEqualTo(copySet).as("The issues object and the copy of it does not contains the equal elements");
 
         // Check if the issues object and it's copy have the same references to the issue objects
         for (Iterator<Issue> it = copy.iterator(); it.hasNext(); ) {
@@ -226,15 +227,49 @@ class IssuesTest {
         List<Issue> allIssues = sut.findByProperty(issue -> true);
         Iterator<Issue> sutIterator = sut.iterator();
         for (Issue issue: allIssues) {
-            org.assertj.core.api.Assertions.assertThat(issue).isEqualTo(sutIterator.next()).as("findByProperty with true as predicate doesn't deliver the whole list");
+            Assertions.assertThat(issue).isEqualTo(sutIterator.next()).as("findByProperty with true as predicate doesn't deliver the whole list");
         }
 
-        org.assertj.core.api.Assertions.assertThat(sut.findByProperty(issue -> false)).hasSize(0).as("findByProperty with false as predicate doesn't deliver a empty list");
+        Assertions.assertThat(sut.findByProperty(issue -> false)).hasSize(0).as("findByProperty with false as predicate doesn't deliver a empty list");
 
-        org.assertj.core.api.Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.LOW)).hasSize((testObjects + 2) / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.LOW");
-        org.assertj.core.api.Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.NORMAL)).hasSize((testObjects + 1) / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.NORMAL");
-        org.assertj.core.api.Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.HIGH)).hasSize(testObjects / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.HIGH");
+        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.LOW)).hasSize((testObjects + 2) / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.LOW");
+        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.NORMAL)).hasSize((testObjects + 1) / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.NORMAL");
+        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.HIGH)).hasSize(testObjects / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.HIGH");
 
+    }
+
+    @Test
+    void getPropertiesTest() {
+        Issues sut = new Issues();
+        int testObjects = 10;
+        for (int index = 0; index < testObjects; index++) {
+            sut.add(new IssueBuilder()
+                    .setMessage("Issue " + index)
+                    .setLineStart(index)
+                    .setLineEnd(index * index)
+                    .setDescription("Issue build while testing the addAll method of Issues")
+                    .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
+                    .setFileName("Test" + (testObjects - index) + ".java")
+                    .setPackageName("edu.hm.hafner.analysis")
+                    .build());
+        }
+
+        Assertions.assertThat(sut.getNumberOfFiles()).isEqualTo(testObjects);
+
+        int[] fileIndexOrder = {1, 10, 2, 3, 4, 5, 6, 7, 8, 9};
+        int orderIndex = 0;
+        for (String filename : sut.getFiles()) {
+            Assertions.assertThat(filename).isEqualTo("Test" + fileIndexOrder[orderIndex] + ".java");
+            orderIndex++;
+        }
+
+        int lineEndBase = 0;
+        for (int lineEnd : sut.getProperties(issue -> issue.getLineEnd())) {
+            Assertions.assertThat(lineEnd).isEqualTo(lineEndBase * lineEndBase);
+            lineEndBase++;
+        }
+
+        Assertions.assertThat(sut.getProperties(issue -> issue.getPriority()).size()).isEqualTo(3);
     }
 
 }
