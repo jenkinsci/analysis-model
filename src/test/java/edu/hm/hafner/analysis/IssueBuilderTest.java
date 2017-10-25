@@ -1,28 +1,32 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.IssueAssert.assertThat;
+import edu.hm.hafner.analysis.assertj.AnalysisSoftAssertions;
+import static edu.hm.hafner.analysis.assertj.IssueAssert.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Tests the class {@link IssueBuilder}.
+ *
+ * @author Andreas Moser
+ */
 class IssueBuilderTest {
 
+    /** Verifies IssueBuilder build correct issues. */
     @Test
-    void testIssueBuilderBuildsCorrectIssue(){
-        final String fileName = "testFile";
-        final int lineStart = 2;
-        final int lineEnd = 10;
-        final int columnStart = 3;
-        final int columnEnd = 5;
-        final String category = "testCategory";
-        final String type = "testType";
-        final String packageName = "testPackage";
-        final Priority priority = Priority.HIGH;
-        final String message = "testMessage";
-        final String description = "testDescription";
-        final IssueBuilder builder = new IssueBuilder().setFileName(fileName)
+    void testIssueBuilderBuildsCorrectIssue() {
+        String fileName = "testFile";
+        int lineStart = 2;
+        int lineEnd = 10;
+        int columnStart = 3;
+        int columnEnd = 5;
+        String category = "testCategory";
+        String type = "testType";
+        String packageName = "testPackage";
+        Priority priority = Priority.HIGH;
+        String message = "testMessage";
+        String description = "testDescription";
+        IssueBuilder builder = new IssueBuilder().setFileName(fileName)
                 .setLineStart(lineStart)
                 .setLineEnd(lineEnd)
                 .setColumnStart(columnStart)
@@ -34,9 +38,11 @@ class IssueBuilderTest {
                 .setMessage(message)
                 .setDescription(description);
 
-        final Issue issue = builder.build();
+        Issue issue = builder.build();
 
-        assertThat(issue).as("Issue created by IssueBuilder").hasFileName(fileName)
+
+        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
+        softly.assertThat(issue).as("Issue created by IssueBuilder").hasFileName(fileName)
                 .hasLineStart(lineStart)
                 .hasLineEnd(lineEnd)
                 .hasColumnStart(columnStart)
@@ -47,24 +53,24 @@ class IssueBuilderTest {
                 .hasPriority(priority)
                 .hasMessage(message)
                 .hasDescription(description);
+        softly.assertAll();
     }
 
+    /** Verifies IssueBuilder can copy issues. */
     @Test
-    @Disabled
-    //TODO testCopyMethodCopiesValuesCorrect is not working
-    void testCopyMethodCopiesValuesCorrect(){
-        final String fileName = "testFile";
-        final int lineStart = 4;
-        final int lineEnd = 16;
-        final int columnStart = 2;
-        final int columnEnd = 7;
-        final String category = "testCategory";
-        final String type = "testType";
-        final String packageName = "testPackage";
-        final Priority priority = Priority.HIGH;
-        final String message = "testMessage";
-        final String description = "testDescription";
-        final IssueBuilder builder = new IssueBuilder().setFileName(fileName)
+    void testCopyMethodCopiesValuesCorrect() {
+        String fileName = "testFile";
+        int lineStart = 4;
+        int lineEnd = 16;
+        int columnStart = 2;
+        int columnEnd = 7;
+        String category = "testCategory";
+        String type = "testType";
+        String packageName = "testPackage";
+        Priority priority = Priority.HIGH;
+        String message = "testMessage";
+        String description = "testDescription";
+        IssueBuilder builder = new IssueBuilder().setFileName(fileName)
                 .setLineStart(lineStart)
                 .setLineEnd(lineEnd)
                 .setColumnStart(columnStart)
@@ -75,10 +81,10 @@ class IssueBuilderTest {
                 .setPriority(priority)
                 .setMessage(message)
                 .setDescription(description);
-        final Issue buildedIssue = builder.build();
+        Issue buildedIssue = builder.build();
 
-        final IssueBuilder copiedBuilder = builder.copy(buildedIssue);
-        final Issue issueOfCopiedBuilder = copiedBuilder.build();
+        IssueBuilder copiedBuilder = builder.copy(buildedIssue);
+        Issue issueOfCopiedBuilder = copiedBuilder.build();
 
         assertThat(issueOfCopiedBuilder).as("Issue of copied builder").isEqualTo(buildedIssue);
     }
