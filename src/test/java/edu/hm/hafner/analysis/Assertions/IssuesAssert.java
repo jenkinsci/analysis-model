@@ -130,10 +130,10 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @param files files in a set
      * @return custom assertion
      */
-    public IssuesAssert hasFiles(SortedSet<String> files) {
+    public IssuesAssert hasFiles(final SortedSet<String> files) {
         isNotNull();
 
-        if (actual.getFiles().equals(files)) {
+        if (!actual.getFiles().equals(files)) {
             failWithMessage("Expected sets are not the same");
         }
         return this;

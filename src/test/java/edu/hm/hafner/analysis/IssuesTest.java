@@ -1,5 +1,9 @@
 package edu.hm.hafner.analysis;
 
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.util.NoSuchElementException;
@@ -9,6 +13,7 @@ import static org.assertj.core.api.Java6Assertions.*;
 
 /**
  * Test class for issues.
+ *
  * @author Tom Maier
  * @author Johannes Arzt
  */
@@ -30,10 +35,10 @@ class IssuesTest {
                 .hasIssueOnIndex(firstIssue, 0)
                 .hasNumberOfFiles(1)
                 .hasToString(String.format("%d issues", issues.size()));
-        //files ?
 
         assertThat(issues.get(0))
                 .hasLineStart(0)
+                .hasId(firstIssue.getId())
                 .hasLineEnd(0)
                 .hasPriority(Priority.NORMAL)
                 .hasMessage("")
@@ -248,4 +253,37 @@ class IssuesTest {
                 .hasToString(String.format("%d issues", filteredIssues.size()));
     }
 
+    @Test
+    void getFilesTest() {
+        Issues issues = new Issues();
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue firstIssue = builder
+                .setLineStart(1)
+                .setPriority(Priority.LOW)
+                .setFileName("first issue")
+                .build();
+        Issue secondIssue = builder
+                .setLineStart(2)
+                .setPriority(Priority.NORMAL)
+                .setFileName("second issue")
+                .build();
+
+        issues.add(firstIssue);
+        issues.add(secondIssue);
+
+        SortedSet<String> files = new TreeSet<>();
+        files.add(firstIssue.getFileName());
+        files.add(secondIssue.getFileName());
+
+        assertThat(issues)
+                .hasSize(2)
+                .hasFiles(files)
+                .hasHighPrioritySize(0)
+                .hasLowPrioritySize(1)
+                .hasNormalPrioritySize(1)
+                .hasIssueOnIndex(firstIssue, 0)
+                .hasNumberOfFiles(2)
+                .hasToString(String.format("%d issues", issues.size()));
+    }
 }

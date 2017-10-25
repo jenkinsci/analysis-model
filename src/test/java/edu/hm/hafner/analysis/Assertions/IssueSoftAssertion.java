@@ -19,7 +19,7 @@ public class IssueSoftAssertion extends SoftAssertions {
      * @param actual current issue
      * @return custom assertion
      */
-    public IssueAssert assertThat(Issue actual) {
+    public IssueAssert assertThat(final Issue actual) {
         return proxy(IssueAssert.class, Issue.class, actual);
     }
 
@@ -28,7 +28,7 @@ public class IssueSoftAssertion extends SoftAssertions {
      *
      * @param softly lambda consumer.
      */
-    public static void assertIssueSoftly(Consumer<IssueSoftAssertion> softly) {
+    public static void assertIssueSoftly(final Consumer<IssueSoftAssertion> softly) {
         IssueSoftAssertion assertions = new IssueSoftAssertion();
         softly.accept(assertions);
         assertions.assertAll();

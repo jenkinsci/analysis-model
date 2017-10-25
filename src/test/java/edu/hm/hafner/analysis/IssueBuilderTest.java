@@ -55,6 +55,7 @@ class IssueBuilderTest {
         Issue basicIssue = builder
                 .build();
 
+
         IssueSoftAssertion.assertIssueSoftly(softly -> {
             softly.assertThat(basicIssue)
                     .hasLineStart(0)
