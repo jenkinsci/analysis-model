@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.description.Description;
 
 /**
  * Custom assertions for {@link Issue}.
@@ -68,7 +67,6 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    //TODO actual.getCategory() is null?
     public IssueAssert hasCategory(String category) {
         isNotNull();
 
@@ -124,6 +122,16 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
         if (!actual.getDescription().equals(description)) {
             failWithMessage("Expected description to be <%s> but was <%s>", description, actual.getDescription());
+        }
+
+        return this;
+    }
+
+    public IssueAssert hasFingerprint(String fingerprint) {
+        isNotNull();
+
+        if (!actual.getFingerprint().equals(fingerprint)) {
+            failWithMessage("Expected fingerprint to be <%s> but was <%s>", fingerprint, actual.getFingerprint());
         }
 
         return this;
