@@ -163,7 +163,7 @@ public class Issue {
      * @return the last line
      */
     public int getLineEnd() {
-        return lineStart;
+        return lineEnd;
     }
 
     /**

@@ -4,7 +4,7 @@ package edu.hm.hafner.analysis;
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the
  * builder will be set to their default value.
  * <p>Example:</p>
- *
+ * <p>
  * <blockquote><pre>
  * Issue issue = new IssueBuilder()
  *                      .setFileName("affected.file")
@@ -13,6 +13,7 @@ package edu.hm.hafner.analysis;
  *                      .setMessage("Missing JavaDoc")
  *                      .setPriority(Priority.LOW);
  * </pre></blockquote>
+ *
  * @author Ullrich Hafner
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod"})
