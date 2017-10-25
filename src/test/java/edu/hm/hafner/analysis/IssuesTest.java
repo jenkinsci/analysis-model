@@ -29,7 +29,7 @@ class IssuesTest {
         Issue issue = new IssueBuilder().build();
         sut.add(issue);
         assertThat(sut)
-                .assertContains(issue)
+                .contains(issue)
                 .hasSize(1)
                 .hasSizeOfPriorityHigh(0)
                 .hasSizeOfPriorityLow(0)
@@ -44,7 +44,7 @@ class IssuesTest {
         Issues sut = new Issues();
         Issue issue = new IssueBuilder().build();
         assertThat(sut)
-                .assertDoesNotContain(issue)
+                .doesNotContain(issue)
                 .hasSize(0)
                 .hasSizeOfPriorityHigh(0)
                 .hasSizeOfPriorityLow(0)
@@ -60,7 +60,7 @@ class IssuesTest {
         Issue issue = new IssueBuilder().build();
         sut.add(issue);
         assertThat(sut)
-                .assertContains(issue)
+                .contains(issue)
                 .hasSize(1)
                 .hasSizeOfPriorityHigh(0)
                 .hasSizeOfPriorityLow(0)
@@ -69,7 +69,7 @@ class IssuesTest {
         sut.findById(issue.getId());
         sut.remove(issue.getId());
         assertThat(sut)
-                .assertDoesNotContain(issue)
+                .doesNotContain(issue)
                 .hasSize(0)
                 .hasSizeOfPriorityHigh(0)
                 .hasSizeOfPriorityLow(0)
@@ -83,7 +83,7 @@ class IssuesTest {
         Issues sut = new Issues();
         Issue issue = new IssueBuilder().build();
         assertThat(sut)
-                .assertDoesNotContain(issue)
+                .doesNotContain(issue)
                 .hasSize(0)
                 .hasSizeOfPriorityHigh(0)
                 .hasSizeOfPriorityLow(0)
@@ -116,23 +116,12 @@ class IssuesTest {
         }
 
         sut.addAll(issueList);
-        IssuesAssert asserter = assertThat(sut)
+        assertThat(sut)
                 .hasSize(testObjects)
                 .hasSizeOfPriorityLow((testObjects + 2) / 3)
                 .hasSizeOfPriorityNormal((testObjects + 1) / 3)
-                .hasSizeOfPriorityHigh(testObjects / 3);
-
-        // Check if every element of the list is a element of the issues object
-        for (Issue issue: issueList) {
-            asserter.assertContains(issue);
-        }
-
-        // Check if the order is the same
-        for (int index = 0; index < testObjects; index++) {
-            IssueAssert.assertThat(sut.get(index))
-                    .isEqualTo(issueList.get(index))
-                    .as("The order of the issues object and the list of isses is not the same");
-        }
+                .hasSizeOfPriorityHigh(testObjects / 3)
+                .containsExactly(issueList);
 
         // Check if the issues object is independed of the list
         Issue removedIssue = issueList.get(0);
@@ -166,7 +155,7 @@ class IssuesTest {
         // Check if all() delivers all issues
         ImmutableSet<Issue> setOfIssues = sut.all();
         for (Issue issue: setOfIssues) {
-            asserter.assertContains(issue);
+            asserter.contains(issue);
         }
         for (Iterator<Issue> it = sut.iterator(); it.hasNext(); ) {
             Assertions.assertThat(setOfIssues).contains(it.next());
@@ -213,7 +202,7 @@ class IssuesTest {
         // Check if the issues object is independent of it's copy
         copy.remove(copy.get(0).getId());
         for (Issue issue: sutSet) {
-            asserter.assertContains(issue).as("The issues object and it's copy are not independend");
+            asserter.contains(issue).as("The issues object and it's copy are not independend");
         }
 
     }

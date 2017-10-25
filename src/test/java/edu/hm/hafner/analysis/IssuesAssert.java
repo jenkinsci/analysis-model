@@ -1,8 +1,14 @@
 package edu.hm.hafner.analysis;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.stream.StreamSupport;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.description.Description;
 
 /**
  * Custom assert to test the class {@link Issues}.
@@ -18,7 +24,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return new IssuesAssert(actualIssue);
     }
 
-    public IssuesAssert assertContains(final Issue issue) {
+    public IssuesAssert contains(final Issue issue) {
         Iterable<Issue> iterable = () -> actual.iterator();
         if(StreamSupport.stream(iterable.spliterator(), false).noneMatch(a -> a.equals(issue))) {
             failWithMessage("Issues's element does not contain <%s>", issue);
@@ -26,10 +32,30 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert assertDoesNotContain(final Issue issue) {
+    public IssuesAssert doesNotContain(final Issue issue) {
         Iterable<Issue> iterable = () -> actual.iterator();
         if(StreamSupport.stream(iterable.spliterator(), false).anyMatch(a -> a.equals(issue))) {
             failWithMessage("Issues's element contains <%s>", issue);
+        }
+        return this;
+    }
+
+    public IssuesAssert containsExactly(final Issue... issues) {
+        return containsExactly(Arrays.asList(issues));
+    }
+
+    public IssuesAssert containsExactly(final Collection<Issue> issues) {
+        Iterator<Issue> iterator = actual.iterator();
+
+        Assertions.assertThat(actual.getSize())
+                .isEqualTo(issues.size())
+                .as("Expected size <%s> but issues size was <%s>" , issues.size(), actual.getSize());
+
+        for (Issue issue : issues) {
+            Issue toCheck = iterator.next();
+            IssueAssert.assertThat(issue)
+                    .isEqualTo(toCheck)
+                    .as("Issue <%s> expected but it was <%s>", issue, toCheck);
         }
         return this;
     }
