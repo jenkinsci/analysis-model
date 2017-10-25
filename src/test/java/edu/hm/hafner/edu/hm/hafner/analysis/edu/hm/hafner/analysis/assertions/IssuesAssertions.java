@@ -6,20 +6,17 @@ import java.util.SortedSet;
 import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.function.Predicate;
-import java.util.UUID;
+
 import org.assertj.core.api.AbstractAssert;
-
-
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
-import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.util.NoSuchElementException;
-import static org.junit.jupiter.api.Assertions.*;
 
+
+/**
+ * Custome assertion for issues.
+ */
 @SuppressWarnings("UnusedReturnValue")
 public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
 
@@ -32,31 +29,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     }
     //</editor-fold>
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasElementWithUuid(final UUID uuid) {
-        // check actual not null
-        isNotNull();
-        // check condition
-        if (!uuid.equals(actual.findById(uuid).getId())) {
-            failWithMessage("Element <%s> was not in list but should", uuid);
-        }
-        return this;
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasNoElementWithUuid(final UUID uuid) {
-        // check actual not null
-        isNotNull();
-        // check condition
-        Throwable exception = assertThrows(NoSuchElementException.class, () -> {
-            actual.findById(uuid);
-        });
-        if (exception == null) {
-            failWithMessage("Element <%s> was in list but shouldn't", uuid);
-        }
-        return this;
-    }
-
+    /**
+     * Check if a element exists.
+     * @param issue = expected.
+     * @return assertions.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasElement(final Issue issue) {
         // check actual not null
@@ -68,6 +45,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Check if a element not exits.
+     * @param issue = not expected.
+     * @return assertions.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasNotElement(final Issue issue) {
         // check actual not null
@@ -80,6 +62,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Check if a list of elements exist and get over iterator.
+     * @param issues = expected.
+     * @return assertion.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasElements(final Collection<? extends Issue> issues) {
         // check actual not null
@@ -96,6 +83,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Check if a list of elements exists and check over all() method.
+     * @param issues = expected.
+     * @return assertion.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasAllElements(final Collection<? extends Issue> issues) {
         // check actual not null
@@ -112,6 +104,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Proof size.
+     * @param size = expected.
+     * @return assertion.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasSize(final int size) {
         // check actual not null
@@ -122,6 +119,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Proof count of elements with high priority.
+     * @param size expected.
+     * @return assertion.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasHighPrioritySize(final int size) {
         // check actual not null
@@ -132,6 +134,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Proof count of elements with normal priority.
+     * @param size expected.
+     * @return assertion.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasNormalPrioritySize(final int size) {
         // check actual not null
@@ -142,6 +149,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Proof count of elements with low priority.
+     * @param size expected.
+     * @return assertion.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasLowPrioritySize(final int size) {
         // check actual not null
@@ -152,6 +164,12 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Proof if a element exists at a special position.
+     * @param index = position.
+     * @param issue = expected.
+     * @return assertion.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasElementAtPosition(final int index, final Issue issue) {
         // check actual not null
@@ -169,6 +187,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Check files from elements.
+     * @param files = expected.
+     * @return assertions.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasFiles(final SortedSet<String> files) {
         // check actual not null
@@ -179,6 +202,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Check number of files.
+     * @param numberOfFiles = expected.
+     * @return assertions.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions hasNumberOfFiles(final int numberOfFiles) {
         // check actual not null
@@ -189,6 +217,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
+    /**
+     * Check if a issues is a ordered copy of a other.
+     * @param issues = expected.
+     * @return assertions.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions isACopyOf(final Issues issues){
         // check actual not null
@@ -215,74 +248,12 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         return this;
     }
 
-    //<editor-fold desc="Issue test">
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithFileName(final int count, final String filename) {
-        return hasIssuesWithProperty(count, issue -> filename.equals(issue.getFileName()));
-    }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithLineStart(final int count, final int lineStart) {
-        return hasIssuesWithProperty(count, issue -> lineStart == issue.getLineStart());
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithLineEnd(final int count, final int lineEnd) {
-        return hasIssuesWithProperty(count, issue -> lineEnd == issue.getLineEnd());
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithColumnStart(final int count, final int columnStart) {
-        return hasIssuesWithProperty(count, issue -> columnStart == issue.getColumnStart());
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithColumnEnd(final int count, final int columnEnd) {
-        return hasIssuesWithProperty(count, issue -> columnEnd == issue.getColumnEnd());
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithCategory(final int count, final String category) {
-        return hasIssuesWithProperty(count, issue -> Objects.equals(category, issue.getCategory()));
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithType(final int count, final String type) {
-        return hasIssuesWithProperty(count, issue -> Objects.equals(type, issue.getType()));
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithPackageName(final int count, final String packageName) {
-        return hasIssuesWithProperty(count, issue -> Objects.equals(packageName, issue.getPackageName()));
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithPriority(final int count, final Priority priority) {
-        return hasIssuesWithProperty(count, issue -> priority == issue.getPriority());
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithDescription(final int count, final String description) {
-        return hasIssuesWithProperty(count, issue -> Objects.equals(description, issue.getDescription()));
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithMessage(final int count, final String message) {
-        return hasIssuesWithProperty(count, issue -> Objects.equals(message, issue.getMessage()));
-    }
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithFingerprint(final int count, final String fingerprint) {
-        return hasIssuesWithProperty(count, issue -> Objects.equals(fingerprint, issue.getFingerprint()));
-    }
-
-
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasIssuesWithId(final int count, final UUID uuid) {
-        return hasIssuesWithProperty(count, issue -> uuid == issue.getId());
-    }
-    //</editor-fold>
-
+    /**
+     * Check toString.
+     * @param expected = expected string.
+     * @return assertion.
+     */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssertions isString(final String expected) {
         // check actual not null
@@ -293,27 +264,34 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
     }
 
     //<editor-fold desc="Helper">
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    private IssuesAssertions hasIssuesWithProperty( final int count, final Predicate<? super Issue> criterion) {
-        // check actual not null
-        isNotNull();
-        // check condition
-        ImmutableList<Issue> results = actual.findByProperty(criterion);
-        if (results.size() != count) {
-            failWithMessage("Expected issues elements by <%s> expect count of <%s> but was <%s>", criterion.toString(), count, results.size());
-        }
-        // Return this for Fluent.
-        return this;
-    }
+
+    /**
+     * Get elements of stream.
+     * @return stream.
+     */
     private Stream<Issue> getStreamOfAllIssues() {
 
         return actual.all().stream();
     }
+
+    /**
+     * Easy message generation.
+     * @param actualValue = actual.
+     * @param expected = expected.
+     * @param propertyName = Name of property.
+     * @param <T> = generic.
+     */
     private <T> void propertyEqualsCheck(final T actualValue, final T expected, final String propertyName){
         if (!Objects.equals(actualValue, expected)) {
             failWithMessage("Expected issues's "+propertyName+" to be <%s> but was <%s>", expected, actualValue);
         }
     }
+
+    /**
+     * Helper to male a list to string.
+     * @param issues = list.
+     * @return string.
+     */
     private String issueListToString(final Collection<? extends Issue> issues){
         return "{" + issues.stream().map(Issue::toString).reduce((a,b) -> a + "," + b)+ "}";
     }

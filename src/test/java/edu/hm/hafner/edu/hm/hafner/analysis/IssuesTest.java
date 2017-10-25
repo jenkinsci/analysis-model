@@ -1,6 +1,5 @@
 package edu.hm.hafner.edu.hm.hafner.analysis;
 
-
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +15,7 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssueAssertions;
 import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 import edu.hm.hafner.util.NoSuchElementException;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("JUnitTestMethodWithNoAssertions")
@@ -105,6 +105,8 @@ public class IssuesTest {
                 .hasElement(iu2)
                 .hasElement(iu3);
         isa.assertAll();
+
+
     }
 
     /**
@@ -244,12 +246,15 @@ public class IssuesTest {
         isa.assertAll();
     }
 
+    /**
+     * Find a element by id.
+     */
     @Test
     public void shouldFindIssueById(){
 
         Issues ius = new Issues();
         Issue iu1 = ius.add(getGoodIssueBuilder().setFileName("test1").build());
-        Issue iu3 = ius.add(getGoodIssueBuilder().setFileName("test3").build());
+        Issue iu2 = ius.add(getGoodIssueBuilder().setFileName("test3").build());
         //Check if list is ok
         IssuesSoftAssertions isa = new IssuesSoftAssertions();
         isa.assertThat(ius)
@@ -257,57 +262,109 @@ public class IssuesTest {
                 .hasHighPrioritySize(2)
                 .hasNormalPrioritySize(0)
                 .hasLowPrioritySize(0)
-                .hasElementWithUuid(iu1.getId())
-                .hasElementWithUuid(iu3.getId());
+                .hasElement(iu1)
+                .hasElement(iu2);
         isa.assertAll();
+        // Get elements by id
+        assertThat(ius.findById(iu1.getId()))
+                .as("Should be iu1")
+                .isEqualTo(iu1);
+
+
     }
 
+
+    /**
+     * Force a exception because of deleting a not existing element.
+     */
     @Test
     public void shouldNotFindIssueById(){
 
         Issues ius = new Issues();
         ius.add(getGoodIssueBuilder().setFileName("test1").build());
         ius.add(getGoodIssueBuilder().setFileName("test3").build());
-        UUID notExistingUuid = UUID.randomUUID();
         //Check if list is ok
         IssuesSoftAssertions isa = new IssuesSoftAssertions();
         isa.assertThat(ius)
                 .hasSize(2)
                 .hasHighPrioritySize(2)
                 .hasNormalPrioritySize(0)
-                .hasLowPrioritySize(0)
-                .hasNoElementWithUuid(notExistingUuid);
+                .hasLowPrioritySize(0);
         isa.assertAll();
+
+        // Force exception because no element too found.
+        UUID notExistingUuid = UUID.randomUUID();
+        Throwable exception = assertThrows(NoSuchElementException.class, () -> {
+            ius.findById(notExistingUuid);
+        });
+        assertEquals( "No issue found with id "+notExistingUuid+".",
+                exception.getMessage(), "Wrong text");
     }
 
+
+    /**
+     * Find a element by property.
+     */
     @Test
-    public void shouldFindIssuesPerProperty(){
+    public void shouldFindSingleIssuesByProperty(){
 
         Issues ius = new Issues();
         Issue iu1 = ius.add(getGoodIssueBuilder().setFileName("test1").build());
-        iu1.setFingerprint("testFP");
-        Issue iu2 = ius.add(getGoodIssueBuilder().setFileName("test2").setPriority(Priority.LOW).build());
+        Issue iu2 = ius.add(getGoodIssueBuilder().setFileName("test2").build());
         //Check if list is ok
-        IssuesSoftAssertions isa = new IssuesSoftAssertions();
-        isa.assertThat(ius)
-                .hasIssuesWithFileName(1,iu1.getFileName())
-                .hasIssuesWithCategory(2, iu1.getCategory())
-                .hasIssuesWithType(2, iu1.getType())
-                .hasIssuesWithPriority(1, iu1.getPriority())
-                .hasIssuesWithPriority(1, iu2.getPriority())
-                .hasIssuesWithMessage(2, iu1.getMessage())
-                .hasIssuesWithDescription(2, iu1.getDescription())
-                .hasIssuesWithPackageName(2, iu1.getPackageName())
-                .hasIssuesWithLineStart(2,iu1.getLineStart())
-                .hasIssuesWithLineEnd(2, iu2.getLineEnd())
-                .hasIssuesWithColumnStart(2, iu1.getColumnStart())
-                .hasIssuesWithColumnEnd(2, iu2.getColumnEnd())
-                .hasIssuesWithId(1, iu1.getId())
-                .hasIssuesWithId(1, iu2.getId())
-                .hasIssuesWithFingerprint(1, iu1.getFingerprint());
-        isa.assertAll();
+        assertThat(ius.findByProperty(
+                // Filter for filename which equals with iu1 (only ui1)
+                (element)-> {
+                    return element.getFileName().equals(iu1.getFileName());
+                }))
+                .as("Should return first element")
+                .containsExactly(iu1)
+                .doesNotContain(iu2);
+
     }
 
+    /**
+     * Should find more then one element by property.
+     */
+    @Test
+    public void shouldFindMultipleIssuesByProperty(){
+
+        Issues ius = new Issues();
+        Issue iu1 = ius.add(getGoodIssueBuilder().build());
+        Issue iu2 = ius.add(getGoodIssueBuilder().build());
+        //Check if list is ok
+        assertThat(ius.findByProperty(
+                // Filter for all elements with high priority --> Both
+                (element)-> {
+                       return element.getPriority() == Priority.HIGH;
+                }))
+                .as("Should return all elements")
+                .containsExactly(iu1, iu2);
+
+    }
+
+    /**
+     * Try to find a property but there is no.
+     */
+    @Test
+    public void shouldFindNoIssuesByProperty(){
+
+        Issues ius = new Issues();
+        ius.add(getGoodIssueBuilder().build());
+        ius.add(getGoodIssueBuilder().build());
+        //Check if list is ok
+        assertThat(ius.findByProperty(
+                // Filter for all elements with low priority
+                (element)-> {
+                    return element.getPriority() == Priority.LOW;
+                }))
+                .as("List should be empty.").isEmpty();
+
+    }
+
+    /**
+     * Check toString method.
+     */
     @Test
     public void shouldStringShowSize(){
 
@@ -324,6 +381,9 @@ public class IssuesTest {
 
     }
 
+    /**
+     * Check if copy has elements in same order.
+     */
     @Test
     public void shouldCopyHaveElementsInSameOrder(){
 
@@ -337,6 +397,30 @@ public class IssuesTest {
         IssuesSoftAssertions isa = new IssuesSoftAssertions();
         isa.assertThat(ius)
                 .isACopyOf(copy);
+        isa.assertAll();
+
+    }
+
+    /**
+     * Check if copy is independently
+     */
+    @Test
+    public void shouldCopyBeImmutable(){
+
+        Issues ius = new Issues();
+        Issue ui1 = ius.add(getGoodIssueBuilder().setFileName("test1").build());
+        ius.add(getGoodIssueBuilder().setFileName("test2").build());
+        ius.add(getGoodIssueBuilder().setFileName("test3").build());
+
+        Issues copy = ius.copy();
+        copy.remove(ui1.getId());
+
+        //Check if list is ok
+        IssuesSoftAssertions isa = new IssuesSoftAssertions();
+        isa.assertThat(ius)
+                .hasElement(ui1);
+
+
         isa.assertAll();
 
     }
