@@ -30,7 +30,6 @@ import org.assertj.core.api.AbstractAssert;
  */
 class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
-
     /**
      * Issues hasNumber of Files.
      */

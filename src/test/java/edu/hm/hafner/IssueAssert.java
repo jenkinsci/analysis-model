@@ -4,9 +4,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
 import org.assertj.core.api.AbstractAssert;
 
-
 class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
-
 
     /**
      * Test columnEnd.

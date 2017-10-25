@@ -6,7 +6,6 @@ import edu.hm.hafner.analysis.Priority;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-
 class IssueBuilderTest {
     /**
      * Test default Builder Method.

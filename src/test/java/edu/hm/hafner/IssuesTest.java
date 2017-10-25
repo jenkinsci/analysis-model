@@ -10,10 +10,7 @@ import edu.hm.hafner.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -70,7 +67,7 @@ class IssuesTest {
     void addTwoLowPrioIsues() {
         Issues i = new Issues();
         i1 = new IssueBuilder().setPriority(Priority.LOW).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
-        i2 = new IssueBuilder().setPriority(Priority.LOW).setType("t2").setPackageName("p2").setMessage("m2").setFileName("f2").build();
+        i2 = new IssueBuilder().setPriority(Priority.LOW).setType("t2").setPackageName("p2").setMessage("m1").setFileName("f2").build();
 
         IssuesAssert.assertThat(i).hasSize(0).hasHighPrioritySize(0).hasLowPrioritySize(0).hasNormalPrioritySize(0);
         i.add(i1);
@@ -148,6 +145,7 @@ class IssuesTest {
         assertThat(i.remove(i2.getId())).isEqualTo(i2);
         assertThatThrownBy(() -> i.findById(i2.getId())).isInstanceOf(NoSuchElementException.class).hasMessage("No issue found with id " + i2.getId() + ".");
         assertThat(i.getLowPrioritySize()).isEqualTo(0);
+        assertThatThrownBy(() -> i.remove(i2.getId())).isInstanceOf(NoSuchElementException.class).hasMessage("No issue found with id " + i2.getId() + ".");
     }
 
     /**
@@ -322,12 +320,23 @@ class IssuesTest {
     /**
      * Test add the same issue
      * What happepen if i add the same Issue twice...
+     * solfed by adding check and doing nothing if the element already exist
      */
     @Test
     void addTheSameIssue() {
         Issues i = getDefaultIssues();
         Issue coppy = i.add(new IssueBuilder().copy(i1).build());
-        assertThatThrownBy(() -> i.add(coppy)).isInstanceOf(Exception.class);
+        i.add(coppy);
+        IssuesAssert.assertThat(i).hasSize(3);
     }
 
+    @Test
+    void getPropertyUUID() {
+        Issues i = getDefaultIssues();
+        SortedSet<UUID> s = i.getProperties(issue -> issue.getId());
+        assertThat(s.size()).isEqualTo(3);
+        assertThat(s.contains(i1.getId())).isTrue();
+        assertThat(s.contains(i2.getId())).isTrue();
+        assertThat(s.contains(i3.getId())).isTrue();
+    }
 }
