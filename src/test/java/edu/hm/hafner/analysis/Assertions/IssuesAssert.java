@@ -9,6 +9,8 @@ import edu.hm.hafner.analysis.Issues;
 
 /**
  * Custom assertion for issues.
+ * @author Tom Maier
+ * @author Johannes Arzt
  */
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 

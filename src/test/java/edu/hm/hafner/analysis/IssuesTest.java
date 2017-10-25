@@ -9,6 +9,8 @@ import static org.assertj.core.api.Java6Assertions.*;
 
 /**
  * Test class for issues.
+ * @author Tom Maier
+ * @author Johannes Arzt
  */
 class IssuesTest {
 

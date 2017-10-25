@@ -8,6 +8,8 @@ import edu.hm.hafner.analysis.Issue;
 
 /**
  * Soft assertion for issue.
+ * @author Tom Maier
+ * @author Johannes Arzt
  */
 public class IssueSoftAssertion extends SoftAssertions {
 

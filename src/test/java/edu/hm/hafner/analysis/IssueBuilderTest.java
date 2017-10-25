@@ -6,7 +6,10 @@ import edu.hm.hafner.analysis.Assertions.IssueSoftAssertion;
 import static edu.hm.hafner.analysis.Assertions.IssueAssert.*;
 
 /**
+ *
  * Test class for the issue builder.
+ * @author Tom Maier
+ * @author Johannes Arzt
  */
 class IssueBuilderTest {
 
@@ -160,7 +163,7 @@ class IssueBuilderTest {
         IssueSoftAssertion.assertIssueSoftly(softly -> {
             softly.assertThat(basicIssue)
                     .hasLineStart(0)
-                    .hasLineEnd(0)
+                    .hasLineEnd(1)
                     .hasPriority(Priority.NORMAL)
                     .hasMessage("Hello I am a basic issue")
                     .hasCategory("basic")
@@ -205,7 +208,7 @@ class IssueBuilderTest {
                     .hasColumnEnd(1)
                     .hasPackageName("basic")
                     .hasDescription("basic issue")
-                    .hasToString(String.format("%s(%d,%d): %s: %s: %s", "basic.txt", 1, Integer.MAX_VALUE, "basic", "basic", "Hello I am a basic issue"));
+                    .hasToString(String.format("%s(%d,%d): %s: %s: %s", "basic.txt", 1, 0, "basic", "basic", "Hello I am a basic issue"));
         });
     }
 }

@@ -10,6 +10,8 @@ import edu.hm.hafner.analysis.Priority;
 
 /**
  * Custom assertion for issue.
+ * @author Tom Maier
+ * @author Johannes Arzt
  */
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
