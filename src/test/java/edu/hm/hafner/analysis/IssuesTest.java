@@ -14,8 +14,14 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static edu.hm.hafner.analysis.IssuesAssert.assertThat;
 
 
+/**
+ * Tests the class {@link Issues}.
+ *
+ * @author Michael Schmid
+ */
 class IssuesTest {
 
+    /** Verify that the add method adds the issue and increases the priority counter */
     @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void addIssueCheckContains() {
@@ -31,6 +37,7 @@ class IssuesTest {
                 .hasToString("1 issues");
     }
 
+    /** Verfiy that a new issues object hasn't any issue */
     @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void noAddIssueCheckNotContains() {
@@ -45,6 +52,7 @@ class IssuesTest {
                 .hasToString("0 issues");
     }
 
+    /** Verfiy that the remove method removes the issue and decreases the priority counter*/
     @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void addAndRemoveIssue() {
@@ -69,6 +77,7 @@ class IssuesTest {
                 .hasToString("0 issues");
     }
 
+    /** Verify that the findById method and the remove method throw a NoSuchElementException if the issue isn't in issues */
     @Test
     void removeIssueIssuesDoesNotContain() {
         Issues sut = new Issues();
@@ -89,7 +98,8 @@ class IssuesTest {
 
     }
 
-    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
+    /** Verfiy that the addAll method keeps the order of the list */
+    @SuppressWarnings({"JUnitTestMethodWithNoAssertions", "NestedConditionalExpression"})
     @Test
     void addAllTest() {
         Issues sut = new Issues();
@@ -131,6 +141,8 @@ class IssuesTest {
 
     }
 
+    /** Verify that all method delivers all issues */
+    @SuppressWarnings("NestedConditionalExpression")
     @Test
     void allTest() {
         Issues sut = new Issues();
@@ -140,7 +152,7 @@ class IssuesTest {
                     .setMessage("Issue " + index)
                     .setLineStart(index)
                     .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the addAll method of Issues")
+                    .setDescription("Issue build while testing the all method of Issues")
                     .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
                     .build());
         }
@@ -162,6 +174,8 @@ class IssuesTest {
 
     }
 
+    /** Verfiy the the copy method delivers an independent issues object with the same issue objects in it */
+    @SuppressWarnings("NestedConditionalExpression")
     @Test
     void copyTest() {
         Issues sut = new Issues();
@@ -171,7 +185,7 @@ class IssuesTest {
                     .setMessage("Issue " + index)
                     .setLineStart(index)
                     .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the addAll method of Issues")
+                    .setDescription("Issue build while testing the copy method of Issues")
                     .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
                     .build());
         }
@@ -196,7 +210,7 @@ class IssuesTest {
             IssueAssert.assertThat(it.next()).hasFingerprint("modified copy");
         }
 
-        // Check if the issues object is independed of it's copy
+        // Check if the issues object is independent of it's copy
         copy.remove(copy.get(0).getId());
         for (Issue issue: sutSet) {
             asserter.assertContains(issue).as("The issues object and it's copy are not independend");
@@ -204,6 +218,8 @@ class IssuesTest {
 
     }
 
+    /** Verify that the findByProperty method delivers the matching issues */
+    @SuppressWarnings("NestedConditionalExpression")
     @Test
     void findByPropertyTest() {
         Issues sut = new Issues();
@@ -213,7 +229,7 @@ class IssuesTest {
                     .setMessage("Issue " + index)
                     .setLineStart(index)
                     .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the addAll method of Issues")
+                    .setDescription("Issue build while testing the findByProperty method of Issues")
                     .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
                     .build());
         }
@@ -238,6 +254,8 @@ class IssuesTest {
 
     }
 
+    /** Verify that the getProperty method delivers an ordered set of the desired issue properties */
+    @SuppressWarnings("NestedConditionalExpression")
     @Test
     void getPropertiesTest() {
         Issues sut = new Issues();
@@ -247,7 +265,7 @@ class IssuesTest {
                     .setMessage("Issue " + index)
                     .setLineStart(index)
                     .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the addAll method of Issues")
+                    .setDescription("Issue build while testing the getProperties method of Issues")
                     .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
                     .setFileName("Test" + (testObjects - index) + ".java")
                     .setPackageName("edu.hm.hafner.analysis")

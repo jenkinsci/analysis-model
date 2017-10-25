@@ -4,7 +4,11 @@ import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
 
-
+/**
+ * Custom assert to test the class {@link Issue}.
+ *
+ * @author Michael Schmid
+ */
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
 

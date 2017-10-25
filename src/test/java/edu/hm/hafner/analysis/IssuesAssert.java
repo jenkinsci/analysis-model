@@ -1,24 +1,26 @@
 package edu.hm.hafner.analysis;
 
-import java.util.Optional;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.description.Description;
 
+/**
+ * Custom assert to test the class {@link Issues}.
+ *
+ * @author Michael Schmid
+ */
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     public IssuesAssert(final Issues actual) {
         super(actual, IssuesAssert.class);
     }
 
-    public static IssuesAssert assertThat(final Issues actual) {
-        return new IssuesAssert(actual);
+    public static IssuesAssert assertThat(final Issues actualIssue) {
+        return new IssuesAssert(actualIssue);
     }
 
     public IssuesAssert assertContains(final Issue issue) {
         Iterable<Issue> iterable = () -> actual.iterator();
-        if(!StreamSupport.stream(iterable.spliterator(), false).anyMatch(a -> a.equals(issue))) {
+        if(StreamSupport.stream(iterable.spliterator(), false).noneMatch(a -> a.equals(issue))) {
             failWithMessage("Issues's element does not contain <%s>", issue);
         }
         return this;

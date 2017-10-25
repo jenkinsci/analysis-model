@@ -4,7 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Tests the class {@link Issue}.
+ *
+ * @author Michael Schmid
+ */
 class IssueTest {
+
+    /** Verify an empty issue generated with the builder */
     @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void buildEmptyIssue() {
@@ -27,6 +34,7 @@ class IssueTest {
         softly.assertAll();
     }
 
+    /** Verify the properties of a issue with equal start and end columns/lines */
     @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void issueSameStartAndEndLineAndColumn() {
@@ -61,6 +69,7 @@ class IssueTest {
         softly.assertAll();
     }
 
+    /** Verify the properties of a issue with different start and end columns/lines */
     @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void issueDifferentStartAndEndLineAndColumn() {
@@ -95,6 +104,7 @@ class IssueTest {
         softly.assertAll();
     }
 
+    /** Verify that setFingerprint only changes the finderprint */
     @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void testSetFingerprint() {
@@ -138,6 +148,7 @@ class IssueTest {
         softly.assertAll();
     }
 
+    /** Verify that two equal issues have a different id */
     @Test
     void uuidIsUnique() {
         Issue sut1 = new IssueBuilder().build();
