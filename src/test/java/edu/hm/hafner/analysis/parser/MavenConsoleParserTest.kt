@@ -52,7 +52,6 @@ open class MavenConsoleParserTest : ParserTester() {
     @Test
     @Disabled("Until JENKINS-25278 is fixed")
     fun largeFile() {
-
         assertSoftly<IssuesSoftAssertions> {
             val warnings = MavenConsoleParser().parse(openFile("maven-large.log"))
 

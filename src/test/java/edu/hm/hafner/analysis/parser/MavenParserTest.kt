@@ -22,10 +22,8 @@ open class MavenParserTest : ParserTester() {
     @Test
     @Throws(IOException::class)
     fun parseMaven() {
-
         assertSoftly<IssuesSoftAssertions> {
             val warnings = JavacParser().parse(openFile())
-
 
             assertThat(warnings)
                     .hasSize(5)
