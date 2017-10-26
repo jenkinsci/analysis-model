@@ -8,8 +8,11 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
+import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 import static org.junit.jupiter.api.Assertions.*;
 
+// TODO convert
 /**
  * Tests the class {@link Gcc4CompilerParser}.
  */
@@ -28,29 +31,49 @@ public class Gcc4CompilerParserTest extends ParserTester {
     @Test
     public void issue18081() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue18081.txt"));
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(1);
+        softlyWarnings.assertAll();
 
-        assertEquals(1, warnings.size());
-        Issue annotation = warnings.iterator().next();
-        checkWarning(annotation, 10, "'test.h' file not found",
-                "./test.h",
-                WARNING_TYPE, ERROR_CATEGORY, Priority.HIGH);
+        IssueSoftAssertions softlyIssue = new IssueSoftAssertions();
+        softlyIssue.assertThat(warnings.iterator().next())
+                .hasLineStart(10)
+                .hasLineEnd(10)
+                .hasMessage("'test.h' file not found")
+                .hasFileName("./test.h")
+                .hasType(WARNING_TYPE)
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue.assertAll();
+
     }
 
     /**
      * Parses a file with one warning that are started by ant.
      *
      * @throws IOException if the file could not be read
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
+     * @sehttps://www.google.de/search?q=java+lock+priority&ei=OKjxWZXCN8LPwALPwbKgAQ&start=50&sa=N&biw=1280&bih=899e <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
     public void issue9926() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue9926.txt"));
 
-        assertEquals(1, warnings.size());
-        Issue annotation = warnings.iterator().next();
-        checkWarning(annotation, 52, "large integer implicitly truncated to unsigned type",
-                "src/test_simple_sgs_message.cxx",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(1);
+        softlyWarnings.assertAll();
+
+        IssueSoftAssertions softlyIssue = new IssueSoftAssertions();
+        softlyIssue.assertThat(warnings.iterator().next())
+                .hasLineStart(52)
+                .hasLineEnd(52)
+                .hasMessage("large integer implicitly truncated to unsigned type")
+                .hasFileName("src/test_simple_sgs_message.cxx")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue.assertAll();
     }
 
     /**
@@ -63,7 +86,11 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void issue6563() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue6563.txt"));
 
-        assertEquals(10, warnings.size());
+
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(10);
+        softlyWarnings.assertAll();
     }
 
     /**
@@ -75,79 +102,174 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile());
 
-        assertEquals(14, warnings.size());
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(14);
+        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
-        checkWarning(iterator.next(),
-                451,
-                "'void yyunput(int, char*)' defined but not used",
-                "testhist.l",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                73,
-                "implicit typename is deprecated, please see the documentation for details",
-                "/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc",
-                WARNING_TYPE, ERROR_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                4, 39,
-                "foo.h: No such file or directory",
-                "foo.cc",
-                WARNING_TYPE, ERROR_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                678,
-                "missing initializer for member sigaltstack::ss_sp",
-                "../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                678,
-                "missing initializer for member sigaltstack::ss_flags",
-                "../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                678,
-                "missing initializer for member sigaltstack::ss_size",
-                "../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                52,
-                "large integer implicitly truncated to unsigned type",
-                "src/test_simple_sgs_message.cxx",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                352,
-                "'s2.mepSector2::lubrications' may be used uninitialized in this function",
-                "main/mep.cpp",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                6,
-                "passing 'Test' chooses 'int' over 'unsigned int'",
-                "warnings.cc",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                6,
-                "in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'",
-                "warnings.cc",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                33,
-                "#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.",
-                "/usr/include/c++/4.3/backward/backward_warning.h",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                8,
-                "'bar' was not declared in this scope",
-                "fo:oo.cpp",
-                WARNING_TYPE, ERROR_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                12,
-                "expected ';' before 'return'",
-                "fo:oo.cpp",
-                WARNING_TYPE, ERROR_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                23,
-                "unused variable 'j' [-Wunused-variable]",
-                "warner.cpp",
-                WARNING_TYPE, "Warning:unused-variable", Priority.NORMAL);
+
+        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
+        softlyIssue1.assertThat(iterator.next())
+                .hasLineStart(451)
+                .hasLineEnd(451)
+                .hasMessage("'void yyunput(int, char*)' defined but not used")
+                .hasFileName("testhist.l")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue1.assertAll();
+
+
+        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
+        softlyIssue2.assertThat(iterator.next())
+                .hasLineStart(73)
+                .hasLineEnd(73)
+                .hasMessage("implicit typename is deprecated, please see the documentation for details")
+                .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
+                .hasType(WARNING_TYPE)
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue2.assertAll();
+
+
+        IssueSoftAssertions softlyIssue3 = new IssueSoftAssertions();
+        softlyIssue3.assertThat(iterator.next())
+                .hasLineStart(4)
+                .hasLineEnd(4)
+                .hasColumnStart(39)
+                .hasColumnEnd(39)
+                .hasMessage("foo.h: No such file or directory")
+                .hasFileName("foo.cc")
+                .hasType(WARNING_TYPE)
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue3.assertAll();
+
+        IssueSoftAssertions softlyIssue4 = new IssueSoftAssertions();
+        softlyIssue4.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_sp")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue4.assertAll();
+
+
+        IssueSoftAssertions softlyIssue5 = new IssueSoftAssertions();
+        softlyIssue5.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_flags")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue5.assertAll();
+
+        IssueSoftAssertions softlyIssue6 = new IssueSoftAssertions();
+        softlyIssue6.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_size")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue6.assertAll();
+
+        IssueSoftAssertions softlyIssue7 = new IssueSoftAssertions();
+        softlyIssue7.assertThat(iterator.next())
+                .hasLineStart(52)
+                .hasLineEnd(52)
+                .hasMessage("large integer implicitly truncated to unsigned type")
+                .hasFileName("src/test_simple_sgs_message.cxx")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue7.assertAll();
+
+        IssueSoftAssertions softlyIssue8 = new IssueSoftAssertions();
+        softlyIssue8.assertThat(iterator.next())
+                .hasLineStart(352)
+                .hasLineEnd(352)
+                .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
+                .hasFileName("main/mep.cpp")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue8.assertAll();
+
+        IssueSoftAssertions softlyIssue9 = new IssueSoftAssertions();
+        softlyIssue9.assertThat(iterator.next())
+                .hasLineStart(6)
+                .hasLineEnd(6)
+                .hasMessage("passing 'Test' chooses 'int' over 'unsigned int'")
+                .hasFileName("warnings.cc")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue9.assertAll();
+
+
+        IssueSoftAssertions softlyIssue10 = new IssueSoftAssertions();
+        softlyIssue10.assertThat(iterator.next())
+                .hasLineStart(6)
+                .hasLineEnd(6)
+                .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
+                .hasFileName("warnings.cc")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue10.assertAll();
+
+
+        IssueSoftAssertions softlyIssue11 = new IssueSoftAssertions();
+        softlyIssue11.assertThat(iterator.next())
+                .hasLineStart(33)
+                .hasLineEnd(33)
+                .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
+                .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softlyIssue11.assertAll();
+
+        IssueSoftAssertions softlyIssue12 = new IssueSoftAssertions();
+        softlyIssue12.assertThat(iterator.next())
+                .hasLineStart(8)
+                .hasLineEnd(8)
+                .hasMessage("'bar' was not declared in this scope")
+                .hasFileName("fo:oo.cpp")
+                .hasType(WARNING_TYPE)
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue12.assertAll();
+
+        IssueSoftAssertions softlyIssue13 = new IssueSoftAssertions();
+        softlyIssue13.assertThat(iterator.next())
+                .hasLineStart(12)
+                .hasLineEnd(12)
+                .hasMessage("expected ';' before 'return'")
+                .hasFileName("fo:oo.cpp")
+                .hasType(WARNING_TYPE)
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue13.assertAll();
+
+
+        IssueSoftAssertions softlyIssue14 = new IssueSoftAssertions();
+        softlyIssue14.assertThat(iterator.next())
+                .hasLineStart(23)
+                .hasLineEnd(23)
+                .hasMessage("unused variable 'j' [-Wunused-variable]")
+                .hasFileName("warner.cpp")
+                .hasType(WARNING_TYPE)
+                .hasCategory("Warning:unused-variable")
+                .hasPriority(Priority.NORMAL);
+        softlyIssue14.assertAll();
     }
 
     /**
@@ -160,7 +282,10 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void issue5606() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5606.txt"));
 
-        assertEquals(10, warnings.size());
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(10);
+        softlyWarnings.assertAll();
     }
 
     /**
@@ -173,7 +298,10 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void issue5605() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5605.txt"));
 
-        assertEquals(6, warnings.size());
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(6);
+        softlyWarnings.assertAll();
     }
 
     /**
@@ -186,7 +314,10 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void issue5445() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
 
-        assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(0);
+        softlyWarnings.assertAll();
     }
 
     /**
@@ -199,7 +330,10 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void issue5870() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
 
-        assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(0);
+        softlyWarnings.assertAll();
     }
 
     /**
@@ -212,29 +346,58 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void issue11799() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue11799.txt"));
 
-        assertEquals(4, warnings.size());
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(4);
+        softlyWarnings.assertAll();
+
         Iterator<Issue> iterator = warnings.iterator();
 
-        checkWarning(iterator.next(),
-                4,
-                "implicit declaration of function 'undeclared_function' [-Wimplicit-function-declaration]",
-                "gcc4warning.c",
-                WARNING_TYPE, WARNING_CATEGORY + ":implicit-function-declaration", Priority.NORMAL);
-        checkWarning(iterator.next(),
-                3,
-                "unused variable 'unused_local' [-Wunused-variable]",
-                "gcc4warning.c",
-                WARNING_TYPE, WARNING_CATEGORY + ":unused-variable", Priority.NORMAL);
-        checkWarning(iterator.next(),
-                1,
-                "unused parameter 'unused_parameter' [-Wunused-parameter]",
-                "gcc4warning.c",
-                WARNING_TYPE, WARNING_CATEGORY + ":unused-parameter", Priority.NORMAL);
-        checkWarning(iterator.next(),
-                5,
-                "control reaches end of non-void function [-Wreturn-type]",
-                "gcc4warning.c",
-                WARNING_TYPE, WARNING_CATEGORY + ":return-type", Priority.NORMAL);
+
+        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
+        softlyIssue1.assertThat(iterator.next())
+                .hasLineStart(4)
+                .hasLineEnd(4)
+                .hasMessage("implicit declaration of function 'undeclared_function' [-Wimplicit-function-declaration]")
+                .hasFileName("gcc4warning.c")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY + ":implicit-function-declaration")
+                .hasPriority(Priority.NORMAL);
+        softlyIssue1.assertAll();
+
+        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
+        softlyIssue2.assertThat(iterator.next())
+                .hasLineStart(3)
+                .hasLineEnd(3)
+                .hasMessage("unused variable 'unused_local' [-Wunused-variable]")
+                .hasFileName("gcc4warning.c")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY + ":unused-variable")
+                .hasPriority(Priority.NORMAL);
+        softlyIssue2.assertAll();
+
+        IssueSoftAssertions softlyIssue3 = new IssueSoftAssertions();
+        softlyIssue3.assertThat(iterator.next())
+                .hasLineStart(1)
+                .hasLineEnd(1)
+                .hasMessage("unused parameter 'unused_parameter' [-Wunused-parameter]")
+                .hasFileName("gcc4warning.c")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY + ":unused-parameter")
+                .hasPriority(Priority.NORMAL);
+        softlyIssue3.assertAll();
+
+
+        IssueSoftAssertions softlyIssue4 = new IssueSoftAssertions();
+        softlyIssue4.assertThat(iterator.next())
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasMessage("control reaches end of non-void function [-Wreturn-type]")
+                .hasFileName("gcc4warning.c")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY + ":return-type")
+                .hasPriority(Priority.NORMAL);
+        softlyIssue3.assertAll();
     }
 
     @Override
