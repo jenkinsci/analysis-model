@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import org.apache.commons.io.input.BOMInputStream;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueAssertSoft;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.util.Ensure;
@@ -33,12 +34,16 @@ public abstract class ParserTester {
      * @param priority   the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final String message, final String fileName, final String category, final Priority priority) {
-        assertEquals(priority, warning.getPriority(), "Wrong priority detected: ");
-        assertEquals(category, warning.getCategory(), "Wrong category of warning detected: ");
-        assertEquals(lineNumber, warning.getLineStart(), "Wrong line start detected: ");
-        assertEquals(lineNumber, warning.getLineEnd(), "Wrong line end detected: ");
-        assertEquals(message, warning.getMessage(), "Wrong message detected: ");
-        assertEquals(fileName, warning.getFileName(), "Wrong filename detected: ");
+        IssueAssertSoft softly = new IssueAssertSoft();
+
+        softly.assertThat(warning)
+                .hasPriority(priority)
+                .hasCategory(category)
+                .hasLineStart(lineNumber)
+                .hasLineEnd(lineNumber)
+                .hasMessage(message)
+                .hasFileName(fileName);
+        softly.assertAll();
     }
 
     /**
@@ -53,8 +58,17 @@ public abstract class ParserTester {
      * @param priority   the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final int column, final String message, final String fileName, final String category, final Priority priority) {
-        checkWarning(warning, lineNumber, message, fileName, category, priority);
-        assertEquals(column, warning.getColumnStart(), "Wrong column start detected: ");
+        IssueAssertSoft softly = new IssueAssertSoft();
+
+        softly.assertThat(warning)
+                .hasPriority(priority)
+                .hasCategory(category)
+                .hasLineStart(lineNumber)
+                .hasLineEnd(lineNumber)
+                .hasMessage(message)
+                .hasFileName(fileName)
+                .hasColumnStart(column);
+        softly.assertAll();
     }
 
     /**
@@ -69,8 +83,17 @@ public abstract class ParserTester {
      * @param priority   the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority) {
-        checkWarning(warning, lineNumber, message, fileName, category, priority);
-        assertEquals(type, warning.getType(), "Wrong type of warning detected: ");
+        IssueAssertSoft softly = new IssueAssertSoft();
+
+        softly.assertThat(warning)
+                .hasPriority(priority)
+                .hasCategory(category)
+                .hasLineStart(lineNumber)
+                .hasLineEnd(lineNumber)
+                .hasMessage(message)
+                .hasFileName(fileName)
+                .hasType(type);
+        softly.assertAll();
     }
 
     /**
@@ -86,8 +109,18 @@ public abstract class ParserTester {
      * @param priority   the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final int column, final String message, final String fileName, final String type, final String category, final Priority priority) { // NOCHECKSTYLE
-        checkWarning(warning, lineNumber, column, message, fileName, category, priority);
-        assertEquals(type, warning.getType(), "Wrong type of warning detected: ");
+        IssueAssertSoft softly = new IssueAssertSoft();
+
+        softly.assertThat(warning)
+                .hasPriority(priority)
+                .hasCategory(category)
+                .hasLineStart(lineNumber)
+                .hasLineEnd(lineNumber)
+                .hasMessage(message)
+                .hasFileName(fileName)
+                .hasColumnStart(column)
+                .hasType(type);
+        softly.assertAll();
     }
 
     /**
