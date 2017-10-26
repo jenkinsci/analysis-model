@@ -8,8 +8,10 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 import static org.junit.jupiter.api.Assertions.*;
 
+// TODO
 /**
  * Tests the class {@link Gcc4LinkerParser}.
  */
@@ -28,7 +30,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile());
 
-        assertEquals(8, warnings.size());
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(8);
+        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
