@@ -1,9 +1,9 @@
-package edu.hm.hafner.analysis
+package edu.hm.hafner.analysis.assertj
 
+import edu.hm.hafner.analysis.Issue
+import edu.hm.hafner.analysis.Issues
 import org.assertj.core.api.AbstractAssert
 
-import java.util.Collections
-import java.util.Objects
 import java.util.SortedSet
 
 open class IssuesAssert(actual: Issues) : AbstractAssert<IssuesAssert, Issues>(actual, IssuesAssert::class.java) {

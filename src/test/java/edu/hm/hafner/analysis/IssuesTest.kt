@@ -1,5 +1,8 @@
 package edu.hm.hafner.analysis
 
+import edu.hm.hafner.analysis.assertj.IssueAssert
+import edu.hm.hafner.analysis.assertj.IssuesAssert
+import edu.hm.hafner.analysis.assertj.IssuesSoftAssertions
 import edu.hm.hafner.analysis.assertj.assertSoftly
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThatThrownBy

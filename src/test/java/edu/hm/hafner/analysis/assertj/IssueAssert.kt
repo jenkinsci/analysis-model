@@ -1,6 +1,7 @@
-package edu.hm.hafner.analysis
+package edu.hm.hafner.analysis.assertj
 
-import java.util.Objects
+import edu.hm.hafner.analysis.Issue
+import edu.hm.hafner.analysis.Priority
 import java.util.UUID
 
 import org.assertj.core.api.AbstractAssert

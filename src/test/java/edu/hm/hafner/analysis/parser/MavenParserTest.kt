@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser
 
 import edu.hm.hafner.analysis.*
+import edu.hm.hafner.analysis.assertj.IssuesSoftAssertions
 import edu.hm.hafner.analysis.assertj.assertSoftly
 import edu.hm.hafner.analysis.assertj.assertThat
 import java.io.IOException
 
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 /**
  * Tests the class [JavacParser] for output log of a maven compile.

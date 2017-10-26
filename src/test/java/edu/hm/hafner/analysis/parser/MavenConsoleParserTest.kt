@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser
 
-import edu.hm.hafner.analysis.IssuesSoftAssertions
+import edu.hm.hafner.analysis.assertj.IssuesSoftAssertions
 import edu.hm.hafner.analysis.assertj.assertSoftly
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test

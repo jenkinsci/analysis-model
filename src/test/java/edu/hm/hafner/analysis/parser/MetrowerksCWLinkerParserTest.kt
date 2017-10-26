@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser
 
-import edu.hm.hafner.analysis.IssuesSoftAssertions
+import edu.hm.hafner.analysis.assertj.IssuesSoftAssertions
 import edu.hm.hafner.analysis.Priority
 import edu.hm.hafner.analysis.assertj.assertSoftly
 import edu.hm.hafner.analysis.assertj.assertThat

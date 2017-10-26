@@ -1,6 +1,6 @@
-package edu.hm.hafner.analysis
+package edu.hm.hafner.analysis.assertj
 
-import edu.hm.hafner.analysis.assertj.SoftAssertions
+import edu.hm.hafner.analysis.Issues
 
 open class IssuesSoftAssertions : SoftAssertions() {
     fun assertThat(actual: Issues) : IssuesAssert {
