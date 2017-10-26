@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issues;
+
+import static edu.hm.hafner.analysis.AnalysisAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -22,7 +24,7 @@ public class CssLintParserTest extends ParserTester {
     @Test
     public void testCssLint() throws IOException {
         Issues results = createParser().parse(openFile());
-        assertEquals(51, results.size());
+        assertThat(results).hasSize(51);
     }
 
     /**

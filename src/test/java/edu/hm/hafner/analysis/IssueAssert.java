@@ -68,7 +68,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert,Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getPriority(),priority)){
-            failWithMessage("Expected priority to be <%d> but was <%d>", priority, actual.getPriority());
+            failWithMessage("Expected priority to be <%s> but was <%s>", priority, actual.getPriority());
         }
         return this;
     }
