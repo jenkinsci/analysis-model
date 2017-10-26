@@ -2,6 +2,7 @@ package edu.hm.hafner;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
@@ -18,7 +19,15 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-
+/**
+ * *****************************************************************
+ * Hochschule Muenchen Fakultaet 07 (Informatik).		**
+ * Autor: Sebastian Balz
+ * Datum 16.10.2017
+ *  Software Win 7 JDK8 Win 10 JDK8 Ubuntu 15.4 OpenJDK7	**
+ * edu.hm.hafner.analysis
+ *
+ */
 class IssuesTest {
     private Issue i1;
     private Issue i2;
@@ -321,9 +330,8 @@ class IssuesTest {
     }
 
     /**
-     * Test add the same issue
-     * What happepen if i add the same Issue twice...
-     * solfed by adding check and doing nothing if the element already exist
+     * Test add the same issue What happepen if i add the same Issue twice... solfed by adding check and doing nothing
+     * if the element already exist
      */
     @Disabled
     @Test

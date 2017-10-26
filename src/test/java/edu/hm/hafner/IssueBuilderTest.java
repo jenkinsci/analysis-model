@@ -3,9 +3,20 @@ package edu.hm.hafner;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
+/**
+ * *****************************************************************
+ * Hochschule Muenchen Fakultaet 07 (Informatik).		**
+ * Autor: Sebastian Balz
+ * Datum 16.10.2017
+ *  Software Win 7 JDK8 Win 10 JDK8 Ubuntu 15.4 OpenJDK7	**
+ * edu.hm.hafner.analysis
+ *
+ */
 class IssueBuilderTest {
     /**
      * Test default Builder Method.
