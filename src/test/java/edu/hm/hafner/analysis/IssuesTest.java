@@ -131,7 +131,7 @@ class IssuesTest {
     }
 
     /** Verify that all method delivers all issues */
-    @SuppressWarnings("NestedConditionalExpression")
+    @SuppressWarnings({"JUnitTestMethodWithNoAssertions", "NestedConditionalExpression"})
     @Test
     void allTest() {
         Issues sut = new Issues();
@@ -146,21 +146,14 @@ class IssuesTest {
                     .build());
         }
 
-        IssuesAssert asserter = assertThat(sut)
+        ImmutableSet<Issue> setOfIssues = sut.all();
+
+        assertThat(sut)
                 .hasSize(testObjects)
                 .hasSizeOfPriorityLow((testObjects + 2) / 3)
                 .hasSizeOfPriorityNormal((testObjects + 1) / 3)
-                .hasSizeOfPriorityHigh(testObjects / 3);
-
-        // Check if all() delivers all issues
-        ImmutableSet<Issue> setOfIssues = sut.all();
-        for (Issue issue: setOfIssues) {
-            asserter.contains(issue);
-        }
-        for (Iterator<Issue> it = sut.iterator(); it.hasNext(); ) {
-            Assertions.assertThat(setOfIssues).contains(it.next());
-        }
-
+                .hasSizeOfPriorityHigh(testObjects / 3)
+                .containsExactly(setOfIssues);
     }
 
     /** Verfiy the the copy method delivers an independent issues object with the same issue objects in it */
@@ -179,31 +172,32 @@ class IssuesTest {
                     .build());
         }
 
+        Issues copy = sut.copy();
+        ImmutableSet<Issue> sutSet = sut.all();
+        ImmutableSet<Issue> copySet = copy.all();
+
         IssuesAssert asserter = assertThat(sut)
                 .hasSize(testObjects)
                 .hasSizeOfPriorityLow((testObjects + 2) / 3)
                 .hasSizeOfPriorityNormal((testObjects + 1) / 3)
                 .hasSizeOfPriorityHigh(testObjects / 3);
 
-        Issues copy = sut.copy();
-        ImmutableSet<Issue> sutSet = sut.all();
-        ImmutableSet<Issue> copySet = copy.all();
         Assertions.assertThat(sutSet).isEqualTo(copySet).as("The issues object and the copy of it does not contains the equal elements");
 
         // Check if the issues object and it's copy have the same references to the issue objects
-        for (Iterator<Issue> it = copy.iterator(); it.hasNext(); ) {
-            it.next().setFingerprint("modified copy");
+        Iterable<Issue> copyIterable = () -> copy.iterator();
+        for (Issue issue : copyIterable) {
+            issue.setFingerprint("modified copy");
         }
 
-        for (Iterator<Issue> it = sut.iterator(); it.hasNext(); ) {
-            IssueAssert.assertThat(it.next()).hasFingerprint("modified copy");
+        Iterable<Issue> sutIterable = () -> sut.iterator();
+        for (Issue issue : sutIterable) {
+            IssueAssert.assertThat(issue).hasFingerprint("modified copy");
         }
 
         // Check if the issues object is independent of it's copy
         copy.remove(copy.get(0).getId());
-        for (Issue issue: sutSet) {
-            asserter.contains(issue).as("The issues object and it's copy are not independend");
-        }
+        assertThat(sut).containsExactly(sutSet).as("The issues object and it's copy are not independend");
 
     }
 
@@ -230,10 +224,7 @@ class IssuesTest {
                 .hasSizeOfPriorityHigh(testObjects / 3);
 
         List<Issue> allIssues = sut.findByProperty(issue -> true);
-        Iterator<Issue> sutIterator = sut.iterator();
-        for (Issue issue: allIssues) {
-            Assertions.assertThat(issue).isEqualTo(sutIterator.next()).as("findByProperty with true as predicate doesn't deliver the whole list");
-        }
+        asserter.containsExactly(allIssues).as("findByProperty with true as predicate doesn't deliver the whole list");
 
         Assertions.assertThat(sut.findByProperty(issue -> false)).hasSize(0).as("findByProperty with false as predicate doesn't deliver a empty list");
 
@@ -256,7 +247,7 @@ class IssuesTest {
                     .setLineEnd(index * index)
                     .setDescription("Issue build while testing the getProperties method of Issues")
                     .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
-                    .setFileName("Test" + (testObjects - index) + ".java")
+                    .setFileName("Test_" + (testObjects - index) + ".java")
                     .setPackageName("edu.hm.hafner.analysis")
                     .build());
         }
@@ -266,7 +257,7 @@ class IssuesTest {
         int[] fileIndexOrder = {1, 10, 2, 3, 4, 5, 6, 7, 8, 9};
         int orderIndex = 0;
         for (String filename : sut.getFiles()) {
-            Assertions.assertThat(filename).isEqualTo("Test" + fileIndexOrder[orderIndex] + ".java");
+            Assertions.assertThat(filename).isEqualTo("Test_" + fileIndexOrder[orderIndex] + ".java");
             orderIndex++;
         }
 

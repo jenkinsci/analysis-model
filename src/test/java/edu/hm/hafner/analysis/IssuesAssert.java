@@ -24,6 +24,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return new IssuesAssert(actualIssue);
     }
 
+    /**
+     * Assert that the issues object contains the parameter issue.
+     * @param issue expected in the issues object
+     * @return this (fluent interface)
+     */
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssert contains(final Issue issue) {
         Iterable<Issue> iterable = () -> actual.iterator();
         if(StreamSupport.stream(iterable.spliterator(), false).noneMatch(a -> a.equals(issue))) {
@@ -32,6 +38,11 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Assert that the issues object doesn't contain the parameter issue.
+     * @param issue not expected in the issues object
+     * @return this (fluent interface)
+     */
     public IssuesAssert doesNotContain(final Issue issue) {
         Iterable<Issue> iterable = () -> actual.iterator();
         if(StreamSupport.stream(iterable.spliterator(), false).anyMatch(a -> a.equals(issue))) {
@@ -40,10 +51,22 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Assert that the issues object contains the issue elements in the same order as the parameter array.
+     * @param issues expected order of issue elements
+     * @return this (fluent interface)
+     */
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssert containsExactly(final Issue... issues) {
         return containsExactly(Arrays.asList(issues));
     }
 
+    /**
+     * Assert that the issues object contains the issue elements in the same order as the parameter collection.
+     * @param issues expected order of issue elements
+     * @return this (fluent interface)
+     */
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssert containsExactly(final Collection<Issue> issues) {
         Iterator<Issue> iterator = actual.iterator();
 
