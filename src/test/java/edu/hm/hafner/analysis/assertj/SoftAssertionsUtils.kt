@@ -1,5 +1,9 @@
 package edu.hm.hafner.analysis.assertj
 
+import edu.hm.hafner.analysis.Issue
+import edu.hm.hafner.analysis.IssueAssert
+import edu.hm.hafner.analysis.IssuesSoftAssertions
+
 /** This function is a extension function for any class derived from SoftAssertions.
  *  The lambda should contain tests for a test subject.
  *  These tests will be executed softly.
@@ -23,3 +27,7 @@ inline fun <reified T : SoftAssertions> assertSoftly(softly: T.() -> Unit) =
             assertAll()
             Unit
         }
+
+fun IssuesSoftAssertions.assertThat(actual: Issue): IssueAssert {
+    return proxy(IssueAssert::class.java, Issue::class.java, actual)
+}
