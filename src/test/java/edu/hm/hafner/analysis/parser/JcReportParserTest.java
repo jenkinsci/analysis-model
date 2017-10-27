@@ -6,6 +6,8 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Assertions.IssueSoftAssertion;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -14,7 +16,9 @@ import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
 import edu.hm.hafner.analysis.parser.jcreport.Report;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.Assertions.IssuesAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the JcReportParser-Class.
@@ -35,12 +39,19 @@ public class JcReportParserTest {
 
         Issues warnings = parser.parse(readCorrectXml);
 
-        assertEquals(7, warnings.size(), "Should be 7: ");
-        assertEquals("SomeDirectory/SomeClass.java", warnings.get(0).getFileName(), "Wrong Parse FileName: ");
-        assertEquals(Priority.HIGH, warnings.get(0).getPriority(), "Wrong Parse Priority: ");
-        assertEquals("SomeMessage", warnings.get(0).getMessage(), "Wrong Parse Message: ");
-        assertEquals("SomePackage", warnings.get(0).getPackageName(), "Wrong Parse PackageName: ");
-        assertEquals(50, warnings.get(0).getLineStart(), "Wrong Parse LineNumberParse: ");
+        assertThat(warnings).hasSize(7);
+        Issue firstIssue = warnings.get(0);
+
+        IssueSoftAssertion.assertIssueSoftly(softly -> {
+            softly.assertThat(firstIssue)
+                    .hasFileName("SomeDirectory/SomeClass.java")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("SomeMessage")
+                    .hasPackageName("SomePackage")
+                    .hasLineStart(50);
+        });
+
+
     }
 
     /**
@@ -56,7 +67,7 @@ public class JcReportParserTest {
 
         Issues warnings = jcrp.parse(readCorrectXml);
 
-        assertEquals(7, warnings.size());
+        assertThat(warnings).hasSize(7);
     }
 
     /**
@@ -72,24 +83,26 @@ public class JcReportParserTest {
         InputStreamReader readCorrectXml = getReader("testReportProps.xml");
         Report testReportProps = new JcReportParser().createReport(readCorrectXml);
 
-        assertEquals(1, testReportProps.getFiles().size());
+
+        assertThat(testReportProps.getFiles().size()).isEqualTo(1);
 
         File file = testReportProps.getFiles().get(0);
-        assertEquals("SomeClass", file.getClassname(), "Should be 'SomeClass'");
-        assertEquals("SomeLevel", file.getLevel(), "Should be 'SomeLevel'");
-        assertEquals("173", file.getLoc(), "Should be '173'");
-        assertEquals("SomeDirectory/SomeClass.java", file.getName(), "Should be 'SomeDirectory/SomeClass.java'");
-        assertEquals("SomePackage", file.getPackageName(), "Should be 'SomePackage'");
-        assertEquals("SomeDirectory", file.getSrcdir(), "Should be 'SomeDirectory'");
+        assertThat(file.getClassname()).isEqualTo("SomeClass");
+        assertThat(file.getLevel()).isEqualTo("SomeLevel");
+        assertThat(file.getLoc()).isEqualTo("173");
+        assertThat(file.getName()).isEqualTo("SomeDirectory/SomeClass.java");
+        assertThat(file.getPackageName()).isEqualTo("SomePackage");
+        assertThat(file.getSrcdir()).isEqualTo("SomeDirectory");
 
         Item item = file.getItems().get(0);
-        assertEquals("0", item.getColumn(), "Should be '0'");
-        assertEquals("3", item.getEndcolumn(), "Should be '3'");
-        assertEquals("SomeType", item.getFindingtype(), "Should be 'SomeType'");
-        assertEquals("50", item.getLine(), "Should be '50'");
-        assertEquals("70", item.getEndline(), "Should be '70'");
-        assertEquals("SomeMessage", item.getMessage(), "Should be 'SomeMessage'");
-        assertEquals("CriticalError", item.getSeverity(), "Should be 'CriticalError'");
+        assertThat(item.getColumn()).isEqualTo("0");
+        assertThat(item.getEndcolumn()).isEqualTo("3");
+        assertThat(item.getFindingtype()).isEqualTo("SomeType");
+        assertThat(item.getLine()).isEqualTo("50");
+        assertThat(item.getEndline()).isEqualTo("70");
+        assertThat(item.getMessage()).isEqualTo("SomeMessage");
+        assertThat(item.getSeverity()).isEqualTo("CriticalError");
+
     }
 
     /**
@@ -101,8 +114,10 @@ public class JcReportParserTest {
      */
     @Test
     public void testSAXEception() throws ParsingCanceledException, IOException {
-        assertThrows(ParsingException.class,
-                () -> new JcReportParser().parse(getReader("testCorrupt.xml")));
+
+        assertThatThrownBy(() -> new JcReportParser().parse(getReader("testCorrupt.xml")))
+                .isInstanceOf(ParsingException.class);
+
     }
 
     private InputStreamReader getReader(final String fileName) throws UnsupportedEncodingException {
