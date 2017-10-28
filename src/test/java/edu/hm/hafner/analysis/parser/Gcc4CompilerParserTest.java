@@ -12,7 +12,6 @@ import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.Is
 import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 import static org.junit.jupiter.api.Assertions.*;
 
-// TODO convert
 /**
  * Tests the class {@link Gcc4CompilerParser}.
  */

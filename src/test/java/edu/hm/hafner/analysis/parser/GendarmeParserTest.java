@@ -13,7 +13,6 @@ import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.Is
 import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 import static org.junit.jupiter.api.Assertions.*;
 
-// TODO
 /**
  * Tests the class {@link GendarmeParser}.
  *
