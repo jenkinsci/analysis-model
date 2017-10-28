@@ -9,6 +9,8 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
+import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
+import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 import static org.junit.jupiter.api.Assertions.*;
 
 // TODO
@@ -26,16 +28,42 @@ public class GendarmeParserTest extends ParserTester {
     @Test
     public void testParseViolationData() throws IOException {
         Issues results = new GendarmeParser().parse(openFile());
-        assertEquals(3, results.size());
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(results)
+                .hasSize(3);
+        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = results.iterator();
 
-        checkWarning(iterator.next(), 0, "This assembly is not decorated with the [CLSCompliant] attribute.",
-                "-", "MarkAssemblyWithCLSCompliantRule", Priority.HIGH);
-        checkWarning(iterator.next(), 10, "This method does not use any instance fields, properties or methods and can be made static.",
-                "c:/Dev/src/hudson/Hudson.Domain/Dog.cs", "MethodCanBeMadeStaticRule", Priority.LOW);
-        checkWarning(iterator.next(), 22, "This method does not use any instance fields, properties or methods and can be made static.",
-                "c:/Dev/src/hudson/Hudson.Domain/Dog.cs", "MethodCanBeMadeStaticRule", Priority.LOW);
+        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
+        softlyIssue1.assertThat(iterator.next())
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("This assembly is not decorated with the [CLSCompliant] attribute.")
+                .hasFileName("-")
+                .hasCategory("MarkAssemblyWithCLSCompliantRule")
+                .hasPriority(Priority.HIGH);
+        softlyIssue1.assertAll();
+
+        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
+        softlyIssue2.assertThat(iterator.next())
+                .hasLineStart(10)
+                .hasLineEnd(10)
+                .hasMessage("This method does not use any instance fields, properties or methods and can be made static.")
+                .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
+                .hasCategory("MethodCanBeMadeStaticRule")
+                .hasPriority(Priority.LOW);
+        softlyIssue2.assertAll();
+
+        IssueSoftAssertions softlyIssue3 = new IssueSoftAssertions();
+        softlyIssue3.assertThat(iterator.next())
+                .hasLineStart(22)
+                .hasLineEnd(22)
+                .hasMessage("This method does not use any instance fields, properties or methods and can be made static.")
+                .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
+                .hasCategory("MethodCanBeMadeStaticRule")
+                .hasPriority(Priority.LOW);
+        softlyIssue3.assertAll();
     }
 
     @Override

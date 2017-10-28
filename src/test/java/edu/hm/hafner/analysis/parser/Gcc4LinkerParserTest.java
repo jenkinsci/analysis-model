@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
 import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,46 +37,95 @@ public class Gcc4LinkerParserTest extends ParserTester {
         softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
-        checkWarning(iterator.next(),
-                0,
-                "undefined reference to 'missing_symbol'",
-                "foo.so",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                233,
-                "undefined reference to `MyInterface::getValue() const'",
-                "/dir1/dir3/file.cpp",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                0,
-                "cannot find -lMyLib",
-                FILE_NAME,
-                WARNING_TYPE, WARNING_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                0,
-                "undefined reference to `clock_gettime'",
-                "foo",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                109,
-                "undefined reference to `main'",
-                "/build/buildd/eglibc-2.10.1/csu/../sysdeps/x86_64/elf/start.S",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                109,
-                "undefined reference to `main'",
-                "/build/buildd/eglibc-2.10.1/csu/../sysdeps/x86_64/elf/start.S",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                7,
-                "undefined reference to `clock_gettime'",
-                "/home/me/foo.cpp",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.HIGH);
-        checkWarning(iterator.next(),
-                0,
-                "errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o",
-                FILE_NAME,
-                WARNING_TYPE, WARNING_CATEGORY, Priority.HIGH);
+
+        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
+        softlyIssue1.assertThat(iterator.next())
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("undefined reference to 'missing_symbol'")
+                .hasFileName("foo.so")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue1.assertAll();
+
+        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
+        softlyIssue2.assertThat(iterator.next())
+                .hasLineStart(233)
+                .hasLineEnd(233)
+                .hasMessage("undefined reference to `MyInterface::getValue() const'")
+                .hasFileName("/dir1/dir3/file.cpp")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue2.assertAll();
+
+        IssueSoftAssertions softlyIssue3 = new IssueSoftAssertions();
+        softlyIssue3.assertThat(iterator.next())
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("cannot find -lMyLib")
+                .hasFileName(FILE_NAME)
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue3.assertAll();
+
+        IssueSoftAssertions softlyIssue4 = new IssueSoftAssertions();
+        softlyIssue4.assertThat(iterator.next())
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("undefined reference to `clock_gettime'")
+                .hasFileName("foo")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue4.assertAll();
+
+
+        IssueSoftAssertions softlyIssue5 = new IssueSoftAssertions();
+        softlyIssue5.assertThat(iterator.next())
+                .hasLineStart(109)
+                .hasLineEnd(109)
+                .hasMessage("undefined reference to `main'")
+                .hasFileName("/build/buildd/eglibc-2.10.1/csu/../sysdeps/x86_64/elf/start.S")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue5.assertAll();
+
+        IssueSoftAssertions softlyIssue6 = new IssueSoftAssertions();
+        softlyIssue6.assertThat(iterator.next())
+                .hasLineStart(109)
+                .hasLineEnd(109)
+                .hasMessage("undefined reference to `main'")
+                .hasFileName("/build/buildd/eglibc-2.10.1/csu/../sysdeps/x86_64/elf/start.S")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue6.assertAll();
+
+        IssueSoftAssertions softlyIssue7 = new IssueSoftAssertions();
+        softlyIssue7.assertThat(iterator.next())
+                .hasLineStart(7)
+                .hasLineEnd(7)
+                .hasMessage("undefined reference to `clock_gettime'")
+                .hasFileName("/home/me/foo.cpp")
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue7.assertAll();
+
+        IssueSoftAssertions softlyIssue8 = new IssueSoftAssertions();
+        softlyIssue8.assertThat(iterator.next())
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o")
+                .hasFileName(FILE_NAME)
+                .hasType(WARNING_TYPE)
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softlyIssue8.assertAll();
     }
 
 
@@ -89,7 +139,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue5445() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue5445.txt"));
 
-        assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(0);
+        softlyWarnings.assertAll();
     }
 
     /**
@@ -102,7 +155,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue5870() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue5870.txt"));
 
-        assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(0);
+        softlyWarnings.assertAll();
     }
 
     /**
@@ -115,7 +171,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue6563() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue6563.txt"));
 
-        assertEquals(0, warnings.size());
+        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
+        softlyWarnings.assertThat(warnings)
+                .hasSize(0);
+        softlyWarnings.assertAll();
     }
 
     @Override
