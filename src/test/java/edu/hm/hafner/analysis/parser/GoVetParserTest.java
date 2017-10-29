@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
+import static edu.hm.hafner.analysis.assertions.IssuesAssert.*;
+
 
 /**
  * Tests the class {@link GoLintParser}.
@@ -24,18 +24,28 @@ public class GoVetParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new GoVetParser().parse(openFile());
 
-        assertEquals(2, warnings.size());
+        assertThat(warnings).hasSize(2);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
+        IssueSoftAssertions.assertIssueSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasLineStart(46)
+                    .hasLineEnd(46)
+                    .hasMessage("missing argument for Fatalf(\"%#v\"): format reads arg 2, have only 1 args")
+                    .hasFileName("ui_colored_test.go");
+        });
 
+        IssueSoftAssertions.assertIssueSoftly(softly -> {
+            softly.assertThat(warnings.get(1))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasLineStart(59)
+                    .hasLineEnd(59)
+                    .hasMessage("missing argument for Fatalf(\"%#v\"): format reads arg 2, have only 1 args")
+                    .hasFileName("ui_colored_test.go");
+        });
 
-        checkWarning(annotation, 46, "missing argument for Fatalf(\"%#v\"): format reads arg 2, have only 1 args", "ui_colored_test.go", DEFAULT_CATEGORY,
-                Priority.NORMAL);
-        annotation = iterator.next();
-
-        checkWarning(annotation, 59, "missing argument for Fatalf(\"%#v\"): format reads arg 2, have only 1 args", "ui_colored_test.go", DEFAULT_CATEGORY,
-                Priority.NORMAL);
 
     }
 
