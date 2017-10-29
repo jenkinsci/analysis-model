@@ -66,8 +66,7 @@ public abstract class ParserTester {
                     .hasLineEnd(lineNumber)
                     .hasMessage(message)
                     .hasFileName(fileName)
-                    .hasColumnStart(column)
-                    .hasColumnEnd(column);
+                    .hasColumnStart(column);
         });
 
 
@@ -119,7 +118,6 @@ public abstract class ParserTester {
                     .hasMessage(message)
                     .hasFileName(fileName)
                     .hasColumnStart(column)
-                    .hasColumnEnd(column)
                     .hasType(type);
         });
     }
