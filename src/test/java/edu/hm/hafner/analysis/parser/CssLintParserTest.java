@@ -4,16 +4,14 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractWarningsParser;
 import edu.hm.hafner.analysis.Issues;
-
-import static edu.hm.hafner.analysis.AnalysisAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
  *
- * @author Ullrich Hafner
+ * @author Ulli Hafner
  */
 public class CssLintParserTest extends ParserTester {
     /**
@@ -24,7 +22,7 @@ public class CssLintParserTest extends ParserTester {
     @Test
     public void testCssLint() throws IOException {
         Issues results = createParser().parse(openFile());
-        assertThat(results).hasSize(51);
+        assertEquals(51, results.size());
     }
 
     /**
@@ -32,7 +30,7 @@ public class CssLintParserTest extends ParserTester {
      *
      * @return the warnings parser
      */
-    protected AbstractParser createParser() {
+    protected AbstractWarningsParser createParser() {
         return new CssLintParser();
     }
 
