@@ -34,11 +34,8 @@ public class Issues implements Iterable<Issue> {
      * @return returns the appended issue
      */
     public Issue add(final Issue issue) {
-       // if(!elements.contains(issue)) {
-
-            elements.add(issue);
-            sizeOfPriority[issue.getPriority().ordinal()]++;
-      //  }
+        elements.add(issue);
+        sizeOfPriority[issue.getPriority().ordinal()]++;
         return issue;
     }
 
@@ -66,8 +63,9 @@ public class Issues implements Iterable<Issue> {
      */
     public Issue remove(final UUID id) {
         for (int i = 0; i < elements.size(); i++) {
-            if (elements.get(i).getId().equals(id)) {
-                sizeOfPriority[elements.get(i).getPriority().ordinal()]--;
+            Issue checkToRemove = elements.get(i);
+            if (checkToRemove.getId().equals(id)) {
+                sizeOfPriority[checkToRemove.getOrdinal()]--;
                 return elements.remove(i);
             }
         }

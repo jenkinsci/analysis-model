@@ -220,6 +220,15 @@ public class Issue {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
 
+    /**
+     * get the ordinal number of the priority.
+     *
+     * @return ordinal id
+     */
+    public int getOrdinal() {
+        return priority.ordinal();
+    }
+
     @Override
     @SuppressWarnings("all")
     public boolean equals(final Object obj) {

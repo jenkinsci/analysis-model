@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
-import edu.hm.hafner.IssueAssert;
+import edu.hm.hafner.analysis.IssueAssert;
 
 import org.junit.jupiter.api.Test;
 

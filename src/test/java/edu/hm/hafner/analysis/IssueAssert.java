@@ -1,28 +1,27 @@
-package edu.hm.hafner;
+package edu.hm.hafner.analysis;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
 
 import org.assertj.core.api.AbstractAssert;
 
+
 /**
- * *****************************************************************
- * Hochschule Muenchen Fakultaet 07 (Informatik).		**
- * Autor: Sebastian Balz
- * Datum 16.10.2017
- *  Software Win 7 JDK8 Win 10 JDK8 Ubuntu 15.4 OpenJDK7	**
- * edu.hm.hafner.analysis
+ * AssertJ for Issue. This class allows fluent interface for Issue
  *
+ * @author Sebastian Balz
  */
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test columnEnd.
+     *
      * @param columnEnd columnEnd
      * @return this
      */
     public IssueAssert hasColumnEnd(int columnEnd) {
-        if (actual.getColumnEnd() != (columnEnd)) {
+        isNotNull();
+        if (actual.getColumnEnd() != columnEnd) {
             failWithMessage("\nExpecting ColumnEnd of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getColumnStart(), columnEnd);
         }
         return this;
@@ -30,11 +29,13 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test columnStart.
+     *
      * @param columnStart columnStart
      * @return this
      */
     public IssueAssert hasColumnStart(int columnStart) {
-        if (actual.getColumnStart() != (columnStart)) {
+        isNotNull();
+        if (actual.getColumnStart() != columnStart) {
             failWithMessage("\nExpecting ColumnStart of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getColumnStart(), columnStart);
         }
         return this;
@@ -42,11 +43,13 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test lineEnd.
+     *
      * @param lineEnd lineEnd
      * @return this
      */
     public IssueAssert hasLineEnd(int lineEnd) {
-        if (actual.getLineEnd() != (lineEnd)) {
+        isNotNull();
+        if (actual.getLineEnd() != lineEnd) {
             failWithMessage("\nExpecting LineEnd of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getLineEnd(), lineEnd);
         }
         return this;
@@ -54,11 +57,13 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test lineStart.
+     *
      * @param lineStart lineStart
      * @return this
      */
     public IssueAssert hasLineStart(int lineStart) {
-        if (actual.getLineStart() != (lineStart)) {
+        isNotNull();
+        if (actual.getLineStart() != lineStart) {
             failWithMessage("\nExpecting LineStart of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getLineStart(), lineStart);
         }
         return this;
@@ -66,10 +71,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test packageName.
+     *
      * @param packageName packageName
      * @return this
      */
     public IssueAssert hasPackageName(String packageName) {
+        isNotNull();
         isNotNull();
         if (!actual.getPackageName().equals(packageName)) {
             failWithMessage("\nExpecting PackageName of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getPackageName(), packageName);
@@ -79,10 +86,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test description.
+     *
      * @param description description
      * @return this
      */
     public IssueAssert hasDescription(String description) {
+        isNotNull();
         isNotNull();
         if (!actual.getDescription().equals(description)) {
             failWithMessage("\nExpecting Description of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getDescription(), description);
@@ -92,10 +101,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test message.
+     *
      * @param message message
      * @return this
      */
     public IssueAssert hasMessage(String message) {
+        isNotNull();
         isNotNull();
         if (!actual.getMessage().equals(message)) {
             failWithMessage("\nExpecting Message of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getMessage(), message);
@@ -105,10 +116,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test priority.
+     *
      * @param priority priority
      * @return this
      */
     public IssueAssert hasPriority(Priority priority) {
+        isNotNull();
         isNotNull();
         if (!actual.getPriority().equals(priority)) {
             failWithMessage("\nExpecting Priority of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getPriority(), priority);
@@ -118,10 +131,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test type.
+     *
      * @param type type
      * @return this
      */
     public IssueAssert hasType(String type) {
+        isNotNull();
         isNotNull();
         if (!actual.getType().equals(type)) {
             failWithMessage("\nExpecting Type of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getType(), type);
@@ -131,10 +146,12 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test category.
+     *
      * @param category category
      * @return this
      */
     public IssueAssert hasCategory(String category) {
+        isNotNull();
         isNotNull();
         if (!actual.getCategory().equals(category)) {
             failWithMessage("\nExpecting Category of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getCategory(), category);
@@ -143,11 +160,28 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     }
 
     /**
+     * Test ordinal.
+     *
+     * @param ordinal ordinal
+     * @return this
+     */
+    public IssueAssert hasOrdinal(int ordinal) {
+        isNotNull();
+        isNotNull();
+        if (actual.getOrdinal() != ordinal) {
+            failWithMessage("\nExpecting ordinal of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getOrdinal(), ordinal);
+        }
+        return this;
+    }
+
+    /**
      * Test FileName.
+     *
      * @param name name
      * @return this
      */
     public IssueAssert hasFileName(String name) {
+        isNotNull();
         isNotNull();
         if (!actual.getFileName().equals(name)) {
             failWithMessage("\nExpecting FileName of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getFileName(), name);
@@ -157,10 +191,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * Test FileName.
+     *
      * @param name name
      * @return this
      */
-    public IssueAssert containsFileName(String name) {
+    public IssueAssert hasFileNameContaining(String name) {
         isNotNull();
         if (!actual.getFileName().contains(name)) {
             failWithMessage("\nExpecting FileName of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getFileName(), name);
@@ -169,7 +204,8 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     }
 
     /**
-     * Test Issue.
+     * Fluent interface for Issue.
+     *
      * @param actual actual
      * @return this
      */
@@ -179,7 +215,8 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * init.
-     * @param issue issue
+     *
+     * @param issue    issue
      * @param selfType type
      */
     private IssueAssert(Issue issue, Class<?> selfType) {
@@ -188,6 +225,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     /**
      * assert.
+     *
      * @param i par
      */
     IssueAssert(final Issue i) {

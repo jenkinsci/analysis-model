@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-import edu.hm.hafner.IssueAssert;
+import edu.hm.hafner.analysis.IssueAssert;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;

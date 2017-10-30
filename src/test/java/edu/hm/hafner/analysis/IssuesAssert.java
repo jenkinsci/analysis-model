@@ -1,23 +1,17 @@
-package edu.hm.hafner;
+package edu.hm.hafner.analysis;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Iterator;
+
 import com.google.common.collect.ImmutableSet;
-
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
 
 import org.assertj.core.api.AbstractAssert;
 
 /**
- * *****************************************************************
- * Hochschule Muenchen Fakultaet 07 (Informatik).		**
- * Autor: Sebastian Balz
- * Datum 16.10.2017
- *  Software Win 7 JDK8 Win 10 JDK8 Ubuntu 15.4 OpenJDK7	**
- * edu.hm.hafner.analysis
+ * AssertJ for Issues. This class allows fluent interface for Issues
  *
+ * @author Sebastian Balz
  */
-public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
+final public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
     /**
      * Issues hasNumber of Files.
@@ -26,6 +20,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @return this
      */
     public IssuesAssert hasNumberOfFiles(int nFiles) {
+        isNotNull();
         if (actual.getNumberOfFiles() != nFiles) {
             failWithMessage("\nExpecting umberOfFiles of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getNumberOfFiles(), nFiles);
         }
@@ -39,6 +34,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @return this
      */
     public IssuesAssert hasLowPrioritySize(int lprio) {
+        isNotNull();
         if (actual.getLowPrioritySize() != lprio) {
             failWithMessage("\nExpecting LowPrioritySize of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getLowPrioritySize(), lprio);
         }
@@ -52,6 +48,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @return this
      */
     public IssuesAssert hasNormalPrioritySize(int nprio) {
+        isNotNull();
         if (actual.getNormalPrioritySize() != nprio) {
             failWithMessage("\nExpecting NormalPrioritySize of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getNormalPrioritySize(), nprio);
         }
@@ -65,6 +62,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @return this
      */
     public IssuesAssert hasHighPrioritySize(int hprio) {
+        isNotNull();
         if (actual.getHighPrioritySize() != hprio) {
             failWithMessage("\nExpecting HighPrioritySize of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.getHighPrioritySize(), hprio);
         }
@@ -73,10 +71,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
     /**
      * Issues hasSize.
+     *
      * @param size size
      * @return this
      */
     public IssuesAssert hasSize(int size) {
+        isNotNull();
         if (size != actual.getSize() || size != actual.size()) {
             failWithMessage("\nExpecting Size of:\n <%s>\nto be:\n <%s>\nbut was:\n <%s>", actual, actual.size(), size);
         }
@@ -85,6 +85,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
     /**
      * Issues IssuesAssert.
+     *
      * @param actual actual
      */
     static IssuesAssert assertThat(Issues actual) {
@@ -96,12 +97,15 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     }
 
     /**
-     * Issues contains.
-       * @param that actual
+     *      Issues contains.
+     *
+     * @param that actual
+     * @return this
      */
     public IssuesAssert contains(Issue that) {
+        isNotNull();
         if (!actual.all().contains(that)) {
-            failWithMessage("issues does not contain " + that);
+            failWithMessage("\nExpecting that \n<%s> does not captains <%s>\n", actual, that);
         }
 
         return this;
@@ -109,12 +113,14 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
     /**
      * Issues containsNot.
+     *
      * @param that that
      * @return this
      */
     public IssuesAssert containsNot(Issue that) {
+        isNotNull();
         if (actual.all().contains(that)) {
-            failWithMessage("issues does contain " + that);
+            failWithMessage("\nExpecting \n <%s>\n does not captains :\n <%s>", actual, that);
         }
 
         return this;
@@ -122,30 +128,62 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
     /**
      * Issues isEqualTo.
+     *
      * @param that that
      * @return this
      */
     public IssuesAssert isEqualTo(Issues that) {
+        isNotNull();
         ImmutableSet<Issue> origin = actual.all();
         ImmutableSet<Issue> should = that.all();
+
         if (!origin.equals(should)) {
-            failWithMessage("Both Issues are not equal but should ");
+            failWithMessage("\nExpecting \n <%s>\n to be equal with:\n <%s>", actual, that);
         }
         return this;
     }
 
     /**
      * Issues isNotEqualTo.
+     *
      * @param that that
      * @return this
      */
     public IssuesAssert isNotEqualTo(Issues that) {
+        isNotNull();
         ImmutableSet<Issue> origin = actual.all();
         ImmutableSet<Issue> should = that.all();
+
         if (origin.equals(should)) {
-            failWithMessage("Both Issues are equal but should not ");
+            failWithMessage("\nExpecting \n <%s>\n NOT to be equal with:\n <%s>", actual, that);
         }
         return this;
     }
+
+    /**
+     * does the Issues obj contains exactly the given issue.
+     * @param issues
+     * @return
+     */
+    public IssuesAssert containsExactly(Issue... issues) {
+        isNotNull();
+        Iterator<Issue> i = actual.iterator();
+        for (int n = 0; n < issues.length; n++) {
+            if (!i.hasNext()) {
+                failWithMessage("\nExpecting \n <%s>\n has <%s> element  \nbut has : <%s>", actual, issues.length, n);
+            }
+            Issue current = i.next();
+            if (!current.equals(issues[n])) {
+                failWithMessage("\nExpecting \n <%s>\n has at <%s> \n the element \n <%s> but it was \n <%s>", actual, n, issues[n], current);
+            }
+
+        }
+        if (i.hasNext()) {
+            failWithMessage("\nExpecting \n <%s>\n has <%s> \n element  but has more", actual, issues.length);
+        }
+
+        return this;
+    }
+
 
 }

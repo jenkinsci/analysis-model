@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
-import edu.hm.hafner.IssueAssert;
+import edu.hm.hafner.analysis.IssueAssert;
 
 import org.apache.commons.io.input.BOMInputStream;
 

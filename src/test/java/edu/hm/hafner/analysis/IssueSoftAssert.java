@@ -1,21 +1,20 @@
-package edu.hm.hafner;
+package edu.hm.hafner.analysis;
 
 import edu.hm.hafner.analysis.Issue;
 
 import org.assertj.core.api.SoftAssertions;
+
+
 /**
- * *****************************************************************
- * Hochschule Muenchen Fakultaet 07 (Informatik).		**
- * Autor: Sebastian Balz
- * Datum 16.10.2017
- *  Software Win 7 JDK8 Win 10 JDK8 Ubuntu 15.4 OpenJDK7	**
- * edu.hm.hafner.analysis
+ * AssertJ for Issue. This class allows soft assertions for Issue.
  *
+ * @author Sebastian Balz
  */
 class IssueSoftAssert extends SoftAssertions {
 
     /**
      * assert.
+     *
      * @param actual that
      * @return this
      */
