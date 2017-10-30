@@ -65,6 +65,7 @@ public class Issues implements Iterable<Issue> {
     public Issue remove(final UUID id) {
         for (int i = 0; i < elements.size(); i++) {
             if (elements.get(i).getId().equals(id)) {
+                sizeOfPriority[elements.get(i).getPriority().ordinal()]--;
                 return elements.remove(i);
             }
         }
