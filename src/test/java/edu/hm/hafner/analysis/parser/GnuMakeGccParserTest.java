@@ -203,20 +203,20 @@ public class GnuMakeGccParserTest extends ParserTester {
     /**
      * Checks that paths of the type "/c/anything" are changed to "c:/anything" on windows but no other OS
      */
-    private void checkOsSpecificPath(String os, String rootDir) throws IOException {
+    private void checkOsSpecificPath(final String os, final String rootDir) {
 
         Issues warnings = new GnuMakeGccParser(os).parse(openFile());
-        Iterator<Issue> iterator = warnings.iterator();
-        for (int i = 0; i < 14; i++) //Skip the first 14 warnings, we are only interested in the 15th one
-        {
-            iterator.next();
-        }
+        IssueAssertSoft softly = new IssueAssertSoft();
 
-        checkWarning(iterator.next(),
-                20,
-                "I'm warning you! He's got huge, sharp... er... He can leap about.",
-                rootDir + "/dir5/grail.cpp",
-                WARNING_TYPE, WARNING_CATEGORY, Priority.NORMAL);
+        softly.assertThat(warnings.get(14))
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(WARNING_CATEGORY)
+                .hasLineStart(20)
+                .hasLineEnd(20)
+                .hasMessage("I'm warning you! He's got huge, sharp... er... He can leap about.")
+                .hasFileName(rootDir + "/dir5/grail.cpp")
+                .hasType(WARNING_TYPE);
+        softly.assertAll();
 
     }
 
