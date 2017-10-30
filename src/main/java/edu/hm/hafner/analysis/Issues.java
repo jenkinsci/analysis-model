@@ -207,7 +207,7 @@ public class Issues implements Iterable<Issue> {
     }
 
     /**
-     * Returns a swallow copy of this issue container.
+     * Returns a shallow copy of this issue container.
      *
      * @return a new issue container that contains the same elements in the same order
      */
