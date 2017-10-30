@@ -9,6 +9,7 @@ import org.assertj.core.api.AbstractAssert;
  *
  * @author Michael Schmid
  */
+@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
 
@@ -20,25 +21,21 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return new IssueAssert(actualIssue);
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasFileName(final String fileName) {
         checkString("filename", fileName, actual.getFileName());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasCategory(final String category) {
         checkString("category", category, actual.getCategory());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasType(final String type) {
         checkString("type", type, actual.getType());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasPriority(final Priority priority) {
         isNotNull();
         if (!Objects.equals(actual.getPriority(), priority)) {
@@ -47,55 +44,46 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasMessage(final String message) {
         checkString("message", message, actual.getMessage());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasDescription(final String description) {
         checkString("description", description, actual.getDescription());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasPackageName(final String packageName) {
         checkString("packageName", packageName, actual.getPackageName());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasFingerprint(final String fingerprint) {
         checkString("fingerprint", fingerprint, actual.getFingerprint());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasLineStart(final int lineStart) {
         checkInt("lineStart", lineStart, actual.getLineStart());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasLineEnd(final int lineEnd) {
         checkInt("lineEnd", lineEnd, actual.getLineEnd());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasColumnStart(final int columnStart) {
         checkInt("columnStart", columnStart, actual.getColumnStart());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssueAssert hasColumnEnd(final int columnEnd) {
         checkInt("columnEnd", columnEnd, actual.getColumnEnd());
         return this;
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     private void checkString(final String usage, final String expected, final String actualString) {
         isNotNull();
         if (!Objects.equals(actualString, expected)) {
@@ -103,7 +91,6 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         }
     }
 
-    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     private void checkInt(final String usage, final int expected, final int actualInt) {
         isNotNull();
         if (actualInt != expected) {
