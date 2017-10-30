@@ -12,15 +12,14 @@ import static edu.hm.hafner.analysis.IssueAssert.assertThat;
 
 /**
  * Tests the class {@link Issues}.
- *
- * @author slausch
  */
 class IssuesTest {
     /**
      * Builds a dummy Issue for testing purposes.
+     *
      * @return Issue dummy
      */
-    private Issue buildTestIssue(){
+    private Issue buildTestIssue() {
         Issue issue = new IssueBuilder()
                 .setLineStart(1)
                 .setLineEnd(2)
@@ -36,9 +35,12 @@ class IssuesTest {
                 .build();
         return issue;
     }
-    /**Verifies correct setup of initialized Issues.*/
+
+    /**
+     * Verifies correct setup of initialized Issues.
+     */
     @Test
-    void testInitialSizeZero(){
+    void testInitialSizeZero() {
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
         Issues issues = new Issues();
         Issue testingIssue = buildTestIssue();
@@ -48,14 +50,17 @@ class IssuesTest {
         softly.assertThat(issues).hasLowPrioritySize(0);
         softly.assertThat(issues).hasHighPrioritySize(0);
         softly.assertThat(issues).hasNumberOfFiles(0);
-        softly.assertThatThrownBy(()-> issues.get(0))
+        softly.assertThatThrownBy(() -> issues.get(0))
                 .isInstanceOf(IndexOutOfBoundsException.class);
-        softly.assertThatThrownBy(()-> issues.findById(testingIssue.getId()))
+        softly.assertThatThrownBy(() -> issues.findById(testingIssue.getId()))
                 .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("No issue found with id %s.", testingIssue.getId());
+                .hasMessageContaining(testingIssue.getId().toString());
         softly.assertAll();
     }
-    /**Verifies whether Issues changes correctly when adding and removing one Issue.*/
+
+    /**
+     * Verifies whether Issues changes correctly when adding and removing one Issue.
+     */
     @Test
     void testIssuesAddAndRemoveOneElement() {
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
@@ -80,35 +85,28 @@ class IssuesTest {
                 .isInstanceOf(IndexOutOfBoundsException.class);
         softly.assertThatThrownBy(() -> issues.findById(testingIssue.getId()))
                 .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("No issue found with id %s.", testingIssue.getId());
+                .hasMessageContaining(testingIssue.getId().toString());
 
         softly.assertAll();
     }
-    /**Verifies that it is not possible to delete an Issue twice.*/
+
+    /**
+     * Verifies whether Issues can find an specific Issue by ID.
+     */
     @Test
-    void testNoDoubleDeletionPossible(){
-        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
-        Issues issues = new Issues();
-        Issue testingIssue = buildTestIssue();
-        issues.add(testingIssue);
-        issues.remove(testingIssue.getId());
-        softly.assertThatThrownBy(()-> issues.remove(testingIssue.getId()))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("No issue found with id %s.", testingIssue.getId());
-        softly.assertAll();
-    }
-    /**Verifies whether Issues can find an specific Issue by ID.*/
-    @Test
-    void testFindingIssuesById(){
+    void testFindingIssuesById() {
         Issues issues = new Issues();
         Issue testingIssue = buildTestIssue();
         issues.add(testingIssue);
         Issue foundIssue = issues.findById(testingIssue.getId());
-        assertThat(testingIssue).isEqualTo(foundIssue);
+        assertThat(testingIssue).isSameAs(foundIssue);
     }
-    /**Verifies whether Issues can add Issue elements from another Collection.*/
+
+    /**
+     * Verifies whether Issues can add Issue elements from another Collection.
+     */
     @Test
-    void testAddingIssuesFromCollection(){
+    void testAddingIssuesFromCollection() {
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
         Issues issues = new Issues();
         Collection<Issue> issuesToAdd = new ArrayList<>();
@@ -125,9 +123,12 @@ class IssuesTest {
         softly.assertThat(issues).hasNumberOfFiles(2);
         softly.assertAll();
     }
-    /**Verifies whether you can create a correct copy of Issues.*/
+
+    /**
+     * Verifies whether you can create a correct copy of Issues.
+     */
     @Test
-    void testCopyingIssues(){
+    void testCopyingIssues() {
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
         Issues issues = new Issues();
         Issue testingIssue = buildTestIssue();
@@ -141,9 +142,12 @@ class IssuesTest {
         softly.assertThat(copyOfIssues).hasHighPrioritySize(0);
         softly.assertThat(copyOfIssues).hasNumberOfFiles(1);
     }
-    /**Verifies whether Issues can find all contained Issue elements with a specific Property.*/
+
+    /**
+     * Verifies whether Issues can find all contained Issue elements with a specific Property.
+     */
     @Test
-    void testFindingIssuesByProperty(){
+    void testFindingIssuesByProperty() {
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
         Predicate<Issue> issuesWithNormalPriority = (Issue issue) -> issue.getPriority().equals(Priority.NORMAL);
         Issues issues = new Issues();
@@ -157,4 +161,16 @@ class IssuesTest {
 
     }
 
+    /**
+     * Verifies whether Issues is correctly represented as a String.
+     */
+    @Test
+    void testStringRepresentation() {
+        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
+        Issues issues = new Issues();
+        softly.assertThat(issues.toString()).isEqualTo("0 issues");
+        issues.add(buildTestIssue());
+        softly.assertThat(issues.toString()).isEqualTo("1 issues");
+        softly.assertAll();
+    }
 }

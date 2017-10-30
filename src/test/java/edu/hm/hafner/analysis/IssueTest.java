@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link Issue} by building it with {@link IssueBuilder}.
- *
- * @author slausch
  */
 class IssueTest {
 
-    /**Verifies correctly build issue with default values.*/
+    /**
+     * Verifies correctly build issue with default values.
+     */
     @Test
-    void testDefaultValues(){
+    void testDefaultValues() {
         IssueBuilder builder = new IssueBuilder();
         Issue issue = builder.build();
         Issue issueToCompare = builder.build();
@@ -39,14 +39,16 @@ class IssueTest {
         softly.assertAll();
     }
 
-    /**Verifies correctly build issue with custom values.*/
+    /**
+     * Verifies correctly build issue with custom values.
+     */
     @Test
-    void testCustomValues(){
+    void testCustomValues() {
         Issue issue = new IssueBuilder()
                 .setLineStart(1)
                 .setLineEnd(2)
                 .setMessage(" message  ")
-                .setFileName("\\filename")
+                .setFileName("\\foldername/filename")
                 .setCategory("category")
                 .setPriority(Priority.LOW)
                 .setColumnStart(1)
@@ -59,7 +61,7 @@ class IssueTest {
         softly.assertThat(issue).hasLineStart(1);
         softly.assertThat(issue).hasLineEnd(2);
         softly.assertThat(issue).hasMessage("message");
-        softly.assertThat(issue).hasFileName("/filename");
+        softly.assertThat(issue).hasFileName("/foldername/filename");
         softly.assertThat(issue).hasCategory("category");
         softly.assertThat(issue).hasPriority(Priority.LOW);
         softly.assertThat(issue).hasColumnStart(1);

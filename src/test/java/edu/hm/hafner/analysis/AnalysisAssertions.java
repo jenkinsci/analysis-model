@@ -4,12 +4,10 @@ import org.assertj.core.api.Assertions;
 
 /**
  * Class used as an entry point for custom AssertJ assertions.
- *
+ * <p>
  * Supports assertions for
  * {@link Issue}
  * {@link Issues}
- *
- * @author slausch
  */
 public class AnalysisAssertions extends Assertions {
 
