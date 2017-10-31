@@ -38,17 +38,34 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     }
 
     /**
-     * Checks whether an Issue has a specific filename.
+     * Checks whether an Issue has a specific id.
      *
-     * @param filename String specifying filename.
+     * @param id id specifying id.
      * @return this
      */
-    public IssueAssert hasFileName(final String filename) {
+    public IssueAssert hasId(final UUID id) {
         isNotNull();
 
-        if (!Objects.equals(actual.getFileName(), filename)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, filename, actual.getFileName());
+        if (!Objects.equals(actual.getId(), id)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "id", actual, id, actual.getId());
         }
+
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue has a specific filename.
+     *
+     * @param fileName String specifying filename.
+     * @return this
+     */
+    public IssueAssert hasFileName(final String fileName) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getFileName(), fileName)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "file name", actual, fileName, actual.getFileName());
+        }
+
         return this;
     }
 
@@ -62,8 +79,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getCategory(), category)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, category, actual.getCategory());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "category", actual, category, actual.getCategory());
         }
+
         return this;
     }
 
@@ -77,8 +95,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getType(), type)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, type, actual.getType());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "type", actual, type, actual.getType());
         }
+
         return this;
     }
 
@@ -92,8 +111,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getPriority(), priority)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, priority, actual.getPriority());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, priority, actual.getPriority());
         }
+
         return this;
     }
 
@@ -107,8 +127,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getMessage(), message)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, message, actual.getMessage());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "message", actual, message, actual.getMessage());
         }
+
         return this;
     }
 
@@ -122,22 +143,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getDescription(), description)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, description, actual.getDescription());
-        }
-        return this;
-    }
-
-    /**
-     * Checks whether an Issue has a specific packageName.
-     *
-     * @param packageName String specifying packageName.
-     * @return this
-     */
-    public IssueAssert hasPackageName(final String packageName) {
-        isNotNull();
-
-        if (!Objects.equals(actual.getPackageName(), packageName)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, packageName, actual.getPackageName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "description", actual, description, actual.getDescription());
         }
         return this;
     }
@@ -152,7 +158,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineStart() != lineStart) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, lineStart, actual.getLineStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line start", actual, lineStart, actual.getLineStart());
         }
         return this;
     }
@@ -167,7 +173,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineEnd() != lineEnd) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, lineEnd, actual.getLineEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line end", actual, lineEnd, actual.getLineEnd());
         }
         return this;
     }
@@ -182,7 +188,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnStart() != columnStart) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, columnStart, actual.getColumnStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column start", actual, columnStart, actual.getColumnStart());
         }
         return this;
     }
@@ -197,24 +203,23 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnEnd() != columnEnd) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, columnEnd, actual.getColumnEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column end", actual, columnEnd, actual.getColumnEnd());
         }
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific id.
+     * Checks whether an Issue has a specific packageName.
      *
-     * @param id id specifying id.
+     * @param packageName String specifying packageName.
      * @return this
      */
-    public IssueAssert hasId(final UUID id) {
+    public IssueAssert hasPackageName(final String packageName) {
         isNotNull();
 
-        if (!Objects.equals(actual.getId(), id)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, id, actual.getId());
+        if (!Objects.equals(actual.getPackageName(), packageName)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "package name", actual, packageName, actual.getPackageName());
         }
-
         return this;
     }
 
@@ -228,7 +233,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getFingerprint(), fingerprint)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, fingerprint, actual.getFingerprint());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "fingerprint", actual, fingerprint, actual.getFingerprint());
         }
         return this;
     }
