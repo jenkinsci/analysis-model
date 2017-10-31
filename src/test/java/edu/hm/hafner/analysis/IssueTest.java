@@ -8,22 +8,27 @@ import static org.assertj.core.api.Assertions.*;
 
 /**
  * Unit test for {@link Issue}.
+ *
+ * @author Marcel Binder
  */
 class IssueTest {
-    private static final String FILE_NAME = "file-name";
-    private static final int LINE_START = 1;
-    private static final int LINE_END = 2;
-    private static final int COLUMN_START = 3;
-    private static final int COLUMN_END = 4;
-    private static final String CATEGORY = "category";
-    private static final String TYPE = "type";
-    private static final String PACKAGE_NAME = "package-name";
-    private static final Priority PRIORITY = Priority.HIGH;
-    private static final String MESSAGE = "message";
-    private static final String DESCRIPTION = "description";
-    private static final String EMPTY = "";
-    private static final String UNDEFINED = "-";
-    private static final String FINGERPRINT = "fingerprint";
+    static final String FILE_NAME = "C:/users/tester/file-name";
+    static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+    static final int LINE_START = 1;
+    static final int LINE_END = 2;
+    static final int COLUMN_START = 3;
+    static final int COLUMN_END = 4;
+    static final String CATEGORY = "category";
+    static final String TYPE = "type";
+    static final String PACKAGE_NAME = "package-name";
+    static final Priority PRIORITY = Priority.HIGH;
+    static final String MESSAGE = "message";
+    static final String MESSAGE_NOT_STRIPPED = "    message  ";
+    static final String DESCRIPTION = "description";
+    static final String DESCRIPTION_NOT_STRIPPED = "    description  ";
+    static final String EMPTY = "";
+    static final String UNDEFINED = "-";
+    static final String FINGERPRINT = "fingerprint";
 
     @Test
     void testIssue() {
@@ -60,7 +65,7 @@ class IssueTest {
         assertIsDefaultIssue(issue);
     }
 
-    void assertIsDefaultIssue(final Issue issue) {
+    private void assertIsDefaultIssue(final Issue issue) {
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
         softly.assertThat(issue.getId()).isNotNull();
         softly.assertThat(issue).hasFileName(UNDEFINED);
@@ -129,6 +134,23 @@ class IssueTest {
             assertThat(issue.toString()).doesNotContain(PRIORITY.name());
             assertThat(issue.toString()).contains(MESSAGE);
             assertThat(issue.toString()).doesNotContain(DESCRIPTION);
+        });
+    }
+
+    @Test
+    void testFileNameBackslashConversion() {
+        Issue issue = new Issue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, PRIORITY, MESSAGE, DESCRIPTION);
+
+        assertThat(issue.getFileName()).isEqualTo(FILE_NAME);
+    }
+
+    @Test
+    void testMessageDescriptionStripped() {
+        Issue issue = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, PRIORITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED);
+
+        assertSoftly(softly -> {
+            assertThat(issue.getMessage()).isEqualTo(MESSAGE);
+            assertThat(issue.getDescription()).isEqualTo(DESCRIPTION);
         });
     }
 }

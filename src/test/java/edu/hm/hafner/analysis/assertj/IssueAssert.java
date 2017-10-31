@@ -8,7 +8,14 @@ import org.assertj.core.api.AbstractAssert;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
 
+/**
+ * Assertion for {@link Issue}.
+ *
+ * @author Marcel Binder
+ */
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
+    private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
+
     public IssueAssert(final Issue actual) {
         super(actual, IssueAssert.class);
     }
@@ -21,7 +28,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getId(), id)) {
-            failWithMessage("Expected issue's id to be <%s> but was <%s>", id, actual.getId());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "id", actual, id, actual.getId());
         }
         return this;
     }
@@ -30,7 +37,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getFileName(), fileName)) {
-            failWithMessage("Expected issue's file name to be <%s> but was <%s>", fileName, actual.getFileName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "file name", actual, fileName, actual.getFileName());
         }
         return this;
     }
@@ -39,7 +46,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getCategory(), category)) {
-            failWithMessage("Expected issue's category to be <%s> but was <%s>", category, actual.getCategory());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "category", actual, category, actual.getCategory());
         }
         return this;
     }
@@ -48,7 +55,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getType(), type)) {
-            failWithMessage("Expected issue's type to be <%s> but was <%s>", type, actual.getType());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "type", actual, type, actual.getType());
         }
         return this;
     }
@@ -57,7 +64,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getPriority(), priority)) {
-            failWithMessage("Expected issue's priority to be <%s> but was <%s>", priority, actual.getPriority());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, priority, actual.getPriority());
         }
         return this;
     }
@@ -66,7 +73,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getMessage(), message)) {
-            failWithMessage("Expected issue's message to be <%s> but was <%s>", message, actual.getMessage());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "message", actual, message, actual.getMessage());
         }
         return this;
     }
@@ -75,7 +82,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getDescription(), description)) {
-            failWithMessage("Expected issue's description to be <%s> but was <%s>", description, actual.getDescription());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "description", actual, description, actual.getDescription());
         }
         return this;
     }
@@ -84,7 +91,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineStart() != lineStart) {
-            failWithMessage("Expected issue's line start to be <%d> but was <%d>", lineStart, actual.getLineStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line start", actual, lineStart, actual.getLineStart());
         }
         return this;
     }
@@ -93,7 +100,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineEnd() != lineEnd) {
-            failWithMessage("Expected issue's line end to be <%d> but was <%d>", lineEnd, actual.getLineEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line end", actual, lineEnd, actual.getLineEnd());
         }
         return this;
     }
@@ -102,7 +109,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnStart() != columnStart) {
-            failWithMessage("Expected issue's column start to be <%d> but was <%d>", columnStart, actual.getColumnStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column start", actual, columnStart, actual.getColumnStart());
         }
         return this;
     }
@@ -111,7 +118,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnEnd() != columnEnd) {
-            failWithMessage("Expected issue's column end to be <%d> but was <%d>", columnEnd, actual.getColumnEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column end", actual, columnEnd, actual.getColumnEnd());
         }
         return this;
     }
@@ -120,7 +127,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getPackageName(), packageName)) {
-            failWithMessage("Expected issue's package name to be <%s> but was <%s>", packageName, actual.getPackageName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "package name", actual, packageName, actual.getPackageName());
         }
         return this;
     }
@@ -129,7 +136,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!Objects.equals(actual.getFingerprint(), fingerprint)) {
-            failWithMessage("Expected issue's fingerprint to be <%s> but was <%s>", fingerprint, actual.getFingerprint());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "fingerprint", actual, fingerprint, actual.getFingerprint());
         }
         return this;
     }

@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.SortedSet;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableList;
@@ -17,6 +19,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 /**
  * Unit test for {@link Issues}.
+ *
+ * @author Marcel Binder
  */
 class IssuesTest {
     private static final Issue ISSUE_1 = new IssueBuilder().setMessage("issue-1").setFileName("file-1").setPriority(Priority.HIGH).build();
@@ -68,14 +72,15 @@ class IssuesTest {
         assertAllIssuesAdded(issues);
     }
 
-    private void assertAllIssuesAdded(Issues issues) {
+    private void assertAllIssuesAdded(final Issues issues) {
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
         softly.assertThat(issues).hasSize(6);
         softly.assertThat(issues).hasNumberOfFiles(3);
+        softly.assertThat(issues.getFiles()).containsExactly("file-1", "file-2", "file-3");
         softly.assertThat(issues).hasHighPrioritySize(1);
         softly.assertThat(issues).hasNormalPrioritySize(2);
         softly.assertThat(issues).hasLowPrioritySize(3);
-        softly.assertThat(issues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+        ((SoftAssertions) softly).assertThat(issues).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
         softly.assertAll();
     }
 
@@ -197,7 +202,7 @@ class IssuesTest {
         Issues issues = new Issues();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
 
-        assertThat(issues.iterator()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
+        Assertions.assertThat(issues).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
     }
 
     @Test
