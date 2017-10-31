@@ -9,10 +9,11 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
 
 /**
- * Assertion for {@link Issue}.
+ * Assertions for {@link Issue}.
  *
  * @author Marcel Binder
  */
+@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
@@ -20,6 +21,13 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         super(actual, IssueAssert.class);
     }
 
+    /**
+     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
+     *
+     * @param actual the issue we want to make assertions on
+     * @return a new {@link IssueAssert}
+     */
+    @SuppressWarnings("ParameterHidesMemberVariable")
     public static IssueAssert assertThat(final Issue actual) {
         return new IssueAssert(actual);
     }

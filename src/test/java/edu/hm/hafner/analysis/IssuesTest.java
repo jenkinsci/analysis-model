@@ -5,20 +5,17 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.SortedSet;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableList;
 
-import edu.hm.hafner.analysis.assertj.AnalysisSoftAssertions;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
+import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 /**
- * Unit test for {@link Issues}.
+ * Unit tests for {@link Issues}.
  *
  * @author Marcel Binder
  */
@@ -73,15 +70,19 @@ class IssuesTest {
     }
 
     private void assertAllIssuesAdded(final Issues issues) {
-        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
-        softly.assertThat(issues).hasSize(6);
-        softly.assertThat(issues).hasNumberOfFiles(3);
-        softly.assertThat(issues.getFiles()).containsExactly("file-1", "file-2", "file-3");
-        softly.assertThat(issues).hasHighPrioritySize(1);
-        softly.assertThat(issues).hasNormalPrioritySize(2);
-        softly.assertThat(issues).hasLowPrioritySize(3);
-        ((SoftAssertions) softly).assertThat(issues).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
-        softly.assertAll();
+        assertSoftly(softly -> {
+            softly.assertThat(issues)
+                  .hasSize(6)
+                  .hasNumberOfFiles(3)
+                  .hasHighPrioritySize(1)
+                  .hasNormalPrioritySize(2)
+                  .hasLowPrioritySize(3);
+            softly.assertThat(issues.getFiles()).containsExactly("file-1", "file-2", "file-3");
+            softly.assertThat((Iterable<Issue>) issues)
+                  .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+            softly.assertThat(issues.all())
+                  .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+        });
     }
 
     @Test
@@ -90,9 +91,12 @@ class IssuesTest {
         issues.addAll(asList(ISSUE_1, ISSUE_1));
 
         assertThat(issues.all()).contains(ISSUE_1, ISSUE_1);
-        assertThat(issues).hasSize(2);
-        assertThat(issues).hasNumberOfFiles(1);
-        assertThat(issues).hasHighPrioritySize(2);
+        assertThat(issues)
+                .hasSize(2)
+                .hasNumberOfFiles(1)
+                .hasLowPrioritySize(0)
+                .hasNormalPrioritySize(0)
+                .hasHighPrioritySize(2);
     }
 
     @Test
@@ -104,6 +108,7 @@ class IssuesTest {
 
         assertThat(removed).isEqualTo(ISSUE_1);
         assertThat(issues.all()).containsOnly(ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+        assertThat((Iterable<Issue>)issues).containsOnly(ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
         assertThat(issues).hasSize(5);
         assertThat(issues).hasNumberOfFiles(3);
         assertThat(issues).hasHighPrioritySize(0);
@@ -192,6 +197,7 @@ class IssuesTest {
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
         ImmutableList<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.HIGH));
 
+        //noinspection deprecation
         assertThatThrownBy(() -> found.add(ISSUE_4))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasNoCause();
@@ -202,7 +208,7 @@ class IssuesTest {
         Issues issues = new Issues();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
 
-        Assertions.assertThat(issues).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
+        assertThat((Iterable<Issue>)issues).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
     }
 
     @Test

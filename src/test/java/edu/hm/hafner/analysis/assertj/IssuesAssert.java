@@ -5,10 +5,11 @@ import org.assertj.core.api.AbstractAssert;
 import edu.hm.hafner.analysis.Issues;
 
 /**
- * Assertion for {@link Issues}.
+ * Assertions for {@link Issues}.
  *
  * @author Marcel Binder
  */
+@SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion"})
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
@@ -16,6 +17,13 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         super(actual, IssuesAssert.class);
     }
 
+    /**
+     * An entry point for {@link IssuesAssert} to follow AssertJ standard {@code assertThat()}. With a static import,
+     * one can write directly {@code assertThat(myIssues)} and get a specific assertion with code completion.
+     *
+     * @param actual the issues we want to make assertions on
+     * @return a new {@link IssuesAssert}
+     */
     public static IssuesAssert assertThat(final Issues actual) {
         return new IssuesAssert(actual);
     }
