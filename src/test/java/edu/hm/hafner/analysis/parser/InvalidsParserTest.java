@@ -5,11 +5,10 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Assertions.IssueSoftAssertion;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.Assertions.IssuesAssert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link InvalidsParser}.
@@ -24,53 +23,28 @@ public class InvalidsParserTest extends ParserTester {
     public void testParser() throws IOException {
         Issues warnings = new InvalidsParser().parse(openFile());
 
-        assertThat(warnings).hasSize(3);
+        assertEquals(3, warnings.size());
 
         Iterator<Issue> iterator = warnings.iterator();
-
-        Issue firstAnnotation = iterator.next();
+        Issue annotation = iterator.next();
         String type = "Oracle Invalid";
-        IssueSoftAssertion.assertIssueSoftly(softly -> {
-
-            softly.assertThat(firstAnnotation)
-                    .hasPriority(Priority.NORMAL)
-                    .hasCategory("PLW-05004")
-                    .hasLineStart(45)
-                    .hasLineEnd(45)
-                    .hasMessage("Encountered the symbol \"END\" when expecting one of the following:")
-                    .hasFileName("ENV_UTIL#.PACKAGE BODY")
-                    .hasType(type)
-                    .hasPackageName("E");
-        });
-
-        Issue secondAnnotation = iterator.next();
-        IssueSoftAssertion.assertIssueSoftly(softly -> {
-
-            softly.assertThat(secondAnnotation)
-                    .hasPriority(Priority.LOW)
-                    .hasCategory("PLW-07202")
-                    .hasLineStart(5)
-                    .hasLineEnd(5)
-                    .hasMessage("Encountered the symbol \"END\" when expecting one of the following:")
-                    .hasFileName("ENV_ABBR#B.TRIGGER")
-                    .hasType(type)
-                    .hasPackageName("E");
-        });
-
-        Issue thirdAnnotation = iterator.next();
-        IssueSoftAssertion.assertIssueSoftly(softly -> {
-
-            softly.assertThat(thirdAnnotation)
-                    .hasPriority(Priority.HIGH)
-                    .hasCategory("ORA-29521")
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasMessage("referenced name javax/management/MBeanConstructorInfo could not be found")
-                    .hasFileName("/b77ce675_LoggerDynamicMBean.JAVA CLASS")
-                    .hasType(type)
-                    .hasPackageName("E");
-        });
-
+        checkWarning(annotation,
+                45,
+                "Encountered the symbol \"END\" when expecting one of the following:",
+                "ENV_UTIL#.PACKAGE BODY", type, "PLW-05004", Priority.NORMAL);
+        assertEquals("E", annotation.getPackageName(), "wrong schema detected");
+        annotation = iterator.next();
+        checkWarning(annotation,
+                5,
+                "Encountered the symbol \"END\" when expecting one of the following:",
+                "ENV_ABBR#B.TRIGGER", type, "PLW-07202", Priority.LOW);
+        assertEquals("E", annotation.getPackageName(), "wrong schema detected");
+        annotation = iterator.next();
+        checkWarning(annotation,
+                0,
+                "referenced name javax/management/MBeanConstructorInfo could not be found",
+                "/b77ce675_LoggerDynamicMBean.JAVA CLASS", type, "ORA-29521", Priority.HIGH);
+        assertEquals("E", annotation.getPackageName(), "wrong schema detected");
     }
 
     @Override

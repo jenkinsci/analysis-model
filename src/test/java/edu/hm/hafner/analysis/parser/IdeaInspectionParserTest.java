@@ -5,11 +5,10 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Assertions.IssueSoftAssertion;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.Assertions.IssuesAssert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests {@link IdeaInspectionParser } parser class.
@@ -26,23 +25,16 @@ public class IdeaInspectionParserTest extends ParserTester {
     public void parse() throws IOException {
         Issues inspections = new IdeaInspectionParser().parse(openFile());
 
-        assertThat(inspections).hasSize(1);
+        assertEquals(1, inspections.size());
 
         Iterator<Issue> iterator = inspections.iterator();
-
         Issue annotation = iterator.next();
-        IssueSoftAssertion.assertIssueSoftly(softly -> {
-
-            softly.assertThat(annotation)
-                    .hasPriority(Priority.NORMAL)
-                    .hasCategory("Unused method parameters")
-                    .hasLineStart(42)
-                    .hasLineEnd(42)
-                    .hasMessage("Parameter <code>intentionallyUnusedString</code> is not used  in either this method or any of its derived methods")
-                    .hasFileName("file://$PROJECT_DIR$/src/main/java/org/lopashev/Test.java");
-
-
-        });
+        checkWarning(annotation,
+                42,
+                "Parameter <code>intentionallyUnusedString</code> is not used  in either this method or any of its derived methods",
+                "file://$PROJECT_DIR$/src/main/java/org/lopashev/Test.java",
+                "Unused method parameters",
+                Priority.NORMAL);
     }
 
     @Override
