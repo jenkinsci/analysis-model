@@ -61,6 +61,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return containsExactly(Arrays.asList(issues));
     }
 
+
     /**
      * Assert that the issues object contains the issue elements in the same order as the parameter collection.
      * @param issues expected order of issue elements

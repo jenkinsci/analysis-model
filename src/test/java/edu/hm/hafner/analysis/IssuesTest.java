@@ -35,20 +35,6 @@ class IssuesTest {
                 .hasToString("1 issues");
     }
 
-    /** Verify that a new issues object hasn't any issue */
-    @Test
-    void noAddIssueCheckNotContains() {
-        Issues sut = new Issues();
-        Issue issue = new IssueBuilder().build();
-        assertThat(sut)
-                .doesNotContain(issue)
-                .hasSize(0)
-                .hasSizeOfPriorityHigh(0)
-                .hasSizeOfPriorityLow(0)
-                .hasSizeOfPriorityNormal(0)
-                .hasToString("0 issues");
-    }
-
     /** Verify that the remove method removes the issue and decreases the priority counter*/
     @Test
     void addAndRemoveIssue() {
