@@ -123,17 +123,17 @@ class IssueTest {
         Issue issue = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, PRIORITY, MESSAGE, DESCRIPTION);
 
         assertSoftly(softly -> {
-            assertThat(issue.toString()).contains(FILE_NAME);
-            assertThat(issue.toString()).contains(Integer.toString(LINE_START));
-            assertThat(issue.toString()).doesNotContain(Integer.toString(LINE_END));
-            assertThat(issue.toString()).contains(Integer.toString(COLUMN_START));
-            assertThat(issue.toString()).doesNotContain(Integer.toString(COLUMN_END));
-            assertThat(issue.toString()).contains(CATEGORY);
-            assertThat(issue.toString()).contains(TYPE);
-            assertThat(issue.toString()).doesNotContain(PACKAGE_NAME);
-            assertThat(issue.toString()).doesNotContain(PRIORITY.name());
-            assertThat(issue.toString()).contains(MESSAGE);
-            assertThat(issue.toString()).doesNotContain(DESCRIPTION);
+            softly.assertThat(issue.toString()).contains(FILE_NAME);
+            softly.assertThat(issue.toString()).contains(Integer.toString(LINE_START));
+            softly.assertThat(issue.toString()).doesNotContain(Integer.toString(LINE_END));
+            softly.assertThat(issue.toString()).contains(Integer.toString(COLUMN_START));
+            softly.assertThat(issue.toString()).doesNotContain(Integer.toString(COLUMN_END));
+            softly.assertThat(issue.toString()).contains(CATEGORY);
+            softly.assertThat(issue.toString()).contains(TYPE);
+            softly.assertThat(issue.toString()).doesNotContain(PACKAGE_NAME);
+            softly.assertThat(issue.toString()).doesNotContain(PRIORITY.name());
+            softly.assertThat(issue.toString()).contains(MESSAGE);
+            softly.assertThat(issue.toString()).doesNotContain(DESCRIPTION);
         });
     }
 
@@ -149,8 +149,8 @@ class IssueTest {
         Issue issue = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, PRIORITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED);
 
         assertSoftly(softly -> {
-            assertThat(issue.getMessage()).isEqualTo(MESSAGE);
-            assertThat(issue.getDescription()).isEqualTo(DESCRIPTION);
+            softly.assertThat(issue.getMessage()).isEqualTo(MESSAGE);
+            softly.assertThat(issue.getDescription()).isEqualTo(DESCRIPTION);
         });
     }
 }
