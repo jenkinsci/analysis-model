@@ -127,15 +127,10 @@ class IssueTest {
         assertSoftly(softly -> {
             softly.assertThat(issue.toString()).contains(FILE_NAME);
             softly.assertThat(issue.toString()).contains(Integer.toString(LINE_START));
-            softly.assertThat(issue.toString()).doesNotContain(Integer.toString(LINE_END));
             softly.assertThat(issue.toString()).contains(Integer.toString(COLUMN_START));
-            softly.assertThat(issue.toString()).doesNotContain(Integer.toString(COLUMN_END));
             softly.assertThat(issue.toString()).contains(CATEGORY);
             softly.assertThat(issue.toString()).contains(TYPE);
-            softly.assertThat(issue.toString()).doesNotContain(PACKAGE_NAME);
-            softly.assertThat(issue.toString()).doesNotContain(PRIORITY.name());
             softly.assertThat(issue.toString()).contains(MESSAGE);
-            softly.assertThat(issue.toString()).doesNotContain(DESCRIPTION);
         });
     }
 
