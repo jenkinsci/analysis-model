@@ -13,6 +13,11 @@ import edu.hm.hafner.analysis.Issues;
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
+    /**
+     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issues}.
+     *
+     * @param actual the issue we want to make assertions on
+     */
     public IssuesAssert(final Issues actual) {
         super(actual, IssuesAssert.class);
     }
@@ -28,6 +33,13 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return new IssuesAssert(actual);
     }
 
+    /**
+     * Verifies that the actual size of the {@link Issues} instance is equal to the given one.
+     *
+     * @param size the expected size to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size is not equal to the given one.
+     */
     public IssuesAssert hasSize(final int size) {
         isNotNull();
 
@@ -37,6 +49,13 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Verifies that the actual size of high priority issues in the {@link Issues} instance is equal to the given one.
+     *
+     * @param highPrioritySize the expected size of high priority issues to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size of high priority issues is not equal to the given one.
+     */
     public IssuesAssert hasHighPrioritySize(final int highPrioritySize) {
         isNotNull();
 
@@ -46,6 +65,16 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Verifies that the actual size of normal priority issues in the {@link Issues} instance is equal to the given
+     * one.
+     *
+     * @param normalPrioritySize the expected size of normal priority issues to compare the actual {@link Issues} size
+     *                           to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size of normal priority issues is not equal to the given
+     *                        one.
+     */
     public IssuesAssert hasNormalPrioritySize(final int normalPrioritySize) {
         isNotNull();
 
@@ -55,6 +84,13 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Verifies that the actual size of low priority issues in the {@link Issues} instance is equal to the given one.
+     *
+     * @param lowPrioritySize the expected size of low priority issues to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size of low priority issues is not equal to the given one.
+     */
     public IssuesAssert hasLowPrioritySize(final int lowPrioritySize) {
         isNotNull();
 
@@ -64,6 +100,13 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
+    /**
+     * Verifies that the actual size of affected files in the {@link Issues} instance is equal to the given one.
+     *
+     * @param numberOfFiles the expected size of affected files to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size of affected files is not equal to the given one.
+     */
     public IssuesAssert hasNumberOfFiles(final int numberOfFiles) {
         isNotNull();
 
