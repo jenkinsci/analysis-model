@@ -15,12 +15,14 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
+    private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
+
     /**
      * Custom constructor.
      *
      * @param actual current issue
      */
-    public IssueAssert(Issue actual) {
+    public IssueAssert(final Issue actual) {
         super(actual, IssueAssert.class);
     }
 
@@ -30,7 +32,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param actual current issue
      * @return custom assertion
      */
-    public static IssueAssert assertThat(Issue actual) {
+    public static IssueAssert assertThat(final Issue actual) {
         return new IssueAssert(actual);
     }
 
@@ -40,11 +42,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param fileName filter for file name
      * @return custom assertion
      */
-    public IssueAssert hasFileName(String fileName) {
+    public IssueAssert hasFileName(final String fileName) {
         isNotNull();
 
         if (!Objects.equals(actual.getFileName(), fileName)) {
-            failWithMessage("Expected file Name to be <%s> but was <%s>", fileName, actual.getFileName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, fileName, actual.getFileName());
         }
         return this;
     }
@@ -56,11 +58,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param category filter for category
      * @return custom assertion
      */
-    public IssueAssert hasCategory(String category) {
+    public IssueAssert hasCategory(final String category) {
         isNotNull();
 
         if (!Objects.equals(actual.getCategory(), category)) {
-            failWithMessage("Expected category to be <%s> but was <%s>", category, actual.getCategory());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, category, actual.getCategory());
         }
         return this;
     }
@@ -72,11 +74,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param packageName filter for package name
      * @return custom assertion
      */
-    public IssueAssert hasPackageName(String packageName) {
+    public IssueAssert hasPackageName(final String packageName) {
         isNotNull();
 
         if (!Objects.equals(actual.getPackageName(), packageName)) {
-            failWithMessage("Expected package Name to be <%s> but was <%s>", packageName, actual.getPackageName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, packageName, actual.getPackageName());
         }
         return this;
     }
@@ -88,11 +90,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param description filter for description
      * @return custom assertion
      */
-    public IssueAssert hasDescription(String description) {
+    public IssueAssert hasDescription(final String description) {
         isNotNull();
 
         if (!Objects.equals(actual.getDescription(), description)) {
-            failWithMessage("Expected description to be <%s> but was <%s>", description, actual.getDescription());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, description, actual.getDescription());
         }
         return this;
     }
@@ -103,11 +105,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param lineStart filter for line start
      * @return custom assertion
      */
-    public IssueAssert hasLineStart(int lineStart) {
+    public IssueAssert hasLineStart(final int lineStart) {
         isNotNull();
 
         if (actual.getLineStart() != lineStart) {
-            failWithMessage("Expected line start to be <%s> but was <%s>", lineStart, actual.getLineStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, lineStart, actual.getLineStart());
 
         }
         return this;
@@ -119,11 +121,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param columnStart filter for column start
      * @return custom assertion
      */
-    public IssueAssert hasColumnStart(int columnStart) {
+    public IssueAssert hasColumnStart(final int columnStart) {
         isNotNull();
 
         if (actual.getColumnStart() != columnStart) {
-            failWithMessage("Expected column start to be <%s> but was <%s>", columnStart, actual.getColumnStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, columnStart, actual.getColumnStart());
 
         }
         return this;
@@ -135,11 +137,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param id filter for id
      * @return custom assertion
      */
-    public IssueAssert hasId(UUID id) {
+    public IssueAssert hasId(final UUID id) {
         isNotNull();
 
         if (!actual.getId().equals(id)) {
-            failWithMessage("Expected id to be <%s> but was <%s>", id, actual.getId());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, id, actual.getId());
 
         }
         return this;
@@ -151,11 +153,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param type filter for type
      * @return custom assertion
      */
-    public IssueAssert hasType(String type) {
+    public IssueAssert hasType(final String type) {
         isNotNull();
 
         if (!Objects.equals(actual.getType(), type)) {
-            failWithMessage("Expected Type to be <%s> but was <%s>", type, actual.getType());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, type, actual.getType());
         }
         return this;
     }
@@ -166,11 +168,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param message filter for message
      * @return custom assertion
      */
-    public IssueAssert hasMessage(String message) {
+    public IssueAssert hasMessage(final String message) {
         isNotNull();
 
         if (!Objects.equals(actual.getMessage(), message)) {
-            failWithMessage("Expected Message to be <%s> but was <%s>", message, actual.getMessage());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, message, actual.getMessage());
         }
         return this;
     }
@@ -181,11 +183,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param fingerprint filter for fingerprint
      * @return custom assertion
      */
-    public IssueAssert hasFingerprint(String fingerprint) {
+    public IssueAssert hasFingerprint(final String fingerprint) {
         isNotNull();
 
         if (!Objects.equals(actual.getFingerprint(), fingerprint)) {
-            failWithMessage("Expected Fingerprint to be <%s> but was <%s>", fingerprint, actual.getFingerprint());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, fingerprint, actual.getFingerprint());
         }
         return this;
     }
@@ -196,11 +198,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param lineEnd filter for line end
      * @return custom assertion
      */
-    public IssueAssert hasLineEnd(int lineEnd) {
+    public IssueAssert hasLineEnd(final int lineEnd) {
         isNotNull();
 
         if (actual.getLineEnd() != lineEnd) {
-            failWithMessage("Expected LineEnd to be <%s> but was <%s>", lineEnd, actual.getLineEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, lineEnd, actual.getLineEnd());
         }
         return this;
     }
@@ -212,11 +214,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param columnEnd filter for column end
      * @return custom assertion
      */
-    public IssueAssert hasColumnEnd(int columnEnd) {
+    public IssueAssert hasColumnEnd(final int columnEnd) {
         isNotNull();
 
         if (actual.getColumnEnd() != columnEnd) {
-            failWithMessage("Expected ColumnEnd to be <%s> but was <%s>", columnEnd, actual.getColumnEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, columnEnd, actual.getColumnEnd());
         }
         return this;
     }
@@ -227,11 +229,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
      * @param priority filter for priority
      * @return custom assertion
      */
-    public IssueAssert hasPriority(Priority priority) {
+    public IssueAssert hasPriority(final Priority priority) {
         isNotNull();
 
         if (actual.getPriority() != priority) {
-            failWithMessage("Expected Priority to be <%s> but was <%s>", priority, actual.getPriority());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, priority, actual.getPriority());
         }
         return this;
     }

@@ -20,7 +20,7 @@ import static org.assertj.core.api.Java6Assertions.*;
 class IssuesTest {
 
     @Test
-    void addBasicIssueTest() {
+    void addIssueTest() {
 
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
@@ -36,20 +36,8 @@ class IssuesTest {
                 .hasNumberOfFiles(1)
                 .hasToString(String.format("%d issues", issues.size()));
 
-        assertThat(issues.get(0))
-                .hasLineStart(0)
-                .hasId(firstIssue.getId())
-                .hasLineEnd(0)
-                .hasPriority(Priority.NORMAL)
-                .hasMessage("")
-                .hasCategory("")
-                .hasFileName("-")
-                .hasType("-")
-                .hasColumnStart(0)
-                .hasColumnEnd(0)
-                .hasPackageName("-")
-                .hasDescription("")
-                .hasToString(String.format("%s(%d,%d): %s: %s: %s", "-", 0, 0, "-", "", ""));
+        assertThat(issues.get(0)).isSameAs(firstIssue);
+
 
 
     }
@@ -59,22 +47,19 @@ class IssuesTest {
 
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
-        Issue firstIssue = builder.build();
-        issues.add(firstIssue);
-        issues.remove(firstIssue.getId());
-        issues.add(firstIssue);
         builder.setMessage("second issue");
         builder.setLineStart(2);
         Issue secondIssue = builder.build();
 
-        issues.add(firstIssue);
-
         assertThatThrownBy(() -> issues.remove(secondIssue.getId()))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(String.format("No issue found with id %s.",secondIssue.getId()));
+
+
     }
 
     @Test
-    void removeBasicIssueTest() {
+    void removeExistingIssueTest() {
 
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
@@ -91,11 +76,32 @@ class IssuesTest {
     }
 
     @Test
-    void getElementFromEmptyIssuesTest() {
+    void limitTest() {
         Issues issues = new Issues();
 
-        assertThatThrownBy(() -> issues.get(0))
+        IssueBuilder builder = new IssueBuilder();
+        Issue firstIssue = builder.build();
+        Issue secondIssue = builder
+                .setLineStart(1)
+                .build();
+        Issue thirdIssue = builder
+                .setLineStart(2)
+                .build();
+        Issue fourthIssue = builder
+                .setLineStart(3)
+                .build();
+
+        issues.add(firstIssue);
+        issues.add(secondIssue);
+        issues.add(thirdIssue);
+        issues.add(fourthIssue);
+
+        assertThatThrownBy(() -> issues.get(-1))
                 .isInstanceOf(IndexOutOfBoundsException.class);
+
+        assertThat(issues.get(0)).isSameAs(firstIssue);
+        assertThat(issues.get(2)).isSameAs(thirdIssue);
+        assertThat(issues.get(3)).isSameAs(fourthIssue);
     }
 
     @Test
@@ -106,20 +112,7 @@ class IssuesTest {
         Issue firstIssue = builder.build();
         issues.add(firstIssue);
 
-
-        assertThat(issues.findById(firstIssue.getId()))
-                .hasLineStart(0)
-                .hasLineEnd(0)
-                .hasPriority(Priority.NORMAL)
-                .hasMessage("")
-                .hasCategory("")
-                .hasFileName("-")
-                .hasType("-")
-                .hasColumnStart(0)
-                .hasColumnEnd(0)
-                .hasPackageName("-")
-                .hasDescription("")
-                .hasToString(String.format("%s(%d,%d): %s: %s: %s", "-", 0, 0, "-", "", ""));
+        assertThat(issues.findById(firstIssue.getId())).isSameAs(firstIssue);
 
 
     }
@@ -143,7 +136,7 @@ class IssuesTest {
     }
 
     @Test
-    void copyBasicIssuesTest() {
+    void copyIssuesTest() {
         Issues issues = new Issues();
         IssueBuilder builder = new IssueBuilder();
         Issue firstIssue = builder.build();
@@ -161,19 +154,7 @@ class IssuesTest {
                 .hasToString(String.format("%d issues", issues.size()));
         //files ?
 
-        assertThat(copy.get(0))
-                .hasLineStart(0)
-                .hasLineEnd(0)
-                .hasPriority(Priority.NORMAL)
-                .hasMessage("")
-                .hasCategory("")
-                .hasFileName("-")
-                .hasType("-")
-                .hasColumnStart(0)
-                .hasColumnEnd(0)
-                .hasPackageName("-")
-                .hasDescription("")
-                .hasToString(String.format("%s(%d,%d): %s: %s: %s", "-", 0, 0, "-", "", ""));
+        assertThat(copy.get(0)).isSameAs(firstIssue);
 
 
     }
@@ -241,7 +222,7 @@ class IssuesTest {
         firstIssues.add(secondIssue);
         firstIssues.add(thirdIssue);
 
-        filteredIssues.addAll(firstIssues.findByProperty(n -> n.getPriority() == Priority.LOW));
+        filteredIssues.addAll(firstIssues.findByProperty(issue -> issue.getPriority() == Priority.LOW));
 
         assertThat(filteredIssues)
                 .hasSize(2)
@@ -286,4 +267,6 @@ class IssuesTest {
                 .hasNumberOfFiles(2)
                 .hasToString(String.format("%d issues", issues.size()));
     }
+
+
 }
