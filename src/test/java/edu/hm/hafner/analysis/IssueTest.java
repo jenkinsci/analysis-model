@@ -33,8 +33,7 @@ class IssueTest {
 
     @Test
     void testIssue() {
-        Issue issue = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME,
-                MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+        Issue issue = createFilledIssue();
 
         assertSoftly(softly -> {
             softly.assertThat(issue.getId()).isNotNull();
@@ -114,24 +113,28 @@ class IssueTest {
 
     @Test
     void testIdRandomlyGenerated() {
-        Issue issue1 = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
-        Issue issue2 = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+        Issue one = createFilledIssue();
+        Issue another = createFilledIssue();
 
-        assertThat(issue1.getId()).isNotEqualTo(issue2.getId());
+        assertThat(one.getId()).isNotEqualTo(another.getId());
     }
 
     @Test
     void testFingerprint() {
-        Issue issue = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+        Issue issue = createFilledIssue();
 
         issue.setFingerprint(FINGERPRINT);
 
         assertThat(issue).hasFingerprint(FINGERPRINT);
     }
 
+    private Issue createFilledIssue() {
+        return new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+    }
+
     @Test
     void testToString() {
-        Issue issue = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+        Issue issue = createFilledIssue();
 
         assertSoftly(softly -> {
             softly.assertThat(issue.toString()).contains(FILE_NAME);
