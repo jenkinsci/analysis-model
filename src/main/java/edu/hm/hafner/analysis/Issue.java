@@ -163,7 +163,7 @@ public class Issue {
      * @return the last line
      */
     public int getLineEnd() {
-        return lineStart;
+        return lineEnd;
     }
 
     /**
@@ -218,6 +218,15 @@ public class Issue {
     @Override
     public String toString() {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
+    }
+
+    /**
+     * get the ordinal number of the priority.
+     *
+     * @return ordinal id
+     */
+    public int getOrdinal() {
+        return priority.ordinal();
     }
 
     @Override
