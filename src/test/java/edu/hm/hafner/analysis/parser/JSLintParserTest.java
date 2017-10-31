@@ -6,12 +6,11 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Assertions.IssueSoftAssertion;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.Assertions.IssuesAssert.assertThat;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
@@ -31,24 +30,12 @@ public class JSLintParserTest extends ParserTester {
     public void issue19127() throws IOException {
         Issues warnings = new JSLintParser().parse(openFile("jslint/jslint.xml"));
 
-        assertThat(warnings).hasSize(197);
+        assertEquals(197, warnings.size());
 
         Iterator<Issue> iterator = warnings.iterator();
-
-        IssueSoftAssertion.assertIssueSoftly(softly -> {
-
-            softly.assertThat(iterator.next())
-                    .hasPriority(Priority.HIGH)
-                    .hasCategory(JSLintXMLSaxParser.CATEGORY_UNDEFINED_VARIABLE)
-                    .hasLineStart(3)
-                    .hasLineEnd(3)
-                    .hasMessage("'window' is not defined.")
-                    .hasFileName("C:/DVR/lint_Mobile-Localization_ws/evWebService/WebClientApi/api-v1.js")
-                    .hasColumnStart(5);
-
-
-        });
-
+        checkWarning(iterator.next(), 3, 5,
+                "'window' is not defined.", "C:/DVR/lint_Mobile-Localization_ws/evWebService/WebClientApi/api-v1.js",
+                JSLintXMLSaxParser.CATEGORY_UNDEFINED_VARIABLE, Priority.HIGH);
     }
 
     /**
@@ -59,24 +46,14 @@ public class JSLintParserTest extends ParserTester {
     @Test
     public void testParse() throws IOException {
         Issues results = createParser().parse(openFile());
-        assertThat(results).hasSize(102);
+        assertEquals(102, results.size());
 
         assertThat(results.getFiles()).hasSize(2);
         assertThat(results.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
         Issue firstWarning = results.iterator().next();
-        IssueSoftAssertion.assertIssueSoftly(softly-> {
-
-            softly.assertThat(firstWarning)
-                    .hasPriority(Priority.HIGH)
-                    .hasCategory(JSLintXMLSaxParser.CATEGORY_PARSING)
-                    .hasLineStart(10)
-                    .hasLineEnd(10)
-                    .hasMessage("Expected 'Version' to have an indentation at 5 instead at 3.")
-                    .hasFileName(EXPECTED_FILE_NAME)
-                    .hasColumnStart(3);
-        });
-
+        checkWarning(firstWarning, 10, 3, "Expected 'Version' to have an indentation at 5 instead at 3.",
+                EXPECTED_FILE_NAME, JSLintXMLSaxParser.CATEGORY_PARSING, Priority.HIGH);
     }
 
     /*
@@ -84,7 +61,6 @@ public class JSLintParserTest extends ParserTester {
         assertEquals("Wrong file found: ", expectedName, sortedFiles.get(position).getName());
     }
 */
-
     /**
      * Tests the JS-Lint parsing for warnings in a single file.
      *
@@ -93,7 +69,7 @@ public class JSLintParserTest extends ParserTester {
     @Test
     public void testParseWithSingleFile() throws IOException {
         Issues results = createParser().parse(openFile("jslint/single.xml"));
-        assertThat(results).hasSize(51);
+        assertEquals(51, results.size());
     }
 
     /**
@@ -104,7 +80,7 @@ public class JSLintParserTest extends ParserTester {
     @Test
     public void testCssLint() throws IOException {
         Issues results = createParser().parse(openFile("jslint/csslint.xml"));
-        assertThat(results).hasSize(51);
+        assertEquals(51, results.size());
     }
 
     /**
