@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,6 @@ import static edu.hm.hafner.analysis.IssuesAssert.assertThat;
 class IssuesTest {
 
     /** Verify that the add method adds the issue and increases the priority counter */
-    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void addIssueCheckContains() {
         Issues sut = new Issues();
@@ -37,8 +35,7 @@ class IssuesTest {
                 .hasToString("1 issues");
     }
 
-    /** Verfiy that a new issues object hasn't any issue */
-    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
+    /** Verify that a new issues object hasn't any issue */
     @Test
     void noAddIssueCheckNotContains() {
         Issues sut = new Issues();
@@ -52,8 +49,7 @@ class IssuesTest {
                 .hasToString("0 issues");
     }
 
-    /** Verfiy that the remove method removes the issue and decreases the priority counter*/
-    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
+    /** Verify that the remove method removes the issue and decreases the priority counter*/
     @Test
     void addAndRemoveIssue() {
         Issues sut = new Issues();
@@ -98,8 +94,7 @@ class IssuesTest {
 
     }
 
-    /** Verfiy that the addAll method keeps the order of the list */
-    @SuppressWarnings({"JUnitTestMethodWithNoAssertions", "NestedConditionalExpression"})
+    /** Verify that the addAll method keeps the order of the list */
     @Test
     void addAllTest() {
         Issues sut = new Issues();
@@ -123,7 +118,7 @@ class IssuesTest {
                 .hasSizeOfPriorityHigh(testObjects / 3)
                 .containsExactly(issueList);
 
-        // Check if the issues object is independed of the list
+        // Check if the issues object is independent of the list
         Issue removedIssue = issueList.get(0);
         issueList.remove(0);
         IssueAssert.assertThat(sut.get(0)).isEqualTo(removedIssue);
@@ -131,7 +126,7 @@ class IssuesTest {
     }
 
     /** Verify that all method delivers all issues */
-    @SuppressWarnings({"JUnitTestMethodWithNoAssertions", "NestedConditionalExpression"})
+    @SuppressWarnings( "NestedConditionalExpression")
     @Test
     void allTest() {
         Issues sut = new Issues();
@@ -156,7 +151,7 @@ class IssuesTest {
                 .containsExactly(setOfIssues);
     }
 
-    /** Verfiy the the copy method delivers an independent issues object with the same issue objects in it */
+    /** Verify the the copy method delivers an independent issues object with the same issue objects in it */
     @SuppressWarnings("NestedConditionalExpression")
     @Test
     void copyTest() {
@@ -197,7 +192,7 @@ class IssuesTest {
 
         // Check if the issues object is independent of it's copy
         copy.remove(copy.get(0).getId());
-        assertThat(sut).containsExactly(sutSet).as("The issues object and it's copy are not independend");
+        assertThat(sut).containsExactly(sutSet).as("The issues object and it's copy are not independent");
 
     }
 

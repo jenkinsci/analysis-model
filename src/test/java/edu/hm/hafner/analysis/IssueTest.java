@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class IssueTest {
 
     /** Verify an empty issue generated with the builder */
-    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void buildEmptyIssue() {
         Issue sut = new IssueBuilder().build();
@@ -35,7 +34,6 @@ class IssueTest {
     }
 
     /** Verify the properties of a issue with equal start and end columns/lines */
-    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void issueSameStartAndEndLineAndColumn() {
         Issue sut = new IssueBuilder()
@@ -70,7 +68,6 @@ class IssueTest {
     }
 
     /** Verify the properties of a issue with different start and end columns/lines */
-    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void issueDifferentStartAndEndLineAndColumn() {
         Issue sut = new IssueBuilder()
@@ -105,7 +102,6 @@ class IssueTest {
     }
 
     /** Verify that setFingerprint only changes the finderprint */
-    @SuppressWarnings("JUnitTestMethodWithNoAssertions")
     @Test
     void testSetFingerprint() {
         Issue sut = new IssueBuilder().build();
