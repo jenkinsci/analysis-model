@@ -45,7 +45,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("'void yyunput(int, char*)' defined but not used")
                 .hasFileName("/dir1/testhist.l")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.HIGH)
@@ -55,7 +54,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("implicit typename is deprecated, please see the documentation for details")
                 .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.HIGH)
@@ -65,7 +63,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("foo.h: No such file or directory")
                 .hasFileName("/dir1/foo.cc")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -75,7 +72,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("missing initializer for member sigaltstack::ss_sp")
                 .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -85,7 +81,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("missing initializer for member sigaltstack::ss_flags")
                 .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -95,7 +90,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("missing initializer for member sigaltstack::ss_size")
                 .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -105,7 +99,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("large integer implicitly truncated to unsigned type")
                 .hasFileName("/dir1/src/test_simple_sgs_message.cxx")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -115,7 +108,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
                 .hasFileName("/dir1/dir2/main/mep.cpp")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -125,7 +117,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("passing 'Test' chooses 'int' over 'unsigned int'")
                 .hasFileName("/dir1/dir2/warnings.cc")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -135,7 +126,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
                 .hasFileName("/dir1/dir2/warnings.cc")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -145,7 +135,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
                 .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.HIGH)
@@ -155,7 +144,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("'bar' was not declared in this scope")
                 .hasFileName("/dir1/dir2/dir3/fo:oo.cpp")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.HIGH)
@@ -165,7 +153,6 @@ public class GnuMakeGccParserTest extends ParserTester {
                 .hasMessage("expected ';' before 'return'")
                 .hasFileName("/dir1/dir2/dir3/fo:oo.cpp")
                 .hasType(WARNING_TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)

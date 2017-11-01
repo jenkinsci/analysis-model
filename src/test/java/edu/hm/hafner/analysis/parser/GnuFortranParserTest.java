@@ -145,7 +145,6 @@ public class GnuFortranParserTest extends ParserTester {
                 .hasMessage("Inequality comparison for REAL(8)")
                 .hasFileName("C:/zlaror.f")
                 .hasType(TYPE);
-        softly.assertAll();
 
         // NOCHECKSTYLE
         softly.assertThat(iterator.next())
@@ -157,7 +156,6 @@ public class GnuFortranParserTest extends ParserTester {
                 .hasFileName("/path/to/file.f90")
                 .hasColumnStart(10)
                 .hasType(TYPE);
-        softly.assertAll();
 
         // NOCHECKSTYLE
         softly.assertThat(iterator.next())
@@ -169,7 +167,6 @@ public class GnuFortranParserTest extends ParserTester {
                 .hasFileName("generic2.f90")
                 .hasColumnStart(24)
                 .hasType(TYPE);
-        softly.assertAll();
 
         // NOCHECKSTYLE
         softly.assertThat(iterator.next())
