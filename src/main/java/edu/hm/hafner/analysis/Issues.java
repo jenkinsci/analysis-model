@@ -75,7 +75,7 @@ public class Issues implements Iterable<Issue> {
     /**
      * Returns all issues of this container.
      *
-     * @return all issues200
+     * @return all issues
      */
     public ImmutableSet<Issue> all() {
         return ImmutableSet.copyOf(elements);

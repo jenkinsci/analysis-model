@@ -1,12 +1,13 @@
-package edu.hm.hafner.edu.hm.hafner.analysis;
+package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
+import edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
 
-@SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "JUnitTestMethodWithNoAssertions"})
+
+/**
+ * Tests for {@link Issue}
+ * @author Raphael Furch
+ */
 public class IssueTest {
     private static final String UNDEFINED = "-";
 
@@ -16,7 +17,7 @@ public class IssueTest {
      */
     @SuppressWarnings("ConstantConditions")
     @Test
-    public void shouldConvertedToDefaultValue(){
+    public void convertedToDefaultValue(){
         // Create a object which forces all default values
         Issue issue = new IssueBuilder()
                 .setFileName("")
@@ -33,8 +34,8 @@ public class IssueTest {
                 .build();
 
         // Check
-       IssueSoftAssertions isa = new IssueSoftAssertions();
-                isa.assertThat(issue)
+       IssueSoftAssertions softly = new IssueSoftAssertions();
+                softly.assertThat(issue)
                 .hasFileName(UNDEFINED)
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -46,32 +47,32 @@ public class IssueTest {
                 .hasPriority(Priority.NORMAL)
                 .hasMessage("")
                 .hasDescription("")
-                        .hasAId();
-                isa.assertAll();
+                        .hasId();
+                softly.assertAll();
     }
 
     /**
      * Check if path separator in file is replaced correctly. No \ only /.
      */
     @Test
-    public void shouldReplacePathSeparator(){
+    public void replacePathSeparator(){
         // Create issue with windows path separator
         Issue issue = new IssueBuilder()
                 .setFileName("c:\\test\\")
                 .build();
 
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                 .hasFileName("c:/test/");
-        isa.assertAll();
+        softly.assertAll();
     }
 
     /**
      * Check if line end is set to line start when end is 0. --> Single line
      */
     @Test
-    public void shouldLineEndBe0UseLineStartAsValue(){
+    public void lineEndBe0UseLineStartAsValue(){
         // Create issue with windows path separator
         Issue issue = new IssueBuilder()
                 .setLineStart(42)
@@ -79,18 +80,18 @@ public class IssueTest {
                 .build();
 
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                 .hasLineStart(42)
                 .hasLineEnd(42);
-        isa.assertAll();
+        softly.assertAll();
     }
 
     /**
      * Check if C. removes all unnecessary whitespaces in message and description.
      */
     @Test
-    public void shouldRemoveSuperfluousWhitespacesByFreeText(){
+    public void removeSuperfluousWhitespacesByFreeText(){
         // Create issue with windows path separator
         Issue issue = new IssueBuilder()
                 .setMessage("     ABCD     ")
@@ -98,25 +99,25 @@ public class IssueTest {
                 .build();
 
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                 .hasMessage("ABCD")
                 .hasDescription("EFGH");
-        isa.assertAll();
+        softly.assertAll();
     }
 
     /**
      * Check if all getter deliver the correct values from constructor.
      */
     @Test
-    public void shouldGetAllSetValues(){
+    public void getAllSetValues(){
         // Create a object which forces all default values
         Issue issue = getGoodIssueBuilder().build();
         issue.setFingerprint("testFingerPrint");
 
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                 .hasFingerprint("testFingerPrint")
                 .hasLineStart(10)
                 .hasLineEnd(42)
@@ -129,22 +130,22 @@ public class IssueTest {
                 .hasMessage("Test Message")
                 .hasDescription("Test Description")
                 .hasFileName("/test/");
-        isa.assertAll();
+        softly.assertAll();
     }
 
     /**
      * Check if to toString creates correct string.
      */
     @Test
-    public void shouldValuesConvertToString(){
+    public void valuesConvertToString(){
         // Create a object which forces all default values
         Issue issue = getGoodIssueBuilder().build();
         issue.setFingerprint("testFingerPrint");
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                 .isString("/test/(10,5): testType: testCategory: Test Message");
-        isa.assertAll();
+        softly.assertAll();
     }
 
     /**
@@ -152,12 +153,12 @@ public class IssueTest {
      */
     @SuppressWarnings("ConstantConditions")
     @Test
-    public void shouldNotBeEquals(){
+    public void notBeEquals(){
         // Create a object which forces all default values
         Issue issue = getGoodIssueBuilder().build();
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                 .isNotEqualTo(null)
                 .isNotEqualTo("")
                 .isNotEqualTo(getGoodIssueBuilder().setLineStart(5).build())
@@ -179,38 +180,38 @@ public class IssueTest {
                 .isNotEqualTo(getGoodIssueBuilder().setPackageName(null).build())
                 .isNotEqualTo(getGoodIssueBuilder().setPackageName("other package name").build())
         ;
-        isa.assertAll();
+        softly.assertAll();
     }
 
     /**
      * Check if equals detects are equal object.
      */
     @Test
-    public void shouldBeEquals(){
+    public void beEquals(){
         // Create a object which forces all default values
         Issue issue = getGoodIssueBuilder().build();
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                .isEqualTo(issue)
                 .isEqualTo(getGoodIssueBuilder().build());
 
-        isa.assertAll();
+        softly.assertAll();
     }
 
     /**
      * Check if equals objects have a equal hashCode.
      */
     @Test
-    public void shouldHaveSameHashCode(){
+    public void haveSameHashCode(){
         // Create a object which forces all default values
         Issue issue = getGoodIssueBuilder().build();
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                 .hasHashCode(issue.hashCode())
                 .hasHashCode(getGoodIssueBuilder().build().hashCode());
-        isa.assertAll();
+        softly.assertAll();
     }
 
     /**
@@ -218,12 +219,12 @@ public class IssueTest {
      */
     @SuppressWarnings("ConstantConditions")
     @Test
-    public void shouldNotHaveSameHashCode(){
+    public void haveNotSameHashCode(){
         // Create a object which forces all default values
         Issue issue = getGoodIssueBuilder().build();
         // Check
-        IssueSoftAssertions isa = new IssueSoftAssertions();
-        isa.assertThat(issue)
+        IssueSoftAssertions softly = new IssueSoftAssertions();
+        softly.assertThat(issue)
                 .hasNotHashCode("".hashCode())
                 .hasNotHashCode(getGoodIssueBuilder().setLineStart(5).build().hashCode())
                 .hasNotHashCode(getGoodIssueBuilder().setLineEnd(100).build().hashCode())
@@ -244,7 +245,7 @@ public class IssueTest {
                 .hasNotHashCode(getGoodIssueBuilder().setPackageName(null).build().hashCode())
                 .hasNotHashCode(getGoodIssueBuilder().setPackageName("other package name").build().hashCode())
         ;
-        isa.assertAll();
+        softly.assertAll();
     }
 
 
