@@ -140,11 +140,7 @@ class IssuesTest {
 
         issuesUnderTest.addAll(get3IssuesWithAllPriorities());
 
-        SoftAssertions.assertSoftly((softly) -> {
-            softly.assertThat(issuesUnderTest.findById(lowPriorityIssue.getId())).isEqualTo(lowPriorityIssue);
-            softly.assertThat(issuesUnderTest.findById(normalPriorityIssue.getId())).isEqualTo(normalPriorityIssue);
-            softly.assertThat(issuesUnderTest.findById(highPriorityIssue.getId())).isEqualTo(highPriorityIssue);
-        });
+        assertThat(issuesUnderTest.all()).containsExactly(lowPriorityIssue, normalPriorityIssue, highPriorityIssue);
     }
 
     /** On adding an empty collection, no items should be added so the size will remain the same. */
