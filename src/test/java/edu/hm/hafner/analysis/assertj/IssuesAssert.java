@@ -79,7 +79,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getNormalPrioritySize() != normalPrioritySize) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "normal priority size", normalPrioritySize, actual.getNormalPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "normal priority size", actual, normalPrioritySize, actual.getNormalPrioritySize());
         }
         return this;
     }
@@ -95,7 +95,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getLowPrioritySize() != lowPrioritySize) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "low priority size", lowPrioritySize, actual.getLowPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "low priority size", actual, lowPrioritySize, actual.getLowPrioritySize());
         }
         return this;
     }
@@ -111,7 +111,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getNumberOfFiles() != numberOfFiles) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "number of files", numberOfFiles, actual.getNumberOfFiles());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "number of files", actual, numberOfFiles, actual.getNumberOfFiles());
         }
         return this;
     }
