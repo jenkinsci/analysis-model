@@ -58,14 +58,35 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
 
     /**
-     * Assert that the issues object contains the issue elements in the same order as the parameter collection.
+     * Assert that the issues object contains the issue elements as the parameter array.
+     * @param issues expected order of issue elements
+     * @return this (fluent interface)
+     */
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssert containsExactlyInAnyOrder(final Issue... issues) {
+        Assertions.assertThat(actual.iterator()).containsExactlyInAnyOrder(issues);
+        return this;
+    }
+
+    /**
+     * Assert that the issues object contains the issue elements in the same order as the parameter array.
      * @param issues expected order of issue elements
      * @return this (fluent interface)
      */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssert containsExactly(final Collection<Issue> issues) {
-        Issue[] issuesArray = new Issue[issues.size()];
-        return containsExactly(issues.toArray(issuesArray));
+        return containsExactly(collectionToArray(issues));
+    }
+
+
+    /**
+     * Assert that the issues object contains the issue elements as the parameter array.
+     * @param issues expected order of issue elements
+     * @return this (fluent interface)
+     */
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public IssuesAssert containsExactlyInAnyOrder(final Collection<Issue> issues) {
+        return containsExactlyInAnyOrder(collectionToArray(issues));
     }
 
     public IssueAssert get(final int index) {
@@ -106,5 +127,15 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
             failWithMessage("Expected issues's size to be <%s> but was <%s>", size, actual.getLowPrioritySize());
         }
         return this;
+    }
+
+    /**
+     * Convert a collection of issues to an array of issues.
+     * @param issue collection to convert
+     * @return array of issues
+     */
+    private Issue[] collectionToArray(final Collection<Issue> issue) {
+        Issue[] issueArray = new Issue[issue.size()];
+        return issue.toArray(issueArray);
     }
 }
