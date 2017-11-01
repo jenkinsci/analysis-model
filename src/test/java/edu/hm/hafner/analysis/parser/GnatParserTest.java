@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertj.IssuesAssert;
 
 /**
  * Tests the class {@link GnatParser}.
@@ -25,101 +26,120 @@ public class GnatParserTest extends ParserTester {
     @Test
     public void testWarningsParser() throws IOException {
         Issues warnings = new GnatParser().parse(openFile());
-
-        assertEquals(9, warnings.size());
+        IssuesAssert.assertThat(warnings).hasSize(9);
 
         Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
+        SoftAssertions softly = new SoftAssertions();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/class_utilities.adb:402:23:
         // warning: call to obsolescent procedure "Very_Verbose" declared at
         // debug.ads:59
-        checkWarning(
-                annotation,
-                402,
-                "call to obsolescent procedure \"Very_Verbose\" declared at debug.ads:59",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/class_utilities.adb",
-                TYPE, GNAT_WARNING, Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(GNAT_WARNING)
+                .hasLineStart(402)
+                .hasLineEnd(402)
+                .hasMessage("call to obsolescent procedure \"Very_Verbose\" declared at debug.ads:59")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/class_utilities.adb")
+                .hasType(TYPE);
+        softly.assertAll();
+
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/iml-interfaces-cfg.adb:63:14:
         // warning: variable "E" is not referenced
-        annotation = iterator.next();
-        checkWarning(
-                annotation,
-                63,
-                "variable \"E\" is not referenced",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/iml-interfaces-cfg.adb",
-                TYPE, GNAT_WARNING, Priority.NORMAL);
+       softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(GNAT_WARNING)
+                .hasLineStart(63)
+                .hasLineEnd(63)
+                .hasMessage("variable \"E\" is not referenced")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/iml-interfaces-cfg.adb")
+                .hasType(TYPE);
+        softly.assertAll();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/pointsto/andersen_results.adb:96:80:
         // (style) this line is too long
-        annotation = iterator.next();
-        checkWarning(
-                annotation,
-                96,
-                "this line is too long",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/pointsto/andersen_results.adb",
-                TYPE, "GNAT style", Priority.LOW);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.LOW)
+                .hasCategory("GNAT style")
+                .hasLineStart(96)
+                .hasLineEnd(96)
+                .hasMessage("this line is too long")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/pointsto/andersen_results.adb")
+                .hasType(TYPE);
+        softly.assertAll();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/generated/ada_delta_constraints.adb:3:06:
         // warning: redundant with clause in body
-        annotation = iterator.next();
-        checkWarning(
-                annotation,
-                3,
-                "redundant with clause in body",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/generated/ada_delta_constraints.adb",
-                TYPE, GNAT_WARNING, Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(GNAT_WARNING)
+                .hasLineStart(3)
+                .hasLineEnd(3)
+                .hasMessage("redundant with clause in body")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/generated/ada_delta_constraints.adb")
+                .hasType(TYPE);
+        softly.assertAll();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/array_tables.adb:97:07:
         // warning: variable "Dummy_Empty_Array_Item" is read but never assigned
-        annotation = iterator.next();
-        checkWarning(
-                annotation,
-                97,
-                "variable \"Dummy_Empty_Array_Item\" is read but never assigned",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/array_tables.adb",
-                TYPE, GNAT_WARNING, Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(GNAT_WARNING)
+                .hasLineStart(97)
+                .hasLineEnd(97)
+                .hasMessage("variable \"Dummy_Empty_Array_Item\" is read but never assigned")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/array_tables.adb")
+                .hasType(TYPE);
+        softly.assertAll();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/graph_algorithms-generic_explorers.adb:63:14:
         // warning: "C" is not modified, could be declared constant
-        annotation = iterator.next();
-        checkWarning(
-                annotation,
-                63,
-                "\"C\" is not modified, could be declared constant",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/graph_algorithms-generic_explorers.adb",
-                TYPE, GNAT_WARNING, Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(GNAT_WARNING)
+                .hasLineStart(63)
+                .hasLineEnd(63)
+                .hasMessage("\"C\" is not modified, could be declared constant")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/graph_algorithms-generic_explorers.adb")
+                .hasType(TYPE);
+        softly.assertAll();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/process_data.adb:257:49:
         // (style) bad casing of "False" declared in Standard
-        annotation = iterator.next();
-        checkWarning(
-                annotation,
-                257,
-                "bad casing of \"False\" declared in Standard",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/process_data.adb",
-                TYPE, "GNAT style", Priority.LOW);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.LOW)
+                .hasCategory("GNAT style")
+                .hasLineStart(257)
+                .hasLineEnd(257)
+                .hasMessage("bad casing of \"False\" declared in Standard")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/process_data.adb")
+                .hasType(TYPE);
+        softly.assertAll();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/tools/scangen/src/scangen.adb:23:35:
         // error: binary operator expected
-        annotation = iterator.next();
-        checkWarning(
-                annotation,
-                23,
-                "binary operator expected",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/tools/scangen/src/scangen.adb",
-                TYPE, "GNAT error", Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("GNAT error")
+                .hasLineStart(23)
+                .hasLineEnd(23)
+                .hasMessage("binary operator expected")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/tools/scangen/src/scangen.adb")
+                .hasType(TYPE);
+        softly.assertAll();
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/tools/scangen/src/scangen.adb:23:36:
         // error: identifier cannot start with underline
-        annotation = iterator.next();
-        checkWarning(
-                annotation,
-                23,
-                "identifier cannot start with underline",
-                "/home/bergerbd/.hudson/jobs/Test/workspace/projects/tools/scangen/src/scangen.adb",
-                TYPE, "GNAT error", Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("GNAT error")
+                .hasLineStart(23)
+                .hasLineEnd(23)
+                .hasMessage("identifier cannot start with underline")
+                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/tools/scangen/src/scangen.adb")
+                .hasType(TYPE);
+        softly.assertAll();
     }
 
     @Override
