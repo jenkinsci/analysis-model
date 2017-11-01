@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertj.IssuesAssert;
 
 /**
  * Tests the class {@link GnuFortranParser}.
@@ -24,18 +25,19 @@ public class GnuFortranParserTest extends ParserTester {
     @Test
     public void testWarningParser() throws IOException {
         Issues warnings = new GnuFortranParser().parse(openFile("GnuFortranWarning.txt"));
+        IssuesAssert.assertThat(warnings).hasSize(1);
 
-        assertEquals(1, warnings.size());
+        SoftAssertions softly = new SoftAssertions();
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        checkWarning(iterator.next(),
-                318,
-                "Inequality comparison for REAL(8)",
-                "C:/zlaror.f",
-                TYPE,
-                "Warning",
-                Priority.NORMAL);
+        softly.assertThat(warnings.iterator().next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("Warning")
+                .hasLineStart(318)
+                .hasLineEnd(318)
+                .hasMessage("Inequality comparison for REAL(8)")
+                .hasFileName("C:/zlaror.f")
+                .hasType(TYPE);
+        softly.assertAll();
     }
 
     /**
@@ -48,17 +50,21 @@ public class GnuFortranParserTest extends ParserTester {
         Issues warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranError.txt"));
 
-        assertEquals(1, warnings.size());
+        IssuesAssert.assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        // NOCHECKSTYLE
+        SoftAssertions softly = new SoftAssertions();
 
-        checkWarning(iterator.next(),
-                81, 24,
-                "Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'",
-                "generic2.f90",
-                TYPE,
-                "Error",
-                Priority.HIGH);
+        softly.assertThat(warnings.iterator().next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Error")
+                .hasLineStart(81)
+                .hasLineEnd(81)
+                .hasMessage("Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'")
+                .hasFileName("generic2.f90")
+                .hasColumnStart(24)
+                .hasType(TYPE);
+        softly.assertAll();
     }
 
     /**
@@ -71,17 +77,21 @@ public class GnuFortranParserTest extends ParserTester {
         Issues warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranFatalError.txt"));
 
-        assertEquals(1, warnings.size());
+        IssuesAssert.assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        // NOCHECKSTYLE
+        SoftAssertions softly = new SoftAssertions();
 
-        checkWarning(iterator.next(),
-                7, 10,
-                "Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory",
-                "/path/to/file.f90",
-                TYPE,
-                "Fatal Error",
-                Priority.HIGH);
+        softly.assertThat(warnings.iterator().next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Fatal Error")
+                .hasLineStart(7)
+                .hasLineEnd(7)
+                .hasMessage("Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory")
+                .hasFileName("/path/to/file.f90")
+                .hasColumnStart(10)
+                .hasType(TYPE);
+        softly.assertAll();
     }
 
     /**
@@ -94,17 +104,21 @@ public class GnuFortranParserTest extends ParserTester {
         Issues warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranInternalError.txt"));
 
-        assertEquals(1, warnings.size());
+        IssuesAssert.assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        // NOCHECKSTYLE
+        SoftAssertions softly = new SoftAssertions();
 
-        checkWarning(iterator.next(),
-                5, 8,
-                "free_pi_tree(): Unresolved fixup",
-                "linear_algebra_mod.f90",
-                TYPE,
-                "Internal Error",
-                Priority.HIGH);
+        softly.assertThat(warnings.iterator().next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Internal Error")
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasMessage("free_pi_tree(): Unresolved fixup")
+                .hasFileName("linear_algebra_mod.f90")
+                .hasColumnStart(8)
+                .hasType(TYPE);
+        softly.assertAll();
     }
 
     /**
@@ -117,38 +131,54 @@ public class GnuFortranParserTest extends ParserTester {
         Issues warnings =
                 new GnuFortranParser().parse(openFile());
 
-        assertEquals(4, warnings.size());
+        IssuesAssert.assertThat(warnings).hasSize(4);
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        checkWarning(iterator.next(),
-                318,
-                "Inequality comparison for REAL(8)",
-                "C:/zlaror.f",
-                TYPE,
-                "Warning",
-                Priority.NORMAL);
-        checkWarning(iterator.next(),
-                7, 10,
-                "Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory",
-                "/path/to/file.f90",
-                TYPE,
-                "Fatal Error",
-                Priority.HIGH);
-        checkWarning(iterator.next(),
-                81, 24,
-                "Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'",
-                "generic2.f90",
-                TYPE,
-                "Error",
-                Priority.HIGH);
-        checkWarning(iterator.next(),
-                5, 8,
-                "free_pi_tree(): Unresolved fixup",
-                "linear_algebra_mod.f90",
-                TYPE,
-                "Internal Error",
-                Priority.HIGH);
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("Warning")
+                .hasLineStart(318)
+                .hasLineEnd(318)
+                .hasMessage("Inequality comparison for REAL(8)")
+                .hasFileName("C:/zlaror.f")
+                .hasType(TYPE);
+
+        // NOCHECKSTYLE
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Fatal Error")
+                .hasLineStart(7)
+                .hasLineEnd(7)
+                .hasMessage("Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory")
+                .hasFileName("/path/to/file.f90")
+                .hasColumnStart(10)
+                .hasType(TYPE);
+
+        // NOCHECKSTYLE
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Error")
+                .hasLineStart(81)
+                .hasLineEnd(81)
+                .hasMessage("Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'")
+                .hasFileName("generic2.f90")
+                .hasColumnStart(24)
+                .hasType(TYPE);
+
+        // NOCHECKSTYLE
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Internal Error")
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasMessage("free_pi_tree(): Unresolved fixup")
+                .hasFileName("linear_algebra_mod.f90")
+                .hasColumnStart(8)
+                .hasType(TYPE);
+        softly.assertAll();
     }
 
     @Override
