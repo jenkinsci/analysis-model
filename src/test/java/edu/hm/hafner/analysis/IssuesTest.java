@@ -75,24 +75,17 @@ class IssuesTest {
     @Test
     void addAllTest() {
         Issues sut = new Issues();
-        List<Issue> issueList = new ArrayList<>();
-        int testObjects = 10;
-        for (int index = 0; index < testObjects; index++) {
-            issueList.add(new IssueBuilder()
-                    .setMessage("Issue " + index)
-                    .setLineStart(index)
-                    .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the addAll method of Issues")
-                    .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
-                    .build());
-        }
+
+        int testObjectsPerPriority = 10;
+        int testObjects = 3 * testObjectsPerPriority;
+        List<Issue> issueList = generateList(testObjectsPerPriority);
 
         sut.addAll(issueList);
         assertThat(sut)
                 .hasSize(testObjects)
-                .hasSizeOfPriorityLow((testObjects + 2) / 3)
-                .hasSizeOfPriorityNormal((testObjects + 1) / 3)
-                .hasSizeOfPriorityHigh(testObjects / 3)
+                .hasSizeOfPriorityLow(testObjectsPerPriority)
+                .hasSizeOfPriorityNormal(testObjectsPerPriority)
+                .hasSizeOfPriorityHigh(testObjectsPerPriority)
                 .containsExactly(issueList);
 
         // Check if the issues object is independent of the list
@@ -103,46 +96,28 @@ class IssuesTest {
     }
 
     /** Verify that all method delivers all issues */
-    @SuppressWarnings( "NestedConditionalExpression")
     @Test
     void allTest() {
-        Issues sut = new Issues();
-        int testObjects = 10;
-        for (int index = 0; index < testObjects; index++) {
-            sut.add(new IssueBuilder()
-                    .setMessage("Issue " + index)
-                    .setLineStart(index)
-                    .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the all method of Issues")
-                    .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
-                    .build());
-        }
+        int testObjectsPerPriority = 10;
+        int testObjects = 3 * testObjectsPerPriority;
+        Issues sut = generateIssues(testObjectsPerPriority);
 
         ImmutableSet<Issue> setOfIssues = sut.all();
 
         assertThat(sut)
                 .hasSize(testObjects)
-                .hasSizeOfPriorityLow((testObjects + 2) / 3)
-                .hasSizeOfPriorityNormal((testObjects + 1) / 3)
-                .hasSizeOfPriorityHigh(testObjects / 3)
+                .hasSizeOfPriorityLow(testObjectsPerPriority)
+                .hasSizeOfPriorityNormal(testObjectsPerPriority)
+                .hasSizeOfPriorityHigh(testObjectsPerPriority)
                 .containsExactly(setOfIssues);
     }
 
     /** Verify the the copy method delivers an independent issues object with the same issue objects in it */
-    @SuppressWarnings("NestedConditionalExpression")
     @Test
     void copyTest() {
-        Issues sut = new Issues();
-        int testObjects = 10;
-        for (int index = 0; index < testObjects; index++) {
-            sut.add(new IssueBuilder()
-                    .setMessage("Issue " + index)
-                    .setLineStart(index)
-                    .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the copy method of Issues")
-                    .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
-                    .build());
-        }
+        int testObjectsPerPriority = 10;
+        int testObjects = 3 * testObjectsPerPriority;
+        Issues sut = generateIssues(testObjectsPerPriority);
 
         Issues copy = sut.copy();
         ImmutableSet<Issue> sutSet = sut.all();
@@ -150,11 +125,11 @@ class IssuesTest {
 
         IssuesAssert asserter = assertThat(sut)
                 .hasSize(testObjects)
-                .hasSizeOfPriorityLow((testObjects + 2) / 3)
-                .hasSizeOfPriorityNormal((testObjects + 1) / 3)
-                .hasSizeOfPriorityHigh(testObjects / 3);
+                .hasSizeOfPriorityLow(testObjectsPerPriority)
+                .hasSizeOfPriorityNormal(testObjectsPerPriority)
+                .hasSizeOfPriorityHigh(testObjectsPerPriority);
 
-        Assertions.assertThat(sutSet).isEqualTo(copySet).as("The issues object and the copy of it does not contains the equal elements");
+        Assertions.assertThat(sutSet).isEqualTo(copySet);
 
         // Check if the issues object and it's copy have the same references to the issue objects
         Iterable<Issue> copyIterable = () -> copy.iterator();
@@ -174,35 +149,23 @@ class IssuesTest {
     }
 
     /** Verify that the findByProperty method delivers the matching issues */
-    @SuppressWarnings("NestedConditionalExpression")
     @Test
     void findByPropertyTest() {
-        Issues sut = new Issues();
-        int testObjects = 10;
-        for (int index = 0; index < testObjects; index++) {
-            sut.add(new IssueBuilder()
-                    .setMessage("Issue " + index)
-                    .setLineStart(index)
-                    .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the findByProperty method of Issues")
-                    .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
-                    .build());
-        }
-
-        IssuesAssert asserter = assertThat(sut)
-                .hasSize(testObjects)
-                .hasSizeOfPriorityLow((testObjects + 2) / 3)
-                .hasSizeOfPriorityNormal((testObjects + 1) / 3)
-                .hasSizeOfPriorityHigh(testObjects / 3);
+        int testObjectsPerPriority = 10;
+        int testObjects = 3 * testObjectsPerPriority;
+        Issues sut = generateIssues(testObjectsPerPriority);
 
         List<Issue> allIssues = sut.findByProperty(issue -> true);
-        asserter.containsExactly(allIssues).as("findByProperty with true as predicate doesn't deliver the whole list");
+        assertThat(sut).containsExactly(allIssues);
 
         Assertions.assertThat(sut.findByProperty(issue -> false)).hasSize(0).as("findByProperty with false as predicate doesn't deliver a empty list");
 
-        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.LOW)).hasSize((testObjects + 2) / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.LOW");
-        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.NORMAL)).hasSize((testObjects + 1) / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.NORMAL");
-        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.HIGH)).hasSize(testObjects / 3).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.HIGH");
+        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.LOW))
+                .hasSize(testObjectsPerPriority).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.LOW");
+        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.NORMAL))
+                .hasSize(testObjectsPerPriority).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.NORMAL");
+        Assertions.assertThat(sut.findByProperty(issue -> issue.getPriority() == Priority.HIGH))
+                .hasSize(testObjectsPerPriority).as("findByProperty doesn't work with predicate issue.getPriority() == Priority.HIGH");
 
     }
 
@@ -210,23 +173,13 @@ class IssuesTest {
     @SuppressWarnings("NestedConditionalExpression")
     @Test
     void getPropertiesTest() {
-        Issues sut = new Issues();
-        int testObjects = 10;
-        for (int index = 0; index < testObjects; index++) {
-            sut.add(new IssueBuilder()
-                    .setMessage("Issue " + index)
-                    .setLineStart(index)
-                    .setLineEnd(index * index)
-                    .setDescription("Issue build while testing the getProperties method of Issues")
-                    .setPriority(index % 3 == 0 ? Priority.LOW : index % 3 == 1 ? Priority.NORMAL : Priority.HIGH)
-                    .setFileName("Test_" + (testObjects - index) + ".java")
-                    .setPackageName("edu.hm.hafner.analysis")
-                    .build());
-        }
+        int testObjectsPerPriority = 11;
+        int testObjects = 3 * testObjectsPerPriority;
+        Issues sut = generateIssues(testObjectsPerPriority);
 
-        Assertions.assertThat(sut.getNumberOfFiles()).isEqualTo(testObjects);
+        Assertions.assertThat(sut.getNumberOfFiles()).isEqualTo(testObjectsPerPriority);
 
-        int[] fileIndexOrder = {1, 10, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] fileIndexOrder = {0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9};
         int orderIndex = 0;
         for (String filename : sut.getFiles()) {
             Assertions.assertThat(filename).isEqualTo("Test_" + fileIndexOrder[orderIndex] + ".java");
@@ -240,6 +193,84 @@ class IssuesTest {
         }
 
         Assertions.assertThat(sut.getProperties(issue -> issue.getPriority()).size()).isEqualTo(3);
+    }
+
+    /**
+     * Generate a issues test object.
+     * @param testObjectsPerPriority number of issues per priority to create
+     * @return Issues object to test
+     */
+    private Issues generateIssues(final int testObjectsPerPriority) {
+        Issues issues = new Issues();
+        for (int index = 0; index < testObjectsPerPriority; index++) {
+            issues.add(new IssueBuilder()
+                    .setMessage("Issue " + index)
+                    .setLineStart(index)
+                    .setLineEnd(index * index)
+                    .setDescription("Issue build with generateIssues - Priority.LOW")
+                    .setPriority(Priority.LOW)
+                    .setFileName("Test_" + index + ".java")
+                    .build());
+
+            issues.add(new IssueBuilder()
+                    .setMessage("Issue " + index)
+                    .setLineStart(index)
+                    .setLineEnd(index * index)
+                    .setDescription("Issue build with generateIssues - Priority.NORMAL")
+                    .setPriority(Priority.NORMAL)
+                    .setFileName("Test_" + index + ".java")
+                    .build());
+
+            issues.add(new IssueBuilder()
+                    .setMessage("Issue " + index)
+                    .setLineStart(index)
+                    .setLineEnd(index * index)
+                    .setDescription("Issue build with generateIssues - Priority.HIGH")
+                    .setPriority(Priority.HIGH)
+                    .setFileName("Test_" + index + ".java")
+                    .build());
+        }
+
+        return issues;
+    }
+
+    /**
+     * Generate a list of issues.
+     * @param testObjectsPerPriority number of issues per priority to create
+     * @return list of issues
+     */
+    private List<Issue> generateList(final int testObjectsPerPriority) {
+        List<Issue> list = new ArrayList<>();
+        for (int index = 0; index < testObjectsPerPriority; index++) {
+            list.add(new IssueBuilder()
+                    .setMessage("Issue " + index)
+                    .setLineStart(index)
+                    .setLineEnd(index * index)
+                    .setDescription("Issue build with generateIssues - Priority.LOW")
+                    .setPriority(Priority.LOW)
+                    .setFileName("Test_" + index + ".java")
+                    .build());
+
+            list.add(new IssueBuilder()
+                    .setMessage("Issue " + index)
+                    .setLineStart(index)
+                    .setLineEnd(index * index)
+                    .setDescription("Issue build with generateIssues - Priority.NORMAL")
+                    .setPriority(Priority.NORMAL)
+                    .setFileName("Test_" + index + ".java")
+                    .build());
+
+            list.add(new IssueBuilder()
+                    .setMessage("Issue " + index)
+                    .setLineStart(index)
+                    .setLineEnd(index * index)
+                    .setDescription("Issue build with generateIssues - Priority.HIGH")
+                    .setPriority(Priority.HIGH)
+                    .setFileName("Test_" + index + ".java")
+                    .build());
+        }
+
+        return list;
     }
 
 }
