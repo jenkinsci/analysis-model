@@ -32,23 +32,21 @@ public class MsBuildParser extends RegexpLineParser {
     @Override
     protected Issue createWarning(final Matcher matcher) {
         String fileName = determineFileName(matcher);
+
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return issueBuilder().setFileName(fileName).setLineStart(0).setCategory(matcher.group(1))
                                  .setMessage(matcher.group(2)).setPriority(Priority.NORMAL).build();
-        }
-        else if (StringUtils.isNotBlank(matcher.group(13))) {
+        } else if (StringUtils.isNotBlank(matcher.group(13))) {
             return issueBuilder().setFileName(fileName).setLineStart(0).setCategory(matcher.group(14))
                                  .setMessage(matcher.group(15)).setPriority(Priority.HIGH).build();
-        }
-        else {
+        } else {
             Issue warning;
             if (StringUtils.isNotEmpty(matcher.group(10))) {
                 warning = issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(5)))
                                         .setColumnStart(parseInt(matcher.group(6))).setCategory(matcher.group(9))
                                         .setType(matcher.group(10)).setMessage(matcher.group(11))
                                         .setPriority(determinePriority(matcher)).build();
-            }
-            else {
+            } else {
                 String category = matcher.group(9);
                 if ("Expected".matches(category)) {
                     return FALSE_POSITIVE;
@@ -69,31 +67,34 @@ public class MsBuildParser extends RegexpLineParser {
      */
     private String determineFileName(final Matcher matcher) {
         String fileName;
+
         if (StringUtils.isNotBlank(matcher.group(3))) {
             fileName = matcher.group(3);
-        }
-        else if (StringUtils.isNotBlank(matcher.group(7))) {
+        } else if (StringUtils.isNotBlank(matcher.group(7))) {
             fileName = matcher.group(7);
-        }
-        else if (StringUtils.isNotBlank(matcher.group(13))) {
+        } else if (StringUtils.isNotBlank(matcher.group(13))) {
             fileName = matcher.group(13);
-        }
-        else {
+        } else {
             fileName = matcher.group(4);
         }
+
         if (StringUtils.isBlank(fileName)) {
             fileName = StringUtils.substringBetween(matcher.group(11), "'");
         }
+
         if (StringUtils.isBlank(fileName)) {
             fileName = "unknown.file";
         }
 
-        final String projectDir = matcher.group(12);
-        if (StringUtils.isNotBlank(projectDir) && FilenameUtils.getPrefixLength(fileName) == 0 && !fileName.trim()
-                                                                                                           .equals("MSBUILD")) {
+        String projectDir = matcher.group(12);
+        if (StringUtils.isNotBlank(projectDir) &&
+                FilenameUtils.getPrefixLength(fileName) == 0 &&
+                !fileName.trim().equals("MSBUILD")) {
+
             // resolve fileName relative to projectDir
             fileName = FilenameUtils.concat(projectDir, fileName);
         }
+
         return fileName;
     }
 
@@ -107,9 +108,11 @@ public class MsBuildParser extends RegexpLineParser {
         if (isOfType(matcher, "note") || isOfType(matcher, "info")) {
             return Priority.LOW;
         }
-        else if (isOfType(matcher, "warning")) {
+
+        if (isOfType(matcher, "warning")) {
             return Priority.NORMAL;
         }
+
         return Priority.HIGH;
     }
 
