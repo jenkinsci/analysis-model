@@ -1,9 +1,7 @@
 package edu.hm.hafner.analysis.parser
 
 import edu.hm.hafner.analysis.*
-import edu.hm.hafner.analysis.assertj.IssuesSoftAssertions
 import edu.hm.hafner.analysis.assertj.assertSoftly
-import edu.hm.hafner.analysis.assertj.assertThat
 import java.io.IOException
 
 import org.junit.jupiter.api.Test
@@ -21,7 +19,7 @@ open class MavenParserTest : ParserTester() {
     @Test
     @Throws(IOException::class)
     fun parseMaven() {
-        assertSoftly<IssuesSoftAssertions> {
+        assertSoftly {
             val warnings = JavacParser().parse(openFile())
 
             assertThat(warnings)

@@ -1,9 +1,7 @@
 package edu.hm.hafner.analysis.parser
 
-import edu.hm.hafner.analysis.assertj.IssuesSoftAssertions
 import edu.hm.hafner.analysis.Priority
 import edu.hm.hafner.analysis.assertj.assertSoftly
-import edu.hm.hafner.analysis.assertj.assertThat
 import org.junit.jupiter.api.Test
 import java.io.IOException
 
@@ -20,7 +18,7 @@ class MetrowerksCWLinkerParserTest : ParserTester() {
     @Test
     fun testWarningsParser() {
 
-        assertSoftly<IssuesSoftAssertions> {
+        assertSoftly {
             val warnings = MetrowerksCWLinkerParser().parse(openFile())
 
             assertThat(warnings)

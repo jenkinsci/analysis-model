@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser
 
-import edu.hm.hafner.analysis.assertj.IssuesSoftAssertions
+
 import edu.hm.hafner.analysis.assertj.assertSoftly
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -19,7 +19,7 @@ open class MavenConsoleParserTest : ParserTester() {
      */
     @Test
     fun testParsing() {
-        assertSoftly<IssuesSoftAssertions> {
+        assertSoftly {
             val warnings = MavenConsoleParser().parse(openFile())
             assertThat(warnings)
                     .hasSize(4)
@@ -36,7 +36,7 @@ open class MavenConsoleParserTest : ParserTester() {
      */
     @Test
     fun issue16826() {
-        assertSoftly<IssuesSoftAssertions> {
+        assertSoftly{
             val warnings = MavenConsoleParser().parse(openFile("issue16826.txt"))
             assertThat(warnings)
                     .hasSize(1)
@@ -52,7 +52,7 @@ open class MavenConsoleParserTest : ParserTester() {
     @Test
     @Disabled("Until JENKINS-25278 is fixed")
     fun largeFile() {
-        assertSoftly<IssuesSoftAssertions> {
+        assertSoftly {
             val warnings = MavenConsoleParser().parse(openFile("maven-large.log"))
 
             assertThat(warnings)

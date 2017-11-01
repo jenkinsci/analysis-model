@@ -19,7 +19,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @param actual the issue we want to make assertions on
      */
     public IssuesAssert(final Issues actual) {
-        super(actual, IssuesAssert.class);
+        super(actual,IssuesAssert.class);
     }
 
     /**

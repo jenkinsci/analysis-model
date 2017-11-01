@@ -1,4 +1,11 @@
-package edu.hm.hafner.analysis
+/*
+ * In order to avoid conflicts between the Java and the Kotlin version of this class,
+ * the Kotlin version stays commented out and is placed in the kotlin subpackage.
+ *
+ * If desired the Kotlin version can be substituted with the Java version.
+ */
+
+package edu.hm.hafner.analysis.kotlin
 /*
 import edu.hm.hafner.analysis.assertj.kotlin.IssueSoftAssertions
 import edu.hm.hafner.analysis.assertj.assertSoftly
