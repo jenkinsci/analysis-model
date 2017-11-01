@@ -1,27 +1,21 @@
 package edu.hm.hafner.analysis;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.IssueAssert.*;
 
 /**
  * Tests the class {@link IssueBuilder}.
+ *
+ * @author Joscha Behrmann
  */
 class IssueBuilderTest {
-    private IssueBuilder builderUnderTest;
-    private Issue issueUnderTest;
-
-    @BeforeEach
-    void setup() {
-        builderUnderTest = new IssueBuilder();
-    }
 
     @Test
     void setFileName() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setFileName("test.xml")
                 .build();
 
@@ -32,11 +26,10 @@ class IssueBuilderTest {
     @Test
     void setFileNameEmpty() {
         // Empty string, expected Issue.UNDEFINED
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setFileName("")
                 .build();
 
-        issueUnderTest = builderUnderTest.build();
         assertThat(issueUnderTest)
                 .hasFileName("-");
     }
@@ -44,7 +37,7 @@ class IssueBuilderTest {
     @Test
     void setFileNameLeadingTrailingWhitespace() {
         // Leading/Trailing whitespace
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setFileName("   test.xml   ")
                 .build();
 
@@ -55,7 +48,7 @@ class IssueBuilderTest {
     @Test
     void setFileNameReplacePathSeperators() {
         // Replace '\\'-Characters with '/'
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setFileName("C:\\User\\test.xml")
                 .build();
 
@@ -66,7 +59,7 @@ class IssueBuilderTest {
     @Test
     void setFileNameCombination() {
         // Combination of error-cases
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setFileName("   C:\\User/test.xml")
                 .build();
 
@@ -77,7 +70,7 @@ class IssueBuilderTest {
     @Test
     void setLineStart() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineStart(5)
                 .build();
 
@@ -88,7 +81,7 @@ class IssueBuilderTest {
     @Test
     void setLineStartToZero() {
         // Zero should be zero
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineStart(0)
                 .build();
 
@@ -99,7 +92,7 @@ class IssueBuilderTest {
     @Test
     void setLineStartMinValue() {
         // Negative values should default to zero
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineStart(Integer.MIN_VALUE)
                 .build();
 
@@ -110,7 +103,7 @@ class IssueBuilderTest {
     @Test
     void setLineStartMaxValue() {
         // Maximum value should be a normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineStart(Integer.MAX_VALUE)
                 .build();
 
@@ -121,7 +114,7 @@ class IssueBuilderTest {
     @Test
     void setLineEnd() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineEnd(15)
                 .build();
 
@@ -132,7 +125,7 @@ class IssueBuilderTest {
     @Test
     void setLineEndToZero() {
         // Normal case, should default to lineStart
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineStart(15)
                 .setLineEnd(0)
                 .build();
@@ -144,7 +137,7 @@ class IssueBuilderTest {
     @Test
     void setLineEndToMinValue() {
         // Negative values should default to zero
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineEnd(Integer.MIN_VALUE)
                 .build();
 
@@ -155,7 +148,7 @@ class IssueBuilderTest {
     @Test
     void setLineEndToMaxValue() {
         // MAX_VALUE is a normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineEnd(Integer.MAX_VALUE)
                 .build();
 
@@ -166,7 +159,7 @@ class IssueBuilderTest {
     @Test
     void lineEndCantBeSmallerThanLineStart() {
         // If lineStart < lineEnd, lineEnd = lineStart
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setLineStart(5)
                 .setLineEnd(10)
                 .build();
@@ -178,7 +171,7 @@ class IssueBuilderTest {
     @Test
     void setColumnStart() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setColumnStart(15)
                 .build();
 
@@ -189,7 +182,7 @@ class IssueBuilderTest {
     @Test
     void setColumnStartToZero() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setColumnStart(0)
                 .build();
 
@@ -200,7 +193,7 @@ class IssueBuilderTest {
     @Test
     void setColumnStartMinValue() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setColumnStart(Integer.MIN_VALUE)
                 .build();
 
@@ -211,7 +204,7 @@ class IssueBuilderTest {
     @Test
     void setColumnStartMaxValue() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setColumnStart(Integer.MAX_VALUE)
                 .build();
 
@@ -222,7 +215,7 @@ class IssueBuilderTest {
     @Test
     void setColumnEnd() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setColumnEnd(15)
                 .build();
 
@@ -233,7 +226,7 @@ class IssueBuilderTest {
     @Test
     void setColumnEndToZero() {
         // Normal case, should default to columnStart
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setColumnStart(15)
                 .setColumnEnd(0)
                 .build();
@@ -245,7 +238,7 @@ class IssueBuilderTest {
     @Test
     void setColumnEndToMinValue() {
         // Negative values should default to zero
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setColumnEnd(Integer.MIN_VALUE)
                 .build();
 
@@ -256,7 +249,7 @@ class IssueBuilderTest {
     @Test
     void setColumnEndToMaxValue() {
         // Integer.MAX_VALUE is a normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setColumnEnd(Integer.MAX_VALUE)
                 .build();
 
@@ -268,7 +261,7 @@ class IssueBuilderTest {
     @Test
     void setCategory() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setCategory("Testcategory")
                 .build();
 
@@ -276,7 +269,7 @@ class IssueBuilderTest {
                 .hasCategory("Testcategory");
 
         // Normal case
-        issueUnderTest = builderUnderTest
+        issueUnderTest = new IssueBuilder()
                 .setCategory("   C:\\User/test.xml")
                 .build();
 
@@ -287,7 +280,7 @@ class IssueBuilderTest {
     @Test
     void setCategoryToNull() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setCategory(null)
                 .build();
 
@@ -298,7 +291,7 @@ class IssueBuilderTest {
     @Test
     void setCategoryToWhitespace() {
         // Whitespace is a normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setCategory("   ")
                 .build();
 
@@ -309,7 +302,7 @@ class IssueBuilderTest {
     @Test
     void setType() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setType("test-type")
                 .build();
 
@@ -320,7 +313,7 @@ class IssueBuilderTest {
     @Test
     void setTypeToWhitespace() {
         // Whitespace is a normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setType("   ")
                 .build();
 
@@ -331,7 +324,7 @@ class IssueBuilderTest {
     @Test
     void setTypeToEmptyString() {
         // Whitespace should default to Issue.UNDEFINED
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setType("")
                 .build();
 
@@ -342,7 +335,7 @@ class IssueBuilderTest {
     @Test
     void setPackageName() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setPackageName("test-package")
                 .build();
 
@@ -353,7 +346,7 @@ class IssueBuilderTest {
     @Test
     void setPackageNameToEmptyString() {
         // Empty string should default to Issue.UNDEFINED
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setPackageName("")
                 .build();
 
@@ -364,7 +357,7 @@ class IssueBuilderTest {
     @Test
     void setPackageNameToWhitespace() {
         // Whitespace is a normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setPackageName("   ")
                 .build();
 
@@ -375,7 +368,7 @@ class IssueBuilderTest {
     @Test
     void setPriority() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setPriority(Priority.NORMAL)
                 .build();
 
@@ -386,7 +379,7 @@ class IssueBuilderTest {
     @Test
     void setPriorityToNull() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setPriority(null)
                 .build();
 
@@ -397,7 +390,7 @@ class IssueBuilderTest {
     @Test
     void setMessage() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setMessage("This is a test-message.")
                 .build();
 
@@ -408,7 +401,7 @@ class IssueBuilderTest {
     @Test
     void setMessageWithLeadingTrailingWhitespace() {
         // Whitespace should be removed
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setMessage("   This is a test-message.   ")
                 .build();
 
@@ -419,7 +412,7 @@ class IssueBuilderTest {
     @Test
     void setMessageToNull() {
         // Null should default to empty string
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setMessage(null)
                 .build();
 
@@ -430,7 +423,7 @@ class IssueBuilderTest {
     @Test
     void setMessageToWhitespace() {
         // Whitespace should be removed
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setMessage("   ")
                 .build();
 
@@ -441,7 +434,7 @@ class IssueBuilderTest {
     @Test
     void setDescription() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setDescription("This is a test-description.")
                 .build();
 
@@ -452,7 +445,7 @@ class IssueBuilderTest {
     @Test
     void setDescriptionWithLeadingTrailingWhitespace() {
         // Whitespace should be removed
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setDescription("   This is a test-description.   ")
                 .build();
 
@@ -463,7 +456,7 @@ class IssueBuilderTest {
     @Test
     void setDescriptionToNull() {
         // Null should default to empty string
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setDescription(null)
                 .build();
 
@@ -474,7 +467,7 @@ class IssueBuilderTest {
     @Test
     void setDescriptionToWhitespace() {
         // Whitespace should be removed
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setDescription("   ")
                 .build();
 
@@ -485,7 +478,7 @@ class IssueBuilderTest {
     @Test
     void copy() {
         // Normal case
-        issueUnderTest = builderUnderTest
+        Issue issueUnderTest = new IssueBuilder()
                 .setFileName("testFile.xml")
                 .setLineStart(10)
                 .setLineEnd(15)
@@ -499,7 +492,7 @@ class IssueBuilderTest {
                 .setDescription("this is a test-description.")
                 .build();
 
-        Issue copyOfIssueUnderTest = builderUnderTest.copy(issueUnderTest).build();
+        Issue copyOfIssueUnderTest = new IssueBuilder().copy(issueUnderTest).build();
         assertThat(issueUnderTest)
                 .as("Original issue and copy issue should be equal")
                 .isEqualTo(copyOfIssueUnderTest);
