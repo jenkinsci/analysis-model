@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Base class for parser tests. Provides an assertion test for warnings.
- * <p>
+ *
  * FIXME: close files
  */
 public abstract class ParserTester {
@@ -25,7 +25,7 @@ public abstract class ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param warning    the warning to check
+     * @param warning the warning to check
      * @param lineNumber the expected line number
      * @param message    the expected message
      * @param fileName   the expected filename
@@ -44,7 +44,7 @@ public abstract class ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param warning    the warning to check
+     * @param warning the warning to check
      * @param lineNumber the expected line number
      * @param column     the expected column
      * @param message    the expected message
@@ -60,7 +60,7 @@ public abstract class ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param warning    the warning to check
+     * @param warning the warning to check
      * @param lineNumber the expected line number
      * @param message    the expected message
      * @param fileName   the expected filename
@@ -76,7 +76,7 @@ public abstract class ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param warning    the warning to check
+     * @param warning the warning to check
      * @param lineNumber the expected line number
      * @param column     the expected column
      * @param message    the expected message

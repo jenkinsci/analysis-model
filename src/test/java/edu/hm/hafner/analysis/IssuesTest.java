@@ -34,18 +34,7 @@ class IssuesTest {
                 .hasToString(String.format("%d issues", issues.size()));
 
         assertThat(issues.get(0))
-                .hasFileName("-")
-                .hasPriority(Priority.NORMAL)
-                .hasLineStart(0)
-                .hasLineEnd(0)
-                .hasType("-")
-                .hasColumnStart(0)
-                .hasColumnEnd(0)
-                .hasCategory("")
-                .hasMessage("")
-                .hasPackageName("-")
-                .hasDescription("")
-                .hasToString(String.format("-(0,0): -: : "));
+                .isSameAs(issue);
 
     }
 
@@ -62,13 +51,13 @@ class IssuesTest {
         Issues issues = new Issues();
         issues.add(issueLow);
         issues.add(issueNorm);
-        Issues issues2 = issues.copy();
+        Issues issuesCopy = issues.copy();
 
         assertThat(issues)
                 .hasSize(2)
                 .hasLowPrioritySize(1)
                 .hasNormalPrioritySize(1);
-        assertThat(issues2)
+        assertThat(issuesCopy)
                 .hasSize(2)
                 .hasLowPrioritySize(1)
                 .hasNormalPrioritySize(1);
@@ -83,13 +72,17 @@ class IssuesTest {
                 .setPriority(Priority.LOW)
                 .build();
         Issue issueNorm = new IssueBuilder()
-                .setFileName("b")
+                .setFileName("a")
                 .setPriority(Priority.NORMAL)
                 .build();
         Issues issues = new Issues();
         issues.add(issueLow);
         issues.add(issueNorm);
-        assertThat(issues).hasNumberOfFiles(2);
+        assertThat(issues)
+                .hasNormalPrioritySize(1)
+                .hasLowPrioritySize(1)
+                .hasSize(2)
+                .hasNumberOfFiles(1);
     }
 
     @Test
@@ -125,11 +118,6 @@ class IssuesTest {
         issues.add(issueLow);
         issues.add(issueNorm);
 
-        assertThat(issues)
-                .hasSize(2)
-                .hasLowPrioritySize(1)
-                .hasNormalPrioritySize(1);
-
         assertThatThrownBy(() -> issues.findById(id))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("No issue found with id " + id + ".")
@@ -150,11 +138,6 @@ class IssuesTest {
         issues.add(issueLow);
         issues.add(issueNorm);
 
-        assertThat(issues)
-                .hasSize(2)
-                .hasLowPrioritySize(1)
-                .hasNormalPrioritySize(1);
-
         assertThat(issues.findById(id))
                 .hasPriority(Priority.LOW);
     }
@@ -165,22 +148,22 @@ class IssuesTest {
                 .setFileName("b")
                 .setPriority(Priority.LOW)
                 .build();
-        Issue issueHigh1 = new IssueBuilder()
+        Issue issueHighA = new IssueBuilder()
                 .setFileName("a")
                 .setPriority(Priority.HIGH)
                 .build();
-        Issue issueHigh2 = new IssueBuilder()
+        Issue issueHighC = new IssueBuilder()
                 .setFileName("c")
                 .setPriority(Priority.HIGH)
                 .build();
         Issues issues = new Issues();
-        Issues issues2 = new Issues();
+        Issues issuesTwo = new Issues();
 
         issues.add(issueLow);
-        issues.add(issueHigh1);
-        issues.add(issueHigh2);
+        issues.add(issueHighA);
+        issues.add(issueHighC);
 
-        issues2.addAll(issues.all());
+        issuesTwo.addAll(issues.all());
 
         assertThat(issues)
                 .hasSize(3)
@@ -188,7 +171,7 @@ class IssuesTest {
                 .hasNormalPrioritySize(0)
                 .hasHighPrioritySize(2);
 
-        assertThat(issues2)
+        assertThat(issuesTwo)
                 .hasSize(3)
                 .hasLowPrioritySize(1)
                 .hasNormalPrioritySize(0)

@@ -13,6 +13,9 @@ import edu.hm.hafner.analysis.Priority;
  * @author Mark Tripolt
  */
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
+
+    private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%n but was not.";
+
     /**
      * Custom constructor.
      *
@@ -41,7 +44,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasId(final int id) {
         isNotNull();
         if (!Objects.equals(actual.getId(), id)) {
-            failWithMessage("Expected Issue Id to be <%s> but was <%s>", id, actual.getId());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, id, actual.getId());
         }
         return this;
     }
@@ -55,7 +58,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasFileName(final String name) {
         isNotNull();
         if (!Objects.equals(actual.getFileName(), name)) {
-            failWithMessage("Expected Issue File Name to be <%s> but was <%s>", name, actual.getFileName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, name, actual.getFileName());
         }
         return this;
     }
@@ -69,7 +72,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasCategory(final String category) {
         isNotNull();
         if (!Objects.equals(actual.getCategory(), category)) {
-            failWithMessage("Expected Issue Category to be <%s> but was <%s>", category, actual.getCategory());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, category, actual.getCategory());
         }
         return this;
     }
@@ -83,7 +86,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasType(final String type) {
         isNotNull();
         if (!Objects.equals(actual.getType(), type)) {
-            failWithMessage("Expected Issue Type to be <%s> but was <%s>", type, actual.getType());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, type, actual.getType());
         }
         return this;
     }
@@ -97,7 +100,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasPriority(final Priority priority) {
         isNotNull();
         if (!Objects.equals(actual.getPriority(), priority)) {
-            failWithMessage("Expected Issue Priority to be <%s> but was <%s>", priority, actual.getPriority());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, priority, actual.getPriority());
         }
         return this;
     }
@@ -111,7 +114,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasMessage(final String message) {
         isNotNull();
         if (!Objects.equals(actual.getMessage(), message)) {
-            failWithMessage("Expected Issue Message to be <%s> but was <%s>", message, actual.getMessage());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, message, actual.getMessage());
         }
         return this;
     }
@@ -125,7 +128,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasDescription(final String description) {
         isNotNull();
         if (!Objects.equals(actual.getDescription(), description)) {
-            failWithMessage("Expected Issue Description to be <%s> but was <%s>", description, actual.getDescription());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, description, actual.getDescription());
         }
         return this;
     }
@@ -139,7 +142,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasLineStart(final int lineStart) {
         isNotNull();
         if (!Objects.equals(actual.getLineStart(), lineStart)) {
-            failWithMessage("Expected Issue LineStart to be <%s> but was <%s>", lineStart, actual.getLineStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, lineStart, actual.getLineStart());
         }
         return this;
     }
@@ -153,7 +156,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasLineEnd(final int lineEnd) {
         isNotNull();
         if (!Objects.equals(actual.getLineEnd(), lineEnd)) {
-            failWithMessage("Expected Issue LineEnd to be <%s> but was <%s>", lineEnd, actual.getLineEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, lineEnd, actual.getLineEnd());
         }
         return this;
     }
@@ -167,7 +170,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasColumnStart(final int columnStart) {
         isNotNull();
         if (!Objects.equals(actual.getColumnStart(), columnStart)) {
-            failWithMessage("Expected Issue ColumnStart to be <%s> but was <%s>", columnStart, actual.getColumnStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, columnStart, actual.getColumnStart());
         }
         return this;
     }
@@ -181,7 +184,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasColumnEnd(final int columnEnd) {
         isNotNull();
         if (!Objects.equals(actual.getColumnEnd(), columnEnd)) {
-            failWithMessage("Expected Issue ColumnEnd to be <%s> but was <%s>", columnEnd, actual.getColumnEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, columnEnd, actual.getColumnEnd());
         }
         return this;
     }
@@ -195,7 +198,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasPackageName(final String packageName) {
         isNotNull();
         if (!Objects.equals(actual.getPackageName(), packageName)) {
-            failWithMessage("Expected Issue PackageName to be <%s> but was <%s>", packageName, actual.getPackageName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, packageName, actual.getPackageName());
         }
         return this;
     }
@@ -209,7 +212,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasFingerprint(final String fingerprint) {
         isNotNull();
         if (!Objects.equals(actual.getFingerprint(), fingerprint)) {
-            failWithMessage("Expected Issue Fingerprint to be <%s> but was <%s>", fingerprint, actual.getFingerprint());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, fingerprint, actual.getFingerprint());
         }
         return this;
     }

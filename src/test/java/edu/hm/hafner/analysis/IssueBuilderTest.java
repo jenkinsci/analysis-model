@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
 
 /**
- * Testing Class for IssueBuilder and Issue.
+ * Testing Class for {@link IssueBuilder IssueBuilder} and {@link Issue Issue}.
  *
  * @author Mark Tripolt
  */
@@ -34,23 +34,9 @@ class IssueBuilderTest {
     }
 
     @Test
-    void createIssue() {
-        Issue issue = new IssueBuilder()
-                .setFileName("anotherIssue")
-                .setLineStart(1)
-                .setLineEnd(3)
-                .setColumnStart(0)
-                .setColumnEnd(123)
-                .setCategory("really bad")
-                .setType("worst")
-                .setPackageName("issue")
-                .setPriority(Priority.HIGH)
-                .setMessage("Just another Issue")
-                .setDescription("just another bad issue")
-                .build();
-
+    void createNewIssue() {
         IssueSoftAssertions.assertIssueSoftly(softly -> {
-            softly.assertThat(issue)
+            softly.assertThat(generateIssue())
                     .hasFileName("anotherIssue")
                     .hasLineStart(1)
                     .hasLineEnd(3)
@@ -68,22 +54,8 @@ class IssueBuilderTest {
 
     @Test
     void testCopyIssue() {
-        Issue issue = new IssueBuilder()
-                .setFileName("anotherIssue")
-                .setLineStart(1)
-                .setLineEnd(3)
-                .setColumnStart(0)
-                .setColumnEnd(123)
-                .setCategory("really bad")
-                .setType("worst")
-                .setPackageName("issue")
-                .setPriority(Priority.HIGH)
-                .setMessage("Just another Issue")
-                .setDescription("just another bad issue")
-                .build();
-
         Issue copy = new IssueBuilder()
-                .copy(issue)
+                .copy(generateIssue())
                 .build();
 
         IssueSoftAssertions.assertIssueSoftly(softly -> {
@@ -148,18 +120,10 @@ class IssueBuilderTest {
 
         IssueSoftAssertions.assertIssueSoftly(softly -> {
             softly.assertThat(issue)
-                    .hasFileName("-")
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasColumnStart(0)
-                    .hasColumnEnd(0)
-                    .hasCategory("")
-                    .hasType("-")
-                    .hasPackageName("-")
-                    .hasPriority(Priority.NORMAL)
-                    .hasMessage("")
-                    .hasDescription("")
-                    .hasToString("-(0,0): -: : ");
+                    .hasColumnEnd(0);
         });
 
     }
@@ -175,18 +139,43 @@ class IssueBuilderTest {
 
         IssueSoftAssertions.assertIssueSoftly(softly -> {
             softly.assertThat(issue)
-                    .hasFileName("-")
                     .hasLineStart(Integer.MAX_VALUE)
                     .hasLineEnd(Integer.MAX_VALUE)
                     .hasColumnStart(Integer.MAX_VALUE)
-                    .hasColumnEnd(Integer.MAX_VALUE)
-                    .hasCategory("")
-                    .hasType("-")
-                    .hasPackageName("-")
-                    .hasPriority(Priority.NORMAL)
-                    .hasMessage("")
-                    .hasDescription("")
-                    .hasToString("-(2147483647,2147483647): -: : ");
+                    .hasColumnEnd(Integer.MAX_VALUE);
         });
+    }
+
+    @Test
+    void createIssueWithOtherCharacters() {
+        Issue issue = new IssueBuilder()
+                .setFileName("!§$%&/()=?+#{[]}~'*-:;,.")
+                .setMessage("!§$%&/()=?+#{[]}~'*-:;,.")
+                .setDescription("!§$%&/()=?+#{[]}~'*-:;,.")
+                .build();
+
+        IssueSoftAssertions.assertIssueSoftly(softly -> {
+            softly.assertThat(issue)
+                    .hasFileName("!§$%&/()=?+#{[]}~'*-:;,.")
+                    .hasMessage("!§$%&/()=?+#{[]}~'*-:;,.")
+                    .hasMessage("!§$%&/()=?+#{[]}~'*-:;,.");
+        });
+    }
+
+
+    private Issue generateIssue() {
+        return new IssueBuilder()
+                .setFileName("anotherIssue")
+                .setLineStart(1)
+                .setLineEnd(3)
+                .setColumnStart(0)
+                .setColumnEnd(123)
+                .setCategory("really bad")
+                .setType("worst")
+                .setPackageName("issue")
+                .setPriority(Priority.HIGH)
+                .setMessage("Just another Issue")
+                .setDescription("just another bad issue")
+                .build();
     }
 }
