@@ -11,6 +11,8 @@ import edu.hm.hafner.analysis.Priority;
  * @author Andreas Moser
  */
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
+    private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
+
     /**
      * Creates a new @link {@link IssueAssert}.
      *
@@ -41,7 +43,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineStart() != line) {
-            failWithMessage("Expected issue's line start to be <%s> but was <%s>", line, actual.getLineStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, line, actual.getLineStart());
         }
 
         return this;
@@ -58,7 +60,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getLineEnd() != line) {
-            failWithMessage("Expected issue's line end to be <%s> but was <%s>", line, actual.getLineEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, line, actual.getLineEnd());
         }
 
         return this;
@@ -75,7 +77,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnStart() != column) {
-            failWithMessage("Expected issue's column start to be <%s> but was <%s>", column, actual.getColumnStart());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, column, actual.getColumnStart());
         }
 
         return this;
@@ -92,7 +94,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getColumnEnd() != column) {
-            failWithMessage("Expected issue's column end to be <%s> but was <%s>", column, actual.getColumnEnd());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, column, actual.getColumnEnd());
         }
 
         return this;
@@ -109,7 +111,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!actual.getMessage().equals(message)) {
-            failWithMessage("Expected issue's message to be <%s> but was <%s>", message, actual.getMessage());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, message, actual.getMessage());
         }
 
         return this;
@@ -126,7 +128,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!actual.getFileName().equals(fileName)) {
-            failWithMessage("Expected issue's fileName to be <%s> but was <%s>", fileName, actual.getFileName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, fileName, actual.getFileName());
         }
 
         return this;
@@ -143,7 +145,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!actual.getType().equals(type)) {
-            failWithMessage("Expected issue's type to be <%s> but was <%s>", type, actual.getType());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, type, actual.getType());
         }
 
         return this;
@@ -160,7 +162,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!actual.getCategory().equals(category)) {
-            failWithMessage("Expected issue's category to be <%s> but was <%s>", category, actual.getCategory());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, category, actual.getCategory());
         }
 
         return this;
@@ -177,7 +179,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (actual.getPriority() != priority) {
-            failWithMessage("Expected issue's priority to be <%s> but was <%s>", priority, actual.getPriority());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, priority, actual.getPriority());
         }
 
         return this;
@@ -194,7 +196,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!actual.getPackageName().equals(packageName)) {
-            failWithMessage("Expected issue's packageName to be <%s> but was <%s>", packageName, actual.getPackageName());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, packageName, actual.getPackageName());
         }
 
         return this;
@@ -211,7 +213,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         isNotNull();
 
         if (!actual.getDescription().equals(description)) {
-            failWithMessage("Expected issue's description to be <%s> but was <%s>", description, actual.getDescription());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, description, actual.getDescription());
         }
 
         return this;

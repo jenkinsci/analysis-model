@@ -30,15 +30,18 @@ class IssuesTest {
     void testAddMethodAddsIssueCorrect() {
         Issues issues = new Issues();
         Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
-        int expectedSize = 1;
+        int expectedSizeOfHighPrio = 1;
+        int expectedSizeOfNotHighPrio = 0;
 
         issues.add(highPrioIssue);
         ImmutableSet<Issue> allIssues = issues.all();
 
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
-        softly.assertThat(issues).as("Issues object containing 1 issue").hasSize(expectedSize);
-        softly.assertThat(allIssues).as("List with all issues").containsExactly(highPrioIssue);
-        softly.assertThat(issues).as("Number of added high priority issues").hasHighPrioritySize(expectedSize);
+        softly.assertThat(allIssues).as("List with all issues").containsExactlyInAnyOrder(highPrioIssue);
+        softly.assertThat(issues).hasSize(expectedSizeOfHighPrio);
+        softly.assertThat(issues).hasHighPrioritySize(expectedSizeOfHighPrio);
+        softly.assertThat(issues).hasNormalPrioritySize(expectedSizeOfNotHighPrio);
+        softly.assertThat(issues).hasLowPrioritySize(expectedSizeOfNotHighPrio);
         softly.assertAll();
     }
 
@@ -62,172 +65,110 @@ class IssuesTest {
         ImmutableSet<Issue> allIssues = issues.all();
 
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
-        softly.assertThat(issues).as("Issues object with 3 issues").hasSize(expectedSize)
+        softly.assertThat(allIssues).as("List with all issues").containsExactlyInAnyOrder(highPrioIssue, normalPrioIssue, lowPrioIssue);
+        softly.assertThat(issues).hasSize(expectedSize)
                 .hasHighPrioritySize(highPrioSize)
                 .hasNormalPrioritySize(normalPrioSize)
                 .hasLowPrioritySize(lowPrioSize);
-        softly.assertThat(allIssues).as("List with all issues").containsExactly(highPrioIssue, normalPrioIssue, lowPrioIssue);
         softly.assertAll();
     }
 
     /** Verfies that a issue can be removes from issues. */
     @Test
     void testRemoveMethodRemovesIssueCorrect() {
-        Issues issues = new Issues();
         Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
-        issues.add(highPrioIssue);
+        Issues issues = getIssuesWithGivenIssue(highPrioIssue);
         int expectedSize = 0;
 
 
         Issue removedIssue = issues.remove(highPrioIssue.getId());
 
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
-        softly.assertThat(issues).as("Issues object with 0 issues.").hasSize(expectedSize);
         softly.assertThat(removedIssue).as("Removed issue").isSameAs(highPrioIssue);
+        softly.assertThat(issues).hasSize(expectedSize);
         softly.assertAll();
     }
 
     /** Verifies that an {@link NoSuchElementException} is thrown if an issue that is not in issues is removed. */
     @Test
     void testRemoveMethodThrowsExceptionWhenRemovingANotContainedElement() {
-        Issues issues = new Issues();
-        Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
+        Issues issues = getIssuesWithOneIssue(Priority.HIGH);
         Issue notAddedIssue = new IssueBuilder().setPriority(Priority.NORMAL).build();
-        issues.add(highPrioIssue);
         int expectedSize = 1;
 
 
         AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
         softly.assertThatThrownBy(() -> issues.remove(notAddedIssue.getId()))
                 .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(notAddedIssue.getId().toString())
                 .hasNoCause();
-        softly.assertThat(issues).as("Issues object with 1 issue").hasSize(expectedSize);
+        softly.assertThat(issues).hasSize(expectedSize);
         softly.assertAll();
     }
 
     /** Verifies that a issue of issues can be found by id. */
     @Test
     void testFindByIdReturnsTheCorrectElement() {
-        Issues issues = new Issues();
         Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
         Issue normalPrioIssue = new IssueBuilder().setPriority(Priority.NORMAL).build();
         UUID highPrioIssueID = highPrioIssue.getId();
-        issues.add(highPrioIssue);
-        issues.add(normalPrioIssue);
+        Issues issues = getIssuesWithGivenIssue(highPrioIssue, normalPrioIssue);
 
         Issue issueFoundByID = issues.findById(highPrioIssueID);
 
         assertThat(issueFoundByID).as("Issue found by id").isSameAs(highPrioIssue);
+
     }
 
     /** Verifies that an {@link NoSuchElementException} is thrown if searching for an id that is not in issues. */
     @Test
     void testIfFindByIdThrowsNoSuchElementExceptionWhenSearchingANotContainedID() {
-        Issues issues = new Issues();
         Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
         Issue normalPrioIssue = new IssueBuilder().setPriority(Priority.NORMAL).build();
         UUID notContainedUUID = normalPrioIssue.getId();
-        issues.add(highPrioIssue);
+        Issues issues = getIssuesWithGivenIssue(highPrioIssue);
 
         assertThatThrownBy(() -> issues.findById(notContainedUUID))
                 .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(notContainedUUID.toString())
                 .hasNoCause();
     }
 
     /** Verifies that an issue can be found by property. */
     @Test
     void testFindByPropertyReturnsAllTheElementsWithGivenCriterion() {
-        Issues issues = new Issues();
         Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
         Issue highPrioIssue2 = new IssueBuilder().setPriority(Priority.HIGH).build();
         Issue lowPrioIssue = new IssueBuilder().setPriority(Priority.LOW).build();
-        issues.add(highPrioIssue);
-        issues.add(highPrioIssue2);
-        issues.add(lowPrioIssue);
-        Predicate<Issue> criterionHighPrio = new Predicate<Issue>() {
-            @Override
-            public boolean test(final Issue issue) {
-                return issue.getPriority() == Priority.HIGH;
-            }
+        Issues issues = getIssuesWithGivenIssue(highPrioIssue, highPrioIssue2, lowPrioIssue);
+
+        Predicate<Issue> criterionHighPrio = (Issue issue) -> {
+            return issue.getPriority() == Priority.HIGH;
         };
 
         ImmutableList<Issue> highPrioIssues = issues.findByProperty(criterionHighPrio);
 
-        assertThat(highPrioIssues).as("List of all issues with high priority").containsExactly(highPrioIssue, highPrioIssue2);
+        assertThat(highPrioIssues).as("List of all issues with high priority").containsExactlyInAnyOrder(highPrioIssue, highPrioIssue2);
     }
 
     /** Verifies that it is possible to iterate over all issue's by using an iterator. */
     @Test
     void testIssuesIterator() {
-        Issues issues = new Issues();
         Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
         Issue highPrioIssue2 = new IssueBuilder().setPriority(Priority.HIGH).build();
         Issue lowPrioIssue = new IssueBuilder().setPriority(Priority.LOW).build();
-        issues.add(highPrioIssue);
-        issues.add(highPrioIssue2);
-        issues.add(lowPrioIssue);
-        int expectedIteratorSize = 3;
+        Issues issues = getIssuesWithGivenIssue(highPrioIssue, highPrioIssue2, lowPrioIssue);
 
         Iterator<Issue> issueIterator = issues.iterator();
 
-        assertThat(issueIterator).as("Iterator over issues").containsExactly(highPrioIssue, highPrioIssue2, lowPrioIssue);
-
-
-    }
-
-
-    /** Verifies that getSize() returns the correct size. */
-    @Test
-    void testGetSizeMethodsReturnsCorrectSize() {
-        Issues issues = new Issues();
-        Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
-        Issue highPrioIssue2 = new IssueBuilder().setPriority(Priority.HIGH).build();
-        Issue lowPrioIssue = new IssueBuilder().setPriority(Priority.LOW).build();
-        int expectedSize = 3;
-        issues.add(highPrioIssue);
-        issues.add(highPrioIssue2);
-        issues.add(lowPrioIssue);
-
-        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
-        softly.assertThat(issues).as("Issues object with 3 issues").hasSize(expectedSize);
-        softly.assertThat(issues.size()).as("Size of issues object with 3 issues").isEqualTo(expectedSize);
-        softly.assertAll();
-    }
-
-    /** Verifies that the correct priority sizes are returned. */
-    @Test
-    void testGetHighNormalAndLowPrioritySizeMethods() {
-        Issues issues = new Issues();
-        Issue normalPrioIssue = new IssueBuilder().setPriority(Priority.NORMAL).build();
-        Issue lowPrioIssue = new IssueBuilder().setPriority(Priority.LOW).build();
-        Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
-        Issue highPrioIssue2 = new IssueBuilder().setPriority(Priority.HIGH).build();
-        int expectedHighPrioSize = 2;
-        int expectedNormalPrioSize = 1;
-        int expectedLowPrioSize = 1;
-        issues.add(highPrioIssue);
-        issues.add(highPrioIssue2);
-        issues.add(normalPrioIssue);
-        issues.add(lowPrioIssue);
-
-        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
-        softly.assertThat(issues).as("Issues with high priority size 2").hasHighPrioritySize(expectedHighPrioSize);
-        softly.assertThat(issues).as("Issues with normal priority size 1").hasNormalPrioritySize(expectedNormalPrioSize);
-        softly.assertThat(issues).as("Issues with normal priority size 1").hasLowPrioritySize(expectedLowPrioSize);
-        softly.assertAll();
+        assertThat(issueIterator).as("Iterator over issues").containsExactlyInAnyOrder(highPrioIssue, highPrioIssue2, lowPrioIssue);
     }
 
     /** Verifies an issue can be get by index. */
     @Test
     void testGetMethodReturnsTheCorrectElementAtTheGivenPosition() {
-        Issues issues = new Issues();
-        Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
-        Issue normalPrioIssue = new IssueBuilder().setPriority(Priority.NORMAL).build();
-        Issue normalPrioIssue2 = new IssueBuilder().setPriority(Priority.NORMAL).build();
+        Issues issues = getIssuesWithThreeIssue(Priority.HIGH, Priority.NORMAL, Priority.NORMAL);
         int wantedIndex = 1;
-        issues.add(highPrioIssue);
-        issues.add(normalPrioIssue);
-        issues.add(normalPrioIssue2);
 
         Iterator<Issue> issueIterator = issues.iterator();
         Issue issueAtWantedIndexByIterator = issueIterator.next();
@@ -242,87 +183,112 @@ class IssuesTest {
     /** Verifies toString() returns a correct String. */
     @Test
     void testToStringMethod() {
-        Issues issues = new Issues();
-        Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
-        Issue normalIssue = new IssueBuilder().setPriority(Priority.NORMAL).build();
-        String expectedString = "2 issues";
-        issues.add(highPrioIssue);
-        issues.add(normalIssue);
+        Issues issues = getIssuesWithThreeIssue(Priority.HIGH, Priority.NORMAL, Priority.NORMAL);
+        String expectedString = "3 issues";
+
 
         String issuesToString = issues.toString();
 
         assertThat(issuesToString).as("Issues object represented as String").isEqualTo(expectedString);
     }
 
-    /** Verifies isuues can be get by file name. */
+    /** Verifies issues can be get by file name and the right number of files is returned. */
     @Test
-    void testGetFilesMethodReturnsTheCorrectFileNames() {
-        Issues issues = new Issues();
-        String testFileName = "testFile";
-        Issue testIssue = new IssueBuilder().setFileName(testFileName).build();
-        issues.add(testIssue);
-
-        SortedSet<String> files = issues.getFiles();
-        String fileNameGetByGetFileMethod = files.first();
-
-        assertThat(fileNameGetByGetFileMethod).as("File name of the test issue").isEqualTo(testFileName);
-    }
-
-    /** Verifies getNumberOfFiles() method returns the correct size. */
-    @Test
-    void testGetNumberOfFilesMethodReturnsTheCorrectSize() {
-        Issues issues = new Issues();
+    void testGetFilesMethodReturnsTheCorrectFileNamesAndNumberOfFiles() {
         String testFileName1 = "testFile1";
         String testFileName2 = "testFile2";
         Issue testIssue1 = new IssueBuilder().setFileName(testFileName1).build();
         Issue testIssue2 = new IssueBuilder().setFileName(testFileName2).build();
-        issues.add(testIssue1);
-        issues.add(testIssue2);
+        Issues issues = getIssuesWithGivenIssue(testIssue1, testIssue2);
         int expectedNumberOfFiles = 2;
 
-        int numberOfFiles = issues.getNumberOfFiles();
+        SortedSet<String> files = issues.getFiles();
 
-        assertThat(numberOfFiles).as("Number of affected files").isEqualTo(expectedNumberOfFiles);
+        AnalysisSoftAssertions softly = new AnalysisSoftAssertions();
+        softly.assertThat(files).as("Set of all files of issues").containsExactlyInAnyOrder(testFileName1, testFileName2);
+        softly.assertThat(issues).hasNumberOfFiles(expectedNumberOfFiles);
+        softly.assertAll();
     }
 
     /** Verifies issue can be get by property. */
     @Test
     void testGetPropertiesMethodReturnsTheCorrectProperties() {
-        Issues issues = new Issues();
-        Issue lowPrioIssue = new IssueBuilder().setPriority(Priority.LOW).build();
-        issues.add(lowPrioIssue);
-        Priority expectedProperty = Priority.LOW;
-        Function<Issue, Priority> getPrioritiesFunction = new Function<Issue, Priority>() {
-            @Override
-            public Priority apply(final Issue issue) {
-                return issue.getPriority();
-            }
+        Priority expectedPriorityLow = Priority.LOW;
+        Priority expectedPriorityNormal = Priority.NORMAL;
+        Priority expectedPriorityHigh = Priority.HIGH;
+        Issues issues = getIssuesWithThreeIssue(expectedPriorityLow, expectedPriorityNormal, expectedPriorityHigh);
+
+        Function<Issue, Priority> getPrioritiesFunction = (final Issue issue) -> {
+            return issue.getPriority();
         };
 
 
         SortedSet<Priority> issuesPriorities = issues.getProperties(getPrioritiesFunction);
-        Priority firstPriority = issuesPriorities.first();
 
-        assertThat(firstPriority).as("Issue priority contained in issues").isEqualTo(expectedProperty);
+        assertThat(issuesPriorities).as("All issue priorities contained in issues").containsExactlyInAnyOrder(expectedPriorityHigh, expectedPriorityNormal, expectedPriorityLow);
     }
 
     /** Verifies issues class can be copied. */
     @Test
     void testCopyMethod() {
-        Issues issues = new Issues();
-        Issue normalPrioIssue = new IssueBuilder().setPriority(Priority.NORMAL).build();
-        Issue lowPrioIssue = new IssueBuilder().setPriority(Priority.LOW).build();
-        Issue highPrioIssue = new IssueBuilder().setPriority(Priority.HIGH).build();
-        Issue highPrioIssue2 = new IssueBuilder().setPriority(Priority.HIGH).build();
-        issues.add(highPrioIssue);
-        issues.add(highPrioIssue2);
-        issues.add(normalPrioIssue);
-        issues.add(lowPrioIssue);
+        Issues issues = getIssuesWithThreeIssue(Priority.HIGH, Priority.NORMAL, Priority.NORMAL);
         ImmutableSet<Issue> expectedElements = issues.all();
 
         Issues copiedIssues = issues.copy();
         ImmutableSet<Issue> copiedElements = copiedIssues.all();
 
-        assertThat(copiedElements).as("All elements of issues").isEqualTo(expectedElements);
+        assertThat(copiedElements).as("All elements of issues").containsExactlyElementsOf(expectedElements);
     }
+
+    /**
+     * Generates a issues object containing one issue. The issue has the given parameters.
+     *
+     * @param priority The priority of the issue.
+     * @return issues A issues object containing one issue.
+     */
+    private Issues getIssuesWithOneIssue(final Priority priority) {
+        Issues issues = new Issues();
+        Issue issue = new IssueBuilder().setPriority(priority).build();
+        issues.add(issue);
+
+        return issues;
+    }
+
+    /**
+     * Generates a issues object containing three issues. The issues has the given parameters.
+     *
+     * @param priority1 The priority of the first issue.
+     * @param priority2 The priority of the second issue.
+     * @param priority3 The priority of the third issue.
+     * @return issues A issues object containing three issue.
+     */
+    private Issues getIssuesWithThreeIssue(final Priority priority1, final Priority priority2, final Priority priority3) {
+        Issues issues = new Issues();
+        Issue issue1 = new IssueBuilder().setPriority(priority1).build();
+        Issue issue2 = new IssueBuilder().setPriority(priority2).build();
+        Issue issue3 = new IssueBuilder().setPriority(priority3).build();
+        issues.add(issue1);
+        issues.add(issue2);
+        issues.add(issue3);
+
+        return issues;
+    }
+
+    /**
+     * Returns a issues object containing the given issue objects.
+     *
+     * @param givenIssue The issue objects to add to the returning issues object.
+     * @return issues An issues object containing all given issue objects.
+     */
+    private Issues getIssuesWithGivenIssue(final Issue... givenIssue) {
+        Issues issues = new Issues();
+
+        for (Issue issue : givenIssue) {
+            issues.add(issue);
+        }
+
+        return issues;
+    }
+
+
 }

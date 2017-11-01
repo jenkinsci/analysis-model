@@ -10,6 +10,8 @@ import edu.hm.hafner.analysis.Issues;
  * @author Andreas Moser
  */
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
+    private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
+
     /**
      * Creates a new @link {@link IssuesAssert}.
      *
@@ -40,7 +42,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getSize() != size) {
-            failWithMessage("Expected issues's size to be <%s> but was <%s>", size, actual.getSize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, size, actual.getSize());
         }
 
         return this;
@@ -57,7 +59,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getHighPrioritySize() != prioritySize) {
-            failWithMessage("Expected issues's high prioritySize to be <%s> but was <%s>", prioritySize, actual.getHighPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, prioritySize, actual.getHighPrioritySize());
         }
 
         return this;
@@ -74,7 +76,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getNormalPrioritySize() != prioritySize) {
-            failWithMessage("Expected issues's normal prioritySize to be <%s> but was <%s>", prioritySize, actual.getNormalPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, prioritySize, actual.getNormalPrioritySize());
         }
 
         return this;
@@ -91,10 +93,26 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getLowPrioritySize() != prioritySize) {
-            failWithMessage("Expected issues's low prioritySize to be <%s> but was <%s>", prioritySize, actual.getLowPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, prioritySize, actual.getLowPrioritySize());
         }
 
         return this;
     }
 
+    /**
+     * Verifies that the actual Issues's number of files is equal to the given one.
+     *
+     * @param numberOfFiles The given number of files to compare the actual Issues's number of files to.
+     * @return this assertion object.
+     * @throws AssertionError - if the actual Issues's number of files is not equal to the given one.
+     */
+    public IssuesAssert hasNumberOfFiles(final int numberOfFiles) {
+        isNotNull();
+
+        if (actual.getNumberOfFiles() != numberOfFiles) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, numberOfFiles, actual.getNumberOfFiles());
+        }
+
+        return this;
+    }
 }
