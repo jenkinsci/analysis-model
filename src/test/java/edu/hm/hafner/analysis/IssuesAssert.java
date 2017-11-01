@@ -4,8 +4,11 @@ import org.assertj.core.api.AbstractAssert;
 
 /**
  * Custom assertions for {@link Issues}.
+ *
+ * @author Joscha Behrmann
  */
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
+    private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
 
     public IssuesAssert(final Issues actual) {
         super(actual, IssuesAssert.class);
@@ -20,8 +23,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.size() != size || actual.getSize() != size) {
-            failWithMessage("Expected size to be <%s> but was <%s>",
-                    size, actual.size());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE,
+                    "size", size);
         }
 
         return this;
@@ -31,8 +34,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.size() > 0 || actual.getSize() > 0) {
-            failWithMessage("Expected size to be <%s> but was <%s>",
-                    0, actual.size());
+            failWithMessage("Expecting collection to be empty but was not.");
         }
 
         return this;
@@ -42,8 +44,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getHighPrioritySize() != highPrioritySize) {
-            failWithMessage("Expected highPrioritySize to be <%s> but was <%s>",
-                    highPrioritySize, actual.getHighPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE,
+                    "highPrioritySize", highPrioritySize);
         }
 
         return this;
@@ -53,8 +55,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getNormalPrioritySize() != normalPrioritySize) {
-            failWithMessage("Expected normalPrioritySize to be <%s> but was <%s>",
-                    normalPrioritySize, actual.getNormalPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE,
+                    "normalPrioritySize", normalPrioritySize);
         }
 
         return this;
@@ -64,8 +66,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getLowPrioritySize() != lowPrioritySize) {
-            failWithMessage("Expected lowPrioritySize to be <%s> but was <%s>",
-                    lowPrioritySize, actual.getLowPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE,
+                    "lowPrioritySize", lowPrioritySize);
         }
 
         return this;
@@ -75,8 +77,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getNumberOfFiles() != numberOfFiles) {
-            failWithMessage("Expected numberOfFiles to be <%s> but was <%s>",
-                    numberOfFiles, actual.getNumberOfFiles());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE,
+                    "numberOfFiles", numberOfFiles);
         }
 
         return this;
