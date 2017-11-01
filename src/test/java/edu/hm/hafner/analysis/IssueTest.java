@@ -6,12 +6,14 @@ import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link Issue}.
+ *
+ * @author Joscha Behrmann
  */
 class IssueTest {
 
     /** Instance of Issue which is tested. */
     private final Issue issueUnderTest = new Issue("fileName",
-            0, 10, 0, 10,
+            0, 10, 20, 30,
             "category", "type", "packageName",
             Priority.NORMAL,
             "message", "description");
@@ -23,8 +25,8 @@ class IssueTest {
         soft.assertThat(issueUnderTest).hasFileName("fileName");
         soft.assertThat(issueUnderTest).hasLineStart(0);
         soft.assertThat(issueUnderTest).hasLineEnd(10);
-        soft.assertThat(issueUnderTest).hasColumnStart(0);
-        soft.assertThat(issueUnderTest).hasColumnEnd(10);
+        soft.assertThat(issueUnderTest).hasColumnStart(20);
+        soft.assertThat(issueUnderTest).hasColumnEnd(30);
         soft.assertThat(issueUnderTest).hasCategory("category");
         soft.assertThat(issueUnderTest).hasType("type");
         soft.assertThat(issueUnderTest).hasPackageName("packageName");
@@ -45,15 +47,17 @@ class IssueTest {
 
         // Leading/Trailing whitespace should be untouched
         issueUnderTest.setFingerprint("   fingerPrint   ");
-        soft.assertThat(issueUnderTest).hasFingerprint("fingerPrint");
+        soft.assertThat(issueUnderTest).hasFingerprint("   fingerPrint   ");
 
         // Whitespace is a normal case
         issueUnderTest.setFingerprint("   ");
-        soft.assertThat(issueUnderTest).hasFingerprint("fingerPrint");
+        soft.assertThat(issueUnderTest).hasFingerprint("   ");
 
         // null should default to Issue.UNDEFINED
         issueUnderTest.setFingerprint(null);
         soft.assertThat(issueUnderTest).hasFingerprint("-");
+
+        soft.assertAll();
     }
 
     /** toString() should return a nicely formatted string. */
@@ -61,7 +65,7 @@ class IssueTest {
     void testToString() {
         assertThat(issueUnderTest.toString())
                 .as("Strings should match")
-                .isEqualTo(String.format("%s(%d,%d): %s: %s: %s",
+                .contains(String.format("%s(%d,%d): %s: %s: %s",
                         issueUnderTest.getFileName(),
                         issueUnderTest.getLineStart(),
                         issueUnderTest.getColumnStart(),
