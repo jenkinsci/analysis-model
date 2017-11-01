@@ -4,6 +4,8 @@ import org.assertj.core.api.SoftAssertions;
 
 /**
  * Custom soft assertions for {@link Issue}.
+ *
+ * @author Joscha Behrmann
  */
 public class IssueSoftAssert extends SoftAssertions {
 
