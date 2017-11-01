@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.assertj;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import org.assertj.core.api.AbstractAssert;
 
@@ -9,232 +8,241 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
 
 /**
- * Assertions for {@link Issue}.
- *
- * @author Marcel Binder
+ * Fluent assertions for {@link Issue}.
  */
-@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
+
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
     /**
-     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
+     * Ctor for creating a new instance.
      *
-     * @param actual the issue we want to make assertions on
+     * @param issue Issue assertions are run on
      */
-    public IssueAssert(final Issue actual) {
-        super(actual, IssueAssert.class);
+    public IssueAssert(final Issue issue) {
+        super(issue, IssueAssert.class);
     }
 
     /**
-     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
+     * Assert the id is set.
      *
-     * @param actual the issue we want to make assertions on
-     * @return a new {@link IssueAssert}
+     * @return IssueAssert instance
      */
-    @SuppressWarnings("ParameterHidesMemberVariable")
-    public static IssueAssert assertThat(final Issue actual) {
-        return new IssueAssert(actual);
-    }
-
-    /**
-     * Checks whether an Issue has a specific id.
-     *
-     * @param id id specifying id.
-     * @return this
-     */
-    public IssueAssert hasId(final UUID id) {
+    public IssueAssert hasId() {
         isNotNull();
 
-        if (!Objects.equals(actual.getId(), id)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "id", actual, id, actual.getId());
+        if (actual.getId() == null) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "id", actual, "not null", actual.getId());
         }
 
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific filename.
+     * Assert the filename matches the expectation.
      *
-     * @param fileName String specifying filename.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasFileName(final String fileName) {
+    public IssueAssert hasFilename(final String expected) {
         isNotNull();
 
-        if (!Objects.equals(actual.getFileName(), fileName)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "file name", actual, fileName, actual.getFileName());
+        if (!Objects.equals(actual.getFileName(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "filename", actual, expected, actual.getFileName());
         }
 
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific category.
+     * Assert the category matches the expectation.
      *
-     * @param category String specifying category.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasCategory(final String category) {
+    public IssueAssert hasCategory(final String expected) {
         isNotNull();
 
-        if (!Objects.equals(actual.getCategory(), category)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "category", actual, category, actual.getCategory());
+        if (!Objects.equals(actual.getCategory(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "category", actual, expected, actual.getCategory());
         }
 
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific type.
+     * Assert the column start matches the expectation.
      *
-     * @param type String specifying type.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasType(final String type) {
+    public IssueAssert hasColumnStart(final int expected) {
         isNotNull();
 
-        if (!Objects.equals(actual.getType(), type)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "type", actual, type, actual.getType());
+        if (!Objects.equals(actual.getColumnStart(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "columnStart", actual, expected, actual.getColumnStart());
         }
 
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific priority.
+     * Assert the column end matches the expectation.
      *
-     * @param priority Priority specifying priority.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasPriority(final Priority priority) {
+    public IssueAssert hasColumnEnd(final int expected) {
         isNotNull();
 
-        if (!Objects.equals(actual.getPriority(), priority)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, priority, actual.getPriority());
+        if (!Objects.equals(actual.getColumnEnd(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "columnEnd", actual, expected, actual.getColumnEnd());
         }
 
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific message.
+     * Assert the line start matches the expectation.
      *
-     * @param message String specifying message.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasMessage(final String message) {
+    public IssueAssert hasLineStart(final int expected) {
         isNotNull();
 
-        if (!Objects.equals(actual.getMessage(), message)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "message", actual, message, actual.getMessage());
+        if (!Objects.equals(actual.getLineStart(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "lineStart", actual, expected, actual.getLineStart());
         }
 
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific description.
+     * Assert the line end matches the expectation.
      *
-     * @param description String specifying description.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasDescription(final String description) {
+    public IssueAssert hasLineEnd(final int expected) {
         isNotNull();
 
-        if (!Objects.equals(actual.getDescription(), description)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "description", actual, description, actual.getDescription());
+        if (!Objects.equals(actual.getLineEnd(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "lineEnd", actual, expected, actual.getLineEnd());
         }
+
         return this;
     }
 
     /**
-     * Checks whether an Issue starts at a specific line.
+     * Assert the ptype matches the expectation.
      *
-     * @param lineStart int specifying lineStart.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasLineStart(final int lineStart) {
+    public IssueAssert hasType(final String expected) {
         isNotNull();
 
-        if (actual.getLineStart() != lineStart) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line start", actual, lineStart, actual.getLineStart());
+        if (!Objects.equals(actual.getType(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "type", actual, expected, actual.getType());
         }
+
         return this;
     }
 
     /**
-     * Checks whether an Issue ends at a specific line.
+     * Assert the message matches the expectation.
      *
-     * @param lineEnd int specifying lineEnd.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasLineEnd(final int lineEnd) {
+    public IssueAssert hasMessage(final String expected) {
         isNotNull();
 
-        if (actual.getLineEnd() != lineEnd) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line end", actual, lineEnd, actual.getLineEnd());
+        if (!Objects.equals(actual.getMessage(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "message", actual, expected, actual.getMessage());
         }
+
         return this;
     }
 
     /**
-     * Checks whether an Issue starts at a specific column.
+     * Assert the description matches the expectation.
      *
-     * @param columnStart int specifying columnStart.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasColumnStart(final int columnStart) {
+    public IssueAssert hasDescription(final String expected) {
         isNotNull();
 
-        if (actual.getColumnStart() != columnStart) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column start", actual, columnStart, actual.getColumnStart());
+        if (!Objects.equals(actual.getDescription(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "description", actual, expected, actual.getDescription());
         }
+
         return this;
     }
 
     /**
-     * Checks whether an Issue ends at a specific column.
+     * Assert the package name matches the expectation.
      *
-     * @param columnEnd int specifying columnEnd.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasColumnEnd(final int columnEnd) {
+    public IssueAssert hasPackageName(final String expected) {
         isNotNull();
 
-        if (actual.getColumnEnd() != columnEnd) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column end", actual, columnEnd, actual.getColumnEnd());
+        if (!Objects.equals(actual.getPackageName(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "packageName", actual, expected, actual.getPackageName());
         }
+
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific packageName.
+     * Assert the priority matches the expectation.
      *
-     * @param packageName String specifying packageName.
-     * @return this
+     * @param expected expected value
+     * @return IssueAssert instance
      */
-    public IssueAssert hasPackageName(final String packageName) {
+    public IssueAssert hasPriority(final Priority expected) {
         isNotNull();
 
-        if (!Objects.equals(actual.getPackageName(), packageName)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "package name", actual, packageName, actual.getPackageName());
+        if (!Objects.equals(actual.getPriority(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, expected, actual.getPriority());
         }
+
         return this;
     }
 
     /**
-     * Checks whether an Issue has a specific fingerprint.
+     * Assert the fingerprint matches the expectation.
      *
-     * @param fingerprint String specifying fingerprint.
+     * @param expected fingerprint to match
      * @return this
      */
-    public IssueAssert hasFingerprint(final String fingerprint) {
+    public IssueAssert hasFingerprint(final String expected) {
         isNotNull();
 
-        if (!Objects.equals(actual.getFingerprint(), fingerprint)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "fingerprint", actual, fingerprint, actual.getFingerprint());
+        if (!Objects.equals(actual.getFingerprint(), expected)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "fingerprint", actual, expected, actual.getFingerprint());
         }
+
+        return this;
+    }
+
+    /**
+     * Assert the issue has a different id.
+     *
+     * @param issue the issue with an expected different id.
+     * @return this
+     */
+    public IssueAssert hasNotSameId(final Issue issue) {
+        isNotNull();
+
+        if (Objects.equals(actual.getId(), issue.getId())) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "id", actual, issue.getId(), actual.getId());
+        }
+
         return this;
     }
 }

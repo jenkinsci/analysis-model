@@ -2,61 +2,68 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.IssueTest.*;
-import static edu.hm.hafner.analysis.assertj.IssueAssert.*;
+import static edu.hm.hafner.analysis.assertj.CustomAssertions.*;
 
-/**
- * Unit test for {@link IssueBuilder}.
- *
- * @author Marcel Binder
- */
+
 class IssueBuilderTest {
+
+    private static final String FILE_NAME = "FileName";
+    private static final int LINE_START = 1;
+    private static final int LINE_END = 2;
+    private static final int COLUMN_START = 1;
+    private static final int COLUMN_END = 2;
+    private static final String CATEGORY = "Category";
+    private static final String TYPE = "Type";
+    private static final String PACKAGE_NAME = "PackageName";
+    private static final Priority PRIORITY = Priority.HIGH;
+    private static final String MESSAGE = "Message";
+    private static final String DESCRIPTION = "Description";
+
     private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, null, null, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, PRIORITY, MESSAGE, DESCRIPTION);
+    private static final Issue ISSUE_WITH_VALUES_IN_RANGE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, PRIORITY, MESSAGE, DESCRIPTION);
 
     @Test
-    void testDefaultValues() {
+    public void shouldBuildIssueWithAllSetProperties() {
+        Issue issue = new IssueBuilder()
+                .setCategory(CATEGORY)
+                .setColumnEnd(COLUMN_END)
+                .setColumnStart(COLUMN_START)
+                .setDescription(DESCRIPTION)
+                .setFileName(FILE_NAME)
+                .setLineStart(LINE_START)
+                .setLineEnd(LINE_END)
+                .setMessage(MESSAGE)
+                .setPackageName(PACKAGE_NAME)
+                .setType(TYPE)
+                .setPriority(PRIORITY)
+                .build();
+
+        assertThat(issue).isEqualTo(ISSUE_WITH_VALUES_IN_RANGE);
+    }
+
+    @Test
+    public void shouldBuildIssueWithDefaultProperties() {
         Issue issue = new IssueBuilder().build();
 
         assertThat(issue).isEqualTo(DEFAULT_ISSUE);
     }
 
     @Test
-    void testFilledIssue() {
-        Issue issue = new IssueBuilder()
-                .setFileName(FILE_NAME)
-                .setLineStart(LINE_START)
-                .setLineEnd(LINE_END)
-                .setColumnStart(COLUMN_START)
-                .setColumnEnd(COLUMN_END)
-                .setCategory(CATEGORY)
-                .setType(TYPE)
-                .setPackageName(PACKAGE_NAME)
-                .setPriority(PRIORITY)
-                .setMessage(MESSAGE)
-                .setDescription(DESCRIPTION)
-                .build();
+    public void testCopy() {
+        Issue copyIssue = new IssueBuilder().copy(ISSUE_WITH_VALUES_IN_RANGE).build();
 
-        assertThat(issue).isEqualTo(FILLED_ISSUE);
+        assertThat(copyIssue).isNotSameAs(ISSUE_WITH_VALUES_IN_RANGE);
+        assertThat(copyIssue).isEqualTo(ISSUE_WITH_VALUES_IN_RANGE);
     }
 
     @Test
-    void testCopy() {
-        Issue copy = new IssueBuilder()
-                .copy(FILLED_ISSUE)
-                .build();
+    public void shouldBuildNewInstance() {
+        IssueBuilder builder = new IssueBuilder();
+        Issue first = builder.build();
+        Issue second = builder.build();
 
-        assertThat(copy).isNotSameAs(FILLED_ISSUE);
-        assertThat(copy).isEqualTo(FILLED_ISSUE);
+        assertThat(first).isNotSameAs(second);
+        assertThat(first).isEqualTo(second);
     }
 
-    @Test
-    void testBuildNewInstance() {
-        IssueBuilder builder = new IssueBuilder().copy(FILLED_ISSUE);
-        Issue issue1 = builder.build();
-        Issue issue2 = builder.build();
-
-        assertThat(issue1).isNotSameAs(issue2);
-        assertThat(issue1).isEqualTo(issue2);
-    }
 }
