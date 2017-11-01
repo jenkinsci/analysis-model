@@ -1,223 +1,240 @@
 package edu.hm.hafner.analysis.assertj;
 
+import java.util.Objects;
+import java.util.UUID;
+
 import org.assertj.core.api.AbstractAssert;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
 
 /**
- * A custom AssertJ assertion to make assertions specific to {@link Issue}.
+ * Assertions for {@link Issue}.
  *
- * @author Andreas Moser
+ * @author Marcel Binder
  */
+@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
-    private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
+    private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
     /**
-     * Creates a new @link {@link IssueAssert}.
+     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
      *
-     * @param actual The Issue to make assertions on.
+     * @param actual the issue we want to make assertions on
      */
     public IssueAssert(final Issue actual) {
         super(actual, IssueAssert.class);
     }
 
     /**
-     * An entry point for IssueAssert.
+     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
      *
-     * @param actual The Issue to make assertions on.
-     * @return A new @link {@link IssueAssert}
+     * @param actual the issue we want to make assertions on
+     * @return a new {@link IssueAssert}
      */
+    @SuppressWarnings("ParameterHidesMemberVariable")
     public static IssueAssert assertThat(final Issue actual) {
         return new IssueAssert(actual);
     }
 
     /**
-     * Verifies that the actual Issue's lineStart is equal to the given one.
+     * Checks whether an Issue has a specific id.
      *
-     * @param line The given lineStart to compare the actual Issue's lineStart to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's lineStart is not equal to the given one.
+     * @param id id specifying id.
+     * @return this
      */
-    public IssueAssert hasLineStart(final int line) {
+    public IssueAssert hasId(final UUID id) {
         isNotNull();
 
-        if (actual.getLineStart() != line) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, line, actual.getLineStart());
+        if (!Objects.equals(actual.getId(), id)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "id", actual, id, actual.getId());
         }
 
         return this;
     }
 
     /**
-     * Verifies that the actual Issue's lineEnd is equal to the given one.
+     * Checks whether an Issue has a specific filename.
      *
-     * @param line The given lineEnd to compare the actual Issue's lineEnd to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's lineEnd is not equal to the given one.
-     */
-    public IssueAssert hasLineEnd(final int line) {
-        isNotNull();
-
-        if (actual.getLineEnd() != line) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, line, actual.getLineEnd());
-        }
-
-        return this;
-    }
-
-    /**
-     * Verifies that the actual Issue's columnStart is equal to the given one.
-     *
-     * @param column The given columnStart to compare the actual Issue's columnStart to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's columnStart is not equal to the given one.
-     */
-    public IssueAssert hasColumnStart(final int column) {
-        isNotNull();
-
-        if (actual.getColumnStart() != column) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, column, actual.getColumnStart());
-        }
-
-        return this;
-    }
-
-    /**
-     * Verifies that the actual Issue's columnEnd is equal to the given one.
-     *
-     * @param column The given columnEnd to compare the actual Issue's columnEnd to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's columnEnd is not equal to the given one.
-     */
-    public IssueAssert hasColumnEnd(final int column) {
-        isNotNull();
-
-        if (actual.getColumnEnd() != column) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, column, actual.getColumnEnd());
-        }
-
-        return this;
-    }
-
-    /**
-     * Verifies that the actual Issue's message is equal to the given one.
-     *
-     * @param message The given message to compare the actual Issue's message to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's message is not equal to the given one.
-     */
-    public IssueAssert hasMessage(final String message) {
-        isNotNull();
-
-        if (!actual.getMessage().equals(message)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, message, actual.getMessage());
-        }
-
-        return this;
-    }
-
-    /**
-     * Verifies that the actual Issue's fileName is equal to the given one.
-     *
-     * @param fileName The given fileName to compare the actual Issue's fileName to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's fileName is not equal to the given one.
+     * @param fileName String specifying filename.
+     * @return this
      */
     public IssueAssert hasFileName(final String fileName) {
         isNotNull();
 
-        if (!actual.getFileName().equals(fileName)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, fileName, actual.getFileName());
+        if (!Objects.equals(actual.getFileName(), fileName)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "file name", actual, fileName, actual.getFileName());
         }
 
         return this;
     }
 
     /**
-     * Verifies that the actual Issue's type is equal to the given one.
+     * Checks whether an Issue has a specific category.
      *
-     * @param type The given type to compare the actual Issue's type to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's type is not equal to the given one.
-     */
-    public IssueAssert hasType(final String type) {
-        isNotNull();
-
-        if (!actual.getType().equals(type)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, type, actual.getType());
-        }
-
-        return this;
-    }
-
-    /**
-     * Verifies that the actual Issue's category is equal to the given one.
-     *
-     * @param category The given category to compare the actual Issue's category to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's category is not equal to the given one.
+     * @param category String specifying category.
+     * @return this
      */
     public IssueAssert hasCategory(final String category) {
         isNotNull();
 
-        if (!actual.getCategory().equals(category)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, category, actual.getCategory());
+        if (!Objects.equals(actual.getCategory(), category)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "category", actual, category, actual.getCategory());
         }
 
         return this;
     }
 
     /**
-     * Verifies that the actual Issue's priority is equal to the given one.
+     * Checks whether an Issue has a specific type.
      *
-     * @param priority The given priority to compare the actual Issue's priority to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's priority is not equal to the given one.
+     * @param type String specifying type.
+     * @return this
+     */
+    public IssueAssert hasType(final String type) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getType(), type)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "type", actual, type, actual.getType());
+        }
+
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue has a specific priority.
+     *
+     * @param priority Priority specifying priority.
+     * @return this
      */
     public IssueAssert hasPriority(final Priority priority) {
         isNotNull();
 
-        if (actual.getPriority() != priority) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, priority, actual.getPriority());
+        if (!Objects.equals(actual.getPriority(), priority)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, priority, actual.getPriority());
         }
 
         return this;
     }
 
     /**
-     * Verifies that the actual Issue's packageName is equal to the given one.
+     * Checks whether an Issue has a specific message.
      *
-     * @param packageName The given packageName to compare the actual Issue's packageName to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's packageName is not equal to the given one.
+     * @param message String specifying message.
+     * @return this
      */
-    public IssueAssert hasPackageName(final String packageName) {
+    public IssueAssert hasMessage(final String message) {
         isNotNull();
 
-        if (!actual.getPackageName().equals(packageName)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, packageName, actual.getPackageName());
+        if (!Objects.equals(actual.getMessage(), message)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "message", actual, message, actual.getMessage());
         }
 
         return this;
     }
 
     /**
-     * Verifies that the actual Issue's description is equal to the given one.
+     * Checks whether an Issue has a specific description.
      *
-     * @param description The given description to compare the actual Issue's description to.
-     * @return this assertion object.
-     * @throws AssertionError - if the actual Issue's description is not equal to the given one.
+     * @param description String specifying description.
+     * @return this
      */
     public IssueAssert hasDescription(final String description) {
         isNotNull();
 
-        if (!actual.getDescription().equals(description)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, description, actual.getDescription());
+        if (!Objects.equals(actual.getDescription(), description)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "description", actual, description, actual.getDescription());
         }
-
         return this;
     }
 
+    /**
+     * Checks whether an Issue starts at a specific line.
+     *
+     * @param lineStart int specifying lineStart.
+     * @return this
+     */
+    public IssueAssert hasLineStart(final int lineStart) {
+        isNotNull();
 
+        if (actual.getLineStart() != lineStart) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line start", actual, lineStart, actual.getLineStart());
+        }
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue ends at a specific line.
+     *
+     * @param lineEnd int specifying lineEnd.
+     * @return this
+     */
+    public IssueAssert hasLineEnd(final int lineEnd) {
+        isNotNull();
+
+        if (actual.getLineEnd() != lineEnd) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line end", actual, lineEnd, actual.getLineEnd());
+        }
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue starts at a specific column.
+     *
+     * @param columnStart int specifying columnStart.
+     * @return this
+     */
+    public IssueAssert hasColumnStart(final int columnStart) {
+        isNotNull();
+
+        if (actual.getColumnStart() != columnStart) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column start", actual, columnStart, actual.getColumnStart());
+        }
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue ends at a specific column.
+     *
+     * @param columnEnd int specifying columnEnd.
+     * @return this
+     */
+    public IssueAssert hasColumnEnd(final int columnEnd) {
+        isNotNull();
+
+        if (actual.getColumnEnd() != columnEnd) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column end", actual, columnEnd, actual.getColumnEnd());
+        }
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue has a specific packageName.
+     *
+     * @param packageName String specifying packageName.
+     * @return this
+     */
+    public IssueAssert hasPackageName(final String packageName) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getPackageName(), packageName)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "package name", actual, packageName, actual.getPackageName());
+        }
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue has a specific fingerprint.
+     *
+     * @param fingerprint String specifying fingerprint.
+     * @return this
+     */
+    public IssueAssert hasFingerprint(final String fingerprint) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getFingerprint(), fingerprint)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "fingerprint", actual, fingerprint, actual.getFingerprint());
+        }
+        return this;
+    }
 }
