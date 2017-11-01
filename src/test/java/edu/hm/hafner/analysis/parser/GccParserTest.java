@@ -8,12 +8,14 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
-import edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
+import edu.hm.hafner.analysis.assertj.IssuesAssert;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 
 /**
  * Tests the class {@link GccParser}.
+ *
+ * @author Raphael Furch
  */
 public class GccParserTest extends ParserTester {
     private static final String TYPE = new GccParser().getId();
@@ -29,11 +31,8 @@ public class GccParserTest extends ParserTester {
     public void issue34141() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue34141.txt"));
 
-
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(0);
-        softlyWarnings.assertAll();
     }
 
     /**
@@ -45,15 +44,12 @@ public class GccParserTest extends ParserTester {
     public void issue17309() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue17309.txt"));
 
-
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(1);
-        softlyWarnings.assertAll();
 
         Issue annotation = warnings.iterator().next();
-        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
-        softlyIssue1.assertThat(annotation)
+        SoftAssertions softly1 = new SoftAssertions();
+        softly1.assertThat(annotation)
                 .hasLineStart(4)
                 .hasLineEnd(4)
                 .hasMessage("dereferencing pointer &apos;&lt;anonymous&gt;&apos; does break strict-aliasing rules")
@@ -61,7 +57,7 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_ERROR)
                 .hasPriority(Priority.HIGH);
-        softlyIssue1.assertAll();
+        softly1.assertAll();
     }
 
     /**
@@ -74,15 +70,12 @@ public class GccParserTest extends ParserTester {
     public void issue9926() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue9926.txt"));
 
-
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(1);
-        softlyWarnings.assertAll();
 
         Issue annotation = warnings.iterator().next();
-        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
-        softlyIssue1.assertThat(annotation)
+        SoftAssertions softly1 = new SoftAssertions();
+        softly1.assertThat(annotation)
                 .hasLineStart(52)
                 .hasLineEnd(52)
                 .hasMessage("large integer implicitly truncated to unsigned type")
@@ -90,7 +83,7 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue1.assertAll();
+        softly1.assertAll();
     }
 
     /**
@@ -102,15 +95,13 @@ public class GccParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new GccParser().parse(openFile());
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(8);
-        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
-        softlyIssue1.assertThat(iterator.next())
+        SoftAssertions softly1 = new SoftAssertions();
+        softly1.assertThat(iterator.next())
                 .hasLineStart(451)
                 .hasLineEnd(451)
                 .hasMessage("`void yyunput(int, char*)&apos; defined but not used")
@@ -118,10 +109,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue1.assertAll();
+        softly1.assertAll();
 
-        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
-        softlyIssue2.assertThat(iterator.next())
+        SoftAssertions softly2 = new SoftAssertions();
+        softly2.assertThat(iterator.next())
                 .hasLineStart(73)
                 .hasLineEnd(73)
                 .hasMessage("implicit typename is deprecated, please see the documentation for details")
@@ -129,10 +120,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_ERROR)
                 .hasPriority(Priority.HIGH);
-        softlyIssue2.assertAll();
+        softly2.assertAll();
 
-        IssueSoftAssertions softlyIssue3 = new IssueSoftAssertions();
-        softlyIssue3.assertThat(iterator.next())
+        SoftAssertions softly3 = new SoftAssertions();
+        softly3.assertThat(iterator.next())
                 .hasLineStart(4)
                 .hasLineEnd(4)
                 .hasMessage("foo.h: No such file or directory")
@@ -140,10 +131,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_ERROR)
                 .hasPriority(Priority.HIGH);
-        softlyIssue3.assertAll();
+        softly3.assertAll();
 
-        IssueSoftAssertions softlyIssue4 = new IssueSoftAssertions();
-        softlyIssue4.assertThat(iterator.next())
+        SoftAssertions softly4 = new SoftAssertions();
+        softly4.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage( "undefined reference to &apos;missing_symbol&apos;")
@@ -151,10 +142,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_ERROR)
                 .hasPriority(Priority.HIGH);
-        softlyIssue4.assertAll();
+        softly4.assertAll();
 
-        IssueSoftAssertions softlyIssue5 = new IssueSoftAssertions();
-        softlyIssue5.assertThat(iterator.next())
+        SoftAssertions softly5 = new SoftAssertions();
+        softly5.assertThat(iterator.next())
                 .hasLineStart(678)
                 .hasLineEnd(678)
                 .hasMessage("missing initializer for member sigaltstack::ss_sp")
@@ -162,10 +153,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue5.assertAll();
+        softly5.assertAll();
 
-        IssueSoftAssertions softlyIssue6 = new IssueSoftAssertions();
-        softlyIssue6.assertThat(iterator.next())
+        SoftAssertions softly6 = new SoftAssertions();
+        softly6.assertThat(iterator.next())
                 .hasLineStart(678)
                 .hasLineEnd(678)
                 .hasMessage("missing initializer for member sigaltstack::ss_flags")
@@ -173,10 +164,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue6.assertAll();
+        softly6.assertAll();
 
-        IssueSoftAssertions softlyIssue7 = new IssueSoftAssertions();
-        softlyIssue7.assertThat(iterator.next())
+        SoftAssertions softly7 = new SoftAssertions();
+        softly7.assertThat(iterator.next())
                 .hasLineStart(678)
                 .hasLineEnd(678)
                 .hasMessage("missing initializer for member sigaltstack::ss_size")
@@ -184,10 +175,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue7.assertAll();
+        softly7.assertAll();
 
-        IssueSoftAssertions softlyIssue8 = new IssueSoftAssertions();
-        softlyIssue8.assertThat(iterator.next())
+        SoftAssertions softly8 = new SoftAssertions();
+        softly8.assertThat(iterator.next())
                 .hasLineStart(52)
                 .hasLineEnd(52)
                 .hasMessage("large integer implicitly truncated to unsigned type")
@@ -195,7 +186,7 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue8.assertAll();
+        softly8.assertAll();
     }
 
     /**
@@ -208,15 +199,13 @@ public class GccParserTest extends ParserTester {
     public void issue3897and3898() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue3897.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(3);
-        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
-        softlyIssue1.assertThat(iterator.next())
+        SoftAssertions softly1 = new SoftAssertions();
+        softly1.assertThat(iterator.next())
                 .hasLineStart(12)
                 .hasLineEnd(12)
                 .hasMessage("file.h: No such file or directory")
@@ -224,10 +213,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GccParser.GCC_ERROR)
                 .hasPriority(Priority.HIGH);
-        softlyIssue1.assertAll();
+        softly1.assertAll();
 
-        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
-        softlyIssue2.assertThat(iterator.next())
+        SoftAssertions softly2 = new SoftAssertions();
+        softly2.assertThat(iterator.next())
                 .hasLineStart(233)
                 .hasLineEnd(233)
                 .hasMessage("undefined reference to `MyInterface::getValue() const&apos;")
@@ -235,10 +224,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GccParser.GCC_ERROR)
                 .hasPriority(Priority.HIGH);
-        softlyIssue2.assertAll();
+        softly2.assertAll();
 
-        IssueSoftAssertions softlyIssue3 = new IssueSoftAssertions();
-        softlyIssue3.assertThat(iterator.next())
+        SoftAssertions softly3 = new SoftAssertions();
+        softly3.assertThat(iterator.next())
                 .hasLineStart(20)
                 .hasLineEnd(20)
                 .hasMessage("invalid preprocessing directive #incldue")
@@ -246,7 +235,7 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GccParser.GCC_ERROR)
                 .hasPriority(Priority.HIGH);
-        softlyIssue3.assertAll();
+        softly3.assertAll();
     }
 
     /**
@@ -259,15 +248,13 @@ public class GccParserTest extends ParserTester {
     public void issue4712() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue4712.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(2);
-        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
-        softlyIssue1.assertThat(iterator.next())
+        SoftAssertions softly1 = new SoftAssertions();
+        softly1.assertThat(iterator.next())
                 .hasLineStart(352)
                 .hasLineEnd(352)
                 .hasMessage("&apos;s2.mepSector2::lubrications&apos; may be used")
@@ -275,10 +262,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue1.assertAll();
+        softly1.assertAll();
 
-        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
-        softlyIssue2.assertThat(iterator.next())
+        SoftAssertions softly2 = new SoftAssertions();
+        softly2.assertThat(iterator.next())
                 .hasLineStart(1477)
                 .hasLineEnd(1477)
                 .hasMessage("&apos;s2.mepSector2::lubrications&apos; was declared here")
@@ -286,7 +273,7 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory("GCC note")
                 .hasPriority(Priority.LOW);
-        softlyIssue2.assertAll();
+        softly2.assertAll();
     }
 
     /**
@@ -299,10 +286,8 @@ public class GccParserTest extends ParserTester {
     public void issue4700() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue4700.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(0);
-        softlyWarnings.assertAll();
     }
 
     /**
@@ -315,14 +300,12 @@ public class GccParserTest extends ParserTester {
     public void issue4707() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue4707.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(22);
-        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
-        IssueSoftAssertions softlyIssue = new IssueSoftAssertions();
-        softlyIssue.assertThat(iterator.next())
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(iterator.next())
                 .hasLineStart(1128)
                 .hasLineEnd(1128)
                 .hasMessage("NULL used in arithmetic")
@@ -330,7 +313,7 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue.assertAll();
+        softly.assertAll();
     }
 
     /**
@@ -343,14 +326,12 @@ public class GccParserTest extends ParserTester {
     public void issue4010() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue4010.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(1);
-        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
-        IssueSoftAssertions softlyIssue = new IssueSoftAssertions();
-        softlyIssue.assertThat(iterator.next())
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("cannot find -lMyLib")
@@ -358,7 +339,7 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GccParser.LINKER_ERROR)
                 .hasPriority(Priority.HIGH);
-        softlyIssue.assertAll();
+        softly.assertAll();
     }
 
     /**
@@ -371,14 +352,12 @@ public class GccParserTest extends ParserTester {
     public void issue4274() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue4274.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(4);
-        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
-        IssueSoftAssertions softlyIssue = new IssueSoftAssertions();
-        softlyIssue.assertThat(iterator.next())
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(iterator.next())
                 .hasLineStart(638)
                 .hasLineEnd(638)
                 .hasMessage("local declaration of &quot;command&quot; hides instance variable")
@@ -386,10 +365,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue.assertAll();
+        softly.assertAll();
 
-        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
-        softlyIssue1.assertThat(iterator.next())
+        SoftAssertions softly1 = new SoftAssertions();
+        softly1.assertThat(iterator.next())
                 .hasLineStart(640)
                 .hasLineEnd(640)
                 .hasMessage("instance variable &quot;command&quot; accessed in class method")
@@ -397,10 +376,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue1.assertAll();
+        softly1.assertAll();
 
-        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
-        softlyIssue2.assertThat(iterator.next())
+        SoftAssertions softly2 = new SoftAssertions();
+        softly2.assertThat(iterator.next())
                 .hasLineStart(47)
                 .hasLineEnd(47)
                 .hasMessage("&quot;oldGeb&quot; might be used uninitialized in this function")
@@ -408,10 +387,10 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue2.assertAll();
+        softly2.assertAll();
 
-        IssueSoftAssertions softlyIssue3 = new IssueSoftAssertions();
-        softlyIssue3.assertThat(iterator.next())
+        SoftAssertions softly3 = new SoftAssertions();
+        softly3.assertThat(iterator.next())
                 .hasLineStart(640)
                 .hasLineEnd(640)
                 .hasMessage("local declaration of &quot;command&quot; hides instance variable")
@@ -419,7 +398,7 @@ public class GccParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory(GCC_WARNING)
                 .hasPriority(Priority.NORMAL);
-        softlyIssue3.assertAll();
+        softly3.assertAll();
     }
 
     /**
@@ -432,10 +411,8 @@ public class GccParserTest extends ParserTester {
     public void issue4260() throws IOException {
         Issues warnings = new GccParser().parse(openFile("issue4260.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(1);
-        softlyWarnings.assertAll();
     }
 
     @Override

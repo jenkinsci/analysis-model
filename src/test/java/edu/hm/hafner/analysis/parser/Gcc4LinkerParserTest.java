@@ -8,12 +8,13 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
-import edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.IssuesAssert;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link Gcc4LinkerParser}.
+ *
+ * * @author Raphael Furch
  */
 public class Gcc4LinkerParserTest extends ParserTester {
     private static final String WARNING_CATEGORY = Gcc4LinkerParser.WARNING_CATEGORY;
@@ -30,15 +31,13 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile());
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(8);
-        softlyWarnings.assertAll();
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        IssueSoftAssertions softlyIssue1 = new IssueSoftAssertions();
-        softlyIssue1.assertThat(iterator.next())
+        SoftAssertions softly1 = new SoftAssertions();
+        softly1.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("undefined reference to 'missing_symbol'")
@@ -46,10 +45,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softlyIssue1.assertAll();
+        softly1.assertAll();
 
-        IssueSoftAssertions softlyIssue2 = new IssueSoftAssertions();
-        softlyIssue2.assertThat(iterator.next())
+        SoftAssertions softly2 = new SoftAssertions();
+        softly2.assertThat(iterator.next())
                 .hasLineStart(233)
                 .hasLineEnd(233)
                 .hasMessage("undefined reference to `MyInterface::getValue() const'")
@@ -57,10 +56,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softlyIssue2.assertAll();
+        softly2.assertAll();
 
-        IssueSoftAssertions softlyIssue3 = new IssueSoftAssertions();
-        softlyIssue3.assertThat(iterator.next())
+        SoftAssertions softly3 = new SoftAssertions();
+        softly3.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("cannot find -lMyLib")
@@ -68,10 +67,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softlyIssue3.assertAll();
+        softly3.assertAll();
 
-        IssueSoftAssertions softlyIssue4 = new IssueSoftAssertions();
-        softlyIssue4.assertThat(iterator.next())
+        SoftAssertions softly4 = new SoftAssertions();
+        softly4.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("undefined reference to `clock_gettime'")
@@ -79,11 +78,11 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softlyIssue4.assertAll();
+        softly4.assertAll();
 
 
-        IssueSoftAssertions softlyIssue5 = new IssueSoftAssertions();
-        softlyIssue5.assertThat(iterator.next())
+        SoftAssertions softly5 = new SoftAssertions();
+        softly5.assertThat(iterator.next())
                 .hasLineStart(109)
                 .hasLineEnd(109)
                 .hasMessage("undefined reference to `main'")
@@ -91,10 +90,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softlyIssue5.assertAll();
+        softly5.assertAll();
 
-        IssueSoftAssertions softlyIssue6 = new IssueSoftAssertions();
-        softlyIssue6.assertThat(iterator.next())
+        SoftAssertions softly6 = new SoftAssertions();
+        softly6.assertThat(iterator.next())
                 .hasLineStart(109)
                 .hasLineEnd(109)
                 .hasMessage("undefined reference to `main'")
@@ -102,10 +101,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softlyIssue6.assertAll();
+        softly6.assertAll();
 
-        IssueSoftAssertions softlyIssue7 = new IssueSoftAssertions();
-        softlyIssue7.assertThat(iterator.next())
+        SoftAssertions softly7 = new SoftAssertions();
+        softly7.assertThat(iterator.next())
                 .hasLineStart(7)
                 .hasLineEnd(7)
                 .hasMessage("undefined reference to `clock_gettime'")
@@ -113,10 +112,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softlyIssue7.assertAll();
+        softly7.assertAll();
 
-        IssueSoftAssertions softlyIssue8 = new IssueSoftAssertions();
-        softlyIssue8.assertThat(iterator.next())
+        SoftAssertions softly8 = new SoftAssertions();
+        softly8.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o")
@@ -124,7 +123,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softlyIssue8.assertAll();
+        softly8.assertAll();
     }
 
 
@@ -138,10 +137,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue5445() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue5445.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(0);
-        softlyWarnings.assertAll();
     }
 
     /**
@@ -154,10 +151,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue5870() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue5870.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(0);
-        softlyWarnings.assertAll();
     }
 
     /**
@@ -170,10 +165,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue6563() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue6563.txt"));
 
-        IssuesSoftAssertions softlyWarnings = new IssuesSoftAssertions();
-        softlyWarnings.assertThat(warnings)
+        IssuesAssert.assertThat(warnings)
                 .hasSize(0);
-        softlyWarnings.assertAll();
     }
 
     @Override
