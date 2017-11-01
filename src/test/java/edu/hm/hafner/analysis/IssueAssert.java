@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
 
 /**
  * Custom assert to test the class {@link Issue}.
@@ -82,6 +83,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
     public IssueAssert hasColumnEnd(final int columnEnd) {
         checkInt(columnEnd, actual.getColumnEnd());
+        return this;
+    }
+
+    public IssueAssert containsToString(final CharSequence toStringPart) {
+        Assertions.assertThat(actual.toString()).contains(toStringPart);
         return this;
     }
 

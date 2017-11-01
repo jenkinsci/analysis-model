@@ -63,7 +63,10 @@ class IssueTest {
                 .hasColumnStart(2)
                 .hasColumnEnd(2)
                 .hasFingerprint("-")
-                .hasToString("IssuesTest.java(1,2): Type: Category: Message - Test same LineStart, LineEnd, ColumnStart and ColumnEnd");
+                .containsToString("IssuesTest.java")
+                .containsToString("(1,2)")
+                .containsToString("Message - Test same LineStart, LineEnd, ColumnStart and ColumnEnd");
+                //.hasToString("IssuesTest.java(1,2): Type: Category: Message - Test same LineStart, LineEnd, ColumnStart and ColumnEnd");
         softly.assertAll();
     }
 
@@ -97,7 +100,10 @@ class IssueTest {
                 .hasColumnStart(2)
                 .hasColumnEnd(5)
                 .hasFingerprint("-")
-                .hasToString("IssuesTest.java(1,2): Type: Category: Message - Test different LineStart, LineEnd, ColumnStart and ColumnEnd");
+                .containsToString("IssuesTest.java")
+                .containsToString("(1,2)")
+                .containsToString("Test different LineStart, LineEnd, ColumnStart and ColumnEnd");
+                //.hasToString("IssuesTest.java(1,2): Type: Category: Message - Test different LineStart, LineEnd, ColumnStart and ColumnEnd");
         softly.assertAll();
     }
 
