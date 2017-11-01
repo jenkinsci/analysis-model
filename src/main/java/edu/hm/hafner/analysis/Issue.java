@@ -136,7 +136,7 @@ public class Issue implements Serializable {
      *         the ID of the tool that did report this issue
      */
     @SuppressWarnings("ParameterNumber")
-    Issue(@CheckForNull final String fileName,
+    protected Issue(@CheckForNull final String fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @CheckForNull final String category, @CheckForNull final String type,
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
