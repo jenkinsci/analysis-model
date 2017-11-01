@@ -28,7 +28,6 @@ import static java.util.stream.Collectors.*;
  *
  * @author Ullrich Hafner
  */
-// TODO: findByProperty with hardcoded properties?
 public class Issues implements Iterable<Issue>, Serializable {
     private final List<Issue> elements = new ArrayList<>();
     private final StringBuilder logMessages = new StringBuilder();
