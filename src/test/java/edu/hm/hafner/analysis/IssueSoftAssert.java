@@ -9,7 +9,7 @@ import org.assertj.core.api.SoftAssertions;
  */
 public class IssueSoftAssert extends SoftAssertions {
 
-    public IssueAssert assertThat(Issue actual) {
+    public IssueAssert assertThat(final Issue actual) {
         return proxy(IssueAssert.class, Issue.class, actual);
     }
 }

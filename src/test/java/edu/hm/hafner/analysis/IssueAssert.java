@@ -9,6 +9,7 @@ import org.assertj.core.api.AbstractAssert;
  *
  * @author Joscha Behrmann
  */
+@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
 
@@ -16,11 +17,11 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         super(actual, IssueAssert.class);
     }
 
-    public static IssueAssert assertThat(Issue actual) {
+    public static IssueAssert assertThat(final Issue actual) {
         return new IssueAssert(actual);
     }
 
-    public IssueAssert hasFileName(String fileName) {
+    public IssueAssert hasFileName(final String fileName) {
         isNotNull();
 
         if (!Objects.equals(actual.getFileName(), fileName)) {
@@ -30,7 +31,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasLineStart(int lineStart) {
+    public IssueAssert hasLineStart(final int lineStart) {
         isNotNull();
 
         if (actual.getLineStart() != lineStart) {
@@ -39,7 +40,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasLineEnd(int lineEnd) {
+    public IssueAssert hasLineEnd(final int lineEnd) {
         isNotNull();
 
         if (actual.getLineEnd() != lineEnd) {
@@ -49,7 +50,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasColumnStart(int columnStart) {
+    public IssueAssert hasColumnStart(final int columnStart) {
         isNotNull();
 
         if (actual.getColumnStart() != columnStart) {
@@ -59,7 +60,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasColumnEnd(int columnEnd) {
+    public IssueAssert hasColumnEnd(final int columnEnd) {
         isNotNull();
 
         if (actual.getColumnEnd() != columnEnd) {
@@ -69,7 +70,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasCategory(String category) {
+    public IssueAssert hasCategory(final String category) {
         isNotNull();
 
         if (!actual.getCategory().equals(category)) {
@@ -79,7 +80,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasType(String type) {
+    public IssueAssert hasType(final String type) {
         isNotNull();
 
         if (!actual.getType().equals(type)) {
@@ -89,7 +90,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasPackageName(String packageName) {
+    public IssueAssert hasPackageName(final String packageName) {
         isNotNull();
 
         if (!actual.getPackageName().equals(packageName)) {
@@ -99,7 +100,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasPriority(Priority priority) {
+    public IssueAssert hasPriority(final Priority priority) {
         isNotNull();
 
         if (actual.getPriority() != priority) {
@@ -109,7 +110,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasMessage(String message) {
+    public IssueAssert hasMessage(final String message) {
         isNotNull();
 
         if (!actual.getMessage().equals(message)) {
@@ -119,7 +120,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasDescription(String description) {
+    public IssueAssert hasDescription(final String description) {
         isNotNull();
 
         if (!actual.getDescription().equals(description)) {
@@ -129,7 +130,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         return this;
     }
 
-    public IssueAssert hasFingerprint(String fingerprint) {
+    public IssueAssert hasFingerprint(final String fingerprint) {
         isNotNull();
 
         if (!actual.getFingerprint().equals(fingerprint)) {

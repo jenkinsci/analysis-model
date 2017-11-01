@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Joscha Behrmann
  */
+@SuppressWarnings({"JUnitTestMethodWithNoAssertions", "ConstantConditions"})
 class IssueTest {
 
     /** Instance of Issue which is tested. */

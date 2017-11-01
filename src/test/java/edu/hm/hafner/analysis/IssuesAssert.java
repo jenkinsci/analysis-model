@@ -7,6 +7,7 @@ import org.assertj.core.api.AbstractAssert;
  *
  * @author Joscha Behrmann
  */
+@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
 
@@ -14,12 +15,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         super(actual, IssuesAssert.class);
     }
 
-    public static IssuesAssert assertThat(Issues actual) {
+    public static IssuesAssert assertThat(final Issues actual) {
         return new IssuesAssert(actual);
     }
 
 
-    public IssuesAssert hasSize(int size) {
+    public IssuesAssert hasSize(final int size) {
         isNotNull();
 
         if (actual.size() != size || actual.getSize() != size) {
@@ -40,7 +41,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasHighPrioritySize(int highPrioritySize) {
+    public IssuesAssert hasHighPrioritySize(final int highPrioritySize) {
         isNotNull();
 
         if (actual.getHighPrioritySize() != highPrioritySize) {
@@ -51,7 +52,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasNormalPrioritySize(int normalPrioritySize) {
+    public IssuesAssert hasNormalPrioritySize(final int normalPrioritySize) {
         isNotNull();
 
         if (actual.getNormalPrioritySize() != normalPrioritySize) {
@@ -62,7 +63,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasLowPrioritySize(int lowPrioritySize) {
+    public IssuesAssert hasLowPrioritySize(final int lowPrioritySize) {
         isNotNull();
 
         if (actual.getLowPrioritySize() != lowPrioritySize) {
@@ -73,7 +74,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    public IssuesAssert hasNumberOfFiles(int numberOfFiles) {
+    public IssuesAssert hasNumberOfFiles(final int numberOfFiles) {
         isNotNull();
 
         if (actual.getNumberOfFiles() != numberOfFiles) {

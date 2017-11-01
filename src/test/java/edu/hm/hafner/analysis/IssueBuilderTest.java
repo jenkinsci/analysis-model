@@ -10,6 +10,7 @@ import static edu.hm.hafner.analysis.IssueAssert.*;
  *
  * @author Joscha Behrmann
  */
+@SuppressWarnings({"JUnitTestMethodWithNoAssertions", "ConstantConditions"})
 class IssueBuilderTest {
 
     @Test
@@ -269,11 +270,11 @@ class IssueBuilderTest {
                 .hasCategory("Testcategory");
 
         // Normal case
-        issueUnderTest = new IssueBuilder()
+        Issue issueUnderTest2 = new IssueBuilder()
                 .setCategory("   C:\\User/test.xml")
                 .build();
 
-        assertThat(issueUnderTest)
+        assertThat(issueUnderTest2)
                 .hasCategory("   C:\\User/test.xml");
     }
 
