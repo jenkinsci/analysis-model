@@ -30,11 +30,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @return this (fluent interface)
      */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssert contains(final Issue issue) {
-        Iterable<Issue> iterable = () -> actual.iterator();
-        if(StreamSupport.stream(iterable.spliterator(), false).noneMatch(a -> a.equals(issue))) {
-            failWithMessage("Issues's element does not contain <%s>", issue);
-        }
+    public IssuesAssert contains(final Issue... issue) {
+        Assertions.assertThat(actual.iterator()).contains(issue);
         return this;
     }
 
@@ -43,11 +40,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @param issue not expected in the issues object
      * @return this (fluent interface)
      */
-    public IssuesAssert doesNotContain(final Issue issue) {
-        Iterable<Issue> iterable = () -> actual.iterator();
-        if(StreamSupport.stream(iterable.spliterator(), false).anyMatch(a -> a.equals(issue))) {
-            failWithMessage("Issues's element contains <%s>", issue);
-        }
+    public IssuesAssert doesNotContain(final Issue... issue) {
+        Assertions.assertThat(actual.iterator()).doesNotContain(issue);
         return this;
     }
 
@@ -58,7 +52,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssert containsExactly(final Issue... issues) {
-        return containsExactly(Arrays.asList(issues));
+        Assertions.assertThat(actual.iterator()).containsExactly(issues);
+        return this;
     }
 
 
@@ -69,19 +64,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public IssuesAssert containsExactly(final Collection<Issue> issues) {
-        Iterator<Issue> iterator = actual.iterator();
-
-        Assertions.assertThat(actual.getSize())
-                .isEqualTo(issues.size())
-                .as("Expected size <%s> but issues size was <%s>" , issues.size(), actual.getSize());
-
-        for (Issue issue : issues) {
-            Issue toCheck = iterator.next();
-            IssueAssert.assertThat(issue)
-                    .isEqualTo(toCheck)
-                    .as("Issue <%s> expected but it was <%s>", issue, toCheck);
-        }
-        return this;
+        Issue[] issuesArray = new Issue[issues.size()];
+        return containsExactly(issues.toArray(issuesArray));
     }
 
     public IssueAssert get(final int index) {
