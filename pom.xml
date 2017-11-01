@@ -51,7 +51,6 @@
         <java.version>1.8</java.version>
 
         <!-- Project Dependencies Configuration -->
-        <junit.version>5.0.0</junit.version>
         <findbugs.annotations>3.0.1</findbugs.annotations>
         <guava.version>23.0</guava.version>
         <commons.lang.version>3.6</commons.lang.version>
@@ -60,10 +59,9 @@
         <commons.text.version>1.1</commons.text.version>
 
         <!-- Project Test Dependencies Configuration -->
+        <junit.version>5.0.0</junit.version>
         <mockito.version>2.9.0</mockito.version>
         <assertj.version>3.8.0</assertj.version>
-        <checkstyle.version>8.2</checkstyle.version>
-        <pmd.version>5.8.1</pmd.version>
 
         <!-- Maven Plug-ins Configuration -->
         <compiler.maven.plugin>3.7.0</compiler.maven.plugin>
@@ -73,7 +71,9 @@
         <surefire.maven.plugin>2.19.1</surefire.maven.plugin>
         <junit.surefire.provider>1.0.0</junit.surefire.provider>
         <pmd.maven.plugin>3.8</pmd.maven.plugin>
+        <pmd.version>5.8.1</pmd.version>
         <checkstyle.maven.plugin>2.17</checkstyle.maven.plugin>
+        <checkstyle.version>8.2</checkstyle.version>
         <findbugs.maven.plugin>3.0.5</findbugs.maven.plugin>
         <jacoco.maven.plugin>0.7.9</jacoco.maven.plugin>
         <taglist.maven.plugin>2.4</taglist.maven.plugin>

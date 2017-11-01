@@ -1,47 +1,57 @@
 package edu.hm.hafner.analysis.assertj;
 
-import org.assertj.core.api.ErrorCollector;
-import org.assertj.core.api.SoftAssertionError;
-import org.assertj.core.internal.cglib.proxy.Enhancer;
-
 import java.util.List;
 import java.util.function.Consumer;
 
-import static org.assertj.core.groups.Properties.extractProperty;
+import org.assertj.core.api.AbstractStandardSoftAssertions;
+import org.assertj.core.api.SoftAssertionError;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Issues;
+import static org.assertj.core.api.Assertions.*;
 
 /**
- * Entry point for assertions of different data types. Each method in this class is a static factory for the
- * type-specific assertion objects.
+ * Custom soft assertions for {@link Issues} and {@link Issue}.
+ *
+ * @author Ullrich Hafner
  */
-public class SoftAssertions {
-    /**
-     * Collects error messages of all AssertionErrors thrown by the proxied method.
-     */
-    private final ErrorCollector collector = new ErrorCollector();
-
+public class SoftAssertions extends AbstractStandardSoftAssertions {
     /**
      * Verifies that no proxied assertion methods have failed.
      *
      * @throws SoftAssertionError if any proxied assertion objects threw
      */
     public void assertAll() {
-        List<Throwable> errors = collector.errors();
+        List<Throwable> errors = errorsCollected();
         if (!errors.isEmpty()) {
             throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(assertClass);
-        enhancer.setCallback(collector);
-        return (V) enhancer.create(new Class[]{actualClass}, new Object[]{actual});
+    /**
+     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
+     *
+     * @param actual the issue we want to make assertions on
+     * @return a new {@link IssueAssert}
+     */
+    public IssueAssert assertThat(final Issue actual) {
+        return proxy(IssueAssert.class, Issue.class, actual);
+    }
+
+    /**
+     * An entry point for {@link IssuesAssert} to follow AssertJ standard {@code assertThat()}. With a static import,
+     * one can write directly {@code assertThat(myIssues)} and get a specific assertion with code completion.
+     *
+     * @param actual the issues we want to make assertions on
+     * @return a new {@link IssuesAssert}
+     */
+    public IssuesAssert assertThat(final Issues actual) {
+        return proxy(IssuesAssert.class, Issues.class, actual);
     }
 
     /**
      * Use this to avoid having to call assertAll manually.
-     * <p>
+     *
      * <pre><code class='java'> &#064;Test
      * public void host_dinner_party_where_nobody_dies() {
      *   Mansion mansion = new Mansion();
@@ -59,9 +69,8 @@ public class SoftAssertions {
      *
      * @param softly the SoftAssertions instance that you can call your own assertions on.
      * @throws SoftAssertionError if any proxied assertion objects threw
-     * @since 3.6.0
      */
-    public static void assertSoftly(Consumer<SoftAssertions> softly) {
+    public static void assertSoftly(final Consumer<SoftAssertions> softly) {
         SoftAssertions assertions = new SoftAssertions();
         softly.accept(assertions);
         assertions.assertAll();

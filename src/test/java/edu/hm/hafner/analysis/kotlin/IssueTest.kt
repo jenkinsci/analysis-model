@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis
-
-import edu.hm.hafner.analysis.assertj.IssueSoftAssertions
+/*
+import edu.hm.hafner.analysis.assertj.kotlin.IssueSoftAssertions
 import edu.hm.hafner.analysis.assertj.assertSoftly
 import org.junit.jupiter.api.Test
 
@@ -157,3 +157,4 @@ internal class IssueTest {
         }
     }
 }
+*/
