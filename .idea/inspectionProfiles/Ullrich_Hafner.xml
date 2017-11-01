@@ -433,7 +433,7 @@
     </inspection_tool>
     <inspection_tool class="TestMethodInProductCode" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="TestMethodWithoutAssertion" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="assertionMethods" value="org.junit.Assert,assert.*|fail.*,junit.framework.Assert,assert.*|fail.*,org.mockito.Mockito,verify.*,org.mockito.InOrder,verify,org.junit.rules.ExpectedException,expect.*,org.hamcrest.MatcherAssert,assertThat,edu.hm.hafner.util.ExceptionTester,expect,org.assertj.core.api.Assertions,assertThat.*,org.assertj.core.api.SoftAssertions,assert.*,edu.hm.hafner.analysis.assertj.Assertions,assertThat.*,edu.hm.hafner.analysis.assertj.SoftAssertions,assert.*,org.assertj.core.api.AssertionsForClassTypes,assertThat.*" />
+      <option name="assertionMethods" value="org.junit.Assert,assert.*|fail.*,junit.framework.Assert,assert.*|fail.*,org.mockito.Mockito,verify.*,org.mockito.InOrder,verify,org.junit.rules.ExpectedException,expect.*,org.hamcrest.MatcherAssert,assertThat,edu.hm.hafner.util.ExceptionTester,expect,org.assertj.core.api.Assertions,assertThat.*,org.assertj.core.api.SoftAssertions,assert.*,edu.hm.hafner.analysis.assertj.Assertions,assertThat.*,edu.hm.hafner.analysis.assertj.SoftAssertions,assert.*,org.assertj.core.api.AssertionsForClassTypes,assertThat.*,edu.hm.hafner.analysis.assertj.IssueAssert,assertThat.*,edu.hm.hafner.analysis.assertj.IssuesAssert,assertThat.*" />
       <option name="assertKeywordIsAssertion" value="false" />
     </inspection_tool>
     <inspection_tool class="ThreadDumpStack" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -465,6 +465,7 @@
     </inspection_tool>
     <inspection_tool class="UnnecessaryFullyQualifiedName" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_ignoreJavadoc" value="false" />
+      <option name="ignoreInModuleStatements" value="true" />
     </inspection_tool>
     <inspection_tool class="UnnecessaryInheritDoc" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UnnecessaryParentheses" enabled="true" level="WARNING" enabled_by_default="true">
