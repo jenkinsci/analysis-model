@@ -44,17 +44,15 @@ class IssuesTest {
         assertThat(sut)
                 .contains(issue)
                 .hasSize(1)
-                .hasSizeOfPriorityHigh(0)
-                .hasSizeOfPriorityLow(0)
                 .hasSizeOfPriorityNormal(1)
                 .hasToString("1 issues");
-        sut.findById(issue.getId());
+
+        IssueAssert.assertThat(sut.findById(issue.getId())).isEqualTo(issue);
+
         sut.remove(issue.getId());
         assertThat(sut)
                 .doesNotContain(issue)
                 .hasSize(0)
-                .hasSizeOfPriorityHigh(0)
-                .hasSizeOfPriorityLow(0)
                 .hasSizeOfPriorityNormal(0)
                 .hasToString("0 issues");
     }
@@ -64,13 +62,6 @@ class IssuesTest {
     void removeIssueIssuesDoesNotContain() {
         Issues sut = new Issues();
         Issue issue = new IssueBuilder().build();
-        assertThat(sut)
-                .doesNotContain(issue)
-                .hasSize(0)
-                .hasSizeOfPriorityHigh(0)
-                .hasSizeOfPriorityLow(0)
-                .hasSizeOfPriorityNormal(0)
-                .hasToString("0 issues");
 
         assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> sut.findById(issue.getId()))
                 .withMessageContaining(issue.getId().toString());
