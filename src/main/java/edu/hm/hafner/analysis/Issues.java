@@ -343,8 +343,8 @@ public class Issues implements Iterable<Issue>, Serializable {
                        .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
     }
 
-    public Map<String, Long> getPropertyCount(final Function<? super Issue, ? extends String> propertiesMapper) {
-        return elements.stream().collect(groupingBy(propertiesMapper, counting()));
+    public Map<String, Integer> getPropertyCount(final Function<? super Issue, ? extends String> propertiesMapper) {
+        return elements.stream().collect(groupingBy(propertiesMapper, reducing(0, e -> 1, Integer::sum)));
     }
 
     /**
