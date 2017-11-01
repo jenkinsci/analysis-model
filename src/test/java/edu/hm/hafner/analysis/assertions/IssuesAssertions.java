@@ -1,13 +1,11 @@
-package edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions;
+package edu.hm.hafner.analysis.assertions;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.SortedSet;
 import java.util.Iterator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+
 import com.google.common.collect.ImmutableSet;
 
 import edu.hm.hafner.analysis.Issue;
@@ -15,7 +13,8 @@ import edu.hm.hafner.analysis.Issues;
 
 
 /**
- * Custome assertion for issues.
+ * Custom assertion for {@link Issues}
+ * @author Raphael Furch
  */
 @SuppressWarnings("UnusedReturnValue")
 public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
@@ -39,9 +38,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         isNotNull();
         // check condition
-        if (getStreamOfAllIssues().noneMatch((elem) -> issue.equals(elem))) {
-            failWithMessage("Element <%s> was not in list but should", issue);
-        }
+        Assertions.assertThat(actual.iterator()).contains(issue);
         return this;
     }
 
@@ -55,9 +52,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
        isNotNull();
         // check condition
-        if (getStreamOfAllIssues().anyMatch((elem) -> issue.equals(elem))) {
-            failWithMessage("Element <%s> was in list but shouldn't", issue);
-        }
+        Assertions.assertThat(actual.iterator()).doesNotContain(issue);
         // Return this for Fluent.
         return this;
     }
@@ -68,17 +63,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
      * @return assertion.
      */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasElements(final Collection<? extends Issue> issues) {
+    public IssuesAssertions hasElements(final Issue... issues) {
         // check actual not null
         isNotNull();
         // check condition
-        Collection<Issue> currentIssues = getStreamOfAllIssues().collect(Collectors.toList());
-        if (currentIssues.size() != issues.size()) {
-            failWithMessage("Expected issue's element size to be <%s> but was <%s>", issues.size(), currentIssues.size());
-        }
-        else if(currentIssues.stream().anyMatch(f -> !issues.contains(f))){
-            failWithMessage("Expected issue's elements to be <%s> but was <%s>", issueListToString(issues), issueListToString(currentIssues));
-        }
+        Assertions.assertThat(actual.iterator()).contains(issues);
         // Return this for Fluent.
         return this;
     }
@@ -89,17 +78,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
      * @return assertion.
      */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasAllElements(final Collection<? extends Issue> issues) {
+    public IssuesAssertions hasAllElements(final Issue... issues) {
         // check actual not null
         isNotNull();
         // check condition
-        Collection<Issue> currentIssues = actual.all();
-        if (currentIssues.size() != issues.size()) {
-            failWithMessage("Expected issue's element size to be <%s> but was <%s>", issues.size(), currentIssues.size());
-        }
-        else if(currentIssues.stream().anyMatch(f -> !issues.contains(f))){
-            failWithMessage("Expected issue's elements to be <%s> but was <%s>", issueListToString(issues), issueListToString(currentIssues));
-        }
+        Assertions.assertThat(actual.iterator()).containsExactly(issues);
         // Return this for Fluent.
         return this;
     }
@@ -114,7 +97,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getSize(), size, "size");
+        propertyEqualsCheck(actual.getSize(), size);
         // Return this for Fluent.
         return this;
     }
@@ -129,7 +112,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getHighPrioritySize(), size, "high priority size");
+        propertyEqualsCheck(actual.getHighPrioritySize(), size);
         // Return this for Fluent.
         return this;
     }
@@ -144,7 +127,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getNormalPrioritySize(), size, "normal priority size");
+        propertyEqualsCheck(actual.getNormalPrioritySize(), size);
         // Return this for Fluent.
         return this;
     }
@@ -159,7 +142,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getLowPrioritySize(), size, "low priority size");
+        propertyEqualsCheck(actual.getLowPrioritySize(), size);
         // Return this for Fluent.
         return this;
     }
@@ -175,14 +158,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         isNotNull();
         // check condition
-        long count = getStreamOfAllIssues().count();
-        if ( count <= index) {
-            failWithMessage("Expected issues's get-Method index <%d> out of range <%d>", index, count);
-        }
-        Issue getIssue = actual.get(index);
-        if (!Objects.equals(getIssue, issue)) {
-            failWithMessage("Expected issues contains <%s> at position <%d> but was <%s>", issue, index, getIssue);
-        }
+        Assertions.assertThat(actual.all().asList().get(index)).isSameAs(issue);
         // Return this for Fluent.
         return this;
     }
@@ -193,11 +169,11 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
      * @return assertions.
      */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssuesAssertions hasFiles(final SortedSet<String> files) {
+    public IssuesAssertions hasFiles(final String... files) {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getFiles(), files, "files");
+        Assertions.assertThat(actual.getFiles()).containsExactly(files);
         // Return this for Fluent.
         return this;
     }
@@ -212,7 +188,7 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getNumberOfFiles(), numberOfFiles, "NumberOfFiles");
+        propertyEqualsCheck(actual.getNumberOfFiles(), numberOfFiles);
         // Return this for Fluent.
         return this;
     }
@@ -259,42 +235,27 @@ public class IssuesAssertions extends AbstractAssert<IssuesAssertions, Issues> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.toString(), expected, "toString");
+        propertyEqualsCheck(actual.toString(), expected);
         return this;
     }
 
     //<editor-fold desc="Helper">
 
-    /**
-     * Get elements of stream.
-     * @return stream.
-     */
-    private Stream<Issue> getStreamOfAllIssues() {
 
-        return actual.all().stream();
-    }
 
     /**
      * Easy message generation.
      * @param actualValue = actual.
      * @param expected = expected.
-     * @param propertyName = Name of property.
-     * @param <T> = generic.
+       * @param <T> = generic.
      */
-    private <T> void propertyEqualsCheck(final T actualValue, final T expected, final String propertyName){
+    private <T> void propertyEqualsCheck(final T actualValue, final T expected){
         if (!Objects.equals(actualValue, expected)) {
-            failWithMessage("Expected issues's "+propertyName+" to be <%s> but was <%s>", expected, actualValue);
+            failWithMessage("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.", expected, actualValue);
         }
     }
 
-    /**
-     * Helper to male a list to string.
-     * @param issues = list.
-     * @return string.
-     */
-    private String issueListToString(final Collection<? extends Issue> issues){
-        return "{" + issues.stream().map(Issue::toString).reduce((a,b) -> a + "," + b)+ "}";
-    }
+
     //</editor-fold>
 
 

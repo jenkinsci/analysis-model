@@ -8,9 +8,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
-import edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertions.IssueSoftAssertions;
+import edu.hm.hafner.analysis.assertions.IssuesSoftAssertions;
 
 /**
  * Tests the class {@link Gcc4CompilerParser}.

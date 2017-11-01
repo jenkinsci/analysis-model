@@ -1,4 +1,4 @@
-package edu.hm.hafner.edu.hm.hafner.analysis.edu.hm.hafner.analysis.assertions;
+package edu.hm.hafner.analysis.assertions;
 
 import java.util.Objects;
 import org.assertj.core.api.AbstractAssert;
@@ -6,7 +6,8 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
 
 /**
- * Custome assertion for Issue class.
+ * Custom assertion for {@link Issue}
+ * @author Raphael Furch
  */
 @SuppressWarnings("UnusedReturnValue")
 public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
@@ -41,7 +42,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getFileName(), filename, "filename");
+        propertyEqualsCheck(actual.getFileName(), filename);
         // Return this for Fluent.
         return this;
     }
@@ -56,7 +57,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getLineStart(), lineStart, "lineStart");
+        propertyEqualsCheck(actual.getLineStart(), lineStart);
         // Return this for Fluent.
         return this;
     }
@@ -71,7 +72,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getLineEnd(), lineEnd, "lineEnd");
+        propertyEqualsCheck(actual.getLineEnd(), lineEnd);
         // Return this for Fluent.
         return this;
     }
@@ -86,7 +87,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getColumnStart(), columnStart, "columnStart");
+        propertyEqualsCheck(actual.getColumnStart(), columnStart);
         // Return this for Fluent.
         return this;
     }
@@ -101,7 +102,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getColumnEnd(), columnEnd, "columnEnd");
+        propertyEqualsCheck(actual.getColumnEnd(), columnEnd);
         // Return this for Fluent.
         return this;
     }
@@ -116,7 +117,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getCategory(), category, "category");
+        propertyEqualsCheck(actual.getCategory(), category);
         // Return this for Fluent.
         return this;
     }
@@ -131,7 +132,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getType(), type, "type");
+        propertyEqualsCheck(actual.getType(), type);
         // Return this for Fluent.
         return this;
     }
@@ -146,7 +147,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getPackageName(), packagename, "packagename");
+        propertyEqualsCheck(actual.getPackageName(), packagename);
         // Return this for Fluent.
         return this;
     }
@@ -161,7 +162,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getPriority(), priority, "priority");
+        propertyEqualsCheck(actual.getPriority(), priority);
         // Return this for Fluent.
         return this;
     }
@@ -176,7 +177,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getDescription(), description, "description");
+        propertyEqualsCheck(actual.getDescription(), description);
         // Return this for Fluent.
         return this;
     }
@@ -191,7 +192,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getMessage(), message, "message");
+        propertyEqualsCheck(actual.getMessage(), message);
         // Return this for Fluent.
         return this;
     }
@@ -206,7 +207,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.getFingerprint(), fingerprint, "fingerprint");
+        propertyEqualsCheck(actual.getFingerprint(), fingerprint);
         // Return this for Fluent.
         return this;
     }
@@ -221,7 +222,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.hashCode(), hashCode, "hashCode");
+        propertyEqualsCheck(actual.hashCode(), hashCode);
         // Return this for Fluent.
         return this;
     }
@@ -253,7 +254,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
         // check actual not null
         isNotNull();
         // check condition
-        propertyEqualsCheck(actual.toString(), issuesAsString, "toString");
+        propertyEqualsCheck(actual.toString(), issuesAsString);
         // Return this for Fluent.
         return this;
     }
@@ -263,7 +264,7 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
      * @return assertion.
      */
     @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-    public IssueAssertions hasAId() {
+    public IssueAssertions hasId() {
         // check actual not null
         isNotNull();
         // check condition
@@ -278,12 +279,11 @@ public class IssueAssertions extends AbstractAssert<IssueAssertions, Issue> {
      * Easy check a property and generate message.
      * @param actualValue = actual.
      * @param expected = expected.
-     * @param propertyName = name of property.
      * @param <T> = generic.
      */
-    private <T> void propertyEqualsCheck(final T actualValue, final T expected, final String propertyName){
+    private <T> void propertyEqualsCheck(final T actualValue, final T expected){
         if (!Objects.equals(actualValue, expected)) {
-            failWithMessage("Expected issue's "+propertyName+" to be <%s> but was <%s>", expected, actualValue);
+            failWithMessage("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.", expected, actualValue);
         }
     }
 }
