@@ -20,28 +20,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
  * @author Marcel Binder
  */
 class IssuesTest {
-    private static final Issue ISSUE_1 = new IssueBuilder()
-            .setMessage("issue-1")
-            .setFileName("file-1")
-            .setPriority(Priority.HIGH)
-            .build();
+    private static final Issue ISSUE_1 = new IssueBuilder().setMessage("issue-1").setFileName("file-1").setPriority(Priority.HIGH).build();
     private static final Issue ISSUE_2 = new IssueBuilder().setMessage("issue-2").setFileName("file-1").build();
     private static final Issue ISSUE_3 = new IssueBuilder().setMessage("issue-3").setFileName("file-1").build();
-    private static final Issue ISSUE_4 = new IssueBuilder()
-            .setMessage("issue-4")
-            .setFileName("file-2")
-            .setPriority(Priority.LOW)
-            .build();
-    private static final Issue ISSUE_5 = new IssueBuilder()
-            .setMessage("issue-5")
-            .setFileName("file-2")
-            .setPriority(Priority.LOW)
-            .build();
-    private static final Issue ISSUE_6 = new IssueBuilder()
-            .setMessage("issue-6")
-            .setFileName("file-3")
-            .setPriority(Priority.LOW)
-            .build();
+    private static final Issue ISSUE_4 = new IssueBuilder().setMessage("issue-4").setFileName("file-2").setPriority(Priority.LOW).build();
+    private static final Issue ISSUE_5 = new IssueBuilder().setMessage("issue-5").setFileName("file-2").setPriority(Priority.LOW).build();
+    private static final Issue ISSUE_6 = new IssueBuilder().setMessage("issue-6").setFileName("file-3").setPriority(Priority.LOW).build();
 
     @Test
     void testEmptyIssues() {
