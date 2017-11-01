@@ -38,7 +38,6 @@ public class GhsMultiParserTest extends ParserTester {
                 .hasMessage("transfer of control bypasses initialization of:\n            variable \"CF_TRY_FLAG\" (declared at line 42)\n            variable \"CF_EXCEPTION_NOT_CAUGHT\" (declared at line 42)\n        CF_TRY_CHECK_EX(ex2);")
                 .hasFileName("/maindir/tests/TestCase_0101.cpp\"")
                 .hasType(TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -48,7 +47,6 @@ public class GhsMultiParserTest extends ParserTester {
                 .hasMessage("label\n          \"CF_TRY_LABELex1\" was declared but never referenced\n     CF_TRY_EX(ex1)")
                 .hasFileName("/maindir/tests/TestCase_0101.cpp\"")
                 .hasType(TYPE);
-        softly.assertAll();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
