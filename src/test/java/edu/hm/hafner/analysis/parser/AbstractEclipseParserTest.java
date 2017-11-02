@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
@@ -45,8 +44,7 @@ public abstract class AbstractEclipseParserTest extends ParserTester {
 
         assertThat(warnings).hasSize(8);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
+        Issue annotation = warnings.get(0);
         assertSoftly(softly -> softly.assertThat(annotation)
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(DEFAULT_CATEGORY)
