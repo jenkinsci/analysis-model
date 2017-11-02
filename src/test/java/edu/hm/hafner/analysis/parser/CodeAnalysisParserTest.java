@@ -23,10 +23,9 @@ public class CodeAnalysisParserTest extends ParserTester {
     public void parseWarnings() throws IOException {
         Issues warnings = new CodeAnalysisParser().parse(openFile());
         Iterator<Issue> iterator = warnings.iterator();
-        int expectedSize = 3;
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(expectedSize);
+        softly.assertThat(warnings).hasSize(3);
         softly.assertThat(iterator.next()).hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("It appears that field 'Program.a' is never used or is only ever assigned to. Use this field or remove it.")

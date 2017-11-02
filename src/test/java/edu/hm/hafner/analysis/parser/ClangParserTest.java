@@ -28,12 +28,10 @@ public class ClangParserTest extends ParserTester {
     @Test
     public void issue31936() throws IOException {
         Issues warnings = new ClangParser().parse(openFile("issue31936.txt"));
-        Iterator<Issue> iterator = warnings.iterator();
-        int expectedSize = 1;
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(expectedSize);
-        softly.assertThat(iterator.next()).hasLineStart(1211)
+        softly.assertThat(warnings).hasSize(1);
+        softly.assertThat(warnings.get(0)).hasLineStart(1211)
                 .hasLineEnd(1211)
                 .hasColumnStart(26)
                 .hasColumnEnd(26)
@@ -53,9 +51,8 @@ public class ClangParserTest extends ParserTester {
     @Test
     public void issue36817() throws IOException {
         Issues warnings = new ClangParser().parse(openFile("issue36817.txt"));
-        int expectedSize = 0;
 
-        assertThat(warnings).hasSize(expectedSize);
+        assertThat(warnings).hasSize(0);
     }
 
     /**
@@ -67,12 +64,10 @@ public class ClangParserTest extends ParserTester {
     @Test
     public void issue18084() throws IOException {
         Issues warnings = new ClangParser().parse(openFile("issue18084.txt"));
-        Iterator<Issue> iterator = warnings.iterator();
-        int expectedSize = 1;
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(expectedSize);
-        softly.assertThat(iterator.next()).hasLineStart(10)
+        softly.assertThat(warnings).hasSize(1);
+        softly.assertThat(warnings.get(0)).hasLineStart(10)
                 .hasLineEnd(10)
                 .hasColumnStart(10)
                 .hasColumnEnd(10)
@@ -92,13 +87,10 @@ public class ClangParserTest extends ParserTester {
     @Test
     public void issue14333() throws IOException {
         Issues warnings = new ClangParser().parse(openFile("issue14333.txt"));
-        Iterator<Issue> iterator = warnings.iterator();
-        int expectedSize = 1;
-
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(expectedSize);
-        softly.assertThat(iterator.next()).hasLineStart(1518)
+        softly.assertThat(warnings).hasSize(1);
+        softly.assertThat(warnings.get(0)).hasLineStart(1518)
                 .hasLineEnd(1518)
                 .hasColumnStart(28)
                 .hasColumnEnd(28)
@@ -118,10 +110,9 @@ public class ClangParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new ClangParser().parse(openFile());
         Iterator<Issue> iterator = warnings.iterator();
-        int expectedSize = 9;
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(expectedSize);
+        softly.assertThat(warnings).hasSize(9);
         softly.assertThat(iterator.next()).hasLineStart(28)
                 .hasLineEnd(28)
                 .hasColumnStart(8)

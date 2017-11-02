@@ -25,17 +25,12 @@ public class CppLintParserTest extends ParserTester {
     @Test
     public void shouldFindAll1031Warnings() {
         Issues issues = new CppLintParser().parse(openFile());
-        int expectedIssuesSize = 1031;
-        int expectedHighPrioritySize = 81;
-        int expectedNormalPrioritySize = 201;
-        int expectedLowPrioritySize = 749;
-
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(issues).hasSize(expectedIssuesSize);
-        softly.assertThat(issues).hasHighPrioritySize(expectedHighPrioritySize);
-        softly.assertThat(issues).hasNormalPrioritySize(expectedNormalPrioritySize);
-        softly.assertThat(issues).hasLowPrioritySize(expectedLowPrioritySize);
+        softly.assertThat(issues).hasSize(1031);
+        softly.assertThat(issues).hasHighPrioritySize(81);
+        softly.assertThat(issues).hasNormalPrioritySize(201);
+        softly.assertThat(issues).hasLowPrioritySize(749);
 
         softly.assertThat(issues.get(0)).hasLineStart(824)
                 .hasLineEnd(824)
@@ -55,10 +50,9 @@ public class CppLintParserTest extends ParserTester {
     public void issue18290() {
         Issues warnings = new CppLintParser().parse(openFile("issue18290.txt"));
         Iterator<Issue> iterator = warnings.iterator();
-        int expectedSize = 2;
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(expectedSize);
+        softly.assertThat(warnings).hasSize(2);
         softly.assertThat(iterator.next()).hasLineStart(399)
                 .hasLineEnd(399)
                 .hasMessage("Missing space before {")
