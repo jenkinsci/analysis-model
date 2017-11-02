@@ -11,4 +11,8 @@ public class IssueSoftAssertions extends SoftAssertions {
         return proxy(IssueAssert.class, Issue.class, actual);
     }
 
+    public IssuesAssert assertThat(final Issues actual) {
+        return proxy(IssuesAssert.class, Issues.class, actual);
+    }
+
 }

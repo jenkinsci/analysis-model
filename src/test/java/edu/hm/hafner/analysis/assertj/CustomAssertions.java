@@ -9,4 +9,8 @@ public class CustomAssertions {
         return new IssueAssert(issue);
     }
 
+    public static IssuesAssert assertThat(final Issues issues) {
+        return new IssuesAssert(issues);
+    }
+
 }
