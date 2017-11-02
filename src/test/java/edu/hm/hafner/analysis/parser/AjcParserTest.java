@@ -25,7 +25,7 @@ public class AjcParserTest extends ParserTester {
      * <p>
      * Both unix and windows file paths.
      *
-     * @throws java.io.IOException if the file could not be read
+     * @throws IOException if the file could not be read
      */
     @Test
     public void parseDeprecation() throws IOException {
