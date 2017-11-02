@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
 /**
- * Tests the class {@link ArrayList}. Demonstrates some features of
- * <a href="https://joel-costigliola.github.io/assertj/">AssertJ</a>.
+ * Tests the class {@link ArrayList}. Demonstrates some features of <a href="https://joel-costigliola.github.io/assertj/">AssertJ</a>.
  *
  * @author Ullrich Hafner
  */
@@ -59,7 +58,8 @@ class ArrayListAssertJTest {
     }
 
     /** Verifies that an {@link IndexOutOfBoundsException} is thrown if the requested index is not in the list. */
-    @Test @SuppressWarnings({"ResultOfMethodCallIgnored", "MismatchedQueryAndUpdateOfCollection"})
+    @Test
+    @SuppressWarnings({"ResultOfMethodCallIgnored", "MismatchedQueryAndUpdateOfCollection"})
     void shouldThrowExceptionIfIndexIsTooLarge() {
         List<String> strings = new ArrayList<>();
         assertThatThrownBy(() -> strings.get(0))

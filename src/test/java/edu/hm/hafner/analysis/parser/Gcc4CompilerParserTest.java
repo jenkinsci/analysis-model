@@ -3,12 +3,12 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link Gcc4CompilerParser}.
@@ -186,7 +186,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void issue5445() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
 
-        assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
+        assertEquals(THERE_ARE_WARNINGS_FOUND, 0, warnings.size());
     }
 
     /**
@@ -199,7 +199,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
     public void issue5870() throws IOException {
         Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
 
-        assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
+        assertEquals(THERE_ARE_WARNINGS_FOUND, 0, warnings.size());
     }
 
     /**

@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link JavacParser}.
@@ -108,15 +108,28 @@ public class JavacParserTest extends ParserTester {
 
         String fileName = "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java";
         Iterator<Issue> expectedWarnings = Arrays.asList(
-                new IssueBuilder().setFileName(fileName).setLineStart(12).setType(WARNING_TYPE).setCategory("Deprecation").setMessage("org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated").build(),
-                new IssueBuilder().setFileName(fileName).setLineStart(40).setType(WARNING_TYPE).setCategory("Deprecation").setMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated").build()
+                new IssueBuilder()
+                        .setFileName(fileName)
+                        .setLineStart(12)
+                        .setType(WARNING_TYPE)
+                        .setCategory("Deprecation")
+                        .setMessage("org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated")
+                        .build(),
+                new IssueBuilder()
+                        .setFileName(fileName)
+                        .setLineStart(40)
+                        .setType(WARNING_TYPE)
+                        .setCategory("Deprecation")
+                        .setMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                        .build()
         ).iterator();
 
         Iterator<Issue> iterator = warnings.iterator();
         while (iterator.hasNext()) {
-            assertTrue(expectedWarnings.hasNext(), WRONG_NUMBER_OF_WARNINGS_DETECTED);
+            assertTrue(WRONG_NUMBER_OF_WARNINGS_DETECTED, expectedWarnings.hasNext());
             Issue expectedWarning = expectedWarnings.next();
-            checkWarning(iterator.next(), expectedWarning.getLineStart(), expectedWarning.getMessage(), expectedWarning.getFileName(), expectedWarning.getType(), expectedWarning.getCategory(), expectedWarning.getPriority());
+            checkWarning(iterator.next(), expectedWarning.getLineStart(), expectedWarning.getMessage(), expectedWarning.getFileName(), expectedWarning
+                    .getType(), expectedWarning.getCategory(), expectedWarning.getPriority());
         }
     }
 

@@ -3,14 +3,13 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.hm.hafner.analysis.ConsolePostProcessor;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static java.time.Duration.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link EclipseParser}.
@@ -101,7 +100,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     }
 
     private void checkWithAnnotation(final Issue annotation) {
-        assertTrue(annotation.getMessage().matches("[a-zA-Z].*"), "Wrong first character in message");
+        assertTrue("Wrong first character in message", annotation.getMessage().matches("[a-zA-Z].*"));
     }
 
     /**
@@ -164,25 +163,9 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
         int number = 0;
         for (Issue fileAnnotation : sorted) {
             boolean containsHat = fileAnnotation.getMessage().contains("^");
-            assertFalse(containsHat, "Message " + number + " contains ^");
+            assertFalse("Message " + " contains ^" + number, containsHat);
             number++;
         }
-    }
-
-    /**
-     * Parses a warning log which doesn't contain any Eclipse warnings, but shows some pretty bad performance when
-     * matching the regular expression.
-     *
-     * @throws IOException if the file could not be read
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-27664">Issue 27664</a>
-     */
-    @Test
-    public void issue27664() throws IOException {
-        assertTimeout(ofSeconds(10), () -> {
-            Issues warnings = createParser().parse(openFile("issue27664.txt"));
-
-            assertEquals(0, warnings.size());
-        }, "Parsing took more than 5 seconds");
     }
 }
 
