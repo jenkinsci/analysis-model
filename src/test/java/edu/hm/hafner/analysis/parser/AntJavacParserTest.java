@@ -1,3 +1,4 @@
+//Sarah Hofstätter
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link AntJavacParser}.
@@ -31,8 +32,9 @@ public class AntJavacParserTest extends ParserTester {
         InputStream file = AntJavacParser.class.getResourceAsStream("issue24611.txt");
         InputStreamReader reader = new InputStreamReader(new BOMInputStream(file), "UTF8");
         Issues warnings = new AntJavacParser().parse(reader);
+        SoftAssertions softly = new SoftAssertions();
 
-        assertEquals(2, warnings.size());
+        softly.assertThat(warnings).hasSize(2);
     }
 
     /**
@@ -44,12 +46,17 @@ public class AntJavacParserTest extends ParserTester {
     @Test
     public void issue21240() throws IOException {
         Issues warnings = new AntJavacParser().parse(openFile("issue21240.txt"));
+        final Issue warning = warnings.iterator().next();
+        String warningMessage = "Cannot find annotation method 'xxx()' in type 'yyyy': class file for fully.qualified.ClassName not found";
+        SoftAssertions softly = new SoftAssertions();
 
-        assertEquals(1, warnings.size());
-        checkWarning(warnings.iterator().next(),
-                0,
-                "Cannot find annotation method 'xxx()' in type 'yyyy': class file for fully.qualified.ClassName not found",
-                "aaa.class", WARNING_TYPE, Priority.NORMAL);
+        softly.assertThat(warnings).hasSize(1);
+        softly.assertThat(warning).hasPriority(Priority.NORMAL).
+                hasCategory(WARNING_TYPE).
+                hasLineStart(0).
+                hasLineEnd(0).
+                hasMessage(warningMessage).
+                hasFileName("aaa.class");
     }
 
     /**
@@ -59,17 +66,22 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
+        SoftAssertions softly = new SoftAssertions();
         Issues warnings = new AntJavacParser().parse(openFile());
-
-        assertEquals(1, warnings.size());
-
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                28,
-                "begrussen() in ths.types.IGruss has been deprecated",
-                "C:/Users/tiliven/.hudson/jobs/Hello THS Trunk - compile/workspace/HelloTHSTest/src/ths/Hallo.java",
-                WARNING_TYPE, "Deprecation", Priority.NORMAL);
+        String message = "begrussen() in ths.types.IGruss has been deprecated";
+        String filename = "C:/Users/tiliven/.hudson/jobs/Hello THS Trunk - compile/workspace/HelloTHSTest/src/ths/Hallo.java";
+
+
+        softly.assertThat(warnings).hasSize(1);
+        softly.assertThat(annotation).hasPriority(Priority.NORMAL).
+                hasCategory("Deprecation").
+                hasLineStart(28).
+                hasLineEnd(28).
+                hasMessage(message).
+                hasFileName(filename).
+                hasType(WARNING_TYPE);
     }
 
     /**
@@ -80,21 +92,31 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void issue2133() throws IOException {
+        SoftAssertions softly = new SoftAssertions();
         Issues warnings = new AntJavacParser().parse(openFile("issue2133.txt"));
-
-        assertEquals(2, warnings.size());
-
         Iterator<Issue> iterator = warnings.iterator();
-        checkWarning(iterator.next(),
-                86,
-                "non-varargs call of varargs method with inexact argument type for last parameter;",
-                "/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/misuse/DescriptiveMessagesOnMisuseTest.java",
-                WARNING_TYPE, DEFAULT_CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                51,
-                "<T>stubVoid(T) in org.mockito.Mockito has been deprecated",
-                "/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/stubbing/StubbingWithThrowablesTest.java",
-                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
+        final Issue warning1 = iterator.next();
+        String message1 = "non-varargs call of varargs method with inexact argument type for last parameter;";
+        String filename1 = "/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/misuse/DescriptiveMessagesOnMisuseTest.java";
+        final Issue warning = iterator.next();
+        String message = "<T>stubVoid(T) in org.mockito.Mockito has been deprecated";
+        String filename = "/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/stubbing/StubbingWithThrowablesTest.java";
+
+        softly.assertThat(warnings).hasSize(2);
+        softly.assertThat(warning1).hasPriority(Priority.NORMAL).
+                hasCategory(DEFAULT_CATEGORY).
+                hasLineStart(86).
+                hasLineEnd(86).
+                hasMessage(message1).
+                hasFileName(filename1).
+                hasType(WARNING_TYPE);
+        softly.assertThat(warning).hasPriority(Priority.NORMAL).
+                hasCategory(AbstractParser.DEPRECATION).
+                hasLineStart(51).
+                hasLineEnd(51).
+                hasMessage(message).
+                hasFileName(filename).
+                hasType(WARNING_TYPE);
     }
 
     /**
@@ -106,15 +128,20 @@ public class AntJavacParserTest extends ParserTester {
     @Test
     public void issue4098() throws IOException {
         Issues warnings = new AntJavacParser().parse(openFile("issue4098.txt"));
-
-        assertEquals(1, warnings.size());
-
+        SoftAssertions softly = new SoftAssertions();
         Iterator<Issue> iterator = warnings.iterator();
-        checkWarning(iterator.next(),
-                0,
-                "bad path element \"C:\\...\\.hudson\\jobs\\...\\log4j.jar\": no such file or directory",
-                "C:/.../.hudson/jobs/.../log4j.jar",
-                WARNING_TYPE, "Path", Priority.NORMAL);
+        final Issue warning = iterator.next();
+        String message = "bad path element \"C:\\...\\.hudson\\jobs\\...\\log4j.jar\": no such file or directory";
+        String filename = "C:/.../.hudson/jobs/.../log4j.jar";
+
+        softly.assertThat(warnings).hasSize(1);
+        softly.assertThat(warning).hasPriority(Priority.NORMAL)
+                .hasCategory("Path")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage(message)
+                .hasFileName(filename)
+                .hasType(WARNING_TYPE);
     }
 
     /**
@@ -126,12 +153,12 @@ public class AntJavacParserTest extends ParserTester {
     @Test
     public void issue2316() throws IOException {
         Issues warnings = new AntJavacParser().parse(openFile("issue2316.txt"));
+        SoftAssertions softly = new SoftAssertions();
 
-        assertEquals(20, warnings.size());
-
-        assertEquals(0, warnings.getHighPrioritySize());
-        assertEquals(20, warnings.getNormalPrioritySize());
-        assertEquals(0, warnings.getLowPrioritySize());
+        softly.assertThat(warnings).hasSize(20)
+                .hasHighPrioritySize(0)
+                .hasNormalPrioritySize(20)
+                .hasLowPrioritySize(0);
     }
 
     /**
@@ -142,8 +169,9 @@ public class AntJavacParserTest extends ParserTester {
     @Test
     public void parseDifferentTaskNames() throws IOException {
         Issues warnings = new AntJavacParser().parse(openFile("taskname.txt"));
+        SoftAssertions softly = new SoftAssertions();
 
-        assertEquals(3, warnings.size());
+        softly.assertThat(warnings).hasSize(3);
     }
 
     /**
@@ -154,15 +182,20 @@ public class AntJavacParserTest extends ParserTester {
     @Test
     public void parseArrayInDeprecatedMethod() throws IOException {
         Issues warnings = new AntJavacParser().parse(openFile("issue5868.txt"));
-
-        assertEquals(1, warnings.size());
-
         Iterator<Issue> iterator = warnings.iterator();
-        checkWarning(iterator.next(),
-                225,
-                "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated",
-                "D:/path/to/my/Class.java",
-                WARNING_TYPE, "Deprecation", Priority.NORMAL);
+        final Issue warning = iterator.next();
+        SoftAssertions softly = new SoftAssertions();
+        String message = "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated";
+        String filename = "D:/path/to/my/Class.java";
+
+        softly.assertThat(warnings).hasSize(1);
+        softly.assertThat(warning).hasPriority(Priority.NORMAL)
+                .hasCategory("Deprecation")
+                .hasLineStart(225)
+                .hasLineEnd(225)
+                .hasMessage(message)
+                .hasFileName(filename)
+                .hasType(WARNING_TYPE);
     }
 
     /**
@@ -176,7 +209,9 @@ public class AntJavacParserTest extends ParserTester {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(ParserTester.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
         Issues warnings = new AntJavacParser().parse(is);
-        assertEquals(1, warnings.size());
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(warnings).hasSize(1);
     }
 
     @Override
