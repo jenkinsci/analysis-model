@@ -3,13 +3,18 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
+import edu.hm.hafner.analysis.assertj.IssueAssert;
+
 
 import edu.hm.hafner.analysis.ConsolePostProcessor;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+
+import org.junit.jupiter.api.Test;
+
 import static java.time.Duration.*;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -21,14 +26,13 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     /**
      * Parses a warning log with previously undetected warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
      */
     @Test
-    public void issue21377() throws IOException {
+    public void issue21377() {
         Issues warnings = createParser().parse(openFile("issue21377.txt"));
-
-        assertEquals(1, warnings.size());
+        assertThat(warnings.size()).isEqualTo(1);
+        //assertEquals(1, warnings.size());
 
         Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
@@ -41,59 +45,65 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     /**
      * Parses a warning log with 2 previously undetected warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-13969">Issue 13969</a>
      */
     @Test
-    public void issue13969() throws IOException {
+    public void issue13969() {
         Issues warnings = createParser().parse(openFile("issue13969.txt"));
 
-        assertEquals(3, warnings.size());
+        assertThat(warnings.size()).isEqualTo(3);
 
         Iterator<Issue> iterator = warnings.iterator();
-        checkWarning(iterator.next(),
-                369,
-                "The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally",
-                "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java",
-                TYPE, CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                391,
-                "The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally",
-                "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java",
-                TYPE, CATEGORY, Priority.NORMAL);
-        checkWarning(iterator.next(),
-                56,
-                "The value of the field PropertyImporterTest.ERROR_RESPONSE is not used",
-                "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java",
-                TYPE, CATEGORY, Priority.NORMAL);
+        IssueAssert.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(369)
+                .hasLineEnd(369)
+                .hasMessage("The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally")
+                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
+                .hasType(TYPE);
+
+        IssueAssert.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(391)
+                .hasLineEnd(391)
+                .hasMessage("The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally")
+                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
+                .hasType(TYPE);
+
+        IssueAssert.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(56)
+                .hasLineEnd(56)
+                .hasMessage("The value of the field PropertyImporterTest.ERROR_RESPONSE is not used")
+                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java")
+                .hasType(TYPE);
+
     }
 
     /**
      * Parses a warning log with 15 warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12822">Issue 12822</a>
      */
     @Test
-    public void issue12822() throws IOException {
+    public void issue12822() {
         Issues warnings = createParser().parse(openFile("issue12822.txt"));
 
-        assertEquals(15, warnings.size());
+        assertThat(warnings.size()).isEqualTo(15);
     }
 
     /**
      * Parses a warning log with console annotations which are removed.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-11675">Issue 11675</a>
      */
     @Test
-    public void issue11675() throws IOException {
+    public void issue11675() {
         EclipseParser parser = new EclipseParser();
         parser.setTransformer(new ConsolePostProcessor());
         Issues warnings = parser.parse(openFile("issue11675.txt"));
 
-        assertEquals(8, warnings.size());
+        assertThat(warnings.size()).isEqualTo(8);
 
         for (Issue annotation : warnings) {
             checkWithAnnotation(annotation);
@@ -101,70 +111,77 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     }
 
     private void checkWithAnnotation(final Issue annotation) {
-        assertTrue(annotation.getMessage().matches("[a-zA-Z].*"), "Wrong first character in message");
+        assertThat(annotation.getMessage().matches("[a-zA-Z].*")).isTrue().withFailMessage("Wrong first character in message");
     }
 
     /**
      * Parses a warning log with a ClearCase command line that should not be parsed as a warning.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6427">Issue 6427</a>
      */
     @Test
-    public void issue6427() throws IOException {
+    public void issue6427() {
         Issues warnings = createParser().parse(openFile("issue6427.txt"));
 
-        assertEquals(18, warnings.size());
+        assertThat(warnings.size()).isEqualTo(18);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                10,
-                "The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used",
-                "/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java",
-                TYPE, CATEGORY, Priority.NORMAL);
+        IssueAssert.assertThat(annotation).hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(10)
+                .hasLineEnd(10)
+                .hasMessage("The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
+                .hasFileName("/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java")
+                .hasType(TYPE);
+
     }
 
     /**
      * Parses a warning log with 2 eclipse messages, the affected source text spans one and two lines.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
      */
     @Test
-    public void issue7077() throws IOException {
+    public void issue7077() {
         Issues warnings = createParser().parse(openFile("issue7077.txt"));
 
-        assertEquals(2, warnings.size());
+        assertThat(warnings.size()).isEqualTo(2);
 
-        checkWarning(warnings.get(0),
-                90,
-                "Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized",
-                "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java",
-                TYPE, CATEGORY, Priority.NORMAL);
-        checkWarning(warnings.get(1),
-                90,
-                "Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>",
-                "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java",
-                TYPE, CATEGORY, Priority.NORMAL);
+        IssueAssert.assertThat(warnings.get(0)).hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(90)
+                .hasLineEnd(90)
+                .hasMessage("Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized")
+                .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
+                .hasType(TYPE);
+
+
+        IssueAssert.assertThat(warnings.get(1)).hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(90)
+                .hasLineEnd(90)
+                .hasMessage("Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>")
+                .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
+                .hasType(TYPE);
+
     }
 
     /**
      * Parses a warning log with several eclipse messages.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
      */
     @Test
-    public void issue7077all() throws IOException {
+    public void issue7077all() {
         Issues sorted = createParser().parse(openFile("issue7077-all.txt"));
 
-        assertEquals(45, sorted.size());
+        assertThat(sorted.size()).isEqualTo(45);
 
         int number = 0;
         for (Issue fileAnnotation : sorted) {
             boolean containsHat = fileAnnotation.getMessage().contains("^");
-            assertFalse(containsHat, "Message " + number + " contains ^");
+            assertThat(containsHat).isFalse().withFailMessage("Message " + number + " contains ^");
             number++;
         }
     }
@@ -173,15 +190,15 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
      * Parses a warning log which doesn't contain any Eclipse warnings, but shows some pretty bad performance when
      * matching the regular expression.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-27664">Issue 27664</a>
      */
     @Test
-    public void issue27664() throws IOException {
+    public void issue27664() {
+
         assertTimeout(ofSeconds(10), () -> {
             Issues warnings = createParser().parse(openFile("issue27664.txt"));
 
-            assertEquals(0, warnings.size());
+            assertThat(warnings.size()).isEqualTo(0);
         }, "Parsing took more than 5 seconds");
     }
 }
