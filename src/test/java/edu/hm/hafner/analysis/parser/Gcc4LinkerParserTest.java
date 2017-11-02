@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.IssuesAssert;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 
 /**
  * Tests the class {@link Gcc4LinkerParser}.
  *
- * * @author Raphael Furch
+ * @author Raphael Furch
  */
 public class Gcc4LinkerParserTest extends ParserTester {
     private static final String WARNING_CATEGORY = Gcc4LinkerParser.WARNING_CATEGORY;
@@ -30,13 +30,13 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile());
 
-        IssuesAssert.assertThat(warnings)
+        assertThat(warnings)
                 .hasSize(8);
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        SoftAssertions softly1 = new SoftAssertions();
-        softly1.assertThat(iterator.next())
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("undefined reference to 'missing_symbol'")
@@ -44,10 +44,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softly1.assertAll();
 
-        SoftAssertions softly2 = new SoftAssertions();
-        softly2.assertThat(iterator.next())
+        softly.assertThat(iterator.next())
                 .hasLineStart(233)
                 .hasLineEnd(233)
                 .hasMessage("undefined reference to `MyInterface::getValue() const'")
@@ -55,10 +53,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softly2.assertAll();
 
-        SoftAssertions softly3 = new SoftAssertions();
-        softly3.assertThat(iterator.next())
+        softly.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("cannot find -lMyLib")
@@ -66,10 +62,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softly3.assertAll();
 
-        SoftAssertions softly4 = new SoftAssertions();
-        softly4.assertThat(iterator.next())
+        softly.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("undefined reference to `clock_gettime'")
@@ -77,11 +71,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softly4.assertAll();
 
-
-        SoftAssertions softly5 = new SoftAssertions();
-        softly5.assertThat(iterator.next())
+        softly.assertThat(iterator.next())
                 .hasLineStart(109)
                 .hasLineEnd(109)
                 .hasMessage("undefined reference to `main'")
@@ -89,10 +80,9 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softly5.assertAll();
 
-        SoftAssertions softly6 = new SoftAssertions();
-        softly6.assertThat(iterator.next())
+
+        softly.assertThat(iterator.next())
                 .hasLineStart(109)
                 .hasLineEnd(109)
                 .hasMessage("undefined reference to `main'")
@@ -100,10 +90,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softly6.assertAll();
 
-        SoftAssertions softly7 = new SoftAssertions();
-        softly7.assertThat(iterator.next())
+        softly.assertThat(iterator.next())
                 .hasLineStart(7)
                 .hasLineEnd(7)
                 .hasMessage("undefined reference to `clock_gettime'")
@@ -111,10 +99,8 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softly7.assertAll();
 
-        SoftAssertions softly8 = new SoftAssertions();
-        softly8.assertThat(iterator.next())
+        softly.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o")
@@ -122,7 +108,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
-        softly8.assertAll();
+        softly.assertAll();
     }
 
 
@@ -136,7 +122,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue5445() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue5445.txt"));
 
-        IssuesAssert.assertThat(warnings)
+        assertThat(warnings)
                 .hasSize(0);
     }
 
@@ -150,7 +136,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue5870() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue5870.txt"));
 
-        IssuesAssert.assertThat(warnings)
+        assertThat(warnings)
                 .hasSize(0);
     }
 
@@ -164,7 +150,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
     public void issue6563() throws IOException {
         Issues warnings = new Gcc4LinkerParser().parse(openFile("issue6563.txt"));
 
-        IssuesAssert.assertThat(warnings)
+        assertThat(warnings)
                 .hasSize(0);
     }
 
