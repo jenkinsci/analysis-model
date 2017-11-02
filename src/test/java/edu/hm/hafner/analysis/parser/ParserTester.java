@@ -33,12 +33,12 @@ public abstract class ParserTester {
      * @param priority   the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final String message, final String fileName, final String category, final Priority priority) {
-        assertThat(warning).hasPriority(priority)
-                .hasCategory(category)
-                .hasLineStart(lineNumber)
-                .hasLineEnd(lineNumber)
-                .hasMessage(message)
-                .hasFileName(fileName);
+        assertThat(warning).hasPriority(priority);
+        assertThat(warning).hasCategory(category);
+        assertThat(warning).hasLineStart(lineNumber);
+        assertThat(warning).hasLineEnd(lineNumber);
+        assertThat(warning).hasMessage(message);
+        assertThat(warning).hasFileName(fileName);
     }
 
     /**
@@ -53,13 +53,8 @@ public abstract class ParserTester {
      * @param priority   the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final int column, final String message, final String fileName, final String category, final Priority priority) {
-        assertThat(warning).hasPriority(priority)
-                .hasCategory(category)
-                .hasLineStart(lineNumber)
-                .hasLineEnd(lineNumber)
-                .hasMessage(message)
-                .hasFileName(fileName)
-                .hasColumnStart(column);
+        checkWarning(warning, lineNumber, message, fileName, category, priority);
+        assertThat(warning).hasColumnStart(column);
     }
 
     /**
@@ -74,13 +69,8 @@ public abstract class ParserTester {
      * @param priority   the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority) {
-        assertThat(warning).hasPriority(priority)
-                .hasCategory(category)
-                .hasLineStart(lineNumber)
-                .hasLineEnd(lineNumber)
-                .hasMessage(message)
-                .hasFileName(fileName)
-                .hasType(type);
+        checkWarning(warning, lineNumber, message, fileName, category, priority);
+        assertThat(warning).hasType(type);
     }
 
     /**
@@ -96,14 +86,8 @@ public abstract class ParserTester {
      * @param priority   the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final int column, final String message, final String fileName, final String type, final String category, final Priority priority) { // NOCHECKSTYLE
-        assertThat(warning).hasPriority(priority)
-                .hasCategory(category)
-                .hasLineStart(lineNumber)
-                .hasLineEnd(lineNumber)
-                .hasMessage(message)
-                .hasFileName(fileName)
-                .hasColumnStart(column)
-                .hasType(type);
+        checkWarning(warning, lineNumber, column, message, fileName, category, priority);
+        assertThat(warning).hasType(type);
     }
 
     /**
