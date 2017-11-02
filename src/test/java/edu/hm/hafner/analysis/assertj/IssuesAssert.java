@@ -99,20 +99,4 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         }
         return this;
     }
-
-    /**
-     * Verifies that the actual size of affected files in the {@link Issues} instance is equal to the given one.
-     *
-     * @param numberOfFiles the expected size of affected files to compare the actual {@link Issues} size to.
-     * @return this assertion object.
-     * @throws AssertionError if the actual {@link Issues} size of affected files is not equal to the given one.
-     */
-    public IssuesAssert hasNumberOfFiles(final int numberOfFiles) {
-        isNotNull();
-
-        if (actual.getNumberOfFiles() != numberOfFiles) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "number of files", numberOfFiles, actual.getNumberOfFiles());
-        }
-        return this;
-    }
 }

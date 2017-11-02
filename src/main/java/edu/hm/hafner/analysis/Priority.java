@@ -22,7 +22,9 @@ public enum Priority {
     /**
      * Converts a String priority to an actual enumeration value.
      *
-     * @param priority priority as a String
+     * @param priority
+     *         priority as a String
+     *
      * @return enumeration value.
      */
     public static Priority fromString(final String priority) {
@@ -32,7 +34,9 @@ public enum Priority {
     /**
      * Gets the priorities starting from the specified priority to {@link Priority#HIGH}.
      *
-     * @param minimumPriority the minimum priority
+     * @param minimumPriority
+     *         the minimum priority
+     *
      * @return the priorities starting from the specified priority
      */
     public static Collection<Priority> collectPrioritiesFrom(final Priority minimumPriority) {
@@ -46,5 +50,14 @@ public enum Priority {
             priorities.add(Priority.LOW);
         }
         return priorities;
+    }
+
+    /**
+     * Compares the {@code name()} of this priority to the specified name, ignoring case considerations.
+     *
+     * @return {@code true} if the names are equal, {@code false} otherwise
+     */
+    public boolean equalsIgnoreCase(final String name) {
+        return name().equalsIgnoreCase(name);
     }
 }
