@@ -34,10 +34,7 @@ public class GoLintParserTest extends ParserTester {
                     .hasLineEnd(64)
                     .hasMessage("exported var ErrCloseSent should have comment or be unexported")
                     .hasFileName("conn.go");
-        });
 
-
-        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
@@ -45,10 +42,7 @@ public class GoLintParserTest extends ParserTester {
                     .hasLineEnd(104)
                     .hasMessage("should replace pos += 1 with pos++")
                     .hasFileName("conn.go");
-        });
 
-
-        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
@@ -56,10 +50,7 @@ public class GoLintParserTest extends ParserTester {
                     .hasLineEnd(305)
                     .hasMessage("should replace c.writeSeq += 1 with c.writeSeq++")
                     .hasFileName("conn.go");
-        });
 
-
-        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings.get(3))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
@@ -67,10 +58,7 @@ public class GoLintParserTest extends ParserTester {
                     .hasLineEnd(360)
                     .hasMessage("should replace c.writeSeq += 1 with c.writeSeq++")
                     .hasFileName("conn.go");
-        });
 
-
-        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings.get(4))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
@@ -78,10 +66,7 @@ public class GoLintParserTest extends ParserTester {
                     .hasLineEnd(669)
                     .hasMessage("should replace c.readSeq += 1 with c.readSeq++")
                     .hasFileName("conn.go");
-        });
 
-
-        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings.get(5))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
@@ -89,10 +74,7 @@ public class GoLintParserTest extends ParserTester {
                     .hasLineEnd(706)
                     .hasMessage("should replace r.c.readSeq += 1 with r.c.readSeq++")
                     .hasFileName("conn.go");
-        });
 
-
-        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings.get(6))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
@@ -101,8 +83,6 @@ public class GoLintParserTest extends ParserTester {
                     .hasMessage("should omit type net.Error from declaration of var timeoutErrImplementsNetError; it will be inferred from the right-hand side")
                     .hasFileName("conn_test.go");
         });
-
-
     }
 
 
