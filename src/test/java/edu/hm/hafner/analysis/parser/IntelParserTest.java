@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -29,12 +28,9 @@ public class IntelParserTest extends ParserTester {
 
         assertThat(warnings).hasSize(7);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        Issue firstAnnotation = iterator.next();
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(firstAnnotation)
+            softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Remark")
                     .hasLineStart(1460)
@@ -44,13 +40,7 @@ public class IntelParserTest extends ParserTester {
                     .hasColumnStart(20)
                     .hasType(TYPE);
 
-
-        });
-
-        Issue secondAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(secondAnnotation)
+            softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Remark")
                     .hasLineStart(2630)
@@ -60,13 +50,7 @@ public class IntelParserTest extends ParserTester {
                     .hasColumnStart(15)
                     .hasType(TYPE);
 
-
-        });
-
-        Issue thirdAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(thirdAnnotation)
+            softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Remark #1")
                     .hasLineStart(721)
@@ -75,13 +59,7 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("D:/Hudson/workspace/zoo/oppdend2d_slv_strip_utils.cpp")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue fourthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(fourthAnnotation)
+            softly.assertThat(warnings.get(3))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Remark #1418")
                     .hasLineStart(17)
@@ -90,15 +68,7 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("D:/Hudson/workspace/boo/serviceif.cpp")
                     .hasType(TYPE);
 
-
-        });
-
-
-        Issue fifthAnnotation = iterator.next();
-        // Messages from the Fortran compiler:
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(fifthAnnotation)
+            softly.assertThat(warnings.get(4))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("Warning #6843")
                     .hasLineStart(1)
@@ -107,13 +77,7 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("/path/to/file1.f90")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue sixthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(sixthAnnotation)
+            softly.assertThat(warnings.get(5))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Remark #8577")
                     .hasLineStart(806)
@@ -122,13 +86,7 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("/path/to/file2.f")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue seventhAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(seventhAnnotation)
+            softly.assertThat(warnings.get(6))
                     .hasPriority(Priority.HIGH)
                     .hasCategory("Error #5082")
                     .hasLineStart(1)
@@ -137,8 +95,8 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("t.f90")
                     .hasType(TYPE);
 
-
         });
+
 
     }
 
@@ -158,7 +116,7 @@ public class IntelParserTest extends ParserTester {
         Issue firstAnnotation = iterator.next();
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(firstAnnotation)
+            softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("Warning #177")
                     .hasLineStart(980)
@@ -167,12 +125,7 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("<stdout>")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue secondAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(secondAnnotation)
+            softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("Warning #177")
                     .hasLineStart(2454)
@@ -181,13 +134,7 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("<stdout>")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue thirdAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(thirdAnnotation)
+            softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("Warning #1786")
                     .hasLineStart(120)
@@ -196,13 +143,7 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("D:/hudson/workspace/continuous-snext-main-Win32/trunk/src/engine/AllocationProfiler.cpp")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue fourthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(fourthAnnotation)
+            softly.assertThat(warnings.get(3))
                     .hasPriority(Priority.HIGH)
                     .hasCategory("Error #1786")
                     .hasLineStart(120)
@@ -211,8 +152,8 @@ public class IntelParserTest extends ParserTester {
                     .hasFileName("D:/hudson/workspace/continuous-snext-main-Win32/trunk/src/engine/AllocationProfiler.cpp")
                     .hasType(TYPE);
 
-
         });
+
 
     }
 

@@ -28,12 +28,10 @@ public class IdeaInspectionParserTest extends ParserTester {
 
         assertThat(inspections).hasSize(1);
 
-        Iterator<Issue> iterator = inspections.iterator();
 
-        Issue annotation = iterator.next();
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(annotation)
+            softly.assertThat(inspections.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("Unused method parameters")
                     .hasLineStart(42)

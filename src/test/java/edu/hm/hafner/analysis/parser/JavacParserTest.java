@@ -64,13 +64,9 @@ public class JavacParserTest extends ParserTester {
         Issues warnings = new JavacParser().parse(openFile());
         assertThat(warnings).hasSize(2);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        iterator.next();
-        Issue firstAnnotation = iterator.next();
-
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(firstAnnotation)
+            softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(AbstractParser.DEPRECATION)
                     .hasLineStart(40)
@@ -95,12 +91,9 @@ public class JavacParserTest extends ParserTester {
         Issues warnings = parse("issue5868.txt");
         assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        Issue issue = iterator.next();
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(issue)
+            softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
@@ -132,7 +125,6 @@ public class JavacParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         while (iterator.hasNext()) {
-            //assertTrue(expectedWarnings.hasNext(), WRONG_NUMBER_OF_WARNINGS_DETECTED);
             assertThat(expectedWarnings.hasNext()).isTrue();
 
             Issue expectedWarning = expectedWarnings.next();

@@ -27,13 +27,10 @@ public class InvalidsParserTest extends ParserTester {
 
         assertThat(warnings).hasSize(3);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        Issue firstAnnotation = iterator.next();
         String type = "Oracle Invalid";
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(firstAnnotation)
+            softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("PLW-05004")
                     .hasLineStart(45)
@@ -42,12 +39,9 @@ public class InvalidsParserTest extends ParserTester {
                     .hasFileName("ENV_UTIL#.PACKAGE BODY")
                     .hasType(type)
                     .hasPackageName("E");
-        });
 
-        Issue secondAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(secondAnnotation)
+            softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.LOW)
                     .hasCategory("PLW-07202")
                     .hasLineStart(5)
@@ -56,12 +50,8 @@ public class InvalidsParserTest extends ParserTester {
                     .hasFileName("ENV_ABBR#B.TRIGGER")
                     .hasType(type)
                     .hasPackageName("E");
-        });
 
-        Issue thirdAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(thirdAnnotation)
+            softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.HIGH)
                     .hasCategory("ORA-29521")
                     .hasLineStart(0)

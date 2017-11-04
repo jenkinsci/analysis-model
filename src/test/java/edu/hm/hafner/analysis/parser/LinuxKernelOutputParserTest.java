@@ -1,12 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import edu.hm.hafner.analysis.Issue;
+
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
@@ -27,15 +26,12 @@ public class LinuxKernelOutputParserTest extends ParserTester {
     @Test
     public void testWarningsParser() throws IOException {
         Issues warnings = new LinuxKernelOutputParser().parse(openFile());
-
         assertThat(warnings).hasSize(26);
 
-        Iterator<Issue> iterator = warnings.iterator();
 
-        Issue firstAnnotation = iterator.next();
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(firstAnnotation)
+            softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -44,13 +40,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue secondAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(secondAnnotation)
+            softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -59,13 +49,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue thirdAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(thirdAnnotation)
+            softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -74,13 +58,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue fourthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(fourthAnnotation)
+            softly.assertThat(warnings.get(3))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -89,13 +67,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue fifthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(fifthAnnotation)
+            softly.assertThat(warnings.get(4))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -104,13 +76,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue sixthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(sixthAnnotation)
+            softly.assertThat(warnings.get(5))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -119,13 +85,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue seventhAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(seventhAnnotation)
+            softly.assertThat(warnings.get(6))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -134,13 +94,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue eightAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(eightAnnotation)
+            softly.assertThat(warnings.get(7))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -149,13 +103,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue ninthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(ninthAnnotation)
+            softly.assertThat(warnings.get(8))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -164,13 +112,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue tenthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(tenthAnnotation)
+            softly.assertThat(warnings.get(9))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -179,13 +121,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue eleventhAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(eleventhAnnotation)
+            softly.assertThat(warnings.get(10))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -194,13 +130,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue twelfthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(twelfthAnnotation)
+            softly.assertThat(warnings.get(11))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -209,13 +139,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue thirteenthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(thirteenthAnnotation)
+            softly.assertThat(warnings.get(12))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -224,13 +148,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue fourteenthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(fourteenthAnnotation)
+            softly.assertThat(warnings.get(13))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -239,13 +157,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue fifteenthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(fifteenthAnnotation)
+            softly.assertThat(warnings.get(14))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -254,13 +166,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue sixteenthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(sixteenthAnnotation)
+            softly.assertThat(warnings.get(15))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("WARNING")
                     .hasLineStart(26)
@@ -269,13 +175,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("/home/bene/work/rtl/test-description/tmp/linux-stable-rt/drivers/misc/kaboom.c")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue seventeenthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(seventeenthAnnotation)
+            softly.assertThat(warnings.get(16))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -284,13 +184,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue eighteenthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(eighteenthAnnotation)
+            softly.assertThat(warnings.get(17))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -299,13 +193,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue nineteenthAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(nineteenthAnnotation)
+            softly.assertThat(warnings.get(18))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -314,13 +202,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue twentiethAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(twentiethAnnotation)
+            softly.assertThat(warnings.get(19))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -329,13 +211,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue twentyFirstAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(twentyFirstAnnotation)
+            softly.assertThat(warnings.get(20))
                     .hasPriority(Priority.HIGH)
                     .hasCategory("BUG")
                     .hasLineStart(39)
@@ -344,13 +220,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("/home/bene/work/rtl/test-description/tmp/linux-stable-rt/drivers/misc/kaboom.c")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue twentySecondAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(twentySecondAnnotation)
+            softly.assertThat(warnings.get(21))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
@@ -359,23 +229,17 @@ public class LinuxKernelOutputParserTest extends ParserTester {
                     .hasFileName("Nil")
                     .hasType(TYPE);
 
-
-        });
-
-        Issue twentyThirdAnnotation = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
-
-            softly.assertThat(twentyThirdAnnotation)
+            softly.assertThat(warnings.get(22))
                     .hasPriority(Priority.LOW)
                     .hasCategory("Kernel Output")
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("sysrq: SysRq : Emergency Remount R/O")
-                    .hasFileName("Nil")
-                    .hasType(TYPE);
+                    .hasFileName("Nil");
 
 
         });
+
 
     }
 

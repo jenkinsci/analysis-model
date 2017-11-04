@@ -37,7 +37,7 @@ public class JSLintParserTest extends ParserTester {
 
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(iterator.next())
+            softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.HIGH)
                     .hasCategory(JSLintXMLSaxParser.CATEGORY_UNDEFINED_VARIABLE)
                     .hasLineStart(3)
@@ -64,10 +64,9 @@ public class JSLintParserTest extends ParserTester {
         assertThat(results.getFiles()).hasSize(2);
         assertThat(results.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
-        Issue firstWarning = results.iterator().next();
         SoftAssertions.assertSoftly(softly -> {
 
-            softly.assertThat(firstWarning)
+            softly.assertThat(results.get(0))
                     .hasPriority(Priority.HIGH)
                     .hasCategory(JSLintXMLSaxParser.CATEGORY_PARSING)
                     .hasLineStart(10)

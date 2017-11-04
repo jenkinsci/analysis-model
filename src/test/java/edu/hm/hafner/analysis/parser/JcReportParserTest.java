@@ -39,12 +39,11 @@ public class JcReportParserTest {
         InputStreamReader readCorrectXml = getReader("testCorrect.xml");
 
         Issues warnings = parser.parse(readCorrectXml);
-
         assertThat(warnings).hasSize(7);
-        Issue firstIssue = warnings.get(0);
+
 
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(firstIssue)
+            softly.assertThat(warnings.get(0))
                     .hasFileName("SomeDirectory/SomeClass.java")
                     .hasPriority(Priority.HIGH)
                     .hasMessage("SomeMessage")
@@ -65,9 +64,7 @@ public class JcReportParserTest {
     public void testGetWarningList() throws ParsingCanceledException, IOException {
         JcReportParser jcrp = new JcReportParser();
         InputStreamReader readCorrectXml = getReader("testCorrect.xml");
-
         Issues warnings = jcrp.parse(readCorrectXml);
-
         assertThat(warnings).hasSize(7);
     }
 
