@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.assertj.IssueAssert;
 
 
@@ -106,14 +107,14 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
         Issues warnings = parser.parse(openFile("issue11675.txt"));
 
         IssuesAssert.assertThat(warnings).hasSize(8);
-
+        
         for (Issue annotation : warnings) {
             checkWithAnnotation(annotation);
         }
     }
 
     private void checkWithAnnotation(final Issue annotation) {
-        assertThat(annotation.getMessage().matches("[a-zA-Z].*")).isTrue().withFailMessage("Wrong first character in message");
+        IssueAssert.assertThat(annotation).messageMatchTo("[a-zA-Z].*");
     }
 
     /**
