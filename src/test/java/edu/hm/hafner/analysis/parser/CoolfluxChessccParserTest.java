@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
 
 /**
  * Tests the class {@link CoolfluxChessccParserTest}.
@@ -23,16 +22,16 @@ public class CoolfluxChessccParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new CoolfluxChessccParser().parse(openFile());
 
-        assertEquals(2, warnings.size());
-
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                150,
-                "function `unsigned configureRealCh(unsigned)' was declared static, but was not defined",
-                "/nfs/autofs/nett/nessie6/dailies/Monday/src/n6/heidrun/dsp/Modules/LocalChAdmin.c",
-                new CoolfluxChessccParser().getId(), DEFAULT_CATEGORY, Priority.HIGH);
-
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(warnings).hasSize(2);
+        softly.assertThat(warnings.get(0)).hasLineStart(150)
+                .hasLineEnd(150)
+                .hasMessage("function `unsigned configureRealCh(unsigned)' was declared static, but was not defined")
+                .hasFileName("/nfs/autofs/nett/nessie6/dailies/Monday/src/n6/heidrun/dsp/Modules/LocalChAdmin.c")
+                .hasType(new CoolfluxChessccParser().getId())
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasPriority(Priority.HIGH);
+        softly.assertAll();
     }
 
 
