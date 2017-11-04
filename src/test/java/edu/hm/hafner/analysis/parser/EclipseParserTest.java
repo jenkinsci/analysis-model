@@ -10,6 +10,8 @@ import edu.hm.hafner.analysis.ConsolePostProcessor;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.IssuesAssert;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,8 +33,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     @Test
     public void issue21377() {
         Issues warnings = createParser().parse(openFile("issue21377.txt"));
-        assertThat(warnings.size()).isEqualTo(1);
-        //assertEquals(1, warnings.size());
+        IssuesAssert.assertThat(warnings).hasSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
         checkWarning(iterator.next(),
@@ -54,30 +55,31 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
         assertThat(warnings.size()).isEqualTo(3);
 
         Iterator<Issue> iterator = warnings.iterator();
-        IssueAssert.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(369)
                 .hasLineEnd(369)
                 .hasMessage("The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally")
                 .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
                 .hasType(TYPE);
-
-        IssueAssert.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+        softly.assertAll();
+        softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(391)
                 .hasLineEnd(391)
                 .hasMessage("The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally")
                 .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
                 .hasType(TYPE);
-
-        IssueAssert.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+        softly.assertAll();
+        softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(56)
                 .hasLineEnd(56)
                 .hasMessage("The value of the field PropertyImporterTest.ERROR_RESPONSE is not used")
                 .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java")
                 .hasType(TYPE);
-
+        softly.assertAll();
     }
 
     /**
@@ -89,7 +91,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     public void issue12822() {
         Issues warnings = createParser().parse(openFile("issue12822.txt"));
 
-        assertThat(warnings.size()).isEqualTo(15);
+        IssuesAssert.assertThat(warnings).hasSize(15);
     }
 
     /**
@@ -103,7 +105,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
         parser.setTransformer(new ConsolePostProcessor());
         Issues warnings = parser.parse(openFile("issue11675.txt"));
 
-        assertThat(warnings.size()).isEqualTo(8);
+        IssuesAssert.assertThat(warnings).hasSize(8);
 
         for (Issue annotation : warnings) {
             checkWithAnnotation(annotation);
@@ -127,13 +129,15 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        IssueAssert.assertThat(annotation).hasPriority(Priority.NORMAL)
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(annotation).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(10)
                 .hasLineEnd(10)
                 .hasMessage("The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
                 .hasFileName("/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java")
                 .hasType(TYPE);
+        softly.assertAll();
 
     }
 
