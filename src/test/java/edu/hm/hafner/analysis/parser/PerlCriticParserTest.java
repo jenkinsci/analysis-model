@@ -10,7 +10,6 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the Perl::Critic Parser.
