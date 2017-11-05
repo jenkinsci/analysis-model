@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.description.Description;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
@@ -205,20 +204,6 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
         if (actual.getColumnEnd() != columnEnd) {
             failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "column end", actual, columnEnd, actual.getColumnEnd());
-        }
-        return this;
-    }
-
-    /**
-     * Checks if the message does match to the given regex
-     *
-     * @param matchRegex regex witch describe the messageChars
-     */
-    public IssueAssert messageMatchTo(String matchRegex) {
-        isNotNull();
-
-        if (!actual.getMessage().matches(matchRegex)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE ,"message does match with given regex ",actual,matchRegex,actual.getMessage());
         }
         return this;
     }

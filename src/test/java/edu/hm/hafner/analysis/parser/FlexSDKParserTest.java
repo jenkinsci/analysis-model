@@ -5,10 +5,7 @@
 
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
-
-import edu.hm.hafner.analysis.assertj.IssueAssert;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +13,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link FlexSDKParser}.
@@ -33,52 +29,39 @@ public class FlexSDKParserTest extends ParserTester {
     public void parseDeprecation() {
         Issues warnings = new FlexSDKParser().parse(openFile());
 
-        assertThat(warnings.size()).isEqualTo(5);
+        assertThat(warnings).hasSize(5);
 
         Iterator<Issue> iterator = warnings.iterator();
         SoftAssertions softly = new SoftAssertions();
-        Issue firstCompcAnnotation = iterator.next();
-        softly.assertThat(firstCompcAnnotation).hasPriority(Priority.NORMAL)
+        softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(34)
                 .hasLineEnd(34)
                 .hasMessage("class 'FeedStructureHelper' will be scoped to the default namespace: com.company.flex.feed internal.  It will not be visible outside of this package.")
                 .hasFileName("D:/workspaces/flexcompo_trunkdev_nightly/src/flexcompo/uicomponents/ugv_component/src/main/com/company/flex/feed/FeedStructureHelper.as")
                 .hasType(TYPE);
-        softly.assertAll();
-
-        Issue secondCompcAnnotation = iterator.next();
-        softly.assertThat(secondCompcAnnotation).hasPriority(Priority.NORMAL)
+        softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(122)
                 .hasLineEnd(122)
                 .hasMessage("Duplicate variable definition.")
                 .hasFileName("D:/workspaces/flexcompo_trunkdev_nightly/src/flexcompo/uicomponents/ugv_component/src/main/com/company/flex/component/chart/lasso/DefaultLassoObjectsHandler.as")
                 .hasType(TYPE);
-        softly.assertAll();
-
-        Issue firstASMxmlcAnnotation = iterator.next();
-        softly.assertThat(firstASMxmlcAnnotation).hasPriority(Priority.NORMAL)
+        softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(115)
                 .hasLineEnd(115)
                 .hasMessage("return value for function 'cx' has no type declaration.")
                 .hasFileName("D:/workspaces/flexcompo_trunkdev_nightly/src/flexcompo/samples/ugv_helloExtensibility_flex/src/main/extensibility/wordpress/Tag.as")
                 .hasType(TYPE);
-        softly.assertAll();
-
-        Issue firstMXMLMxmlcAnnotation = iterator.next();
-        softly.assertThat(firstMXMLMxmlcAnnotation).hasPriority(Priority.NORMAL)
+        softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(157)
                 .hasLineEnd(157)
                 .hasMessage("var 'cacheList' will be scoped to the default namespace: HelloExtensibleWorld: internal.  It will not be visible outside of this package.")
                 .hasFileName("D:/workspaces/flexcompo_trunkdev_nightly/src/flexcompo/samples/ugv_helloExtensibility_flex/src/main/HelloExtensibleWorld.mxml")
                 .hasType(TYPE);
-        softly.assertAll();
-
-        Issue secondMXMLMxmlcAnnotation = iterator.next();
-        softly.assertThat(secondMXMLMxmlcAnnotation).hasPriority(Priority.NORMAL)
+        softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(148)
                 .hasLineEnd(148)
@@ -86,7 +69,6 @@ public class FlexSDKParserTest extends ParserTester {
                 .hasFileName("D:/workspaces/flexcompo_trunkdev_nightly/src/flexcompo/samples/ugv_helloExtensibility_flex/src/main/HelloExtensibleWorld.mxml")
                 .hasType(TYPE);
         softly.assertAll();
-
     }
 
     @Override

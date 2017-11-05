@@ -1,21 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-
-import edu.hm.hafner.analysis.assertj.IssueAssert;
-
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.fxcop.FxCopParser;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link FxCopParser}.
@@ -28,15 +19,9 @@ public class FxcopParserTest extends ParserTester {
      */
     @Test
     public void testJenkins14172() {
-        InputStream file = null;
-        try {
-            Issues result = new FxCopParser().parse(openFile("issue14172.xml"));
+        Issues result = new FxCopParser().parse(openFile("issue14172.xml"));
 
-            assertThat(result.size()).isEqualTo(44);
-        }
-        finally {
-            IOUtils.closeQuietly(file);
-        }
+        assertThat(result).hasSize(44);
     }
 
     /**
@@ -46,18 +31,16 @@ public class FxcopParserTest extends ParserTester {
     public void testFXCop() {
         Issues result = new FxCopParser().parse(openFile());
 
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result).hasSize(2);
 
         SoftAssertions softly = new SoftAssertions();
-        Iterator<Issue> iterator = result.iterator();
-        softly.assertThat(iterator.next()).hasPriority(Priority.HIGH)
+        softly.assertThat(result.get(0)).hasPriority(Priority.HIGH)
                 .hasCategory("Microsoft.Globalization")
                 .hasLineStart(299)
                 .hasLineEnd(299)
                 .hasMessage("<a href=\"http://msdn2.microsoft.com/library/ms182190(VS.90).aspx\">SpecifyIFormatProvider</a> - Because the behavior of 'decimal.ToString(string)' could vary based on the current user's locale settings, replace this call in 'FilmFacadeBase.Price.get()' with a call to 'decimal.ToString(string, IFormatProvider)'. If the result of 'decimal.ToString(string, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.")
                 .hasFileName("c:/Hudson/data/jobs/job1/workspace/test/Space/TestBase.cs");
-        softly.assertAll();
-        softly.assertThat(iterator.next()).hasPriority(Priority.HIGH)
+        softly.assertThat(result.get(1)).hasPriority(Priority.HIGH)
                 .hasCategory("Microsoft.Naming")
                 .hasLineStart(37)
                 .hasLineEnd(37)
