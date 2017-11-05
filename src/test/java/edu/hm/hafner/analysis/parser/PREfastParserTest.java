@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link PREfastParser}.
@@ -26,25 +27,38 @@ public class PREfastParserTest extends ParserTester {
     @Test
     public void testParse() throws IOException {
         Issues results = new PREfastParser().parse(openFile());
-
-        assertEquals(11, results.size());
+        assertThat(results).hasSize(11);
 
         Iterator<Issue> iterator = results.iterator();
+        assertSoftly(softly -> softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("28101")
+                .hasLineStart(102)
+                .hasLineEnd(102)
+                .hasMessage("The Drivers module has inferred that the current function is a DRIVER_INITIALIZE function:  This is informational only. No problem has been detected.")
+                .hasFileName("sys.c")
+                .hasType(TYPE)
+        );
 
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                102, "The Drivers module has inferred that the current function is a DRIVER_INITIALIZE function:  This is informational only. No problem has been detected.",
-                "sys.c", TYPE, "28101", Priority.NORMAL);
+        assertSoftly(softly -> softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("6014")
+                .hasLineStart(116)
+                .hasLineEnd(116)
+                .hasMessage("(PFD)Leaking memory 'device'.")
+                .hasFileName("sys.c")
+                .hasType(TYPE)
+        );
 
-        annotation = iterator.next();
-        checkWarning(annotation,
-                116, "(PFD)Leaking memory 'device'.",
-                "sys.c", TYPE, "6014", Priority.NORMAL);
-
-        annotation = iterator.next();
-        checkWarning(annotation,
-                137, "The function being assigned or passed should be a DRIVER_UNLOAD function:  Add the declaration 'DRIVER_UNLOAD OnUnload;' before the current first declaration of OnUnload.",
-                "sys.c", TYPE, "28155", Priority.NORMAL);
+        assertSoftly(softly -> softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("28155")
+                .hasLineStart(137)
+                .hasLineEnd(137)
+                .hasMessage("The function being assigned or passed should be a DRIVER_UNLOAD function:  Add the declaration 'DRIVER_UNLOAD OnUnload;' before the current first declaration of OnUnload.")
+                .hasFileName("sys.c")
+                .hasType(TYPE)
+        );
     }
 
     @Override
