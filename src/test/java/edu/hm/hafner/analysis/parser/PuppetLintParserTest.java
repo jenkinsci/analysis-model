@@ -31,23 +31,29 @@ public class PuppetLintParserTest extends ParserTester {
         assertThat(results).hasSize(5);
 
         Iterator<Issue> iterator = results.iterator();
-        checkLintWarning(iterator.next(),
+
+        Issue annotation = iterator.next();
+        checkLintWarning(annotation,
                 1, "failtest not in autoload module layout",
                 "failtest.pp", TYPE, "autoloader_layout", Priority.HIGH, "-");
 
-        checkLintWarning(iterator.next(),
+        annotation = iterator.next();
+        checkLintWarning(annotation,
                 3, "line has more than 80 characters",
                 "./modules/test/manifests/init.pp", TYPE, "80chars", Priority.NORMAL, "::test");
 
-        checkLintWarning(iterator.next(),
+        annotation = iterator.next();
+        checkLintWarning(annotation,
                 10, "line has more than 80 characters",
                 "./modules/test/manifests/sub/class/morefail.pp", TYPE, "80chars", Priority.NORMAL, "::test::sub::class");
 
-        checkLintWarning(iterator.next(),
+        annotation = iterator.next();
+        checkLintWarning(annotation,
                 4, "tab character found",
                 "C:/ProgramData/PuppetLabs/puppet/etc/manifests/site.pp", TYPE, "hard_tabs", Priority.HIGH, "-");
 
-        checkLintWarning(iterator.next(),
+        annotation = iterator.next();
+        checkLintWarning(annotation,
                 15, "line has more than 80 characters",
                 "C:/CI CD/puppet/modules/jenkins/init.pp", TYPE, "80chars", Priority.NORMAL, "-");
     }
@@ -67,13 +73,13 @@ public class PuppetLintParserTest extends ParserTester {
     // CHECKSTYLE:OFF
     private void checkLintWarning(final Issue annotation, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority, final String packageName) {
         assertSoftly(softly -> softly.assertThat(annotation)
-                .hasPriority(Priority.NORMAL)
-                .hasCategory("28101")
-                .hasLineStart(1)
-                .hasLineEnd(1)
-                .hasMessage("failtest not in autoload module layout")
-                .hasFileName("failtest.pp")
-                .hasType(TYPE)
+                .hasPriority(priority)
+                .hasCategory(category)
+                .hasLineStart(lineNumber)
+                .hasLineEnd(lineNumber)
+                .hasMessage(message)
+                .hasFileName(fileName)
+                .hasType(type)
                 .hasPackageName(packageName)
         );
     }

@@ -36,15 +36,8 @@ public class PhpParserTest extends ParserTester {
         assertThat(warnings).hasSize(1);
 
         Issue annotation = warnings.get(0);
-        assertSoftly(softly -> softly.assertThat(annotation)
-                .hasPriority(Priority.HIGH)
-                .hasCategory(FATAL_ERROR_CATEGORY)
-                .hasLineStart(0)
-                .hasLineEnd(0)
-                .hasMessage("SOAP-ERROR: Parsing WSDL: Couldn't load from '...' : failed to load external entity \"...\"")
-                .hasFileName("-")
-                .hasType(TYPE)
-        );
+        checkWarnings(annotation, Priority.HIGH, FATAL_ERROR_CATEGORY, 0,
+                "SOAP-ERROR: Parsing WSDL: Couldn't load from '...' : failed to load external entity \"...\"", "-", TYPE);
     }
 
     /**
@@ -58,54 +51,32 @@ public class PhpParserTest extends ParserTester {
         assertThat(results).hasSize(5);
 
         Iterator<Issue> iterator = results.iterator();
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory(WARNING_CATEGORY)
-                .hasLineStart(25)
-                .hasLineEnd(25)
-                .hasMessage("include_once(): Failed opening \'RegexpLineParser.php\' for inclusion (include_path=\'.:/usr/share/pear\') in PhpParser.php on line 25")
-                .hasFileName("PhpParser.php")
-                .hasType(TYPE)
-        );
 
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory(NOTICE_CATEGORY)
-                .hasLineStart(25)
-                .hasLineEnd(25)
-                .hasMessage("Undefined index:  SERVER_NAME in /path/to/file/Settings.php on line 25")
-                .hasFileName("/path/to/file/Settings.php")
-                .hasType(TYPE)
-        );
+        checkWarnings(iterator.next(), Priority.NORMAL, WARNING_CATEGORY, 25,
+                "include_once(): Failed opening \'RegexpLineParser.php\' for inclusion (include_path=\'.:/usr/share/pear\') in PhpParser.php on line 25", "PhpParser.php", TYPE);
 
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
-                .hasCategory(FATAL_ERROR_CATEGORY)
-                .hasLineStart(35)
-                .hasLineEnd(35)
-                .hasMessage("Undefined class constant 'MESSAGE' in /MyPhpFile.php on line 35")
-                .hasFileName("/MyPhpFile.php")
-                .hasType(TYPE)
-        );
+        checkWarnings(iterator.next(), Priority.NORMAL, NOTICE_CATEGORY, 25,
+                "Undefined index:  SERVER_NAME in /path/to/file/Settings.php on line 25", "/path/to/file/Settings.php", TYPE);
 
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
-                .hasCategory(PARSE_ERROR_CATEGORY)
-                .hasLineStart(35)
-                .hasLineEnd(35)
-                .hasMessage("Undefined class constant 'MESSAGE' in /MyPhpFile.php on line 35")
-                .hasFileName("/MyPhpFile.php")
-                .hasType(TYPE)
-        );
+        checkWarnings(iterator.next(), Priority.HIGH, FATAL_ERROR_CATEGORY, 35,
+                "Undefined class constant 'MESSAGE' in /MyPhpFile.php on line 35", "/MyPhpFile.php", TYPE);
 
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory(WARNING_CATEGORY)
-                .hasLineStart(34)
-                .hasLineEnd(34)
-                .hasMessage("Missing argument 1 for Title::getText(), called in Title.php on line 22 and defined in Category.php on line 34")
-                .hasFileName("Category.php")
-                .hasType(TYPE)
+        checkWarnings(iterator.next(), Priority.HIGH, PARSE_ERROR_CATEGORY, 35,
+                "Undefined class constant 'MESSAGE' in /MyPhpFile.php on line 35", "/MyPhpFile.php", TYPE);
+
+        checkWarnings(iterator.next(), Priority.NORMAL, WARNING_CATEGORY, 34,
+                "Missing argument 1 for Title::getText(), called in Title.php on line 22 and defined in Category.php on line 34", "Category.php", TYPE);
+    }
+
+    private void checkWarnings(Issue issue, Priority priority, String category, int lineStartAndEnd, String message, String fileName, String type) {
+        assertSoftly(softly -> softly.assertThat(issue)
+                .hasPriority(priority)
+                .hasCategory(category)
+                .hasLineStart(lineStartAndEnd)
+                .hasLineEnd(lineStartAndEnd)
+                .hasMessage(message)
+                .hasFileName(fileName)
+                .hasType(type)
         );
     }
 

@@ -40,35 +40,15 @@ public class PerlCriticParserTest extends ParserTester {
         assertThat(warnings).hasSize(3);
 
         Iterator<Issue> iterator = warnings.iterator();
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.LOW)
-                .hasCategory("33 of PBP")
-                .hasLineStart(1)
-                .hasLineEnd(1)
-                .hasMessage("Code is not tidy")
-                .hasFileName("perl/dir_handler.pl")
-                .hasColumnStart(1)
-        );
 
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
-                .hasCategory("431 of PBP")
-                .hasLineStart(10)
-                .hasLineEnd(10)
-                .hasMessage("Code before warnings are enabled")
-                .hasFileName("perl/system.pl")
-                .hasColumnStart(1)
-        );
+        checkWarnings(iterator.next(), Priority.LOW, "33 of PBP", 1,
+                "Code is not tidy", "perl/dir_handler.pl", 1);
 
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory("Use IPC::Open3 instead")
-                .hasLineStart(7)
-                .hasLineEnd(7)
-                .hasMessage("Backtick operator used")
-                .hasFileName("perl/ch1/hello")
-                .hasColumnStart(10)
-        );
+        checkWarnings(iterator.next(), Priority.HIGH, "431 of PBP", 10,
+                "Code before warnings are enabled", "perl/system.pl", 1);
+
+        checkWarnings(iterator.next(), Priority.NORMAL, "Use IPC::Open3 instead", 7,
+                "Backtick operator used", "perl/ch1/hello", 10);
     }
 
     /**
@@ -82,34 +62,25 @@ public class PerlCriticParserTest extends ParserTester {
         assertThat(warnings).hasSize(3);
 
         Iterator<Issue> iterator = warnings.iterator();
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.LOW)
-                .hasCategory("Don't use whitespace at the end of lines")
-                .hasLineStart(18)
-                .hasLineEnd(18)
-                .hasMessage("Found \"\\N{SPACE}\" at the end of the line")
-                .hasFileName("-")
-                .hasColumnStart(77)
-        );
+        checkWarnings(iterator.next(), Priority.LOW, "Don't use whitespace at the end of lines", 18,
+                "Found \"\\N{SPACE}\" at the end of the line", "-", 77);
 
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory("240,241 of PBP")
-                .hasLineStart(16)
-                .hasLineEnd(16)
-                .hasMessage("Regular expression without \"/s\" flag")
-                .hasFileName("-")
-                .hasColumnStart(28)
-        );
+        checkWarnings(iterator.next(), Priority.NORMAL, "240,241 of PBP", 16,
+                "Regular expression without \"/s\" flag", "-", 28);
 
-        assertSoftly(softly -> softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
-                .hasCategory("202,204 of PBP")
-                .hasLineStart(15)
-                .hasLineEnd(15)
-                .hasMessage("Bareword file handle opened")
-                .hasFileName("-")
-                .hasColumnStart(1)
+        checkWarnings(iterator.next(), Priority.HIGH, "202,204 of PBP", 15,
+                "Bareword file handle opened", "-", 1);
+    }
+
+    private void checkWarnings(Issue issue, Priority priority, String category, int lineStartAndEnd, String message, String fileName, int columnStart) {
+        assertSoftly(softly -> softly.assertThat(issue)
+                .hasPriority(priority)
+                .hasCategory(category)
+                .hasLineStart(lineStartAndEnd)
+                .hasLineEnd(lineStartAndEnd)
+                .hasMessage(message)
+                .hasFileName(fileName)
+                .hasColumnStart(columnStart)
         );
     }
 
