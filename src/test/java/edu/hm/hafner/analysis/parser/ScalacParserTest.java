@@ -17,7 +17,7 @@ public class ScalacParserTest extends ParserTester {
 
     @Test
     public void basicFunctionality() throws IOException {
-        Issues warnings = parse("scalac.txt");
+        Issues<Issue> warnings = parse("scalac.txt");
         assertEquals(3, warnings.size());
         Iterator<Issue> iter = warnings.iterator();
         checkWarning(iter.next(), 29, "implicit conversion method toLab2OI should be enabled",

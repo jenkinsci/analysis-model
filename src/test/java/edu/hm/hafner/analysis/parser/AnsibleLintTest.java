@@ -24,7 +24,7 @@ public class AnsibleLintTest extends ParserTester {
 
     @Test
     public void testWarningParserError() throws IOException {
-        Issues warnings = new AnsibleLintParser().parse(openFile());
+        Issues<Issue> warnings = new AnsibleLintParser().parse(openFile());
         assertEquals(4, warnings.size(), WRONG_NUMBER_OF_WARNINGS_DETECTED);
 
         Iterator<Issue> iterator = warnings.iterator();

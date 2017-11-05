@@ -27,7 +27,7 @@ public class AjcParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Issues warnings = new AjcParser().parse(openFile());
+        Issues<Issue> warnings = new AjcParser().parse(openFile());
 
         assertEquals(9, warnings.size());
 

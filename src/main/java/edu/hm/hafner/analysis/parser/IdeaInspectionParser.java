@@ -16,6 +16,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -37,7 +38,7 @@ public class IdeaInspectionParser extends AbstractParser {
     }
 
     @Override
-    public Issues parse(Reader reader) throws ParsingException {
+    public Issues<Issue> parse(Reader reader) throws ParsingException {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -55,7 +56,7 @@ public class IdeaInspectionParser extends AbstractParser {
     }
 
     private Issues parseProblems(List<Element> elements) {
-        Issues problems = new Issues();
+        Issues problems = new Issues<>();
         for (Element element : elements) {
             String file = getChildValue(element, "file");
             int line = Integer.parseInt(getChildValue(element, "line"));

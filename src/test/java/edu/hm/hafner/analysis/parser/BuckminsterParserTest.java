@@ -24,7 +24,7 @@ public class BuckminsterParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new BuckminsterParser().parse(openFile());
+        Issues<Issue> warnings = new BuckminsterParser().parse(openFile());
 
         assertEquals(3, warnings.size());
 

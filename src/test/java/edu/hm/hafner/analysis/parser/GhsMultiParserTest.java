@@ -23,7 +23,7 @@ public class GhsMultiParserTest extends ParserTester {
      */
     @Test
     public void parseMultiLine() throws IOException {
-        Issues warnings = new GhsMultiParser().parse(openFile());
+        Issues<Issue> warnings = new GhsMultiParser().parse(openFile());
 
         assertEquals(3, warnings.size());
 

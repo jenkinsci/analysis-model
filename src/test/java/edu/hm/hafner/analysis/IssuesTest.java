@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import javax.annotation.CheckForNull;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -29,14 +30,14 @@ class IssuesTest {
 
     @Test
     void testEmptyIssues() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
 
         assertThat(issues).hasSize(0);
     }
 
     @Test
     void testAddMultipleIssuesOneByOne() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
 
         assertThat(issues.add(ISSUE_1)).isEqualTo(ISSUE_1);
         assertThat(issues.add(ISSUE_2)).isEqualTo(ISSUE_2);
@@ -50,7 +51,7 @@ class IssuesTest {
 
     @Test
     void testAddMultipleIssuesToEmpty() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         List<Issue> issueList = asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
 
         assertThat(issues.addAll(issueList)).isEqualTo(issueList);
@@ -60,7 +61,7 @@ class IssuesTest {
 
     @Test
     void testAddMultipleIssuesToNonEmpty() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.add(ISSUE_1);
 
         issues.addAll(asList(ISSUE_2, ISSUE_3));
@@ -69,7 +70,7 @@ class IssuesTest {
         assertAllIssuesAdded(issues);
     }
 
-    private void assertAllIssuesAdded(final Issues issues) {
+    private void assertAllIssuesAdded(final Issues<Issue> issues) {
         assertSoftly(softly -> {
             softly.assertThat(issues)
                   .hasSize(6)
@@ -86,7 +87,7 @@ class IssuesTest {
 
     @Test
     void testAddDuplicate() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_1));
 
         assertThat(issues.all()).contains(ISSUE_1, ISSUE_1);
@@ -100,7 +101,7 @@ class IssuesTest {
 
     @Test
     void testRemove() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
 
         Issue removed = issues.remove(ISSUE_1.getId());
@@ -117,7 +118,7 @@ class IssuesTest {
 
     @Test
     void testRemoveNotExisting() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
 
         assertThatThrownBy(() -> issues.remove(ISSUE_1.getId()))
                 .isInstanceOf(NoSuchElementException.class)
@@ -127,7 +128,7 @@ class IssuesTest {
 
     @Test
     void testRemoveDuplicate() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_1));
 
         issues.remove(ISSUE_1.getId());
@@ -140,7 +141,7 @@ class IssuesTest {
 
     @Test
     void testFindByIdSingleIssue() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(ImmutableList.of(ISSUE_1));
 
         Issue found = issues.findById(ISSUE_1.getId());
@@ -150,7 +151,7 @@ class IssuesTest {
 
     @Test
     void testFindByIdSingleIssueNotExisting() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(ImmutableList.of(ISSUE_1));
 
         assertThatThrownBy(() -> issues.findById(ISSUE_2.getId()))
@@ -161,7 +162,7 @@ class IssuesTest {
 
     @Test
     void testFindByIdMultipleIssues() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(ImmutableList.of(ISSUE_1, ISSUE_2));
 
         Issue found = issues.findById(ISSUE_2.getId());
@@ -171,7 +172,7 @@ class IssuesTest {
 
     @Test
     void testFindByIdMultipleIssuesNotExisting() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(ImmutableList.of(ISSUE_1, ISSUE_2));
 
         assertThatThrownBy(() -> issues.findById(ISSUE_3.getId()))
@@ -182,7 +183,7 @@ class IssuesTest {
 
     @Test
     void testFindNoneByProperty() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
 
         ImmutableList<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.LOW));
@@ -192,7 +193,7 @@ class IssuesTest {
 
     @Test
     void testFindByPropertyResultImmutable() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
         ImmutableList<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.HIGH));
 
@@ -204,7 +205,7 @@ class IssuesTest {
 
     @Test
     void testIterator() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
 
         assertThat((Iterable<Issue>) issues).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
@@ -212,7 +213,7 @@ class IssuesTest {
 
     @Test
     void testGet() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
 
         assertThat(issues.get(0)).isEqualTo(ISSUE_1);
@@ -230,7 +231,7 @@ class IssuesTest {
 
     @Test
     void testGetFiles() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
 
         assertThat(issues.getFiles()).contains("file-1", "file-1", "file-3");
@@ -238,7 +239,7 @@ class IssuesTest {
 
     @Test
     void testToString() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
 
         assertThat(issues.toString()).contains("3");
@@ -246,7 +247,7 @@ class IssuesTest {
 
     @Test
     void testGetProperties() {
-        Issues issues = new Issues();
+        Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
 
         SortedSet<String> properties = issues.getProperties(issue -> issue.getMessage());
@@ -259,7 +260,7 @@ class IssuesTest {
 
     @Test
     void testCopy() {
-        Issues original = new Issues();
+        Issues original = new Issues<>();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
 
         Issues copy = original.copy();
@@ -270,5 +271,72 @@ class IssuesTest {
         copy.add(ISSUE_4);
         assertThat(original.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
         assertThat(copy.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4);
+    }
+
+    @Test
+    void should() {
+        ExtendedIssueBuilder builder = new ExtendedIssueBuilder();
+        ExtendedIssue issue = builder.build();
+
+        Issues<ExtendedIssue> issues = new Issues<>();
+        issues.add(issue);
+
+        ExtendedIssue returnedIssue = issues.get(0);
+    }
+
+    public static class ExtendedIssueBuilder extends IssueBuilder {
+        @Override
+        public ExtendedIssue build() {
+            return new ExtendedIssue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
+                    packageName, moduleName, priority, message, description, origin,
+                    "Bla Bla");
+        }
+    }
+
+    public static class ExtendedIssue extends Issue {
+        private final String additional;
+
+        /**
+         * Creates a new instance of {@link Issue} using the specified properties.
+         *
+         * @param fileName
+         *         the name of the file that contains this issue
+         * @param lineStart
+         *         the first line of this issue (lines start at 1; 0 indicates the whole file)
+         * @param lineEnd
+         *         the last line of this issue (lines start at 1)
+         * @param columnStart
+         *         the first column of this issue (columns start at 1, 0 indicates the whole line)
+         * @param columnEnd
+         *         the last column of this issue (columns start at 1)
+         * @param category
+         *         the category of this issue (depends on the available categories of the static analysis tool)
+         * @param type
+         *         the type of this issue (depends on the available types of the static analysis tool)
+         * @param packageName
+         *         the name of the package (or name space) that contains this issue
+         * @param moduleName
+         *         the name of the moduleName (or project) that contains this issue
+         * @param priority
+         *         the priority of this issue
+         * @param message
+         *         the detail message of this issue
+         * @param description
+         *         the description for this issue
+         */
+        public ExtendedIssue(@CheckForNull final String fileName, final int lineStart, final int lineEnd,
+                final int columnStart, final int columnEnd, @CheckForNull final String category,
+                @CheckForNull final String type, @CheckForNull final String packageName,
+                @CheckForNull final String moduleName, @CheckForNull final Priority priority,
+                @CheckForNull final String message, @CheckForNull final String description,
+                @CheckForNull final String origin, final String additional) {
+            super(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type, packageName, moduleName, priority, message, description, origin);
+
+            this.additional = additional;
+        }
+
+        public String getAdditional() {
+            return additional;
+        }
     }
 }

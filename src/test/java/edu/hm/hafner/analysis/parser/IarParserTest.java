@@ -26,7 +26,7 @@ public class IarParserTest extends ParserTester {
      */
     @Test
     public void IAR_error_size() throws IOException {
-        Issues warnings = new IarParser().parse(openFile("issue8823.txt"));
+        Issues<Issue> warnings = new IarParser().parse(openFile("issue8823.txt"));
 
         assertEquals(6, warnings.size());
     }
@@ -122,7 +122,7 @@ public class IarParserTest extends ParserTester {
     }
 
     protected Issue getErrorNumber(final int number) throws IOException {
-        Issues warnings = new IarParser().parse(openFile("issue8823.txt"));
+        Issues<Issue> warnings = new IarParser().parse(openFile("issue8823.txt"));
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
 

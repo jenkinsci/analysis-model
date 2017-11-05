@@ -31,7 +31,7 @@ public class PhpParserTest extends ParserTester {
      */
     @Test
     public void issue27681() throws IOException {
-        Issues warnings = new PhpParser().parse(openFile("issue27681.txt"));
+        Issues<Issue> warnings = new PhpParser().parse(openFile("issue27681.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();

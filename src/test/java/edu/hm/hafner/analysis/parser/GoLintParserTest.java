@@ -23,7 +23,7 @@ public class GoLintParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new GoLintParser().parse(openFile());
+        Issues<Issue> warnings = new GoLintParser().parse(openFile());
 
         assertEquals(7, warnings.size());
 

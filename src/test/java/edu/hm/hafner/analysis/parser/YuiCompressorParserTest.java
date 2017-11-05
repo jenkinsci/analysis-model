@@ -25,7 +25,7 @@ public class YuiCompressorParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Issues warnings = new YuiCompressorParser().parse(openFile());
+        Issues<Issue> warnings = new YuiCompressorParser().parse(openFile());
 
         assertEquals(3, warnings.size());
 

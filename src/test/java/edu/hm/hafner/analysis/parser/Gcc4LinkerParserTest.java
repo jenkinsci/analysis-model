@@ -26,7 +26,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new Gcc4LinkerParser().parse(openFile());
+        Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile());
 
         assertEquals(8, warnings.size());
 
@@ -82,7 +82,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
      */
     @Test
     public void issue5445() throws IOException {
-        Issues warnings = new Gcc4LinkerParser().parse(openFile("issue5445.txt"));
+        Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue5445.txt"));
 
         assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
     }
@@ -95,7 +95,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
      */
     @Test
     public void issue5870() throws IOException {
-        Issues warnings = new Gcc4LinkerParser().parse(openFile("issue5870.txt"));
+        Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue5870.txt"));
 
         assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
     }
@@ -108,7 +108,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
      */
     @Test
     public void issue6563() throws IOException {
-        Issues warnings = new Gcc4LinkerParser().parse(openFile("issue6563.txt"));
+        Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue6563.txt"));
 
         assertEquals(0, warnings.size());
     }

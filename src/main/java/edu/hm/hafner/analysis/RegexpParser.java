@@ -52,7 +52,7 @@ public abstract class RegexpParser extends AbstractParser {
      * @param issues  the found annotations
      * @throws ParsingCanceledException indicates that the user canceled the operation
      */
-    protected void findAnnotations(final String content, final Issues issues) throws ParsingCanceledException {
+    protected void findAnnotations(final String content, final Issues<Issue> issues) throws ParsingCanceledException {
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {

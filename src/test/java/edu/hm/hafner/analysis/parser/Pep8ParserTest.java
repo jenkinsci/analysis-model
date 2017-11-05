@@ -27,7 +27,7 @@ public class Pep8ParserTest extends ParserTester {
     public void testParseSimpleAndComplexMessage() throws IOException {
         Pep8Parser parser = new Pep8Parser();
 
-        Issues warnings = parser.parse(openFile());
+        Issues<Issue> warnings = parser.parse(openFile());
 
         assertEquals(8, warnings.size());
 

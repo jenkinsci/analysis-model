@@ -23,7 +23,7 @@ public class DrMemoryParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new DrMemoryParser().parse(openFile());
+        Issues<Issue> warnings = new DrMemoryParser().parse(openFile());
 
         assertEquals(8, warnings.size());
 

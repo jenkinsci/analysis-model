@@ -24,7 +24,7 @@ public class MavenParserTest extends ParserTester {
      */
     @Test
     public void parseMaven() throws IOException {
-        Issues warnings = new JavacParser().parse(openFile());
+        Issues<Issue> warnings = new JavacParser().parse(openFile());
 
         assertEquals(5, warnings.size());
 

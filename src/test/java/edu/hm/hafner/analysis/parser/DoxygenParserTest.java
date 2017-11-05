@@ -27,7 +27,7 @@ public class DoxygenParserTest extends ParserTester {
     @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile());
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile());
 
         assertEquals(22, warnings.size());
 
@@ -154,7 +154,7 @@ public class DoxygenParserTest extends ParserTester {
     @Test
     @Disabled("FIXME: Check with Java 8")
     public void issue7178() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile("issue7178.txt"));
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile("issue7178.txt"));
 
         assertEquals(0, warnings.size());
     }
@@ -167,7 +167,7 @@ public class DoxygenParserTest extends ParserTester {
      */
     @Test
     public void issue6971() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile("issue6971.txt"));
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile("issue6971.txt"));
 
         assertEquals(4, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();

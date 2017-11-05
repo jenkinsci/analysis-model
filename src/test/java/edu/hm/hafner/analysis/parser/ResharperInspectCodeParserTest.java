@@ -21,7 +21,7 @@ public class ResharperInspectCodeParserTest extends ParserTester {
      */
     @Test
     public void parseWarnings() throws IOException {
-        Issues warnings = new ResharperInspectCodeParser().parse(openFile());
+        Issues<Issue> warnings = new ResharperInspectCodeParser().parse(openFile());
 
         assertEquals(3, warnings.size());
 

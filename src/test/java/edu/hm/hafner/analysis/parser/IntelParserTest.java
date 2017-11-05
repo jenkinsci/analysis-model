@@ -23,7 +23,7 @@ public class IntelParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new IntelParser().parse(openFile());
+        Issues<Issue> warnings = new IntelParser().parse(openFile());
 
         assertEquals(7, warnings.size());
 
@@ -82,7 +82,7 @@ public class IntelParserTest extends ParserTester {
      */
     @Test
     public void issue5402() throws IOException {
-        Issues warnings = new IntelParser().parse(openFile("issue5402.txt"));
+        Issues<Issue> warnings = new IntelParser().parse(openFile("issue5402.txt"));
 
         assertEquals(4, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();

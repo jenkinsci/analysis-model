@@ -29,11 +29,11 @@ public abstract class RegexpDocumentParser extends RegexpParser {
     }
 
     @Override
-    public Issues parse(final Reader reader) throws ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException {
         try (BufferedReader bufferedReader = new BufferedReader(reader)) {
             String text = bufferedReader.lines().map(getTransformer()).collect(Collectors.joining("\n"));
 
-            Issues warnings = new Issues();
+            Issues<Issue> warnings = new Issues<>();
             findAnnotations(text + "\n", warnings);
             return warnings;
 

@@ -30,7 +30,7 @@ public class AntJavacParserTest extends ParserTester {
     public void testIssue24611() throws IOException {
         InputStream file = AntJavacParser.class.getResourceAsStream("issue24611.txt");
         InputStreamReader reader = new InputStreamReader(new BOMInputStream(file), "UTF8");
-        Issues warnings = new AntJavacParser().parse(reader);
+        Issues<Issue> warnings = new AntJavacParser().parse(reader);
 
         assertEquals(2, warnings.size());
     }
@@ -43,7 +43,7 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void issue21240() throws IOException {
-        Issues warnings = new AntJavacParser().parse(openFile("issue21240.txt"));
+        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue21240.txt"));
 
         assertEquals(1, warnings.size());
         checkWarning(warnings.iterator().next(),
@@ -59,7 +59,7 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Issues warnings = new AntJavacParser().parse(openFile());
+        Issues<Issue> warnings = new AntJavacParser().parse(openFile());
 
         assertEquals(1, warnings.size());
 
@@ -80,7 +80,7 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void issue2133() throws IOException {
-        Issues warnings = new AntJavacParser().parse(openFile("issue2133.txt"));
+        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue2133.txt"));
 
         assertEquals(2, warnings.size());
 
@@ -105,7 +105,7 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void issue4098() throws IOException {
-        Issues warnings = new AntJavacParser().parse(openFile("issue4098.txt"));
+        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue4098.txt"));
 
         assertEquals(1, warnings.size());
 
@@ -125,7 +125,7 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void issue2316() throws IOException {
-        Issues warnings = new AntJavacParser().parse(openFile("issue2316.txt"));
+        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue2316.txt"));
 
         assertEquals(20, warnings.size());
 
@@ -141,7 +141,7 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void parseDifferentTaskNames() throws IOException {
-        Issues warnings = new AntJavacParser().parse(openFile("taskname.txt"));
+        Issues<Issue> warnings = new AntJavacParser().parse(openFile("taskname.txt"));
 
         assertEquals(3, warnings.size());
     }
@@ -153,7 +153,7 @@ public class AntJavacParserTest extends ParserTester {
      */
     @Test
     public void parseArrayInDeprecatedMethod() throws IOException {
-        Issues warnings = new AntJavacParser().parse(openFile("issue5868.txt"));
+        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue5868.txt"));
 
         assertEquals(1, warnings.size());
 
@@ -175,7 +175,7 @@ public class AntJavacParserTest extends ParserTester {
     public void parseJapaneseWarnings() throws IOException {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(ParserTester.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        Issues warnings = new AntJavacParser().parse(is);
+        Issues<Issue> warnings = new AntJavacParser().parse(is);
         assertEquals(1, warnings.size());
     }
 

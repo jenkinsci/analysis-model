@@ -21,7 +21,7 @@ public class CodeAnalysisParserTest extends ParserTester {
      */
     @Test
     public void parseWarnings() throws IOException {
-        Issues warnings = new CodeAnalysisParser().parse(openFile());
+        Issues<Issue> warnings = new CodeAnalysisParser().parse(openFile());
 
         assertEquals(3, warnings.size());
 

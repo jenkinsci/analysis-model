@@ -21,7 +21,7 @@ public class CoolfluxChessccParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new CoolfluxChessccParser().parse(openFile());
+        Issues<Issue> warnings = new CoolfluxChessccParser().parse(openFile());
 
         assertEquals(2, warnings.size());
 

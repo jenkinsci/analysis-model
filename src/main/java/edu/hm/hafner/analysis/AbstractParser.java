@@ -56,7 +56,7 @@ public abstract class AbstractParser implements Serializable {
         this.id = id;
     }
 
-    public Issues parse(final File file, final Charset charset, final String moduleName) throws ParsingException {
+    public Issues<Issue> parse(final File file, final Charset charset, final String moduleName) throws ParsingException {
         this.charset = charset;
         this.moduleName = moduleName;
         try (Reader input = createReader(new FileInputStream(file))) {
@@ -83,7 +83,7 @@ public abstract class AbstractParser implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues parse(Reader reader) throws ParsingCanceledException, ParsingException;
+    public abstract Issues<Issue> parse(Reader reader) throws ParsingCanceledException, ParsingException;
 
     @Override
     public String toString() {

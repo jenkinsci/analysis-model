@@ -40,7 +40,7 @@ public abstract class AbstractEclipseParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Issues warnings = createParser().parse(openFile());
+        Issues<Issue> warnings = createParser().parse(openFile());
 
         assertEquals(8, warnings.size());
 

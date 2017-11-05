@@ -23,7 +23,7 @@ public class PerlCriticParserTest extends ParserTester {
      */
     @Test
     public void testPerlCriticParser() throws IOException {
-        Issues warnings = parse("perlcritic.txt");
+        Issues<Issue> warnings = parse("perlcritic.txt");
 
         assertEquals(105, warnings.size());
     }
@@ -35,7 +35,7 @@ public class PerlCriticParserTest extends ParserTester {
      */
     @Test
     public void testPerlCriticParserCreateWarning() throws IOException {
-        Issues warnings = parse("issue17792.txt");
+        Issues<Issue> warnings = parse("issue17792.txt");
 
         assertEquals(3, warnings.size());
 
@@ -59,7 +59,7 @@ public class PerlCriticParserTest extends ParserTester {
      */
     @Test
     public void testPerlCriticParserCreateWarningNoFileName() throws IOException {
-        Issues warnings = parse("issue17792-nofilename.txt");
+        Issues<Issue> warnings = parse("issue17792-nofilename.txt");
 
         assertEquals(3, warnings.size());
 

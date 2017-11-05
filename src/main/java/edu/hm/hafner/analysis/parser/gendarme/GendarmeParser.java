@@ -22,6 +22,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -46,7 +47,7 @@ public class GendarmeParser extends AbstractParser {
     }
 
     @Override
-    public Issues parse(final Reader reader) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader) throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -70,7 +71,7 @@ public class GendarmeParser extends AbstractParser {
     }
 
     private Issues parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
-        Issues warnings = new Issues();
+        Issues<Issue> warnings = new Issues<>();
         for (Element ruleElement : ruleElements) {
             String ruleName = ruleElement.getAttribute("Name");
             String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
@@ -119,7 +120,7 @@ public class GendarmeParser extends AbstractParser {
     }
 
     private Map<String, GendarmeRule> parseRules(final List<Element> ruleElements) {
-        Map<String, GendarmeRule> rules = new HashMap<String, GendarmeRule>();
+        Map<String, GendarmeRule> rules = new HashMap<>();
 
         for (Element ruleElement : ruleElements) {
             GendarmeRule rule = new GendarmeRule();

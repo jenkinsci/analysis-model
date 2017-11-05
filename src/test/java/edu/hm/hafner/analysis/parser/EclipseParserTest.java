@@ -26,7 +26,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     public void issue21377() throws IOException {
-        Issues warnings = createParser().parse(openFile("issue21377.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue21377.txt"));
 
         assertEquals(1, warnings.size());
 
@@ -46,7 +46,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     public void issue13969() throws IOException {
-        Issues warnings = createParser().parse(openFile("issue13969.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue13969.txt"));
 
         assertEquals(3, warnings.size());
 
@@ -76,7 +76,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     public void issue12822() throws IOException {
-        Issues warnings = createParser().parse(openFile("issue12822.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue12822.txt"));
 
         assertEquals(15, warnings.size());
     }
@@ -91,7 +91,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     public void issue11675() throws IOException {
         EclipseParser parser = new EclipseParser();
         parser.setTransformer(new ConsolePostProcessor());
-        Issues warnings = parser.parse(openFile("issue11675.txt"));
+        Issues<Issue> warnings = parser.parse(openFile("issue11675.txt"));
 
         assertEquals(8, warnings.size());
 
@@ -112,7 +112,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     public void issue6427() throws IOException {
-        Issues warnings = createParser().parse(openFile("issue6427.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue6427.txt"));
 
         assertEquals(18, warnings.size());
 
@@ -133,7 +133,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     public void issue7077() throws IOException {
-        Issues warnings = createParser().parse(openFile("issue7077.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue7077.txt"));
 
         assertEquals(2, warnings.size());
 
@@ -157,7 +157,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     public void issue7077all() throws IOException {
-        Issues sorted = createParser().parse(openFile("issue7077-all.txt"));
+        Issues<Issue> sorted = createParser().parse(openFile("issue7077-all.txt"));
 
         assertEquals(45, sorted.size());
 
@@ -179,7 +179,7 @@ public class EclipseParserTest extends AbstractEclipseParserTest {
     @Test
     public void issue27664() throws IOException {
         assertTimeout(ofSeconds(10), () -> {
-            Issues warnings = createParser().parse(openFile("issue27664.txt"));
+            Issues<Issue> warnings = createParser().parse(openFile("issue27664.txt"));
 
             assertEquals(0, warnings.size());
         }, "Parsing took more than 5 seconds");

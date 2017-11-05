@@ -27,7 +27,7 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void issue14043() throws IOException {
-        Issues warnings = parse("issue14043.txt");
+        Issues<Issue> warnings = parse("issue14043.txt");
 
         assertEquals(0, warnings.size());
     }
@@ -51,7 +51,7 @@ public class JavacParserTest extends ParserTester {
 
     @Test
     public void kotlinMavenPlugin() throws IOException {
-        Issues warnings = parse("kotlin-maven-plugin.txt");
+        Issues<Issue> warnings = parse("kotlin-maven-plugin.txt");
         assertEquals(4, warnings.size());
     }
 
@@ -62,7 +62,7 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Issues warnings = new JavacParser().parse(openFile());
+        Issues<Issue> warnings = new JavacParser().parse(openFile());
 
         assertEquals(2, warnings.size());
 
@@ -83,7 +83,7 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void parseArrayInDeprecatedMethod() throws IOException {
-        Issues warnings = parse("issue5868.txt");
+        Issues<Issue> warnings = parse("issue5868.txt");
 
         assertEquals(1, warnings.size());
 
@@ -102,7 +102,7 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void parseParallelPipelineOutput() throws IOException {
-        Issues warnings = parse("javac-parallel-pipeline.txt");
+        Issues<Issue> warnings = parse("javac-parallel-pipeline.txt");
 
         assertEquals(2, warnings.size());
 

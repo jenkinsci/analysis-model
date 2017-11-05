@@ -25,7 +25,7 @@ public class SunCParserTest extends ParserTester {
      */
     @Test
     public void parseSunCpp() throws IOException {
-        Issues warnings = new SunCParser().parse(openFile());
+        Issues<Issue> warnings = new SunCParser().parse(openFile());
 
         assertEquals(8, warnings.size());
 

@@ -29,7 +29,7 @@ public class FlexSDKParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Issues warnings = new FlexSDKParser().parse(openFile());
+        Issues<Issue> warnings = new FlexSDKParser().parse(openFile());
 
         assertEquals(5, warnings.size());
 

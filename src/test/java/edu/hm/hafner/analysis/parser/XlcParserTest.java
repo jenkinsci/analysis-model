@@ -103,7 +103,7 @@ public class XlcParserTest extends ParserTester {
     }
 
     private void shouldParseWarning(final String log, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority) {
-        Issues warnings = new XlcCompilerParser().parse(new StringReader(log));
+        Issues<Issue> warnings = new XlcCompilerParser().parse(new StringReader(log));
 
         assertEquals(1, warnings.size());
 

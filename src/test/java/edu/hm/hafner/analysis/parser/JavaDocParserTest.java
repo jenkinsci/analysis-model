@@ -24,7 +24,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void falseJavaDocPositives() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("all.txt"));
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("all.txt"));
         assertEquals(8, warnings.size());
     }
 
@@ -36,7 +36,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue37975() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue37975.txt"));
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue37975.txt"));
 
         assertEquals(3, warnings.size());
 
@@ -70,7 +70,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue32298() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue32298.txt"));
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue32298.txt"));
         assertEquals(7, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
@@ -125,7 +125,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void parseJavaDocWarnings() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile());
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile());
 
         assertEquals(6, warnings.size());
 
@@ -146,7 +146,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue4576() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue4576.txt"));
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue4576.txt"));
 
         assertEquals(2, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -170,7 +170,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue8630() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue8630.txt"));
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue8630.txt"));
 
         assertEquals(0, warnings.size());
     }
@@ -183,7 +183,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue7718() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue7718.txt"));
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue7718.txt"));
 
         assertEquals(7, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();

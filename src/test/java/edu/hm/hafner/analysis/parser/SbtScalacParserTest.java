@@ -17,7 +17,7 @@ public class SbtScalacParserTest extends ParserTester {
 
     @Test
     public void basicFunctionality() throws IOException {
-        Issues warnings = new SbtScalacParser().parse(openFile());
+        Issues<Issue> warnings = new SbtScalacParser().parse(openFile());
         assertEquals(2, warnings.size());
         Iterator<Issue> iter = warnings.iterator();
         checkWarning(iter.next(), 111, "method stop in class Thread is deprecated: see corresponding Javadoc for more information.",

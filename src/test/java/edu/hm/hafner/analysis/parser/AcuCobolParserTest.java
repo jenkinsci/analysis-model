@@ -23,7 +23,7 @@ public class AcuCobolParserTest extends ParserTester {
      */
     @Test
     public void parseFile() throws IOException {
-        Issues warnings = new AcuCobolParser().parse(openFile());
+        Issues<Issue> warnings = new AcuCobolParser().parse(openFile());
 
         assertEquals(4, warnings.size());
 

@@ -21,7 +21,7 @@ public class InvalidsParserTest extends ParserTester {
      */
     @Test
     public void testParser() throws IOException {
-        Issues warnings = new InvalidsParser().parse(openFile());
+        Issues<Issue> warnings = new InvalidsParser().parse(openFile());
 
         assertEquals(3, warnings.size());
 

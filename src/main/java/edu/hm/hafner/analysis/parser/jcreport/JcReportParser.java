@@ -41,9 +41,9 @@ public class JcReportParser extends AbstractParser {
      * @throws ParsingCanceledException thrown by createReport()
      */
     @Override
-    public Issues parse(final Reader reader) throws ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException {
         Report report = createReport(reader);
-        Issues warnings = new Issues();
+        Issues<Issue> warnings = new Issues<>();
         for (int i = 0; i < report.getFiles().size(); i++) {
             File file = report.getFiles().get(i);
 

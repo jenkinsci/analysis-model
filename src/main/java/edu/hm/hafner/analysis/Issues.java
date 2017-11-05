@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,8 +29,8 @@ import static java.util.stream.Collectors.*;
  *
  * @author Ullrich Hafner
  */
-public class Issues implements Iterable<Issue>, Serializable {
-    private final List<Issue> elements = new ArrayList<>();
+public class Issues<T extends Issue> implements Iterable<T>, Serializable {
+    private final List<T> elements = new ArrayList<>();
     private final StringBuilder logMessages = new StringBuilder();
     private final int[] sizeOfPriority = new int[Priority.values().length];
     private String path;
@@ -41,8 +42,8 @@ public class Issues implements Iterable<Issue>, Serializable {
      *
      * @param issues the issues to merge
      */
-    public static Issues merge(final Issues... issues) {
-        Issues merged = new Issues();
+    public static <T extends Issue> Issues<T> merge(final Issues<T>... issues) {
+        Issues<T> merged = new Issues<>();
         merged.addAll(issues);
         return merged;
     }
@@ -55,7 +56,7 @@ public class Issues implements Iterable<Issue>, Serializable {
         this(StringUtils.EMPTY);
     }
 
-    public Issues(final Collection<? extends Issue> issues) {
+    public Issues(final Collection<? extends T> issues) {
         addAll(issues);
     }
 
@@ -65,7 +66,7 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @param issue the issue to append
      * @return returns the appended issue
      */
-    public Issue add(final Issue issue) {
+    public T add(final T issue) {
         elements.add(issue);
         sizeOfPriority[issue.getPriority().ordinal()]++;
 
@@ -79,8 +80,8 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @param issues the issues to append
      * @return returns the appended issues
      */
-    public Collection<? extends Issue> addAll(final Collection<? extends Issue> issues) {
-        for (Issue issue : issues) {
+    public Collection<? extends T> addAll(final Collection<? extends T> issues) {
+        for (T issue : issues) {
             add(issue);
         }
         return issues;
@@ -92,10 +93,10 @@ public class Issues implements Iterable<Issue>, Serializable {
      *
      * @param issues the issues to append
      */
-    public void addAll(final Issues... issues) {
+    public void addAll(final Issues<T>... issues) {
         Ensure.that(issues).isNotEmpty();
 
-        for (Issues container : issues) {
+        for (Issues<T> container : issues) {
             addAll(container.elements);
         }
     }
@@ -107,10 +108,10 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @return the removed issue
      * @throws NoSuchElementException if there is no such issue found
      */
-    public Issue remove(final UUID id) {
+    public T remove(final UUID id) {
         for (int i = 0; i < elements.size(); i++) {
             if (elements.get(i).getId().equals(id)) {
-                Issue issue = elements.get(i);
+                T issue = elements.get(i);
                 sizeOfPriority[issue.getPriority().ordinal()]--;
                 return elements.remove(i);
             }
@@ -123,7 +124,7 @@ public class Issues implements Iterable<Issue>, Serializable {
      *
      * @return all issues
      */
-    public ImmutableSet<Issue> all() {
+    public ImmutableSet<T> all() {
         return ImmutableSet.copyOf(elements);
     }
 
@@ -134,8 +135,8 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @return the found issue
      * @throws NoSuchElementException if there is no such issue found
      */
-    public Issue findById(final UUID id) {
-        for (Issue issue : elements) {
+    public T findById(final UUID id) {
+        for (T issue : elements) {
             if (issue.getId().equals(id)) {
                 return issue;
             }
@@ -149,7 +150,7 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @param criterion the filter criterion
      * @return the found issues
      */
-    public ImmutableList<Issue> findByProperty(final Predicate<? super Issue> criterion) {
+    public ImmutableList<T> findByProperty(final Predicate<? super T> criterion) {
         return filterElements(criterion).collect(collectingAndThen(toList(), ImmutableList::copyOf));
     }
 
@@ -159,16 +160,17 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @param criterion the filter criterion
      * @return the found issues
      */
-    public Issues filter(final Predicate<? super Issue> criterion) {
-        return new Issues(filterElements(criterion).collect(toList()));
+    public Issues<T> filter(final Predicate<? super T> criterion) {
+        return new Issues<>(filterElements(criterion).collect(toList()));
     }
 
-    private Stream<Issue> filterElements(final Predicate<? super Issue> criterion) {
+    private Stream<T> filterElements(final Predicate<? super T> criterion) {
         return elements.stream().filter(criterion);
     }
 
+    @Nonnull
     @Override
-    public Iterator<Issue> iterator() {
+    public Iterator<T> iterator() {
         return elements.iterator();
     }
 
@@ -263,7 +265,7 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @param index the index
      * @return the issue at the specified index
      */
-    public Issue get(final int index) {
+    public T get(final int index) {
         return elements.get(index);
     }
 
@@ -337,12 +339,12 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @return the set of different values
      * @see #getFiles()
      */
-    public <R> SortedSet<R> getProperties(final Function<? super Issue, ? extends R> propertiesMapper) {
+    public <R> SortedSet<R> getProperties(final Function<? super T, ? extends R> propertiesMapper) {
         return elements.stream().map(propertiesMapper)
                        .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
     }
 
-    public Map<String, Integer> getPropertyCount(final Function<? super Issue, ? extends String> propertiesMapper) {
+    public Map<String, Integer> getPropertyCount(final Function<? super T, ? extends String> propertiesMapper) {
         return elements.stream().collect(groupingBy(propertiesMapper, reducing(0, e -> 1, Integer::sum)));
     }
 
@@ -351,8 +353,8 @@ public class Issues implements Iterable<Issue>, Serializable {
      *
      * @return a new issue container that contains the same elements in the same order
      */
-    public Issues copy() {
-        Issues copied = new Issues();
+    public Issues<T> copy() {
+        Issues<T> copied = new Issues<>();
         copied.addAll(all());
         return copied;
     }
@@ -387,14 +389,5 @@ public class Issues implements Iterable<Issue>, Serializable {
 
     public String getLogMessages() {
         return logMessages.toString();
-    }
-
-    public Issues withOrigin(final String id) {
-        IssueBuilder builder = new IssueBuilder();
-        Issues copy = new Issues();
-        for (Issue element : elements) {
-            copy.add(builder.copy(element).setOrigin(id).build());
-        }
-        return copy;
     }
 }

@@ -25,7 +25,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue34141() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue34141.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue34141.txt"));
 
         assertEquals(0, warnings.size());
     }
@@ -37,7 +37,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue17309() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue17309.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue17309.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -53,7 +53,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue9926() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue9926.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue9926.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -69,7 +69,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new GccParser().parse(openFile());
+        Issues<Issue> warnings = new GccParser().parse(openFile());
 
         assertEquals(8, warnings.size());
 
@@ -132,7 +132,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue3897and3898() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue3897.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue3897.txt"));
 
         assertEquals(3, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -161,7 +161,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4712() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue4712.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue4712.txt"));
 
         assertEquals(2, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -185,7 +185,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4700() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue4700.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue4700.txt"));
 
         assertEquals(0, warnings.size());
     }
@@ -198,7 +198,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4707() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue4707.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue4707.txt"));
 
         assertEquals(22, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -217,7 +217,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4010() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue4010.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue4010.txt"));
 
         assertEquals(1, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -236,7 +236,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4274() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue4274.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue4274.txt"));
 
         assertEquals(4, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -270,7 +270,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4260() throws IOException {
-        Issues warnings = new GccParser().parse(openFile("issue4260.txt"));
+        Issues<Issue> warnings = new GccParser().parse(openFile("issue4260.txt"));
 
         assertEquals(1, warnings.size());
     }

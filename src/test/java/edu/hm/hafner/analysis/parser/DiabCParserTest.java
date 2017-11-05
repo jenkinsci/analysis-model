@@ -23,7 +23,7 @@ public class DiabCParserTest extends ParserTester {
      */
     @Test
     public void parseDiabCpp() throws IOException {
-        Issues warnings = new DiabCParser().parse(openFile());
+        Issues<Issue> warnings = new DiabCParser().parse(openFile());
 
         assertEquals(13, warnings.size());
 

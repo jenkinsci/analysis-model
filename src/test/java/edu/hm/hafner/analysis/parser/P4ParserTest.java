@@ -21,7 +21,7 @@ public class P4ParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new P4Parser().parse(openFile());
+        Issues<Issue> warnings = new P4Parser().parse(openFile());
 
         assertEquals(4, warnings.size());
 

@@ -28,7 +28,7 @@ public class JSLintParserTest extends ParserTester {
      */
     @Test
     public void issue19127() throws IOException {
-        Issues warnings = new JSLintParser().parse(openFile("jslint/jslint.xml"));
+        Issues<Issue> warnings = new JSLintParser().parse(openFile("jslint/jslint.xml"));
 
         assertEquals(197, warnings.size());
 
@@ -45,7 +45,7 @@ public class JSLintParserTest extends ParserTester {
      */
     @Test
     public void testParse() throws IOException {
-        Issues results = createParser().parse(openFile());
+        Issues<Issue> results = createParser().parse(openFile());
         assertEquals(102, results.size());
 
         assertThat(results.getFiles()).hasSize(2);

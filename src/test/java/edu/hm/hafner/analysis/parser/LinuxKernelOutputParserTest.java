@@ -25,7 +25,7 @@ public class LinuxKernelOutputParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new LinuxKernelOutputParser().parse(openFile());
+        Issues<Issue> warnings = new LinuxKernelOutputParser().parse(openFile());
 
         assertEquals(26, warnings.size());
 

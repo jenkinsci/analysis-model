@@ -23,7 +23,7 @@ public class CppLintParserTest extends ParserTester {
     /** Parses a file with 1031 warnings. */
     @Test
     public void shouldFindAll1031Warnings() {
-        Issues issues = new CppLintParser().parse(openFile());
+        Issues<Issue> issues = new CppLintParser().parse(openFile());
 
         assertEquals(1031, issues.size());
 
@@ -45,7 +45,7 @@ public class CppLintParserTest extends ParserTester {
      */
     @Test
     public void issue18290() {
-        Issues warnings = new CppLintParser().parse(openFile("issue18290.txt"));
+        Issues<Issue> warnings = new CppLintParser().parse(openFile("issue18290.txt"));
 
         assertEquals(2, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();

@@ -26,7 +26,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue38215() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue38215.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue38215.txt"));
 
         assertEquals(1, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -46,7 +46,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue22386() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue22386.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue22386.txt"));
 
         assertEquals(2, warnings.size());
 
@@ -74,7 +74,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue27914() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue27914.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue27914.txt"));
 
         assertEquals(3, warnings.size());
 
@@ -107,7 +107,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue26441() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue26441.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue26441.txt"));
 
         assertEquals(0, warnings.size());
     }
@@ -120,7 +120,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue20544() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue20544.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue20544.txt"));
 
         assertEquals(0, warnings.size());
     }
@@ -133,7 +133,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue20154() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue20154.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue20154.txt"));
 
         assertEquals(8, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -156,7 +156,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue14888() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue14888.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue14888.txt"));
 
         assertEquals(4, warnings.size());
     }
@@ -169,7 +169,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue10566() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue10566.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue10566.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -186,7 +186,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue3582() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue3582.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue3582.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -201,7 +201,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue8347() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue8347.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue8347.txt"));
 
         assertEquals(5, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -218,7 +218,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue6709() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue6709.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue6709.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -234,7 +234,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue9926() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue9926.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue9926.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -251,7 +251,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue4932() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue4932.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue4932.txt"));
 
         assertEquals(2, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -277,7 +277,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void issue4731() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue4731.txt"));
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue4731.txt"));
 
         assertEquals(12, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();
@@ -308,7 +308,7 @@ public class MsBuildParserTest extends ParserTester {
      */
     @Test
     public void parseWarnings() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile());
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile());
 
         assertEquals(6, warnings.size());
 
@@ -365,7 +365,7 @@ public class MsBuildParserTest extends ParserTester {
         testData.append("\r\n");
         testData.append("C:\\Src\\Parser\\CSharp\\file.cs (10): Error XXX: An error occurred");
 
-        Issues warnings = new MsBuildParser().parse(new InputStreamReader(
+        Issues<Issue> warnings = new MsBuildParser().parse(new InputStreamReader(
                 IOUtils.toInputStream(testData.toString(), "UTF-8")));
 
         assertEquals(2, warnings.size());

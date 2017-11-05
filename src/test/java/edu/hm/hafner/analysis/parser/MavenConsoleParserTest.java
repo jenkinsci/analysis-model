@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +22,7 @@ public class MavenConsoleParserTest extends ParserTester {
      */
     @Test
     public void testParsing() throws IOException {
-        Issues warnings = new MavenConsoleParser().parse(openFile());
+        Issues<Issue> warnings = new MavenConsoleParser().parse(openFile());
 
         assertEquals(4, warnings.size());
         assertEquals(2, warnings.getHighPrioritySize());
@@ -36,7 +37,7 @@ public class MavenConsoleParserTest extends ParserTester {
      */
     @Test
     public void issue16826() throws IOException {
-        Issues warnings = new MavenConsoleParser().parse(openFile("issue16826.txt"));
+        Issues<Issue> warnings = new MavenConsoleParser().parse(openFile("issue16826.txt"));
 
         assertEquals(1, warnings.size());
     }
@@ -50,7 +51,7 @@ public class MavenConsoleParserTest extends ParserTester {
     @Test
     @Disabled("Until JENKINS-25278 is fixed")
     public void largeFile() throws IOException {
-        Issues warnings = new MavenConsoleParser().parse(openFile("maven-large.log"));
+        Issues<Issue> warnings = new MavenConsoleParser().parse(openFile("maven-large.log"));
 
         assertEquals(1, warnings.size());
     }

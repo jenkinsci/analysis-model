@@ -27,7 +27,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue18081() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue18081.txt"));
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue18081.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -44,7 +44,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue9926() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue9926.txt"));
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue9926.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -61,7 +61,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue6563() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue6563.txt"));
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue6563.txt"));
 
         assertEquals(10, warnings.size());
     }
@@ -73,7 +73,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile());
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile());
 
         assertEquals(14, warnings.size());
 
@@ -158,7 +158,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue5606() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5606.txt"));
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5606.txt"));
 
         assertEquals(10, warnings.size());
     }
@@ -171,7 +171,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue5605() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5605.txt"));
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5605.txt"));
 
         assertEquals(6, warnings.size());
     }
@@ -184,7 +184,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue5445() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
 
         assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
     }
@@ -197,7 +197,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue5870() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
 
         assertEquals(0, warnings.size(), THERE_ARE_WARNINGS_FOUND);
     }
@@ -210,7 +210,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue11799() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue11799.txt"));
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue11799.txt"));
 
         assertEquals(4, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();

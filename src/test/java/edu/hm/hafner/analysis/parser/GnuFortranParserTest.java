@@ -23,7 +23,7 @@ public class GnuFortranParserTest extends ParserTester {
      */
     @Test
     public void testWarningParser() throws IOException {
-        Issues warnings = new GnuFortranParser().parse(openFile("GnuFortranWarning.txt"));
+        Issues<Issue> warnings = new GnuFortranParser().parse(openFile("GnuFortranWarning.txt"));
 
         assertEquals(1, warnings.size());
 
@@ -45,7 +45,7 @@ public class GnuFortranParserTest extends ParserTester {
      */
     @Test
     public void testErrorParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranError.txt"));
 
         assertEquals(1, warnings.size());
@@ -68,7 +68,7 @@ public class GnuFortranParserTest extends ParserTester {
      */
     @Test
     public void testFatalErrorParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranFatalError.txt"));
 
         assertEquals(1, warnings.size());
@@ -91,7 +91,7 @@ public class GnuFortranParserTest extends ParserTester {
      */
     @Test
     public void testInternalErrorParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranInternalError.txt"));
 
         assertEquals(1, warnings.size());
@@ -114,7 +114,7 @@ public class GnuFortranParserTest extends ParserTester {
      */
     @Test
     public void testMessageParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile());
 
         assertEquals(4, warnings.size());

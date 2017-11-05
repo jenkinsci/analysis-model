@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 
@@ -55,8 +56,8 @@ public class MavenConsoleParser extends FastRegexpLineParser {
 
     // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
     @Override
-    protected Issues postProcessWarnings(final Issues warnings) {
-        LinkedList<Issue> condensed = new LinkedList<>();
+    protected Issues<Issue> postProcessWarnings(final Issues<Issue> warnings) {
+        Deque<Issue> condensed = new LinkedList<>();
         int line = -1;
         for (Issue warning : warnings) {
             if (warning.getLineStart() == line + 1 && !condensed.isEmpty()) {
@@ -81,7 +82,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             }
             line = warning.getLineStart();
         }
-        Issues noBlank = new Issues();
+        Issues noBlank = new Issues<>();
         for (Issue warning : condensed) {
             if (StringUtils.isNotBlank(warning.getMessage())) {
                 noBlank.add(warning);

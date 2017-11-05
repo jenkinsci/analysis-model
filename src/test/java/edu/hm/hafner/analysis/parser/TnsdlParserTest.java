@@ -24,7 +24,7 @@ public class TnsdlParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new TnsdlParser().parse(openFile());
+        Issues<Issue> warnings = new TnsdlParser().parse(openFile());
 
         assertEquals(4, warnings.size());
 

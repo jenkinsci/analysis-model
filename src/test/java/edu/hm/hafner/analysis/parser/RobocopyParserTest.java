@@ -24,7 +24,7 @@ public class RobocopyParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new RobocopyParser().parse(openFile());
+        Issues<Issue> warnings = new RobocopyParser().parse(openFile());
 
         assertEquals(3, warnings.size());
 

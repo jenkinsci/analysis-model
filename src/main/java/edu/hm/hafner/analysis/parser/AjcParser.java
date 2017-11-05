@@ -7,6 +7,7 @@ import java.io.Reader;
 import org.apache.commons.io.IOUtils;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingException;
 
@@ -29,9 +30,9 @@ public class AjcParser extends AbstractParser {
     }
 
     @Override
-    public Issues parse(Reader reader) throws ParsingException {
+    public Issues<Issue> parse(Reader reader) throws ParsingException {
         try {
-            Issues warnings = new Issues();
+            Issues<Issue> warnings = new Issues<>();
 
             BufferedReader br = new BufferedReader(reader);
             String line;

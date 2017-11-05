@@ -26,7 +26,7 @@ public class ClangParserTest extends ParserTester {
      */
     @Test
     public void issue31936() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile("issue31936.txt"));
+        Issues<Issue> warnings = new ClangParser().parse(openFile("issue31936.txt"));
 
         assertEquals(1, warnings.size());
 
@@ -43,7 +43,7 @@ public class ClangParserTest extends ParserTester {
      */
     @Test
     public void issue36817() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile("issue36817.txt"));
+        Issues<Issue> warnings = new ClangParser().parse(openFile("issue36817.txt"));
 
         assertEquals(0, warnings.size());
     }
@@ -56,7 +56,7 @@ public class ClangParserTest extends ParserTester {
      */
     @Test
     public void issue18084() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile("issue18084.txt"));
+        Issues<Issue> warnings = new ClangParser().parse(openFile("issue18084.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -72,7 +72,7 @@ public class ClangParserTest extends ParserTester {
      */
     @Test
     public void issue14333() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile("issue14333.txt"));
+        Issues<Issue> warnings = new ClangParser().parse(openFile("issue14333.txt"));
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
@@ -87,7 +87,7 @@ public class ClangParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile());
+        Issues<Issue> warnings = new ClangParser().parse(openFile());
 
         assertEquals(9, warnings.size());
 

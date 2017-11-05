@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -33,7 +34,7 @@ public class JcReportParserTest {
         JcReportParser parser = new JcReportParser();
         InputStreamReader readCorrectXml = getReader("testCorrect.xml");
 
-        Issues warnings = parser.parse(readCorrectXml);
+        Issues<Issue> warnings = parser.parse(readCorrectXml);
 
         assertEquals(7, warnings.size(), "Should be 7: ");
         assertEquals("SomeDirectory/SomeClass.java", warnings.get(0).getFileName(), "Wrong Parse FileName: ");
@@ -54,7 +55,7 @@ public class JcReportParserTest {
         JcReportParser jcrp = new JcReportParser();
         InputStreamReader readCorrectXml = getReader("testCorrect.xml");
 
-        Issues warnings = jcrp.parse(readCorrectXml);
+        Issues<Issue> warnings = jcrp.parse(readCorrectXml);
 
         assertEquals(7, warnings.size());
     }

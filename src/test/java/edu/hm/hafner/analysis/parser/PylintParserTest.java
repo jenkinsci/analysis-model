@@ -23,7 +23,7 @@ public class PylintParserTest extends ParserTester {
      */
     @Test
     public void pyLintTest() throws IOException {
-        Issues warnings = new PyLintParser().parse(openFile());
+        Issues<Issue> warnings = new PyLintParser().parse(openFile());
 
         assertEquals(6, warnings.size());
 

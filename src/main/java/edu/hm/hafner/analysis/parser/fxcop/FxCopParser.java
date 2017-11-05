@@ -14,6 +14,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -33,7 +34,7 @@ public class FxCopParser extends AbstractParser {
 
     private transient FxCopRuleSet ruleSet;
     @SuppressFBWarnings("SE")
-    private transient Issues warnings;
+    private transient Issues<Issue> warnings;
 
     /**
      * Creates a new instance of {@link FxCopParser}.
@@ -43,10 +44,10 @@ public class FxCopParser extends AbstractParser {
     }
 
     @Override
-    public Issues parse(final Reader reader) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader) throws ParsingException, ParsingCanceledException {
         try {
             ruleSet = new FxCopRuleSet();
-            warnings = new Issues();
+            warnings = new Issues<>();
 
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder;

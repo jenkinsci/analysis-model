@@ -25,7 +25,7 @@ public class XlcLinkerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParserError1() throws IOException {
-        Issues warnings = new XlcLinkerParser().parse(
+        Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-987 Error occurred while reading file"));
 
         assertEquals(1, warnings.size());
@@ -48,7 +48,7 @@ public class XlcLinkerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParserError2() throws IOException {
-        Issues warnings = new XlcLinkerParser().parse(
+        Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-317 ERROR: Undefined symbol: nofun()"));
 
         assertEquals(1, warnings.size());
@@ -71,7 +71,7 @@ public class XlcLinkerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParserSevereError() throws IOException {
-        Issues warnings = new XlcLinkerParser().parse(
+        Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply."));
 
         assertEquals(1, warnings.size());
@@ -94,7 +94,7 @@ public class XlcLinkerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParserWarning1() throws IOException {
-        Issues warnings = new XlcLinkerParser().parse(
+        Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0706-012 The -9 flag is not recognized."));
 
         assertEquals(1, warnings.size());
@@ -117,7 +117,7 @@ public class XlcLinkerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParserWarning2() throws IOException {
-        Issues warnings = new XlcLinkerParser().parse(
+        Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-224 WARNING: Duplicate symbol: dupe"));
 
         assertEquals(1, warnings.size());
@@ -140,7 +140,7 @@ public class XlcLinkerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParserInfo1() throws IOException {
-        Issues warnings = new XlcLinkerParser().parse(
+        Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information."));
 
         assertEquals(1, warnings.size());

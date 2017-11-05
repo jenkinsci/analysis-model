@@ -22,7 +22,7 @@ public class HpiCompileParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Issues warnings = new AntJavacParser().parse(openFile());
+        Issues<Issue> warnings = new AntJavacParser().parse(openFile());
 
         assertEquals(2, warnings.size());
 

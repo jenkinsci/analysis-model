@@ -28,7 +28,7 @@ public class GnuMakeGccParserTest extends ParserTester {
      */
     @Test
     public void testCreateWarning() throws IOException {
-        Issues warnings = new GnuMakeGccParser().parse(openFile());
+        Issues<Issue> warnings = new GnuMakeGccParser().parse(openFile());
 
         assertEquals(NUMBER_OF_TESTS, warnings.size());
 
@@ -134,7 +134,7 @@ public class GnuMakeGccParserTest extends ParserTester {
      */
     private void checkOsSpecificPath(String os, String rootDir) throws IOException {
 
-        Issues warnings = new GnuMakeGccParser(os).parse(openFile());
+        Issues<Issue> warnings = new GnuMakeGccParser(os).parse(openFile());
         Iterator<Issue> iterator = warnings.iterator();
         for (int i = 0; i < 14; i++) //Skip the first 14 warnings, we are only interested in the 15th one
         {

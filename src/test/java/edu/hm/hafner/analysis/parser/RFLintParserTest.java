@@ -23,7 +23,7 @@ public class RFLintParserTest extends ParserTester {
      */
     @Test
     public void rfLintTest() throws IOException {
-        Issues warnings = new RFLintParser().parse(openFile());
+        Issues<Issue> warnings = new RFLintParser().parse(openFile());
 
         assertEquals(6, warnings.size());
         Iterator<Issue> iterator = warnings.iterator();

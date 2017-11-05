@@ -26,7 +26,7 @@ public class Assertions extends org.assertj.core.api.Assertions {
      * @param actual the issues we want to make assertions on
      * @return a new {@link IssuesAssert}
      */
-    public static IssuesAssert assertThat(final Issues actual) {
+    public static IssuesAssert assertThat(final Issues<Issue> actual) {
         return new IssuesAssert(actual);
     }
 }

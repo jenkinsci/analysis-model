@@ -26,7 +26,7 @@ public class SphinxBuildParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new SphinxBuildParser().parse(openFile());
+        Issues<Issue> warnings = new SphinxBuildParser().parse(openFile());
 
         assertEquals(6, warnings.size());
 

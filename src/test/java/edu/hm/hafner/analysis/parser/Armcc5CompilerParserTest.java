@@ -24,7 +24,7 @@ public class Armcc5CompilerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new Armcc5CompilerParser().parse(openFile());
+        Issues<Issue> warnings = new Armcc5CompilerParser().parse(openFile());
 
         assertEquals(3, warnings.size());
 

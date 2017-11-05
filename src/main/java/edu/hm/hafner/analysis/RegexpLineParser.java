@@ -27,8 +27,8 @@ public abstract class RegexpLineParser extends RegexpParser {
     }
 
     @Override
-    public Issues parse(final Reader reader) throws ParsingCanceledException {
-        Issues issues = new Issues();
+    public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException {
+        Issues<Issue> issues = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(reader);
         try {
             currentLine = 0;
@@ -51,7 +51,7 @@ public abstract class RegexpLineParser extends RegexpParser {
      * @param issues the issues after the parsing process
      * @return the post processed issues
      */
-    protected Issues postProcessWarnings(final Issues issues) {
+    protected Issues<Issue> postProcessWarnings(final Issues<Issue> issues) {
         return issues;
     }
 

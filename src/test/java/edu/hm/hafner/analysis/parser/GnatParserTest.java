@@ -24,7 +24,7 @@ public class GnatParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new GnatParser().parse(openFile());
+        Issues<Issue> warnings = new GnatParser().parse(openFile());
 
         assertEquals(9, warnings.size());
 

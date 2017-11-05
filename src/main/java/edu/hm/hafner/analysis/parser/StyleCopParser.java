@@ -39,7 +39,7 @@ public class StyleCopParser extends AbstractParser {
     }
 
     @Override
-    public Issues parse(final Reader reader) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader) throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -71,7 +71,7 @@ public class StyleCopParser extends AbstractParser {
      * @return the corresponding warnings
      */
     private Issues parseViolations(final List<Element> elements) {
-        Issues warnings = new Issues();
+        Issues<Issue> warnings = new Issues<>();
         for (Element element : elements) {
             Issue warning = issueBuilder().setFileName(getString(element, "Source"))
                                           .setLineStart(getLineNumber(element)).setCategory(getCategory(element))

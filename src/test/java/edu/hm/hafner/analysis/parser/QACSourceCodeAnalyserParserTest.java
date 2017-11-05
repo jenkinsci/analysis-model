@@ -25,7 +25,7 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new QACSourceCodeAnalyserParser().parse(openFile());
+        Issues<Issue> warnings = new QACSourceCodeAnalyserParser().parse(openFile());
 
         assertEquals(9, warnings.size());
 

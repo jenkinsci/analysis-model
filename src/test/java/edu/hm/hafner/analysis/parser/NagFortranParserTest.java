@@ -23,7 +23,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testInfoParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranInfo.txt"));
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranInfo.txt"));
 
         assertEquals(1, warnings.size());
 
@@ -45,7 +45,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testWarningParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranWarning.txt"));
 
         assertEquals(1, warnings.size());
@@ -68,7 +68,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testQuestionableParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranQuestionable.txt"));
 
         assertEquals(1, warnings.size());
@@ -91,7 +91,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testExtensionParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranExtension.txt"));
 
         assertEquals(1, warnings.size());
@@ -114,7 +114,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testObsolescentParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranObsolescent.txt"));
 
         assertEquals(1, warnings.size());
@@ -137,7 +137,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testDeletedFeatureUsedParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranDeletedFeatureUsed.txt"));
 
         assertEquals(1, warnings.size());
@@ -160,7 +160,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testErrorParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranError.txt"));
 
         assertEquals(1, warnings.size());
@@ -183,7 +183,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testRuntimeErrorParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranRuntimeError.txt"));
 
         assertEquals(1, warnings.size());
@@ -206,7 +206,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testFatalErrorParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranFatalError.txt"));
 
         assertEquals(1, warnings.size());
@@ -229,7 +229,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testPanicParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile("NagFortranPanic.txt"));
 
         assertEquals(1, warnings.size());
@@ -252,7 +252,7 @@ public class NagFortranParserTest extends ParserTester {
      */
     @Test
     public void testMessageParser() throws IOException {
-        Issues warnings =
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile());
 
         assertEquals(10, warnings.size());

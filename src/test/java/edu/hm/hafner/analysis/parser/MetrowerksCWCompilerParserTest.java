@@ -27,7 +27,7 @@ public class MetrowerksCWCompilerParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() throws IOException {
-        Issues warnings = new MetrowerksCWCompilerParser().parse(openFile());
+        Issues<Issue> warnings = new MetrowerksCWCompilerParser().parse(openFile());
 
         assertEquals(5, warnings.size());
 

@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.Priority;
  * Handles parsing.
  */
 public class JSLintXMLSaxParser extends DefaultHandler {
-    private final Issues issues;
+    private final Issues<Issue> issues;
     private String fileName;
     private final String type;
 
@@ -30,7 +30,7 @@ public class JSLintXMLSaxParser extends DefaultHandler {
      * @param type   type of the parser
      * @param issues the issues
      */
-    public JSLintXMLSaxParser(final String type, final Issues issues) {
+    public JSLintXMLSaxParser(final String type, final Issues<Issue> issues) {
         super();
 
         this.type = type;
