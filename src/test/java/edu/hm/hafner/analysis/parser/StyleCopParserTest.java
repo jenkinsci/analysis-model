@@ -23,7 +23,7 @@ public class StyleCopParserTest extends ParserTester {
      */
     @Test
     public void testStyleCop() throws IOException {
-        Issues result = new StyleCopParser().parse(openFile());
+        Issues<Issue> result = new StyleCopParser().parse(openFile());
 
         assertEquals(5, result.size());
 

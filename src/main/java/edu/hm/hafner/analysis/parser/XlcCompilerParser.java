@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -48,7 +49,7 @@ public class XlcCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher0) {
+    protected Issue createWarning(final Matcher matcher0, final IssueBuilder builder) {
         String line = matcher0.group(0);
         Matcher matcher = PATTERN_1.matcher(line);
         if (matcher.find()) {
@@ -58,7 +59,7 @@ public class XlcCompilerParser extends RegexpLineParser {
             String severity = matcher.group(4);
             Priority priority = toPriority(severity);
             String message = matcher.group(5);
-            return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category)
+            return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
                                  .setMessage(message).setPriority(priority).build();
         }
         matcher = PATTERN_2.matcher(line);
@@ -69,7 +70,7 @@ public class XlcCompilerParser extends RegexpLineParser {
             String severity = matcher.group(2);
             Priority priority = toPriority(severity);
             String message = matcher.group(4);
-            return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category)
+            return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
                                  .setMessage(message).setPriority(priority).build();
         }
         return FALSE_POSITIVE;

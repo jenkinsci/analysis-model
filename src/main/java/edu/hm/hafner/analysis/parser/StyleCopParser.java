@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -39,7 +40,7 @@ public class StyleCopParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader reader) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -54,7 +55,7 @@ public class StyleCopParser extends AbstractParser {
             }
 
             Element rootElement = (Element) mainNode.item(0);
-            return parseViolations(XmlElementUtil.getNamedChildElements(rootElement, "Violation"));
+            return parseViolations(XmlElementUtil.getNamedChildElements(rootElement, "Violation"), builder);
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);
@@ -64,21 +65,17 @@ public class StyleCopParser extends AbstractParser {
         }
     }
 
-    /**
-     * Parses the "Violation" tag and adds one warning for each element.
-     *
-     * @param elements list of Violation tags
-     * @return the corresponding warnings
-     */
-    private Issues parseViolations(final List<Element> elements) {
+    private Issues<Issue> parseViolations(final List<Element> elements, final IssueBuilder builder) {
         Issues<Issue> warnings = new Issues<>();
         for (Element element : elements) {
-            Issue warning = issueBuilder().setFileName(getString(element, "Source"))
-                                          .setLineStart(getLineNumber(element)).setCategory(getCategory(element))
-                                          .setType(getString(element, "Rule")).setMessage(element.getTextContent())
-                                          .setPriority(Priority.NORMAL).build();
+            builder.setFileName(getString(element, "Source"))
+                    .setLineStart(getLineNumber(element))
+                    .setCategory(getCategory(element))
+                    .setType(getString(element, "Rule"))
+                    .setMessage(element.getTextContent())
+                    .setPriority(Priority.NORMAL).build();
 
-            warnings.add(warning);
+            warnings.add(builder.build());
         }
         return warnings;
     }
@@ -86,7 +83,9 @@ public class StyleCopParser extends AbstractParser {
     /**
      * Returns the Category of a StyleCop Violation.
      *
-     * @param element The Element which represents the violation
+     * @param element
+     *         The Element which represents the violation
+     *
      * @return Category of violation
      */
     private String getCategory(final Element element) {

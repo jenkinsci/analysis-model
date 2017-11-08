@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -42,7 +43,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
 
         String tool;
         String type;
@@ -53,7 +54,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
         int lineNumber = 0;
         int column = 0;
 
-        List<String> arr = new ArrayList<String>();
+        List<String> arr = new ArrayList<>();
         int n = matcher.groupCount();
 
         for (int i = 0; i <= n; i++) {
@@ -115,11 +116,11 @@ public class CadenceIncisiveParser extends RegexpLineParser {
         }
 
         if (fileName.startsWith(SLASH)) {
-            return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category)
+            return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
                                  .setMessage(message).setPriority(priority).build();
         }
         else {
-            return issueBuilder().setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
+            return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
                                  .setMessage(message).setPriority(priority).build();
         }
     }

@@ -25,7 +25,7 @@ public class TiCcsParserTest extends ParserTester {
      */
     @Test
     public void parseWarnings() throws IOException {
-        Issues sortedWarnings = new TiCcsParser().parse(openFile());
+        Issues<Issue> sortedWarnings = new TiCcsParser().parse(openFile());
 
         assertEquals(10, sortedWarnings.size());
 

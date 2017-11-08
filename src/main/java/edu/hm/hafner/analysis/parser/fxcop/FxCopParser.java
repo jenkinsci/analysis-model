@@ -44,7 +44,7 @@ public class FxCopParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader reader) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
             ruleSet = new FxCopRuleSet();
             warnings = new Issues<>();
@@ -58,9 +58,9 @@ public class FxCopParser extends AbstractParser {
             NodeList mainNode = doc.getElementsByTagName("FxCopReport");
 
             Element rootElement = (Element)mainNode.item(0);
-            parseRules(XmlElementUtil.getFirstElementByTagName(rootElement, "Rules"));
-            parseNamespaces(XmlElementUtil.getFirstElementByTagName(rootElement, "Namespaces"), null);
-            parseTargets(XmlElementUtil.getFirstElementByTagName(rootElement, "Targets"));
+            parseRules(XmlElementUtil.getFirstElementByTagName(rootElement, "Rules"), builder);
+            parseNamespaces(XmlElementUtil.getFirstElementByTagName(rootElement, "Namespaces"), null, builder);
+            parseTargets(XmlElementUtil.getFirstElementByTagName(rootElement, "Targets"), builder);
 
             return warnings;
         }
@@ -72,7 +72,7 @@ public class FxCopParser extends AbstractParser {
         }
     }
 
-    private void parseRules(final Element rulesElement) {
+    private void parseRules(final Element rulesElement, final IssueBuilder builder) {
         if (rulesElement != null) {
             for (Element rule : XmlElementUtil.getNamedChildElements(rulesElement, "Rule")) {
                 ruleSet.addRule(rule);
@@ -80,94 +80,100 @@ public class FxCopParser extends AbstractParser {
         }
     }
 
-    private void parseTargets(final Element targetsElement) {
+    private void parseTargets(final Element targetsElement, final IssueBuilder builder) {
         if (targetsElement != null) {
             for (Element target : XmlElementUtil.getNamedChildElements(targetsElement, "Target")) {
                 String name = getString(target, "Name");
-                parseMessages(XmlElementUtil.getFirstElementByTagName(target, "Messages"), name);
-                parseModules(XmlElementUtil.getFirstElementByTagName(target, "Modules"), name);
-                parseResources(XmlElementUtil.getFirstElementByTagName(target, "Resources"), name);
+                parseMessages(XmlElementUtil.getFirstElementByTagName(target, "Messages"), name, builder);
+                parseModules(XmlElementUtil.getFirstElementByTagName(target, "Modules"), name, builder);
+                parseResources(XmlElementUtil.getFirstElementByTagName(target, "Resources"), name, builder);
             }
         }
     }
 
-    private void parseResources(final Element resources, final String parentName) {
+    private void parseResources(final Element resources, final String parentName, final IssueBuilder builder) {
         if (resources != null) {
             for (Element target : XmlElementUtil.getNamedChildElements(resources, "Resource")) {
                 String name = getString(target, "Name");
-                parseMessages(XmlElementUtil.getFirstElementByTagName(target, "Messages"), name);
+                parseMessages(XmlElementUtil.getFirstElementByTagName(target, "Messages"), name, builder);
             }
         }
     }
 
-    private void parseModules(final Element modulesElement, final String parentName) {
+    private void parseModules(final Element modulesElement, final String parentName, final IssueBuilder builder) {
         if (modulesElement != null) {
             for (Element module : XmlElementUtil.getNamedChildElements(modulesElement, "Module")) {
                 String name = getString(module, "Name");
-                parseMessages(XmlElementUtil.getFirstElementByTagName(module, "Messages"), name);
-                parseNamespaces(XmlElementUtil.getFirstElementByTagName(module, "Namespaces"), name);
+                parseMessages(XmlElementUtil.getFirstElementByTagName(module, "Messages"), name, builder);
+                parseNamespaces(XmlElementUtil.getFirstElementByTagName(module, "Namespaces"), name, builder);
             }
         }
     }
 
-    private void parseNamespaces(final Element namespacesElement, final String parentName) {
+    private void parseNamespaces(final Element namespacesElement, final String parentName, final IssueBuilder builder) {
         if (namespacesElement != null) {
             for (Element namespace : XmlElementUtil.getNamedChildElements(namespacesElement, "Namespace")) {
                 String name = getString(namespace, "Name");
 
-                parseMessages(XmlElementUtil.getFirstElementByTagName(namespace, "Messages"), name);
-                parseTypes(XmlElementUtil.getFirstElementByTagName(namespace, "Types"), name);
+                parseMessages(XmlElementUtil.getFirstElementByTagName(namespace, "Messages"), name, builder);
+                parseTypes(XmlElementUtil.getFirstElementByTagName(namespace, "Types"), name, builder);
             }
         }
     }
 
-    private void parseTypes(final Element typesElement, final String parentName) {
+    private void parseTypes(final Element typesElement, final String parentName, final IssueBuilder builder) {
         if (typesElement != null) {
             for (Element type : XmlElementUtil.getNamedChildElements(typesElement, "Type")) {
                 String name = parentName + "." + getString(type, "Name");
 
-                parseMessages(XmlElementUtil.getFirstElementByTagName(type, "Messages"), name);
-                parseMembers(XmlElementUtil.getFirstElementByTagName(type, "Members"), name);
+                parseMessages(XmlElementUtil.getFirstElementByTagName(type, "Messages"), name, builder);
+                parseMembers(XmlElementUtil.getFirstElementByTagName(type, "Members"), name, builder);
             }
         }
     }
 
-    private void parseMembers(final Element membersElement, final String parentName) {
+    private void parseMembers(final Element membersElement, final String parentName,
+            final IssueBuilder builder) {
         if (membersElement != null) {
             for (Element member : XmlElementUtil.getNamedChildElements(membersElement, "Member")) {
-                parseMember(member, parentName);
+                parseMember(member, parentName, builder);
             }
         }
     }
 
-    private void parseAccessors(final Element accessorsElement, final String parentName) {
+    private void parseAccessors(final Element accessorsElement, final String parentName,
+            final IssueBuilder builder) {
         if (accessorsElement != null) {
             for (Element member : XmlElementUtil.getNamedChildElements(accessorsElement, "Accessor")) {
-                parseMember(member, parentName);
+                parseMember(member, parentName, builder);
             }
         }
     }
 
-    private void parseMember(final Element member, final String parentName) {
-        parseMessages(XmlElementUtil.getFirstElementByTagName(member, "Messages"), parentName);
-        parseAccessors(XmlElementUtil.getFirstElementByTagName(member, "Accessors"), parentName);
+    private void parseMember(final Element member, final String parentName,
+            final IssueBuilder builder) {
+        parseMessages(XmlElementUtil.getFirstElementByTagName(member, "Messages"), parentName, builder);
+        parseAccessors(XmlElementUtil.getFirstElementByTagName(member, "Accessors"), parentName, builder);
     }
 
-    private void parseMessages(final Element messages, final String parentName) {
-        parseMessages(messages, parentName, null);
+    private void parseMessages(final Element messages, final String parentName,
+            final IssueBuilder builder) {
+        parseMessages(messages, parentName, null, builder);
     }
 
-    private void parseMessages(final Element messages, final String parentName, final String subName) {
+    private void parseMessages(final Element messages, final String parentName, final String subName,
+            final IssueBuilder builder) {
         if (messages != null) {
             for (Element message : XmlElementUtil.getNamedChildElements(messages, "Message")) {
                 for (Element issue : XmlElementUtil.getNamedChildElements(message, "Issue")) {
-                    parseIssue(issue, message, parentName, subName);
+                    parseIssue(issue, message, parentName, subName, builder);
                 }
             }
         }
     }
 
-    private void parseIssue(final Element issue, final Element parent, final String parentName, final String subName) {
+    private void parseIssue(final Element issue, final Element parent, final String parentName, final String subName,
+            final IssueBuilder builder) {
         String typeName = getString(parent, "TypeName");
         String category = getString(parent, "Category");
         String checkId = getString(parent, "CheckId");
@@ -196,7 +202,7 @@ public class FxCopParser extends AbstractParser {
         String fileName = getString(issue, "File");
         String fileLine = getString(issue, "Line");
 
-        IssueBuilder builder = issueBuilder().setFileName(filePath + "/" + fileName).setLineStart(parseInt(fileLine))
+        builder.setFileName(filePath + "/" + fileName).setLineStart(parseInt(fileLine))
                                       .setCategory(category).setMessage(msgBuilder.toString())
                                       .setPriority(getPriority(issueLevel));
         if (rule != null) {

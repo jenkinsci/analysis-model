@@ -35,6 +35,25 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<Issue>> {
     }
 
     /**
+     * Verifies that there are no issues in the {@link Issues} instance.
+     *
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size is not zero.
+     */
+    /**
+     * Assert that there are no issues present.
+     */
+    public IssuesAssert isEmpty() {
+        isNotNull();
+
+        if (!actual.isEmpty()) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "empty issues", actual, "empty", "not empty");
+        }
+
+        return this;
+    }
+
+    /**
      * Verifies that the actual size of the {@link Issues} instance is equal to the given one.
      *
      * @param size the expected size to compare the actual {@link Issues} size to.

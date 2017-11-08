@@ -75,7 +75,7 @@ public class PerlCriticParserTest extends ParserTester {
         checkWarning(annotation, 15, 1, "Bareword file handle opened", "-", "202,204 of PBP", Priority.HIGH);
     }
 
-    private Issues parse(final String fileName) throws IOException {
+    private Issues<Issue> parse(final String fileName) throws IOException {
         return new PerlCriticParser().parse(openFile(fileName));
     }
 

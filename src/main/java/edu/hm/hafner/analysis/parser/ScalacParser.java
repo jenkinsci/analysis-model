@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -23,13 +24,13 @@ public class ScalacParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(Matcher matcher) {
+    protected Issue createWarning(Matcher matcher, final IssueBuilder builder) {
         Priority p = matcher.group(1).equals("[ERROR]") ? Priority.HIGH : Priority.NORMAL;
         String fileName = matcher.group(2);
         String lineNumber = matcher.group(3);
         String category = matcher.group(4);
         String message = matcher.group(5);
-        return issueBuilder().setFileName(fileName).setLineStart(parseInt(lineNumber)).setCategory(category)
+        return builder.setFileName(fileName).setLineStart(parseInt(lineNumber)).setCategory(category)
                              .setMessage(message).setPriority(p).build();
     }
 }

@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -30,7 +31,7 @@ public class PhpParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(1);
 
         Priority priority = Priority.NORMAL;
@@ -40,14 +41,14 @@ public class PhpParser extends FastRegexpLineParser {
         }
 
         if (matcher.group(5) != null) {
-            return issueBuilder().setFileName("-").setLineStart(0).setCategory(category).setMessage(matcher.group(5))
+            return builder.setFileName("-").setLineStart(0).setCategory(category).setMessage(matcher.group(5))
                                  .setPriority(priority).build();
         }
         else {
             String message = matcher.group(2);
             String fileName = matcher.group(3);
             String start = matcher.group(4);
-            return issueBuilder().setFileName(fileName).setLineStart(Integer.parseInt(start)).setCategory(category)
+            return builder.setFileName(fileName).setLineStart(Integer.parseInt(start)).setCategory(category)
                                  .setMessage(message).setPriority(priority).build();
         }
     }

@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -16,7 +17,7 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class IarParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 7695540852439013425L;
-    private static int GROUP_NUMBER = 5;
+    private static final int GROUP_NUMBER = 5;
 
     // search for: Fatal Error[Pe1696]: cannot open source file "c:\filename.c"
     // search for: c:\filename.h(17) : Fatal Error[Pe1696]: cannot open source file "System/ProcDef_LPC17xx.h"
@@ -36,26 +37,24 @@ public class IarParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
-        Priority priority = determinePriority(matcher.group(GROUP_NUMBER));
-
-        return composeWarning(matcher, priority);
-    }
-
-    private Issue composeWarning(final Matcher matcher, final Priority priority) {
-        String message = matcher.group(7);
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+        builder.setPriority(determinePriority(matcher.group(GROUP_NUMBER)))
+                .setMessage(matcher.group(7));
 
         if (matcher.group(3) == null) {
-            return issueBuilder().setFileName(matcher.group(8)).setLineStart(0).setCategory(matcher.group(6))
-                                 .setMessage(message).setPriority(priority).build();
+            return builder.setFileName(matcher.group(8))
+                    .setLineStart(0)
+                    .setCategory(matcher.group(6))
+                    .build();
         }
-        return issueBuilder().setFileName(matcher.group(3)).setLineStart(parseInt(matcher.group(4)))
-                             .setCategory(matcher.group(6)).setMessage(message).setPriority(priority).build();
+        return builder.setFileName(matcher.group(3))
+                .setLineStart(parseInt(matcher.group(4)))
+                .setCategory(matcher.group(6))
+                .build();
     }
 
     private Priority determinePriority(final String message) {
-        // for "Fatal error", "Fatal Error", "Error" and "error" and "warning"
-        if (message.toLowerCase().contains("error")) {
+        if (message.toLowerCase().contains("error")) {  // for "Fatal error", "Fatal Error", "Error" and "error" and "warning"
             return Priority.HIGH;
         }
         else if (message.toLowerCase().contains("warning")) {

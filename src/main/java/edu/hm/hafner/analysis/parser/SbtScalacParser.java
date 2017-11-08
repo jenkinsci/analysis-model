@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -22,12 +23,12 @@ public class SbtScalacParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(Matcher matcher) {
+    protected Issue createWarning(Matcher matcher, final IssueBuilder builder) {
         Priority p = matcher.group(1).equals("[error]") ? Priority.HIGH : Priority.NORMAL;
         String fileName = matcher.group(2);
         String lineNumber = matcher.group(3);
         String message = matcher.group(4);
-        return issueBuilder().setFileName(fileName).setLineStart(parseInt(lineNumber)).setMessage(message)
+        return builder.setFileName(fileName).setLineStart(parseInt(lineNumber)).setMessage(message)
                              .setPriority(p).build();
     }
 }

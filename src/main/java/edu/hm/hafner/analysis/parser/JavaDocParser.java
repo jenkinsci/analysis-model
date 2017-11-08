@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -31,7 +32,7 @@ public class JavaDocParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String type = matcher.group(3);
         Priority priority;
@@ -43,7 +44,7 @@ public class JavaDocParser extends FastRegexpLineParser {
         }
         String fileName = StringUtils.defaultIfEmpty(matcher.group(1), " - ");
 
-        return issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setMessage(message)
+        return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setMessage(message)
                              .setPriority(priority).build();
     }
 }

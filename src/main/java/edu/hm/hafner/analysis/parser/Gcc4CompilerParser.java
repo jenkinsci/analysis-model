@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -26,7 +27,7 @@ public class Gcc4CompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String fileName = matcher.group(1);
         int lineNumber = parseInt(matcher.group(2));
         int column = parseInt(matcher.group(3));
@@ -48,7 +49,7 @@ public class Gcc4CompilerParser extends RegexpLineParser {
             }
         }
 
-        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setColumnStart(column)
+        return builder.setFileName(fileName).setLineStart(lineNumber).setColumnStart(column)
                              .setCategory(category.toString()).setMessage(message).setPriority(priority).build();
     }
 }

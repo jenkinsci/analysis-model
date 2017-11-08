@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -29,7 +30,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         Priority priority;
 
         String message;
@@ -68,7 +69,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
 
         String fileName = StringUtils.defaultString(matcher.group(1));
         int lineNumber = parseInt(matcher.group(2));
-        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(WARNING_CATEGORY)
+        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(WARNING_CATEGORY)
                              .setMessage(message).setPriority(priority).build();
     }
 }

@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 
 /**
  * A parser for the javac compiler warnings.
@@ -36,11 +37,11 @@ public class JavacParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(5);
         String category = guessCategoryIfEmpty(matcher.group(4), message);
 
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                              .setColumnStart(parseInt(matcher.group(3))).setCategory(category).setMessage(message)
                              .build();
     }

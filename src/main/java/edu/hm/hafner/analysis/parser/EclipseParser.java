@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
@@ -35,7 +36,7 @@ public class EclipseParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(1));
         Priority priority;
         if ("warning".equalsIgnoreCase(type)) {
@@ -48,7 +49,7 @@ public class EclipseParser extends RegexpDocumentParser {
         int columnStart = StringUtils.defaultString(matcher.group(5)).length();
         int columnEnd = columnStart + matcher.group(6).length();
 
-        Issue issue = issueBuilder().setFileName(matcher.group(2)).setLineStart(parseInt(getLine(matcher)))
+        Issue issue = builder.setFileName(matcher.group(2)).setLineStart(parseInt(getLine(matcher)))
                                     .setColumnStart(columnStart).setColumnEnd(columnEnd).setType(getId())
                                     .setCategory(StringUtils.EMPTY).setMessage(matcher.group(7)).setPriority(priority)
                                     .build();

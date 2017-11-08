@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.XmlElementUtil;
 
@@ -32,7 +33,7 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
     private static final String WARNING_PATTERN = "\\<Issue.*?TypeId=\"(.*?)\".*?File=\"(.*?)\".*?Line=\"(.*?)\"" +
             ".*?Message=\"(.*?)\"";
 
-    private final Map<String, Priority> priorityByTypeId = new HashMap<String, Priority>();
+    private final Map<String, Priority> priorityByTypeId = new HashMap<>();
 
     /**
      * Creates a new instance of {@link ResharperInspectCodeParser}.
@@ -42,8 +43,8 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
-        return issueBuilder().setFileName(matcher.group(2)).setLineStart(parseInt(matcher.group(3)))
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+        return builder.setFileName(matcher.group(2)).setLineStart(parseInt(matcher.group(3)))
                              .setCategory(matcher.group(1)).setType(WARNING_TYPE).setMessage(matcher.group(4))
                              .setPriority(GetPriority(matcher.group(1))).build();
     }

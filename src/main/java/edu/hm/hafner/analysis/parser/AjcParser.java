@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingException;
 
@@ -30,7 +31,7 @@ public class AjcParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(Reader reader) throws ParsingException {
+    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingException {
         try {
             Issues<Issue> warnings = new Issues<>();
 
@@ -82,7 +83,7 @@ public class AjcParser extends AbstractParser {
 
                         if ("".equals(line)) {
                             if (!"".equals(message.trim())) {
-                                warnings.add(issueBuilder().setFileName(file).setLineStart(lineNo).setCategory(category)
+                                warnings.add(builder.setFileName(file).setLineStart(lineNo).setCategory(category)
                                                            .setMessage(message.trim()).build());
                             }
                             message = "";
@@ -97,7 +98,7 @@ public class AjcParser extends AbstractParser {
                     default:
                         if ("".equals(line)) {
                             if (!"".equals(message.trim())) {
-                                warnings.add(issueBuilder().setFileName(file).setLineStart(lineNo).setCategory(category)
+                                warnings.add(builder.setFileName(file).setLineStart(lineNo).setCategory(category)
                                                            .setMessage(message.trim()).build());
                             }
                             message = "";

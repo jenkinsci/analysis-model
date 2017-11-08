@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
@@ -26,7 +27,7 @@ public class GhsMultiParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String fileName = matcher.group(1);
         int lineNumber = parseInt(matcher.group(2));
         String type = StringUtils.capitalize(matcher.group(3));
@@ -39,7 +40,7 @@ public class GhsMultiParser extends RegexpDocumentParser {
         else {
             priority = Priority.HIGH;
         }
-        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
+        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
                              .setPriority(priority).build();
     }
 }

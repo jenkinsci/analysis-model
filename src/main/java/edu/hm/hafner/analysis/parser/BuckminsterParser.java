@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -23,9 +24,9 @@ public class BuckminsterParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         Priority priority = "Error".equalsIgnoreCase(matcher.group(1)) ? Priority.HIGH : Priority.NORMAL;
-        return issueBuilder().setFileName(matcher.group(2)).setLineStart(parseInt(matcher.group(4)))
+        return builder.setFileName(matcher.group(2)).setLineStart(parseInt(matcher.group(4)))
                              .setCategory(guessCategory(matcher.group(5))).setMessage(matcher.group(5))
                              .setPriority(priority).build();
 

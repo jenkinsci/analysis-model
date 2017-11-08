@@ -120,7 +120,7 @@ public class JavacParserTest extends ParserTester {
         }
     }
 
-    private Issues parse(final String fileName) throws IOException {
+    private Issues<Issue> parse(final String fileName) throws IOException {
         return new JavacParser().parse(openFile(fileName));
     }
 

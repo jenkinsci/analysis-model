@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.CheckReturnValue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,9 +15,8 @@ import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Functions;
-
 import edu.hm.hafner.util.Ensure;
+import static java.util.function.Function.*;
 
 /**
  * Parses an input stream for compiler warnings and returns the found issues. If your parser is based on a regular
@@ -31,7 +29,6 @@ import edu.hm.hafner.util.Ensure;
  * @see edu.hm.hafner.analysis.parser.EclipseParser
  * @see edu.hm.hafner.analysis.parser.StyleCopParser
  */
-// FIXME: type is not ID, module could be automatically set in Builder
 public abstract class AbstractParser implements Serializable {
     private static final long serialVersionUID = 8466657735514387654L;
 
@@ -42,9 +39,7 @@ public abstract class AbstractParser implements Serializable {
 
     private final String id;
 
-    private transient Function<String, String> transformer = Functions.identity();
-    private transient Charset charset;
-    private transient String moduleName = StringUtils.EMPTY;
+    private transient Function<String, String> transformer = identity();
 
     /**
      * Creates a new instance of {@link AbstractParser}.
@@ -56,19 +51,72 @@ public abstract class AbstractParser implements Serializable {
         this.id = id;
     }
 
-    public Issues<Issue> parse(final File file, final Charset charset, final String moduleName) throws ParsingException {
-        this.charset = charset;
-        this.moduleName = moduleName;
-        try (Reader input = createReader(new FileInputStream(file))) {
-            return parse(input);
+    // FIXME: never use default encoding
+    public Issues<Issue> parse(final File file, final IssueBuilder builder) throws ParsingException {
+        return parse(file, Charset.defaultCharset(), builder);
+    }
+
+    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder) throws ParsingException {
+        builder.setType(getId());
+        try (Reader input = createReader(new FileInputStream(file), charset)) {
+            Issues<Issue> issues = parse(input, builder);
+            issues.log("Successfully parsed '%s': found %d issues (ID = %s)", file.getAbsolutePath(), issues.getSize(),
+                    builder.origin);
+            return issues;
         }
         catch (IOException exception) {
             throw new ParsingException(exception, "Can't scan file for warnings: " + file.getAbsolutePath());
         }
     }
 
-    private Reader createReader(final InputStream inputStream) {
+    private Reader createReader(final InputStream inputStream, final Charset charset) {
         return new InputStreamReader(new BOMInputStream(inputStream), charset);
+    }
+
+    /**
+     * Creates a hash code from the source code of the warning line and the
+     * surrounding context. If the source file could not be read then the hashcode is computed from the filename and line.
+     *
+     * @param fileName
+     *            the absolute path of the file to read
+     * @param line
+     *            the line of the warning
+     * @param warningType
+     *            the type of the warning
+     * @return a hashcode of the source code
+     */
+//    protected int createContextHashCode(final String fileName, final int line, final String warningType) {
+//        HashCodeBuilder builder = new HashCodeBuilder();
+//        builder.append(new ContextHashCode().compute(fileName, line, defaultEncoding));
+//        builder.append(warningType);
+//        return builder.toHashCode();
+//    }
+
+    /**
+     * Finds a file with relative filename and replaces the name with the absolute path.
+     *
+     * @param annotation the annotation
+     */
+    // TODO: when used on a slave then for each file a remote call is initiated
+//    private void expandRelativePaths(final FileAnnotation annotation) {
+//        try {
+//            if (hasRelativeFileName(annotation)) {
+//                Workspace remoteFile = workspace.child(annotation.getFileName());
+//                if (remoteFile.exists()) {
+//                    annotation.setFileName(remoteFile.getPath());
+//                }
+//                else if (canResolveRelativePaths) {
+//                    findFileByScanningAllWorkspaceFiles(annotation);
+//                }
+//            }
+//        }
+//        catch (IOException | InterruptedException exception) {
+//            // ignore
+//        }
+//    }
+
+    public Issues<Issue> parse(Reader reader) throws ParsingCanceledException, ParsingException {
+        return parse(reader, new IssueBuilder().setType(getId()));
     }
 
     /**
@@ -83,7 +131,7 @@ public abstract class AbstractParser implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<Issue> parse(Reader reader) throws ParsingCanceledException, ParsingException;
+    public abstract Issues<Issue> parse(Reader reader, IssueBuilder builder) throws ParsingCanceledException, ParsingException;
 
     @Override
     public String toString() {
@@ -169,18 +217,7 @@ public abstract class AbstractParser implements Serializable {
      * @return the transformer to use
      */
     public Function<String, String> getTransformer() {
-        return ObjectUtils.defaultIfNull(transformer, Functions.identity());
-    }
-
-    /**
-     * Returns a new issue builder that has the ID of this warning set as type property.
-     *
-     * @return a new issue builder
-     */
-    @CheckReturnValue
-    // TODO: issue builder should be part of parse method API then no field is required
-    protected IssueBuilder issueBuilder() {
-        return new IssueBuilder().setType(getId()).setModuleName(moduleName);
+        return ObjectUtils.defaultIfNull(transformer, identity());
     }
 }
 

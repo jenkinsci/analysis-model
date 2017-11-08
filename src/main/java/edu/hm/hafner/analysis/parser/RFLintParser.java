@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
@@ -27,7 +28,7 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    public Issues<Issue> parse(Reader file) {
+    public Issues<Issue> parse(Reader file, final IssueBuilder builder) {
         Issues<Issue> warnings = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(file);
         Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
@@ -38,7 +39,7 @@ public class RFLintParser extends RegexpLineParser {
                 if (matcher.find()) {
                     fileName = matcher.group(1);
                 }
-                findAnnotations(line, warnings);
+                findAnnotations(line, warnings, builder);
             }
         }
         finally {
@@ -48,7 +49,7 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(Matcher matcher) {
+    protected Issue createWarning(Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(1), message);
         Priority priority = Priority.LOW;
@@ -68,7 +69,7 @@ public class RFLintParser extends RegexpLineParser {
             default:
                 break;
         }
-        return issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
+        return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
                              .setMessage(message).setPriority(priority).build();
     }
 }

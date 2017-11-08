@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 
 /**
  * A parser for the ant javac compiler warnings.
@@ -33,19 +34,19 @@ public class AntJavacParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
-            return issueBuilder().setFileName(matcher.group(7)).setLineStart(0).setCategory(getId())
+            return builder.setFileName(matcher.group(7)).setLineStart(0).setCategory(getId())
                                  .setMessage(matcher.group(8)).build();
         }
         else if (StringUtils.isBlank(matcher.group(5))) {
             String message = matcher.group(4);
             String category = guessCategoryIfEmpty(matcher.group(3), message);
-            return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+            return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                                  .setCategory(category).setMessage(message).build();
         }
         else {
-            return issueBuilder().setFileName(matcher.group(6)).setLineStart(0).setCategory("Path")
+            return builder.setFileName(matcher.group(6)).setLineStart(0).setCategory("Path")
                                  .setMessage(matcher.group(5)).build();
         }
     }

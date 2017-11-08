@@ -25,7 +25,7 @@ public class PREfastParserTest extends ParserTester {
      */
     @Test
     public void testParse() throws IOException {
-        Issues results = new PREfastParser().parse(openFile());
+        Issues<Issue> results = new PREfastParser().parse(openFile());
 
         assertEquals(11, results.size());
 

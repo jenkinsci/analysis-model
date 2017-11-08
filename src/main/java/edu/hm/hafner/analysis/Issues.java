@@ -34,7 +34,6 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     private final StringBuilder logMessages = new StringBuilder();
     private final int[] sizeOfPriority = new int[Priority.values().length];
     private String path;
-    private String moduleName;
 
     /**
      * Returns a new issues container. Appends all of the issues in the specified array to the end of this container.
@@ -58,6 +57,14 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
 
     public Issues(final Collection<? extends T> issues) {
         addAll(issues);
+    }
+
+    public static Predicate<Issue> byPackageName(final String packageName) {
+        return issue -> issue.getPackageName().equals(packageName);
+    }
+
+    public static Predicate<Issue> byFileName(final String fileName) {
+        return issue -> issue.getFileName().equals(fileName);
     }
 
     /**
@@ -367,11 +374,6 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     public void setPath(final String path) {
         this.path = path;
         // TODO: issue property? Or is this better suited in the AbsoluteFileNamesMapper
-    }
-
-    public void setModuleName(final String moduleName) {
-        this.moduleName = moduleName;
-        // TODO: issue property?
     }
 
     /**

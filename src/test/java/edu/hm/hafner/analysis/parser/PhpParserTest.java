@@ -48,7 +48,7 @@ public class PhpParserTest extends ParserTester {
      */
     @Test
     public void testParse() throws IOException {
-        Issues results = createParser().parse(openFile());
+        Issues<Issue> results = createParser().parse(openFile());
         assertEquals(5, results.size());
 
         Iterator<Issue> iterator = results.iterator();

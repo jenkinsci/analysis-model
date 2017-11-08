@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -28,8 +29,8 @@ public class CoolfluxChessccParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                              .setMessage(matcher.group(3)).setPriority(Priority.HIGH).build();
     }
 }

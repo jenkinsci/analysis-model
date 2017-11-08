@@ -28,7 +28,7 @@ public class ScalacParserTest extends ParserTester {
                 "/home/user/.jenkins/jobs/job/workspace/yet/another/path/SomeFile.scala", "warning", Priority.HIGH);
     }
 
-    private Issues parse(final String fileName) throws IOException {
+    private Issues<Issue> parse(final String fileName) throws IOException {
         return new ScalacParser().parse(openFile(fileName));
     }
 

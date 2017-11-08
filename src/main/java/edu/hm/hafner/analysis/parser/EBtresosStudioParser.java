@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -44,7 +45,7 @@ public class EBtresosStudioParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String fileName = "*.xdm";
         int lineNumber = 0;
         String type = matcher.group(1);
@@ -73,7 +74,7 @@ public class EBtresosStudioParser extends RegexpLineParser {
         else {
             priority = Priority.HIGH;
         }
-        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
+        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
                              .setPriority(priority).build();
     }
 }

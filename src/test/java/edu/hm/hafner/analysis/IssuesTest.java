@@ -260,10 +260,10 @@ class IssuesTest {
 
     @Test
     void testCopy() {
-        Issues original = new Issues<>();
+        Issues<Issue> original = new Issues<>();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
 
-        Issues copy = original.copy();
+        Issues<Issue> copy = original.copy();
 
         assertThat(copy).isNotSameAs(original);
         assertThat(copy.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);

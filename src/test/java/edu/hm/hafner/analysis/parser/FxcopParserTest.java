@@ -44,7 +44,7 @@ public class FxcopParserTest extends ParserTester {
      */
     @Test
     public void testFXCop() throws IOException {
-        Issues result = new FxCopParser().parse(openFile());
+        Issues<Issue> result = new FxCopParser().parse(openFile());
 
         assertEquals(2, result.size());
 

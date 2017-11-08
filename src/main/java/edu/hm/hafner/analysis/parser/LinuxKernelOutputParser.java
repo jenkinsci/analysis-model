@@ -74,7 +74,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader file) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader file, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
             Issues<Issue> warnings = new Issues<>();
             BufferedReader reader = new BufferedReader(file);
@@ -95,14 +95,14 @@ public class LinuxKernelOutputParser extends RegexpParser {
                     } while (!m.matches());
 
                     buf.append(getTransformer().apply(line)).append('\n');
-                    findAnnotations(buf.toString(), warnings);
+                    findAnnotations(buf.toString(), warnings, builder);
                     line = reader.readLine();
                     continue;
                 }
 
                 m = pOutput.matcher(line);
                 if (m.matches()) {
-                    findAnnotations(getTransformer().apply(line), warnings);
+                    findAnnotations(getTransformer().apply(line), warnings, builder);
                 }
 
                 line = reader.readLine();
@@ -119,7 +119,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    protected Issue createWarning(Matcher matcher) {
+    protected Issue createWarning(Matcher matcher, final IssueBuilder builder) {
         StringBuilder messageBuilder = new StringBuilder();
         StringBuilder toolTipBuilder = new StringBuilder();
         String filePath = "Nil";
@@ -177,8 +177,11 @@ public class LinuxKernelOutputParser extends RegexpParser {
             message = messageBuilder.toString().replace("\n", "<br>");
         }
 
-        IssueBuilder builder = issueBuilder().setFileName(filePath).setLineStart(lineNumber).setCategory(category)
-                                      .setMessage(message).setPriority(priority);
+        builder.setFileName(filePath)
+                .setLineStart(lineNumber)
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(priority);
 
         if (toolTipBuilder.length() > 0) {
             builder.setDescription(toolTipBuilder.toString().replace("\n", "<br>"));

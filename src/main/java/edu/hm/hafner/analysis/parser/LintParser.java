@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -35,7 +36,7 @@ public abstract class LintParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader file) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader file, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 

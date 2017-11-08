@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -30,9 +31,9 @@ public class GccParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
-            return issueBuilder().setFileName(matcher.group(8)).setLineStart(0).setCategory(LINKER_ERROR)
+            return builder.setFileName(matcher.group(8)).setLineStart(0).setCategory(LINKER_ERROR)
                                  .setMessage(matcher.group(7)).setPriority(Priority.HIGH).build();
         }
         String fileName = matcher.group(1);
@@ -53,16 +54,16 @@ public class GccParser extends RegexpLineParser {
             if (matcher.group(4).contains("instantiated from here")) {
                 return FALSE_POSITIVE;
             }
-            return issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(2)))
+            return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2)))
                                  .setCategory(GCC_ERROR).setMessage(StringEscapeUtils.escapeXml10(matcher.group(4)))
                                  .setPriority(Priority.HIGH).build();
         }
         else {
-            return issueBuilder().setFileName(fileName).setLineStart(0).setCategory(GCC_ERROR)
+            return builder.setFileName(fileName).setLineStart(0).setCategory(GCC_ERROR)
                                  .setMessage(StringEscapeUtils.escapeXml10(matcher.group(5))).setPriority(Priority.HIGH).build();
         }
         String category = "GCC " + matcher.group(3);
-        return issueBuilder().setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
+        return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
                              .setMessage(StringEscapeUtils.escapeXml10(matcher.group(6))).setPriority(priority).build();
     }
 

@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -27,7 +28,7 @@ public class InvalidsParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String type = WARNING_PREFIX + StringUtils.capitalize(StringUtils.lowerCase(matcher.group(4)));
         String category = matcher.group(6);
         Priority priority;
@@ -40,7 +41,7 @@ public class InvalidsParser extends RegexpLineParser {
         else {
             priority = Priority.NORMAL;
         }
-        return issueBuilder().setFileName(matcher.group(2) + "." + matcher.group(3))
+        return builder.setFileName(matcher.group(2) + "." + matcher.group(3))
                              .setLineStart(parseInt(matcher.group(5))).setType(type).setCategory(category)
                              .setPackageName(matcher.group(1)).setMessage(matcher.group(7)).setPriority(priority)
                              .build();

@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -24,7 +25,7 @@ public class ClangParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(5);
         if (message.matches("^-\\[.*\\].*$")) {
             return FALSE_POSITIVE;
@@ -43,15 +44,13 @@ public class ClangParser extends RegexpLineParser {
         else {
             priority = Priority.NORMAL;
         }
-        Issue warning;
-        if (category == null) {
-            warning = issueBuilder().setFileName(filename).setLineStart(lineNumber).setColumnStart(column)
-                                    .setMessage(message).setPriority(priority).build();
-        }
-        else {
-            warning = issueBuilder().setFileName(filename).setLineStart(lineNumber).setColumnStart(column)
-                                    .setCategory(category).setMessage(message).setPriority(priority).build();
-        }
+        Issue warning = builder
+                .setFileName(filename)
+                .setLineStart(lineNumber)
+                .setColumnStart(column)
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(priority).build();
         return warning;
     }
 }

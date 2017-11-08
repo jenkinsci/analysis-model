@@ -24,7 +24,7 @@ public class GendarmeParserTest extends ParserTester {
      */
     @Test
     public void testParseViolationData() throws IOException {
-        Issues results = new GendarmeParser().parse(openFile());
+        Issues<Issue> results = new GendarmeParser().parse(openFile());
         assertEquals(3, results.size());
 
         Iterator<Issue> iterator = results.iterator();

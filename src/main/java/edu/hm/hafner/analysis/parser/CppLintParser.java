@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -23,10 +24,10 @@ public class CppLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         Priority priority = mapPriority(matcher.group(5));
 
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                              .setCategory(matcher.group(4)).setMessage(matcher.group(3)).setPriority(priority).build();
     }
 
