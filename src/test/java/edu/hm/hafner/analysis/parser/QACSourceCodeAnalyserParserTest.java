@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -27,63 +29,92 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
     public void testWarningsParser() throws IOException {
         Issues warnings = new QACSourceCodeAnalyserParser().parse(openFile());
 
-        assertEquals(9, warnings.size());
+        assertThat(warnings).hasSize(9);
 
         Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                34,
-                "[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.",
-                "C:/PATH/PATH/PATH/PATH/Test1.c",
-                TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                185,
-                "A function-like macro is being defined.",
-                "C:/PATH/PATH/PATH/PATH/Test2.h",
-                TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                20233,
-                "A function could probably be used instead of this function-like macro.",
-                "C:/PATH/PATH/Test3.h",
-                TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                213,
-                "Macro defines an unrecognised code-fragment.",
-                "C:/PATH/Test4.h",
-                TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                75,
-                "[L] External identifier matches other identifier(s) (e.g. 'Test') in first 6 characters - program is non-conforming.",
-                "C:/PATH/PATH/Test5.h",
-                TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                46,
-                "[E] This in-line assembler construct is a language extension. The code has been ignored",
-                "C:/PATH/PATH/PATH/PATH/Test6.h",
-                TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                94,
-                "[C] Redefinition of 'P2FUNC' with a different body.",
-                "C:/PATH/PATH/PATH/PATH/Test7.h",
-                TYPE, WARNING_CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                724,
-                "Cannot find test.h - Perhaps the appropriate search path was not given?",
-                "C:/PATH/PATH/Test8.h",
-                TYPE, ERROR_CATEGORY, Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                178,
-                "Macro parameter not enclosed in ().",
-                "C:/PATH/Test9.h",
-                TYPE, WARNING_CATEGORY, Priority.NORMAL);
+
+        assertSoftly(softly -> {
+           softly.assertThat(iterator.next())
+                   .hasLineStart(34)
+                   .hasLineEnd(34)
+                   .hasMessage("[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.")
+                   .hasFileName("C:/PATH/PATH/PATH/PATH/Test1.c")
+                   .hasType(TYPE)
+                   .hasCategory(WARNING_CATEGORY)
+                   .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(185)
+                    .hasLineEnd(185)
+                    .hasMessage("A function-like macro is being defined.")
+                    .hasFileName("C:/PATH/PATH/PATH/PATH/Test2.h")
+                    .hasType(TYPE)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(20233)
+                    .hasLineEnd(20233)
+                    .hasMessage("A function could probably be used instead of this function-like macro.")
+                    .hasFileName("C:/PATH/PATH/Test3.h")
+                    .hasType(TYPE)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(213)
+                    .hasLineEnd(213)
+                    .hasMessage("Macro defines an unrecognised code-fragment.")
+                    .hasFileName("C:/PATH/Test4.h")
+                    .hasType(TYPE)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(75)
+                    .hasLineEnd(75)
+                    .hasMessage("[L] External identifier matches other identifier(s) (e.g. 'Test') in first 6 characters - program is non-conforming.")
+                    .hasFileName("C:/PATH/PATH/Test5.h")
+                    .hasType(TYPE)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(46)
+                    .hasLineEnd(46)
+                    .hasMessage("[E] This in-line assembler construct is a language extension. The code has been ignored")
+                    .hasFileName("C:/PATH/PATH/PATH/PATH/Test6.h")
+                    .hasType(TYPE)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(94)
+                    .hasLineEnd(94)
+                    .hasMessage("[C] Redefinition of 'P2FUNC' with a different body.")
+                    .hasFileName("C:/PATH/PATH/PATH/PATH/Test7.h")
+                    .hasType(TYPE)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(724)
+                    .hasLineEnd(724)
+                    .hasMessage("Cannot find test.h - Perhaps the appropriate search path was not given?")
+                    .hasFileName("C:/PATH/PATH/Test8.h")
+                    .hasType(TYPE)
+                    .hasCategory(ERROR_CATEGORY)
+                    .hasPriority(Priority.HIGH);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(178)
+                    .hasLineEnd(178)
+                    .hasMessage("Macro parameter not enclosed in ().")
+                    .hasFileName("C:/PATH/Test9.h")
+                    .hasType(TYPE)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+        });
     }
 
 
