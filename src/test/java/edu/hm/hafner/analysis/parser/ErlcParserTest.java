@@ -1,14 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static org.assertj.core.api.Java6Assertions.*;
 
 /**
  * Tests the class {@link ErlcParser}.
@@ -18,28 +15,29 @@ public class ErlcParserTest extends ParserTester {
 
     /**
      * Parses a file with two Erlc warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues<Issue> warnings = new ErlcParser().parse(openFile());
+    public void testWarningsParser() {
+        Issues issues = new ErlcParser().parse(openFile());
 
-        assertEquals(2, warnings.size());
+        assertThat(issues).hasSize(2);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                125,
-                "variable 'Name' is unused",
-                "./test.erl",
-                TYPE, "Warning", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                175,
-                "record 'Extension' undefined",
-                "./test2.erl",
-                TYPE, "Error", Priority.HIGH);
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(issues.get(0)).hasPriority(Priority.NORMAL)
+                .hasCategory("Warning")
+                .hasLineStart(125)
+                .hasLineEnd(125)
+                .hasMessage("variable 'Name' is unused")
+                .hasFileName("./test.erl")
+                .hasType(TYPE);
+        softly.assertThat(issues.get(1)).hasPriority(Priority.HIGH)
+                .hasCategory("Error")
+                .hasLineStart(175)
+                .hasLineEnd(175)
+                .hasMessage("record 'Extension' undefined")
+                .hasFileName("./test2.erl")
+                .hasType(TYPE);
+        softly.assertAll();
     }
 
     @Override

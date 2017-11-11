@@ -9,7 +9,8 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 
 /**
  * Tests the class {@link PuppetLintParser}.
@@ -26,55 +27,64 @@ public class PuppetLintParserTest extends ParserTester {
      */
     @Test
     public void testParse() throws IOException {
-        Issues<Issue> results = createParser().parse(openFile());
-        assertEquals(5, results.size());
+        Issues results = createParser().parse(openFile());
+        assertThat(results).hasSize(5);
 
         Iterator<Issue> iterator = results.iterator();
 
-        Issue annotation = iterator.next();
-        checkLintWarning(annotation,
-                1, "failtest not in autoload module layout",
-                "failtest.pp", TYPE, "autoloader_layout", Priority.HIGH, "-");
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("autoloader_layout")
+                .hasLineStart(1)
+                .hasLineEnd(1)
+                .hasMessage("failtest not in autoload module layout")
+                .hasFileName("failtest.pp")
+                .hasType(TYPE)
+                .hasPackageName("-");
 
-        annotation = iterator.next();
-        checkLintWarning(annotation,
-                3, "line has more than 80 characters",
-                "./modules/test/manifests/init.pp", TYPE, "80chars", Priority.NORMAL, "::test");
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("80chars")
+                .hasLineStart(3)
+                .hasLineEnd(3)
+                .hasMessage("line has more than 80 characters")
+                .hasFileName("./modules/test/manifests/init.pp")
+                .hasType(TYPE)
+                .hasPackageName("::test");
 
-        annotation = iterator.next();
-        checkLintWarning(annotation,
-                10, "line has more than 80 characters",
-                "./modules/test/manifests/sub/class/morefail.pp", TYPE, "80chars", Priority.NORMAL, "::test::sub::class");
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("80chars")
+                .hasLineStart(10)
+                .hasLineEnd(10)
+                .hasMessage("line has more than 80 characters")
+                .hasFileName("./modules/test/manifests/sub/class/morefail.pp")
+                .hasType(TYPE)
+                .hasPackageName("::test::sub::class");
 
-        annotation = iterator.next();
-        checkLintWarning(annotation,
-                4, "tab character found",
-                "C:/ProgramData/PuppetLabs/puppet/etc/manifests/site.pp", TYPE, "hard_tabs", Priority.HIGH, "-");
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("hard_tabs")
+                .hasLineStart(4)
+                .hasLineEnd(4)
+                .hasMessage("tab character found")
+                .hasFileName("C:/ProgramData/PuppetLabs/puppet/etc/manifests/site.pp")
+                .hasType(TYPE)
+                .hasPackageName("-");
 
-        annotation = iterator.next();
-        checkLintWarning(annotation,
-                15, "line has more than 80 characters",
-                "C:/CI CD/puppet/modules/jenkins/init.pp", TYPE, "80chars", Priority.NORMAL, "-");
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("80chars")
+                .hasLineStart(15)
+                .hasLineEnd(15)
+                .hasMessage("line has more than 80 characters")
+                .hasFileName("C:/CI CD/puppet/modules/jenkins/init.pp")
+                .hasType(TYPE)
+                .hasPackageName("-");
+
+        softly.assertAll();
     }
-
-    /**
-     * Checks the properties of the specified warning.
-     *
-     * @param annotation  the warning to check
-     * @param lineNumber  the expected line number
-     * @param message     the expected message
-     * @param fileName    the expected filename
-     * @param type        the expected type
-     * @param category    the expected category
-     * @param priority    the expected priority
-     * @param packageName the expected package name
-     */
-    // CHECKSTYLE:OFF
-    private void checkLintWarning(final Issue annotation, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority, final String packageName) {
-        checkWarning(annotation, lineNumber, message, fileName, type, category, priority);
-        assertEquals(packageName, annotation.getPackageName(), "Wrong packageName detected.");
-    }
-    // CHECKSTYLE:ON
 
     /**
      * Creates the parser.

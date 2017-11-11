@@ -8,16 +8,21 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link ResharperInspectCodeParser}.
  */
 public class ResharperInspectCodeParserTest extends ParserTester {
+
+    private static final String WARNING_TYPE = "ResharperInspectCode";
+
     /**
      * Parses a file with warnings of the Reshaper InspectCodeParser  tools.
      *
-     * @throws IOException if the file could not be read
+     * @throws IOException
+     *         if the file could not be read
      */
     @Test
     public void parseWarnings() throws IOException {
@@ -27,33 +32,34 @@ public class ResharperInspectCodeParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        //<Issue TypeId="CSharpErrors" File="ResharperDemo\Program.cs" Offset="408-416" Line="16" Message="" />
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                16,
-                "Cannot resolve symbol 'GetError'",
-                "ResharperDemo/Program.cs",
-                "ResharperInspectCode",
-                "CSharpErrors",
-                Priority.HIGH);
+        assertSoftly(softly -> {
+            softly.assertThat(iterator.next())
+                    .hasLineStart(16)
+                    .hasLineEnd(16)
+                    .hasMessage("Cannot resolve symbol 'GetError'")
+                    .hasFileName("ResharperDemo/Program.cs")
+                    .hasType(WARNING_TYPE)
+                    .hasCategory("CSharpErrors")
+                    .hasPriority(Priority.HIGH);
 
-        annotation = iterator.next();
-        checkWarning(annotation,
-                23,
-                "Expression is always true",
-                "ResharperDemo/Program.cs",
-                "ResharperInspectCode",
-                "ConditionIsAlwaysTrueOrFalse",
-                Priority.NORMAL);
+            softly.assertThat(iterator.next())
+                    .hasLineStart(23)
+                    .hasLineEnd(23)
+                    .hasMessage("Expression is always true")
+                    .hasFileName("ResharperDemo/Program.cs")
+                    .hasType(WARNING_TYPE)
+                    .hasCategory("ConditionIsAlwaysTrueOrFalse")
+                    .hasPriority(Priority.NORMAL);
 
-        annotation = iterator.next();
-        checkWarning(annotation,
-                41,
-                "Convert to auto-property",
-                "ResharperDemo/Program.cs",
-                "ResharperInspectCode",
-                "ConvertToAutoProperty",
-                Priority.LOW);
+            softly.assertThat(iterator.next())
+                    .hasLineStart(41)
+                    .hasLineEnd(41)
+                    .hasMessage("Convert to auto-property")
+                    .hasFileName("ResharperDemo/Program.cs")
+                    .hasType(WARNING_TYPE)
+                    .hasCategory("ConvertToAutoProperty")
+                    .hasPriority(Priority.LOW);
+        });
     }
 
     @Override

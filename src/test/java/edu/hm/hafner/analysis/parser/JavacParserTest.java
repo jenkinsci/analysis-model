@@ -11,7 +11,9 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static org.assertj.core.api.Assertions.*;
+
 
 /**
  * Tests the class {@link JavacParser}.
@@ -27,9 +29,8 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void issue14043() throws IOException {
-        Issues<Issue> warnings = parse("issue14043.txt");
-
-        assertEquals(0, warnings.size());
+        Issues warnings = parse("issue14043.txt");
+        assertThat(warnings).hasSize(0);
     }
 
     /**
@@ -41,18 +42,16 @@ public class JavacParserTest extends ParserTester {
     @Test
     public void issue12482() throws IOException {
         Issues java6 = parse("issue12482-java6.txt");
-
-        assertEquals(62, java6.size());
+        assertThat(java6).hasSize(62);
 
         Issues java7 = parse("issue12482-java7.txt");
-
-        assertEquals(62, java7.size());
+        assertThat(java7).hasSize(62);
     }
 
     @Test
     public void kotlinMavenPlugin() throws IOException {
-        Issues<Issue> warnings = parse("kotlin-maven-plugin.txt");
-        assertEquals(4, warnings.size());
+        Issues warnings = parse("kotlin-maven-plugin.txt");
+        assertThat(warnings).hasSize(4);
     }
 
     /**
@@ -62,18 +61,24 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void parseDeprecation() throws IOException {
-        Issues<Issue> warnings = new JavacParser().parse(openFile());
+        Issues warnings = new JavacParser().parse(openFile());
+        assertThat(warnings).hasSize(2);
 
-        assertEquals(2, warnings.size());
+        SoftAssertions.assertSoftly(softly -> {
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        annotation = iterator.next();
-        checkWarning(annotation,
-                40, 36,
-                "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated",
-                "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java",
-                WARNING_TYPE, AbstractParser.DEPRECATION, Priority.NORMAL);
+            softly.assertThat(warnings.get(1))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(AbstractParser.DEPRECATION)
+                    .hasLineStart(40)
+                    .hasLineEnd(40)
+                    .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
+                    .hasColumnStart(36)
+                    .hasType(WARNING_TYPE);
+
+
+        });
+
     }
 
     /**
@@ -83,16 +88,23 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void parseArrayInDeprecatedMethod() throws IOException {
-        Issues<Issue> warnings = parse("issue5868.txt");
+        Issues warnings = parse("issue5868.txt");
+        assertThat(warnings).hasSize(1);
 
-        assertEquals(1, warnings.size());
+        SoftAssertions.assertSoftly(softly -> {
 
-        Iterator<Issue> iterator = warnings.iterator();
-        checkWarning(iterator.next(),
-                14,
-                "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated",
-                "D:/path/to/my/Class.java",
-                WARNING_TYPE, "Deprecation", Priority.NORMAL);
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("Deprecation")
+                    .hasLineStart(14)
+                    .hasLineEnd(14)
+                    .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
+                    .hasFileName("D:/path/to/my/Class.java")
+                    .hasType(WARNING_TYPE);
+
+
+        });
+
     }
 
     /**
@@ -102,9 +114,8 @@ public class JavacParserTest extends ParserTester {
      */
     @Test
     public void parseParallelPipelineOutput() throws IOException {
-        Issues<Issue> warnings = parse("javac-parallel-pipeline.txt");
-
-        assertEquals(2, warnings.size());
+        Issues warnings = parse("javac-parallel-pipeline.txt");
+        assertThat(warnings).hasSize(2);
 
         String fileName = "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java";
         Iterator<Issue> expectedWarnings = Arrays.asList(
@@ -114,13 +125,28 @@ public class JavacParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         while (iterator.hasNext()) {
-            assertTrue(expectedWarnings.hasNext(), WRONG_NUMBER_OF_WARNINGS_DETECTED);
+            assertThat(expectedWarnings.hasNext()).isTrue();
+
             Issue expectedWarning = expectedWarnings.next();
-            checkWarning(iterator.next(), expectedWarning.getLineStart(), expectedWarning.getMessage(), expectedWarning.getFileName(), expectedWarning.getType(), expectedWarning.getCategory(), expectedWarning.getPriority());
+            final int lineNumber = expectedWarning.getLineStart();
+            SoftAssertions.assertSoftly(softly -> {
+
+                softly.assertThat(iterator.next())
+                        .hasPriority(expectedWarning.getPriority())
+                        .hasCategory(expectedWarning.getCategory())
+                        .hasLineStart(lineNumber)
+                        .hasLineEnd(lineNumber)
+                        .hasMessage(expectedWarning.getMessage())
+                        .hasFileName(expectedWarning.getFileName())
+                        .hasType(expectedWarning.getType());
+
+
+            });
+
         }
     }
 
-    private Issues<Issue> parse(final String fileName) throws IOException {
+    private Issues parse(final String fileName) throws IOException {
         return new JavacParser().parse(openFile(fileName));
     }
 
