@@ -7,11 +7,8 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.io.input.BOMInputStream;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.util.Ensure;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Base class for parser tests. Provides an assertion test for warnings.
@@ -21,102 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public abstract class ParserTester {
     public static final String WRONG_NUMBER_OF_WARNINGS_DETECTED = "Wrong number of warnings detected: ";
     public static final String DEFAULT_CATEGORY = new IssueBuilder().build().getCategory();
-
-    /**
-     * Checks the properties of the specified warning.
-     *
-     * @param warning
-     *         the warning to check
-     * @param lineNumber
-     *         the expected line number
-     * @param message
-     *         the expected message
-     * @param fileName
-     *         the expected filename
-     * @param category
-     *         the expected category
-     * @param priority
-     *         the expected priority
-     */
-    protected void checkWarning(final Issue warning, final int lineNumber, final String message, final String fileName, final String category, final Priority priority) {
-        assertEquals(priority, warning.getPriority(), "Wrong priority detected: ");
-        assertEquals(category, warning.getCategory(), "Wrong category of warning detected: ");
-        assertEquals(lineNumber, warning.getLineStart(), "Wrong line start detected: ");
-        assertEquals(lineNumber, warning.getLineEnd(), "Wrong line end detected: ");
-        assertEquals(message, warning.getMessage(), "Wrong message detected: ");
-        assertEquals(fileName, warning.getFileName(), "Wrong filename detected: ");
-    }
-
-    /**
-     * Checks the properties of the specified warning.
-     *
-     * @param warning
-     *         the warning to check
-     * @param lineNumber
-     *         the expected line number
-     * @param column
-     *         the expected column
-     * @param message
-     *         the expected message
-     * @param fileName
-     *         the expected filename
-     * @param category
-     *         the expected category
-     * @param priority
-     *         the expected priority
-     */
-    protected void checkWarning(final Issue warning, final int lineNumber, final int column, final String message, final String fileName, final String category, final Priority priority) {
-        checkWarning(warning, lineNumber, message, fileName, category, priority);
-        assertEquals(column, warning.getColumnStart(), "Wrong column start detected: ");
-    }
-
-    /**
-     * Checks the properties of the specified warning.
-     *
-     * @param warning
-     *         the warning to check
-     * @param lineNumber
-     *         the expected line number
-     * @param message
-     *         the expected message
-     * @param fileName
-     *         the expected filename
-     * @param type
-     *         the expected type
-     * @param category
-     *         the expected category
-     * @param priority
-     *         the expected priority
-     */
-    protected void checkWarning(final Issue warning, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority) {
-        checkWarning(warning, lineNumber, message, fileName, category, priority);
-        assertEquals(type, warning.getType(), "Wrong type of warning detected: ");
-    }
-
-    /**
-     * Checks the properties of the specified warning.
-     *
-     * @param warning
-     *         the warning to check
-     * @param lineNumber
-     *         the expected line number
-     * @param column
-     *         the expected column
-     * @param message
-     *         the expected message
-     * @param fileName
-     *         the expected filename
-     * @param type
-     *         the expected type
-     * @param category
-     *         the expected category
-     * @param priority
-     *         the expected priority
-     */
-    protected void checkWarning(final Issue warning, final int lineNumber, final int column, final String message, final String fileName, final String type, final String category, final Priority priority) { // NOCHECKSTYLE
-        checkWarning(warning, lineNumber, column, message, fileName, category, priority);
-        assertEquals(type, warning.getType(), "Wrong type of warning detected: ");
-    }
 
     /**
      * Returns an input stream with the warnings.

@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link SunCParser}.
@@ -24,58 +23,66 @@ public class SunCParserTest extends ParserTester {
     public void parseSunCpp() {
         Issues<Issue> warnings = new SunCParser().parse(openFile());
 
-        assertEquals(8, warnings.size());
+        assertThat(warnings).hasSize(8);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                212,
-                MESSAGE,
-                "usi_plugin.cpp",
-                TYPE, CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                224,
-                "String literal converted to char* in formal argument msg in call to except(char*).",
-                "usi_plugin.cpp",
-                TYPE, CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                8,
-                MESSAGE,
-                "ServerList.cpp",
-                TYPE, DEFAULT_CATEGORY, Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                44,
-                MESSAGE,
-                "ServerList.cpp",
-                TYPE, CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                50,
-                MESSAGE,
-                "ServerList.cpp",
-                TYPE, CATEGORY, Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                19,
-                "Child::operator== hides the function Parent::operator==(Parent&) const.",
-                "warner.cpp",
-                TYPE, "hidef", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                30,
-                "Assigning void(*)(int) to extern \"C\" void(*)(int).",
-                "warner.cpp",
-                TYPE, "wbadlkgasg", Priority.NORMAL);
-        annotation = iterator.next();
-        // test warning where -errtags=yes was not used
-        checkWarning(annotation,
-                32,
-                "statement is unreachable.",
-                "warner.cpp",
-                TYPE, DEFAULT_CATEGORY, Priority.NORMAL);
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(CATEGORY)
+                    .hasLineStart(212)
+                    .hasLineEnd(212)
+                    .hasMessage(MESSAGE)
+                    .hasFileName("usi_plugin.cpp");
+            softly.assertThat(warnings.get(1))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(CATEGORY)
+                    .hasLineStart(224)
+                    .hasLineEnd(224)
+                    .hasMessage("String literal converted to char* in formal argument msg in call to except(char*).")
+                    .hasFileName("usi_plugin.cpp");
+            softly.assertThat(warnings.get(2))
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasLineStart(8)
+                    .hasLineEnd(8)
+                    .hasMessage(MESSAGE)
+                    .hasFileName("ServerList.cpp");
+            softly.assertThat(warnings.get(3))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(CATEGORY)
+                    .hasLineStart(44)
+                    .hasLineEnd(44)
+                    .hasMessage(MESSAGE)
+                    .hasFileName("ServerList.cpp");
+            softly.assertThat(warnings.get(4))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(CATEGORY)
+                    .hasLineStart(50)
+                    .hasLineEnd(50)
+                    .hasMessage(MESSAGE)
+                    .hasFileName("ServerList.cpp");
+            softly.assertThat(warnings.get(5))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("hidef")
+                    .hasLineStart(19)
+                    .hasLineEnd(19)
+                    .hasMessage("Child::operator== hides the function Parent::operator==(Parent&) const.")
+                    .hasFileName("warner.cpp");
+            softly.assertThat(warnings.get(6))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("wbadlkgasg")
+                    .hasLineStart(30)
+                    .hasLineEnd(30)
+                    .hasMessage("Assigning void(*)(int) to extern \"C\" void(*)(int).")
+                    .hasFileName("warner.cpp");
+            softly.assertThat(warnings.get(7))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasLineStart(32)
+                    .hasLineEnd(32)
+                    .hasMessage("statement is unreachable.")
+                    .hasFileName("warner.cpp");
+        });
     }
 
     @Override

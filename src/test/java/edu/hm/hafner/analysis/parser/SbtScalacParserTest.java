@@ -19,10 +19,21 @@ public class SbtScalacParserTest extends ParserTester {
         Issues<Issue> warnings = new SbtScalacParser().parse(openFile());
         assertEquals(2, warnings.size());
         Iterator<Issue> iter = warnings.iterator();
-        checkWarning(iter.next(), 111, "method stop in class Thread is deprecated: see corresponding Javadoc for more information.",
-                "/home/user/.jenkins/jobs/job/workspace/path/SomeFile.scala", DEFAULT_CATEGORY, Priority.NORMAL);
-        checkWarning(iter.next(), 9, "';' expected but identifier found.",
-                "/home/user/.jenkins/jobs/job/workspace/another/path/SomeFile.scala", DEFAULT_CATEGORY, Priority.HIGH);
+        final Issue warning1 = iter.next();
+        assertEquals(Priority.NORMAL, warning1.getPriority(), "Wrong priority detected: ");
+        assertEquals(DEFAULT_CATEGORY, warning1.getCategory(), "Wrong category of warning detected: ");
+        assertEquals(111, warning1.getLineStart(), "Wrong line start detected: ");
+        assertEquals(111, warning1.getLineEnd(), "Wrong line end detected: ");
+        assertEquals("method stop in class Thread is deprecated: see corresponding Javadoc for more information.", warning1
+                .getMessage(), "Wrong message detected: ");
+        assertEquals("/home/user/.jenkins/jobs/job/workspace/path/SomeFile.scala", warning1.getFileName(), "Wrong filename detected: ");
+        final Issue warning = iter.next();
+        assertEquals(Priority.HIGH, warning.getPriority(), "Wrong priority detected: ");
+        assertEquals(DEFAULT_CATEGORY, warning.getCategory(), "Wrong category of warning detected: ");
+        assertEquals(9, warning.getLineStart(), "Wrong line start detected: ");
+        assertEquals(9, warning.getLineEnd(), "Wrong line end detected: ");
+        assertEquals("';' expected but identifier found.", warning.getMessage(), "Wrong message detected: ");
+        assertEquals("/home/user/.jenkins/jobs/job/workspace/another/path/SomeFile.scala", warning.getFileName(), "Wrong filename detected: ");
     }
 
     @Override

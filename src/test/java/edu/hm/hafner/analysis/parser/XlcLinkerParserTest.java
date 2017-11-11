@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -29,13 +30,15 @@ public class XlcLinkerParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "Error occurred while reading file",
-                FILE_NAME,
-                TYPE,
-                "0711-987",
-                Priority.HIGH);
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("0711-987")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("Error occurred while reading file")
+                    .hasFileName(FILE_NAME);
+        });
     }
 
     /**
@@ -50,13 +53,15 @@ public class XlcLinkerParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "Undefined symbol: nofun()",
-                FILE_NAME,
-                TYPE,
-                "0711-317",
-                Priority.HIGH);
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("0711-317")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("Undefined symbol: nofun()")
+                    .hasFileName(FILE_NAME);
+        });
     }
 
     /**
@@ -71,13 +76,15 @@ public class XlcLinkerParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "EXEC binder commands nested too deeply.",
-                FILE_NAME,
-                TYPE,
-                "0711-634",
-                Priority.HIGH);
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("0711-634")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("EXEC binder commands nested too deeply.")
+                    .hasFileName(FILE_NAME);
+        });
     }
 
     /**
@@ -92,13 +99,15 @@ public class XlcLinkerParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "The -9 flag is not recognized.",
-                FILE_NAME,
-                TYPE,
-                "0706-012",
-                Priority.LOW);
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.LOW)
+                    .hasCategory("0706-012")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("The -9 flag is not recognized.")
+                    .hasFileName(FILE_NAME);
+        });
     }
 
     /**
@@ -113,13 +122,15 @@ public class XlcLinkerParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "Duplicate symbol: dupe",
-                FILE_NAME,
-                TYPE,
-                "0711-224",
-                Priority.NORMAL);
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("0711-224")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("Duplicate symbol: dupe")
+                    .hasFileName(FILE_NAME);
+        });
     }
 
     /**
@@ -134,13 +145,15 @@ public class XlcLinkerParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "Use the -bloadmap or -bnoquiet option to obtain more information.",
-                FILE_NAME,
-                TYPE,
-                "0711-345",
-                Priority.LOW);
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.LOW)
+                    .hasCategory("0711-345")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("Use the -bloadmap or -bnoquiet option to obtain more information.")
+                    .hasFileName(FILE_NAME);
+        });
     }
 
     @Override

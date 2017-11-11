@@ -113,8 +113,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
         });
     }
 
-
-    /** {@inheritDoc} */
     @Override
     protected String getWarningsFile() {
         return "QACSourceCodeAnalyser.txt";

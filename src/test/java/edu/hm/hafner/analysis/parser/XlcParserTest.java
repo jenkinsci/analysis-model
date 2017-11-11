@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -108,7 +109,15 @@ public class XlcParserTest extends ParserTester {
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
-        checkWarning(annotation, lineNumber, message, fileName, type, category, priority);
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(priority)
+                    .hasCategory(category)
+                    .hasLineStart(lineNumber)
+                    .hasLineEnd(lineNumber)
+                    .hasMessage(message)
+                    .hasFileName(fileName);
+        });
     }
 
     @Override

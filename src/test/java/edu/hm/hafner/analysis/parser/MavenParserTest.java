@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -42,10 +43,17 @@ public class MavenParserTest extends ParserTester {
      *         the line number of the warning
      */
     private void checkMavenWarning(final Issue annotation, final int lineNumber) {
-        checkWarning(annotation, lineNumber,
-                "com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release",
-                "/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java",
-                WARNING_TYPE, AbstractParser.PROPRIETARY_API, Priority.NORMAL);
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(AbstractParser.PROPRIETARY_API)
+                    .hasLineStart(lineNumber)
+                    .hasLineEnd(lineNumber)
+                    .hasMessage(
+                            "com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release")
+                    .hasFileName(
+                            "/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
+        });
     }
 
     @Override

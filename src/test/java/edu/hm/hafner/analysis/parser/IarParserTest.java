@@ -14,15 +14,13 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Ullrich Hafner
  */
 public class IarParserTest extends ParserTester {
-    private static final String TYPE = new IarParser().getId();
-
     /**
-     * Parses a file with warnings/errors in all styles. it check the amount of error/warnings found
+     * Parses a file with warnings/errors in all styles.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-8823">Issue 8823</a>
      */
     @Test
-    public void IAR_error_size() {
+    public void shouldFindAllIssues() {
         Issues<Issue> issues = new IarParser().parse(openFile("issue8823.txt"));
 
         assertThat(issues).hasSize(5).hasDuplicatesSize(1);
@@ -69,5 +67,5 @@ public class IarParserTest extends ParserTester {
     @Override
     protected String getWarningsFile() {
         return "iar-nowrap.log";
-    }
+    } // FIXME: not used anymore
 }
