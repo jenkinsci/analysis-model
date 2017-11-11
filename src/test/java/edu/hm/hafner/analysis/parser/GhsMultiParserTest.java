@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.assertj.IssuesAssert;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link GhsMultiParser}.
@@ -19,12 +18,10 @@ public class GhsMultiParserTest extends ParserTester {
 
     /**
      * Parses a file with two deprecation warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseMultiLine() throws IOException {
-        Issues warnings = new GhsMultiParser().parse(openFile());
+    public void parseMultiLine() {
+        Issues<Issue> warnings = new GhsMultiParser().parse(openFile());
         IssuesAssert.assertThat(warnings).hasSize(3);
 
         Iterator<Issue> iterator = warnings.iterator();

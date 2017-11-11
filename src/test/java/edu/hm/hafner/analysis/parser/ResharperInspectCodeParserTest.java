@@ -25,7 +25,7 @@ public class ResharperInspectCodeParserTest extends ParserTester {
      *         if the file could not be read
      */
     @Test
-    public void parseWarnings() throws IOException {
+    public void parseWarnings() {
         Issues<Issue> warnings = new ResharperInspectCodeParser().parse(openFile());
 
         assertEquals(3, warnings.size());

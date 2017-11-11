@@ -24,7 +24,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue21377() {
-        Issues warnings = createParser().parse(openFile("issue21377.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue21377.txt"));
         assertThat(warnings).hasSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
@@ -45,7 +45,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue13969() {
-        Issues warnings = createParser().parse(openFile("issue13969.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue13969.txt"));
 
         assertThat(warnings).hasSize(3);
 
@@ -82,7 +82,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue12822() {
-        Issues warnings = createParser().parse(openFile("issue12822.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue12822.txt"));
 
         assertThat(warnings).hasSize(15);
     }
@@ -96,7 +96,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
     void issue11675() {
         EclipseParser parser = new EclipseParser();
         parser.setTransformer(new ConsolePostProcessor());
-        Issues warnings = parser.parse(openFile("issue11675.txt"));
+        Issues<Issue> warnings = parser.parse(openFile("issue11675.txt"));
 
         assertThat(warnings).hasSize(8);
 
@@ -116,7 +116,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue6427() {
-        Issues warnings = createParser().parse(openFile("issue6427.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue6427.txt"));
 
         assertThat(warnings).hasSize(18);
         SoftAssertions.assertSoftly((softly) -> {
@@ -138,7 +138,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue7077() {
-        Issues warnings = createParser().parse(openFile("issue7077.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue7077.txt"));
 
         assertThat(warnings.size()).isEqualTo(2);
 
@@ -167,7 +167,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue7077all() {
-        Issues sorted = createParser().parse(openFile("issue7077-all.txt"));
+        Issues<Issue> sorted = createParser().parse(openFile("issue7077-all.txt"));
 
         assertThat(sorted.size()).isEqualTo(45);
 

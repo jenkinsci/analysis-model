@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -20,11 +19,9 @@ public class YuiCompressorParserTest extends ParserTester {
 
     /**
      * Parses a file with 3 warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseDeprecation() throws IOException {
+    public void parseDeprecation() {
         Issues<Issue> warnings = new YuiCompressorParser().parse(openFile());
 
         assertEquals(3, warnings.size());

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 
 /**
@@ -28,7 +27,7 @@ public class GccParserTest extends ParserTester {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-34141">Issue 34141</a>
      */
     @Test
-    public void issue34141() throws IOException {
+    public void issue34141() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue34141.txt"));
 
         assertThat(warnings)
@@ -41,7 +40,7 @@ public class GccParserTest extends ParserTester {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-17309">Issue 17309</a>
      */
     @Test
-    public void issue17309() throws IOException {
+    public void issue17309() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue17309.txt"));
 
         assertThat(warnings)
@@ -63,11 +62,10 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
-    public void issue9926() throws IOException {
+    public void issue9926() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue9926.txt"));
 
         assertThat(warnings)
@@ -88,11 +86,9 @@ public class GccParserTest extends ParserTester {
 
     /**
      * Parses a file with two GCC warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new GccParser().parse(openFile());
 
         assertThat(warnings)
@@ -131,8 +127,8 @@ public class GccParserTest extends ParserTester {
         softly.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
-                .hasMessage( "undefined reference to &apos;missing_symbol&apos;")
-                .hasFileName( "foo.so")
+                .hasMessage("undefined reference to &apos;missing_symbol&apos;")
+                .hasFileName("foo.so")
                 .hasType(TYPE)
                 .hasCategory(GCC_ERROR)
                 .hasPriority(Priority.HIGH);
@@ -178,11 +174,10 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with 2 new GCC warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3897">Issue 3897</a>
      */
     @Test
-    public void issue3897and3898() throws IOException {
+    public void issue3897and3898() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue3897.txt"));
 
         assertThat(warnings)
@@ -223,11 +218,10 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with 2 GCC warnings, one of them a note.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
-    public void issue4712() throws IOException {
+    public void issue4712() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue4712.txt"));
 
         assertThat(warnings)
@@ -259,11 +253,10 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with a ClearCase command line that should not be parsed as a warning.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
-    public void issue4700() throws IOException {
+    public void issue4700() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue4700.txt"));
 
         assertThat(warnings)
@@ -273,15 +266,13 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with [exec] prefix.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4707</a>
      */
     @Test
-    public void issue4707() throws IOException {
+    public void issue4707() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue4707.txt"));
 
-        assertThat(warnings)
-                .hasSize(22);
+        assertThat(warnings).hasSize(11).hasDuplicatesSize(11);
 
         Iterator<Issue> iterator = warnings.iterator();
         SoftAssertions softly = new SoftAssertions();
@@ -299,11 +290,10 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a linker error.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4010">Issue 4010</a>
      */
     @Test
-    public void issue4010() throws IOException {
+    public void issue4010() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue4010.txt"));
 
         assertThat(warnings)
@@ -325,11 +315,10 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a warning log with 6 new objective C warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4274">Issue 4274</a>
      */
     @Test
-    public void issue4274() throws IOException {
+    public void issue4274() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue4274.txt"));
 
         assertThat(warnings)
@@ -378,11 +367,10 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a file with one warning and matching warning that will be excluded afterwards.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
      */
     @Test
-    public void issue4260() throws IOException {
+    public void issue4260() {
         Issues<Issue> warnings = new GccParser().parse(openFile("issue4260.txt"));
 
         assertThat(warnings)

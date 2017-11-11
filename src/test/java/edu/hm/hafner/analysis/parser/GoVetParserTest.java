@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 
 /**
@@ -17,11 +16,9 @@ public class GoVetParserTest extends ParserTester {
 
     /**
      * Parses a file with multiple go vet warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new GoVetParser().parse(openFile());
 
         assertThat(warnings).hasSize(2);

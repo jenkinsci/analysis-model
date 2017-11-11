@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link IntelParserTest}.
@@ -19,11 +18,9 @@ public class IntelParserTest extends ParserTester {
 
     /**
      * Parses a file of messages from the Intel C and Fortran compilers.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new IntelParser().parse(openFile());
 
         assertThat(warnings).hasSize(7);
@@ -103,11 +100,10 @@ public class IntelParserTest extends ParserTester {
     /**
      * Parses a warning log with 3 warnings and 1 error.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5402">Issue 5402</a>
      */
     @Test
-    public void issue5402() throws IOException {
+    public void issue5402() {
         Issues<Issue> warnings = new IntelParser().parse(openFile("issue5402.txt"));
 
         assertThat(warnings).hasSize(4);

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -18,15 +18,13 @@ public class DiabCParserTest extends ParserTester {
 
     /**
      * Parses a file with 13 warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseDiabCpp() throws IOException {
-        Issues warnings = new DiabCParser().parse(openFile());
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(13);
+    public void parseDiabCpp() {
+        Issues<Issue> warnings = new DiabCParser().parse(openFile());
+        assertThat(warnings).hasSize(12).hasDuplicatesSize(1);
 
+        SoftAssertions softly = new SoftAssertions();
         Iterator<Issue> iterator = warnings.iterator();
         softly.assertThat(iterator.next())
                 .hasLineStart(7)
@@ -81,15 +79,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasType(TYPE)
                 .hasCategory("1025")
                 .hasPriority(Priority.NORMAL);
-
-        softly.assertThat(iterator.next())
-                .hasLineStart(5)
-                .hasLineEnd(5)
-                .hasMessage("division by zero")
-                .hasFileName("main.c")
-                .hasType(TYPE)
-                .hasCategory("1025")
-                .hasPriority(Priority.HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(5)

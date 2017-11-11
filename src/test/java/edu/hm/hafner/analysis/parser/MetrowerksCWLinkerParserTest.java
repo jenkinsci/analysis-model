@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -21,11 +20,9 @@ public class MetrowerksCWLinkerParserTest extends ParserTester {
 
     /**
      * Parses a file with two GCC warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new MetrowerksCWLinkerParser().parse(openFile());
 
         assertEquals(3, warnings.size());

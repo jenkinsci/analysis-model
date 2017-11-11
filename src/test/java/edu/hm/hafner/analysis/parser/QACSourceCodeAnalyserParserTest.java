@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,9 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link QACSourceCodeAnalyserParser}.
@@ -22,11 +20,9 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
 
     /**
      * Parses a file with QAC warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new QACSourceCodeAnalyserParser().parse(openFile());
 
         assertThat(warnings).hasSize(9);
@@ -34,14 +30,14 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
         Iterator<Issue> iterator = warnings.iterator();
 
         assertSoftly(softly -> {
-           softly.assertThat(iterator.next())
-                   .hasLineStart(34)
-                   .hasLineEnd(34)
-                   .hasMessage("[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.")
-                   .hasFileName("C:/PATH/PATH/PATH/PATH/Test1.c")
-                   .hasType(TYPE)
-                   .hasCategory(WARNING_CATEGORY)
-                   .hasPriority(Priority.NORMAL);
+            softly.assertThat(iterator.next())
+                    .hasLineStart(34)
+                    .hasLineEnd(34)
+                    .hasMessage("[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.")
+                    .hasFileName("C:/PATH/PATH/PATH/PATH/Test1.c")
+                    .hasType(TYPE)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(185)

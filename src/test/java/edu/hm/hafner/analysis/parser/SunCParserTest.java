@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -20,11 +19,9 @@ public class SunCParserTest extends ParserTester {
 
     /**
      * Parses a file with 8 warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseSunCpp() throws IOException {
+    public void parseSunCpp() {
         Issues<Issue> warnings = new SunCParser().parse(openFile());
 
         assertEquals(8, warnings.size());

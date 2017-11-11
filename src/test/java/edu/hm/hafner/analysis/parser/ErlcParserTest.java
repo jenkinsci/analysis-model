@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -18,7 +19,7 @@ public class ErlcParserTest extends ParserTester {
      */
     @Test
     public void testWarningsParser() {
-        Issues issues = new ErlcParser().parse(openFile());
+        Issues<Issue> issues = new ErlcParser().parse(openFile());
 
         assertThat(issues).hasSize(2);
 

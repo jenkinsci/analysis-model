@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link MsBuildParser}.
@@ -23,12 +23,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * MSBuildParser should make relative paths absolute, based on the project name listed in the message.
      *
-     * @throws IOException if the stream could not be read
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-38215">Issue 38215</a>
      */
     @Test
-    public void issue38215() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue38215.txt"));
+    public void issue38215() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue38215.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -53,12 +52,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * MSBuildParser should make relative paths absolute, based on the project name listed in the message.
      *
-     * @throws IOException if the stream could not be read
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-22386">Issue 22386</a>
      */
     @Test
-    public void issue22386() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue22386.txt"));
+    public void issue22386() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue22386.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(2);
@@ -101,12 +99,11 @@ public class MsBuildParserTest extends ParserTester {
      * MSBuildParser should also detect subcategories as described at <a href="http://blogs.msdn.com/b/msbuild/archive/2006/11/03/msbuild-visual-studio-aware-error-messages-and-message-formats.aspx">
      * MSBuild / Visual Studio aware error messages and message formats</a>.
      *
-     * @throws IOException if the stream could not be read
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-27914">Issue 27914</a>
      */
     @Test
-    public void issue27914() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue27914.txt"));
+    public void issue27914() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue27914.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(3);
@@ -161,12 +158,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with a google-test failure that should not be shown as a warning.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-26441">Issue 26441</a>
      */
     @Test
-    public void issue26441() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue26441.txt"));
+    public void issue26441() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue26441.txt"));
 
         assertThat(warnings).hasSize(0);
     }
@@ -174,12 +170,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with gcc warnings that should be skipped.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-20544">Issue 20544</a>
      */
     @Test
-    public void issue20544() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue20544.txt"));
+    public void issue20544() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue20544.txt"));
 
         assertThat(warnings).hasSize(0);
     }
@@ -187,17 +182,17 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with  warnings of a Visual Studio analysis.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-20154">Issue 20154</a>
      */
     @Test
-    public void issue20154() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue20154.txt"));
+    public void issue20154() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue20154.txt"));
 
-        SoftAssertions.assertSoftly((softly) -> {
-            softly.assertThat(warnings).hasSize(8);
-            softly.assertThat(warnings).hasNormalPrioritySize(8);
+        assertThat(warnings).hasSize(3)
+                .hasDuplicatesSize(5)
+                .hasNormalPrioritySize(3);
 
+        SoftAssertions.assertSoftly(softly -> {
             Iterator<Issue> iterator = warnings.iterator();
             Issue warning = iterator.next();
 
@@ -233,12 +228,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with 4 warnings of PCLint tools.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14888">Issue 14888</a>
      */
     @Test
-    public void issue14888() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue14888.txt"));
+    public void issue14888() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue14888.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(4);
@@ -307,12 +301,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with warnings of the MS Build tools.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-10566">Issue 10566</a>
      */
     @Test
-    public void issue10566() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue10566.txt"));
+    public void issue10566() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue10566.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -365,12 +358,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with warnings of the MS Build tools.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
      */
     @Test
-    public void issue3582() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue3582.txt"));
+    public void issue3582() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue3582.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -395,12 +387,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with warnings of Stylecop.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-8347">Issue 8347</a>
      */
     @Test
-    public void issue8347() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue8347.txt"));
+    public void issue8347() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue8347.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(5);
@@ -483,12 +474,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with one warning of the MS Build tools (parallel build).
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
      */
     @Test
-    public void issue6709() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue6709.txt"));
+    public void issue6709() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue6709.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -513,12 +503,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with one warning of the MS Build tools that are started by ant.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
-    public void issue9926() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue9926.txt"));
+    public void issue9926() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue9926.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -543,12 +532,11 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with warnings of the MS Build linker.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4932">Issue 4932</a>
      */
     @Test
-    public void issue4932() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue4932.txt"));
+    public void issue4932() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue4932.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(2);
@@ -588,17 +576,16 @@ public class MsBuildParserTest extends ParserTester {
     /**
      * Parses a file with warnings of MS sharepoint.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4731">Issue 4731</a>
      */
     @Test
-    public void issue4731() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue4731.txt"));
+    public void issue4731() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue4731.txt"));
+        assertThat(warnings).hasSize(11)
+                .hasDuplicatesSize(1)
+                .hasNormalPrioritySize(11);
 
-        SoftAssertions.assertSoftly((softly) -> {
-            softly.assertThat(warnings).hasSize(12);
-            softly.assertThat(warnings).hasNormalPrioritySize(12);
-
+        SoftAssertions.assertSoftly(softly -> {
             Iterator<Issue> iterator = warnings.iterator();
             Issue warning = iterator.next();
 
@@ -661,12 +648,10 @@ public class MsBuildParserTest extends ParserTester {
 
     /**
      * Parses a file with warnings of the MS Build tools.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseWarnings() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile());
+    public void parseWarnings() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile());
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(6);
@@ -768,21 +753,20 @@ public class MsBuildParserTest extends ParserTester {
      * MSBuildParser should also detect keywords 'Warning' and 'Error', as they are produced by the .NET-2.0 compiler of
      * VS2005.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-2383">Issue 2383</a>
      */
     @Test
     public void shouldDetectKeywordsInRegexCaseInsensitive() throws IOException {
         String containsErrorAndWarningKeywords =
                 "Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning CS0168: The variable 'type' is declared but never used" +
-                "\r\n" +
-                "C:\\Src\\Parser\\CSharp\\file.cs (10): Error XXX: An error occurred";
+                        "\r\n" +
+                        "C:\\Src\\Parser\\CSharp\\file.cs (10): Error XXX: An error occurred";
 
-        Issues warnings = new MsBuildParser().parse(new InputStreamReader(
+        Issues<Issue> warnings = new MsBuildParser().parse(new InputStreamReader(
                 IOUtils.toInputStream(containsErrorAndWarningKeywords, "UTF-8")
         ));
 
-        SoftAssertions.assertSoftly((softly) -> {
+        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings).hasSize(2);
             softly.assertThat(warnings).hasHighPrioritySize(1);
             softly.assertThat(warnings).hasNormalPrioritySize(1);

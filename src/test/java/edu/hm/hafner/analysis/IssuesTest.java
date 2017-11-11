@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -23,12 +24,30 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
  * @author Marcel Binder
  */
 class IssuesTest {
-    private static final Issue HIGH = new IssueBuilder().setMessage("issue-1").setFileName("file-1").setPriority(Priority.HIGH).build();
-    private static final Issue NORMAL_1 = new IssueBuilder().setMessage("issue-2").setFileName("file-1").setPriority(Priority.NORMAL).build();
-    private static final Issue NORMAL_2 = new IssueBuilder().setMessage("issue-3").setFileName("file-1").setPriority(Priority.NORMAL).build();
-    private static final Issue LOW_FILE_2 = new IssueBuilder().setMessage("issue-4").setFileName("file-2").setPriority(Priority.LOW).build();
-    private static final Issue ISSUE_5 = new IssueBuilder().setMessage("issue-5").setFileName("file-2").setPriority(Priority.LOW).build();
-    private static final Issue LOW_FILE_3 = new IssueBuilder().setMessage("issue-6").setFileName("file-3").setPriority(Priority.LOW).build();
+    private static final Issue HIGH = new IssueBuilder().setMessage("issue-1")
+            .setFileName("file-1")
+            .setPriority(Priority.HIGH)
+            .build();
+    private static final Issue NORMAL_1 = new IssueBuilder().setMessage("issue-2")
+            .setFileName("file-1")
+            .setPriority(Priority.NORMAL)
+            .build();
+    private static final Issue NORMAL_2 = new IssueBuilder().setMessage("issue-3")
+            .setFileName("file-1")
+            .setPriority(Priority.NORMAL)
+            .build();
+    private static final Issue LOW_FILE_2 = new IssueBuilder().setMessage("issue-4")
+            .setFileName("file-2")
+            .setPriority(Priority.LOW)
+            .build();
+    private static final Issue ISSUE_5 = new IssueBuilder().setMessage("issue-5")
+            .setFileName("file-2")
+            .setPriority(Priority.LOW)
+            .build();
+    private static final Issue LOW_FILE_3 = new IssueBuilder().setMessage("issue-6")
+            .setFileName("file-3")
+            .setPriority(Priority.LOW)
+            .build();
     private static final String EXTENDED_VALUE = "Bla Bla";
 
     @Test
@@ -63,6 +82,21 @@ class IssuesTest {
         assertThat(issues.addAll(issueList)).isTrue();
 
         assertThatAllIssuesHaveBeenAdded(issues);
+    }
+
+
+    @Test
+    void shouldIterateOverAllElementsInCorrectOrder() {
+        Issues<Issue> issues = new Issues<>();
+
+        issues.add(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+        Iterator<Issue> iterator = issues.iterator();
+        assertThat(iterator.next()).isSameAs(HIGH);
+        assertThat(iterator.next()).isSameAs(NORMAL_1);
+        assertThat(iterator.next()).isSameAs(NORMAL_2);
+        assertThat(iterator.next()).isSameAs(LOW_FILE_2);
+        assertThat(iterator.next()).isSameAs(ISSUE_5);
+        assertThat(iterator.next()).isSameAs(LOW_FILE_3);
     }
 
     @Test

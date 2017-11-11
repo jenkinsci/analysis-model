@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ScalacParserTest extends ParserTester {
 
     @Test
-    public void basicFunctionality() throws IOException {
+    public void basicFunctionality() {
         Issues<Issue> warnings = parse("scalac.txt");
         assertEquals(3, warnings.size());
         Iterator<Issue> iter = warnings.iterator();
@@ -28,7 +27,7 @@ public class ScalacParserTest extends ParserTester {
                 "/home/user/.jenkins/jobs/job/workspace/yet/another/path/SomeFile.scala", "warning", Priority.HIGH);
     }
 
-    private Issues<Issue> parse(final String fileName) throws IOException {
+    private Issues<Issue> parse(final String fileName) {
         return new ScalacParser().parse(openFile(fileName));
     }
 

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -19,12 +18,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing an Info message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testInfoParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranInfo.txt"));
+    public void testInfoParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranInfo.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -48,12 +45,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing a Warning message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testWarningParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranWarning.txt"));
+    public void testWarningParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranWarning.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -77,12 +72,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing a Questionable message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testQuestionableParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranQuestionable.txt"));
+    public void testQuestionableParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranQuestionable.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -106,12 +99,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing an Extension message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testExtensionParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranExtension.txt"));
+    public void testExtensionParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranExtension.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -135,12 +126,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing an Obsolescent message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testObsolescentParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranObsolescent.txt"));
+    public void testObsolescentParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranObsolescent.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -164,12 +153,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing a Deleted fature used message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testDeletedFeatureUsedParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranDeletedFeatureUsed.txt"));
+    public void testDeletedFeatureUsedParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranDeletedFeatureUsed.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -193,12 +180,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing an Error message, with no line number, output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testErrorParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranError.txt"));
+    public void testErrorParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranError.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -222,12 +207,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing a Runtime Error message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testRuntimeErrorParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranRuntimeError.txt"));
+    public void testRuntimeErrorParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranRuntimeError.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -251,12 +234,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing a Fatal Error message, on multiple lines, output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testFatalErrorParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranFatalError.txt"));
+    public void testFatalErrorParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranFatalError.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -281,12 +262,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing a Panic message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testPanicParser() throws IOException {
-        Issues warnings = new NagFortranParser().parse(openFile("NagFortranPanic.txt"));
+    public void testPanicParser() {
+        Issues<Issue> warnings = new NagFortranParser().parse(openFile("NagFortranPanic.txt"));
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(1);
@@ -310,12 +289,10 @@ public class NagFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing all categories of message output by the NAG Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testMessageParser() throws IOException {
-        Issues warnings =
+    public void testMessageParser() {
+        Issues<Issue> warnings =
                 new NagFortranParser().parse(openFile());
 
         SoftAssertions.assertSoftly((softly) -> {

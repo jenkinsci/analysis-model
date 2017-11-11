@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.assertj.IssuesAssert;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link GnuMakeGccParser}.
@@ -25,12 +24,10 @@ public class GnuMakeGccParserTest extends ParserTester {
 
     /**
      * Test of createWarning method of class {@link GnuMakeGccParser} No specifc OS is assumed
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void testCreateWarning() throws IOException {
-        Issues warnings = new GnuMakeGccParser().parse(openFile());
+    public void testCreateWarning() {
+        Issues<Issue> warnings = new GnuMakeGccParser().parse(openFile());
         IssuesAssert.assertThat(warnings).hasSize(NUMBER_OF_TESTS);
 
         Iterator<Issue> iterator = warnings.iterator();
@@ -170,21 +167,17 @@ public class GnuMakeGccParserTest extends ParserTester {
 
     /**
      * Checks that the root of the path is not changed on non-windows systems
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void checkCorrectPath_NonWindows() throws IOException {
+    public void checkCorrectPath_NonWindows() {
         checkOsSpecificPath("Ubuntu", "/c");
     }
 
     /**
      * Checks that the root of the path is fixed if it is unix-type while running on windows.
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void checkCorrectPath_Windows() throws IOException {
+    public void checkCorrectPath_Windows() {
         checkOsSpecificPath("Windows NT", "c:");
     }
 
@@ -193,7 +186,7 @@ public class GnuMakeGccParserTest extends ParserTester {
      */
     private void checkOsSpecificPath(final String os, final String rootDir) {
 
-        Issues warnings = new GnuMakeGccParser(os).parse(openFile());
+        Issues<Issue> warnings = new GnuMakeGccParser(os).parse(openFile());
         SoftAssertions softly = new SoftAssertions();
 
         softly.assertThat(warnings.get(14))

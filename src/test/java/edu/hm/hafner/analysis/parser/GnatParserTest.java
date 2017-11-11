@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.assertj.IssuesAssert;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link GnatParser}.
@@ -20,12 +19,10 @@ public class GnatParserTest extends ParserTester {
 
     /**
      * Parses a file with 9 Gnat warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new GnatParser().parse(openFile());
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new GnatParser().parse(openFile());
         IssuesAssert.assertThat(warnings).hasSize(9);
 
         Iterator<Issue> iterator = warnings.iterator();
@@ -46,7 +43,7 @@ public class GnatParserTest extends ParserTester {
 
         // /home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/iml-interfaces-cfg.adb:63:14:
         // warning: variable "E" is not referenced
-       softly.assertThat(iterator.next())
+        softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(GNAT_WARNING)
                 .hasLineStart(63)

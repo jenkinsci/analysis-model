@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link RFLintParser}. Created by traitanit on 3/27/2017 AD.
@@ -23,14 +22,12 @@ public class RFLintParserTest extends ParserTester {
 
     /**
      * Parses a txt file, containing 6 warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void rfLintTest() throws IOException {
+    public void rfLintTest() {
 
         RFLintParser sut = new RFLintParser();
-        Issues warnings = sut.parse(openFile());
+        Issues<Issue> warnings = sut.parse(openFile());
 
         assertThat(warnings)
                 .hasSize(6);

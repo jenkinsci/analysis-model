@@ -6,20 +6,17 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.jupiter.api.Test;
 
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
 import edu.hm.hafner.analysis.parser.jcreport.Report;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the JcReportParser-Class.
@@ -30,25 +27,25 @@ public class JcReportParserTest {
     /**
      * Parses Report with 5 Warnings.
      *
-     * @throws ParsingCanceledException -> thrown by jcrp.parse();
-     * @throws IOException              -> thrown by jcrp.parse();
+     * @throws ParsingCanceledException
+     *         -> thrown by jcrp.parse();
      */
     @Test
     public void testParserWithValidFile() throws ParsingCanceledException, IOException {
         JcReportParser parser = new JcReportParser();
         InputStreamReader readCorrectXml = getReader("testCorrect.xml");
 
-        Issues warnings = parser.parse(readCorrectXml);
-        assertThat(warnings).hasSize(7);
+        Issues<Issue> warnings = parser.parse(readCorrectXml);
+        assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
 
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasFileName("SomeDirectory/SomeClass.java")
-                    .hasPriority(Priority.HIGH)
-                    .hasMessage("SomeMessage")
-                    .hasPackageName("SomePackage")
-                    .hasLineStart(50);
+                  .hasFileName("SomeDirectory/SomeClass.java")
+                  .hasPriority(Priority.HIGH)
+                  .hasMessage("SomeMessage")
+                  .hasPackageName("SomePackage")
+                  .hasLineStart(50);
         });
 
 
@@ -57,15 +54,15 @@ public class JcReportParserTest {
     /**
      * Gets Collection with size of 5.
      *
-     * @throws ParsingCanceledException -> thrown by jcrp.parse();
-     * @throws IOException              -> thrown by jcrp.parse();
+     * @throws UnsupportedEncodingException
+     *         if encoding is not available
      */
     @Test
-    public void testGetWarningList() throws ParsingCanceledException, IOException {
+    public void testGetWarningList() throws UnsupportedEncodingException {
         JcReportParser jcrp = new JcReportParser();
         InputStreamReader readCorrectXml = getReader("testCorrect.xml");
-        Issues warnings = jcrp.parse(readCorrectXml);
-        assertThat(warnings).hasSize(7);
+        Issues<Issue> warnings = jcrp.parse(readCorrectXml);
+        assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
     }
 
     /**
@@ -74,10 +71,11 @@ public class JcReportParserTest {
      * contain more information in the Warning-Objects. For reasons of simplicity only a Report with 1 file and 1 item
      * was created.
      *
-     * @throws IOException -> createReport can cause an IOException.
+     * @throws UnsupportedEncodingException
+     *         if encoding is not available
      */
     @Test
-    public void testReportParserProperties() throws IOException {
+    public void testReportParserProperties() throws UnsupportedEncodingException {
         InputStreamReader readCorrectXml = getReader("testReportProps.xml");
         Report testReportProps = new JcReportParser().createReport(readCorrectXml);
 
@@ -107,8 +105,8 @@ public class JcReportParserTest {
      * Test the SAXException when file is corrupted. When a SAXException is triggered a new IOException is thrown. This
      * explains the expected = IOException.class.
      *
-     * @throws ParsingCanceledException -> thrown by jcrp.parse();
-     * @throws IOException              -> thrown by jcrp.parse();
+     * @throws ParsingCanceledException
+     *         -> thrown by jcrp.parse();
      */
     @Test
     public void testSAXEception() throws ParsingCanceledException, IOException {

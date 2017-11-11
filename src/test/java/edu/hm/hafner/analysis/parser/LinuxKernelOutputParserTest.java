@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link LinuxKernelOutputParser}.
@@ -20,12 +18,10 @@ public class LinuxKernelOutputParserTest extends ParserTester {
 
     /**
      * Parse a kernel log file.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new LinuxKernelOutputParser().parse(openFile());
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new LinuxKernelOutputParser().parse(openFile());
         assertThat(warnings).hasSize(26);
 
 

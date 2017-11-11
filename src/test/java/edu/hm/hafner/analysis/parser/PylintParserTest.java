@@ -24,7 +24,7 @@ public class PylintParserTest extends ParserTester {
      *         if the file could not be read
      */
     @Test
-    public void pyLintTest() throws IOException {
+    public void pyLintTest() {
         Issues<Issue> warnings = new PyLintParser().parse(openFile());
 
         assertThat(warnings).hasSize(6);

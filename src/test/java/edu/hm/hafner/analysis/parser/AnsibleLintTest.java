@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -19,12 +18,9 @@ public class AnsibleLintTest extends ParserTester {
 
     /**
      * Parses a file with 4 ansible-lint warnings
-     *
-     * @throws IOException if the string could not be read
      */
-
     @Test
-    public void testWarningParserError() throws IOException {
+    public void testWarningParserError() {
         Issues<Issue> warnings = new AnsibleLintParser().parse(openFile());
         assertThat(warnings).hasSize(4);
 

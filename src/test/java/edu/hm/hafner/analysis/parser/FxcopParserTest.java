@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -19,7 +20,7 @@ public class FxcopParserTest extends ParserTester {
      */
     @Test
     public void testJenkins14172() {
-        Issues result = new FxCopParser().parse(openFile("issue14172.xml"));
+        Issues<Issue> result = new FxCopParser().parse(openFile("issue14172.xml"));
 
         assertThat(result).hasSize(44);
     }
@@ -29,7 +30,7 @@ public class FxcopParserTest extends ParserTester {
      */
     @Test
     public void testFXCop() {
-        Issues result = new FxCopParser().parse(openFile());
+        Issues<Issue> result = new FxCopParser().parse(openFile());
 
         assertThat(result).hasSize(2);
 

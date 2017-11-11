@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -19,11 +18,9 @@ public class AcuCobolParserTest extends ParserTester {
 
     /**
      * Parses a file with 4 COBOL warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseFile() throws IOException {
+    public void parseFile() {
         Issues<Issue> warnings = new AcuCobolParser().parse(openFile());
 
         assertThat(warnings).hasSize(4);

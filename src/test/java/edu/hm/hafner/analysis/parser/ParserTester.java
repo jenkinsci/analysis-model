@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Base class for parser tests. Provides an assertion test for warnings.
- *
+ * <p>
  * FIXME: close files
  */
 public abstract class ParserTester {
@@ -25,12 +25,18 @@ public abstract class ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param warning the warning to check
-     * @param lineNumber the expected line number
-     * @param message    the expected message
-     * @param fileName   the expected filename
-     * @param category   the expected category
-     * @param priority   the expected priority
+     * @param warning
+     *         the warning to check
+     * @param lineNumber
+     *         the expected line number
+     * @param message
+     *         the expected message
+     * @param fileName
+     *         the expected filename
+     * @param category
+     *         the expected category
+     * @param priority
+     *         the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final String message, final String fileName, final String category, final Priority priority) {
         assertEquals(priority, warning.getPriority(), "Wrong priority detected: ");
@@ -44,13 +50,20 @@ public abstract class ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param warning the warning to check
-     * @param lineNumber the expected line number
-     * @param column     the expected column
-     * @param message    the expected message
-     * @param fileName   the expected filename
-     * @param category   the expected category
-     * @param priority   the expected priority
+     * @param warning
+     *         the warning to check
+     * @param lineNumber
+     *         the expected line number
+     * @param column
+     *         the expected column
+     * @param message
+     *         the expected message
+     * @param fileName
+     *         the expected filename
+     * @param category
+     *         the expected category
+     * @param priority
+     *         the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final int column, final String message, final String fileName, final String category, final Priority priority) {
         checkWarning(warning, lineNumber, message, fileName, category, priority);
@@ -60,13 +73,20 @@ public abstract class ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param warning the warning to check
-     * @param lineNumber the expected line number
-     * @param message    the expected message
-     * @param fileName   the expected filename
-     * @param type       the expected type
-     * @param category   the expected category
-     * @param priority   the expected priority
+     * @param warning
+     *         the warning to check
+     * @param lineNumber
+     *         the expected line number
+     * @param message
+     *         the expected message
+     * @param fileName
+     *         the expected filename
+     * @param type
+     *         the expected type
+     * @param category
+     *         the expected category
+     * @param priority
+     *         the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority) {
         checkWarning(warning, lineNumber, message, fileName, category, priority);
@@ -76,14 +96,22 @@ public abstract class ParserTester {
     /**
      * Checks the properties of the specified warning.
      *
-     * @param warning the warning to check
-     * @param lineNumber the expected line number
-     * @param column     the expected column
-     * @param message    the expected message
-     * @param fileName   the expected filename
-     * @param type       the expected type
-     * @param category   the expected category
-     * @param priority   the expected priority
+     * @param warning
+     *         the warning to check
+     * @param lineNumber
+     *         the expected line number
+     * @param column
+     *         the expected column
+     * @param message
+     *         the expected message
+     * @param fileName
+     *         the expected filename
+     * @param type
+     *         the expected type
+     * @param category
+     *         the expected category
+     * @param priority
+     *         the expected priority
      */
     protected void checkWarning(final Issue warning, final int lineNumber, final int column, final String message, final String fileName, final String type, final String category, final Priority priority) { // NOCHECKSTYLE
         checkWarning(warning, lineNumber, column, message, fileName, category, priority);
@@ -102,7 +130,9 @@ public abstract class ParserTester {
     /**
      * Returns an input stream with the warnings.
      *
-     * @param fileName the file to read
+     * @param fileName
+     *         the file to read
+     *
      * @return an input stream
      */
     protected Reader openFile(final String fileName) {

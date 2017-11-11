@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -19,11 +18,9 @@ public class TnsdlParserTest extends ParserTester {
 
     /**
      * Parses a file with four tnsdl warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new TnsdlParser().parse(openFile());
 
         assertEquals(4, warnings.size());

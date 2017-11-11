@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the Perl::Critic Parser.
@@ -19,24 +18,20 @@ import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 public class PerlCriticParserTest extends ParserTester {
     /**
      * Parses a mixed log file with 105 perlcritic warnings and /var/log/ messages.
-     *
-     * @throws IOException if the file cannot be read.
      */
     @Test
-    public void testPerlCriticParser() throws IOException {
-        Issues warnings = parse("perlcritic.txt");
+    public void testPerlCriticParser() {
+        Issues<Issue> warnings = parse("perlcritic.txt");
 
         assertThat(warnings).hasSize(105);
     }
 
     /**
      * Parses a file with three warnings.
-     *
-     * @throws IOException if the file cannot be read.
      */
     @Test
-    public void testPerlCriticParserCreateWarning() throws IOException {
-        Issues warnings = parse("issue17792.txt");
+    public void testPerlCriticParserCreateWarning() {
+        Issues<Issue> warnings = parse("issue17792.txt");
         assertThat(warnings).hasSize(3);
 
         Iterator<Issue> iterator = warnings.iterator();
@@ -74,12 +69,10 @@ public class PerlCriticParserTest extends ParserTester {
 
     /**
      * Parses a file with three warnings without the filename in the warning.
-     *
-     * @throws IOException if the file cannot be read
      */
     @Test
-    public void testPerlCriticParserCreateWarningNoFileName() throws IOException {
-        Issues warnings = parse("issue17792-nofilename.txt");
+    public void testPerlCriticParserCreateWarningNoFileName() {
+        Issues<Issue> warnings = parse("issue17792-nofilename.txt");
         assertThat(warnings).hasSize(3);
 
         Iterator<Issue> iterator = warnings.iterator();
@@ -115,7 +108,7 @@ public class PerlCriticParserTest extends ParserTester {
         softly.assertAll();
     }
 
-    private Issues parse(final String fileName) throws IOException {
+    private Issues<Issue> parse(final String fileName) {
         return new PerlCriticParser().parse(openFile(fileName));
     }
 

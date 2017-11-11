@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link ClangParser}.
@@ -22,12 +21,11 @@ public class ClangParserTest extends ParserTester {
     /**
      * Parses a file with fatal error message.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-31936">Issue 31936</a>
      */
     @Test
-    public void issue31936() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile("issue31936.txt"));
+    public void issue31936() {
+        Issues<Issue> warnings = new ClangParser().parse(openFile("issue31936.txt"));
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(1);
@@ -45,12 +43,11 @@ public class ClangParserTest extends ParserTester {
     /**
      * Parses a file with fatal error message.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-36817">Issue 36817</a>
      */
     @Test
-    public void issue36817() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile("issue36817.txt"));
+    public void issue36817() {
+        Issues<Issue> warnings = new ClangParser().parse(openFile("issue36817.txt"));
 
         assertThat(warnings).hasSize(0);
     }
@@ -58,12 +55,11 @@ public class ClangParserTest extends ParserTester {
     /**
      * Parses a file with fatal error message.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18084">Issue 18084</a>
      */
     @Test
-    public void issue18084() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile("issue18084.txt"));
+    public void issue18084() {
+        Issues<Issue> warnings = new ClangParser().parse(openFile("issue18084.txt"));
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(1);
@@ -81,12 +77,11 @@ public class ClangParserTest extends ParserTester {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14333">Issue 14333</a>
      */
     @Test
-    public void issue14333() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile("issue14333.txt"));
+    public void issue14333() {
+        Issues<Issue> warnings = new ClangParser().parse(openFile("issue14333.txt"));
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(1);
@@ -103,12 +98,10 @@ public class ClangParserTest extends ParserTester {
 
     /**
      * Verifies that all messages are correctly parsed.
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new ClangParser().parse(openFile());
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new ClangParser().parse(openFile());
         Iterator<Issue> iterator = warnings.iterator();
 
         SoftAssertions softly = new SoftAssertions();

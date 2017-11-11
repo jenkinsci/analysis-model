@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -21,11 +20,9 @@ public class SphinxBuildParserTest extends ParserTester {
 
     /**
      * Parses a file with six SphinxBuild warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new SphinxBuildParser().parse(openFile());
 
         assertEquals(6, warnings.size());

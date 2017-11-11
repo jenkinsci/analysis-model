@@ -1,8 +1,4 @@
-//Sarah Hofstätter
 package edu.hm.hafner.analysis.parser;
-
-import java.io.IOException;
-import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,13 +17,11 @@ public class BuckminsterParserTest extends ParserTester {
 
     /**
      * Parses a file with three Buckminster warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         SoftAssertions softly = new SoftAssertions();
-        Issues warnings = new BuckminsterParser().parse(openFile());
+        Issues<Issue> warnings = new BuckminsterParser().parse(openFile());
 
         softly.assertThat(warnings).hasSize(3);
         softly.assertThat(warnings.get(0)).hasPriority(Priority.NORMAL)

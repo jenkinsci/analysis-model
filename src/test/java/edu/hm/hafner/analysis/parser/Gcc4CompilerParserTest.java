@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link Gcc4CompilerParser}.
@@ -24,12 +23,11 @@ public class Gcc4CompilerParserTest extends ParserTester {
     /**
      * Parses a file with one fatal error.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18081">Issue 18081</a>
      */
     @Test
-    public void issue18081() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue18081.txt"));
+    public void issue18081() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue18081.txt"));
 
         assertThat(warnings)
                 .hasSize(1);
@@ -50,12 +48,11 @@ public class Gcc4CompilerParserTest extends ParserTester {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
-    public void issue9926() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue9926.txt"));
+    public void issue9926() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue9926.txt"));
 
         assertThat(warnings)
                 .hasSize(1);
@@ -75,24 +72,21 @@ public class Gcc4CompilerParserTest extends ParserTester {
     /**
      * Parses a warning log with 1 warning.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
      */
     @Test
-    public void issue6563() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue6563.txt"));
+    public void issue6563() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue6563.txt"));
         assertThat(warnings)
                 .hasSize(10);
     }
 
     /**
      * Parses a file with GCC warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile());
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile());
 
         assertThat(warnings)
                 .hasSize(14);
@@ -232,54 +226,47 @@ public class Gcc4CompilerParserTest extends ParserTester {
     /**
      * Parses a warning log with 10 template warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5606">Issue 5606</a>
      */
     @Test
-    public void issue5606() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5606.txt"));
+    public void issue5606() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5606.txt"));
 
-        assertThat(warnings)
-                .hasSize(10);
+        assertThat(warnings).hasSize(5).hasDuplicatesSize(5);
     }
 
     /**
      * Parses a warning log with multi line warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5605">Issue 5605</a>
      */
     @Test
-    public void issue5605() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5605.txt"));
+    public void issue5605() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5605.txt"));
 
-        assertThat(warnings)
-                .hasSize(6);
+        assertThat(warnings).hasSize(2).hasDuplicatesSize(4);
     }
 
     /**
      * Parses a warning log with multi line warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
      */
     @Test
-    public void issue5445() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
+    public void issue5445() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
 
-        assertThat(warnings)
-                .hasSize(0);
+        assertThat(warnings).hasSize(0);
     }
 
     /**
      * Parses a warning log with autoconf messages. There should be no warning.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
      */
     @Test
-    public void issue5870() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
+    public void issue5870() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
 
         assertThat(warnings)
                 .hasSize(0);
@@ -288,12 +275,11 @@ public class Gcc4CompilerParserTest extends ParserTester {
     /**
      * Classify warnings by gcc 4.6 or later.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-11799">Issue 11799</a>
      */
     @Test
-    public void issue11799() throws IOException {
-        Issues warnings = new Gcc4CompilerParser().parse(openFile("issue11799.txt"));
+    public void issue11799() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue11799.txt"));
 
         assertThat(warnings)
                 .hasSize(4);

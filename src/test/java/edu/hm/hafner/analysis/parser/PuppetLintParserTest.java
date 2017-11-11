@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -9,8 +8,8 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link PuppetLintParser}.
@@ -22,12 +21,10 @@ public class PuppetLintParserTest extends ParserTester {
 
     /**
      * Tests the Puppet-Lint parsing.
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void testParse() throws IOException {
-        Issues results = createParser().parse(openFile());
+    public void testParse() {
+        Issues<Issue> results = createParser().parse(openFile());
         assertThat(results).hasSize(5);
 
         Iterator<Issue> iterator = results.iterator();

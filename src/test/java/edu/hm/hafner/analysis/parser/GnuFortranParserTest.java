@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.assertj.IssuesAssert;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link GnuFortranParser}.
@@ -19,12 +18,10 @@ public class GnuFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing a Warning message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testWarningParser() throws IOException {
-        Issues warnings = new GnuFortranParser().parse(openFile("GnuFortranWarning.txt"));
+    public void testWarningParser() {
+        Issues<Issue> warnings = new GnuFortranParser().parse(openFile("GnuFortranWarning.txt"));
         IssuesAssert.assertThat(warnings).hasSize(1);
 
         SoftAssertions softly = new SoftAssertions();
@@ -42,12 +39,10 @@ public class GnuFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing an Error message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testErrorParser() throws IOException {
-        Issues warnings =
+    public void testErrorParser() {
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranError.txt"));
 
         IssuesAssert.assertThat(warnings).hasSize(1);
@@ -69,12 +64,10 @@ public class GnuFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing a Fatal Error message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testFatalErrorParser() throws IOException {
-        Issues warnings =
+    public void testFatalErrorParser() {
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranFatalError.txt"));
 
         IssuesAssert.assertThat(warnings).hasSize(1);
@@ -96,12 +89,10 @@ public class GnuFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing an Internal Error message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testInternalErrorParser() throws IOException {
-        Issues warnings =
+    public void testInternalErrorParser() {
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranInternalError.txt"));
 
         IssuesAssert.assertThat(warnings).hasSize(1);
@@ -123,12 +114,10 @@ public class GnuFortranParserTest extends ParserTester {
 
     /**
      * Test parsing of a file containing all categories of message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testMessageParser() throws IOException {
-        Issues warnings =
+    public void testMessageParser() {
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile());
 
         IssuesAssert.assertThat(warnings).hasSize(4);

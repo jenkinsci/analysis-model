@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 
@@ -20,11 +19,9 @@ public class XlcLinkerParserTest extends ParserTester {
 
     /**
      * Parses a string with xlC linker error.
-     *
-     * @throws IOException if IO error happened
      */
     @Test
-    public void testWarningsParserError1() throws IOException {
+    public void testWarningsParserError1() {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-987 Error occurred while reading file"));
 
@@ -43,11 +40,9 @@ public class XlcLinkerParserTest extends ParserTester {
 
     /**
      * Parses a string with xlC linker error.
-     *
-     * @throws IOException if IO error happened
      */
     @Test
-    public void testWarningsParserError2() throws IOException {
+    public void testWarningsParserError2() {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-317 ERROR: Undefined symbol: nofun()"));
 
@@ -66,11 +61,9 @@ public class XlcLinkerParserTest extends ParserTester {
 
     /**
      * Parses a string with xlC linker error.
-     *
-     * @throws IOException if IO error happened
      */
     @Test
-    public void testWarningsParserSevereError() throws IOException {
+    public void testWarningsParserSevereError() {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply."));
 
@@ -89,11 +82,9 @@ public class XlcLinkerParserTest extends ParserTester {
 
     /**
      * Parses a string with xlC linker warning.
-     *
-     * @throws IOException if IO error happened
      */
     @Test
-    public void testWarningsParserWarning1() throws IOException {
+    public void testWarningsParserWarning1() {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0706-012 The -9 flag is not recognized."));
 
@@ -112,11 +103,9 @@ public class XlcLinkerParserTest extends ParserTester {
 
     /**
      * Parses a string with xlC linker warning.
-     *
-     * @throws IOException if IO error happened
      */
     @Test
-    public void testWarningsParserWarning2() throws IOException {
+    public void testWarningsParserWarning2() {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-224 WARNING: Duplicate symbol: dupe"));
 
@@ -135,11 +124,9 @@ public class XlcLinkerParserTest extends ParserTester {
 
     /**
      * Parses a string with xlC linker informational message.
-     *
-     * @throws IOException if IO error happened
      */
     @Test
-    public void testWarningsParserInfo1() throws IOException {
+    public void testWarningsParserInfo1() {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information."));
 

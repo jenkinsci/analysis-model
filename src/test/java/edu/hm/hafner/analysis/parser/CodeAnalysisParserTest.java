@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -16,12 +15,10 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 public class CodeAnalysisParserTest extends ParserTester {
     /**
      * Parses a file with warnings of the CodeAnalysis tools.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseWarnings() throws IOException {
-        Issues warnings = new CodeAnalysisParser().parse(openFile());
+    public void parseWarnings() {
+        Issues<Issue> warnings = new CodeAnalysisParser().parse(openFile());
         Iterator<Issue> iterator = warnings.iterator();
 
         SoftAssertions softly = new SoftAssertions();

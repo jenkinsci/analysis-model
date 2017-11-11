@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -18,12 +17,10 @@ public class DrMemoryParserTest extends ParserTester {
 
     /**
      * Parses a file with two Dr. Memory warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new DrMemoryParser().parse(openFile());
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new DrMemoryParser().parse(openFile());
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(8);
 

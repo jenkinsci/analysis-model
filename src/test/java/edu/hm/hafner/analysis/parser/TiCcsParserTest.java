@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -20,11 +19,9 @@ public class TiCcsParserTest extends ParserTester {
 
     /**
      * Parses a file with warnings of the TI CodeComposer tools.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseWarnings() throws IOException {
+    public void parseWarnings() {
         Issues<Issue> sortedWarnings = new TiCcsParser().parse(openFile());
 
         assertEquals(10, sortedWarnings.size());

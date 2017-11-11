@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link Gcc4LinkerParser}.
@@ -23,15 +22,12 @@ public class Gcc4LinkerParserTest extends ParserTester {
 
     /**
      * Parses a file with GCC linker errors.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile());
 
-        assertThat(warnings)
-                .hasSize(8);
+        assertThat(warnings).hasSize(7).hasDuplicatesSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
 
@@ -81,16 +77,6 @@ public class Gcc4LinkerParserTest extends ParserTester {
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
 
-
-        softly.assertThat(iterator.next())
-                .hasLineStart(109)
-                .hasLineEnd(109)
-                .hasMessage("undefined reference to `main'")
-                .hasFileName("/build/buildd/eglibc-2.10.1/csu/../sysdeps/x86_64/elf/start.S")
-                .hasType(WARNING_TYPE)
-                .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
-
         softly.assertThat(iterator.next())
                 .hasLineStart(7)
                 .hasLineEnd(7)
@@ -115,11 +101,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
     /**
      * Parses a warning log with multi line warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
      */
     @Test
-    public void issue5445() throws IOException {
+    public void issue5445() {
         Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue5445.txt"));
 
         assertThat(warnings)
@@ -129,11 +114,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
     /**
      * Parses a warning log with autoconf messages. There should be no warning.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
      */
     @Test
-    public void issue5870() throws IOException {
+    public void issue5870() {
         Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue5870.txt"));
 
         assertThat(warnings)
@@ -143,11 +127,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
     /**
      * Parses a warning log with 1 warning.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
      */
     @Test
-    public void issue6563() throws IOException {
+    public void issue6563() {
         Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue6563.txt"));
 
         assertThat(warnings)

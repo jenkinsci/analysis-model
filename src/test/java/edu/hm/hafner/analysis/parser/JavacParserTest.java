@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -24,44 +23,40 @@ public class JavacParserTest extends ParserTester {
     /**
      * Parses a warning log with two false positives.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>
      */
     @Test
-    public void issue14043() throws IOException {
-        Issues warnings = parse("issue14043.txt");
+    public void issue14043() {
+        Issues<Issue> warnings = parse("issue14043.txt");
         assertThat(warnings).hasSize(0);
     }
 
     /**
      * Parses a warning log with 15 warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12482">Issue 12482</a>
      */
     @Test
-    public void issue12482() throws IOException {
-        Issues java6 = parse("issue12482-java6.txt");
+    public void issue12482() {
+        Issues<Issue> java6 = parse("issue12482-java6.txt");
         assertThat(java6).hasSize(62);
 
-        Issues java7 = parse("issue12482-java7.txt");
+        Issues<Issue> java7 = parse("issue12482-java7.txt");
         assertThat(java7).hasSize(62);
     }
 
     @Test
-    public void kotlinMavenPlugin() throws IOException {
-        Issues warnings = parse("kotlin-maven-plugin.txt");
+    public void kotlinMavenPlugin() {
+        Issues<Issue> warnings = parse("kotlin-maven-plugin.txt");
         assertThat(warnings).hasSize(4);
     }
 
     /**
      * Parses a file with two deprecation warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseDeprecation() throws IOException {
-        Issues warnings = new JavacParser().parse(openFile());
+    public void parseDeprecation() {
+        Issues<Issue> warnings = new JavacParser().parse(openFile());
         assertThat(warnings).hasSize(2);
 
         SoftAssertions.assertSoftly(softly -> {
@@ -83,12 +78,10 @@ public class JavacParserTest extends ParserTester {
 
     /**
      * Verifies that arrays in deprecated methods are correctly handled.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
      */
     @Test
-    public void parseArrayInDeprecatedMethod() throws IOException {
-        Issues warnings = parse("issue5868.txt");
+    public void parseArrayInDeprecatedMethod() {
+        Issues<Issue> warnings = parse("issue5868.txt");
         assertThat(warnings).hasSize(1);
 
         SoftAssertions.assertSoftly(softly -> {
@@ -109,12 +102,10 @@ public class JavacParserTest extends ParserTester {
 
     /**
      * Parses parallel pipeline output based on 'javac.txt'
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
      */
     @Test
-    public void parseParallelPipelineOutput() throws IOException {
-        Issues warnings = parse("javac-parallel-pipeline.txt");
+    public void parseParallelPipelineOutput() {
+        Issues<Issue> warnings = parse("javac-parallel-pipeline.txt");
         assertThat(warnings).hasSize(2);
 
         String fileName = "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java";
@@ -146,7 +137,7 @@ public class JavacParserTest extends ParserTester {
         }
     }
 
-    private Issues parse(final String fileName) throws IOException {
+    private Issues<Issue> parse(final String fileName) {
         return new JavacParser().parse(openFile(fileName));
     }
 

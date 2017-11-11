@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link AntJavacParser} for output log of a HPI compile.
@@ -17,11 +16,9 @@ public class HpiCompileParserTest extends ParserTester {
 
     /**
      * Parses a file with two deprecation warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseDeprecation() throws IOException {
+    public void parseDeprecation() {
         Issues<Issue> warnings = new AntJavacParser().parse(openFile());
 
         assertThat(warnings).hasSize(2);

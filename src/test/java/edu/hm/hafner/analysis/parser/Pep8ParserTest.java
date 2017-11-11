@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -21,12 +20,10 @@ public class Pep8ParserTest extends ParserTester {
 
     /**
      * Parses a file with W and E warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testParseSimpleAndComplexMessage() throws IOException {
-        Issues warnings = new Pep8Parser().parse(openFile());
+    public void testParseSimpleAndComplexMessage() {
+        Issues<Issue> warnings = new Pep8Parser().parse(openFile());
 
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(warnings).hasSize(8);

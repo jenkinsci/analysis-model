@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -9,9 +8,8 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the class {@link AjcParser}.
@@ -24,11 +22,9 @@ public class AjcParserTest extends ParserTester {
      * not applied
      * <p>
      * Both unix and windows file paths.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseDeprecation() throws IOException {
+    public void parseDeprecation() {
         Issues<Issue> warnings = new AjcParser().parse(openFile());
 
         assertThat(warnings).hasSize(9);
@@ -107,9 +103,9 @@ public class AjcParserTest extends ParserTester {
                     .hasMessage("advice defined in org.springframework.orm.jpa.aspectj.JpaExceptionTranslatorAspect has not been applied [Xlint:adviceDidNotMatch]")
                     .hasFileName("/home/hudson/.m2/repository/org/springframework/spring-aspects/3.2.8.RELEASE/spring-aspects-3.2.8.RELEASE.jar!org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.class")
                     .hasType(WARNING_TYPE);
+            softly.assertThat(iterator.hasNext()).isFalse();
         });
 
-        assertThat(iterator.hasNext()).isFalse();
     }
 
     @Override

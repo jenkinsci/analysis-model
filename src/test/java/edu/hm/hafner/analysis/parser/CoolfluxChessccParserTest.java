@@ -1,9 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -15,16 +14,15 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 public class CoolfluxChessccParserTest extends ParserTester {
     /**
      * Parses a file with two warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new CoolfluxChessccParser().parse(openFile());
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(2);
-        softly.assertThat(warnings.get(0)).hasLineStart(150)
+        softly.assertThat(warnings).hasSize(1).hasDuplicatesSize(1);
+        softly.assertThat(warnings.get(0))
+                .hasLineStart(150)
                 .hasLineEnd(150)
                 .hasMessage("function `unsigned configureRealCh(unsigned)' was declared static, but was not defined")
                 .hasFileName("/nfs/autofs/nett/nessie6/dailies/Monday/src/n6/heidrun/dsp/Modules/LocalChAdmin.c")

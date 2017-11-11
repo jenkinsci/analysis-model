@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SbtScalacParserTest extends ParserTester {
 
     @Test
-    public void basicFunctionality() throws IOException {
+    public void basicFunctionality() {
         Issues<Issue> warnings = new SbtScalacParser().parse(openFile());
         assertEquals(2, warnings.size());
         Iterator<Issue> iter = warnings.iterator();

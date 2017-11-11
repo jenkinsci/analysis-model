@@ -1,16 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
-
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link InvalidsParser}.
@@ -18,11 +14,9 @@ import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 public class InvalidsParserTest extends ParserTester {
     /**
      * Parses a file with two deprecation warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testParser() throws IOException {
+    public void testParser() {
         Issues<Issue> warnings = new InvalidsParser().parse(openFile());
 
         assertThat(warnings).hasSize(3);

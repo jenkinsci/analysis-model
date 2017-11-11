@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 
@@ -22,7 +21,7 @@ public class XlcParserTest extends ParserTester {
      * Parses a string with xlC error.
      */
     @Test
-    public void testWarningsParserError() throws IOException {
+    public void testWarningsParserError() {
         shouldParseWarning("\"file.c\", line 9.17: 1506-098 (E) Missing argument(s).",
                 9, "Missing argument(s).", "file.c", TYPE, "1506-098", Priority.HIGH);
     }
@@ -31,7 +30,7 @@ public class XlcParserTest extends ParserTester {
      * Parses a string with xlC error.
      */
     @Test
-    public void testWarningsParserSevereError() throws IOException {
+    public void testWarningsParserSevereError() {
         shouldParseWarning("file.c, line 11.18: 1506-189 (S) Floating point constant 10.23.3 is not valid",
                 11, "Floating point constant 10.23.3 is not valid", "file.c", TYPE, "1506-189", Priority.HIGH);
     }

@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
@@ -35,11 +33,9 @@ public abstract class AbstractEclipseParserTest extends ParserTester {
 
     /**
      * Parses a file with two deprecation warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseDeprecation() throws IOException {
+    public void parseDeprecation() {
         Issues<Issue> warnings = createParser().parse(openFile());
 
         assertThat(warnings).hasSize(8);

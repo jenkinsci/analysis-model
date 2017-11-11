@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 
 /**
  * Tests the class {@link GendarmeParser}.
@@ -20,12 +19,10 @@ import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 public class GendarmeParserTest extends ParserTester {
     /**
      * Tests the Gendarme parser with a file of 3 warnings.
-     *
-     * @throws IOException in case of an exception
      */
     @Test
-    public void testParseViolationData() throws IOException {
-        Issues results = new GendarmeParser().parse(openFile());
+    public void testParseViolationData() {
+        Issues<Issue> results = new GendarmeParser().parse(openFile());
 
         assertThat(results)
                 .hasSize(3);

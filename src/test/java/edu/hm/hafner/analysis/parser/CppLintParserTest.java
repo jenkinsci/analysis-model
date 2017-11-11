@@ -24,7 +24,7 @@ public class CppLintParserTest extends ParserTester {
     /** Parses a file with 1031 warnings. */
     @Test
     public void shouldFindAll1031Warnings() {
-        Issues issues = new CppLintParser().parse(openFile());
+        Issues<Issue> issues = new CppLintParser().parse(openFile());
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(issues).hasSize(1031);
@@ -48,7 +48,7 @@ public class CppLintParserTest extends ParserTester {
      */
     @Test
     public void issue18290() {
-        Issues warnings = new CppLintParser().parse(openFile("issue18290.txt"));
+        Issues<Issue> warnings = new CppLintParser().parse(openFile("issue18290.txt"));
         Iterator<Issue> iterator = warnings.iterator();
 
         SoftAssertions softly = new SoftAssertions();

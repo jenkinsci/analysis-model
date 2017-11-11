@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Disabled;
@@ -9,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 
 /**
@@ -23,18 +22,16 @@ public class DoxygenParserTest extends ParserTester {
 
     /**
      * Parses a file with Doxygen warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile());
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(22);
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile());
+        assertThat(warnings).hasSize(21).hasDuplicatesSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
 
+        SoftAssertions softly = new SoftAssertions();
         softly.assertThat(iterator.next())
                 .hasLineEnd(0)
                 .hasLineStart(0)
@@ -198,15 +195,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasPriority(Priority.NORMAL);
 
         softly.assertThat(iterator.next())
-                .hasLineEnd(0) // Actually 1 in the file, but the line number of this kind of messages is irrelevant
-                .hasLineStart(0) // Actually 1 in the file, but the line number of this kind of messages is irrelevant
-                .hasMessage("Found unknown command `\\TODO'")
-                .hasFileName(NO_FILE_NAME)
-                .hasType(WARNING_TYPE)
-                .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
-
-        softly.assertThat(iterator.next())
                 .hasLineEnd(19)
                 .hasLineStart(19)
                 .hasMessage("Unexpected character `\"'")
@@ -239,26 +227,24 @@ public class DoxygenParserTest extends ParserTester {
     /**
      * Verifies that parsing of long files does not fail.
      *
-     * @throws IOException Signals that an I/O exception has occurred.
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7178">Issue 7178</a>
      * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6882582">JDK Bug 6882582</a>
      */
     @Test
     @Disabled("FIXME: Check with Java 8")
-    public void issue7178() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile("issue7178.txt"));
+    public void issue7178() {
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile("issue7178.txt"));
         assertThat(warnings).hasSize(0); //seems to be 1
     }
 
     /**
      * Parses a warning log with 4 doxygen 1.7.1 messages.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6971">Issue 6971</a>
      */
     @Test
-    public void issue6971() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile("issue6971.txt"));
+    public void issue6971() {
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile("issue6971.txt"));
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(4);
 

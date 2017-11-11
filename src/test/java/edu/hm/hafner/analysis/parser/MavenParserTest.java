@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -19,11 +18,9 @@ public class MavenParserTest extends ParserTester {
 
     /**
      * Parses a file with two deprecation warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseMaven() throws IOException {
+    public void parseMaven() {
         Issues<Issue> warnings = new JavacParser().parse(openFile());
 
         assertEquals(5, warnings.size());
@@ -39,8 +36,10 @@ public class MavenParserTest extends ParserTester {
     /**
      * Verifies the annotation content.
      *
-     * @param annotation the annotation to check
-     * @param lineNumber the line number of the warning
+     * @param annotation
+     *         the annotation to check
+     * @param lineNumber
+     *         the line number of the warning
      */
     private void checkMavenWarning(final Issue annotation, final int lineNumber) {
         checkWarning(annotation, lineNumber,

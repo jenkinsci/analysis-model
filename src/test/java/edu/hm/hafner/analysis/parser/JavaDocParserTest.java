@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link JavaDocParser}.
@@ -21,27 +19,23 @@ public class JavaDocParserTest extends ParserTester {
 
     /**
      * Parses a warning log with JavaDoc 1.8 warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void falseJavaDocPositives() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("all.txt"));
+    public void falseJavaDocPositives() {
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("all.txt"));
         assertThat(warnings).hasSize(8);
     }
 
     /**
      * Parses a warning log with JavaDoc 1.8 errors.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-37975">Issue 37975</a>
      */
     @Test
-    public void issue37975() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue37975.txt"));
+    public void issue37975() {
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue37975.txt"));
 
         assertThat(warnings).hasSize(3);
-
 
 
         SoftAssertions.assertSoftly(softly -> {
@@ -80,12 +74,11 @@ public class JavaDocParserTest extends ParserTester {
     /**
      * Parses a warning log with JavaDoc 1.8 warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-32298">Issue 32298</a>
      */
     @Test
-    public void issue32298() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue32298.txt"));
+    public void issue32298() {
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue32298.txt"));
         assertThat(warnings).hasSize(7);
 
         Iterator<Issue> iterator = warnings.iterator();
@@ -159,12 +152,10 @@ public class JavaDocParserTest extends ParserTester {
 
     /**
      * Parses a file with 6 warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseJavaDocWarnings() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile());
+    public void parseJavaDocWarnings() {
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile());
         assertThat(warnings).hasSize(6);
 
         SoftAssertions.assertSoftly(softly -> {
@@ -184,12 +175,11 @@ public class JavaDocParserTest extends ParserTester {
     /**
      * Parses a warning log with 2 JavaDoc warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4576">Issue 4576</a>
      */
     @Test
-    public void issue4576() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue4576.txt"));
+    public void issue4576() {
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue4576.txt"));
 
         assertThat(warnings).hasSize(2);
         SoftAssertions.assertSoftly(softly -> {
@@ -214,30 +204,27 @@ public class JavaDocParserTest extends ParserTester {
         });
 
 
-
     }
 
     /**
      * Parses a log with Junit message (false positive).
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-8630">Issue 8630</a>
      */
     @Test
-    public void issue8630() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue8630.txt"));
+    public void issue8630() {
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue8630.txt"));
         assertThat(warnings).hasSize(0);
     }
 
     /**
      * Parses a warning log with several JavaDoc warnings.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7718">Issue 7718</a>
      */
     @Test
-    public void issue7718() throws IOException {
-        Issues warnings = new JavaDocParser().parse(openFile("issue7718.txt"));
+    public void issue7718() {
+        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue7718.txt"));
 
         assertThat(warnings).hasSize(7);
 

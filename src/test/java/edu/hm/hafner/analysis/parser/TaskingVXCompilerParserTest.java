@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -24,11 +23,9 @@ public class TaskingVXCompilerParserTest extends ParserTester {
 
     /**
      * Parses a file with TASKING VX compiler warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
+    public void testWarningsParser() {
         Issues<Issue> warnings = new TaskingVXCompilerParser().parse(openFile());
 
         assertEquals(8, warnings.size());

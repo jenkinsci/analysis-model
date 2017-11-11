@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -9,8 +8,8 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -32,8 +31,8 @@ public class PhpParserTest extends ParserTester {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-27681">Issue 27681</a>
      */
     @Test
-    public void issue27681() throws IOException {
-        Issues warnings = new PhpParser().parse(openFile("issue27681.txt"));
+    public void issue27681() {
+        Issues<Issue> warnings = new PhpParser().parse(openFile("issue27681.txt"));
         assertThat(warnings).hasSize(1);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
@@ -49,12 +48,10 @@ public class PhpParserTest extends ParserTester {
 
     /**
      * Tests the PHP parsing.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
      */
     @Test
-    public void testParse() throws IOException {
-        Issues results = createParser().parse(openFile());
+    public void testParse() {
+        Issues<Issue> results = createParser().parse(openFile());
         assertThat(results).hasSize(5);
 
         Iterator<Issue> iterator = results.iterator();
