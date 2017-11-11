@@ -70,6 +70,22 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<Issue>> {
     }
 
     /**
+     * Verifies that the actual size of duplicate issues of the {@link Issues} instance is equal to the given one.
+     *
+     * @param size the expected size to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size is not equal to the given one.
+     */
+    public IssuesAssert hasDuplicatesSize(final int size) {
+        isNotNull();
+
+        if (actual.getDuplicatesSize() != size) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "duplicates size", actual, size, actual.getDuplicatesSize());
+        }
+        return this;
+    }
+
+    /**
      * Verifies that the actual size of high priority issues in the {@link Issues} instance is equal to the given one.
      *
      * @param highPrioritySize the expected size of high priority issues to compare the actual {@link Issues} size to.

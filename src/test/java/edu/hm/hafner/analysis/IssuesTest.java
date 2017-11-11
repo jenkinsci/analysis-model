@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.SortedSet;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -21,172 +23,170 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
  * @author Marcel Binder
  */
 class IssuesTest {
-    private static final Issue ISSUE_1 = new IssueBuilder().setMessage("issue-1").setFileName("file-1").setPriority(Priority.HIGH).build();
-    private static final Issue ISSUE_2 = new IssueBuilder().setMessage("issue-2").setFileName("file-1").build();
-    private static final Issue ISSUE_3 = new IssueBuilder().setMessage("issue-3").setFileName("file-1").build();
-    private static final Issue ISSUE_4 = new IssueBuilder().setMessage("issue-4").setFileName("file-2").setPriority(Priority.LOW).build();
+    private static final Issue HIGH = new IssueBuilder().setMessage("issue-1").setFileName("file-1").setPriority(Priority.HIGH).build();
+    private static final Issue NORMAL_1 = new IssueBuilder().setMessage("issue-2").setFileName("file-1").setPriority(Priority.NORMAL).build();
+    private static final Issue NORMAL_2 = new IssueBuilder().setMessage("issue-3").setFileName("file-1").setPriority(Priority.NORMAL).build();
+    private static final Issue LOW_FILE_2 = new IssueBuilder().setMessage("issue-4").setFileName("file-2").setPriority(Priority.LOW).build();
     private static final Issue ISSUE_5 = new IssueBuilder().setMessage("issue-5").setFileName("file-2").setPriority(Priority.LOW).build();
-    private static final Issue ISSUE_6 = new IssueBuilder().setMessage("issue-6").setFileName("file-3").setPriority(Priority.LOW).build();
+    private static final Issue LOW_FILE_3 = new IssueBuilder().setMessage("issue-6").setFileName("file-3").setPriority(Priority.LOW).build();
+    private static final String EXTENDED_VALUE = "Bla Bla";
 
     @Test
-    void testEmptyIssues() {
+    void shouldBeEmptyWhenCreated() {
         Issues<Issue> issues = new Issues<>();
 
         assertThat(issues).hasSize(0);
+        assertThat(issues).hasHighPrioritySize(0);
+        assertThat(issues).hasLowPrioritySize(0);
+        assertThat(issues).hasNormalPrioritySize(0);
     }
 
     @Test
-    void testAddMultipleIssuesOneByOne() {
+    void shouldAddMultipleIssuesOneByOne() {
         Issues<Issue> issues = new Issues<>();
 
-        assertThat(issues.add(ISSUE_1)).isEqualTo(ISSUE_1);
-        assertThat(issues.add(ISSUE_2)).isEqualTo(ISSUE_2);
-        assertThat(issues.add(ISSUE_3)).isEqualTo(ISSUE_3);
-        assertThat(issues.add(ISSUE_4)).isEqualTo(ISSUE_4);
-        assertThat(issues.add(ISSUE_5)).isEqualTo(ISSUE_5);
-        assertThat(issues.add(ISSUE_6)).isEqualTo(ISSUE_6);
+        assertThat(issues.add(HIGH)).isTrue();
+        assertThat(issues.add(NORMAL_1)).isTrue();
+        assertThat(issues.add(NORMAL_2)).isTrue();
+        assertThat(issues.add(LOW_FILE_2)).isTrue();
+        assertThat(issues.add(ISSUE_5)).isTrue();
+        assertThat(issues.add(LOW_FILE_3)).isTrue();
 
-        assertAllIssuesAdded(issues);
+        assertThatAllIssuesHaveBeenAdded(issues);
     }
 
     @Test
-    void testAddMultipleIssuesToEmpty() {
+    void shouldAddMultipleIssuesAsCollection() {
         Issues<Issue> issues = new Issues<>();
-        List<Issue> issueList = asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+        List<Issue> issueList = asList(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
 
-        assertThat(issues.addAll(issueList)).isEqualTo(issueList);
+        assertThat(issues.addAll(issueList)).isTrue();
 
-        assertAllIssuesAdded(issues);
+        assertThatAllIssuesHaveBeenAdded(issues);
     }
 
     @Test
-    void testAddMultipleIssuesToNonEmpty() {
+    void shouldAddMultipleIssuesToNonEmpty() {
         Issues<Issue> issues = new Issues<>();
-        issues.add(ISSUE_1);
+        issues.add(HIGH);
 
-        issues.addAll(asList(ISSUE_2, ISSUE_3));
-        issues.addAll(asList(ISSUE_4, ISSUE_5, ISSUE_6));
+        issues.addAll(asList(NORMAL_1, NORMAL_2));
+        issues.addAll(asList(LOW_FILE_2, ISSUE_5, LOW_FILE_3));
 
-        assertAllIssuesAdded(issues);
+        assertThatAllIssuesHaveBeenAdded(issues);
     }
 
-    private void assertAllIssuesAdded(final Issues<Issue> issues) {
+    private void assertThatAllIssuesHaveBeenAdded(final Issues<Issue> issues) {
         assertSoftly(softly -> {
             softly.assertThat(issues)
-                  .hasSize(6)
-                  .hasHighPrioritySize(1)
-                  .hasNormalPrioritySize(2)
-                  .hasLowPrioritySize(3);
-            softly.assertThat(issues.getFiles()).containsExactly("file-1", "file-2", "file-3");
+                    .hasSize(6)
+                    .hasDuplicatesSize(0)
+                    .hasHighPrioritySize(1)
+                    .hasNormalPrioritySize(2)
+                    .hasLowPrioritySize(3);
+            softly.assertThat(issues.getFiles())
+                    .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat((Iterable<Issue>) issues)
-                  .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+                    .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
             softly.assertThat(issues.all())
-                  .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+                    .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
         });
     }
 
     @Test
-    void testAddDuplicate() {
+    void shouldSkipDuplicates() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_1));
+        assertThat(issues.add(HIGH)).isTrue();
+        assertThat(issues.add(HIGH)).isFalse();
+        assertThat(issues.addAll(asList(HIGH, LOW_FILE_2))).isFalse();
+        assertThat(issues.addAll(asList(NORMAL_1, NORMAL_2))).isTrue();
 
-        assertThat(issues.all()).contains(ISSUE_1, ISSUE_1);
+        assertThat(issues.all()).containsExactly(HIGH, LOW_FILE_2, NORMAL_1, NORMAL_2);
+        assertThat(issues.all()).hasSize(4);
+
         assertThat(issues)
-                .hasSize(2)
-                .hasLowPrioritySize(0)
-                .hasNormalPrioritySize(0)
-                .hasHighPrioritySize(2);
-        assertThat(issues.getFiles()).containsExactly("file-1");
+                .hasSize(4)
+                .hasDuplicatesSize(2)
+                .hasLowPrioritySize(1)
+                .hasNormalPrioritySize(2)
+                .hasHighPrioritySize(1);
+        assertThat(issues.getFiles()).containsExactly("file-1", "file-2");
     }
 
     @Test
-    void testRemove() {
+    void shouldRemoveById() {
+        shouldRemoveOneIssue(HIGH, NORMAL_1, NORMAL_2);
+        shouldRemoveOneIssue(NORMAL_1, HIGH, NORMAL_2);
+        shouldRemoveOneIssue(NORMAL_1, NORMAL_2, HIGH);
+    }
+
+    private void shouldRemoveOneIssue(final Issue... initialElements) {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        issues.addAll(asList(initialElements));
 
-        Issue removed = issues.remove(ISSUE_1.getId());
+        issues.remove(HIGH.getId());
 
-        assertThat(removed).isEqualTo(ISSUE_1);
-        assertThat(issues.all()).containsOnly(ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
-        assertThat((Iterable<Issue>) issues).containsOnly(ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
-        assertThat(issues).hasSize(5);
-        assertThat(issues).hasHighPrioritySize(0);
-        assertThat(issues).hasNormalPrioritySize(2);
-        assertThat(issues).hasLowPrioritySize(3);
-        assertThat(issues.getFiles()).containsExactly("file-1", "file-2", "file-3");
+        assertThat((Iterable<Issue>) issues).containsExactly(NORMAL_1, NORMAL_2);
     }
 
     @Test
-    void testRemoveNotExisting() {
+    void shouldThrowExceptionWhenRemovingWithWrongKey() {
         Issues<Issue> issues = new Issues<>();
 
-        assertThatThrownBy(() -> issues.remove(ISSUE_1.getId()))
+        UUID id = HIGH.getId();
+        assertThatThrownBy(() -> issues.remove(id))
                 .isInstanceOf(NoSuchElementException.class)
-                .hasNoCause()
-                .hasMessageContaining(ISSUE_1.getId().toString());
+                .hasMessageContaining(id.toString());
     }
 
     @Test
-    void testRemoveDuplicate() {
+    void shouldFindIfOnlyOneIssue() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_1));
+        issues.addAll(ImmutableList.of(HIGH));
 
-        issues.remove(ISSUE_1.getId());
+        Issue found = issues.findById(HIGH.getId());
 
-        assertThat(issues.all()).containsOnly(ISSUE_1);
-        assertThat(issues).hasSize(1);
-        assertThat(issues).hasHighPrioritySize(1);
-        assertThat(issues.getFiles()).containsExactly("file-1");
+        assertThat(found).isSameAs(HIGH);
     }
 
     @Test
-    void testFindByIdSingleIssue() {
+    void shouldFindWithinMultipleIssues() {
+        shouldFindIssue(HIGH, NORMAL_1, NORMAL_2);
+        shouldFindIssue(NORMAL_1, HIGH, NORMAL_2);
+        shouldFindIssue(NORMAL_1, NORMAL_2, HIGH);
+    }
+
+    private void shouldFindIssue(final Issue... elements) {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(ImmutableList.of(ISSUE_1));
+        issues.addAll(asList(elements));
 
-        Issue found = issues.findById(ISSUE_1.getId());
+        Issue found = issues.findById(HIGH.getId());
 
-        assertThat(found).isEqualTo(ISSUE_1);
+        assertThat(found).isSameAs(HIGH);
     }
 
     @Test
-    void testFindByIdSingleIssueNotExisting() {
-        Issues<Issue> issues = new Issues<>();
-        issues.addAll(ImmutableList.of(ISSUE_1));
+    void shouldThrowExceptionWhenSearchingWithWrongKey() {
+        shouldFindNothing(HIGH);
+        shouldFindNothing(HIGH, NORMAL_1);
+    }
 
-        assertThatThrownBy(() -> issues.findById(ISSUE_2.getId()))
+    private void shouldFindNothing(final Issue... elements) {
+        Issues<Issue> issues = new Issues<>();
+        issues.addAll(asList(elements));
+
+        UUID id = NORMAL_2.getId();
+        assertThatThrownBy(() -> issues.findById(id))
                 .isInstanceOf(NoSuchElementException.class)
-                .hasNoCause()
-                .hasMessageContaining(ISSUE_2.getId().toString());
+                .hasMessageContaining(id.toString());
     }
 
     @Test
-    void testFindByIdMultipleIssues() {
+    void shouldReturnEmptyListIfPropertyDoesNotMatch() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(ImmutableList.of(ISSUE_1, ISSUE_2));
+        issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
-        Issue found = issues.findById(ISSUE_2.getId());
-
-        assertThat(found).isEqualTo(ISSUE_2);
-    }
-
-    @Test
-    void testFindByIdMultipleIssuesNotExisting() {
-        Issues<Issue> issues = new Issues<>();
-        issues.addAll(ImmutableList.of(ISSUE_1, ISSUE_2));
-
-        assertThatThrownBy(() -> issues.findById(ISSUE_3.getId()))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasNoCause()
-                .hasMessageContaining(ISSUE_3.getId().toString());
-    }
-
-    @Test
-    void testFindNoneByProperty() {
-        Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
-
-        ImmutableList<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.LOW));
+        ImmutableSet<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.LOW));
 
         assertThat(found).isEmpty();
     }
@@ -194,94 +194,85 @@ class IssuesTest {
     @Test
     void testFindByPropertyResultImmutable() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
-        ImmutableList<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.HIGH));
+        issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
+        ImmutableSet<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.HIGH));
 
-        //noinspection deprecation
-        assertThatThrownBy(() -> found.add(ISSUE_4))
-                .isInstanceOf(UnsupportedOperationException.class)
-                .hasNoCause();
+        assertThat(found).hasSize(1);
+        assertThat(found).containsExactly(HIGH);
     }
 
     @Test
-    void testIterator() {
+    void shouldReturnIndexedValue() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
+        issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
-        assertThat((Iterable<Issue>) issues).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
-    }
-
-    @Test
-    void testGet() {
-        Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
-
-        assertThat(issues.get(0)).isEqualTo(ISSUE_1);
-        assertThat(issues.get(1)).isEqualTo(ISSUE_2);
-        assertThat(issues.get(2)).isEqualTo(ISSUE_3);
+        assertThat(issues.get(0)).isSameAs(HIGH);
+        assertThat(issues.get(1)).isSameAs(NORMAL_1);
+        assertThat(issues.get(2)).isSameAs(NORMAL_2);
         assertThatThrownBy(() -> issues.get(-1))
                 .isInstanceOf(IndexOutOfBoundsException.class)
-                .hasNoCause()
                 .hasMessageContaining("-1");
         assertThatThrownBy(() -> issues.get(3))
                 .isInstanceOf(IndexOutOfBoundsException.class)
-                .hasNoCause()
                 .hasMessageContaining("3");
     }
 
     @Test
-    void testGetFiles() {
+    void shouldReturnFiles() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3));
 
         assertThat(issues.getFiles()).contains("file-1", "file-1", "file-3");
     }
 
     @Test
-    void testToString() {
+    void shouldReturnSizeInToString() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
+        issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
         assertThat(issues.toString()).contains("3");
     }
 
     @Test
-    void testGetProperties() {
+    void shouldReturnProperties() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3));
 
         SortedSet<String> properties = issues.getProperties(issue -> issue.getMessage());
 
         assertThat(properties)
-                .contains(ISSUE_1.getMessage())
-                .contains(ISSUE_2.getMessage())
-                .contains(ISSUE_3.getMessage());
+                .contains(HIGH.getMessage())
+                .contains(NORMAL_1.getMessage())
+                .contains(NORMAL_2.getMessage());
     }
 
     @Test
     void testCopy() {
         Issues<Issue> original = new Issues<>();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3));
+        original.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
         Issues<Issue> copy = original.copy();
 
         assertThat(copy).isNotSameAs(original);
-        assertThat(copy.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
+        assertThat(copy.all()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
 
-        copy.add(ISSUE_4);
-        assertThat(original.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
-        assertThat(copy.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4);
+        copy.add(LOW_FILE_2);
+        assertThat(original.all()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
+        assertThat(copy.all()).containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2);
     }
 
     @Test
-    void should() {
+    void shouldSupportSubTypes() {
         ExtendedIssueBuilder builder = new ExtendedIssueBuilder();
-        ExtendedIssue issue = builder.build();
 
         Issues<ExtendedIssue> issues = new Issues<>();
-        issues.add(issue);
+        issues.add(builder.build());
 
         ExtendedIssue returnedIssue = issues.get(0);
+        assertThat(returnedIssue.getAdditional()).isEqualTo(EXTENDED_VALUE);
+
+        Issues<ExtendedIssue> filtered = issues.filter(issue -> issue.getAdditional().equals(EXTENDED_VALUE));
+        assertThat(filtered).hasSize(1);
     }
 
     public static class ExtendedIssueBuilder extends IssueBuilder {
@@ -289,7 +280,7 @@ class IssuesTest {
         public ExtendedIssue build() {
             return new ExtendedIssue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
                     packageName, moduleName, priority, message, description, origin,
-                    "Bla Bla");
+                    EXTENDED_VALUE);
         }
     }
 
