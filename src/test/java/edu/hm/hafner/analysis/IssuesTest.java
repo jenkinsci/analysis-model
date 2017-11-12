@@ -54,7 +54,7 @@ class IssuesTest {
     void shouldBeEmptyWhenCreated() {
         Issues<Issue> issues = new Issues<>();
 
-        assertThat(issues).hasSize(0);
+        assertThat(issues).isEmpty();
         assertThat(issues).hasHighPrioritySize(0);
         assertThat(issues).hasLowPrioritySize(0);
         assertThat(issues).hasNormalPrioritySize(0);

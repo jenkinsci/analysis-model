@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the class {@link MavenConsoleParser}.
@@ -20,9 +20,11 @@ public class MavenConsoleParserTest extends ParserTester {
     public void testParsing() {
         Issues<Issue> warnings = new MavenConsoleParser().parse(openFile());
 
-        assertEquals(4, warnings.size());
-        assertEquals(2, warnings.getHighPrioritySize());
-        assertEquals(2, warnings.getNormalPrioritySize());
+        assertThat(warnings)
+                .hasSize(4)
+                .hasHighPrioritySize(2)
+                .hasNormalPrioritySize(2)
+                .hasLowPrioritySize(0);
     }
 
     /**
@@ -34,7 +36,7 @@ public class MavenConsoleParserTest extends ParserTester {
     public void issue16826() {
         Issues<Issue> warnings = new MavenConsoleParser().parse(openFile("issue16826.txt"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
     }
 
     /**
@@ -47,7 +49,7 @@ public class MavenConsoleParserTest extends ParserTester {
     public void largeFile() {
         Issues<Issue> warnings = new MavenConsoleParser().parse(openFile("maven-large.log"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
     }
 
     @Override

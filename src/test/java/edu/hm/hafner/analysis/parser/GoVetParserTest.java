@@ -6,14 +6,12 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link GoLintParser}.
  */
 public class GoVetParserTest extends ParserTester {
-
     /**
      * Parses a file with multiple go vet warnings.
      */
@@ -23,7 +21,7 @@ public class GoVetParserTest extends ParserTester {
 
         assertThat(warnings).hasSize(2);
 
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(DEFAULT_CATEGORY)
@@ -31,9 +29,6 @@ public class GoVetParserTest extends ParserTester {
                     .hasLineEnd(46)
                     .hasMessage("missing argument for Fatalf(\"%#v\"): format reads arg 2, have only 1 args")
                     .hasFileName("ui_colored_test.go");
-        });
-
-        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(DEFAULT_CATEGORY)
@@ -42,8 +37,6 @@ public class GoVetParserTest extends ParserTester {
                     .hasMessage("missing argument for Fatalf(\"%#v\"): format reads arg 2, have only 1 args")
                     .hasFileName("ui_colored_test.go");
         });
-
-
     }
 
     @Override

@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link CppLintParser}.
@@ -26,19 +24,20 @@ public class CppLintParserTest extends ParserTester {
     public void shouldFindAll1031Warnings() {
         Issues<Issue> issues = new CppLintParser().parse(openFile());
 
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(issues).hasSize(1031);
-        softly.assertThat(issues).hasHighPrioritySize(81);
-        softly.assertThat(issues).hasNormalPrioritySize(201);
-        softly.assertThat(issues).hasLowPrioritySize(749);
+        assertThat(issues).hasSize(1031)
+                .hasHighPrioritySize(81)
+                .hasNormalPrioritySize(201)
+                .hasLowPrioritySize(749);
 
-        softly.assertThat(issues.get(0)).hasLineStart(824)
-                .hasLineEnd(824)
-                .hasMessage("Tab found; better to use spaces")
-                .hasFileName("c:/Workspace/Trunk/Project/P1/class.cpp")
-                .hasCategory("whitespace/tab")
-                .hasPriority(Priority.LOW);
-        softly.assertAll();
+        assertSoftly(softly -> {
+            softly.assertThat(issues.get(0))
+                    .hasLineStart(824)
+                    .hasLineEnd(824)
+                    .hasMessage("Tab found; better to use spaces")
+                    .hasFileName("c:/Workspace/Trunk/Project/P1/class.cpp")
+                    .hasCategory("whitespace/tab")
+                    .hasPriority(Priority.LOW);
+        });
     }
 
     /**
@@ -49,23 +48,23 @@ public class CppLintParserTest extends ParserTester {
     @Test
     public void issue18290() {
         Issues<Issue> warnings = new CppLintParser().parse(openFile("issue18290.txt"));
-        Iterator<Issue> iterator = warnings.iterator();
 
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(2);
-        softly.assertThat(iterator.next()).hasLineStart(399)
-                .hasLineEnd(399)
-                .hasMessage("Missing space before {")
-                .hasFileName("/opt/ros/fuerte/stacks/Mule/Mapping/Local_map/src/LocalCostMap.cpp")
-                .hasCategory("whitespace/braces")
-                .hasPriority(Priority.HIGH);
-        softly.assertThat(iterator.next()).hasLineStart(400)
-                .hasLineEnd(400)
-                .hasMessage("Tab found; better to use spaces")
-                .hasFileName("/opt/ros/fuerte/stacks/Mule/Mapping/Local_map/src/LocalCostMap.cpp")
-                .hasCategory("whitespace/tab")
-                .hasPriority(Priority.LOW);
-        softly.assertAll();
+        assertThat(warnings).hasSize(2);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0)).hasLineStart(399)
+                    .hasLineEnd(399)
+                    .hasMessage("Missing space before {")
+                    .hasFileName("/opt/ros/fuerte/stacks/Mule/Mapping/Local_map/src/LocalCostMap.cpp")
+                    .hasCategory("whitespace/braces")
+                    .hasPriority(Priority.HIGH);
+            softly.assertThat(warnings.get(1)).hasLineStart(400)
+                    .hasLineEnd(400)
+                    .hasMessage("Tab found; better to use spaces")
+                    .hasFileName("/opt/ros/fuerte/stacks/Mule/Mapping/Local_map/src/LocalCostMap.cpp")
+                    .hasCategory("whitespace/tab")
+                    .hasPriority(Priority.LOW);
+        });
     }
 }
 

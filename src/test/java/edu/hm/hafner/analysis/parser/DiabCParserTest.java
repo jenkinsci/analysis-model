@@ -24,14 +24,14 @@ public class DiabCParserTest extends ParserTester {
         Issues<Issue> warnings = new DiabCParser().parse(openFile());
         assertThat(warnings).hasSize(12).hasDuplicatesSize(1);
 
-        SoftAssertions softly = new SoftAssertions();
         Iterator<Issue> iterator = warnings.iterator();
+
+        SoftAssertions softly = new SoftAssertions();
         softly.assertThat(iterator.next())
                 .hasLineStart(7)
                 .hasLineEnd(7)
                 .hasMessage("missing return expression")
                 .hasFileName("lint.c")
-                .hasType(TYPE)
                 .hasCategory("1521")
                 .hasPriority(Priority.NORMAL);
 
@@ -40,7 +40,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(22)
                 .hasMessage("narrowing or signed-to-unsigned type conversion found: int to unsigned char")
                 .hasFileName("lint.c")
-                .hasType(TYPE)
                 .hasCategory("1643")
                 .hasPriority(Priority.NORMAL);
 
@@ -49,7 +48,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(28)
                 .hasMessage("constant out of range")
                 .hasFileName("lint.c")
-                .hasType(TYPE)
                 .hasCategory("1243")
                 .hasPriority(Priority.NORMAL);
 
@@ -58,7 +56,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(4)
                 .hasMessage("function f4 is never used")
                 .hasFileName("lint.c")
-                .hasType(TYPE)
                 .hasCategory("1517")
                 .hasPriority(Priority.NORMAL);
 
@@ -67,7 +64,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(11)
                 .hasMessage("function f5 is not found")
                 .hasFileName("lint.c")
-                .hasType(TYPE)
                 .hasCategory("1378")
                 .hasPriority(Priority.HIGH);
 
@@ -76,7 +72,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(5)
                 .hasMessage("division by zero")
                 .hasFileName("main.c")
-                .hasType(TYPE)
                 .hasCategory("1025")
                 .hasPriority(Priority.NORMAL);
 
@@ -85,7 +80,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(5)
                 .hasMessage("division by zero")
                 .hasFileName("main.c")
-                .hasType(TYPE)
                 .hasCategory("1025")
                 .hasPriority(Priority.HIGH);
 
@@ -94,7 +88,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(976)
                 .hasMessage("function \"testing\" was declared but never referenced")
                 .hasFileName("test.cpp")
-                .hasType(TYPE)
                 .hasCategory("4177")
                 .hasPriority(Priority.NORMAL);
 
@@ -103,7 +96,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(427)
                 .hasMessage("pointless comparison of unsigned integer with zero")
                 .hasFileName("test.cpp")
-                .hasType(TYPE)
                 .hasCategory("4186")
                 .hasPriority(Priority.NORMAL);
 
@@ -112,7 +104,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(38)
                 .hasMessage("expected a \";\"")
                 .hasFileName("test.cpp")
-                .hasType(TYPE)
                 .hasCategory("4065")
                 .hasPriority(Priority.HIGH);
 
@@ -121,7 +112,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(443)
                 .hasMessage("external/internal linkage conflict with previous declaration")
                 .hasFileName("test.cpp")
-                .hasType(TYPE)
                 .hasCategory("4172")
                 .hasPriority(Priority.LOW);
 
@@ -130,7 +120,6 @@ public class DiabCParserTest extends ParserTester {
                 .hasLineEnd(293)
                 .hasMessage("access control not specified (\"private\" by default)")
                 .hasFileName("test.h")
-                .hasType(TYPE)
                 .hasCategory("4261")
                 .hasPriority(Priority.LOW);
 

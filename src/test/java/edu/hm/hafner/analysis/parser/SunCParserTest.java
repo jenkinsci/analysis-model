@@ -12,7 +12,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * Tests the class {@link SunCParser}.
  */
 public class SunCParserTest extends ParserTester {
-    private static final String TYPE = new SunCParser().getId();
     private static final String MESSAGE = "String literal converted to char* in formal argument 1 in call to userlog(char*, ...).";
     private static final String CATEGORY = "badargtypel2w";
 

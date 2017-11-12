@@ -14,8 +14,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Emidio Stani
  */
 public class YuiCompressorParserTest extends ParserTester {
-    private static final String TYPE = new YuiCompressorParser().getId();
-
     /**
      * Parses a file with 3 warnings.
      */

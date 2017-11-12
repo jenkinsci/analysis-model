@@ -16,7 +16,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 public class QACSourceCodeAnalyserParserTest extends ParserTester {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
-    private static final String TYPE = new QACSourceCodeAnalyserParser().getId();
 
     /**
      * Parses a file with QAC warnings.
@@ -35,7 +34,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(34)
                     .hasMessage("[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.")
                     .hasFileName("C:/PATH/PATH/PATH/PATH/Test1.c")
-                    .hasType(TYPE)
                     .hasCategory(WARNING_CATEGORY)
                     .hasPriority(Priority.NORMAL);
 
@@ -44,7 +42,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(185)
                     .hasMessage("A function-like macro is being defined.")
                     .hasFileName("C:/PATH/PATH/PATH/PATH/Test2.h")
-                    .hasType(TYPE)
                     .hasCategory(WARNING_CATEGORY)
                     .hasPriority(Priority.NORMAL);
 
@@ -53,7 +50,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(20233)
                     .hasMessage("A function could probably be used instead of this function-like macro.")
                     .hasFileName("C:/PATH/PATH/Test3.h")
-                    .hasType(TYPE)
                     .hasCategory(WARNING_CATEGORY)
                     .hasPriority(Priority.NORMAL);
 
@@ -62,7 +58,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(213)
                     .hasMessage("Macro defines an unrecognised code-fragment.")
                     .hasFileName("C:/PATH/Test4.h")
-                    .hasType(TYPE)
                     .hasCategory(WARNING_CATEGORY)
                     .hasPriority(Priority.NORMAL);
 
@@ -71,7 +66,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(75)
                     .hasMessage("[L] External identifier matches other identifier(s) (e.g. 'Test') in first 6 characters - program is non-conforming.")
                     .hasFileName("C:/PATH/PATH/Test5.h")
-                    .hasType(TYPE)
                     .hasCategory(WARNING_CATEGORY)
                     .hasPriority(Priority.NORMAL);
 
@@ -80,7 +74,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(46)
                     .hasMessage("[E] This in-line assembler construct is a language extension. The code has been ignored")
                     .hasFileName("C:/PATH/PATH/PATH/PATH/Test6.h")
-                    .hasType(TYPE)
                     .hasCategory(WARNING_CATEGORY)
                     .hasPriority(Priority.NORMAL);
 
@@ -89,7 +82,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(94)
                     .hasMessage("[C] Redefinition of 'P2FUNC' with a different body.")
                     .hasFileName("C:/PATH/PATH/PATH/PATH/Test7.h")
-                    .hasType(TYPE)
                     .hasCategory(WARNING_CATEGORY)
                     .hasPriority(Priority.NORMAL);
 
@@ -98,7 +90,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(724)
                     .hasMessage("Cannot find test.h - Perhaps the appropriate search path was not given?")
                     .hasFileName("C:/PATH/PATH/Test8.h")
-                    .hasType(TYPE)
                     .hasCategory(ERROR_CATEGORY)
                     .hasPriority(Priority.HIGH);
 
@@ -107,7 +98,6 @@ public class QACSourceCodeAnalyserParserTest extends ParserTester {
                     .hasLineEnd(178)
                     .hasMessage("Macro parameter not enclosed in ().")
                     .hasFileName("C:/PATH/Test9.h")
-                    .hasType(TYPE)
                     .hasCategory(WARNING_CATEGORY)
                     .hasPriority(Priority.NORMAL);
         });

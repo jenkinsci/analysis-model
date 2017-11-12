@@ -8,7 +8,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link PREfastParser}.
@@ -28,35 +28,33 @@ public class PREfastParserTest extends ParserTester {
 
         Iterator<Issue> iterator = results.iterator();
 
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory("28101")
-                .hasLineStart(102)
-                .hasLineEnd(102)
-                .hasMessage("The Drivers module has inferred that the current function is a DRIVER_INITIALIZE function:  This is informational only. No problem has been detected.")
-                .hasFileName("sys.c")
-                .hasType(TYPE);
+        assertSoftly(softly -> {
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("28101")
+                    .hasLineStart(102)
+                    .hasLineEnd(102)
+                    .hasMessage(
+                            "The Drivers module has inferred that the current function is a DRIVER_INITIALIZE function:  This is informational only. No problem has been detected.")
+                    .hasFileName("sys.c");
 
-        softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory("6014")
-                .hasLineStart(116)
-                .hasLineEnd(116)
-                .hasMessage("(PFD)Leaking memory 'device'.")
-                .hasFileName("sys.c")
-                .hasType(TYPE);
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("6014")
+                    .hasLineStart(116)
+                    .hasLineEnd(116)
+                    .hasMessage("(PFD)Leaking memory 'device'.")
+                    .hasFileName("sys.c");
 
-        softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory("28155")
-                .hasLineStart(137)
-                .hasLineEnd(137)
-                .hasMessage("The function being assigned or passed should be a DRIVER_UNLOAD function:  Add the declaration 'DRIVER_UNLOAD OnUnload;' before the current first declaration of OnUnload.")
-                .hasFileName("sys.c")
-                .hasType(TYPE);
-
-        softly.assertAll();
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("28155")
+                    .hasLineStart(137)
+                    .hasLineEnd(137)
+                    .hasMessage(
+                            "The function being assigned or passed should be a DRIVER_UNLOAD function:  Add the declaration 'DRIVER_UNLOAD OnUnload;' before the current first declaration of OnUnload.")
+                    .hasFileName("sys.c");
+        });
     }
 
     @Override

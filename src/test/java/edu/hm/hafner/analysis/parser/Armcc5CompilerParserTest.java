@@ -5,46 +5,44 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link Armcc5CompilerParser}.
  */
 public class Armcc5CompilerParserTest extends ParserTester {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
-    private static final String WARNING_TYPE = new Armcc5CompilerParser().getId();
 
     /**
      * Detects three 5 warnings.
      */
     @Test
     public void testWarningsParser() {
-        SoftAssertions softly = new SoftAssertions();
         Issues<Issue> warnings = new Armcc5CompilerParser().parse(openFile());
 
-        softly.assertThat(warnings).hasSize(3);
-        softly.assertThat(warnings.get(0)).hasPriority(Priority.HIGH)
-                .hasCategory(WARNING_CATEGORY)
-                .hasLineStart(197)
-                .hasLineEnd(197)
-                .hasMessage("18 - expected a \")\"")
-                .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c")
-                .hasType(WARNING_TYPE);
-        softly.assertThat(warnings.get(1)).hasPriority(Priority.NORMAL)
-                .hasCategory(WARNING_CATEGORY)
-                .hasLineStart(211)
-                .hasLineEnd(211)
-                .hasMessage("12-D - parsing restarts here after previous syntax error")
-                .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c")
-                .hasType(WARNING_TYPE);
-        softly.assertThat(warnings.get(2)).hasPriority(Priority.NORMAL)
-                .hasCategory(WARNING_CATEGORY)
-                .hasLineStart(211)
-                .hasLineEnd(211)
-                .hasMessage("940-D - missing return statement at end of non-void function \"wnDrv_Usbhw_GetEPCmdStatusPtr\"")
-                .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c")
-                .hasType(WARNING_TYPE);
-        softly.assertAll();
+        assertThat(warnings).hasSize(3);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0)).hasPriority(Priority.HIGH)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(197)
+                    .hasLineEnd(197)
+                    .hasMessage("18 - expected a \")\"")
+                    .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c");
+            softly.assertThat(warnings.get(1)).hasPriority(Priority.NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(211)
+                    .hasLineEnd(211)
+                    .hasMessage("12-D - parsing restarts here after previous syntax error")
+                    .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c");
+            softly.assertThat(warnings.get(2)).hasPriority(Priority.NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(211)
+                    .hasLineEnd(211)
+                    .hasMessage("940-D - missing return statement at end of non-void function \"wnDrv_Usbhw_GetEPCmdStatusPtr\"")
+                    .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c");
+        });
     }
 
     @Override

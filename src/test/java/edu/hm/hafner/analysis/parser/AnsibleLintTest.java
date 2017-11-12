@@ -11,11 +11,9 @@ import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
- * Tests the class {@link AnsibleLintParser}
+ * Tests the class {@link AnsibleLintParser}.
  */
 public class AnsibleLintTest extends ParserTester {
-    private static final String WARNING_TYPE = new AnsibleLintParser().getId();
-
     /**
      * Parses a file with 4 ansible-lint warnings
      */
@@ -32,34 +30,29 @@ public class AnsibleLintTest extends ParserTester {
                     .hasLineStart(2)
                     .hasLineEnd(2)
                     .hasMessage("Trailing whitespace")
-                    .hasFileName("/workspace/roles/backup/tasks/main.yml")
-                    .hasType(WARNING_TYPE);
+                    .hasFileName("/workspace/roles/backup/tasks/main.yml");
             softly.assertThat(iterator.next())
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("ANSIBLE0012")
                     .hasLineStart(1)
                     .hasLineEnd(1)
                     .hasMessage("Commands should not change things if nothing needs doing")
-                    .hasFileName("/workspace/roles/upgrade/tasks/main.yml")
-                    .hasType(WARNING_TYPE);
+                    .hasFileName("/workspace/roles/upgrade/tasks/main.yml");
             softly.assertThat(iterator.next())
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("ANSIBLE0011")
                     .hasLineStart(12)
                     .hasLineEnd(12)
                     .hasMessage("All tasks should be named")
-                    .hasFileName("/workspace/roles/upgrade/tasks/main.yml")
-                    .hasType(WARNING_TYPE);
+                    .hasFileName("/workspace/roles/upgrade/tasks/main.yml");
             softly.assertThat(iterator.next())
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("ANSIBLE0013")
                     .hasLineStart(12)
                     .hasLineEnd(12)
                     .hasMessage("Use shell only when shell functionality is required")
-                    .hasFileName("/workspace/roles/roll_forward_target/tasks/main.yml")
-                    .hasType(WARNING_TYPE);
+                    .hasFileName("/workspace/roles/roll_forward_target/tasks/main.yml");
         });
-
     }
 
     @Override

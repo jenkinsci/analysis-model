@@ -1,16 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 
@@ -18,8 +14,6 @@ import static org.assertj.core.api.Assertions.*;
  * Tests the class {@link JavacParser}.
  */
 public class JavacParserTest extends ParserTester {
-    private static final String WARNING_TYPE = new JavacParser().getId();
-
     /**
      * Parses a warning log with two false positives.
      *
@@ -28,7 +22,8 @@ public class JavacParserTest extends ParserTester {
     @Test
     public void issue14043() {
         Issues<Issue> warnings = parse("issue14043.txt");
-        assertThat(warnings).hasSize(0);
+
+        assertThat(warnings).isEmpty();
     }
 
     /**
@@ -45,9 +40,11 @@ public class JavacParserTest extends ParserTester {
         assertThat(java7).hasSize(62);
     }
 
+    /** Verifies that the Kotlin maven plugin warnings are correctly parsed. */
     @Test
     public void kotlinMavenPlugin() {
         Issues<Issue> warnings = parse("kotlin-maven-plugin.txt");
+
         assertThat(warnings).hasSize(4);
     }
 
@@ -59,8 +56,7 @@ public class JavacParserTest extends ParserTester {
         Issues<Issue> warnings = new JavacParser().parse(openFile());
         assertThat(warnings).hasSize(2);
 
-        SoftAssertions.assertSoftly(softly -> {
-
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(AbstractParser.DEPRECATION)
@@ -68,12 +64,8 @@ public class JavacParserTest extends ParserTester {
                     .hasLineEnd(40)
                     .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
                     .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
-                    .hasColumnStart(36)
-                    .hasType(WARNING_TYPE);
-
-
+                    .hasColumnStart(36);
         });
-
     }
 
     /**
@@ -82,59 +74,45 @@ public class JavacParserTest extends ParserTester {
     @Test
     public void parseArrayInDeprecatedMethod() {
         Issues<Issue> warnings = parse("issue5868.txt");
+
         assertThat(warnings).hasSize(1);
 
-        SoftAssertions.assertSoftly(softly -> {
-
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
                     .hasLineEnd(14)
                     .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
-                    .hasFileName("D:/path/to/my/Class.java")
-                    .hasType(WARNING_TYPE);
-
-
+                    .hasFileName("D:/path/to/my/Class.java");
         });
-
     }
 
     /**
-     * Parses parallel pipeline output based on 'javac.txt'
+     * Parses parallel pipeline output based on 'javac.txt'.
      */
     @Test
     public void parseParallelPipelineOutput() {
         Issues<Issue> warnings = parse("javac-parallel-pipeline.txt");
+
         assertThat(warnings).hasSize(2);
 
-        String fileName = "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java";
-        Iterator<Issue> expectedWarnings = Arrays.asList(
-                new IssueBuilder().setFileName(fileName).setLineStart(12).setType(WARNING_TYPE).setCategory("Deprecation").setMessage("org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated").build(),
-                new IssueBuilder().setFileName(fileName).setLineStart(40).setType(WARNING_TYPE).setCategory("Deprecation").setMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated").build()
-        ).iterator();
-
-        Iterator<Issue> iterator = warnings.iterator();
-        while (iterator.hasNext()) {
-            assertThat(expectedWarnings.hasNext()).isTrue();
-
-            Issue expectedWarning = expectedWarnings.next();
-            final int lineNumber = expectedWarning.getLineStart();
-            SoftAssertions.assertSoftly(softly -> {
-
-                softly.assertThat(iterator.next())
-                        .hasPriority(expectedWarning.getPriority())
-                        .hasCategory(expectedWarning.getCategory())
-                        .hasLineStart(lineNumber)
-                        .hasLineEnd(lineNumber)
-                        .hasMessage(expectedWarning.getMessage())
-                        .hasFileName(expectedWarning.getFileName())
-                        .hasType(expectedWarning.getType());
-
-
-            });
-
-        }
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(AbstractParser.DEPRECATION)
+                    .hasLineStart(12)
+                    .hasLineEnd(12)
+                    .hasMessage("org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated")
+                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+            softly.assertThat(warnings.get(1))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(AbstractParser.DEPRECATION)
+                    .hasLineStart(40)
+                    .hasLineEnd(40)
+                    .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+        });
     }
 
     private Issues<Issue> parse(final String fileName) {

@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link GoLintParser}.
@@ -23,7 +23,7 @@ public class GoLintParserTest extends ParserTester {
 
         assertThat(warnings).hasSize(7);
 
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)

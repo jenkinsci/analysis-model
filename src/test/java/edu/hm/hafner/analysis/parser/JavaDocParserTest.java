@@ -7,14 +7,13 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link JavaDocParser}.
  */
 public class JavaDocParserTest extends ParserTester {
-    private static final String TYPE = new JavaDocParser().getId();
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     /**
@@ -23,6 +22,7 @@ public class JavaDocParserTest extends ParserTester {
     @Test
     public void falseJavaDocPositives() {
         Issues<Issue> warnings = new JavaDocParser().parse(openFile("all.txt"));
+
         assertThat(warnings).hasSize(8);
     }
 
@@ -37,17 +37,14 @@ public class JavaDocParserTest extends ParserTester {
 
         assertThat(warnings).hasSize(3);
 
-
-        SoftAssertions.assertSoftly(softly -> {
-
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.HIGH)
                     .hasCategory(CATEGORY)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("malformed HTML")
-                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java")
-                    .hasType(TYPE);
+                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
 
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.HIGH)
@@ -55,8 +52,7 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("bad use of '>'")
-                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java")
-                    .hasType(TYPE);
+                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
 
             softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.HIGH)
@@ -64,11 +60,8 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("unexpected end tag: </a>")
-                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java")
-                    .hasType(TYPE);
-
+                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
         });
-
     }
 
     /**
@@ -82,16 +75,14 @@ public class JavaDocParserTest extends ParserTester {
         assertThat(warnings).hasSize(7);
 
         Iterator<Issue> iterator = warnings.iterator();
-        Issue firstIssue = iterator.next();
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(683)
                     .hasLineEnd(683)
                     .hasMessage("no description for @param")
-                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/Apps.java")
-                    .hasType(TYPE);
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/Apps.java");
 
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
@@ -99,8 +90,7 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(85)
                     .hasLineEnd(85)
                     .hasMessage("no description for @param")
-                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java")
-                    .hasType(TYPE);
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.NORMAL)
@@ -108,8 +98,7 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(86)
                     .hasLineEnd(86)
                     .hasMessage("no description for @param")
-                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java")
-                    .hasType(TYPE);
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(3))
                     .hasPriority(Priority.NORMAL)
@@ -117,8 +106,7 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(190)
                     .hasLineEnd(190)
                     .hasMessage("no description for @param")
-                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java")
-                    .hasType(TYPE);
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(4))
                     .hasPriority(Priority.HIGH)
@@ -126,8 +114,7 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(25)
                     .hasLineEnd(25)
                     .hasMessage("bad use of '>'")
-                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottle.java")
-                    .hasType(TYPE);
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottle.java");
 
             softly.assertThat(warnings.get(5))
                     .hasPriority(Priority.HIGH)
@@ -135,8 +122,7 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("malformed HTML")
-                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java")
-                    .hasType(TYPE);
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java");
 
             softly.assertThat(warnings.get(6))
                     .hasPriority(Priority.HIGH)
@@ -144,9 +130,7 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("bad use of '>'")
-                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java")
-                    .hasType(TYPE);
-
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java");
         });
     }
 
@@ -156,20 +140,18 @@ public class JavaDocParserTest extends ParserTester {
     @Test
     public void parseJavaDocWarnings() {
         Issues<Issue> warnings = new JavaDocParser().parse(openFile());
+
         assertThat(warnings).hasSize(6);
 
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(116)
                     .hasLineEnd(116)
                     .hasMessage("Tag @link: can't find removeSpecChangeListener(ChangeListener, String) in chenomx.ccma.common.graph.module.GraphListenerRegistry")
-                    .hasFileName("/home/builder/hudson/workspace/Homer/oddjob/src/chenomx/ccma/common/graph/module/GraphListenerRegistry.java")
-                    .hasType(TYPE);
-
+                    .hasFileName("/home/builder/hudson/workspace/Homer/oddjob/src/chenomx/ccma/common/graph/module/GraphListenerRegistry.java");
         });
-
     }
 
     /**
@@ -182,16 +164,15 @@ public class JavaDocParserTest extends ParserTester {
         Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue4576.txt"));
 
         assertThat(warnings).hasSize(2);
-        SoftAssertions.assertSoftly(softly -> {
 
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("Multiple sources of package comments found for package \"org.hamcrest\"")
-                    .hasFileName("-")
-                    .hasType(TYPE);
+                    .hasFileName("-");
 
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
@@ -199,11 +180,8 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(94)
                     .hasLineEnd(94)
                     .hasMessage("@param argument \"<code>CoreAccountNumberTO</code>\" is not a parameter")
-                    .hasFileName("/home/hudson-farm/.hudson/jobs/farm-toplevel/workspace/farm-toplevel/service-module/src/main/java/com/rackspace/farm/service/service/CoreAccountServiceImpl.java")
-                    .hasType(TYPE);
+                    .hasFileName("/home/hudson-farm/.hudson/jobs/farm-toplevel/workspace/farm-toplevel/service-module/src/main/java/com/rackspace/farm/service/service/CoreAccountServiceImpl.java");
         });
-
-
     }
 
     /**
@@ -214,7 +192,8 @@ public class JavaDocParserTest extends ParserTester {
     @Test
     public void issue8630() {
         Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue8630.txt"));
-        assertThat(warnings).hasSize(0);
+
+        assertThat(warnings).isEmpty();
     }
 
     /**
@@ -228,15 +207,14 @@ public class JavaDocParserTest extends ParserTester {
 
         assertThat(warnings).hasSize(7);
 
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("Text of tag @sys.prop in class ch.post.pf.mw.service.common.alarm.AlarmingService is too long!")
-                    .hasFileName("-")
-                    .hasType(TYPE);
+                    .hasFileName("-");
 
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
@@ -244,11 +222,8 @@ public class JavaDocParserTest extends ParserTester {
                     .hasLineStart(57)
                     .hasLineEnd(57)
                     .hasMessage("@(#) is an unknown tag.")
-                    .hasFileName("/u01/src/KinePolygon.java")
-                    .hasType(TYPE);
+                    .hasFileName("/u01/src/KinePolygon.java");
         });
-
-
     }
 
     @Override

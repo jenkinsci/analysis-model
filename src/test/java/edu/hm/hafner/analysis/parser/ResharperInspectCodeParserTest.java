@@ -8,18 +8,15 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link ResharperInspectCodeParser}.
  */
 public class ResharperInspectCodeParserTest extends ParserTester {
-
-    private static final String WARNING_TYPE = "ResharperInspectCode";
-
     /**
-     * Parses a file with warnings of the Reshaper InspectCodeParser  tools.
+     * Parses a file with warnings of the Reshaper InspectCodeParser tools.
      *
      * @throws IOException
      *         if the file could not be read
@@ -28,7 +25,7 @@ public class ResharperInspectCodeParserTest extends ParserTester {
     public void parseWarnings() {
         Issues<Issue> warnings = new ResharperInspectCodeParser().parse(openFile());
 
-        assertEquals(3, warnings.size());
+        assertThat(warnings).hasSize(3);
 
         Iterator<Issue> iterator = warnings.iterator();
 
@@ -38,7 +35,6 @@ public class ResharperInspectCodeParserTest extends ParserTester {
                     .hasLineEnd(16)
                     .hasMessage("Cannot resolve symbol 'GetError'")
                     .hasFileName("ResharperDemo/Program.cs")
-                    .hasType(WARNING_TYPE)
                     .hasCategory("CSharpErrors")
                     .hasPriority(Priority.HIGH);
 
@@ -47,7 +43,6 @@ public class ResharperInspectCodeParserTest extends ParserTester {
                     .hasLineEnd(23)
                     .hasMessage("Expression is always true")
                     .hasFileName("ResharperDemo/Program.cs")
-                    .hasType(WARNING_TYPE)
                     .hasCategory("ConditionIsAlwaysTrueOrFalse")
                     .hasPriority(Priority.NORMAL);
 
@@ -56,7 +51,6 @@ public class ResharperInspectCodeParserTest extends ParserTester {
                     .hasLineEnd(41)
                     .hasMessage("Convert to auto-property")
                     .hasFileName("ResharperDemo/Program.cs")
-                    .hasType(WARNING_TYPE)
                     .hasCategory("ConvertToAutoProperty")
                     .hasPriority(Priority.LOW);
         });

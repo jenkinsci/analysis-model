@@ -73,18 +73,18 @@ public abstract class AbstractParser implements Serializable {
         return new InputStreamReader(new BOMInputStream(inputStream), charset);
     }
 
-    /**
-     * Creates a hash code from the source code of the warning line and the
-     * surrounding context. If the source file could not be read then the hashcode is computed from the filename and line.
-     *
-     * @param fileName
-     *            the absolute path of the file to read
-     * @param line
-     *            the line of the warning
-     * @param warningType
-     *            the type of the warning
-     * @return a hashcode of the source code
-     */
+//    /**
+//     * Creates a hash code from the source code of the warning line and the
+//     * surrounding context. If the source file could not be read then the hashcode is computed from the filename and line.
+//     *
+//     * @param fileName
+//     *            the absolute path of the file to read
+//     * @param line
+//     *            the line of the warning
+//     * @param warningType
+//     *            the type of the warning
+//     * @return a hashcode of the source code
+//     */
 //    protected int createContextHashCode(final String fileName, final int line, final String warningType) {
 //        HashCodeBuilder builder = new HashCodeBuilder();
 //        builder.append(new ContextHashCode().compute(fileName, line, defaultEncoding));
@@ -92,12 +92,13 @@ public abstract class AbstractParser implements Serializable {
 //        return builder.toHashCode();
 //    }
 
-    /**
-     * Finds a file with relative filename and replaces the name with the absolute path.
-     *
-     * @param annotation the annotation
-     */
-    // TODO: when used on a slave then for each file a remote call is initiated
+//
+//    /**
+//     * Finds a file with relative filename and replaces the name with the absolute path.
+//     *
+//     * @param annotation the annotation
+//     */
+//    // TODO: when used on a slave then for each file a remote call is initiated
 //    private void expandRelativePaths(final FileAnnotation annotation) {
 //        try {
 //            if (hasRelativeFileName(annotation)) {
@@ -116,7 +117,7 @@ public abstract class AbstractParser implements Serializable {
 //    }
 
     public Issues<Issue> parse(Reader reader) throws ParsingCanceledException, ParsingException {
-        return parse(reader, new IssueBuilder().setType(getId()));
+        return parse(reader, new IssueBuilder());
     }
 
     /**

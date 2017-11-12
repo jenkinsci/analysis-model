@@ -16,7 +16,6 @@ public class MetrowerksCWCompilerParserTest extends ParserTester {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
-    private static final String WARNING_TYPE = new MetrowerksCWCompilerParser().getId();
 
     /**
      * Parses a file with CodeWarrior warnings.
@@ -33,8 +32,7 @@ public class MetrowerksCWCompilerParserTest extends ParserTester {
                     .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(570)
                     .hasLineEnd(570)
-                    .hasMessage(
-                            "Warning-directive found: EEPROM_QUEUE_BUFFER_SIZE instead of MONITOR_ERROR_DATA_LENGTH is used here. This must be fixed sooner or later")
+                    .hasMessage("Warning-directive found: EEPROM_QUEUE_BUFFER_SIZE instead of MONITOR_ERROR_DATA_LENGTH is used here. This must be fixed sooner or later")
                     .hasFileName("E:/work/PATH/PATH/PATH/PATH/Test1.c");
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)

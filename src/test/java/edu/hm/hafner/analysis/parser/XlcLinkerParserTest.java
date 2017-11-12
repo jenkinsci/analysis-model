@@ -8,14 +8,13 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link XlcLinkerParserTest}.
  */
 public class XlcLinkerParserTest extends ParserTester {
-    private static final String TYPE = new XlcLinkerParser().getId();
     private static final String FILE_NAME = "-";
 
     /**
@@ -26,7 +25,7 @@ public class XlcLinkerParserTest extends ParserTester {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-987 Error occurred while reading file"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
@@ -49,7 +48,7 @@ public class XlcLinkerParserTest extends ParserTester {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-317 ERROR: Undefined symbol: nofun()"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
@@ -72,7 +71,7 @@ public class XlcLinkerParserTest extends ParserTester {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply."));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
@@ -95,7 +94,7 @@ public class XlcLinkerParserTest extends ParserTester {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0706-012 The -9 flag is not recognized."));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
@@ -118,7 +117,7 @@ public class XlcLinkerParserTest extends ParserTester {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-224 WARNING: Duplicate symbol: dupe"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();
@@ -141,7 +140,7 @@ public class XlcLinkerParserTest extends ParserTester {
         Issues<Issue> warnings = new XlcLinkerParser().parse(
                 new StringReader("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information."));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
         Issue annotation = iterator.next();

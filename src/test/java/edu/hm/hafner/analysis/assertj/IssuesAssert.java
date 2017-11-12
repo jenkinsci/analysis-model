@@ -40,9 +40,6 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<Issue>> {
      * @return this assertion object.
      * @throws AssertionError if the actual {@link Issues} size is not zero.
      */
-    /**
-     * Assert that there are no issues present.
-     */
     public IssuesAssert isEmpty() {
         isNotNull();
 

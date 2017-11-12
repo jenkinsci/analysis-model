@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests {@link IdeaInspectionParser } parser class.
@@ -24,8 +24,7 @@ public class IdeaInspectionParserTest extends ParserTester {
         assertThat(inspections).hasSize(1);
 
 
-        SoftAssertions.assertSoftly(softly -> {
-
+        assertSoftly(softly -> {
             softly.assertThat(inspections.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("Unused method parameters")
@@ -33,8 +32,6 @@ public class IdeaInspectionParserTest extends ParserTester {
                     .hasLineEnd(42)
                     .hasMessage("Parameter <code>intentionallyUnusedString</code> is not used  in either this method or any of its derived methods")
                     .hasFileName("file://$PROJECT_DIR$/src/main/java/org/lopashev/Test.java");
-
-
         });
     }
 

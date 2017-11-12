@@ -19,6 +19,7 @@ public class CssLintParserTest extends ParserTester {
     @Test
     public void testCssLint() {
         Issues<Issue> results = createParser().parse(openFile());
+
         assertThat(results).hasSize(51);
     }
 

@@ -12,10 +12,8 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * Tests the class {@link SphinxBuildParser}.
  */
 public class SphinxBuildParserTest extends ParserTester {
-    private static final String WARNING_TYPE = new SphinxBuildParser().getId();
     private static final String SPHINX_BUILD_ERROR = "ERROR";
     private static final String SPHINX_BUILD_WARNING = "WARNING";
-
 
     /**
      * Parses a file with six SphinxBuild warnings.

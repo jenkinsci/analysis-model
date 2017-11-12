@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
@@ -38,8 +38,7 @@ public class JcReportParserTest {
         Issues<Issue> warnings = parser.parse(readCorrectXml);
         assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
 
-
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                   .hasFileName("SomeDirectory/SomeClass.java")
                   .hasPriority(Priority.HIGH)
@@ -47,8 +46,6 @@ public class JcReportParserTest {
                   .hasPackageName("SomePackage")
                   .hasLineStart(50);
         });
-
-
     }
 
     /**
@@ -62,6 +59,7 @@ public class JcReportParserTest {
         JcReportParser jcrp = new JcReportParser();
         InputStreamReader readCorrectXml = getReader("testCorrect.xml");
         Issues<Issue> warnings = jcrp.parse(readCorrectXml);
+
         assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
     }
 
@@ -78,7 +76,6 @@ public class JcReportParserTest {
     public void testReportParserProperties() throws UnsupportedEncodingException {
         InputStreamReader readCorrectXml = getReader("testReportProps.xml");
         Report testReportProps = new JcReportParser().createReport(readCorrectXml);
-
 
         assertThat(testReportProps.getFiles().size()).isEqualTo(1);
 

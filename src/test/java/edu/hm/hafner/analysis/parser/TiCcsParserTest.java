@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the class {@link TiCcsParser}.
  */
 public class TiCcsParserTest extends ParserTester {
-    private static final String CATEGORY = DEFAULT_CATEGORY;
-
     /**
      * Parses a file with warnings of the TI CodeComposer tools.
      */
@@ -44,56 +42,56 @@ public class TiCcsParserTest extends ParserTester {
                     .hasFileName("C:/SCM/Lr/src/edge.c");
             softly.assertThat(sortedWarnings.get(2))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("symbol 'memset' redeclared with incompatible type")
                     .hasFileName("unknown.file");
             softly.assertThat(sortedWarnings.get(3))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(12)
                     .hasLineEnd(12)
                     .hasMessage("variable \"h\" was declared but never referenced")
                     .hasFileName("i2cDisplay12x2.c");
             softly.assertThat(sortedWarnings.get(4))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(2578)
                     .hasLineEnd(2578)
                     .hasMessage("variable")
                     .hasFileName("c:/DOCUME~1/JLINNE~1/LOCALS~1/Temp/0360811");
             softly.assertThat(sortedWarnings.get(5))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(11)
                     .hasLineEnd(11)
                     .hasMessage("expected a \";\"")
                     .hasFileName("i2cDisplay12x2.c");
             softly.assertThat(sortedWarnings.get(6))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("unresolved symbols remain")
                     .hasFileName("unknown.file");
             softly.assertThat(sortedWarnings.get(7))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("errors encountered during linking; \"../../bin/Debug/lrxyz.out\" not")
                     .hasFileName("unknown.file");
             softly.assertThat(sortedWarnings.get(8))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(3)
                     .hasLineEnd(3)
                     .hasMessage("could not open source file \"i2cDisplay12x12.h\"")
                     .hasFileName("i2cDisplay12x2.c");
             softly.assertThat(sortedWarnings.get(9))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(5)
                     .hasLineEnd(5)
                     .hasMessage("[E0002] Illegal mnemonic specified")

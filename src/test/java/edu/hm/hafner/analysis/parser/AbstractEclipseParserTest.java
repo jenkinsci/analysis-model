@@ -15,8 +15,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Ullrich Hafner
  */
 public abstract class AbstractEclipseParserTest extends ParserTester {
-    protected static final String TYPE = new EclipseParser().getId();
-
     /**
      * Creates the parser under test.
      *
@@ -41,14 +39,15 @@ public abstract class AbstractEclipseParserTest extends ParserTester {
         assertThat(warnings).hasSize(8);
 
         Issue annotation = warnings.get(0);
-        assertSoftly(softly -> softly.assertThat(annotation)
-                .hasPriority(Priority.NORMAL)
-                .hasCategory(DEFAULT_CATEGORY)
-                .hasLineStart(3)
-                .hasLineEnd(3)
-                .hasMessage("The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
-                .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java")
-                .hasType(TYPE)
-        );
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasLineStart(3)
+                    .hasLineEnd(3)
+                    .hasMessage(
+                            "The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
+                    .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java");
+        });
     }
 }

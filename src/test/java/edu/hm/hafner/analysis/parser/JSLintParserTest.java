@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -30,9 +28,7 @@ public class JSLintParserTest extends ParserTester {
 
         assertThat(warnings).hasSize(197);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
 
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.HIGH)
@@ -59,7 +55,7 @@ public class JSLintParserTest extends ParserTester {
         assertThat(results.getFiles()).hasSize(2);
         assertThat(results.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
 
             softly.assertThat(results.get(0))
                     .hasPriority(Priority.HIGH)
@@ -73,18 +69,13 @@ public class JSLintParserTest extends ParserTester {
 
     }
 
-    /*
-    private void verifyFileName(final List<WorkspaceFile> sortedFiles, final String expectedName, final int position) {
-        assertEquals("Wrong file found: ", expectedName, sortedFiles.get(position).getName());
-    }
-*/
-
     /**
      * Tests the JS-Lint parsing for warnings in a single file.
      */
     @Test
     public void testParseWithSingleFile() {
         Issues<Issue> results = createParser().parse(openFile("jslint/single.xml"));
+
         assertThat(results).hasSize(51);
     }
 
@@ -94,6 +85,7 @@ public class JSLintParserTest extends ParserTester {
     @Test
     public void testCssLint() {
         Issues<Issue> results = createParser().parse(openFile("jslint/csslint.xml"));
+
         assertThat(results).hasSize(51);
     }
 

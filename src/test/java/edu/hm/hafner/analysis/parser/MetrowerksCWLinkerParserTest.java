@@ -15,7 +15,6 @@ public class MetrowerksCWLinkerParserTest extends ParserTester {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
-    private static final String TYPE = new MetrowerksCWLinkerParser().getId();
 
     /**
      * Parses a file with three MetrowerksCWLinker warnings.
@@ -32,8 +31,7 @@ public class MetrowerksCWLinkerParserTest extends ParserTester {
                     .hasCategory(ERROR_CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
-                    .hasMessage(
-                            "L1822: Symbol TestFunction in file e:/work/PATH/PATH/PATH/PATH/appl_src.lib is undefined")
+                    .hasMessage("L1822: Symbol TestFunction in file e:/work/PATH/PATH/PATH/PATH/appl_src.lib is undefined")
                     .hasFileName("See Warning message");
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
