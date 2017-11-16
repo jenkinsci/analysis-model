@@ -36,7 +36,7 @@ public class StyleCopParser extends AbstractParser {
      * Creates a new instance of {@link StyleCopParser}.
      */
     public StyleCopParser() {
-        super("style-cop");
+        super();
     }
 
     @Override

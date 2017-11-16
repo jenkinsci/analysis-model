@@ -14,7 +14,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * Tests the class {@link XlcParserTest}.
  */
 public class XlcParserTest extends ParserTester {
-    private static final String TYPE = new XlcCompilerParser().getId();
     private static final String FILE_NAME = "-";
 
     /**

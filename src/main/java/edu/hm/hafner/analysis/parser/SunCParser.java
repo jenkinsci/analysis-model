@@ -22,7 +22,7 @@ public class SunCParser extends RegexpLineParser {
      * Creates a new instance of <code>HpiCompileParser</code>.
      */
     public SunCParser() {
-        super("sunc", SUN_CPP_WARNING_PATTERN);
+        super(SUN_CPP_WARNING_PATTERN);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class SunCParser extends RegexpLineParser {
             priority = Priority.HIGH;
         }
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(matcher.group(4)).setMessage(matcher.group(5)).setPriority(priority).build();
+                      .setCategory(matcher.group(4)).setMessage(matcher.group(5)).setPriority(priority).build();
     }
 }
 

@@ -16,8 +16,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Charles Chan
  */
 public class PREfastParserTest extends ParserTester {
-    private static final String TYPE = new PREfastParser().getId();
-
     /**
      * Tests the Puppet-Lint parsing.
      */

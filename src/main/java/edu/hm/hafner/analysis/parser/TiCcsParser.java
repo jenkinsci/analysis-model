@@ -23,7 +23,7 @@ public class TiCcsParser extends RegexpLineParser {
      * Creates a new instance of {@link TiCcsParser}.
      */
     public TiCcsParser() {
-        super("ticcs", TI_CCS_WARNING_PATTERN);
+        super(TI_CCS_WARNING_PATTERN);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class TiCcsParser extends RegexpLineParser {
             lineNumber = matcher.group(10);
         }
         return builder.setFileName(fileName).setLineStart(parseInt(lineNumber))
-                             .setCategory(matcher.group(11)).setMessage(matcher.group(12)).setPriority(priority)
-                             .build();
+                      .setCategory(matcher.group(11)).setMessage(matcher.group(12)).setPriority(priority)
+                      .build();
     }
 
     /**

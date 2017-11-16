@@ -14,8 +14,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Benedikt Spranger
  */
 public class LinuxKernelOutputParserTest extends ParserTester {
-    private static final String TYPE = new LinuxKernelOutputParser().getId();
-
     /**
      * Parse a kernel log file.
      */

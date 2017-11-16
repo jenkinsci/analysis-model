@@ -22,7 +22,7 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
      * Creates a new instance of <code>TaskingVXCompilerParser</code>.
      */
     public TaskingVXCompilerParser() {
-        super("tasking-vx", TASKING_VX_COMPILER_WARNING_PATTERN);
+        super(TASKING_VX_COMPILER_WARNING_PATTERN);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
             category = "Warning";
         }
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                             .setPriority(priority).build();
+                      .setPriority(priority).build();
     }
 }
 

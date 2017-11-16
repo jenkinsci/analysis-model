@@ -20,15 +20,15 @@ public class BuckminsterParser extends RegexpLineParser {
      * Creates a new instance of {@link BuckminsterParser}.
      */
     public BuckminsterParser() {
-        super("buckminster", BUCKMINSTER_WARNING_PATTERN);
+        super(BUCKMINSTER_WARNING_PATTERN);
     }
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         Priority priority = "Error".equalsIgnoreCase(matcher.group(1)) ? Priority.HIGH : Priority.NORMAL;
         return builder.setFileName(matcher.group(2)).setLineStart(parseInt(matcher.group(4)))
-                             .setCategory(guessCategory(matcher.group(5))).setMessage(matcher.group(5))
-                             .setPriority(priority).build();
+                      .setCategory(guessCategory(matcher.group(5))).setMessage(matcher.group(5))
+                      .setPriority(priority).build();
 
     }
 }

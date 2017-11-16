@@ -20,7 +20,7 @@ public class SphinxBuildParser extends RegexpLineParser {
      * Creates a new instance of {@link SphinxBuildParser}.
      */
     public SphinxBuildParser() {
-        super("sphinx", SPHINX_BUILD_WARNING_PATTERN);
+        super(SPHINX_BUILD_WARNING_PATTERN);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class SphinxBuildParser extends RegexpLineParser {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(category).setMessage(message).setPriority(mapPriority(category)).build();
+                      .setCategory(category).setMessage(message).setPriority(mapPriority(category)).build();
     }
 
     private Priority mapPriority(final String priority) {

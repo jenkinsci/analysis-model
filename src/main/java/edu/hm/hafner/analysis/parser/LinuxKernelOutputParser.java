@@ -70,7 +70,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
     private static final int ERROR_FUNC = 5;
 
     public LinuxKernelOutputParser() {
-        super("linux-kernel", LINUX_KERNEL_OUTPUT_WARNING_PATTERN, false);
+        super(LINUX_KERNEL_OUTPUT_WARNING_PATTERN, false);
     }
 
     @Override
@@ -178,10 +178,10 @@ public class LinuxKernelOutputParser extends RegexpParser {
         }
 
         builder.setFileName(filePath)
-                .setLineStart(lineNumber)
-                .setCategory(category)
-                .setMessage(message)
-                .setPriority(priority);
+               .setLineStart(lineNumber)
+               .setCategory(category)
+               .setMessage(message)
+               .setPriority(priority);
 
         if (toolTipBuilder.length() > 0) {
             builder.setDescription(toolTipBuilder.toString().replace("\n", "<br>"));

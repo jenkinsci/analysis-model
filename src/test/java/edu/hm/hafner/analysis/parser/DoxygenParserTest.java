@@ -16,7 +16,6 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * Tests the class {@link DoxygenParser}.
  */
 public class DoxygenParserTest extends ParserTester {
-    private static final String WARNING_TYPE = new DoxygenParser().getId();
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
     private static final String NO_FILE_NAME = "-";
 

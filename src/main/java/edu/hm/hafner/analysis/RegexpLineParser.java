@@ -19,13 +19,10 @@ public abstract class RegexpLineParser extends RegexpParser {
     /**
      * Creates a new instance of {@link RegexpLineParser}.
      *
-     * @param id
-     *         ID of the parser
-     * @param warningPattern
-     *         pattern of compiler warnings.
+     * @param warningPattern pattern of compiler warnings.
      */
-    protected RegexpLineParser(final String id, final String warningPattern) {
-        super(id, warningPattern, false);
+    protected RegexpLineParser(final String warningPattern) {
+        super(warningPattern, false);
     }
 
     @Override
@@ -50,11 +47,8 @@ public abstract class RegexpLineParser extends RegexpParser {
     /**
      * Post processes the issues. This default implementation does nothing.
      *
-     * @param issues
-     *         the issues after the parsing process
-     * @param builder
-     *         the builder to create the issues with
-     *
+     * @param issues  the issues after the parsing process
+     * @param builder the builder to create the issues with
      * @return the post processed issues
      */
     protected Issues<Issue> postProcessWarnings(final Issues<Issue> issues, final IssueBuilder builder) {

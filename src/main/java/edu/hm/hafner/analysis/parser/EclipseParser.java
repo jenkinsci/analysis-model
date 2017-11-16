@@ -32,7 +32,7 @@ public class EclipseParser extends RegexpDocumentParser {
      * Creates a new instance of {@link EclipseParser}.
      */
     public EclipseParser() {
-        super("ejc", ANT_ECLIPSE_WARNING_PATTERN, true);
+        super(ANT_ECLIPSE_WARNING_PATTERN, true);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class EclipseParser extends RegexpDocumentParser {
         int columnEnd = columnStart + matcher.group(6).length();
 
         Issue issue = builder.setFileName(matcher.group(2)).setLineStart(parseInt(getLine(matcher)))
-                                    .setColumnStart(columnStart).setColumnEnd(columnEnd).setType(getId())
+                                    .setColumnStart(columnStart).setColumnEnd(columnEnd)
                                     .setCategory(StringUtils.EMPTY).setMessage(matcher.group(7)).setPriority(priority)
                                     .build();
 

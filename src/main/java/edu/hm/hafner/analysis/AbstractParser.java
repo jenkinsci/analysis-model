@@ -37,19 +37,7 @@ public abstract class AbstractParser implements Serializable {
     /** Category for warnings due to the usage of proprietary API. */
     public static final String PROPRIETARY_API = "Proprietary API";
 
-    private final String id;
-
     private transient Function<String, String> transformer = identity();
-
-    /**
-     * Creates a new instance of {@link AbstractParser}.
-     *
-     * @param id
-     *         ID of the parser
-     */
-    protected AbstractParser(final String id) {
-        this.id = id;
-    }
 
     // FIXME: never use default encoding
     public Issues<Issue> parse(final File file, final IssueBuilder builder) throws ParsingException {
@@ -57,11 +45,10 @@ public abstract class AbstractParser implements Serializable {
     }
 
     public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder) throws ParsingException {
-        builder.setType(getId());
         try (Reader input = createReader(new FileInputStream(file), charset)) {
             Issues<Issue> issues = parse(input, builder);
-            issues.log("Successfully parsed '%s': found %d issues (ID = %s)", file.getAbsolutePath(), issues.getSize(),
-                    builder.origin);
+            issues.log("Successfully parsed '%s': found %d issues (tool ID = %s)",
+                    file.getAbsolutePath(), issues.getSize(), builder.origin);
             return issues;
         }
         catch (IOException exception) {
@@ -116,7 +103,7 @@ public abstract class AbstractParser implements Serializable {
 //        }
 //    }
 
-    public Issues<Issue> parse(Reader reader) throws ParsingCanceledException, ParsingException {
+    public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
         return parse(reader, new IssueBuilder());
     }
 
@@ -133,20 +120,6 @@ public abstract class AbstractParser implements Serializable {
      *         Signals that the parsing has been aborted by the user
      */
     public abstract Issues<Issue> parse(Reader reader, IssueBuilder builder) throws ParsingCanceledException, ParsingException;
-
-    @Override
-    public String toString() {
-        return String.format("%s (%s)", getId(), getClass().getSimpleName());
-    }
-
-    /**
-     * Returns the ID of this parser.
-     *
-     * @return the ID of this parser
-     */
-    public String getId() {
-        return id;
-    }
 
     /**
      * Converts a string line number to an integer value. If the string is not a valid line number, then 0 is returned

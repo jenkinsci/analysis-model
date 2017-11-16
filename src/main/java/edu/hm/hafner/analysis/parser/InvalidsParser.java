@@ -24,7 +24,7 @@ public class InvalidsParser extends RegexpLineParser {
      * Creates a new instance of {@link InvalidsParser}.
      */
     public InvalidsParser() {
-        super("oracle-invalids", INVALIDS_PATTERN);
+        super(INVALIDS_PATTERN);
     }
 
     @Override
@@ -42,9 +42,9 @@ public class InvalidsParser extends RegexpLineParser {
             priority = Priority.NORMAL;
         }
         return builder.setFileName(matcher.group(2) + "." + matcher.group(3))
-                             .setLineStart(parseInt(matcher.group(5))).setType(type).setCategory(category)
-                             .setPackageName(matcher.group(1)).setMessage(matcher.group(7)).setPriority(priority)
-                             .build();
+                      .setLineStart(parseInt(matcher.group(5))).setType(type).setCategory(category)
+                      .setPackageName(matcher.group(1)).setMessage(matcher.group(7)).setPriority(priority)
+                      .build();
     }
 }
 

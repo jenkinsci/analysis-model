@@ -27,7 +27,7 @@ public class MsBuildParser extends RegexpLineParser {
      * Creates a new instance of {@link MsBuildParser}.
      */
     public MsBuildParser() {
-        super("msbuild", MS_BUILD_WARNING_PATTERN);
+        super(MS_BUILD_WARNING_PATTERN);
     }
 
     @Override
@@ -35,19 +35,19 @@ public class MsBuildParser extends RegexpLineParser {
         String fileName = determineFileName(matcher);
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return builder.setFileName(fileName).setLineStart(0).setCategory(matcher.group(1))
-                                 .setMessage(matcher.group(2)).setPriority(Priority.NORMAL).build();
+                          .setMessage(matcher.group(2)).setPriority(Priority.NORMAL).build();
         }
         else if (StringUtils.isNotBlank(matcher.group(13))) {
             return builder.setFileName(fileName).setLineStart(0).setCategory(matcher.group(14))
-                                 .setMessage(matcher.group(15)).setPriority(Priority.HIGH).build();
+                          .setMessage(matcher.group(15)).setPriority(Priority.HIGH).build();
         }
         else {
             Issue warning;
             if (StringUtils.isNotEmpty(matcher.group(10))) {
                 warning = builder.setFileName(fileName).setLineStart(parseInt(matcher.group(5)))
-                                        .setColumnStart(parseInt(matcher.group(6))).setCategory(matcher.group(9))
-                                        .setType(matcher.group(10)).setMessage(matcher.group(11))
-                                        .setPriority(determinePriority(matcher)).build();
+                                 .setColumnStart(parseInt(matcher.group(6))).setCategory(matcher.group(9))
+                                 .setType(matcher.group(10)).setMessage(matcher.group(11))
+                                 .setPriority(determinePriority(matcher)).build();
             }
             else {
                 String category = matcher.group(9);
@@ -55,8 +55,8 @@ public class MsBuildParser extends RegexpLineParser {
                     return FALSE_POSITIVE;
                 }
                 warning = builder.setFileName(fileName).setLineStart(parseInt(matcher.group(5)))
-                                        .setColumnStart(parseInt(matcher.group(6))).setCategory(category)
-                                        .setMessage(matcher.group(11)).setPriority(determinePriority(matcher)).build();
+                                 .setColumnStart(parseInt(matcher.group(6))).setCategory(category)
+                                 .setMessage(matcher.group(11)).setPriority(determinePriority(matcher)).build();
             }
             return warning;
         }

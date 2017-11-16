@@ -17,7 +17,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  */
 public class Gcc4LinkerParserTest extends ParserTester {
     private static final String WARNING_CATEGORY = Gcc4LinkerParser.WARNING_CATEGORY;
-    private static final String WARNING_TYPE = new Gcc4LinkerParser().getId();
     private static final String FILE_NAME = "-";
 
     /**

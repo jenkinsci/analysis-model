@@ -35,7 +35,7 @@ public class IdeaInspectionParser extends AbstractParser {
      * Creates a new instance of {@link IdeaInspectionParser}.
      */
     public IdeaInspectionParser() {
-        super("idea");
+        super();
     }
 
     @Override

@@ -17,7 +17,6 @@ import edu.hm.hafner.analysis.Priority;
 public class JSLintXMLSaxParser extends DefaultHandler {
     private final Issues<Issue> issues;
     private String fileName;
-    private final String type;
 
     /** Categories. */
     static final String CATEGORY_PARSING = "Parsing";
@@ -27,19 +26,18 @@ public class JSLintXMLSaxParser extends DefaultHandler {
     /**
      * Creates a new instance of {@link JSLintXMLSaxParser}.
      *
-     * @param type   type of the parser
-     * @param issues the issues
+     * @param issues
+     *         the issues
      */
-    public JSLintXMLSaxParser(final String type, final Issues<Issue> issues) {
+    public JSLintXMLSaxParser(final Issues<Issue> issues) {
         super();
 
-        this.type = type;
         this.issues = issues;
     }
 
     @Override
-    public void startElement(final String namespaceURI, final String localName, final String qName, final Attributes
-            atts) throws SAXException {
+    public void startElement(final String namespaceURI,
+            final String localName, final String qName, final Attributes atts) throws SAXException {
         String key = qName;
 
         if (isLintDerivate(key)) {
@@ -86,12 +84,12 @@ public class JSLintXMLSaxParser extends DefaultHandler {
         Issue warning;
         if (StringUtils.isNotBlank(column)) {
             warning = new IssueBuilder().setFileName(fileName).setLineStart(lineNumber)
-                                        .setColumnStart(parseInt(column)).setType(type).setCategory(category)
-                                        .setMessage(message).setPriority(priority).build();
+                    .setColumnStart(parseInt(column)).setCategory(category)
+                    .setMessage(message).setPriority(priority).build();
         }
         else {
-            warning = new IssueBuilder().setFileName(fileName).setLineStart(lineNumber).setType(type)
-                                        .setCategory(category).setMessage(message).setPriority(priority).build();
+            warning = new IssueBuilder().setFileName(fileName).setLineStart(lineNumber)
+                    .setCategory(category).setMessage(message).setPriority(priority).build();
 
         }
         issues.add(warning);

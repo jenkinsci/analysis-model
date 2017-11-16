@@ -127,9 +127,9 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      */
     @SafeVarargs
     public final boolean addAll(final Issues<T> issues, final Issues<T>... otherIssues) {
-        boolean hasNoDuplicate = addAll(issues);
+        boolean hasNoDuplicate = addAll(issues.elements);
         for (Issues<T> other : otherIssues) {
-             hasNoDuplicate &= addAll(other);
+             hasNoDuplicate &= addAll(other.elements);
         }
         return hasNoDuplicate;
     }

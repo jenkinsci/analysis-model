@@ -20,7 +20,7 @@ public class CppLintParser extends RegexpLineParser {
      * Creates a new instance of {@link CppLintParser}.
      */
     public CppLintParser() {
-        super("cpp-lint", PATTERN);
+        super(PATTERN);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class CppLintParser extends RegexpLineParser {
         Priority priority = mapPriority(matcher.group(5));
 
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(matcher.group(4)).setMessage(matcher.group(3)).setPriority(priority).build();
+                      .setCategory(matcher.group(4)).setMessage(matcher.group(3)).setPriority(priority).build();
     }
 
     private Priority mapPriority(final String priority) {

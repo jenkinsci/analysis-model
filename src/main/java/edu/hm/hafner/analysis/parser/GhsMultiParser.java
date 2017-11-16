@@ -23,7 +23,7 @@ public class GhsMultiParser extends RegexpDocumentParser {
      * Creates a new instance of {@link GhsMultiParser}.
      */
     public GhsMultiParser() {
-        super("ghs", GHS_MULTI_WARNING_PATTERN, true);
+        super(GHS_MULTI_WARNING_PATTERN, true);
     }
 
     @Override

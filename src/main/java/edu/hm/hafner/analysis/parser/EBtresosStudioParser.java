@@ -41,7 +41,7 @@ public class EBtresosStudioParser extends RegexpLineParser {
      * Creates a new instance of <code>EBtresosStudioParser</code>.
      */
     public EBtresosStudioParser() {
-        super("tresos", TRESOS_WARNING_PATTERN);
+        super(TRESOS_WARNING_PATTERN);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class EBtresosStudioParser extends RegexpLineParser {
             priority = Priority.HIGH;
         }
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                             .setPriority(priority).build();
+                      .setPriority(priority).build();
     }
 }
 

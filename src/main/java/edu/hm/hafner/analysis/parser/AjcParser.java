@@ -27,7 +27,7 @@ public class AjcParser extends AbstractParser {
      * Creates a new instance of {@link AjcParser}.
      */
     public AjcParser() {
-        super("ajc");
+        super();
     }
 
     @Override

@@ -16,8 +16,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * Tests the class {@link AntJavacParser}.
  */
 public class AntJavacParserTest extends ParserTester {
-    private static final String WARNING_TYPE = new AntJavacParser().getId();
-
     /**
      * Parses a warning log with two warnings.
      *
@@ -44,7 +42,6 @@ public class AntJavacParserTest extends ParserTester {
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(WARNING_TYPE)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("Cannot find annotation method 'xxx()' in type 'yyyy': class file for fully.qualified.ClassName not found")

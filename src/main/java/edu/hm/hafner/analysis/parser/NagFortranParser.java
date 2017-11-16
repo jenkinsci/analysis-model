@@ -24,7 +24,7 @@ public class NagFortranParser extends RegexpDocumentParser {
      * Creates a new instance of {@link NagFortranParser}.
      */
     public NagFortranParser() {
-        super("nag-fortran", NAGFOR_MSG_PATTERN, true);
+        super(NAGFOR_MSG_PATTERN, true);
     }
 
     @Override

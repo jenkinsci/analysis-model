@@ -27,14 +27,14 @@ public class GccParser extends RegexpLineParser {
      * Creates a new instance of {@link GccParser}.
      */
     public GccParser() {
-        super("gcc", GCC_WARNING_PATTERN);
+        super(GCC_WARNING_PATTERN);
     }
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
             return builder.setFileName(matcher.group(8)).setLineStart(0).setCategory(LINKER_ERROR)
-                                 .setMessage(matcher.group(7)).setPriority(Priority.HIGH).build();
+                          .setMessage(matcher.group(7)).setPriority(Priority.HIGH).build();
         }
         String fileName = matcher.group(1);
         if (StringUtils.contains(fileName, "cleartool")) {
@@ -55,16 +55,21 @@ public class GccParser extends RegexpLineParser {
                 return FALSE_POSITIVE;
             }
             return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2)))
-                                 .setCategory(GCC_ERROR).setMessage(StringEscapeUtils.escapeXml10(matcher.group(4)))
-                                 .setPriority(Priority.HIGH).build();
+                          .setCategory(GCC_ERROR).setMessage(StringEscapeUtils.escapeXml10(matcher.group(4)))
+                          .setPriority(Priority.HIGH).build();
         }
         else {
-            return builder.setFileName(fileName).setLineStart(0).setCategory(GCC_ERROR)
-                                 .setMessage(StringEscapeUtils.escapeXml10(matcher.group(5))).setPriority(Priority.HIGH).build();
+            return builder
+                    .setFileName(fileName)
+                    .setLineStart(0)
+                    .setCategory(GCC_ERROR)
+                    .setMessage(StringEscapeUtils.escapeXml10(matcher.group(5)))
+                    .setPriority(Priority.HIGH)
+                    .build();
         }
         String category = "GCC " + matcher.group(3);
         return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
-                             .setMessage(StringEscapeUtils.escapeXml10(matcher.group(6))).setPriority(priority).build();
+                      .setMessage(StringEscapeUtils.escapeXml10(matcher.group(6))).setPriority(priority).build();
     }
 
 }

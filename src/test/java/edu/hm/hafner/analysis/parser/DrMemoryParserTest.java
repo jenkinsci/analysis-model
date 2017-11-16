@@ -13,8 +13,6 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * Tests the class {@link DrMemoryParser}.
  */
 public class DrMemoryParserTest extends ParserTester {
-    private static final String TYPE = new DrMemoryParser().getId();
-
     /**
      * Parses a file with two Dr. Memory warnings.
      */

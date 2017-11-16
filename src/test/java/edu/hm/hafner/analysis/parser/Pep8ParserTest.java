@@ -16,8 +16,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  */
 @SuppressWarnings("ReuseOfLocalVariable")
 public class Pep8ParserTest extends ParserTester {
-    private static final String TYPE = new Pep8Parser().getId();
-
     /**
      * Parses a file with W and E warnings.
      */

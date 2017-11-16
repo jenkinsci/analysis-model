@@ -21,7 +21,7 @@ public class ClangParser extends RegexpLineParser {
      * Creates a new instance of {@link ClangParser}.
      */
     public ClangParser() {
-        super("clang", CLANG_WARNING_PATTERN);
+        super(CLANG_WARNING_PATTERN);
     }
 
     @Override

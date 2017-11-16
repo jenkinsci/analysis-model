@@ -71,7 +71,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
      * Creates a new instance of {@link DrMemoryParser}.
      */
     public DrMemoryParser() {
-        super("dr-memory", DR_MEMORY_WARNING_PATTERN, false);
+        super(DR_MEMORY_WARNING_PATTERN, false);
     }
 
     @Override

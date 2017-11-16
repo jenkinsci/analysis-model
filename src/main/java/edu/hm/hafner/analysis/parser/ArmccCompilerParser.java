@@ -22,7 +22,7 @@ public class ArmccCompilerParser extends RegexpLineParser {
      * Creates a new instance of {@link ArmccCompilerParser}.
      */
     public ArmccCompilerParser() {
-        super("armcc", ARMCC_WARNING_PATTERN);
+        super(ARMCC_WARNING_PATTERN);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ArmccCompilerParser extends RegexpLineParser {
         }
 
         return builder.setFileName(fileName).setLineStart(lineNumber).setMessage(errorCode + " - " + message)
-                             .setPriority(priority).build();
+                      .setPriority(priority).build();
     }
 }
 

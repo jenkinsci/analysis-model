@@ -21,7 +21,7 @@ public class GnatParser extends RegexpLineParser {
      * Creates a new instance of {@link GnatParser}.
      */
     public GnatParser() {
-        super("gnat", GNAT_WARNING_PATTERN);
+        super(GNAT_WARNING_PATTERN);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class GnatParser extends RegexpLineParser {
             category = "GNAT error";
         }
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(category).setMessage(matcher.group(5)).setPriority(priority).build();
+                      .setCategory(category).setMessage(matcher.group(5)).setPriority(priority).build();
     }
 }

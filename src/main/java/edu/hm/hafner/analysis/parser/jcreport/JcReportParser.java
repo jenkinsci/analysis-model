@@ -30,7 +30,7 @@ public class JcReportParser extends AbstractParser {
      * Creates a new instance of {@link JcReportParser}.
      */
     public JcReportParser() {
-        super("jc-report");
+        super();
     }
 
     @Override
@@ -46,7 +46,6 @@ public class JcReportParser extends AbstractParser {
                         .setLineStart(parseInt(item.getLine()))
                         .setColumnStart(parseInt(item.getColumn()))
                         .setColumnEnd(parseInt(item.getEndcolumn()))
-                        .setType(getId())
                         .setCategory(item.getFindingtype())
                         .setPackageName(file.getPackageName())
                         .setMessage(item.getMessage())

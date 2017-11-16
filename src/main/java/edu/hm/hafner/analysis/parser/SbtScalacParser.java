@@ -19,7 +19,7 @@ public class SbtScalacParser extends RegexpLineParser {
      * Creates a new instance of {@link SbtScalacParser}.
      */
     public SbtScalacParser() {
-        super("sbt", SBT_WARNING_PATTERN);
+        super(SBT_WARNING_PATTERN);
     }
 
     @Override
@@ -29,6 +29,6 @@ public class SbtScalacParser extends RegexpLineParser {
         String lineNumber = matcher.group(3);
         String message = matcher.group(4);
         return builder.setFileName(fileName).setLineStart(parseInt(lineNumber)).setMessage(message)
-                             .setPriority(p).build();
+                      .setPriority(p).build();
     }
 }

@@ -20,7 +20,7 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
      * Creates a new instance of <code>QACSourceCodeAnalyserParser</code>.
      */
     public QACSourceCodeAnalyserParser() {
-        super("qac", QAC_WARNING_PATTERN);
+        super(QAC_WARNING_PATTERN);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
             category = "Warning";
         }
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                             .setPriority(priority).build();
+                      .setPriority(priority).build();
     }
 }
 

@@ -21,7 +21,7 @@ public class GoLintParser extends RegexpLineParser {
      * Creates a new instance of {@link GoLintParser}.
      */
     public GoLintParser() {
-        super("go-lint", GOLINT_WARNING_PATTERN);
+        super(GOLINT_WARNING_PATTERN);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class GoLintParser extends RegexpLineParser {
         String category = guessCategory(message);
 
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setColumnStart(parseInt(matcher.group(3))).setCategory(category).setMessage(message)
-                             .build();
+                      .setColumnStart(parseInt(matcher.group(3))).setCategory(category).setMessage(message)
+                      .build();
     }
 }
 

@@ -20,7 +20,7 @@ public class MetrowerksCWLinkerParser extends RegexpLineParser {
      * Creates a new instance of <code>MetrowerksCWLinkerParser</code>.
      */
     public MetrowerksCWLinkerParser() {
-        super("code-warrior-linker", CW_LINKER_WARNING_PATTERN);
+        super(CW_LINKER_WARNING_PATTERN);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MetrowerksCWLinkerParser extends RegexpLineParser {
             category = "Warning";
         }
         return builder.setFileName("See Warning message").setLineStart(0).setCategory(category)
-                             .setMessage(message).setPriority(priority).build();
+                      .setMessage(message).setPriority(priority).build();
     }
 }
 

@@ -61,7 +61,7 @@ public class PREfastParser extends RegexpLineParser {
      * Creates a new instance of {@link PREfastParser}.
      */
     public PREfastParser() {
-        super("pre-fast", PREFAST_PATTERN_WARNING);
+        super(PREFAST_PATTERN_WARNING);
     }
 
     @Override

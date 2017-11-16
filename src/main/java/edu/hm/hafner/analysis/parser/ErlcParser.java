@@ -22,7 +22,7 @@ public class ErlcParser extends RegexpLineParser {
      * Creates a new instance of {@link ErlcParser}.
      */
     public ErlcParser() {
-        super("erlc", ERLC_WARNING_PATTERN);
+        super(ERLC_WARNING_PATTERN);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ErlcParser extends RegexpLineParser {
             category = "Error";
         }
         return builder.setFileName(filename).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                             .setPriority(priority).build();
+                      .setPriority(priority).build();
     }
 }
 

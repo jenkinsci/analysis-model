@@ -34,7 +34,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
      * Creates a new instance of {@link CadenceIncisiveParser}.
      */
     public CadenceIncisiveParser() {
-        super("cadence-incisive", CADENCE_MESSAGE_PATTERN);
+        super(CADENCE_MESSAGE_PATTERN);
     }
 
     private Issue handleDirectory(final Matcher matcher, int offset) {
@@ -117,11 +117,11 @@ public class CadenceIncisiveParser extends RegexpLineParser {
 
         if (fileName.startsWith(SLASH)) {
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+                          .setMessage(message).setPriority(priority).build();
         }
         else {
             return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+                          .setMessage(message).setPriority(priority).build();
         }
     }
 

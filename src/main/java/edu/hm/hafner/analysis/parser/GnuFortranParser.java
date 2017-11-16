@@ -33,7 +33,7 @@ public class GnuFortranParser extends RegexpDocumentParser {
      * Creates a new instance of {@link GnuFortranParser}.
      */
     public GnuFortranParser() {
-        super("gnu-fortran", GFORTRAN_MSG_PATTERN, true);
+        super(GFORTRAN_MSG_PATTERN, true);
     }
 
     @Override

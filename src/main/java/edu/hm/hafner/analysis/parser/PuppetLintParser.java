@@ -31,7 +31,7 @@ public class PuppetLintParser extends RegexpLineParser {
      * Creates a new instance of {@link PuppetLintParser}.
      */
     public PuppetLintParser() {
-        super("puppet-lint", PUPPET_LINT_PATTERN_WARNING);
+        super(PUPPET_LINT_PATTERN_WARNING);
 
         packagePattern = Pattern.compile(PUPPET_LINT_PATTERN_PACKAGE);
     }
@@ -49,9 +49,9 @@ public class PuppetLintParser extends RegexpLineParser {
             priority = Priority.HIGH;
         }
 
-        return builder.setFileName(fileName).setLineStart(Integer.parseInt(start)).setType(getId())
-                             .setCategory(category).setPackageName(detectModuleName(fileName)).setMessage(message)
-                             .setPriority(priority).build();
+        return builder.setFileName(fileName).setLineStart(parseInt(start))
+                      .setCategory(category).setPackageName(detectModuleName(fileName)).setMessage(message)
+                      .setPriority(priority).build();
     }
 
     private String detectModuleName(final String fileName) {

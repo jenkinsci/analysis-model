@@ -18,8 +18,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  */
 @SuppressWarnings("ReuseOfLocalVariable")
 public class MsBuildParserTest extends ParserTester {
-    private static final String TYPE = new MsBuildParser().getId();
-
     /**
      * MSBuildParser should make relative paths absolute, based on the project name listed in the message.
      *

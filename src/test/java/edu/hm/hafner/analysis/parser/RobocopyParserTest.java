@@ -12,7 +12,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * Tests the class {@link RobocopyParser}.
  */
 public class RobocopyParserTest extends ParserTester {
-    private static final String TYPE = new RobocopyParser().getId();
     private static final String FILENAME = "a.log";
 
     /**

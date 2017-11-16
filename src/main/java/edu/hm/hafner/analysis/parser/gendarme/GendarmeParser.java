@@ -44,7 +44,7 @@ public class GendarmeParser extends AbstractParser {
      * Creates a new instance of {@link GendarmeParser}.
      */
     public GendarmeParser() {
-        super("gendarme");
+        super();
     }
 
     @Override

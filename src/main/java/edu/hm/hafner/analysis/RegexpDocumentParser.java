@@ -16,18 +16,13 @@ public abstract class RegexpDocumentParser extends RegexpParser {
     /**
      * Creates a new instance of {@link RegexpDocumentParser}.
      *
-     * @param id
-     *         ID of the parser
-     * @param warningPattern
-     *         pattern of compiler warnings.
-     * @param useMultiLine
-     *         Enables multi line mode. In multi line mode the expressions <tt>^</tt> and <tt>$</tt> match just after or
-     *         just before, respectively, a line terminator or the end of the input sequence. By default these
-     *         expressions only match at the beginning and the end of the entire input sequence.
+     * @param warningPattern pattern of compiler warnings.
+     * @param useMultiLine   Enables multi line mode. In multi line mode the expressions <tt>^</tt> and <tt>$</tt> match
+     *                       just after or just before, respectively, a line terminator or the end of the input
+     *                       sequence. By default these expressions only match at the beginning and the end of the
      */
-    protected RegexpDocumentParser(final String id,
-            final String warningPattern, final boolean useMultiLine) {
-        super(id, warningPattern, useMultiLine);
+    protected RegexpDocumentParser(final String warningPattern, final boolean useMultiLine) {
+        super(warningPattern, useMultiLine);
     }
 
     @Override

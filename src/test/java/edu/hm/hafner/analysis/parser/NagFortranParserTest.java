@@ -14,8 +14,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  */
 @SuppressWarnings("ReuseOfLocalVariable")
 public class NagFortranParserTest extends ParserTester {
-    private static final String TYPE = new NagFortranParser().getId();
-
     /**
      * Test parsing of a file containing an Info message output by the NAG Fortran Compiler.
      */

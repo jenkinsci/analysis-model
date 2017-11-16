@@ -17,8 +17,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Shimi Kiviti
  */
 public class PhpParserTest extends ParserTester {
-    private static final String TYPE = new PhpParser().getId();
-
     private static final String PARSE_ERROR_CATEGORY = "PHP Parse error";
     private static final String FATAL_ERROR_CATEGORY = "PHP Fatal error";
     private static final String WARNING_CATEGORY = "PHP Warning";

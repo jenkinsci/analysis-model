@@ -18,7 +18,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 public class Gcc4CompilerParserTest extends ParserTester {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
-    private static final String WARNING_TYPE = new Gcc4CompilerParser().getId();
 
     /**
      * Parses a file with one fatal error.

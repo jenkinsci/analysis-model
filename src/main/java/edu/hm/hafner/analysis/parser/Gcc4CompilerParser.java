@@ -23,7 +23,7 @@ public class Gcc4CompilerParser extends RegexpLineParser {
      * Creates a new instance of <code>Gcc4CompilerParser</code>.
      */
     public Gcc4CompilerParser() {
-        super("gcc4", GCC_WARNING_PATTERN);
+        super(GCC_WARNING_PATTERN);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Gcc4CompilerParser extends RegexpLineParser {
         }
 
         return builder.setFileName(fileName).setLineStart(lineNumber).setColumnStart(column)
-                             .setCategory(category.toString()).setMessage(message).setPriority(priority).build();
+                      .setCategory(category.toString()).setMessage(message).setPriority(priority).build();
     }
 }
 

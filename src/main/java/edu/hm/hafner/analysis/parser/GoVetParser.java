@@ -22,7 +22,7 @@ public class GoVetParser extends RegexpLineParser {
      * Creates a new instance of {@link GoVetParser}.
      */
     public GoVetParser() {
-        super("go-vet", GOVET_WARNING_PATTERN);
+        super(GOVET_WARNING_PATTERN);
     }
 
     @Override
@@ -31,6 +31,6 @@ public class GoVetParser extends RegexpLineParser {
         String category = guessCategory(message);
 
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(category).setMessage(message).build();
+                      .setCategory(category).setMessage(message).build();
     }
 }

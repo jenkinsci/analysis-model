@@ -32,7 +32,7 @@ public abstract class LintParser extends AbstractParser {
      * @param id ID of the parser
      */
     protected LintParser(final String id) {
-        super(id);
+        super();
     }
 
     @Override
@@ -44,7 +44,7 @@ public abstract class LintParser extends AbstractParser {
 
             Issues<Issue> issues = new Issues<>();
             parser.parse(new ReaderInputStream(file, Charset
-                    .forName("UTF-8")), new JSLintXMLSaxParser(getId(), issues));
+                    .forName("UTF-8")), new JSLintXMLSaxParser(issues));
             return issues;
         }
         catch (IOException | ParserConfigurationException | SAXException e) {

@@ -21,7 +21,7 @@ public class MetrowerksCWCompilerParser extends RegexpLineParser {
      * Creates a new instance of <code>MetrowerksCWCompilerParser</code>.
      */
     public MetrowerksCWCompilerParser() {
-        super("code-warrior", CW_COMPILER_WARNING_PATTERN);
+        super(CW_COMPILER_WARNING_PATTERN);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MetrowerksCWCompilerParser extends RegexpLineParser {
             category = "Warning";
         }
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                             .setPriority(priority).build();
+                      .setPriority(priority).build();
     }
 }
 

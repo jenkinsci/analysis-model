@@ -20,7 +20,7 @@ public class ScalacParser extends RegexpLineParser {
      * Creates a new instance of {@link ScalacParser}.
      */
     public ScalacParser() {
-        super("scalac", SCALAC_WARNING_PATTERN);
+        super(SCALAC_WARNING_PATTERN);
     }
 
     @Override
@@ -31,6 +31,6 @@ public class ScalacParser extends RegexpLineParser {
         String category = matcher.group(4);
         String message = matcher.group(5);
         return builder.setFileName(fileName).setLineStart(parseInt(lineNumber)).setCategory(category)
-                             .setMessage(message).setPriority(p).build();
+                      .setMessage(message).setPriority(p).build();
     }
 }

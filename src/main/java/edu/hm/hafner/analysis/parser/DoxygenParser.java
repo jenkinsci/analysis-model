@@ -73,7 +73,7 @@ public class DoxygenParser extends RegexpDocumentParser {
      * Creates a new instance of {@link DoxygenParser}.
      */
     public DoxygenParser() {
-        super("doxygen", DOXYGEN_WARNING_PATTERN, true);
+        super(DOXYGEN_WARNING_PATTERN, true);
     }
 
     @Override

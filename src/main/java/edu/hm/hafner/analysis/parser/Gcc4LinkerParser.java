@@ -26,7 +26,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
      * Creates a new instance of <code>Gcc4LinkerParser</code>.
      */
     public Gcc4LinkerParser() {
-        super("gcc4-linker", LINKER_WARNING_PATTERN);
+        super(LINKER_WARNING_PATTERN);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
         String fileName = StringUtils.defaultString(matcher.group(1));
         int lineNumber = parseInt(matcher.group(2));
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(WARNING_CATEGORY)
-                             .setMessage(message).setPriority(priority).build();
+                      .setMessage(message).setPriority(priority).build();
     }
 }
 

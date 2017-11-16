@@ -32,7 +32,7 @@ public class XlcLinkerParser extends RegexpLineParser {
      * them as one parser in UI.
      */
     public XlcLinkerParser() {
-        super("xlc-linker", XLC_LINKER_WARNING_PATTERN);
+        super(XLC_LINKER_WARNING_PATTERN);
     }
 
     @Override
@@ -43,28 +43,28 @@ public class XlcLinkerParser extends RegexpLineParser {
             String category = matcher.group(1);
             String message = matcher.group(2);
             return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                                 .setPriority(Priority.HIGH).build();
+                          .setPriority(Priority.HIGH).build();
         }
         matcher = PATTERN_ERROR_2.matcher(line);
         if (matcher.find()) {
             String category = matcher.group(1);
             String message = matcher.group(2);
             return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                                 .setPriority(Priority.HIGH).build();
+                          .setPriority(Priority.HIGH).build();
         }
         matcher = PATTERN_WARNING.matcher(line);
         if (matcher.find()) {
             String category = matcher.group(1);
             String message = matcher.group(2);
             return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                                 .setPriority(Priority.NORMAL).build();
+                          .setPriority(Priority.NORMAL).build();
         }
         matcher = PATTERN_INFO.matcher(line);
         if (matcher.find()) {
             String category = matcher.group(1);
             String message = matcher.group(2);
             return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                                 .setPriority(Priority.LOW).build();
+                          .setPriority(Priority.LOW).build();
         }
         return FALSE_POSITIVE;
     }

@@ -29,7 +29,7 @@ public class XlcCompilerParser extends RegexpLineParser {
      * Creates a new instance of {@link XlcCompilerParser}.
      */
     public XlcCompilerParser() {
-        super("xlc", XLC_WARNING_PATTERN);
+        super(XLC_WARNING_PATTERN);
     }
 
     @SuppressWarnings("PMD.MissingBreakInSwitch")
@@ -60,7 +60,7 @@ public class XlcCompilerParser extends RegexpLineParser {
             Priority priority = toPriority(severity);
             String message = matcher.group(5);
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+                          .setMessage(message).setPriority(priority).build();
         }
         matcher = PATTERN_2.matcher(line);
         if (matcher.find()) {
@@ -71,7 +71,7 @@ public class XlcCompilerParser extends RegexpLineParser {
             Priority priority = toPriority(severity);
             String message = matcher.group(4);
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+                          .setMessage(message).setPriority(priority).build();
         }
         return FALSE_POSITIVE;
     }

@@ -14,8 +14,6 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * Tests the class {@link DiabCParser}.
  */
 public class DiabCParserTest extends ParserTester {
-    private static final String TYPE = new DiabCParser().getId();
-
     /**
      * Parses a file with 13 warnings.
      */

@@ -30,7 +30,7 @@ public class YuiCompressorParser extends RegexpDocumentParser {
      * Creates a new instance of <code>YuiCompressorParser</code>.
      */
     public YuiCompressorParser() {
-        super("yui-compressor", YUI_COMPRESSOR_WARNING_PATTERN, true);
+        super(YUI_COMPRESSOR_WARNING_PATTERN, true);
     }
 
     @Override

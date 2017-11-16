@@ -22,7 +22,7 @@ public class PerlCriticParser extends RegexpLineParser {
      * Creates a new instance of {@link PerlCriticParser}.
      */
     public PerlCriticParser() {
-        super("perl-critic", PERLCRITIC_WARNING_PATTERN);
+        super(PERLCRITIC_WARNING_PATTERN);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PerlCriticParser extends RegexpLineParser {
         Priority priority = checkPriority(Integer.parseInt(matcher.group(6)));
 
         return builder.setFileName(filename).setLineStart(line).setColumnStart(column).setCategory(category)
-                             .setMessage(message).setPriority(priority).build();
+                      .setMessage(message).setPriority(priority).build();
     }
 
     /**

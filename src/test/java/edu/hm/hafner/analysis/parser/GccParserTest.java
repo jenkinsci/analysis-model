@@ -16,7 +16,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Raphael Furch
  */
 public class GccParserTest extends ParserTester {
-    private static final String TYPE = new GccParser().getId();
     private static final String GCC_ERROR = GccParser.GCC_ERROR;
     private static final String GCC_WARNING = "GCC warning";
 

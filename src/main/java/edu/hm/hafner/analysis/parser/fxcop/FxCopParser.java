@@ -40,7 +40,7 @@ public class FxCopParser extends AbstractParser {
      * Creates a new instance of {@link FxCopParser}.
      */
     public FxCopParser() {
-        super("fxcop");
+        super();
     }
 
     @Override

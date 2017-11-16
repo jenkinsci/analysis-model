@@ -24,7 +24,7 @@ public class RFLintParser extends RegexpLineParser {
     private String fileName;
 
     public RFLintParser() {
-        super("rf-lint", RFLINT_ERROR_PATTERN);
+        super(RFLINT_ERROR_PATTERN);
     }
 
     @Override
@@ -70,6 +70,6 @@ public class RFLintParser extends RegexpLineParser {
                 break;
         }
         return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
-                             .setMessage(message).setPriority(priority).build();
+                      .setMessage(message).setPriority(priority).build();
     }
 }

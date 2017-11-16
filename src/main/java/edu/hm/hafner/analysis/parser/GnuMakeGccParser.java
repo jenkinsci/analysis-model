@@ -41,7 +41,7 @@ public class GnuMakeGccParser extends RegexpLineParser {
      * @param os A string representing the operating system - mainly used for faking
      */
     public GnuMakeGccParser(final String os) {
-        super("gmake-gcc", GNUMAKEGCC_WARNING_PATTERN);
+        super(GNUMAKEGCC_WARNING_PATTERN);
         isWindows = os.toLowerCase().contains("windows");
     }
 
@@ -71,11 +71,11 @@ public class GnuMakeGccParser extends RegexpLineParser {
         }
         if (fileName.startsWith(SLASH)) {
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+                          .setMessage(message).setPriority(priority).build();
         }
         else {
             return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+                          .setMessage(message).setPriority(priority).build();
         }
     }
 
