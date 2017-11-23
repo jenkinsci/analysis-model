@@ -28,7 +28,7 @@ public class JavacParser extends FastRegexpLineParser {
      * Creates a new instance of {@link JavacParser}.
      */
     public JavacParser() {
-        super("javac", JAVAC_WARNING_PATTERN);
+        super(JAVAC_WARNING_PATTERN);
     }
 
     @Override

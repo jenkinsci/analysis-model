@@ -25,6 +25,9 @@ import static java.util.stream.Collectors.*;
  * at position 1, and so on. <p> Additionally, this set of issues provides methods to find and filter issues based on
  * different properties. In order to create issues use the provided {@link IssueBuilder builder} class. </p>
  *
+ * @param <T>
+ *         type of the issues
+ *
  * @author Ullrich Hafner
  */
 public class Issues<T extends Issue> implements Iterable<T>, Serializable {
@@ -42,6 +45,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @param issues
      *         the issues to merge
+     *
+     * @return all issues
      */
     public static <T extends Issue> Issues<T> merge(final Issues<T>... issues) {
         Issues<T> merged = new Issues<>();
@@ -51,19 +56,48 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return merged;
     }
 
-    public Issues() {
-    }
-
-    public Issues(final Collection<? extends T> issues) {
-        addAll(issues);
-    }
-
+    /**
+     * Returns a predicate that checks if the package name of an issue is equal to the specified package name.
+     *
+     * @param packageName
+     *         the package name to match
+     *
+     * @return the predicate
+     */
     public static Predicate<Issue> byPackageName(final String packageName) {
         return issue -> issue.getPackageName().equals(packageName);
     }
 
+    /**
+     * Returns a predicate that checks if the file name of an issue is equal to the specified file name.
+     *
+     * @param fileName
+     *         the package name to match
+     *
+     * @return the predicate
+     */
     public static Predicate<Issue> byFileName(final String fileName) {
         return issue -> issue.getFileName().equals(fileName);
+    }
+
+    /**
+     * Creates a new empty instance of {@link Issues}.
+     */
+    public Issues() {
+        // no elements to add
+    }
+
+    /**
+     * Creates a new instance of {@link Issues} that will be initialized with the specified collection of {@link Issue}
+     * instances.
+     *
+     * @param issues
+     *         the initial set of issues for this instance
+     */
+    public Issues(final Collection<? extends T> issues) {
+        for (T issue : issues) {
+            add(issue);
+        }
     }
 
     /**
@@ -129,7 +163,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     public final boolean addAll(final Issues<T> issues, final Issues<T>... otherIssues) {
         boolean hasNoDuplicate = addAll(issues.elements);
         for (Issues<T> other : otherIssues) {
-             hasNoDuplicate &= addAll(other.elements);
+            hasNoDuplicate &= addAll(other.elements);
         }
         return hasNoDuplicate;
     }
@@ -324,11 +358,12 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *         the index
      *
      * @return the issue at the specified index
-     * @throws IndexOutOfBoundsException if there is no element for the given index
+     * @throws IndexOutOfBoundsException
+     *         if there is no element for the given index
      */
     public T get(final int index) {
         if (index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException("No such index " + index  + " in " + toString());
+            throw new IndexOutOfBoundsException("No such index " + index + " in " + toString());
         }
         Iterator<T> all = elements.iterator();
         for (int i = 0; i < index; i++) {
@@ -403,7 +438,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * Returns the different values for a given property for all issues of this container.
      *
      * @param propertiesMapper
-     *         the properties mapper
+     *         the properties mapper that selects the property
      * @param <R>
      *         the type of the returned values
      *
@@ -415,7 +450,15 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
                 .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
     }
 
-    public Map<String, Integer> getPropertyCount(final Function<? super T, ? extends String> propertiesMapper) {
+    /**
+     * Returns the number of occurrences for every existing value of a given property for all issues of this container.
+     *
+     * @param propertiesMapper
+     *         the properties mapper that selects the property to evaluate
+     * @return a mapping of: property value -> number of issues for that value
+     * @see #getProperties(Function)
+     */
+    public Map<String, Integer> getPropertyCount(final Function<? super T, String> propertiesMapper) {
         return elements.stream().collect(groupingBy(propertiesMapper, reducing(0, e -> 1, Integer::sum)));
     }
 
@@ -450,6 +493,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
      *         zero.
      */
+    // TODO: shouldn't we better store these as a list?
     public void log(final String format, final Object... args) {
         logMessages.append(String.format(format, args));
         logMessages.append('\n');

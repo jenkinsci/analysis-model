@@ -21,7 +21,7 @@ public class Armcc5CompilerParser extends FastRegexpLineParser {
      * Creates a new instance of {@link Armcc5CompilerParser}.
      */
     public Armcc5CompilerParser() {
-        super("armcc5", ARMCC5_WARNING_PATTERN);
+        super(ARMCC5_WARNING_PATTERN);
     }
 
     @Override

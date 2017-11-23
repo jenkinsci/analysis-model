@@ -75,9 +75,9 @@ public class LinuxKernelOutputParser extends RegexpParser {
 
     @Override
     public Issues<Issue> parse(final Reader file, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
-        try {
+        try (BufferedReader reader = new BufferedReader(file)) {
             Issues<Issue> warnings = new Issues<>();
-            BufferedReader reader = new BufferedReader(file);
+
             String line = reader.readLine();
             Pattern pBugStart = Pattern.compile(BUGWARN_START_PATERN);
             Pattern pBugEnd = Pattern.compile(BUGWARN_END_PATERN);
@@ -165,8 +165,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
             }
         }
         else {
-            /** Ignore all other patterns */
-            return FALSE_POSITIVE;
+            return FALSE_POSITIVE; // Ignore all other patterns
         }
 
         String message;

@@ -11,10 +11,9 @@ public abstract class FastRegexpLineParser extends RegexpLineParser {
     /**
      * Creates a new instance of {@link FastRegexpLineParser}.
      *
-     * @param id             ID of the parser
      * @param warningPattern pattern of compiler warnings.
      */
-    protected FastRegexpLineParser(final String id, final String warningPattern) {
+    protected FastRegexpLineParser(final String warningPattern) {
         super(warningPattern);
     }
 

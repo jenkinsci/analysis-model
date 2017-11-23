@@ -21,7 +21,7 @@ public class AnsibleLintParser extends FastRegexpLineParser {
      * Creates a new instance of {@link AnsibleLintParser}
      */
     public AnsibleLintParser() {
-        super("ansible-lint", ANSIBLE_LINT_WARNING_PATTERN);
+        super(ANSIBLE_LINT_WARNING_PATTERN);
     }
 
     @Override

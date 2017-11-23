@@ -25,7 +25,7 @@ public class AntJavacParser extends FastRegexpLineParser {
      * Creates a new instance of {@link AntJavacParser}.
      */
     public AntJavacParser() {
-        super("ant-javac", ANT_JAVAC_WARNING_PATTERN);
+        super(ANT_JAVAC_WARNING_PATTERN);
     }
 
     @Override

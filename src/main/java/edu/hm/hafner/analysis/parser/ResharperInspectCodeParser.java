@@ -39,7 +39,7 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
      * Creates a new instance of {@link ResharperInspectCodeParser}.
      */
     public ResharperInspectCodeParser() {
-        super("resharper", WARNING_PATTERN);
+        super(WARNING_PATTERN);
     }
 
     @Override

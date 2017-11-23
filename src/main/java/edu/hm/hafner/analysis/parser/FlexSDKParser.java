@@ -20,7 +20,7 @@ public class FlexSDKParser extends FastRegexpLineParser {
      * Creates a new instance of {@link FlexSDKParser}.
      */
     public FlexSDKParser() {
-        super("flex", FLEX_SDK_WARNING_PATTERN);
+        super(FLEX_SDK_WARNING_PATTERN);
     }
 
     @Override

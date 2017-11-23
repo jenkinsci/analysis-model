@@ -173,6 +173,11 @@
             <goals>
               <goal>test-jar</goal>
             </goals>
+            <configuration>
+              <includes>
+                <include>**/assertj/*</include>
+              </includes>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -283,5 +288,16 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>maven.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>maven.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>

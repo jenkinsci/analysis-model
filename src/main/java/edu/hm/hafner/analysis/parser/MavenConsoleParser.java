@@ -31,7 +31,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
      * Creates a new instance of {@link MavenConsoleParser}.
      */
     public MavenConsoleParser() {
-        super("maven", PATTERN);
+        super(PATTERN);
     }
 
     @Override

@@ -79,13 +79,13 @@ public class GnuMakeGccParser extends RegexpLineParser {
         }
     }
 
-    private String fixMsysTypeDirectory(String directory) {
-        if (isWindows && directory.matches("/[a-z]/.*")) {
+    private String fixMsysTypeDirectory(final String path) {
+        if (isWindows && path.matches("/[a-z]/.*")) {
             //MSYS make on Windows replaces the drive letter and colon (C:) with unix-type absolute paths (/c/)
             //Reverse this operation here
-            directory = directory.substring(1, 2) + ":" + directory.substring(2);
+            return path.substring(1, 2) + ":" + path.substring(2);
         }
-        return directory;
+        return path;
     }
 
     private Issue handleDirectory(final Matcher matcher) {

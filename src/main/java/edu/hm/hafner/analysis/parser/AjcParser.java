@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.apache.commons.io.IOUtils;
-
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -32,10 +30,9 @@ public class AjcParser extends AbstractParser {
 
     @Override
     public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingException {
-        try {
+        try (BufferedReader br = new BufferedReader(reader)) {
             Issues<Issue> warnings = new Issues<>();
 
-            BufferedReader br = new BufferedReader(reader);
             String line;
             States state = States.START;
             String message = "";
@@ -115,11 +112,7 @@ public class AjcParser extends AbstractParser {
         catch (IOException e) {
             throw new ParsingException(e);
         }
-        finally {
-            IOUtils.closeQuietly(reader);
-        }
     }
-
 
     private enum States {
         START, PARSING, PARSED_WARNING, PARSED_FILE

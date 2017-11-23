@@ -24,7 +24,7 @@ public class RobocopyParser extends FastRegexpLineParser {
      * Creates a new instance of {@link RobocopyParser}.
      */
     public RobocopyParser() {
-        super("robo-copy", ROBOCOPY_WARNING_PATTERN);
+        super(ROBOCOPY_WARNING_PATTERN);
     }
 
     @Override

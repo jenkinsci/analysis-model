@@ -23,7 +23,7 @@ public class JavaDocParser extends FastRegexpLineParser {
      * Creates a new instance of {@link JavaDocParser}.
      */
     public JavaDocParser() {
-        super("javadoc", JAVA_DOC_WARNING_PATTERN);
+        super(JAVA_DOC_WARNING_PATTERN);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class AcuCobolParser extends FastRegexpLineParser {
      * Creates a new instance of {@link AcuCobolParser}.
      */
     public AcuCobolParser() {
-        super("acu-cobol", ACU_COBOL_WARNING_PATTERN);
+        super(ACU_COBOL_WARNING_PATTERN);
     }
 
     @Override

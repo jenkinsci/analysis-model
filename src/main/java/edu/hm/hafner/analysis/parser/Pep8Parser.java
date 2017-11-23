@@ -21,7 +21,7 @@ public class Pep8Parser extends FastRegexpLineParser {
      * Creates a new instance of {@link Pep8Parser}.
      */
     public Pep8Parser() {
-        super("pep8", PEP8_WARNING_PATTERN);
+        super(PEP8_WARNING_PATTERN);
     }
 
     @Override

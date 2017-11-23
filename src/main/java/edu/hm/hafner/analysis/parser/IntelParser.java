@@ -23,7 +23,7 @@ public class IntelParser extends FastRegexpLineParser {
      * Creates a new instance of {@link IntelParser}.
      */
     public IntelParser() {
-        super("intel", INTEL_PATTERN);
+        super(INTEL_PATTERN);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class PyLintParser extends FastRegexpLineParser {
      * Creates a new instance of {@link PyLintParser}.
      */
     public PyLintParser() {
-        super("py-lint", PYLINT_ERROR_PATTERN);
+        super(PYLINT_ERROR_PATTERN);
     }
 
     @Override

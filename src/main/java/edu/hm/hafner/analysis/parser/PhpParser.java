@@ -22,7 +22,7 @@ public class PhpParser extends FastRegexpLineParser {
      * Creates a new instance of {@link PhpParser}.
      */
     public PhpParser() {
-        super("php", PHP_WARNING_PATTERN);
+        super(PHP_WARNING_PATTERN);
     }
 
     @Override

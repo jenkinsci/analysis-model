@@ -30,7 +30,7 @@ public class P4Parser extends FastRegexpLineParser {
      * Creates a new instance of {@link P4Parser}.
      */
     public P4Parser() {
-        super("perforce", PERFORCE_WARNING_PATTERN);
+        super(PERFORCE_WARNING_PATTERN);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class IarParser extends FastRegexpLineParser {
      * Creates a new instance of {@link IarParser}.
      */
     public IarParser() {
-        super("iar", IAR_WARNING_PATTERN);
+        super(IAR_WARNING_PATTERN);
     }
 
     @Override

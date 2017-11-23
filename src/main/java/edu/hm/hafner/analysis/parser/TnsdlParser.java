@@ -21,7 +21,7 @@ public class TnsdlParser extends FastRegexpLineParser {
      * Creates a new instance of {@link TnsdlParser}.
      */
     public TnsdlParser() {
-        super("tnsdl", TNSDL_WARNING_PATTERN);
+        super(TNSDL_WARNING_PATTERN);
     }
 
     @Override
