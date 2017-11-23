@@ -1,9 +1,12 @@
 package edu.hm.hafner.analysis.assertj;
 
+import java.util.List;
+
 import org.assertj.core.api.AbstractAssert;
 
 import com.google.common.collect.ImmutableSet;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 
 /**
@@ -55,6 +58,15 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         if(actual.getLowPrioritySize() != sizeOfPriority){
             failWithMessage("\nExpected low priority size of:\n <%s>\nto be:\n <%d>\nbut was:\n <%d>",
                     actual, sizeOfPriority, actual.getLowPrioritySize());
+        }
+        return this;
+    }
+
+    public IssuesAssert hasNumberOfFiles(int numberOfFiles){
+        isNotNull();
+        if(actual.getNumberOfFiles() != numberOfFiles){
+            failWithMessage("\nExpected number of files of:\n <%s>\nto be:\n <%d>\nbut was:\n <%d>",
+                    actual, numberOfFiles, actual.getNumberOfFiles());
         }
         return this;
     }
