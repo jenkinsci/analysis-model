@@ -7,6 +7,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +58,8 @@ class IssuesTest {
 
         assertThat(issues).isEmpty();
         assertThat(issues.isNotEmpty()).isFalse();
+        assertThat(issues).hasSize(0);
+        assertThat(issues.size()).isEqualTo(0);
         assertThat(issues).hasHighPrioritySize(0);
         assertThat(issues).hasLowPrioritySize(0);
         assertThat(issues).hasNormalPrioritySize(0);
@@ -85,7 +89,6 @@ class IssuesTest {
         assertThatAllIssuesHaveBeenAdded(issues);
     }
 
-
     @Test
     void shouldIterateOverAllElementsInCorrectOrder() {
         Issues<Issue> issues = new Issues<>();
@@ -98,6 +101,25 @@ class IssuesTest {
         assertThat(iterator.next()).isSameAs(LOW_FILE_2);
         assertThat(iterator.next()).isSameAs(ISSUE_5);
         assertThat(iterator.next()).isSameAs(LOW_FILE_3);
+    }
+
+    @Test
+    void shouldSkipAddedElements() {
+        Issues<Issue> issues = new Issues<>(asList(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3));
+
+        Issues<Issue> empty = new Issues<>();
+
+        assertThat(empty.addAll(issues)).isTrue();
+        assertThat(empty).hasSize(6);
+        assertThat(empty.addAll(issues)).isFalse();
+        assertThat(empty).hasSize(6);
+
+        Issues<Issue> left = new Issues<>(asList(HIGH, NORMAL_1, NORMAL_2));
+        Issues<Issue> right = new Issues<>(asList(LOW_FILE_2, ISSUE_5, LOW_FILE_3));
+
+        Issues<Issue> everything = new Issues<>();
+        assertThat(everything.addAll(left, right)).isTrue();
+        assertThat(everything).hasSize(6);
     }
 
     @Test
@@ -137,6 +159,10 @@ class IssuesTest {
             softly.assertThat(issues.getSizeOf(Priority.HIGH)).isEqualTo(1);
             softly.assertThat(issues.getSizeOf(Priority.NORMAL)).isEqualTo(2);
             softly.assertThat(issues.getSizeOf(Priority.LOW)).isEqualTo(3);
+
+            softly.assertThat(issues.sizeOf(Priority.HIGH)).isEqualTo(1);
+            softly.assertThat(issues.sizeOf(Priority.NORMAL)).isEqualTo(2);
+            softly.assertThat(issues.sizeOf(Priority.LOW)).isEqualTo(3);
         });
     }
 
@@ -306,6 +332,34 @@ class IssuesTest {
         copy.add(LOW_FILE_2);
         assertThat(original.all()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
         assertThat(copy.all()).containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2);
+    }
+
+    @Test
+    void shouldFilterByProperty() {
+        assertFilterFor(IssueBuilder::setPackageName, Issues::getPackages, "packageName");
+        assertFilterFor(IssueBuilder::setModuleName, Issues::getModules, "moduleName");
+        assertFilterFor(IssueBuilder::setOrigin, Issues::getToolNames, "toolName");
+        assertFilterFor(IssueBuilder::setCategory, Issues::getCategories, "category");
+        assertFilterFor(IssueBuilder::setType, Issues::getTypes, "type");
+    }
+
+    private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
+            final Function<Issues, SortedSet<String>> propertyGetter, final String propertyName) {
+        Issues<Issue> issues = new Issues<>();
+
+        IssueBuilder builder = new IssueBuilder();
+
+        for (int i = 1; i < 4; i++) {
+            for (int j = i; j < 4; j++) {
+                Issue build = builderSetter.apply(builder, "name " + i).setMessage(i + " " + j).build();
+                issues.add(build);
+            }
+        }
+        assertThat(issues).hasSize(6);
+
+        SortedSet<String> properties = propertyGetter.apply(issues);
+
+        assertThat(properties).as("Wrong values for property " + propertyName).containsExactly("name 1", "name 2", "name 3");
     }
 
     @Test
