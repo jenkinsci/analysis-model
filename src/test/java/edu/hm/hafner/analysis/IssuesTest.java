@@ -48,13 +48,14 @@ class IssuesTest {
             .setFileName("file-3")
             .setPriority(Priority.LOW)
             .build();
-    private static final String EXTENDED_VALUE = "Bla Bla";
+    private static final String EXTENDED_VALUE = "Extended";
 
     @Test
     void shouldBeEmptyWhenCreated() {
         Issues<Issue> issues = new Issues<>();
 
         assertThat(issues).isEmpty();
+        assertThat(issues.isNotEmpty()).isFalse();
         assertThat(issues).hasHighPrioritySize(0);
         assertThat(issues).hasLowPrioritySize(0);
         assertThat(issues).hasNormalPrioritySize(0);
@@ -120,10 +121,22 @@ class IssuesTest {
                     .hasLowPrioritySize(3);
             softly.assertThat(issues.getFiles())
                     .containsExactly("file-1", "file-2", "file-3");
+            softly.assertThat(issues.getFiles())
+                    .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat((Iterable<Issue>) issues)
                     .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
             softly.assertThat(issues.all())
                     .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+            softly.assertThat(issues.isNotEmpty()).isTrue();
+            softly.assertThat(issues.size()).isEqualTo(6);
+
+            softly.assertThat(issues.getPropertyCount(issue -> issue.getFileName())).containsEntry("file-1", 3);
+            softly.assertThat(issues.getPropertyCount(issue -> issue.getFileName())).containsEntry("file-2", 2);
+            softly.assertThat(issues.getPropertyCount(issue -> issue.getFileName())).containsEntry("file-3", 1);
+
+            softly.assertThat(issues.getSizeOf(Priority.HIGH)).isEqualTo(1);
+            softly.assertThat(issues.getSizeOf(Priority.NORMAL)).isEqualTo(2);
+            softly.assertThat(issues.getSizeOf(Priority.LOW)).isEqualTo(3);
         });
     }
 
