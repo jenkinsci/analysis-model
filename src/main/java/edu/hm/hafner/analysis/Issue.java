@@ -35,13 +35,13 @@ public class Issue implements Serializable {
 
     private final UUID id;
 
-    private String fingerprint;
+    private final String fingerprint;
 
 
     public Issue(final Issue copy, final UUID id) {
         this(copy.fileName, copy.lineStart, copy.lineEnd, copy.columnStart, copy.columnEnd, copy.category, copy.type,
                 copy.packageName, copy.moduleName, copy.priority, copy.message, copy.description, copy.origin,
-                id);
+                copy.fingerprint, id);
     }
 
     public Issue(final Issue copy) {
@@ -77,6 +77,8 @@ public class Issue implements Serializable {
      *         the description for this issue
      * @param origin
      *         the ID of the tool that did report this issue
+     * @param fingerprint
+     *         the finger print for this issue
      */
     @SuppressWarnings("ParameterNumber")
     protected Issue(@CheckForNull final String fileName,
@@ -85,9 +87,9 @@ public class Issue implements Serializable {
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
             @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
-            @CheckForNull final String origin) {
+            @CheckForNull final String origin, @CheckForNull final String fingerprint) {
         this(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
-                packageName, moduleName, priority, message, description, origin, UUID.randomUUID());
+                packageName, moduleName, priority, message, description, origin, fingerprint, UUID.randomUUID());
     }
 
     private Issue(@CheckForNull final String fileName,
@@ -96,7 +98,7 @@ public class Issue implements Serializable {
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
             @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
-            @CheckForNull final String origin,
+            @CheckForNull final String origin, @CheckForNull final String fingerprint,
             final UUID id) {
         this.fileName = defaultString(StringUtils.replace(StringUtils.strip(fileName), "\\", "/"));
 
@@ -117,9 +119,10 @@ public class Issue implements Serializable {
 
         this.origin = StringUtils.stripToEmpty(origin);
 
+        this.fingerprint = defaultString(fingerprint);
+
         this.id = id;
     }
-
 
     private int defaultInteger(final int integer) {
         return integer < 0 ? 0 : integer;
@@ -267,19 +270,7 @@ public class Issue implements Serializable {
      */
     // TODO: should the fingerprint be part of equals/hashcode?
     public String getFingerprint() {
-        return defaultString(fingerprint);
-    }
-
-    /**
-     * Sets the finger print for this issue.
-     *
-     * @param fingerprint
-     *         the fingerprint for this issue
-     *
-     * @see #getFingerprint()
-     */
-    public void setFingerprint(final String fingerprint) {
-        this.fingerprint = fingerprint;
+        return fingerprint;
     }
 
     @Override

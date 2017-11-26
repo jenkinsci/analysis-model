@@ -363,6 +363,14 @@ class IssuesTest {
     }
 
     @Test
+    void shouldStoreLogMessages() {
+        Issues<Issue> issues = new Issues<>();
+
+        issues.log("%s %s", "Hello", "World");
+        issues.log("%s %s", "Hello", "World");
+    }
+
+    @Test
     void shouldSupportSubTypes() {
         ExtendedIssueBuilder builder = new ExtendedIssueBuilder();
 
@@ -422,7 +430,8 @@ class IssuesTest {
                 @CheckForNull final String moduleName, @CheckForNull final Priority priority,
                 @CheckForNull final String message, @CheckForNull final String description,
                 @CheckForNull final String origin, final String additional) {
-            super(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type, packageName, moduleName, priority, message, description, origin);
+            super(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type, packageName, moduleName,
+                    priority, message, description, origin, "FingerPrint");
 
             this.additional = additional;
         }

@@ -38,27 +38,27 @@ class IssueTest {
         assertSoftly(softly -> {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue)
-                  .hasFileName(FILE_NAME)
-                  .hasCategory(CATEGORY)
-                  .hasLineStart(LINE_START)
-                  .hasLineEnd(LINE_END)
-                  .hasColumnStart(COLUMN_START)
-                  .hasColumnEnd(COLUMN_END)
-                  .hasType(TYPE)
-                  .hasPackageName(PACKAGE_NAME)
-                  .hasModuleName(MODULE_NAME)
-                  .hasPriority(PRIORITY)
-                  .hasMessage(MESSAGE)
-                  .hasFingerprint(UNDEFINED)
-                  .hasOrigin(ORIGIN)
-                  .hasDescription(DESCRIPTION);
+                    .hasFileName(FILE_NAME)
+                    .hasCategory(CATEGORY)
+                    .hasLineStart(LINE_START)
+                    .hasLineEnd(LINE_END)
+                    .hasColumnStart(COLUMN_START)
+                    .hasColumnEnd(COLUMN_END)
+                    .hasType(TYPE)
+                    .hasPackageName(PACKAGE_NAME)
+                    .hasModuleName(MODULE_NAME)
+                    .hasPriority(PRIORITY)
+                    .hasMessage(MESSAGE)
+                    .hasOrigin(ORIGIN)
+                    .hasDescription(DESCRIPTION)
+                    .hasFingerprint(FINGERPRINT);
         });
     }
 
     @Test
     void testDefaultIssueNullStringsNegativeIntegers() {
         Issue issue = new Issue(null, 0, 0, 0, 0, null, null,
-                null, null, PRIORITY, null, null, null);
+                null, null, PRIORITY, null, null, null, null);
 
         assertIsDefaultIssue(issue);
     }
@@ -66,7 +66,7 @@ class IssueTest {
     @Test
     void testDefaultIssueEmptyStringsNegativeIntegers() {
         Issue issue = new Issue(EMPTY, -1, -1, -1, -1,
-                EMPTY, EMPTY, EMPTY, EMPTY, PRIORITY, EMPTY, EMPTY, EMPTY);
+                EMPTY, EMPTY, EMPTY, EMPTY, PRIORITY, EMPTY, EMPTY, EMPTY, EMPTY);
 
         assertIsDefaultIssue(issue);
     }
@@ -75,38 +75,38 @@ class IssueTest {
         assertSoftly(softly -> {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue)
-                  .hasFileName(UNDEFINED)
-                  .hasCategory(EMPTY)
-                  .hasLineStart(0)
-                  .hasLineEnd(0)
-                  .hasColumnStart(0)
-                  .hasColumnEnd(0)
-                  .hasType(UNDEFINED)
-                  .hasPackageName(UNDEFINED)
-                  .hasMessage(EMPTY)
-                  .hasDescription(EMPTY)
-                  .hasFingerprint(UNDEFINED);
+                    .hasFileName(UNDEFINED)
+                    .hasCategory(EMPTY)
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0)
+                    .hasType(UNDEFINED)
+                    .hasPackageName(UNDEFINED)
+                    .hasMessage(EMPTY)
+                    .hasDescription(EMPTY)
+                    .hasFingerprint(UNDEFINED);
         });
     }
 
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
         Issue issue = new Issue(FILE_NAME, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE, PACKAGE_NAME,
-                MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+                MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
 
         assertSoftly(softly -> {
             softly.assertThat(issue)
-                  .hasLineStart(LINE_START)
-                  .hasLineEnd(LINE_START)
-                  .hasColumnStart(COLUMN_START)
-                  .hasColumnEnd(COLUMN_START);
+                    .hasLineStart(LINE_START)
+                    .hasLineEnd(LINE_START)
+                    .hasColumnStart(COLUMN_START)
+                    .hasColumnEnd(COLUMN_START);
         });
     }
 
     @Test
     void testNullPriorityDefaultsToNormal() {
         Issue issue = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME,
-                MODULE_NAME, null, MESSAGE, DESCRIPTION, ORIGIN);
+                MODULE_NAME, null, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
 
         assertThat(issue.getPriority()).isEqualTo(Priority.NORMAL);
     }
@@ -119,17 +119,9 @@ class IssueTest {
         assertThat(one.getId()).isNotEqualTo(another.getId());
     }
 
-    @Test
-    void testFingerprint() {
-        Issue issue = createFilledIssue();
-
-        issue.setFingerprint(FINGERPRINT);
-
-        assertThat(issue).hasFingerprint(FINGERPRINT);
-    }
-
     private Issue createFilledIssue() {
-        return new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+        return new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME,
+                MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
     }
 
     @Test
@@ -148,19 +140,22 @@ class IssueTest {
 
     @Test
     void testFileNameBackslashConversion() {
-        Issue issue = new Issue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+        Issue issue = new Issue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
+                TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
 
         assertThat(issue).hasFileName(FILE_NAME);
     }
 
     @Test
     void testMessageDescriptionStripped() {
-        Issue issue = new Issue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN);
+        Issue issue = new Issue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
+                TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
+                FINGERPRINT);
 
         assertSoftly(softly -> {
             softly.assertThat(issue)
-                  .hasMessage(MESSAGE)
-                  .hasDescription(DESCRIPTION);
+                    .hasMessage(MESSAGE)
+                    .hasDescription(DESCRIPTION);
         });
     }
 }

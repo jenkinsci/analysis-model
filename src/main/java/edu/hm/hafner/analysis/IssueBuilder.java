@@ -30,6 +30,13 @@ public class IssueBuilder {
     protected String packageName;
     protected String moduleName;
     protected String origin;
+    // TODO: should this be an instance of an object?
+    protected String fingerprint;
+
+    public IssueBuilder setFingerprint(final String fingerprint) {
+        this.fingerprint = fingerprint;
+        return this;
+    }
 
     public IssueBuilder setFileName(final String fileName) {
         this.fileName = fileName;
@@ -129,6 +136,6 @@ public class IssueBuilder {
      */
     public Issue build() {
         return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
-                packageName, moduleName, priority, message, description, origin);
+                packageName, moduleName, priority, message, description, origin, fingerprint);
     }
 }

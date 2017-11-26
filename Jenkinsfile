@@ -18,7 +18,7 @@ node ('linux') {
                     '--update-snapshots',
                     '-Dmaven.test.failure.ignore',
             ]
-            if (jdk.toInteger() > 7 && infra.isRunningOnJenkinsInfra()) {
+            if (jdk.toInteger() > 7 && infra.se()) {
                 /* Azure mirror only works for sufficiently new versions of the JDK due to Letsencrypt cert */
                 def settingsXml = "${pwd tmp: true}/settings-azure.xml"
                 writeFile file: settingsXml, text: libraryResource('settings-azure.xml')

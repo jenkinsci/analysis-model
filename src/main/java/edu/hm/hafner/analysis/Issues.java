@@ -2,9 +2,11 @@ package edu.hm.hafner.analysis;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.UUID;
@@ -12,6 +14,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
@@ -36,7 +39,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     private final int[] sizeOfPriority = new int[Priority.values().length];
     private int sizeOfDuplicates = 0;
 
-    private final StringBuilder logMessages = new StringBuilder();
+    private final List<String> logMessages = new ArrayList<>();
 
     /**
      * Creates and returns a new set of issues that contains all issues of the specified {@link Issues} instances. The
@@ -155,22 +158,24 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @param issues
      *         the issues to append
+     * @param additionalIssues
+     *         the additional issue to append
      *
      * @return {@code true} if this set did not already contain one of the specified issues, {@code false} if a
      *         duplicate has been dropped
      */
     @SafeVarargs
-    public final boolean addAll(final Issues<T> issues, final Issues<T>... otherIssues) {
+    public final boolean addAll(final Issues<T> issues, final Issues<T>... additionalIssues) {
         boolean hasNoDuplicate = addAll(issues.elements);
-        for (Issues<T> other : otherIssues) {
+        for (Issues<T> other : additionalIssues) {
             hasNoDuplicate &= addAll(other.elements);
         }
         return hasNoDuplicate;
     }
 
     /**
-     * Removes the the issue with the specified ID. Note that the number of reported duplicates is not affected by
-     * calling this method.
+     * Removes the issue with the specified ID. Note that the number of reported duplicates is not affected by calling
+     * this method.
      *
      * @param id
      *         the ID of the issue
@@ -455,6 +460,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @param propertiesMapper
      *         the properties mapper that selects the property to evaluate
+     *
      * @return a mapping of: property value -> number of issues for that value
      * @see #getProperties(Function)
      */
@@ -474,17 +480,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Sets the absolute path for all affected files to the specified value.
-     *
-     * @param path
-     *         the path
-     */
-    public void setPath(final String path) {
-        // TODO: issue property? Or is this better suited in the AbsoluteFileNamesMapper
-    }
-
-    /**
-     * Logs the specified message.
+     * Logs the specified message. Use this method to log any useful information when composing this set of issues.
      *
      * @param format
      *         A <a href="../util/Formatter.html#syntax">format string</a>
@@ -492,14 +488,18 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
      *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
      *         zero.
+     * @see #getLogMessages()
      */
-    // TODO: shouldn't we better store these as a list?
     public void log(final String format, final Object... args) {
-        logMessages.append(String.format(format, args));
-        logMessages.append('\n');
+        logMessages.add(String.format(format, args));
     }
 
-    public String getLogMessages() {
-        return logMessages.toString();
+    /**
+     * Returns the log messages that have been reported since the creation of this set of issues.
+     *
+     * @return the log messages
+     */
+    public ImmutableList<String> getLogMessages() {
+        return ImmutableList.copyOf(logMessages);
     }
 }
