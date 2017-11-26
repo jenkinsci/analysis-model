@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.IssueFilter.IssueFilterBuilder;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 /**
- * Tests for the class {@link IssueFilter IssueFilter}. These Tests are generated while developing.
+ * Tests the class {@link IssueFilter IssueFilter}. These Tests are generated while developing.
  *
  * @author Michael Schmid
  */
