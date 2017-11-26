@@ -3,9 +3,6 @@ package edu.hm.hafner.analysis;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +10,11 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.IssueFilter.IssueFilterBuilder;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+/**
+ * Tests for the class {@link IssueFilter IssueFilter}. These Tests are generated while developing.
+ *
+ * @author Michael Schmid
+ */
 class IssueFilterTest {
     private static final List<Issue> ISSUES_LIST = new ArrayList<>();
     static {
@@ -47,7 +49,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeTypeFilter(patterns);
+        builder = builder.addIncludeTypeFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -58,7 +60,7 @@ class IssueFilterTest {
         patterns.add("epyt");
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeTypeFilter(patterns);
+        builder = builder.addIncludeTypeFilter(patterns);
         testFilter(builder, ISSUES_LIST, ISSUES_LIST);
     }
 
@@ -71,7 +73,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeTypeFilter(patterns);
+        builder = builder.addExcludeTypeFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -84,7 +86,7 @@ class IssueFilterTest {
         List<Issue> expected = new ArrayList<>();
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeTypeFilter(patterns);
+        builder = builder.addExcludeTypeFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -97,7 +99,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeCategoryFilter(patterns);
+        builder = builder.addIncludeCategoryFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -108,7 +110,7 @@ class IssueFilterTest {
         patterns.add("yrogetac");
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeCategoryFilter(patterns);
+        builder = builder.addIncludeCategoryFilter(patterns);
         testFilter(builder, ISSUES_LIST, ISSUES_LIST);
     }
 
@@ -121,7 +123,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeCategoryFilter(patterns);
+        builder = builder.addExcludeCategoryFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -134,7 +136,7 @@ class IssueFilterTest {
         List<Issue> expected = new ArrayList<>();
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeCategoryFilter(patterns);
+        builder = builder.addExcludeCategoryFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -147,7 +149,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeFileNameFilter(patterns);
+        builder = builder.addIncludeFileNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -158,7 +160,7 @@ class IssueFilterTest {
         patterns.add("eman_elif");
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeFileNameFilter(patterns);
+        builder = builder.addIncludeFileNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, ISSUES_LIST);
     }
 
@@ -171,7 +173,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeFileNameFilter(patterns);
+        builder = builder.addExcludeFileNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -184,7 +186,7 @@ class IssueFilterTest {
         List<Issue> expected = new ArrayList<>();
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeFileNameFilter(patterns);
+        builder = builder.addExcludeFileNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -197,7 +199,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludePackageNameFilter(patterns);
+        builder = builder.addIncludePackageNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -208,7 +210,7 @@ class IssueFilterTest {
         patterns.add("eman_egakcap");
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludePackageNameFilter(patterns);
+        builder = builder.addIncludePackageNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, ISSUES_LIST);
     }
 
@@ -221,7 +223,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludePackageNameFilter(patterns);
+        builder = builder.addExcludePackageNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -234,7 +236,7 @@ class IssueFilterTest {
         List<Issue> expected = new ArrayList<>();
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludePackageNameFilter(patterns);
+        builder = builder.addExcludePackageNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -247,7 +249,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeModuleNameFilter(patterns);
+        builder = builder.addIncludeModuleNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -258,7 +260,7 @@ class IssueFilterTest {
         patterns.add("eman_eludom");
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeModuleNameFilter(patterns);
+        builder = builder.addIncludeModuleNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, ISSUES_LIST);
     }
 
@@ -271,7 +273,7 @@ class IssueFilterTest {
         expected.add(ISSUES_LIST.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeModuleNameFilter(patterns);
+        builder = builder.addExcludeModuleNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
@@ -284,10 +286,16 @@ class IssueFilterTest {
         List<Issue> expected = new ArrayList<>();
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeModuleNameFilter(patterns);
+        builder = builder.addExcludeModuleNameFilter(patterns);
         testFilter(builder, ISSUES_LIST, expected);
     }
 
+    /**
+     * Test if a defined IssueFilterBuilder delivers the expected result if applied to a defined input.
+     * @param builder which still contains all filter criteria
+     * @param input list of issues which should be filtered.
+     * @param expected list of issues which match all filter criteria
+     */
     private void testFilter(IssueFilterBuilder builder, List<Issue> input, List<Issue> expected) {
         Issues issues = new Issues();
         issues.addAll(input);
