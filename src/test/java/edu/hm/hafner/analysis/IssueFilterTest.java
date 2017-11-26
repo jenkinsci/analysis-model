@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
+import static edu.hm.hafner.analysis.IssueFilter.IssueProperty.*;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
@@ -77,7 +78,7 @@ class IssueFilterTest {
     @Test
     void onlyIncludedBySinglePatternPass() {
         IssueFilter filter = IssueFilter.builder()
-                .includeFileNames(singletonList("A."))
+                .include(FILE_NAME, singletonList("A."))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -88,7 +89,7 @@ class IssueFilterTest {
     @Test
     void onlyIncludedByAnyPatternPass() {
         IssueFilter filter = IssueFilter.builder()
-                .includeFileNames(asList("A.", ".1"))
+                .include(FILE_NAME, asList("A.", ".1"))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -99,7 +100,7 @@ class IssueFilterTest {
     @Test
     void noneIncluded() {
         IssueFilter filter = IssueFilter.builder()
-                .includeFileNames(singletonList("C."))
+                .include(FILE_NAME, singletonList("C."))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -110,7 +111,7 @@ class IssueFilterTest {
     @Test
     void onlyNotExcludedBySinglePatternPass() {
         IssueFilter filter = IssueFilter.builder()
-                .excludeFileNames(singletonList("A."))
+                .exclude(FILE_NAME, singletonList("A."))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -121,7 +122,7 @@ class IssueFilterTest {
     @Test
     void onlyNotExcludedByAnyPatternPass() {
         IssueFilter filter = IssueFilter.builder()
-                .excludeFileNames(asList("A.", ".1"))
+                .exclude(FILE_NAME, asList("A.", ".1"))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -132,7 +133,7 @@ class IssueFilterTest {
     @Test
     void allExcluded() {
         IssueFilter filter = IssueFilter.builder()
-                .excludeFileNames(asList("A.", "B."))
+                .exclude(FILE_NAME, asList("A.", "B."))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -143,8 +144,8 @@ class IssueFilterTest {
     @Test
     void onlyIncludedAndNotExcludedPass() {
         IssueFilter filter = IssueFilter.builder()
-                .includeFileNames(asList(".1", "B."))
-                .excludeFileNames(singletonList(".3"))
+                .include(FILE_NAME, asList(".1", "B."))
+                .exclude(FILE_NAME, singletonList(".3"))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -155,8 +156,8 @@ class IssueFilterTest {
     @Test
     void filterByPackageName() {
         IssueFilter filter = IssueFilter.builder()
-                .includePackageNames(singletonList("a.*"))
-                .excludePackageNames(singletonList(".*\\.1"))
+                .include(PACKAGE_NAME, singletonList("a.*"))
+                .exclude(PACKAGE_NAME, singletonList(".*\\.1"))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -167,8 +168,8 @@ class IssueFilterTest {
     @Test
     void filterByModuleName() {
         IssueFilter filter = IssueFilter.builder()
-                .includeModuleNames(singletonList("module-a-."))
-                .excludeModuleNames(singletonList("module-.-1"))
+                .include(MODULE_NAME, singletonList("module-a-."))
+                .exclude(MODULE_NAME, singletonList("module-.-1"))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -179,8 +180,8 @@ class IssueFilterTest {
     @Test
     void filterByCategory() {
         IssueFilter filter = IssueFilter.builder()
-                .includeCategories(singletonList("category-a-."))
-                .excludeCategories(singletonList("category-.-1"))
+                .include(CATEGORY, singletonList("category-a-."))
+                .exclude(CATEGORY, singletonList("category-.-1"))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -191,8 +192,8 @@ class IssueFilterTest {
     @Test
     void filterByType() {
         IssueFilter filter = IssueFilter.builder()
-                .includeTypes(singletonList("type-a-."))
-                .excludeTypes(singletonList("type-.-1"))
+                .include(TYPE, singletonList("type-a-."))
+                .exclude(TYPE, singletonList("type-.-1"))
                 .build();
 
         Issues output = filter.filter(ALL);
@@ -203,9 +204,9 @@ class IssueFilterTest {
     @Test
     void filterByMultipleProperties() {
         IssueFilter filter = IssueFilter.builder()
-                .includePackageNames(singletonList("a.*"))
-                .includeTypes(singletonList("type-b-."))
-                .excludePackageNames(singletonList(".*1"))
+                .include(PACKAGE_NAME, singletonList("a.*"))
+                .include(TYPE, singletonList("type-b-."))
+                .exclude(PACKAGE_NAME, singletonList(".*1"))
                 .build();
 
         Issues output = filter.filter(ALL);

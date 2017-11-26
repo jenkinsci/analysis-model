@@ -18,8 +18,8 @@ import static java.util.stream.Collectors.*;
  * <p>
  * A list of include and exclude regex can be defined for each property.
  * <p>
- * <strong>An {@link Issue issue} is included in the output if at least one include filter matches and no exclude filter
- * matches.</strong>
+ * An {@link Issue issue} is contained in the output if at least one include filter matches and no exclude filter
+ * matches. If no include filter is specified all issues are included in the filtering.
  *
  * @author Marcel Binder
  */
@@ -32,6 +32,14 @@ public class IssueFilter {
         this.excludeFilters = excludeFilters;
     }
 
+    /**
+     * Filter given {@link Issues issues} by the specified include and exclude filters.
+     *
+     * @param issues
+     *         the {@link Issues issues} to be filtered, must not be {@code null}
+     *
+     * @return the filtered {@link Issues issues}
+     */
     public Issues filter(final Issues issues) {
         Collection<Issue> filteredIssues = issues.all()
                 .stream()
@@ -58,10 +66,10 @@ public class IssueFilter {
     }
 
     /**
-     * A extractor for a {@link String string property} of an {@link Issue issue}.
+     * An extractor for a {@link String string property} of an {@link Issue issue}.
      */
     @FunctionalInterface
-    private interface IssueProperty {
+    private interface IssuePropertyExtractor {
         /**
          * Extract the property from an {@link Issue issue}.
          *
@@ -74,7 +82,7 @@ public class IssueFilter {
     }
 
     /**
-     *
+     * A filter for a certain {@link IssuePropertyExtractor}.
      */
     @FunctionalInterface
     private interface IssuePropertyFilter {
@@ -91,6 +99,23 @@ public class IssueFilter {
     }
 
     /**
+     * Properties of an {@link Issue issue} that can be used for filtering.
+     */
+    public enum IssueProperty {
+        FILE_NAME(Issue::getFileName),
+        PACKAGE_NAME(Issue::getPackageName),
+        MODULE_NAME(Issue::getModuleName),
+        CATEGORY(Issue::getCategory),
+        TYPE(Issue::getType);
+
+        private final IssuePropertyExtractor extractor;
+
+        IssueProperty(final IssuePropertyExtractor extractor) {
+            this.extractor = extractor;
+        }
+    }
+
+    /**
      * A builder for {@link IssueFilter issue filters}.
      */
     public static class Builder {
@@ -102,165 +127,45 @@ public class IssueFilter {
             this.excludeFilters = newArrayList();
         }
 
-        private IssuePropertyFilter filter(final IssueProperty propertyExtractor, final String regex) {
+        private IssuePropertyFilter filter(final IssuePropertyExtractor propertyExtractor, final String regex) {
             Pattern pattern = compile(regex);
             return issue -> pattern.matcher(propertyExtractor.extract(issue)).matches();
         }
 
-        private List<IssuePropertyFilter> filters(final IssueProperty propertyExtractor, final List<String> regex) {
+        private List<IssuePropertyFilter> filters(final IssuePropertyExtractor propertyExtractor, final List<String> regex) {
             return regex.stream()
                     .map(r -> filter(propertyExtractor, r))
                     .collect(toList());
         }
 
         /**
-         * Add an include filter for a certain {@link Issue issue} property.
+         * Add include filters for a given {@link IssueProperty issue property}.
          *
          * @param property
-         *         the {@link Issue issue} property to be used for filtering
+         *         the {@link IssueProperty issue property} which is used for filtering
          * @param regex
-         *         the regex that is applied to the specified property during filtering
+         *         the regex to be applied on the specified {@link IssueProperty issue property}
          *
          * @return this {@link Builder builder}
          */
-        private Builder include(final IssueProperty property, final List<String> regex) {
-            includeFilters.addAll(filters(property, regex));
+        public Builder include(final IssueProperty property, final List<String> regex) {
+            includeFilters.addAll(filters(property.extractor, regex));
             return this;
         }
 
         /**
-         * Add a exclude filter for a certain {@link Issue issue} property.
+         * Add exclude filters for a given {@link IssueProperty issue property}.
          *
          * @param property
-         *         the {@link Issue issue} property to be used for filtering
+         *         the {@link IssueProperty issue property} which is used for filtering
          * @param regex
-         *         the regex that is applied to the specified property during filtering
+         *         the regex to be applied on the specified {@link IssueProperty issue property}
          *
          * @return this {@link Builder builder}
          */
-        private Builder exclude(final IssueProperty property, final List<String> regex) {
-            excludeFilters.addAll(filters(property, regex));
+        public Builder exclude(final IssueProperty property, final List<String> regex) {
+            excludeFilters.addAll(filters(property.extractor, regex));
             return this;
-        }
-
-        /**
-         * Include a list of file names.
-         *
-         * @param fileNames
-         *         the file names to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder includeFileNames(final List<String> fileNames) {
-            return include(Issue::getFileName, fileNames);
-        }
-
-        /**
-         * Exclude a list of file names.
-         *
-         * @param fileNames
-         *         the file names to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder excludeFileNames(final List<String> fileNames) {
-            return exclude(Issue::getFileName, fileNames);
-        }
-
-        /**
-         * Include a list of package names.
-         *
-         * @param packageNames
-         *         the package names to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder includePackageNames(final List<String> packageNames) {
-            return include(Issue::getPackageName, packageNames);
-        }
-
-        /**
-         * Exclude a list of package names.
-         *
-         * @param packageNames
-         *         the package names to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder excludePackageNames(final List<String> packageNames) {
-            return exclude(Issue::getPackageName, packageNames);
-        }
-
-        /**
-         * Include a list of module names.
-         *
-         * @param moduleNames
-         *         the module names to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder includeModuleNames(final List<String> moduleNames) {
-            return include(Issue::getModuleName, moduleNames);
-        }
-
-        /**
-         * Exclude a list of module names.
-         *
-         * @param moduleNames
-         *         the module names to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder excludeModuleNames(final List<String> moduleNames) {
-            return exclude(Issue::getModuleName, moduleNames);
-        }
-
-        /**
-         * Include a list of categories.
-         *
-         * @param categories
-         *         the categories to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder includeCategories(final List<String> categories) {
-            return include(Issue::getCategory, categories);
-        }
-
-        /**
-         * Exclude a list of categories.
-         *
-         * @param categories
-         *         the categories to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder excludeCategories(final List<String> categories) {
-            return exclude(Issue::getCategory, categories);
-        }
-
-        /**
-         * Include a list of types.
-         *
-         * @param types
-         *         the types to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder includeTypes(final List<String> types) {
-            return include(Issue::getType, types);
-        }
-
-        /**
-         * Exclude a list of types.
-         *
-         * @param types
-         *         the types to be included
-         *
-         * @return this {@link Builder builder}
-         */
-        public Builder excludeTypes(final List<String> types) {
-            return exclude(Issue::getType, types);
         }
 
         /**
