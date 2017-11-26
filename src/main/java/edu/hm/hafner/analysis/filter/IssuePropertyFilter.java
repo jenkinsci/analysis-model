@@ -22,6 +22,9 @@ public class IssuePropertyFilter implements Function<Issue, Boolean> {
 
     @Override
     public Boolean apply(final Issue issue) {
-        return this.pattern.matcher(propertyToFilter.apply(issue)).matches();
+
+        boolean b =  this.pattern.matcher(propertyToFilter.apply(issue)).matches() == include;
+        System.out.println(propertyToFilter.apply(issue) + " vs " + pattern.pattern() + " = "  + b);
+        return b;
     }
 }

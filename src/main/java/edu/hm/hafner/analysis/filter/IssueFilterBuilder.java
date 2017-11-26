@@ -40,14 +40,14 @@ public class IssueFilterBuilder {
         return this;
     }
     public IssueFilterBuilder setPackageNameIncludeFilter(final String... pattern){
-        return setFilenameIncludeFilter(Arrays.asList(pattern));
+        return setPackageNameIncludeFilter(Arrays.asList(pattern));
     }
     public IssueFilterBuilder setPackageNameExcludeFilter(final Collection<String> pattern){
         filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getPackageName, false));
         return this;
     }
     public IssueFilterBuilder setPackageNameExcludeFilter(final String... pattern){
-        return setFilenameExcludeFilter(Arrays.asList(pattern));
+        return setPackageNameExcludeFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 
@@ -57,14 +57,14 @@ public class IssueFilterBuilder {
         return this;
     }
     public IssueFilterBuilder setModuleNameIncludeFilter(final String... pattern){
-        return setFilenameIncludeFilter(Arrays.asList(pattern));
+        return setModuleNameIncludeFilter(Arrays.asList(pattern));
     }
     public IssueFilterBuilder setModuleNameExcludeFilter(final Collection<String> pattern){
         filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getModuleName, false));
         return this;
     }
     public IssueFilterBuilder setModuleNameExcludeFilter(final String... pattern){
-        return setFilenameExcludeFilter(Arrays.asList(pattern));
+        return setModuleNameExcludeFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 
@@ -74,14 +74,14 @@ public class IssueFilterBuilder {
         return this;
     }
     public IssueFilterBuilder setCategoryIncludeFilter(final String... pattern){
-        return setFilenameIncludeFilter(Arrays.asList(pattern));
+        return setCategoryIncludeFilter(Arrays.asList(pattern));
     }
     public IssueFilterBuilder setCategoryExcludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getModuleName, false));
+        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getCategory, false));
         return this;
     }
     public IssueFilterBuilder setCategoryExcludeFilter(final String... pattern){
-        return setFilenameExcludeFilter(Arrays.asList(pattern));
+        return setCategoryExcludeFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 
@@ -91,14 +91,14 @@ public class IssueFilterBuilder {
         return this;
     }
     public IssueFilterBuilder setTypeIncludeFilter(final String... pattern){
-        return setFilenameIncludeFilter(Arrays.asList(pattern));
+        return setTypeIncludeFilter(Arrays.asList(pattern));
     }
     public IssueFilterBuilder setTypeExcludeFilter(final Collection<String> pattern){
         filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getType, false));
         return this;
     }
     public IssueFilterBuilder setTypeExcludeFilter(final String... pattern){
-        return setFilenameExcludeFilter(Arrays.asList(pattern));
+        return setTypeExcludeFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 }
