@@ -1,0 +1,215 @@
+package edu.hm.hafner.analysis;
+
+import org.junit.jupiter.api.Test;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static java.util.Arrays.*;
+import static java.util.Collections.*;
+
+/**
+ * Unit test for {@link IssueFilter}.
+ *
+ * @author Marcel Binder
+ */
+class IssueFilterTest {
+    private static final Issue ISSUE_A1 = new IssueBuilder()
+            .setFileName("A1")
+            .setPackageName("a.1")
+            .setModuleName("module-a-1")
+            .setCategory("category-a-1")
+            .setType("type-a-1")
+            .build();
+    private static final Issue ISSUE_A2 = new IssueBuilder()
+            .setFileName("A2")
+            .setPackageName("a.2")
+            .setModuleName("module-a-2")
+            .setCategory("category-a-2")
+            .setType("type-a-2")
+            .build();
+    private static final Issue ISSUE_A3 = new IssueBuilder()
+            .setFileName("A3")
+            .setPackageName("a.3")
+            .setModuleName("module-a-3")
+            .setCategory("category-a-3")
+            .setType("type-a-3")
+            .build();
+    private static final Issue ISSUE_B1 = new IssueBuilder()
+            .setFileName("B1")
+            .setPackageName("b.1")
+            .setModuleName("module-b-1")
+            .setCategory("category-b-1")
+            .setType("type-b-1")
+            .build();
+    private static final Issue ISSUE_B2 = new IssueBuilder()
+            .setFileName("B2")
+            .setPackageName("b.2")
+            .setModuleName("module-b-2")
+            .setCategory("category-b-2")
+            .setType("type-b-2")
+            .build();
+    private static final Issue ISSUE_B3 = new IssueBuilder()
+            .setFileName("B3")
+            .setPackageName("b.3")
+            .setModuleName("module-b-3")
+            .setCategory("category-b-3")
+            .setType("type-b-3")
+            .build();
+    private static final Issues ALL = new Issues(asList(ISSUE_A1, ISSUE_A2, ISSUE_A3, ISSUE_B1, ISSUE_B2, ISSUE_B3));
+
+    @Test
+    void nonePassIfNoFilterNoIssues() {
+        IssueFilter filter = IssueFilter.builder().build();
+
+        Issues output = filter.filter(new Issues());
+
+        assertThat(output).hasSize(0);
+    }
+
+    @Test
+    void allPassIfNoFilterAnyIssues() {
+        IssueFilter filter = IssueFilter.builder().build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A1, ISSUE_A2, ISSUE_A3, ISSUE_B1, ISSUE_B2, ISSUE_B3);
+    }
+
+    @Test
+    void onlyIncludedBySinglePatternPass() {
+        IssueFilter filter = IssueFilter.builder()
+                .includeFileNames(singletonList("A."))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A1, ISSUE_A2, ISSUE_A3);
+    }
+
+    @Test
+    void onlyIncludedByAnyPatternPass() {
+        IssueFilter filter = IssueFilter.builder()
+                .includeFileNames(asList("A.", ".1"))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A1, ISSUE_A2, ISSUE_A3, ISSUE_B1);
+    }
+
+    @Test
+    void noneIncluded() {
+        IssueFilter filter = IssueFilter.builder()
+                .includeFileNames(singletonList("C."))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).isEmpty();
+    }
+
+    @Test
+    void onlyNotExcludedBySinglePatternPass() {
+        IssueFilter filter = IssueFilter.builder()
+                .excludeFileNames(singletonList("A."))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_B1, ISSUE_B2, ISSUE_B3);
+    }
+
+    @Test
+    void onlyNotExcludedByAnyPatternPass() {
+        IssueFilter filter = IssueFilter.builder()
+                .excludeFileNames(asList("A.", ".1"))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_B2, ISSUE_B3);
+    }
+
+    @Test
+    void allExcluded() {
+        IssueFilter filter = IssueFilter.builder()
+                .excludeFileNames(asList("A.", "B."))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).isEmpty();
+    }
+
+    @Test
+    void onlyIncludedAndNotExcludedPass() {
+        IssueFilter filter = IssueFilter.builder()
+                .includeFileNames(asList(".1", "B."))
+                .excludeFileNames(singletonList(".3"))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A1, ISSUE_B1, ISSUE_B2);
+    }
+
+    @Test
+    void filterByPackageName() {
+        IssueFilter filter = IssueFilter.builder()
+                .includePackageNames(singletonList("a.*"))
+                .excludePackageNames(singletonList(".*\\.1"))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A2, ISSUE_A3);
+    }
+
+    @Test
+    void filterByModuleName() {
+        IssueFilter filter = IssueFilter.builder()
+                .includeModuleNames(singletonList("module-a-."))
+                .excludeModuleNames(singletonList("module-.-1"))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A2, ISSUE_A3);
+    }
+
+    @Test
+    void filterByCategory() {
+        IssueFilter filter = IssueFilter.builder()
+                .includeCategories(singletonList("category-a-."))
+                .excludeCategories(singletonList("category-.-1"))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A2, ISSUE_A3);
+    }
+
+    @Test
+    void filterByType() {
+        IssueFilter filter = IssueFilter.builder()
+                .includeTypes(singletonList("type-a-."))
+                .excludeTypes(singletonList("type-.-1"))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A2, ISSUE_A3);
+    }
+
+    @Test
+    void filterByMultipleProperties() {
+        IssueFilter filter = IssueFilter.builder()
+                .includePackageNames(singletonList("a.*"))
+                .includeTypes(singletonList("type-b-."))
+                .excludePackageNames(singletonList(".*1"))
+                .build();
+
+        Issues output = filter.filter(ALL);
+
+        assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A2, ISSUE_A3, ISSUE_B2, ISSUE_B3);
+    }
+}
