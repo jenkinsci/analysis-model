@@ -63,7 +63,7 @@ public class IssueFilter {
          * @param filter intermediate function which returns a stream of the wanted issues.
          */
         private void appendFilter(Function<Stream<Issue>, Stream<Issue>> filter) {
-            setFilter(stream -> filter.apply(stream));
+            setFilter(getFilter().andThen(filter));
         }
 
         public IssueFilter build() {

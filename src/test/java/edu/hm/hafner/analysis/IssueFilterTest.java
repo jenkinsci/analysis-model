@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,26 +17,68 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
  * @author Michael Schmid
  */
 class IssueFilterTest {
-    private static final List<Issue> ISSUES_LIST = new ArrayList<>();
+    private static final List<Issue> SINGLE_FILTER_ISSUES = new ArrayList<>();
+    private static final List<Issue> FILTER_CONCATENATION_ISSUES = new ArrayList<>();
     static {
-        ISSUES_LIST.add(new IssueBuilder()
+        SINGLE_FILTER_ISSUES.add(new IssueBuilder()
                 .setFileName("file_name")
                 .setPackageName("package_name")
                 .setModuleName("module_name")
                 .setCategory("category")
                 .setType("type").build());
-        ISSUES_LIST.add(new IssueBuilder()
+        SINGLE_FILTER_ISSUES.add(new IssueBuilder()
                 .setFileName("eman_elif")
                 .setPackageName("eman_egakcap")
                 .setModuleName("eman_eludom")
                 .setCategory("yrogetac")
                 .setType("epyt").build());
+
+        FILTER_CONCATENATION_ISSUES.add(new IssueBuilder()
+                .setFileName("expected file_name")
+                .setPackageName("expected package_name")
+                .setModuleName("expected module_name")
+                .setCategory("expected category")
+                .setType("expected type").build());
+        FILTER_CONCATENATION_ISSUES.add(new IssueBuilder()
+                .setFileName("file_name")
+                .setPackageName("expected package_name")
+                .setModuleName("expected module_name")
+                .setCategory("expected category")
+                .setType("expected type")
+                .build());
+        FILTER_CONCATENATION_ISSUES.add(new IssueBuilder()
+                .setFileName("expected file_name")
+                .setPackageName("package_name")
+                .setModuleName("expected module_name")
+                .setCategory("expected category")
+                .setType("expected type")
+                .build());
+        FILTER_CONCATENATION_ISSUES.add(new IssueBuilder()
+                .setFileName("expected file_name")
+                .setPackageName("expected package_name")
+                .setModuleName("module_name")
+                .setCategory("expected category")
+                .setType("expected type")
+                .build());
+        FILTER_CONCATENATION_ISSUES.add(new IssueBuilder()
+                .setFileName("expected file_name")
+                .setPackageName("expected package_name")
+                .setModuleName("expected module_name")
+                .setCategory("category")
+                .setType("expected type")
+                .build());
+        FILTER_CONCATENATION_ISSUES.add(new IssueBuilder()
+                .setFileName("expected file_name")
+                .setPackageName("expected package_name")
+                .setModuleName("expected module_name")
+                .setCategory("expected category")
+                .setType("type").build());
     }
 
     @Test
     void anyEmptyFilterShouldNotFilterAnything() {
         List<Issue> issueList = new ArrayList<>();
-        issueList.addAll(ISSUES_LIST);
+        issueList.addAll(SINGLE_FILTER_ISSUES);
         IssueFilterBuilder builder = new IssueFilterBuilder();
         testFilter(builder, issueList, issueList);
     }
@@ -46,11 +89,11 @@ class IssueFilterTest {
         patterns.add("type");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(0));
+        expected.add(SINGLE_FILTER_ISSUES.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludeTypeFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -61,7 +104,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludeTypeFilter(patterns);
-        testFilter(builder, ISSUES_LIST, ISSUES_LIST);
+        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
     }
 
     @Test
@@ -70,11 +113,11 @@ class IssueFilterTest {
         patterns.add("type");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(1));
+        expected.add(SINGLE_FILTER_ISSUES.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludeTypeFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -87,7 +130,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludeTypeFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -96,11 +139,11 @@ class IssueFilterTest {
         patterns.add("category");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(0));
+        expected.add(SINGLE_FILTER_ISSUES.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludeCategoryFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -111,7 +154,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludeCategoryFilter(patterns);
-        testFilter(builder, ISSUES_LIST, ISSUES_LIST);
+        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
     }
 
     @Test
@@ -120,11 +163,11 @@ class IssueFilterTest {
         patterns.add("category");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(1));
+        expected.add(SINGLE_FILTER_ISSUES.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludeCategoryFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -137,7 +180,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludeCategoryFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -146,11 +189,11 @@ class IssueFilterTest {
         patterns.add("file_name");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(0));
+        expected.add(SINGLE_FILTER_ISSUES.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludeFileNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -161,7 +204,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludeFileNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, ISSUES_LIST);
+        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
     }
 
     @Test
@@ -170,11 +213,11 @@ class IssueFilterTest {
         patterns.add("file_name");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(1));
+        expected.add(SINGLE_FILTER_ISSUES.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludeFileNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -187,7 +230,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludeFileNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -196,11 +239,11 @@ class IssueFilterTest {
         patterns.add("package_name");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(0));
+        expected.add(SINGLE_FILTER_ISSUES.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludePackageNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -211,7 +254,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludePackageNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, ISSUES_LIST);
+        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
     }
 
     @Test
@@ -220,11 +263,11 @@ class IssueFilterTest {
         patterns.add("package_name");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(1));
+        expected.add(SINGLE_FILTER_ISSUES.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludePackageNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -237,7 +280,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludePackageNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -246,11 +289,11 @@ class IssueFilterTest {
         patterns.add("module_name");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(0));
+        expected.add(SINGLE_FILTER_ISSUES.get(0));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludeModuleNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -261,7 +304,7 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addIncludeModuleNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, ISSUES_LIST);
+        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
     }
 
     @Test
@@ -270,11 +313,11 @@ class IssueFilterTest {
         patterns.add("module_name");
 
         List<Issue> expected = new ArrayList<>();
-        expected.add(ISSUES_LIST.get(1));
+        expected.add(SINGLE_FILTER_ISSUES.get(1));
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludeModuleNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     @Test
@@ -287,7 +330,43 @@ class IssueFilterTest {
 
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder = builder.addExcludeModuleNameFilter(patterns);
-        testFilter(builder, ISSUES_LIST, expected);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+    }
+
+    @Test
+    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAllFilterCriteriaIncludeFilter() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.addIncludeFileNameFilter(Arrays.asList("expected file_name"))
+                .addIncludePackageNameFilter(Arrays.asList("expected package_name"))
+                .addIncludeModuleNameFilter(Arrays.asList("expected module_name"))
+                .addIncludeCategoryFilter(Arrays.asList("expected category"))
+                .addIncludeTypeFilter(Arrays.asList("expected type"));
+
+        testFilter(builder, FILTER_CONCATENATION_ISSUES, Arrays.asList(FILTER_CONCATENATION_ISSUES.get(0)));
+    }
+
+    @Test
+    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAllFilterCriteriaExcludeFilter() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.addExcludeFileNameFilter(Arrays.asList("file_name"))
+                .addExcludePackageNameFilter(Arrays.asList("package_name"))
+                .addExcludeModuleNameFilter(Arrays.asList("module_name"))
+                .addExcludeCategoryFilter(Arrays.asList("category"))
+                .addExcludeTypeFilter(Arrays.asList("type"));
+
+        testFilter(builder, FILTER_CONCATENATION_ISSUES, Arrays.asList(FILTER_CONCATENATION_ISSUES.get(0)));
+    }
+
+    @Test
+    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAllFilterCriteriaIncludeAndExcludeFilters() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.addIncludeFileNameFilter(Arrays.asList("expected file_name"))
+                .addExcludePackageNameFilter(Arrays.asList("package_name"))
+                .addIncludeModuleNameFilter(Arrays.asList("expected module_name"))
+                .addExcludeCategoryFilter(Arrays.asList("category"))
+                .addIncludeTypeFilter(Arrays.asList("expected type"));
+
+        testFilter(builder, FILTER_CONCATENATION_ISSUES, Arrays.asList(FILTER_CONCATENATION_ISSUES.get(0)));
     }
 
     /**
