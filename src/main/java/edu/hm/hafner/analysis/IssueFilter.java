@@ -1,8 +1,11 @@
 package edu.hm.hafner.analysis;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,13 +19,13 @@ import java.util.stream.StreamSupport;
  */
 public class IssueFilter {
 
-    private final Function<Stream<Issue>, Stream<Issue>> filter;
+    private final Predicate<Issue> filter;
 
-    private IssueFilter(Function<Stream<Issue>, Stream<Issue>> filter) {
+    private IssueFilter(Predicate<Issue> filter) {
         this.filter = filter;
     }
 
-    private Function<Stream<Issue>, Stream<Issue>> getFilter() {
+    private Predicate<Issue> getFilter() {
         return filter;
     }
 
@@ -32,10 +35,10 @@ public class IssueFilter {
      * @return filtered issues, which only contains matching issues
      */
     public Issues filter(final Issues issues) {
-        Iterable<Issue> iterable = () -> issues.iterator();
+        Iterable<Issue> iterable = issues::iterator;
         Stream<Issue> issueStream = StreamSupport.stream(iterable.spliterator(), false);
 
-        List<Issue> filtered = getFilter().apply(issueStream).collect(Collectors.toList());
+        List<Issue> filtered = issueStream.filter(getFilter()).collect(Collectors.toList());
 
         Issues result = new Issues();
         result.addAll(filtered);
@@ -45,29 +48,37 @@ public class IssueFilter {
 
     static class IssueFilterBuilder {
 
-        /**
-         * Filter function which should be applied to the issue stream.
-         */
-        private Function<Stream<Issue>, Stream<Issue>> filter = (Stream<Issue> s) -> s;
+        private final Map<String, Map<Boolean, Predicate<Issue>>> filterCriteria = new HashMap<>();
 
-        private Function<Stream<Issue>, Stream<Issue>> getFilter() {
-            return filter;
-        }
-
-        private void setFilter(Function<Stream<Issue>, Stream<Issue>> filter) {
-            this.filter = filter;
-        }
-
-        /**
-         * Append a new filter criterion at the end of the filer.
-         * @param filter intermediate function which returns a stream of the wanted issues.
-         */
-        private void appendFilter(Function<Stream<Issue>, Stream<Issue>> filter) {
-            setFilter(getFilter().andThen(filter));
+        private Map<String, Map<Boolean, Predicate<Issue>>> getFilterCriteria() {
+            return filterCriteria;
         }
 
         public IssueFilter build() {
-            return new IssueFilter(getFilter());
+            Predicate<Issue> filter = null;
+
+            for (Map<Boolean, Predicate<Issue>> criterionContainer : getFilterCriteria().values()) {
+                Predicate<Issue> subFilter = null;
+                for (Predicate<Issue> filterCriterion : criterionContainer.values()) {
+                    if(subFilter == null) {
+                        subFilter = filterCriterion;
+                    } else {
+                        subFilter = subFilter.and(filterCriterion);
+                    }
+                }
+                if (filter == null) {
+                    filter = subFilter;
+                } else {
+                    filter = filter.and(subFilter);
+                }
+
+            }
+
+            if (filter == null) {
+                filter = issue -> true;
+            }
+
+            return new IssueFilter(filter);
         }
 
         /**
@@ -77,51 +88,56 @@ public class IssueFilter {
          * @param includeFilter true if it is a include filter, false if it is a exclude filter
          * @return this as reference (fluent interface)
          */
-        private IssueFilterBuilder addFilterCriterion(final Collection<String> patterns, final Function<Issue, String> issueVariableGetter ,final boolean includeFilter) {
+        private IssueFilterBuilder setFilterCriterion(final Collection<String> patterns, final Function<Issue, String> issueVariableGetter, final boolean includeFilter, final String criterionName) {
             String patternString = patterns.stream().collect(Collectors.joining("|"));
             final Pattern pattern = Pattern.compile(patternString);
-            appendFilter(stream -> stream.filter(issue -> pattern.matcher(issueVariableGetter.apply(issue)).matches() == includeFilter));
+
+            if(!getFilterCriteria().containsKey(criterionName)) {
+                getFilterCriteria().put(criterionName, new HashMap<>());
+            }
+
+            getFilterCriteria().get(criterionName).put(includeFilter, issue -> pattern.matcher(issueVariableGetter.apply(issue)).matches() == includeFilter);
             return this;
         }
 
-        public IssueFilterBuilder addIncludeTypeFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getType(), true);
+        public IssueFilterBuilder setIncludeTypeFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getType, true, "type");
         }
 
-        public IssueFilterBuilder addExcludeTypeFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getType(), false);
+        public IssueFilterBuilder setExcludeTypeFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getType, false, "type");
         }
 
-        public IssueFilterBuilder addIncludeCategoryFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getCategory(), true);
+        public IssueFilterBuilder setIncludeCategoryFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getCategory, true, "category");
         }
 
-        public IssueFilterBuilder addExcludeCategoryFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getCategory(), false);
+        public IssueFilterBuilder setExcludeCategoryFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getCategory, false, "category");
         }
 
-        public IssueFilterBuilder addIncludeFileNameFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getFileName(), true);
+        public IssueFilterBuilder setIncludeFileNameFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getFileName, true, "fileName");
         }
 
-        public IssueFilterBuilder addExcludeFileNameFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getFileName(), false);
+        public IssueFilterBuilder setExcludeFileNameFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getFileName, false, "fileName");
         }
 
-        public IssueFilterBuilder addIncludePackageNameFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getPackageName(), true);
+        public IssueFilterBuilder setIncludePackageNameFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getPackageName, true, "packageName");
         }
 
-        public IssueFilterBuilder addExcludePackageNameFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getPackageName(), false);
+        public IssueFilterBuilder setExcludePackageNameFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getPackageName, false, "packageName");
         }
 
-        public IssueFilterBuilder addIncludeModuleNameFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getModuleName(), true);
+        public IssueFilterBuilder setIncludeModuleNameFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getModuleName, true, "moduleName");
         }
 
-        public IssueFilterBuilder addExcludeModuleNameFilter(final Collection<String> patterns) {
-            return addFilterCriterion(patterns, issue -> issue.getModuleName(), false);
+        public IssueFilterBuilder setExcludeModuleNameFilter(final Collection<String> patterns) {
+            return setFilterCriterion(patterns, Issue::getModuleName, false, "moduleName");
         }
     }
 }
