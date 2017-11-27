@@ -27,9 +27,9 @@ public class IssueFilter {
     private final List<IssuePropertyFilter> includeFilters;
     private final List<IssuePropertyFilter> excludeFilters;
 
-    private IssueFilter(final List<IssuePropertyFilter> includeFilters, final List<IssuePropertyFilter> excludeFilters) {
-        this.includeFilters = includeFilters;
-        this.excludeFilters = excludeFilters;
+    private IssueFilter(final Builder builder) {
+        this.includeFilters = newArrayList(builder.includeFilters);
+        this.excludeFilters = newArrayList(builder.excludeFilters);
     }
 
     /**
@@ -174,7 +174,7 @@ public class IssueFilter {
          * @return the newly created {@link IssueFilter issue filter}
          */
         public IssueFilter build() {
-            return new IssueFilter(includeFilters, excludeFilters);
+            return new IssueFilter(this);
         }
     }
 }
