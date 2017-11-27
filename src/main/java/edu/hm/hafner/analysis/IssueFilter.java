@@ -27,7 +27,7 @@ public class IssueFilter {
     private final List<IssuePropertyFilter> includeFilters;
     private final List<IssuePropertyFilter> excludeFilters;
 
-    private IssueFilter(final Builder builder) {
+    public IssueFilter(final Builder builder) {
         this.includeFilters = newArrayList(builder.includeFilters);
         this.excludeFilters = newArrayList(builder.excludeFilters);
     }
@@ -113,7 +113,7 @@ public class IssueFilter {
         private List<IssuePropertyFilter> includeFilters;
         private List<IssuePropertyFilter> excludeFilters;
 
-        private Builder() {
+        public Builder() {
             this.includeFilters = newArrayList();
             this.excludeFilters = newArrayList();
         }
