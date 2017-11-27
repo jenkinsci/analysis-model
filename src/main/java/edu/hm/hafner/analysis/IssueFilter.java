@@ -90,15 +90,6 @@ public class IssueFilter {
     }
 
     /**
-     * Create a new {@link Builder builder} for an {@link IssueFilter issue filter}.
-     *
-     * @return the newly created {@link IssueFilter issue filter}
-     */
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    /**
      * Properties of an {@link Issue issue} that can be used for filtering.
      */
     public enum IssueProperty {
@@ -113,8 +104,8 @@ public class IssueFilter {
         IssueProperty(final IssuePropertyExtractor extractor) {
             this.extractor = extractor;
         }
-    }
 
+    }
     /**
      * A builder for {@link IssueFilter issue filters}.
      */
@@ -125,6 +116,15 @@ public class IssueFilter {
         private Builder() {
             this.includeFilters = newArrayList();
             this.excludeFilters = newArrayList();
+        }
+
+        /**
+         * Create a new {@link Builder builder} for an {@link IssueFilter issue filter}.
+         *
+         * @return the newly created {@link IssueFilter issue filter}
+         */
+        public static Builder issueFilter() {
+            return new Builder();
         }
 
         private IssuePropertyFilter filter(final IssuePropertyExtractor propertyExtractor, final String regex) {
