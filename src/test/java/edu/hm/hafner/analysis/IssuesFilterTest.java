@@ -3,9 +3,10 @@ package edu.hm.hafner.analysis;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertj.IssuesAssert;
-import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Test class for IssueFilter.
+ */
 class IssuesFilterTest {
 
 
@@ -55,7 +56,7 @@ class IssuesFilterTest {
     @Test
     void filterWithFileNameFilter() {
         Issues issuesBefor = new Issues();
-        IssuesFilter filter = new IssuesFilterBuilder().addIncludFileName("abc.*").build();
+        IssuesFilter filter = new IssuesFilterBuilder().addIncludeFileName("abc.*").build();
         Issue issue1 = new IssueBuilder().setFileName("abc1").build();
         Issue issue2 = new IssueBuilder().setFileName("abc2").build();
         Issue issue3 = new IssueBuilder().setFileName("aaa1").build();
@@ -65,7 +66,7 @@ class IssuesFilterTest {
 
         Issues issuesAfter = filter.executeFilter(issuesBefor);
         IssuesAssert.assertThat(issuesAfter).containsExactly(issue1, issue2);
-        filter = new IssuesFilterBuilder().addIncludFileName(".*1").build();
+        filter = new IssuesFilterBuilder().addIncludeFileName(".*1").build();
         issuesAfter = filter.executeFilter(issuesBefor);
         IssuesAssert.assertThat(issuesAfter).containsExactly(issue1, issue3);
     }
@@ -74,7 +75,7 @@ class IssuesFilterTest {
     void filterWithMultibleFileNameFilter() {
         Issues issuesBefor = new Issues();
         // all with digit at the end  a upp char at the begin and just 2x b
-        IssuesFilter filter = new IssuesFilterBuilder().addIncludFileName(".*\\d \\p{Upper}.*,bb").build();
+        IssuesFilter filter = new IssuesFilterBuilder().addIncludeFileName(".*\\d \\p{Upper}.*,bb").build();
         Issue issue1 = new IssueBuilder().setFileName("abc1").build();
         Issue issue2 = new IssueBuilder().setFileName("Aaa").build();
         Issue issue3 = new IssueBuilder().setFileName("bb").build();
@@ -104,7 +105,7 @@ class IssuesFilterTest {
         issuesBefor.add(issue2);
         issuesBefor.add(issue3);
         issuesBefor.add(issue4);
-        IssuesFilter filter = new IssuesFilterBuilder().addExcluCategory("Error").build();
+        IssuesFilter filter = new IssuesFilterBuilder().addExcludeCategory("Error").build();
         Issues issuesAfter = filter.executeFilter(issuesBefor);
         IssuesAssert.assertThat(issuesAfter).as("if there are just exclude filter all should be included").containsExactly(issue1, issue3, issue4);
 
@@ -125,7 +126,7 @@ class IssuesFilterTest {
         issuesBefor.add(issue2);
         issuesBefor.add(issue3);
         issuesBefor.add(issue4);
-        IssuesFilter filter = new IssuesFilterBuilder().addIncludFileName(".*c ").build();
+        IssuesFilter filter = new IssuesFilterBuilder().addIncludeFileName(".*c ").build();
         Issues issuesAfter = filter.executeFilter(issuesBefor);
         IssuesAssert.assertThat(issuesAfter).as("twice the same filter should not have a result").containsExactly(issue1, issue2);
 
@@ -153,13 +154,14 @@ class IssuesFilterTest {
         issuesBefor.add(issue4);
         issuesBefor.add(issue5);
         issuesBefor.add(issue6);
-        IssuesFilter filter = new IssuesFilterBuilder().addIncludFileName("f4.*").addIncludModuleName("job")
-                .addIncludPackageName(".*p2.1").addIncludType("ErrorType").addIncluCategory("Error").build();
+        IssuesFilter filter = new IssuesFilterBuilder().addIncludeFileName("f4.*").addIncludeModuleName("job")
+                .addIncludePackageName(".*p2.1").addIncludeType("ErrorType").addIncludeCategory("Error").build();
         Issues issuesAfter = filter.executeFilter(issuesBefor);
         IssuesAssert.assertThat(issuesAfter).as("add issue 1-5 but no issue 6").
                 containsExactly(issue1, issue2, issue3, issue4, issue5);
 
     }
+
     @Test
     void checkWithMultibleExcludeFilter() {
         Issues issuesBefor = new Issues();
@@ -182,11 +184,11 @@ class IssuesFilterTest {
         issuesBefor.add(issue4);
         issuesBefor.add(issue5);
         issuesBefor.add(issue6);
-        IssuesFilter filter = new IssuesFilterBuilder().addExcludFileName("f4.*").addExcludModuleName("job")
-                .addExcludPackageName(".*p2.1").addExcludType("ErrorType").addExcluCategory("Error").build();
+        IssuesFilter filter = new IssuesFilterBuilder().addExcludeFileName("f4.*").addExcludeModuleName("job")
+                .addExcludePackageName(".*p2.1").addExcludeType("ErrorType").addExcludeCategory("Error").build();
         Issues issuesAfter = filter.executeFilter(issuesBefor);
         IssuesAssert.assertThat(issuesAfter).as("add issue 1-5 but no issue 6").
-                containsExactly( issue6);
+                containsExactly(issue6);
 
     }
 

@@ -5,107 +5,191 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * ***************************************************************** Hochschule Muenchen Fakultaet 07 (Informatik)		**
- * Praktikum fuer Softwareentwicklung 1 IF1B  WS15/16	** *****************************************************************
- * Autor: Sebastian Balz					** Datum 26.11.2017											** Software Win 7 JDK8 Win 10 JDK8 Ubuntu 15.4 OpenJDK7	**
- * edu.hm.hafner.analysis                ** ***************************************************************** **
- * *****************************************************************
+ * Issue Filter Builder. Builder to create a new IssueFilter
  */
 public class IssuesFilterBuilder {
 
-    List<Predicate<Issue>> include = new ArrayList();
-    List<Predicate<Issue>> exclude = new ArrayList();
+    private List<Predicate<Issue>> include = new ArrayList<>();
+    private List<Predicate<Issue>> exclude = new ArrayList<>();
 
-    private String[] cutRegexsIntoSingeRegex(String regexe) {
+    /**
+     * Split several regexe.
+     *
+     * @param regexe
+     *         input
+     *
+     * @return list of the singel regexe
+     */
+    private String[] cutRegexIntoSingeRegex(String regexe) {
         List<String> out = new ArrayList<>();
 
-        return regexe.split(" |,");
+        return regexe.split("[ ,]");
 
     }
 
-    IssuesFilterBuilder addIncludFileName(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            include.add((Issue i) ->i.getFileName().matches(singeRegex));
+    /**
+     * add a include filter for the Filename.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addIncludeFileName(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            include.add((Issue i) -> i.getFileName().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addIncludPackageName(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            include.add((Issue i) ->i.getPackageName().matches(singeRegex));
+    /**
+     * add a include filter for the package name.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addIncludePackageName(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            include.add((Issue i) -> i.getPackageName().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addIncludModuleName(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            include.add((Issue i) ->i.getModuleName().matches(singeRegex));
+    /**
+     * add a include filter for the module name.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addIncludeModuleName(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            include.add((Issue i) -> i.getModuleName().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addIncluCategory(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            include.add((Issue i) ->i.getCategory().matches(singeRegex));
+    /**
+     * add a include filter for the category.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addIncludeCategory(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            include.add((Issue i) -> i.getCategory().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addIncludType(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            include.add((Issue i) ->i.getType().matches(singeRegex));
+    /**
+     * add a include filter for the Type.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addIncludeType(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            include.add((Issue i) -> i.getType().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addExcludFileName(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            exclude.add((Issue i) ->i.getFileName().matches(singeRegex));
+    /**
+     * add a exclude filter for the Filename.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addExcludeFileName(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            exclude.add((Issue i) -> i.getFileName().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addExcludPackageName(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            exclude.add((Issue i) ->i.getPackageName().matches(singeRegex));
+    /**
+     * add a exclude filter for the package.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addExcludePackageName(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            exclude.add((Issue i) -> i.getPackageName().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addExcludModuleName(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            exclude.add((Issue i) ->i.getModuleName().matches(singeRegex));
+    /**
+     * add a exclude filter for the module.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addExcludeModuleName(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            exclude.add((Issue i) -> i.getModuleName().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addExcluCategory(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            exclude.add((Issue i) ->i.getCategory().matches(singeRegex));
+    /**
+     * add a exclude filter for the category.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addExcludeCategory(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            exclude.add((Issue i) -> i.getCategory().matches(singeRegex));
         }
         return this;
     }
 
-    IssuesFilterBuilder addExcludType(String regex) {
-        for (String singeRegex : cutRegexsIntoSingeRegex(regex)) {
-            exclude.add((Issue i) ->i.getType().matches(singeRegex));
+    /**
+     * add a exclude filter for the type.
+     *
+     * @param regex
+     *         filter definition
+     *
+     * @return this
+     */
+    IssuesFilterBuilder addExcludeType(String regex) {
+        for (String singeRegex : cutRegexIntoSingeRegex(regex)) {
+            exclude.add((Issue i) -> i.getType().matches(singeRegex));
         }
         return this;
     }
 
+    /**
+     * Build a new IssueFilter with the given parameter.
+     *
+     * @return filter obj
+     */
     IssuesFilter build() {
         // if no definition include all
 
         // add filter rules
         IssuesFilter filter = new IssuesFilter();
-        filter.includFilter(include);
-        filter.excludFilter(exclude);
+        filter.includeFilter(include);
+        filter.excludeFilter(exclude);
 
         return filter;
-    }
-
-
-    Issues executeFilter(Issues toCheck) {
-        return toCheck;
     }
 }

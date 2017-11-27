@@ -5,26 +5,56 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * ***************************************************************** Hochschule Muenchen Fakultaet 07 (Informatik)		**
- * Praktikum fuer Softwareentwicklung 1 IF1B  WS15/16	** *****************************************************************
- * Autor: Sebastian Balz					** Datum 26.11.2017											** Software Win 7 JDK8 Win 10 JDK8 Ubuntu 15.4 OpenJDK7	**
- * edu.hm.hafner.analysis                ** ***************************************************************** **
- * *****************************************************************
+ * Filter Issues.
+ * With this class you can reduce the number of Issue in Issues by defining Filter criteria. As filter you can define a Lamda Expression.
+ *
+ * An Issue stays if in at least one include filter returns true and non exclude filter returns true.
+ * if no include filter defined all Issues gets included
+ *
+ * @author Sebastian Balz
  */
 public class IssuesFilter {
-    List<Predicate<Issue>> includeFilter = new ArrayList<>();
-    List<Predicate<Issue>> exludeFilter = new ArrayList<>();
+    private List<Predicate<Issue>> includeFilter = new ArrayList<>();
+    private List<Predicate<Issue>> exludeFilter = new ArrayList<>();
 
-    void includFilter(List<Predicate<Issue>> addFilter) {
+    /**
+     * Add a list of include filter..
+     * if a Filter returns true
+     * @param addFilter list of Filter
+     */
+    void includeFilter(List<Predicate<Issue>> addFilter) {
         includeFilter.addAll(addFilter);
     }
 
+    /**
+     * add singe include filter.
+     * @param addFilter single filter
+     */
+    void includeFilter(Predicate<Issue> addFilter) {
+        includeFilter.add(addFilter);
+    }
 
-    void excludFilter(List<Predicate<Issue>> addFilter) {
+    /**
+     * Add list of exclude filter.
+     * @param addFilter filter list
+     */
+    void excludeFilter(List<Predicate<Issue>> addFilter) {
         exludeFilter.addAll(addFilter);
     }
 
+    /**
+     * add singe exclude filter.
+     * @param addFilter single exlude filter
+     */
+    void excludeFilter(Predicate<Issue> addFilter) {
+        exludeFilter.add(addFilter);
+    }
 
+    /**
+     * checks if the Issue is in one include filter.
+     * @param toCheck issue to check
+     * @return true if in include
+     */
     private boolean isInInclude(Issue toCheck) {
         for (Predicate<Issue> checker : includeFilter) {
             if (checker.test(toCheck)) {
@@ -33,6 +63,12 @@ public class IssuesFilter {
         }
         return false;
     }
+
+    /**
+     * check if the Issue is in one exclude filter.
+     * @param toCheck issue to check
+     * @return true if in exclude
+     */
     private boolean isInExclude(Issue toCheck) {
         for (Predicate<Issue> checker : exludeFilter) {
             if (checker.test(toCheck)) {
@@ -41,7 +77,14 @@ public class IssuesFilter {
         }
         return false;
     }
-    Issues executeFilter(Issues toCheck) {
+
+    /**
+     * Create a new filtered Issues object.
+     * It contains all Issues which are in an include list but not in an exclude list
+     * @param toCheck origin Issues
+     * @return  new filtered Issues
+     */
+    public Issues executeFilter(Issues toCheck) {
         if (includeFilter.size() == 0) {
             includeFilter.add((Issue i) -> true);
         }
