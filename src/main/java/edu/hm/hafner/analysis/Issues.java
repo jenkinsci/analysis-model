@@ -1,25 +1,18 @@
 package edu.hm.hafner.analysis;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
+import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.NoSuchElementException;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedSet;
-
-import edu.hm.hafner.util.Ensure;
-import edu.hm.hafner.util.NoSuchElementException;
 import static java.util.stream.Collectors.*;
 
 /**
@@ -46,6 +39,16 @@ public class Issues implements Iterable<Issue>, Serializable {
         Issues merged = new Issues();
         merged.addAll(issues);
         return merged;
+    }
+
+    /**
+     * Returns a new issues container. Appends all of the issues in the specified array to the end of this container.
+     * The order of the issues in the individual containers is preserved.
+     *
+     * @param issues the issues to merge
+     */
+    public static Issues merge(final Collection<Issues> issues) {
+        return merge(issues.toArray(new Issues[0]));
     }
 
     public Issues(final String path) {
@@ -340,7 +343,7 @@ public class Issues implements Iterable<Issue>, Serializable {
      */
     public <R> SortedSet<R> getProperties(final Function<? super Issue, ? extends R> propertiesMapper) {
         return elements.stream().map(propertiesMapper)
-                       .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
+                .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
     }
 
     public Map<String, Integer> getPropertyCount(final Function<? super Issue, ? extends String> propertiesMapper) {
