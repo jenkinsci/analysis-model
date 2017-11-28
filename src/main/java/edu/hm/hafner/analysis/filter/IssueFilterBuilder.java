@@ -1,104 +1,132 @@
 package edu.hm.hafner.analysis.filter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import edu.hm.hafner.analysis.Issue;
 
 public class IssueFilterBuilder {
 
-    private Collection<IssuePropertyFilter> filter = new ArrayList<>();
-    private String createOnePatternFromList(final Collection<String> pattern){
-        return pattern.stream().collect(Collectors.joining("|")); //  | is or-operator from patter class.
+    private Collection<Predicate<Issue>> filterInclude = new ArrayList<>();
+    private Collection<Predicate<Issue>> filterExclude = new ArrayList<>();
+    private boolean includeCombineWithOr = true;
+    private boolean excludeCombineWithOr = true;
+
+    private void addNewFilter(final Collection<String> pattern, Function<Issue, String> propertyToFilter, boolean include ){
+        if(include){
+            String allPatternInOneString = "("+pattern.stream().collect(Collectors.joining(includeCombineWithOr?")|(":")&&("))+")";
+            this.filterInclude.add((issueToFilter) ->  Pattern.compile(allPatternInOneString)
+                    .matcher(propertyToFilter.apply(issueToFilter)).matches() == include);
+        }
+        else{
+            String allPatternInOneString = "("+pattern.stream().collect(Collectors.joining(excludeCombineWithOr?")|(":")&&("))+")";
+            this.filterExclude.add((issueToFilter) ->  Pattern.compile(allPatternInOneString)
+                    .matcher(propertyToFilter.apply(issueToFilter)).matches() == include);
+        }
     }
+
     public IssueFilter createIssueFilter(){
-        return new IssueFilter(filter);
+        return new IssueFilter(filterInclude.stream().reduce(includeCombineWithOr?Predicate::or:Predicate::and)
+                .orElse((issue)-> true).and(
+        filterExclude.stream().reduce(excludeCombineWithOr?Predicate::or:Predicate::and).orElse((issue)-> true)));
     }
+
+    public IssueFilterBuilder IncludeCombineFilterWithOr(boolean withOr){
+        this.includeCombineWithOr = withOr;
+        return this;
+    }
+    public IssueFilterBuilder ExcludeCombineFilterWithOr(boolean withOr){
+        this.excludeCombineWithOr = withOr;
+        return this;
+    }
+
     //<editor-fold desc="File name">
-    public IssueFilterBuilder setFilenameIncludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getFileName, true));
+    public IssueFilterBuilder setIncludeFilenameFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getFileName, true);
         return this;
     }
-    public IssueFilterBuilder setFilenameIncludeFilter(final String... pattern){
-        return setFilenameIncludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setIncludeFilenameFilter(final String... pattern){
+        return setIncludeFilenameFilter(Arrays.asList(pattern));
     }
-    public IssueFilterBuilder setFilenameExcludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getFileName, false));
+    public IssueFilterBuilder setExcludeFilenameFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getFileName, false);
         return this;
     }
-    public IssueFilterBuilder setFilenameExcludeFilter(final String... pattern){
-        return setFilenameExcludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setExcludeFilenameFilter(final String... pattern){
+        return setExcludeFilenameFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 
     //<editor-fold desc="Package name">
-    public IssueFilterBuilder setPackageNameIncludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getPackageName, true));
+    public IssueFilterBuilder setIncludePackageNameFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getPackageName, true);
         return this;
     }
-    public IssueFilterBuilder setPackageNameIncludeFilter(final String... pattern){
-        return setPackageNameIncludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setIncludePackageNameFilter(final String... pattern){
+        return setIncludePackageNameFilter(Arrays.asList(pattern));
     }
-    public IssueFilterBuilder setPackageNameExcludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getPackageName, false));
+    public IssueFilterBuilder setExcludePackageNameFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getPackageName, false);
         return this;
     }
-    public IssueFilterBuilder setPackageNameExcludeFilter(final String... pattern){
-        return setPackageNameExcludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setExcludePackageNameFilter(final String... pattern){
+        return setExcludePackageNameFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 
     //<editor-fold desc="Module name">
-    public IssueFilterBuilder setModuleNameIncludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getModuleName, true));
+    public IssueFilterBuilder setIncludeModuleNameFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getModuleName, true);
         return this;
     }
-    public IssueFilterBuilder setModuleNameIncludeFilter(final String... pattern){
-        return setModuleNameIncludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setIncludeModuleNameFilter(final String... pattern){
+        return setIncludeModuleNameFilter(Arrays.asList(pattern));
     }
-    public IssueFilterBuilder setModuleNameExcludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getModuleName, false));
+    public IssueFilterBuilder setExcludeModuleNameFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getModuleName, false);
         return this;
     }
-    public IssueFilterBuilder setModuleNameExcludeFilter(final String... pattern){
-        return setModuleNameExcludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setExcludeModuleNameFilter(final String... pattern){
+        return setExcludeModuleNameFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 
     //<editor-fold desc="Category">
-    public IssueFilterBuilder setCategoryIncludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getCategory, true));
+    public IssueFilterBuilder setIncludeCategoryFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getCategory, true);
         return this;
     }
-    public IssueFilterBuilder setCategoryIncludeFilter(final String... pattern){
-        return setCategoryIncludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setIncludeCategoryFilter(final String... pattern){
+        return setIncludeCategoryFilter(Arrays.asList(pattern));
     }
-    public IssueFilterBuilder setCategoryExcludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getCategory, false));
+    public IssueFilterBuilder setExcludeCategoryFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getCategory, false);
         return this;
     }
-    public IssueFilterBuilder setCategoryExcludeFilter(final String... pattern){
-        return setCategoryExcludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setExcludeCategoryFilter(final String... pattern){
+        return setExcludeCategoryFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 
     //<editor-fold desc="Type">
-    public IssueFilterBuilder setTypeIncludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getType, true));
+    public IssueFilterBuilder setIncludeTypeFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getType, true);
         return this;
     }
-    public IssueFilterBuilder setTypeIncludeFilter(final String... pattern){
-        return setTypeIncludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setIncludeTypeFilter(final String... pattern){
+        return setIncludeTypeFilter(Arrays.asList(pattern));
     }
-    public IssueFilterBuilder setTypeExcludeFilter(final Collection<String> pattern){
-        filter.add(new IssuePropertyFilter(createOnePatternFromList(pattern), Issue::getType, false));
+    public IssueFilterBuilder setExcludeTypeFilter(final Collection<String> pattern){
+        addNewFilter(pattern, Issue::getType, false);
         return this;
     }
-    public IssueFilterBuilder setTypeExcludeFilter(final String... pattern){
-        return setTypeExcludeFilter(Arrays.asList(pattern));
+    public IssueFilterBuilder setExcludeTypeFilter(final String... pattern){
+        return setExcludeTypeFilter(Arrays.asList(pattern));
     }
     //</editor-fold>
 }

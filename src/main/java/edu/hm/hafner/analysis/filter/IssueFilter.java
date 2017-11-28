@@ -1,9 +1,8 @@
 package edu.hm.hafner.analysis.filter;
 
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,8 +13,8 @@ import edu.hm.hafner.analysis.Issues;
 
 public class IssueFilter {
 
-    private final Collection<IssuePropertyFilter> filterFunctions;
-    public IssueFilter(Collection<IssuePropertyFilter> filter){
+    private final Predicate<Issue> filterFunctions;
+    public IssueFilter(Predicate<Issue> filter){
         this.filterFunctions = filter;
     }
 
@@ -27,10 +26,6 @@ public class IssueFilter {
     }
 
     public Stream<Issue> apply(Stream<Issue> issues) {
-        if(filterFunctions.size() == 0)
-            return issues;
-        return issues
-                .filter(f -> filterFunctions.stream()
-                .anyMatch(ff -> ff.apply(f)));
+        return issues.filter(filterFunctions::test);
     }
 }

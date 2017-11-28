@@ -1,11 +1,5 @@
 package edu.hm.hafner.analysis.filter;
 
-import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Streams;
@@ -13,47 +7,41 @@ import com.google.common.collect.Streams;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
-import edu.hm.hafner.analysis.assertj.IssueAssert;
-import edu.hm.hafner.analysis.assertj.IssuesAssert;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class IssueFilterTest {
 
-    private Issues issues = new Issues(){
+    private final Issues issues = new Issues(){
         {
-            add(getMyIssue());
-            add(getYourIssue());
-            add(getHisIssue());
+            add(issue1);
+            add(issue2);
+            add(issue3);
         }
     };
-    private Issue myIssue;
-    private Issue getMyIssue(){
-        if(myIssue == null)
-         myIssue = generateIssueWithPrefix("My1");
-        return myIssue;
-    }
-    private Issue yourIssue;
-    private Issue getYourIssue(){
-        if(yourIssue == null)
-            yourIssue = generateIssueWithPrefix("Your2");
-        return yourIssue;
-    }
-    private Issue hisIssue;
-    private Issue getHisIssue(){
-        if(hisIssue == null)
-            hisIssue = generateIssueWithPrefix("His3");
-        return hisIssue;
-    }
-    private Issue generateIssueWithPrefix(String prefix){
-        return new IssueBuilder()
-               .setFileName(prefix+"FileName")
-               .setPackageName(prefix+"PackageName")
-               .setModuleName(prefix+"ModuleName")
-               .setCategory(prefix+"CategoryName")
-               .setType(prefix+"Type")
-               .build();
-    }
+    private final static Issue issue1 = new IssueBuilder()
+            .setFileName("FileName1")
+            .setPackageName("PackageName1")
+            .setModuleName("ModuleName1")
+            .setCategory("CategoryName1")
+            .setType("Type1")
+            .build();
+    private final static Issue issue2 = new IssueBuilder()
+            .setFileName("FileName2")
+            .setPackageName("PackageName2")
+            .setModuleName("ModuleName2")
+            .setCategory("CategoryName2")
+            .setType("Type2")
+            .build();
+
+    private final static Issue issue3 = new IssueBuilder()
+            .setFileName("FileName3")
+            .setPackageName("PackageName3")
+            .setModuleName("ModuleName3")
+            .setCategory("CategoryName3")
+            .setType("Type3")
+            .build();
+
 
     @Test
     void shouldNothingChangeWhenNoFilterIsAdded(){
@@ -61,108 +49,142 @@ public class IssueFilterTest {
                 .createIssueFilter();
         applyFilterAndCheckResult(filter, this.issues, this.issues);
     }
-
     @Test
     void shouldPassAllWhenUselessFilterIsAdded(){
         IssueFilter filter = new IssueFilterBuilder()
-                .setFilenameIncludeFilter("[a-zA-Z1]*")
-                .setFilenameIncludeFilter("[a-zA-Z2]*")
-                .setFilenameIncludeFilter("[a-zA-Z3]*")
-                .setFilenameIncludeFilter("[a-zA-Z4]*")
+                .setIncludeFilenameFilter("[a-zA-Z1]*")
+                .setIncludeFilenameFilter("[a-zA-Z2]*")
+                .setIncludeFilenameFilter("[a-zA-Z3]*")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, this.issues);
+    }
+    @Test
+    void shouldPassAllWhenUselessFilterIsAddedAsList(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludeFilenameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*" )
                 .createIssueFilter();
         applyFilterAndCheckResult(filter, this.issues, this.issues);
     }
     @Test
     void shouldPassNoWhenMasterFilterIsAdded(){
         IssueFilter filter = new IssueFilterBuilder()
-                .setFilenameExcludeFilter("[a-zA-Z_1-3]*")
+                .setExcludeFilenameFilter("[a-zA-Z_1-3]*")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues);
+    }
+    @Test
+    void shouldPassNoWhenMasterFilterIsAddedAsList(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setExcludeFilenameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*" )
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues);
+    }
+    @Test
+    void shouldFindissue1ByAFileNameIncludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                            .setIncludeFilenameFilter("FileName1")
+                            .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue1);
+    }
+    @Test
+    void shouldFindissue1ByAFileNameExcludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setExcludeFilenameFilter("FileName1")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue2, issue3);
+    }
+    @Test
+    void shouldFindissue2ByAPackageNameIncludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludePackageNameFilter("PackageName2")
+                .createIssueFilter();
+        System.out.println(issue2);
+        applyFilterAndCheckResult(filter, this.issues, issue2);
+    }
+    @Test
+    void shouldFindissue2ByAPackageNameExcludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setExcludePackageNameFilter("PackageName2")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue1, issue3);
+    }
+    @Test
+    void shouldFindissue3ByAModuleNameIncludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludeModuleNameFilter("ModuleName3")
+                .createIssueFilter();
+        System.out.println(issue2);
+        applyFilterAndCheckResult(filter, this.issues, issue3);
+    }
+    @Test
+    void shouldFindissue3ByAModuleNameExcludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setExcludeModuleNameFilter("ModuleName3")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue1, issue2);
+    }
+    @Test
+    void shouldFindissue1ByACategoryIncludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludeCategoryFilter("CategoryName1")
+                .createIssueFilter();
+        System.out.println(issue2);
+        applyFilterAndCheckResult(filter, this.issues, issue1);
+    }
+    @Test
+    void shouldFindissue1ByACategoryExcludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setExcludeCategoryFilter("CategoryName1")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue2, issue3);
+    }
+    @Test
+    void shouldFindissue2ByATypeIncludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludeTypeFilter("Type2")
+                .createIssueFilter();
+        System.out.println(issue2);
+        applyFilterAndCheckResult(filter, this.issues, issue2);
+    }
+    @Test
+    void shouldFindissue2ByACategoryExcludeMatch(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setExcludeTypeFilter("Type2")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue1, issue3);
+    }
+    @Test
+    void shouldFindIntersectionFromIncludeAndExcludeBySameProperty(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludeFilenameFilter("FileName1")
+                .setIncludeFilenameFilter("FileName2")
+                .setExcludeFilenameFilter("FileName2")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue1);
+    }
+    @Test
+    void shouldFindIntersectionFromIncludeAndExcludeByOtherProperty(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludeFilenameFilter("FileName1")
+                .setIncludeFilenameFilter("FileName2")
+                .setExcludeTypeFilter("Type2")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue1);
+    }
+    @Test
+    void shouldFindNoIntersectionFromEmptyIncludeAndExclude(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludeFilenameFilter("FileNameNotExisting")
+                .setExcludeTypeFilter("Type2")
                 .createIssueFilter();
         applyFilterAndCheckResult(filter, this.issues);
     }
 
 
-    @Test
-    void shouldFindMyIssueByAOneTooOneFileNameIncludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                            .setFilenameIncludeFilter("My1FileName")
-                            .createIssueFilter();
-        applyFilterAndCheckResult(filter, this.issues, getMyIssue());
-    }
-    @Test
-    void shouldFindMyIssueByAOneTooOneFileNameExcludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setFilenameExcludeFilter("My1FileName")
-                .createIssueFilter();
-        applyFilterAndCheckResult(filter, this.issues, getYourIssue(), getHisIssue());
-    }
 
-    @Test
-    void shouldFindYourIssueByAOneTooOnePackageNameIncludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setPackageNameIncludeFilter("Your2PackageName")
-                .createIssueFilter();
-        System.out.println(getYourIssue());
-        applyFilterAndCheckResult(filter, this.issues, getYourIssue());
-    }
 
-    @Test
-    void shouldFindYourIssueByAOneTooOnePackageNameExcludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setPackageNameExcludeFilter("Your2PackageName")
-                .createIssueFilter();
-        applyFilterAndCheckResult(filter, this.issues, getMyIssue(), getHisIssue());
-    }
 
-    @Test
-    void shouldFindHisIssueByAOneTooOneModuleNameIncludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setModuleNameIncludeFilter("His3ModuleName")
-                .createIssueFilter();
-        System.out.println(getYourIssue());
-        applyFilterAndCheckResult(filter, this.issues, getHisIssue());
-    }
 
-    @Test
-    void shouldFindHisIssueByAOneTooOneModuleNameExcludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setModuleNameExcludeFilter("His3ModuleName")
-                .createIssueFilter();
-        applyFilterAndCheckResult(filter, this.issues, getMyIssue(), getYourIssue());
-    }
-
-    @Test
-    void shouldFindMyIssueByAOneTooOneCategoryIncludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setCategoryIncludeFilter("My1CategoryName")
-                .createIssueFilter();
-        System.out.println(getYourIssue());
-        applyFilterAndCheckResult(filter, this.issues, getMyIssue());
-    }
-
-    @Test
-    void shouldFindMyIssueByAOneTooOneCategoryExcludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setCategoryExcludeFilter("My1CategoryName")
-                .createIssueFilter();
-        applyFilterAndCheckResult(filter, this.issues, getYourIssue(), getHisIssue());
-    }
-
-    @Test
-    void shouldFindYourIssueByAOneTooOneTypeIncludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setTypeIncludeFilter("Your2Type")
-                .createIssueFilter();
-        System.out.println(getYourIssue());
-        applyFilterAndCheckResult(filter, this.issues, getYourIssue());
-    }
-
-    @Test
-    void shouldFindYourIssueByAOneTooOneCategoryExcludeMatch(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setTypeExcludeFilter("Your2Type")
-                .createIssueFilter();
-        applyFilterAndCheckResult(filter, this.issues, getMyIssue(), getHisIssue());
-    }
 
     private void applyFilterAndCheckResult(IssueFilter filter, Issues input, Issues expectedOutput){
         applyFilterAndCheckResult(filter, input, Streams.stream(expectedOutput.iterator()).toArray(Issue[]::new));
