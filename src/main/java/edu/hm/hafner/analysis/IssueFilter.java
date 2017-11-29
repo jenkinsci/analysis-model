@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import com.sun.istack.internal.NotNull;
+
 /**
  * Issue filter only returns issues which match to all filter criteria.
  * This class is test driven developed.
@@ -34,9 +36,9 @@ public class IssueFilter {
      * @param issues to filter
      * @return filtered issues, which only contains matching issues
      */
+    @NotNull
     public Issues filter(final Issues issues) {
-        Iterable<Issue> iterable = issues::iterator;
-        Stream<Issue> issueStream = StreamSupport.stream(iterable.spliterator(), false);
+        Stream<Issue> issueStream = StreamSupport.stream(issues.spliterator(), false);
 
         List<Issue> filtered = issueStream.filter(getFilter()).collect(Collectors.toList());
 
@@ -55,29 +57,16 @@ public class IssueFilter {
         }
 
         public IssueFilter build() {
-            Predicate<Issue> filter = null;
+            Predicate<Issue> filter = getFilterCriteria().values().stream()
+                    .map(criterionContainer -> criterionContainer.values().stream()
+                            .reduce(issue -> true, Predicate::and))
+                    .reduce(a -> true, Predicate::and);
+/*                    .reduce(issue -> false, Predicate::or);
 
-            for (Map<Boolean, Predicate<Issue>> criterionContainer : getFilterCriteria().values()) {
-                Predicate<Issue> subFilter = null;
-                for (Predicate<Issue> filterCriterion : criterionContainer.values()) {
-                    if(subFilter == null) {
-                        subFilter = filterCriterion;
-                    } else {
-                        subFilter = subFilter.and(filterCriterion);
-                    }
-                }
-                if (filter == null) {
-                    filter = subFilter;
-                } else {
-                    filter = filter.and(subFilter);
-                }
-
-            }
-
-            if (filter == null) {
+            if(getFilterCriteria().size() == 0) {
                 filter = issue -> true;
             }
-
+*/
             return new IssueFilter(filter);
         }
 

@@ -87,302 +87,152 @@ class IssueFilterTest {
 
     @Test
     void includeTypeFilterShouldReturnOnlyTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("type");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(0));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeTypeFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setIncludeTypeFilter, Issue::getType, true);
     }
 
     @Test
     void includeTypeFilterShouldReturnAllInputIfSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("type");
-        patterns.add("epyt");
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeTypeFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setIncludeTypeFilter, Issue::getType, true);
     }
 
     @Test
     void excludeTypeFilterShouldReturnAnythingExceptTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("type");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(1));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeTypeFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setExcludeTypeFilter, Issue::getType, false);
     }
 
     @Test
     void excludeTypeFilterShouldReturnEmptyListIfAllSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("type");
-        patterns.add("epyt");
-
-        List<Issue> expected = new ArrayList<>();
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeTypeFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setExcludeTypeFilter, Issue::getType, false);
     }
 
     @Test
     void includeTypeFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setIncludeTypeFilter(patterns), issue -> issue.getType(), true);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setIncludeTypeFilter, Issue::getType, true);
     }
 
     @Test
     void excludeTypeFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setExcludeTypeFilter(patterns), issue -> issue.getType(), false);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setExcludeTypeFilter, Issue::getType, false);
     }
 
     @Test
     void includeCategoryFilterShouldReturnOnlyTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("category");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(0));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeCategoryFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setIncludeCategoryFilter, Issue::getCategory, true);
     }
 
     @Test
     void includeCategoryFilterShouldReturnAllInputIfSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("category");
-        patterns.add("yrogetac");
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeCategoryFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setIncludeCategoryFilter, Issue::getCategory, true);
     }
 
     @Test
     void excludeCategoryFilterShouldReturnAnythingExceptTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("category");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(1));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeCategoryFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setExcludeCategoryFilter, Issue::getCategory, false);
     }
 
     @Test
     void excludeCategoryFilterShouldReturnEmptyListIfAllSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("category");
-        patterns.add("yrogetac");
-
-        List<Issue> expected = new ArrayList<>();
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeCategoryFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setExcludeCategoryFilter, Issue::getCategory, false);
     }
 
     @Test
     void includeCategoryFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setIncludeCategoryFilter(patterns), issue -> issue.getCategory(), true);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setIncludeCategoryFilter, Issue::getCategory, true);
     }
 
     @Test
     void excludeCategoryFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setExcludeCategoryFilter(patterns), issue -> issue.getCategory(), false);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setExcludeCategoryFilter, Issue::getCategory, false);
     }
 
     @Test
     void includeFileNameFilterShouldReturnOnlyTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("file_name");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(0));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeFileNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setIncludeFileNameFilter, Issue::getFileName, true);
     }
 
     @Test
     void includeFileNameFilterShouldReturnAllInputIfSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("file_name");
-        patterns.add("eman_elif");
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeFileNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setIncludeFileNameFilter, Issue::getFileName, true);
     }
 
     @Test
     void excludeFileNameFilterShouldReturnAnythingExceptTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("file_name");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(1));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeFileNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setExcludeFileNameFilter, Issue::getFileName, false);
     }
 
     @Test
     void excludeFileNameFilterShouldReturnEmptyListIfAllSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("file_name");
-        patterns.add("eman_elif");
-
-        List<Issue> expected = new ArrayList<>();
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeFileNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setExcludeFileNameFilter, Issue::getFileName, false);
     }
 
     @Test
     void includeFileNameFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setIncludeFileNameFilter(patterns), issue -> issue.getFileName(), true);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setIncludeFileNameFilter, Issue::getFileName, true);
     }
 
     @Test
     void excludeFileNameFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setExcludeFileNameFilter(patterns), issue -> issue.getFileName(), false);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setExcludeFileNameFilter, Issue::getFileName, false);
     }
 
     @Test
     void includePackageNameFilterShouldReturnOnlyTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("package_name");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(0));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludePackageNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setIncludePackageNameFilter, Issue::getPackageName, true);
     }
 
     @Test
     void includePackageNameFilterShouldReturnAllInputIfSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("package_name");
-        patterns.add("eman_egakcap");
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludePackageNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setIncludePackageNameFilter, Issue::getPackageName, true);
     }
 
     @Test
     void excludePackageNameFilterShouldReturnAnythingExceptTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("package_name");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(1));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludePackageNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setExcludePackageNameFilter, Issue::getPackageName, false);
     }
 
     @Test
     void excludePackageNameFilterShouldReturnEmptyListIfAllSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("package_name");
-        patterns.add("eman_egakcap");
-
-        List<Issue> expected = new ArrayList<>();
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludePackageNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setExcludePackageNameFilter, Issue::getPackageName, false);
     }
 
     @Test
     void includePackageNameFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setIncludePackageNameFilter(patterns), issue -> issue.getPackageName(), true);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setIncludePackageNameFilter, Issue::getPackageName, true);
     }
 
     @Test
     void excludePackageNameFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setExcludePackageNameFilter(patterns), issue -> issue.getPackageName(), false);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setExcludePackageNameFilter, Issue::getPackageName, false);
     }
 
     @Test
     void includeModuleNameFilterShouldReturnOnlyTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("module_name");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(0));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeModuleNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setIncludeModuleNameFilter, Issue::getModuleName, true);
     }
 
     @Test
     void includeModuleNameFilterShouldReturnAllInputIfSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("module_name");
-        patterns.add("eman_eludom");
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setIncludeModuleNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, SINGLE_FILTER_ISSUES);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setIncludeModuleNameFilter, Issue::getModuleName, true);
     }
 
     @Test
     void excludeModuleNameFilterShouldReturnAnythingExceptTheSpecifiedTypes() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("module_name");
-
-        List<Issue> expected = new ArrayList<>();
-        expected.add(SINGLE_FILTER_ISSUES.get(1));
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeModuleNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setExcludeModuleNameFilter, Issue::getModuleName, false);
     }
 
     @Test
     void excludeModuleNameFilterShouldReturnEmptyListIfAllSpecified() {
-        Collection<String> patterns = new ArrayList<>();
-        patterns.add("module_name");
-        patterns.add("eman_eludom");
-
-        List<Issue> expected = new ArrayList<>();
-
-        IssueFilterBuilder builder = new IssueFilterBuilder();
-        builder = builder.setExcludeModuleNameFilter(patterns);
-        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+        filterShouldReturnTheExpectedResultTwoPattern(IssueFilterBuilder::setExcludeModuleNameFilter, Issue::getModuleName, false);
     }
 
     @Test
     void includeModuleNameFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setIncludeModuleNameFilter(patterns), issue -> issue.getModuleName(), true);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setIncludeModuleNameFilter, Issue::getModuleName, true);
     }
 
     @Test
     void excludeModuleNameFilterShouldReturnResultOfLastFilterSet() {
-        filterShouldReturnResultOfLastFilterSetTest((builder, patterns) -> builder.setExcludeModuleNameFilter(patterns), issue -> issue.getModuleName(), false);
+        filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setExcludeModuleNameFilter, Issue::getModuleName, false);
     }
 
     @Test
@@ -434,6 +284,34 @@ class IssueFilterTest {
         Issues result = sut.filter(issues);
         Issue[] expectedArray = new Issue[expected.size()];
         assertThat(result.iterator()).containsExactly(expected.toArray(expectedArray));
+    }
+
+    private void filterShouldReturnTheExpectedResultOnePattern(final BiFunction<IssueFilterBuilder, Collection<String>, IssueFilterBuilder> filterSetter, final Function<Issue, String> issueVariableGetter, final boolean includeFilter) {
+        List<Issue> expected = new ArrayList<>();
+        if(includeFilter) {
+            expected.add(SINGLE_FILTER_ISSUES.get(0));
+        } else {
+            expected.add(SINGLE_FILTER_ISSUES.get(1));
+        }
+
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder = filterSetter.apply(builder, Arrays.asList(issueVariableGetter.apply(SINGLE_FILTER_ISSUES.get(0))));
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
+    }
+
+    private void filterShouldReturnTheExpectedResultTwoPattern(final BiFunction<IssueFilterBuilder, Collection<String>, IssueFilterBuilder> filterSetter, final Function<Issue, String> issueVariableGetter, final boolean includeFilter) {
+        Collection<String> patterns = new ArrayList<>();
+        patterns.add(issueVariableGetter.apply(SINGLE_FILTER_ISSUES.get(0)));
+        patterns.add(issueVariableGetter.apply(SINGLE_FILTER_ISSUES.get(1)));
+
+        List<Issue> expected = new ArrayList<>();
+        if(includeFilter) {
+            expected = SINGLE_FILTER_ISSUES;
+        }
+
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder = filterSetter.apply(builder, patterns);
+        testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
     private void filterShouldReturnResultOfLastFilterSetTest(final BiFunction<IssueFilterBuilder, Collection<String>, IssueFilterBuilder> filterSetter, final Function<Issue, String> issueVariableGetter, final boolean includeFilter) {
