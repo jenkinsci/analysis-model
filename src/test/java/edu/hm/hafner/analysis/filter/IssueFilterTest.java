@@ -80,21 +80,21 @@ public class IssueFilterTest {
         applyFilterAndCheckResult(filter, this.issues);
     }
     @Test
-    void shouldFindissue1ByAFileNameIncludeMatch(){
+    void shouldFindIssue1ByAFileNameIncludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                             .setIncludeFilenameFilter("FileName1")
                             .createIssueFilter();
         applyFilterAndCheckResult(filter, this.issues, issue1);
     }
     @Test
-    void shouldFindissue1ByAFileNameExcludeMatch(){
+    void shouldFindIssue1ByAFileNameExcludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setExcludeFilenameFilter("FileName1")
                 .createIssueFilter();
         applyFilterAndCheckResult(filter, this.issues, issue2, issue3);
     }
     @Test
-    void shouldFindissue2ByAPackageNameIncludeMatch(){
+    void shouldFindIssue2ByAPackageNameIncludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setIncludePackageNameFilter("PackageName2")
                 .createIssueFilter();
@@ -102,14 +102,14 @@ public class IssueFilterTest {
         applyFilterAndCheckResult(filter, this.issues, issue2);
     }
     @Test
-    void shouldFindissue2ByAPackageNameExcludeMatch(){
+    void shouldFindIssue2ByAPackageNameExcludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setExcludePackageNameFilter("PackageName2")
                 .createIssueFilter();
         applyFilterAndCheckResult(filter, this.issues, issue1, issue3);
     }
     @Test
-    void shouldFindissue3ByAModuleNameIncludeMatch(){
+    void shouldFindIssue3ByAModuleNameIncludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setIncludeModuleNameFilter("ModuleName3")
                 .createIssueFilter();
@@ -117,14 +117,14 @@ public class IssueFilterTest {
         applyFilterAndCheckResult(filter, this.issues, issue3);
     }
     @Test
-    void shouldFindissue3ByAModuleNameExcludeMatch(){
+    void shouldFindIssue3ByAModuleNameExcludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setExcludeModuleNameFilter("ModuleName3")
                 .createIssueFilter();
         applyFilterAndCheckResult(filter, this.issues, issue1, issue2);
     }
     @Test
-    void shouldFindissue1ByACategoryIncludeMatch(){
+    void shouldFindIssue1ByACategoryIncludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setIncludeCategoryFilter("CategoryName1")
                 .createIssueFilter();
@@ -132,14 +132,14 @@ public class IssueFilterTest {
         applyFilterAndCheckResult(filter, this.issues, issue1);
     }
     @Test
-    void shouldFindissue1ByACategoryExcludeMatch(){
+    void shouldFindIssue1ByACategoryExcludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setExcludeCategoryFilter("CategoryName1")
                 .createIssueFilter();
         applyFilterAndCheckResult(filter, this.issues, issue2, issue3);
     }
     @Test
-    void shouldFindissue2ByATypeIncludeMatch(){
+    void shouldFindIssue2ByATypeIncludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setIncludeTypeFilter("Type2")
                 .createIssueFilter();
@@ -147,7 +147,7 @@ public class IssueFilterTest {
         applyFilterAndCheckResult(filter, this.issues, issue2);
     }
     @Test
-    void shouldFindissue2ByACategoryExcludeMatch(){
+    void shouldFindIssue2ByACategoryExcludeMatch(){
         IssueFilter filter = new IssueFilterBuilder()
                 .setExcludeTypeFilter("Type2")
                 .createIssueFilter();
