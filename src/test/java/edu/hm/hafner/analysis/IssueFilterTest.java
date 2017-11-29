@@ -116,6 +116,15 @@ class IssueFilterTest {
     }
 
     @Test
+    void excludeTypeFilterOverlapIncludeTypeFilter() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.setIncludeTypeFilter(Arrays.asList("type"))
+                .setExcludeTypeFilter(Arrays.asList("type"));
+
+        testFilter(builder, SINGLE_FILTER_ISSUES, new ArrayList<>());
+    }
+
+    @Test
     void includeCategoryFilterShouldReturnOnlyTheSpecifiedTypes() {
         filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setIncludeCategoryFilter, Issue::getCategory, true);
     }
@@ -143,6 +152,15 @@ class IssueFilterTest {
     @Test
     void excludeCategoryFilterShouldReturnResultOfLastFilterSet() {
         filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setExcludeCategoryFilter, Issue::getCategory, false);
+    }
+
+    @Test
+    void excludeCategoryFilterOverlapIncludeCategoryFilter() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.setIncludeCategoryFilter(Arrays.asList("category"))
+                .setExcludeCategoryFilter(Arrays.asList("category"));
+
+        testFilter(builder, SINGLE_FILTER_ISSUES, new ArrayList<>());
     }
 
     @Test
@@ -176,6 +194,15 @@ class IssueFilterTest {
     }
 
     @Test
+    void excludeFileNameFilterOverlapIncludeFileNameFilter() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.setIncludeFileNameFilter(Arrays.asList("file_name"))
+                .setExcludeFileNameFilter(Arrays.asList("file_name"));
+
+        testFilter(builder, SINGLE_FILTER_ISSUES, new ArrayList<>());
+    }
+
+    @Test
     void includePackageNameFilterShouldReturnOnlyTheSpecifiedTypes() {
         filterShouldReturnTheExpectedResultOnePattern(IssueFilterBuilder::setIncludePackageNameFilter, Issue::getPackageName, true);
     }
@@ -203,6 +230,15 @@ class IssueFilterTest {
     @Test
     void excludePackageNameFilterShouldReturnResultOfLastFilterSet() {
         filterShouldReturnResultOfLastFilterSetTest(IssueFilterBuilder::setExcludePackageNameFilter, Issue::getPackageName, false);
+    }
+
+    @Test
+    void excludePackageNameFilterOverlapIncludePackageNameFilter() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.setIncludePackageNameFilter(Arrays.asList("package_name"))
+                .setExcludePackageNameFilter(Arrays.asList("package_name"));
+
+        testFilter(builder, SINGLE_FILTER_ISSUES, new ArrayList<>());
     }
 
     @Test
@@ -236,7 +272,16 @@ class IssueFilterTest {
     }
 
     @Test
-    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAllFilterCriteriaIncludeFilter() {
+    void excludeModuleNameFilterOverlapIncludeModuleNameFilter() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.setIncludeModuleNameFilter(Arrays.asList("module_name"))
+                .setExcludeModuleNameFilter(Arrays.asList("module_name"));
+
+        testFilter(builder, SINGLE_FILTER_ISSUES, new ArrayList<>());
+    }
+
+    @Test
+    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAtLeastOneFilterCriteriaIncludeFilter() {
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder.setIncludeFileNameFilter(Arrays.asList("expected file_name"))
                 .setIncludePackageNameFilter(Arrays.asList("expected package_name"))
@@ -244,11 +289,11 @@ class IssueFilterTest {
                 .setIncludeCategoryFilter(Arrays.asList("expected category"))
                 .setIncludeTypeFilter(Arrays.asList("expected type"));
 
-        testFilter(builder, FILTER_CONCATENATION_ISSUES, Arrays.asList(FILTER_CONCATENATION_ISSUES.get(0)));
+        testFilter(builder, FILTER_CONCATENATION_ISSUES, FILTER_CONCATENATION_ISSUES);
     }
 
     @Test
-    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAllFilterCriteriaExcludeFilter() {
+    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAtLeastOneFilterCriteriaExcludeFilter() {
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder.setExcludeFileNameFilter(Arrays.asList("file_name"))
                 .setExcludePackageNameFilter(Arrays.asList("package_name"))
@@ -256,11 +301,11 @@ class IssueFilterTest {
                 .setExcludeCategoryFilter(Arrays.asList("category"))
                 .setExcludeTypeFilter(Arrays.asList("type"));
 
-        testFilter(builder, FILTER_CONCATENATION_ISSUES, Arrays.asList(FILTER_CONCATENATION_ISSUES.get(0)));
+        testFilter(builder, FILTER_CONCATENATION_ISSUES, FILTER_CONCATENATION_ISSUES);
     }
 
     @Test
-    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAllFilterCriteriaIncludeAndExcludeFilters() {
+    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAtLeastOneFilterCriteriaIncludeAndExcludeFilters() {
         IssueFilterBuilder builder = new IssueFilterBuilder();
         builder.setIncludeFileNameFilter(Arrays.asList("expected file_name"))
                 .setExcludePackageNameFilter(Arrays.asList("package_name"))
@@ -268,7 +313,19 @@ class IssueFilterTest {
                 .setExcludeCategoryFilter(Arrays.asList("category"))
                 .setIncludeTypeFilter(Arrays.asList("expected type"));
 
-        testFilter(builder, FILTER_CONCATENATION_ISSUES, Arrays.asList(FILTER_CONCATENATION_ISSUES.get(0)));
+        testFilter(builder, FILTER_CONCATENATION_ISSUES, FILTER_CONCATENATION_ISSUES);
+    }
+
+    @Test
+    void concatenationOfFiltersDeliversTheIssuesWhichMatchesAtLeastOneFilterCriteriaTwoIncludeFilters() {
+        IssueFilterBuilder builder = new IssueFilterBuilder();
+        builder.setIncludeFileNameFilter(Arrays.asList("file_name"))
+                .setIncludePackageNameFilter(Arrays.asList("package_name"))
+                .setIncludeModuleNameFilter(Arrays.asList("module_name"))
+                .setIncludeCategoryFilter(Arrays.asList("category"))
+                .setIncludeTypeFilter(Arrays.asList("type"));
+
+        testFilter(builder, FILTER_CONCATENATION_ISSUES, FILTER_CONCATENATION_ISSUES.subList(1,6));
     }
 
     /**
@@ -286,6 +343,12 @@ class IssueFilterTest {
         assertThat(result.iterator()).containsExactly(expected.toArray(expectedArray));
     }
 
+    /**
+     * Test if a filter with one pattern returns the expected result.
+     * @param filterSetter method reference of the method to set a filter
+     * @param issueVariableGetter method reference of issue to get the expected variable
+     * @param includeFilter switch if it is an include filter or an exclude filter
+     */
     private void filterShouldReturnTheExpectedResultOnePattern(final BiFunction<IssueFilterBuilder, Collection<String>, IssueFilterBuilder> filterSetter, final Function<Issue, String> issueVariableGetter, final boolean includeFilter) {
         List<Issue> expected = new ArrayList<>();
         if(includeFilter) {
@@ -299,6 +362,12 @@ class IssueFilterTest {
         testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
+    /**
+     * Test if a filter with two pattern returns the expected result.
+     * @param filterSetter method reference of the method to set a filter
+     * @param issueVariableGetter method reference of issue to get the expected variable
+     * @param includeFilter switch if it is an include filter or an exclude filter
+     */
     private void filterShouldReturnTheExpectedResultTwoPattern(final BiFunction<IssueFilterBuilder, Collection<String>, IssueFilterBuilder> filterSetter, final Function<Issue, String> issueVariableGetter, final boolean includeFilter) {
         Collection<String> patterns = new ArrayList<>();
         patterns.add(issueVariableGetter.apply(SINGLE_FILTER_ISSUES.get(0)));
@@ -314,6 +383,12 @@ class IssueFilterTest {
         testFilter(builder, SINGLE_FILTER_ISSUES, expected);
     }
 
+    /**
+     * Test if the last set filter criterion is the applied. The former set filter criteria should be replaced.
+     * @param filterSetter method reference of the method to set a filter
+     * @param issueVariableGetter method reference of issue to get the expected variable
+     * @param includeFilter switch if it is an include filter or an exclude filter
+     */
     private void filterShouldReturnResultOfLastFilterSetTest(final BiFunction<IssueFilterBuilder, Collection<String>, IssueFilterBuilder> filterSetter, final Function<Issue, String> issueVariableGetter, final boolean includeFilter) {
         List<Issue> expected = new ArrayList<>();
         if(includeFilter) {
