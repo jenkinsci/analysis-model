@@ -40,7 +40,8 @@ public class Issues implements Iterable<Issue>, Serializable {
      * Returns a new issues container. Appends all of the issues in the specified array to the end of this container.
      * The order of the issues in the individual containers is preserved.
      *
-     * @param issues the issues to merge
+     * @param issues
+     *         the issues to merge
      */
     public static Issues merge(final Issues... issues) {
         Issues merged = new Issues();
@@ -63,7 +64,9 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Appends the specified element to the end of this container.
      *
-     * @param issue the issue to append
+     * @param issue
+     *         the issue to append
+     *
      * @return returns the appended issue
      */
     public Issue add(final Issue issue) {
@@ -77,7 +80,9 @@ public class Issues implements Iterable<Issue>, Serializable {
      * Appends all of the elements in the specified collection to the end of this container, in the order that they are
      * returned by the specified collection's iterator.
      *
-     * @param issues the issues to append
+     * @param issues
+     *         the issues to append
+     *
      * @return returns the appended issues
      */
     public Collection<? extends Issue> addAll(final Collection<? extends Issue> issues) {
@@ -91,7 +96,8 @@ public class Issues implements Iterable<Issue>, Serializable {
      * Appends all of the elements in the specified array of issues to the end of this container, in the order that they
      * are returned by the specified collection's iterator.
      *
-     * @param issues the issues to append
+     * @param issues
+     *         the issues to append
      */
     public void addAll(final Issues... issues) {
         Ensure.that(issues).isNotEmpty();
@@ -104,9 +110,12 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Removes the the issue with the specified ID.
      *
-     * @param id the ID of the issue
+     * @param id
+     *         the ID of the issue
+     *
      * @return the removed issue
-     * @throws NoSuchElementException if there is no such issue found
+     * @throws NoSuchElementException
+     *         if there is no such issue found
      */
     public Issue remove(final UUID id) {
         for (int i = 0; i < elements.size(); i++) {
@@ -131,9 +140,12 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Returns the issue with the specified ID.
      *
-     * @param id the ID of the issue
+     * @param id
+     *         the ID of the issue
+     *
      * @return the found issue
-     * @throws NoSuchElementException if there is no such issue found
+     * @throws NoSuchElementException
+     *         if there is no such issue found
      */
     public Issue findById(final UUID id) {
         for (Issue issue : elements) {
@@ -147,7 +159,9 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Finds all issues that match the specified criterion.
      *
-     * @param criterion the filter criterion
+     * @param criterion
+     *         the filter criterion
+     *
      * @return the found issues
      */
     public ImmutableList<Issue> findByProperty(final Predicate<? super Issue> criterion) {
@@ -157,7 +171,9 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Finds all issues that match the specified criterion.
      *
-     * @param criterion the filter criterion
+     * @param criterion
+     *         the filter criterion
+     *
      * @return the found issues
      */
     public Issues filter(final Predicate<? super Issue> criterion) {
@@ -214,7 +230,9 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Returns the number of issues of the specified priority.
      *
-     * @param priority the priority of the issues
+     * @param priority
+     *         the priority of the issues
+     *
      * @return total number of issues
      */
     public int getSizeOf(final Priority priority) {
@@ -224,7 +242,9 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Returns the number of issues of the specified priority.
      *
-     * @param priority the priority of the issues
+     * @param priority
+     *         the priority of the issues
+     *
      * @return total number of issues
      */
     public int sizeOf(final Priority priority) {
@@ -261,7 +281,9 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Returns the issue with the specified index.
      *
-     * @param index the index
+     * @param index
+     *         the index
+     *
      * @return the issue at the specified index
      */
     public Issue get(final int index) {
@@ -333,14 +355,17 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Returns the different values for a given property for all issues of this container.
      *
-     * @param propertiesMapper the properties mapper
-     * @param <R>              the type of the returned values
+     * @param propertiesMapper
+     *         the properties mapper
+     * @param <R>
+     *         the type of the returned values
+     *
      * @return the set of different values
      * @see #getFiles()
      */
     public <R> SortedSet<R> getProperties(final Function<? super Issue, ? extends R> propertiesMapper) {
         return elements.stream().map(propertiesMapper)
-                       .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
+                .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
     }
 
     public Map<String, Integer> getPropertyCount(final Function<? super Issue, ? extends String> propertiesMapper) {
@@ -361,7 +386,8 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Sets the absolute path for all affected files to the specified value.
      *
-     * @param path the path
+     * @param path
+     *         the path
      */
     public void setPath(final String path) {
         this.path = path;
@@ -376,10 +402,12 @@ public class Issues implements Iterable<Issue>, Serializable {
     /**
      * Logs the specified message.
      *
-     * @param format A <a href="../util/Formatter.html#syntax">format string</a>
-     * @param args   Arguments referenced by the format specifiers in the format string.  If there are more arguments
-     *               than format specifiers, the extra arguments are ignored.  The number of arguments is variable and
-     *               may be zero.
+     * @param format
+     *         A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args
+     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
+     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
+     *         zero.
      */
     public void log(final String format, final Object... args) {
         logMessages.append(String.format(format, args));
@@ -398,4 +426,38 @@ public class Issues implements Iterable<Issue>, Serializable {
         }
         return copy;
     }
+
+    /**
+     * Filters the issues of this object for Filename, Category, ModuleName, PackageName and Type. For each filter it is
+     * possible to include and exclude per Regex. The config for filtering is saved in IssueFilterConfig.
+     *
+     * @param config
+     *         config for filtering in form of includes and excludes Regex-Patterns
+     *
+     * @return a new Issues-instance, containing only the filtered Issue-elements
+     */
+    public Issues filterIssues(IssueFilterConfig config) {
+        Issues filteredForIncludes;
+        if (config.isIncludePatternSet()) {
+            filteredForIncludes = filter(cur ->
+                    config.getIncludeFileName().asPredicate().test(cur.getFileName()) ||
+                            config.getIncludePackageName().asPredicate().test(cur.getPackageName()) ||
+                            config.getIncludeModuleName().asPredicate().test(cur.getModuleName()) ||
+                            config.getIncludeCategory().asPredicate().test(cur.getCategory()) ||
+                            config.getIncludeType().asPredicate().test(cur.getType())
+            );
+        }
+        else {
+            filteredForIncludes = this.copy();
+        }
+        Issues filteredForExcludes = filteredForIncludes.filter(cur ->
+                config.getExcludeFileName().asPredicate().negate().test(cur.getFileName()) &&
+                        config.getExcludeCategory().asPredicate().negate().test(cur.getCategory()) &&
+                        config.getExcludeModuleName().asPredicate().negate().test(cur.getModuleName()) &&
+                        config.getExcludePackageName().asPredicate().negate().test(cur.getPackageName()) &&
+                        config.getExcludeType().asPredicate().negate().test(cur.getType())
+        );
+        return filteredForExcludes;
+    }
+
 }
