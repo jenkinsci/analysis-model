@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import com.sun.istack.internal.NotNull;
-
 /**
  * Issue filter only returns issues which match at least one filter criterion.
  * This class is test driven developed.
@@ -36,7 +34,6 @@ public class IssueFilter {
      * @param issues to filter
      * @return filtered issues, which only contains matching issues
      */
-    @NotNull
     public Issues filter(final Issues issues) {
         Stream<Issue> issueStream = StreamSupport.stream(issues.spliterator(), false);
 
