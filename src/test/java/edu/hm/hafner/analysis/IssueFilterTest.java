@@ -1,12 +1,7 @@
-package edu.hm.hafner.analysis.filter;
+package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
-
 import com.google.common.collect.Streams;
-
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -180,16 +175,53 @@ public class IssueFilterTest {
         applyFilterAndCheckResult(filter, this.issues);
     }
 
+    @Test
+    void shouldFindIssue1FromIncludesCombinedWithAnd(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setIncludeCombineFilterWithOr(false)
+                .setIncludeFilenameFilter("[a-zA-Z0-9]*") // match all
+                .setIncludeFilenameFilter("FileName1") // only math issue1
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue1);
+        filter = new IssueFilterBuilder()
+                .setIncludeCombineFilterWithOr(false)
+                .setIncludeFilenameFilter("[a-zA-Z0-9]*", "FileName1")
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue1);
+    }
+
+    @Test
+    void shouldFindIssue1FromExcludeCombinedWithOr(){
+        IssueFilter filter = new IssueFilterBuilder()
+                .setExcludeCombineFilterWithOr(true)
+                .setExcludeFilenameFilter("[a-zA-Z0-9]*") // match all
+                .setExcludeFilenameFilter("FileName1") // only math issue1
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue2, issue3);
+        filter = new IssueFilterBuilder()
+                .setExcludeCombineFilterWithOr(true)
+                .setExcludeFilenameFilter("[a-zA-Z0-9]*", "FileName1") // match all
+                .createIssueFilter();
+        applyFilterAndCheckResult(filter, this.issues, issue2, issue3);
+    }
 
 
-
-
-
-
+    /**
+     * Apply filter and check if result is equal to expected values.
+     * @param filter = Filter.
+     * @param input = issues to filter.
+     * @param expectedOutput = filter result.
+     */
     private void applyFilterAndCheckResult(IssueFilter filter, Issues input, Issues expectedOutput){
         applyFilterAndCheckResult(filter, input, Streams.stream(expectedOutput.iterator()).toArray(Issue[]::new));
     }
 
+    /**
+     * Apply filter and check if result is equal to expected values.
+     * @param filter = Filter.
+     * @param input = issues to filter.
+     * @param expectedOutput = filter result.
+     */
     private void applyFilterAndCheckResult(IssueFilter filter, Issues input, Issue... expectedOutput){
         Issues result = filter.apply(input);
         assertThat(result.iterator()).containsExactly(expectedOutput);
