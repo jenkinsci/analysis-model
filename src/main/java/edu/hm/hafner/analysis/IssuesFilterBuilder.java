@@ -9,8 +9,8 @@ import java.util.function.Predicate;
  */
 public class IssuesFilterBuilder {
 
-    private List<Predicate<Issue>> include = new ArrayList<>();
-    private List<Predicate<Issue>> exclude = new ArrayList<>();
+    private final List<Predicate<Issue>> include = new ArrayList<>();
+    private final List<Predicate<Issue>> exclude = new ArrayList<>();
 
     /**
      * Split several regexe.
@@ -21,10 +21,7 @@ public class IssuesFilterBuilder {
      * @return list of the singel regexe
      */
     private String[] cutRegexIntoSingeRegex(String regexe) {
-        List<String> out = new ArrayList<>();
-
         return regexe.split("[ ,]");
-
     }
 
     /**

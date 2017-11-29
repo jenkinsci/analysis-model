@@ -9,20 +9,6 @@ import edu.hm.hafner.analysis.assertj.IssuesAssert;
  */
 class IssuesFilterTest {
 
-
-    Issues generateIssues() {
-        Issue issue1 = new IssueBuilder().setFileName("f1.c").setModuleName("private").setPackageName("edu.hm.balz.p1").setType("Error").setCategory("Warning").build();
-        Issue issue2 = new IssueBuilder().setFileName("f2.c").setModuleName("homework").setPackageName("edu.hm.balz.p1").setType("Critic").setCategory("Error").build();
-        Issue issue3 = new IssueBuilder().setFileName("f3.java").setModuleName("private").setPackageName("edu.hm.balz.p2").setType("Blub").setCategory("Critic Error").build();
-        Issue issue4 = new IssueBuilder().setFileName("f4.java").setModuleName("homework").setPackageName("edu.hm.balz.p2").setType("42").setCategory("needle the Programmer").build();
-        Issues out = new Issues();
-        out.add(issue1);
-        out.add(issue2);
-        out.add(issue3);
-        out.add(issue4);
-        return out;
-    }
-
     @Test
     void filterWithNoArgumentsShouldNotChangeIssues() {
         Issues issuesBefor = new Issues();
@@ -35,7 +21,7 @@ class IssuesFilterTest {
         issuesBefor.add(issue3);
 
         Issues issuesAfter = filter.executeFilter(issuesBefor);
-        IssuesAssert.assertThat(issuesBefor).containsExactly(issue1, issue2, issue3);
+        IssuesAssert.assertThat(issuesAfter).containsExactly(issue1, issue2, issue3);
     }
 
     @Test
@@ -50,7 +36,7 @@ class IssuesFilterTest {
         issuesBefor.add(issue3);
 
         Issues issuesAfter = filter.executeFilter(issuesBefor);
-        IssuesAssert.assertThat(issuesBefor).containsExactly(issue1, issue2, issue3);
+        IssuesAssert.assertThat(issuesAfter).containsExactly(issue1, issue2, issue3);
     }
 
     @Test

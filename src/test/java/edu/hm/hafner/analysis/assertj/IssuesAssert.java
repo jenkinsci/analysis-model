@@ -5,8 +5,6 @@ import java.util.Iterator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.api.AbstractAssert;
 
-import com.sun.deploy.util.ArrayUtil;
-import com.sun.xml.internal.bind.v2.model.util.ArrayInfoUtil;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
@@ -120,14 +118,21 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         return this;
     }
 
-    private boolean isIssueInArray(Issue toCheck, Issue array[]){
+    private boolean isIssueInArray(Issue toCheck, Issue array[]) {
 
-            for(Issue current : array){
-                if(toCheck.equals(current))
-                    return true;
+        for (Issue current : array) {
+            if (toCheck.equals(current)) {
+                return true;
             }
+        }
         return false;
     }
+
+    /**
+     * does the Issues obj contains exacly and in this order all issue
+     * @param issues  list of Issue
+     * @return this
+     */
     public IssuesAssert containsExactly(Issue... issues) {
         isNotNull();
         Iterator<Issue> i = actual.iterator();
@@ -137,10 +142,10 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
             }
             Issue current = i.next();
 
-            if(isIssueInArray(current,issues)){
-                ArrayUtils.removeElement(issues,current);
+            if (isIssueInArray(current, issues)) {
+                ArrayUtils.removeElement(issues, current);
             }
-           else {
+            else {
 
                 failWithMessage("\nExpecting \n <%s>\n has at <%s> \n the element \n <%s> but it was \n <%s>", actual, n, issues[n], current);
             }

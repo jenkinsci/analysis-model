@@ -14,8 +14,8 @@ import java.util.function.Predicate;
  * @author Sebastian Balz
  */
 public class IssuesFilter {
-    private List<Predicate<Issue>> includeFilter = new ArrayList<>();
-    private List<Predicate<Issue>> exludeFilter = new ArrayList<>();
+    private final List<Predicate<Issue>> includeFilter = new ArrayList<>();
+    private final List<Predicate<Issue>> exludeFilter = new ArrayList<>();
 
     /**
      * Add a list of include filter..
