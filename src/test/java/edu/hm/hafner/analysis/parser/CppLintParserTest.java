@@ -2,10 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -13,31 +15,9 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Ullrich Hafner
  */
-public class CppLintParserTest extends ParserTester {
-    @Override
-    protected String getWarningsFile() {
-        return "cpplint.txt";
-    }
-
-    /** Parses a file with 1031 warnings. */
-    @Test
-    public void shouldFindAll1031Warnings() {
-        Issues<Issue> issues = new CppLintParser().parse(openFile());
-
-        assertThat(issues).hasSize(1031)
-                .hasHighPrioritySize(81)
-                .hasNormalPrioritySize(201)
-                .hasLowPrioritySize(749);
-
-        assertSoftly(softly -> {
-            softly.assertThat(issues.get(0))
-                    .hasLineStart(824)
-                    .hasLineEnd(824)
-                    .hasMessage("Tab found; better to use spaces")
-                    .hasFileName("c:/Workspace/Trunk/Project/P1/class.cpp")
-                    .hasCategory("whitespace/tab")
-                    .hasPriority(Priority.LOW);
-        });
+class CppLintParserTest extends AbstractParserTest {
+    CppLintParserTest() {
+        super("cpplint.txt");
     }
 
     /**
@@ -46,7 +26,7 @@ public class CppLintParserTest extends ParserTester {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18290">Issue 18290</a>
      */
     @Test
-    public void issue18290() {
+    void issue18290() {
         Issues<Issue> warnings = new CppLintParser().parse(openFile("issue18290.txt"));
 
         assertThat(warnings).hasSize(2);
@@ -65,6 +45,27 @@ public class CppLintParserTest extends ParserTester {
                     .hasCategory("whitespace/tab")
                     .hasPriority(Priority.LOW);
         });
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues)
+                .hasSize(1031)
+                .hasHighPrioritySize(81)
+                .hasNormalPrioritySize(201)
+                .hasLowPrioritySize(749);
+        softly.assertThat(issues.get(0))
+                .hasLineStart(824)
+                .hasLineEnd(824)
+                .hasMessage("Tab found; better to use spaces")
+                .hasFileName("c:/Workspace/Trunk/Project/P1/class.cpp")
+                .hasCategory("whitespace/tab")
+                .hasPriority(Priority.LOW);
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new CppLintParser();
     }
 }
 

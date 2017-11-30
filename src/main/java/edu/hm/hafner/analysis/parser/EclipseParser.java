@@ -49,12 +49,15 @@ public class EclipseParser extends RegexpDocumentParser {
         int columnStart = StringUtils.defaultString(matcher.group(5)).length() + 1;
         int columnEnd = columnStart + matcher.group(6).length();
 
-        Issue issue = builder.setFileName(matcher.group(2)).setLineStart(parseInt(getLine(matcher)))
-                                    .setColumnStart(columnStart).setColumnEnd(columnEnd)
-                                    .setCategory(StringUtils.EMPTY).setMessage(matcher.group(7)).setPriority(priority)
-                                    .build();
-
-        return issue;
+        return builder
+                .setFileName(matcher.group(2))
+                .setLineStart(parseInt(getLine(matcher)))
+                .setColumnStart(columnStart)
+                .setColumnEnd(columnEnd)
+                .setCategory(StringUtils.EMPTY)
+                .setMessage(matcher.group(7))
+                .setPriority(priority)
+                .build();
     }
 
     private String getLine(final Matcher matcher) {
