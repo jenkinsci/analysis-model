@@ -124,8 +124,8 @@ public class Issues implements Iterable<Issue>, Serializable {
      *
      * @return all issues
      */
-    public ImmutableSet<Issue> all() {
-        return ImmutableSet.copyOf(elements);
+    public ImmutableList<Issue> all() {
+        return ImmutableList.copyOf(elements);
     }
 
     /**
