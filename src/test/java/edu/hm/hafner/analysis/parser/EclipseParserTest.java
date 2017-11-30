@@ -34,6 +34,8 @@ class EclipseParserTest extends AbstractEclipseParserTest {
                     .hasCategory(CATEGORY)
                     .hasLineStart(13)
                     .hasLineEnd(13)
+                    .hasColumnStart(15)
+                    .hasColumnEnd(15 + 13)
                     .hasMessage("The method getOldValue() from the type SomeType is deprecated")
                     .hasFileName("/path/to/job/job-name/module/src/main/java/com/example/Example.java");
         });

@@ -23,7 +23,7 @@ public class EclipseParser extends RegexpDocumentParser {
             "(?:\\(at line\\s*(\\d+)\\)|" +  // either group 3 'lineNumber': at line dd
             ":\\[(\\d+)).*" +                // or group 4 'rowNumber': eg :[row,col] - col ignored
             "(?:\\r?\\n[^\\^\\n]*){1,3}" +   // 1 or 3 ignored lines (no column pointer) eg source excerpt
-            "\\r?\\n(.*)" +                  // newline then group 5 (indent for column pointers)
+            "\\r?\\n([^\\^]*)" +             // newline then group 5 (indent for column pointers)
             "([\\^]+).*" +                   // group 6 column pointers (^^^^^)
             "\\r?\\n(?:\\s*\\[.*\\]\\s*)?" + // newline then optional ignored text in [] (eg [javac])
             "(.*)";                          // group 7 'message'
@@ -46,7 +46,7 @@ public class EclipseParser extends RegexpDocumentParser {
             priority = Priority.HIGH;
         }
 
-        int columnStart = StringUtils.defaultString(matcher.group(5)).length();
+        int columnStart = StringUtils.defaultString(matcher.group(5)).length() + 1;
         int columnEnd = columnStart + matcher.group(6).length();
 
         Issue issue = builder.setFileName(matcher.group(2)).setLineStart(parseInt(getLine(matcher)))
