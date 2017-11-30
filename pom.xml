@@ -60,7 +60,7 @@
 
     <!-- Project Test Dependencies Configuration -->
     <junit.version>5.0.0</junit.version>
-    <mockito.version>2.9.0</mockito.version>
+    <mockito.version>2.12.0</mockito.version>
     <assertj.version>3.8.0</assertj.version>
 
     <!-- Maven Plug-ins Configuration -->
@@ -175,6 +175,7 @@
             </goals>
             <configuration>
               <includes>
+                <include>**/assertj/*</include>
                 <include>**/assertj/*</include>
               </includes>
             </configuration>
