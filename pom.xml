@@ -176,7 +176,8 @@
             <configuration>
               <includes>
                 <include>**/assertj/*</include>
-                <include>**/assertj/*</include>
+                <include>**/analysis/*Test.*</include>
+                <include>**/util/*Test.*</include>
               </includes>
             </configuration>
           </execution>

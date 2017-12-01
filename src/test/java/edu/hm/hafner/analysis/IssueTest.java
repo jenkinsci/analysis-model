@@ -2,13 +2,9 @@ package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -17,15 +13,19 @@ import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.util.SerializableTest;
 
 /**
  * Unit tests for {@link Issue}.
  *
  * @author Marcel Binder
  */
-public class IssueTest {
+public class IssueTest extends SerializableTest {
+    private static final String SERIALIZATION_NAME = "issue.ser";
+
     static final String FILE_NAME = "C:/users/tester/file-name";
     static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+
     static final int LINE_START = 1;
     static final int LINE_END = 2;
     static final int COLUMN_START = 3;
@@ -43,7 +43,6 @@ public class IssueTest {
     static final String UNDEFINED = "-";
     static final String FINGERPRINT = "fingerprint";
     static final String ORIGIN = "origin";
-    private static final String SERIALIZATION_NAME = "issue.ser";
 
     /**
      * Creates a new subject under test (i.e. a sub-type of {@link Issue}) using the specified properties.
@@ -91,8 +90,12 @@ public class IssueTest {
                 moduleName, priority, message, description, origin, fingerprint);
     }
 
+    /**
+     * Creates an issue with all properties set to a specific value. Verifies that each getter returns the correct
+     * result.
+     */
     @Test
-    void testIssue() {
+    void shouldSetAllPropertiesInConstructor() {
         Issue issue = createFilledIssue();
 
         assertSoftly(softly -> {
@@ -117,7 +120,9 @@ public class IssueTest {
 
     @Test
     void testDefaultIssueNullStringsNegativeIntegers() {
-        Issue issue = createIssue(null, 0, 0, 0, 0, null, null, null, null, PRIORITY, null, null, null, null);
+        Issue issue = createIssue(null, 0, 0, 0, 0,
+                null, null, null, null,
+                PRIORITY, null, null, null, null);
 
         assertIsDefaultIssue(issue);
     }
@@ -225,7 +230,7 @@ public class IssueTest {
     void shouldBeSerializable() {
         Issue createdWithConstructor = createFilledIssue();
 
-        byte[] bytes = asBytes(createdWithConstructor);
+        byte[] bytes = toByteArray(createdWithConstructor);
 
         assertThatIssueCanBeRestoredFrom(bytes);
     }
@@ -253,31 +258,6 @@ public class IssueTest {
         }
     }
 
-    protected byte[] readResource(final String name) {
-        try {
-            URL resource = getClass().getResource(name);
-            if (resource == null) {
-                throw new AssertionError("Can't find resource " + name);
-            }
-            return Files.readAllBytes(Paths.get(resource.toURI()));
-        }
-        catch (IOException | URISyntaxException e) {
-            throw new AssertionError("Can't read resource " + name, e);
-        }
-    }
-
-    private byte[] asBytes(final Serializable object) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try (ObjectOutputStream stream = new ObjectOutputStream(out)) {
-            stream.writeObject(object);
-            stream.close();
-        }
-        catch (IOException exception) {
-            throw new IllegalStateException(exception);
-        }
-        return out.toByteArray();
-    }
-
     /**
      * Serializes an issues to a file. Use this method in case the issue properties have been changed and the
      * readResolve method has been adapted accordingly so that the old serialization still can be read.
@@ -299,6 +279,6 @@ public class IssueTest {
      *         if the file could not be created
      */
     protected void createSerialization() throws IOException {
-        Files.write(Paths.get("/tmp/issue.ser"), asBytes(createFilledIssue()), StandardOpenOption.CREATE_NEW);
+        Files.write(Paths.get("/tmp/issue.ser"), toByteArray(createFilledIssue()), StandardOpenOption.CREATE_NEW);
     }
 }
