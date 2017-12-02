@@ -423,13 +423,8 @@ public class Issues implements Iterable<Issue>, Serializable {
      */
 
     public Issues filter(IssuesFilter includeFilter, IssuesFilter excludeFilter) {
-
         Issues filterFirst = filterInclude(includeFilter);
         return filterFirst.filterExcluide(excludeFilter);
-
-
-
-
     }
 
     /**Filter the issues and remove all issues they match with the excludeFilter.
