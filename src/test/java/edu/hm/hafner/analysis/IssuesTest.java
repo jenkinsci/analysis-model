@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -23,23 +24,34 @@ class IssuesTest {
     private static final Issue ISSUE_1 = new IssueBuilder()
             .setMessage("issue-1")
             .setFileName("file-1")
+            .setCategory("cat-1")
+            .setPackageName("package-1")
+            .setType("type-1")
             .setPriority(Priority.HIGH)
             .build();
-    private static final Issue ISSUE_2 = new IssueBuilder().setMessage("issue-2").setFileName("file-1").build();
-    private static final Issue ISSUE_3 = new IssueBuilder().setMessage("issue-3").setFileName("file-1").build();
+    private static final Issue ISSUE_2 = new IssueBuilder().setMessage("issue-2").setCategory("cat-1").setPackageName("package-1").setFileName("file-1").build();
+    private static final Issue ISSUE_3 = new IssueBuilder().setMessage("issue-3").setCategory("cat-1").setFileName("file-1").setPackageName("package-2").build();
     private static final Issue ISSUE_4 = new IssueBuilder()
             .setMessage("issue-4")
+            .setCategory("cat-2")
             .setFileName("file-2")
+            .setType("type-2")
+            .setModuleName("module-5")
             .setPriority(Priority.LOW)
             .build();
     private static final Issue ISSUE_5 = new IssueBuilder()
             .setMessage("issue-5")
+            .setCategory("cat-2")
             .setFileName("file-2")
+            .setModuleName("module-5")
             .setPriority(Priority.LOW)
             .build();
     private static final Issue ISSUE_6 = new IssueBuilder()
             .setMessage("issue-6")
+            .setCategory("cat-3")
             .setFileName("file-3")
+            .setModuleName("module-3")
+            .setType("type-3")
             .setPriority(Priority.LOW)
             .build();
 
@@ -88,15 +100,15 @@ class IssuesTest {
     private void assertAllIssuesAdded(final Issues issues) {
         assertSoftly(softly -> {
             softly.assertThat(issues)
-                  .hasSize(6)
-                  .hasHighPrioritySize(1)
-                  .hasNormalPrioritySize(2)
-                  .hasLowPrioritySize(3);
+                    .hasSize(6)
+                    .hasHighPrioritySize(1)
+                    .hasNormalPrioritySize(2)
+                    .hasLowPrioritySize(3);
             softly.assertThat(issues.getFiles()).containsExactly("file-1", "file-2", "file-3");
             softly.assertThat((Iterable<Issue>) issues)
-                  .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+                    .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
             softly.assertThat(issues.all())
-                  .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+                    .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
         });
     }
 
@@ -287,4 +299,247 @@ class IssuesTest {
         assertThat(original.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
         assertThat(copy.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4);
     }
+
+    @Test
+    void shouldReturnAllIssuesWhenNoFilterIsSet() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+
+        IssuesFilter includeFilter = new IssuesFilterBuilder().build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+    }
+
+    @Test
+    void shouldReturnNoIssuesWhenIncludeFilterAndExcludeFilterAreTheSameAndNotEmpty() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        List<String> categories = new ArrayList<>();
+
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        categories.add("cat-1");
+        builder.setCategories(categories);
+
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = builder.build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+        assertThat(filteredIssues.all()).containsExactly();
+    }
+
+    @Test
+    void shouldReturnNoIssuesWhenIncludeIssueWithFileNameAndExcludeWhemWithCategorie() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        List<String> categories = new ArrayList<>();
+        List<String> fileNames = new ArrayList<>();
+
+        IssuesFilterBuilder excludeBuilder = new IssuesFilterBuilder();
+        categories.add("cat-1");
+        excludeBuilder.setCategories(categories);
+
+        IssuesFilterBuilder includeBuilder = new IssuesFilterBuilder();
+        fileNames.add("cat-1");
+        includeBuilder.setCategories(categories);
+
+        IssuesFilter includeFilter = includeBuilder.build();
+        IssuesFilter emptyExcludeFilter = excludeBuilder.build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+        assertThat(filteredIssues.all()).containsExactly();
+    }
+
+
+    @Test
+    void shouldOnlyReturnOnlyIssueWithCat1() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> categories = new ArrayList<>();
+        categories.add("cat-1");
+        builder.setCategories(categories);
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
+    }
+
+    @Test
+    void shouldOnlyReturnOnlyIssueWithFileNameFile2andFile3() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> filenames = new ArrayList<>();
+        filenames.add("file-2");
+        filenames.add("file-3");
+        builder.setFileNames(filenames);
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5, ISSUE_6);
+    }
+
+    @Test
+    void shouldOnlyReturnOnlyIssueWithType3() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        types.add("type-3");
+        builder.setTypes(types);
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
+    }
+
+    @Test
+    void shouldOnlyReturnOnlyIssueWithPackageName1() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> packageNames = new ArrayList<>();
+        packageNames.add("package-1");
+        builder.setPackageNames(packageNames);
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2);
+    }
+
+    @Test
+    void shouldOnlyReturnOnlyIssueWithModuleName1() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> moduleNames = new ArrayList<>();
+        moduleNames.add("module-5");
+        builder.setModuleNames(moduleNames);
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5);
+    }
+
+    @Test
+    void shouldOnlyReturnIssueWithoutCat1OrCat2() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> categories = new ArrayList<>();
+        categories.add("cat-1");
+        categories.add("cat-2");
+        builder.setCategories(categories);
+        IssuesFilter excludeFilter = builder.build();
+        IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
+    }
+
+    @Test
+    void shouldOnlyReturnIssueWithoutFileOrFile2() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> fileNames = new ArrayList<>();
+        fileNames.add("file-1");
+        fileNames.add("file-2");
+        builder.setFileNames(fileNames);
+        IssuesFilter excludeFilter = builder.build();
+        IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
+    }
+
+    @Test
+    void shouldOnlyReturnIssueWithoutTyp2orTyp3() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        types.add("type-1");
+        types.add("type-2");
+        builder.setTypes(types);
+        IssuesFilter excludeFilter = builder.build();
+        IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+        assertThat(filteredIssues.size()).isEqualTo(4);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_2, ISSUE_3, ISSUE_5, ISSUE_6);
+    }
+
+    @Test
+    void shouldOnlyReturnIssueWithoutPackageName1orPackageName3() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> packageNames = new ArrayList<>();
+        packageNames.add("package-1");
+        packageNames.add("package-3");
+        builder.setPackageNames(packageNames);
+        IssuesFilter excludeFilter = builder.build();
+        IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+    }
+
+    @Test
+    void shouldOnlyReturnIssueWithoutModuleName5orModuleName3() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> moduleNames = new ArrayList<>();
+        moduleNames.add("module-5");
+        moduleNames.add("module-3");
+        builder.setModuleNames(moduleNames);
+        IssuesFilter excludeFilter = builder.build();
+        IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
+    }
+
+    @Test
+    void shouldReturnIssuesWithModule1andWithoutCat1andCat3() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> moduleNames = new ArrayList<>();
+        moduleNames.add("module-5");
+
+        List<String> categories = new ArrayList<>();
+        categories.add("cat-1");
+        categories.add("cat-2");
+
+        builder.setModuleNames(moduleNames);
+        IssuesFilter excludeFilter = builder.build();
+        IssuesFilter includeFilter = new IssuesFilterBuilder().setCategories(categories).build();
+        Issues filteredIssues = original.filter(includeFilter, excludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
+
+    }
+    @Test
+    void shouldReturnIssuesWithFile1andFile3WithoutPackage1andPackage3() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> fileNames = new ArrayList<>();
+        fileNames.add("file-1");
+        fileNames.add("file-3");
+
+        List<String> packageNames = new ArrayList<>();
+        packageNames.add("package-1");
+        packageNames.add("package-3");
+
+        builder.setPackageNames(packageNames);
+        IssuesFilter excludeFilter = builder.build();
+        IssuesFilter includeFilter = new IssuesFilterBuilder().setFileNames(fileNames).build();
+
+        Issues filteredIssues = original.filter(includeFilter, excludeFilter);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_3, ISSUE_6);
+
+    }
+
+
+
+
 }
