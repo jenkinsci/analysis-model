@@ -415,151 +415,80 @@ public class Issues implements Iterable<Issue>, Serializable {
     }
 
 
-    /**Filter the issues by properties.
+    /**
+     * Filter the issues by properties.
      *
-     * @param includeFilter filter properties the issue must have (include)
-     * @param excludeFilter filter properties the issue must not have (exclude)
+     * @param includeFilter
+     *         filter properties the issue must have (include)
+     * @param excludeFilter
+     *         filter properties the issue must not have (exclude)
+     *
      * @return the filtered issues
      */
 
     public Issues filter(IssuesFilter includeFilter, IssuesFilter excludeFilter) {
         Issues filterFirst = filterInclude(includeFilter);
-        return filterFirst.filterExcluide(excludeFilter);
+        return filterFirst.filterExclude(excludeFilter);
     }
 
-    /**Filter the issues and remove all issues they match with the excludeFilter.
+
+
+    /**
+     * Filter the issues and remove all issues they match with the excludeFilter.
      *
-     * @param excludeFilter filter properties the issue must not have (exclude)
+     * @param excludeFilter
+     *         filter properties the issue must not have (exclude)
+     *
      * @return the filtered issues
      */
-
-    private Issues filterExcluide(IssuesFilter excludeFilter) {
+    private Issues filterExclude(IssuesFilter excludeFilter) {
         Issues fillterd = new Issues();
-        List<Issue> toFilterElments = new ArrayList<>(elements);
-        List<Issue> filteredList = new ArrayList<>();
 
-        for (int i = 0; i < excludeFilter.getCategories().size(); i++) {
-            String filter = excludeFilter.getCategories().get(i);
-
-            for (Issue toFilterElment : toFilterElments) {
-                String element = toFilterElment.getCategory();
-                if (!element.equals(filter)) {
-                    filteredList.add(toFilterElment);
-                }
-            }
-            toFilterElments = filteredList;
-            filteredList = new ArrayList<>();
-        }
-
-        for (int i = 0; i < excludeFilter.getFileNames().size(); i++) {
-            String filter = excludeFilter.getFileNames().get(i);
-
-            for (Issue toFilterElment : toFilterElments) {
-                String element = toFilterElment.getFileName();
-                if (!element.equals(filter)) {
-                    filteredList.add(toFilterElment);
-                }
-            }
-            toFilterElments = filteredList;
-            filteredList = new ArrayList<>();
-        }
-
-        for (int i = 0; i < excludeFilter.getTypes().size(); i++) {
-            String filter = excludeFilter.getTypes().get(i);
-
-            for (Issue toFilterElment : toFilterElments) {
-                String element = toFilterElment.getType();
-                if (!element.equals(filter)) {
-                    filteredList.add(toFilterElment);
-                }
-            }
-            toFilterElments = filteredList;
-            filteredList = new ArrayList<>();
-        }
-
-        for (int i = 0; i < excludeFilter.getPackageNames().size(); i++) {
-            String filter = excludeFilter.getPackageNames().get(i);
-
-            for (Issue toFilterElment : toFilterElments) {
-                String element = toFilterElment.getPackageName();
-                if (!element.equals(filter)) {
-                    filteredList.add(toFilterElment);
-                }
-            }
-            toFilterElments = filteredList;
-            filteredList = new ArrayList<>();
-        }
-
-        for (int i = 0; i < excludeFilter.getModuleNames().size(); i++) {
-            String filter = excludeFilter.getModuleNames().get(i);
-
-            for (Issue toFilterElment : toFilterElments) {
-                String element = toFilterElment.getModuleName();
-                if (!element.equals(filter)) {
-                    filteredList.add(toFilterElment);
-                }
-            }
-            toFilterElments = filteredList;
-            filteredList = new ArrayList<>();
-        }
-        fillterd.addAll(toFilterElments);
+        fillterd.addAll(elements
+                .parallelStream()
+                .filter(e -> !excludeFilter.getModuleNames().contains(e.getModuleName()))
+                .filter(e -> !excludeFilter.getPackageNames().contains(e.getPackageName()))
+                .filter(e -> !excludeFilter.getTypes().contains(e.getType()))
+                .filter(e -> !excludeFilter.getCategories().contains(e.getCategory()))
+                .filter(e -> !excludeFilter.getFileNames().contains(e.getFileName()))
+                .collect(toList()));
         return fillterd;
     }
 
-    /**Filter the issues and keep all issues they match with the includeFilter.
+
+
+    /**
+     * Filter the issues and keep all issues they match with the includeFilter.
      *
-     * @param includeFilter filter properties the issue must have (include)
+     * @param includeFilter
+     *         filter properties the issue must have (include)
+     *
      * @return the filtered issues
      */
 
-
     private Issues filterInclude(IssuesFilter includeFilter) {
         Issues fillterd = new Issues();
+
         boolean isfiltered = false;
         if (!includeFilter.getCategories().isEmpty()) {
             isfiltered = true;
-            fillterd.addAll(includeFilter.getCategories()
-                    .parallelStream()
-                    .flatMap(categorieFilter -> elements
-                            .parallelStream()
-                            .filter(i -> i.getCategory().equals(categorieFilter)))
-                    .collect(toList()));
+            fillterd.addAll(elements.parallelStream().filter(e-> includeFilter.getCategories().contains(e.getCategory())).collect(toList()));
         }
         else if (!includeFilter.getFileNames().isEmpty()) {
             isfiltered = true;
-            fillterd.addAll(includeFilter.getFileNames()
-                    .parallelStream()
-                    .flatMap(fileNameFilter -> elements
-                            .parallelStream()
-                            .filter(i -> i.getFileName().equals(fileNameFilter)))
-                    .collect(toList()));
+            fillterd.addAll(elements.parallelStream().filter(e-> includeFilter.getFileNames().contains(e.getFileName())).collect(toList()));
         }
         else if (!includeFilter.getTypes().isEmpty()) {
             isfiltered = true;
-            fillterd.addAll(includeFilter.getTypes()
-                    .parallelStream()
-                    .flatMap(typeFilter -> elements
-                            .parallelStream()
-                            .filter(i -> i.getType().equals(typeFilter)))
-                    .collect(toList()));
+            fillterd.addAll(elements.parallelStream().filter(e-> includeFilter.getTypes().contains(e.getType())).collect(toList()));
         }
         else if (!includeFilter.getPackageNames().isEmpty()) {
             isfiltered = true;
-            fillterd.addAll(includeFilter.getPackageNames()
-                    .parallelStream()
-                    .flatMap(packageNameFilter -> elements
-                            .parallelStream()
-                            .filter(i -> i.getPackageName().equals(packageNameFilter)))
-                    .collect(toList()));
+            fillterd.addAll(elements.parallelStream().filter(e-> includeFilter.getPackageNames().contains(e.getPackageName())).collect(toList()));
         }
         else if (!includeFilter.getModuleNames().isEmpty()) {
             isfiltered = true;
-            fillterd.addAll(includeFilter.getModuleNames()
-                    .parallelStream()
-                    .flatMap(moduleNameFilter -> elements
-                            .parallelStream()
-                            .filter(i -> i.getModuleName().equals(moduleNameFilter)))
-                    .collect(toList()));
+            fillterd.addAll(elements.parallelStream().filter(e-> includeFilter.getModuleNames().contains(e.getModuleName())).collect(toList()));
         }
         if (isfiltered) {
             return fillterd;
@@ -568,6 +497,7 @@ public class Issues implements Iterable<Issue>, Serializable {
             return this;
         }
     }
+
 
     public String getLogMessages() {
         return logMessages.toString();
