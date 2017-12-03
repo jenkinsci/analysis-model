@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import javax.annotation.CheckForNull;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,12 +40,24 @@ public abstract class AbstractParser implements Serializable {
 
     private transient Function<String, String> transformer = identity();
 
-    // FIXME: never use default encoding
-    public Issues<Issue> parse(final File file, final IssueBuilder builder) throws ParsingException {
-        return parse(file, Charset.defaultCharset(), builder);
-    }
-
-    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder) throws ParsingException {
+    /**
+     * Parses the specified file for issues.
+     *
+     * @param file
+     *         the file to parse
+     * @param charset
+     *         the encoding to use when reading files
+     * @param builder
+     *         the issue builder to use
+     *
+     * @return the parsed issues
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         Signals that the parsing has been aborted by the user
+     */
+    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder)
+            throws ParsingException, ParsingCanceledException {
         try (Reader input = createReader(new FileInputStream(file), charset)) {
             Issues<Issue> issues = parse(input, builder);
             issues.log("Successfully parsed '%s': found %d issues (tool ID = %s)",
@@ -58,8 +71,11 @@ public abstract class AbstractParser implements Serializable {
             }
             return issues;
         }
+        catch (FileNotFoundException exception) {
+            throw new ParsingException(exception, "Can't find file: " + file.getAbsolutePath());
+        }
         catch (IOException exception) {
-            throw new ParsingException(exception, "Can't scan file for warnings: " + file.getAbsolutePath());
+            throw new ParsingException(exception, "Can't scan file for issues: " + file.getAbsolutePath());
         }
     }
 
@@ -67,12 +83,8 @@ public abstract class AbstractParser implements Serializable {
         return new InputStreamReader(new BOMInputStream(inputStream), charset);
     }
 
-    public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
-        return parse(reader, new IssueBuilder());
-    }
-
     /**
-     * Parses the specified input stream for issues.
+     * Parses the specified input stream for issues. Uses the default {@link IssueBuilder} class to create issues.
      *
      * @param reader
      *         the reader to get the text from
@@ -83,7 +95,26 @@ public abstract class AbstractParser implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<Issue> parse(Reader reader, IssueBuilder builder) throws ParsingCanceledException, ParsingException;
+    public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
+        return parse(reader, new IssueBuilder());
+    }
+
+    /**
+     * Parses the specified input stream for issues.
+     *
+     * @param reader
+     *         the reader to get the text from
+     * @param builder
+     *         the issue builder to use
+     *
+     * @return the parsed issues
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         Signals that the parsing has been aborted by the user
+     */
+    public abstract Issues<Issue> parse(Reader reader, IssueBuilder builder)
+            throws ParsingCanceledException, ParsingException;
 
     /**
      * Converts a string line number to an integer value. If the string is not a valid line number, then 0 is returned
