@@ -12,11 +12,11 @@ import edu.hm.hafner.util.SerializableTest;
 import static org.assertj.core.api.Assertions.*;
 
 /**
- * Tests the class {@link LineRangeFingerprint}.
+ * Tests the class {@link FullTextFingerprint}.
  *
  * @author Ullrich Hafner
  */
-class LineRangeFingerprintTest extends SerializableTest {
+class FullTextFingerprintTest extends SerializableTest {
     private static final String NOT_EXISTING_FILE_NAME = "/does/not/exist";
 
     /**
@@ -27,7 +27,7 @@ class LineRangeFingerprintTest extends SerializableTest {
     void shouldExtractCorrectLines() {
         String affectedFile = new String(readResource("context.txt"));
 
-        LineRangeFingerprint fingerprint = new LineRangeFingerprint();
+        FullTextFingerprint fingerprint = new FullTextFingerprint();
 
         assertThat(fingerprint.extractContext(-1, asIterator(affectedFile)))
                 .as("Fingerprint for illegal line numbers should be empty").isEmpty();
@@ -62,7 +62,7 @@ class LineRangeFingerprintTest extends SerializableTest {
     void shouldAssignIdenticalFingerprints() {
         String affectedFile = new String(readResource("context.txt"));
 
-        LineRangeFingerprint code = new LineRangeFingerprint();
+        FullTextFingerprint code = new FullTextFingerprint();
 
         String fingerprint = code.createFingerprint(10, asStream(affectedFile));
 
@@ -78,7 +78,7 @@ class LineRangeFingerprintTest extends SerializableTest {
 
     @Test
     void shouldReturnFallbackOnError() {
-        LineRangeFingerprint fingerprint = new LineRangeFingerprint();
+        FullTextFingerprint fingerprint = new FullTextFingerprint();
 
         assertThat(fingerprint.compute(NOT_EXISTING_FILE_NAME, 1, Charset.defaultCharset()))
                 .isEqualTo(fingerprint.getFallbackFingerprint(NOT_EXISTING_FILE_NAME));

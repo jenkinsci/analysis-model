@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.LineRangeFingerprint.FileSystem;
+import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.util.SerializableTest;
 import static org.mockito.Mockito.*;

@@ -193,12 +193,13 @@ public class IssueTest extends SerializableTest {
         Issue issue = createFilledIssue();
 
         assertSoftly(softly -> {
-            softly.assertThat(issue.toString()).contains(FILE_NAME);
-            softly.assertThat(issue.toString()).contains(Integer.toString(LINE_START));
-            softly.assertThat(issue.toString()).contains(Integer.toString(COLUMN_START));
-            softly.assertThat(issue.toString()).contains(CATEGORY);
-            softly.assertThat(issue.toString()).contains(TYPE);
-            softly.assertThat(issue.toString()).contains(MESSAGE);
+            softly.assertThat(issue.toString())
+                    .contains(FILE_NAME)
+                    .contains(Integer.toString(LINE_START))
+                    .contains(Integer.toString(COLUMN_START))
+                    .contains(CATEGORY)
+                    .contains(TYPE)
+                    .contains(MESSAGE);
         });
     }
 

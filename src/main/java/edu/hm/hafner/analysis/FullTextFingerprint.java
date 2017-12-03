@@ -20,7 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
  *
  * @author Ulli Hafner
  */
-public class LineRangeFingerprint {
+public class FullTextFingerprint {
     /** Number of lines before and after current line to consider. */
     private static final int LINES_LOOK_AHEAD = 3;
     private static final int LINE_RANGE_BUFFER_SIZE = 1000;
@@ -29,14 +29,14 @@ public class LineRangeFingerprint {
     private final FileSystem fileSystem;
 
     /**
-     * Creates a new instance of {@link LineRangeFingerprint}.
+     * Creates a new instance of {@link FullTextFingerprint}.
      */
-    public LineRangeFingerprint() {
+    public FullTextFingerprint() {
         this(new FileSystem());
     }
 
     @VisibleForTesting
-    LineRangeFingerprint(FileSystem fileSystem) {
+    FullTextFingerprint(FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         try {
             digest = MessageDigest.getInstance("MD5");

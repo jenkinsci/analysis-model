@@ -49,6 +49,13 @@ public abstract class AbstractParser implements Serializable {
             Issues<Issue> issues = parse(input, builder);
             issues.log("Successfully parsed '%s': found %d issues (tool ID = %s)",
                     file.getAbsolutePath(), issues.getSize(), builder.origin);
+            if (issues.getDuplicatesSize() == 1) {
+                issues.log("Note: one issue has been dropped since it is a duplicate");
+            }
+            else if (issues.getDuplicatesSize() > 1) {
+                issues.log("Note: %d issues have been dropped since they are duplicates",
+                        issues.getDuplicatesSize());
+            }
             return issues;
         }
         catch (IOException exception) {
@@ -59,49 +66,6 @@ public abstract class AbstractParser implements Serializable {
     private Reader createReader(final InputStream inputStream, final Charset charset) {
         return new InputStreamReader(new BOMInputStream(inputStream), charset);
     }
-
-//    /**
-//     * Creates a hash code from the source code of the warning line and the
-//     * surrounding context. If the source file could not be read then the hashcode is computed from the filename and line.
-//     *
-//     * @param fileName
-//     *            the absolute path of the file to read
-//     * @param line
-//     *            the line of the warning
-//     * @param warningType
-//     *            the type of the warning
-//     * @return a hashcode of the source code
-//     */
-//    protected int createContextHashCode(final String fileName, final int line, final String warningType) {
-//        HashCodeBuilder builder = new HashCodeBuilder();
-//        builder.append(new ContextHashCode().compute(fileName, line, defaultEncoding));
-//        builder.append(warningType);
-//        return builder.toHashCode();
-//    }
-
-//
-//    /**
-//     * Finds a file with relative filename and replaces the name with the absolute path.
-//     *
-//     * @param annotation the annotation
-//     */
-//    // TODO: when used on a slave then for each file a remote call is initiated
-//    private void expandRelativePaths(final FileAnnotation annotation) {
-//        try {
-//            if (hasRelativeFileName(annotation)) {
-//                Workspace remoteFile = workspace.child(annotation.getFileName());
-//                if (remoteFile.exists()) {
-//                    annotation.setFileName(remoteFile.getPath());
-//                }
-//                else if (canResolveRelativePaths) {
-//                    findFileByScanningAllWorkspaceFiles(annotation);
-//                }
-//            }
-//        }
-//        catch (IOException | InterruptedException exception) {
-//            // ignore
-//        }
-//    }
 
     public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
         return parse(reader, new IssueBuilder());

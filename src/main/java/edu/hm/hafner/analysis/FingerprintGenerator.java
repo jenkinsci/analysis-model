@@ -4,7 +4,7 @@ import java.nio.charset.Charset;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import edu.hm.hafner.analysis.LineRangeFingerprint.FileSystem;
+import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
 
 /**
  * Creates a fingerprint of an issue. A fingerprint is a digest of the affected source code of an issue. Using this
@@ -13,18 +13,18 @@ import edu.hm.hafner.analysis.LineRangeFingerprint.FileSystem;
  * @author Ullrich Hafner
  */
 public class FingerprintGenerator {
-    private final LineRangeFingerprint fingerprint;
+    private final FullTextFingerprint fingerprint;
 
     /**
      * Creates a new instance of {@link FingerprintGenerator}.
      */
     public FingerprintGenerator() {
-        fingerprint = new LineRangeFingerprint();
+        fingerprint = new FullTextFingerprint();
     }
 
     @VisibleForTesting
     FingerprintGenerator(final FileSystem fileSystem) {
-        fingerprint = new LineRangeFingerprint(fileSystem);
+        fingerprint = new FullTextFingerprint(fileSystem);
     }
 
     public Issues<Issue> run(final Issues<Issue> issues, final IssueBuilder builder, final Charset charset) {
