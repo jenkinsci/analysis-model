@@ -309,6 +309,7 @@ class IssuesTest {
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
+        assertThat(filteredIssues.size()).isEqualTo(6);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
     }
 
@@ -325,6 +326,7 @@ class IssuesTest {
         IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = builder.build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+        assertThat(filteredIssues.size()).isEqualTo(0);
         assertThat(filteredIssues.all()).containsExactly();
     }
 
@@ -346,6 +348,8 @@ class IssuesTest {
         IssuesFilter includeFilter = includeBuilder.build();
         IssuesFilter emptyExcludeFilter = excludeBuilder.build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(0);
         assertThat(filteredIssues.all()).containsExactly();
     }
 
@@ -361,6 +365,8 @@ class IssuesTest {
         IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(3);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
     }
 
@@ -376,6 +382,8 @@ class IssuesTest {
         IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(3);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5, ISSUE_6);
     }
 
@@ -390,8 +398,50 @@ class IssuesTest {
         IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(1);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
     }
+
+    @Test
+    void shouldOnlyReturnOnlyIssueWithType3andFilename2() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        List<String> filenames = new ArrayList<>();
+        types.add("type-3");
+        filenames.add("file-2");
+        builder.setTypes(types);
+        builder.setFileNames(filenames);
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(3);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5, ISSUE_6);
+    }
+
+    @Test
+    void shouldOnlyReturnOnlyIssueWithType3andFilename2andFilename3() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        List<String> filenames = new ArrayList<>();
+        types.add("type-3");
+        filenames.add("file-2");
+        filenames.add("file-3");
+        builder.setTypes(types);
+        builder.setFileNames(filenames);
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(3);
+        assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5, ISSUE_6);
+    }
+
 
     @Test
     void shouldOnlyReturnOnlyIssueWithPackageName1() {
@@ -404,6 +454,8 @@ class IssuesTest {
         IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(2);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2);
     }
 
@@ -418,6 +470,8 @@ class IssuesTest {
         IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(2);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5);
     }
 
@@ -433,6 +487,8 @@ class IssuesTest {
         IssuesFilter excludeFilter = builder.build();
         IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(1);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
     }
 
@@ -448,6 +504,8 @@ class IssuesTest {
         IssuesFilter excludeFilter = builder.build();
         IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(1);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
     }
 
@@ -463,6 +521,7 @@ class IssuesTest {
         IssuesFilter excludeFilter = builder.build();
         IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+
         assertThat(filteredIssues.size()).isEqualTo(4);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_2, ISSUE_3, ISSUE_5, ISSUE_6);
     }
@@ -480,6 +539,7 @@ class IssuesTest {
         IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
 
+        assertThat(filteredIssues.size()).isEqualTo(4);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
     }
 
@@ -495,6 +555,8 @@ class IssuesTest {
         IssuesFilter excludeFilter = builder.build();
         IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(3);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
     }
 
@@ -514,6 +576,8 @@ class IssuesTest {
         IssuesFilter excludeFilter = builder.build();
         IssuesFilter includeFilter = new IssuesFilterBuilder().setCategories(categories).build();
         Issues filteredIssues = original.filter(includeFilter, excludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(3);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
 
     }
@@ -535,6 +599,7 @@ class IssuesTest {
         IssuesFilter includeFilter = new IssuesFilterBuilder().setFileNames(fileNames).build();
 
         Issues filteredIssues = original.filter(includeFilter, excludeFilter);
+        assertThat(filteredIssues.size()).isEqualTo(2);
         assertThat(filteredIssues.all()).containsExactly(ISSUE_3, ISSUE_6);
 
     }
