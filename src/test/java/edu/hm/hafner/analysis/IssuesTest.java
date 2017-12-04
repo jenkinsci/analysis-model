@@ -310,7 +310,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(6);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
     }
 
     @Test
@@ -327,7 +327,7 @@ class IssuesTest {
         IssuesFilter emptyExcludeFilter = builder.build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
         assertThat(filteredIssues.size()).isEqualTo(0);
-        assertThat(filteredIssues.all()).containsExactly();
+        assertThat(filteredIssues.all()).contains();
     }
 
     @Test
@@ -342,15 +342,162 @@ class IssuesTest {
         excludeBuilder.setCategories(categories);
 
         IssuesFilterBuilder includeBuilder = new IssuesFilterBuilder();
-        fileNames.add("cat-1");
-        includeBuilder.setCategories(categories);
+        fileNames.add("file-1");
+        includeBuilder.setFileNames(fileNames);
 
         IssuesFilter includeFilter = includeBuilder.build();
         IssuesFilter emptyExcludeFilter = excludeBuilder.build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(0);
-        assertThat(filteredIssues.all()).containsExactly();
+        assertThat(filteredIssues.all()).contains();
+    }
+
+    @Test
+    void shouldNotReturnDoubleIssuesWhenYouIncludeTheSameIssueOverTwoDifferentWays() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        List<String> filenames = new ArrayList<>();
+
+        types.add("type-3");
+        filenames.add("file-2");
+        filenames.add("file-3");
+
+        builder.setTypes(types);
+        builder.setFileNames(filenames);
+        IssuesFilter includeFilter = builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(3);
+        assertThat(filteredIssues.all()).contains(ISSUE_4, ISSUE_5, ISSUE_6);
+    }
+
+    @Test
+    void shouldReturnAllIssuesWhenExcludeFilterIsNotEmptyButDoNotMatchAnyIssue() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        List<String> filenames = new ArrayList<>();
+        List<String> packageNames = new ArrayList<>();
+        List<String> moduleNames = new ArrayList<>();
+        List<String> categories = new ArrayList<>();
+
+        types.add("Do-not-match");
+        filenames.add("Do-not-match");
+        packageNames.add("Do-not-match");
+        moduleNames.add("Do-not-match");
+        categories.add("Do-not-match");
+
+        builder.setTypes(types);
+        builder.setFileNames(filenames);
+        builder.setCategories(categories);
+        builder.setModuleNames(moduleNames);
+        builder.setPackageNames(packageNames);
+
+        IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
+        IssuesFilter excludeFilter = builder.build();
+        Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(6);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+    }
+
+    @Test
+    void shouldReturnNoIssuesWhenIncludeFilterIsNotEmptyButDoNotMatchAnyIssue() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        List<String> filenames = new ArrayList<>();
+        List<String> packageNames = new ArrayList<>();
+        List<String> moduleNames = new ArrayList<>();
+        List<String> categories = new ArrayList<>();
+
+        types.add("Do-not-match");
+        filenames.add("Do-not-match");
+        packageNames.add("Do-not-match");
+        moduleNames.add("Do-not-match");
+        categories.add("Do-not-match");
+
+        builder.setTypes(types);
+        builder.setFileNames(filenames);
+        builder.setCategories(categories);
+        builder.setModuleNames(moduleNames);
+        builder.setPackageNames(packageNames);
+
+        IssuesFilter includeFilter =  builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(0);
+        assertThat(filteredIssues.all()).contains();
+    }
+
+    @Test
+    void shouldReturnNoIssuesWhenExcludeAllIssuesOverDifferentWays() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        List<String> filenames = new ArrayList<>();
+        List<String> packageNames = new ArrayList<>();
+        List<String> moduleNames = new ArrayList<>();
+        List<String> categories = new ArrayList<>();
+
+        types.add("type-3");
+        filenames.add("file-1");
+        packageNames.add("package-2");
+        moduleNames.add("module-5");
+        categories.add("cat-2");
+
+        builder.setTypes(types);
+        builder.setFileNames(filenames);
+        builder.setCategories(categories);
+        builder.setModuleNames(moduleNames);
+        builder.setPackageNames(packageNames);
+
+        IssuesFilter emptyIncludeFilter = new IssuesFilterBuilder().build();
+        IssuesFilter excludeFilter = builder.build();
+        Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(0);
+        assertThat(filteredIssues.all()).contains();
+    }
+
+    @Test
+    void shouldReturnAllIssuesWhenIncludeAllIssuesOverDifferentWays() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+        List<String> filenames = new ArrayList<>();
+        List<String> packageNames = new ArrayList<>();
+        List<String> moduleNames = new ArrayList<>();
+        List<String> categories = new ArrayList<>();
+
+        types.add("type-3");
+        filenames.add("file-1");
+        packageNames.add("package-2");
+        moduleNames.add("module-5");
+        categories.add("cat-2");
+
+
+        builder.setTypes(types);
+        builder.setFileNames(filenames);
+        builder.setCategories(categories);
+        builder.setModuleNames(moduleNames);
+        builder.setPackageNames(packageNames);
+
+        IssuesFilter includeFilter =  builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(6);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
     }
 
 
@@ -367,7 +514,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(3);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
     }
 
     @Test
@@ -384,7 +531,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(3);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5, ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_4, ISSUE_5, ISSUE_6);
     }
 
     @Test
@@ -400,7 +547,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(1);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_6);
     }
 
     @Test
@@ -419,29 +566,8 @@ class IssuesTest {
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(3);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5, ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_4, ISSUE_5, ISSUE_6);
     }
-
-    @Test
-    void shouldOnlyReturnOnlyIssueWithType3andFilename2andFilename3() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
-        IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
-        List<String> filenames = new ArrayList<>();
-        types.add("type-3");
-        filenames.add("file-2");
-        filenames.add("file-3");
-        builder.setTypes(types);
-        builder.setFileNames(filenames);
-        IssuesFilter includeFilter = builder.build();
-        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
-        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
-
-        assertThat(filteredIssues.size()).isEqualTo(3);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5, ISSUE_6);
-    }
-
 
     @Test
     void shouldOnlyReturnOnlyIssueWithPackageName1() {
@@ -456,7 +582,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(2);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2);
     }
 
     @Test
@@ -472,7 +598,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(2);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_4, ISSUE_5);
+        assertThat(filteredIssues.all()).contains(ISSUE_4, ISSUE_5);
     }
 
     @Test
@@ -489,7 +615,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(1);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_6);
     }
 
     @Test
@@ -506,7 +632,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(1);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_6);
     }
 
     @Test
@@ -523,7 +649,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(4);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_2, ISSUE_3, ISSUE_5, ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_2, ISSUE_3, ISSUE_5, ISSUE_6);
     }
 
     @Test
@@ -540,7 +666,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(4);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
     }
 
     @Test
@@ -557,7 +683,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(3);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
     }
 
     @Test
@@ -578,7 +704,7 @@ class IssuesTest {
         Issues filteredIssues = original.filter(includeFilter, excludeFilter);
 
         assertThat(filteredIssues.size()).isEqualTo(3);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
 
     }
     @Test
@@ -600,7 +726,7 @@ class IssuesTest {
 
         Issues filteredIssues = original.filter(includeFilter, excludeFilter);
         assertThat(filteredIssues.size()).isEqualTo(2);
-        assertThat(filteredIssues.all()).containsExactly(ISSUE_3, ISSUE_6);
+        assertThat(filteredIssues.all()).contains(ISSUE_3, ISSUE_6);
 
     }
 

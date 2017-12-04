@@ -441,9 +441,9 @@ public class Issues implements Iterable<Issue>, Serializable {
      * @return the filtered issues
      */
     private Issues filterExclude(IssuesFilter excludeFilter) {
-        Issues fillterd = new Issues();
+        Issues filtered = new Issues();
 
-        fillterd.addAll(elements
+        filtered.addAll(elements
                 .parallelStream()
                 .filter(e -> !excludeFilter.getModuleNames().contains(e.getModuleName()))
                 .filter(e -> !excludeFilter.getPackageNames().contains(e.getPackageName()))
@@ -451,7 +451,8 @@ public class Issues implements Iterable<Issue>, Serializable {
                 .filter(e -> !excludeFilter.getCategories().contains(e.getCategory()))
                 .filter(e -> !excludeFilter.getFileNames().contains(e.getFileName()))
                 .collect(toList()));
-        return fillterd;
+
+        return filtered;
     }
 
 
@@ -465,34 +466,33 @@ public class Issues implements Iterable<Issue>, Serializable {
      */
 
     private Issues filterInclude(IssuesFilter includeFilter) {
-        Issues fillterd = new Issues();
+        Issues filtered = new Issues();
 
-        boolean isfiltered = false;
+        boolean isFiltered = false;
         if (!includeFilter.getCategories().isEmpty()) {
-            isfiltered = true;
-            fillterd.addAll(elements.parallelStream().filter(e -> includeFilter.getCategories().contains(e.getCategory())).collect(toList()));
+            isFiltered = true;
+            filtered.addAll(elements.parallelStream().filter(e -> includeFilter.getCategories().contains(e.getCategory())).collect(toList()));
         }
         if (!includeFilter.getFileNames().isEmpty()) {
-            isfiltered = true;
-            fillterd.addAll(elements.parallelStream().filter(e -> includeFilter.getFileNames().contains(e.getFileName())).collect(toList()));
+            isFiltered = true;
+            filtered.addAll(elements.parallelStream().filter(e -> includeFilter.getFileNames().contains(e.getFileName())).collect(toList()));
         }
         if (!includeFilter.getTypes().isEmpty()) {
-            isfiltered = true;
-            fillterd.addAll(elements.parallelStream().filter(e -> includeFilter.getTypes().contains(e.getType())).collect(toList()));
+            isFiltered = true;
+            filtered.addAll(elements.parallelStream().filter(e -> includeFilter.getTypes().contains(e.getType())).collect(toList()));
         }
         if (!includeFilter.getPackageNames().isEmpty()) {
-            isfiltered = true;
-            fillterd.addAll(elements.parallelStream().filter(e -> includeFilter.getPackageNames().contains(e.getPackageName())).collect(toList()));
+            isFiltered = true;
+            filtered.addAll(elements.parallelStream().filter(e -> includeFilter.getPackageNames().contains(e.getPackageName())).collect(toList()));
         }
         if (!includeFilter.getModuleNames().isEmpty()) {
-            isfiltered = true;
-            fillterd.addAll(elements.parallelStream().filter(e -> includeFilter.getModuleNames().contains(e.getModuleName())).collect(toList()));
+            isFiltered = true;
+            filtered.addAll(elements.parallelStream().filter(e -> includeFilter.getModuleNames().contains(e.getModuleName())).collect(toList()));
         }
-        if (isfiltered) {
-            Issues desticedFilteredIssue = new Issues();
-            desticedFilteredIssue.addAll(fillterd.elements.parallelStream().distinct().collect(toList()));
-
-            return desticedFilteredIssue;
+        if (isFiltered) {
+            Issues distinctFilteredIssue = new Issues();
+            distinctFilteredIssue.addAll(filtered.elements.parallelStream().distinct().collect(toList()));
+            return distinctFilteredIssue;
         }
         else {
             return this;
