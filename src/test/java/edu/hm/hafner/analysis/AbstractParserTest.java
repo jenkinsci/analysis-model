@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser;
+package edu.hm.hafner.analysis;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,11 +13,9 @@ import java.io.UnsupportedEncodingException;
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.parser.ParserTester;
 import edu.hm.hafner.util.Ensure;
 import static org.assertj.core.api.Assertions.*;
 

@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.ConsolePostProcessor;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -88,28 +87,6 @@ class EclipseParserTest extends AbstractEclipseParserTest {
         Issues<Issue> warnings = createParser().parse(openFile("issue12822.txt"));
 
         assertThat(warnings).hasSize(15);
-    }
-
-    /**
-     * Parses a warning log with console annotations which are removed.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-11675">Issue 11675</a>
-     */
-    @Test
-    void issue11675() {
-        EclipseParser parser = new EclipseParser();
-        parser.setTransformer(new ConsolePostProcessor());
-        Issues<Issue> warnings = parser.parse(openFile("issue11675.txt"));
-
-        assertThat(warnings).hasSize(8);
-
-        for (Issue annotation : warnings) {
-            assertThatMessageContainsWord(annotation);
-        }
-    }
-
-    private void assertThatMessageContainsWord(final Issue annotation) {
-        assertThat(annotation.getMessage()).matches("[a-zA-Z].*");
     }
 
     /**
