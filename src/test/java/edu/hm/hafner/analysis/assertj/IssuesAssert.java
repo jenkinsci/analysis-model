@@ -1,7 +1,10 @@
 package edu.hm.hafner.analysis.assertj;
 
+import java.util.Arrays;
+
 import org.assertj.core.api.AbstractAssert;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 
 /**
@@ -97,6 +100,24 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         if (actual.getLowPrioritySize() != lowPrioritySize) {
             failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "low priority size", lowPrioritySize, actual.getLowPrioritySize());
         }
+        return this;
+    }
+
+    /**
+     * Verifies that the actual Issues contains exactly all of the issues specified. The order of
+     * the elements is not tested.
+     *
+     * @param issues the issues that have to be in the actual Issues
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} contains more, less or different items to the given ones.
+     */
+    public IssuesAssert containsExactly(final Issue... issues) {
+        isNotNull();
+
+        if (actual.size() != issues.length || !actual.all().containsAll(Arrays.asList(issues))) {
+            failWithMessage("Issues contained more, less or different issues than expected.");
+        }
+
         return this;
     }
 }
