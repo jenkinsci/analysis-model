@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -64,7 +64,7 @@ public class IssueFilterTest {
     private static final Issues ISSUES = new Issues(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5));
 
     @Test
-    public void emptyListWithEmptyFiltersShouldRemainEmpty() {
+    void emptyListWithEmptyFiltersShouldRemainEmpty() {
         final IssueFilter issueFilter = new IssueFilter();
 
         assertThat(issueFilter.applyFilters(new Issues()))
@@ -73,7 +73,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void emptyListWhenFiltersSetShouldRemainEmpty() {
+    void emptyListWhenFiltersSetShouldRemainEmpty() {
         final IssueFilter issueFilter =
                 new IssueFilter()
                         .addIncludedFiles(match(1, 3))
@@ -85,7 +85,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void issuesShouldRemainEqualWhenNoFiltersSet() {
+    void issuesShouldRemainEqualWhenNoFiltersSet() {
         final IssueFilter issueFilter = new IssueFilter();
 
         assertThat(issueFilter.applyFilters(ISSUES))
@@ -94,7 +94,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void noIssuesShouldBeFilteredWhenNoFiltersMatch() {
+    void noIssuesShouldBeFilteredWhenNoFiltersMatch() {
         final IssueFilter issueFilter =
                 new IssueFilter()
                         .addExcludedFiles(match(-7, 0, 200))
@@ -111,7 +111,7 @@ public class IssueFilterTest {
      * Adding broken regex to the filter have no effect on the result.
      */
     @Test
-    public void brokenRegexShouldNotBeConsidered() {
+    void brokenRegexShouldNotBeConsidered() {
         final IssueFilter issueFilter =
                 new IssueFilter()
                         .addIncludedFiles(asList("*__*"))
@@ -142,7 +142,7 @@ public class IssueFilterTest {
      * Excluded files should not appear in the result even when they were included by a filter.
      */
     @Test
-    public void includedFilesShouldBeExcludable() {
+    void includedFilesShouldBeExcludable() {
         final IssueFilter issueFilter =
                 new IssueFilter()
                         .addIncludedFiles(match(2, 4, 5, Integer.MAX_VALUE))
@@ -154,7 +154,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void onlyIncludedFilesShouldBeIncluded() {
+    void onlyIncludedFilesShouldBeIncluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addIncludedFiles(match(1, 3, Integer.MAX_VALUE));
 
@@ -163,7 +163,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void excludedFilesShouldBeExcluded() {
+    void excludedFilesShouldBeExcluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addExcludedFiles(match(1, 3, Integer.MAX_VALUE));
 
@@ -172,7 +172,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void onlyIncludedPackagesShouldBeIncluded() {
+    void onlyIncludedPackagesShouldBeIncluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addIncludedPackages(match(1, 3, Integer.MAX_VALUE));
 
@@ -181,7 +181,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void excludedPackagesShouldBeExcluded() {
+    void excludedPackagesShouldBeExcluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addExcludedPackages(match(1, 3, Integer.MAX_VALUE));
 
@@ -190,7 +190,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void onlyIncludedModulesShouldBeIncluded() {
+    void onlyIncludedModulesShouldBeIncluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addIncludedModules(match(1, 3, Integer.MAX_VALUE));
 
@@ -199,7 +199,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void excludedModulesShouldBeExcluded() {
+    void excludedModulesShouldBeExcluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addExcludedModules(match(1, 3, Integer.MAX_VALUE));
 
@@ -208,7 +208,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void onlyIncludedCategoriesShouldBeIncluded() {
+    void onlyIncludedCategoriesShouldBeIncluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addIncludedCategories(match(1, 3, Integer.MAX_VALUE));
 
@@ -217,7 +217,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void excludedCategoriesShouldBeExcluded() {
+    void excludedCategoriesShouldBeExcluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addExcludedCategories(match(1, 3, Integer.MAX_VALUE));
 
@@ -226,7 +226,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void onlyIncludedTypesShouldBeIncluded() {
+    void onlyIncludedTypesShouldBeIncluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addIncludedTypes(match(1, 3, Integer.MAX_VALUE));
 
@@ -235,7 +235,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void excludedTypesShouldBeExcluded() {
+    void excludedTypesShouldBeExcluded() {
         final IssueFilter issueFilter =
                 new IssueFilter().addExcludedTypes(match(1, 3, Integer.MAX_VALUE));
 
@@ -244,7 +244,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void mixingFiltersShouldReturnCorrectResult() {
+    void mixingFiltersShouldReturnCorrectResult() {
         final IssueFilter issueFilter = new IssueFilter();
         final Issues issues = issuesGenerator(100);
 
@@ -280,7 +280,7 @@ public class IssueFilterTest {
      * When an issue matches multiple include-filters it should still only be added once.
      */
     @Test
-    public void multipleIncludesShouldNotIncludeSameIssueMultipleTimes() {
+    void multipleIncludesShouldNotIncludeSameIssueMultipleTimes() {
         List<String> sameIssues = match(1, 2, 3);
         final IssueFilter issueFilter = new IssueFilter()
                 .addIncludedFiles(sameIssues)
@@ -295,7 +295,7 @@ public class IssueFilterTest {
     }
 
     @Test
-    public void multipleIncludesShouldAccumulate() {
+    void multipleIncludesShouldAccumulate() {
         final IssueFilter issueFilter = new IssueFilter();
         final Issues issues = issuesGenerator(100);
         int[] two = IntStream.range(0, 100).map(i -> i + i).toArray();
