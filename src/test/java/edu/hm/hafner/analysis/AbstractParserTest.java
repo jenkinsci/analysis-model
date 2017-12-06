@@ -66,6 +66,18 @@ public abstract class AbstractParserTest {
     }
 
     /**
+     * Parses the specified file and returns the found issues.
+     *
+     * @param fileName
+     *         the file to parse
+     *
+     * @return the found issues
+     */
+    protected Issues<Issue> parse(final String fileName) {
+        return createParser().parse(openFile(fileName));
+    }
+
+    /**
      * Verifies that the provided default file has been parsed correctly. I.e., a concrete test case needs to verify
      * that the number of issues is correct and that each issue contains the correct properties.
      *

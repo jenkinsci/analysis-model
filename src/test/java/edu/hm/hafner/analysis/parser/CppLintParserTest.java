@@ -28,7 +28,7 @@ class CppLintParserTest extends AbstractParserTest {
      */
     @Test
     void issue18290() {
-        Issues<Issue> warnings = new CppLintParser().parse(openFile("issue18290.txt"));
+        Issues<Issue> warnings = parse("issue18290.txt");
 
         assertThat(warnings).hasSize(2);
 
