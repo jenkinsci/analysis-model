@@ -37,6 +37,118 @@ public class Issues implements Iterable<Issue>, Serializable {
     private String moduleName;
 
     /**
+     * Method to filter for issues.
+     *
+     * @param issueFilterInclude
+     *         include filter
+     * @param issueFilterExclude
+     *         exclude filter
+     *
+     * @return filtered issues
+     */
+    public Issues includedExcludedFilterForIssues(final IssueFilter issueFilterInclude, final IssueFilter issueFilterExclude) {
+        Issues tmpIssuesIncludedFiltered = getIncludedFilteredIssues(issueFilterInclude);
+        return getExcludedFilteredIssues(issueFilterExclude, tmpIssuesIncludedFiltered);
+    }
+
+    /**
+     * Method to filter all included issues.
+     *
+     * @param issueFilterInclude
+     *         issues to include
+     *
+     * @return filtered issues
+     */
+    private Issues getIncludedFilteredIssues(final IssueFilter issueFilterInclude) {
+        Issues tmpIssues = new Issues();
+        boolean issueFilteredInclude = false;
+
+        for (Issue issue : this) {
+            if (issueFilterInclude.getFileNames().contains(issue.getFileName())) {
+                issueFilteredInclude = true;
+                tmpIssues.add(issue);
+            }
+            if (issueFilterInclude.getPackageNames().contains(issue.getPackageName())) {
+                issueFilteredInclude = true;
+                tmpIssues.add(issue);
+            }
+            if (issueFilterInclude.getModuleNames().contains(issue.getModuleName())) {
+                issueFilteredInclude = true;
+                tmpIssues.add(issue);
+            }
+            if (issueFilterInclude.getCategories().contains(issue.getCategory())) {
+                issueFilteredInclude = true;
+                tmpIssues.add(issue);
+            }
+            if (issueFilterInclude.getTypes().contains(issue.getType())) {
+                issueFilteredInclude = true;
+                tmpIssues.add(issue);
+            }
+        }
+
+        /**
+         * There is no filter applied.
+         */
+        if (!issueFilteredInclude) {
+            tmpIssues = this;
+        }
+        return tmpIssues;
+    }
+
+    /**
+     * Method to filter all excluded issues.
+     *
+     * @param issueFilterExclude
+     *         issues to exclude
+     * @param tmpIssues
+     *         already include filtered issues
+     *
+     * @return filtered issues
+     */
+    private Issues getExcludedFilteredIssues(final IssueFilter issueFilterExclude, final Issues tmpIssues) {
+        boolean issueFilteredExclude = false;
+
+        ArrayList<Issue> issuesToExclude = new ArrayList<>();
+        for (Issue issue : tmpIssues) {
+            issuesToExclude.add(issue);
+        }
+
+        Iterator<Issue> issueIterator = issuesToExclude.iterator();
+
+        while (issueIterator.hasNext()) {
+            Issue issue = issueIterator.next();
+
+            if (issueFilterExclude.getFileNames().contains(issue.getFileName())) {
+                issueFilteredExclude = true;
+                issueIterator.remove();
+            }
+            if (issueFilterExclude.getPackageNames().contains(issue.getPackageName())) {
+                issueFilteredExclude = true;
+                issueIterator.remove();
+            }
+            if (issueFilterExclude.getModuleNames().contains(issue.getModuleName())) {
+                issueFilteredExclude = true;
+                issueIterator.remove();
+            }
+            if (issueFilterExclude.getCategories().contains(issue.getCategory())) {
+                issueFilteredExclude = true;
+                issueIterator.remove();
+            }
+            if (issueFilterExclude.getTypes().contains(issue.getType())) {
+                issueFilteredExclude = true;
+                issueIterator.remove();
+            }
+        }
+
+        if (issueFilteredExclude) {
+            return new Issues(addAll(issuesToExclude));
+        }
+        else {
+            return tmpIssues;
+        }
+    }
+
+    /**
      * Returns a new issues container. Appends all of the issues in the specified array to the end of this container.
      * The order of the issues in the individual containers is preserved.
      *
