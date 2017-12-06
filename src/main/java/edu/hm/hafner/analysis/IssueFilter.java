@@ -76,9 +76,11 @@ public class IssueFilter {
             issuesToFilter.all().stream().filter(this::isIncludedByType).forEach(includes::add);
         }
 
-        Set<Issue> excludes = new HashSet<>();
-        includes.stream().filter(this::isExcluded).forEach(excludes::add);
-        includes.removeAll(excludes);
+        if (hasExcludeFilters()) {
+            Set<Issue> excludes = new HashSet<>();
+            includes.stream().filter(this::isExcluded).forEach(excludes::add);
+            includes.removeAll(excludes);
+        }
 
         return new Issues(includes);
     }
