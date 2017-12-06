@@ -25,6 +25,7 @@ class IssuesFilterBuilderTest {
         assertThat(filter.getModuleNames().isEmpty()).as("Modules are not empty").isEqualTo(true);
         assertThat(filter.getPackageNames().isEmpty()).as("Packages are not empty").isEqualTo(true);
         assertThat(filter.getTypes().isEmpty()).as("Types are not empty").isEqualTo(true);
+        assertThat(filter.isEmpty()).as("A Empty Filter must be empty").isEqualTo(true);
 
     }
 
@@ -58,6 +59,7 @@ class IssuesFilterBuilderTest {
         assertThat(filter.getModuleNames()).as("Modules are not equal to the input value").isEqualTo(moduleNames);
         assertThat(filter.getPackageNames()).as("Packages are not equal to the input value").isEqualTo(packageNames);
         assertThat(filter.getTypes()).as("Types are not equal to the input value").isEqualTo(types);
+        assertThat(filter.isEmpty()).as("The Filter is not empty").isEqualTo(false);
 
 
     }

@@ -5,7 +5,6 @@ import java.util.List;
 
 /** Builder class for the {@link IssuesFilter}.
  *
- *
  * @author Johannes Arzt
  */
 
@@ -50,7 +49,6 @@ public class IssuesFilterBuilder {
         this.types = types;
         return this;
     }
-
 
 
     public IssuesFilter build() {
