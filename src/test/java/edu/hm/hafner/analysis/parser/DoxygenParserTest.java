@@ -3,13 +3,13 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link DoxygenParser}.
@@ -152,7 +152,7 @@ public class DoxygenParserTest extends ParserTester {
      * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6882582">JDK Bug 6882582</a>
      */
     @Test
-    @Disabled("FIXME: Check with Java 8")
+    @Ignore("FIXME: Check with Java 8")
     public void issue7178() throws IOException {
         Issues warnings = new DoxygenParser().parse(openFile("issue7178.txt"));
 

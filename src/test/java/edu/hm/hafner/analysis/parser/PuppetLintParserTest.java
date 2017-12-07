@@ -3,13 +3,13 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link PuppetLintParser}.
@@ -72,7 +72,7 @@ public class PuppetLintParserTest extends ParserTester {
     // CHECKSTYLE:OFF
     private void checkLintWarning(final Issue annotation, final int lineNumber, final String message, final String fileName, final String type, final String category, final Priority priority, final String packageName) {
         checkWarning(annotation, lineNumber, message, fileName, type, category, priority);
-        assertEquals(packageName, annotation.getPackageName(), "Wrong packageName detected.");
+        assertEquals("Wrong packageName detected.", packageName, annotation.getPackageName());
     }
     // CHECKSTYLE:ON
 

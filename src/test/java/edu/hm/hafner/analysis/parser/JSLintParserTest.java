@@ -3,14 +3,14 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link JSLintParser}.
@@ -61,6 +61,7 @@ public class JSLintParserTest extends ParserTester {
         assertEquals("Wrong file found: ", expectedName, sortedFiles.get(position).getName());
     }
 */
+
     /**
      * Tests the JS-Lint parsing for warnings in a single file.
      *

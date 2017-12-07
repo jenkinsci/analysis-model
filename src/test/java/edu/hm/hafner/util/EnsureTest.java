@@ -1,6 +1,6 @@
 package edu.hm.hafner.util;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;

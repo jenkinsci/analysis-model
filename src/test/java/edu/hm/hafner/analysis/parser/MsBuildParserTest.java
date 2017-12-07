@@ -5,12 +5,12 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link MsBuildParser}.
@@ -190,7 +190,7 @@ public class MsBuildParserTest extends ParserTester {
 
         assertEquals(1, warnings.size());
         Issue annotation = warnings.iterator().next();
-        assertEquals("TestLib.lib", annotation.getFileName(), "Wrong file name.");
+        assertEquals("Wrong file name.", "TestLib.lib", annotation.getFileName());
     }
 
     /**
