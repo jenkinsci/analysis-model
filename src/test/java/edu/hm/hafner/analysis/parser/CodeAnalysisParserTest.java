@@ -1,27 +1,33 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
-
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link CodeAnalysisParser}.
  */
-public class CodeAnalysisParserTest extends ParserTester {
+public class CodeAnalysisParserTest extends AbstractParserTest {
+
     /**
-     * Parses a file with warnings of the CodeAnalysis tools.
+     * Creates a new CodeAnalysisParserTest.
      */
-    @Test
-    public void parseWarnings() {
+    public CodeAnalysisParserTest() {
+        super("codeanalysis.txt");
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         Issues<Issue> warnings = new CodeAnalysisParser().parse(openFile());
 
         assertThat(warnings).hasSize(3);
 
-        assertSoftly(softly -> {
+        assertSoftly(softAssertions -> {
             softly.assertThat(warnings.get(0)).hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("It appears that field 'Program.a' is never used or is only ever assigned to. Use this field or remove it.")
@@ -47,8 +53,8 @@ public class CodeAnalysisParserTest extends ParserTester {
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "codeanalysis.txt";
+    protected AbstractParser createParser() {
+        return new CodeAnalysisParser();
     }
 }
 

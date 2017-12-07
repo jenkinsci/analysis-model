@@ -4,18 +4,30 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.parser.ParserTester.*;
 
 /**
  * Tests the class {@link ClangParser}.
  *
  * @author Neil Davis
  */
-public class ClangParserTest extends ParserTester {
+public class ClangParserTest  extends AbstractParserTest {
+
+    /**
+     * Creates a new ClangParserTest.
+     */
+    public ClangParserTest() {
+        super("apple-llvm-clang.txt");
+    }
+
     /**
      * Parses a file with fatal error message.
      *
@@ -97,17 +109,14 @@ public class ClangParserTest extends ParserTester {
         });
     }
 
-    /**
-     * Verifies that all messages are correctly parsed.
-     */
-    @Test
-    public void testWarningsParser() {
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         Issues<Issue> warnings = new ClangParser().parse(openFile());
         Iterator<Issue> iterator = warnings.iterator();
 
         assertThat(warnings).hasSize(9);
 
-        assertSoftly(softly -> {
+        assertSoftly(softAssertions -> {
             softly.assertThat(iterator.next()).hasLineStart(28)
                     .hasLineEnd(28)
                     .hasColumnStart(8)
@@ -180,7 +189,7 @@ public class ClangParserTest extends ParserTester {
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "apple-llvm-clang.txt";
+    protected AbstractParser createParser() {
+        return new ClangParser();
     }
 }

@@ -1,27 +1,34 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
-
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.parser.ParserTester.*;
 
 /**
  * Tests the class {@link CoolfluxChessccParserTest}.
  */
-public class CoolfluxChessccParserTest extends ParserTester {
+public class CoolfluxChessccParserTest extends AbstractParserTest {
+
     /**
-     * Parses a file with two warnings.
+     * Creates a new CoolfluxChessccParserTest.
      */
-    @Test
-    public void testWarningsParser() {
+    public CoolfluxChessccParserTest() {
+        super("coolfluxchesscc.txt");
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         Issues<Issue> warnings = new CoolfluxChessccParser().parse(openFile());
 
         assertThat(warnings).hasSize(1).hasDuplicatesSize(1);
 
-        assertSoftly(softly -> {
+        assertSoftly(softAssertions -> {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(150)
                     .hasLineEnd(150)
@@ -34,8 +41,8 @@ public class CoolfluxChessccParserTest extends ParserTester {
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "coolfluxchesscc.txt";
+    protected AbstractParser createParser() {
+        return new CoolfluxChessccParser();
     }
 }
 
