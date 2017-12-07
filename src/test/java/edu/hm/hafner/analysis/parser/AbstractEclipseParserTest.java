@@ -1,53 +1,43 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
-
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Basic tests for the Eclipse parser.
  *
  * @author Ullrich Hafner
  */
-public abstract class AbstractEclipseParserTest extends ParserTester {
-    /**
-     * Creates the parser under test.
-     *
-     * @return the created parser
-     */
+public abstract class AbstractEclipseParserTest extends AbstractParserTest {
+    private static final String CATEGORY = new IssueBuilder().build().getCategory();
+
+    AbstractEclipseParserTest() {
+        super("eclipse.txt");
+    }
+
+    @Override
     protected AbstractParser createParser() {
         return new EclipseParser();
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "eclipse.txt";
-    }
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(8);
 
-    /**
-     * Parses a file with two deprecation warnings.
-     */
-    @Test
-    public void parseDeprecation() {
-        Issues<Issue> warnings = createParser().parse(openFile());
-
-        assertThat(warnings).hasSize(8);
-
-        Issue annotation = warnings.get(0);
-        assertSoftly(softly -> {
-            softly.assertThat(annotation)
-                    .hasPriority(Priority.NORMAL)
-                    .hasCategory(DEFAULT_CATEGORY)
-                    .hasLineStart(3)
-                    .hasLineEnd(3)
-                    .hasMessage(
-                            "The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
-                    .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java");
-        });
+        Issue annotation = issues.get(0);
+        softly.assertThat(annotation)
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(3)
+                .hasLineEnd(3)
+                .hasMessage(
+                        "The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
+                .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java");
     }
 }
