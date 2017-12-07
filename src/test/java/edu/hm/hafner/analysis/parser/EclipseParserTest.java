@@ -4,17 +4,28 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.parser.ParserTester.*;
 
 /**
  * Tests the class {@link EclipseParser}.
  */
-class EclipseParserTest extends AbstractEclipseParserTest {
+class EclipseParserTest extends AbstractParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
+
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     */
+    protected EclipseParserTest() {
+        super("issue6427.txt");
+    }
 
     /**
      * Parses a warning log with previously undetected warnings.
@@ -90,27 +101,6 @@ class EclipseParserTest extends AbstractEclipseParserTest {
     }
 
     /**
-     * Parses a warning log with a ClearCase command line that should not be parsed as a warning.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6427">Issue 6427</a>
-     */
-    @Test
-    void issue6427() {
-        Issues<Issue> warnings = createParser().parse(openFile("issue6427.txt"));
-
-        assertThat(warnings).hasSize(18);
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
-                    .hasLineStart(10)
-                    .hasLineEnd(10)
-                    .hasMessage("The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
-                    .hasFileName("/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java");
-        });
-    }
-
-    /**
      * Parses a warning log with 2 eclipse messages, the affected source text spans one and two lines.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
@@ -154,6 +144,25 @@ class EclipseParserTest extends AbstractEclipseParserTest {
             assertThat(containsHat).isFalse().withFailMessage("Message " + number + " contains ^");
             number++;
         }
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues).hasSize(18);
+
+        softly.assertThat(issues.get(0))
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(10)
+                .hasLineEnd(10)
+                .hasMessage("The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
+                .hasFileName("/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java");
+
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new EclipseParser();
     }
 }
 
