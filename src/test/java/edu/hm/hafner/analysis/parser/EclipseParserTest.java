@@ -14,8 +14,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * Tests the class {@link EclipseParser}.
  */
 class EclipseParserTest extends AbstractEclipseParserTest {
-    private static final String CATEGORY = DEFAULT_CATEGORY;
-
     /**
      * Parses a warning log with previously undetected warnings.
      *

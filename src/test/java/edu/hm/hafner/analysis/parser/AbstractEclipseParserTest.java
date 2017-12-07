@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * @author Ullrich Hafner
  */
 public abstract class AbstractEclipseParserTest extends AbstractParserTest {
-    private static final String CATEGORY = new IssueBuilder().build().getCategory();
+    protected static final String CATEGORY = new IssueBuilder().build().getCategory();
 
     AbstractEclipseParserTest() {
         super("eclipse.txt");
