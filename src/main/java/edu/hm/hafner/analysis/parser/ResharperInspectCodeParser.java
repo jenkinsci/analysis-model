@@ -51,7 +51,7 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        // FIXME: remove
+        // TODO: remove this check
         if (line.contains("<IssueType Id=")) {
             try {
                 // This is a quick workaround to get the IssueType parsing

@@ -30,7 +30,6 @@ public class IssueBuilder {
     protected String packageName;
     protected String moduleName;
     protected String origin;
-    // TODO: should this be an instance of an object?
     protected String fingerprint;
 
     public IssueBuilder setFingerprint(final String fingerprint) {
@@ -125,6 +124,7 @@ public class IssueBuilder {
         packageName = copy.getPackageName();
         moduleName = copy.getModuleName();
         origin = copy.getOrigin();
+        fingerprint = copy.getFingerprint();
 
         return this;
     }
