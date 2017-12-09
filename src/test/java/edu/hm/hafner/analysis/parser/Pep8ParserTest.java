@@ -8,15 +8,16 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link Pep8Parser}.
  *
- * @author Marvin Schütz
+ * @author Marvin Schütz, J. Behrmann
  */
+@SuppressWarnings("ReuseOfLocalVariable")
 public class Pep8ParserTest extends ParserTester {
-    private static final String WARNING_TYPE = new Pep8Parser().getId();
+    private static final String TYPE = new Pep8Parser().getId();
 
     /**
      * Parses a file with W and E warnings.
@@ -25,45 +26,127 @@ public class Pep8ParserTest extends ParserTester {
      */
     @Test
     public void testParseSimpleAndComplexMessage() throws IOException {
-        Pep8Parser parser = new Pep8Parser();
+        Issues warnings = new Pep8Parser().parse(openFile());
 
-        Issues warnings = parser.parse(openFile());
+        SoftAssertions.assertSoftly((softly) -> {
+            softly.assertThat(warnings).hasSize(8);
+            softly.assertThat(warnings).hasNormalPrioritySize(6);
+            softly.assertThat(warnings).hasLowPrioritySize(2);
 
-        assertEquals(8, warnings.size());
+            Iterator<Issue> iterator = warnings.iterator();
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue warning = iterator.next();
+            Issue warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("optparse.py")
+                    .hasCategory("E401")
+                    .hasType(TYPE)
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("multiple imports on one line")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(69)
+                    .hasLineEnd(69)
+                    .hasColumnStart(11)
+                    .hasColumnEnd(11);
 
-        checkWarning(warning, 69, 11, "multiple imports on one line", "optparse.py",
-                WARNING_TYPE, "E401", Priority.NORMAL);
-        warning = iterator.next();
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("optparse.py")
+                    .hasCategory("E302")
+                    .hasType(TYPE)
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("expected 2 blank lines, found 1")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(77)
+                    .hasLineEnd(77)
+                    .hasColumnStart(1)
+                    .hasColumnEnd(1);
 
-        checkWarning(warning, 77, 1, "expected 2 blank lines, found 1", "optparse.py",
-                WARNING_TYPE, "E302", Priority.NORMAL);
-        warning = iterator.next();
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("optparse.py")
+                    .hasCategory("E301")
+                    .hasType(TYPE)
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("expected 1 blank line, found 0")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(88)
+                    .hasLineEnd(88)
+                    .hasColumnStart(5)
+                    .hasColumnEnd(5);
 
-        checkWarning(warning, 88, 5, "expected 1 blank line, found 0", "optparse.py",
-                WARNING_TYPE, "E301", Priority.NORMAL);
-        warning = iterator.next();
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("optparse.py")
+                    .hasCategory("W602")
+                    .hasType(TYPE)
+                    .hasPriority(Priority.LOW)
+                    .hasMessage("deprecated form of raising exception")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(222)
+                    .hasLineEnd(222)
+                    .hasColumnStart(34)
+                    .hasColumnEnd(34);
 
-        checkWarning(warning, 222, 34, "deprecated form of raising exception", "optparse.py",
-                WARNING_TYPE, "W602", Priority.LOW);
-        warning = iterator.next();
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("optparse.py")
+                    .hasCategory("E211")
+                    .hasType(TYPE)
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("whitespace before '('")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(347)
+                    .hasLineEnd(347)
+                    .hasColumnStart(31)
+                    .hasColumnEnd(31);
 
-        checkWarning(warning, 347, 31, "whitespace before '('", "optparse.py",
-                WARNING_TYPE, "E211", Priority.NORMAL);
-        warning = iterator.next();
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("optparse.py")
+                    .hasCategory("E201")
+                    .hasType(TYPE)
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("whitespace after '{'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(357)
+                    .hasLineEnd(357)
+                    .hasColumnStart(17)
+                    .hasColumnEnd(17);
 
-        checkWarning(warning, 357, 17, "whitespace after '{'", "optparse.py",
-                WARNING_TYPE, "E201", Priority.NORMAL);
-        warning = iterator.next();
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("optparse.py")
+                    .hasCategory("E221")
+                    .hasType(TYPE)
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("multiple spaces before operator")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(472)
+                    .hasLineEnd(472)
+                    .hasColumnStart(29)
+                    .hasColumnEnd(29);
 
-        checkWarning(warning, 472, 29, "multiple spaces before operator", "optparse.py",
-                WARNING_TYPE, "E221", Priority.NORMAL);
-        warning = iterator.next();
-
-        checkWarning(warning, 544, 21, ".has_key() is deprecated, use 'in'", "optparse.py",
-                WARNING_TYPE, "W601", Priority.LOW);
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("optparse.py")
+                    .hasCategory("W601")
+                    .hasType(TYPE)
+                    .hasPriority(Priority.LOW)
+                    .hasMessage(".has_key() is deprecated, use 'in'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(544)
+                    .hasLineEnd(544)
+                    .hasColumnStart(21)
+                    .hasColumnEnd(21);
+        });
     }
 
     @Override

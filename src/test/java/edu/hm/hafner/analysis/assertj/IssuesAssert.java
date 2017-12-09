@@ -1,254 +1,118 @@
 package edu.hm.hafner.analysis.assertj;
 
-import java.util.Objects;
-
 import org.assertj.core.api.AbstractAssert;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
-import static org.assertj.core.api.Assertions.*;
 
 /**
- * Fluent assertions for {@link Issues}.
+ * Assertions for {@link Issues}.
+ *
+ * @author Marcel Binder
  */
+@SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion"})
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
-
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
-    public IssuesAssert(final Issues issues) {
-        super(issues, IssuesAssert.class);
+    /**
+     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issues}.
+     *
+     * @param actual the issue we want to make assertions on
+     */
+    public IssuesAssert(final Issues actual) {
+        super(actual, IssuesAssert.class);
     }
 
     /**
-     * Assert that the requested issue is present.
+     * An entry point for {@link IssuesAssert} to follow AssertJ standard {@code assertThat()}. With a static import,
+     * one can write directly {@code assertThat(myIssues)} and get a specific assertion with code completion.
      *
-     * @param expected issue to be present
-     * @return this
+     * @param actual the issues we want to make assertions on
+     * @return a new {@link IssuesAssert}
      */
-    public IssuesAssert hasIssue(final Issue expected) {
+    public static IssuesAssert assertThat(final Issues actual) {
+        return new IssuesAssert(actual);
+    }
+
+    /**
+     * Verifies that the actual size of the {@link Issues} instance is equal to the given one.
+     *
+     * @param size the expected size to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size is not equal to the given one.
+     */
+    public IssuesAssert hasSize(final int size) {
         isNotNull();
 
-        if (actual.findByProperty(expected::equals).isEmpty()) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "issue", actual, expected, "not found");
-        }
-
-        return this;
-    }
-
-
-    /**
-     * Assert that there are no issues present.
-     */
-    public IssuesAssert isEmpty() {
-        isNotNull();
-
-        if (!actual.all().isEmpty()) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "empty issues", actual, "empty", "not empty");
-        }
-
-        return this;
-    }
-
-    /**
-     * Assert that there is single issues.
-     *
-     * @return this
-     */
-    public IssuesAssert isSingle() {
-        isNotNull();
-
-        if (actual.size() != 1) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "single issue", actual, "1", actual.getSize());
-        }
-
-        return this;
-    }
-
-    /**
-     * Assert that there are issues present.
-     *
-     * @return this
-     */
-    public IssuesAssert isNotEmpty() {
-        isNotNull();
-
-        if (actual.all().isEmpty()) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "not empty issues", actual, "not empty", "empty");
-        }
-
-        return this;
-    }
-
-    /**
-     * Assert that the number of present issues matches the expectation.
-     *
-     * @param expected number of issues
-     * @return this
-     */
-    public IssuesAssert hasSize(final int expected) {
-        isNotNull();
-
-        if (!Objects.equals(actual.getSize(), expected)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "issues size", actual, expected, actual.getSize());
-        }
-
-        return this;
-    }
-
-
-    /**
-     * Assert that there are no high priority issues present.
-     *
-     * @return this
-     */
-    public IssuesAssert hasNoHighPriorityIssues() {
-        return hasHighPriorityIssues(0);
-    }
-
-    /**
-     * Assert that there is the expected number of high priority issues.
-     *
-     * @param expected number of high priority issues
-     * @return this
-     */
-    public IssuesAssert hasHighPriorityIssues(final int expected) {
-        isNotNull();
-
-        if (!Objects.equals(actual.getHighPrioritySize(), expected)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "issues with high priority size", actual, expected, actual.getHighPrioritySize());
-        }
-
-        return this;
-    }
-
-
-    /**
-     * Assert that there are no low priority issues.
-     *
-     * @return this
-     */
-    public IssuesAssert hasNoLowPriorityIssues() {
-        return hasLowPriorityIssues(0);
-    }
-
-    /**
-     * Assert that there is the expected number of normal priority issues.
-     *
-     * @param expected number of normal priority issues.
-     * @return this
-     */
-    public IssuesAssert hasNormalPriorityIssues(final int expected) {
-        isNotNull();
-
-        if (!Objects.equals(actual.getNormalPrioritySize(), expected)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "issues with normal priority size", actual, expected, actual.getNormalPrioritySize());
+        if (actual.getSize() != size) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "size", actual, size, actual.size());
         }
         return this;
     }
 
     /**
-     * Assert that there are no normal priority issues.
+     * Verifies that the actual size of high priority issues in the {@link Issues} instance is equal to the given one.
      *
-     * @return this
+     * @param highPrioritySize the expected size of high priority issues to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size of high priority issues is not equal to the given one.
      */
-    public IssuesAssert hasNoNormalPriorityIssues() {
-        return hasNormalPriorityIssues(0);
-    }
-
-    /**
-     * Assert that there is the expected number of low priority issues.
-     *
-     * @param expected number of low priority issues
-     * @return this
-     */
-    public IssuesAssert hasLowPriorityIssues(final int expected) {
+    public IssuesAssert hasHighPrioritySize(final int highPrioritySize) {
         isNotNull();
 
-        if (!Objects.equals(actual.getLowPrioritySize(), expected)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "issues with low priority size", actual, expected, actual.getLowPrioritySize());
+        if (actual.getHighPrioritySize() != highPrioritySize) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "high priority size", actual, highPrioritySize, actual.getHighPrioritySize());
         }
-
         return this;
     }
 
     /**
-     * Asserts that there is the same issue store at the index.
+     * Verifies that the actual size of normal priority issues in the {@link Issues} instance is equal to the given
+     * one.
      *
-     * @param index issue is stored at
-     * @param issue that should be stored at index
-     * @return this
+     * @param normalPrioritySize the expected size of normal priority issues to compare the actual {@link Issues} size
+     *                           to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size of normal priority issues is not equal to the given
+     *                        one.
      */
-    public IssuesAssert hasIssueAt(int index, Issue issue) {
+    public IssuesAssert hasNormalPrioritySize(final int normalPrioritySize) {
         isNotNull();
 
-        if (!Objects.equals(actual.get(index), issue)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "has issue", actual, issue, actual.get(index));
+        if (actual.getNormalPrioritySize() != normalPrioritySize) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "normal priority size", actual, normalPrioritySize, actual.getNormalPrioritySize());
         }
-
         return this;
     }
 
     /**
-     * Asserts that the issues at all are of expected size.
+     * Verifies that the actual size of low priority issues in the {@link Issues} instance is equal to the given one.
      *
-     * @param expected size of the collection.
-     * @return this
+     * @param lowPrioritySize the expected size of low priority issues to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size of low priority issues is not equal to the given one.
      */
-    public IssuesAssert hasAllWithSize(final int expected) {
+    public IssuesAssert hasLowPrioritySize(final int lowPrioritySize) {
         isNotNull();
 
-        if (!Objects.equals(actual.all().size(), expected)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "issues size", actual, expected, actual.all().size());
+        if (actual.getLowPrioritySize() != lowPrioritySize) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "low priority size", actual, lowPrioritySize, actual.getLowPrioritySize());
         }
-
         return this;
     }
 
     /**
-     * Asserts that the expected number of files is present.
+     * Verifies that the actual size of affected files in the {@link Issues} instance is equal to the given one.
      *
-     * @param expected number of files
-     * @return this
+     * @param numberOfFiles the expected size of affected files to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size of affected files is not equal to the given one.
      */
-    public IssuesAssert hasNumberOfFiles(final int expected) {
+    public IssuesAssert hasNumberOfFiles(final int numberOfFiles) {
         isNotNull();
 
-        if (!Objects.equals(actual.getNumberOfFiles(), expected)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "number of files", actual, expected, actual.getNumberOfFiles());
+        if (actual.getNumberOfFiles() != numberOfFiles) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "number of files", actual, numberOfFiles, actual.getNumberOfFiles());
         }
-
         return this;
     }
-
-    /**
-     * Asserts that the expected string is generated when toString is called.
-     *
-     * @param values values to be expected in result
-     * @return this
-     */
-    public IssuesAssert hasStringRepresentationContaining(final CharSequence... values) {
-        isNotNull();
-
-        for (int i = 0; i < values.length; ++i) {
-            if (!actual.toString().contains(values[i])) {
-                failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "toString contains", actual, values[i], actual.toString());
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * Asserts that the expected issues are present.
-     *
-     * @param issues expected issues
-     * @return this
-     */
-    public IssuesAssert hasIssues(Issue... issues) {
-        assertThat(actual).contains(issues);
-
-        return this;
-    }
-
 }
-
