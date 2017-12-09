@@ -45,7 +45,7 @@ class FingerprintGeneratorTest extends SerializableTest {
         try {
             FileSystem mock = mock(FileSystem.class);
             when(mock.readLinesFromFile(AFFECTED_FILE_NAME, CHARSET_AFFECTED_FILE))
-                    .thenReturn(asStream(firstFile), asStream(secondFile));
+                    .thenReturn(asStream(firstFile)).thenReturn(asStream(secondFile));
             return mock;
         }
         catch (IOException e) {
@@ -81,5 +81,4 @@ class FingerprintGeneratorTest extends SerializableTest {
     private Stream<String> asStream(final String affectedFile) {
         return readResourceToStream(affectedFile, CHARSET_AFFECTED_FILE);
     }
-
 }
