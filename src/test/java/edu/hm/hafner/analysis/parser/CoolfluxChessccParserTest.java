@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link CoolfluxChessccParserTest}.
@@ -16,25 +14,24 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CoolfluxChessccParserTest extends ParserTester {
     /**
      * Parses a file with two warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new CoolfluxChessccParser().parse(openFile());
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new CoolfluxChessccParser().parse(openFile());
 
-        assertEquals(2, warnings.size());
+        assertThat(warnings).hasSize(1).hasDuplicatesSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                150,
-                "function `unsigned configureRealCh(unsigned)' was declared static, but was not defined",
-                "/nfs/autofs/nett/nessie6/dailies/Monday/src/n6/heidrun/dsp/Modules/LocalChAdmin.c",
-                new CoolfluxChessccParser().getId(), DEFAULT_CATEGORY, Priority.HIGH);
-
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(150)
+                    .hasLineEnd(150)
+                    .hasMessage(
+                            "function `unsigned configureRealCh(unsigned)' was declared static, but was not defined")
+                    .hasFileName("/nfs/autofs/nett/nessie6/dailies/Monday/src/n6/heidrun/dsp/Modules/LocalChAdmin.c")
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasPriority(Priority.HIGH);
+        });
     }
-
 
     @Override
     protected String getWarningsFile() {

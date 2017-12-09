@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -22,11 +23,11 @@ public class TiCcsParser extends RegexpLineParser {
      * Creates a new instance of {@link TiCcsParser}.
      */
     public TiCcsParser() {
-        super("ticcs", TI_CCS_WARNING_PATTERN);
+        super(TI_CCS_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         Priority priority;
         if (isOfType(matcher, "remark")) {
             priority = Priority.LOW;
@@ -45,9 +46,9 @@ public class TiCcsParser extends RegexpLineParser {
         if (StringUtils.isBlank(lineNumber)) {
             lineNumber = matcher.group(10);
         }
-        return issueBuilder().setFileName(fileName).setLineStart(parseInt(lineNumber))
-                             .setCategory(matcher.group(11)).setMessage(matcher.group(12)).setPriority(priority)
-                             .build();
+        return builder.setFileName(fileName).setLineStart(parseInt(lineNumber))
+                      .setCategory(matcher.group(11)).setMessage(matcher.group(12)).setPriority(priority)
+                      .build();
     }
 
     /**

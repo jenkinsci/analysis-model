@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Disabled;
@@ -9,38 +8,34 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 
 /**
  * Tests the class {@link DoxygenParser}.
  */
 public class DoxygenParserTest extends ParserTester {
-    private static final String WARNING_TYPE = new DoxygenParser().getId();
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
     private static final String NO_FILE_NAME = "-";
 
     /**
      * Parses a file with Doxygen warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile());
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(22);
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile());
+        assertThat(warnings).hasSize(21).hasDuplicatesSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
 
+        SoftAssertions softly = new SoftAssertions();
         softly.assertThat(iterator.next())
                 .hasLineEnd(0)
                 .hasLineStart(0)
                 .hasMessage("Output directory `doc/doxygen/framework' does not exist. I have created it for you.")
                 .hasFileName(NO_FILE_NAME)
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.LOW);
 
@@ -49,7 +44,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(171)
                 .hasMessage("reached end of file while inside a dot block!\nThe command that should end the block seems to be missing!")
                 .hasFileName("/home/user/myproject/component/odesolver/CentralDifferenceSolver.cpp")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -58,7 +52,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(479)
                 .hasMessage("the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -67,7 +60,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(65)
                 .hasMessage("documented function `sofa::core::componentmodel::behavior::BaseController::BaseController' was not declared or defined.")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseController.cpp")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -76,7 +68,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(72)
                 .hasMessage("no matching class member found for\n  void sofa::core::componentmodel::behavior::BaseController::handleEvent(core::objectmodel::Event *event)")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseController.cpp")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -85,7 +76,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(699)
                 .hasMessage("no uniquely matching class member found for\n  template <>\n  const char * sofa::defaulttype::Rigid3dTypes::Name()")
                 .hasFileName("/home/user/myproject/defaulttype/RigidTypes.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -94,7 +84,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(1351)
                 .hasMessage("no matching file member found for \ndefaulttype::RigidDeriv< 3, double > sofa::core::componentmodel::behavior::inertiaForce< defaulttype::RigidCoord< 3, double >, defaulttype::RigidDeriv< 3, double >, objectmodel::BaseContext::Vec3, defaulttype::RigidMass< 3, double >, objectmodel::BaseContext::SpatialVector >(const sofa::defaulttype::SolidTypes::SpatialVector &vframe, const objectmodel::BaseContext::Vec3 &aframe, const defaulttype::RigidMass< 3, double > &mass, const defaulttype::RigidCoord< 3, double > &x, const defaulttype::RigidDeriv< 3, double > &v)\nPossible candidates:\n  Deriv inertiaForce(const SV &, const Vec &, const M &, const Coord &, const Deriv &)")
                 .hasFileName("/home/user/myproject/defaulttype/RigidTypes.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -103,7 +92,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(569)
                 .hasMessage("no uniquely matching class member found for\n  template < R >\n  SolidTypes< R >::Vec sofa::defaulttype::SolidTypes< R >::mult(const typename sofa::defaulttype::Mat< 3, 3, Real > &m, const typename SolidTypes< R >::Vec &v)\nPossible candidates:\n  static Vec sofa::defaulttype::SolidTypes< R >::mult(const Mat &m, const Vec &v) at line 404 of file /home/user/myproject/defaulttype/SolidTypes.h")
                 .hasFileName("/home/user/myproject/defaulttype/SolidTypes.inl")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -112,7 +100,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(227)
                 .hasMessage("no uniquely matching class member found for\n  template < Real >\n  DualQuat< Real >::Vec sofa::helper::DualQuat< Real >::transform(const typename sofa::defaulttype::Vec< 3, Real > &vec)\nPossible candidates:\n  Vec sofa::helper::DualQuat< Real >::transform(const Vec &vec) at line 73 of file /home/user/myproject/helper/DualQuat.h")
                 .hasFileName("/home/user/myproject/helper/DualQuat.inl")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -121,7 +108,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(496)
                 .hasMessage("no matching file member found for \nvoid sofa::helper::lcp_lexicolemke(int *nn, double *vec, double *q, double *zlem, double *wlem, int *info, int *iparamLCP, double *dparamLCP)\nPossible candidates:\n  int lcp_lexicolemke(int dim, double *q, double **M, double *res)\n  int lcp_lexicolemke(int dim, double *q, double **M, double **A, double *res)")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -130,7 +116,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(163)
                 .hasMessage("Found unknown command `\\notify'")
                 .hasFileName("/home/user/myproject/core/componentmodel/topology/BaseTopology.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -139,7 +124,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(172)
                 .hasMessage("argument 'sv' of command @param is not found in the argument list of sofa::core::componentmodel::behavior::inertiaForce(const SV &, const Vec &, const M &, const Coord &, const Deriv &)")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/Mass.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -148,7 +132,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(97)
                 .hasMessage("The following parameters of sofa::core::componentmodel::behavior::BaseForceField::addMBKdx(double mFactor, double bFactor, double kFactor) are not documented:\n  parameter 'mFactor'\n  parameter 'bFactor'\n  parameter 'kFactor'")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseForceField.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -157,7 +140,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(104)
                 .hasMessage("The following parameters of sofa::core::componentmodel::behavior::BaseLMConstraint::ConstraintGroup::addConstraint(unsigned int i0, SReal c) are not documented:\n  parameter 'i0'")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseLMConstraint.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -166,7 +148,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(98)
                 .hasMessage("explicit link request to 'index' could not be resolved")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseMass.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -175,7 +156,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(0) // Actually 1 in the file, but the line number of this kind of messages is irrelevant
                 .hasMessage("Detected potential recursive class relation between class sofa::core::componentmodel::collision::Contact::Factory and base class Factory< std::string, Contact, std::pair< std::pair< core::CollisionModel *, core::CollisionModel * >, Intersection * > >!")
                 .hasFileName(NO_FILE_NAME)
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
 
@@ -184,7 +164,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(96)
                 .hasMessage("Found unknown command `\\TODO'")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/OdeSolver.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -193,16 +172,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(0) // Actually -1 in the file, but the line number of this kind of messages is irrelevant
                 .hasMessage("Found unknown command `\\TODO'")
                 .hasFileName(NO_FILE_NAME)
-                .hasType(WARNING_TYPE)
-                .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
-
-        softly.assertThat(iterator.next())
-                .hasLineEnd(0) // Actually 1 in the file, but the line number of this kind of messages is irrelevant
-                .hasLineStart(0) // Actually 1 in the file, but the line number of this kind of messages is irrelevant
-                .hasMessage("Found unknown command `\\TODO'")
-                .hasFileName(NO_FILE_NAME)
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -211,7 +180,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(19)
                 .hasMessage("Unexpected character `\"'")
                 .hasFileName("/home/user/myproject/helper/SimpleTimer.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
 
@@ -220,7 +188,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(0) // Actually 1 in the file, but the line number of this kind of messages is irrelevant
                 .hasMessage("The following parameters of sofa::component::odesolver::EulerKaapiSolver::v_peq(VecId v, VecId a, double f) are not documented:\n  parameter 'v'\n  parameter 'a'")
                 .hasFileName(NO_FILE_NAME)
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -229,7 +196,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(0)
                 .hasMessage("Could not read image `/home/user/myproject/html/struct_foo_graph.png' generated by dot!")
                 .hasFileName(NO_FILE_NAME)
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
 
@@ -239,26 +205,23 @@ public class DoxygenParserTest extends ParserTester {
     /**
      * Verifies that parsing of long files does not fail.
      *
-     * @throws IOException Signals that an I/O exception has occurred.
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7178">Issue 7178</a>
      * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6882582">JDK Bug 6882582</a>
      */
-    @Test
-    @Disabled("FIXME: Check with Java 8")
-    public void issue7178() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile("issue7178.txt"));
-        assertThat(warnings).hasSize(0); //seems to be 1
+    @Test @Disabled("FIXME: Check with Java 8")
+    public void issue7178() {
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile("issue7178.txt"));
+        assertThat(warnings).isEmpty(); //seems to be 1
     }
 
     /**
      * Parses a warning log with 4 doxygen 1.7.1 messages.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6971">Issue 6971</a>
      */
     @Test
-    public void issue6971() throws IOException {
-        Issues warnings = new DoxygenParser().parse(openFile("issue6971.txt"));
+    public void issue6971() {
+        Issues<Issue> warnings = new DoxygenParser().parse(openFile("issue6971.txt"));
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(4);
 
@@ -269,7 +232,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(479)
                 .hasMessage("the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -278,7 +240,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(19)
                 .hasMessage("Unexpected character `\"'")
                 .hasFileName("/home/user/myproject/helper/SimpleTimer.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.HIGH);
 
@@ -287,7 +248,6 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(357)
                 .hasMessage("Member getInternalParser() (function) of class XmlParser is not documented.")
                 .hasFileName(".../XmlParser.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
@@ -296,13 +256,11 @@ public class DoxygenParserTest extends ParserTester {
                 .hasLineStart(39)
                 .hasMessage("Member XmlMemoryEntityMapEntry (typedef) of class XmlMemoryEntityResolver is not documented.")
                 .hasFileName("P:/Integration/DjRip/djrip/workspace/libraries/xml/XmlMemoryEntityResolver.h")
-                .hasType(WARNING_TYPE)
                 .hasCategory(WARNING_CATEGORY)
                 .hasPriority(Priority.NORMAL);
 
         softly.assertAll();
     }
-
 
     @Override
     protected String getWarningsFile() {

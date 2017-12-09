@@ -24,7 +24,7 @@ node ('linux') {
                 writeFile file: settingsXml, text: libraryResource('settings-azure.xml')
                 mavenOptions += "-s $settingsXml"
             }
-            mavenOptions += "clean install checkstyle:checkstyle findbugs:findbugs"
+            mavenOptions += "clean install checkstyle:checkstyle pmd:pmd findbugs:findbugs jacoco:prepare-agent test jacoco:report"
             command = "mvn ${mavenOptions.join(' ')}"
             env << "PATH+MAVEN=${tool 'mvn'}/bin"
 
@@ -36,6 +36,8 @@ node ('linux') {
             warnings consoleParsers: [[parserName: 'Java Compiler (javac)'], [parserName: 'JavaDoc']]
             checkstyle pattern: '**/target/checkstyle-result.xml'
             findbugs pattern: '**/target/findbugsXml.xml'
+            pmd pattern: '**/target/pmd.xml'
+            jacoco()
         }
     }
 

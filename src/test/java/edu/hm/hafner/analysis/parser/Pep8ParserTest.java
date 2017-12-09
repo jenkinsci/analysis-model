@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link Pep8Parser}.
@@ -17,18 +16,14 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  */
 @SuppressWarnings("ReuseOfLocalVariable")
 public class Pep8ParserTest extends ParserTester {
-    private static final String TYPE = new Pep8Parser().getId();
-
     /**
      * Parses a file with W and E warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testParseSimpleAndComplexMessage() throws IOException {
-        Issues warnings = new Pep8Parser().parse(openFile());
+    public void testParseSimpleAndComplexMessage() {
+        Issues<Issue> warnings = new Pep8Parser().parse(openFile());
 
-        SoftAssertions.assertSoftly((softly) -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings).hasSize(8);
             softly.assertThat(warnings).hasNormalPrioritySize(6);
             softly.assertThat(warnings).hasLowPrioritySize(2);
@@ -39,7 +34,6 @@ public class Pep8ParserTest extends ParserTester {
             softly.assertThat(warning)
                     .hasFileName("optparse.py")
                     .hasCategory("E401")
-                    .hasType(TYPE)
                     .hasPriority(Priority.NORMAL)
                     .hasMessage("multiple imports on one line")
                     .hasDescription("")
@@ -53,7 +47,6 @@ public class Pep8ParserTest extends ParserTester {
             softly.assertThat(warning)
                     .hasFileName("optparse.py")
                     .hasCategory("E302")
-                    .hasType(TYPE)
                     .hasPriority(Priority.NORMAL)
                     .hasMessage("expected 2 blank lines, found 1")
                     .hasDescription("")
@@ -67,7 +60,6 @@ public class Pep8ParserTest extends ParserTester {
             softly.assertThat(warning)
                     .hasFileName("optparse.py")
                     .hasCategory("E301")
-                    .hasType(TYPE)
                     .hasPriority(Priority.NORMAL)
                     .hasMessage("expected 1 blank line, found 0")
                     .hasDescription("")
@@ -81,7 +73,6 @@ public class Pep8ParserTest extends ParserTester {
             softly.assertThat(warning)
                     .hasFileName("optparse.py")
                     .hasCategory("W602")
-                    .hasType(TYPE)
                     .hasPriority(Priority.LOW)
                     .hasMessage("deprecated form of raising exception")
                     .hasDescription("")
@@ -95,7 +86,6 @@ public class Pep8ParserTest extends ParserTester {
             softly.assertThat(warning)
                     .hasFileName("optparse.py")
                     .hasCategory("E211")
-                    .hasType(TYPE)
                     .hasPriority(Priority.NORMAL)
                     .hasMessage("whitespace before '('")
                     .hasDescription("")
@@ -109,7 +99,6 @@ public class Pep8ParserTest extends ParserTester {
             softly.assertThat(warning)
                     .hasFileName("optparse.py")
                     .hasCategory("E201")
-                    .hasType(TYPE)
                     .hasPriority(Priority.NORMAL)
                     .hasMessage("whitespace after '{'")
                     .hasDescription("")
@@ -123,7 +112,6 @@ public class Pep8ParserTest extends ParserTester {
             softly.assertThat(warning)
                     .hasFileName("optparse.py")
                     .hasCategory("E221")
-                    .hasType(TYPE)
                     .hasPriority(Priority.NORMAL)
                     .hasMessage("multiple spaces before operator")
                     .hasDescription("")
@@ -137,7 +125,6 @@ public class Pep8ParserTest extends ParserTester {
             softly.assertThat(warning)
                     .hasFileName("optparse.py")
                     .hasCategory("W601")
-                    .hasType(TYPE)
                     .hasPriority(Priority.LOW)
                     .hasMessage(".has_key() is deprecated, use 'in'")
                     .hasDescription("")

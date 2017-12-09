@@ -11,9 +11,22 @@ public class ParsingException extends RuntimeException {
     /**
      * Constructs a new {@link ParsingException} with the specified cause.
      *
-     * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method).
+     * @param cause
+     *         the cause (which is saved for later retrieval by the {@link #getCause()} method).
      */
     public ParsingException(final Throwable cause) {
         super("Exception occurred during parsing:\n" + cause.getMessage(), cause);
+    }
+
+    /**
+     * Constructs a new {@link ParsingException} with the specified cause and message.
+     *
+     * @param cause
+     *         the cause (which is saved for later retrieval by the {@link #getCause()} method).
+     * @param fileName
+     *         the file that could not be parsed
+     */
+    public ParsingException(final Throwable cause, final String fileName) {
+        super(String.format("Exception occurred during parsing of file '%s'.%n%s", fileName, cause.getMessage()), cause);
     }
 }

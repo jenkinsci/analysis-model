@@ -1,10 +1,9 @@
 package edu.hm.hafner.analysis;
 
 /**
- * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the
- * builder will be set to their default value.
- * <p>Example:</p>
- *
+ * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
+ * be set to their default value. <p>Example:</p>
+ * <p>
  * <blockquote><pre>
  * Issue issue = new IssueBuilder()
  *                      .setFileName("affected.file")
@@ -13,21 +12,31 @@ package edu.hm.hafner.analysis;
  *                      .setMessage("Missing JavaDoc")
  *                      .setPriority(Priority.LOW);
  * </pre></blockquote>
+ *
  * @author Ullrich Hafner
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod"})
 public class IssueBuilder {
-    private String fileName;
-    private int lineStart = 0;
-    private int lineEnd = 0;
-    private int columnStart = 0;
-    private int columnEnd = 0;
-    private String category;
-    private String type;
-    private Priority priority;
-    private String message;
-    private String description;
-    private String packageName;
+    protected String fileName;
+    protected int lineStart = 0;
+    protected int lineEnd = 0;
+    protected int columnStart = 0;
+    protected int columnEnd = 0;
+    protected String category;
+    protected String type;
+    protected Priority priority;
+    protected String message;
+    protected String description;
+    protected String packageName;
+    protected String moduleName;
+    protected String origin;
+    // TODO: should this be an instance of an object?
+    protected String fingerprint;
+
+    public IssueBuilder setFingerprint(final String fingerprint) {
+        this.fingerprint = fingerprint;
+        return this;
+    }
 
     public IssueBuilder setFileName(final String fileName) {
         this.fileName = fileName;
@@ -69,6 +78,16 @@ public class IssueBuilder {
         return this;
     }
 
+    public IssueBuilder setModuleName(final String moduleName) {
+        this.moduleName = moduleName;
+        return this;
+    }
+
+    public IssueBuilder setOrigin(final String origin) {
+        this.origin = origin;
+        return this;
+    }
+
     public IssueBuilder setPriority(final Priority priority) {
         this.priority = priority;
         return this;
@@ -87,7 +106,9 @@ public class IssueBuilder {
     /**
      * Initializes this builder with an exact copy of aal properties of the specified issue.
      *
-     * @param copy the issue to copy the properties from
+     * @param copy
+     *         the issue to copy the properties from
+     *
      * @return the initialized builder
      */
     public IssueBuilder copy(final Issue copy) {
@@ -102,6 +123,8 @@ public class IssueBuilder {
         message = copy.getMessage();
         description = copy.getDescription();
         packageName = copy.getPackageName();
+        moduleName = copy.getModuleName();
+        origin = copy.getOrigin();
 
         return this;
     }
@@ -112,6 +135,7 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type, packageName, priority, message, description);
+        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
+                packageName, moduleName, priority, message, description, origin, fingerprint);
     }
 }

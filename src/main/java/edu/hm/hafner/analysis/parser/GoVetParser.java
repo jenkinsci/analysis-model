@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -21,15 +22,15 @@ public class GoVetParser extends RegexpLineParser {
      * Creates a new instance of {@link GoVetParser}.
      */
     public GoVetParser() {
-        super("go-vet", GOVET_WARNING_PATTERN);
+        super(GOVET_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(3);
         String category = guessCategory(message);
 
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(category).setMessage(message).build();
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                      .setCategory(category).setMessage(message).build();
     }
 }

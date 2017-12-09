@@ -6,6 +6,7 @@ import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -20,7 +21,7 @@ class ArrayListAssertJTest {
     void shouldBeEmptyWhenCreatedShortForm() {
         List<String> strings = new ArrayList<>();
 
-        assertThat(strings).hasSize(0);
+        assertThat(strings).isEmpty();
         assertThat(strings).isEmpty();
     }
 
@@ -29,8 +30,8 @@ class ArrayListAssertJTest {
     void shouldBeEmptyWhenCreatedShortFormImplicitSoftly() {
         List<String> strings = new ArrayList<>();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(strings).hasSize(0);
+        assertSoftly(softly -> {
+            softly.assertThat(strings).isEmpty();
             softly.assertThat(strings).isEmpty();
         });
     }
@@ -41,7 +42,7 @@ class ArrayListAssertJTest {
         List<String> strings = new ArrayList<>();
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(strings).hasSize(0);
+        softly.assertThat(strings).isEmpty();
         softly.assertThat(strings).isEmpty();
         softly.assertAll();
     }
