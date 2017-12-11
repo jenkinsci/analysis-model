@@ -5,384 +5,718 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.Assert.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link MsBuildParser}.
  */
+@SuppressWarnings("ReuseOfLocalVariable")
 public class MsBuildParserTest extends ParserTester {
-    private static final String TYPE = new MsBuildParser().getId();
-
     /**
      * MSBuildParser should make relative paths absolute, based on the project name listed in the message.
      *
-     * @throws IOException if the stream could not be read
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-38215">Issue 38215</a>
      */
     @Test
-    public void issue38215() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue38215.txt"));
+    public void issue38215() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue38215.txt"));
 
-        assertEquals(1, warnings.size());
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "ignoring unknown option '-std=c++11'",
-                "C:/J/workspace/ci_windows/ws/build/rmw/test/test_error_handling.vcxproj",
-                TYPE, "D9002", Priority.NORMAL);
+        assertThat(warnings).hasSize(1).hasNormalPrioritySize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("C:/J/workspace/ci_windows/ws/build/rmw/test/test_error_handling.vcxproj")
+                    .hasCategory("D9002")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("ignoring unknown option '-std=c++11'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * MSBuildParser should make relative paths absolute, based on the project name listed in the message.
      *
-     * @throws IOException if the stream could not be read
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-22386">Issue 22386</a>
      */
     @Test
-    public void issue22386() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue22386.txt"));
+    public void issue22386() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue22386.txt"));
 
-        assertEquals(2, warnings.size());
+        assertThat(warnings).hasSize(2).hasNormalPrioritySize(2);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                97,
-                "'_splitpath': This function or variable may be unsafe. Consider using _splitpath_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.",
-                "c:/solutiondir/projectdir/src/main.cpp",
-                TYPE, "C4996", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                99,
-                "'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.",
-                "c:/solutiondir/projectdir/src/main.cpp",
-                TYPE, "C4996", Priority.NORMAL);
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+
+            softly.assertThat(warning)
+                    .hasFileName("c:/solutiondir/projectdir/src/main.cpp")
+                    .hasCategory("C4996")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("'_splitpath': This function or variable may be unsafe. Consider using _splitpath_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(97)
+                    .hasLineEnd(97)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("c:/solutiondir/projectdir/src/main.cpp")
+                    .hasCategory("C4996")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(99)
+                    .hasLineEnd(99)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * MSBuildParser should also detect subcategories as described at <a href="http://blogs.msdn.com/b/msbuild/archive/2006/11/03/msbuild-visual-studio-aware-error-messages-and-message-formats.aspx">
      * MSBuild / Visual Studio aware error messages and message formats</a>.
      *
-     * @throws IOException if the stream could not be read
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-27914">Issue 27914</a>
      */
     @Test
-    public void issue27914() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue27914.txt"));
+    public void issue27914() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue27914.txt"));
 
-        assertEquals(3, warnings.size());
+        assertThat(warnings).hasSize(3).hasNormalPrioritySize(3);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                4522,
-                "Variable 'lTaskDialog' is declared but never used in 'TDialog.ShowTaskDialog'",
-                "E:/workspace/TreeSize release nightly/DelphiLib/Jam.UI.Dialogs.pas",
-                TYPE, "H2164", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                4523,
-                "Variable 'lButton' is declared but never used in 'TDialog.ShowTaskDialog'",
-                "E:/workspace/TreeSize release nightly/DelphiLib/Jam.UI.Dialogs.pas",
-                TYPE, "H2164", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                4524,
-                "Variable 'lIndex' is declared but never used in 'TDialog.ShowTaskDialog'",
-                "E:/workspace/TreeSize release nightly/DelphiLib/Jam.UI.Dialogs.pas",
-                TYPE, "H2164", Priority.NORMAL);
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+
+            softly.assertThat(warning)
+                    .hasFileName("E:/workspace/TreeSize release nightly/DelphiLib/Jam.UI.Dialogs.pas")
+                    .hasCategory("H2164")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Variable 'lTaskDialog' is declared but never used in 'TDialog.ShowTaskDialog'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(4522)
+                    .hasLineEnd(4522)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("E:/workspace/TreeSize release nightly/DelphiLib/Jam.UI.Dialogs.pas")
+                    .hasCategory("H2164")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Variable 'lButton' is declared but never used in 'TDialog.ShowTaskDialog'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(4523)
+                    .hasLineEnd(4523)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("E:/workspace/TreeSize release nightly/DelphiLib/Jam.UI.Dialogs.pas")
+                    .hasCategory("H2164")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Variable 'lIndex' is declared but never used in 'TDialog.ShowTaskDialog'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(4524)
+                    .hasLineEnd(4524)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * Parses a file with a google-test failure that should not be shown as a warning.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-26441">Issue 26441</a>
      */
     @Test
-    public void issue26441() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue26441.txt"));
+    public void issue26441() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue26441.txt"));
 
-        assertEquals(0, warnings.size());
+        assertThat(warnings).isEmpty();
     }
 
     /**
      * Parses a file with gcc warnings that should be skipped.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-20544">Issue 20544</a>
      */
     @Test
-    public void issue20544() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue20544.txt"));
+    public void issue20544() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue20544.txt"));
 
-        assertEquals(0, warnings.size());
+        assertThat(warnings).isEmpty();
     }
 
     /**
      * Parses a file with  warnings of a Visual Studio analysis.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-20154">Issue 20154</a>
      */
     @Test
-    public void issue20154() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue20154.txt"));
+    public void issue20154() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue20154.txt"));
 
-        assertEquals(8, warnings.size());
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation;
-        annotation = iterator.next();
-        checkWarning(annotation,
-                0, "Sign 'SampleCodeAnalysis.exe' with a strong name key.",
-                "MSBUILD", "Microsoft.Design", "CA2210", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                12, "Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.",
-                "i:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs", "Microsoft.Usage", "CA1801", Priority.NORMAL);
+        assertThat(warnings).hasSize(3)
+                .hasDuplicatesSize(5)
+                .hasNormalPrioritySize(3);
+
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+
+            softly.assertThat(warning)
+                    .hasFileName("MSBUILD")
+                    .hasCategory("CA2210")
+                    .hasType("Microsoft.Design")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Sign 'SampleCodeAnalysis.exe' with a strong name key.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineStart(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("i:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
+                    .hasCategory("CA1801")
+                    .hasType("Microsoft.Usage")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(12)
+                    .hasLineEnd(12)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * Parses a file with 4 warnings of PCLint tools.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14888">Issue 14888</a>
      */
     @Test
-    public void issue14888() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue14888.txt"));
+    public void issue14888() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue14888.txt"));
 
-        assertEquals(4, warnings.size());
+        assertSoftly(softly -> {
+            softly.assertThat(warnings).hasSize(4);
+            softly.assertThat(warnings).hasHighPrioritySize(4);
+
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+
+            softly.assertThat(warning)
+                    .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
+                    .hasCategory("40")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("Undeclared identifier 'TRUE'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(974)
+                    .hasLineEnd(974)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
+                    .hasCategory("63")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("Expected an lvalue")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(974)
+                    .hasLineEnd(974)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
+                    .hasCategory("40")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("Undeclared identifier 'pDstCwData'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(975)
+                    .hasLineEnd(975)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
+                    .hasCategory("10")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("Expecting a structure or union")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(975)
+                    .hasLineEnd(975)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * Parses a file with warnings of the MS Build tools.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-10566">Issue 10566</a>
      */
     @Test
-    public void issue10566() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue10566.txt"));
+    public void issue10566() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue10566.txt"));
 
-        assertEquals(1, warnings.size());
-        Issue annotation = warnings.iterator().next();
-        checkWarning(annotation,
-                54, "cannot open include file: 'Header.h': No such file or directory",
-                "..//..//..//xx_Source//file.c", TYPE, "c1083", Priority.HIGH);
+        assertThat(warnings).hasSize(1).hasHighPrioritySize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("..//..//..//xx_Source//file.c")
+                    .hasCategory("c1083")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("cannot open include file: 'Header.h': No such file or directory")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(54)
+                    .hasLineEnd(54)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * Parses a file with warnings of the MS Build tools.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
      */
     @Test
-    public void issue3582() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue3582.txt"));
+    public void issue3582() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue3582.txt"));
 
-        assertEquals(1, warnings.size());
-        Issue annotation = warnings.iterator().next();
-        assertEquals("Wrong file name.", "TestLib.lib", annotation.getFileName());
+        assertThat(warnings).hasSize(1).hasHighPrioritySize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("TestLib.lib")
+                    .hasCategory("LNK1181")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("cannot open input file 'TestLib.lib'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * Parses a file with warnings of Stylecop.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-8347">Issue 8347</a>
      */
     @Test
-    public void issue8347() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue8347.txt"));
+    public void issue8347() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue8347.txt"));
 
-        assertEquals(5, warnings.size());
-        Issue annotation = warnings.iterator().next();
-        checkWarning(annotation, 2, "Using directives must be sorted alphabetically by the namespaces.",
-                "C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs",
-                TYPE, "SA1210", Priority.NORMAL);
+        assertThat(warnings).hasSize(5).hasNormalPrioritySize(5);
+
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+
+            softly.assertThat(warning)
+                    .hasFileName("C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs")
+                    .hasCategory("SA1210")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Using directives must be sorted alphabetically by the namespaces.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(2)
+                    .hasLineEnd(2)
+                    .hasColumnStart(1)
+                    .hasColumnEnd(1);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs")
+                    .hasCategory("SA1210")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Using directives must be sorted alphabetically by the namespaces.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(3)
+                    .hasLineEnd(3)
+                    .hasColumnStart(1)
+                    .hasColumnEnd(1);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs")
+                    .hasCategory("SA1210")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Using directives must be sorted alphabetically by the namespaces.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(4)
+                    .hasLineEnd(4)
+                    .hasColumnStart(1)
+                    .hasColumnEnd(1);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs")
+                    .hasCategory("SA1208")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("System using directives must be placed before all other using directives.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(6)
+                    .hasLineEnd(6)
+                    .hasColumnStart(1)
+                    .hasColumnEnd(1);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs")
+                    .hasCategory("SA1402")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("A C# document may only contain a single class at the root level unless all of the classes are partial and are of the same type.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(70)
+                    .hasLineEnd(70)
+                    .hasColumnStart(1)
+                    .hasColumnEnd(1);
+        });
     }
 
     /**
      * Parses a file with one warning of the MS Build tools (parallel build).
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
      */
     @Test
-    public void issue6709() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue6709.txt"));
+    public void issue6709() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue6709.txt"));
 
-        assertEquals(1, warnings.size());
-        Issue annotation = warnings.iterator().next();
-        checkWarning(annotation, 1145, "The variable 'ex' is declared but never used", "Rules/TaskRules.cs",
-                TYPE, "CS0168", Priority.NORMAL);
+        assertThat(warnings).hasSize(1).hasNormalPrioritySize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("Rules/TaskRules.cs")
+                    .hasCategory("CS0168")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("The variable 'ex' is declared but never used")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(1145)
+                    .hasLineEnd(1145)
+                    .hasColumnStart(49)
+                    .hasColumnEnd(49);
+        });
     }
 
     /**
      * Parses a file with one warning of the MS Build tools that are started by ant.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
-    public void issue9926() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue9926.txt"));
+    public void issue9926() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue9926.txt"));
 
-        assertEquals(1, warnings.size());
-        Issue annotation = warnings.iterator().next();
-        checkWarning(annotation, 125, "assignment within conditional expression",
-                "c:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp",
-                TYPE, "C4706", Priority.NORMAL);
+        assertThat(warnings).hasSize(1).hasNormalPrioritySize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("c:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp")
+                    .hasCategory("C4706")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("assignment within conditional expression")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(125)
+                    .hasLineEnd(125)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * Parses a file with warnings of the MS Build linker.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4932">Issue 4932</a>
      */
     @Test
-    public void issue4932() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue4932.txt"));
+    public void issue4932() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue4932.txt"));
 
-        assertEquals(2, warnings.size());
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "unresolved external symbol \"public:",
-                "SynchronisationHeure.obj",
-                TYPE, "LNK2001", Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "1 unresolved externals",
-                "Release/Navineo.exe",
-                TYPE, "LNK1120", Priority.HIGH);
+        assertThat(warnings).hasSize(2).hasHighPrioritySize(2);
+
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("SynchronisationHeure.obj")
+                    .hasCategory("LNK2001")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("unresolved external symbol \"public:")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("Release/Navineo.exe")
+                    .hasCategory("LNK1120")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("1 unresolved externals")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * Parses a file with warnings of MS sharepoint.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4731">Issue 4731</a>
      */
     @Test
-    public void issue4731() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile("issue4731.txt"));
+    public void issue4731() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile("issue4731.txt"));
+        assertThat(warnings).hasSize(11)
+                .hasDuplicatesSize(1)
+                .hasNormalPrioritySize(11);
 
-        assertEquals(12, warnings.size());
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "The Project Item \"StructureLibrary\" is included in the following Features: TypesAndLists, StructureBrowser",
-                "c:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package",
-                TYPE, "SPT6", Priority.NORMAL);
-        annotation = iterator.next();
-        annotation = iterator.next();
-        annotation = iterator.next();
-        annotation = iterator.next();
-        annotation = iterator.next();
-        annotation = iterator.next();
-        annotation = iterator.next();
-        checkWarning(annotation,
-                29,
-                "'Ptc.Ppm.PpmInstaller.PpmInstaller.InitializeComponent()' hides inherited member 'Ptc.Platform.Forms.Wizard.WizardControl.InitializeComponent()'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword.",
-                "c:/playpens/Catalyst/PPM/tools/Ptc.Ppm.Configurator/src/Ptc.Ppm.PpmInstaller/PpmInstaller.Designer.cs",
-                TYPE, "CS0114", Priority.NORMAL);
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+
+            softly.assertThat(warning)
+                    .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
+                    .hasCategory("SPT6")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("The Project Item \"StructureLibrary\" is included in the following Features: TypesAndLists, StructureBrowser")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
+                    .hasCategory("SPT6")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("The Project Item \"StructureViewWebPart\" is included in the following Features: PlatformWebParts, StructureBrowser")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
+                    .hasCategory("SPT6")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("The Project Item \"TestPages\" is included in the following Features: SiteLibraryAndPages, DemoSite")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
+                    .hasCategory("SPT6")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("The Project Item \"Test Items\" is included in the following Features: SiteLibraryAndPages, DemoSite")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * Parses a file with warnings of the MS Build tools.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseWarnings() throws IOException {
-        Issues warnings = new MsBuildParser().parse(openFile());
+    public void parseWarnings() {
+        Issues<Issue> warnings = new MsBuildParser().parse(openFile());
 
-        assertEquals(6, warnings.size());
+        assertThat(warnings)
+                .hasSize(6)
+                .hasHighPrioritySize(2)
+                .hasNormalPrioritySize(3)
+                .hasLowPrioritySize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                2242, 17,
-                "The variable 'type' is declared but never used",
-                "Src/Parser/CSharp/cs.ATG",
-                TYPE, "CS0168", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                10,
-                "An error occurred",
-                "C:/Src/Parser/CSharp/file.cs",
-                TYPE, "XXX", Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                1338,
-                "System.ComponentModel.Design.ComponentDesigner.OnSetComponentDefaults() : This method has been deprecated. Use InitializeNewComponent instead. http://go.microsoft.com/fwlink/?linkid=14202",
-                "Controls/MozItem.cs",
-                TYPE, "CS0618", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                3001, 5,
-                "Hier kommt der Warnings Text",
-                "MediaPortal.cs",
-                TYPE, "CS0162", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                18,
-                "Cannot open include file: xyz.h:...",
-                "x/a/b/include/abc.h",
-                TYPE, "C1083", Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                5,
-                "This is an info message from PcLint",
-                "foo.h",
-                TYPE, "701", Priority.LOW);
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+
+            softly.assertThat(warning)
+                    .hasFileName("Src/Parser/CSharp/cs.ATG")
+                    .hasCategory("CS0168")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("The variable 'type' is declared but never used")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(2242)
+                    .hasLineEnd(2242)
+                    .hasColumnStart(17)
+                    .hasColumnEnd(17);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("C:/Src/Parser/CSharp/file.cs")
+                    .hasCategory("XXX")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("An error occurred")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(10)
+                    .hasLineEnd(10)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("Controls/MozItem.cs")
+                    .hasCategory("CS0618")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("System.ComponentModel.Design.ComponentDesigner.OnSetComponentDefaults() : This method has been deprecated. Use InitializeNewComponent instead. http://go.microsoft.com/fwlink/?linkid=14202")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(1338)
+                    .hasLineEnd(1338)
+                    .hasColumnStart(4)
+                    .hasColumnEnd(4);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("MediaPortal.cs")
+                    .hasCategory("CS0162")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Hier kommt der Warnings Text")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(3001)
+                    .hasLineEnd(3001)
+                    .hasColumnStart(5)
+                    .hasColumnEnd(5);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("x/a/b/include/abc.h")
+                    .hasCategory("C1083")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("Cannot open include file: xyz.h:...")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(18)
+                    .hasLineEnd(18)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("foo.h")
+                    .hasCategory("701")
+                    .hasPriority(Priority.LOW)
+                    .hasMessage("This is an info message from PcLint")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(5)
+                    .hasLineEnd(5)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     /**
      * MSBuildParser should also detect keywords 'Warning' and 'Error', as they are produced by the .NET-2.0 compiler of
      * VS2005.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-2383">Issue 2383</a>
      */
     @Test
     public void shouldDetectKeywordsInRegexCaseInsensitive() throws IOException {
-        StringBuilder testData = new StringBuilder(256);
-        testData.append("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning CS0168: The variable 'type' is declared but never used");
-        testData.append("\r\n");
-        testData.append("C:\\Src\\Parser\\CSharp\\file.cs (10): Error XXX: An error occurred");
+        String containsErrorAndWarningKeywords = "Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs (10): Error XXX: An error occurred";
 
-        Issues warnings = new MsBuildParser().parse(new InputStreamReader(
-                IOUtils.toInputStream(testData.toString(), "UTF-8")));
+        Issues<Issue> warnings = new MsBuildParser().parse(new InputStreamReader(
+                IOUtils.toInputStream(containsErrorAndWarningKeywords, "UTF-8")
+        ));
 
-        assertEquals(2, warnings.size());
+        assertThat(warnings).hasSize(2).hasHighPrioritySize(1).hasNormalPrioritySize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                2242,
-                "The variable 'type' is declared but never used",
-                "Src/Parser/CSharp/cs.ATG",
-                TYPE, "CS0168", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                10,
-                "An error occurred",
-                "C:/Src/Parser/CSharp/file.cs",
-                TYPE, "XXX", Priority.HIGH);
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = warnings.iterator();
+            Issue warning = iterator.next();
+
+            softly.assertThat(warning)
+                    .hasFileName("Src/Parser/CSharp/cs.ATG")
+                    .hasCategory("CS0168")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("The variable 'type' is declared but never used")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(2242)
+                    .hasLineEnd(2242)
+                    .hasColumnStart(17)
+                    .hasColumnEnd(17);
+
+            warning = iterator.next();
+            softly.assertThat(warning)
+                    .hasFileName("C:/Src/Parser/CSharp/file.cs")
+                    .hasCategory("XXX")
+                    .hasPriority(Priority.HIGH)
+                    .hasMessage("An error occurred")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(10)
+                    .hasLineEnd(10)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        });
     }
 
     @Override

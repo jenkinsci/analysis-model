@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
@@ -23,11 +24,11 @@ public class NagFortranParser extends RegexpDocumentParser {
      * Creates a new instance of {@link NagFortranParser}.
      */
     public NagFortranParser() {
-        super("nag-fortran", NAGFOR_MSG_PATTERN, true);
+        super(NAGFOR_MSG_PATTERN, true);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(1);
         int lineNumber;
         Priority priority;
@@ -50,7 +51,7 @@ public class NagFortranParser extends RegexpDocumentParser {
             priority = Priority.NORMAL;
         }
 
-        return issueBuilder().setFileName(matcher.group(2)).setLineStart(lineNumber).setCategory(category)
+        return builder.setFileName(matcher.group(2)).setLineStart(lineNumber).setCategory(category)
                              .setMessage(matcher.group(5)).setPriority(priority).build();
     }
 }

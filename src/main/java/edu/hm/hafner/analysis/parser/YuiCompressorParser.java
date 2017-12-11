@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
@@ -29,16 +30,16 @@ public class YuiCompressorParser extends RegexpDocumentParser {
      * Creates a new instance of <code>YuiCompressorParser</code>.
      */
     public YuiCompressorParser() {
-        super("yui-compressor", YUI_COMPRESSOR_WARNING_PATTERN, true);
+        super(YUI_COMPRESSOR_WARNING_PATTERN, true);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         final String messageHeader = matcher.group(1);
         CategoryAndPriority categoryAndPriority = getCategoryAndPriority(messageHeader);
         final String messageDetails = matcher.group(2);
         final String message = messageHeader + " [" + messageDetails + "]";
-        return issueBuilder().setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
+        return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
                              .setMessage(message).setPriority(categoryAndPriority.getPriority()).build();
     }
 

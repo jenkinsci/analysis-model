@@ -1,111 +1,127 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.Assert.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link DiabCParser}.
  */
 public class DiabCParserTest extends ParserTester {
-    private static final String TYPE = new DiabCParser().getId();
-
     /**
      * Parses a file with 13 warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseDiabCpp() throws IOException {
-        Issues warnings = new DiabCParser().parse(openFile());
-
-        assertEquals(13, warnings.size());
+    public void parseDiabCpp() {
+        Issues<Issue> warnings = new DiabCParser().parse(openFile());
+        assertThat(warnings).hasSize(12).hasDuplicatesSize(1);
 
         Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                7,
-                "missing return expression",
-                "lint.c",
-                TYPE, "1521", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                22,
-                "narrowing or signed-to-unsigned type conversion found: int to unsigned char",
-                "lint.c",
-                TYPE, "1643", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                28,
-                "constant out of range",
-                "lint.c",
-                TYPE, "1243", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                4,
-                "function f4 is never used",
-                "lint.c",
-                TYPE, "1517", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                11,
-                "function f5 is not found",
-                "lint.c",
-                TYPE, "1378", Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                5,
-                "division by zero",
-                "main.c",
-                TYPE, "1025", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                5,
-                "division by zero",
-                "main.c",
-                TYPE, "1025", Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                5,
-                "division by zero",
-                "main.c",
-                TYPE, "1025", Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                976,
-                "function \"testing\" was declared but never referenced",
-                "test.cpp",
-                TYPE, "4177", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                427,
-                "pointless comparison of unsigned integer with zero",
-                "test.cpp",
-                TYPE, "4186", Priority.NORMAL);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                38,
-                "expected a \";\"",
-                "test.cpp",
-                TYPE, "4065", Priority.HIGH);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                443,
-                "external/internal linkage conflict with previous declaration",
-                "test.cpp",
-                TYPE, "4172", Priority.LOW);
-        annotation = iterator.next();
-        checkWarning(annotation,
-                293,
-                "access control not specified (\"private\" by default)",
-                "test.h",
-                TYPE, "4261", Priority.LOW);
+
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(iterator.next())
+                .hasLineStart(7)
+                .hasLineEnd(7)
+                .hasMessage("missing return expression")
+                .hasFileName("lint.c")
+                .hasCategory("1521")
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(22)
+                .hasLineEnd(22)
+                .hasMessage("narrowing or signed-to-unsigned type conversion found: int to unsigned char")
+                .hasFileName("lint.c")
+                .hasCategory("1643")
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(28)
+                .hasLineEnd(28)
+                .hasMessage("constant out of range")
+                .hasFileName("lint.c")
+                .hasCategory("1243")
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(4)
+                .hasLineEnd(4)
+                .hasMessage("function f4 is never used")
+                .hasFileName("lint.c")
+                .hasCategory("1517")
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(11)
+                .hasLineEnd(11)
+                .hasMessage("function f5 is not found")
+                .hasFileName("lint.c")
+                .hasCategory("1378")
+                .hasPriority(Priority.HIGH);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasMessage("division by zero")
+                .hasFileName("main.c")
+                .hasCategory("1025")
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasMessage("division by zero")
+                .hasFileName("main.c")
+                .hasCategory("1025")
+                .hasPriority(Priority.HIGH);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(976)
+                .hasLineEnd(976)
+                .hasMessage("function \"testing\" was declared but never referenced")
+                .hasFileName("test.cpp")
+                .hasCategory("4177")
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(427)
+                .hasLineEnd(427)
+                .hasMessage("pointless comparison of unsigned integer with zero")
+                .hasFileName("test.cpp")
+                .hasCategory("4186")
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(38)
+                .hasLineEnd(38)
+                .hasMessage("expected a \";\"")
+                .hasFileName("test.cpp")
+                .hasCategory("4065")
+                .hasPriority(Priority.HIGH);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(443)
+                .hasLineEnd(443)
+                .hasMessage("external/internal linkage conflict with previous declaration")
+                .hasFileName("test.cpp")
+                .hasCategory("4172")
+                .hasPriority(Priority.LOW);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(293)
+                .hasLineEnd(293)
+                .hasMessage("access control not specified (\"private\" by default)")
+                .hasFileName("test.h")
+                .hasCategory("4261")
+                .hasPriority(Priority.LOW);
+
+        softly.assertAll();
     }
 
     @Override

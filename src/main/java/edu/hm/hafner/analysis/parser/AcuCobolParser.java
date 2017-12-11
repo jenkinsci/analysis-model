@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 
 /**
  * A parser for the Acu Cobol compile.
@@ -18,7 +19,7 @@ public class AcuCobolParser extends FastRegexpLineParser {
      * Creates a new instance of {@link AcuCobolParser}.
      */
     public AcuCobolParser() {
-        super("acu-cobol", ACU_COBOL_WARNING_PATTERN);
+        super(ACU_COBOL_WARNING_PATTERN);
     }
 
     @Override
@@ -27,11 +28,13 @@ public class AcuCobolParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
-        String message = matcher.group(4);
-        String category = guessCategory(message);
-        return issueBuilder().setFileName(matcher.group(2)).setLineStart(parseInt(matcher.group(3)))
-                             .setCategory(category).setMessage(message).build();
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+        return builder
+                .setFileName(matcher.group(2))
+                .setLineStart(parseInt(matcher.group(3)))
+                .setCategory(guessCategory(matcher.group(4)))
+                .setMessage(matcher.group(4))
+                .build();
     }
 }
 

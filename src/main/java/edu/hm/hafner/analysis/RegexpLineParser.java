@@ -19,22 +19,21 @@ public abstract class RegexpLineParser extends RegexpParser {
     /**
      * Creates a new instance of {@link RegexpLineParser}.
      *
-     * @param id             ID of the parser
      * @param warningPattern pattern of compiler warnings.
      */
-    protected RegexpLineParser(final String id, final String warningPattern) {
-        super(id, warningPattern, false);
+    protected RegexpLineParser(final String warningPattern) {
+        super(warningPattern, false);
     }
 
     @Override
-    public Issues parse(final Reader reader) throws ParsingCanceledException {
-        Issues issues = new Issues();
+    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingCanceledException {
+        Issues<Issue> issues = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(reader);
         try {
             currentLine = 0;
             while (iterator.hasNext()) {
                 String line = getTransformer().apply(iterator.nextLine());
-                findAnnotations(line, issues);
+                findAnnotations(line, issues, builder);
                 currentLine++;
             }
         }
@@ -42,16 +41,17 @@ public abstract class RegexpLineParser extends RegexpParser {
             iterator.close();
         }
 
-        return postProcessWarnings(issues);
+        return postProcessWarnings(issues, builder);
     }
 
     /**
      * Post processes the issues. This default implementation does nothing.
      *
-     * @param issues the issues after the parsing process
+     * @param issues  the issues after the parsing process
+     * @param builder the builder to create the issues with
      * @return the post processed issues
      */
-    protected Issues postProcessWarnings(final Issues issues) {
+    protected Issues<Issue> postProcessWarnings(final Issues<Issue> issues, final IssueBuilder builder) {
         return issues;
     }
 

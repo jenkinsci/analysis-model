@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.util.Iterator;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.Assert.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link YuiCompressorParser}.
@@ -16,45 +14,42 @@ import static org.junit.Assert.*;
  * @author Emidio Stani
  */
 public class YuiCompressorParserTest extends ParserTester {
-    private static final String TYPE = new YuiCompressorParser().getId();
-
     /**
      * Parses a file with 3 warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void parseDeprecation() throws IOException {
-        Issues warnings = new YuiCompressorParser().parse(openFile());
+    public void parseDeprecation() {
+        Issues<Issue> warnings = new YuiCompressorParser().parse(openFile());
 
-        assertEquals(3, warnings.size());
+        assertThat(warnings).hasSize(3);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue annotation = iterator.next();
-
-        checkWarning(annotation,
-                0,
-                "Try to use a single 'var' statement per scope."
-                        + " [match){returnstringResult;}for( ---> var  <--- i=0;match&&i<match]",
-                "unknown.file",
-                TYPE, "Use single 'var' per scope", Priority.LOW);
-
-        annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "The variable replacement has already been declared in the same scope..."
-                        + " [replace(variable,replacement);}var  ---> replacement <--- =globalStoredVars[name];if(replacement!=]",
-                "unknown.file",
-                TYPE, "Duplicate variable", Priority.HIGH);
-
-        annotation = iterator.next();
-        checkWarning(annotation,
-                0,
-                "Using 'eval' is not recommended. Moreover, using 'eval' reduces the level of compression!"
-                        + " [function(condition,label){if( ---> eval <--- (condition)){this.doGotolabel(label]",
-                "unknown.file",
-                TYPE, "Use eval", Priority.HIGH);
-
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.LOW)
+                    .hasCategory("Use single 'var' per scope")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("Try to use a single 'var' statement per scope."
+                        + " [match){returnstringResult;}for( ---> var  <--- i=0;match&&i<match]")
+                    .hasFileName("unknown.file");
+            softly.assertThat(warnings.get(1))
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("Duplicate variable")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("The variable replacement has already been declared in the same scope..."
+                        + " [replace(variable,replacement);}var  ---> replacement <--- =globalStoredVars[name];if(replacement!=]")
+                    .hasFileName("unknown.file");
+            softly.assertThat(warnings.get(2))
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("Use eval")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage(
+                            "Using 'eval' is not recommended. Moreover, using 'eval' reduces the level of compression!"
+                        + " [function(condition,label){if( ---> eval <--- (condition)){this.doGotolabel(label]")
+                    .hasFileName("unknown.file");
+        });
     }
 
     @Override

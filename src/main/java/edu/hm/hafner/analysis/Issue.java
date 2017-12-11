@@ -33,76 +33,19 @@ public class Issue implements Serializable {
     private final int columnStart;
     private final int columnEnd;
 
-    private final UUID uuid;
+    private final UUID id;
 
-    private String fingerprint;
+    private final String fingerprint;
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
 
-        Issue issue = (Issue) o;
-
-        if (lineStart != issue.lineStart) {
-            return false;
-        }
-        if (lineEnd != issue.lineEnd) {
-            return false;
-        }
-        if (columnStart != issue.columnStart) {
-            return false;
-        }
-        if (columnEnd != issue.columnEnd) {
-            return false;
-        }
-        if (!fileName.equals(issue.fileName)) {
-            return false;
-        }
-        if (!category.equals(issue.category)) {
-            return false;
-        }
-        if (!type.equals(issue.type)) {
-            return false;
-        }
-        if (priority != issue.priority) {
-            return false;
-        }
-        if (!message.equals(issue.message)) {
-            return false;
-        }
-        if (!description.equals(issue.description)) {
-            return false;
-        }
-        if (!packageName.equals(issue.packageName)) {
-            return false;
-        }
-        if (!moduleName.equals(issue.moduleName)) {
-            return false;
-        }
-        return origin.equals(issue.origin);
+    public Issue(final Issue copy, final UUID id) {
+        this(copy.fileName, copy.lineStart, copy.lineEnd, copy.columnStart, copy.columnEnd, copy.category, copy.type,
+                copy.packageName, copy.moduleName, copy.priority, copy.message, copy.description, copy.origin,
+                copy.fingerprint, id);
     }
 
-    @Override
-    public int hashCode() {
-        int result = fileName.hashCode();
-        result = 31 * result + category.hashCode();
-        result = 31 * result + type.hashCode();
-        result = 31 * result + priority.hashCode();
-        result = 31 * result + message.hashCode();
-        result = 31 * result + description.hashCode();
-        result = 31 * result + packageName.hashCode();
-        result = 31 * result + moduleName.hashCode();
-        result = 31 * result + origin.hashCode();
-        result = 31 * result + lineStart;
-        result = 31 * result + lineEnd;
-        result = 31 * result + columnStart;
-        result = 31 * result + columnEnd;
-        return result;
+    public Issue(final Issue copy) {
+        this(copy, UUID.randomUUID());
     }
 
     /**
@@ -134,15 +77,29 @@ public class Issue implements Serializable {
      *         the description for this issue
      * @param origin
      *         the ID of the tool that did report this issue
+     * @param fingerprint
+     *         the finger print for this issue
      */
     @SuppressWarnings("ParameterNumber")
-    Issue(@CheckForNull final String fileName,
+    protected Issue(@CheckForNull final String fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @CheckForNull final String category, @CheckForNull final String type,
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
             @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
-            @CheckForNull final String origin) {
+            @CheckForNull final String origin, @CheckForNull final String fingerprint) {
+        this(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
+                packageName, moduleName, priority, message, description, origin, fingerprint, UUID.randomUUID());
+    }
+
+    private Issue(@CheckForNull final String fileName,
+            final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
+            @CheckForNull final String category, @CheckForNull final String type,
+            @CheckForNull final String packageName, @CheckForNull final String moduleName,
+            @CheckForNull final Priority priority,
+            @CheckForNull final String message, @CheckForNull final String description,
+            @CheckForNull final String origin, @CheckForNull final String fingerprint,
+            final UUID id) {
         this.fileName = defaultString(StringUtils.replace(StringUtils.strip(fileName), "\\", "/"));
 
         this.lineStart = defaultInteger(lineStart);
@@ -162,9 +119,10 @@ public class Issue implements Serializable {
 
         this.origin = StringUtils.stripToEmpty(origin);
 
-        uuid = UUID.randomUUID();
-    }
+        this.fingerprint = defaultString(fingerprint);
 
+        this.id = id;
+    }
 
     private int defaultInteger(final int integer) {
         return integer < 0 ? 0 : integer;
@@ -180,7 +138,7 @@ public class Issue implements Serializable {
      * @return the unique ID
      */
     public final UUID getId() {
-        return uuid;
+        return id;
     }
 
     /**
@@ -312,19 +270,7 @@ public class Issue implements Serializable {
      */
     // TODO: should the fingerprint be part of equals/hashcode?
     public String getFingerprint() {
-        return defaultString(fingerprint);
-    }
-
-    /**
-     * Sets the finger print for this issue.
-     *
-     * @param fingerprint
-     *         the fingerprint for this issue
-     *
-     * @see #getFingerprint()
-     */
-    public void setFingerprint(final String fingerprint) {
-        this.fingerprint = fingerprint;
+        return fingerprint;
     }
 
     @Override
@@ -332,4 +278,71 @@ public class Issue implements Serializable {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Issue issue = (Issue) o;
+
+        if (lineStart != issue.lineStart) {
+            return false;
+        }
+        if (lineEnd != issue.lineEnd) {
+            return false;
+        }
+        if (columnStart != issue.columnStart) {
+            return false;
+        }
+        if (columnEnd != issue.columnEnd) {
+            return false;
+        }
+        if (!fileName.equals(issue.fileName)) {
+            return false;
+        }
+        if (!category.equals(issue.category)) {
+            return false;
+        }
+        if (!type.equals(issue.type)) {
+            return false;
+        }
+        if (priority != issue.priority) {
+            return false;
+        }
+        if (!message.equals(issue.message)) {
+            return false;
+        }
+        if (!description.equals(issue.description)) {
+            return false;
+        }
+        if (!packageName.equals(issue.packageName)) {
+            return false;
+        }
+        if (!moduleName.equals(issue.moduleName)) {
+            return false;
+        }
+        return origin.equals(issue.origin);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = fileName.hashCode();
+        result = 31 * result + category.hashCode();
+        result = 31 * result + type.hashCode();
+        result = 31 * result + priority.hashCode();
+        result = 31 * result + message.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + packageName.hashCode();
+        result = 31 * result + moduleName.hashCode();
+        result = 31 * result + origin.hashCode();
+        result = 31 * result + lineStart;
+        result = 31 * result + lineEnd;
+        result = 31 * result + columnStart;
+        result = 31 * result + columnEnd;
+        return result;
+    }
 }

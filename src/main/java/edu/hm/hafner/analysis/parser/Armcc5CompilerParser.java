@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -20,7 +21,7 @@ public class Armcc5CompilerParser extends FastRegexpLineParser {
      * Creates a new instance of {@link Armcc5CompilerParser}.
      */
     public Armcc5CompilerParser() {
-        super("armcc5", ARMCC5_WARNING_PATTERN);
+        super(ARMCC5_WARNING_PATTERN);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class Armcc5CompilerParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String fileName = matcher.group(1);
         int lineNumber = parseInt(matcher.group(2));
         String type = matcher.group(3);
@@ -44,7 +45,7 @@ public class Armcc5CompilerParser extends FastRegexpLineParser {
             priority = Priority.NORMAL;
         }
 
-        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setMessage(errorCode + " - " + message)
+        return builder.setFileName(fileName).setLineStart(lineNumber).setMessage(errorCode + " - " + message)
                              .setPriority(priority).build();
     }
 }

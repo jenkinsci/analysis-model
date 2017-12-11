@@ -1,12 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
-import static org.junit.Assert.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
@@ -16,13 +15,12 @@ import static org.junit.Assert.*;
 public class CssLintParserTest extends ParserTester {
     /**
      * Tests parsing of CSS-Lint files.
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void testCssLint() throws IOException {
-        Issues results = createParser().parse(openFile());
-        assertEquals(51, results.size());
+    public void testCssLint() {
+        Issues<Issue> results = createParser().parse(openFile());
+
+        assertThat(results).hasSize(51);
     }
 
     /**

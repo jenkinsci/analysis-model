@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -20,15 +21,15 @@ public class Pep8Parser extends FastRegexpLineParser {
      * Creates a new instance of {@link Pep8Parser}.
      */
     public Pep8Parser() {
-        super("pep8", PEP8_WARNING_PATTERN);
+        super(PEP8_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(5);
         String category = guessCategoryIfEmpty(matcher.group(4), message);
 
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                              .setColumnStart(parseInt(matcher.group(3))).setCategory(category).setMessage(message)
                              .setPriority(mapPriority(category)).build();
     }

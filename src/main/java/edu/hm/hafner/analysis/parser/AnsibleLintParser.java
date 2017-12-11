@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 
 
 /**
@@ -20,7 +21,7 @@ public class AnsibleLintParser extends FastRegexpLineParser {
      * Creates a new instance of {@link AnsibleLintParser}
      */
     public AnsibleLintParser() {
-        super("ansible-lint", ANSIBLE_LINT_WARNING_PATTERN);
+        super(ANSIBLE_LINT_WARNING_PATTERN);
     }
 
     @Override
@@ -29,16 +30,12 @@ public class AnsibleLintParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
-        String fileName = matcher.group(1);
-        String lineNumber = matcher.group(2);
-        String category = matcher.group(3);
-        String message = matcher.group(4);
-        return issueBuilder()
-                .setFileName(fileName)
-                .setLineStart(parseInt(lineNumber))
-                .setCategory(category)
-                .setMessage(message)
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+        return builder
+                .setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(matcher.group(3))
+                .setMessage(matcher.group(4))
                 .build();
     }
 }

@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -19,15 +20,15 @@ public class SphinxBuildParser extends RegexpLineParser {
      * Creates a new instance of {@link SphinxBuildParser}.
      */
     public SphinxBuildParser() {
-        super("sphinx", SPHINX_BUILD_WARNING_PATTERN);
+        super(SPHINX_BUILD_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(category).setMessage(message).setPriority(mapPriority(category)).build();
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                      .setCategory(category).setMessage(message).setPriority(mapPriority(category)).build();
     }
 
     private Priority mapPriority(final String priority) {

@@ -55,6 +55,9 @@ public enum Priority {
     /**
      * Compares the {@code name()} of this priority to the specified name, ignoring case considerations.
      *
+     * @param name
+     *         the name to compare with
+     *
      * @return {@code true} if the names are equal, {@code false} otherwise
      */
     public boolean equalsIgnoreCase(final String name) {

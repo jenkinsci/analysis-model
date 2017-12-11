@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
@@ -22,7 +23,7 @@ public class EclipseParser extends RegexpDocumentParser {
             "(?:\\(at line\\s*(\\d+)\\)|" +  // either group 3 'lineNumber': at line dd
             ":\\[(\\d+)).*" +                // or group 4 'rowNumber': eg :[row,col] - col ignored
             "(?:\\r?\\n[^\\^\\n]*){1,3}" +   // 1 or 3 ignored lines (no column pointer) eg source excerpt
-            "\\r?\\n(.*)" +                  // newline then group 5 (indent for column pointers)
+            "\\r?\\n([^\\^]*)" +             // newline then group 5 (indent for column pointers)
             "([\\^]+).*" +                   // group 6 column pointers (^^^^^)
             "\\r?\\n(?:\\s*\\[.*\\]\\s*)?" + // newline then optional ignored text in [] (eg [javac])
             "(.*)";                          // group 7 'message'
@@ -31,11 +32,11 @@ public class EclipseParser extends RegexpDocumentParser {
      * Creates a new instance of {@link EclipseParser}.
      */
     public EclipseParser() {
-        super("ejc", ANT_ECLIPSE_WARNING_PATTERN, true);
+        super(ANT_ECLIPSE_WARNING_PATTERN, true);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(1));
         Priority priority;
         if ("warning".equalsIgnoreCase(type)) {
@@ -45,15 +46,18 @@ public class EclipseParser extends RegexpDocumentParser {
             priority = Priority.HIGH;
         }
 
-        int columnStart = StringUtils.defaultString(matcher.group(5)).length();
+        int columnStart = StringUtils.defaultString(matcher.group(5)).length() + 1;
         int columnEnd = columnStart + matcher.group(6).length();
 
-        Issue issue = issueBuilder().setFileName(matcher.group(2)).setLineStart(parseInt(getLine(matcher)))
-                                    .setColumnStart(columnStart).setColumnEnd(columnEnd).setType(getId())
-                                    .setCategory(StringUtils.EMPTY).setMessage(matcher.group(7)).setPriority(priority)
-                                    .build();
-
-        return issue;
+        return builder
+                .setFileName(matcher.group(2))
+                .setLineStart(parseInt(getLine(matcher)))
+                .setColumnStart(columnStart)
+                .setColumnEnd(columnEnd)
+                .setCategory(StringUtils.EMPTY)
+                .setMessage(matcher.group(7))
+                .setPriority(priority)
+                .build();
     }
 
     private String getLine(final Matcher matcher) {

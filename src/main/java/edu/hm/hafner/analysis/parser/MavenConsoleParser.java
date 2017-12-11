@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 
@@ -7,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 
@@ -29,7 +31,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
      * Creates a new instance of {@link MavenConsoleParser}.
      */
     public MavenConsoleParser() {
-        super("maven", PATTERN);
+        super(PATTERN);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         Priority priority;
         String category;
         if (ERROR.equals(matcher.group(1))) {
@@ -49,14 +51,14 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return issueBuilder().setFileName(CONSOLE).setLineStart(getCurrentLine()).setCategory(category)
+        return builder.setFileName(CONSOLE).setLineStart(getCurrentLine()).setCategory(category)
                              .setMessage(matcher.group(2)).setPriority(priority).build();
     }
 
     // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
     @Override
-    protected Issues postProcessWarnings(final Issues warnings) {
-        LinkedList<Issue> condensed = new LinkedList<>();
+    protected Issues<Issue> postProcessWarnings(final Issues<Issue> warnings, final IssueBuilder builder) {
+        Deque<Issue> condensed = new LinkedList<>();
         int line = -1;
         for (Issue warning : warnings) {
             if (warning.getLineStart() == line + 1 && !condensed.isEmpty()) {
@@ -64,10 +66,10 @@ public class MavenConsoleParser extends FastRegexpLineParser {
                 if (previous.getPriority() == warning.getPriority()) {
                     condensed.removeLast();
                     if (previous.getMessage().length() + warning.getMessage().length() >= MAX_MESSAGE_LENGTH) {
-                        condensed.add(issueBuilder().copy(previous).setLineStart(warning.getLineStart()).build());
+                        condensed.add(builder.copy(previous).setLineStart(warning.getLineStart()).build());
                     }
                     else {
-                        condensed.add(issueBuilder().copy(previous).setLineStart(warning.getLineStart())
+                        condensed.add(builder.copy(previous).setLineStart(warning.getLineStart())
                                                     .setMessage(previous.getMessage() + "\n" + warning.getMessage())
                                                     .build());
                     }
@@ -81,7 +83,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             }
             line = warning.getLineStart();
         }
-        Issues noBlank = new Issues();
+        Issues<Issue> noBlank = new Issues<>();
         for (Issue warning : condensed) {
             if (StringUtils.isNotBlank(warning.getMessage())) {
                 noBlank.add(warning);

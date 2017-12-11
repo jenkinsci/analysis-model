@@ -16,6 +16,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -33,18 +35,18 @@ public class IdeaInspectionParser extends AbstractParser {
      * Creates a new instance of {@link IdeaInspectionParser}.
      */
     public IdeaInspectionParser() {
-        super("idea");
+        super();
     }
 
     @Override
-    public Issues parse(Reader reader) throws ParsingException {
+    public Issues<Issue> parse(Reader reader, final IssueBuilder builder) throws ParsingException {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(new InputSource(reader));
 
             Element rootElement = (Element)document.getElementsByTagName("problems").item(0);
-            return parseProblems(XmlElementUtil.getNamedChildElements(rootElement, "problem"));
+            return parseProblems(XmlElementUtil.getNamedChildElements(rootElement, "problem"), builder);
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);
@@ -54,8 +56,8 @@ public class IdeaInspectionParser extends AbstractParser {
         }
     }
 
-    private Issues parseProblems(List<Element> elements) {
-        Issues problems = new Issues();
+    private Issues<Issue> parseProblems(List<Element> elements, final IssueBuilder builder) {
+        Issues<Issue> problems = new Issues<>();
         for (Element element : elements) {
             String file = getChildValue(element, "file");
             int line = Integer.parseInt(getChildValue(element, "line"));
@@ -63,7 +65,7 @@ public class IdeaInspectionParser extends AbstractParser {
             String severity = problemClass.getAttribute("severity");
             String category = StringEscapeUtils.unescapeXml(getValue(problemClass));
             String description = StringEscapeUtils.unescapeXml(getChildValue(element, "description"));
-            problems.add(issueBuilder().setFileName(file).setLineStart(line).setCategory(category)
+            problems.add(builder.setFileName(file).setLineStart(line).setCategory(category)
                                        .setMessage(description).setPriority(getPriority(severity)).build());
         }
         return problems;

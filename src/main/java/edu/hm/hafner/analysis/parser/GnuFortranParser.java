@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
@@ -32,11 +33,11 @@ public class GnuFortranParser extends RegexpDocumentParser {
      * Creates a new instance of {@link GnuFortranParser}.
      */
     public GnuFortranParser() {
-        super("gnu-fortran", GFORTRAN_MSG_PATTERN, true);
+        super(GFORTRAN_MSG_PATTERN, true);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String columnStart = matcher.group(3);
         String columnEnd = matcher.group(4);
         String category = matcher.group(5).replaceAll(LINE_REGEXP, "");
@@ -44,20 +45,20 @@ public class GnuFortranParser extends RegexpDocumentParser {
 
         if (StringUtils.isNotEmpty(columnStart)) {
             if (StringUtils.isNotEmpty(columnEnd)) {
-                return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                                      .setColumnStart(parseInt(columnStart)).setColumnEnd(parseInt(columnEnd))
                                      .setCategory(category).setMessage(matcher.group(6).replaceAll(LINE_REGEXP, ""))
                                      .setPriority(priority).build();
             }
             else {
-                return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                                      .setColumnStart(parseInt(columnStart)).setCategory(category)
                                      .setMessage(matcher.group(6).replaceAll(LINE_REGEXP, "")).setPriority(priority)
                                      .build();
             }
         }
         else {
-            return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+            return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                                  .setCategory(category).setMessage(matcher.group(6).replaceAll(LINE_REGEXP, ""))
                                  .setPriority(priority).build();
         }

@@ -12,8 +12,9 @@ import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
  */
 class IssueBuilderTest {
     private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0,
-            null, null, null, null, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN);
+            null, null, null, null, null, null, null, null, null);
+    private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
+            CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
 
     @Test
     void testDefaultValues() {

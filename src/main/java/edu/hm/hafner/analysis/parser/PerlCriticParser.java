@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -21,11 +22,11 @@ public class PerlCriticParser extends RegexpLineParser {
      * Creates a new instance of {@link PerlCriticParser}.
      */
     public PerlCriticParser() {
-        super("perl-critic", PERLCRITIC_WARNING_PATTERN);
+        super(PERLCRITIC_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String filename;
         if (matcher.group(1) == null) {
             filename = "-";
@@ -40,8 +41,8 @@ public class PerlCriticParser extends RegexpLineParser {
         String category = matcher.group(5);
         Priority priority = checkPriority(Integer.parseInt(matcher.group(6)));
 
-        return issueBuilder().setFileName(filename).setLineStart(line).setColumnStart(column).setCategory(category)
-                             .setMessage(message).setPriority(priority).build();
+        return builder.setFileName(filename).setLineStart(line).setColumnStart(column).setCategory(category)
+                      .setMessage(message).setPriority(priority).build();
     }
 
     /**

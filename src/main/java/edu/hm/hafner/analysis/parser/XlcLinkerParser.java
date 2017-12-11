@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -31,39 +32,39 @@ public class XlcLinkerParser extends RegexpLineParser {
      * them as one parser in UI.
      */
     public XlcLinkerParser() {
-        super("xlc-linker", XLC_LINKER_WARNING_PATTERN);
+        super(XLC_LINKER_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher0) {
+    protected Issue createWarning(final Matcher matcher0, final IssueBuilder builder) {
         String line = matcher0.group(0);
         Matcher matcher = PATTERN_ERROR_1.matcher(line);
         if (matcher.find()) {
             String category = matcher.group(1);
             String message = matcher.group(2);
-            return issueBuilder().setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                                 .setPriority(Priority.HIGH).build();
+            return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
+                          .setPriority(Priority.HIGH).build();
         }
         matcher = PATTERN_ERROR_2.matcher(line);
         if (matcher.find()) {
             String category = matcher.group(1);
             String message = matcher.group(2);
-            return issueBuilder().setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                                 .setPriority(Priority.HIGH).build();
+            return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
+                          .setPriority(Priority.HIGH).build();
         }
         matcher = PATTERN_WARNING.matcher(line);
         if (matcher.find()) {
             String category = matcher.group(1);
             String message = matcher.group(2);
-            return issueBuilder().setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                                 .setPriority(Priority.NORMAL).build();
+            return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
+                          .setPriority(Priority.NORMAL).build();
         }
         matcher = PATTERN_INFO.matcher(line);
         if (matcher.find()) {
             String category = matcher.group(1);
             String message = matcher.group(2);
-            return issueBuilder().setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                                 .setPriority(Priority.LOW).build();
+            return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
+                          .setPriority(Priority.LOW).build();
         }
         return FALSE_POSITIVE;
     }

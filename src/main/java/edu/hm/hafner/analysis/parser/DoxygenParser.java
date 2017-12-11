@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
@@ -72,11 +73,11 @@ public class DoxygenParser extends RegexpDocumentParser {
      * Creates a new instance of {@link DoxygenParser}.
      */
     public DoxygenParser() {
-        super("doxygen", DOXYGEN_WARNING_PATTERN, true);
+        super(DOXYGEN_WARNING_PATTERN, true);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message;
         String fileName = "";
         int lineNumber = 0;
@@ -108,7 +109,7 @@ public class DoxygenParser extends RegexpDocumentParser {
             // should never happen
         }
 
-        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setMessage(message).setPriority(priority)
+        return builder.setFileName(fileName).setLineStart(lineNumber).setMessage(message).setPriority(priority)
                              .build();
     }
 
