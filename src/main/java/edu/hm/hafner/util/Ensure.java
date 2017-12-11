@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Formatter;
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import org.eclipse.collections.impl.factory.Lists;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -508,7 +508,9 @@ public final class Ensure {
         public void isInstanceOf(final Class<?> type, final Class<?>... additionalTypes) {
             isNotNull();
 
-            List<Class<?>> types = Lists.asList(type, additionalTypes);
+            List<Class<?>> types = Lists.mutable.of(additionalTypes);
+            types.add(type);
+
             for (Class<?> clazz : types) {
                 if (clazz.isInstance(value)) {
                     return;

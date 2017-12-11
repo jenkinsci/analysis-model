@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author <a href="mailto:hochak@gmail.com">Hochak Hung</a>
  */
 public class SbtScalacParser extends RegexpLineParser {
-    private static final String SBT_WARNING_PATTERN = "^(\\[warn\\]|\\[error\\])\\s*(.*):(\\d+):\\s*(.*)$";
+    private static final String SBT_WARNING_PATTERN = "^(\\[warn\\]|\\[error\\])\\s*(.*?):(\\d+)(?::\\d+)?:\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link SbtScalacParser}.
@@ -24,11 +24,19 @@ public class SbtScalacParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(Matcher matcher, final IssueBuilder builder) {
-        Priority p = matcher.group(1).equals("[error]") ? Priority.HIGH : Priority.NORMAL;
-        String fileName = matcher.group(2);
-        String lineNumber = matcher.group(3);
-        String message = matcher.group(4);
-        return builder.setFileName(fileName).setLineStart(parseInt(lineNumber)).setMessage(message)
-                      .setPriority(p).build();
+        return builder.setFileName(matcher.group(2))
+                .setLineStart(parseInt(matcher.group(3)))
+                .setMessage(matcher.group(4))
+                .setPriority(mapPriority(matcher))
+                .build();
+    }
+
+    private Priority mapPriority(final Matcher matcher) {
+        if ("[error]".equals(matcher.group(1))) {
+            return Priority.HIGH;
+        }
+        else {
+            return Priority.NORMAL;
+        }
     }
 }

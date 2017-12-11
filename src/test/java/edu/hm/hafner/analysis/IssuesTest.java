@@ -1,19 +1,18 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.SortedSet;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import org.eclipse.collections.api.set.ImmutableSet;
+import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
 import org.junit.jupiter.api.Test;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -147,8 +146,6 @@ class IssuesTest {
                     .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat((Iterable<Issue>) issues)
                     .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
-            softly.assertThat(issues.all())
-                    .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
             softly.assertThat(issues.isNotEmpty()).isTrue();
             softly.assertThat(issues.size()).isEqualTo(6);
 
@@ -174,8 +171,8 @@ class IssuesTest {
         assertThat(issues.addAll(asList(HIGH, LOW_FILE_2))).isFalse();
         assertThat(issues.addAll(asList(NORMAL_1, NORMAL_2))).isTrue();
 
-        assertThat(issues.all()).containsExactly(HIGH, LOW_FILE_2, NORMAL_1, NORMAL_2);
-        assertThat(issues.all()).hasSize(4);
+        assertThat(issues.iterator()).containsExactly(HIGH, LOW_FILE_2, NORMAL_1, NORMAL_2);
+        assertThat(issues.iterator()).hasSize(4);
 
         assertThat(issues)
                 .hasSize(4)
@@ -215,7 +212,7 @@ class IssuesTest {
     @Test
     void shouldFindIfOnlyOneIssue() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(ImmutableList.of(HIGH));
+        issues.addAll(Collections.singletonList(HIGH));
 
         Issue found = issues.findById(HIGH.getId());
 
@@ -311,7 +308,7 @@ class IssuesTest {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3));
 
-        SortedSet<String> properties = issues.getProperties(issue -> issue.getMessage());
+        ImmutableSortedSet<String> properties = issues.getProperties(issue -> issue.getMessage());
 
         assertThat(properties)
                 .contains(HIGH.getMessage())
@@ -327,11 +324,11 @@ class IssuesTest {
         Issues<Issue> copy = original.copy();
 
         assertThat(copy).isNotSameAs(original);
-        assertThat(copy.all()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
+        assertThat(copy.iterator()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
 
         copy.add(LOW_FILE_2);
-        assertThat(original.all()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
-        assertThat(copy.all()).containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2);
+        assertThat(original.iterator()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
+        assertThat(copy.iterator()).containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2);
     }
 
     @Test
@@ -344,7 +341,7 @@ class IssuesTest {
     }
 
     private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
-            final Function<Issues, SortedSet<String>> propertyGetter, final String propertyName) {
+            final Function<Issues<Issue>, ImmutableSortedSet<String>> propertyGetter, final String propertyName) {
         Issues<Issue> issues = new Issues<>();
 
         IssueBuilder builder = new IssueBuilder();
@@ -357,17 +354,20 @@ class IssuesTest {
         }
         assertThat(issues).hasSize(6);
 
-        SortedSet<String> properties = propertyGetter.apply(issues);
+        ImmutableSortedSet<String> properties = propertyGetter.apply(issues);
 
         assertThat(properties).as("Wrong values for property " + propertyName).containsExactly("name 1", "name 2", "name 3");
     }
 
     @Test
-    void shouldStoreLogMessages() {
+    void shouldStoreAndRetrieveLogMessagesInCorrectOrder() {
         Issues<Issue> issues = new Issues<>();
 
-        issues.log("%s %s", "Hello", "World");
-        issues.log("%s %s", "Hello", "World");
+        issues.log("%d: %s %s", 1, "Hello", "World");
+        issues.log("%d: %s %s", 2, "Hello", "World");
+
+        assertThat(issues.getLogMessages()).hasSize(2);
+        assertThat(issues.getLogMessages()).containsExactly("1: Hello World", "2: Hello World");
     }
 
     @Test

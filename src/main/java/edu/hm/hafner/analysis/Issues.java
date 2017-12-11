@@ -8,15 +8,20 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedSet;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.api.set.ImmutableSet;
+import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
+import org.eclipse.collections.impl.collector.Collectors2;
+import org.eclipse.collections.impl.factory.Lists;
 
 import edu.hm.hafner.util.NoSuchElementException;
 import static java.util.stream.Collectors.*;
@@ -34,12 +39,11 @@ import static java.util.stream.Collectors.*;
  * @author Ullrich Hafner
  */
 public class Issues<T extends Issue> implements Iterable<T>, Serializable {
-    private final LinkedHashSet<T> elements = new LinkedHashSet<T>() {
-    };
+    private final Set<T> elements = new LinkedHashSet<>();
     private final int[] sizeOfPriority = new int[Priority.values().length];
-    private int sizeOfDuplicates = 0;
-
     private final List<String> logMessages = new ArrayList<>();
+
+    private int sizeOfDuplicates = 0;
 
     /**
      * Creates and returns a new set of issues that contains all issues of the specified {@link Issues} instances. The
@@ -48,9 +52,12 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @param issues
      *         the issues to merge
+     * @param <T>
+     *         type of the issues
      *
      * @return all issues
      */
+    @SafeVarargs
     public static <T extends Issue> Issues<T> merge(final Issues<T>... issues) {
         Issues<T> merged = new Issues<>();
         for (Issues<T> issue : issues) {
@@ -101,6 +108,17 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         for (T issue : issues) {
             add(issue);
         }
+    }
+
+    /**
+     * Creates a new instance of {@link Issues} that will be initialized with the specified collection of {@link Issue}
+     * instances.
+     *
+     * @param issues
+     *         the initial set of issues for this instance
+     */
+    public Issues(final Stream<? extends T> issues) {
+        issues.forEach(issue -> add(issue));
     }
 
     /**
@@ -194,16 +212,6 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Returns all issues of this container.
-     *
-     * @return all issues
-     */
-    // TODO: eclipse collections?
-    public ImmutableSet<T> all() {
-        return ImmutableSet.copyOf(elements);
-    }
-
-    /**
      * Returns the issue with the specified ID.
      *
      * @param id
@@ -231,7 +239,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the found issues
      */
     public ImmutableSet<T> findByProperty(final Predicate<? super T> criterion) {
-        return filterElements(criterion).collect(collectingAndThen(toList(), ImmutableSet::copyOf));
+        return filterElements(criterion).collect(Collectors2.toImmutableSet());
     }
 
     /**
@@ -254,6 +262,10 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     @Override
     public Iterator<T> iterator() {
         return elements.iterator();
+    }
+
+    public Stream<Issue> stream() {
+        return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL),false);
     }
 
     /**
@@ -387,7 +399,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the affected modules
      */
-    public SortedSet<String> getModules() {
+    public ImmutableSortedSet<String> getModules() {
         return getProperties(issue -> issue.getModuleName());
     }
 
@@ -396,7 +408,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the affected packages
      */
-    public SortedSet<String> getPackages() {
+    public ImmutableSortedSet<String> getPackages() {
         return getProperties(issue -> issue.getPackageName());
     }
 
@@ -405,7 +417,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the affected files
      */
-    public SortedSet<String> getFiles() {
+    public ImmutableSortedSet<String> getFiles() {
         return getProperties(issue -> issue.getFileName());
     }
 
@@ -414,7 +426,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the used categories
      */
-    public SortedSet<String> getCategories() {
+    public ImmutableSortedSet<String> getCategories() {
         return getProperties(issue -> issue.getCategory());
     }
 
@@ -423,7 +435,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the used types
      */
-    public SortedSet<String> getTypes() {
+    public ImmutableSortedSet<String> getTypes() {
         return getProperties(issue -> issue.getType());
     }
 
@@ -432,27 +444,21 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the tools
      */
-    public SortedSet<String> getToolNames() {
+    public ImmutableSortedSet<String> getToolNames() {
         return getProperties(issue -> issue.getOrigin());
     }
-
-    // TODO: paging for values?
-    // getFiles(int start, int end)
 
     /**
      * Returns the different values for a given property for all issues of this container.
      *
      * @param propertiesMapper
      *         the properties mapper that selects the property
-     * @param <R>
-     *         the type of the returned values
      *
      * @return the set of different values
      * @see #getFiles()
      */
-    public <R> SortedSet<R> getProperties(final Function<? super T, ? extends R> propertiesMapper) {
-        return elements.stream().map(propertiesMapper)
-                .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
+    public ImmutableSortedSet<String> getProperties(final Function<? super T, String> propertiesMapper) {
+        return elements.stream().map(propertiesMapper).collect(Collectors2.toImmutableSortedSet());
     }
 
     /**
@@ -475,7 +481,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      */
     public Issues<T> copy() {
         Issues<T> copied = new Issues<>();
-        copied.addAll(all());
+        copied.addAll(elements);
         return copied;
     }
 
@@ -488,6 +494,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
      *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
      *         zero.
+     *
      * @see #getLogMessages()
      */
     public void log(final String format, final Object... args) {
@@ -500,6 +507,6 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the log messages
      */
     public ImmutableList<String> getLogMessages() {
-        return ImmutableList.copyOf(logMessages);
+        return Lists.immutable.ofAll(logMessages);
     }
 }

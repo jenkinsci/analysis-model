@@ -2,9 +2,8 @@ package edu.hm.hafner.analysis;
 
 import java.nio.charset.Charset;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
+import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * Creates a fingerprint of an issue. A fingerprint is a digest of the affected source code of an issue. Using this
