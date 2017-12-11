@@ -3,8 +3,11 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
@@ -12,7 +15,15 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-public class MavenConsoleParserTest extends ParserTester {
+public class MavenConsoleParserTest extends AbstractParserTest {
+    /**
+     * Creates a new instance of {@link MavenConsoleParserTest}.
+     *
+     */
+    protected MavenConsoleParserTest() {
+        super("maven-console.txt");
+    }
+
     /**
      * Verifies that errors and warnings are correctly picked up.
      */
@@ -52,9 +63,22 @@ public class MavenConsoleParserTest extends ParserTester {
         assertThat(warnings).hasSize(1);
     }
 
-    @Override
     protected String getWarningsFile() {
         return "maven-console.txt";
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues)
+                .hasSize(4)
+                .hasHighPrioritySize(2)
+                .hasNormalPrioritySize(2)
+                .hasLowPrioritySize(0);
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new MavenConsoleParser();
     }
 }
 

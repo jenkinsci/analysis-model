@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.util.Arrays;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -93,7 +93,7 @@ public class LineRangeTest {
 
     /** Checks that flipping from and to makes no difference. */
     @Test
-    void shouldHandleFlippedValues() {
+    public void shouldHandleFlippedValues() {
         LineRange flipped = createLineRange(3, 1);
 
         assertThatRangeContainsThreeElements(flipped);
@@ -101,7 +101,7 @@ public class LineRangeTest {
 
     /** Verifies that parameters are checked in the constructor. */
     @Test
-    void shouldThrowExceptionOnIllegalValues() {
+    public void shouldThrowExceptionOnIllegalValues() {
         assertThatThrownBy(() -> createLineRange(0))
                 .isInstanceOf(AssertionError.class)
                 .hasMessageContaining("0");
@@ -118,7 +118,7 @@ public class LineRangeTest {
 
     /** Verifies that all points in the range [2, 4] are detected with contains. */
     @Test
-    void shouldContainValues() {
+    public void shouldContainValues() {
         LineRange range = createLineRange(2, 4);
 
         assertThat(range.contains(1)).isFalse();
@@ -130,7 +130,7 @@ public class LineRangeTest {
 
     /** Verifies that all points (given as range) in the range [2, 4] are detected with contains. */
     @Test
-    void shouldContainRanges() {
+    public void shouldContainRanges() {
         LineRange range = createLineRange(2, 4);
 
         assertThat(range.contains(createLineRange(2, 2))).isTrue();
@@ -143,7 +143,7 @@ public class LineRangeTest {
 
     /** Verifies that no internal data is returned. */
     @Test
-    void shouldNotExposeInternalRepresentation() {
+    public void shouldNotExposeInternalRepresentation() {
         LineRange range = createLineRange(1, 3);
 
         int[] values = range.values();
