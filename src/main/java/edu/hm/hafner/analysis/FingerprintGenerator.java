@@ -38,7 +38,6 @@ public class FingerprintGenerator {
     }
 
     private String createFingerprintFor(final Issue issue, final Charset charset) {
-
         return fingerprint.compute(issue.getFileName(), issue.getLineStart(), charset);
     }
 }
