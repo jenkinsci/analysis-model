@@ -107,26 +107,10 @@ public class GnuFortranParserTest extends AbstractParserTest {
         });
     }
 
-    /**
-     * Test parsing of a file containing all categories of message output by the GNU Fortran Compiler.
-     */
-    @Test
-    public void testMessageParser() {
-        Issues<Issue> warnings =
-                new GnuFortranParser().parse(openFile());
-
-        assertThat(warnings).hasSize(4);
-
-        Iterator<Issue> iterator = warnings.iterator();
-
-        assertSoftly(softly -> assertThatIssuesArePresent(warnings, softly));
-    }
-
-
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         Iterator<Issue> iterator = issues.iterator();
-
+        softly.assertThat(issues).hasSize(4);
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("Warning")

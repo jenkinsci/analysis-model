@@ -10,7 +10,6 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -25,24 +24,6 @@ public class GnuMakeGccParserTest extends AbstractParserTest {
 
     GnuMakeGccParserTest() {
         super("gnuMakeGcc.txt");
-    }
-
-    /**
-     * Test of createWarning method of class {@link GnuMakeGccParser} No specifc OS is assumed.
-     */
-    @Test
-    public void testCreateWarning() {
-        Issues<Issue> warnings = new GnuMakeGccParser().parse(openFile());
-
-        assertThat(warnings).hasSize(15);
-
-        Iterator<Issue> iterator = warnings.iterator();
-
-        assertSoftly(softly -> assertThatIssuesArePresent(warnings, softly));
-
-        // Next test is OS-specific, so just skip it
-        iterator.next();
-        // Place new tests after this line
     }
 
     /**
@@ -81,7 +62,7 @@ public class GnuMakeGccParserTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         Iterator<Issue> iterator = issues.iterator();
-
+        softly.assertThat(issues).hasSize(15);
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(WARNING_CATEGORY)

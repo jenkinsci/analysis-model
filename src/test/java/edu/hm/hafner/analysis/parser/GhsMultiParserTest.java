@@ -2,16 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
-
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link GhsMultiParser}.
@@ -21,20 +17,10 @@ public class GhsMultiParserTest extends AbstractParserTest {
         super("ghsmulti.txt");
     }
 
-    /**
-     * Parses a file with two deprecation warnings.
-     */
-    @Test
-    public void parseMultiLine() {
-        Issues<Issue> warnings = new GhsMultiParser().parse(openFile());
-        assertThat(warnings).hasSize(3);
-
-        assertSoftly(softly -> assertThatIssuesArePresent(warnings, softly));
-    }
-
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         Iterator<Issue> iterator = issues.iterator();
+        softly.assertThat(issues).hasSize(3);
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("#546-D")
