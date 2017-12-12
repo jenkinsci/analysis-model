@@ -2,8 +2,8 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
-
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -12,18 +12,19 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link DrMemoryParser}.
  */
-public class DrMemoryParserTest extends ParserTester {
+public class DrMemoryParserTest extends AbstractParserTest {
     /**
-     * Parses a file with two Dr. Memory warnings.
+     * Creates a new instance of {@link AbstractParserTest}.
      */
-    @Test
-    public void testWarningsParser() {
-        Issues<Issue> warnings = new DrMemoryParser().parse(openFile());
-        SoftAssertions softly = new SoftAssertions();
+    protected DrMemoryParserTest() {
+        super("drmemory.txt");
+    }
 
-        softly.assertThat(warnings).hasSize(8);
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues).hasSize(8);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<Issue> iterator = issues.iterator();
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(7)
@@ -129,8 +130,8 @@ public class DrMemoryParserTest extends ParserTester {
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "drmemory.txt";
+    protected AbstractParser createParser() {
+        return new DrMemoryParser();
     }
 }
 
