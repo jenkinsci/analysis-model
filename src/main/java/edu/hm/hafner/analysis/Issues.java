@@ -436,26 +436,26 @@ public class Issues implements Iterable<Issue>, Serializable {
      *
      * @return a new Issues-instance, containing only the filtered Issue-elements
      */
-    public Issues filterIssues(IssueFilterConfig config) {
+    public Issues filterIssues(final IssueFilterConfig config) {
         Issues filteredForIncludes;
         if (config.isIncludePatternSet()) {
             filteredForIncludes = filter(cur ->
-                    config.getIncludeFileName().asPredicate().test(cur.getFileName()) ||
-                            config.getIncludePackageName().asPredicate().test(cur.getPackageName()) ||
-                            config.getIncludeModuleName().asPredicate().test(cur.getModuleName()) ||
-                            config.getIncludeCategory().asPredicate().test(cur.getCategory()) ||
-                            config.getIncludeType().asPredicate().test(cur.getType())
+                    config.getIncludeFileName().test(cur.getFileName()) ||
+                            config.getIncludePackageName().test(cur.getPackageName()) ||
+                            config.getIncludeModuleName().test(cur.getModuleName()) ||
+                            config.getIncludeCategory().test(cur.getCategory()) ||
+                            config.getIncludeType().test(cur.getType())
             );
         }
         else {
-            filteredForIncludes = this.copy();
+            filteredForIncludes = copy();
         }
         Issues filteredForExcludes = filteredForIncludes.filter(cur ->
-                config.getExcludeFileName().asPredicate().negate().test(cur.getFileName()) &&
-                        config.getExcludeCategory().asPredicate().negate().test(cur.getCategory()) &&
-                        config.getExcludeModuleName().asPredicate().negate().test(cur.getModuleName()) &&
-                        config.getExcludePackageName().asPredicate().negate().test(cur.getPackageName()) &&
-                        config.getExcludeType().asPredicate().negate().test(cur.getType())
+                config.getExcludeFileName().negate().test(cur.getFileName()) &&
+                        config.getExcludeCategory().negate().test(cur.getCategory()) &&
+                        config.getExcludeModuleName().negate().test(cur.getModuleName()) &&
+                        config.getExcludePackageName().negate().test(cur.getPackageName()) &&
+                        config.getExcludeType().negate().test(cur.getType())
         );
         return filteredForExcludes;
     }

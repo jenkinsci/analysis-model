@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -26,8 +27,7 @@ public class IssueFilterConfig {
     /**
      * Ctor for Builder.
      *
-     * @param builder
-     *         contains the filter-parameters.
+     * @param builder contains the filter-parameters.
      */
     private IssueFilterConfig(IssueFilterConfigBuilder builder) {
         this.isIncludeSet = builder.isIncludePatternSet;
@@ -47,66 +47,68 @@ public class IssueFilterConfig {
         return isIncludeSet;
     }
 
-    public Pattern getIncludeFileName() {
-        return includeFileName;
+    public Predicate<String> getIncludeFileName() {
+        return includeFileName.asPredicate();
     }
 
-    public Pattern getIncludePackageName() {
-        return includePackageName;
+    public Predicate<String> getIncludePackageName() {
+        return includePackageName.asPredicate();
     }
 
-    public Pattern getIncludeModuleName() {
-        return includeModuleName;
+    public Predicate<String> getIncludeModuleName() {
+        return includeModuleName.asPredicate();
     }
 
-    public Pattern getIncludeCategory() {
-        return includeCategory;
+    public Predicate<String> getIncludeCategory() {
+        return includeCategory.asPredicate();
     }
 
-    public Pattern getIncludeType() {
-        return includeType;
+    public Predicate<String> getIncludeType() {
+        return includeType.asPredicate();
     }
 
-    public Pattern getExcludeFileName() {
-        return excludeFileName;
+    public Predicate<String> getExcludeFileName() {
+        return excludeFileName.asPredicate();
     }
 
-    public Pattern getExcludePackageName() {
-        return excludePackageName;
+    public Predicate<String> getExcludePackageName() {
+        return excludePackageName.asPredicate();
     }
 
-    public Pattern getExcludeModuleName() {
-        return excludeModuleName;
+    public Predicate<String> getExcludeModuleName() {
+        return excludeModuleName.asPredicate();
     }
 
-    public Pattern getExcludeCategory() {
-        return excludeCategory;
+    public Predicate<String> getExcludeCategory() {
+        return excludeCategory.asPredicate();
     }
 
-    public Pattern getExcludeType() {
-        return excludeType;
+    public Predicate<String> getExcludeType() {
+        return excludeType.asPredicate();
     }
 
     /**
      * A Builder for IssueFilterConfig. It initializes the includes and excludes with "matches nothing".
      */
     public static class IssueFilterConfigBuilder {
+        private static final Pattern MATCHES_NOTHING = Pattern.compile("(?!)");
+
         // is set to true, whenever a include pattern is set.
         private boolean isIncludePatternSet = false;
 
         // Patterns for include. Initialized with a Regex that matches nothing.
-        private Pattern includeFileName = Pattern.compile("(?!)");
-        private Pattern includePackageName = Pattern.compile("(?!)");
-        private Pattern includeModuleName = Pattern.compile("(?!)");
-        private Pattern includeCategory = Pattern.compile("(?!)");
-        private Pattern includeType = Pattern.compile("(?!)");
+        private Pattern includeFileName = MATCHES_NOTHING;
+        private Pattern includePackageName = MATCHES_NOTHING;
+        private Pattern includeModuleName = MATCHES_NOTHING;
+        private Pattern includeCategory = MATCHES_NOTHING;
+        private Pattern includeType = MATCHES_NOTHING;
 
         // Patterns for exlude. Initialized with a Regex that matches nothing.
-        private Pattern excludeFileName = Pattern.compile("(?!)");
-        private Pattern excludePackageName = Pattern.compile("(?!)");
-        private Pattern excludeModuleName = Pattern.compile("(?!)");
-        private Pattern excludeCategory = Pattern.compile("(?!)");
-        private Pattern excludeType = Pattern.compile("(?!)");
+        private Pattern excludeFileName = MATCHES_NOTHING;
+        private Pattern excludePackageName = MATCHES_NOTHING;
+        private Pattern excludeModuleName = MATCHES_NOTHING;
+        private Pattern excludeCategory = MATCHES_NOTHING;
+        private Pattern excludeType = MATCHES_NOTHING;
 
         /**
          * Build an immutable IssueFilterConfig.
@@ -120,9 +122,7 @@ public class IssueFilterConfig {
         /**
          * Sets a FIleName-Regex, which issues to include.
          *
-         * @param includeFileName
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param includeFileName List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder includeFileName(final List<String> includeFileName) {
@@ -134,9 +134,7 @@ public class IssueFilterConfig {
         /**
          * Sets a PackageName-Regex, which issues to include.
          *
-         * @param includePackageName
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param includePackageName List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder includePackageName(final List<String> includePackageName) {
@@ -148,9 +146,7 @@ public class IssueFilterConfig {
         /**
          * Sets a ModuleName-Regex, which issues to include.
          *
-         * @param includeModuleName
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param includeModuleName List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder includeModuleName(final List<String> includeModuleName) {
@@ -162,9 +158,7 @@ public class IssueFilterConfig {
         /**
          * Sets a Category-Regex, which issues to include.
          *
-         * @param includeCategory
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param includeCategory List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder includeCategory(final List<String> includeCategory) {
@@ -176,9 +170,7 @@ public class IssueFilterConfig {
         /**
          * Sets a Type-Regex, which issues to include.
          *
-         * @param includeType
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param includeType List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder includeType(final List<String> includeType) {
@@ -190,9 +182,7 @@ public class IssueFilterConfig {
         /**
          * Sets a FileName-Regex, which issues to exclude.
          *
-         * @param excludeFileName
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param excludeFileName List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder excludeFileName(final List<String> excludeFileName) {
@@ -203,9 +193,7 @@ public class IssueFilterConfig {
         /**
          * Sets a PackageName-Regex, which issues to exclude.
          *
-         * @param excludePackageName
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param excludePackageName List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder excludePackageName(final List<String> excludePackageName) {
@@ -216,9 +204,7 @@ public class IssueFilterConfig {
         /**
          * Sets a ModuleName-Regex, which issues to exclude.
          *
-         * @param excludeModuleName
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param excludeModuleName List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder excludeModuleName(final List<String> excludeModuleName) {
@@ -229,9 +215,7 @@ public class IssueFilterConfig {
         /**
          * Sets a Category-Regex, which issues to exclude.
          *
-         * @param excludeCategory
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param excludeCategory List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder excludeCategory(final List<String> excludeCategory) {
@@ -242,9 +226,7 @@ public class IssueFilterConfig {
         /**
          * Sets a Type-Regex, which issues to exclude.
          *
-         * @param excludeType
-         *         List of Regexes. They are concatenated by 'OR'
-         *
+         * @param excludeType List of Regexes. They are concatenated by 'OR'
          * @return the builder
          */
         public IssueFilterConfigBuilder excludeType(final List<String> excludeType) {
@@ -256,9 +238,7 @@ public class IssueFilterConfig {
     /**
      * Builds a Pattern from a List of Regex-Strings. The list-entries are concatenated with 'OR'.
      *
-     * @param regexes
-     *         a list of regexes
-     *
+     * @param regexes a list of regexes
      * @return a pattern to be used as a predicate
      */
     private static Pattern convertStringsToPattern(final List<String> regexes) {
@@ -266,12 +246,13 @@ public class IssueFilterConfig {
         boolean isNotFirst = false;
         for (int i = 0; i < regexes.size(); ++i) {
             if (isNotFirst) {
-                completeRegex += "|";
+                completeRegex += "|(";
             }
             else {
                 isNotFirst = true;
+                completeRegex += "(";
             }
-            completeRegex += regexes.get(i);
+            completeRegex += regexes.get(i) + ")";
         }
         return Pattern.compile(completeRegex);
     }
