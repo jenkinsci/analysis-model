@@ -24,16 +24,51 @@ public class PerlCriticParserTest extends AbstractParserTest {
         super("perlcritic.txt");
     }
 
-    /**
-     * Parses a mixed log file with 105 perlcritic warnings and /var/log/ messages.
-     */
-    @Test
-    public void testPerlCriticParser() {
-        Issues<Issue> warnings = parse("perlcritic.txt");
-
-        assertThat(warnings).hasSize(105);
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(105);
     }
 
+    /**
+     * Parses a file with three warnings.
+     */
+    @Test
+    public void testPerlCriticParserCreateWarning() {
+        Issues<Issue> warnings = parse("issue17792.txt");
+
+        assertThat(warnings).hasSize(3);
+
+        Iterator<Issue> iterator = warnings.iterator();
+
+        assertSoftly(softly -> {
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.LOW)
+                    .hasCategory("33 of PBP")
+                    .hasLineStart(1)
+                    .hasLineEnd(1)
+                    .hasMessage("Code is not tidy")
+                    .hasFileName("perl/dir_handler.pl")
+                    .hasColumnStart(1);
+
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("431 of PBP")
+                    .hasLineStart(10)
+                    .hasLineEnd(10)
+                    .hasMessage("Code before warnings are enabled")
+                    .hasFileName("perl/system.pl")
+                    .hasColumnStart(1);
+
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("Use IPC::Open3 instead")
+                    .hasLineStart(7)
+                    .hasLineEnd(7)
+                    .hasMessage("Backtick operator used")
+                    .hasFileName("perl/ch1/hello")
+                    .hasColumnStart(10);
+        });
+    }
 
     /**
      * Parses a file with three warnings without the filename in the warning.
@@ -75,50 +110,13 @@ public class PerlCriticParserTest extends AbstractParserTest {
         });
     }
 
-
-    @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> warnings = parse("issue17792.txt");
-
-        assertThat(warnings).hasSize(3);
-
-        Iterator<Issue> iterator = warnings.iterator();
-
-        softly.assertThat(iterator.next())
-                .hasPriority(Priority.LOW)
-                .hasCategory("33 of PBP")
-                .hasLineStart(1)
-                .hasLineEnd(1)
-                .hasMessage("Code is not tidy")
-                .hasFileName("perl/dir_handler.pl")
-                .hasColumnStart(1);
-
-        softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
-                .hasCategory("431 of PBP")
-                .hasLineStart(10)
-                .hasLineEnd(10)
-                .hasMessage("Code before warnings are enabled")
-                .hasFileName("perl/system.pl")
-                .hasColumnStart(1);
-
-        softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
-                .hasCategory("Use IPC::Open3 instead")
-                .hasLineStart(7)
-                .hasLineEnd(7)
-                .hasMessage("Backtick operator used")
-                .hasFileName("perl/ch1/hello")
-                .hasColumnStart(10);
-
-    }
-
+    /**
+     * Creates the parser.
+     *
+     * @return the warnings parser
+     */
     @Override
     protected AbstractParser createParser() {
         return new PerlCriticParser();
-    }
-
-    protected String getWarningsFile() {
-        return "perlcritic.txt";
     }
 }

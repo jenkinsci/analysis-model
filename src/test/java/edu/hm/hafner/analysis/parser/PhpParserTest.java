@@ -54,11 +54,9 @@ public class PhpParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> results = createParser().parse(openFile());
+        assertThat(issues).hasSize(5);
 
-        assertThat(results).hasSize(5);
-
-        Iterator<Issue> iterator = results.iterator();
+        Iterator<Issue> iterator = issues.iterator();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -106,11 +104,8 @@ public class PhpParserTest extends AbstractParserTest {
      *
      * @return the warnings parser
      */
+    @Override
     protected AbstractParser createParser() {
         return new PhpParser();
-    }
-
-    protected String getWarningsFile() {
-        return "php.txt";
     }
 }

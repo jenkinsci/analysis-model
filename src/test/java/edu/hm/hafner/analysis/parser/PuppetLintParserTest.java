@@ -23,11 +23,9 @@ public class PuppetLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> results = createParser().parse(openFile());
+        assertThat(issues).hasSize(5);
 
-        assertThat(results).hasSize(5);
-
-        Iterator<Issue> iterator = results.iterator();
+        Iterator<Issue> iterator = issues.iterator();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.HIGH)
@@ -80,11 +78,8 @@ public class PuppetLintParserTest extends AbstractParserTest {
      *
      * @return the warnings parser
      */
+    @Override
     protected AbstractParser createParser() {
         return new PuppetLintParser();
-    }
-
-    protected String getWarningsFile() {
-        return "puppet-lint.txt";
     }
 }

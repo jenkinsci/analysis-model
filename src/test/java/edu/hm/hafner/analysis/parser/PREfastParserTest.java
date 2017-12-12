@@ -21,17 +21,11 @@ public class PREfastParserTest extends AbstractParserTest {
         super("PREfast.xml");
     }
 
-
-    protected String getWarningsFile() {
-        return "PREfast.xml";
-    }
-
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> results = new PREfastParser().parse(openFile());
-        assertThat(results).hasSize(11);
+        assertThat(issues).hasSize(11);
 
-        Iterator<Issue> iterator = results.iterator();
+        Iterator<Issue> iterator = issues.iterator();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -60,6 +54,11 @@ public class PREfastParserTest extends AbstractParserTest {
                 .hasFileName("sys.c");
     }
 
+    /**
+     * Creates the parser.
+     *
+     * @return the warnings parser
+     */
     @Override
     protected AbstractParser createParser() {
         return new PREfastParser();
