@@ -19,7 +19,7 @@ import static edu.hm.hafner.analysis.parser.ParserTester.*;
  *
  * @author Neil Davis
  */
-public class ClangParserTest  extends AbstractParserTest {
+public class ClangParserTest extends AbstractParserTest {
 
     /**
      * Creates a new ClangParserTest.
@@ -114,78 +114,77 @@ public class ClangParserTest  extends AbstractParserTest {
         Issues<Issue> warnings = new ClangParser().parse(openFile());
         Iterator<Issue> iterator = warnings.iterator();
 
-        assertThat(warnings).hasSize(9);
+        softly.assertThat(warnings).hasSize(9);
 
-        assertSoftly(softAssertions -> {
-            softly.assertThat(iterator.next()).hasLineStart(28)
-                    .hasLineEnd(28)
-                    .hasColumnStart(8)
-                    .hasColumnEnd(8)
-                    .hasMessage("extra tokens at end of #endif directive")
-                    .hasFileName("test.c")
-                    .hasCategory("-Wextra-tokens")
-                    .hasPriority(Priority.NORMAL);
-            softly.assertThat(iterator.next()).hasLineStart(28)
-                    .hasLineEnd(28)
-                    .hasColumnStart(8)
-                    .hasColumnEnd(8)
-                    .hasMessage("extra tokens at end of #endif directive")
-                    .hasFileName("/path/to/test.c")
-                    .hasCategory("-Wextra-tokens")
-                    .hasPriority(Priority.NORMAL);
-            softly.assertThat(iterator.next()).hasLineStart(128)
-                    .hasLineEnd(128)
-                    .hasMessage("extra tokens at end of #endif directive")
-                    .hasFileName("test.c")
-                    .hasCategory("-Wextra-tokens")
-                    .hasPriority(Priority.NORMAL);
-            softly.assertThat(iterator.next()).hasLineStart(28)
-                    .hasLineEnd(28)
-                    .hasMessage("extra tokens at end of #endif directive")
-                    .hasFileName("test.c")
-                    .hasCategory(DEFAULT_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
-            softly.assertThat(iterator.next()).hasLineStart(3)
-                    .hasLineEnd(3)
-                    .hasColumnStart(11)
-                    .hasColumnEnd(11)
-                    .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
-                    .hasFileName("t.c")
-                    .hasCategory("-Wformat")
-                    .hasPriority(Priority.NORMAL);
-            softly.assertThat(iterator.next()).hasLineStart(3)
-                    .hasLineEnd(3)
-                    .hasColumnStart(11)
-                    .hasColumnEnd(11)
-                    .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
-                    .hasFileName("t.c")
-                    .hasCategory("-Wformat,1")
-                    .hasPriority(Priority.NORMAL);
-            softly.assertThat(iterator.next()).hasLineStart(3)
-                    .hasLineEnd(3)
-                    .hasColumnStart(11)
-                    .hasColumnEnd(11)
-                    .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
-                    .hasFileName("t.c")
-                    .hasCategory("-Wformat,Format String")
-                    .hasPriority(Priority.NORMAL);
-            softly.assertThat(iterator.next()).hasLineStart(47)
-                    .hasLineEnd(47)
-                    .hasColumnStart(15)
-                    .hasColumnEnd(15)
-                    .hasMessage("invalid operands to binary expression ('int *' and '_Complex float')")
-                    .hasFileName("exprs.c")
-                    .hasCategory(DEFAULT_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
-            softly.assertThat(iterator.next()).hasLineStart(103)
-                    .hasLineEnd(103)
-                    .hasColumnStart(55)
-                    .hasColumnEnd(55)
-                    .hasMessage("passing 'uint8_t [11]' to parameter of type 'const char *' converts between pointers to integer types with different sign")
-                    .hasFileName("t.c")
-                    .hasCategory("-Wpointer-sign")
-                    .hasPriority(Priority.NORMAL);
-        });
+
+        softly.assertThat(iterator.next()).hasLineStart(28)
+                .hasLineEnd(28)
+                .hasColumnStart(8)
+                .hasColumnEnd(8)
+                .hasMessage("extra tokens at end of #endif directive")
+                .hasFileName("test.c")
+                .hasCategory("-Wextra-tokens")
+                .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next()).hasLineStart(28)
+                .hasLineEnd(28)
+                .hasColumnStart(8)
+                .hasColumnEnd(8)
+                .hasMessage("extra tokens at end of #endif directive")
+                .hasFileName("/path/to/test.c")
+                .hasCategory("-Wextra-tokens")
+                .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next()).hasLineStart(128)
+                .hasLineEnd(128)
+                .hasMessage("extra tokens at end of #endif directive")
+                .hasFileName("test.c")
+                .hasCategory("-Wextra-tokens")
+                .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next()).hasLineStart(28)
+                .hasLineEnd(28)
+                .hasMessage("extra tokens at end of #endif directive")
+                .hasFileName("test.c")
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next()).hasLineStart(3)
+                .hasLineEnd(3)
+                .hasColumnStart(11)
+                .hasColumnEnd(11)
+                .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
+                .hasFileName("t.c")
+                .hasCategory("-Wformat")
+                .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next()).hasLineStart(3)
+                .hasLineEnd(3)
+                .hasColumnStart(11)
+                .hasColumnEnd(11)
+                .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
+                .hasFileName("t.c")
+                .hasCategory("-Wformat,1")
+                .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next()).hasLineStart(3)
+                .hasLineEnd(3)
+                .hasColumnStart(11)
+                .hasColumnEnd(11)
+                .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
+                .hasFileName("t.c")
+                .hasCategory("-Wformat,Format String")
+                .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next()).hasLineStart(47)
+                .hasLineEnd(47)
+                .hasColumnStart(15)
+                .hasColumnEnd(15)
+                .hasMessage("invalid operands to binary expression ('int *' and '_Complex float')")
+                .hasFileName("exprs.c")
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next()).hasLineStart(103)
+                .hasLineEnd(103)
+                .hasColumnStart(55)
+                .hasColumnEnd(55)
+                .hasMessage("passing 'uint8_t [11]' to parameter of type 'const char *' converts between pointers to integer types with different sign")
+                .hasFileName("t.c")
+                .hasCategory("-Wpointer-sign")
+                .hasPriority(Priority.NORMAL);
     }
 
     @Override

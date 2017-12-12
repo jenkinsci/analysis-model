@@ -6,8 +6,6 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static edu.hm.hafner.analysis.parser.ParserTester.*;
 
 /**
@@ -26,18 +24,16 @@ public class CoolfluxChessccParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         Issues<Issue> warnings = new CoolfluxChessccParser().parse(openFile());
 
-        assertThat(warnings).hasSize(1).hasDuplicatesSize(1);
+        softly.assertThat(warnings).hasSize(1).hasDuplicatesSize(1);
 
-        assertSoftly(softAssertions -> {
-            softly.assertThat(warnings.get(0))
-                    .hasLineStart(150)
-                    .hasLineEnd(150)
-                    .hasMessage(
-                            "function `unsigned configureRealCh(unsigned)' was declared static, but was not defined")
-                    .hasFileName("/nfs/autofs/nett/nessie6/dailies/Monday/src/n6/heidrun/dsp/Modules/LocalChAdmin.c")
-                    .hasCategory(DEFAULT_CATEGORY)
-                    .hasPriority(Priority.HIGH);
-        });
+        softly.assertThat(warnings.get(0))
+                .hasLineStart(150)
+                .hasLineEnd(150)
+                .hasMessage(
+                        "function `unsigned configureRealCh(unsigned)' was declared static, but was not defined")
+                .hasFileName("/nfs/autofs/nett/nessie6/dailies/Monday/src/n6/heidrun/dsp/Modules/LocalChAdmin.c")
+                .hasCategory(DEFAULT_CATEGORY)
+                .hasPriority(Priority.HIGH);
     }
 
     @Override
