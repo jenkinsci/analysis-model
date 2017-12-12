@@ -88,15 +88,15 @@ class IssuesTest {
     private void assertAllIssuesAdded(final Issues issues) {
         assertSoftly(softly -> {
             softly.assertThat(issues)
-                  .hasSize(6)
-                  .hasHighPrioritySize(1)
-                  .hasNormalPrioritySize(2)
-                  .hasLowPrioritySize(3);
+                    .hasSize(6)
+                    .hasHighPrioritySize(1)
+                    .hasNormalPrioritySize(2)
+                    .hasLowPrioritySize(3);
             softly.assertThat(issues.getFiles()).containsExactly("file-1", "file-2", "file-3");
             softly.assertThat((Iterable<Issue>) issues)
-                  .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+                    .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
             softly.assertThat(issues.all())
-                  .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+                    .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
         });
     }
 
