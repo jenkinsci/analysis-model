@@ -22,11 +22,9 @@ public class CoolfluxChessccParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> warnings = new CoolfluxChessccParser().parse(openFile());
+        softly.assertThat(issues).hasSize(1).hasDuplicatesSize(1);
 
-        softly.assertThat(warnings).hasSize(1).hasDuplicatesSize(1);
-
-        softly.assertThat(warnings.get(0))
+        softly.assertThat(issues.get(0))
                 .hasLineStart(150)
                 .hasLineEnd(150)
                 .hasMessage(

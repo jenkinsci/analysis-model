@@ -111,12 +111,9 @@ public class ClangParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> warnings = new ClangParser().parse(openFile());
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<Issue> iterator = issues.iterator();
 
-        softly.assertThat(warnings).hasSize(9);
-
-
+        softly.assertThat(issues).hasSize(9);
         softly.assertThat(iterator.next()).hasLineStart(28)
                 .hasLineEnd(28)
                 .hasColumnStart(8)
