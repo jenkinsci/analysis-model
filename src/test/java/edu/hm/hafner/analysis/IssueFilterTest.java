@@ -93,7 +93,7 @@ public class IssueFilterTest {
         IssueFilter filter = new IssueFilterBuilder()
                 .setIncludePackageNameFilter("PackageName2")
                 .createIssueFilter();
-        System.out.println(issue2);
+
         applyFilterAndCheckResult(filter, this.issues, issue2);
     }
     @Test
@@ -108,7 +108,7 @@ public class IssueFilterTest {
         IssueFilter filter = new IssueFilterBuilder()
                 .setIncludeModuleNameFilter("ModuleName3")
                 .createIssueFilter();
-        System.out.println(issue2);
+
         applyFilterAndCheckResult(filter, this.issues, issue3);
     }
     @Test
@@ -123,7 +123,6 @@ public class IssueFilterTest {
         IssueFilter filter = new IssueFilterBuilder()
                 .setIncludeCategoryFilter("CategoryName1")
                 .createIssueFilter();
-        System.out.println(issue2);
         applyFilterAndCheckResult(filter, this.issues, issue1);
     }
     @Test
@@ -138,7 +137,6 @@ public class IssueFilterTest {
         IssueFilter filter = new IssueFilterBuilder()
                 .setIncludeTypeFilter("Type2")
                 .createIssueFilter();
-        System.out.println(issue2);
         applyFilterAndCheckResult(filter, this.issues, issue2);
     }
     @Test
@@ -190,20 +188,6 @@ public class IssueFilterTest {
         applyFilterAndCheckResult(filter, this.issues, issue1);
     }
 
-    @Test
-    void shouldFindIssue1FromExcludeCombinedWithOr(){
-        IssueFilter filter = new IssueFilterBuilder()
-                .setExcludeCombineFilterWithOr(true)
-                .setExcludeFilenameFilter("[a-zA-Z0-9]*") // match all
-                .setExcludeFilenameFilter("FileName1") // only math issue1
-                .createIssueFilter();
-        applyFilterAndCheckResult(filter, this.issues, issue2, issue3);
-        filter = new IssueFilterBuilder()
-                .setExcludeCombineFilterWithOr(true)
-                .setExcludeFilenameFilter("[a-zA-Z0-9]*", "FileName1") // match all
-                .createIssueFilter();
-        applyFilterAndCheckResult(filter, this.issues, issue2, issue3);
-    }
 
 
     /**

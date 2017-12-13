@@ -32,12 +32,7 @@ public class IssueFilterBuilder {
      * false = and.
      */
     private boolean includeCombineWithOr = true;
-    /**
-     * Exclude combine behavior.
-     * true = or.
-     * false = and.
-     */
-    private boolean excludeCombineWithOr = false;
+
 
     /**
      * Add a new filter for each pattern string.
@@ -70,7 +65,7 @@ public class IssueFilterBuilder {
     public IssueFilter createIssueFilter(){
         return new IssueFilter(filterInclude.stream().reduce(includeCombineWithOr?Predicate::or:Predicate::and)
                 .orElse((issue)-> true).and(
-        filterExclude.stream().reduce(excludeCombineWithOr?Predicate::or:Predicate::and).orElse((issue)-> true)));
+        filterExclude.stream().reduce(Predicate::and).orElse((issue)-> true)));
     }
 
     /**
@@ -83,15 +78,6 @@ public class IssueFilterBuilder {
         return this;
     }
 
-    /**
-     * Sets exclude combine behavior.
-     * @param withOr = or or and.
-     * @return this.
-     */
-    public IssueFilterBuilder setExcludeCombineFilterWithOr(boolean withOr){
-        this.excludeCombineWithOr = withOr;
-        return this;
-    }
 
     //<editor-fold desc="File name">
 
