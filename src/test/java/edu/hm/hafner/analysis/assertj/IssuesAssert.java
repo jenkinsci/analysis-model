@@ -1,7 +1,12 @@
 package edu.hm.hafner.analysis.assertj;
 
+import java.util.Iterator;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.api.AbstractAssert;
 
+
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 
 /**
@@ -16,7 +21,8 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     /**
      * Creates a new {@link IssueAssert} to make assertions on actual {@link Issues}.
      *
-     * @param actual the issue we want to make assertions on
+     * @param actual
+     *         the issue we want to make assertions on
      */
     public IssuesAssert(final Issues actual) {
         super(actual, IssuesAssert.class);
@@ -26,7 +32,9 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * An entry point for {@link IssuesAssert} to follow AssertJ standard {@code assertThat()}. With a static import,
      * one can write directly {@code assertThat(myIssues)} and get a specific assertion with code completion.
      *
-     * @param actual the issues we want to make assertions on
+     * @param actual
+     *         the issues we want to make assertions on
+     *
      * @return a new {@link IssuesAssert}
      */
     public static IssuesAssert assertThat(final Issues actual) {
@@ -36,9 +44,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     /**
      * Verifies that the actual size of the {@link Issues} instance is equal to the given one.
      *
-     * @param size the expected size to compare the actual {@link Issues} size to.
+     * @param size
+     *         the expected size to compare the actual {@link Issues} size to.
+     *
      * @return this assertion object.
-     * @throws AssertionError if the actual {@link Issues} size is not equal to the given one.
+     * @throws AssertionError
+     *         if the actual {@link Issues} size is not equal to the given one.
      */
     public IssuesAssert hasSize(final int size) {
         isNotNull();
@@ -52,9 +63,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     /**
      * Verifies that the actual size of high priority issues in the {@link Issues} instance is equal to the given one.
      *
-     * @param highPrioritySize the expected size of high priority issues to compare the actual {@link Issues} size to.
+     * @param highPrioritySize
+     *         the expected size of high priority issues to compare the actual {@link Issues} size to.
+     *
      * @return this assertion object.
-     * @throws AssertionError if the actual {@link Issues} size of high priority issues is not equal to the given one.
+     * @throws AssertionError
+     *         if the actual {@link Issues} size of high priority issues is not equal to the given one.
      */
     public IssuesAssert hasHighPrioritySize(final int highPrioritySize) {
         isNotNull();
@@ -69,11 +83,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * Verifies that the actual size of normal priority issues in the {@link Issues} instance is equal to the given
      * one.
      *
-     * @param normalPrioritySize the expected size of normal priority issues to compare the actual {@link Issues} size
-     *                           to.
+     * @param normalPrioritySize
+     *         the expected size of normal priority issues to compare the actual {@link Issues} size to.
+     *
      * @return this assertion object.
-     * @throws AssertionError if the actual {@link Issues} size of normal priority issues is not equal to the given
-     *                        one.
+     * @throws AssertionError
+     *         if the actual {@link Issues} size of normal priority issues is not equal to the given one.
      */
     public IssuesAssert hasNormalPrioritySize(final int normalPrioritySize) {
         isNotNull();
@@ -87,9 +102,12 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     /**
      * Verifies that the actual size of low priority issues in the {@link Issues} instance is equal to the given one.
      *
-     * @param lowPrioritySize the expected size of low priority issues to compare the actual {@link Issues} size to.
+     * @param lowPrioritySize
+     *         the expected size of low priority issues to compare the actual {@link Issues} size to.
+     *
      * @return this assertion object.
-     * @throws AssertionError if the actual {@link Issues} size of low priority issues is not equal to the given one.
+     * @throws AssertionError
+     *         if the actual {@link Issues} size of low priority issues is not equal to the given one.
      */
     public IssuesAssert hasLowPrioritySize(final int lowPrioritySize) {
         isNotNull();
@@ -97,6 +115,46 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         if (actual.getLowPrioritySize() != lowPrioritySize) {
             failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "low priority size", lowPrioritySize, actual.getLowPrioritySize());
         }
+        return this;
+    }
+
+    private boolean isIssueInArray(Issue toCheck, Issue array[]) {
+
+        for (Issue current : array) {
+            if (toCheck.equals(current)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * does the Issues obj contains exacly and in this order all issue
+     * @param issues  list of Issue
+     * @return this
+     */
+    public IssuesAssert containsExactly(Issue... issues) {
+        isNotNull();
+        Iterator<Issue> i = actual.iterator();
+        for (int n = 0; n < issues.length; n++) {
+            if (!i.hasNext()) {
+                failWithMessage("\nExpecting \n <%s>\n has <%s> element  \nbut has : <%s>", actual, issues.length, n);
+            }
+            Issue current = i.next();
+
+            if (isIssueInArray(current, issues)) {
+                ArrayUtils.removeElement(issues, current);
+            }
+            else {
+
+                failWithMessage("\nExpecting \n <%s>\n has at <%s> \n the element \n <%s> but it was \n <%s>", actual, n, issues[n], current);
+            }
+
+        }
+        if (i.hasNext()) {
+            failWithMessage("\nExpecting \n <%s>\n has <%s> \n element  but has more", actual, issues.length);
+        }
+
         return this;
     }
 }
