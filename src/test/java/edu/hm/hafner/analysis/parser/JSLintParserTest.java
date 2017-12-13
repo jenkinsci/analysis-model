@@ -3,19 +3,30 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
+ * a
  *
  * @author Gavin Mogan <gavin@kodekoan.com>
  */
-public class JSLintParserTest extends ParserTester {
+public class JSLintParserTest extends AbstractParserTest {
+
     private static final String EXPECTED_FILE_NAME = "duckworth/hudson-jslint-freestyle/src/prototype.js";
+
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     */
+    protected JSLintParserTest() {
+        super("jslint/multi.xml");
+    }
 
     /**
      * Parses a file with one warning that are started by ant.
@@ -44,30 +55,6 @@ public class JSLintParserTest extends ParserTester {
 
     }
 
-    /**
-     * Tests the JS-Lint parsing for warnings in different files.
-     */
-    @Test
-    public void testParse() {
-        Issues<Issue> results = createParser().parse(openFile());
-        assertThat(results).hasSize(102);
-
-        assertThat(results.getFiles()).hasSize(2);
-        assertThat(results.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
-
-        assertSoftly(softly -> {
-
-            softly.assertThat(results.get(0))
-                    .hasPriority(Priority.HIGH)
-                    .hasCategory(JSLintXMLSaxParser.CATEGORY_PARSING)
-                    .hasLineStart(10)
-                    .hasLineEnd(10)
-                    .hasMessage("Expected 'Version' to have an indentation at 5 instead at 3.")
-                    .hasFileName(EXPECTED_FILE_NAME)
-                    .hasColumnStart(3);
-        });
-
-    }
 
     /**
      * Tests the JS-Lint parsing for warnings in a single file.
@@ -89,6 +76,28 @@ public class JSLintParserTest extends ParserTester {
         assertThat(results).hasSize(51);
     }
 
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+
+        Issues<Issue> results = createParser().parse(openFile());
+        assertThat(results).hasSize(102);
+
+        assertThat(results.getFiles()).hasSize(2);
+        assertThat(results.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
+
+
+        softly.assertThat(results.get(0))
+                .hasPriority(Priority.HIGH)
+                .hasCategory(JSLintXMLSaxParser.CATEGORY_PARSING)
+                .hasLineStart(10)
+                .hasLineEnd(10)
+                .hasMessage("Expected 'Version' to have an indentation at 5 instead at 3.")
+                .hasFileName(EXPECTED_FILE_NAME)
+                .hasColumnStart(3);
+
+
+    }
+
     /**
      * Creates the parser.
      *
@@ -98,8 +107,5 @@ public class JSLintParserTest extends ParserTester {
         return new JSLintParser();
     }
 
-    @Override
-    protected String getWarningsFile() {
-        return "jslint/multi.xml";
-    }
+
 }
