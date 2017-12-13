@@ -4,24 +4,37 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.parser.ParserTester.*;
 
 /**
  * Tests the class {@link JavaDocParser}.
  */
-public class JavaDocParserTest extends ParserTester {
+public class JavaDocParserTest extends AbstractParserTest {
+
     private static final String CATEGORY = DEFAULT_CATEGORY;
+
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     */
+    protected JavaDocParserTest() {
+        super("javadoc.txt");
+    }
+
 
     /**
      * Parses a warning log with JavaDoc 1.8 warnings.
      */
     @Test
     public void falseJavaDocPositives() {
-        Issues<Issue> warnings = new JavaDocParser().parse(openFile("all.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("all.txt"));
 
         assertThat(warnings).hasSize(8);
     }
@@ -33,7 +46,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue37975() {
-        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue37975.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue37975.txt"));
 
         assertThat(warnings).hasSize(3);
 
@@ -71,10 +84,9 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue32298() {
-        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue32298.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue32298.txt"));
         assertThat(warnings).hasSize(7);
 
-        Iterator<Issue> iterator = warnings.iterator();
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
@@ -134,25 +146,7 @@ public class JavaDocParserTest extends ParserTester {
         });
     }
 
-    /**
-     * Parses a file with 6 warnings.
-     */
-    @Test
-    public void parseJavaDocWarnings() {
-        Issues<Issue> warnings = new JavaDocParser().parse(openFile());
 
-        assertThat(warnings).hasSize(6);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
-                    .hasLineStart(116)
-                    .hasLineEnd(116)
-                    .hasMessage("Tag @link: can't find removeSpecChangeListener(ChangeListener, String) in chenomx.ccma.common.graph.module.GraphListenerRegistry")
-                    .hasFileName("/home/builder/hudson/workspace/Homer/oddjob/src/chenomx/ccma/common/graph/module/GraphListenerRegistry.java");
-        });
-    }
 
     /**
      * Parses a warning log with 2 JavaDoc warnings.
@@ -161,7 +155,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue4576() {
-        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue4576.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue4576.txt"));
 
         assertThat(warnings).hasSize(2);
 
@@ -191,7 +185,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue8630() {
-        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue8630.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue8630.txt"));
 
         assertThat(warnings).isEmpty();
     }
@@ -203,7 +197,7 @@ public class JavaDocParserTest extends ParserTester {
      */
     @Test
     public void issue7718() {
-        Issues<Issue> warnings = new JavaDocParser().parse(openFile("issue7718.txt"));
+        Issues<Issue> warnings = createParser().parse(openFile("issue7718.txt"));
 
         assertThat(warnings).hasSize(7);
 
@@ -226,9 +220,27 @@ public class JavaDocParserTest extends ParserTester {
         });
     }
 
+
     @Override
-    protected String getWarningsFile() {
-        return "javadoc.txt";
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        Issues<Issue> warnings = createParser().parse(openFile());
+
+        assertThat(warnings).hasSize(6);
+
+
+        softly.assertThat(warnings.get(0))
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(116)
+                .hasLineEnd(116)
+                .hasMessage("Tag @link: can't find removeSpecChangeListener(ChangeListener, String) in chenomx.ccma.common.graph.module.GraphListenerRegistry")
+                .hasFileName("/home/builder/hudson/workspace/Homer/oddjob/src/chenomx/ccma/common/graph/module/GraphListenerRegistry.java");
+
+
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new JavaDocParser();
     }
 }
-

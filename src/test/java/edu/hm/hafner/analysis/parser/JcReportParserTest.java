@@ -6,53 +6,39 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
 import edu.hm.hafner.analysis.parser.jcreport.Report;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the JcReportParser-Class.
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
-public class JcReportParserTest {
+public class JcReportParserTest extends AbstractParserTest {
+
     /**
-     * Parses Report with 5 Warnings.
-     *
-     * @throws ParsingCanceledException
-     *         -> thrown by jcrp.parse();
+     * Creates a new instance of {@link AbstractParserTest}.
      */
-    @Test
-    public void testParserWithValidFile() throws ParsingCanceledException, IOException {
-        JcReportParser parser = new JcReportParser();
-        InputStreamReader readCorrectXml = getReader("testCorrect.xml");
-
-        Issues<Issue> warnings = parser.parse(readCorrectXml);
-        assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                  .hasFileName("SomeDirectory/SomeClass.java")
-                  .hasPriority(Priority.HIGH)
-                  .hasMessage("SomeMessage")
-                  .hasPackageName("SomePackage")
-                  .hasLineStart(50);
-        });
+    protected JcReportParserTest() {
+        super("jcreport/testCorrect.xml");
     }
+
 
     /**
      * Gets Collection with size of 5.
      *
-     * @throws UnsupportedEncodingException
-     *         if encoding is not available
+     * @throws UnsupportedEncodingException if encoding is not available
      */
     @Test
     public void testGetWarningList() throws UnsupportedEncodingException {
@@ -69,8 +55,7 @@ public class JcReportParserTest {
      * contain more information in the Warning-Objects. For reasons of simplicity only a Report with 1 file and 1 item
      * was created.
      *
-     * @throws UnsupportedEncodingException
-     *         if encoding is not available
+     * @throws UnsupportedEncodingException if encoding is not available
      */
     @Test
     public void testReportParserProperties() throws UnsupportedEncodingException {
@@ -102,8 +87,7 @@ public class JcReportParserTest {
      * Test the SAXException when file is corrupted. When a SAXException is triggered a new IOException is thrown. This
      * explains the expected = IOException.class.
      *
-     * @throws ParsingCanceledException
-     *         -> thrown by jcrp.parse();
+     * @throws ParsingCanceledException -> thrown by jcrp.parse();
      */
     @Test
     public void testSAXEception() throws ParsingCanceledException, IOException {
@@ -115,5 +99,28 @@ public class JcReportParserTest {
 
     private InputStreamReader getReader(final String fileName) throws UnsupportedEncodingException {
         return new InputStreamReader(JcReportParserTest.class.getResourceAsStream("jcreport/" + fileName), "UTF-8");
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+
+
+        Issues<Issue> warnings = createParser().parse(openFile());
+        assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
+
+
+        softly.assertThat(warnings.get(0))
+                .hasFileName("SomeDirectory/SomeClass.java")
+                .hasPriority(Priority.HIGH)
+                .hasMessage("SomeMessage")
+                .hasPackageName("SomePackage")
+                .hasLineStart(50);
+
+
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new JcReportParser();
     }
 }
