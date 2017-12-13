@@ -85,7 +85,7 @@ public class IssuesFilter {
      * @return  new filtered Issues
      */
     public Issues executeFilter(Issues toCheck) {
-        if (includeFilter.size() == 0) {
+        if (includeFilter.isEmpty()) {
             includeFilter.add((Issue i) -> true);
         }
         Issues result = new Issues();
