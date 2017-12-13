@@ -4,9 +4,12 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
@@ -15,9 +18,17 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Raphael Furch
  */
-public class GccParserTest extends ParserTester {
+public class GccParserTest extends AbstractParserTest {
     private static final String GCC_ERROR = GccParser.GCC_ERROR;
     private static final String GCC_WARNING = "GCC warning";
+
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     * *
+     */
+    protected GccParserTest() {
+        super("gcc.txt");
+    }
 
     /**
      * Checks that a false positive is not reported anymore.
@@ -76,83 +87,7 @@ public class GccParserTest extends ParserTester {
         });
     }
 
-    /**
-     * Parses a file with two GCC warnings.
-     */
-    @Test
-    public void testWarningsParser() {
-        Issues<Issue> warnings = new GccParser().parse(openFile());
 
-        assertThat(warnings).hasSize(8);
-
-        Iterator<Issue> iterator = warnings.iterator();
-
-        assertSoftly(softly -> {
-            softly.assertThat(iterator.next())
-                    .hasLineStart(451)
-                    .hasLineEnd(451)
-                    .hasMessage("`void yyunput(int, char*)&apos; defined but not used")
-                    .hasFileName("testhist.l")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(73)
-                    .hasLineEnd(73)
-                    .hasMessage("implicit typename is deprecated, please see the documentation for details")
-                    .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
-                    .hasCategory(GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(4)
-                    .hasLineEnd(4)
-                    .hasMessage("foo.h: No such file or directory")
-                    .hasFileName("foo.cc")
-                    .hasCategory(GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasMessage("undefined reference to &apos;missing_symbol&apos;")
-                    .hasFileName("foo.so")
-                    .hasCategory(GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_sp")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_flags")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_size")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(52)
-                    .hasLineEnd(52)
-                    .hasMessage("large integer implicitly truncated to unsigned type")
-                    .hasFileName("src/test_simple_sgs_message.cxx")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
-        });
-    }
 
     /**
      * Parses a warning log with 2 new GCC warnings.
@@ -343,9 +278,82 @@ public class GccParserTest extends ParserTester {
         assertThat(warnings).hasSize(1);
     }
 
+
+
     @Override
-    protected String getWarningsFile() {
-        return "gcc.txt";
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues).hasSize(8);
+
+        Iterator<Issue> iterator = issues.iterator();
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(451)
+                    .hasLineEnd(451)
+                    .hasMessage("`void yyunput(int, char*)&apos; defined but not used")
+                    .hasFileName("testhist.l")
+                    .hasCategory(GCC_WARNING)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(73)
+                    .hasLineEnd(73)
+                    .hasMessage("implicit typename is deprecated, please see the documentation for details")
+                    .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
+                    .hasCategory(GCC_ERROR)
+                    .hasPriority(Priority.HIGH);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(4)
+                    .hasLineEnd(4)
+                    .hasMessage("foo.h: No such file or directory")
+                    .hasFileName("foo.cc")
+                    .hasCategory(GCC_ERROR)
+                    .hasPriority(Priority.HIGH);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage("undefined reference to &apos;missing_symbol&apos;")
+                    .hasFileName("foo.so")
+                    .hasCategory(GCC_ERROR)
+                    .hasPriority(Priority.HIGH);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(678)
+                    .hasLineEnd(678)
+                    .hasMessage("missing initializer for member sigaltstack::ss_sp")
+                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                    .hasCategory(GCC_WARNING)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(678)
+                    .hasLineEnd(678)
+                    .hasMessage("missing initializer for member sigaltstack::ss_flags")
+                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                    .hasCategory(GCC_WARNING)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(678)
+                    .hasLineEnd(678)
+                    .hasMessage("missing initializer for member sigaltstack::ss_size")
+                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                    .hasCategory(GCC_WARNING)
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(52)
+                    .hasLineEnd(52)
+                    .hasMessage("large integer implicitly truncated to unsigned type")
+                    .hasFileName("src/test_simple_sgs_message.cxx")
+                    .hasCategory(GCC_WARNING)
+                    .hasPriority(Priority.NORMAL);
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new GccParser();
     }
 }
 
