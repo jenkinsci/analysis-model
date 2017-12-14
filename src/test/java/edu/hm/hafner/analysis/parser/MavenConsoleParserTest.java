@@ -25,20 +25,6 @@ public class MavenConsoleParserTest extends AbstractParserTest {
     }
 
     /**
-     * Verifies that errors and warnings are correctly picked up.
-     */
-    @Test
-    public void testParsing() {
-        Issues<Issue> warnings = new MavenConsoleParser().parse(openFile());
-
-        assertThat(warnings)
-                .hasSize(4)
-                .hasHighPrioritySize(2)
-                .hasNormalPrioritySize(2)
-                .hasLowPrioritySize(0);
-    }
-
-    /**
      * Parses a file with three warnings, two of them will be ignored beacuse they are blank.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-16826">Issue 16826</a>
