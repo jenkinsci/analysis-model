@@ -103,20 +103,14 @@ public class JcReportParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(5).hasDuplicatesSize(2);
 
-
-        Issues<Issue> warnings = createParser().parse(openFile());
-        assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
-
-
-        softly.assertThat(warnings.get(0))
+        softly.assertThat(issues.get(0))
                 .hasFileName("SomeDirectory/SomeClass.java")
                 .hasPriority(Priority.HIGH)
                 .hasMessage("SomeMessage")
                 .hasPackageName("SomePackage")
                 .hasLineStart(50);
-
-
     }
 
     @Override

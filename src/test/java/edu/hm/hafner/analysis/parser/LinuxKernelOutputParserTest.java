@@ -26,10 +26,10 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> warnings = createParser().parse(openFile());
-        assertThat(warnings).hasSize(26);
 
-        softly.assertThat(warnings.get(0))
+        assertThat(issues).hasSize(26);
+
+        softly.assertThat(issues.get(0))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -37,7 +37,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: RSDP 0x00000000000F68D0 000014 (v00 BOCHS )")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(1))
+        softly.assertThat(issues.get(1))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -45,7 +45,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: RSDT 0x0000000007FE18DC 000030 (v01 BOCHS  BXPCRSDT 00000001 BXPC 00000001)")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(2))
+        softly.assertThat(issues.get(2))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -53,7 +53,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: FACP 0x0000000007FE17B8 000074 (v01 BOCHS  BXPCFACP 00000001 BXPC 00000001)")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(3))
+        softly.assertThat(issues.get(3))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -61,7 +61,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: DSDT 0x0000000007FE0040 001778 (v01 BOCHS  BXPCDSDT 00000001 BXPC 00000001)")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(4))
+        softly.assertThat(issues.get(4))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -69,7 +69,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: FACS 0x0000000007FE0000 000040")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(5))
+        softly.assertThat(issues.get(5))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -77,7 +77,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: APIC 0x0000000007FE182C 000078 (v01 BOCHS  BXPCAPIC 00000001 BXPC 00000001)")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(6))
+        softly.assertThat(issues.get(6))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -85,7 +85,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: HPET 0x0000000007FE18A4 000038 (v01 BOCHS  BXPCHPET 00000001 BXPC 00000001)")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(7))
+        softly.assertThat(issues.get(7))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -93,7 +93,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: 1 ACPI AML tables successfully acquired and loaded")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(8))
+        softly.assertThat(issues.get(8))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -101,7 +101,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("kworker/u2:0 (32) used greatest stack depth: 14256 bytes left")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(9))
+        softly.assertThat(issues.get(9))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -109,7 +109,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("kworker/u2:0 (26) used greatest stack depth: 13920 bytes left")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(10))
+        softly.assertThat(issues.get(10))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -117,7 +117,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("acpi PNP0A03:00: fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(11))
+        softly.assertThat(issues.get(11))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -125,7 +125,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: Enabled 3 GPEs in block 00 to 0F")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(12))
+        softly.assertThat(issues.get(12))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -133,7 +133,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("ACPI: PCI Interrupt Link [LNKC] enabled at IRQ 11")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(13))
+        softly.assertThat(issues.get(13))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -141,7 +141,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("mdev (949) used greatest stack depth: 13888 bytes left")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(14))
+        softly.assertThat(issues.get(14))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -149,7 +149,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("KABOOM: kaboom_init: WARNING")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(15))
+        softly.assertThat(issues.get(15))
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("WARNING")
                 .hasLineStart(26)
@@ -157,7 +157,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("WARNING in kaboom_init()")
                 .hasFileName("/home/bene/work/rtl/test-description/tmp/linux-stable-rt/drivers/misc/kaboom.c");
 
-        softly.assertThat(warnings.get(16))
+        softly.assertThat(issues.get(16))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -165,7 +165,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("KABOOM: kaboom_init: ERR")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(17))
+        softly.assertThat(issues.get(17))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -173,7 +173,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("KABOOM: kaboom_init: CRIT")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(18))
+        softly.assertThat(issues.get(18))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -181,7 +181,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("KABOOM: kaboom_init: ALERT")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(19))
+        softly.assertThat(issues.get(19))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -189,7 +189,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("KABOOM: kaboom_init: EMERG")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(20))
+        softly.assertThat(issues.get(20))
                 .hasPriority(Priority.HIGH)
                 .hasCategory("BUG")
                 .hasLineStart(39)
@@ -197,7 +197,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("BUG in ()")
                 .hasFileName("/home/bene/work/rtl/test-description/tmp/linux-stable-rt/drivers/misc/kaboom.c");
 
-        softly.assertThat(warnings.get(21))
+        softly.assertThat(issues.get(21))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
@@ -205,7 +205,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
                 .hasMessage("sysrq: SysRq : Emergency Sync")
                 .hasFileName("Nil");
 
-        softly.assertThat(warnings.get(22))
+        softly.assertThat(issues.get(22))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)

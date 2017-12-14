@@ -13,13 +13,14 @@ import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
- * a
+ *
  *
  * @author Gavin Mogan <gavin@kodekoan.com>
  */
 public class JSLintParserTest extends AbstractParserTest {
 
     private static final String EXPECTED_FILE_NAME = "duckworth/hudson-jslint-freestyle/src/prototype.js";
+
 
     /**
      * Creates a new instance of {@link AbstractParserTest}.
@@ -78,15 +79,12 @@ public class JSLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(102);
 
-        Issues<Issue> results = createParser().parse(openFile());
-        assertThat(results).hasSize(102);
+        assertThat(issues.getFiles()).hasSize(2);
+        assertThat(issues.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
-        assertThat(results.getFiles()).hasSize(2);
-        assertThat(results.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
-
-
-        softly.assertThat(results.get(0))
+        softly.assertThat(issues.get(0))
                 .hasPriority(Priority.HIGH)
                 .hasCategory(JSLintXMLSaxParser.CATEGORY_PARSING)
                 .hasLineStart(10)
@@ -94,8 +92,6 @@ public class JSLintParserTest extends AbstractParserTest {
                 .hasMessage("Expected 'Version' to have an indentation at 5 instead at 3.")
                 .hasFileName(EXPECTED_FILE_NAME)
                 .hasColumnStart(3);
-
-
     }
 
     /**
