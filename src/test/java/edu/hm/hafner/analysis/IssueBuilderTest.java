@@ -1,9 +1,9 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
-import static edu.hm.hafner.analysis.assertj.IssueAssert.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 
 /**
  * Unit test for {@link IssueBuilder}.
