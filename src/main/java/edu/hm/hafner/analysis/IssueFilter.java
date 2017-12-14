@@ -1,19 +1,25 @@
 package edu.hm.hafner.analysis;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
-import static com.google.common.collect.Lists.*;
 import static java.util.regex.Pattern.*;
 import static java.util.stream.Collectors.*;
 
 /**
  * Filter for {@link Issues issues}.
  * <p>
- * The filtering can be performed based on a combination of the following properties of an {@link Issue issue}: <ul>
- * <li>{@link Issue#getFileName file name}</li> <li>{@link Issue#getPackageName package name}</li> <li>{@link
- * Issue#getModuleName module name}</li> <li>{@link Issue#getCategory category}</li> <li>{@link Issue#getType type}</li>
+ * The filtering can be performed based on a combination of the following properties of an {@link Issue issue}:
+ * <ul>
+ *     <li>{@link Issue#getFileName file name}</li>
+ *     <li>{@link Issue#getPackageName package name}</li>
+ *     <li>{@link Issue#getModuleName module name}</li>
+ *     <li>{@link Issue#getCategory category}</li>
+ *     <li>{@link Issue#getType type}</li>
  * </ul>
  * <p>
  * A list of include and exclude regex can be defined for each property.
@@ -24,12 +30,12 @@ import static java.util.stream.Collectors.*;
  * @author Marcel Binder
  */
 public class IssueFilter {
-    private final List<IssuePropertyFilter> includeFilters;
-    private final List<IssuePropertyFilter> excludeFilters;
+    private final Set<IssuePropertyFilter> includeFilters;
+    private final Set<IssuePropertyFilter> excludeFilters;
 
-    public IssueFilter(final Builder builder) {
-        this.includeFilters = newArrayList(builder.includeFilters);
-        this.excludeFilters = newArrayList(builder.excludeFilters);
+    private IssueFilter(final Builder builder) {
+        this.includeFilters = new HashSet<>(builder.includeFilters);
+        this.excludeFilters = new HashSet<>(builder.excludeFilters);
     }
 
     /**
@@ -110,12 +116,12 @@ public class IssueFilter {
      * A builder for {@link IssueFilter issue filters}.
      */
     public static class Builder {
-        private List<IssuePropertyFilter> includeFilters;
-        private List<IssuePropertyFilter> excludeFilters;
+        private final Set<IssuePropertyFilter> includeFilters;
+        private final Set<IssuePropertyFilter> excludeFilters;
 
-        public Builder() {
-            this.includeFilters = newArrayList();
-            this.excludeFilters = newArrayList();
+        private Builder() {
+            this.includeFilters = new HashSet<>();
+            this.excludeFilters = new HashSet<>();
         }
 
         /**
@@ -127,14 +133,18 @@ public class IssueFilter {
             return new Builder();
         }
 
-        private IssuePropertyFilter filter(final IssuePropertyExtractor propertyExtractor, final String regex) {
-            Pattern pattern = compile(regex);
-            return issue -> pattern.matcher(propertyExtractor.extract(issue)).matches();
+        private IssuePropertyFilter filter(final IssueProperty property, final String regex) {
+            try {
+                Pattern pattern = compile(regex);
+                return issue -> pattern.matcher(property.extractor.extract(issue)).matches();
+            } catch (PatternSyntaxException e) {
+                throw new InvalidRegexException(property, regex, e);
+            }
         }
 
-        private List<IssuePropertyFilter> filters(final IssuePropertyExtractor propertyExtractor, final List<String> regex) {
+        private List<IssuePropertyFilter> filters(final IssueProperty property, final List<String> regex) {
             return regex.stream()
-                    .map(r -> filter(propertyExtractor, r))
+                    .map(r -> filter(property, r))
                     .collect(toList());
         }
 
@@ -149,7 +159,7 @@ public class IssueFilter {
          * @return this {@link Builder builder}
          */
         public Builder include(final IssueProperty property, final List<String> regex) {
-            includeFilters.addAll(filters(property.extractor, regex));
+            includeFilters.addAll(filters(property, regex));
             return this;
         }
 
@@ -164,7 +174,7 @@ public class IssueFilter {
          * @return this {@link Builder builder}
          */
         public Builder exclude(final IssueProperty property, final List<String> regex) {
-            excludeFilters.addAll(filters(property.extractor, regex));
+            excludeFilters.addAll(filters(property, regex));
             return this;
         }
 

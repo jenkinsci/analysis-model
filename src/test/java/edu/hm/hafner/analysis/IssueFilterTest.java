@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.regex.PatternSyntaxException;
+
 import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.IssueFilter.Builder.*;
@@ -57,6 +59,7 @@ class IssueFilterTest {
             .setType("type-b-3")
             .build();
     private static final Issues ALL = new Issues(asList(ISSUE_A1, ISSUE_A2, ISSUE_A3, ISSUE_B1, ISSUE_B2, ISSUE_B3));
+    private static final String INVALID_REGEX = "(";
 
     @Test
     void nonePassIfNoFilterNoIssues() {
@@ -213,5 +216,14 @@ class IssueFilterTest {
         Issues output = filter.filter(ALL);
 
         assertThat(output.all()).containsExactlyInAnyOrder(ISSUE_A2, ISSUE_A3, ISSUE_B2, ISSUE_B3);
+    }
+
+    @Test
+    void invalidRegex() {
+        assertThatThrownBy(() -> issueFilter().include(FILE_NAME, singletonList(INVALID_REGEX)))
+                .isInstanceOf(InvalidRegexException.class)
+                .hasMessageContaining(FILE_NAME.name())
+                .hasMessageContaining(INVALID_REGEX)
+                .hasCauseInstanceOf(PatternSyntaxException.class);
     }
 }
