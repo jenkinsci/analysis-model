@@ -58,7 +58,7 @@ There is no additional action required from pull request authors at this point.
 
 ## Copyright
 
-Static Analysis Suite  is licensed under [MIT license](./LICENSE.txt). We consider all contributions as MIT unless it's 
+Static Analysis Suite  is licensed under [MIT license](./LICENSE). We consider all contributions as MIT unless it's 
 explicitly stated otherwise. MIT-incompatible code contributions will be rejected.
 Contributions under MIT-compatible licenses may be also rejected if they are not ultimately necessary.
 
