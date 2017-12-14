@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -20,7 +21,7 @@ public class PyLintParser extends FastRegexpLineParser {
      * Creates a new instance of {@link PyLintParser}.
      */
     public PyLintParser() {
-        super("py-lint", PYLINT_ERROR_PATTERN);
+        super(PYLINT_ERROR_PATTERN);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class PyLintParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
         //First letter of the Pylint classification is one of F/E/W/R/C. E/F/W are high priority.
@@ -57,7 +58,7 @@ public class PyLintParser extends FastRegexpLineParser {
                 break;
         }
 
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                              .setCategory(category).setMessage(message).setPriority(priority).build();
     }
 }

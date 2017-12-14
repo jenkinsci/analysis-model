@@ -1,11 +1,9 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
-
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -17,22 +15,18 @@ import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
  *
  * @author Jan Vansteenkiste <jan@vstone.eu>
  */
-public class PuppetLintParserTest extends ParserTester {
-    private static final String TYPE = new PuppetLintParser().getId();
+public class PuppetLintParserTest extends AbstractParserTest {
 
-    /**
-     * Tests the Puppet-Lint parsing.
-     *
-     * @throws IOException in case of an error
-     */
-    @Test
-    public void testParse() throws IOException {
-        Issues results = createParser().parse(openFile());
-        assertThat(results).hasSize(5);
+    PuppetLintParserTest() {
+        super("puppet-lint.txt");
+    }
 
-        Iterator<Issue> iterator = results.iterator();
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(5);
 
-        SoftAssertions softly = new SoftAssertions();
+        Iterator<Issue> iterator = issues.iterator();
+
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.HIGH)
                 .hasCategory("autoloader_layout")
@@ -40,7 +34,6 @@ public class PuppetLintParserTest extends ParserTester {
                 .hasLineEnd(1)
                 .hasMessage("failtest not in autoload module layout")
                 .hasFileName("failtest.pp")
-                .hasType(TYPE)
                 .hasPackageName("-");
 
         softly.assertThat(iterator.next())
@@ -50,7 +43,6 @@ public class PuppetLintParserTest extends ParserTester {
                 .hasLineEnd(3)
                 .hasMessage("line has more than 80 characters")
                 .hasFileName("./modules/test/manifests/init.pp")
-                .hasType(TYPE)
                 .hasPackageName("::test");
 
         softly.assertThat(iterator.next())
@@ -60,7 +52,6 @@ public class PuppetLintParserTest extends ParserTester {
                 .hasLineEnd(10)
                 .hasMessage("line has more than 80 characters")
                 .hasFileName("./modules/test/manifests/sub/class/morefail.pp")
-                .hasType(TYPE)
                 .hasPackageName("::test::sub::class");
 
         softly.assertThat(iterator.next())
@@ -70,7 +61,6 @@ public class PuppetLintParserTest extends ParserTester {
                 .hasLineEnd(4)
                 .hasMessage("tab character found")
                 .hasFileName("C:/ProgramData/PuppetLabs/puppet/etc/manifests/site.pp")
-                .hasType(TYPE)
                 .hasPackageName("-");
 
         softly.assertThat(iterator.next())
@@ -80,10 +70,7 @@ public class PuppetLintParserTest extends ParserTester {
                 .hasLineEnd(15)
                 .hasMessage("line has more than 80 characters")
                 .hasFileName("C:/CI CD/puppet/modules/jenkins/init.pp")
-                .hasType(TYPE)
                 .hasPackageName("-");
-
-        softly.assertAll();
     }
 
     /**
@@ -91,12 +78,8 @@ public class PuppetLintParserTest extends ParserTester {
      *
      * @return the warnings parser
      */
+    @Override
     protected AbstractParser createParser() {
         return new PuppetLintParser();
-    }
-
-    @Override
-    protected String getWarningsFile() {
-        return "puppet-lint.txt";
     }
 }

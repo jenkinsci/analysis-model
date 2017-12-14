@@ -1,10 +1,9 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
-
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -16,30 +15,26 @@ import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
  *
  * @author Charles Chan
  */
-public class PREfastParserTest extends ParserTester {
-    private static final String TYPE = new PREfastParser().getId();
+public class PREfastParserTest extends AbstractParserTest {
 
-    /**
-     * Tests the Puppet-Lint parsing.
-     *
-     * @throws IOException in case of an error
-     */
-    @Test
-    public void testParse() throws IOException {
-        Issues results = new PREfastParser().parse(openFile());
-        assertThat(results).hasSize(11);
+    PREfastParserTest() {
+        super("PREfast.xml");
+    }
 
-        Iterator<Issue> iterator = results.iterator();
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(11);
 
-        SoftAssertions softly = new SoftAssertions();
+        Iterator<Issue> iterator = issues.iterator();
+
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("28101")
                 .hasLineStart(102)
                 .hasLineEnd(102)
-                .hasMessage("The Drivers module has inferred that the current function is a DRIVER_INITIALIZE function:  This is informational only. No problem has been detected.")
-                .hasFileName("sys.c")
-                .hasType(TYPE);
+                .hasMessage(
+                        "The Drivers module has inferred that the current function is a DRIVER_INITIALIZE function:  This is informational only. No problem has been detected.")
+                .hasFileName("sys.c");
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
@@ -47,23 +42,25 @@ public class PREfastParserTest extends ParserTester {
                 .hasLineStart(116)
                 .hasLineEnd(116)
                 .hasMessage("(PFD)Leaking memory 'device'.")
-                .hasFileName("sys.c")
-                .hasType(TYPE);
+                .hasFileName("sys.c");
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("28155")
                 .hasLineStart(137)
                 .hasLineEnd(137)
-                .hasMessage("The function being assigned or passed should be a DRIVER_UNLOAD function:  Add the declaration 'DRIVER_UNLOAD OnUnload;' before the current first declaration of OnUnload.")
-                .hasFileName("sys.c")
-                .hasType(TYPE);
-
-        softly.assertAll();
+                .hasMessage(
+                        "The function being assigned or passed should be a DRIVER_UNLOAD function:  Add the declaration 'DRIVER_UNLOAD OnUnload;' before the current first declaration of OnUnload.")
+                .hasFileName("sys.c");
     }
 
+    /**
+     * Creates the parser.
+     *
+     * @return the warnings parser
+     */
     @Override
-    protected String getWarningsFile() {
-        return "PREfast.xml";
+    protected AbstractParser createParser() {
+        return new PREfastParser();
     }
 }

@@ -4,18 +4,45 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.ConsolePostProcessor;
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link EclipseParser}.
  */
-class EclipseParserTest extends AbstractEclipseParserTest {
-    private static final String CATEGORY = DEFAULT_CATEGORY;
+class EclipseParserTest extends AbstractParserTest {
+    private static final String CATEGORY = new IssueBuilder().build().getCategory();
+
+    EclipseParserTest() {
+        super("eclipse.txt");
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new EclipseParser();
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(8);
+
+        Issue annotation = issues.get(0);
+        softly.assertThat(annotation)
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(3)
+                .hasLineEnd(3)
+                .hasMessage(
+                        "The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
+                .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java");
+    }
 
     /**
      * Parses a warning log with previously undetected warnings.
@@ -24,18 +51,21 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue21377() {
-        Issues warnings = createParser().parse(openFile("issue21377.txt"));
+        Issues<Issue> warnings = parse("issue21377.txt");
+
         assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-        assertThat(warnings.get(0))
-                .hasPriority(Priority.NORMAL)
-                .hasCategory(CATEGORY)
-                .hasLineStart(13)
-                .hasLineEnd(13)
-                .hasMessage("The method getOldValue() from the type SomeType is deprecated")
-                .hasFileName("/path/to/job/job-name/module/src/main/java/com/example/Example.java")
-                .hasType(TYPE);
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(CATEGORY)
+                    .hasLineStart(13)
+                    .hasLineEnd(13)
+                    .hasColumnStart(15)
+                    .hasColumnEnd(15 + 13)
+                    .hasMessage("The method getOldValue() from the type SomeType is deprecated")
+                    .hasFileName("/path/to/job/job-name/module/src/main/java/com/example/Example.java");
+        });
     }
 
     /**
@@ -45,33 +75,33 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue13969() {
-        Issues warnings = createParser().parse(openFile("issue13969.txt"));
+        Issues<Issue> warnings = parse("issue13969.txt");
 
         assertThat(warnings).hasSize(3);
 
-        SoftAssertions.assertSoftly((softly) -> {
+        assertSoftly(softly -> {
             Iterator<Issue> iterator = warnings.iterator();
-            softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(369)
                     .hasLineEnd(369)
                     .hasMessage("The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally")
-                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
-                    .hasType(TYPE);
-            softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java");
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(391)
                     .hasLineEnd(391)
                     .hasMessage("The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally")
-                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
-                    .hasType(TYPE);
-            softly.assertThat(iterator.next()).hasPriority(Priority.NORMAL)
+                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java");
+            softly.assertThat(iterator.next())
+                    .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(56)
                     .hasLineEnd(56)
                     .hasMessage("The value of the field PropertyImporterTest.ERROR_RESPONSE is not used")
-                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java")
-                    .hasType(TYPE);
+                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java");
         });
     }
 
@@ -82,31 +112,9 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue12822() {
-        Issues warnings = createParser().parse(openFile("issue12822.txt"));
+        Issues<Issue> warnings = parse("issue12822.txt");
 
         assertThat(warnings).hasSize(15);
-    }
-
-    /**
-     * Parses a warning log with console annotations which are removed.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-11675">Issue 11675</a>
-     */
-    @Test
-    void issue11675() {
-        EclipseParser parser = new EclipseParser();
-        parser.setTransformer(new ConsolePostProcessor());
-        Issues warnings = parser.parse(openFile("issue11675.txt"));
-
-        assertThat(warnings).hasSize(8);
-
-        for (Issue annotation : warnings) {
-            checkWithAnnotation(annotation);
-        }
-    }
-
-    private void checkWithAnnotation(final Issue annotation) {
-        assertThat(annotation.getMessage()).matches("[a-zA-Z].*");
     }
 
     /**
@@ -116,18 +124,17 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue6427() {
-        Issues warnings = createParser().parse(openFile("issue6427.txt"));
+        Issues<Issue> warnings = parse("issue6427.txt");
 
         assertThat(warnings).hasSize(18);
-        SoftAssertions.assertSoftly((softly) -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(10)
                     .hasLineEnd(10)
                     .hasMessage("The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
-                    .hasFileName("/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java")
-                    .hasType(TYPE);
+                    .hasFileName("/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java");
         });
     }
 
@@ -138,25 +145,23 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue7077() {
-        Issues warnings = createParser().parse(openFile("issue7077.txt"));
+        Issues<Issue> warnings = parse("issue7077.txt");
 
-        assertThat(warnings.size()).isEqualTo(2);
+        assertThat(warnings).hasSize(2);
 
-        SoftAssertions.assertSoftly((softly) -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0)).hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage("Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized")
-                    .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
-                    .hasType(TYPE);
+                    .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java");
             softly.assertThat(warnings.get(1)).hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage("Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>")
-                    .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
-                    .hasType(TYPE);
+                    .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java");
         });
     }
 
@@ -167,9 +172,9 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue7077all() {
-        Issues sorted = createParser().parse(openFile("issue7077-all.txt"));
+        Issues<Issue> sorted = parse("issue7077-all.txt");
 
-        assertThat(sorted.size()).isEqualTo(45);
+        assertThat(sorted).hasSize(45);
 
         int number = 0;
         for (Issue fileAnnotation : sorted) {

@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link GoLintParser}.
@@ -17,16 +16,14 @@ public class GoLintParserTest extends ParserTester {
 
     /**
      * Parses a file with multiple golint warnings.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testWarningsParser() throws IOException {
-        Issues warnings = new GoLintParser().parse(openFile());
+    public void testWarningsParser() {
+        Issues<Issue> warnings = new GoLintParser().parse(openFile());
 
         assertThat(warnings).hasSize(7);
 
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(CATEGORY)

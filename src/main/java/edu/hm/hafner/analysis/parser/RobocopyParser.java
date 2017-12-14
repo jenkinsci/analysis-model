@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -23,15 +24,15 @@ public class RobocopyParser extends FastRegexpLineParser {
      * Creates a new instance of {@link RobocopyParser}.
      */
     public RobocopyParser() {
-        super("robo-copy", ROBOCOPY_WARNING_PATTERN);
+        super(ROBOCOPY_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String file = matcher.group(4).split("\\s{11}")[0];
         String message = file;
         String category = matcher.group(2);
-        return issueBuilder().setFileName(file).setLineStart(0).setCategory(category).setMessage(message)
+        return builder.setFileName(file).setLineStart(0).setCategory(category).setMessage(message)
                              .setPriority(Priority.NORMAL).build();
     }
 

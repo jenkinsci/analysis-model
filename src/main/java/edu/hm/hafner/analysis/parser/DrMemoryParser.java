@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
@@ -70,11 +71,11 @@ public class DrMemoryParser extends RegexpDocumentParser {
      * Creates a new instance of {@link DrMemoryParser}.
      */
     public DrMemoryParser() {
-        super("dr-memory", DR_MEMORY_WARNING_PATTERN, false);
+        super(DR_MEMORY_WARNING_PATTERN, false);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         StringBuilder messageBuilder = new StringBuilder();
         String filePath = "Nil";
         int lineNumber = 0;
@@ -166,7 +167,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
             }
         }
 
-        return issueBuilder().setFileName(filePath).setLineStart(lineNumber).setCategory(category).setMessage(message).setPriority(priority).build();
+        return builder.setFileName(filePath).setLineStart(lineNumber).setCategory(category).setMessage(message).setPriority(priority).build();
     }
 
     /**

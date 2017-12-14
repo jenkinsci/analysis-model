@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -21,11 +22,11 @@ public class SunCParser extends RegexpLineParser {
      * Creates a new instance of <code>HpiCompileParser</code>.
      */
     public SunCParser() {
-        super("sunc", SUN_CPP_WARNING_PATTERN);
+        super(SUN_CPP_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         Priority priority;
         if ("warning".equalsIgnoreCase(matcher.group(3))) {
             priority = Priority.NORMAL;
@@ -33,8 +34,8 @@ public class SunCParser extends RegexpLineParser {
         else {
             priority = Priority.HIGH;
         }
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(matcher.group(4)).setMessage(matcher.group(5)).setPriority(priority).build();
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+                      .setCategory(matcher.group(4)).setMessage(matcher.group(5)).setPriority(priority).build();
     }
 }
 

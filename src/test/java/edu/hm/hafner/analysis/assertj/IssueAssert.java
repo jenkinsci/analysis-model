@@ -149,6 +149,36 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     }
 
     /**
+     * Checks whether an Issue has a specific moduleName.
+     *
+     * @param moduleName String specifying moduleName.
+     * @return this
+     */
+    public IssueAssert hasModuleName(final String moduleName) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getModuleName(), moduleName)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "moduleName", actual, moduleName, actual.getModuleName());
+        }
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue has a specific origin.
+     *
+     * @param origin String specifying origin.
+     * @return this
+     */
+    public IssueAssert hasOrigin(final String origin) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getOrigin(), origin)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "origin", actual, origin, actual.getOrigin());
+        }
+        return this;
+    }
+
+    /**
      * Checks whether an Issue starts at a specific line.
      *
      * @param lineStart int specifying lineStart.

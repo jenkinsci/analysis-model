@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -19,11 +20,11 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
      * Creates a new instance of <code>QACSourceCodeAnalyserParser</code>.
      */
     public QACSourceCodeAnalyserParser() {
-        super("qac", QAC_WARNING_PATTERN);
+        super(QAC_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String fileName = matcher.group(1);
         int lineNumber = parseInt(matcher.group(2));
         String message = matcher.group(7);
@@ -38,8 +39,8 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                             .setPriority(priority).build();
+        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
+                      .setPriority(priority).build();
     }
 }
 

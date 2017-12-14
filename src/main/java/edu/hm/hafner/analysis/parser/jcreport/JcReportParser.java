@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -29,34 +30,28 @@ public class JcReportParser extends AbstractParser {
      * Creates a new instance of {@link JcReportParser}.
      */
     public JcReportParser() {
-        super("jc-report");
+        super();
     }
 
-    /**
-     * This overwritten method passes the reader to createReport() and starts adding all the warnings to the Collection
-     * that will be returned at the end of the method.
-     *
-     * @param reader the reader that parses from the source-file.
-     * @return the collection of Warnings parsed from the Report.
-     * @throws ParsingCanceledException thrown by createReport()
-     */
     @Override
-    public Issues parse(final Reader reader) throws ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingCanceledException {
         Report report = createReport(reader);
-        Issues warnings = new Issues();
+        Issues<Issue> warnings = new Issues<>();
         for (int i = 0; i < report.getFiles().size(); i++) {
             File file = report.getFiles().get(i);
 
             for (int j = 0; j < file.getItems().size(); j++) {
                 Item item = file.getItems().get(j);
-                Issue warning = issueBuilder().setFileName(file.getName()).setLineStart(parseInt(item.getLine()))
-                                              .setColumnStart(parseInt(item.getColumn()))
-                                              .setColumnEnd(parseInt(item.getEndcolumn())).setType(getId())
-                                              .setCategory(item.getFindingtype()).setPackageName(file.getPackageName())
-                                              .setMessage(item.getMessage())
-                                              .setPriority(getPriority(item.getSeverity())).build();
+                builder.setFileName(file.getName())
+                        .setLineStart(parseInt(item.getLine()))
+                        .setColumnStart(parseInt(item.getColumn()))
+                        .setColumnEnd(parseInt(item.getEndcolumn()))
+                        .setCategory(item.getFindingtype())
+                        .setPackageName(file.getPackageName())
+                        .setMessage(item.getMessage())
+                        .setPriority(getPriority(item.getSeverity()));
 
-                warnings.add(warning);
+                warnings.add(builder.build());
             }
         }
         return warnings;
@@ -65,7 +60,9 @@ public class JcReportParser extends AbstractParser {
     /**
      * The severity-level parsed from the JcReport will be matched with a priority.
      *
-     * @param issueLevel the severity-level parsed from the JcReport.
+     * @param issueLevel
+     *         the severity-level parsed from the JcReport.
+     *
      * @return the priority-enum matching with the issueLevel.
      */
     private Priority getPriority(final String issueLevel) {
@@ -93,9 +90,12 @@ public class JcReportParser extends AbstractParser {
     /**
      * Creates a Report-Object out of the content within the JcReport.xml.
      *
-     * @param source the Reader-object that is the source to build the Report-Object.
+     * @param source
+     *         the Reader-object that is the source to build the Report-Object.
+     *
      * @return the finished Report-Object that creates the Warnings.
-     * @throws ParsingException due to digester.parse(new InputSource(source))
+     * @throws ParsingException
+     *         due to digester.parse(new InputSource(source))
      */
     public Report createReport(final Reader source) throws ParsingException {
         try {

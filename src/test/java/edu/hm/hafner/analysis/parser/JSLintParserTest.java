@@ -1,17 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
-import static org.assertj.core.api.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link JSLintParser}.
@@ -24,18 +20,15 @@ public class JSLintParserTest extends ParserTester {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @throws IOException if the file could not be read
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-19127">Issue 19127</a>
      */
     @Test
-    public void issue19127() throws IOException {
-        Issues warnings = new JSLintParser().parse(openFile("jslint/jslint.xml"));
+    public void issue19127() {
+        Issues<Issue> warnings = new JSLintParser().parse(openFile("jslint/jslint.xml"));
 
         assertThat(warnings).hasSize(197);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
 
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.HIGH)
@@ -53,18 +46,16 @@ public class JSLintParserTest extends ParserTester {
 
     /**
      * Tests the JS-Lint parsing for warnings in different files.
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void testParse() throws IOException {
-        Issues results = createParser().parse(openFile());
+    public void testParse() {
+        Issues<Issue> results = createParser().parse(openFile());
         assertThat(results).hasSize(102);
 
         assertThat(results.getFiles()).hasSize(2);
         assertThat(results.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
 
             softly.assertThat(results.get(0))
                     .hasPriority(Priority.HIGH)
@@ -78,31 +69,23 @@ public class JSLintParserTest extends ParserTester {
 
     }
 
-    /*
-    private void verifyFileName(final List<WorkspaceFile> sortedFiles, final String expectedName, final int position) {
-        assertEquals("Wrong file found: ", expectedName, sortedFiles.get(position).getName());
-    }
-*/
-
     /**
      * Tests the JS-Lint parsing for warnings in a single file.
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void testParseWithSingleFile() throws IOException {
-        Issues results = createParser().parse(openFile("jslint/single.xml"));
+    public void testParseWithSingleFile() {
+        Issues<Issue> results = createParser().parse(openFile("jslint/single.xml"));
+
         assertThat(results).hasSize(51);
     }
 
     /**
      * Tests parsing of CSS-Lint files.
-     *
-     * @throws IOException in case of an error
      */
     @Test
-    public void testCssLint() throws IOException {
-        Issues results = createParser().parse(openFile("jslint/csslint.xml"));
+    public void testCssLint() {
+        Issues<Issue> results = createParser().parse(openFile("jslint/csslint.xml"));
+
         assertThat(results).hasSize(51);
     }
 

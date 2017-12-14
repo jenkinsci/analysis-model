@@ -22,6 +22,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -42,11 +44,11 @@ public class GendarmeParser extends AbstractParser {
      * Creates a new instance of {@link GendarmeParser}.
      */
     public GendarmeParser() {
-        super("gendarme");
+        super();
     }
 
     @Override
-    public Issues parse(final Reader reader) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -59,7 +61,7 @@ public class GendarmeParser extends AbstractParser {
             Element rulesElement = (Element)rootElement.getElementsByTagName("rules").item(0);
 
             Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getNamedChildElements(rulesElement, "rule"));
-            return parseViolations(XmlElementUtil.getNamedChildElements(resultsElement, "rule"), rules);
+            return parseViolations(XmlElementUtil.getNamedChildElements(resultsElement, "rule"), rules, builder);
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);
@@ -69,8 +71,8 @@ public class GendarmeParser extends AbstractParser {
         }
     }
 
-    private Issues parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
-        Issues warnings = new Issues();
+    private Issues<Issue> parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules, final IssueBuilder builder) {
+        Issues<Issue> warnings = new Issues<>();
         for (Element ruleElement : ruleElements) {
             String ruleName = ruleElement.getAttribute("Name");
             String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
@@ -85,7 +87,7 @@ public class GendarmeParser extends AbstractParser {
                 Priority priority = extractPriority(defectElement);
                 int line = parseInt(extractFileNameMatch(rule, source, 2));
 
-                warnings.add(issueBuilder().setFileName(fileName).setLineStart(line).setCategory(rule.getName())
+                warnings.add(builder.setFileName(fileName).setLineStart(line).setCategory(rule.getName())
                                            .setMessage(problem).setPriority(priority).build());
             }
         }
@@ -119,7 +121,7 @@ public class GendarmeParser extends AbstractParser {
     }
 
     private Map<String, GendarmeRule> parseRules(final List<Element> ruleElements) {
-        Map<String, GendarmeRule> rules = new HashMap<String, GendarmeRule>();
+        Map<String, GendarmeRule> rules = new HashMap<>();
 
         for (Element ruleElement : ruleElements) {
             GendarmeRule rule = new GendarmeRule();

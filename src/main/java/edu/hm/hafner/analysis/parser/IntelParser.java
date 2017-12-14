@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -22,7 +23,7 @@ public class IntelParser extends FastRegexpLineParser {
      * Creates a new instance of {@link IntelParser}.
      */
     public IntelParser() {
-        super("intel", INTEL_PATTERN);
+        super(INTEL_PATTERN);
     }
 
     @Override
@@ -31,7 +32,7 @@ public class IntelParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String category = StringUtils.capitalize(matcher.group(4));
 
         Priority priority;
@@ -45,7 +46,7 @@ public class IntelParser extends FastRegexpLineParser {
             priority = Priority.NORMAL;
         }
 
-        Issue warning = issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+        Issue warning = builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                                       .setColumnStart(parseInt(matcher.group(3))).setCategory(category)
                                       .setMessage(matcher.group(5)).setPriority(priority).build();
         return warning;
