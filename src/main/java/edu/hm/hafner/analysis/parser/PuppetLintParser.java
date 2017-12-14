@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -30,13 +31,13 @@ public class PuppetLintParser extends RegexpLineParser {
      * Creates a new instance of {@link PuppetLintParser}.
      */
     public PuppetLintParser() {
-        super("puppet-lint", PUPPET_LINT_PATTERN_WARNING);
+        super(PUPPET_LINT_PATTERN_WARNING);
 
         packagePattern = Pattern.compile(PUPPET_LINT_PATTERN_PACKAGE);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         final String fileName = matcher.group(1);
         final String start = matcher.group(2);
         final String category = matcher.group(3);
@@ -48,9 +49,9 @@ public class PuppetLintParser extends RegexpLineParser {
             priority = Priority.HIGH;
         }
 
-        return issueBuilder().setFileName(fileName).setLineStart(Integer.parseInt(start)).setType(getId())
-                             .setCategory(category).setPackageName(detectModuleName(fileName)).setMessage(message)
-                             .setPriority(priority).build();
+        return builder.setFileName(fileName).setLineStart(parseInt(start))
+                      .setCategory(category).setPackageName(detectModuleName(fileName)).setMessage(message)
+                      .setPriority(priority).build();
     }
 
     private String detectModuleName(final String fileName) {

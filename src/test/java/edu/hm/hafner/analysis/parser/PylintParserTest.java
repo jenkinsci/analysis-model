@@ -5,76 +5,89 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link PyLintParser}.
  */
-public class PylintParserTest extends ParserTester {
-    private static final String WARNING_TYPE = new PyLintParser().getId();
+public class PylintParserTest extends AbstractParserTest {
+
+
+    private static final String ISSUES_FILE = "pyLint.txt";
 
     /**
-     * Parses a txt file, containing 3 warnings.
+     * Creates a new instance of {@link PylintParserTest}.
      *
-     * @throws IOException if the file could not be read
      */
-    @Test
-    public void pyLintTest() throws IOException {
-        Issues warnings = new PyLintParser().parse(openFile());
+    PylintParserTest() {
+        super(ISSUES_FILE);
+    }
 
-        assertEquals(6, warnings.size());
 
-        Iterator<Issue> iterator = warnings.iterator();
-        Issue warning;
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(6);
 
-        warning = iterator.next();
-        checkWarning(warning,
-                3,
-                "Line too long (85/80)",
-                "trunk/src/python/cachedhttp.py",
-                WARNING_TYPE, "C", Priority.LOW);
+        Iterator<Issue> iterator = issues.iterator();
 
-        warning = iterator.next();
-        checkWarning(warning,
-                28,
-                "Invalid name \"seasonCount\" (should match [a-z_][a-z0-9_]{2,30}$)",
-                "trunk/src/python/tv.py",
-                WARNING_TYPE, "C0103", Priority.LOW);
+        softly.assertThat(iterator.next())
+                .hasLineStart(3)
+                .hasLineEnd(3)
+                .hasMessage("Line too long (85/80)")
+                .hasFileName("trunk/src/python/cachedhttp.py")
+                .hasCategory("C")
+                .hasPriority(Priority.LOW);
 
-        warning = iterator.next();
-        checkWarning(warning,
-                35,
-                "Missing docstring",
-                "trunk/src/python/tv.py",
-                WARNING_TYPE, "C0111", Priority.LOW);
+        softly.assertThat(iterator.next())
+                .hasLineStart(28)
+                .hasLineEnd(28)
+                .hasMessage("Invalid name \"seasonCount\" (should match [a-z_][a-z0-9_]{2,30}$)")
+                .hasFileName("trunk/src/python/tv.py")
+                .hasCategory("C0103")
+                .hasPriority(Priority.LOW);
 
-        warning = iterator.next();
-        checkWarning(warning,
-                39,
-                "Method should have \"self\" as first argument",
-                "trunk/src/python/tv.py",
-                WARNING_TYPE, "E0213", Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(35)
+                .hasLineEnd(35)
+                .hasMessage("Missing docstring")
+                .hasFileName("trunk/src/python/tv.py")
+                .hasCategory("C0111")
+                .hasPriority(Priority.LOW);
 
-        warning = iterator.next();
-        checkWarning(warning,
-                5,
-                "Unable to import 'deadbeef'",
-                "trunk/src/python/tv.py",
-                WARNING_TYPE, "F0401", Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(39)
+                .hasLineEnd(39)
+                .hasMessage("Method should have \"self\" as first argument")
+                .hasFileName("trunk/src/python/tv.py")
+                .hasCategory("E0213")
+                .hasPriority(Priority.HIGH);
 
-        warning = iterator.next();
-        checkWarning(warning,
-                39,
-                "Dangerous default value \"[]\" as argument",
-                "trunk/src/python/tv.py",
-                WARNING_TYPE, "W0102", Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasMessage("Unable to import 'deadbeef'")
+                .hasFileName("trunk/src/python/tv.py")
+                .hasCategory("F0401")
+                .hasPriority(Priority.HIGH);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(39)
+                .hasLineEnd(39)
+                .hasMessage("Dangerous default value \"[]\" as argument")
+                .hasFileName("trunk/src/python/tv.py")
+                .hasCategory("W0102")
+                .hasPriority(Priority.NORMAL);
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "pyLint.txt";
+    protected AbstractParser createParser() {
+        return new PyLintParser();
     }
 }

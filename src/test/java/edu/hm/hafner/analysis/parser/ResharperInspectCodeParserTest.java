@@ -5,60 +5,62 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link ResharperInspectCodeParser}.
  */
-public class ResharperInspectCodeParserTest extends ParserTester {
+public class ResharperInspectCodeParserTest extends AbstractParserTest {
+
+    public static final String ISSUES_FILE = "ResharperInspectCode.xml";
+
     /**
-     * Parses a file with warnings of the Reshaper InspectCodeParser  tools.
-     *
-     * @throws IOException if the file could not be read
+     * Creates a new instance of {@link ResharperInspectCodeParserTest}.
      */
-    @Test
-    public void parseWarnings() throws IOException {
-        Issues warnings = new ResharperInspectCodeParser().parse(openFile());
-
-        assertEquals(3, warnings.size());
-
-        Iterator<Issue> iterator = warnings.iterator();
-
-        //<Issue TypeId="CSharpErrors" File="ResharperDemo\Program.cs" Offset="408-416" Line="16" Message="" />
-        Issue annotation = iterator.next();
-        checkWarning(annotation,
-                16,
-                "Cannot resolve symbol 'GetError'",
-                "ResharperDemo/Program.cs",
-                "ResharperInspectCode",
-                "CSharpErrors",
-                Priority.HIGH);
-
-        annotation = iterator.next();
-        checkWarning(annotation,
-                23,
-                "Expression is always true",
-                "ResharperDemo/Program.cs",
-                "ResharperInspectCode",
-                "ConditionIsAlwaysTrueOrFalse",
-                Priority.NORMAL);
-
-        annotation = iterator.next();
-        checkWarning(annotation,
-                41,
-                "Convert to auto-property",
-                "ResharperDemo/Program.cs",
-                "ResharperInspectCode",
-                "ConvertToAutoProperty",
-                Priority.LOW);
+    ResharperInspectCodeParserTest() {
+        super(ISSUES_FILE);
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "ResharperInspectCode.xml";
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(3);
+
+        Iterator<Issue> iterator = issues.iterator();
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(16)
+                .hasLineEnd(16)
+                .hasMessage("Cannot resolve symbol 'GetError'")
+                .hasFileName("ResharperDemo/Program.cs")
+                .hasCategory("CSharpErrors")
+                .hasPriority(Priority.HIGH);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(23)
+                .hasLineEnd(23)
+                .hasMessage("Expression is always true")
+                .hasFileName("ResharperDemo/Program.cs")
+                .hasCategory("ConditionIsAlwaysTrueOrFalse")
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(41)
+                .hasLineEnd(41)
+                .hasMessage("Convert to auto-property")
+                .hasFileName("ResharperDemo/Program.cs")
+                .hasCategory("ConvertToAutoProperty")
+                .hasPriority(Priority.LOW);
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new ResharperInspectCodeParser();
     }
 }
 

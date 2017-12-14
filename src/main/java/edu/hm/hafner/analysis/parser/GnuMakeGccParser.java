@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -25,7 +26,7 @@ public class GnuMakeGccParser extends RegexpLineParser {
             + ")";
     private String directory = "";
 
-    private boolean isWindows;
+    private final boolean isWindows;
 
     /**
      * Creates a new instance of {@link GnuMakeGccParser}.
@@ -40,21 +41,21 @@ public class GnuMakeGccParser extends RegexpLineParser {
      * @param os A string representing the operating system - mainly used for faking
      */
     public GnuMakeGccParser(final String os) {
-        super("gmake-gcc", GNUMAKEGCC_WARNING_PATTERN);
+        super(GNUMAKEGCC_WARNING_PATTERN);
         isWindows = os.toLowerCase().contains("windows");
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         if (matcher.group(1) == null) {
             return handleDirectory(matcher);
         }
         else {
-            return handleWarning(matcher);
+            return handleWarning(matcher, builder);
         }
     }
 
-    private Issue handleWarning(final Matcher matcher) {
+    private Issue handleWarning(final Matcher matcher, final IssueBuilder builder) {
         String fileName = matcher.group(2);
         int lineNumber = parseInt(matcher.group(3));
         String message = matcher.group(5);
@@ -69,22 +70,22 @@ public class GnuMakeGccParser extends RegexpLineParser {
             category = "Warning";
         }
         if (fileName.startsWith(SLASH)) {
-            return issueBuilder().setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+            return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
+                          .setMessage(message).setPriority(priority).build();
         }
         else {
-            return issueBuilder().setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+            return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
+                          .setMessage(message).setPriority(priority).build();
         }
     }
 
-    private String fixMsysTypeDirectory(String directory) {
-        if (isWindows && directory.matches("/[a-z]/.*")) {
+    private String fixMsysTypeDirectory(final String path) {
+        if (isWindows && path.matches("/[a-z]/.*")) {
             //MSYS make on Windows replaces the drive letter and colon (C:) with unix-type absolute paths (/c/)
             //Reverse this operation here
-            directory = directory.substring(1, 2) + ":" + directory.substring(2);
+            return path.substring(1, 2) + ":" + path.substring(2);
         }
-        return directory;
+        return path;
     }
 
     private Issue handleDirectory(final Matcher matcher) {

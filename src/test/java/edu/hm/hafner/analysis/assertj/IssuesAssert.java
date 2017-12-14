@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.assertj;
 
 import org.assertj.core.api.AbstractAssert;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 
 /**
@@ -10,7 +11,7 @@ import edu.hm.hafner.analysis.Issues;
  * @author Marcel Binder
  */
 @SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion"})
-public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
+public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<Issue>> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
     /**
@@ -18,7 +19,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      *
      * @param actual the issue we want to make assertions on
      */
-    public IssuesAssert(final Issues actual) {
+    public IssuesAssert(final Issues<Issue> actual) {
         super(actual, IssuesAssert.class);
     }
 
@@ -29,8 +30,24 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      * @param actual the issues we want to make assertions on
      * @return a new {@link IssuesAssert}
      */
-    public static IssuesAssert assertThat(final Issues actual) {
+    public static IssuesAssert assertThat(final Issues<Issue> actual) {
         return new IssuesAssert(actual);
+    }
+
+    /**
+     * Verifies that there are no issues in the {@link Issues} instance.
+     *
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size is not zero.
+     */
+    public IssuesAssert isEmpty() {
+        isNotNull();
+
+        if (!actual.isEmpty()) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "empty issues", actual, "empty", "not empty");
+        }
+
+        return this;
     }
 
     /**
@@ -45,6 +62,22 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
 
         if (actual.getSize() != size) {
             failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "size", actual, size, actual.size());
+        }
+        return this;
+    }
+
+    /**
+     * Verifies that the actual size of duplicate issues of the {@link Issues} instance is equal to the given one.
+     *
+     * @param size the expected size to compare the actual {@link Issues} size to.
+     * @return this assertion object.
+     * @throws AssertionError if the actual {@link Issues} size is not equal to the given one.
+     */
+    public IssuesAssert hasDuplicatesSize(final int size) {
+        isNotNull();
+
+        if (actual.getDuplicatesSize() != size) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "duplicates size", actual, size, actual.getDuplicatesSize());
         }
         return this;
     }
@@ -79,7 +112,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getNormalPrioritySize() != normalPrioritySize) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "normal priority size", normalPrioritySize, actual.getNormalPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "normal priority size", actual, normalPrioritySize, actual.getNormalPrioritySize());
         }
         return this;
     }
@@ -95,7 +128,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
         isNotNull();
 
         if (actual.getLowPrioritySize() != lowPrioritySize) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "low priority size", lowPrioritySize, actual.getLowPrioritySize());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "low priority size", actual, lowPrioritySize, actual.getLowPrioritySize());
         }
         return this;
     }

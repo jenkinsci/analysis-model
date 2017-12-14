@@ -1,65 +1,64 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.fxcop.FxCopParser;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link FxCopParser}.
  *
  * @author Ullrich Hafner
  */
-public class FxcopParserTest extends ParserTester {
+public class FxcopParserTest extends AbstractParserTest {
     /**
-     * Verifies that the FXCop parser works as expected.
-     *
-     * @throws IOException if the file could not be read
+     * Creates a new instance of {@link AbstractParserTest}.
      */
-    @Test
-    public void testJenkins14172() throws IOException {
-        InputStream file = null;
-        try {
-            Issues result = new FxCopParser().parse(openFile("issue14172.xml"));
-
-            assertEquals(44, result.size());
-        }
-        finally {
-            IOUtils.closeQuietly(file);
-        }
+    protected FxcopParserTest() {
+        super("fxcop.xml");
     }
 
     /**
      * Verifies that the FXCop parser works as expected.
-     *
-     * @throws IOException if the file could not be read
      */
     @Test
-    public void testFXCop() throws IOException {
-        Issues result = new FxCopParser().parse(openFile());
+    public void testJenkins14172() {
+        Issues<Issue> result = new FxCopParser().parse(openFile("issue14172.xml"));
 
-        assertEquals(2, result.size());
+        assertThat(result).hasSize(44);
+    }
 
-        Iterator<Issue> iterator = result.iterator();
-        checkWarning(iterator.next(), 299,
-                "<a href=\"http://msdn2.microsoft.com/library/ms182190(VS.90).aspx\">SpecifyIFormatProvider</a> - Because the behavior of 'decimal.ToString(string)' could vary based on the current user's locale settings, replace this call in 'FilmFacadeBase.Price.get()' with a call to 'decimal.ToString(string, IFormatProvider)'. If the result of 'decimal.ToString(string, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.",
-                "c:/Hudson/data/jobs/job1/workspace/test/Space/TestBase.cs", "Microsoft.Globalization", Priority.HIGH);
-        checkWarning(iterator.next(), 37,
-                "<a href=\"http://msdn2.microsoft.com/library/bb264474(VS.90).aspx\">CompoundWordsShouldBeCasedCorrectly</a> - In member 'MyControl.InitialParameters(bool)', the discrete term 'javascript' in parameter name 'javascript' should be expressed as a compound word, 'javaScript'.",
-                "c:/Hudson/data/jobs/job1/workspace/web/UserControls/MyControl.ascx.cs", "Microsoft.Naming", Priority.HIGH);
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues).hasSize(2);
+
+        softly.assertThat(issues.get(0)).hasPriority(Priority.HIGH)
+                .hasCategory("Microsoft.Globalization")
+                .hasLineStart(299)
+                .hasLineEnd(299)
+                .hasMessage("<a href=\"http://msdn2.microsoft.com/library/ms182190(VS.90).aspx\">SpecifyIFormatProvider</a> - Because the behavior of 'decimal.ToString(string)' could vary based on the current user's locale settings, replace this call in 'FilmFacadeBase.Price.get()' with a call to 'decimal.ToString(string, IFormatProvider)'. If the result of 'decimal.ToString(string, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.")
+                .hasFileName("c:/Hudson/data/jobs/job1/workspace/test/Space/TestBase.cs");
+        softly.assertThat(issues.get(1)).hasPriority(Priority.HIGH)
+                .hasCategory("Microsoft.Naming")
+                .hasLineStart(37)
+                .hasLineEnd(37)
+                .hasMessage("<a href=\"http://msdn2.microsoft.com/library/bb264474(VS.90).aspx\">CompoundWordsShouldBeCasedCorrectly</a> - In member 'MyControl.InitialParameters(bool)', the discrete term 'javascript' in parameter name 'javascript' should be expressed as a compound word, 'javaScript'.")
+                .hasFileName("c:/Hudson/data/jobs/job1/workspace/web/UserControls/MyControl.ascx.cs");
+
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "fxcop.xml";
+    protected AbstractParser createParser() {
+        return new FxCopParser();
     }
+
 }
 

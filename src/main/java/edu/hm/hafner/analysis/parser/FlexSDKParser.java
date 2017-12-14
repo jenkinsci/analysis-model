@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 
 /**
  * A parser for Flex SDK compiler warnings.
@@ -19,7 +20,7 @@ public class FlexSDKParser extends FastRegexpLineParser {
      * Creates a new instance of {@link FlexSDKParser}.
      */
     public FlexSDKParser() {
-        super("flex", FLEX_SDK_WARNING_PATTERN);
+        super(FLEX_SDK_WARNING_PATTERN);
     }
 
     @Override
@@ -28,8 +29,8 @@ public class FlexSDKParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
-        return issueBuilder().setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
                              .setMessage(matcher.group(3)).build();
     }
 }

@@ -1,159 +1,155 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static org.junit.jupiter.api.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link GnuFortranParser}.
  */
-public class GnuFortranParserTest extends ParserTester {
-    private static final String TYPE = new GnuFortranParser().getId();
+public class GnuFortranParserTest extends AbstractParserTest {
+    GnuFortranParserTest() {
+        super("GnuFortran.txt");
+    }
 
     /**
      * Test parsing of a file containing a Warning message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testWarningParser() throws IOException {
-        Issues warnings = new GnuFortranParser().parse(openFile("GnuFortranWarning.txt"));
+    public void testWarningParser() {
+        Issues<Issue> warnings = new GnuFortranParser().parse(openFile("GnuFortranWarning.txt"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        checkWarning(iterator.next(),
-                318,
-                "Inequality comparison for REAL(8)",
-                "C:/zlaror.f",
-                TYPE,
-                "Warning",
-                Priority.NORMAL);
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory("Warning")
+                    .hasLineStart(318)
+                    .hasLineEnd(318)
+                    .hasMessage("Inequality comparison for REAL(8)")
+                    .hasFileName("C:/zlaror.f");
+        });
     }
 
     /**
      * Test parsing of a file containing an Error message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testErrorParser() throws IOException {
-        Issues warnings =
+    public void testErrorParser() {
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranError.txt"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        checkWarning(iterator.next(),
-                81, 24,
-                "Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'",
-                "generic2.f90",
-                TYPE,
-                "Error",
-                Priority.HIGH);
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("Error")
+                    .hasLineStart(81)
+                    .hasLineEnd(81)
+                    .hasMessage("Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'")
+                    .hasFileName("generic2.f90")
+                    .hasColumnStart(24);
+        });
     }
 
     /**
      * Test parsing of a file containing a Fatal Error message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testFatalErrorParser() throws IOException {
-        Issues warnings =
+    public void testFatalErrorParser() {
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranFatalError.txt"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        checkWarning(iterator.next(),
-                7, 10,
-                "Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory",
-                "/path/to/file.f90",
-                TYPE,
-                "Fatal Error",
-                Priority.HIGH);
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("Fatal Error")
+                    .hasLineStart(7)
+                    .hasLineEnd(7)
+                    .hasMessage("Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory")
+                    .hasFileName("/path/to/file.f90")
+                    .hasColumnStart(10);
+        });
     }
 
     /**
      * Test parsing of a file containing an Internal Error message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
      */
     @Test
-    public void testInternalErrorParser() throws IOException {
-        Issues warnings =
+    public void testInternalErrorParser() {
+        Issues<Issue> warnings =
                 new GnuFortranParser().parse(openFile("GnuFortranInternalError.txt"));
 
-        assertEquals(1, warnings.size());
+        assertThat(warnings).hasSize(1);
 
-        Iterator<Issue> iterator = warnings.iterator();
-
-        checkWarning(iterator.next(),
-                5, 8,
-                "free_pi_tree(): Unresolved fixup",
-                "linear_algebra_mod.f90",
-                TYPE,
-                "Internal Error",
-                Priority.HIGH);
-    }
-
-    /**
-     * Test parsing of a file containing all categories of message output by the GNU Fortran Compiler.
-     *
-     * @throws IOException if the file could not be read.
-     */
-    @Test
-    public void testMessageParser() throws IOException {
-        Issues warnings =
-                new GnuFortranParser().parse(openFile());
-
-        assertEquals(4, warnings.size());
-
-        Iterator<Issue> iterator = warnings.iterator();
-
-        checkWarning(iterator.next(),
-                318,
-                "Inequality comparison for REAL(8)",
-                "C:/zlaror.f",
-                TYPE,
-                "Warning",
-                Priority.NORMAL);
-        checkWarning(iterator.next(),
-                7, 10,
-                "Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory",
-                "/path/to/file.f90",
-                TYPE,
-                "Fatal Error",
-                Priority.HIGH);
-        checkWarning(iterator.next(),
-                81, 24,
-                "Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'",
-                "generic2.f90",
-                TYPE,
-                "Error",
-                Priority.HIGH);
-        checkWarning(iterator.next(),
-                5, 8,
-                "free_pi_tree(): Unresolved fixup",
-                "linear_algebra_mod.f90",
-                TYPE,
-                "Internal Error",
-                Priority.HIGH);
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasPriority(Priority.HIGH)
+                    .hasCategory("Internal Error")
+                    .hasLineStart(5)
+                    .hasLineEnd(5)
+                    .hasMessage("free_pi_tree(): Unresolved fixup")
+                    .hasFileName("linear_algebra_mod.f90")
+                    .hasColumnStart(8);
+        });
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "GnuFortran.txt";
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        Iterator<Issue> iterator = issues.iterator();
+        softly.assertThat(issues).hasSize(4);
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("Warning")
+                .hasLineStart(318)
+                .hasLineEnd(318)
+                .hasMessage("Inequality comparison for REAL(8)")
+                .hasFileName("C:/zlaror.f");
+
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Fatal Error")
+                .hasLineStart(7)
+                .hasLineEnd(7)
+                .hasMessage("Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory")
+                .hasFileName("/path/to/file.f90")
+                .hasColumnStart(10);
+
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Error")
+                .hasLineStart(81)
+                .hasLineEnd(81)
+                .hasMessage(
+                        "Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'")
+                .hasFileName("generic2.f90")
+                .hasColumnStart(24);
+
+        softly.assertThat(iterator.next())
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Internal Error")
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasMessage("free_pi_tree(): Unresolved fixup")
+                .hasFileName("linear_algebra_mod.f90")
+                .hasColumnStart(8);
     }
 
+    @Override
+    protected AbstractParser createParser() {
+        return new GnuFortranParser();
+    }
 }

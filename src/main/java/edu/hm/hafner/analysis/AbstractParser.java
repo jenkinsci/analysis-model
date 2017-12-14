@@ -1,9 +1,9 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.CheckReturnValue;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,9 +16,8 @@ import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Functions;
-
 import edu.hm.hafner.util.Ensure;
+import static java.util.function.Function.*;
 
 /**
  * Parses an input stream for compiler warnings and returns the found issues. If your parser is based on a regular
@@ -31,7 +30,6 @@ import edu.hm.hafner.util.Ensure;
  * @see edu.hm.hafner.analysis.parser.EclipseParser
  * @see edu.hm.hafner.analysis.parser.StyleCopParser
  */
-// FIXME: type is not ID, module could be automatically set in Builder
 public abstract class AbstractParser implements Serializable {
     private static final long serialVersionUID = 8466657735514387654L;
 
@@ -40,39 +38,53 @@ public abstract class AbstractParser implements Serializable {
     /** Category for warnings due to the usage of proprietary API. */
     public static final String PROPRIETARY_API = "Proprietary API";
 
-    private final String id;
-
-    private transient Function<String, String> transformer = Functions.identity();
-    private transient Charset charset;
-    private transient String moduleName = StringUtils.EMPTY;
+    private transient Function<String, String> transformer = identity();
 
     /**
-     * Creates a new instance of {@link AbstractParser}.
+     * Parses the specified file for issues.
      *
-     * @param id
-     *         ID of the parser
+     * @param file
+     *         the file to parse
+     * @param charset
+     *         the encoding to use when reading files
+     * @param builder
+     *         the issue builder to use
+     *
+     * @return the parsed issues
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         Signals that the parsing has been aborted by the user
      */
-    protected AbstractParser(final String id) {
-        this.id = id;
-    }
-
-    public Issues parse(final File file, final Charset charset, final String moduleName) throws ParsingException {
-        this.charset = charset;
-        this.moduleName = moduleName;
-        try (Reader input = createReader(new FileInputStream(file))) {
-            return parse(input);
+    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder)
+            throws ParsingException, ParsingCanceledException {
+        try (Reader input = createReader(new FileInputStream(file), charset)) {
+            Issues<Issue> issues = parse(input, builder);
+            issues.log("Successfully parsed '%s': found %d issues (tool ID = %s)",
+                    file.getAbsolutePath(), issues.getSize(), builder.origin);
+            if (issues.getDuplicatesSize() == 1) {
+                issues.log("Note: one issue has been dropped since it is a duplicate");
+            }
+            else if (issues.getDuplicatesSize() > 1) {
+                issues.log("Note: %d issues have been dropped since they are duplicates",
+                        issues.getDuplicatesSize());
+            }
+            return issues;
+        }
+        catch (FileNotFoundException exception) {
+            throw new ParsingException(exception, "Can't find file: " + file.getAbsolutePath());
         }
         catch (IOException exception) {
-            throw new ParsingException(exception, "Can't scan file for warnings: " + file.getAbsolutePath());
+            throw new ParsingException(exception, "Can't scan file for issues: " + file.getAbsolutePath());
         }
     }
 
-    private Reader createReader(final InputStream inputStream) {
+    private Reader createReader(final InputStream inputStream, final Charset charset) {
         return new InputStreamReader(new BOMInputStream(inputStream), charset);
     }
 
     /**
-     * Parses the specified input stream for issues.
+     * Parses the specified input stream for issues. Uses the default {@link IssueBuilder} class to create issues.
      *
      * @param reader
      *         the reader to get the text from
@@ -83,21 +95,26 @@ public abstract class AbstractParser implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues parse(Reader reader) throws ParsingCanceledException, ParsingException;
-
-    @Override
-    public String toString() {
-        return String.format("%s (%s)", getId(), getClass().getSimpleName());
+    public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
+        return parse(reader, new IssueBuilder());
     }
 
     /**
-     * Returns the ID of this parser.
+     * Parses the specified input stream for issues.
      *
-     * @return the ID of this parser
+     * @param reader
+     *         the reader to get the text from
+     * @param builder
+     *         the issue builder to use
+     *
+     * @return the parsed issues
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         Signals that the parsing has been aborted by the user
      */
-    public String getId() {
-        return id;
-    }
+    public abstract Issues<Issue> parse(Reader reader, IssueBuilder builder)
+            throws ParsingCanceledException, ParsingException;
 
     /**
      * Converts a string line number to an integer value. If the string is not a valid line number, then 0 is returned
@@ -169,18 +186,7 @@ public abstract class AbstractParser implements Serializable {
      * @return the transformer to use
      */
     public Function<String, String> getTransformer() {
-        return ObjectUtils.defaultIfNull(transformer, Functions.identity());
-    }
-
-    /**
-     * Returns a new issue builder that has the ID of this warning set as type property.
-     *
-     * @return a new issue builder
-     */
-    @CheckReturnValue
-    // TODO: issue builder should be part of parse method API then no field is required
-    protected IssueBuilder issueBuilder() {
-        return new IssueBuilder().setType(getId()).setModuleName(moduleName);
+        return ObjectUtils.defaultIfNull(transformer, identity());
     }
 }
 

@@ -12,6 +12,8 @@ import org.apache.commons.io.input.ReaderInputStream;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -30,19 +32,19 @@ public abstract class LintParser extends AbstractParser {
      * @param id ID of the parser
      */
     protected LintParser(final String id) {
-        super(id);
+        super();
     }
 
     @Override
-    public Issues parse(final Reader file) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader file, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             SAXParser parser = parserFactory.newSAXParser();
 
-            Issues issues = new Issues();
+            Issues<Issue> issues = new Issues<>();
             parser.parse(new ReaderInputStream(file, Charset
-                    .forName("UTF-8")), new JSLintXMLSaxParser(getId(), issues));
+                    .forName("UTF-8")), new JSLintXMLSaxParser(issues));
             return issues;
         }
         catch (IOException | ParserConfigurationException | SAXException e) {

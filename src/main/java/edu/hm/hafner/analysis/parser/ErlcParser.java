@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -21,11 +22,11 @@ public class ErlcParser extends RegexpLineParser {
      * Creates a new instance of {@link ErlcParser}.
      */
     public ErlcParser() {
-        super("erlc", ERLC_WARNING_PATTERN);
+        super(ERLC_WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String filename = matcher.group(1);
         int lineNumber = parseInt(matcher.group(2));
         Priority priority;
@@ -41,8 +42,8 @@ public class ErlcParser extends RegexpLineParser {
             priority = Priority.HIGH;
             category = "Error";
         }
-        return issueBuilder().setFileName(filename).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                             .setPriority(priority).build();
+        return builder.setFileName(filename).setLineStart(lineNumber).setCategory(category).setMessage(message)
+                      .setPriority(priority).build();
     }
 }
 

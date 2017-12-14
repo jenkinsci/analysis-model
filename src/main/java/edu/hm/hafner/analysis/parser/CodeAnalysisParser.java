@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -23,20 +24,20 @@ public class CodeAnalysisParser extends RegexpLineParser {
      * Creates a new instance of {@link CodeAnalysisParser}.
      */
     public CodeAnalysisParser() {
-        super("code-analysis", WARNING_PATTERN);
+        super(WARNING_PATTERN);
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(2))) {
-            return issueBuilder().setFileName(matcher.group(11)).setLineStart(0).setCategory(matcher.group(8))
-                                 .setType(matcher.group(6)).setMessage(matcher.group(10)).setPriority(Priority.NORMAL)
-                                 .build();
+            return builder.setFileName(matcher.group(11)).setLineStart(0).setCategory(matcher.group(8))
+                          .setType(matcher.group(6)).setMessage(matcher.group(10)).setPriority(Priority.NORMAL)
+                          .build();
         }
         else {
-            return issueBuilder().setFileName(matcher.group(4)).setLineStart(parseInt(matcher.group(5)))
-                                 .setCategory(matcher.group(8)).setType(matcher.group(6)).setMessage(matcher.group(10))
-                                 .setPriority(Priority.NORMAL).build();
+            return builder.setFileName(matcher.group(4)).setLineStart(parseInt(matcher.group(5)))
+                          .setCategory(matcher.group(8)).setType(matcher.group(6)).setMessage(matcher.group(10))
+                          .setPriority(Priority.NORMAL).build();
         }
     }
 }

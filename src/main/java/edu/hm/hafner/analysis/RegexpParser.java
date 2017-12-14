@@ -32,15 +32,14 @@ public abstract class RegexpParser extends AbstractParser {
     /**
      * Creates a new instance of {@link RegexpParser}.
      *
-     * @param id             ID of the parser
-     * @param warningPattern pattern of compiler warnings.
-     * @param useMultiLine   Enables multi line mode. In multi line mode the expressions <tt>^</tt> and <tt>$</tt> match
-     *                       just after or just before, respectively, a line terminator or the end of the input
-     *                       sequence. By default these expressions only match at the beginning and the end of the
-     *                       entire input sequence.
+     * @param warningPattern
+     *         pattern of compiler warnings.
+     * @param useMultiLine
+     *         Enables multi line mode. In multi line mode the expressions <tt>^</tt> and <tt>$</tt> match just after or
+     *         just before, respectively, a line terminator or the end of the input sequence. By default these
      */
-    protected RegexpParser(final String id, final String warningPattern, final boolean useMultiLine) {
-        super(id);
+    protected RegexpParser(final String warningPattern, final boolean useMultiLine) {
+        super();
 
         setPattern(warningPattern, useMultiLine);
     }
@@ -48,15 +47,22 @@ public abstract class RegexpParser extends AbstractParser {
     /**
      * Parses the specified string content and creates annotations for each found warning.
      *
-     * @param content the content to scan
-     * @param issues  the found annotations
-     * @throws ParsingCanceledException indicates that the user canceled the operation
+     * @param content
+     *         the content to scan
+     * @param issues
+     *         the found annotations
+     * @param builder
+     *         the issue build to use
+     *
+     * @throws ParsingCanceledException
+     *         indicates that the user canceled the operation
      */
-    protected void findAnnotations(final String content, final Issues issues) throws ParsingCanceledException {
+    protected void findAnnotations(final String content, final Issues<Issue> issues, final IssueBuilder builder)
+            throws ParsingCanceledException {
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
-            Issue warning = createWarning(matcher);
+            Issue warning = createWarning(matcher, builder);
             if (warning != FALSE_POSITIVE) { // NOPMD
                 // detectPackageName(warning); // TODO: package detection should be done on all warnings afterwards
                 issues.add(warning);
@@ -72,8 +78,12 @@ public abstract class RegexpParser extends AbstractParser {
      * file. If a match is a false positive, then you can return the constant {@link #FALSE_POSITIVE} to ignore this
      * warning.
      *
-     * @param matcher the regular expression matcher
+     * @param matcher
+     *         the regular expression matcher
+     * @param builder
+     *         the issue builder to use
+     *
      * @return a new annotation for the specified pattern
      */
-    protected abstract Issue createWarning(Matcher matcher);
+    protected abstract Issue createWarning(Matcher matcher, IssueBuilder builder);
 }
