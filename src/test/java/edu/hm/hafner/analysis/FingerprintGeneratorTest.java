@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import edu.hm.hafner.util.SerializableTest;
+import edu.hm.hafner.util.ResourceTest;
 import static org.mockito.Mockito.*;
 
 /**
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
  *
  * @author Ullrich Hafner
  */
-class FingerprintGeneratorTest extends SerializableTest {
+class FingerprintGeneratorTest extends ResourceTest {
     private static final String AFFECTED_FILE_NAME = "file.txt";
     private static final Charset CHARSET_AFFECTED_FILE = Charset.forName("UTF-8");
     private static final int ADDITIONAL_LINES = 5;
@@ -26,7 +26,8 @@ class FingerprintGeneratorTest extends SerializableTest {
         FingerprintGenerator generator = new FingerprintGenerator();
 
         Issues<Issue> original = new Issues<>();
-        Issues<Issue> copy = generator.run(original, new IssueBuilder(), CHARSET_AFFECTED_FILE);
+        Issues<Issue> copy = generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
+                original, new IssueBuilder(), CHARSET_AFFECTED_FILE);
 
         assertThat(copy).isNotSameAs(original);
     }
@@ -34,10 +35,11 @@ class FingerprintGeneratorTest extends SerializableTest {
     @Test
     void shouldAssignIdenticalFingerprint() {
         Issues<Issue> issues = createTwoIssues();
-        FileSystem fileSystem = stubFileSystem("fingerprint-one.txt", "fingerprint-one.txt");
-        FingerprintGenerator generator = new FingerprintGenerator(fileSystem);
+        FingerprintGenerator generator = new FingerprintGenerator();
+        FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-one.txt");
 
-        Issues<Issue> enhanced = generator.run(issues, new IssueBuilder(), CHARSET_AFFECTED_FILE);
+        Issues<Issue> enhanced = generator.run(fingerprint,
+                issues, new IssueBuilder(), CHARSET_AFFECTED_FILE);
 
         Issue referenceIssue = enhanced.get(0);
         Issue currentIssue = enhanced.get(1);
@@ -66,16 +68,22 @@ class FingerprintGeneratorTest extends SerializableTest {
     @Test
     void shouldAssignDifferentFingerprint() {
         Issues<Issue> issues = createTwoIssues();
-        FileSystem fileSystem = stubFileSystem("fingerprint-one.txt", "fingerprint-two.txt");
-        FingerprintGenerator generator = new FingerprintGenerator(fileSystem);
+        FingerprintGenerator generator = new FingerprintGenerator();
+        FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt");
 
-        Issues<Issue> enhanced = generator.run(issues, new IssueBuilder(), Charset.forName("UTF-8"));
+        Issues<Issue> enhanced = generator.run(fingerprint,
+                issues, new IssueBuilder(), Charset.forName("UTF-8"));
 
         Issue referenceIssue = enhanced.get(0);
         Issue currentIssue = enhanced.get(1);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isNotEqualTo(currentIssue.getFingerprint());
+    }
+
+    private FullTextFingerprint createFullTextFingerprint(final String firstFile, final String secondFile) {
+        FileSystem fileSystem = stubFileSystem(firstFile, secondFile);
+        return new FullTextFingerprint(fileSystem);
     }
 
     private Issues<Issue> createTwoIssues() {

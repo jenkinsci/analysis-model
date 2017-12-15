@@ -36,7 +36,7 @@ public class FullTextFingerprint {
     }
 
     @VisibleForTesting
-    FullTextFingerprint(FileSystem fileSystem) {
+    FullTextFingerprint(final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         try {
             digest = MessageDigest.getInstance("MD5");
