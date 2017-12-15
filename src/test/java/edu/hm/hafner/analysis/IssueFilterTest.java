@@ -14,6 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class IssueFilterTest {
 
+    /**
+     * Get issues containing issue 1, 2 and 3.
+     * @return issues.
+     */
     private Issues<Issue> getIssues() {
         Issues<Issue> issues = new Issues<>();
         issues.add(ISSUE1, ISSUE2, ISSUE3);
