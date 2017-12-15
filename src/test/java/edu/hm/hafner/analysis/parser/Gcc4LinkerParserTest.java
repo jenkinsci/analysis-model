@@ -4,9 +4,12 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
@@ -15,22 +18,25 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Raphael Furch
  */
-public class Gcc4LinkerParserTest extends ParserTester {
+public class Gcc4LinkerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = Gcc4LinkerParser.WARNING_CATEGORY;
     private static final String FILE_NAME = "-";
 
     /**
-     * Parses a file with GCC linker errors.
+     * Creates a new instance of {@link AbstractParserTest}.
+     *
      */
-    @Test
-    public void testWarningsParser() {
-        Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile());
+    protected Gcc4LinkerParserTest() {
+        super("gcc4ld.txt");
+    }
 
-        assertThat(warnings).hasSize(7).hasDuplicatesSize(1);
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
 
-        Iterator<Issue> iterator = warnings.iterator();
+        softly.assertThat(issues).hasSize(7).hasDuplicatesSize(1);
 
-        assertSoftly(softly -> {
+        Iterator<Issue> iterator = issues.iterator();
+
             softly.assertThat(iterator.next())
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -85,8 +91,10 @@ public class Gcc4LinkerParserTest extends ParserTester {
                     .hasMessage("errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o")
                     .hasFileName(FILE_NAME)
                     .hasPriority(Priority.HIGH);
-        });
+
     }
+
+
 
     /**
      * Parses a warning log with multi line warnings.
@@ -95,7 +103,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
      */
     @Test
     public void issue5445() {
-        Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue5445.txt"));
+        Issues<Issue> warnings = parse("issue5445.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -107,7 +115,7 @@ public class Gcc4LinkerParserTest extends ParserTester {
      */
     @Test
     public void issue5870() {
-        Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue5870.txt"));
+        Issues<Issue> warnings = parse("issue5870.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -119,14 +127,14 @@ public class Gcc4LinkerParserTest extends ParserTester {
      */
     @Test
     public void issue6563() {
-        Issues<Issue> warnings = new Gcc4LinkerParser().parse(openFile("issue6563.txt"));
+        Issues<Issue> warnings = parse("issue6563.txt");
 
         assertThat(warnings).isEmpty();
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "gcc4ld.txt";
+    protected AbstractParser createParser() {
+        return new Gcc4LinkerParser();
     }
 }
 

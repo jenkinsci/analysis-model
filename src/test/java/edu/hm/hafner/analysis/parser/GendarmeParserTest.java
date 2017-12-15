@@ -4,11 +4,14 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
 
 /**
@@ -16,19 +19,27 @@ import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
  *
  * @author Raphael Furch
  */
-public class GendarmeParserTest extends ParserTester {
+public class GendarmeParserTest extends AbstractParserTest {
+
+
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     *
+     */
+    protected GendarmeParserTest() {
+        super("gendarme/Gendarme.xml");
+    }
+
     /**
      * Tests the Gendarme parser with a file of 3 warnings.
      */
-    @Test
-    public void testParseViolationData() {
-        Issues<Issue> results = new GendarmeParser().parse(openFile());
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
 
-        assertThat(results).hasSize(3);
+        softly.assertThat(issues).hasSize(3);
 
-        Iterator<Issue> iterator = results.iterator();
+        Iterator<Issue> iterator = issues.iterator();
 
-        assertSoftly(softly -> {
             softly.assertThat(iterator.next())
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -53,11 +64,13 @@ public class GendarmeParserTest extends ParserTester {
                     .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
                     .hasCategory("MethodCanBeMadeStaticRule")
                     .hasPriority(Priority.LOW);
-        });
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "gendarme/Gendarme.xml";
+    protected AbstractParser createParser() {
+        return new GendarmeParser();
     }
+
+
+
 }
