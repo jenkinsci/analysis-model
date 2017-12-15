@@ -24,7 +24,6 @@ public class GendarmeParserTest extends AbstractParserTest {
 
     /**
      * Creates a new instance of {@link AbstractParserTest}.
-     *
      */
     protected GendarmeParserTest() {
         super("gendarme/Gendarme.xml");
@@ -40,37 +39,36 @@ public class GendarmeParserTest extends AbstractParserTest {
 
         Iterator<Issue> iterator = issues.iterator();
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasMessage("This assembly is not decorated with the [CLSCompliant] attribute.")
-                    .hasFileName("-")
-                    .hasCategory("MarkAssemblyWithCLSCompliantRule")
-                    .hasPriority(Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("This assembly is not decorated with the [CLSCompliant] attribute.")
+                .hasFileName("-")
+                .hasCategory("MarkAssemblyWithCLSCompliantRule")
+                .hasPriority(Priority.HIGH);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(10)
-                    .hasLineEnd(10)
-                    .hasMessage("This method does not use any instance fields, properties or methods and can be made static.")
-                    .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
-                    .hasCategory("MethodCanBeMadeStaticRule")
-                    .hasPriority(Priority.LOW);
+        softly.assertThat(iterator.next())
+                .hasLineStart(10)
+                .hasLineEnd(10)
+                .hasMessage("This method does not use any instance fields, properties or methods and can be made static.")
+                .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
+                .hasCategory("MethodCanBeMadeStaticRule")
+                .hasPriority(Priority.LOW);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(22)
-                    .hasLineEnd(22)
-                    .hasMessage(
-                            "This method does not use any instance fields, properties or methods and can be made static.")
-                    .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
-                    .hasCategory("MethodCanBeMadeStaticRule")
-                    .hasPriority(Priority.LOW);
+        softly.assertThat(iterator.next())
+                .hasLineStart(22)
+                .hasLineEnd(22)
+                .hasMessage(
+                        "This method does not use any instance fields, properties or methods and can be made static.")
+                .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
+                .hasCategory("MethodCanBeMadeStaticRule")
+                .hasPriority(Priority.LOW);
     }
 
     @Override
     protected AbstractParser createParser() {
         return new GendarmeParser();
     }
-
 
 
 }
