@@ -687,7 +687,7 @@ class IssuesTest {
     }
 
     @Test
-    void shouldReturnIssuesWithModule1andWithoutCat1andCat3() {
+    void shouldReturnIssuesWithModule1andWithoutCat1andCat2() {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
@@ -695,8 +695,7 @@ class IssuesTest {
         moduleNames.add("module-5");
 
         List<String> categories = new ArrayList<>();
-        categories.add("cat-1");
-        categories.add("cat-2");
+        categories.add("cat-1|2");
 
         builder.setModuleNames(moduleNames);
         IssuesFilter excludeFilter = builder.build();
@@ -729,6 +728,26 @@ class IssuesTest {
         assertThat(filteredIssues.all()).contains(ISSUE_3, ISSUE_6);
 
     }
+
+    @Test
+    void shouldReturnIssues() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        List<String> types = new ArrayList<>();
+
+        types.add(".*");
+
+        builder.setTypes(types);
+
+        IssuesFilter includeFilter =  builder.build();
+        IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
+        Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(6);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
+    }
+
 
 
 

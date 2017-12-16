@@ -445,11 +445,7 @@ public class Issues implements Iterable<Issue>, Serializable {
 
         filtered.addAll(elements
                 .parallelStream()
-                .filter(e -> !excludeFilter.getModuleNames().contains(e.getModuleName()))
-                .filter(e -> !excludeFilter.getPackageNames().contains(e.getPackageName()))
-                .filter(e -> !excludeFilter.getTypes().contains(e.getType()))
-                .filter(e -> !excludeFilter.getCategories().contains(e.getCategory()))
-                .filter(e -> !excludeFilter.getFileNames().contains(e.getFileName()))
+                .filter(e->isValidIExcludeIssue(e,excludeFilter))
                 .collect(toList()));
 
         return filtered;
@@ -467,35 +463,63 @@ public class Issues implements Iterable<Issue>, Serializable {
 
     private Issues filterInclude(IssuesFilter includeFilter) {
         Issues filtered = new Issues();
-        filtered.addAll(elements.parallelStream().filter(issue -> isValidIssue(issue, includeFilter)).collect(toList()));
+        filtered.addAll(elements.parallelStream().filter(issue -> isValidIncluudeIssue(issue, includeFilter)).collect(toList()));
         return filtered;
 
     }
 
-    /**Help function for the filterInclude function.
+    /**
+     * Help function for the filterInclude function.
      *
-     * @param issue actual issue that will be filtered
-     * @param includeFilter filter rules
+     * @param issue
+     *         actual issue that will be filtered
+     * @param includeFilter
+     *         filter rules
+     *
      * @return true if issue has the right properties or the no filterRules are set
      */
-    private boolean isValidIssue(final Issue issue, final IssuesFilter includeFilter) {
+    private boolean isValidIncluudeIssue(final Issue issue, final IssuesFilter includeFilter) {
         if (!includeFilter.isEmpty()) {
-            if (includeFilter.getCategories().contains(issue.getCategory())) {
+
+            if (includeFilter.getCategories().stream().anyMatch(cat->issue.getCategory().matches(cat))) {
                 return true;
             }
-            if (includeFilter.getFileNames().contains(issue.getFileName())) {
+            if (includeFilter.getFileNames().stream().anyMatch(fileName->issue.getFileName().matches(fileName))) {
                 return true;
             }
-            if (includeFilter.getTypes().contains(issue.getType())) {
+            if (includeFilter.getTypes().stream().anyMatch(type->issue.getType().matches(type))) {
                 return true;
             }
-            if (includeFilter.getPackageNames().contains(issue.getPackageName())) {
+            if (includeFilter.getPackageNames().stream().anyMatch(pageName->issue.getPackageName().matches(pageName))) {
                 return true;
             }
-            if (includeFilter.getModuleNames().contains(issue.getModuleName())) {
+            if (includeFilter.getModuleNames().stream().anyMatch(cat->issue.getModuleName().matches(cat))) {
                 return true;
             }
             return false;
+        }
+        return true;
+    }
+
+    private boolean isValidIExcludeIssue(final Issue issue, final IssuesFilter excludeFilter) {
+        if (!excludeFilter.isEmpty()) {
+
+            if (excludeFilter.getCategories().stream().anyMatch(cat->issue.getCategory().matches(cat))) {
+                return false;
+            }
+            if (excludeFilter.getFileNames().stream().anyMatch(fileName->issue.getFileName().matches(fileName))) {
+                return false;
+            }
+            if (excludeFilter.getTypes().stream().anyMatch(type->issue.getType().matches(type))) {
+                return false;
+            }
+            if (excludeFilter.getPackageNames().stream().anyMatch(pageName->issue.getPackageName().matches(pageName))) {
+                return false;
+            }
+            if (excludeFilter.getModuleNames().stream().anyMatch(cat->issue.getModuleName().matches(cat))) {
+                return false;
+            }
+            return true;
         }
         return true;
     }
