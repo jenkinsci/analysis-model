@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Class contains all filter properties for the {@link Issues}.filter() function.
@@ -11,63 +11,63 @@ import java.util.List;
 
 public class IssuesFilter {
 
-    private List<String> fileNames;
-    private List<String> packageNames;
-    private List<String> moduleNames;
-    private List<String> categories;
-    private List<String> types;
+    private Set<String> fileNames;
+    private Set<String> packageNames;
+    private Set<String> moduleNames;
+    private Set<String> categories;
+    private Set<String>  types;
 
     /**
-     * Return a List with the file names the Filter is looking for.
+     * Return a Set with the file names the Filter is looking for.
      *
-     * @return List with FileNames
+     * @return Set with FileNames
      */
 
-    public List<String> getFileNames() {
+    public Set<String> getFileNames() {
         return fileNames;
     }
 
     /**
-     * Return a List with the package names the Filter is looking for.
+     * Return a Set with the package names the Filter is looking for.
      *
-     * @return List with packageNames
+     * @return Set with packageNames
      */
 
-    public List<String> getPackageNames() {
+    public Set<String> getPackageNames() {
         return packageNames;
     }
 
     /**
-     * Return a List with the module names the Filter is looking for.
+     * Return a Set with the module names the Filter is looking for.
      *
-     * @return List with module names
+     * @return Set with module names
      */
 
-    public List<String> getModuleNames() {
+    public Set<String> getModuleNames() {
         return moduleNames;
     }
 
     /**
-     * Return a List with the categories the Filter is looking for.
+     * Return a Set with the categories the Filter is looking for.
      *
-     * @return List with categories
+     * @return Set with categories
      */
 
-    public List<String> getCategories() {
+    public Set<String> getCategories() {
         return categories;
     }
 
     /**
-     * Return a List with the types the Filter is looking for.
+     * Return a Set with the types the Filter is looking for.
      *
-     * @return List with types
+     * @return Set with types
      */
 
-    public List<String> getTypes() {
+    public Set<String> getTypes() {
         return types;
     }
 
-    /**If all Lists with Filter properties are empty the Filter is empty.
+    /**If all Sets with Filter properties are empty the Filter is empty.
      *
      * @return true when the the Filter is empty otherwise false
      */
@@ -92,9 +92,9 @@ public class IssuesFilter {
      *         types the Filter is looking for
      */
 
-    public IssuesFilter(@CheckForNull final List<String> fileNames, @CheckForNull final List<String> packageNames,
-            @CheckForNull final List<String> moduleNames, @CheckForNull final List<String> categories,
-            @CheckForNull final List<String> types) {
+    public IssuesFilter(@CheckForNull final Set<String> fileNames, @CheckForNull final Set<String> packageNames,
+            @CheckForNull final Set<String> moduleNames, @CheckForNull final Set<String> categories,
+            @CheckForNull final Set<String> types) {
         this.fileNames = fileNames;
         this.packageNames = packageNames;
         this.moduleNames = moduleNames;

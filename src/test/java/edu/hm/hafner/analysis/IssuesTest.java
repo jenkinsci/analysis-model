@@ -1,9 +1,11 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Set;
 import java.util.SortedSet;
 
 import org.junit.jupiter.api.Test;
@@ -317,7 +319,7 @@ class IssuesTest {
     void shouldReturnNoIssuesWhenIncludeFilterAndExcludeFilterAreTheSameAndNotEmpty() {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
-        List<String> categories = new ArrayList<>();
+        Set<String> categories = new HashSet<>();
 
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         categories.add("cat-1");
@@ -334,8 +336,8 @@ class IssuesTest {
     void shouldReturnNoIssuesWhenIncludeIssueWithFileNameAndExcludeWhemWithCategorie() {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
-        List<String> categories = new ArrayList<>();
-        List<String> fileNames = new ArrayList<>();
+        Set<String> categories = new HashSet<>();
+        Set<String> fileNames = new HashSet<>();
 
         IssuesFilterBuilder excludeBuilder = new IssuesFilterBuilder();
         categories.add("cat-1");
@@ -358,8 +360,8 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
-        List<String> filenames = new ArrayList<>();
+        Set<String> types = new HashSet<>();
+        Set<String> filenames = new HashSet<>();
 
         types.add("type-3");
         filenames.add("file-2");
@@ -380,11 +382,11 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
-        List<String> filenames = new ArrayList<>();
-        List<String> packageNames = new ArrayList<>();
-        List<String> moduleNames = new ArrayList<>();
-        List<String> categories = new ArrayList<>();
+        Set<String> types = new HashSet<>();
+        Set<String> filenames = new HashSet<>();
+        Set<String> packageNames = new HashSet<>();
+        Set<String> moduleNames = new HashSet<>();
+        Set<String> categories = new HashSet<>();
 
         types.add("Do-not-match");
         filenames.add("Do-not-match");
@@ -411,11 +413,11 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
-        List<String> filenames = new ArrayList<>();
-        List<String> packageNames = new ArrayList<>();
-        List<String> moduleNames = new ArrayList<>();
-        List<String> categories = new ArrayList<>();
+        Set<String> types = new HashSet<>();
+        Set<String> filenames = new HashSet<>();
+        Set<String> packageNames = new HashSet<>();
+        Set<String> moduleNames = new HashSet<>();
+        Set<String> categories = new HashSet<>();
 
         types.add("Do-not-match");
         filenames.add("Do-not-match");
@@ -442,11 +444,11 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
-        List<String> filenames = new ArrayList<>();
-        List<String> packageNames = new ArrayList<>();
-        List<String> moduleNames = new ArrayList<>();
-        List<String> categories = new ArrayList<>();
+        Set<String> types = new HashSet<>();
+        Set<String> filenames = new HashSet<>();
+        Set<String> packageNames = new HashSet<>();
+        Set<String> moduleNames = new HashSet<>();
+        Set<String> categories = new HashSet<>();
 
         types.add("type-3");
         filenames.add("file-1");
@@ -473,11 +475,11 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
-        List<String> filenames = new ArrayList<>();
-        List<String> packageNames = new ArrayList<>();
-        List<String> moduleNames = new ArrayList<>();
-        List<String> categories = new ArrayList<>();
+        Set<String> types = new HashSet<>();
+        Set<String> filenames = new HashSet<>();
+        Set<String> packageNames = new HashSet<>();
+        Set<String> moduleNames = new HashSet<>();
+        Set<String> categories = new HashSet<>();
 
         types.add("type-3");
         filenames.add("file-1");
@@ -506,7 +508,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> categories = new ArrayList<>();
+        Set<String> categories = new HashSet<>();
         categories.add("cat-1");
         builder.setCategories(categories);
         IssuesFilter includeFilter = builder.build();
@@ -522,7 +524,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> filenames = new ArrayList<>();
+        Set<String> filenames = new HashSet<>();
         filenames.add("file-2");
         filenames.add("file-3");
         builder.setFileNames(filenames);
@@ -539,7 +541,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
+        Set<String> types = new HashSet<>();
         types.add("type-3");
         builder.setTypes(types);
         IssuesFilter includeFilter = builder.build();
@@ -555,8 +557,8 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
-        List<String> filenames = new ArrayList<>();
+        Set<String> types = new HashSet<>();
+        Set<String> filenames = new HashSet<>();
         types.add("type-3");
         filenames.add("file-2");
         builder.setTypes(types);
@@ -574,7 +576,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> packageNames = new ArrayList<>();
+        Set<String> packageNames = new HashSet<>();
         packageNames.add("package-1");
         builder.setPackageNames(packageNames);
         IssuesFilter includeFilter = builder.build();
@@ -590,7 +592,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> moduleNames = new ArrayList<>();
+        Set<String> moduleNames = new HashSet<>();
         moduleNames.add("module-5");
         builder.setModuleNames(moduleNames);
         IssuesFilter includeFilter = builder.build();
@@ -606,7 +608,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> categories = new ArrayList<>();
+        Set<String> categories = new HashSet<>();
         categories.add("cat-1");
         categories.add("cat-2");
         builder.setCategories(categories);
@@ -623,7 +625,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> fileNames = new ArrayList<>();
+        Set<String> fileNames = new HashSet<>();
         fileNames.add("file-1");
         fileNames.add("file-2");
         builder.setFileNames(fileNames);
@@ -640,7 +642,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
+        Set<String> types = new HashSet<>();
         types.add("type-1");
         types.add("type-2");
         builder.setTypes(types);
@@ -657,7 +659,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> packageNames = new ArrayList<>();
+        Set<String> packageNames = new HashSet<>();
         packageNames.add("package-1");
         packageNames.add("package-3");
         builder.setPackageNames(packageNames);
@@ -674,7 +676,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> moduleNames = new ArrayList<>();
+        Set<String> moduleNames = new HashSet<>();
         moduleNames.add("module-5");
         moduleNames.add("module-3");
         builder.setModuleNames(moduleNames);
@@ -691,10 +693,10 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> moduleNames = new ArrayList<>();
+        Set<String> moduleNames = new HashSet<>();
         moduleNames.add("module-5");
 
-        List<String> categories = new ArrayList<>();
+        Set<String> categories = new HashSet<>();
         categories.add("cat-1|2");
 
         builder.setModuleNames(moduleNames);
@@ -711,11 +713,11 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> fileNames = new ArrayList<>();
+        Set<String> fileNames = new HashSet<>();
         fileNames.add("file-1");
         fileNames.add("file-3");
 
-        List<String> packageNames = new ArrayList<>();
+        Set<String> packageNames = new HashSet<>();
         packageNames.add("package-1");
         packageNames.add("package-3");
 
@@ -734,7 +736,7 @@ class IssuesTest {
         Issues original = new Issues();
         original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
-        List<String> types = new ArrayList<>();
+        Set<String> types = new HashSet<>();
 
         types.add(".*");
 
@@ -747,6 +749,8 @@ class IssuesTest {
         assertThat(filteredIssues.size()).isEqualTo(6);
         assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
     }
+
+
 
 
 

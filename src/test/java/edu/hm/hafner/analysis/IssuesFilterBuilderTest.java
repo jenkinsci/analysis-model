@@ -1,7 +1,9 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,11 +33,11 @@ class IssuesFilterBuilderTest {
 
     @Test
     void shoudCreateFilledIssuesFilter() {
-        List<String> categories = new ArrayList<>();
-        List<String> fileNames = new ArrayList<>();
-        List<String> moduleNames = new ArrayList<>();
-        List<String> packageNames = new ArrayList<>();
-        List<String> types = new ArrayList<>();
+        Set<String> categories = new HashSet<>();
+        Set<String> fileNames = new HashSet<>();
+        Set<String> moduleNames = new HashSet<>();
+        Set<String> packageNames = new HashSet<>();
+        Set<String> types = new HashSet<>();
 
         categories.add("categorie");
         fileNames.add("filename");
