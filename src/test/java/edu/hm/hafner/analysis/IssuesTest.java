@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -130,8 +129,7 @@ class IssuesTest {
 
     @Test
     void testRemove() {
-        Issues issues = new Issues();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues issues = initIssues();
 
         Issue removed = issues.remove(ISSUE_1.getId());
 
@@ -260,8 +258,7 @@ class IssuesTest {
 
     @Test
     void testGetFiles() {
-        Issues issues = new Issues();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues issues = initIssues();
 
         assertThat(issues.getFiles()).contains("file-1", "file-1", "file-3");
     }
@@ -276,8 +273,7 @@ class IssuesTest {
 
     @Test
     void testGetProperties() {
-        Issues issues = new Issues();
-        issues.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues issues = initIssues();
 
         SortedSet<String> properties = issues.getProperties(issue -> issue.getMessage());
 
@@ -304,8 +300,7 @@ class IssuesTest {
 
     @Test
     void shouldReturnAllIssuesWhenNoFilterIsSet() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
 
         IssuesFilter includeFilter = new IssuesFilterBuilder().build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
@@ -317,8 +312,7 @@ class IssuesTest {
 
     @Test
     void shouldReturnNoIssuesWhenIncludeFilterAndExcludeFilterAreTheSameAndNotEmpty() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         Set<String> categories = new HashSet<>();
 
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
@@ -328,14 +322,13 @@ class IssuesTest {
         IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = builder.build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
-        assertThat(filteredIssues.size()).isEqualTo(0);
+        assertThat(filteredIssues.isEmpty()).isEqualTo(true);
         assertThat(filteredIssues.all()).contains();
     }
 
     @Test
-    void shouldReturnNoIssuesWhenIncludeIssueWithFileNameAndExcludeWhemWithCategorie() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+    void shouldReturnNoIssuesWhenIncludeIssueWithFileNameAndExcludeThemWithCategory() {
+        Issues original = initIssues();
         Set<String> categories = new HashSet<>();
         Set<String> fileNames = new HashSet<>();
 
@@ -351,21 +344,20 @@ class IssuesTest {
         IssuesFilter emptyExcludeFilter = excludeBuilder.build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
-        assertThat(filteredIssues.size()).isEqualTo(0);
+        assertThat(filteredIssues.isEmpty()).isEqualTo(true);
         assertThat(filteredIssues.all()).contains();
     }
 
     @Test
     void shouldNotReturnDoubleIssuesWhenYouIncludeTheSameIssueOverTwoDifferentWays() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
         Set<String> filenames = new HashSet<>();
 
         types.add("type-3");
-        filenames.add("file-2");
-        filenames.add("file-3");
+        filenames.add("file-(2|3)");
+
 
         builder.setTypes(types);
         builder.setFileNames(filenames);
@@ -379,8 +371,7 @@ class IssuesTest {
 
     @Test
     void shouldReturnAllIssuesWhenExcludeFilterIsNotEmptyButDoNotMatchAnyIssue() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
         Set<String> filenames = new HashSet<>();
@@ -410,8 +401,7 @@ class IssuesTest {
 
     @Test
     void shouldReturnNoIssuesWhenIncludeFilterIsNotEmptyButDoNotMatchAnyIssue() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
         Set<String> filenames = new HashSet<>();
@@ -431,18 +421,17 @@ class IssuesTest {
         builder.setModuleNames(moduleNames);
         builder.setPackageNames(packageNames);
 
-        IssuesFilter includeFilter =  builder.build();
+        IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
-        assertThat(filteredIssues.size()).isEqualTo(0);
+        assertThat(filteredIssues.isEmpty()).isEqualTo(true);
         assertThat(filteredIssues.all()).contains();
     }
 
     @Test
     void shouldReturnNoIssuesWhenExcludeAllIssuesOverDifferentWays() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
         Set<String> filenames = new HashSet<>();
@@ -466,14 +455,13 @@ class IssuesTest {
         IssuesFilter excludeFilter = builder.build();
         Issues filteredIssues = original.filter(emptyIncludeFilter, excludeFilter);
 
-        assertThat(filteredIssues.size()).isEqualTo(0);
+        assertThat(filteredIssues.isEmpty()).isEqualTo(true);
         assertThat(filteredIssues.all()).contains();
     }
 
     @Test
     void shouldReturnAllIssuesWhenIncludeAllIssuesOverDifferentWays() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
         Set<String> filenames = new HashSet<>();
@@ -487,14 +475,13 @@ class IssuesTest {
         moduleNames.add("module-5");
         categories.add("cat-2");
 
-
         builder.setTypes(types);
         builder.setFileNames(filenames);
         builder.setCategories(categories);
         builder.setModuleNames(moduleNames);
         builder.setPackageNames(packageNames);
 
-        IssuesFilter includeFilter =  builder.build();
+        IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
@@ -505,8 +492,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnOnlyIssueWithCat1() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> categories = new HashSet<>();
         categories.add("cat-1");
@@ -521,12 +507,11 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnOnlyIssueWithFileNameFile2andFile3() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> filenames = new HashSet<>();
-        filenames.add("file-2");
-        filenames.add("file-3");
+        filenames.add("file-(2|3)");
+
         builder.setFileNames(filenames);
         IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
@@ -538,8 +523,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnOnlyIssueWithType3() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
         types.add("type-3");
@@ -554,8 +538,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnOnlyIssueWithType3andFilename2() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
         Set<String> filenames = new HashSet<>();
@@ -573,8 +556,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnOnlyIssueWithPackageName1() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> packageNames = new HashSet<>();
         packageNames.add("package-1");
@@ -589,8 +571,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnOnlyIssueWithModuleName1() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> moduleNames = new HashSet<>();
         moduleNames.add("module-5");
@@ -605,8 +586,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnIssueWithoutCat1OrCat2() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> categories = new HashSet<>();
         categories.add("cat-1");
@@ -622,8 +602,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnIssueWithoutFileOrFile2() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> fileNames = new HashSet<>();
         fileNames.add("file-1");
@@ -639,8 +618,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnIssueWithoutTyp2orTyp3() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
         types.add("type-1");
@@ -656,8 +634,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnIssueWithoutPackageName1orPackageName3() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> packageNames = new HashSet<>();
         packageNames.add("package-1");
@@ -673,8 +650,7 @@ class IssuesTest {
 
     @Test
     void shouldOnlyReturnIssueWithoutModuleName5orModuleName3() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> moduleNames = new HashSet<>();
         moduleNames.add("module-5");
@@ -690,14 +666,13 @@ class IssuesTest {
 
     @Test
     void shouldReturnIssuesWithModule1andWithoutCat1andCat2() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> moduleNames = new HashSet<>();
         moduleNames.add("module-5");
 
         Set<String> categories = new HashSet<>();
-        categories.add("cat-1|2");
+        categories.add("cat-(1|2)");
 
         builder.setModuleNames(moduleNames);
         IssuesFilter excludeFilter = builder.build();
@@ -708,18 +683,17 @@ class IssuesTest {
         assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3);
 
     }
+
     @Test
     void shouldReturnIssuesWithFile1andFile3WithoutPackage1andPackage3() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> fileNames = new HashSet<>();
         fileNames.add("file-1");
         fileNames.add("file-3");
 
         Set<String> packageNames = new HashSet<>();
-        packageNames.add("package-1");
-        packageNames.add("package-3");
+        packageNames.add("package-(1|3)");
 
         builder.setPackageNames(packageNames);
         IssuesFilter excludeFilter = builder.build();
@@ -732,17 +706,13 @@ class IssuesTest {
     }
 
     @Test
-    void shouldReturnIssues() {
-        Issues original = new Issues();
-        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+    void shouldReturnAllIssuesWhenIncludingThemWithWildCard() {
+        Issues original = initIssues();
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
         Set<String> types = new HashSet<>();
-
         types.add(".*");
-
         builder.setTypes(types);
-
-        IssuesFilter includeFilter =  builder.build();
+        IssuesFilter includeFilter = builder.build();
         IssuesFilter emptyExcludeFilter = new IssuesFilterBuilder().build();
         Issues filteredIssues = original.filter(includeFilter, emptyExcludeFilter);
 
@@ -750,10 +720,55 @@ class IssuesTest {
         assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6);
     }
 
+    @Test
+    void shouldReturnAllIssuesWhenExcludeThemWithWildCard() {
+        Issues original = initIssues();
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+        Set<String> types = new HashSet<>();
+        types.add(".*");
+        builder.setTypes(types);
+        IssuesFilter wildcardFiler = builder.build();
+        Issues filteredIssues = original.filter(wildcardFiler, wildcardFiler);
+
+        assertThat(filteredIssues.isEmpty()).isEqualTo(true);
+        assertThat(filteredIssues.all()).contains();
+    }
+
+    @Test
+    void shouldReturnSameIssuesWithTwoDifferentFilterInDifferentOrder() {
+        Issues original = initIssues();
+        Set<String> fileNames = new HashSet<>();
+        Set<String> moduleNames = new HashSet<>();
+        fileNames.add("file-(1|2|3)");
+        moduleNames.add(".*-3");
+
+        Set<String> secondFilterCategory = new HashSet<>();
+        Set<String> secondFilterPackageNames = new HashSet<>();
+        secondFilterCategory.add("cat-1");
+        secondFilterPackageNames.add(".*-2");
+
+        IssuesFilter includeFilter = new IssuesFilterBuilder().setFileNames(fileNames).build();
+        IssuesFilter excludeFilter = new IssuesFilterBuilder().setModuleNames(moduleNames).build();
+
+        IssuesFilter secondIncludeFilter = new IssuesFilterBuilder().setCategories(secondFilterCategory).build();
+        IssuesFilter secondExcludeFilter = new IssuesFilterBuilder().setPackageNames(secondFilterPackageNames).build();
+
+        Issues filteredIssues = original.filter(includeFilter, excludeFilter).filter(secondIncludeFilter, secondExcludeFilter);
+        Issues secondFilteredIssues = original.filter(secondIncludeFilter, secondExcludeFilter).filter(includeFilter, excludeFilter);
+
+        assertThat(filteredIssues.size()).isEqualTo(2);
+        assertThat(filteredIssues.all()).contains(ISSUE_1, ISSUE_2);
+
+        assertThat(secondFilteredIssues.size()).isEqualTo(2);
+        assertThat(secondFilteredIssues.all()).contains(ISSUE_1, ISSUE_2);
+    }
 
 
-
-
+    private Issues initIssues() {
+        Issues original = new Issues();
+        original.addAll(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5, ISSUE_6));
+        return original;
+    }
 
 
 }

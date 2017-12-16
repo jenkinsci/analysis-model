@@ -31,7 +31,7 @@ class IssuesFilterBuilderTest {
     }
 
     @Test
-    void shouldCreateEmptyIssuesFilterWithoutNullValues() {
+    void shouldCreateEmptyIssuesFilterWhenNullValuesInput() {
 
         IssuesFilter filter;
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
