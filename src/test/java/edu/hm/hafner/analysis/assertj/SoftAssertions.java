@@ -1,10 +1,13 @@
 package edu.hm.hafner.analysis.assertj;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AbstractStandardSoftAssertions;
+import org.assertj.core.api.IterableAssert;
 import org.assertj.core.api.SoftAssertionError;
+import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
@@ -38,6 +41,21 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
         return proxy(IssueAssert.class, Issue.class, actual);
     }
 
+    /**
+     * An entry point for {@link ImmutableSortedSet} to follow AssertJ standard {@code assertThat()}. With a static
+     * import, one can write directly {@code assertThat(set)} and get a specific assertion with code completion.
+     *
+     * @param actual
+     *         the issues we want to make assertions on
+     * @param <T>
+     *         type of the collection elements
+     *
+     * @return a new {@link IterableAssert}
+     */
+    @SuppressWarnings("unchecked")
+    public <T> IterableAssert<T> assertThat(final ImmutableSortedSet<T> actual) {
+        return proxy(IterableAssert.class, Iterator.class, actual.iterator());
+    }
     /**
      * An entry point for {@link IssuesAssert} to follow AssertJ standard {@code assertThat()}. With a static import,
      * one can write directly {@code assertThat(myIssues)} and get a specific assertion with code completion.

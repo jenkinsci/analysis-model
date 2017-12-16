@@ -2,29 +2,30 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
-
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link DiabCParser}.
  */
-public class DiabCParserTest extends ParserTester {
+public class DiabCParserTest extends AbstractParserTest {
     /**
-     * Parses a file with 13 warnings.
+     * Creates a new instance of {@link DiabCParserTest}.
      */
-    @Test
-    public void parseDiabCpp() {
-        Issues<Issue> warnings = new DiabCParser().parse(openFile());
-        assertThat(warnings).hasSize(12).hasDuplicatesSize(1);
+    protected DiabCParserTest() {
+        super("diabc.txt");
+    }
 
-        Iterator<Issue> iterator = warnings.iterator();
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues).hasSize(12)
+                .hasDuplicatesSize(1);
+        Iterator<Issue> iterator = issues.iterator();
 
-        SoftAssertions softly = new SoftAssertions();
         softly.assertThat(iterator.next())
                 .hasLineStart(7)
                 .hasLineEnd(7)
@@ -125,8 +126,8 @@ public class DiabCParserTest extends ParserTester {
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "diabc.txt";
+    protected AbstractParser createParser() {
+        return new DiabCParser();
     }
 }
 

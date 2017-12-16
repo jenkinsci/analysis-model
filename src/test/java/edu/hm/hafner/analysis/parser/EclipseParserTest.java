@@ -4,17 +4,45 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link EclipseParser}.
  */
-class EclipseParserTest extends AbstractEclipseParserTest {
-    private static final String CATEGORY = DEFAULT_CATEGORY;
+class EclipseParserTest extends AbstractParserTest {
+    private static final String CATEGORY = new IssueBuilder().build().getCategory();
+
+    EclipseParserTest() {
+        super("eclipse.txt");
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new EclipseParser();
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(8);
+
+        Issue annotation = issues.get(0);
+        softly.assertThat(annotation)
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(CATEGORY)
+                .hasLineStart(3)
+                .hasLineEnd(3)
+                .hasMessage(
+                        "The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
+                .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java");
+    }
 
     /**
      * Parses a warning log with previously undetected warnings.
@@ -23,7 +51,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue21377() {
-        Issues<Issue> warnings = createParser().parse(openFile("issue21377.txt"));
+        Issues<Issue> warnings = parse("issue21377.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -47,7 +75,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue13969() {
-        Issues<Issue> warnings = createParser().parse(openFile("issue13969.txt"));
+        Issues<Issue> warnings = parse("issue13969.txt");
 
         assertThat(warnings).hasSize(3);
 
@@ -84,7 +112,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue12822() {
-        Issues<Issue> warnings = createParser().parse(openFile("issue12822.txt"));
+        Issues<Issue> warnings = parse("issue12822.txt");
 
         assertThat(warnings).hasSize(15);
     }
@@ -96,7 +124,7 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue6427() {
-        Issues<Issue> warnings = createParser().parse(openFile("issue6427.txt"));
+        Issues<Issue> warnings = parse("issue6427.txt");
 
         assertThat(warnings).hasSize(18);
         assertSoftly(softly -> {
@@ -117,9 +145,9 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue7077() {
-        Issues<Issue> warnings = createParser().parse(openFile("issue7077.txt"));
+        Issues<Issue> warnings = parse("issue7077.txt");
 
-        assertThat(warnings.size()).isEqualTo(2);
+        assertThat(warnings).hasSize(2);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0)).hasPriority(Priority.NORMAL)
@@ -144,9 +172,9 @@ class EclipseParserTest extends AbstractEclipseParserTest {
      */
     @Test
     void issue7077all() {
-        Issues<Issue> sorted = createParser().parse(openFile("issue7077-all.txt"));
+        Issues<Issue> sorted = parse("issue7077-all.txt");
 
-        assertThat(sorted.size()).isEqualTo(45);
+        assertThat(sorted).hasSize(45);
 
         int number = 0;
         for (Issue fileAnnotation : sorted) {

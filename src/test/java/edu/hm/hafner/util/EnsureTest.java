@@ -1,9 +1,9 @@
 package edu.hm.hafner.util;
 
-import org.junit.jupiter.api.Test;
+import java.util.Collections;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
+import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -33,9 +33,9 @@ public class EnsureTest {
             Ensure.that(SOME_STRING).isNotEmpty();
             Ensure.that(SOME_STRING).isNotBlank();
             Ensure.that(EMPTY_STRING).isInstanceOf(String.class);
-            Ensure.that(ImmutableSet.of(EMPTY_STRING)).isNotEmpty();
-            Ensure.that(ImmutableSet.of(EMPTY_STRING)).contains(EMPTY_STRING);
-            Ensure.that(ImmutableSet.of(EMPTY_STRING)).doesNotContain(SOME_STRING);
+            Ensure.that(Collections.singleton(EMPTY_STRING)).isNotEmpty();
+            Ensure.that(Collections.singleton(EMPTY_STRING)).contains(EMPTY_STRING);
+            Ensure.that(Collections.singleton(EMPTY_STRING)).doesNotContain(SOME_STRING);
         }).doesNotThrowAnyException();
     }
 
@@ -76,13 +76,13 @@ public class EnsureTest {
             Ensure.that(SOME_STRING, SOME_STRING).isNull(ERROR_MESSAGE);
         }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
-            Ensure.that(ImmutableSet.of()).contains(EMPTY_STRING);
+            Ensure.that(Collections.EMPTY_SET).contains(EMPTY_STRING);
         }).isInstanceOf(AssertionError.class);
         assertThatThrownBy(() -> {
-            Ensure.that(ImmutableSet.of(EMPTY_STRING)).contains(SOME_STRING);
+            Ensure.that(Collections.singleton(EMPTY_STRING)).contains(SOME_STRING);
         }).isInstanceOf(AssertionError.class);
         assertThatThrownBy(() -> {
-            Ensure.that(ImmutableSet.of(EMPTY_STRING)).doesNotContain(EMPTY_STRING);
+            Ensure.that(Collections.singleton(EMPTY_STRING)).doesNotContain(EMPTY_STRING);
         }).isInstanceOf(AssertionError.class);
     }
 

@@ -5,32 +5,97 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.parser.ParserTester.*;
 
 
 /**
  * Tests the class {@link DoxygenParser}.
  */
-public class DoxygenParserTest extends ParserTester {
+public class DoxygenParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
     private static final String NO_FILE_NAME = "-";
 
     /**
-     * Parses a file with Doxygen warnings.
+     * Creates a new instance of {@link AbstractParserTest}.
      */
-    @SuppressWarnings("PMD.ExcessiveMethodLength")
+    protected DoxygenParserTest() {
+        super("doxygen.txt");
+    }
+
+    /**
+     * Verifies that parsing of long files does not fail.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7178">Issue 7178</a>
+     * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6882582">JDK Bug 6882582</a>
+     */
     @Test
-    public void testWarningsParser() {
-        Issues<Issue> warnings = new DoxygenParser().parse(openFile());
-        assertThat(warnings).hasSize(21).hasDuplicatesSize(1);
+    @Disabled("FIXME: Check with Java 8")
+    public void issue7178() {
+        Issues<Issue> warnings = parse("issue7178.txt");
+        assertThat(warnings).isEmpty(); //seems to be 1
+    }
+
+    /**
+     * Parses a warning log with 4 doxygen 1.7.1 messages.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6971">Issue 6971</a>
+     */
+    @Test
+    public void issue6971() {
+        Issues<Issue> warnings = parse("issue6971.txt");
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(warnings).hasSize(4);
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(iterator.next())
+                .hasLineEnd(479)
+                .hasLineStart(479)
+                .hasMessage("the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
+                .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineEnd(19)
+                .hasLineStart(19)
+                .hasMessage("Unexpected character `\"'")
+                .hasFileName("/home/user/myproject/helper/SimpleTimer.h")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.HIGH);
+
+        softly.assertThat(iterator.next())
+                .hasLineEnd(357)
+                .hasLineStart(357)
+                .hasMessage("Member getInternalParser() (function) of class XmlParser is not documented.")
+                .hasFileName(".../XmlParser.h")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineEnd(39)
+                .hasLineStart(39)
+                .hasMessage("Member XmlMemoryEntityMapEntry (typedef) of class XmlMemoryEntityResolver is not documented.")
+                .hasFileName("P:/Integration/DjRip/djrip/workspace/libraries/xml/XmlMemoryEntityResolver.h")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertAll();
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(21).hasDuplicatesSize(1);
+
+        Iterator<Issue> iterator = issues.iterator();
+
         softly.assertThat(iterator.next())
                 .hasLineEnd(0)
                 .hasLineStart(0)
@@ -202,69 +267,9 @@ public class DoxygenParserTest extends ParserTester {
         softly.assertAll();
     }
 
-    /**
-     * Verifies that parsing of long files does not fail.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7178">Issue 7178</a>
-     * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6882582">JDK Bug 6882582</a>
-     */
-    @Test @Disabled("FIXME: Check with Java 8")
-    public void issue7178() {
-        Issues<Issue> warnings = new DoxygenParser().parse(openFile("issue7178.txt"));
-        assertThat(warnings).isEmpty(); //seems to be 1
-    }
-
-    /**
-     * Parses a warning log with 4 doxygen 1.7.1 messages.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6971">Issue 6971</a>
-     */
-    @Test
-    public void issue6971() {
-        Issues<Issue> warnings = new DoxygenParser().parse(openFile("issue6971.txt"));
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(4);
-
-        Iterator<Issue> iterator = warnings.iterator();
-
-        softly.assertThat(iterator.next())
-                .hasLineEnd(479)
-                .hasLineStart(479)
-                .hasMessage("the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
-                .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
-                .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
-
-        softly.assertThat(iterator.next())
-                .hasLineEnd(19)
-                .hasLineStart(19)
-                .hasMessage("Unexpected character `\"'")
-                .hasFileName("/home/user/myproject/helper/SimpleTimer.h")
-                .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
-
-        softly.assertThat(iterator.next())
-                .hasLineEnd(357)
-                .hasLineStart(357)
-                .hasMessage("Member getInternalParser() (function) of class XmlParser is not documented.")
-                .hasFileName(".../XmlParser.h")
-                .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
-
-        softly.assertThat(iterator.next())
-                .hasLineEnd(39)
-                .hasLineStart(39)
-                .hasMessage("Member XmlMemoryEntityMapEntry (typedef) of class XmlMemoryEntityResolver is not documented.")
-                .hasFileName("P:/Integration/DjRip/djrip/workspace/libraries/xml/XmlMemoryEntityResolver.h")
-                .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
-
-        softly.assertAll();
-    }
-
     @Override
-    protected String getWarningsFile() {
-        return "doxygen.txt";
+    protected AbstractParser createParser() {
+        return new DoxygenParser();
     }
 }
 
