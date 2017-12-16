@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
-/**Test class for the {@link IssuesFilterBuilder}.
+/**
+ * Test class for the {@link IssuesFilterBuilder}.
  *
  * @author Johannes Arzt
  */
@@ -20,6 +19,28 @@ class IssuesFilterBuilderTest {
 
         IssuesFilter filter;
         IssuesFilterBuilder builder = new IssuesFilterBuilder();
+
+        filter = builder.build();
+        assertThat(filter.getCategories().isEmpty()).as("Categories are not empty").isEqualTo(true);
+        assertThat(filter.getFileNames().isEmpty()).as("FileNames are not empty").isEqualTo(true);
+        assertThat(filter.getModuleNames().isEmpty()).as("Modules are not empty").isEqualTo(true);
+        assertThat(filter.getPackageNames().isEmpty()).as("Packages are not empty").isEqualTo(true);
+        assertThat(filter.getTypes().isEmpty()).as("Types are not empty").isEqualTo(true);
+        assertThat(filter.isEmpty()).as("A Empty Filter must be empty").isEqualTo(true);
+
+    }
+
+    @Test
+    void shouldCreateEmptyIssuesFilterWithoutNullValues() {
+
+        IssuesFilter filter;
+        IssuesFilterBuilder builder = new IssuesFilterBuilder();
+
+        builder.setCategories(null)
+                .setFileNames(null)
+                .setModuleNames(null)
+                .setPackageNames(null)
+                .setTypes(null);
 
         filter = builder.build();
         assertThat(filter.getCategories().isEmpty()).as("Categories are not empty").isEqualTo(true);

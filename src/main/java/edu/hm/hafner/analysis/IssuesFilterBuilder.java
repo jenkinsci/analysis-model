@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis;
 
-import java.util.ArrayList;
+import javax.annotation.CheckForNull;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-/** Builder class for the {@link IssuesFilter}.
+/**
+ * Builder class for the {@link IssuesFilter}.
  *
  * @author Johannes Arzt
  */
@@ -20,35 +20,42 @@ public class IssuesFilterBuilder {
     private Set<String> types = new HashSet<>();
 
 
-
-    public IssuesFilterBuilder setFileNames(final Set<String> fileNames) {
-        this.fileNames = fileNames;
+    public IssuesFilterBuilder setFileNames(@CheckForNull final Set<String> fileNames) {
+        if (fileNames != null) {
+            this.fileNames = fileNames;
+        }
         return this;
     }
 
 
-    public IssuesFilterBuilder setPackageNames(final Set<String> packageNames) {
-        this.packageNames = packageNames;
+    public IssuesFilterBuilder setPackageNames(@CheckForNull final Set<String> packageNames) {
+        if (packageNames != null) {
+            this.packageNames = packageNames;
+        }
         return this;
     }
 
 
-
-    public IssuesFilterBuilder setModuleNames(final Set<String> moduleNames) {
-        this.moduleNames = moduleNames;
+    public IssuesFilterBuilder setModuleNames(@CheckForNull final Set<String> moduleNames) {
+        if (moduleNames != null) {
+            this.moduleNames = moduleNames;
+        }
         return this;
     }
 
 
-    public IssuesFilterBuilder setCategories(final Set<String> categories) {
-        this.categories = categories;
+    public IssuesFilterBuilder setCategories(@CheckForNull final Set<String> categories) {
+        if (categories != null) {
+            this.categories = categories;
+        }
         return this;
     }
 
 
-
-    public IssuesFilterBuilder setTypes(final Set<String> types) {
-        this.types = types;
+    public IssuesFilterBuilder setTypes(@CheckForNull final Set<String> types) {
+        if (types != null) {
+            this.types = types;
+        }
         return this;
     }
 
