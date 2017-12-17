@@ -29,23 +29,22 @@ public class Armcc5CompilerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> warnings = new Armcc5CompilerParser().parse(openFile());
 
-        softly.assertThat(warnings).hasSize(3);
+        softly.assertThat(issues).hasSize(3);
 
-        softly.assertThat(warnings.get(0)).hasPriority(Priority.HIGH)
+        softly.assertThat(issues.get(0)).hasPriority(Priority.HIGH)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(197)
                 .hasLineEnd(197)
                 .hasMessage("18 - expected a \")\"")
                 .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c");
-        softly.assertThat(warnings.get(1)).hasPriority(Priority.NORMAL)
+        softly.assertThat(issues.get(1)).hasPriority(Priority.NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(211)
                 .hasLineEnd(211)
                 .hasMessage("12-D - parsing restarts here after previous syntax error")
                 .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c");
-        softly.assertThat(warnings.get(2)).hasPriority(Priority.NORMAL)
+        softly.assertThat(issues.get(2)).hasPriority(Priority.NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(211)
                 .hasLineEnd(211)

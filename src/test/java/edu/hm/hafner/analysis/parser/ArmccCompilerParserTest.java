@@ -28,23 +28,22 @@ public class ArmccCompilerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> warnings = new ArmccCompilerParser().parse(openFile());
 
-        softly.assertThat(warnings).hasSize(3);
+        softly.assertThat(issues).hasSize(3);
 
-        softly.assertThat(warnings.get(0)).hasPriority(Priority.HIGH)
+        softly.assertThat(issues.get(0)).hasPriority(Priority.HIGH)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(21)
                 .hasLineEnd(21)
                 .hasMessage("5 - cannot open source input file \"somefile.h\": No such file or directory")
                 .hasFileName("/home/test/main.cpp");
-        softly.assertThat(warnings.get(1)).hasPriority(Priority.HIGH)
+        softly.assertThat(issues.get(1)).hasPriority(Priority.HIGH)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(23)
                 .hasLineEnd(23)
                 .hasMessage("5 - cannot open source input file \"somefile.h\": No such file or directory")
                 .hasFileName("C:/home/test/main.cpp");
-        softly.assertThat(warnings.get(2)).hasPriority(Priority.NORMAL)
+        softly.assertThat(issues.get(2)).hasPriority(Priority.NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(25)
                 .hasLineEnd(25)
