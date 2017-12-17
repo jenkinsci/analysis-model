@@ -6,16 +6,27 @@ import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.parser.ParserTester.DEFAULT_CATEGORY;
 
 /**
  * Tests the class {@link AntJavacParser}.
  */
-public class AntJavacParserTest extends ParserTester {
+public class AntJavacParserTest extends AbstractParserTest {
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     *
+     */
+    protected AntJavacParserTest() {
+        super("ant-javac.txt");
+    }
+
     /**
      * Parses a warning log with two warnings.
      *
@@ -46,26 +57,6 @@ public class AntJavacParserTest extends ParserTester {
                     .hasLineEnd(0)
                     .hasMessage("Cannot find annotation method 'xxx()' in type 'yyyy': class file for fully.qualified.ClassName not found")
                     .hasFileName("aaa.class");
-        });
-    }
-
-    /**
-     * Parses a file with two deprecation warnings.
-     */
-    @Test
-    public void parseDeprecation() {
-        Issues<Issue> warnings = new AntJavacParser().parse(openFile());
-
-        assertThat(warnings).hasSize(1);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
-                    .hasCategory("Deprecation")
-                    .hasLineStart(28)
-                    .hasLineEnd(28)
-                    .hasMessage("begrussen() in ths.types.IGruss has been deprecated")
-                    .hasFileName("C:/Users/tiliven/.hudson/jobs/Hello THS Trunk - compile/workspace/HelloTHSTest/src/ths/Hallo.java");
         });
     }
 
@@ -184,8 +175,20 @@ public class AntJavacParserTest extends ParserTester {
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "ant-javac.txt";
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues).hasSize(1);
+        softly.assertThat(issues.get(0))
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("Deprecation")
+                .hasLineStart(28)
+                .hasLineEnd(28)
+                .hasMessage("begrussen() in ths.types.IGruss has been deprecated")
+               .hasFileName("C:/Users/tiliven/.hudson/jobs/Hello THS Trunk - compile/workspace/HelloTHSTest/src/ths/Hallo.java");
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new AntJavacParser();
     }
 }
 
