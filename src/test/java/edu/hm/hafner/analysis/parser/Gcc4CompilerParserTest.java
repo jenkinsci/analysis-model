@@ -16,15 +16,13 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link Gcc4CompilerParser}.
  *
+ * @author Frederic Chateau
  * @author Raphael Furch
  */
 public class Gcc4CompilerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
 
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     */
     protected Gcc4CompilerParserTest() {
         super("gcc4.txt");
     }

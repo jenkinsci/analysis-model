@@ -9,22 +9,19 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link Gcc4LinkerParser}.
  *
+ * @author Frederic Chateau
  * @author Raphael Furch
  */
 public class Gcc4LinkerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = Gcc4LinkerParser.WARNING_CATEGORY;
     private static final String FILE_NAME = "-";
 
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     */
     protected Gcc4LinkerParserTest() {
         super("gcc4ld.txt");
     }

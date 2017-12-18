@@ -16,15 +16,13 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link GccParser}.
  *
+ * @author Ullrich Hafner
  * @author Raphael Furch
  */
 public class GccParserTest extends AbstractParserTest {
     private static final String GCC_ERROR = GccParser.GCC_ERROR;
     private static final String GCC_WARNING = "GCC warning";
 
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     */
     protected GccParserTest() {
         super("gcc.txt");
     }
