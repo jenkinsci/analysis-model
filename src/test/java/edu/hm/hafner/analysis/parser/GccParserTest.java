@@ -4,9 +4,12 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
@@ -15,9 +18,16 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Raphael Furch
  */
-public class GccParserTest extends ParserTester {
+public class GccParserTest extends AbstractParserTest {
     private static final String GCC_ERROR = GccParser.GCC_ERROR;
     private static final String GCC_WARNING = "GCC warning";
+
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     */
+    protected GccParserTest() {
+        super("gcc.txt");
+    }
 
     /**
      * Checks that a false positive is not reported anymore.
@@ -26,7 +36,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue34141() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue34141.txt"));
+        Issues<Issue> warnings = parse("issue34141.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -38,7 +48,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue17309() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue17309.txt"));
+        Issues<Issue> warnings = parse("issue17309.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -60,7 +70,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue9926() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue9926.txt"));
+        Issues<Issue> warnings = parse("issue9926.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -79,80 +89,79 @@ public class GccParserTest extends ParserTester {
     /**
      * Parses a file with two GCC warnings.
      */
-    @Test
-    public void testWarningsParser() {
-        Issues<Issue> warnings = new GccParser().parse(openFile());
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
 
-        assertThat(warnings).hasSize(8);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        softly.assertThat(issues).hasSize(8);
 
-        assertSoftly(softly -> {
-            softly.assertThat(iterator.next())
-                    .hasLineStart(451)
-                    .hasLineEnd(451)
-                    .hasMessage("`void yyunput(int, char*)&apos; defined but not used")
-                    .hasFileName("testhist.l")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+        Iterator<Issue> iterator = issues.iterator();
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(73)
-                    .hasLineEnd(73)
-                    .hasMessage("implicit typename is deprecated, please see the documentation for details")
-                    .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
-                    .hasCategory(GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(451)
+                .hasLineEnd(451)
+                .hasMessage("`void yyunput(int, char*)&apos; defined but not used")
+                .hasFileName("testhist.l")
+                .hasCategory(GCC_WARNING)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(4)
-                    .hasLineEnd(4)
-                    .hasMessage("foo.h: No such file or directory")
-                    .hasFileName("foo.cc")
-                    .hasCategory(GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(73)
+                .hasLineEnd(73)
+                .hasMessage("implicit typename is deprecated, please see the documentation for details")
+                .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
+                .hasCategory(GCC_ERROR)
+                .hasPriority(Priority.HIGH);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasMessage("undefined reference to &apos;missing_symbol&apos;")
-                    .hasFileName("foo.so")
-                    .hasCategory(GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(4)
+                .hasLineEnd(4)
+                .hasMessage("foo.h: No such file or directory")
+                .hasFileName("foo.cc")
+                .hasCategory(GCC_ERROR)
+                .hasPriority(Priority.HIGH);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_sp")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("undefined reference to &apos;missing_symbol&apos;")
+                .hasFileName("foo.so")
+                .hasCategory(GCC_ERROR)
+                .hasPriority(Priority.HIGH);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_flags")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_sp")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasCategory(GCC_WARNING)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_size")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_flags")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasCategory(GCC_WARNING)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(52)
-                    .hasLineEnd(52)
-                    .hasMessage("large integer implicitly truncated to unsigned type")
-                    .hasFileName("src/test_simple_sgs_message.cxx")
-                    .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
-        });
+        softly.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_size")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasCategory(GCC_WARNING)
+                .hasPriority(Priority.NORMAL);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(52)
+                .hasLineEnd(52)
+                .hasMessage("large integer implicitly truncated to unsigned type")
+                .hasFileName("src/test_simple_sgs_message.cxx")
+                .hasCategory(GCC_WARNING)
+                .hasPriority(Priority.NORMAL);
     }
+
 
     /**
      * Parses a warning log with 2 new GCC warnings.
@@ -161,7 +170,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue3897and3898() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue3897.txt"));
+        Issues<Issue> warnings = parse("issue3897.txt");
 
         assertThat(warnings).hasSize(3);
 
@@ -201,7 +210,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4712() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue4712.txt"));
+        Issues<Issue> warnings = parse("issue4712.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -233,7 +242,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4700() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue4700.txt"));
+        Issues<Issue> warnings = parse("issue4700.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -245,7 +254,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4707() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue4707.txt"));
+        Issues<Issue> warnings = parse("issue4707.txt");
 
         assertThat(warnings).hasSize(11).hasDuplicatesSize(11);
 
@@ -268,7 +277,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4010() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue4010.txt"));
+        Issues<Issue> warnings = parse("issue4010.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -290,7 +299,7 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4274() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue4274.txt"));
+        Issues<Issue> warnings = parse("issue4274.txt");
 
         assertThat(warnings).hasSize(4);
 
@@ -338,14 +347,15 @@ public class GccParserTest extends ParserTester {
      */
     @Test
     public void issue4260() {
-        Issues<Issue> warnings = new GccParser().parse(openFile("issue4260.txt"));
+        Issues<Issue> warnings = parse("issue4260.txt");
 
         assertThat(warnings).hasSize(1);
     }
 
+
     @Override
-    protected String getWarningsFile() {
-        return "gcc.txt";
+    protected AbstractParser createParser() {
+        return new GccParser();
     }
 }
 

@@ -4,9 +4,12 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
@@ -15,9 +18,16 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Raphael Furch
  */
-public class Gcc4CompilerParserTest extends ParserTester {
+public class Gcc4CompilerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
+
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     */
+    protected Gcc4CompilerParserTest() {
+        super("gcc4.txt");
+    }
 
     /**
      * Parses a file with one fatal error.
@@ -26,7 +36,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue18081() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue18081.txt"));
+        Issues<Issue> warnings = parse("issue18081.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -48,7 +58,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue9926() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue9926.txt"));
+        Issues<Issue> warnings = parse("issue9926.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -70,136 +80,131 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue6563() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue6563.txt"));
+        Issues<Issue> warnings = parse("issue6563.txt");
 
         assertThat(warnings).hasSize(10);
     }
 
-    /**
-     * Parses a file with GCC warnings.
-     */
-    @Test
-    public void testWarningsParser() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile());
 
-        assertThat(warnings).hasSize(14);
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
 
-        Iterator<Issue> iterator = warnings.iterator();
+        softly.assertThat(issues).hasSize(14);
 
-        assertSoftly(softly -> {
-            softly.assertThat(iterator.next())
-                    .hasLineStart(451)
-                    .hasLineEnd(451)
-                    .hasMessage("'void yyunput(int, char*)' defined but not used")
-                    .hasFileName("testhist.l")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+        Iterator<Issue> iterator = issues.iterator();
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(73)
-                    .hasLineEnd(73)
-                    .hasMessage("implicit typename is deprecated, please see the documentation for details")
-                    .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
-                    .hasCategory(ERROR_CATEGORY)
-                    .hasPriority(Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(451)
+                .hasLineEnd(451)
+                .hasMessage("'void yyunput(int, char*)' defined but not used")
+                .hasFileName("testhist.l")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(4)
-                    .hasLineEnd(4)
-                    .hasColumnStart(39)
-                    .hasColumnEnd(39)
-                    .hasMessage("foo.h: No such file or directory")
-                    .hasFileName("foo.cc")
-                    .hasCategory(ERROR_CATEGORY)
-                    .hasPriority(Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(73)
+                .hasLineEnd(73)
+                .hasMessage("implicit typename is deprecated, please see the documentation for details")
+                .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_sp")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(WARNING_CATEGORY);
+        softly.assertThat(iterator.next())
+                .hasLineStart(4)
+                .hasLineEnd(4)
+                .hasColumnStart(39)
+                .hasColumnEnd(39)
+                .hasMessage("foo.h: No such file or directory")
+                .hasFileName("foo.cc")
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_flags")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_sp")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasCategory(WARNING_CATEGORY);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(678)
-                    .hasLineEnd(678)
-                    .hasMessage("missing initializer for member sigaltstack::ss_size")
-                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_flags")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(52)
-                    .hasLineEnd(52)
-                    .hasMessage("large integer implicitly truncated to unsigned type")
-                    .hasFileName("src/test_simple_sgs_message.cxx")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(678)
+                .hasLineEnd(678)
+                .hasMessage("missing initializer for member sigaltstack::ss_size")
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(352)
-                    .hasLineEnd(352)
-                    .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
-                    .hasFileName("main/mep.cpp")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(52)
+                .hasLineEnd(52)
+                .hasMessage("large integer implicitly truncated to unsigned type")
+                .hasFileName("src/test_simple_sgs_message.cxx")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(6)
-                    .hasLineEnd(6)
-                    .hasMessage("passing 'Test' chooses 'int' over 'unsigned int'")
-                    .hasFileName("warnings.cc")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(352)
+                .hasLineEnd(352)
+                .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
+                .hasFileName("main/mep.cpp")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(6)
-                    .hasLineEnd(6)
-                    .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
-                    .hasFileName("warnings.cc")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(6)
+                .hasLineEnd(6)
+                .hasMessage("passing 'Test' chooses 'int' over 'unsigned int'")
+                .hasFileName("warnings.cc")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(33)
-                    .hasLineEnd(33)
-                    .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
-                    .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+        softly.assertThat(iterator.next())
+                .hasLineStart(6)
+                .hasLineEnd(6)
+                .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
+                .hasFileName("warnings.cc")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(8)
-                    .hasLineEnd(8)
-                    .hasMessage("'bar' was not declared in this scope")
-                    .hasFileName("fo:oo.cpp")
-                    .hasCategory(ERROR_CATEGORY)
-                    .hasPriority(Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(33)
+                .hasLineEnd(33)
+                .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
+                .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h")
+                .hasCategory(WARNING_CATEGORY)
+                .hasPriority(Priority.NORMAL);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(12)
-                    .hasLineEnd(12)
-                    .hasMessage("expected ';' before 'return'")
-                    .hasFileName("fo:oo.cpp")
-                    .hasCategory(ERROR_CATEGORY)
-                    .hasPriority(Priority.HIGH);
+        softly.assertThat(iterator.next())
+                .hasLineStart(8)
+                .hasLineEnd(8)
+                .hasMessage("'bar' was not declared in this scope")
+                .hasFileName("fo:oo.cpp")
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
 
-            softly.assertThat(iterator.next())
-                    .hasLineStart(23)
-                    .hasLineEnd(23)
-                    .hasMessage("unused variable 'j' [-Wunused-variable]")
-                    .hasFileName("warner.cpp")
-                    .hasCategory("Warning:unused-variable")
-                    .hasPriority(Priority.NORMAL);
-        });
+        softly.assertThat(iterator.next())
+                .hasLineStart(12)
+                .hasLineEnd(12)
+                .hasMessage("expected ';' before 'return'")
+                .hasFileName("fo:oo.cpp")
+                .hasCategory(ERROR_CATEGORY)
+                .hasPriority(Priority.HIGH);
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(23)
+                .hasLineEnd(23)
+                .hasMessage("unused variable 'j' [-Wunused-variable]")
+                .hasFileName("warner.cpp")
+                .hasCategory("Warning:unused-variable")
+                .hasPriority(Priority.NORMAL);
     }
 
     /**
@@ -209,7 +214,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue5606() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5606.txt"));
+        Issues<Issue> warnings = parse("issue5606.txt");
 
         assertThat(warnings).hasSize(5).hasDuplicatesSize(5);
     }
@@ -221,7 +226,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue5605() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5605.txt"));
+        Issues<Issue> warnings = parse("issue5605.txt");
 
         assertThat(warnings).hasSize(2).hasDuplicatesSize(4);
     }
@@ -233,7 +238,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue5445() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
+        Issues<Issue> warnings = parse("issue5445.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -245,7 +250,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue5870() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
+        Issues<Issue> warnings = parse("issue5870.txt");
 
         assertThat(warnings)
                 .isEmpty();
@@ -258,7 +263,7 @@ public class Gcc4CompilerParserTest extends ParserTester {
      */
     @Test
     public void issue11799() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue11799.txt"));
+        Issues<Issue> warnings = parse("issue11799.txt");
 
         assertThat(warnings)
                 .hasSize(4);
@@ -300,10 +305,10 @@ public class Gcc4CompilerParserTest extends ParserTester {
         });
     }
 
-    @Override
-    protected String getWarningsFile() {
-        return "gcc4.txt";
-    }
 
+    @Override
+    protected AbstractParser createParser() {
+        return new Gcc4CompilerParser();
+    }
 }
 

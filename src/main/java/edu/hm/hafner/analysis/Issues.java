@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -14,6 +15,7 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -509,4 +511,323 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     public ImmutableList<String> getLogMessages() {
         return Lists.immutable.ofAll(logMessages);
     }
+
+
+    /**
+     * Builds a IssueFilter.
+     *
+     * @author Raphael Furch
+     */
+    class IssueFilterBuilder {
+
+        /**
+         * List of include filters.
+         */
+        private final Collection<Predicate<T>> filterInclude = new ArrayList<>();
+
+        /**
+         * List of exclude filters.
+         */
+        private final Collection<Predicate<T>> filterExclude = new ArrayList<>();
+
+
+        /**
+         * Add a new filter for each pattern string.
+         * Add filter to include or exclude list.
+         *
+         * @param pattern
+         *          filter pattern.
+         * @param propertyToFilter
+         *          Function to get a string from Issue for pattern
+         * @param include
+         *          include or exclude filter.
+         */
+        private void addNewFilter(final Collection<String> pattern, final Function<T, String> propertyToFilter, final boolean include) {
+
+            Collection<Predicate<T>> filters = new ArrayList<>();
+            for (String patter : pattern) {
+                filters.add(issueToFilter -> Pattern.compile(patter)
+                        .matcher(propertyToFilter.apply(issueToFilter)).matches() == include);
+            }
+
+            if (include) {
+                filterInclude.addAll(filters);
+            }
+            else {
+                filterExclude.addAll(filters);
+            }
+        }
+
+        /**
+         * Create a IssueFilter.
+         * Combine by default all includes with or and all excludes with and.
+         *
+         * @return a IssueFilter which has all added filter as filter criteria.
+         */
+        public Predicate<T> build() {
+            return filterInclude.stream().reduce(Predicate::or)
+                    .orElse(issue -> true).and(
+                            filterExclude.stream().reduce(Predicate::and)
+                                    .orElse(issue -> true));
+        }
+
+        /**
+         * Create a IssueFilter and apply it on outer issues.
+         *
+         * @return filtered issues.
+         */
+        public Issues<T> buildAndApply() {
+            return filter(build());
+        }
+
+
+        //<editor-fold desc="File name">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeFilenameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getFileName, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeFilenameFilter(final String... pattern) {
+            return setIncludeFilenameFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeFilenameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getFileName, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeFilenameFilter(final String... pattern) {
+            return setExcludeFilenameFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Package name">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludePackageNameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getPackageName, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludePackageNameFilter(final String... pattern) {
+            return setIncludePackageNameFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludePackageNameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getPackageName, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludePackageNameFilter(final String... pattern) {
+            return setExcludePackageNameFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Module name">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeModuleNameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getModuleName, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeModuleNameFilter(final String... pattern) {
+            return setIncludeModuleNameFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeModuleNameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getModuleName, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeModuleNameFilter(final String... pattern) {
+            return setExcludeModuleNameFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Category">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeCategoryFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getCategory, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeCategoryFilter(final String... pattern) {
+            return setIncludeCategoryFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeCategoryFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getCategory, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeCategoryFilter(final String... pattern) {
+            return setExcludeCategoryFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Type">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeTypeFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getType, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeTypeFilter(final String... pattern) {
+            return setIncludeTypeFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeTypeFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getType, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *          pattern
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeTypeFilter(final String... pattern) {
+            return setExcludeTypeFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+
+    }
+
+
 }
