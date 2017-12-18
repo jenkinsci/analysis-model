@@ -35,10 +35,12 @@ import static java.util.stream.Collectors.*;
  * at position 1, and so on. <p> Additionally, this set of issues provides methods to find and filter issues based on
  * different properties. In order to create issues use the provided {@link IssueBuilder builder} class. </p>
  *
- * @param <T> type of the issues
+ * @param <T>
+ *         type of the issues
+ *
  * @author Ullrich Hafner
  */
-public class Issues <T extends Issue> implements Iterable<T>, Serializable {
+public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     private final Set<T> elements = new LinkedHashSet<>();
     private final int[] sizeOfPriority = new int[Priority.values().length];
     private final List<String> logMessages = new ArrayList<>();
@@ -50,8 +52,11 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
      * issues of the specified array element are appended to the end of this container. The order of the issues in the
      * individual containers is preserved.
      *
-     * @param issues the issues to merge
-     * @param <T>    type of the issues
+     * @param issues
+     *         the issues to merge
+     * @param <T>
+     *         type of the issues
+     *
      * @return all issues
      */
     @SafeVarargs
@@ -66,7 +71,9 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Returns a predicate that checks if the package name of an issue is equal to the specified package name.
      *
-     * @param packageName the package name to match
+     * @param packageName
+     *         the package name to match
+     *
      * @return the predicate
      */
     public static Predicate<Issue> byPackageName(final String packageName) {
@@ -76,7 +83,9 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Returns a predicate that checks if the file name of an issue is equal to the specified file name.
      *
-     * @param fileName the package name to match
+     * @param fileName
+     *         the package name to match
+     *
      * @return the predicate
      */
     public static Predicate<Issue> byFileName(final String fileName) {
@@ -94,7 +103,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
      * Creates a new instance of {@link Issues} that will be initialized with the specified collection of {@link Issue}
      * instances.
      *
-     * @param issues the initial set of issues for this instance
+     * @param issues
+     *         the initial set of issues for this instance
      */
     public Issues(final Collection<? extends T> issues) {
         for (T issue : issues) {
@@ -106,7 +116,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
      * Creates a new instance of {@link Issues} that will be initialized with the specified collection of {@link Issue}
      * instances.
      *
-     * @param issues the initial set of issues for this instance
+     * @param issues
+     *         the initial set of issues for this instance
      */
     public Issues(final Stream<? extends T> issues) {
         issues.forEach(issue -> add(issue));
@@ -115,10 +126,13 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Appends the specified element to the end of this container.
      *
-     * @param issue            the issue to append
-     * @param additionalIssues the additional issue to append
+     * @param issue
+     *         the issue to append
+     * @param additionalIssues
+     *         the additional issue to append
+     *
      * @return {@code true} if this set did not already contain one of the specified issues, {@code false} if a
-     * duplicate has been dropped
+     *         duplicate has been dropped
      */
     @SafeVarargs
     public final boolean add(final T issue, final T... additionalIssues) {
@@ -144,9 +158,11 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
      * Appends all of the elements in the specified collection to the end of this container, in the order that they are
      * returned by the specified collection's iterator.
      *
-     * @param issues the issues to append
+     * @param issues
+     *         the issues to append
+     *
      * @return {@code true} if this set did not already contain one of the specified issues, {@code false} if a
-     * duplicate has been dropped
+     *         duplicate has been dropped
      */
     public boolean addAll(final Collection<? extends T> issues) {
         boolean hasNoDuplicate = true;
@@ -160,10 +176,13 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
      * Appends all of the elements in the specified array of issues to the end of this container, in the order that they
      * are returned by the specified collection's iterator.
      *
-     * @param issues           the issues to append
-     * @param additionalIssues the additional issue to append
+     * @param issues
+     *         the issues to append
+     * @param additionalIssues
+     *         the additional issue to append
+     *
      * @return {@code true} if this set did not already contain one of the specified issues, {@code false} if a
-     * duplicate has been dropped
+     *         duplicate has been dropped
      */
     @SafeVarargs
     public final boolean addAll(final Issues<T> issues, final Issues<T>... additionalIssues) {
@@ -178,8 +197,11 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
      * Removes the issue with the specified ID. Note that the number of reported duplicates is not affected by calling
      * this method.
      *
-     * @param id the ID of the issue
-     * @throws NoSuchElementException if there is no such issue found
+     * @param id
+     *         the ID of the issue
+     *
+     * @throws NoSuchElementException
+     *         if there is no such issue found
      */
     public void remove(final UUID id) {
         for (T element : elements) {
@@ -194,9 +216,12 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Returns the issue with the specified ID.
      *
-     * @param id the ID of the issue
+     * @param id
+     *         the ID of the issue
+     *
      * @return the found issue
-     * @throws NoSuchElementException if there is no such issue found
+     * @throws NoSuchElementException
+     *         if there is no such issue found
      */
     public T findById(final UUID id) {
         for (T issue : elements) {
@@ -210,7 +235,9 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Finds all issues that match the specified criterion.
      *
-     * @param criterion the filter criterion
+     * @param criterion
+     *         the filter criterion
+     *
      * @return the found issues
      */
     public ImmutableSet<T> findByProperty(final Predicate<? super T> criterion) {
@@ -220,7 +247,9 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Finds all issues that match the specified criterion.
      *
-     * @param criterion the filter criterion
+     * @param criterion
+     *         the filter criterion
+     *
      * @return the found issues
      */
     public Issues<T> filter(final Predicate<? super T> criterion) {
@@ -238,7 +267,7 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     }
 
     public Stream<Issue> stream() {
-        return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL), false);
+        return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL),false);
     }
 
     /**
@@ -293,7 +322,9 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Returns the number of issues of the specified priority.
      *
-     * @param priority the priority of the issues
+     * @param priority
+     *         the priority of the issues
+     *
      * @return total number of issues
      */
     public int getSizeOf(final Priority priority) {
@@ -303,7 +334,9 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Returns the number of issues of the specified priority.
      *
-     * @param priority the priority of the issues
+     * @param priority
+     *         the priority of the issues
+     *
      * @return total number of issues
      */
     public int sizeOf(final Priority priority) {
@@ -340,9 +373,12 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Returns the issue with the specified index.
      *
-     * @param index the index
+     * @param index
+     *         the index
+     *
      * @return the issue at the specified index
-     * @throws IndexOutOfBoundsException if there is no element for the given index
+     * @throws IndexOutOfBoundsException
+     *         if there is no element for the given index
      */
     public T get(final int index) {
         if (index < 0 || index >= size()) {
@@ -417,7 +453,9 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Returns the different values for a given property for all issues of this container.
      *
-     * @param propertiesMapper the properties mapper that selects the property
+     * @param propertiesMapper
+     *         the properties mapper that selects the property
+     *
      * @return the set of different values
      * @see #getFiles()
      */
@@ -428,7 +466,9 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Returns the number of occurrences for every existing value of a given property for all issues of this container.
      *
-     * @param propertiesMapper the properties mapper that selects the property to evaluate
+     * @param propertiesMapper
+     *         the properties mapper that selects the property to evaluate
+     *
      * @return a mapping of: property value -> number of issues for that value
      * @see #getProperties(Function)
      */
@@ -450,10 +490,13 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     /**
      * Logs the specified message. Use this method to log any useful information when composing this set of issues.
      *
-     * @param format A <a href="../util/Formatter.html#syntax">format string</a>
-     * @param args   Arguments referenced by the format specifiers in the format string.  If there are more arguments than
-     *               format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
-     *               zero.
+     * @param format
+     *         A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args
+     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
+     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
+     *         zero.
+     *
      * @see #getLogMessages()
      */
     public void log(final String format, final Object... args) {
@@ -468,7 +511,6 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
     public ImmutableList<String> getLogMessages() {
         return Lists.immutable.ofAll(logMessages);
     }
-
 
 
     /**
@@ -493,9 +535,12 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
          * Add a new filter for each pattern string.
          * Add filter to include or exclude list.
          *
-         * @param pattern          = filter pattern.
-         * @param propertyToFilter = Function to get a string from Issue for pattern
-         * @param include          = include or exclude filter.
+         * @param pattern
+         *          filter pattern.
+         * @param propertyToFilter
+         *          Function to get a string from Issue for pattern
+         * @param include
+         *          include or exclude filter.
          */
         private void addNewFilter(final Collection<String> pattern, final Function<T, String> propertyToFilter, final boolean include) {
 
@@ -526,13 +571,23 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
                                     .orElse(issue -> true));
         }
 
+        /**
+         * Create a IssueFilter and apply it on outer issues.
+         *
+         * @return filtered issues.
+         */
+        public Issues<T> buildAndApply() {
+            return filter(build());
+        }
+
 
         //<editor-fold desc="File name">
 
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludeFilenameFilter(final Collection<String> pattern) {
@@ -543,7 +598,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludeFilenameFilter(final String... pattern) {
@@ -553,7 +609,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludeFilenameFilter(final Collection<String> pattern) {
@@ -564,7 +621,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludeFilenameFilter(final String... pattern) {
@@ -577,7 +635,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludePackageNameFilter(final Collection<String> pattern) {
@@ -588,7 +647,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludePackageNameFilter(final String... pattern) {
@@ -598,7 +658,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludePackageNameFilter(final Collection<String> pattern) {
@@ -609,7 +670,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludePackageNameFilter(final String... pattern) {
@@ -622,7 +684,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludeModuleNameFilter(final Collection<String> pattern) {
@@ -633,7 +696,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludeModuleNameFilter(final String... pattern) {
@@ -643,7 +707,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludeModuleNameFilter(final Collection<String> pattern) {
@@ -654,7 +719,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludeModuleNameFilter(final String... pattern) {
@@ -667,7 +733,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludeCategoryFilter(final Collection<String> pattern) {
@@ -678,7 +745,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludeCategoryFilter(final String... pattern) {
@@ -688,7 +756,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludeCategoryFilter(final Collection<String> pattern) {
@@ -699,7 +768,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludeCategoryFilter(final String... pattern) {
@@ -712,7 +782,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludeTypeFilter(final Collection<String> pattern) {
@@ -723,7 +794,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setIncludeTypeFilter(final String... pattern) {
@@ -733,7 +805,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludeTypeFilter(final Collection<String> pattern) {
@@ -744,7 +817,8 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
         /**
          * Add a new filter.
          *
-         * @param pattern = pattern
+         * @param pattern
+         *          pattern
          * @return this.
          */
         public IssueFilterBuilder setExcludeTypeFilter(final String... pattern) {
@@ -754,9 +828,6 @@ public class Issues <T extends Issue> implements Iterable<T>, Serializable {
 
 
     }
-
-
-
 
 
 }

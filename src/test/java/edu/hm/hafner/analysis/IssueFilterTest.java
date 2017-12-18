@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.util.function.Predicate;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issues.IssueFilterBuilder;
@@ -16,6 +17,7 @@ public class IssueFilterTest {
 
     /**
      * Get issues containing issue 1, 2 and 3.
+     *
      * @return issues.
      */
     private Issues<Issue> getIssues() {
@@ -54,6 +56,7 @@ public class IssueFilterTest {
         Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
+
     }
 
     @Test
@@ -202,6 +205,15 @@ public class IssueFilterTest {
     }
 
 
+    @Test
+    void shouldWorkIfBuildAndApplyInOneStep() {
+        Issues<Issue> result = getIssues().new IssueFilterBuilder()
+                .setIncludeFilenameFilter("FileName1")
+                .setIncludeFilenameFilter("FileName2")
+                .setExcludeTypeFilter("Type2")
+                .buildAndApply();
+        assertThat(result.iterator()).containsExactly(ISSUE1);
+    }
     /**
      * Apply filter and check if result is equal to expected values.
      *
