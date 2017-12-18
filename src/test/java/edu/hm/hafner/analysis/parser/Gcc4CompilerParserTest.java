@@ -4,9 +4,12 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
@@ -15,9 +18,17 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Raphael Furch
  */
-public class Gcc4CompilerParserTest extends ParserTester {
+public class Gcc4CompilerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
+
+    /**
+     * Creates a new instance of {@link AbstractParserTest}.
+     *
+     */
+    protected Gcc4CompilerParserTest() {
+        super("gcc4.txt");
+    }
 
     /**
      * Parses a file with one fatal error.
@@ -75,18 +86,112 @@ public class Gcc4CompilerParserTest extends ParserTester {
         assertThat(warnings).hasSize(10);
     }
 
+
     /**
-     * Parses a file with GCC warnings.
+     * Parses a warning log with 10 template warnings.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5606">Issue 5606</a>
      */
     @Test
-    public void testWarningsParser() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile());
+    public void issue5606() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5606.txt"));
 
-        assertThat(warnings).hasSize(14);
+        assertThat(warnings).hasSize(5).hasDuplicatesSize(5);
+    }
+
+    /**
+     * Parses a warning log with multi line warnings.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5605">Issue 5605</a>
+     */
+    @Test
+    public void issue5605() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5605.txt"));
+
+        assertThat(warnings).hasSize(2).hasDuplicatesSize(4);
+    }
+
+    /**
+     * Parses a warning log with multi line warnings.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
+     */
+    @Test
+    public void issue5445() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
+
+        assertThat(warnings).isEmpty();
+    }
+
+    /**
+     * Parses a warning log with autoconf messages. There should be no warning.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
+     */
+    @Test
+    public void issue5870() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
+
+        assertThat(warnings)
+                .isEmpty();
+    }
+
+    /**
+     * Classify warnings by gcc 4.6 or later.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-11799">Issue 11799</a>
+     */
+    @Test
+    public void issue11799() {
+        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue11799.txt"));
+
+        assertThat(warnings)
+                .hasSize(4);
 
         Iterator<Issue> iterator = warnings.iterator();
 
         assertSoftly(softly -> {
+            softly.assertThat(iterator.next())
+                    .hasLineStart(4)
+                    .hasLineEnd(4)
+                    .hasMessage("implicit declaration of function 'undeclared_function' [-Wimplicit-function-declaration]")
+                    .hasFileName("gcc4warning.c")
+                    .hasCategory(WARNING_CATEGORY + ":implicit-function-declaration")
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(3)
+                    .hasLineEnd(3)
+                    .hasMessage("unused variable 'unused_local' [-Wunused-variable]")
+                    .hasFileName("gcc4warning.c")
+                    .hasCategory(WARNING_CATEGORY + ":unused-variable")
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(1)
+                    .hasLineEnd(1)
+                    .hasMessage("unused parameter 'unused_parameter' [-Wunused-parameter]")
+                    .hasFileName("gcc4warning.c")
+                    .hasCategory(WARNING_CATEGORY + ":unused-parameter")
+                    .hasPriority(Priority.NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(5)
+                    .hasLineEnd(5)
+                    .hasMessage("control reaches end of non-void function [-Wreturn-type]")
+                    .hasFileName("gcc4warning.c")
+                    .hasCategory(WARNING_CATEGORY + ":return-type")
+                    .hasPriority(Priority.NORMAL);
+        });
+    }
+
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        softly.assertThat(issues).hasSize(14);
+
+        Iterator<Issue> iterator = issues.iterator();
+
             softly.assertThat(iterator.next())
                     .hasLineStart(451)
                     .hasLineEnd(451)
@@ -199,111 +304,11 @@ public class Gcc4CompilerParserTest extends ParserTester {
                     .hasFileName("warner.cpp")
                     .hasCategory("Warning:unused-variable")
                     .hasPriority(Priority.NORMAL);
-        });
-    }
-
-    /**
-     * Parses a warning log with 10 template warnings.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5606">Issue 5606</a>
-     */
-    @Test
-    public void issue5606() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5606.txt"));
-
-        assertThat(warnings).hasSize(5).hasDuplicatesSize(5);
-    }
-
-    /**
-     * Parses a warning log with multi line warnings.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5605">Issue 5605</a>
-     */
-    @Test
-    public void issue5605() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5605.txt"));
-
-        assertThat(warnings).hasSize(2).hasDuplicatesSize(4);
-    }
-
-    /**
-     * Parses a warning log with multi line warnings.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
-     */
-    @Test
-    public void issue5445() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5445.txt"));
-
-        assertThat(warnings).isEmpty();
-    }
-
-    /**
-     * Parses a warning log with autoconf messages. There should be no warning.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
-     */
-    @Test
-    public void issue5870() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue5870.txt"));
-
-        assertThat(warnings)
-                .isEmpty();
-    }
-
-    /**
-     * Classify warnings by gcc 4.6 or later.
-     *
-     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-11799">Issue 11799</a>
-     */
-    @Test
-    public void issue11799() {
-        Issues<Issue> warnings = new Gcc4CompilerParser().parse(openFile("issue11799.txt"));
-
-        assertThat(warnings)
-                .hasSize(4);
-
-        Iterator<Issue> iterator = warnings.iterator();
-
-        assertSoftly(softly -> {
-            softly.assertThat(iterator.next())
-                    .hasLineStart(4)
-                    .hasLineEnd(4)
-                    .hasMessage("implicit declaration of function 'undeclared_function' [-Wimplicit-function-declaration]")
-                    .hasFileName("gcc4warning.c")
-                    .hasCategory(WARNING_CATEGORY + ":implicit-function-declaration")
-                    .hasPriority(Priority.NORMAL);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(3)
-                    .hasLineEnd(3)
-                    .hasMessage("unused variable 'unused_local' [-Wunused-variable]")
-                    .hasFileName("gcc4warning.c")
-                    .hasCategory(WARNING_CATEGORY + ":unused-variable")
-                    .hasPriority(Priority.NORMAL);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(1)
-                    .hasLineEnd(1)
-                    .hasMessage("unused parameter 'unused_parameter' [-Wunused-parameter]")
-                    .hasFileName("gcc4warning.c")
-                    .hasCategory(WARNING_CATEGORY + ":unused-parameter")
-                    .hasPriority(Priority.NORMAL);
-
-            softly.assertThat(iterator.next())
-                    .hasLineStart(5)
-                    .hasLineEnd(5)
-                    .hasMessage("control reaches end of non-void function [-Wreturn-type]")
-                    .hasFileName("gcc4warning.c")
-                    .hasCategory(WARNING_CATEGORY + ":return-type")
-                    .hasPriority(Priority.NORMAL);
-        });
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "gcc4.txt";
+    protected AbstractParser createParser() {
+        return new Gcc4CompilerParser();
     }
-
 }
 
