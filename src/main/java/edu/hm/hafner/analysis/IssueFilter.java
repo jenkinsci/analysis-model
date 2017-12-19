@@ -65,26 +65,24 @@ public class IssueFilter {
         }
 
         Set<Issue> includes = new HashSet<>();
-        if (!hasIncludeFilters()) {
-            includes.addAll(issuesToFilter.all());
-        }
-        else {
-            issuesToFilter.all().stream().filter(this::isIncludedByFile).forEach(includes::add);
-            issuesToFilter.all().stream().filter(this::isIncludedByPackage).forEach(includes::add);
-            issuesToFilter.all().stream().filter(this::isIncludedByModule).forEach(includes::add);
-            issuesToFilter.all().stream().filter(this::isIncludedByCategory).forEach(includes::add);
-            issuesToFilter.all().stream().filter(this::isIncludedByType).forEach(includes::add);
-        }
-
-        if (hasExcludeFilters()) {
-            Set<Issue> excludes = new HashSet<>();
-            includes.stream().filter(this::isExcluded).forEach(excludes::add);
-            includes.removeAll(excludes);
-        }
+        issuesToFilter.all().stream()
+                .filter(this::isIncluded).forEach(includes::add);
 
         return new Issues(includes);
     }
 
+    /*
+     * Tests if the issue should be included in the final result or not.
+     */
+    private boolean isIncluded(final Issue issue) {
+        return !isExcluded(issue)
+                && (!hasIncludeFilters()
+                || isIncludedByFile(issue)
+                || isIncludedByPackage(issue)
+                || isIncludedByModule(issue)
+                || isIncludedByCategory(issue)
+                || isIncludedByType(issue));
+    }
 
     /*
      * Tests if the issue is included by any fileName-Filter.
@@ -120,7 +118,7 @@ public class IssueFilter {
     private boolean isIncludedByType(final Issue issue) {
         return includeTypes.stream().anyMatch(p -> p.matcher(issue.getType()).matches());
     }
-    
+
     /*
      * Tests if the issue is excluded by any exclude-filter.
      */
@@ -247,7 +245,7 @@ public class IssueFilter {
      */
     private void addRegexToList(final List<String> regex, final List<Pattern> destination) {
         regex.stream()
-                .map(this::getPattern)
+                .map(this::getPatternFromString)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(() -> destination));
     }
@@ -255,7 +253,7 @@ public class IssueFilter {
     /*
      * Returns a Pattern from a regex-string or returns null if given regex is invalid.
      */
-    private Pattern getPattern(final String pattern) {
+    private Pattern getPatternFromString(final String pattern) {
         try {
             return Pattern.compile(pattern);
         }
