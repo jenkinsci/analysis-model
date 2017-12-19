@@ -7,9 +7,9 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static java.util.Arrays.asList;
+import static java.util.Arrays.*;
 
 /**
  * Tests for {@link IssueFilter}.
@@ -22,43 +22,43 @@ public class IssueFilterTest {
     private static final String REGEX_MATCH = ".*#";
 
     private static final Issue ISSUE_1 = new IssueBuilder()
-            .setFileName("filter_me#1")
-            .setPackageName("filter_me#1")
-            .setModuleName("filter_me#1")
-            .setCategory("filter_me#1")
-            .setType("filter_me#1")
+            .setFileName("filter_me_by_file#1")
+            .setPackageName("filter_me_by_package#1")
+            .setModuleName("filter_me_by_module#1")
+            .setCategory("filter_me_by_category#1")
+            .setType("filter_me_by_type#1")
             .build();
 
     private static final Issue ISSUE_2 = new IssueBuilder()
-            .setFileName("filter_me#2")
-            .setPackageName("filter_me#2")
-            .setModuleName("filter_me#2")
-            .setCategory("filter_me#2")
-            .setType("filter_me#2")
+            .setFileName("filter_me_by_file#2")
+            .setPackageName("filter_me_by_package#2")
+            .setModuleName("filter_me_by_module#2")
+            .setCategory("filter_me_by_category#2")
+            .setType("filter_me_by_type#2")
             .build();
 
     private static final Issue ISSUE_3 = new IssueBuilder()
-            .setFileName("filter_me#3")
-            .setPackageName("filter_me#3")
-            .setModuleName("filter_me#3")
-            .setCategory("filter_me#3")
-            .setType("filter_me#3")
+            .setFileName("filter_me_by_file#3")
+            .setPackageName("filter_me_by_package#3")
+            .setModuleName("filter_me_by_module#3")
+            .setCategory("filter_me_by_category#3")
+            .setType("filter_me_by_type#3")
             .build();
 
     private static final Issue ISSUE_4 = new IssueBuilder()
-            .setFileName("filter_me#4")
-            .setPackageName("filter_me#4")
-            .setModuleName("filter_me#4")
-            .setCategory("filter_me#4")
-            .setType("filter_me#4")
+            .setFileName("filter_me_by_file#4")
+            .setPackageName("filter_me_by_package#4")
+            .setModuleName("filter_me_by_module#4")
+            .setCategory("filter_me_by_category#4")
+            .setType("filter_me_by_type#4")
             .build();
 
     private static final Issue ISSUE_5 = new IssueBuilder()
-            .setFileName("filter_me#5")
-            .setPackageName("filter_me#5")
-            .setModuleName("filter_me#5")
-            .setCategory("filter_me#5")
-            .setType("filter_me#5")
+            .setFileName("filter_me_by_file#5")
+            .setPackageName("filter_me_by_package#5")
+            .setModuleName("filter_me_by_module#5")
+            .setCategory("filter_me_by_category#5")
+            .setType("filter_me_by_type#5")
             .build();
 
     private static final Issues ISSUES = new Issues(asList(ISSUE_1, ISSUE_2, ISSUE_3, ISSUE_4, ISSUE_5));
@@ -294,51 +294,33 @@ public class IssueFilterTest {
                 .containsExactly(ISSUE_1, ISSUE_2, ISSUE_3);
     }
 
-    @Test
-    void multipleIncludesShouldAccumulate() {
-        final IssueFilter issueFilter = new IssueFilter();
-        final Issues issues = issuesGenerator(100);
-        int[] two = IntStream.range(0, 100).map(i -> i + i).toArray();
-        int[] three = IntStream.range(0, 100).map(i -> i * 3).toArray();
-
-        SoftAssertions.assertSoftly(softly -> {
-            issueFilter
-                    .addIncludedFiles(match(two))
-                    .addIncludedPackages(match(three));
-            Issues includeTwoThree = issueFilter.applyFilters(issues);
-            softly.assertThat(includeTwoThree).hasSize(68);
-
-            // Exclude multiples of 2 by type
-            issueFilter.addExcludedTypes(match(two));
-            Issues includeTwoThreeExcludeTwo = issueFilter.applyFilters(issues);
-            softly.assertThat(includeTwoThreeExcludeTwo).hasSize(17);
-
-            // Include twos, threes, exclude twos, threes
-            issueFilter.addExcludedModules(match(three));
-            Issues includeTwoThreeExcludeTwoThree = issueFilter.applyFilters(issues);
-            softly.assertThat(includeTwoThreeExcludeTwoThree).hasSize(0);
-        });
-    }
-
-
+    /*
+     * Generates a list that matches issues with number
+     */
     private List<String> match(int... issues) {
         return Arrays.stream(issues).mapToObj(i -> REGEX_MATCH + i).collect(Collectors.toList());
     }
 
+    /*
+     * Generates a list that doesn't match issue with number (e.g. a filter that misses)
+     */
     private List<String> noMatch(int... issues) {
         return Arrays.stream(issues).mapToObj(i -> REGEX_NO_MATCH + i).collect(Collectors.toList());
     }
 
+    /*
+     * Generates issues from 0 to n-1
+     */
     private Issues issuesGenerator(int n) {
         final Issues issues = new Issues();
 
         for (int i = 0; i <= n; i++) {
             Issue issue = new IssueBuilder()
-                    .setFileName("filter_me#" + i)
-                    .setPackageName("filter_me#" + i)
-                    .setModuleName("filter_me#" + i)
-                    .setCategory("filter_me#" + i)
-                    .setType("filter_me#" + i)
+                    .setFileName("filter_me_by_file#" + i)
+                    .setPackageName("filter_me_by_package#" + i)
+                    .setModuleName("filter_me_by_module#" + i)
+                    .setCategory("filter_me_by_category#" + i)
+                    .setType("filter_me_by_type#" + i)
                     .build();
             issues.add(issue);
         }
