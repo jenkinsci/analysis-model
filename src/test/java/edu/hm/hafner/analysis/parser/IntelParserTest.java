@@ -2,84 +2,25 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link IntelParserTest}.
  */
-public class IntelParserTest extends ParserTester {
+public class IntelParserTest extends AbstractParserTest {
+
     /**
-     * Parses a file of messages from the Intel C and Fortran compilers.
+     * Creates a new instance of {@link AbstractParserTest}.
      */
-    @Test
-    public void testWarningsParser() {
-        Issues<Issue> warnings = new IntelParser().parse(openFile());
-
-        assertThat(warnings).hasSize(7);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.LOW)
-                    .hasCategory("Remark")
-                    .hasLineStart(1460)
-                    .hasLineEnd(1460)
-                    .hasMessage("LOOP WAS VECTORIZED.")
-                    .hasFileName("D:/Hudson/workspace/foo/busdates.cpp")
-                    .hasColumnStart(20);
-
-            softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.LOW)
-                    .hasCategory("Remark")
-                    .hasLineStart(2630)
-                    .hasLineEnd(2630)
-                    .hasMessage("FUSED LOOP WAS VECTORIZED.")
-                    .hasFileName("D:/Hudson/workspace/foo/hols.cpp")
-                    .hasColumnStart(15);
-
-            softly.assertThat(warnings.get(2))
-                    .hasPriority(Priority.LOW)
-                    .hasCategory("Remark #1")
-                    .hasLineStart(721)
-                    .hasLineEnd(721)
-                    .hasMessage("last line of file ends without a newline")
-                    .hasFileName("D:/Hudson/workspace/zoo/oppdend2d_slv_strip_utils.cpp");
-
-            softly.assertThat(warnings.get(3))
-                    .hasPriority(Priority.LOW)
-                    .hasCategory("Remark #1418")
-                    .hasLineStart(17)
-                    .hasLineEnd(17)
-                    .hasMessage("external function definition with no prior declaration")
-                    .hasFileName("D:/Hudson/workspace/boo/serviceif.cpp");
-
-            softly.assertThat(warnings.get(4))
-                    .hasPriority(Priority.NORMAL)
-                    .hasCategory("Warning #6843")
-                    .hasLineStart(1)
-                    .hasLineEnd(1)
-                    .hasMessage("A dummy argument with an explicit INTENT(OUT) declaration is not given an explicit value.   [X]")
-                    .hasFileName("/path/to/file1.f90");
-
-            softly.assertThat(warnings.get(5))
-                    .hasPriority(Priority.LOW)
-                    .hasCategory("Remark #8577")
-                    .hasLineStart(806)
-                    .hasLineEnd(806)
-                    .hasMessage("The scale factor (k) and number of fractional digits (d) do not have the allowed combination of either -d < k <= 0 or 0 < k < d+2. Expect asterisks as output.")
-                    .hasFileName("/path/to/file2.f");
-
-            softly.assertThat(warnings.get(6))
-                    .hasPriority(Priority.HIGH)
-                    .hasCategory("Error #5082")
-                    .hasLineStart(1)
-                    .hasLineEnd(1)
-                    .hasMessage("Syntax error, found END-OF-STATEMENT when expecting one of: ( % [ : . = =>")
-                    .hasFileName("t.f90");
-        });
+    protected IntelParserTest() {
+        super("intelc.txt");
     }
 
     /**
@@ -89,7 +30,7 @@ public class IntelParserTest extends ParserTester {
      */
     @Test
     public void issue5402() {
-        Issues<Issue> warnings = new IntelParser().parse(openFile("issue5402.txt"));
+        Issues<Issue> warnings = parse("issue5402.txt");
 
         assertThat(warnings).hasSize(4);
 
@@ -129,8 +70,71 @@ public class IntelParserTest extends ParserTester {
     }
 
     @Override
-    protected String getWarningsFile() {
-        return "intelc.txt";
+    protected void assertThatIssuesArePresent(final Issues<Issue> warnings, final SoftAssertions softly) {
+        assertThat(warnings).hasSize(7);
+
+        softly.assertThat(warnings.get(0))
+                .hasPriority(Priority.LOW)
+                .hasCategory("Remark")
+                .hasLineStart(1460)
+                .hasLineEnd(1460)
+                .hasMessage("LOOP WAS VECTORIZED.")
+                .hasFileName("D:/Hudson/workspace/foo/busdates.cpp")
+                .hasColumnStart(20);
+
+        softly.assertThat(warnings.get(1))
+                .hasPriority(Priority.LOW)
+                .hasCategory("Remark")
+                .hasLineStart(2630)
+                .hasLineEnd(2630)
+                .hasMessage("FUSED LOOP WAS VECTORIZED.")
+                .hasFileName("D:/Hudson/workspace/foo/hols.cpp")
+                .hasColumnStart(15);
+
+        softly.assertThat(warnings.get(2))
+                .hasPriority(Priority.LOW)
+                .hasCategory("Remark #1")
+                .hasLineStart(721)
+                .hasLineEnd(721)
+                .hasMessage("last line of file ends without a newline")
+                .hasFileName("D:/Hudson/workspace/zoo/oppdend2d_slv_strip_utils.cpp");
+
+        softly.assertThat(warnings.get(3))
+                .hasPriority(Priority.LOW)
+                .hasCategory("Remark #1418")
+                .hasLineStart(17)
+                .hasLineEnd(17)
+                .hasMessage("external function definition with no prior declaration")
+                .hasFileName("D:/Hudson/workspace/boo/serviceif.cpp");
+
+        softly.assertThat(warnings.get(4))
+                .hasPriority(Priority.NORMAL)
+                .hasCategory("Warning #6843")
+                .hasLineStart(1)
+                .hasLineEnd(1)
+                .hasMessage("A dummy argument with an explicit INTENT(OUT) declaration is not given an explicit value.   [X]")
+                .hasFileName("/path/to/file1.f90");
+
+        softly.assertThat(warnings.get(5))
+                .hasPriority(Priority.LOW)
+                .hasCategory("Remark #8577")
+                .hasLineStart(806)
+                .hasLineEnd(806)
+                .hasMessage("The scale factor (k) and number of fractional digits (d) do not have the allowed combination of either -d < k <= 0 or 0 < k < d+2. Expect asterisks as output.")
+                .hasFileName("/path/to/file2.f");
+
+        softly.assertThat(warnings.get(6))
+                .hasPriority(Priority.HIGH)
+                .hasCategory("Error #5082")
+                .hasLineStart(1)
+                .hasLineEnd(1)
+                .hasMessage("Syntax error, found END-OF-STATEMENT when expecting one of: ( % [ : . = =>")
+                .hasFileName("t.f90");
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new IntelParser();
     }
 }
 
