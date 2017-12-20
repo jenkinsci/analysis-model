@@ -3,11 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -15,15 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Tests the class {@link JavacParser}.
  */
-public class JavacParserTest extends AbstractParserTest {
-
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     */
-    protected JavacParserTest() {
-        super("javac.txt");
-    }
-
+public class JavacParserTest extends ParserTester {
     /**
      * Parses a warning log with two false positives.
      *
@@ -56,6 +46,26 @@ public class JavacParserTest extends AbstractParserTest {
         Issues<Issue> warnings = parse("kotlin-maven-plugin.txt");
 
         assertThat(warnings).hasSize(4);
+    }
+
+    /**
+     * Parses a file with two deprecation warnings.
+     */
+    @Test
+    public void parseDeprecation() {
+        Issues<Issue> warnings = new JavacParser().parse(openFile());
+        assertThat(warnings).hasSize(2);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(1))
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(AbstractParser.DEPRECATION)
+                    .hasLineStart(40)
+                    .hasLineEnd(40)
+                    .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
+                    .hasColumnStart(36);
+        });
     }
 
     /**
@@ -105,28 +115,13 @@ public class JavacParserTest extends AbstractParserTest {
         });
     }
 
-    protected Issues<Issue> parse(final String fileName) {
-        return createParser().parse(openFile(fileName));
+    private Issues<Issue> parse(final String fileName) {
+        return new JavacParser().parse(openFile(fileName));
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        Issues<Issue> warnings = createParser().parse(openFile());
-        assertThat(warnings).hasSize(2);
-
-        softly.assertThat(warnings.get(1))
-                .hasPriority(Priority.NORMAL)
-                .hasCategory(AbstractParser.DEPRECATION)
-                .hasLineStart(40)
-                .hasLineEnd(40)
-                .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
-                .hasColumnStart(36);
-    }
-
-    @Override
-    protected AbstractParser createParser() {
-        return new JavacParser();
+    protected String getWarningsFile() {
+        return "javac.txt";
     }
 }
 
