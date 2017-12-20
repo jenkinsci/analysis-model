@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.annotations.VisibleForTesting;
+import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * Creates a fingerprint of the specified issue using the source code at the affected line. The fingerprint is computed
@@ -36,7 +36,7 @@ public class FullTextFingerprint {
     }
 
     @VisibleForTesting
-    FullTextFingerprint(FileSystem fileSystem) {
+    FullTextFingerprint(final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         try {
             digest = MessageDigest.getInstance("MD5");

@@ -52,7 +52,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             category = "Warning";
         }
         return builder.setFileName(CONSOLE).setLineStart(getCurrentLine()).setCategory(category)
-                             .setMessage(matcher.group(2)).setPriority(priority).build();
+                .setMessage(matcher.group(2)).setPriority(priority).build();
     }
 
     // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
@@ -70,8 +70,8 @@ public class MavenConsoleParser extends FastRegexpLineParser {
                     }
                     else {
                         condensed.add(builder.copy(previous).setLineStart(warning.getLineStart())
-                                                    .setMessage(previous.getMessage() + "\n" + warning.getMessage())
-                                                    .build());
+                                .setMessage(previous.getMessage() + "\n" + warning.getMessage())
+                                .build());
                     }
                 }
                 else {

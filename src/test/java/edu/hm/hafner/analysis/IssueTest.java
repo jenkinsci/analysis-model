@@ -1,9 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,7 +18,7 @@ import edu.hm.hafner.util.SerializableTest;
  *
  * @author Marcel Binder
  */
-public class IssueTest extends SerializableTest {
+public class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
 
     static final String FILE_NAME = "C:/users/tester/file-name";
@@ -224,16 +222,9 @@ public class IssueTest extends SerializableTest {
         });
     }
 
-    /**
-     * Ensures that an issue instance can be serialized and deserialized.
-     */
-    @Test
-    void shouldBeSerializable() {
-        Issue createdWithConstructor = createFilledIssue();
-
-        byte[] bytes = toByteArray(createdWithConstructor);
-
-        assertThatIssueCanBeRestoredFrom(bytes);
+    @Override
+    protected Issue createSerializable() {
+        return createFilledIssue();
     }
 
     /**
@@ -244,19 +235,7 @@ public class IssueTest extends SerializableTest {
     void shouldReadIssueFromOldSerialization() {
         byte[] restored = readResource(SERIALIZATION_NAME);
 
-        assertThatIssueCanBeRestoredFrom(restored);
-    }
-
-    private void assertThatIssueCanBeRestoredFrom(final byte[] restored) {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new ByteArrayInputStream(restored))) {
-            Object issue = inputStream.readObject();
-
-            assertThat(issue).isInstanceOf(Issue.class);
-            assertThat(issue).isEqualTo(createFilledIssue());
-        }
-        catch (IOException | ClassNotFoundException e) {
-            throw new AssertionError("Can' resolve issue from byte array", e);
-        }
+        assertThatSerializableCanBeRestoredFrom(restored);
     }
 
     /**

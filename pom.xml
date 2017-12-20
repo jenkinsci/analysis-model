@@ -51,12 +51,12 @@
     <java.version>1.8</java.version>
 
     <!-- Project Dependencies Configuration -->
-    <findbugs.annotations>3.0.1</findbugs.annotations>
-    <guava.version>23.0</guava.version>
+    <findbugs.annotations>3.0.0</findbugs.annotations>
     <commons.lang.version>3.6</commons.lang.version>
     <commons.io.version>2.5</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
     <commons.text.version>1.1</commons.text.version>
+    <eclipse-collections.version>9.0.0</eclipse-collections.version>
 
     <!-- Project Test Dependencies Configuration -->
     <junit.version>5.0.0</junit.version>
@@ -87,11 +87,6 @@
       <version>${findbugs.annotations}</version>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons.lang.version}</version>
@@ -110,6 +105,16 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
       <version>${commons.text.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.collections</groupId>
+      <artifactId>eclipse-collections-api</artifactId>
+      <version>${eclipse-collections.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.collections</groupId>
+      <artifactId>eclipse-collections</artifactId>
+      <version>${eclipse-collections.version}</version>
     </dependency>
 
     <!-- Test Dependencies -->

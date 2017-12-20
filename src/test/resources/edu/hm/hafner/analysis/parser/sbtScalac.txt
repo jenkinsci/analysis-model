@@ -1,4 +1,5 @@
 [warn] /home/user/.jenkins/jobs/job/workspace/path/SomeFile.scala:111: method stop in class Thread is deprecated: see corresponding Javadoc for more information.
 [warn]     Thread.currentThread.stop()
 [error] /home/user/.jenkins/jobs/job/workspace/another/path/SomeFile.scala:9: ';' expected but identifier found.
-
+[warn] /home/user/.jenkins/jobs/job/workspace/Main.scala:4:18: implicit numeric widening
+[error] /home/user/.jenkins/jobs/job/workspace/Main.scala:5:11: Invalid literal number

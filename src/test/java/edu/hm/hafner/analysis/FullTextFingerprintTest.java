@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.util.SerializableTest;
+import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-class FullTextFingerprintTest extends SerializableTest {
+class FullTextFingerprintTest extends ResourceTest {
     private static final String NOT_EXISTING_FILE_NAME = "/does/not/exist";
 
     /**
@@ -88,6 +88,7 @@ class FullTextFingerprintTest extends SerializableTest {
         return asStream(affectedFile).iterator();
     }
 
+    @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
     private Stream<String> asStream(final String affectedFile) {
         return new BufferedReader(new StringReader(affectedFile)).lines();
     }

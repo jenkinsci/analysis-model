@@ -3,20 +3,27 @@ package edu.hm.hafner.analysis;
 import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedSet;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.api.set.ImmutableSet;
+import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
+import org.eclipse.collections.impl.collector.Collectors2;
+import org.eclipse.collections.impl.factory.Lists;
 
 import edu.hm.hafner.util.NoSuchElementException;
 import static java.util.stream.Collectors.*;
@@ -34,12 +41,11 @@ import static java.util.stream.Collectors.*;
  * @author Ullrich Hafner
  */
 public class Issues<T extends Issue> implements Iterable<T>, Serializable {
-    private final LinkedHashSet<T> elements = new LinkedHashSet<T>() {
-    };
+    private final Set<T> elements = new LinkedHashSet<>();
     private final int[] sizeOfPriority = new int[Priority.values().length];
-    private int sizeOfDuplicates = 0;
-
     private final List<String> logMessages = new ArrayList<>();
+
+    private int sizeOfDuplicates = 0;
 
     /**
      * Creates and returns a new set of issues that contains all issues of the specified {@link Issues} instances. The
@@ -48,9 +54,13 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @param issues
      *         the issues to merge
+     * @param <T>
+     *         type of the issues
      *
      * @return all issues
      */
+    @SafeVarargs
+    // FIXME: what about the properties like duplicates, log messages, etc.
     public static <T extends Issue> Issues<T> merge(final Issues<T>... issues) {
         Issues<T> merged = new Issues<>();
         for (Issues<T> issue : issues) {
@@ -101,6 +111,17 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         for (T issue : issues) {
             add(issue);
         }
+    }
+
+    /**
+     * Creates a new instance of {@link Issues} that will be initialized with the specified collection of {@link Issue}
+     * instances.
+     *
+     * @param issues
+     *         the initial set of issues for this instance
+     */
+    public Issues(final Stream<? extends T> issues) {
+        issues.forEach(issue -> add(issue));
     }
 
     /**
@@ -194,16 +215,6 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Returns all issues of this container.
-     *
-     * @return all issues
-     */
-    // TODO: eclipse collections?
-    public ImmutableSet<T> all() {
-        return ImmutableSet.copyOf(elements);
-    }
-
-    /**
      * Returns the issue with the specified ID.
      *
      * @param id
@@ -231,7 +242,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the found issues
      */
     public ImmutableSet<T> findByProperty(final Predicate<? super T> criterion) {
-        return filterElements(criterion).collect(collectingAndThen(toList(), ImmutableSet::copyOf));
+        return filterElements(criterion).collect(Collectors2.toImmutableSet());
     }
 
     /**
@@ -254,6 +265,10 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     @Override
     public Iterator<T> iterator() {
         return elements.iterator();
+    }
+
+    public Stream<Issue> stream() {
+        return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL), false);
     }
 
     /**
@@ -387,7 +402,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the affected modules
      */
-    public SortedSet<String> getModules() {
+    public ImmutableSortedSet<String> getModules() {
         return getProperties(issue -> issue.getModuleName());
     }
 
@@ -396,7 +411,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the affected packages
      */
-    public SortedSet<String> getPackages() {
+    public ImmutableSortedSet<String> getPackages() {
         return getProperties(issue -> issue.getPackageName());
     }
 
@@ -405,7 +420,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the affected files
      */
-    public SortedSet<String> getFiles() {
+    public ImmutableSortedSet<String> getFiles() {
         return getProperties(issue -> issue.getFileName());
     }
 
@@ -414,7 +429,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the used categories
      */
-    public SortedSet<String> getCategories() {
+    public ImmutableSortedSet<String> getCategories() {
         return getProperties(issue -> issue.getCategory());
     }
 
@@ -423,7 +438,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the used types
      */
-    public SortedSet<String> getTypes() {
+    public ImmutableSortedSet<String> getTypes() {
         return getProperties(issue -> issue.getType());
     }
 
@@ -432,27 +447,21 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the tools
      */
-    public SortedSet<String> getToolNames() {
+    public ImmutableSortedSet<String> getToolNames() {
         return getProperties(issue -> issue.getOrigin());
     }
-
-    // TODO: paging for values?
-    // getFiles(int start, int end)
 
     /**
      * Returns the different values for a given property for all issues of this container.
      *
      * @param propertiesMapper
      *         the properties mapper that selects the property
-     * @param <R>
-     *         the type of the returned values
      *
      * @return the set of different values
      * @see #getFiles()
      */
-    public <R> SortedSet<R> getProperties(final Function<? super T, ? extends R> propertiesMapper) {
-        return elements.stream().map(propertiesMapper)
-                .collect(collectingAndThen(toSet(), ImmutableSortedSet::copyOf));
+    public ImmutableSortedSet<String> getProperties(final Function<? super T, String> propertiesMapper) {
+        return elements.stream().map(propertiesMapper).collect(Collectors2.toImmutableSortedSet());
     }
 
     /**
@@ -475,7 +484,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      */
     public Issues<T> copy() {
         Issues<T> copied = new Issues<>();
-        copied.addAll(all());
+        copied.addAll(elements);
         return copied;
     }
 
@@ -488,6 +497,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
      *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
      *         zero.
+     *
      * @see #getLogMessages()
      */
     public void log(final String format, final Object... args) {
@@ -500,6 +510,342 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the log messages
      */
     public ImmutableList<String> getLogMessages() {
-        return ImmutableList.copyOf(logMessages);
+        return Lists.immutable.ofAll(logMessages);
     }
+
+    public IssueFilterBuilder filter() {
+        return new IssueFilterBuilder();
+    }
+
+    /**
+     * Builds a IssueFilter.
+     *
+     * @author Raphael Furch
+     */
+    public class IssueFilterBuilder {
+        /**
+         * List of include filters.
+         */
+        private final Collection<Predicate<T>> filterInclude = new ArrayList<>();
+
+        /**
+         * List of exclude filters.
+         */
+        private final Collection<Predicate<T>> filterExclude = new ArrayList<>();
+
+        /**
+         * Add a new filter for each pattern string. Add filter to include or exclude list.
+         *
+         * @param pattern
+         *         filter pattern.
+         * @param propertyToFilter
+         *         Function to get a string from Issue for pattern
+         * @param include
+         *         include or exclude filter.
+         */
+        private void addNewFilter(final Collection<String> pattern, final Function<T, String> propertyToFilter,
+                final boolean include) {
+
+            Collection<Predicate<T>> filters = new ArrayList<>();
+            for (String patter : pattern) {
+                filters.add(issueToFilter -> Pattern.compile(patter)
+                        .matcher(propertyToFilter.apply(issueToFilter)).matches() == include);
+            }
+
+            if (include) {
+                filterInclude.addAll(filters);
+            }
+            else {
+                filterExclude.addAll(filters);
+            }
+        }
+
+        /**
+         * Create a IssueFilter. Combine by default all includes with or and all excludes with and.
+         *
+         * @return a IssueFilter which has all added filter as filter criteria.
+         */
+        public Predicate<T> build() {
+            return filterInclude.stream().reduce(Predicate::or)
+                    .orElse(issue -> true).and(
+                            filterExclude.stream().reduce(Predicate::and)
+                                    .orElse(issue -> true));
+        }
+
+        /**
+         * Create a IssueFilter and apply it on outer issues.
+         *
+         * @return filtered issues.
+         */
+        public Issues<T> buildAndApply() {
+            return filter(build());
+        }
+
+        //<editor-fold desc="File name">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeFilenameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getFileName, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeFilenameFilter(final String... pattern) {
+            return setIncludeFilenameFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeFilenameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getFileName, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeFilenameFilter(final String... pattern) {
+            return setExcludeFilenameFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Package name">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludePackageNameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getPackageName, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludePackageNameFilter(final String... pattern) {
+            return setIncludePackageNameFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludePackageNameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getPackageName, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludePackageNameFilter(final String... pattern) {
+            return setExcludePackageNameFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Module name">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeModuleNameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getModuleName, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeModuleNameFilter(final String... pattern) {
+            return setIncludeModuleNameFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeModuleNameFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getModuleName, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeModuleNameFilter(final String... pattern) {
+            return setExcludeModuleNameFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Category">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeCategoryFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getCategory, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeCategoryFilter(final String... pattern) {
+            return setIncludeCategoryFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeCategoryFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getCategory, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeCategoryFilter(final String... pattern) {
+            return setExcludeCategoryFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Type">
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeTypeFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getType, true);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeTypeFilter(final String... pattern) {
+            return setIncludeTypeFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeTypeFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, T::getType, false);
+            return this;
+        }
+
+        /**
+         * Add a new filter.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeTypeFilter(final String... pattern) {
+            return setExcludeTypeFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
+
+    }
+
 }

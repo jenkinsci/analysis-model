@@ -1,14 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Iterator;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static org.assertj.core.api.Assertions.*;
-
 
 /**
  * Tests the class {@link JavacParser}.
@@ -62,8 +63,10 @@ public class JavacParserTest extends ParserTester {
                     .hasCategory(AbstractParser.DEPRECATION)
                     .hasLineStart(40)
                     .hasLineEnd(40)
-                    .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
+                    .hasMessage(
+                            "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                    .hasFileName(
+                            "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
                     .hasColumnStart(36);
         });
     }
@@ -83,7 +86,8 @@ public class JavacParserTest extends ParserTester {
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
                     .hasLineEnd(14)
-                    .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
+                    .hasMessage(
+                            "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
                     .hasFileName("D:/path/to/my/Class.java");
         });
     }
@@ -103,15 +107,58 @@ public class JavacParserTest extends ParserTester {
                     .hasCategory(AbstractParser.DEPRECATION)
                     .hasLineStart(12)
                     .hasLineEnd(12)
-                    .hasMessage("org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated")
-                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+                    .hasMessage(
+                            "org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated")
+                    .hasFileName(
+                            "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory(AbstractParser.DEPRECATION)
                     .hasLineStart(40)
                     .hasLineEnd(40)
-                    .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+                    .hasMessage(
+                            "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                    .hasFileName(
+                            "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+        });
+    }
+
+    /**
+     * Parses a file with five deprecation warnings.
+     */
+    @Test
+    public void parseMaven() {
+        Issues<Issue> warnings = parse("maven.txt");
+
+        assertThat(warnings).hasSize(5);
+
+        Iterator<Issue> iterator = warnings.iterator();
+        assertThatWarningIsAtLine(iterator.next(), 3);
+        assertThatWarningIsAtLine(iterator.next(), 36);
+        assertThatWarningIsAtLine(iterator.next(), 47);
+        assertThatWarningIsAtLine(iterator.next(), 69);
+        assertThatWarningIsAtLine(iterator.next(), 105);
+    }
+
+    /**
+     * Verifies the annotation content.
+     *
+     * @param annotation
+     *         the annotation to check
+     * @param lineNumber
+     *         the line number of the warning
+     */
+    private void assertThatWarningIsAtLine(final Issue annotation, final int lineNumber) {
+        assertSoftly(softly -> {
+            softly.assertThat(annotation)
+                    .hasPriority(Priority.NORMAL)
+                    .hasCategory(AbstractParser.PROPRIETARY_API)
+                    .hasLineStart(lineNumber)
+                    .hasLineEnd(lineNumber)
+                    .hasMessage(
+                            "com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release")
+                    .hasFileName(
+                            "/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
         });
     }
 
