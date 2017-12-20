@@ -517,6 +517,10 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return new IssueFilterBuilder();
     }
 
+    public Issues<T> filter(final IssueFilterBuilder builder) {
+        return builder.buildAndApply();
+    }
+
     /**
      * Builds a IssueFilter.
      *
