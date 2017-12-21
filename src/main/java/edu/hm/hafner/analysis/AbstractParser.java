@@ -16,7 +16,11 @@ import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.parser.CppLintParser;
+import edu.hm.hafner.analysis.parser.EclipseParser;
+import edu.hm.hafner.analysis.parser.StyleCopParser;
 import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.VisibleForTesting;
 import static java.util.function.Function.*;
 
 /**
@@ -26,9 +30,9 @@ import static java.util.function.Function.*;
  * @author Ullrich Hafner
  * @see RegexpLineParser
  * @see RegexpDocumentParser
- * @see edu.hm.hafner.analysis.parser.CppLintParser
- * @see edu.hm.hafner.analysis.parser.EclipseParser
- * @see edu.hm.hafner.analysis.parser.StyleCopParser
+ * @see CppLintParser
+ * @see EclipseParser
+ * @see StyleCopParser
  */
 public abstract class AbstractParser implements Serializable {
     private static final long serialVersionUID = 8466657735514387654L;
@@ -95,6 +99,8 @@ public abstract class AbstractParser implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
+    // FIXME: find a better solution
+    @VisibleForTesting
     public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
         return parse(reader, new IssueBuilder());
     }

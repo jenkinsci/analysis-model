@@ -16,6 +16,7 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class JSLintXMLSaxParser extends DefaultHandler {
     private final Issues<Issue> issues;
+    private final IssueBuilder builder;
     private String fileName;
 
     /** Categories. */
@@ -29,15 +30,16 @@ public class JSLintXMLSaxParser extends DefaultHandler {
      * @param issues
      *         the issues
      */
-    public JSLintXMLSaxParser(final Issues<Issue> issues) {
+    public JSLintXMLSaxParser(final Issues<Issue> issues, final IssueBuilder builder) {
         super();
 
         this.issues = issues;
+        this.builder = builder;
     }
 
     @Override
     public void startElement(final String namespaceURI,
-            final String localName, final String qName, final Attributes atts) throws SAXException {
+            final String localName, final String qName, final Attributes atts) {
         String key = qName;
 
         if (isLintDerivate(key)) {
@@ -81,18 +83,16 @@ public class JSLintXMLSaxParser extends DefaultHandler {
         int lineNumber = parseInt(attributes.getValue("line"));
 
         String column = extractFrom(attributes, "column", "char");
-        Issue warning;
-        if (StringUtils.isNotBlank(column)) {
-            warning = new IssueBuilder().setFileName(fileName).setLineStart(lineNumber)
-                    .setColumnStart(parseInt(column)).setCategory(category)
-                    .setMessage(message).setPriority(priority).build();
-        }
-        else {
-            warning = new IssueBuilder().setFileName(fileName).setLineStart(lineNumber)
-                    .setCategory(category).setMessage(message).setPriority(priority).build();
+        builder.setFileName(fileName)
+                .setLineStart(lineNumber)
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(priority);
 
+        if (StringUtils.isNotBlank(column)) {
+            builder.setColumnStart(parseInt(column));
         }
-        issues.add(warning);
+        issues.add(builder.build());
     }
 
     private int parseInt(final String line) {

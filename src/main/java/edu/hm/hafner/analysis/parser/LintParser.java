@@ -43,8 +43,8 @@ public abstract class LintParser extends AbstractParser {
             SAXParser parser = parserFactory.newSAXParser();
 
             Issues<Issue> issues = new Issues<>();
-            parser.parse(new ReaderInputStream(file, Charset
-                    .forName("UTF-8")), new JSLintXMLSaxParser(issues));
+            parser.parse(new ReaderInputStream(file, Charset.forName("UTF-8")),
+                    new JSLintXMLSaxParser(issues, builder));
             return issues;
         }
         catch (IOException | ParserConfigurationException | SAXException e) {

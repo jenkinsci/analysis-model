@@ -42,8 +42,14 @@ public abstract class AbstractParserTest {
      */
     @Test
     void shouldParseAllIssues() {
-        Issues<Issue> issues = createParser().parse(openFile());
+        AbstractParser parser = createParser();
+        IssueBuilder builder = new IssueBuilder();
+        String id = parser.getClass().getSimpleName();
+        builder.setOrigin(id);
+        Issues<Issue> issues = parser.parse(openFile(), builder);
+        Issues<Issue> issuesByOrigin = issues.filter(issue -> id.equals(issue.getOrigin()));
 
+        assertThat(issuesByOrigin.size()).as("Origin not correctly set for parser").isEqualTo(issues.size());
         assertSoftly(softly -> assertThatIssuesArePresent(issues, softly));
     }
 
