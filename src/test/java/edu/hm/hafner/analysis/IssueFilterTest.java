@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issues.IssueFilterBuilder;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 
 /**
@@ -53,15 +53,14 @@ public class IssueFilterTest {
 
     @Test
     void shouldNothingChangeWhenNoFilterIsAdded() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
-                .build();
+        Predicate<? super Issue> filter = new IssueFilterBuilder().build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
 
     }
 
     @Test
     void shouldPassAllWhenUselessFilterIsAdded() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeFilenameFilter("[a-zA-Z1]*")
                 .setIncludeFilenameFilter("[a-zA-Z2]*")
                 .setIncludeFilenameFilter("[a-zA-Z3]*")
@@ -71,7 +70,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldPassAllWhenUselessFilterIsAddedAsList() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeFilenameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
@@ -79,7 +78,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldPassNoWhenMasterFilterIsAdded() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setExcludeFilenameFilter("[a-zA-Z_1-3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
@@ -87,7 +86,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldPassNoWhenMasterFilterIsAddedAsList() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setExcludeFilenameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
@@ -95,7 +94,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByAFileNameIncludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeFilenameFilter("FileName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
@@ -103,7 +102,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByAFileNameExcludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setExcludeFilenameFilter("FileName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2, ISSUE3);
@@ -111,7 +110,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByAPackageNameIncludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludePackageNameFilter("PackageName2")
                 .build();
 
@@ -120,7 +119,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByAPackageNameExcludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setExcludePackageNameFilter("PackageName2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
@@ -128,7 +127,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue3ByAModuleNameIncludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeModuleNameFilter("ModuleName3")
                 .build();
 
@@ -137,7 +136,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue3ByAModuleNameExcludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setExcludeModuleNameFilter("ModuleName3")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2);
@@ -145,7 +144,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByACategoryIncludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeCategoryFilter("CategoryName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
@@ -153,7 +152,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByACategoryExcludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setExcludeCategoryFilter("CategoryName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2, ISSUE3);
@@ -161,7 +160,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByATypeIncludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeTypeFilter("Type2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2);
@@ -169,7 +168,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByACategoryExcludeMatch() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setExcludeTypeFilter("Type2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
@@ -177,7 +176,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIntersectionFromIncludeAndExcludeBySameProperty() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeFilenameFilter("FileName1")
                 .setIncludeFilenameFilter("FileName2")
                 .setExcludeFilenameFilter("FileName2")
@@ -187,7 +186,7 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindIntersectionFromIncludeAndExcludeByOtherProperty() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeFilenameFilter("FileName1")
                 .setIncludeFilenameFilter("FileName2")
                 .setExcludeTypeFilter("Type2")
@@ -197,24 +196,14 @@ public class IssueFilterTest {
 
     @Test
     void shouldFindNoIntersectionFromEmptyIncludeAndExclude() {
-        Predicate<? super Issue> filter = getIssues().new IssueFilterBuilder()
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
                 .setIncludeFilenameFilter("FileNameNotExisting")
                 .setExcludeTypeFilter("Type2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
     }
 
-
-    @Test
-    void shouldWorkIfBuildAndApplyInOneStep() {
-        Issues<Issue> result = getIssues().new IssueFilterBuilder()
-                .setIncludeFilenameFilter("FileName1")
-                .setIncludeFilenameFilter("FileName2")
-                .setExcludeTypeFilter("Type2")
-                .buildAndApply();
-        assertThat(result.iterator()).containsExactly(ISSUE1);
-    }
-    /**
+   /**
      * Apply filter and check if result is equal to expected values.
      *
      * @param criterion      = Filter.
