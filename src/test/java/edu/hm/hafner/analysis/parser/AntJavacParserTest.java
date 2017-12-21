@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static edu.hm.hafner.analysis.parser.ParserTester.DEFAULT_CATEGORY;
 
 /**
  * Tests the class {@link AntJavacParser}.
@@ -34,7 +34,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     public void testIssue24611() {
-        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue24611.txt"));
+        Issues<Issue> warnings = parse("issue24611.txt");
 
         assertThat(warnings).hasSize(2);
     }
@@ -46,7 +46,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     public void issue21240() {
-        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue21240.txt"));
+        Issues<Issue> warnings = parse("issue21240.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -67,7 +67,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     public void issue2133() {
-        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue2133.txt"));
+        Issues<Issue> warnings = parse("issue2133.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -97,7 +97,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     public void issue4098() {
-        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue4098.txt"));
+        Issues<Issue> warnings = parse("issue4098.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -119,7 +119,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     public void issue2316() {
-        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue2316.txt"));
+        Issues<Issue> warnings = parse("issue2316.txt");
 
         assertThat(warnings)
                 .hasSize(18)
@@ -134,7 +134,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     public void parseDifferentTaskNames() {
-        Issues<Issue> warnings = new AntJavacParser().parse(openFile("taskname.txt"));
+        Issues<Issue> warnings = parse("taskname.txt");
 
         assertThat(warnings).hasSize(1).hasDuplicatesSize(2);
     }
@@ -144,7 +144,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     public void parseArrayInDeprecatedMethod() {
-        Issues<Issue> warnings = new AntJavacParser().parse(openFile("issue5868.txt"));
+        Issues<Issue> warnings = parse("issue5868.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -168,8 +168,8 @@ public class AntJavacParserTest extends AbstractParserTest {
     public void parseJapaneseWarnings() throws UnsupportedEncodingException {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
-                ParserTester.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        Issues<Issue> warnings = new AntJavacParser().parse(is);
+                getClass().getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
+        Issues<Issue> warnings = createParser().parse(is, new IssueBuilder());
 
         assertThat(warnings).hasSize(1);
     }

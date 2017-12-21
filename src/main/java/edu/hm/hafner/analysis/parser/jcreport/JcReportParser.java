@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.jcreport;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
 
@@ -34,7 +35,7 @@ public class JcReportParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingCanceledException {
         Report report = createReport(reader);
         Issues<Issue> warnings = new Issues<>();
         for (int i = 0; i < report.getFiles().size(); i++) {

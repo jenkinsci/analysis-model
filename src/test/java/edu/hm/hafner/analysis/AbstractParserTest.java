@@ -24,6 +24,8 @@ import static org.assertj.core.api.Assertions.*;
  * @author Ullrich Hafner
  */
 public abstract class AbstractParserTest {
+    protected static final String DEFAULT_CATEGORY = new IssueBuilder().build().getCategory();
+
     private final String fileWithIssuesName;
 
     /**
@@ -42,15 +44,26 @@ public abstract class AbstractParserTest {
      */
     @Test
     void shouldParseAllIssues() {
+        Issues<Issue> issues = parseDefaultFile();
+        assertSoftly(softly -> assertThatIssuesArePresent(issues, softly));
+    }
+
+    /**
+     * Parses the default file that must contain issues.
+     *
+     * @return the issues in the default file
+     */
+    protected Issues<Issue> parseDefaultFile() {
         AbstractParser parser = createParser();
-        IssueBuilder builder = new IssueBuilder();
         String id = parser.getClass().getSimpleName();
+        IssueBuilder builder = new IssueBuilder();
         builder.setOrigin(id);
         Issues<Issue> issues = parser.parse(openFile(), builder);
         Issues<Issue> issuesByOrigin = issues.filter(issue -> id.equals(issue.getOrigin()));
 
         assertThat(issuesByOrigin.size()).as("Origin not correctly set for parser").isEqualTo(issues.size());
-        assertSoftly(softly -> assertThatIssuesArePresent(issues, softly));
+
+        return issues;
     }
 
     /**
@@ -79,7 +92,7 @@ public abstract class AbstractParserTest {
      * @return the found issues
      */
     protected Issues<Issue> parse(final String fileName) {
-        return createParser().parse(openFile(fileName));
+        return createParser().parse(openFile(fileName), new IssueBuilder());
     }
 
     /**

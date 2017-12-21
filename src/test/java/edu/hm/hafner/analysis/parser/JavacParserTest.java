@@ -5,16 +5,41 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link JavacParser}.
  */
-public class JavacParserTest extends ParserTester {
+class JavacParserTest extends AbstractParserTest {
+    JavacParserTest() {
+        super("javac.txt");
+    }
+
+    @Override
+    protected AbstractParser createParser() {
+        return new JavacParser();
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+        assertThat(issues).hasSize(2);
+
+        softly.assertThat(issues.get(1))
+                .hasPriority(Priority.NORMAL)
+                .hasCategory(AbstractParser.DEPRECATION)
+                .hasLineStart(40)
+                .hasLineEnd(40)
+                .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
+                .hasColumnStart(36);
+    }
+
     /**
      * Parses a warning log with two false positives.
      *
@@ -47,28 +72,6 @@ public class JavacParserTest extends ParserTester {
         Issues<Issue> warnings = parse("kotlin-maven-plugin.txt");
 
         assertThat(warnings).hasSize(4);
-    }
-
-    /**
-     * Parses a file with two deprecation warnings.
-     */
-    @Test
-    public void parseDeprecation() {
-        Issues<Issue> warnings = new JavacParser().parse(openFile());
-        assertThat(warnings).hasSize(2);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.NORMAL)
-                    .hasCategory(AbstractParser.DEPRECATION)
-                    .hasLineStart(40)
-                    .hasLineEnd(40)
-                    .hasMessage(
-                            "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                    .hasFileName(
-                            "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
-                    .hasColumnStart(36);
-        });
     }
 
     /**
@@ -160,15 +163,6 @@ public class JavacParserTest extends ParserTester {
                     .hasFileName(
                             "/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
         });
-    }
-
-    private Issues<Issue> parse(final String fileName) {
-        return new JavacParser().parse(openFile(fileName));
-    }
-
-    @Override
-    protected String getWarningsFile() {
-        return "javac.txt";
     }
 }
 

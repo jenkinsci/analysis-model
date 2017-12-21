@@ -20,7 +20,6 @@ import edu.hm.hafner.analysis.parser.CppLintParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
 import edu.hm.hafner.analysis.parser.StyleCopParser;
 import edu.hm.hafner.util.Ensure;
-import edu.hm.hafner.util.VisibleForTesting;
 import static java.util.function.Function.*;
 
 /**
@@ -28,6 +27,7 @@ import static java.util.function.Function.*;
  * expression you can extend from the existing base classes {@link RegexpLineParser} or {@link RegexpDocumentParser}.
  *
  * @author Ullrich Hafner
+ *
  * @see RegexpLineParser
  * @see RegexpDocumentParser
  * @see CppLintParser
@@ -85,24 +85,6 @@ public abstract class AbstractParser implements Serializable {
 
     private Reader createReader(final InputStream inputStream, final Charset charset) {
         return new InputStreamReader(new BOMInputStream(inputStream), charset);
-    }
-
-    /**
-     * Parses the specified input stream for issues. Uses the default {@link IssueBuilder} class to create issues.
-     *
-     * @param reader
-     *         the reader to get the text from
-     *
-     * @return the parsed issues
-     * @throws ParsingException
-     *         Signals that during parsing a non recoverable error has been occurred
-     * @throws ParsingCanceledException
-     *         Signals that the parsing has been aborted by the user
-     */
-    // FIXME: find a better solution
-    @VisibleForTesting
-    public Issues<Issue> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
-        return parse(reader, new IssueBuilder());
     }
 
     /**

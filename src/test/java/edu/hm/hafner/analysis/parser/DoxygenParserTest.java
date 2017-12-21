@@ -12,7 +12,6 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.parser.ParserTester.*;
 
 
 /**

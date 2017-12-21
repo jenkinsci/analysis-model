@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import javax.annotation.Nonnull;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -39,7 +40,7 @@ public class IdeaInspectionParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(Reader reader, final IssueBuilder builder) throws ParsingException {
+    public Issues<Issue> parse(@Nonnull Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();

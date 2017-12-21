@@ -13,38 +13,29 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
 import edu.hm.hafner.analysis.parser.jcreport.Report;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
- * Tests the JcReportParser-Class.
+ * Tests the {@link JcReportParser}.
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
 public class JcReportParserTest extends AbstractParserTest {
-
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     */
-    protected JcReportParserTest() {
+    JcReportParserTest() {
         super("jcreport/testCorrect.xml");
     }
 
-
     /**
-     * Gets Collection with size of 5.
-     *
-     * @throws UnsupportedEncodingException if encoding is not available
+     * Reads a file with 5 warnings.
      */
     @Test
-    public void testGetWarningList() throws UnsupportedEncodingException {
-        JcReportParser jcrp = new JcReportParser();
-        InputStreamReader readCorrectXml = getReader("testCorrect.xml");
-        Issues<Issue> warnings = jcrp.parse(readCorrectXml);
+    public void testGetWarningList() {
+        Issues<Issue> warnings = parseDefaultFile();
 
         assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
     }
@@ -90,9 +81,8 @@ public class JcReportParserTest extends AbstractParserTest {
      * @throws ParsingCanceledException -> thrown by jcrp.parse();
      */
     @Test
-    public void testSAXEception() throws ParsingCanceledException, IOException {
-
-        assertThatThrownBy(() -> new JcReportParser().parse(getReader("testCorrupt.xml")))
+    public void testSAXEception() throws ParsingCanceledException {
+        assertThatThrownBy(() -> parse("jcreport/testCorrupt.xml"))
                 .isInstanceOf(ParsingException.class);
 
     }

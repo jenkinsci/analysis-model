@@ -7,17 +7,12 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Test;
-
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static edu.hm.hafner.analysis.parser.ParserTester.*;
-import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link FlexSDKParser}.

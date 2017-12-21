@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import javax.annotation.Nonnull;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -40,7 +41,7 @@ public class StyleCopParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 

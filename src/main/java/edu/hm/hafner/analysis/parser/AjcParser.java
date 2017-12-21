@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -29,7 +30,7 @@ public class AjcParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException {
         try (BufferedReader br = new BufferedReader(reader)) {
             Issues<Issue> warnings = new Issues<>();
 

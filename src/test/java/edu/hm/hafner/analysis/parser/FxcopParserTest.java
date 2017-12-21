@@ -7,7 +7,6 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.fxcop.FxCopParser;
 import static org.assertj.core.api.Assertions.*;
@@ -17,24 +16,15 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-public class FxcopParserTest extends AbstractParserTest {
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     */
-    protected FxcopParserTest() {
+class FxcopParserTest extends AbstractParserTest {
+    FxcopParserTest() {
         super("fxcop.xml");
     }
 
-    /**
-     * Verifies that the FXCop parser works as expected.
-     */
-    @Test
-    public void testJenkins14172() {
-        Issues<Issue> result = new FxCopParser().parse(openFile("issue14172.xml"));
-
-        assertThat(result).hasSize(44);
+    @Override
+    protected AbstractParser createParser() {
+        return new FxCopParser();
     }
-
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
@@ -52,13 +42,16 @@ public class FxcopParserTest extends AbstractParserTest {
                 .hasLineEnd(37)
                 .hasMessage("<a href=\"http://msdn2.microsoft.com/library/bb264474(VS.90).aspx\">CompoundWordsShouldBeCasedCorrectly</a> - In member 'MyControl.InitialParameters(bool)', the discrete term 'javascript' in parameter name 'javascript' should be expressed as a compound word, 'javaScript'.")
                 .hasFileName("c:/Hudson/data/jobs/job1/workspace/web/UserControls/MyControl.ascx.cs");
-
     }
 
-    @Override
-    protected AbstractParser createParser() {
-        return new FxCopParser();
-    }
+    /**
+     * Verifies that the FXCop parser works as expected.
+     */
+    @Test
+    public void testJenkins14172() {
+        Issues<Issue> result = parse("issue14172.xml");
 
+        assertThat(result).hasSize(44);
+    }
 }
 

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -26,7 +27,7 @@ public abstract class RegexpDocumentParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final IssueBuilder builder) throws ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingCanceledException {
         try (BufferedReader bufferedReader = new BufferedReader(reader)) {
             String text = bufferedReader.lines().map(getTransformer()).collect(Collectors.joining("\n"));
 

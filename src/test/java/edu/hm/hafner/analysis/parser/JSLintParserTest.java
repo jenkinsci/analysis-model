@@ -7,26 +7,19 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-
 
 /**
  * Tests the class {@link JSLintParser}.
  *
- *
  * @author Gavin Mogan <gavin@kodekoan.com>
  */
 public class JSLintParserTest extends AbstractParserTest {
-
     private static final String EXPECTED_FILE_NAME = "duckworth/hudson-jslint-freestyle/src/prototype.js";
 
-
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     */
-    protected JSLintParserTest() {
+    JSLintParserTest() {
         super("jslint/multi.xml");
     }
 
@@ -37,7 +30,7 @@ public class JSLintParserTest extends AbstractParserTest {
      */
     @Test
     public void issue19127() {
-        Issues<Issue> warnings = new JSLintParser().parse(openFile("jslint/jslint.xml"));
+        Issues<Issue> warnings = parse("jslint/jslint.xml");
 
         assertThat(warnings).hasSize(197);
 
@@ -52,18 +45,16 @@ public class JSLintParserTest extends AbstractParserTest {
                     .hasFileName("C:/DVR/lint_Mobile-Localization_ws/evWebService/WebClientApi/api-v1.js")
                     .hasColumnStart(5);
 
-
         });
 
     }
-
 
     /**
      * Tests the JS-Lint parsing for warnings in a single file.
      */
     @Test
     public void testParseWithSingleFile() {
-        Issues<Issue> results = createParser().parse(openFile("jslint/single.xml"));
+        Issues<Issue> results = parse("jslint/single.xml");
 
         assertThat(results).hasSize(51);
     }
@@ -73,18 +64,18 @@ public class JSLintParserTest extends AbstractParserTest {
      */
     @Test
     public void testCssLint() {
-        Issues<Issue> results = createParser().parse(openFile("jslint/csslint.xml"));
+        Issues<Issue> results = parse("jslint/csslint.xml");
 
         assertThat(results).hasSize(51);
     }
-
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(102);
 
         assertThat(issues.getFiles()).hasSize(2);
-        assertThat(issues.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
+        assertThat(issues.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME,
+                "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
         softly.assertThat(issues.get(0))
                 .hasPriority(Priority.HIGH)
@@ -102,9 +93,8 @@ public class JSLintParserTest extends AbstractParserTest {
      *
      * @return the warnings parser
      */
+    @Override
     protected AbstractParser createParser() {
         return new JSLintParser();
     }
-
-
 }

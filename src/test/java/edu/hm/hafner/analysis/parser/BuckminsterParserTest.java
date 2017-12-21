@@ -1,21 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Reader;
-
-import org.junit.jupiter.api.Test;
-
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
-import edu.hm.hafner.analysis.ParsingCanceledException;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static edu.hm.hafner.analysis.parser.ParserTester.DEFAULT_CATEGORY;
 
 
 /**

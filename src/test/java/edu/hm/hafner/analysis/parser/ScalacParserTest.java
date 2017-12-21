@@ -1,18 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Locale.Category;
-
-import org.junit.jupiter.api.Test;
-
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static edu.hm.hafner.analysis.parser.ParserTester.DEFAULT_CATEGORY;
 
 /**
  * Tests the class {@link ScalacParser}.
@@ -56,10 +49,6 @@ public class ScalacParserTest extends AbstractParserTest {
                 .hasLineEnd(59)
                 .hasMessage("method error in object Predef is deprecated: Use `sys.error(message)` instead")
                 .hasFileName("/home/user/.jenkins/jobs/job/workspace/yet/another/path/SomeFile.scala");
-    }
-
-    protected Issues<Issue> parse(final String fileName) {
-        return new ScalacParser().parse(openFile(fileName));
     }
 
     @Override

@@ -9,8 +9,8 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -36,12 +36,12 @@ public class PhpParserTest extends AbstractParserTest {
      */
     @Test
     public void issue27681() {
-        Issues<Issue> warnings = new PhpParser().parse(openFile("issue27681.txt"));
+        Issues<Issue> issues = parse("issue27681.txt");
 
-        assertThat(warnings).hasSize(1);
+        assertThat(issues).hasSize(1);
 
         assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
+            softly.assertThat(issues.get(0))
                     .hasPriority(Priority.HIGH)
                     .hasCategory(FATAL_ERROR_CATEGORY)
                     .hasLineStart(0)

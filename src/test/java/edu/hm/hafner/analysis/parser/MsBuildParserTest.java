@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -67,7 +68,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasFileName("c:/solutiondir/projectdir/src/main.cpp")
                     .hasCategory("C4996")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("'_splitpath': This function or variable may be unsafe. Consider using _splitpath_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.")
+                    .hasMessage(
+                            "'_splitpath': This function or variable may be unsafe. Consider using _splitpath_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(97)
@@ -79,7 +81,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasFileName("c:/solutiondir/projectdir/src/main.cpp")
                     .hasCategory("C4996")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.")
+                    .hasMessage(
+                            "'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(99)
@@ -199,7 +202,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
+                    .hasMessage(
+                            "Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(12)
@@ -212,7 +216,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
+                    .hasMessage(
+                            "Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(13)
@@ -404,7 +409,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasFileName("C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs")
                     .hasCategory("SA1402")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("A C# document may only contain a single class at the root level unless all of the classes are partial and are of the same type.")
+                    .hasMessage(
+                            "A C# document may only contain a single class at the root level unless all of the classes are partial and are of the same type.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(70)
@@ -454,7 +460,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                 .hasNormalPrioritySize(1);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("c:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp")
+                .hasFileName(
+                        "c:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp")
                 .hasCategory("C4706")
                 .hasPriority(Priority.NORMAL)
                 .hasMessage("assignment within conditional expression")
@@ -525,7 +532,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
                     .hasCategory("SPT6")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("The Project Item \"StructureLibrary\" is included in the following Features: TypesAndLists, StructureBrowser")
+                    .hasMessage(
+                            "The Project Item \"StructureLibrary\" is included in the following Features: TypesAndLists, StructureBrowser")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(0)
@@ -537,7 +545,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
                     .hasCategory("SPT6")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("The Project Item \"StructureViewWebPart\" is included in the following Features: PlatformWebParts, StructureBrowser")
+                    .hasMessage(
+                            "The Project Item \"StructureViewWebPart\" is included in the following Features: PlatformWebParts, StructureBrowser")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(0)
@@ -546,10 +555,12 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnEnd(0);
 
             softly.assertThat(warnings.get(2))
-                    .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
+                    .hasFileName(
+                            "c:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
                     .hasCategory("SPT6")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("The Project Item \"TestPages\" is included in the following Features: SiteLibraryAndPages, DemoSite")
+                    .hasMessage(
+                            "The Project Item \"TestPages\" is included in the following Features: SiteLibraryAndPages, DemoSite")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(0)
@@ -558,10 +569,12 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnEnd(0);
 
             softly.assertThat(warnings.get(3))
-                    .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
+                    .hasFileName(
+                            "c:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
                     .hasCategory("SPT6")
                     .hasPriority(Priority.NORMAL)
-                    .hasMessage("The Project Item \"Test Items\" is included in the following Features: SiteLibraryAndPages, DemoSite")
+                    .hasMessage(
+                            "The Project Item \"Test Items\" is included in the following Features: SiteLibraryAndPages, DemoSite")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(0)
@@ -571,7 +584,6 @@ public class MsBuildParserTest extends AbstractParserTest {
         });
     }
 
-
     /**
      * MSBuildParser should also detect keywords 'Warning' and 'Error', as they are produced by the .NET-2.0 compiler of
      * VS2005.
@@ -580,18 +592,10 @@ public class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void shouldDetectKeywordsInRegexCaseInsensitive() throws IOException {
-        String containsErrorAndWarningKeywords = "Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
-                + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
-                + " (10): Error XXX: An error occurred";
 
-        Issues<Issue> warnings = createParser().parse(new InputStreamReader(
-                IOUtils.toInputStream(containsErrorAndWarningKeywords, "UTF-8")
-        ));
+        Issues<Issue> warnings = createParser().parse(createIssue2383File(), new IssueBuilder());
 
-        assertThat(warnings)
-                .hasSize(2)
-                .hasHighPrioritySize(1)
-                .hasNormalPrioritySize(1);
+        assertThat(warnings).hasSize(2).hasHighPrioritySize(1).hasNormalPrioritySize(1);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -618,6 +622,13 @@ public class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
         });
+    }
+
+    private InputStreamReader createIssue2383File() throws IOException {
+        return new InputStreamReader(IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
+                + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
+                + " (10): Error XXX: An error occurred", "UTF-8")
+        );
     }
 
     @Override
@@ -656,7 +667,8 @@ public class MsBuildParserTest extends AbstractParserTest {
                 .hasFileName("Controls/MozItem.cs")
                 .hasCategory("CS0618")
                 .hasPriority(Priority.NORMAL)
-                .hasMessage("System.ComponentModel.Design.ComponentDesigner.OnSetComponentDefaults() : This method has been deprecated. Use InitializeNewComponent instead. http://go.microsoft.com/fwlink/?linkid=14202")
+                .hasMessage(
+                        "System.ComponentModel.Design.ComponentDesigner.OnSetComponentDefaults() : This method has been deprecated. Use InitializeNewComponent instead. http://go.microsoft.com/fwlink/?linkid=14202")
                 .hasDescription("")
                 .hasPackageName("-")
                 .hasLineStart(1338)

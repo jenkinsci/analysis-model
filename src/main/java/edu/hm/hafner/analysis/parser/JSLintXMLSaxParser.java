@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import edu.hm.hafner.analysis.IntegerParser;

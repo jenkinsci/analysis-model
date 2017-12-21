@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import javax.annotation.Nonnull;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -36,7 +37,7 @@ public abstract class LintParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader file, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 

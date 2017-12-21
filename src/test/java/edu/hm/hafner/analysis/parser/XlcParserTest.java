@@ -5,6 +5,7 @@ import java.io.StringReader;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -13,7 +14,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link XlcParserTest}.
  */
-public class XlcParserTest extends ParserTester {
+public class XlcParserTest {
     private static final String FILE_NAME = "-";
 
     /**
@@ -235,16 +236,11 @@ public class XlcParserTest extends ParserTester {
     }
 
     private Issues<Issue> parseString(final String log) {
-        Issues<Issue> warnings = new XlcCompilerParser().parse(new StringReader(log));
+        Issues<Issue> warnings = new XlcCompilerParser().parse(new StringReader(log), new IssueBuilder());
 
         assertThat(warnings).hasSize(1);
         
         return warnings;
-    }
-
-    @Override
-    protected String getWarningsFile() {
-        return null; // StringReader used in all tests
     }
 }
 

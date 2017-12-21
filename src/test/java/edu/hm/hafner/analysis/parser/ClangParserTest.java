@@ -9,104 +9,23 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static edu.hm.hafner.analysis.parser.ParserTester.*;
 
 /**
  * Tests the class {@link ClangParser}.
  *
  * @author Neil Davis
  */
-public class ClangParserTest extends AbstractParserTest {
-
-    /**
-     * Creates a new ClangParserTest.
-     */
-    public ClangParserTest() {
+class ClangParserTest extends AbstractParserTest {
+    ClangParserTest() {
         super("apple-llvm-clang.txt");
     }
 
-    /**
-     * Parses a file with fatal error message.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-31936">Issue 31936</a>
-     */
-    @Test
-    public void issue31936() {
-        Issues<Issue> warnings = new ClangParser().parse(openFile("issue31936.txt"));
-
-        assertThat(warnings).hasSize(1);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0)).hasLineStart(1211)
-                    .hasLineEnd(1211)
-                    .hasColumnStart(26)
-                    .hasColumnEnd(26)
-                    .hasMessage("implicit conversion loses integer precision: 'NSInteger' (aka 'long') to 'int'")
-                    .hasFileName("/Volumes/workspace/MyApp/ViewController.m")
-                    .hasCategory("-Wshorten-64-to-32")
-                    .hasPriority(Priority.NORMAL);
-        });
-    }
-
-    /**
-     * Parses a file with fatal error message.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-36817">Issue 36817</a>
-     */
-    @Test
-    public void issue36817() {
-        Issues<Issue> warnings = new ClangParser().parse(openFile("issue36817.txt"));
-
-        assertThat(warnings).isEmpty();
-    }
-
-    /**
-     * Parses a file with fatal error message.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18084">Issue 18084</a>
-     */
-    @Test
-    public void issue18084() {
-        Issues<Issue> warnings = new ClangParser().parse(openFile("issue18084.txt"));
-
-        assertThat(warnings).hasSize(1);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0)).hasLineStart(10)
-                    .hasLineEnd(10)
-                    .hasColumnStart(10)
-                    .hasColumnEnd(10)
-                    .hasMessage("'test.h' file not found")
-                    .hasFileName("./test.h")
-                    .hasCategory(DEFAULT_CATEGORY)
-                    .hasPriority(Priority.HIGH);
-        });
-    }
-
-    /**
-     * Parses a file with one warning that are started by ant.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14333">Issue 14333</a>
-     */
-    @Test
-    public void issue14333() {
-        Issues<Issue> warnings = new ClangParser().parse(openFile("issue14333.txt"));
-
-        assertThat(warnings).hasSize(1);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0)).hasLineStart(1518)
-                    .hasLineEnd(1518)
-                    .hasColumnStart(28)
-                    .hasColumnEnd(28)
-                    .hasMessage("Array access (via field 'yy_buffer_stack') results in a null pointer dereference")
-                    .hasFileName("scanner.cpp")
-                    .hasCategory(DEFAULT_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
-        });
+    @Override
+    protected AbstractParser createParser() {
+        return new ClangParser();
     }
 
     @Override
@@ -184,8 +103,84 @@ public class ClangParserTest extends AbstractParserTest {
                 .hasPriority(Priority.NORMAL);
     }
 
-    @Override
-    protected AbstractParser createParser() {
-        return new ClangParser();
+    /**
+     * Parses a file with fatal error message.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-31936">Issue 31936</a>
+     */
+    @Test
+    public void issue31936() {
+        Issues<Issue> warnings = parse("issue31936.txt");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0)).hasLineStart(1211)
+                    .hasLineEnd(1211)
+                    .hasColumnStart(26)
+                    .hasColumnEnd(26)
+                    .hasMessage("implicit conversion loses integer precision: 'NSInteger' (aka 'long') to 'int'")
+                    .hasFileName("/Volumes/workspace/MyApp/ViewController.m")
+                    .hasCategory("-Wshorten-64-to-32")
+                    .hasPriority(Priority.NORMAL);
+        });
+    }
+
+    /**
+     * Parses a file with fatal error message.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-36817">Issue 36817</a>
+     */
+    @Test
+    public void issue36817() {
+        Issues<Issue> warnings = parse("issue36817.txt");
+
+        assertThat(warnings).isEmpty();
+    }
+
+    /**
+     * Parses a file with fatal error message.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18084">Issue 18084</a>
+     */
+    @Test
+    public void issue18084() {
+        Issues<Issue> warnings = parse("issue18084.txt");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0)).hasLineStart(10)
+                    .hasLineEnd(10)
+                    .hasColumnStart(10)
+                    .hasColumnEnd(10)
+                    .hasMessage("'test.h' file not found")
+                    .hasFileName("./test.h")
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasPriority(Priority.HIGH);
+        });
+    }
+
+    /**
+     * Parses a file with one warning that are started by ant.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14333">Issue 14333</a>
+     */
+    @Test
+    public void issue14333() {
+        Issues<Issue> warnings = parse("issue14333.txt");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0)).hasLineStart(1518)
+                    .hasLineEnd(1518)
+                    .hasColumnStart(28)
+                    .hasColumnEnd(28)
+                    .hasMessage("Array access (via field 'yy_buffer_stack') results in a null pointer dereference")
+                    .hasFileName("scanner.cpp")
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+        });
     }
 }

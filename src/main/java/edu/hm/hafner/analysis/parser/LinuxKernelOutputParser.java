@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -74,7 +75,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader file, final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try (BufferedReader reader = new BufferedReader(file)) {
             Issues<Issue> warnings = new Issues<>();
 
