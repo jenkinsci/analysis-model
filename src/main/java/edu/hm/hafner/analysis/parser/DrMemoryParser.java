@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
- * A parser for the Dr. Memory Errors.
+     * A parser for the Dr. Memory Errors.
  *
  * @author Wade Penson
  */
@@ -203,7 +203,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
     /**
      * Class that stores a file path and a line number pair.
      */
-    private final static class SourceCodeLocation {
+    private static final class SourceCodeLocation {
         private final String filePath;
         private final int lineNumber;
 
