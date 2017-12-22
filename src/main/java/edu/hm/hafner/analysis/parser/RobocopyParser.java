@@ -11,9 +11,6 @@ import edu.hm.hafner.analysis.Priority;
  * A parser for Robocopy.
  *
  * @author Adrian Deccico
- * <p>
- * captured samples: *EXTRA File                  0        b           Unknown Task 100%        New File 0        a.log
- * same                 0        a.log
  */
 public class RobocopyParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -671744745118772873L;
