@@ -4,6 +4,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -67,7 +68,7 @@ public class FullTextFingerprint {
 
             return createFingerprint(line, lines);
         }
-        catch (IOException ignored) {
+        catch (IOException | InvalidPathException ignored) {
             return getFallbackFingerprint(fileName);
         }
     }
@@ -115,8 +116,9 @@ public class FullTextFingerprint {
         }
     }
 
+    @VisibleForTesting
     static class FileSystem {
-        public Stream<String> readLinesFromFile(final String fileName, final Charset charset) throws IOException {
+        Stream<String> readLinesFromFile(final String fileName, final Charset charset) throws IOException, InvalidPathException {
             return Files.lines(Paths.get(fileName), charset);
         }
     }

@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
@@ -17,8 +19,6 @@ import static org.assertj.core.api.Assertions.*;
  * @author Ullrich Hafner
  */
 class FullTextFingerprintTest extends ResourceTest {
-    private static final String NOT_EXISTING_FILE_NAME = "/does/not/exist";
-
     /**
      * Verifies that the context of a warning starts 3 lines above the affected line and ends 3 lines below the affected
      * line.
@@ -76,12 +76,13 @@ class FullTextFingerprintTest extends ResourceTest {
         }
     }
 
-    @Test
-    void shouldReturnFallbackOnError() {
+    @ParameterizedTest(name = "[{index}] Illegal filename = {0}")
+    @ValueSource(strings = {"/does/not/exist", "!<>$$&%/&(", "\0 Null-Byte"})
+    void shouldReturnFallbackOnError(final String fileName) {
         FullTextFingerprint fingerprint = new FullTextFingerprint();
 
-        assertThat(fingerprint.compute(NOT_EXISTING_FILE_NAME, 1, Charset.defaultCharset()))
-                .isEqualTo(fingerprint.getFallbackFingerprint(NOT_EXISTING_FILE_NAME));
+        assertThat(fingerprint.compute(fileName, 1, Charset.defaultCharset()))
+                .isEqualTo(fingerprint.getFallbackFingerprint(fileName));
     }
 
     private Iterator<String> asIterator(final String affectedFile) {
