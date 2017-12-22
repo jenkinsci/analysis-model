@@ -16,8 +16,8 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class IntelParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 8409744276858003050L;
-    private static final String INTEL_PATTERN = "^(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*(" +
-            "(?:remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";
+    private static final String INTEL_PATTERN = "^(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*("
+            + "(?:remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link IntelParser}.
@@ -46,9 +46,12 @@ public class IntelParser extends FastRegexpLineParser {
             priority = Priority.NORMAL;
         }
 
-        Issue warning = builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                                      .setColumnStart(parseInt(matcher.group(3))).setCategory(category)
-                                      .setMessage(matcher.group(5)).setPriority(priority).build();
-        return warning;
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setColumnStart(parseInt(matcher.group(3)))
+                .setCategory(category)
+                .setMessage(matcher.group(5))
+                .setPriority(priority)
+                .build();
     }
 }
