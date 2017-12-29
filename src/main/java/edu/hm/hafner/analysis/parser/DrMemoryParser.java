@@ -33,8 +33,9 @@ public class DrMemoryParser extends RegexpDocumentParser {
      * <p>
      * Note: Groups can have trailing whitespace.
      */
-    private static final String DR_MEMORY_WARNING_PATTERN = "(?:Error #\\d+: ([\\s\\S]+?)\\r?\\n(# \\d+ " +
-            "[\\s\\S]*?\\r?\\n)(?=[^#])(Note: [\\s\\S]*?\\r?\\n\\r?\\n)?|" + "Error #\\d+: ([\\s\\S]+?)\\r?\\n\\r?\\n)";
+    private static final String DR_MEMORY_WARNING_PATTERN = "(?:Error #\\d+: ([\\s\\S]+?)\\r?\\n(# \\d+ "
+            + "[\\s\\S]*?\\r?\\n)(?=[^#])(Note: [\\s\\S]*?\\r?\\n\\r?\\n)?|"
+            + "Error #\\d+: ([\\s\\S]+?)\\r?\\n\\r?\\n)";
 
     /**
      * The index of the regexp group capturing the header of the error or warning from the first part of the regex ( | )
