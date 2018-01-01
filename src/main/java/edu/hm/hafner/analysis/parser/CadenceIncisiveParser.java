@@ -5,8 +5,6 @@
  */
 package edu.hm.hafner.analysis.parser;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -38,7 +36,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
     }
 
     private Issue handleDirectory(final Matcher matcher, final int offset) {
-        directory = matcher.group(offset) + SLASH; //17
+        directory = matcher.group(offset) + SLASH; // 17
         return FALSE_POSITIVE;
     }
 
@@ -49,18 +47,8 @@ public class CadenceIncisiveParser extends RegexpLineParser {
         String category;
         String message;
         String fileName;
-
         int lineNumber = 0;
-        int column = 0;
-
-        List<String> arr = new ArrayList<>();
-        int n = matcher.groupCount();
-
-        for (int i = 0; i <= n; i++) {
-            arr.add(i, matcher.group(i));
-        }
-
-        Priority priority = Priority.LOW;
+        Priority priority;
 
         if (matcher.group(1) != null) {
             /* vhdl warning from ncelab */
@@ -82,23 +70,22 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             category = matcher.group(11);
             fileName = matcher.group(12);
             lineNumber = parseInt(matcher.group(13));
-            priority = Priority.NORMAL;
-            /* column = matcher.group(14); */
             message = matcher.group(15);
+            priority = Priority.NORMAL;
         }
         else if (matcher.group(21) != null) {
             tool = matcher.group(22);
             type = matcher.group(23);
             category = matcher.group(24);
-            message = matcher.group(25);
             fileName = "/NotFileRelated";
+            message = matcher.group(25);
+            priority = Priority.LOW;
         }
         else {
-            return FALSE_POSITIVE;
-            /* Should never happen! */
+            return FALSE_POSITIVE; /* Should never happen! */
         }
 
-        if (type.equalsIgnoreCase("E")) {
+        if ("E".equalsIgnoreCase(type)) {
             priority = Priority.HIGH;
             category = "Error (" + tool + "): " + category;
         }
@@ -106,21 +93,15 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             category = "Warning (" + tool + "): " + category;
         }
 
-        /*  Filename should never be null here, unless someone updates the above 
-         *  logic and breaks it. 
-         */
-
+        // Filename should never be null here, unless someone updates from the code above fail
         if (fileName == null) {
             return FALSE_POSITIVE;
         }
-
         if (fileName.startsWith(SLASH)) {
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
                           .setMessage(message).setPriority(priority).build();
         }
-        else {
-            return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
-                          .setMessage(message).setPriority(priority).build();
-        }
+        return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
+                      .setMessage(message).setPriority(priority).build();
     }
 }
