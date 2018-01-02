@@ -117,6 +117,9 @@ public class FullTextFingerprint {
         }
     }
 
+    /**
+     * Facade for file system operations. May be replaced by stubs in test cases.
+     */
     @VisibleForTesting
     static class FileSystem {
         Stream<String> readLinesFromFile(final String fileName, final Charset charset) throws IOException, InvalidPathException {

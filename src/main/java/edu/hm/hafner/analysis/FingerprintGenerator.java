@@ -3,16 +3,30 @@ package edu.hm.hafner.analysis;
 import java.nio.charset.Charset;
 
 /**
- * Creates a fingerprint of an issue. A fingerprint is a digest of the affected source code of an issue. Using this
- * fingerprint an issue can be tracked in the source code even after some minor refactorings.
+ * Creates fingerprints for a set of issues.
  *
  * @author Ullrich Hafner
  */
 public class FingerprintGenerator {
-    public Issues<Issue> run(final FullTextFingerprint fingerprint, final Issues<Issue> issues, final IssueBuilder builder, final Charset charset) {
+    /**
+     * Creates fingerprints for the specified set of issues.
+     *
+     * @param algorithm
+     *         fingerprinting algorithm
+     * @param issues
+     *         the issues to analyze
+     * @param builder
+     *         the issue builder to create the new issues with
+     * @param charset
+     *         the character set to use when reading the source files
+     *
+     * @return the issues with fingerprints
+     */
+    public Issues<Issue> run(final FullTextFingerprint algorithm, final Issues<Issue> issues,
+            final IssueBuilder builder, final Charset charset) {
         Issues<Issue> enhanced = new Issues<>();
         for (Issue issue : issues) {
-            String digest = fingerprint.compute(issue.getFileName(), issue.getLineStart(), charset);
+            String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
             Issue issueWithFingerprint = builder.copy(issue).setFingerprint(digest).build();
             enhanced.add(issueWithFingerprint);
         }

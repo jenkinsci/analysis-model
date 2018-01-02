@@ -189,7 +189,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
 
             if (pathMatcher.find()) {
                 errFilePath = pathMatcher.group(FILE_PATH_GROUP);
-                lineNumber = Integer.valueOf(pathMatcher.group(LINE_NUMBER_GROUP));
+                lineNumber = parseInt(pathMatcher.group(LINE_NUMBER_GROUP));
 
                 Matcher jenkinsPathMatcher = JENKINS_PATH_PATTERN.matcher(errFilePath);
                 if (jenkinsPathMatcher.find()) {

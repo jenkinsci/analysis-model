@@ -44,7 +44,7 @@ public class ResourceTest {
     }
 
     private Path getPath(final String name) throws URISyntaxException {
-        @SuppressFBWarnings("UI")
+        @SuppressFBWarnings("UI_INHERITANCE_UNSAFE_GETRESOURCE")
         URL resource = getClass().getResource(name);
         if (resource == null) {
             throw new AssertionError("Can't find resource " + name);

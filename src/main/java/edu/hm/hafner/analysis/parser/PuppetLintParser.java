@@ -19,14 +19,10 @@ public class PuppetLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 7492869677427430346L;
 
     private static final String SEPARATOR = "::";
-
-    /** Pattern of puppet-lint compiler warnings. */
     private static final String PUPPET_LINT_PATTERN_WARNING = "^\\s*((?:[A-Za-z]:)?[^:]+):([0-9]+):([^:]+):("
             + "(?:WARNING)|(?:ERROR)):\\s*(.*)$";
-
     private static final String PUPPET_LINT_PATTERN_PACKAGE = "^(.*/?modules/)?([^/]*)/manifests(.*)?(/([^/]*)\\.pp)$";
-
-    private static final Pattern packagePattern = Pattern.compile(PUPPET_LINT_PATTERN_PACKAGE);
+    private static final Pattern PACKAGE_PATTERN = Pattern.compile(PUPPET_LINT_PATTERN_PACKAGE);
 
     /**
      * Creates a new instance of {@link PuppetLintParser}.
@@ -62,7 +58,7 @@ public class PuppetLintParser extends RegexpLineParser {
     }
 
     private String splitFileName(final String fileName) {
-        Matcher matcher = packagePattern.matcher(fileName);
+        Matcher matcher = PACKAGE_PATTERN.matcher(fileName);
         if (matcher.find()) {
             String main = matcher.group(2);
             String subclassed = matcher.group(3);
