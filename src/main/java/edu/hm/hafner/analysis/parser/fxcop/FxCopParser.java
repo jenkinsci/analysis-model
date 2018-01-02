@@ -33,9 +33,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class FxCopParser extends AbstractParser {
     private static final long serialVersionUID = -7208558002331355408L;
 
-    @SuppressFBWarnings("UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
+    @SuppressFBWarnings({"UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", "SE_TRANSIENT_FIELD_NOT_RESTORED"})
     private transient Issues<Issue> warnings;
-    @SuppressFBWarnings("UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
+    @SuppressFBWarnings({"UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", "SE_TRANSIENT_FIELD_NOT_RESTORED"})
     private transient FxCopRuleSet ruleSet;
 
     @Override
