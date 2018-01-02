@@ -19,7 +19,6 @@ import static org.mockito.Mockito.*;
 class FingerprintGeneratorTest extends ResourceTest {
     private static final String AFFECTED_FILE_NAME = "file.txt";
     private static final Charset CHARSET_AFFECTED_FILE = Charset.forName("UTF-8");
-    private static final int ADDITIONAL_LINES = 5;
 
     @Test
     void shouldReturnCopyOfIssues() {
