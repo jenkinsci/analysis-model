@@ -74,7 +74,7 @@
     <pmd.maven.plugin>3.8</pmd.maven.plugin>
     <pmd.version>5.8.1</pmd.version>
     <checkstyle.maven.plugin>2.17</checkstyle.maven.plugin>
-    <checkstyle.version>8.2</checkstyle.version>
+    <checkstyle.version>8.7</checkstyle.version>
     <findbugs.maven.plugin>3.0.5</findbugs.maven.plugin>
     <jacoco.maven.plugin>0.7.9</jacoco.maven.plugin>
     <taglist.maven.plugin>2.4</taglist.maven.plugin>

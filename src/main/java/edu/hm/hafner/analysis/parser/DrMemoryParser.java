@@ -71,7 +71,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
         super(DR_MEMORY_WARNING_PATTERN, false);
     }
 
-    @SuppressWarnings("CheckStyle")
+    @SuppressWarnings({"javancss", "npathcomplexity"})
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         StringBuilder messageBuilder = new StringBuilder();
