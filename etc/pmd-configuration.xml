@@ -247,7 +247,6 @@
   <rule ref="rulesets/java/naming.xml/MisleadingVariableName"/>
   <rule ref="rulesets/java/naming.xml/GenericsNaming"/>
   <rule ref="rulesets/java/codesize.xml/NPathComplexity"/>
-  <rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength"/>
   <rule ref="rulesets/java/codesize.xml/ExcessiveClassLength"/>
   <rule ref="rulesets/java/codesize.xml/CyclomaticComplexity">
     <properties>

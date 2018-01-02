@@ -66,8 +66,10 @@ public class PyLintParser extends FastRegexpLineParser {
             case 'F':
                 priority = Priority.HIGH;
                 break;
+
             default:
                 priority = Priority.LOW;
+                break;
         }
         return priority;
     }

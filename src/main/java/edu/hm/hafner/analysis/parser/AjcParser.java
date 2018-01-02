@@ -74,7 +74,7 @@ public class AjcParser extends AbstractParser {
     }
 
     private void fillFileName(@Nonnull final IssueBuilder builder, final String line) {
-        int indexOfColon = line.lastIndexOf(":");
+        int indexOfColon = line.lastIndexOf(':');
         if (indexOfColon != -1) {
             builder.setFileName(line.substring(0, indexOfColon));
             if (line.length() > indexOfColon + 1) {
