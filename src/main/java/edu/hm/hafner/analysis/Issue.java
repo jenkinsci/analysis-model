@@ -281,7 +281,7 @@ public class Issue implements Serializable {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
 
-    @SuppressWarnings("CheckStyle")
+    @SuppressWarnings("all")
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issues.IssueFilterBuilder;
 import static org.assertj.core.api.Assertions.*;
 
-
 /**
  * Unit test for {@link IssueFilterBuilder}.
  *
@@ -25,7 +24,6 @@ public class IssueFilterTest {
         issues.add(ISSUE1, ISSUE2, ISSUE3);
         return issues;
     }
-
 
     private static final Issue ISSUE1 = new IssueBuilder()
             .setFileName("FileName1")
@@ -49,7 +47,6 @@ public class IssueFilterTest {
             .setCategory("CategoryName3")
             .setType("Type3")
             .build();
-
 
     @Test
     void shouldNothingChangeWhenNoFilterIsAdded() {
@@ -203,17 +200,19 @@ public class IssueFilterTest {
         applyFilterAndCheckResult(filter, getIssues());
     }
 
-   /**
-     * Apply filter and check if result is equal to expected values.
+    /**
+     * Applies filter and checks if result is equal to expected values.
      *
-     * @param criterion      = Filter.
-     * @param issues         = issues to filter.
-     * @param expectedOutput = filter result.
+     * @param criterion
+     *         the filter criterion
+     * @param issues
+     *         the issues to filter.
+     * @param expectedOutput
+     *         the expected filter result.
      */
-    @SafeVarargs
-    private final <T extends Issue> void applyFilterAndCheckResult(final Predicate<? super T> criterion, final Issues<T> issues, final T... expectedOutput) {
-        Issues<T> result = issues.filter(criterion);
+    private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Issues<Issue> issues,
+            final Issue... expectedOutput) {
+        Issues<Issue> result = issues.filter(criterion);
         assertThat(result.iterator()).containsExactly(expectedOutput);
     }
-
 }

@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.gendarme;
 
-@SuppressWarnings({"javadoc", "CheckStyle"})
+@SuppressWarnings("all")
 public enum GendarmeRuleType {
     Method, Type, Assembly
 }

@@ -43,6 +43,7 @@ import static java.util.stream.Collectors.*;
  * @author Ullrich Hafner
  */
 // FIXME: what about the properties like duplicates, log messages, etc. if an issue instance is copied or filtered
+@SuppressWarnings("PMD.ExcessivePublicCount")
 public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
 

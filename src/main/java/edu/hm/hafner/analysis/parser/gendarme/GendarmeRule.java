@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser.gendarme;
 
 import java.net.URL;
 
-@SuppressWarnings({"javadoc", "CheckStyle"})
+@SuppressWarnings("all")
 public class GendarmeRule {
     private String name;
     private String typeName;
