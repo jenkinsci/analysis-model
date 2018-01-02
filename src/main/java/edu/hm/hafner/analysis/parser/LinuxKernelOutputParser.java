@@ -158,9 +158,9 @@ public class LinuxKernelOutputParser extends RegexpParser {
 
                 toolTipBuilder.append("------------[ cut here ]------------\n");
                 toolTipBuilder.append(removeTimestamp(bug));
-                toolTipBuilder.append("\n");
+                toolTipBuilder.append('\n');
                 toolTipBuilder.append(matcher.group(BUGWARN_ENDTRACE));
-                toolTipBuilder.append("\n");
+                toolTipBuilder.append('\n');
             }
             else {
                 messageBuilder.append(removeTimestamp(bug));

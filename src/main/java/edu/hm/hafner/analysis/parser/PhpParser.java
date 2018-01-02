@@ -33,23 +33,26 @@ public class PhpParser extends FastRegexpLineParser {
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(1);
+        builder.setCategory(category).setPriority(mapPriority(category));
 
-        Priority priority = Priority.NORMAL;
-
-        if (category.contains("Fatal") || category.contains("Parse")) {
-            priority = Priority.HIGH;
-        }
-
-        if (matcher.group(5) != null) {
-            return builder.setFileName("-").setLineStart(0).setCategory(category).setMessage(matcher.group(5))
-                                 .setPriority(priority).build();
+        if (matcher.group(5) == null) {
+            return builder.setFileName(matcher.group(3))
+                    .setLineStart(parseInt(matcher.group(4)))
+                    .setMessage(matcher.group(2))
+                    .build();
         }
         else {
-            String message = matcher.group(2);
-            String fileName = matcher.group(3);
-            String start = matcher.group(4);
-            return builder.setFileName(fileName).setLineStart(Integer.parseInt(start)).setCategory(category)
-                                 .setMessage(message).setPriority(priority).build();
+            return builder.setFileName("-")
+                    .setLineStart(0)
+                    .setMessage(matcher.group(5))
+                    .build();
         }
+    }
+
+    private Priority mapPriority(final String category) {
+        if (category.contains("Fatal") || category.contains("Parse")) {
+            return Priority.HIGH;
+        }
+        return Priority.NORMAL;
     }
 }
