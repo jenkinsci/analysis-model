@@ -25,17 +25,18 @@ import edu.hm.hafner.analysis.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Parses a fxcop xml report file. This does not uses the XML Pull parser as it can not handle the FxCop XML files. The
- * bug is registered at Sun as http: //bugs.sun.com/bugdatabase/view_bug.do?bug_id=4508058 <p> Note that instances of
- * this parser are not thread safe. </p>
+ * Parses a fxcop xml report file.
+ *
+ * <p> Note that instances of this parser are not thread safe. </p>
  */
 @SuppressWarnings("unused")
 public class FxCopParser extends AbstractParser {
     private static final long serialVersionUID = -7208558002331355408L;
 
-    private transient FxCopRuleSet ruleSet;
-    @SuppressFBWarnings("SE")
+    @SuppressFBWarnings("UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     private transient Issues<Issue> warnings;
+    @SuppressFBWarnings("UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
+    private transient FxCopRuleSet ruleSet;
 
     @Override
     public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {

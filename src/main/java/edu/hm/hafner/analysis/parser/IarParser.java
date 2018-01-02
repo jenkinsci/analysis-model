@@ -56,10 +56,11 @@ public class IarParser extends FastRegexpLineParser {
     }
 
     private Priority determinePriority(final String message) {
-        if (message.toLowerCase(Locale.ENGLISH).contains("error")) {  // for "Fatal error", "Fatal Error", "Error" and "error" and "warning"
+        String lowerCaseMessage = message.toLowerCase(Locale.ENGLISH);
+        if (lowerCaseMessage.contains("error")) {  // for "Fatal error", "Fatal Error", "Error" and "error" and "warning"
             return Priority.HIGH;
         }
-        else if (message.toLowerCase().contains("warning")) {
+        else if (lowerCaseMessage.contains("warning")) {
             return Priority.NORMAL;
         }
         else {
