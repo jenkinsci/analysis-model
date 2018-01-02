@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class TnsdlParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -7740789998865369930L;
+
     static final String WARNING_CATEGORY = "Error";
     private static final String TNSDL_WARNING_PATTERN = "^tnsdl((.*)?):\\(.*\\) (.*) \\((.*)\\):(.*)$";
 
@@ -31,20 +32,21 @@ public class TnsdlParser extends FastRegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        String fileName = matcher.group(3);
-        int lineNumber = parseInt(matcher.group(4));
-        String message = matcher.group(5);
-        Priority priority;
+        return builder.setFileName(matcher.group(3))
+                .setLineStart(parseInt(matcher.group(4)))
+                .setCategory(WARNING_CATEGORY)
+                .setMessage(matcher.group(5))
+                .setPriority(mapPriority(matcher))
+                .build();
+    }
 
+    private Priority mapPriority(final Matcher matcher) {
         if (matcher.group().contains("(E)")) {
-            priority = Priority.HIGH;
+            return Priority.HIGH;
         }
         else {
-            priority = Priority.NORMAL;
+            return Priority.NORMAL;
         }
-
-        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(WARNING_CATEGORY)
-                             .setMessage(message).setPriority(priority).build();
     }
 }
 

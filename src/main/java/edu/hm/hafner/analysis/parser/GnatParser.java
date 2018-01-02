@@ -14,8 +14,9 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class GnatParser extends RegexpLineParser {
     private static final long serialVersionUID = -7139298560308123856L;
-    private static final String GNAT_WARNING_PATTERN = "^(.+.(?:ads|adb)):(\\d+):(\\d+): ((?:error:)|(?:warning:)|" +
-            "(?:\\(style\\))) (.+)$";
+
+    private static final String GNAT_WARNING_PATTERN = "^(.+.(?:ads|adb)):(\\d+):(\\d+): ((?:error:)|(?:warning:)|"
+            + "(?:\\(style\\))) (.+)$";
 
     /**
      * Creates a new instance of {@link GnatParser}.

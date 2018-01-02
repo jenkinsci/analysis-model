@@ -29,9 +29,12 @@ public class GoLintParser extends RegexpLineParser {
         String message = matcher.group(4);
         String category = guessCategory(message);
 
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setColumnStart(parseInt(matcher.group(3))).setCategory(category).setMessage(message)
-                      .build();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setColumnStart(parseInt(matcher.group(3)))
+                .setCategory(category)
+                .setMessage(message)
+                .build();
     }
 }
 

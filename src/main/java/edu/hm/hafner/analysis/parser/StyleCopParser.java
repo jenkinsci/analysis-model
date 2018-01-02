@@ -31,17 +31,11 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  * @author Sebastian Seidl
  */
 public class StyleCopParser extends AbstractParser {
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Creates a new instance of {@link StyleCopParser}.
-     */
-    public StyleCopParser() {
-        super();
-    }
+    private static final long serialVersionUID = 7846052338159003458L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder)
+            throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 

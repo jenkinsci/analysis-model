@@ -12,7 +12,6 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Ryan Cox
  */
 public class GoVetParser extends RegexpLineParser {
-
     private static final long serialVersionUID = 1451787851164850844L;
 
     // ui_colored_test.go:59: missing argument for Fatalf("%#v"): format reads arg 2, have only 1 args
@@ -30,7 +29,10 @@ public class GoVetParser extends RegexpLineParser {
         String message = matcher.group(3);
         String category = guessCategory(message);
 
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setCategory(category).setMessage(message).build();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(category)
+                .setMessage(message)
+                .build();
     }
 }

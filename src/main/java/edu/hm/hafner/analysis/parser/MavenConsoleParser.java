@@ -91,6 +91,5 @@ public class MavenConsoleParser extends FastRegexpLineParser {
         }
         return noBlank;
     }
-
 }
 

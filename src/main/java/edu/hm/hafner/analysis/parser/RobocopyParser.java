@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class RobocopyParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -671744745118772873L;
-    /** Pattern of perforce compiler warnings. */
+
     private static final String ROBOCOPY_WARNING_PATTERN = "^(.*)(EXTRA File|New File|same)\\s*(\\d*)\\s*(.*)$";
 
     /**
@@ -27,10 +27,12 @@ public class RobocopyParser extends FastRegexpLineParser {
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String file = matcher.group(4).split("\\s{11}")[0];
-        String message = file;
-        String category = matcher.group(2);
-        return builder.setFileName(file).setLineStart(0).setCategory(category).setMessage(message)
-                             .setPriority(Priority.NORMAL).build();
+        return builder.setFileName(file)
+                .setLineStart(0)
+                .setCategory(matcher.group(2))
+                .setMessage(file)
+                .setPriority(Priority.NORMAL)
+                .build();
     }
 
     @Override

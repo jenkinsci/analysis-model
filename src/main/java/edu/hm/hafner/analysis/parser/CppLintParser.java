@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class CppLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 1737791073711198075L;
+
     private static final String PATTERN = "^\\s*(.*)\\s*[(:](\\d*)\\)?:\\s*(.*)\\s*\\[(.*)\\] \\[(.*)\\]$";
 
     /**

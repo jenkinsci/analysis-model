@@ -23,8 +23,8 @@ public class P4Parser extends FastRegexpLineParser {
     private static final String OR = "|";
 
     /** Pattern of perforce compiler warnings. */
-    private static final String PERFORCE_WARNING_PATTERN = "^(.*) - " + "(" + CANT_ADD + OR + WARNING_ADD_OF + OR +
-            OPENED_FOR_EDIT + OR + NOTHING_CHANGED + ")" + "(.*)$";
+    private static final String PERFORCE_WARNING_PATTERN = "^(.*) - " + "(" + CANT_ADD + OR + WARNING_ADD_OF + OR
+            + OPENED_FOR_EDIT + OR + NOTHING_CHANGED + ")" + "(.*)$";
 
     /**
      * Creates a new instance of {@link P4Parser}.
@@ -36,14 +36,17 @@ public class P4Parser extends FastRegexpLineParser {
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(2).trim();
-        String fileName = matcher.group(1).trim();
-        String message = fileName;
-        Priority p = Priority.NORMAL;
+        Priority p = mapPriority(category);
+        return builder.setFileName(matcher.group(1).trim()).setLineStart(0).setCategory(category).setMessage(
+                matcher.group(1).trim())
+                .setPriority(p).build();
+    }
+
+    private Priority mapPriority(final String category) {
         if (category.contains(ALREADY_OPENED) || category.equals(NOTHING_CHANGED)) {
-            p = Priority.LOW;
+            return Priority.LOW;
         }
-        return builder.setFileName(fileName).setLineStart(0).setCategory(category).setMessage(message)
-                             .setPriority(p).build();
+        return Priority.NORMAL;
     }
 
     @Override

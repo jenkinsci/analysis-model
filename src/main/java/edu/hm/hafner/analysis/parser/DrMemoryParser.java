@@ -80,8 +80,6 @@ public class DrMemoryParser extends RegexpDocumentParser {
         StringBuilder messageBuilder = new StringBuilder();
         String filePath = "Nil";
         int lineNumber = 0;
-        String category = "Unknown";
-        Priority priority = Priority.HIGH;
 
         // Store this for later use when finding the category.
         String header = "";
@@ -134,6 +132,8 @@ public class DrMemoryParser extends RegexpDocumentParser {
 
         header = header.toLowerCase();
 
+        String category = "Unknown";
+        Priority priority = Priority.HIGH;
         if (StringUtils.isNotBlank(header)) {
             if (header.startsWith("unaddressable access")) {
                 category = "Unaddressable Access";
@@ -179,7 +179,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
      * @param stackTrace Array of strings in the stack trace in the correct order.
      * @return A SourceCodeLocation of where the error originated.
      */
-    private SourceCodeLocation findOriginatingErrLocation(String[] stackTrace) {
+    private SourceCodeLocation findOriginatingErrLocation(final String[] stackTrace) {
         String errFilePath = "Unknown"; // Path where the error originates from
         int lineNumber = 0; // Line number where the error originates from
 

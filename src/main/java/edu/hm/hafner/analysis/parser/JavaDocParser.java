@@ -16,8 +16,8 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class JavaDocParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 7127568148333474921L;
-    private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit" +
-            " code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";
+    private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit"
+            + " code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";
 
     /**
      * Creates a new instance of {@link JavaDocParser}.
@@ -28,13 +28,25 @@ public class JavaDocParser extends FastRegexpLineParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("javadoc") || line.contains("@") || (line.contains("error") && line.contains("ERROR"));
+        return line.contains("javadoc") || line.contains("@") || hasErrorPrefixAndErrorInMessage(line);
+    }
+
+    private boolean hasErrorPrefixAndErrorInMessage(final String line) {
+        return line.contains("error") && line.contains("ERROR");
     }
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        String message = matcher.group(4);
         String type = matcher.group(3);
+
+        return builder.setFileName(StringUtils.defaultIfEmpty(matcher.group(1), " - "))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setMessage(matcher.group(4))
+                .setPriority(mapPriority(type))
+                .build();
+    }
+
+    private Priority mapPriority(final String type) {
         Priority priority;
         if ("warning".equals(type)) {
             priority = Priority.NORMAL;
@@ -42,10 +54,7 @@ public class JavaDocParser extends FastRegexpLineParser {
         else {
             priority = Priority.HIGH;
         }
-        String fileName = StringUtils.defaultIfEmpty(matcher.group(1), " - ");
-
-        return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setMessage(message)
-                             .setPriority(priority).build();
+        return priority;
     }
 }
 

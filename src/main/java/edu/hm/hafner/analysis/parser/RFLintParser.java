@@ -16,9 +16,12 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for <a href="http://robotframework.org/">Robot Framework</a> Parse output from <a
- * href="https://github.com/boakley/robotframework-lint">robotframework-lint</a> To generate rflint file cmd$ pip
- * install robotframework-lint cmd$ rflint path/to/test.robot Created by traitanit on 3/27/2017 AD.
+ * href="https://github.com/boakley/robotframework-lint">robotframework-lint</a>. To generate rflint file cmd$ pip
+ * install robotframework-lint cmd$ rflint path/to/test.robot
+ *
+ * @author traitanit
  */
+// FIXME: wrong base class!
 public class RFLintParser extends RegexpLineParser {
     private static final String RFLINT_ERROR_PATTERN = "([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)";
     private static final String RFLINT_FILE_PATTERN = "\\+\\s(.*)";
@@ -32,8 +35,8 @@ public class RFLintParser extends RegexpLineParser {
     public Issues<Issue> parse(@Nonnull Reader file, @Nonnull final IssueBuilder builder) {
         Issues<Issue> warnings = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(file);
-        Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
         try {
+            Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
             while (iterator.hasNext()) {
                 String line = getTransformer().apply(iterator.nextLine());
                 Matcher matcher = filePattern.matcher(line);
@@ -50,7 +53,7 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(Matcher matcher, final IssueBuilder builder) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(1), message);
         Priority priority = Priority.LOW;
@@ -70,7 +73,11 @@ public class RFLintParser extends RegexpLineParser {
             default:
                 break;
         }
-        return builder.setFileName(fileName).setLineStart(parseInt(matcher.group(2))).setCategory(category)
-                      .setMessage(message).setPriority(priority).build();
+        return builder.setFileName(fileName)
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(priority)
+                .build();
     }
 }

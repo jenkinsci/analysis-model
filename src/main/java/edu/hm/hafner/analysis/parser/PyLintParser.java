@@ -33,6 +33,16 @@ public class PyLintParser extends FastRegexpLineParser {
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
+
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(mapPriorty(category))
+                .build();
+    }
+
+    private Priority mapPriorty(final String category) {
         //First letter of the Pylint classification is one of F/E/W/R/C. E/F/W are high priority.
         Priority priority = Priority.LOW;
 
@@ -57,8 +67,6 @@ public class PyLintParser extends FastRegexpLineParser {
                 priority = Priority.HIGH;
                 break;
         }
-
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setCategory(category).setMessage(message).setPriority(priority).build();
+        return priority;
     }
 }

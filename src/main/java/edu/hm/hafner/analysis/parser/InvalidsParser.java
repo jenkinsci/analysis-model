@@ -17,8 +17,8 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 public class InvalidsParser extends RegexpLineParser {
     private static final long serialVersionUID = 440910718005095427L;
     static final String WARNING_PREFIX = "Oracle ";
-    private static final String INVALIDS_PATTERN = "^\\s*(\\w+),([a-zA-Z#_0-9/]*),([A-Z_ ]*),(.*),(\\d+),\\d+,([^:]*)" +
-            ":\\s*(.*)$";
+    private static final String INVALIDS_PATTERN = "^\\s*(\\w+),([a-zA-Z#_0-9/]*),([A-Z_ ]*),(.*),(\\d+),\\d+,([^:]*)"
+            + ":\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link InvalidsParser}.

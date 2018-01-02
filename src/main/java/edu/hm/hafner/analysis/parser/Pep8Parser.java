@@ -29,9 +29,13 @@ public class Pep8Parser extends FastRegexpLineParser {
         String message = matcher.group(5);
         String category = guessCategoryIfEmpty(matcher.group(4), message);
 
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setColumnStart(parseInt(matcher.group(3))).setCategory(category).setMessage(message)
-                             .setPriority(mapPriority(category)).build();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setColumnStart(parseInt(matcher.group(3)))
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(mapPriority(category))
+                .build();
     }
 
     @Override

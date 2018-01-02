@@ -17,12 +17,13 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class IarParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 7695540852439013425L;
+
     private static final int GROUP_NUMBER = 5;
 
     // search for: Fatal Error[Pe1696]: cannot open source file "c:\filename.c"
     // search for: c:\filename.h(17) : Fatal Error[Pe1696]: cannot open source file "System/ProcDef_LPC17xx.h"
-    private static final String IAR_WARNING_PATTERN = "((\\[exec\\] )?(.*)\\((\\d+)\\)?.*)?" + "(Fatal " +
-            "[Ee]rror|Remark|Warning)\\[(\\w+)\\]: (.*(\\\".*(c|h)\\\")|.*)";
+    private static final String IAR_WARNING_PATTERN = "((\\[exec\\] )?(.*)\\((\\d+)\\)?.*)?" + "(Fatal "
+            + "[Ee]rror|Remark|Warning)\\[(\\w+)\\]: (.*(\\\".*(c|h)\\\")|.*)";
 
     /**
      * Creates a new instance of {@link IarParser}.

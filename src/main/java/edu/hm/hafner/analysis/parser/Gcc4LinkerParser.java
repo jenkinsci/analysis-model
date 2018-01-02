@@ -16,14 +16,15 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class Gcc4LinkerParser extends RegexpLineParser {
     private static final long serialVersionUID = -2792019431810134790L;
+
     /** A GCC error. */
     static final String WARNING_CATEGORY = "GCC4 Linker Error";
     /** Pattern of gcc 4 linker warnings. */
-    private static final String LINKER_WARNING_PATTERN = "^(?:(.+?)(?:(?::(?:(\\d+):)? (undefined reference to .*))|" +
-            "(?::?\\(\\.\\w+\\+0x[0-9a-fA-F]+\\)): (?:(warning): )?(.*))|.*/ld(?:\\.exe)?: (?:(warning): )?(.*))$";
+    private static final String LINKER_WARNING_PATTERN = "^(?:(.+?)(?:(?::(?:(\\d+):)? (undefined reference to .*))|"
+            + "(?::?\\(\\.\\w+\\+0x[0-9a-fA-F]+\\)): (?:(warning): )?(.*))|.*/ld(?:\\.exe)?: (?:(warning): )?(.*))$";
 
     /**
-     * Creates a new instance of <code>Gcc4LinkerParser</code>.
+     * Creates a new instance of {@link Gcc4LinkerParser}.
      */
     public Gcc4LinkerParser() {
         super(LINKER_WARNING_PATTERN);
@@ -67,10 +68,12 @@ public class Gcc4LinkerParser extends RegexpLineParser {
             }
         }
 
-        String fileName = StringUtils.defaultString(matcher.group(1));
-        int lineNumber = parseInt(matcher.group(2));
-        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(WARNING_CATEGORY)
-                      .setMessage(message).setPriority(priority).build();
+        return builder.setFileName(StringUtils.defaultString(matcher.group(1)))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(WARNING_CATEGORY)
+                .setMessage(message)
+                .setPriority(priority)
+                .build();
     }
 }
 

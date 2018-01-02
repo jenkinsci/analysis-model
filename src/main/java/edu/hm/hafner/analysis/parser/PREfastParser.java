@@ -54,8 +54,8 @@ public class PREfastParser extends RegexpLineParser {
      * <DESCRIPTION>(.+?)</DESCRIPTION>
      *     - capture group 4 to get the description
      */
-    private static final String PREFAST_PATTERN_WARNING = "<DEFECT.*?>.*?<FILENAME>(.+?)</FILENAME>.*?<LINE>(.+?)" +
-            "</LINE>.*?<DEFECTCODE>(.+?)</DEFECTCODE>.*?<DESCRIPTION>(.+?)</DESCRIPTION>.*?</DEFECT>";
+    private static final String PREFAST_PATTERN_WARNING = "<DEFECT.*?>.*?<FILENAME>(.+?)</FILENAME>.*?<LINE>(.+?)"
+            + "</LINE>.*?<DEFECTCODE>(.+?)</DEFECTCODE>.*?<DESCRIPTION>(.+?)</DESCRIPTION>.*?</DEFECT>";
 
     /**
      * Creates a new instance of {@link PREfastParser}.

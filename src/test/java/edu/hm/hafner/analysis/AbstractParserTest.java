@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.*;
  * @author Ullrich Hafner
  */
 public abstract class AbstractParserTest {
+    /** Default category for parsers that do not set the category property. */
     protected static final String DEFAULT_CATEGORY = new IssueBuilder().build().getCategory();
 
     private final String fileWithIssuesName;

@@ -40,10 +40,10 @@ public class DoxygenParser extends RegexpDocumentParser {
      * end of the line. The whole multi-line message is matched by: (.+(?:\\n(?!\\s*(?:[Nn]otice|[Ww]arning|[Ee]rror):
      * )[^/<\\n][^:\\n][^/\\n].+)*)
      */
-    private static final String DOXYGEN_WARNING_PATTERN = ANT_TASK + "(?:(?:((?:[/.]|[A-Za-z]:).+?):(-?\\d+):\\s*" +
-            "([Ww]arning|[Ee]rror)|<.+>:-?\\d+(?::\\s*([Ww]arning|[Ee]rror))?): (.+(?:\\n(?!\\s*" +
-            "(?:[Nn]otice|[Ww]arning|[Ee]rror): )[^/<\\n][^:\\n][^/\\n].+)*)|\\s*([Nn]otice|[Ww]arning|[Ee]rror): (" +
-            ".+))$";
+    private static final String DOXYGEN_WARNING_PATTERN = ANT_TASK + "(?:(?:((?:[/.]|[A-Za-z]:).+?):(-?\\d+):\\s*"
+            + "([Ww]arning|[Ee]rror)|<.+>:-?\\d+(?::\\s*([Ww]arning|[Ee]rror))?): (.+(?:\\n(?!\\s*"
+            + "(?:[Nn]otice|[Ww]arning|[Ee]rror): )[^/<\\n][^:\\n][^/\\n].+)*)|\\s*([Nn]otice|[Ww]arning|[Ee]rror): ("
+            + ".+))$";
 
     /** The index of the regexp group capturing the file name (when the warning occurs in a file). */
     private static final int FILE_NAME_GROUP = 1;
@@ -127,11 +127,8 @@ public class DoxygenParser extends RegexpDocumentParser {
         else if (StringUtils.equalsIgnoreCase(warningTypeString, "warning")) {
             return Priority.NORMAL;
         }
-        else if (StringUtils.equalsIgnoreCase(warningTypeString, "error")) {
-            return Priority.HIGH;
-        }
         else {
-            // empty label or other unexpected input
+            // empty label, error or other unexpected input
             return Priority.HIGH;
         }
     }

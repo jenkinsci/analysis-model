@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class CoolfluxChessccParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 4742509996511002391L;
+
     private static final String CHESSCC_PATTERN = "^.*?Warning in \"([^\"]+)\", line (\\d+),.*?:\\s*(.*)$";
 
     /**
@@ -30,8 +31,11 @@ public class CoolfluxChessccParser extends FastRegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                             .setMessage(matcher.group(3)).setPriority(Priority.HIGH).build();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setMessage(matcher.group(3))
+                .setPriority(Priority.HIGH)
+                .build();
     }
 }
 

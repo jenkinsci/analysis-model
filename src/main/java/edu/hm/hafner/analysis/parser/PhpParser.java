@@ -15,8 +15,8 @@ import edu.hm.hafner.analysis.Priority;
 public class PhpParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -5154327854315791181L;
 
-    private static final String PHP_WARNING_PATTERN = "^.*(PHP Warning|PHP Notice|PHP Fatal error|PHP Parse error)" +
-            ":\\s+(?:(.+ in (.+) on line (\\d+))|(SOAP-ERROR:\\s+.*))$";
+    private static final String PHP_WARNING_PATTERN = "^.*(PHP Warning|PHP Notice|PHP Fatal error|PHP Parse error)"
+            + ":\\s+(?:(.+ in (.+) on line (\\d+))|(SOAP-ERROR:\\s+.*))$";
 
     /**
      * Creates a new instance of {@link PhpParser}.

@@ -16,9 +16,11 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class CodeAnalysisParser extends RegexpLineParser {
     private static final long serialVersionUID = -125874563249851L;
-    private static final String WARNING_PATTERN = ANT_TASK + "((MSBUILD)|((.+)\\((\\d+)\\)))" +
-            "\\s*:\\s*[Ww]arning\\s*:?\\s*(\\w*)\\s*:\\s*(Microsoft\\.|)" + "(\\w*(\\.\\w*)*)\\s*:\\s*(.*)\\[(.*)" +
-            "\\]\\s*$";
+
+    private static final String WARNING_PATTERN = ANT_TASK + "((MSBUILD)|((.+)\\((\\d+)\\)))"
+            + "\\s*:\\s*[Ww]arning\\s*:?\\s*(\\w*)\\s*:\\s*(Microsoft\\.|)"
+            + "(\\w*(\\.\\w*)*)\\s*:\\s*(.*)\\[(.*)"
+            + "\\]\\s*$";
 
     /**
      * Creates a new instance of {@link CodeAnalysisParser}.
@@ -30,14 +32,22 @@ public class CodeAnalysisParser extends RegexpLineParser {
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(2))) {
-            return builder.setFileName(matcher.group(11)).setLineStart(0).setCategory(matcher.group(8))
-                          .setType(matcher.group(6)).setMessage(matcher.group(10)).setPriority(Priority.NORMAL)
-                          .build();
+            return builder.setFileName(matcher.group(11))
+                    .setLineStart(0)
+                    .setCategory(matcher.group(8))
+                    .setType(matcher.group(6))
+                    .setMessage(matcher.group(10))
+                    .setPriority(Priority.NORMAL)
+                    .build();
         }
         else {
-            return builder.setFileName(matcher.group(4)).setLineStart(parseInt(matcher.group(5)))
-                          .setCategory(matcher.group(8)).setType(matcher.group(6)).setMessage(matcher.group(10))
-                          .setPriority(Priority.NORMAL).build();
+            return builder.setFileName(matcher.group(4))
+                    .setLineStart(parseInt(matcher.group(5)))
+                    .setCategory(matcher.group(8))
+                    .setType(matcher.group(6))
+                    .setMessage(matcher.group(10))
+                    .setPriority(Priority.NORMAL)
+                    .build();
         }
     }
 }

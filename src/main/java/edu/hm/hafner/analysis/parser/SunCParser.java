@@ -15,11 +15,11 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 public class SunCParser extends RegexpLineParser {
     private static final long serialVersionUID = -1251248150596418456L;
 
-    private static final String SUN_CPP_WARNING_PATTERN = "^\\s*\"(.*)\"\\s*,\\s*line\\s*(\\d+)\\s*:\\s*" +
-            "(Warning|Error)(?:| .Anachronism.)\\s*(?:, \\s*([^:]*))?\\s*:\\s*(.*)$";
+    private static final String SUN_CPP_WARNING_PATTERN = "^\\s*\"(.*)\"\\s*,\\s*line\\s*(\\d+)\\s*:\\s*"
+            + "(Warning|Error)(?:| .Anachronism.)\\s*(?:, \\s*([^:]*))?\\s*:\\s*(.*)$";
 
     /**
-     * Creates a new instance of <code>HpiCompileParser</code>.
+     * Creates a new instance of {@link SunCParser}.
      */
     public SunCParser() {
         super(SUN_CPP_WARNING_PATTERN);
@@ -27,15 +27,21 @@ public class SunCParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        Priority priority;
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(matcher.group(4))
+                .setMessage(matcher.group(5))
+                .setPriority(mapPriority(matcher))
+                .build();
+    }
+
+    private Priority mapPriority(final Matcher matcher) {
         if ("warning".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.NORMAL;
+            return Priority.NORMAL;
         }
         else {
-            priority = Priority.HIGH;
+            return Priority.HIGH;
         }
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setCategory(matcher.group(4)).setMessage(matcher.group(5)).setPriority(priority).build();
     }
 }
 

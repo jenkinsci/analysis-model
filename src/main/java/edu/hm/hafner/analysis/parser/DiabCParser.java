@@ -19,7 +19,7 @@ public class DiabCParser extends RegexpLineParser {
             + "(info|warning|error|fatal\\serror)\\s*\\((?:dcc|etoa):(\\d+)\\)\\s*:\\s*(.*)$";
 
     /**
-     * Creates a new instance of <code>HpiCompileParser</code>.
+     * Creates a new instance of {@link DiabCParser}.
      */
     public DiabCParser() {
         super(DIAB_CPP_WARNING_PATTERN);
@@ -27,18 +27,24 @@ public class DiabCParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        Priority priority;
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(matcher.group(4))
+                .setMessage(matcher.group(5))
+                .setPriority(mapPriority(matcher))
+                .build();
+    }
+
+    private Priority mapPriority(final Matcher matcher) {
         if ("info".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.LOW;
+            return Priority.LOW;
         }
         else if ("warning".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.NORMAL;
+            return Priority.NORMAL;
         }
         else {
-            priority = Priority.HIGH;
+            return Priority.HIGH;
         }
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setCategory(matcher.group(4)).setMessage(matcher.group(5)).setPriority(priority).build();
     }
 }
 

@@ -13,6 +13,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
  */
 public class AcuCobolParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -894639209290549425L;
+
     private static final String ACU_COBOL_WARNING_PATTERN = "^\\s*(\\[.*\\])?\\s*?(.*), line ([0-9]*): Warning: (.*)$";
 
     /**

@@ -16,9 +16,10 @@ import edu.hm.hafner.analysis.IssueBuilder;
 public class AntJavacParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
-    private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*" +
-            "(?:warning|\u8b66\u544a)\\s*:\\s*(?:\\[(\\w*)\\])?\\s*(.*)$" + "|^\\s*\\[.*\\]\\s*warning.*\\]\\s*(.*\"(" +
-            ".*)\".*)$" + "|^(.*class)\\s*:\\s*warning\\s*:\\s*(.*)$";
+    private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*"
+            + "(?:warning|\u8b66\u544a)\\s*:\\s*(?:\\[(\\w*)\\])?\\s*(.*)$"
+            + "|^\\s*\\[.*\\]\\s*warning.*\\]\\s*(.*\"("
+            + ".*)\".*)$" + "|^(.*class)\\s*:\\s*warning\\s*:\\s*(.*)$";
     // \u8b66\u544a is Japanese l10n
 
     /**

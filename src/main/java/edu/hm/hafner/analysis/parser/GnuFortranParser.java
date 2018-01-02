@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -15,7 +14,6 @@ import edu.hm.hafner.analysis.RegexpDocumentParser;
  * @author Mat Cross.
  */
 public class GnuFortranParser extends RegexpDocumentParser {
-    private static final String LINE_REGEXP = " at \\(\\d\\)";
     private static final long serialVersionUID = 0L;
     /**
      * The gfortran regex string that follows has been reverse engineered from the show_locus function in
@@ -28,6 +26,7 @@ public class GnuFortranParser extends RegexpDocumentParser {
             + "\\n" + "[^\\n]+\\n" // The offending line itself. NOCHECKSTYLE
             + "[^\\n]+\\n" // The '1' and/or '2' corresponding to the column of the error locus.
             + "(Warning|Error|Fatal Error|Internal Error at \\(1\\)):[\\s\\n]([^\\n]+)\\n";
+    private static final Pattern LINE_PATTERN = Pattern.compile(" at \\(\\d\\)");
 
     /**
      * Creates a new instance of {@link GnuFortranParser}.
@@ -38,29 +37,14 @@ public class GnuFortranParser extends RegexpDocumentParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        String columnStart = matcher.group(3);
-        String columnEnd = matcher.group(4);
-        String category = matcher.group(5).replaceAll(LINE_REGEXP, "");
-        Priority priority = "Warning".equals(category) ? Priority.NORMAL : Priority.HIGH;
-
-        if (StringUtils.isNotEmpty(columnStart)) {
-            if (StringUtils.isNotEmpty(columnEnd)) {
-                return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                                     .setColumnStart(parseInt(columnStart)).setColumnEnd(parseInt(columnEnd))
-                                     .setCategory(category).setMessage(matcher.group(6).replaceAll(LINE_REGEXP, ""))
-                                     .setPriority(priority).build();
-            }
-            else {
-                return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                                     .setColumnStart(parseInt(columnStart)).setCategory(category)
-                                     .setMessage(matcher.group(6).replaceAll(LINE_REGEXP, "")).setPriority(priority)
-                                     .build();
-            }
-        }
-        else {
-            return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                                 .setCategory(category).setMessage(matcher.group(6).replaceAll(LINE_REGEXP, ""))
-                                 .setPriority(priority).build();
-        }
+        String category = LINE_PATTERN.matcher(matcher.group(5)).replaceAll("");
+        return builder.setFileName(matcher.group(1))
+                .setColumnStart(parseInt(matcher.group(3)))
+                .setColumnEnd(parseInt(matcher.group(4)))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(category)
+                .setMessage(LINE_PATTERN.matcher(matcher.group(6)).replaceAll(""))
+                .setPriority("Warning".equals(category) ? Priority.NORMAL : Priority.HIGH)
+                .build();
     }
 }

@@ -17,41 +17,41 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class PuppetLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 7492869677427430346L;
+
     private static final String SEPARATOR = "::";
 
     /** Pattern of puppet-lint compiler warnings. */
-    private static final String PUPPET_LINT_PATTERN_WARNING = "^\\s*((?:[A-Za-z]:)?[^:]+):([0-9]+):([^:]+):(" +
-            "(?:WARNING)|(?:ERROR)):\\s*(.*)$";
+    private static final String PUPPET_LINT_PATTERN_WARNING = "^\\s*((?:[A-Za-z]:)?[^:]+):([0-9]+):([^:]+):("
+            + "(?:WARNING)|(?:ERROR)):\\s*(.*)$";
 
     private static final String PUPPET_LINT_PATTERN_PACKAGE = "^(.*/?modules/)?([^/]*)/manifests(.*)?(/([^/]*)\\.pp)$";
 
-    private final Pattern packagePattern;
+    private static final Pattern packagePattern = Pattern.compile(PUPPET_LINT_PATTERN_PACKAGE);
 
     /**
      * Creates a new instance of {@link PuppetLintParser}.
      */
     public PuppetLintParser() {
         super(PUPPET_LINT_PATTERN_WARNING);
-
-        packagePattern = Pattern.compile(PUPPET_LINT_PATTERN_PACKAGE);
     }
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        final String fileName = matcher.group(1);
-        final String start = matcher.group(2);
-        final String category = matcher.group(3);
-        final String level = matcher.group(4);
-        final String message = matcher.group(5);
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(matcher.group(3))
+                .setPackageName(detectModuleName(matcher.group(1)))
+                .setMessage(matcher.group(5))
+                .setPriority(mapPriority(matcher.group(4)))
+                .build();
+    }
 
+    private Priority mapPriority(final String level) {
         Priority priority = Priority.NORMAL;
         if (level.contains("error") || level.contains("ERROR")) {
             priority = Priority.HIGH;
         }
-
-        return builder.setFileName(fileName).setLineStart(parseInt(start))
-                      .setCategory(category).setPackageName(detectModuleName(fileName)).setMessage(message)
-                      .setPriority(priority).build();
+        return priority;
     }
 
     private String detectModuleName(final String fileName) {

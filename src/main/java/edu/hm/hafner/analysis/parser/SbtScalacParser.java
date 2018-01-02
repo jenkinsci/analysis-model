@@ -13,6 +13,8 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author <a href="mailto:hochak@gmail.com">Hochak Hung</a>
  */
 public class SbtScalacParser extends RegexpLineParser {
+    private static final long serialVersionUID = -4233964844965517977L;
+
     private static final String SBT_WARNING_PATTERN = "^(\\[warn\\]|\\[error\\])\\s*(.*?):(\\d+)(?::\\d+)?:\\s*(.*)$";
 
     /**

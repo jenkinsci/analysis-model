@@ -20,32 +20,23 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 
 /**
- * Base class for parsers based on {@link JSLintXMLSaxParser}.
+ * Parser for Lint.
  *
- * @author Ullrich Hafner
+ * @author Gavin Mogan <gavin@kodekoan.com>
  */
-public abstract class LintParser extends AbstractParser {
+public class LintParser extends AbstractParser {
     private static final long serialVersionUID = 3341424685245834156L;
 
-    /**
-     * Creates a new instance of {@link LintParser}.
-     *
-     * @param id ID of the parser
-     */
-    protected LintParser(final String id) {
-        super();
-    }
-
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder)
+            throws ParsingException, ParsingCanceledException {
         try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             SAXParser parser = parserFactory.newSAXParser();
 
             Issues<Issue> issues = new Issues<>();
-            parser.parse(new ReaderInputStream(file, Charset.forName("UTF-8")),
-                    new JSLintXMLSaxParser(issues, builder));
+            parser.parse(new ReaderInputStream(file, Charset.forName("UTF-8")), new JSLintXMLSaxParser(issues, builder));
             return issues;
         }
         catch (IOException | ParserConfigurationException | SAXException e) {

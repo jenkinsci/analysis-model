@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class BuckminsterParser extends RegexpLineParser {
     private static final long serialVersionUID = -3723799140297979579L;
+
     private static final String BUCKMINSTER_WARNING_PATTERN = "^.*(Warning|Error): file (.*?)(, line )?(\\d*): (.*)$";
 
     /**

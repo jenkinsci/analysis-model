@@ -16,6 +16,7 @@ import edu.hm.hafner.analysis.RegexpDocumentParser;
  */
 public class EclipseParser extends RegexpDocumentParser {
     private static final long serialVersionUID = 425883472788422955L;
+
     private static final String ANT_ECLIPSE_WARNING_PATTERN = "\\[?(WARNING|ERROR)\\]?" +      // group 1 'type':
             // WARNING or ERROR in optional []
             "\\s*(?:in)?" +                  // optional " in"

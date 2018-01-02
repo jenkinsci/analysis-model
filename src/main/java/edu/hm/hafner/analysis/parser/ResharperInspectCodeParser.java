@@ -30,8 +30,8 @@ import edu.hm.hafner.analysis.XmlElementUtil;
 public class ResharperInspectCodeParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 526872513348892L;
     private static final String WARNING_TYPE = "ResharperInspectCode";
-    private static final String WARNING_PATTERN = "\\<Issue.*?TypeId=\"(.*?)\".*?File=\"(.*?)\".*?Line=\"(.*?)\"" +
-            ".*?Message=\"(.*?)\"";
+    private static final String WARNING_PATTERN = "\\<Issue.*?TypeId=\"(.*?)\".*?File=\"(.*?)\".*?Line=\"(.*?)\""
+            + ".*?Message=\"(.*?)\"";
 
     private final Map<String, Priority> priorityByTypeId = new HashMap<>();
 
@@ -44,9 +44,13 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        return builder.setFileName(matcher.group(2)).setLineStart(parseInt(matcher.group(3)))
-                             .setCategory(matcher.group(1)).setType(WARNING_TYPE).setMessage(matcher.group(4))
-                             .setPriority(GetPriority(matcher.group(1))).build();
+        return builder.setFileName(matcher.group(2))
+                .setLineStart(parseInt(matcher.group(3)))
+                .setCategory(matcher.group(1))
+                .setType(WARNING_TYPE)
+                .setMessage(matcher.group(4))
+                .setPriority(mapPriority(matcher.group(1)))
+                .build();
     }
 
     @Override
@@ -66,12 +70,10 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
                 Document doc = docBuilder.parse(is);
 
                 NodeList mainNode = doc.getElementsByTagName("IssueTypes");
-                Element issueTypesElement = (Element)mainNode.item(0);
+                Element issueTypesElement = (Element) mainNode.item(0);
                 parseIssueTypes(XmlElementUtil.getNamedChildElements(issueTypesElement, "IssueType"));
             }
-            catch (ParserConfigurationException | SAXException ignored) {
-            }
-            catch (IOException ex) {
+            catch (ParserConfigurationException | SAXException | IOException ignored) {
             }
             return false;
         }
@@ -96,12 +98,7 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
         }
     }
 
-    private Priority GetPriority(final String typeId) {
-        if (priorityByTypeId.containsKey(typeId)) {
-            return priorityByTypeId.get(typeId);
-        }
-        else {
-            return Priority.NORMAL;
-        }
+    private Priority mapPriority(final String typeId) {
+        return priorityByTypeId.getOrDefault(typeId, Priority.NORMAL);
     }
 }

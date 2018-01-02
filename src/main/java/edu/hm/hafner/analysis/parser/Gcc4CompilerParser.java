@@ -15,12 +15,13 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class Gcc4CompilerParser extends RegexpLineParser {
     private static final long serialVersionUID = 5490211629355204910L;
+
     private static final String ERROR = "error";
     private static final String GCC_WARNING_PATTERN = ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? (warning|.*error): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)\\]$");
 
     /**
-     * Creates a new instance of <code>Gcc4CompilerParser</code>.
+     * Creates a new instance of {@link Gcc4CompilerParser} .
      */
     public Gcc4CompilerParser() {
         super(GCC_WARNING_PATTERN);
@@ -28,9 +29,6 @@ public class Gcc4CompilerParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        String fileName = matcher.group(1);
-        int lineNumber = parseInt(matcher.group(2));
-        int column = parseInt(matcher.group(3));
         String message = matcher.group(5);
         Priority priority;
 
@@ -49,8 +47,13 @@ public class Gcc4CompilerParser extends RegexpLineParser {
             }
         }
 
-        return builder.setFileName(fileName).setLineStart(lineNumber).setColumnStart(column)
-                      .setCategory(category.toString()).setMessage(message).setPriority(priority).build();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setColumnStart(parseInt(matcher.group(3)))
+                .setCategory(category.toString())
+                .setMessage(message)
+                .setPriority(priority)
+                .build();
     }
 }
 

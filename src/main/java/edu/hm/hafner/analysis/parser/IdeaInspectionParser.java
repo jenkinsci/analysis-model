@@ -40,7 +40,7 @@ public class IdeaInspectionParser extends AbstractParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -57,7 +57,7 @@ public class IdeaInspectionParser extends AbstractParser {
         }
     }
 
-    private Issues<Issue> parseProblems(List<Element> elements, final IssueBuilder builder) {
+    private Issues<Issue> parseProblems(final List<Element> elements, final IssueBuilder builder) {
         Issues<Issue> problems = new Issues<>();
         for (Element element : elements) {
             String file = getChildValue(element, "file");
@@ -72,22 +72,22 @@ public class IdeaInspectionParser extends AbstractParser {
         return problems;
     }
 
-    private Priority getPriority(String severity) {
+    private Priority getPriority(final String severity) {
         Priority priority = Priority.LOW;
-        if (severity.equals("WARNING")) {
+        if ("WARNING".equals(severity)) {
             priority = Priority.NORMAL;
         }
-        else if (severity.equals("ERROR")) {
+        else if ("ERROR".equals(severity)) {
             priority = Priority.HIGH;
         }
         return priority;
     }
 
-    private String getValue(Element element) {
+    private String getValue(final Element element) {
         return element.getFirstChild().getNodeValue();
     }
 
-    private String getChildValue(Element element, String childTag) {
+    private String getChildValue(final Element element, final String childTag) {
         Element firstElement = XmlElementUtil.getFirstElementByTagName(element, childTag);
         if (firstElement != null) {
             Node child = firstElement.getFirstChild();

@@ -7,7 +7,7 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
- * Tests the class {@link JSLintParser}.
+ * Tests the class {@link LintParser}.
  *
  * @author Ullrich Hafner
  */
@@ -31,6 +31,6 @@ public class CssLintParserTest extends AbstractParserTest {
      */
     @Override
     protected AbstractParser createParser() {
-        return new CssLintParser();
+        return new LintParser();
     }
 }

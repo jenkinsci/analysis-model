@@ -11,6 +11,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * Tests the class {@link TiCcsParser}.
  */
 public class TiCcsParserTest extends AbstractParserTest {
+    private static final String UNKNOWN_FILE = "-";
+
     public TiCcsParserTest() {
         super("ticcs.txt");
     }
@@ -43,7 +45,7 @@ public class TiCcsParserTest extends AbstractParserTest {
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("symbol 'memset' redeclared with incompatible type")
-                .hasFileName("unknown.file");
+                .hasFileName(UNKNOWN_FILE);
         softly.assertThat(issues.get(3))
                 .hasPriority(Priority.NORMAL)
                 .hasLineStart(12)
@@ -67,13 +69,13 @@ public class TiCcsParserTest extends AbstractParserTest {
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("unresolved symbols remain")
-                .hasFileName("unknown.file");
+                .hasFileName(UNKNOWN_FILE);
         softly.assertThat(issues.get(7))
                 .hasPriority(Priority.HIGH)
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("errors encountered during linking; \"../../bin/Debug/lrxyz.out\" not")
-                .hasFileName("unknown.file");
+                .hasFileName(UNKNOWN_FILE);
         softly.assertThat(issues.get(8))
                 .hasPriority(Priority.HIGH)
                 .hasLineStart(3)

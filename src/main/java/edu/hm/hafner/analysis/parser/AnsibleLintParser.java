@@ -13,12 +13,12 @@ import edu.hm.hafner.analysis.IssueBuilder;
  * @author Ce Qi
  */
 public class AnsibleLintParser extends FastRegexpLineParser {
-
     private static final long serialVersionUID = 8481090596321427484L;
+
     private static final String ANSIBLE_LINT_WARNING_PATTERN = "(.*)\\:([0-9]*)\\:\\s*\\[.*(ANSIBLE[0-9]*)\\]\\s(.*)";
 
     /**
-     * Creates a new instance of {@link AnsibleLintParser}
+     * Creates a new instance of {@link AnsibleLintParser}.
      */
     public AnsibleLintParser() {
         super(ANSIBLE_LINT_WARNING_PATTERN);

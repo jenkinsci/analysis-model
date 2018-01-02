@@ -15,10 +15,11 @@ import edu.hm.hafner.analysis.RegexpDocumentParser;
  * @author Mat Cross.
  */
 public class NagFortranParser extends RegexpDocumentParser {
-    private static final long serialVersionUID = 0L;
-    private static final String NAGFOR_MSG_PATTERN = "^(Info|Warning|Questionable|Extension|Obsolescent|Deleted " +
-            "feature used|Error|Runtime Error|Fatal Error|Panic): (.+\\.[^,:\\n]+)(, line (\\d+))?: (.+($\\s+detected" +
-            " at .+)?)";
+    private static final long serialVersionUID = 2072414911276743946L;
+
+    private static final String NAGFOR_MSG_PATTERN = "^(Info|Warning|Questionable|Extension|Obsolescent|Deleted "
+            + "feature used|Error|Runtime Error|Fatal Error|Panic): (.+\\.[^,:\\n]+)(, line (\\d+))?: (.+($\\s+detected"
+            + " at .+)?)";
 
     /**
      * Creates a new instance of {@link NagFortranParser}.
@@ -30,18 +31,20 @@ public class NagFortranParser extends RegexpDocumentParser {
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(1);
-        int lineNumber;
+
+        return builder.setFileName(matcher.group(2))
+                .setLineStart(getLineNumber(matcher))
+                .setCategory(category)
+                .setMessage(matcher.group(5))
+                .setPriority(mapPriority(category))
+                .build();
+    }
+
+    private Priority mapPriority(final String category) {
         Priority priority;
 
-        if (StringUtils.isEmpty(matcher.group(4))) {
-            lineNumber = 0;
-        }
-        else {
-            lineNumber = Integer.parseInt(matcher.group(4));
-        }
-
-        if ("Error".equals(category) || "Runtime Error".equals(category) || "Fatal Error".equals(category) || "Panic"
-                .equals(category)) {
+        if ("Error".equals(category) || "Runtime Error".equals(category)
+                || "Fatal Error".equals(category) || "Panic".equals(category)) {
             priority = Priority.HIGH;
         }
         else if ("Info".equals(category)) {
@@ -50,8 +53,17 @@ public class NagFortranParser extends RegexpDocumentParser {
         else {
             priority = Priority.NORMAL;
         }
+        return priority;
+    }
 
-        return builder.setFileName(matcher.group(2)).setLineStart(lineNumber).setCategory(category)
-                             .setMessage(matcher.group(5)).setPriority(priority).build();
+    private int getLineNumber(final Matcher matcher) {
+        int lineNumber;
+        if (StringUtils.isEmpty(matcher.group(4))) {
+            lineNumber = 0;
+        }
+        else {
+            lineNumber = Integer.parseInt(matcher.group(4));
+        }
+        return lineNumber;
     }
 }

@@ -18,11 +18,12 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Andrew 'Necromant' Andrianov
  */
 public class CadenceIncisiveParser extends RegexpLineParser {
+    private static final long serialVersionUID = -3251791089328958452L;
+
     private static final String SLASH = "/";
     private static final String CADENCE_MESSAGE_PATTERN = "(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+): (.*) "
             + "\\[File:(.*), Line:(.*)\\]." //ncelab vhdl warning
-            + ")|(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+) \\((.*),([0-9]+)\\|([0-9]+)\\): (.*)$" //Warning/error
-            // with filename
+            + ")|(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+) \\((.*),([0-9]+)\\|([0-9]+)\\): (.*)$" //Warning/error with filename
             + ")|(" + "(^g?make\\[.*\\]: Entering directory)\\s*(['`]((.*))\\')" // make: entering directory
             + ")|(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+): (.*)$" //Single generic warning
             + ")";
@@ -37,6 +38,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
 
     private Issue handleDirectory(final Matcher matcher, final int offset) {
         directory = matcher.group(offset) + SLASH; // 17
+
         return FALSE_POSITIVE;
     }
 

@@ -14,9 +14,9 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class ErlcParser extends RegexpLineParser {
     private static final long serialVersionUID = 8986478184830773892L;
-    /** Pattern of erlc compiler warnings. */
-    private static final String ERLC_WARNING_PATTERN = "^(.+\\.(?:erl|yrl|mib|bin|rel|asn1|idl)):(\\d*): ([wW]arning:" +
-            " )?(.+)$";
+
+    private static final String ERLC_WARNING_PATTERN = "^(.+\\.(?:erl|yrl|mib|bin|rel|asn1|idl)):(\\d*): ([wW]arning:"
+            + " )?(.+)$";
 
     /**
      * Creates a new instance of {@link ErlcParser}.
@@ -27,11 +27,8 @@ public class ErlcParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        String filename = matcher.group(1);
-        int lineNumber = parseInt(matcher.group(2));
         Priority priority;
         String category;
-        String message = matcher.group(4);
         String categoryMatch = matcher.group(3);
 
         if ("warning: ".equalsIgnoreCase(categoryMatch)) {
@@ -42,8 +39,12 @@ public class ErlcParser extends RegexpLineParser {
             priority = Priority.HIGH;
             category = "Error";
         }
-        return builder.setFileName(filename).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                      .setPriority(priority).build();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(category)
+                .setMessage(matcher.group(4))
+                .setPriority(priority)
+                .build();
     }
 }
 

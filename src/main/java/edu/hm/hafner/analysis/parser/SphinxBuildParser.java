@@ -13,7 +13,8 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Robert Williams
  */
 public class SphinxBuildParser extends RegexpLineParser {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1483050615340274588L;
+
     private static final String SPHINX_BUILD_WARNING_PATTERN = "^(.*):(\\d+|None|): (.*?): (.*)";
 
     /**
@@ -27,8 +28,13 @@ public class SphinxBuildParser extends RegexpLineParser {
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setCategory(category).setMessage(message).setPriority(mapPriority(category)).build();
+
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(mapPriority(category))
+                .build();
     }
 
     private Priority mapPriority(final String priority) {

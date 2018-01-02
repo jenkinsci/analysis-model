@@ -13,6 +13,8 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author <a href="mailto:alexey.kislin@gmail.com">Alexey Kislin</a>
  */
 public class ScalacParser extends RegexpLineParser {
+    private static final long serialVersionUID = -4034552404001800574L;
+
     private static final String SCALAC_WARNING_PATTERN = "^(\\[WARNING\\]|\\[ERROR\\])\\s*(.*):(\\d+):\\s*([a-z]*)"
             + ":\\s*(.*)$";
 
@@ -25,12 +27,15 @@ public class ScalacParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(Matcher matcher, final IssueBuilder builder) {
-        Priority p = matcher.group(1).equals("[ERROR]") ? Priority.HIGH : Priority.NORMAL;
-        String fileName = matcher.group(2);
-        String lineNumber = matcher.group(3);
-        String category = matcher.group(4);
-        String message = matcher.group(5);
-        return builder.setFileName(fileName).setLineStart(parseInt(lineNumber)).setCategory(category)
-                      .setMessage(message).setPriority(p).build();
+        return builder.setFileName(matcher.group(2))
+                .setLineStart(parseInt(matcher.group(3)))
+                .setCategory(matcher.group(4))
+                .setMessage(matcher.group(5))
+                .setPriority(mapPriority(matcher))
+                .build();
+    }
+
+    private Priority mapPriority(final Matcher matcher) {
+        return "[ERROR]".equals(matcher.group(1)) ? Priority.HIGH : Priority.NORMAL;
     }
 }

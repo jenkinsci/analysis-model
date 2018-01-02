@@ -13,12 +13,10 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author vichak
  */
 public class GnuMakeGccParser extends RegexpLineParser {
-    private static final String SLASH = "/";
     private static final long serialVersionUID = -67701741403245309L;
-    private static final String ERROR = "error";
 
-    static final String GCC_ERROR = "GCC error";
-    static final String LINKER_ERROR = "Linker error";
+    private static final String SLASH = "/";
+    private static final String ERROR = "error";
 
     private static final String GNUMAKEGCC_WARNING_PATTERN = "^(" + "(?:.*\\[.*\\])?\\s*" // ANT_TASK
             + "(.*\\.[chpimxsola0-9]+):(\\d+):(?:\\d+:)? (warning|error): (.*)$" // GCC 4 warning
@@ -36,12 +34,13 @@ public class GnuMakeGccParser extends RegexpLineParser {
     }
 
     /**
-     * Creates a new instance of {@link GnuMakeGccParser} assuming the operating system given in os
+     * Creates a new instance of {@link GnuMakeGccParser} assuming the operating system given in os.
      *
      * @param os A string representing the operating system - mainly used for faking
      */
     public GnuMakeGccParser(final String os) {
         super(GNUMAKEGCC_WARNING_PATTERN);
+
         isWindows = os.toLowerCase().contains("windows");
     }
 

@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -14,8 +15,10 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class ClangParser extends RegexpLineParser {
     private static final long serialVersionUID = -3015592762345283182L;
-    private static final String CLANG_WARNING_PATTERN = "^\\s*(?:\\d+%)?([^%]*?):(\\d+):(?:(\\d+):)?" + "(?:" +
-            "(?:\\{\\d+:\\d+-\\d+:\\d+\\})+:)?\\s*(warning|[^\\[\\]]*error):" + "\\s*(.*?)(?:\\[([^\\[]*)\\])?$";
+
+    private static final String CLANG_WARNING_PATTERN = "^\\s*(?:\\d+%)?([^%]*?):(\\d+):(?:(\\d+):)?" + "(?:"
+            + "(?:\\{\\d+:\\d+-\\d+:\\d+\\})+:)?\\s*(warning|[^\\[\\]]*error):" + "\\s*(.*?)(?:\\[([^\\[]*)\\])?$";
+    private static final Pattern IGNORE_FORMAT = Pattern.compile("^-\\[.*\\].*$");
 
     /**
      * Creates a new instance of {@link ClangParser}.
@@ -27,30 +30,24 @@ public class ClangParser extends RegexpLineParser {
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(5);
-        if (message.matches("^-\\[.*\\].*$")) {
+        if (IGNORE_FORMAT.matcher(message).matches()) {
             return FALSE_POSITIVE;
         }
 
-        String filename = matcher.group(1);
-        int lineNumber = parseInt(matcher.group(2));
-        int column = parseInt(matcher.group(3));
-        String type = matcher.group(4);
-        String category = matcher.group(6);
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setColumnStart(parseInt(matcher.group(3)))
+                .setCategory(matcher.group(6))
+                .setMessage(message)
+                .setPriority(mapPriority(matcher.group(4))).build();
+    }
 
-        Priority priority;
+    private Priority mapPriority(final String type) {
         if (type.contains("error")) {
-            priority = Priority.HIGH;
+            return Priority.HIGH;
         }
         else {
-            priority = Priority.NORMAL;
+            return Priority.NORMAL;
         }
-        Issue warning = builder
-                .setFileName(filename)
-                .setLineStart(lineNumber)
-                .setColumnStart(column)
-                .setCategory(category)
-                .setMessage(message)
-                .setPriority(priority).build();
-        return warning;
     }
 }

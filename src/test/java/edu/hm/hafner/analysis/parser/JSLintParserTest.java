@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
- * Tests the class {@link JSLintParser}.
+ * Tests the class {@link LintParser}.
  *
  * @author Gavin Mogan <gavin@kodekoan.com>
  */
@@ -88,13 +88,8 @@ public class JSLintParserTest extends AbstractParserTest {
 
     }
 
-    /**
-     * Creates the parser.
-     *
-     * @return the warnings parser
-     */
     @Override
     protected AbstractParser createParser() {
-        return new JSLintParser();
+        return new LintParser();
     }
 }

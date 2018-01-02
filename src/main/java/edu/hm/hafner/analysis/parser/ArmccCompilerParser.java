@@ -15,8 +15,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 public class ArmccCompilerParser extends RegexpLineParser {
     private static final long serialVersionUID = -2677728927938443703L;
 
-    private static final String ARMCC_WARNING_PATTERN = "^\"(.+)\", line (\\d+): ([A-Z][a-z]+):\\D*(\\d+)\\D*?:\\s+(" +
-            ".+)$";
+    private static final String ARMCC_WARNING_PATTERN = "^\"(.+)\", line (\\d+): ([A-Z][a-z]+):\\D*(\\d+)\\D*?:\\s+(.+)$";
 
     /**
      * Creates a new instance of {@link ArmccCompilerParser}.

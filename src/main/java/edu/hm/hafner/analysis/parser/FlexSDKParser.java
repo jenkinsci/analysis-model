@@ -13,8 +13,9 @@ import edu.hm.hafner.analysis.IssueBuilder;
  */
 public class FlexSDKParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -185055018399324311L;
-    private static final String FLEX_SDK_WARNING_PATTERN = "^\\s*(?:\\[.*\\])?\\s*(.*\\.as|.*\\.mxml)\\((\\d*)\\)" +
-            ":\\s*(?:col:\\s*\\d*\\s*)?(?:Warning)\\s*:\\s*(.*)$";
+
+    private static final String FLEX_SDK_WARNING_PATTERN = "^\\s*(?:\\[.*\\])?\\s*(.*\\.as|.*\\.mxml)\\((\\d*)\\)"
+            + ":\\s*(?:col:\\s*\\d*\\s*)?(?:Warning)\\s*:\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link FlexSDKParser}.

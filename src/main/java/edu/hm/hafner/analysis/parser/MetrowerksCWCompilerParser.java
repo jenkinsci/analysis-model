@@ -14,11 +14,11 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  */
 public class MetrowerksCWCompilerParser extends RegexpLineParser {
     /** Pattern of MW CodeWarrior compiler warnings. */
-    private static final String CW_COMPILER_WARNING_PATTERN = "^(.+?)\\((\\d+)\\): (INFORMATION|WARNING|ERROR) (.+?):" +
-            " (.*)$";
+    private static final String CW_COMPILER_WARNING_PATTERN = "^(.+?)\\((\\d+)\\): (INFORMATION|WARNING|ERROR) (.+?):"
+            + " (.*)$";
 
     /**
-     * Creates a new instance of <code>MetrowerksCWCompilerParser</code>.
+     * Creates a new instance of {@link MetrowerksCWCompilerParser}.
      */
     public MetrowerksCWCompilerParser() {
         super(CW_COMPILER_WARNING_PATTERN);

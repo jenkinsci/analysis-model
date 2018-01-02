@@ -17,7 +17,6 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
     private static final String TASKING_VX_COMPILER_WARNING_PATTERN = "^.*? (I|W|E|F)(\\d+): (?:\\[\"(.*?)\" (\\d+)" +
             "\\/(\\d+)\\] )?(.*)$";
 
-
     /**
      * Creates a new instance of <code>TaskingVXCompilerParser</code>.
      */
@@ -27,36 +26,19 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        String fileName;
-        String msgType = matcher.group(1);
-        int lineNumber;
-        String message = matcher.group(6);
+        String type = matcher.group(1);
         Priority priority;
         String category;
 
-        if (matcher.group(3) != null) {
-            fileName = matcher.group(3);
-        }
-        else {
-            fileName = "";
-        }
-
-        if (matcher.group(4) != null) {
-            lineNumber = parseInt(matcher.group(4));
-        }
-        else {
-            lineNumber = 0;
-        }
-
-        if ("E".equals(msgType)) {
+        if ("E".equals(type)) {
             priority = Priority.HIGH;
             category = "ERROR";
         }
-        else if ("F".equals(msgType)) {
+        else if ("F".equals(type)) {
             priority = Priority.HIGH;
             category = "License issue";
         }
-        else if ("I".equals(msgType)) {
+        else if ("I".equals(type)) {
             priority = Priority.LOW;
             category = "Info";
         }
@@ -64,8 +46,12 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                      .setPriority(priority).build();
+
+        return builder.setFileName(matcher.group(3))
+                .setLineStart(parseInt(matcher.group(4)))
+                .setCategory(category)
+                .setMessage(matcher.group(6))
+                .setPriority(priority)
+                .build();
     }
 }
-

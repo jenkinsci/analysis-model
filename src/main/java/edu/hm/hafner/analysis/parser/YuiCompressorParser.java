@@ -35,15 +35,15 @@ public class YuiCompressorParser extends RegexpDocumentParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        final String messageHeader = matcher.group(1);
+        String messageHeader = matcher.group(1);
         CategoryAndPriority categoryAndPriority = getCategoryAndPriority(messageHeader);
-        final String messageDetails = matcher.group(2);
-        final String message = messageHeader + " [" + messageDetails + "]";
+        String messageDetails = matcher.group(2);
+        String message = messageHeader + " [" + messageDetails + "]";
         return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
                              .setMessage(message).setPriority(categoryAndPriority.getPriority()).build();
     }
 
-    // CHECKSTYLE:OFF
+    @SuppressWarnings("CheckStyle")
     private CategoryAndPriority getCategoryAndPriority(final String message) { // NOPMD
         if (message.startsWith("Found an undeclared symbol")) {
             return CategoryAndPriority.UNDECLARED_SYMBOL;
@@ -83,27 +83,33 @@ public class YuiCompressorParser extends RegexpDocumentParser {
         }
         return CategoryAndPriority.UNKNOWN;
     }
-    // CHECKSTYLE:ON
 
     /**
      * Handles category and priority of the warning.
      */
-    private static enum CategoryAndPriority {
-        UNDECLARED_SYMBOL("Undeclared symbol"), USE_SINGLE_VAR("Use single 'var' per scope", Priority.LOW),
-        UNUSED_SYMBOL("Unused symbol"), DUPLICATE_VAR("Duplicate variable", Priority.HIGH), UNKNOWN(""),
-        DUPLICATE_FUN("Duplicate function", Priority.HIGH), INVALID_HINT("Invalid hint"), UNSUPPORTED_HINT
-                ("Unsupported hint", Priority.LOW), UNKNOWN_HINT("Unknown hint", Priority.LOW), USE_JSCRIPT("Use " +
-                "Jscript", Priority.HIGH), USE_EVAL("Use eval", Priority.HIGH), USE_WITH("Use with", Priority.HIGH),
+    private enum CategoryAndPriority {
+        UNDECLARED_SYMBOL("Undeclared symbol"),
+        USE_SINGLE_VAR("Use single 'var' per scope", Priority.LOW),
+        UNUSED_SYMBOL("Unused symbol"),
+        DUPLICATE_VAR("Duplicate variable", Priority.HIGH),
+        UNKNOWN(""),
+        DUPLICATE_FUN("Duplicate function", Priority.HIGH),
+        INVALID_HINT("Invalid hint"),
+        UNSUPPORTED_HINT("Unsupported hint", Priority.LOW),
+        UNKNOWN_HINT("Unknown hint", Priority.LOW),
+        USE_JSCRIPT("Use Jscript", Priority.HIGH),
+        USE_EVAL("Use eval", Priority.HIGH),
+        USE_WITH("Use with", Priority.HIGH),
         PRINT_SYMBOL("Cannot print symbol", Priority.LOW);
 
         private final String category;
         private final Priority priority;
 
-        private CategoryAndPriority(final String category) {
+        CategoryAndPriority(final String category) {
             this(category, Priority.NORMAL);
         }
 
-        private CategoryAndPriority(final String category, final Priority priority) {
+        CategoryAndPriority(final String category, final Priority priority) {
             this.category = category;
             this.priority = priority;
         }

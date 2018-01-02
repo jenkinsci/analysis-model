@@ -16,8 +16,9 @@ import edu.hm.hafner.analysis.RegexpDocumentParser;
  */
 public class GhsMultiParser extends RegexpDocumentParser {
     private static final long serialVersionUID = 8149238560432255036L;
-    private static final String GHS_MULTI_WARNING_PATTERN = "\\.(.*)\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*" +
-            "([^:]+):\\s*(?m)([^\\^]*)\\s*\\^";
+
+    private static final String GHS_MULTI_WARNING_PATTERN = "\\.(.*)\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*"
+            + "([^:]+):\\s*(?m)([^\\^]*)\\s*\\^";
 
     /**
      * Creates a new instance of {@link GhsMultiParser}.
@@ -28,11 +29,16 @@ public class GhsMultiParser extends RegexpDocumentParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        String fileName = matcher.group(1);
-        int lineNumber = parseInt(matcher.group(2));
         String type = StringUtils.capitalize(matcher.group(3));
-        String category = matcher.group(4);
-        String message = matcher.group(5);
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(matcher.group(4))
+                .setMessage(matcher.group(5))
+                .setPriority(mapPriority(type))
+                .build();
+    }
+
+    private Priority mapPriority(final String type) {
         Priority priority;
         if ("warning".equalsIgnoreCase(type)) {
             priority = Priority.NORMAL;
@@ -40,8 +46,7 @@ public class GhsMultiParser extends RegexpDocumentParser {
         else {
             priority = Priority.HIGH;
         }
-        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                             .setPriority(priority).build();
+        return priority;
     }
 }
 

@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
@@ -20,14 +21,10 @@ import edu.hm.hafner.analysis.ParsingException;
 public class AjcParser extends AbstractParser {
     private static final long serialVersionUID = -9123765511497052454L;
 
-    static final String ADVICE = "Advice";
+    private static final Pattern ESCAPE_CHARACTERS = Pattern.compile((char) 27 + "\\[.*" + (char) 27 + "\\[0m");
+    private static final Pattern WARNING_TAG = Pattern.compile("\\[WARNING\\] ");
 
-    /**
-     * Creates a new instance of {@link AjcParser}.
-     */
-    public AjcParser() {
-        super();
-    }
+    static final String ADVICE = "Advice";
 
     @Override
     public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException {
@@ -42,8 +39,8 @@ public class AjcParser extends AbstractParser {
             int lineNo = 0;
 
             while ((line = br.readLine()) != null) {
-                //clean up any ESC characters (e.g. terminal colors)
-                line = line.replaceAll((char)27 + "\\[.*" + (char)27 + "\\[0m", "");
+                // clean up any ESC characters (e.g. terminal colors)
+                line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
 
                 switch (state) {
                     case START:
@@ -54,13 +51,16 @@ public class AjcParser extends AbstractParser {
                     case PARSING:
                         if (line.startsWith("[WARNING] ")) {
                             state = States.PARSED_WARNING;
-                            message = line.replaceAll("\\[WARNING\\] ", "");
+                            message = WARNING_TAG.matcher(line).replaceAll("");
 
                             if (message.contains("is deprecated") || message.contains("overrides a deprecated")) {
                                 category = AbstractParser.DEPRECATION;
                             }
                             else if (message.contains("adviceDidNotMatch")) {
                                 category = AjcParser.ADVICE;
+                            }
+                            else {
+                                category = "";
                             }
                         }
                         break;
@@ -71,27 +71,12 @@ public class AjcParser extends AbstractParser {
                             int idx = line.lastIndexOf(":");
                             if (idx != -1) {
                                 file = line.substring(0, idx);
-                                try {
+                                if (line.length() > idx + 1) {
                                     lineNo = parseInt(line.substring(idx + 1));
                                 }
-                                catch (IndexOutOfBoundsException ignored) {
-                                }
                             }
                         }
-
-                        if ("".equals(line)) {
-                            if (!"".equals(message.trim())) {
-                                warnings.add(builder.setFileName(file).setLineStart(lineNo).setCategory(category)
-                                                           .setMessage(message.trim()).build());
-                            }
-                            message = "";
-                            file = "";
-                            category = "";
-                            lineNo = 0;
-                            state = States.PARSING;
-                        }
-
-                        break;
+                        // falls through
                     case PARSED_FILE:
                     default:
                         if ("".equals(line)) {

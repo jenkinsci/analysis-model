@@ -19,8 +19,8 @@ public class XlcLinkerParser extends RegexpLineParser {
 
     private static final String XLC_LINKER_WARNING_PATTERN_ERROR_1 = ANT_TASK + "ld: ([0-9]+-[0-9]+).*ERROR:\\s*(.*)$";
     private static final String XLC_LINKER_WARNING_PATTERN_ERROR_2 = ANT_TASK + "ld: ([0-9]+-[0-9]+)\\s*(Error .*)$";
-    private static final String XLC_LINKER_WARNING_PATTERN_WARNING = ANT_TASK + "ld: ([0-9]+-[0-9]+)\\s*WARNING:\\s*(" +
-            ".*)$";
+    private static final String XLC_LINKER_WARNING_PATTERN_WARNING = ANT_TASK + "ld: ([0-9]+-[0-9]+)\\s*WARNING:\\s*("
+            + ".*)$";
     private static final String XLC_LINKER_WARNING_PATTERN_INFO = ANT_TASK + "ld: ([0-9]+-[0-9]+)\\s*(.*)$";
     private static final Pattern PATTERN_ERROR_1 = Pattern.compile(XLC_LINKER_WARNING_PATTERN_ERROR_1);
     private static final Pattern PATTERN_ERROR_2 = Pattern.compile(XLC_LINKER_WARNING_PATTERN_ERROR_2);
@@ -36,35 +36,33 @@ public class XlcLinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher0, final IssueBuilder builder) {
-        String line = matcher0.group(0);
-        Matcher matcher = PATTERN_ERROR_1.matcher(line);
-        if (matcher.find()) {
-            String category = matcher.group(1);
-            String message = matcher.group(2);
-            return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                          .setPriority(Priority.HIGH).build();
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+        String line = matcher.group(0);
+        builder.setFileName("").setLineStart(0);
+
+        Matcher lineMatcher = PATTERN_ERROR_1.matcher(line);
+        if (lineMatcher.find()) {
+            String category = lineMatcher.group(1);
+            String message = lineMatcher.group(2);
+            return builder.setCategory(category).setMessage(message).setPriority(Priority.HIGH).build();
         }
-        matcher = PATTERN_ERROR_2.matcher(line);
-        if (matcher.find()) {
-            String category = matcher.group(1);
-            String message = matcher.group(2);
-            return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                          .setPriority(Priority.HIGH).build();
+        lineMatcher = PATTERN_ERROR_2.matcher(line);
+        if (lineMatcher.find()) {
+            String category = lineMatcher.group(1);
+            String message = lineMatcher.group(2);
+            return builder.setCategory(category).setMessage(message).setPriority(Priority.HIGH).build();
         }
-        matcher = PATTERN_WARNING.matcher(line);
-        if (matcher.find()) {
-            String category = matcher.group(1);
-            String message = matcher.group(2);
-            return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                          .setPriority(Priority.NORMAL).build();
+        lineMatcher = PATTERN_WARNING.matcher(line);
+        if (lineMatcher.find()) {
+            String category = lineMatcher.group(1);
+            String message = lineMatcher.group(2);
+            return builder.setCategory(category).setMessage(message).setPriority(Priority.NORMAL).build();
         }
-        matcher = PATTERN_INFO.matcher(line);
-        if (matcher.find()) {
-            String category = matcher.group(1);
-            String message = matcher.group(2);
-            return builder.setFileName("").setLineStart(0).setCategory(category).setMessage(message)
-                          .setPriority(Priority.LOW).build();
+        lineMatcher = PATTERN_INFO.matcher(line);
+        if (lineMatcher.find()) {
+            String category = lineMatcher.group(1);
+            String message = lineMatcher.group(2);
+            return builder.setCategory(category).setMessage(message).setPriority(Priority.LOW).build();
         }
         return FALSE_POSITIVE;
     }

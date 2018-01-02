@@ -17,7 +17,7 @@ public class MetrowerksCWLinkerParser extends RegexpLineParser {
     private static final String CW_LINKER_WARNING_PATTERN = "^(INFORMATION|WARNING|ERROR) (.+)$";
 
     /**
-     * Creates a new instance of <code>MetrowerksCWLinkerParser</code>.
+     * Creates a new instance of {@link MetrowerksCWLinkerParser}.
      */
     public MetrowerksCWLinkerParser() {
         super(CW_LINKER_WARNING_PATTERN);
@@ -25,17 +25,16 @@ public class MetrowerksCWLinkerParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        /* String fileName = matcher.group(3); */
         String message = matcher.group(2);
-        String message_category = matcher.group(1);
-        Priority priority;
+        String messageCategory = matcher.group(1);
 
+        Priority priority;
         String category;
-        if ("error".equalsIgnoreCase(message_category)) {
+        if ("error".equalsIgnoreCase(messageCategory)) {
             priority = Priority.HIGH;
             category = "ERROR";
         }
-        else if ("information".equalsIgnoreCase(message_category)) {
+        else if ("information".equalsIgnoreCase(messageCategory)) {
             priority = Priority.LOW;
             category = "Info";
         }
@@ -43,8 +42,12 @@ public class MetrowerksCWLinkerParser extends RegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return builder.setFileName("See Warning message").setLineStart(0).setCategory(category)
-                      .setMessage(message).setPriority(priority).build();
+        return builder.setFileName("See Warning message")
+                .setLineStart(0)
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(priority)
+                .build();
     }
 }
 

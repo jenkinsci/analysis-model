@@ -25,11 +25,7 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
 
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
-        String fileName = matcher.group(1);
-        int lineNumber = parseInt(matcher.group(2));
-        String message = matcher.group(7);
         Priority priority;
-
         String category;
         if ("err".equalsIgnoreCase(matcher.group(4))) {
             priority = Priority.HIGH;
@@ -39,8 +35,13 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                      .setPriority(priority).build();
+
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(category)
+                .setMessage(matcher.group(7))
+                .setPriority(priority)
+                .build();
     }
 }
 
