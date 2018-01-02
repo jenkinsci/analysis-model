@@ -53,11 +53,11 @@ public class LinuxKernelOutputParser extends RegexpParser {
     private static final String BUGWARN_END_PATERN = PREAMBLE + KERN_TIMESTAMP + BUGWARN_END;
 
     /** Sub-pattern indices in global search pattern. */
-    private static final int ALL_OUTPUT = 1;
-    private static final int BUGWARN_TIMESTAMP = 2;
+// not used:     private static final int ALL_OUTPUT = 1;
+// not used:     private static final int BUGWARN_TIMESTAMP = 2;
     private static final int BUGWARN_CONTENT = 3;
     private static final int BUGWARN_ENDTRACE = 4;
-    private static final int KERNOUTPUT_TIMESTAMP = 5;
+    // not used:     private static final int KERNOUTPUT_TIMESTAMP = 5;
     private static final int KERNOUTPUT_CONTENT = 6;
     /** bug or warning file path pattern */
     private static final Pattern FILE_PATH_PATTERN = Pattern
@@ -65,7 +65,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
 
     /** Sub-pattern indices in file path search pattern. */
     private static final int ERROR_TYPE = 1;
-    private static final int ERROR_INTERNAL = 2;
+    // not used: private static final int ERROR_INTERNAL = 2;
     private static final int ERROR_PATH = 3;
     private static final int ERROR_LINE = 4;
     private static final int ERROR_FUNC = 5;
