@@ -205,15 +205,15 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @param id
      *         the ID of the issue
-     *
+     * @return the removed element
      * @throws NoSuchElementException
      *         if there is no such issue found
      */
-    public void remove(final UUID id) {
+    public T remove(final UUID id) {
         for (T element : elements) {
             if (element.getId().equals(id)) {
                 elements.remove(element);
-                return;
+                return element;
             }
         }
         throw new NoSuchElementException("No issue found with id %s.", id);

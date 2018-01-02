@@ -198,7 +198,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(initialElements));
 
-        issues.remove(HIGH.getId());
+        assertThat(issues.remove(HIGH.getId())).isEqualTo(HIGH);
 
         assertThat((Iterable<Issue>) issues).containsExactly(NORMAL_1, NORMAL_2);
     }

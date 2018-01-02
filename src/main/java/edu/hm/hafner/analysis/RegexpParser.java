@@ -64,7 +64,6 @@ public abstract class RegexpParser extends AbstractParser {
         while (matcher.find()) {
             Issue warning = createWarning(matcher, builder);
             if (warning != FALSE_POSITIVE) { // NOPMD
-                // detectPackageName(warning); // TODO: package detection should be done on all warnings afterwards
                 issues.add(warning);
             }
             if (Thread.interrupted()) {
