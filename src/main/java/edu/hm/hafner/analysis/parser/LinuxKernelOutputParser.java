@@ -69,6 +69,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
     private static final int ERROR_PATH = 3;
     private static final int ERROR_LINE = 4;
     private static final int ERROR_FUNC = 5;
+    private static final Pattern TIMESTAMP_PATTERN = Pattern.compile(KERN_TIMESTAMP);
 
     public LinuxKernelOutputParser() {
         super(LINUX_KERNEL_OUTPUT_WARNING_PATTERN, false);
@@ -132,7 +133,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
         String kern = matcher.group(KERNOUTPUT_CONTENT);
 
         if (kern != null) {
-            String stripped = kern.replaceAll(KERN_TIMESTAMP, "").trim();
+            String stripped = removeTimestamp(kern);
 
             messageBuilder.append(stripped);
         }
@@ -156,13 +157,13 @@ public class LinuxKernelOutputParser extends RegexpParser {
                 messageBuilder.append("()");
 
                 toolTipBuilder.append("------------[ cut here ]------------\n");
-                toolTipBuilder.append(bug.replaceAll("(\\[[ ]*[0-9]+\\.[0-9]+\\])", "").trim());
+                toolTipBuilder.append(removeTimestamp(bug));
                 toolTipBuilder.append("\n");
                 toolTipBuilder.append(matcher.group(BUGWARN_ENDTRACE));
                 toolTipBuilder.append("\n");
             }
             else {
-                messageBuilder.append(bug.replaceAll("(\\[[ ]*[0-9]+\\.[0-9]+\\])", "").trim());
+                messageBuilder.append(removeTimestamp(bug));
             }
         }
         else {
@@ -188,5 +189,9 @@ public class LinuxKernelOutputParser extends RegexpParser {
         }
 
         return builder.build();
+    }
+
+    private String removeTimestamp(final String bug) {
+        return TIMESTAMP_PATTERN.matcher(bug).replaceAll("").trim();
     }
 }
