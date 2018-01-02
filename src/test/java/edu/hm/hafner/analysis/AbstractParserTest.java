@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.Ensure;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -147,6 +148,7 @@ public abstract class AbstractParserTest {
     }
 
     private InputStream asStream(final String fileName) {
+        @SuppressFBWarnings("UI")
         InputStream resourceAsStream = getClass().getResourceAsStream(fileName);
 
         Ensure.that(resourceAsStream).isNotNull("File %s not found!", fileName);

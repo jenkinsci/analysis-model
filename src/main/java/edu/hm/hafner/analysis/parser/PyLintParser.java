@@ -44,7 +44,7 @@ public class PyLintParser extends FastRegexpLineParser {
 
     private Priority mapPriorty(final String category) {
         //First letter of the Pylint classification is one of F/E/W/R/C. E/F/W are high priority.
-        Priority priority = Priority.LOW;
+        Priority priority;
 
         // See http://docs.pylint.org/output.html for definitions of the categories
         switch (category.charAt(0)) {
@@ -66,6 +66,8 @@ public class PyLintParser extends FastRegexpLineParser {
             case 'F':
                 priority = Priority.HIGH;
                 break;
+            default:
+                priority = Priority.LOW;
         }
         return priority;
     }

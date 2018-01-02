@@ -5,12 +5,14 @@ import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Custom assertions for {@link Issues} and {@link Issue}.
  *
  * @author Ullrich Hafner
  */
+@SuppressFBWarnings("NM")
 public class Assertions extends org.assertj.core.api.Assertions {
     /**
      * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.

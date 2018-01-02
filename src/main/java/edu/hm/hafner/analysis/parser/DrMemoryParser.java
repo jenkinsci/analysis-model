@@ -85,10 +85,10 @@ public class DrMemoryParser extends RegexpDocumentParser {
         String header = "";
 
         if (matcher.group(SECOND_HEADER_GROUP) == null) {
-            String temp_header = matcher.group(FIRST_HEADER_GROUP);
+            String tempHeader = matcher.group(FIRST_HEADER_GROUP);
 
-            if (temp_header != null) {
-                header = temp_header.trim();
+            if (tempHeader != null) {
+                header = tempHeader.trim();
                 messageBuilder.append(header);
             }
 
@@ -113,10 +113,10 @@ public class DrMemoryParser extends RegexpDocumentParser {
             }
         }
         else {
-            String temp_header = matcher.group(SECOND_HEADER_GROUP);
+            String tempHeader = matcher.group(SECOND_HEADER_GROUP);
 
-            if (temp_header != null) {
-                header = temp_header.trim();
+            if (tempHeader != null) {
+                header = tempHeader.trim();
                 messageBuilder.append(header);
             }
         }
@@ -173,7 +173,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
 
     /**
      * Looks through each line of the stack trace to try and determine the file path and line number where the error
-     * originates from within the user's code. This assumes that the user's code is within the Jenkin's workspace
+     * originates from within the user's code. This assumes that the user's code is within the Jenkins workspace
      * folder. Otherwise, the file path and line number is obtained from the top of the stack trace.
      *
      * @param stackTrace Array of strings in the stack trace in the correct order.
@@ -183,17 +183,16 @@ public class DrMemoryParser extends RegexpDocumentParser {
         String errFilePath = "Unknown"; // Path where the error originates from
         int lineNumber = 0; // Line number where the error originates from
 
-        for (int i = 0; i < stackTrace.length; i++) {
-            Matcher pathMatcher = FILE_PATH_PATTERN.matcher(stackTrace[i]);
+        for (String line : stackTrace) {
+            Matcher pathMatcher = FILE_PATH_PATTERN.matcher(line);
 
             if (pathMatcher.find()) {
                 errFilePath = pathMatcher.group(FILE_PATH_GROUP);
                 lineNumber = Integer.valueOf(pathMatcher.group(LINE_NUMBER_GROUP));
 
                 Matcher jenkinsPathMatcher = JENKINS_PATH_PATTERN.matcher(errFilePath);
-
                 if (jenkinsPathMatcher.find()) {
-                    break;
+                    return new SourceCodeLocation(errFilePath, lineNumber);
                 }
             }
         }

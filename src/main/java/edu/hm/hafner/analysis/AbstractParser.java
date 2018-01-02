@@ -12,6 +12,7 @@ import edu.hm.hafner.analysis.parser.CppLintParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
 import edu.hm.hafner.analysis.parser.StyleCopParser;
 import edu.hm.hafner.util.Ensure;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static java.util.function.Function.*;
 
 /**
@@ -34,6 +35,7 @@ public abstract class AbstractParser implements Serializable {
     /** Category for warnings due to the usage of proprietary API. */
     public static final String PROPRIETARY_API = "Proprietary API";
 
+    @SuppressFBWarnings(value = "SE", justification = "Getter handles null")
     private transient Function<String, String> transformer = identity();
 
     /**

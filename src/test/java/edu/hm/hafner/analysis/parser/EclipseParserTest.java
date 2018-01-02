@@ -39,8 +39,7 @@ class EclipseParserTest extends AbstractParserTest {
                 .hasCategory(CATEGORY)
                 .hasLineStart(3)
                 .hasLineEnd(3)
-                .hasMessage(
-                        "The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
+                .hasMessage("The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
                 .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java");
     }
 
@@ -179,7 +178,7 @@ class EclipseParserTest extends AbstractParserTest {
         int number = 0;
         for (Issue fileAnnotation : sorted) {
             boolean containsHat = fileAnnotation.getMessage().contains("^");
-            assertThat(containsHat).isFalse().withFailMessage("Message " + number + " contains ^");
+            assertThat(containsHat).withFailMessage("Message " + number + " contains ^").isFalse();
             number++;
         }
     }

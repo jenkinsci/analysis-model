@@ -66,7 +66,7 @@ public class FullTextFingerprint {
         try {
             Stream<String> lines = fileSystem.readLinesFromFile(fileName, charset);
 
-            return createFingerprint(line, lines);
+            return createFingerprint(line, lines, charset);
         }
         catch (IOException | InvalidPathException ignored) {
             return getFallbackFingerprint(fileName);
@@ -79,10 +79,10 @@ public class FullTextFingerprint {
     }
 
     @VisibleForTesting
-    String createFingerprint(final int line, final Stream<String> lines) {
+    String createFingerprint(final int line, final Stream<String> lines, final Charset charset) {
         String context = extractContext(line, lines.iterator());
         lines.close();
-        digest.update(context.getBytes());
+        digest.update(context.getBytes(charset));
 
         return DatatypeConverter.printHexBinary(digest.digest()).toUpperCase();
     }

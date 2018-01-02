@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Base class for tests that need to read resource files from disk. Provides several useful methods
  * that simplify reading of resources from disk.
@@ -42,6 +44,7 @@ public class ResourceTest {
     }
 
     private Path getPath(final String name) throws URISyntaxException {
+        @SuppressFBWarnings("UI")
         URL resource = getClass().getResource(name);
         if (resource == null) {
             throw new AssertionError("Can't find resource " + name);

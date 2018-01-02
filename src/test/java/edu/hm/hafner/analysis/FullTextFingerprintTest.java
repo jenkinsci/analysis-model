@@ -64,14 +64,14 @@ class FullTextFingerprintTest extends ResourceTest {
 
         FullTextFingerprint code = new FullTextFingerprint();
 
-        String fingerprint = code.createFingerprint(10, asStream(affectedFile));
+        String fingerprint = code.createFingerprint(10, asStream(affectedFile), getCharset());
 
         for (int line = 0; line < 34; line++) {
             if (line == 10 || line == 20) {
-                assertThat(fingerprint).isEqualTo(code.createFingerprint(line, asStream(affectedFile)));
+                assertThat(fingerprint).isEqualTo(code.createFingerprint(line, asStream(affectedFile), getCharset()));
             }
             else {
-                assertThat(fingerprint).isNotEqualTo(code.createFingerprint(line, asStream(affectedFile)));
+                assertThat(fingerprint).isNotEqualTo(code.createFingerprint(line, asStream(affectedFile), getCharset()));
             }
         }
     }
@@ -81,8 +81,12 @@ class FullTextFingerprintTest extends ResourceTest {
     void shouldReturnFallbackOnError(final String fileName) {
         FullTextFingerprint fingerprint = new FullTextFingerprint();
 
-        assertThat(fingerprint.compute(fileName, 1, Charset.defaultCharset()))
+        assertThat(fingerprint.compute(fileName, 1, getCharset()))
                 .isEqualTo(fingerprint.getFallbackFingerprint(fileName));
+    }
+
+    private Charset getCharset() {
+        return Charset.forName("UTF-8");
     }
 
     private Iterator<String> asIterator(final String affectedFile) {

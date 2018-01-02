@@ -2,12 +2,15 @@ package edu.hm.hafner.util;
 
 import java.util.Formatter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Thrown by various accessor methods to indicate that the element being requested does not exist. Enhances the
  * exception {@link java.util.NoSuchElementException} by providing a constructor with format string.
  *
  * @author Ullrich Hafner
  */
+@SuppressFBWarnings("NM")
 public class NoSuchElementException extends java.util.NoSuchElementException {
     private static final long serialVersionUID = -355717274596010159L;
 
