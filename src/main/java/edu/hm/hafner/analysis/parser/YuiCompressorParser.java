@@ -43,7 +43,7 @@ public class YuiCompressorParser extends RegexpDocumentParser {
                              .setMessage(message).setPriority(categoryAndPriority.getPriority()).build();
     }
 
-    @SuppressWarnings("CheckStyle")
+    @SuppressWarnings("npathcomplexity")
     private CategoryAndPriority getCategoryAndPriority(final String message) { // NOPMD
         if (message.startsWith("Found an undeclared symbol")) {
             return CategoryAndPriority.UNDECLARED_SYMBOL;
