@@ -29,6 +29,8 @@ public class DotNetAssembly {
                     case "PublicKeyToken":
                         publicKeyToken = keyValue[1];
                         break;
+                    default:
+                        // skip
                 }
             }
             cpt++;

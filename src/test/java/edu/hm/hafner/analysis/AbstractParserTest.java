@@ -147,8 +147,8 @@ public abstract class AbstractParserTest {
         }
     }
 
+    @SuppressFBWarnings("UI_INHERITANCE_UNSAFE_GETRESOURCE")
     private InputStream asStream(final String fileName) {
-        @SuppressFBWarnings("UI_INHERITANCE_UNSAFE_GETRESOURCE")
         InputStream resourceAsStream = getClass().getResourceAsStream(fileName);
 
         Ensure.that(resourceAsStream).isNotNull("File %s not found!", fileName);

@@ -95,6 +95,8 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
                     case "SUGGESTION":
                         priorityByTypeId.put(id, Priority.LOW);
                         break;
+                    default:
+                        // skip
                 }
             }
         }

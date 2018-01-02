@@ -99,21 +99,6 @@ public class AjcParser extends AbstractParser {
         builder.setCategory(category);
     }
 
-    private void setMessageAndCategory(final IssueBuilder builder, final String message) {
-        String category;
-        if (message.contains("is deprecated") || message.contains("overrides a deprecated")) {
-            category = AbstractParser.DEPRECATION;
-        }
-        else if (message.contains("adviceDidNotMatch")) {
-            category = AjcParser.ADVICE;
-        }
-        else {
-            category = "";
-        }
-        builder.setMessage(message);
-        builder.setCategory(category);
-    }
-
     private enum States {
         START, PARSING, WAITING_FOR_END
     }

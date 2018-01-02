@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -44,7 +45,7 @@ public class GnuMakeGccParser extends RegexpLineParser {
     GnuMakeGccParser(final String os) {
         super(GNUMAKEGCC_WARNING_PATTERN);
 
-        isWindows = os.toLowerCase().contains("windows");
+        isWindows = os.toLowerCase(Locale.ENGLISH).contains("windows");
     }
 
     @Override

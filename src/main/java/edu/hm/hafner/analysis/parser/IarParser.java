@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
@@ -55,7 +56,7 @@ public class IarParser extends FastRegexpLineParser {
     }
 
     private Priority determinePriority(final String message) {
-        if (message.toLowerCase().contains("error")) {  // for "Fatal error", "Fatal Error", "Error" and "error" and "warning"
+        if (message.toLowerCase(Locale.ENGLISH).contains("error")) {  // for "Fatal error", "Fatal Error", "Error" and "error" and "warning"
             return Priority.HIGH;
         }
         else if (message.toLowerCase().contains("warning")) {
