@@ -12,8 +12,7 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author Erik Ramfelt
  */
-@SuppressWarnings({"PMD", "all"})
-//CHECKSTYLE:OFF
+@SuppressWarnings({"PMD", "all", "CheckStyle"})
 public class FxCopRuleSet {
 
     private transient Map<String, FxCopRule> rules = new HashMap<String, FxCopRule>();

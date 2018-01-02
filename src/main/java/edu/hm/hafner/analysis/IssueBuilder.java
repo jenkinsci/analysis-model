@@ -17,20 +17,20 @@ package edu.hm.hafner.analysis;
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod"})
 public class IssueBuilder {
-    protected String fileName;
-    protected int lineStart = 0;
-    protected int lineEnd = 0;
-    protected int columnStart = 0;
-    protected int columnEnd = 0;
-    protected String category;
-    protected String type;
-    protected Priority priority;
-    protected String message;
-    protected String description;
-    protected String packageName;
-    protected String moduleName;
-    protected String origin;
-    protected String fingerprint;
+    private String fileName;
+    private int lineStart = 0;
+    private int lineEnd = 0;
+    private int columnStart = 0;
+    private int columnEnd = 0;
+    private String category;
+    private String type;
+    private Priority priority;
+    private String message;
+    private String description;
+    private String packageName;
+    private String moduleName;
+    private String origin;
+    private String fingerprint;
 
     public IssueBuilder setFingerprint(final String fingerprint) {
         this.fingerprint = fingerprint;

@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser.gendarme;
 
-//CHECKSTYLE:OFF
-@SuppressWarnings("javadoc")
+@SuppressWarnings({"javadoc", "CheckStyle"})
 public class DotNetAssembly {
     private final String fullName;
     private String name;

@@ -437,16 +437,18 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         new IssuesTest().createSerializationFile();
     }
 
-    public static class ExtendedIssueBuilder extends IssueBuilder {
+    private static class ExtendedIssueBuilder extends IssueBuilder {
         @Override
         public ExtendedIssue build() {
-            return new ExtendedIssue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
-                    packageName, moduleName, priority, message, description, origin,
-                    EXTENDED_VALUE);
+            Issue issue = super.build();
+            return new ExtendedIssue(issue.getFileName(), issue.getLineStart(), issue.getLineEnd(),
+                    issue.getColumnStart(), issue.getColumnEnd(), issue.getCategory(), issue.getType(),
+                    issue.getPackageName(), issue.getModuleName(), issue.getPriority(), issue.getMessage(),
+                    issue.getDescription(), issue.getOrigin(), EXTENDED_VALUE);
         }
     }
 
-    public static class ExtendedIssue extends Issue {
+    private static class ExtendedIssue extends Issue {
         private final String additional;
 
         /**

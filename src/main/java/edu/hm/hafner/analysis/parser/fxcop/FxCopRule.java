@@ -5,8 +5,7 @@ package edu.hm.hafner.analysis.parser.fxcop;
  *
  * @author Erik Ramfelt
  */
-@SuppressWarnings({"PMD", "all"})
-//CHECKSTYLE:OFF
+@SuppressWarnings({"PMD", "all", "CheckStyle"})
 public class FxCopRule {
     private transient String name;
     private transient String typeName;
