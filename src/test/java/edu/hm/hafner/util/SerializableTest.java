@@ -6,10 +6,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -54,7 +58,7 @@ public abstract class SerializableTest<T extends Serializable> extends ResourceT
             assertThat(resolved).isEqualTo(createSerializable());
         }
         catch (IOException | ClassNotFoundException e) {
-            throw new AssertionError("Can' resolve instance from byte array", e);
+            throw new AssertionError("Can't resolve instance from byte array", e);
         }
     }
 
@@ -78,5 +82,16 @@ public abstract class SerializableTest<T extends Serializable> extends ResourceT
             throw new IllegalStateException("Can't serialize object " + object, exception);
         }
         return out.toByteArray();
+    }
+
+    /**
+     * Serializes an issue using an {@link ObjectOutputStream } to the file /tmp/issue.ser.
+     *
+     * @throws IOException
+     *         if the file could not be created
+     */
+    @SuppressFBWarnings("DMI")
+    protected void createSerializationFile() throws IOException {
+        Files.write(Paths.get("/tmp/serializable.ser"), toByteArray(createSerializable()), StandardOpenOption.CREATE_NEW);
     }
 }

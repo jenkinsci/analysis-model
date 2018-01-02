@@ -13,6 +13,8 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Sven Lübke
  */
 public class MetrowerksCWLinkerParser extends RegexpLineParser {
+    private static final long serialVersionUID = 5993528761040876178L;
+
     /** Pattern of MW CodeWarrior linker warnings. */
     private static final String CW_LINKER_WARNING_PATTERN = "^(INFORMATION|WARNING|ERROR) (.+)$";
 

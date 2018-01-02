@@ -2,10 +2,6 @@ package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 import org.junit.jupiter.api.Test;
 
@@ -249,16 +245,6 @@ public class IssueTest extends SerializableTest<Issue> {
      *         if the file could not be written
      */
     public static void useIfSerializationChanges(final String... args) throws IOException {
-        new IssueTest().createSerialization();
-    }
-
-    /**
-     * Serializes an issue using an {@link ObjectOutputStream } to the file /tmp/issue.ser.
-     *
-     * @throws IOException
-     *         if the file could not be created
-     */
-    protected void createSerialization() throws IOException {
-        Files.write(Paths.get("/tmp/issue.ser"), toByteArray(createFilledIssue()), StandardOpenOption.CREATE_NEW);
+        new IssueTest().createSerializationFile();
     }
 }

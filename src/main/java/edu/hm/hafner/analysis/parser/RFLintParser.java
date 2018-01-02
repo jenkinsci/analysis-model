@@ -21,8 +21,9 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  *
  * @author traitanit
  */
-// FIXME: wrong base class!
 public class RFLintParser extends RegexpLineParser {
+    private static final long serialVersionUID = -7903991158616386226L;
+
     private static final String RFLINT_ERROR_PATTERN = "([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)";
     private static final String RFLINT_FILE_PATTERN = "\\+\\s(.*)";
     private String fileName;

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -130,7 +131,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
             message = messageBuilder.toString().replace("\n", "<br>");
         }
 
-        header = header.toLowerCase();
+        header = header.toLowerCase(Locale.ENGLISH);
 
         String category = "Unknown";
         Priority priority = Priority.HIGH;

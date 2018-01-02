@@ -13,6 +13,8 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Sven Lübke
  */
 public class TaskingVXCompilerParser extends RegexpLineParser {
+    private static final long serialVersionUID = -5225265084645449716L;
+
     /** Pattern of TASKING VX compiler warnings. */
     private static final String TASKING_VX_COMPILER_WARNING_PATTERN = "^.*? (I|W|E|F)(\\d+): (?:\\[\"(.*?)\" (\\d+)" +
             "\\/(\\d+)\\] )?(.*)$";

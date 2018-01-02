@@ -34,8 +34,8 @@ import static java.util.stream.Collectors.*;
  * this set are ordered by their index in this set: the first added issue is at position 0, the second added issues is
  * at position 1, and so on.
  *
- * <p> Additionally, this set of issues provides methods to find and filter issues based on
- * different properties. In order to create issues use the provided {@link IssueBuilder builder} class. </p>
+ * <p> Additionally, this set of issues provides methods to find and filter issues based on different properties. In
+ * order to create issues use the provided {@link IssueBuilder builder} class. </p>
  *
  * @param <T>
  *         type of the issues
@@ -44,6 +44,8 @@ import static java.util.stream.Collectors.*;
  */
 // FIXME: what about the properties like duplicates, log messages, etc. if an issue instance is copied or filtered
 public class Issues<T extends Issue> implements Iterable<T>, Serializable {
+    private static final long serialVersionUID = 1L; // release 1.0.0
+
     private final Set<T> elements = new LinkedHashSet<>();
     private final int[] sizeOfPriority = new int[Priority.values().length];
     private final List<String> logMessages = new ArrayList<>();
@@ -269,6 +271,11 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return elements.iterator();
     }
 
+    /**
+     * Creates a new sequential {@code Stream} of {@link Issue} instances from a {@code Spliterator}.
+     *
+     * @return a new sequential {@code Stream}
+     */
     public Stream<Issue> stream() {
         return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL), false);
     }
@@ -515,37 +522,54 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return Lists.immutable.ofAll(logMessages);
     }
 
-    public IssueFilterBuilder filter() {
-        return new IssueFilterBuilder();
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Issues<?> issues = (Issues<?>) o;
+
+        if (sizeOfDuplicates != issues.sizeOfDuplicates) {
+            return false;
+        }
+        if (!elements.equals(issues.elements)) {
+            return false;
+        }
+        if (!Arrays.equals(sizeOfPriority, issues.sizeOfPriority)) {
+            return false;
+        }
+        return logMessages.equals(issues.logMessages);
     }
 
-    public Issues<T> filter(final IssueFilterBuilder builder) {
-        return filter(builder.build());
+    @Override
+    public int hashCode() {
+        int result = elements.hashCode();
+        result = 31 * result + Arrays.hashCode(sizeOfPriority);
+        result = 31 * result + logMessages.hashCode();
+        result = 31 * result + sizeOfDuplicates;
+        return result;
     }
 
     /**
-     * Builds a IssueFilter.
+     * Builds a combined filter based on several include and exclude filters.
      *
      * @author Raphael Furch
      */
     public static class IssueFilterBuilder {
-        /**
-         * List of include filters.
-         */
-        private final Collection<Predicate<Issue>> filterInclude = new ArrayList<>();
-
-        /**
-         * List of exclude filters.
-         */
-        private final Collection<Predicate<Issue>> filterExclude = new ArrayList<>();
+        private final Collection<Predicate<Issue>> includeFilters = new ArrayList<>();
+        private final Collection<Predicate<Issue>> excludeFilters = new ArrayList<>();
 
         /**
          * Add a new filter for each pattern string. Add filter to include or exclude list.
-         *  @param pattern
+         *
+         * @param pattern
          *         filter pattern.
          * @param propertyToFilter
          *         Function to get a string from Issue for pattern
-         * @param include
          */
         private void addNewFilter(final Collection<String> pattern, final Function<Issue, String> propertyToFilter,
                 final boolean include) {
@@ -557,10 +581,10 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
             }
 
             if (include) {
-                filterInclude.addAll(filters);
+                includeFilters.addAll(filters);
             }
             else {
-                filterExclude.addAll(filters);
+                excludeFilters.addAll(filters);
             }
         }
 
@@ -570,8 +594,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
          * @return a IssueFilter which has all added filter as filter criteria.
          */
         public Predicate<Issue> build() {
-            return filterInclude.stream().reduce(Predicate::or).orElse(issue -> true)
-                    .and(filterExclude.stream().reduce(Predicate::and).orElse(issue -> true));
+            return includeFilters.stream().reduce(Predicate::or).orElse(issue -> true)
+                    .and(excludeFilters.stream().reduce(Predicate::and).orElse(issue -> true));
         }
 
         //<editor-fold desc="File name">

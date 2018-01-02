@@ -13,6 +13,8 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Sven Lübke
  */
 public class MetrowerksCWCompilerParser extends RegexpLineParser {
+    private static final long serialVersionUID = 4317595592384426180L;
+
     /** Pattern of MW CodeWarrior compiler warnings. */
     private static final String CW_COMPILER_WARNING_PATTERN = "^(.+?)\\((\\d+)\\): (INFORMATION|WARNING|ERROR) (.+?):"
             + " (.*)$";

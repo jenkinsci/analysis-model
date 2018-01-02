@@ -13,6 +13,8 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Sven Lübke
  */
 public class QACSourceCodeAnalyserParser extends RegexpLineParser {
+    private static final long serialVersionUID = -8104046102312005968L;
+
     /** Pattern of QA-C Sourcecode Analyser warnings. */
     private static final String QAC_WARNING_PATTERN = "^(.+?)\\((\\d+),(\\d+)\\): (Err|Msg)\\((\\d+):(\\d+)\\) (.+?)$";
 

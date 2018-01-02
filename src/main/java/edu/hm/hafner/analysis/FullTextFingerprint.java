@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -84,7 +85,7 @@ public class FullTextFingerprint {
         lines.close();
         digest.update(context.getBytes(charset));
 
-        return DatatypeConverter.printHexBinary(digest.digest()).toUpperCase();
+        return DatatypeConverter.printHexBinary(digest.digest()).toUpperCase(Locale.ENGLISH);
     }
 
     @VisibleForTesting

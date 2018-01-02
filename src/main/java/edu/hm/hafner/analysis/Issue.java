@@ -14,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
  */
 // Add module that is the same for a parser scan
 public class Issue implements Serializable {
+    private static final long serialVersionUID = 1L; // release 1.0.0
+
     private static final String UNDEFINED = "-";
 
     private final String fileName;

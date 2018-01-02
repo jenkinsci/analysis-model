@@ -6,6 +6,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * A parser for the GNU Make and Gcc4 compiler warnings. Read GNU Make output to know where compilation are run.
@@ -36,9 +37,11 @@ public class GnuMakeGccParser extends RegexpLineParser {
     /**
      * Creates a new instance of {@link GnuMakeGccParser} assuming the operating system given in os.
      *
-     * @param os A string representing the operating system - mainly used for faking
+     * @param os
+     *         A string representing the operating system - mainly used for faking
      */
-    public GnuMakeGccParser(final String os) {
+    @VisibleForTesting
+    GnuMakeGccParser(final String os) {
         super(GNUMAKEGCC_WARNING_PATTERN);
 
         isWindows = os.toLowerCase().contains("windows");
@@ -56,8 +59,13 @@ public class GnuMakeGccParser extends RegexpLineParser {
 
     private Issue handleWarning(final Matcher matcher, final IssueBuilder builder) {
         String fileName = matcher.group(2);
-        int lineNumber = parseInt(matcher.group(3));
-        String message = matcher.group(5);
+        if (fileName.startsWith(SLASH)) {
+            builder.setFileName(fileName);
+        }
+        else {
+            builder.setFileName(directory + fileName);
+        }
+
         Priority priority;
         String category;
         if (ERROR.equalsIgnoreCase(matcher.group(4))) {
@@ -68,14 +76,11 @@ public class GnuMakeGccParser extends RegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        if (fileName.startsWith(SLASH)) {
-            return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                          .setMessage(message).setPriority(priority).build();
-        }
-        else {
-            return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
-                          .setMessage(message).setPriority(priority).build();
-        }
+        return builder.setLineStart(parseInt(matcher.group(3)))
+                .setCategory(category)
+                .setMessage(matcher.group(5))
+                .setPriority(priority)
+                .build();
     }
 
     private String fixMsysTypeDirectory(final String path) {

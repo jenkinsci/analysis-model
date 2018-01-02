@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.util.SerializableTest;
 import static java.util.Arrays.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -24,7 +26,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
  *
  * @author Marcel Binder
  */
-class IssuesTest {
+class IssuesTest extends SerializableTest<Issues<Issue>> {
+    private static final String SERIALIZATION_NAME = "issues.ser";
+
     private static final Issue HIGH = new IssueBuilder().setMessage("issue-1")
             .setFileName("file-1")
             .setPriority(Priority.HIGH)
@@ -382,6 +386,55 @@ class IssuesTest {
 
         Issues<ExtendedIssue> filtered = issues.filter(issue -> issue.getAdditional().equals(EXTENDED_VALUE));
         assertThat(filtered).hasSize(1);
+    }
+
+    @Override
+    protected Issues<Issue> createSerializable() {
+        Issues<Issue> issues = new Issues<>();
+        issues.add(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+        return issues;
+    }
+
+    /**
+     * Verifies that saved serialized format (from a previous release) still can be resolved with the current
+     * implementation of {@link Issue}.
+     */
+    @Test
+    void shouldReadIssueFromOldSerialization() {
+        byte[] restored = readResource(SERIALIZATION_NAME);
+
+        assertThatSerializableCanBeRestoredFrom(restored);
+    }
+
+    /** Verifies that equals checks all properties. */
+    @Test
+    void shouldBeNotEqualsAPropertyChanges() {
+        Issues<Issue> issues = new Issues<>();
+        issues.add(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+
+        Issues<Issue> other = new Issues<>();
+        other.addAll(issues);
+        other.add(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+
+        assertThat(issues).isNotEqualTo(other); // there should be duplicates
+        assertThat(issues).hasDuplicatesSize(0);
+        assertThat(other).hasDuplicatesSize(6);
+
+        // FIXME: check for messages
+    }
+
+    /**
+     * Serializes an issues to a file. Use this method in case the issue properties have been changed and the
+     * readResolve method has been adapted accordingly so that the old serialization still can be read.
+     *
+     * @param args
+     *         not used
+     *
+     * @throws IOException
+     *         if the file could not be written
+     */
+    public static void useIfSerializationChanges(final String... args) throws IOException {
+        new IssuesTest().createSerializationFile();
     }
 
     public static class ExtendedIssueBuilder extends IssueBuilder {

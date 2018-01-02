@@ -168,7 +168,7 @@ public class AntJavacParserTest extends AbstractParserTest {
     public void parseJapaneseWarnings() throws UnsupportedEncodingException {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
-                getClass().getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
+                AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
         Issues<Issue> warnings = createParser().parse(is, new IssueBuilder());
 
         assertThat(warnings).hasSize(1);
