@@ -59,7 +59,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
     private static final int BUGWARN_ENDTRACE = 4;
     // not used:     private static final int KERNOUTPUT_TIMESTAMP = 5;
     private static final int KERNOUTPUT_CONTENT = 6;
-    /** bug or warning file path pattern */
+    /** Bug or warning file path pattern. */
     private static final Pattern FILE_PATH_PATTERN = Pattern
             .compile("(BUG|WARNING)[^/]*at[ ](((?:[^/]*/)*.*):(\\d+))?([^+!]*)");
 
@@ -120,7 +120,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    protected Issue createWarning(Matcher matcher, final IssueBuilder builder) {
+    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         StringBuilder messageBuilder = new StringBuilder();
         StringBuilder toolTipBuilder = new StringBuilder();
         String filePath = "Nil";

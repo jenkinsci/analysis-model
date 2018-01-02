@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
-     * A parser for the Dr. Memory Errors.
+ * A parser for the Dr. Memory Errors.
  *
  * @author Wade Penson
  */
@@ -20,19 +20,14 @@ public class DrMemoryParser extends RegexpDocumentParser {
     private static final long serialVersionUID = 7195239138601238590L;
 
     /**
-     * Regex pattern for Dr. Memory errors and warnings.
-     * <p>
-     * The pattern first tries to capture the header of the error message with the stack trace. If there happens to be
-     * no stack trace for some reason, only the header with any optional notes will be captured. This is reflected by
-     * the ( | ).
-     * <p>
-     * The body can consist of a stack trace and a notes section. Both the stack trace and notes can consist of multiple
-     * lines. A line in the stack trace starts with "#" and a proceeding number and the lines in the notes section start
-     * with "Note: ". The first part of pattern will match the the lines that start with "#" until it can't find a line
-     * that starts with "#". If the next line starts with "Note: ", it will match the rest of the lines until there are
-     * two consecutive newlines (which indicates that the end of the error has been reached).
-     * <p>
-     * Note: Groups can have trailing whitespace.
+     * Regex pattern for Dr. Memory errors and warnings. <p> The pattern first tries to capture the header of the error
+     * message with the stack trace. If there happens to be no stack trace for some reason, only the header with any
+     * optional notes will be captured. This is reflected by the ( | ). <p> The body can consist of a stack trace and a
+     * notes section. Both the stack trace and notes can consist of multiple lines. A line in the stack trace starts
+     * with "#" and a proceeding number and the lines in the notes section start with "Note: ". The first part of
+     * pattern will match the the lines that start with "#" until it can't find a line that starts with "#". If the next
+     * line starts with "Note: ", it will match the rest of the lines until there are two consecutive newlines (which
+     * indicates that the end of the error has been reached). <p> Note: Groups can have trailing whitespace.
      */
     private static final String DR_MEMORY_WARNING_PATTERN = "(?:Error #\\d+: ([\\s\\S]+?)\\r?\\n(# \\d+ "
             + "[\\s\\S]*?\\r?\\n)(?=[^#])(Note: [\\s\\S]*?\\r?\\n\\r?\\n)?|"
@@ -76,6 +71,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
         super(DR_MEMORY_WARNING_PATTERN, false);
     }
 
+    @SuppressWarnings("CheckStyle")
     @Override
     protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
         StringBuilder messageBuilder = new StringBuilder();
@@ -169,15 +165,22 @@ public class DrMemoryParser extends RegexpDocumentParser {
             }
         }
 
-        return builder.setFileName(filePath).setLineStart(lineNumber).setCategory(category).setMessage(message).setPriority(priority).build();
+        return builder.setFileName(filePath)
+                .setLineStart(lineNumber)
+                .setCategory(category)
+                .setMessage(message)
+                .setPriority(priority)
+                .build();
     }
 
     /**
      * Looks through each line of the stack trace to try and determine the file path and line number where the error
-     * originates from within the user's code. This assumes that the user's code is within the Jenkins workspace
-     * folder. Otherwise, the file path and line number is obtained from the top of the stack trace.
+     * originates from within the user's code. This assumes that the user's code is within the Jenkins workspace folder.
+     * Otherwise, the file path and line number is obtained from the top of the stack trace.
      *
-     * @param stackTrace Array of strings in the stack trace in the correct order.
+     * @param stackTrace
+     *         Array of strings in the stack trace in the correct order.
+     *
      * @return A SourceCodeLocation of where the error originated.
      */
     private SourceCodeLocation findOriginatingErrLocation(final String[] stackTrace) {
@@ -208,7 +211,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
         private final String filePath;
         private final int lineNumber;
 
-        public SourceCodeLocation(String filePath, int lineNumber) {
+        SourceCodeLocation(final String filePath, final int lineNumber) {
             this.filePath = filePath;
             this.lineNumber = lineNumber;
         }

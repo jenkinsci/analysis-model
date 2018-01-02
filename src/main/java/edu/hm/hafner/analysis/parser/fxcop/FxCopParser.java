@@ -37,13 +37,6 @@ public class FxCopParser extends AbstractParser {
     @SuppressFBWarnings("SE")
     private transient Issues<Issue> warnings;
 
-    /**
-     * Creates a new instance of {@link FxCopParser}.
-     */
-    public FxCopParser() {
-        super();
-    }
-
     @Override
     public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {

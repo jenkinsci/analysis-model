@@ -38,8 +38,7 @@ public class JSLintXMLSaxParser extends DefaultHandler {
 
     @Override
     public void startElement(final String namespaceURI,
-            final String localName, final String qName, final Attributes atts) {
-        String key = qName;
+            final String localName, final String key, final Attributes atts) {
 
         if (isLintDerivate(key)) {
             return; // Start element, good to skip

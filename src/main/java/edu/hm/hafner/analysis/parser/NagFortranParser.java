@@ -41,19 +41,17 @@ public class NagFortranParser extends RegexpDocumentParser {
     }
 
     private Priority mapPriority(final String category) {
-        Priority priority;
-
-        if ("Error".equals(category) || "Runtime Error".equals(category)
-                || "Fatal Error".equals(category) || "Panic".equals(category)) {
-            priority = Priority.HIGH;
+        switch (category) {
+            case "Error":
+            case "Runtime Error":
+            case "Fatal Error":
+            case "Panic":
+                return Priority.HIGH;
+            case "Info":
+                return Priority.LOW;
+            default:
+                return Priority.NORMAL;
         }
-        else if ("Info".equals(category)) {
-            priority = Priority.LOW;
-        }
-        else {
-            priority = Priority.NORMAL;
-        }
-        return priority;
     }
 
     private int getLineNumber(final Matcher matcher) {

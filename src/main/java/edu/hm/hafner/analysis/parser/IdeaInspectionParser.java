@@ -32,13 +32,6 @@ import edu.hm.hafner.analysis.XmlElementUtil;
 public class IdeaInspectionParser extends AbstractParser {
     private static final long serialVersionUID = 3307389086106375473L;
 
-    /**
-     * Creates a new instance of {@link IdeaInspectionParser}.
-     */
-    public IdeaInspectionParser() {
-        super();
-    }
-
     @Override
     public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException {
         try {

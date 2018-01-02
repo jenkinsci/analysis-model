@@ -14,7 +14,7 @@ public class File {
     private String name;
     private String packageName;
     private String srcdir;
-    private final transient List<Item> items = new ArrayList<Item>();
+    private final transient List<Item> items = new ArrayList<>();
 
     /**
      * These properties are not used to create Warnings. It was decided to keep them available when Jenkins is modified

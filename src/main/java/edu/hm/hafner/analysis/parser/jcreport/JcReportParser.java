@@ -27,13 +27,6 @@ import edu.hm.hafner.analysis.Priority;
 public class JcReportParser extends AbstractParser {
     private static final long serialVersionUID = -1302787609831475403L;
 
-    /**
-     * Creates a new instance of {@link JcReportParser}.
-     */
-    public JcReportParser() {
-        super();
-    }
-
     @Override
     public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingCanceledException {
         Report report = createReport(reader);

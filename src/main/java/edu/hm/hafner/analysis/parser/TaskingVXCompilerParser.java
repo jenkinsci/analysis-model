@@ -20,7 +20,7 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
             "\\/(\\d+)\\] )?(.*)$";
 
     /**
-     * Creates a new instance of <code>TaskingVXCompilerParser</code>.
+     * Creates a new instance of {@code TaskingVXCompilerParser}.
      */
     public TaskingVXCompilerParser() {
         super(TASKING_VX_COMPILER_WARNING_PATTERN);
@@ -32,21 +32,23 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
         Priority priority;
         String category;
 
-        if ("E".equals(type)) {
-            priority = Priority.HIGH;
-            category = "ERROR";
-        }
-        else if ("F".equals(type)) {
-            priority = Priority.HIGH;
-            category = "License issue";
-        }
-        else if ("I".equals(type)) {
-            priority = Priority.LOW;
-            category = "Info";
-        }
-        else {
-            priority = Priority.NORMAL;
-            category = "Warning";
+        switch (type) {
+            case "E":
+                priority = Priority.HIGH;
+                category = "ERROR";
+                break;
+            case "F":
+                priority = Priority.HIGH;
+                category = "License issue";
+                break;
+            case "I":
+                priority = Priority.LOW;
+                category = "Info";
+                break;
+            default:
+                priority = Priority.NORMAL;
+                category = "Warning";
+                break;
         }
 
         return builder.setFileName(matcher.group(3))

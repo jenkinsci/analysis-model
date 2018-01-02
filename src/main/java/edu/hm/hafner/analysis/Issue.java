@@ -94,6 +94,7 @@ public class Issue implements Serializable {
                 packageName, moduleName, priority, message, description, origin, fingerprint, UUID.randomUUID());
     }
 
+    @SuppressWarnings("ParameterNumber")
     private Issue(@CheckForNull final String fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @CheckForNull final String category, @CheckForNull final String type,
@@ -280,6 +281,7 @@ public class Issue implements Serializable {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
 
+    @SuppressWarnings("CheckStyle")
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

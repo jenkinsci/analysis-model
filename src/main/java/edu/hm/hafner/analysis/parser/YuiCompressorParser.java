@@ -27,7 +27,7 @@ public class YuiCompressorParser extends RegexpDocumentParser {
     private static final Pattern PRINT_SYMBOL_PATTERN = Pattern.compile("This symbol cannot be printed: [^ ]+");
 
     /**
-     * Creates a new instance of <code>YuiCompressorParser</code>.
+     * Creates a new instance of {@code YuiCompressorParser}.
      */
     public YuiCompressorParser() {
         super(YUI_COMPRESSOR_WARNING_PATTERN, true);

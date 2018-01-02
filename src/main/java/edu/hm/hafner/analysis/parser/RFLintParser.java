@@ -33,7 +33,7 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull Reader file, @Nonnull final IssueBuilder builder) {
+    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder) {
         Issues<Issue> warnings = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(file);
         try {

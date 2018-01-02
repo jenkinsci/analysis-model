@@ -24,6 +24,7 @@ public class LinuxKernelOutputParserTest extends AbstractParserTest {
     }
 
 
+    @SuppressWarnings("methodlength")
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(26);

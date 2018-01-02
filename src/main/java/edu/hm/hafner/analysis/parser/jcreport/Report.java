@@ -11,7 +11,7 @@ import java.util.List;
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
 public class Report {
-    private List<File> files = new ArrayList<File>();
+    private List<File> files = new ArrayList<>();
 
     /**
      * Returns an unmodifiable Collection.

@@ -76,7 +76,7 @@ public class EnsureTest {
             Ensure.that(SOME_STRING, SOME_STRING).isNull(ERROR_MESSAGE);
         }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
-            Ensure.that(Collections.EMPTY_SET).contains(EMPTY_STRING);
+            Ensure.that(Collections.emptySet()).contains(EMPTY_STRING);
         }).isInstanceOf(AssertionError.class);
         assertThatThrownBy(() -> {
             Ensure.that(Collections.singleton(EMPTY_STRING)).contains(SOME_STRING);

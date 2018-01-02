@@ -177,6 +177,11 @@ public class IssueTest extends SerializableTest<Issue> {
         assertThat(one.getId()).isNotEqualTo(another.getId());
     }
 
+    /**
+     * Creates an issue that contains valid properties.
+     *
+     * @return a correctly filled issue
+     */
     protected Issue createFilledIssue() {
         return createIssue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME,
                 MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);

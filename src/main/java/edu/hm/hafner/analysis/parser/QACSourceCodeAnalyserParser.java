@@ -19,7 +19,7 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
     private static final String QAC_WARNING_PATTERN = "^(.+?)\\((\\d+),(\\d+)\\): (Err|Msg)\\((\\d+):(\\d+)\\) (.+?)$";
 
     /**
-     * Creates a new instance of <code>QACSourceCodeAnalyserParser</code>.
+     * Creates a new instance of {@code QACSourceCodeAnalyserParser}.
      */
     public QACSourceCodeAnalyserParser() {
         super(QAC_WARNING_PATTERN);

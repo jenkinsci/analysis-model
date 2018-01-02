@@ -15,9 +15,8 @@ public class ArmccCompilerParserTest extends AbstractParserTest {
 
     /**
      * Creates a new instance of {@link AbstractParserTest}.
-     *
      */
-    protected ArmccCompilerParserTest(){
+    protected ArmccCompilerParserTest() {
         super("armcc.txt");
     }
 

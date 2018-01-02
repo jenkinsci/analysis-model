@@ -19,14 +19,16 @@ public class DotNetAssembly {
             }
             else {
                 String[] keyValue = s.trim().split("=");
-                if (keyValue[0].equals("Version")) {
-                    version = keyValue[1];
-                }
-                else if (keyValue[0].equals("Culture")) {
-                    culture = keyValue[1];
-                }
-                else if (keyValue[0].equals("PublicKeyToken")) {
-                    publicKeyToken = keyValue[1];
+                switch (keyValue[0]) {
+                    case "Version":
+                        version = keyValue[1];
+                        break;
+                    case "Culture":
+                        culture = keyValue[1];
+                        break;
+                    case "PublicKeyToken":
+                        publicKeyToken = keyValue[1];
+                        break;
                 }
             }
             cpt++;

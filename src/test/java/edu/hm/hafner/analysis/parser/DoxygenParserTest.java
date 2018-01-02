@@ -89,6 +89,7 @@ public class DoxygenParserTest extends AbstractParserTest {
         softly.assertAll();
     }
 
+    @SuppressWarnings("methodlength")
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(21).hasDuplicatesSize(1);

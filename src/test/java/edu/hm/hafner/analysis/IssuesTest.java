@@ -437,6 +437,9 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         new IssuesTest().createSerializationFile();
     }
 
+    /**
+     * A builder that creates {@link ExtendedIssue} instances.
+     */
     private static class ExtendedIssueBuilder extends IssueBuilder {
         @Override
         public ExtendedIssue build() {
@@ -448,6 +451,9 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         }
     }
 
+    /**
+     * An issue with an additional property.
+     */
     private static class ExtendedIssue extends Issue {
         private final String additional;
 
@@ -479,7 +485,8 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
          * @param description
          *         the description for this issue
          */
-        public ExtendedIssue(@CheckForNull final String fileName, final int lineStart, final int lineEnd,
+        @SuppressWarnings("ParameterNumber")
+        ExtendedIssue(@CheckForNull final String fileName, final int lineStart, final int lineEnd,
                 final int columnStart, final int columnEnd, @CheckForNull final String category,
                 @CheckForNull final String type, @CheckForNull final String packageName,
                 @CheckForNull final String moduleName, @CheckForNull final Priority priority,

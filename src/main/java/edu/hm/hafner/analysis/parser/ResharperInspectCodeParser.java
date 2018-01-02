@@ -85,14 +85,16 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
             String id = issueTypeElement.getAttribute("Id");
             if (!"".equals(id)) {
                 String severity = issueTypeElement.getAttribute("Severity");
-                if ("ERROR".equals(severity)) {
-                    priorityByTypeId.put(id, Priority.HIGH);
-                }
-                else if ("WARNING".equals(severity)) {
-                    priorityByTypeId.put(id, Priority.NORMAL);
-                }
-                else if ("SUGGESTION".equals(severity)) {
-                    priorityByTypeId.put(id, Priority.LOW);
+                switch (severity) {
+                    case "ERROR":
+                        priorityByTypeId.put(id, Priority.HIGH);
+                        break;
+                    case "WARNING":
+                        priorityByTypeId.put(id, Priority.NORMAL);
+                        break;
+                    case "SUGGESTION":
+                        priorityByTypeId.put(id, Priority.LOW);
+                        break;
                 }
             }
         }

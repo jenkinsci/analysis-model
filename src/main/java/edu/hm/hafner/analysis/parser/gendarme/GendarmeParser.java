@@ -41,13 +41,6 @@ public class GendarmeParser extends AbstractParser {
 
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");
 
-    /**
-     * Creates a new instance of {@link GendarmeParser}.
-     */
-    public GendarmeParser() {
-        super();
-    }
-
     @Override
     public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
         try {
@@ -96,18 +89,14 @@ public class GendarmeParser extends AbstractParser {
     }
 
     private Priority extractPriority(final Element defectElement) {
-        String severityString = defectElement.getAttribute("Severity");
-        Priority priority;
-        if ("Low".equals(severityString)) {
-            priority = Priority.LOW;
+        switch (defectElement.getAttribute("Severity")) {
+            case "Low":
+                return Priority.LOW;
+            case "High":
+                return Priority.HIGH;
+            default:
+                return Priority.NORMAL;
         }
-        else if ("High".equals(severityString)) {
-            priority = Priority.HIGH;
-        }
-        else {
-            priority = Priority.NORMAL;
-        }
-        return priority;
     }
 
     private String extractFileNameMatch(final GendarmeRule rule, final String source, final int group) {
@@ -142,7 +131,7 @@ public class GendarmeParser extends AbstractParser {
             try {
                 rule.setUrl(new URL(ruleElement.getAttribute("Uri")));
             }
-            catch (MalformedURLException e) {
+            catch (MalformedURLException ignored) {
                 rule.setUrl(null);
             }
 
