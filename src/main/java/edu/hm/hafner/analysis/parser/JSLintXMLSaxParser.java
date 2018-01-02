@@ -28,6 +28,8 @@ public class JSLintXMLSaxParser extends DefaultHandler {
      *
      * @param issues
      *         the issues
+     * @param builder
+     *         issue builder
      */
     public JSLintXMLSaxParser(final Issues<Issue> issues, final IssueBuilder builder) {
         super();

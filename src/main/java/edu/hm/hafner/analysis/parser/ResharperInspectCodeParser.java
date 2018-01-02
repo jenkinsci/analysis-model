@@ -55,29 +55,33 @@ public class ResharperInspectCodeParser extends FastRegexpLineParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        // TODO: remove this check
         if (line.contains("<IssueType Id=")) {
-            try {
-                // This is a quick workaround to get the IssueType parsing
-                // to work for this parser (which is a RegexpLineParser)
-                // It should probably be entirely xml-based instead
-                DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder docBuilder;
-                docBuilder = docBuilderFactory.newDocumentBuilder();
+            extractIssuesToMap(line);
 
-                InputSource is = new InputSource();
-                is.setCharacterStream(new StringReader("<IssueTypes>" + line + "</IssueTypes>"));
-                Document doc = docBuilder.parse(is);
-
-                NodeList mainNode = doc.getElementsByTagName("IssueTypes");
-                Element issueTypesElement = (Element) mainNode.item(0);
-                parseIssueTypes(XmlElementUtil.getNamedChildElements(issueTypesElement, "IssueType"));
-            }
-            catch (ParserConfigurationException | SAXException | IOException ignored) {
-            }
             return false;
         }
         return line.contains("<Issue");
+    }
+
+    private void extractIssuesToMap(final String line) {
+        try {
+            // TODO: Remove this workaround to get the IssueType parsing to work for this parser
+            // It should probably be entirely xml-based instead
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder;
+            docBuilder = docBuilderFactory.newDocumentBuilder();
+
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader("<IssueTypes>" + line + "</IssueTypes>"));
+            Document doc = docBuilder.parse(is);
+
+            NodeList mainNode = doc.getElementsByTagName("IssueTypes");
+            Element issueTypesElement = (Element) mainNode.item(0);
+            parseIssueTypes(XmlElementUtil.getNamedChildElements(issueTypesElement, "IssueType"));
+        }
+        catch (ParserConfigurationException | SAXException | IOException ignored) {
+            // ignore
+        }
     }
 
     private void parseIssueTypes(final List<Element> issueTypeElements) {

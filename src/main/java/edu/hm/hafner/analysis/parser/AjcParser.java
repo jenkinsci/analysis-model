@@ -99,6 +99,7 @@ public class AjcParser extends AbstractParser {
         builder.setCategory(category);
     }
 
+    /** Available states for the parser. */
     private enum States {
         START, PARSING, WAITING_FOR_END
     }
