@@ -27,66 +27,13 @@ public class Gcc4CompilerParserTest extends AbstractParserTest {
         super("gcc4.txt");
     }
 
-    /**
-     * Parses a file with one fatal error.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18081">Issue 18081</a>
-     */
-    @Test
-    public void issue18081() {
-        Issues<Issue> warnings = parse("issue18081.txt");
-
-        assertThat(warnings).hasSize(1);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasLineStart(10)
-                    .hasLineEnd(10)
-                    .hasMessage("'test.h' file not found")
-                    .hasFileName("./test.h")
-                    .hasCategory(ERROR_CATEGORY)
-                    .hasPriority(Priority.HIGH);
-        });
+    @Override
+    protected AbstractParser createParser() {
+        return new Gcc4CompilerParser();
     }
-
-    /**
-     * Parses a file with one warning that are started by ant.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
-     */
-    @Test
-    public void issue9926() {
-        Issues<Issue> warnings = parse("issue9926.txt");
-
-        assertThat(warnings).hasSize(1);
-
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasLineStart(52)
-                    .hasLineEnd(52)
-                    .hasMessage("large integer implicitly truncated to unsigned type")
-                    .hasFileName("src/test_simple_sgs_message.cxx")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
-        });
-    }
-
-    /**
-     * Parses a warning log with 1 warning.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
-     */
-    @Test
-    public void issue6563() {
-        Issues<Issue> warnings = parse("issue6563.txt");
-
-        assertThat(warnings).hasSize(10);
-    }
-
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-
         softly.assertThat(issues).hasSize(14);
 
         Iterator<Issue> iterator = issues.iterator();
@@ -205,6 +152,70 @@ public class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasPriority(Priority.NORMAL);
     }
 
+    /** Should not report warnings already detected by {@link Gcc4LinkerParser}. */
+    @Test
+    public void shouldNotReportGccWarnings() {
+        Issues<Issue> warnings = parse("gcc4ld.txt");
+
+        assertThat(warnings).isEmpty();
+    }
+
+    /**
+     * Parses a file with one fatal error.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18081">Issue 18081</a>
+     */
+    @Test
+    public void issue18081() {
+        Issues<Issue> warnings = parse("issue18081.txt");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(10)
+                    .hasLineEnd(10)
+                    .hasMessage("'test.h' file not found")
+                    .hasFileName("./test.h")
+                    .hasCategory(ERROR_CATEGORY)
+                    .hasPriority(Priority.HIGH);
+        });
+    }
+
+    /**
+     * Parses a file with one warning that are started by ant.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
+     */
+    @Test
+    public void issue9926() {
+        Issues<Issue> warnings = parse("issue9926.txt");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(52)
+                    .hasLineEnd(52)
+                    .hasMessage("large integer implicitly truncated to unsigned type")
+                    .hasFileName("src/test_simple_sgs_message.cxx")
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasPriority(Priority.NORMAL);
+        });
+    }
+
+    /**
+     * Parses a warning log with 1 warning.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
+     */
+    @Test
+    public void issue6563() {
+        Issues<Issue> warnings = parse("issue6563.txt");
+
+        assertThat(warnings).hasSize(10);
+    }
+
     /**
      * Parses a warning log with 10 template warnings.
      *
@@ -301,12 +312,6 @@ public class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasCategory(WARNING_CATEGORY + ":return-type")
                     .hasPriority(Priority.NORMAL);
         });
-    }
-
-
-    @Override
-    protected AbstractParser createParser() {
-        return new Gcc4CompilerParser();
     }
 }
 

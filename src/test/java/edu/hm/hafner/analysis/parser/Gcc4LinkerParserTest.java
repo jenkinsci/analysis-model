@@ -27,8 +27,12 @@ public class Gcc4LinkerParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected AbstractParser createParser() {
+        return new Gcc4LinkerParser();
+    }
 
+    @Override
+    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(7).hasDuplicatesSize(1);
 
         Iterator<Issue> iterator = issues.iterator();
@@ -90,6 +94,19 @@ public class Gcc4LinkerParserTest extends AbstractParserTest {
 
     }
 
+    /** Should not report warnings already detected by {@link Gcc4CompilerParser}. */
+    @Test
+    public void shouldNotReportGccWarnings() {
+        Issues<Issue> warnings = parse("gcc4.txt");
+
+        assertThat(warnings).hasSize(2);
+        assertThatMessageHasUndefinedReference(warnings, 0);
+        assertThatMessageHasUndefinedReference(warnings, 1);
+    }
+
+    private void assertThatMessageHasUndefinedReference(final Issues<Issue> warnings, final int index) {
+        assertThat(warnings.get(index).getMessage()).startsWith("undefined reference to");
+    }
 
     /**
      * Parses a warning log with multi line warnings.
@@ -125,11 +142,6 @@ public class Gcc4LinkerParserTest extends AbstractParserTest {
         Issues<Issue> warnings = parse("issue6563.txt");
 
         assertThat(warnings).isEmpty();
-    }
-
-    @Override
-    protected AbstractParser createParser() {
-        return new Gcc4LinkerParser();
     }
 }
 

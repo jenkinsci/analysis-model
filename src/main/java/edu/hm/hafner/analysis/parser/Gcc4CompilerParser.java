@@ -3,17 +3,17 @@ package edu.hm.hafner.analysis.parser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
-import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for gcc 4.x compiler warnings.
  *
  * @author Frederic Chateau
  */
-public class Gcc4CompilerParser extends RegexpLineParser {
+public class Gcc4CompilerParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String ERROR = "error";
@@ -25,6 +25,11 @@ public class Gcc4CompilerParser extends RegexpLineParser {
      */
     public Gcc4CompilerParser() {
         super(GCC_WARNING_PATTERN);
+    }
+
+    @Override
+    protected boolean isLineInteresting(final String line) {
+        return line.contains("warning") || line.contains("error");
     }
 
     @Override
