@@ -11,6 +11,7 @@ This library consists basically of two separate parts:
 
 All source code is licensed under the MIT license.
 
+[![Jenkins](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/badge/icon)](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/)
 [![Travis](https://img.shields.io/travis/jenkinsci/analysis-model.svg)](https://travis-ci.org/jenkinsci/analysis-model)
 [![Codecov](https://img.shields.io/codecov/c/github/jenkinsci/analysis-model.svg)](https://codecov.io/gh/jenkinsci/analysis-model)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/jenkinsci/analysis-model.svg)]()
