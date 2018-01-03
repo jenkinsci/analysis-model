@@ -3,6 +3,12 @@ Currently it is used only by [Jenkins' warnings plug-in](https://wiki.jenkins.io
 Since this library has no dependencies to the Jenkins project it might be used by other static analysis visualization 
 tools as well in the future.
 
+This library consists basically of two separate parts:
+1. A model to manage a set of issues of static code analysis runs. This includes the possibility to track issues in
+ different source code versions using a fingerprinting algorithm. 
+2. Parsers for numerous static analysis tools (including several compilers), see the 
+ [parser source folder](src/main/java/edu/hm/hafner/analysis/parser) for a complete list of supported formats.
+
 All source code is licensed under the MIT license.
 
 [![Travis](https://img.shields.io/travis/jenkinsci/analysis-model.svg)](https://travis-ci.org/jenkinsci/analysis-model)

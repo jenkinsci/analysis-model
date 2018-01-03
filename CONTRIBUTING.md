@@ -2,8 +2,8 @@
 
 This page provides information about contributing code to Jenkins' Static Analysis Suite
 
-:exclamation: There's a lot more to the Jenkins project than just code. For information on contributing to the Jenkins '
-project overall, check out https://jenkins.io/participate/.
+:exclamation: There's a lot more to the Jenkins project than just code. For information on contributing to the Jenkins'
+project overall, check out [Jenkins' contributing landing page](https://jenkins.io/participate/).
  
 ## Getting started
 
@@ -69,17 +69,12 @@ as long as the code is licensed under MIT and merged by one of the contributors 
 ## Continuous Integration
 
 The Jenkins project has a Continuous Integration server... powered by Jenkins, of course.
-It is located at [ci.jenkins.io](https://ci.jenkins.io/).
-
-The Jenkins project uses [Jenkins Pipeline](https://jenkins.io/doc/book/pipeline/) to run builds.
-The code for the core build flow is stored in the [Jenkinsfile](./Jenkinsfile) in the repository root.
-If you want to update that build flow (e.g. "add more checks"),
-just submit a pull request.
+The CI job for this project is located at [ci.jenkins.io](https://ci.jenkins.io/job/Plugins/job/analysis-model/).
 
 # Links
 
 * [Jenkins Contribution Landing Page](https://jenkins.io/paricipate/)
-* [Jenkisn IRC Channel](https://jenkins.io/chat/)
+* [Jenkins IRC Channel](https://jenkins.io/chat/)
 * [Beginners Guide To Contributing](https://wiki.jenkins.io/display/JENKINS/Beginners+Guide+to+Contributing)
 * [List of newbie-friendly issues in the core](https://issues.jenkins-ci.org/issues/?jql=project%20%3D%20JENKINS%20AND%20status%20in%20(Open%2C%20%22In%20Progress%22%2C%20Reopened)%20AND%20component%20%3D%20core%20AND%20labels%20in%20(newbie-friendly))
 
