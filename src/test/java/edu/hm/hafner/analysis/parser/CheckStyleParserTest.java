@@ -48,7 +48,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void issue25511() {
-        Issues<Issue> issues = parseFromCheckStyleFolder("issue25511.xml");
+        Issues<Issue> issues = parseInCheckStyleFolder("issue25511.xml");
 
         assertThat(issues).hasSize(2);
 
@@ -63,7 +63,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void testColumnPositions() {
-        Issues<Issue> issues = parseFromCheckStyleFolder("issue19122.xml");
+        Issues<Issue> issues = parseInCheckStyleFolder("issue19122.xml");
 
         assertThat(issues).hasSize(58);
     }
@@ -76,12 +76,12 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void testParsingOfScalaStyleFormat() {
-        Issues<Issue> issues = parseFromCheckStyleFolder("scalastyle-output.xml");
+        Issues<Issue> issues = parseInCheckStyleFolder("scalastyle-output.xml");
 
         assertThat(issues).hasSize(2);
     }
 
-    private Issues<Issue> parseFromCheckStyleFolder(final String fileName) {
+    private Issues<Issue> parseInCheckStyleFolder(final String fileName) {
         return parse(PREFIX + fileName);
     }
 }

@@ -20,7 +20,6 @@
     <module name="AnnotationUseStyle"/>
     <module name="Indentation">
       <property name="arrayInitIndent" value="8"/>
-      <property name="arrayInitIndent" value="8"/>
     </module>
     <module name="MissingDeprecated"/>
     <module name="PackageAnnotation"/>

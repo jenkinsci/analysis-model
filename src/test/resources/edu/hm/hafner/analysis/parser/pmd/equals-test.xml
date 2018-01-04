@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.1" timestamp="2008-03-18T22:17:01.031">
+<file name="C:\Build\Results\jobs\ADT-Base\workspace\com.avaloq.adt.core\src\com\avaloq\adt\env\core\db\plsqlCompletion\PLSQLCompletionProvider.java">
+<violation beginline="115" endline="118" begincolumn="57" endcolumn="57" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.avaloq.adt.env.core.db.plsqlCompletion" class="PLSQLCompletionProvider" method="getPackage" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="124" endline="127" begincolumn="49" endcolumn="49" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.avaloq.adt.env.core.db.plsqlCompletion" class="PLSQLCompletionProvider" method="getPackage" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="195" endline="198" begincolumn="57" endcolumn="57" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.avaloq.adt.env.core.db.plsqlCompletion" class="PLSQLCompletionProvider" method="getAllPackages" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="204" endline="207" begincolumn="49" endcolumn="49" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.avaloq.adt.env.core.db.plsqlCompletion" class="PLSQLCompletionProvider" method="getAllPackages" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+</file>
+</pmd>

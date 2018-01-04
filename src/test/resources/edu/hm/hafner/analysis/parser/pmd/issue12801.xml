@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.1" timestamp="2008-03-18T22:17:01.031">
+<file name="C:\Build\Results\jobs\ADT-Base\workspace\com.avaloq.adt.ui\src\main\java\com\avaloq\adt\env\internal\ui\actions\CopyToClipboard.java">
+<violation beginline="216" endline="216" begincolumn="32" endcolumn="46" rule="CompareObjectsWithEquals" ruleset="Design Rules" package="com.myapplication.util.collections" class="SingleSet$SingleSetIterator" method="hasNext" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#CompareObjectsWithEquals" priority="3">
+Use equals() to compare object references.
+</violation>
+<violation beginline="216" endline="216" begincolumn="51" endcolumn="65" rule="CompareObjectsWithEquals" ruleset="Design Rules" package="com.myapplication.util.collections" class="SingleSet$SingleSetIterator" method="hasNext" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#CompareObjectsWithEquals" priority="3">
+Use equals() to compare object references.
+</violation>
+</file>
+</pmd>

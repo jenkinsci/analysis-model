@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.5" timestamp="2011-04-18T14:26:55.781">
+<file name="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java">
+<violation beginline="195" endline="201" begincolumn="32" endcolumn="66" rule="ExcessiveParameterList" ruleset="Code Size Rules" package="hudson.plugins.analysis.core" class="HealthAwarePublisher" externalInfoUrl="http://pmd.sourceforge.net/rules/codesize.html#ExcessiveParameterList" priority="3">
+Avoid really long parameter lists.
+</violation>
+</file>
+<file name="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java">
+<violation beginline="1" endline="491" begincolumn="1" endcolumn="1" rule="ExcessiveImports" ruleset="Coupling Rules" package="hudson.plugins.analysis.graph" externalInfoUrl="http://pmd.sourceforge.net/rules/coupling.html#ExcessiveImports" priority="3">
+A high number of imports can indicate a high degree of coupling within an object.
+</violation>
+</file>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="nopmd" msg="Assigning an Object to null is a code smell.  Consider refactoring." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="nopmd" msg="Assigning an Object to null is a code smell.  Consider refactoring." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="nopmd" msg="Assigning an Object to null is a code smell.  Consider refactoring." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="nopmd" msg="Assigning an Object to null is a code smell.  Consider refactoring." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'minimumAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'healthyAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'unHealthyAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'isFailureThresholdEnabled'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractHealthDescriptor.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'isHealthyReportEnabled'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/AbstractResultAction.java" suppressiontype="nopmd" msg="Avoid unused private fields such as 'healthReportBuilder'." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/BuildResult.java" suppressiontype="annotation" msg="The method readResolve() has an NPath complexity of 288" usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/BuildResult.java" suppressiontype="annotation" msg="Avoid really long classes." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/BuildResult.java" suppressiontype="nopmd" msg="This class has a bunch of public methods and attributes" usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/BuildResult.java" suppressiontype="annotation" msg="Too many fields" usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/BuildResult.java" suppressiontype="annotation" msg="The method 'readResolve' has a Cyclomatic Complexity of 10." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/BuildResult.java" suppressiontype="nopmd" msg="A high number of imports can indicate a high degree of coupling within an object." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/BuildResult.java" suppressiontype="nopmd" msg="Avoid unused private fields such as 'emptyModules'." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwareMavenReporter.java" suppressiontype="annotation" msg="Too many fields" usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwareMavenReporter.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'minimumAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwareMavenReporter.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'thresholdEnabled'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwareMavenReporter.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'healthyAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwareMavenReporter.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'healthyReportEnabled'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwareMavenReporter.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'height'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwareMavenReporter.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'unHealthyAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Avoid really long parameter lists." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Avoid really long parameter lists." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Too many fields" usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="nopmd" msg="Assigning an Object to null is a code smell.  Consider refactoring." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="nopmd" msg="Assigning an Object to null is a code smell.  Consider refactoring." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="nopmd" msg="Assigning an Object to null is a code smell.  Consider refactoring." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="nopmd" msg="Assigning an Object to null is a code smell.  Consider refactoring." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'minimumAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'thresholdEnabled'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'healthyAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'healthyReportEnabled'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'height'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthAwarePublisher.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'unHealthyAnnotations'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'isHealthEnabled'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'itemName'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'reportSingleCount'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'healthy'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'isThresholdEnabled'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'reportMultipleCount'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'unHealthy'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'reportName'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/HealthReportBuilder.java" suppressiontype="annotation" msg="Avoid unused private fields such as 'threshold'." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/core/Thresholds.java" suppressiontype="annotation" msg="Too many fields" usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/graph/GraphConfiguration.java" suppressiontype="annotation" msg="The method equals() has an NPath complexity of 1024" usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/graph/GraphConfiguration.java" suppressiontype="annotation" msg="The method 'equals' has a Cyclomatic Complexity of 12." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/graph/GraphConfiguration.java" suppressiontype="nopmd" msg="Use equals() to compare object references." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/graph/GraphConfigurationView.java" suppressiontype="nopmd" msg="Private field 'healthDescriptor' could be made final; it is only initialized in the declaration or constructor." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/util/ThresholdValidator.java" suppressiontype="nopmd" msg="New exception is thrown in catch block, original stack trace may be lost" usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/util/TrendReportHeightValidator.java" suppressiontype="nopmd" msg="New exception is thrown in catch block, original stack trace may be lost" usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/util/model/AbstractAnnotation.java" suppressiontype="annotation" msg="The method hashCode() has an NPath complexity of 390625" usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/util/model/AbstractAnnotation.java" suppressiontype="annotation" msg="The method equals() has an NPath complexity of 1048576" usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/util/model/AbstractAnnotation.java" suppressiontype="annotation" msg="The method 'equals' has a Cyclomatic Complexity of 29." usermsg=""/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/util/model/AnnotationContainer.java" suppressiontype="nopmd" msg="This class has a bunch of public methods and attributes" usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/util/model/AnnotationContainer.java" suppressiontype="nopmd" msg="Avoid unused private fields such as 'handleFiles'." usermsg="
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/util/model/MavenModule.java" suppressiontype="nopmd" msg="Avoid unused private fields such as 'packageMapping'." usermsg=": backward compatibility
+"/>
+<suppressedviolation filename="/home/hafner/Programs/hudson/jobs/Analysis Core/workspace/src/main/java/hudson/plugins/analysis/views/SourceDetail.java" suppressiontype="annotation" msg="The method 'splitSourceFile' has a Cyclomatic Complexity of 10." usermsg=""/>
+</pmd>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="5.8.1" timestamp="2018-01-02T21:58:33.986">
+<file name="/Users/hafner/Development/jenkins/workspace/Pipeline/src/main/java/edu/hm/hafner/analysis/parser/AjcParser.java">
+<violation beginline="30" endline="74" begincolumn="12" endcolumn="5" rule="CyclomaticComplexity" ruleset="Code Size" package="edu.hm.hafner.analysis.parser" class="AjcParser" method="parse" externalInfoUrl="https://pmd.github.io/pmd-5.8.1/pmd-java/rules/java/codesize.html#CyclomaticComplexity" priority="3">
+The method 'parse' has a Cyclomatic Complexity of 10.
+</violation>
+</file>
+</pmd>
