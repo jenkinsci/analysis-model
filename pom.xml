@@ -76,6 +76,7 @@
     <checkstyle.maven.plugin>2.17</checkstyle.maven.plugin>
     <checkstyle.version>8.7</checkstyle.version>
     <findbugs.maven.plugin>3.0.5</findbugs.maven.plugin>
+    <spotbugs.maven.plugin>3.1.1</spotbugs.maven.plugin>
     <jacoco.maven.plugin>0.7.9</jacoco.maven.plugin>
     <taglist.maven.plugin>2.4</taglist.maven.plugin>
   </properties>
@@ -311,9 +312,30 @@
             <includeTests>true</includeTests>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>${spotbugs.maven.plugin}</version>
+          <configuration>
+            <xmlOutput>true</xmlOutput>
+            <threshold>Low</threshold>
+            <effort>Max</effort>
+            <relaxed>false</relaxed>
+            <fork>true</fork>
+            <excludeFilterFile>etc/findbugs-exclusion-filter.xml</excludeFilterFile>
+            <includeTests>true</includeTests>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
+
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>http://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
 
   <distributionManagement>
     <repository>
