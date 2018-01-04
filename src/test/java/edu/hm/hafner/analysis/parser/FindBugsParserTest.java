@@ -44,11 +44,48 @@ class FindBugsParserTest {
     }
 
     /**
+     * Parses messages from SpotBugs.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-46975">JENKINS-46975</a>
+     */
+    @Test
+    void issue46975() {
+        Issues<Issue> issues = parseFile("spotbugsXml.xml", false);
+        assertThat(issues).hasSize(2);
+
+        assertSoftly(softly -> {
+            softly.assertThat(issues.get(0))
+                    .hasFileName("/Users/hafner/Development/git/analysis-model/src/test/java/edu/hm/hafner/analysis/IssuesTest.java")
+                    .hasCategory("STYLE")
+                    .hasType("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Return value of Issues.get(int) ignored, but method has no side effect")
+                    .hasPackageName("edu.hm.hafner.analysis")
+                    .hasModuleName("Static Analysis Model and Parsers")
+                    .hasLineStart(286)
+                    .hasLineEnd(286)
+                    .hasFingerprint("3d78cb510b96490fd951f32d93e4e9ba");
+            softly.assertThat(issues.get(1))
+                    .hasFileName("/Users/hafner/Development/git/analysis-model/src/test/java/edu/hm/hafner/analysis/IssuesTest.java")
+                    .hasCategory("STYLE")
+                    .hasType("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Return value of Issues.get(int) ignored, but method has no side effect")
+                    .hasPackageName("edu.hm.hafner.analysis")
+                    .hasModuleName("Static Analysis Model and Parsers")
+                    .hasLineStart(289)
+                    .hasLineEnd(289)
+                    .hasFingerprint("cc577f74735570f875f75b479484fecf");
+        });
+    }
+
+    /**
      * Parses fb-contrib messages.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7238">Issue 7238</a>
      */
-    @Test @Disabled("If all properties are stored in Issue than the number of duplicates should be 0")
+    @Test
+    @Disabled("If all properties are stored in Issue than the number of duplicates should be 0")
     void issue7238() {
         Issues<Issue> issues = parseFile("issue7238.xml", false);
 
