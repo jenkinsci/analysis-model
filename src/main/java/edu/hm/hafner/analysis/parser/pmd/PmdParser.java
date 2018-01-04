@@ -22,7 +22,6 @@ import edu.hm.hafner.analysis.Priority;
  * @author Ulli Hafner
  */
 public class PmdParser extends AbstractParser {
-    /** Unique ID of this class. */
     private static final long serialVersionUID = 6507147028628714706L;
 
     /** PMD priorities smaller than this value are mapped to {@link Priority#HIGH}. */

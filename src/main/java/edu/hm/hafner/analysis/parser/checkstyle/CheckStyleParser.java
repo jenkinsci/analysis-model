@@ -23,6 +23,8 @@ import edu.hm.hafner.analysis.Priority;
  * @author Ulli Hafner
  */
 public class CheckStyleParser extends AbstractParser {
+    private static final long serialVersionUID = -3187275729854832128L;
+
     @Override
     public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder)
             throws ParsingCanceledException, ParsingException {
@@ -71,19 +73,16 @@ public class CheckStyleParser extends AbstractParser {
         for (File file : collection.getFiles()) {
             if (isValidWarning(file)) {
                 for (Error error : file.getErrors()) {
-                    mapPriority(error).ifPresent(priority -> {
-                                builder.setPriority(priority);
+                    mapPriority(error).ifPresent(priority -> builder.setPriority(priority));
 
-                                String source = error.getSource();
-                                builder.setType(getType(source));
-                                builder.setCategory(getCategory(source));
-                                builder.setMessage(error.getMessage());
-                                builder.setLineStart(error.getLine());
-                                builder.setFileName(file.getName());
-                                builder.setColumnStart(error.getColumn());
-                                issues.add(builder.build());
-                            }
-                    );
+                    String source = error.getSource();
+                    builder.setType(getType(source));
+                    builder.setCategory(getCategory(source));
+                    builder.setMessage(error.getMessage());
+                    builder.setLineStart(error.getLine());
+                    builder.setFileName(file.getName());
+                    builder.setColumnStart(error.getColumn());
+                    issues.add(builder.build());
                 }
             }
         }
