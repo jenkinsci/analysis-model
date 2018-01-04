@@ -26,9 +26,14 @@ public class FingerprintGenerator {
             final IssueBuilder builder, final Charset charset) {
         Issues<Issue> enhanced = new Issues<>();
         for (Issue issue : issues) {
-            String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
-            Issue issueWithFingerprint = builder.copy(issue).setFingerprint(digest).build();
-            enhanced.add(issueWithFingerprint);
+            if (issue.hasFingerprint()) {
+                enhanced.add(issue);
+            }
+            else {
+                String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
+                Issue issueWithFingerprint = builder.copy(issue).setFingerprint(digest).build();
+                enhanced.add(issueWithFingerprint);
+            }
         }
         return enhanced;
     }

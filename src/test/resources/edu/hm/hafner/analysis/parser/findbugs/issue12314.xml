@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="2.0.0" sequence="0" timestamp="1326216705398" analysisTimestamp="1326216705410" release="">
+  <Project projectName="issue12314.xml">
+    <Jar>/home/hancock/sedsystems/aggw-TRUNK/sw/sedsystems/sedsystems-core/target/build</Jar>
+    <AuxClasspathEntry>/home/hancock/.ivy2/cache/net.jcip/jcip-annotations/jars/jcip-annotations-1.0.jar</AuxClasspathEntry>
+    <SrcDir>/home/hancock/sedsystems/aggw-TRUNK/sw/sedsystems/sedsystems-core/src/main/java</SrcDir>
+    <Plugin id="com.mebigfatguy.fbcontrib" enabled="true"/>
+  </Project>
+  <BugInstance type="DRE_DECLARED_RUNTIME_EXCEPTION" priority="2" abbrev="DRE" category="STYLE">
+    <Class classname="com.sedsystems.core.valid.Transformers$DoubleTransformer">
+      <SourceLine classname="com.sedsystems.core.valid.Transformers$DoubleTransformer" start="56" end="60" sourcefile="Transformers.java" sourcepath="com/sedsystems/core/valid/Transformers.java"/>
+    </Class>
+    <Method classname="com.sedsystems.core.valid.Transformers$DoubleTransformer" name="parseValue" signature="(Ljava/lang/String;)Ljava/lang/Double;" isStatic="false">
+      <SourceLine classname="com.sedsystems.core.valid.Transformers$DoubleTransformer" start="60" end="60" startBytecode="0" endBytecode="56" sourcefile="Transformers.java" sourcepath="com/sedsystems/core/valid/Transformers.java"/>
+    </Method>
+    <String value="java.lang.NumberFormatException"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="1">
+    <MissingClass>javax.annotation.Nonnull</MissingClass>
+  </Errors>
+  <FindBugsSummary timestamp="Tue, 10 Jan 2012 11:31:45 -0600" total_classes="32" referenced_classes="67" total_bugs="1" total_size="675" num_packages="2" vm_version="22.0-b10" cpu_seconds="12.80" clock_seconds="4.13" peak_mbytes="169.53" alloc_mbytes="1774.25" gc_seconds="0.05" priority_2="1">
+    <PackageStats package="com.sedsystems.core.lang" total_bugs="0" total_types="15" total_size="438">
+      <ClassStats class="com.sedsystems.core.lang.ComparablePair" sourceFile="ComparablePair.java" interface="false" size="45" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.CreationResult" sourceFile="CreationResult.java" interface="false" size="44" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.NameValueEnum" sourceFile="NameValueEnum.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.NamedType" sourceFile="NamedType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.NamedTypeCreator" sourceFile="NamedTypeCreator.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.Optional" sourceFile="Optional.java" interface="false" size="66" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.Pair" sourceFile="Pair.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.RangedNumber" sourceFile="RangedNumber.java" interface="false" size="37" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.RangedNumber$NumberComparator" sourceFile="RangedNumber.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.RangedType" sourceFile="RangedType.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.Result" sourceFile="Result.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.ToFormattedStringable" sourceFile="ToFormattedStringable.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.Transformer" sourceFile="Transformer.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.TriResult" sourceFile="TriResult.java" interface="false" size="56" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.lang.Triple" sourceFile="Triple.java" interface="false" size="55" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.sedsystems.core.valid" total_bugs="1" total_types="17" total_size="237" priority_2="1">
+      <ClassStats class="com.sedsystems.core.valid.AbstractValidator" sourceFile="AbstractValidator.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.NamedTypeRangeValidator" sourceFile="NamedTypeRangeValidator.java" interface="false" size="38" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.NumberTransformer" sourceFile="NumberTransformer.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.OptionalValidator" sourceFile="OptionalValidator.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.OrValidator" sourceFile="OrValidator.java" interface="false" size="40" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers" sourceFile="Transformers.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$1" sourceFile="Transformers.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$2" sourceFile="Transformers.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$3" sourceFile="Transformers.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$ByteTransformer" sourceFile="Transformers.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$DoubleTransformer" sourceFile="Transformers.java" interface="false" size="7" bugs="1" priority_2="1"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$FloatTransformer" sourceFile="Transformers.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$IntegerTransformer" sourceFile="Transformers.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$LongTransformer" sourceFile="Transformers.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Transformers$ShortTransformer" sourceFile="Transformers.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.Validator" sourceFile="Validator.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="com.sedsystems.core.valid.ValidatorDecorator" sourceFile="ValidatorDecorator.java" interface="false" size="12" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="387" invocations="381" avgMicrosecondsPerInvocation="1016" maxMicrosecondsPerInvocation="19562" standardDeviationMircosecondsPerInvocation="2313"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="219" invocations="67" avgMicrosecondsPerInvocation="3281" maxMicrosecondsPerInvocation="40158" standardDeviationMircosecondsPerInvocation="6582"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="187" invocations="67" avgMicrosecondsPerInvocation="2805" maxMicrosecondsPerInvocation="34546" standardDeviationMircosecondsPerInvocation="5580"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="130" invocations="164" avgMicrosecondsPerInvocation="795" maxMicrosecondsPerInvocation="6508" standardDeviationMircosecondsPerInvocation="1026"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="123" invocations="179" avgMicrosecondsPerInvocation="688" maxMicrosecondsPerInvocation="7819" standardDeviationMircosecondsPerInvocation="1017"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="120" invocations="179" avgMicrosecondsPerInvocation="670" maxMicrosecondsPerInvocation="6859" standardDeviationMircosecondsPerInvocation="846"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="110" invocations="67" avgMicrosecondsPerInvocation="1645" maxMicrosecondsPerInvocation="18451" standardDeviationMircosecondsPerInvocation="3135"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="106" invocations="180" avgMicrosecondsPerInvocation="592" maxMicrosecondsPerInvocation="7007" standardDeviationMircosecondsPerInvocation="887"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="89" invocations="180" avgMicrosecondsPerInvocation="496" maxMicrosecondsPerInvocation="8518" standardDeviationMircosecondsPerInvocation="916"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="85" invocations="179" avgMicrosecondsPerInvocation="479" maxMicrosecondsPerInvocation="8257" standardDeviationMircosecondsPerInvocation="774"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="81" invocations="67" avgMicrosecondsPerInvocation="1223" maxMicrosecondsPerInvocation="12541" standardDeviationMircosecondsPerInvocation="2019"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="75" invocations="281" avgMicrosecondsPerInvocation="269" maxMicrosecondsPerInvocation="3072" standardDeviationMircosecondsPerInvocation="436"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="69" invocations="149" avgMicrosecondsPerInvocation="463" maxMicrosecondsPerInvocation="4479" standardDeviationMircosecondsPerInvocation="572"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="68" invocations="100" avgMicrosecondsPerInvocation="687" maxMicrosecondsPerInvocation="13283" standardDeviationMircosecondsPerInvocation="1533"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="64" invocations="67" avgMicrosecondsPerInvocation="961" maxMicrosecondsPerInvocation="15338" standardDeviationMircosecondsPerInvocation="2148"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="60" invocations="370" avgMicrosecondsPerInvocation="164" maxMicrosecondsPerInvocation="4186" standardDeviationMircosecondsPerInvocation="355"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="50" invocations="67" avgMicrosecondsPerInvocation="761" maxMicrosecondsPerInvocation="8013" standardDeviationMircosecondsPerInvocation="1317"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="49" invocations="192" avgMicrosecondsPerInvocation="258" maxMicrosecondsPerInvocation="36008" standardDeviationMircosecondsPerInvocation="2588"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory" totalMilliseconds="47" invocations="14" avgMicrosecondsPerInvocation="3406" maxMicrosecondsPerInvocation="46802" standardDeviationMircosecondsPerInvocation="12036"/>
+      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="45" invocations="6563" avgMicrosecondsPerInvocation="6" maxMicrosecondsPerInvocation="51" standardDeviationMircosecondsPerInvocation="4"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="40" invocations="179" avgMicrosecondsPerInvocation="225" maxMicrosecondsPerInvocation="3162" standardDeviationMircosecondsPerInvocation="315"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="37" invocations="67" avgMicrosecondsPerInvocation="559" maxMicrosecondsPerInvocation="4853" standardDeviationMircosecondsPerInvocation="839"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="36" invocations="67" avgMicrosecondsPerInvocation="547" maxMicrosecondsPerInvocation="7352" standardDeviationMircosecondsPerInvocation="1167"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DoInsideDoPrivileged" totalMilliseconds="32" invocations="32" avgMicrosecondsPerInvocation="1007" maxMicrosecondsPerInvocation="30690" standardDeviationMircosecondsPerInvocation="5331"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="27" invocations="158" avgMicrosecondsPerInvocation="175" maxMicrosecondsPerInvocation="1313" standardDeviationMircosecondsPerInvocation="185"/>
+      <ClassProfile name="com.mebigfatguy.fbcontrib.collect.CollectStatistics" totalMilliseconds="26" invocations="67" avgMicrosecondsPerInvocation="393" maxMicrosecondsPerInvocation="5368" standardDeviationMircosecondsPerInvocation="869"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.URLProblems" totalMilliseconds="24" invocations="32" avgMicrosecondsPerInvocation="750" maxMicrosecondsPerInvocation="3553" standardDeviationMircosecondsPerInvocation="945"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="23" invocations="392" avgMicrosecondsPerInvocation="60" maxMicrosecondsPerInvocation="417" standardDeviationMircosecondsPerInvocation="26"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="21" invocations="67" avgMicrosecondsPerInvocation="323" maxMicrosecondsPerInvocation="4902" standardDeviationMircosecondsPerInvocation="795"/>
+      <ClassProfile name="com.mebigfatguy.fbcontrib.detect.MoreDumbMethods" totalMilliseconds="20" invocations="32" avgMicrosecondsPerInvocation="648" maxMicrosecondsPerInvocation="2209" standardDeviationMircosecondsPerInvocation="702"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="20" invocations="32" avgMicrosecondsPerInvocation="637" maxMicrosecondsPerInvocation="3541" standardDeviationMircosecondsPerInvocation="862"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="18" invocations="1492" avgMicrosecondsPerInvocation="12" maxMicrosecondsPerInvocation="1436" standardDeviationMircosecondsPerInvocation="55"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="17" invocations="32" avgMicrosecondsPerInvocation="535" maxMicrosecondsPerInvocation="6928" standardDeviationMircosecondsPerInvocation="1207"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="17" invocations="32" avgMicrosecondsPerInvocation="532" maxMicrosecondsPerInvocation="4337" standardDeviationMircosecondsPerInvocation="769"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="16" invocations="32" avgMicrosecondsPerInvocation="525" maxMicrosecondsPerInvocation="7657" standardDeviationMircosecondsPerInvocation="1344"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="15" invocations="164" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="690" standardDeviationMircosecondsPerInvocation="108"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="14" invocations="32" avgMicrosecondsPerInvocation="456" maxMicrosecondsPerInvocation="2633" standardDeviationMircosecondsPerInvocation="571"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="13" invocations="32" avgMicrosecondsPerInvocation="434" maxMicrosecondsPerInvocation="3199" standardDeviationMircosecondsPerInvocation="585"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

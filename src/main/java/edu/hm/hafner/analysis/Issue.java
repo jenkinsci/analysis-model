@@ -276,6 +276,15 @@ public class Issue implements Serializable {
         return fingerprint;
     }
 
+    /**
+     * Returns whether this issue already has a fingerprint set.
+     *
+     * @return {@code true} if this issue already has a fingerprint set
+     */
+    public boolean hasFingerprint() {
+        return !UNDEFINED.equals(fingerprint);
+    }
+
     @Override
     public String toString() {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);

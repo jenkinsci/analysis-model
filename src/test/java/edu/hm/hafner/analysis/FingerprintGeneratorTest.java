@@ -21,6 +21,23 @@ class FingerprintGeneratorTest extends ResourceTest {
     private static final Charset CHARSET_AFFECTED_FILE = Charset.forName("UTF-8");
 
     @Test
+    void shouldNotChangeIssuesWithFingerPrint() {
+        FingerprintGenerator generator = new FingerprintGenerator();
+
+        IssueBuilder builder = new IssueBuilder().setFileName(AFFECTED_FILE_NAME);
+        Issues<Issue> issues = new Issues<>();
+        issues.add(builder.build());
+        assertThat(issues.get(0).hasFingerprint()).isFalse();
+        String alreadySet = "already-set";
+        issues.add(builder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
+        Issues<Issue> copy = generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
+                issues, new IssueBuilder(), CHARSET_AFFECTED_FILE);
+
+        assertThat(copy.get(0).hasFingerprint()).isTrue();
+        assertThat(copy.get(1).getFingerprint()).isEqualTo(alreadySet);
+    }
+
+    @Test
     void shouldReturnCopyOfIssues() {
         FingerprintGenerator generator = new FingerprintGenerator();
 

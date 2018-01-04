@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="1.2.1" sequence="0" timestamp="1224010601252" analysisTimestamp="1224010601252" release="">
+  <Project filename="&lt;&lt;unnamed project&gt;&gt;" projectName="Hudson Warnings Plug-in">
+  </Project>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="3" abbrev="RCN" category="STYLE">
+    <Class classname="hudson.plugins.warnings.WarningsResultBuilder">
+      <SourceLine classname="hudson.plugins.warnings.WarningsResultBuilder" start="12" end="34" sourcefile="WarningsResultBuilder.java" sourcepath="hudson/plugins/warnings/WarningsResultBuilder.java"/>
+    </Class>
+    <Method classname="hudson.plugins.warnings.WarningsResultBuilder" name="build" signature="(Lhudson/model/AbstractBuild;Lhudson/plugins/warnings/util/model/JavaProject;)Lhudson/plugins/warnings/WarningsResult;" isStatic="false">
+      <SourceLine classname="hudson.plugins.warnings.WarningsResultBuilder" start="24" end="34" startBytecode="0" endBytecode="242" sourcefile="WarningsResultBuilder.java" sourcepath="hudson/plugins/warnings/WarningsResultBuilder.java"/>
+    </Method>
+    <LocalVariable name="previous" register="3" pc="12" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="hudson.plugins.warnings.WarningsResultBuilder" start="25" end="25" startBytecode="13" endBytecode="13" sourcefile="WarningsResultBuilder.java" sourcepath="hudson/plugins/warnings/WarningsResultBuilder.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <Errors></Errors>
+  <FindBugsSummary timestamp="Tue, 14 Oct 2008 20:56:41 +0200" total_classes="0" total_bugs="0" total_size="0" num_packages="0" cpu_seconds="13.37" clock_seconds="32.39" peak_mbytes="94.90" gc_seconds="6.15"></FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

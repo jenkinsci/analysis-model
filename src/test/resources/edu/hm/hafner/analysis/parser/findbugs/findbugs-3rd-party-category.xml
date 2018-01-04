@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BugCollection version="2.0.0" sequence="0" timestamp="0" analysisTimestamp="0" release="">
+  <BugInstance type="WEAK_MESSAGE_DIGEST" priority="2" abbrev="SECWMD" category="SECURITY" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="12">
+    <ShortMessage>Weak MessageDigest</ShortMessage>
+    <LongMessage>MD5 is not a recommended MessageDigest</LongMessage>
+    <Class classname="net.nowhere.Something" primary="true">
+      <SourceLine classname="net.nowhere.Something" start="1" end="3" sourcefile="Something.java" sourcepath="net/nowhere/Something.java" relSourcepath="net/nowhere/Something.java">
+        <Message>At Something.java:[lines 2-2]</Message>
+      </SourceLine>
+      <Message>In class net.nowhere.Something</Message>
+    </Class>
+    <Method classname="net.nowhere.Something" name="m" signature="()V" isStatic="true" primary="true">
+      <SourceLine classname="net.nowhere.Something" start="1" end="3" startBytecode="0" endBytecode="174" sourcefile="Something.java" sourcepath="net/nowhere/Something.java" relSourcepath="net/nowhere/Something.java"/>
+      <Message>In method net.nowhere.Something.m()</Message>
+    </Method>
+    <SourceLine classname="net.nowhere.Something" primary="true" start="2" end="2" startBytecode="4" endBytecode="4" sourcefile="Something.java" sourcepath="net/nowhere/Something.java" relSourcepath="net/nowhere/Something.java">
+      <Message>At Something.java:[line 2]</Message>
+    </SourceLine>
+    <String value="MD5">
+      <Message>Value MD5</Message>
+    </String>
+  </BugInstance>
+  <BugInstance type="SE_NO_SERIALVERSIONID" priority="3" abbrev="SnVI" category="BAD_PRACTICE" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Class is Serializable, but doesn&apos;t define serialVersionUID</ShortMessage>
+    <LongMessage>net.nowhere.Something is Serializable; consider declaring a serialVersionUID</LongMessage>
+    <Class classname="net.nowhere.Something" primary="true">
+      <SourceLine classname="net.nowhere.Something" start="1" end="3" sourcefile="Something.java" sourcepath="net/nowhere/Something.java" relSourcepath="net/nowhere/Something.java">
+        <Message>At Something.java:[lines 1-1]</Message>
+      </SourceLine>
+      <Message>In class net.nowhere.Something</Message>
+    </Class>
+    <Method classname="net.nowhere.Something" name="m" signature="()V" isStatic="true" primary="true">
+      <SourceLine classname="net.nowhere.Something" start="1" end="3" startBytecode="0" endBytecode="174" sourcefile="Something.java" sourcepath="net/nowhere/Something.java" relSourcepath="net/nowhere/Something.java"/>
+      <Message>In method net.nowhere.Something.m()</Message>
+    </Method>
+    <SourceLine classname="net.nowhere.Something" primary="true" start="1" end="1" startBytecode="4" endBytecode="4" sourcefile="Something.java" sourcepath="net/nowhere/Something.java" relSourcepath="net/nowhere/Something.java">
+      <Message>At Something.java:[line 1]</Message>
+    </SourceLine>
+  </BugInstance>
+</BugCollection>
