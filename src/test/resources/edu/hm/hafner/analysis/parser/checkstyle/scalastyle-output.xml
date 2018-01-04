@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+ <file name="/opt/noesis/mercurial/optimus/web/src/test/scala/com/noesis/optimus/web/ScalatestLearningTest.scala">
+  <error line="1" severity="warning" message="Header does not match expected text" source="org.scalastyle.file.HeaderMatchesChecker"></error>
+  <error line="33" severity="warning" message="Whitespace at end of line" source="org.scalastyle.file.WhitespaceEndOfLineChecker" column="20"></error>
+ </file>
+</checkstyle>

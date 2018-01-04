@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+<file name="/mnt/hudson_workspace/workspace/HTS-CheckstyleTest/ssh-slaves/src/main/java/hudson/plugins/sshslaves/RemoteLauncher.java">
+  <error line="72" column="55" severity="error" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+  <error line="54" column="1" severity="error" message="Type hint &quot;kEvent&quot; missing for $event at position 1" source="CodingStandard.Commenting.FunctionComment.TypeHintMissing"/>
+</file>
+</checkstyle>

@@ -29,4 +29,14 @@ public class ParsingException extends RuntimeException {
     public ParsingException(final Throwable cause, final String fileName) {
         super(String.format("Exception occurred during parsing of file '%s'.%n%s", fileName, cause.getMessage()), cause);
     }
+
+    /**
+     * Constructs a new {@link ParsingException} with the specified message.
+     *
+     * @param message
+     *         the message (which is saved for later retrieval by the {@link #getMessage    ()} method).
+     */
+    public ParsingException(final String message) {
+        super(message);
+    }
 }

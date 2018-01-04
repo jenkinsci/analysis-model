@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \net\ssl\SSLUtil.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \net\ssl\WSBase64Util.java">
+<error line="26" column="47" severity="warning" message="&apos;64&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="27" column="28" severity="warning" message="El nombre &apos;SIXTY_FOUR&apos; debe coincidir con el patrÃ³n &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.StaticVariableNameCheck"/>
+<error line="27" column="41" severity="warning" message="&apos;64&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="103" column="40" severity="warning" message="&apos;4&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="103" column="44" severity="warning" message="&apos;2&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="103" column="49" severity="warning" message="&apos;3&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="105" column="37" severity="warning" message="&apos;2&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="105" column="42" severity="warning" message="&apos;3&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="105" column="47" severity="warning" message="&apos;4&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="115" column="45" severity="warning" message="&apos;0xff&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="117" column="57" severity="warning" message="&apos;0xff&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="119" column="57" severity="warning" message="&apos;0xff&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="121" column="41" severity="warning" message="&apos;2&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="123" column="41" severity="warning" message="&apos;3&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="123" column="47" severity="warning" message="&apos;4&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="123" column="60" severity="warning" message="&apos;4&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="125" column="41" severity="warning" message="&apos;0xf&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="125" column="49" severity="warning" message="&apos;2&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="125" column="62" severity="warning" message="&apos;6&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="127" column="39" severity="warning" message="&apos;0x3F&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="194" column="9" severity="warning" message="La complejidad ciclomÃ¡tica es 17 (mÃ¡xima permitida es 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="198" severity="warning" message="La construcciÃ³n &apos;if&apos; debe usar &apos;{}&apos; (llaves)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="198" column="28" severity="warning" message="&apos;4&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="201" severity="warning" message="La construcciÃ³n &apos;while&apos; debe usar &apos;{}&apos; (llaves)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="204" column="36" severity="warning" message="&apos;3&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="204" column="41" severity="warning" message="&apos;4&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="222" column="34" severity="warning" message="&apos;127&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="222" column="46" severity="warning" message="&apos;127&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="222" column="58" severity="warning" message="&apos;127&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="222" column="70" severity="warning" message="&apos;127&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="240" column="41" severity="warning" message="&apos;2&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="240" column="54" severity="warning" message="&apos;4&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="242" column="41" severity="warning" message="&apos;0xf&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="242" column="49" severity="warning" message="&apos;4&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="242" column="62" severity="warning" message="&apos;2&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="244" column="41" severity="warning" message="&apos;3&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="244" column="47" severity="warning" message="&apos;6&apos; es un nÃºmero mÃ¡gico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\client\DynamicClient.java">
+<error line="22" column="1" severity="warning" message="ImportaciÃ³n de un paquete ilegal - sun.net.www.protocol.https.HttpsURLConnectionImpl." source="com.puppycrawl.tools.checkstyle.checks.imports.IllegalImportCheck"/>
+<error line="123" column="16" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="145" column="16" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="166" column="16" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="188" column="16" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="210" column="16" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="234" column="16" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="266" column="21" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="348" column="35" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="375" column="35" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="402" column="35" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="431" column="35" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="463" column="9" severity="warning" message="La complejidad ciclomÃ¡tica es 11 (mÃ¡xima permitida es 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="463" column="35" severity="warning" message="MÃ¡s de 7 parÃ¡metros." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="500" severity="warning" message="La lÃ­nea es mayor de 121 caracteres." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="717" severity="warning" message="La lÃ­nea es mayor de 121 caracteres." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="729" severity="warning" message="La lÃ­nea es mayor de 121 caracteres." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\client\****SOAPSimpleMessage.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\exception\****SOAPExceptionEnvelope.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\handler\****AuthenticationInjectorHandler.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\handler\****AuthenticationValidatorHandler.java">
+<error line="89" column="9" severity="warning" message="La complejidad ciclomÃ¡tica es 11 (mÃ¡xima permitida es 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="114" column="37" severity="warning" message="El nombre &apos;http_headers&apos; debe coincidir con el patrÃ³n &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
+<error line="145" severity="warning" message="La lÃ­nea es mayor de 121 caracteres." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\server\DynamicServer.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\server\Service.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \net\ssl\SSLUtil.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \net\ssl\WSBase64Util.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\client\DynamicClient.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\client\****SOAPSimpleMessage.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\exception\****SOAPExceptionEnvelope.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\handler\****AuthenticationInjectorHandler.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\handler\****AuthenticationValidatorHandler.java">
+<error line="50" severity="warning" message="Se encontraron 45 lÃ­neas duplicadas en E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\handler\****AuthenticationInjectorHandler.java, comenzando en la lÃ­nea 39" source="com.puppycrawl.tools.checkstyle.checks.duplicates.StrictDuplicateCodeCheck"/>
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\server\DynamicServer.java">
+</file>
+<file name="E:\Service\jenkins\jobs\ -ws\workspace\ -ws\src\main\java\com\****\ \xml\ws\server\Service.java">
+</file>
+</checkstyle>
