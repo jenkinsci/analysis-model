@@ -9,7 +9,7 @@ This library consists basically of two separate parts:
 2. Parsers for numerous static analysis tools (including several compilers), see the 
  [parser source folder](src/main/java/edu/hm/hafner/analysis/parser) for a complete list of supported formats.
 
-All source code is licensed under the MIT license.
+All source code is licensed under the MIT license. 
 
 [![Jenkins](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/badge/icon)](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/)
 [![Travis](https://img.shields.io/travis/jenkinsci/analysis-model.svg)](https://travis-ci.org/jenkinsci/analysis-model)
