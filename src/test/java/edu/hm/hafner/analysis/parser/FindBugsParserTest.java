@@ -55,7 +55,7 @@ class FindBugsParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(issues.get(0))
-                    .hasFileName("/Users/hafner/Development/git/analysis-model/src/test/java/edu/hm/hafner/analysis/IssuesTest.java")
+                    .hasFileName("edu/hm/hafner/analysis/IssuesTest.java")
                     .hasCategory("STYLE")
                     .hasType("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
                     .hasPriority(Priority.NORMAL)
@@ -66,7 +66,7 @@ class FindBugsParserTest {
                     .hasLineEnd(286)
                     .hasFingerprint("3d78cb510b96490fd951f32d93e4e9ba");
             softly.assertThat(issues.get(1))
-                    .hasFileName("/Users/hafner/Development/git/analysis-model/src/test/java/edu/hm/hafner/analysis/IssuesTest.java")
+                    .hasFileName("edu/hm/hafner/analysis/IssuesTest.java")
                     .hasCategory("STYLE")
                     .hasType("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
                     .hasPriority(Priority.NORMAL)
