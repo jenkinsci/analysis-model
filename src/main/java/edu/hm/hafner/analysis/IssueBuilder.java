@@ -22,6 +22,7 @@ public class IssueBuilder {
     private int lineEnd = 0;
     private int columnStart = 0;
     private int columnEnd = 0;
+    private LineRangeList lineRanges;
     private String category;
     private String type;
     private Priority priority;
@@ -102,6 +103,10 @@ public class IssueBuilder {
         return this;
     }
 
+    public void setLineRanges(final LineRangeList lineRanges) {
+        this.lineRanges = lineRanges;
+    }
+
     /**
      * Initializes this builder with an exact copy of aal properties of the specified issue.
      *
@@ -125,7 +130,7 @@ public class IssueBuilder {
         moduleName = copy.getModuleName();
         origin = copy.getOrigin();
         fingerprint = copy.getFingerprint();
-
+        lineRanges = new LineRangeList(copy.getLineRanges().castToList());
         return this;
     }
 
@@ -135,7 +140,7 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
+        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
                 packageName, moduleName, priority, message, description, origin, fingerprint);
     }
 }

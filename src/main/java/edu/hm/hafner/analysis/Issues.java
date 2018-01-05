@@ -266,6 +266,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return elements.stream().filter(criterion);
     }
 
+    // FIXME: immutable or not
     @Nonnull
     @Override
     public Iterator<T> iterator() {

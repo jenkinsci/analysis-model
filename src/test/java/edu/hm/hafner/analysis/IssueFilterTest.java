@@ -13,18 +13,6 @@ import static org.assertj.core.api.Assertions.*;
  * @author Raphael Furch
  */
 public class IssueFilterTest {
-
-    /**
-     * Get issues containing issue 1, 2 and 3.
-     *
-     * @return issues.
-     */
-    private Issues<Issue> getIssues() {
-        Issues<Issue> issues = new Issues<>();
-        issues.add(ISSUE1, ISSUE2, ISSUE3);
-        return issues;
-    }
-
     private static final Issue ISSUE1 = new IssueBuilder()
             .setFileName("FileName1")
             .setPackageName("PackageName1")
@@ -214,5 +202,16 @@ public class IssueFilterTest {
             final Issue... expectedOutput) {
         Issues<Issue> result = issues.filter(criterion);
         assertThat(result.iterator()).containsExactly(expectedOutput);
+    }
+
+    /**
+     * Get issues containing issue 1, 2 and 3.
+     *
+     * @return issues.
+     */
+    private Issues<Issue> getIssues() {
+        Issues<Issue> issues = new Issues<>();
+        issues.add(ISSUE1, ISSUE2, ISSUE3);
+        return issues;
     }
 }

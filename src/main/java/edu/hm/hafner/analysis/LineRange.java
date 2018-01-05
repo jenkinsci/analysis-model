@@ -1,123 +1,86 @@
 package edu.hm.hafner.analysis;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
-import org.apache.commons.lang3.ArrayUtils;
-
-import edu.hm.hafner.util.Ensure;
+import java.io.Serializable;
 
 /**
- * Defines a range of lines in a file. Lines start at 1.
+ * A line range in a source file is defined by its first and last line.
+ *
+ * @author Ulli Hafner
  */
-public class LineRange implements Iterable<Integer> {
-    private final int from;
-    private final int to;
+public class LineRange implements Serializable {
+    private static final long serialVersionUID = -4124143085672930110L;
+
+    private final int start;
+    private final int end;
 
     /**
-     * Creates a new {@link LineRange} containing only one line.
+     * Creates a new instance of {@link LineRange}.
      *
-     * @param line the single line of this range
+     * @param start
+     *            start of the range
+     * @param end
+     *            end of the range
      */
-    public LineRange(final int line) {
-        this(line, line);
-    }
-
-    /**
-     * Creates a new {@link LineRange}. The specified starting and ending lines are included in this range.
-     *
-     * @param from the first line of this range
-     * @param to   the last line of this range
-     */
-    public LineRange(final int from, final int to) {
-        Ensure.that(from > 0).isTrue("From must be a positive number: %d", from);
-        Ensure.that(to > 0).isTrue("To must be a positive number: %d", to);
-
-        if (from < to) {
-            this.from = from;
-            this.to = to;
+    public LineRange(final int start, final int end) {
+        if (start <= 0) {
+            this.start = 0;
+            this.end = 0;
+        }
+        else if (start < end) {
+            this.start = start;
+            this.end = end;
         }
         else {
-            this.from = to;
-            this.to = from;
+            this.start = end;
+            this.end = start;
         }
     }
 
     /**
-     * Returns the number of lines in this range.
+     * Returns the first line of this range.
      *
-     * @return number of lines
+     * @return the first line of this range
      */
-    public int size() {
-        return to - from + 1;
+    public int getStart() {
+        return start;
     }
 
     /**
-     * Returns the lines in this range in ascending order, starting with the smallest line.
+     * Returns the last line of this range.
      *
-     * @return the lines, sorted
+     * @return the last line of this range
      */
-    public int[] values() {
-        int[] elements = new int[size()];
-        for (int i = 0; i < elements.length; i++) {
-            elements[i] = from + i;
+    public int getEnd() {
+        return end;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
         }
-        return elements;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        LineRange lineRange = (LineRange) o;
+
+        if (start != lineRange.start) {
+            return false;
+        }
+        return end == lineRange.end;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = start;
+        result = 31 * result + end;
+        return result;
     }
 
     @Override
     public String toString() {
-        if (from == to) {
-            return String.format("{%d}", from);
-        }
-        else if (from + 1 == to) {
-            return String.format("{%d, %d}", from, to);
-        }
-        else {
-            return String.format("{%d, ..., %d}", from, to);
-        }
-    }
-
-    /**
-     * Returns whether this range intersects with the specified range. Ranges intersect, if there is at least one line
-     * that is part of both ranges.
-     *
-     * @param other the other line
-     * @return {@code true} if this range intersects with the specified line, {@code false} otherwise
-     */
-    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
-    public boolean intersects(final LineRange other) {
-        return from <= other.values()[other.size() - 1] && to >= other.values()[0];
-    }
-
-    /**
-     * Returns whether this range contains the specified line.
-     *
-     * @param line the line to check
-     * @return {@code true} if this range contains the specified line, {@code false} otherwise
-     */
-    public boolean contains(final int line) {
-        return intersects(new LineRange(line));
-    }
-
-    /**
-     * Returns whether this range contains all the lines of the specified range. I.e. this method checks
-     * if the specified range is a sub-range of this range.
-     *
-     * @param range the line to check
-     * @return {@code true} if this range contains all lines of the specified range, {@code false} otherwise
-     */
-    public boolean contains(final LineRange range) {
-        for (int line : range) {
-            if (!contains(line)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return Arrays.asList(ArrayUtils.toObject(values())).iterator();
+        return String.format("[%d-%d]", start, end);
     }
 }
+

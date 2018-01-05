@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.findbugs; // NOPMD
+package edu.hm.hafner.analysis.parser; // NOPMD
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,9 +23,13 @@ import org.xml.sax.SAXException;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
+import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.BugAnnotation;
 import edu.umd.cs.findbugs.BugInstance;
 import edu.umd.cs.findbugs.Project;
@@ -41,8 +45,21 @@ import edu.umd.cs.findbugs.ba.SourceFinder;
  */
 // CHECKSTYLE:COUPLING-OFF
 public class FindBugsParser implements Serializable {
-    /** Unique ID of this class. */
     private static final long serialVersionUID = 8306319007761954027L;
+
+    /**
+     * FindBugs 2 and 3 classifies issues using the bug rank and priority (now renamed confidence). Bugs are given a
+     * rank 1-20, and grouped into the categories scariest (rank 1-4), scary (rank 5-9), troubling (rank 10-14), and of
+     * concern (rank 15-20). Many people were confused by the priority reported by FindBugs, and considered all HIGH
+     * priority issues to be important. To reflect the actually meaning of this attribute of issues, it has been renamed
+     * confidence. Issues of different bug patterns should be compared by their rank, not their confidence.
+     */
+    public enum PriorityProperty {
+        /** Use the priority/confidence to create corresponding {@link Priority priorities}. */
+        CONFIDENCE,
+        /** Use rank to create corresponding {@link Priority priorities}. */
+        RANK
+    }
 
     private static final String DOT = ".";
     private static final String SLASH = "/";
@@ -50,51 +67,47 @@ public class FindBugsParser implements Serializable {
     private static final int HIGH_PRIORITY_LOWEST_RANK = 4;
     private static final int NORMAL_PRIORITY_LOWEST_RANK = 9;
 
-    /** Determines whether to use the rank when evaluation the priority. @since 4.26 */
-    private final boolean isRankActivated;
+    /** Determines whether to use the rank when evaluation the priority. */
+    private final PriorityProperty priorityProperty;
 
     private boolean isFirstError = true;
 
     /**
      * Creates a new instance of {@link FindBugsParser}.
      *
-     * @param isRankActivated
-     *         determines whether to use the rank when evaluation the priority
+     * @param priorityProperty
+     *         determines whether to use the rank or confidence when evaluation the {@link Priority}
      */
-    public FindBugsParser(final boolean isRankActivated) {
-        this.isRankActivated = isRankActivated;
+    public FindBugsParser(final PriorityProperty priorityProperty) {
+        this.priorityProperty = priorityProperty;
     }
 
-    public Issues<Issue> parse(final File file, final IssueBuilder builder)
-            throws ParsingCanceledException, ParsingException {
+    /**
+     * Parses the specified FindBugs analysis file and returns the found bugs.
+     *
+     * @param file
+     *         the FindBugs analysis file
+     * @param builder
+     *         the issue builder
+     *
+     * @return the parsed result (stored in the module instance)
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         Signals that the parsing has been aborted by the user
+     */
+    @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
+    public Issues<Issue> parse(final File file, final IssueBuilder builder) throws ParsingCanceledException, ParsingException {
         Collection<String> sources = new ArrayList<>();
         String moduleRoot = StringUtils.substringBefore(file.getAbsolutePath().replace('\\', '/'), "/target/");
         sources.add(moduleRoot + "/src/main/java");
         sources.add(moduleRoot + "/src/test/java");
         sources.add(moduleRoot + "/src");
-        return parse(file, sources, builder);
-    }
-
-    /**
-     * Returns the parsed FindBugs analysis file. This scanner accepts files in the native FindBugs format.
-     *
-     * @param builder
-     *         the issue builde
-     * @param file
-     *         the FindBugs analysis file
-     * @param sources
-     *         a collection of folders to scan for source files
-     *
-     * @return the parsed result (stored in the module instance)
-     * @throws ParsingException
-     *         if the file could not be parsed
-     */
-    public Issues<Issue> parse(final File file, final Collection<String> sources, final IssueBuilder builder)
-            throws ParsingException {
         return parse(() -> new FileInputStream(file), sources, builder);
     }
 
-    public Issues<Issue> parse(final InputStreamProvider file, final Collection<String> sources,
+    @VisibleForTesting
+    Issues<Issue> parse(final InputStreamProvider file, final Collection<String> sources,
             final IssueBuilder builder) throws ParsingException {
         InputStream input = null;
         try {
@@ -209,10 +222,7 @@ public class FindBugsParser implements Serializable {
                     .setFileName(findSourceFile(project, sourceFinder, sourceLine))
                     .setPackageName(warning.getPrimaryClass().getPackageName())
                     .setFingerprint(warning.getInstanceHash());
-
-            // FIXME: bug.setInstanceHash(warning.getInstanceHash());
-            // FIXME: bug.setRank(warning.getBugRank());
-            setAffectedLines(warning, builder);
+            setAffectedLines(warning, builder, new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
 
             issues.add(builder.build());
         }
@@ -221,7 +231,7 @@ public class FindBugsParser implements Serializable {
     }
 
     private Priority getPriority(final BugInstance warning) {
-        if (isRankActivated) {
+        if (priorityProperty == RANK) {
             return getPriorityByRank(warning);
         }
         else {
@@ -242,15 +252,21 @@ public class FindBugsParser implements Serializable {
         }
     }
 
-    private void setAffectedLines(final BugInstance warning, final IssueBuilder builder) {
+    private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,
+            final LineRange primary) {
         Iterator<BugAnnotation> annotationIterator = warning.annotationIterator();
+        LineRangeList lineRanges = new LineRangeList();
         while (annotationIterator.hasNext()) {
             BugAnnotation bugAnnotation = annotationIterator.next();
             if (bugAnnotation instanceof SourceLineAnnotation) {
                 SourceLineAnnotation annotation = (SourceLineAnnotation) bugAnnotation;
-                // FIXME: bug.addLineRange(new LineRange(annotation.getStartLine(), annotation.getEndLine()));
+                LineRange lineRange = new LineRange(annotation.getStartLine(), annotation.getEndLine());
+                if (!lineRanges.contains(lineRange) && !primary.equals(lineRange)) {
+                    lineRanges.add(lineRange);
+                }
             }
         }
+        builder.setLineRanges(lineRanges);
     }
 
     private String findSourceFile(final Project project, final SourceFinder sourceFinder,
@@ -313,7 +329,54 @@ public class FindBugsParser implements Serializable {
     /**
      * Provides an input stream for the parser.
      */
-    public interface InputStreamProvider {
+    interface InputStreamProvider {
         InputStream getInputStream() throws IOException;
+    }
+
+    /**
+     * Java Bean to create the mapping of hash codes to messages using the Digester
+     * XML parser.
+     *
+     * @author Ulli Hafner
+     */
+    @SuppressWarnings("all")
+    public static class XmlBugInstance {
+        private String instanceHash;
+        private String message;
+        private String type;
+        private String category;
+
+        public String getInstanceHash() {
+            return instanceHash;
+        }
+
+        public void setInstanceHash(final String instanceHash) {
+            this.instanceHash = instanceHash;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(final String message) {
+            this.message = message;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(final String type) {
+            this.type = type;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(final String category) {
+            this.category = category;
+        }
+
     }
 }

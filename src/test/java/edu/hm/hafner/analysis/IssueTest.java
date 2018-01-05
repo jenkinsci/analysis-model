@@ -37,6 +37,7 @@ public class IssueTest extends SerializableTest<Issue> {
     static final String UNDEFINED = "-";
     static final String FINGERPRINT = "fingerprint";
     static final String ORIGIN = "origin";
+    static final LineRangeList LINE_RANGES = new LineRangeList();
 
     /**
      * Creates a new subject under test (i.e. a sub-type of {@link Issue}) using the specified properties.
@@ -80,7 +81,7 @@ public class IssueTest extends SerializableTest<Issue> {
             @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
             @CheckForNull final String origin, @CheckForNull final String fingerprint) {
-        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type, packageName,
+        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type, packageName,
                 moduleName, priority, message, description, origin, fingerprint);
     }
 

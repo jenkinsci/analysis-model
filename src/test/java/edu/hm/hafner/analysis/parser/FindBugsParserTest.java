@@ -15,9 +15,10 @@ import static edu.hm.hafner.analysis.Issues.*;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.InputStreamProvider;
-import edu.hm.hafner.analysis.parser.findbugs.XmlBugInstance;
+import edu.hm.hafner.analysis.parser.FindBugsParser.InputStreamProvider;
+import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
+import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
 
 /**
  * Tests the extraction of FindBugs analysis results.
@@ -30,8 +31,8 @@ class FindBugsParserTest {
     /** File in native format. */
     private static final String FINDBUGS_NATIVE_XML = "findbugs-native.xml";
 
-    private Issues<Issue> parseFile(final String fileName, final boolean isRankActivated) {
-        return new FindBugsParser(isRankActivated).parse(getInputStreamProvider(PREFIX + fileName),
+    private Issues<Issue> parseFile(final String fileName, final PriorityProperty priorityProperty) {
+        return new FindBugsParser(priorityProperty).parse(getInputStreamProvider(PREFIX + fileName),
                 Collections.emptyList(), new IssueBuilder());
     }
 
@@ -50,7 +51,7 @@ class FindBugsParserTest {
      */
     @Test
     void issue46975() {
-        Issues<Issue> issues = parseFile("spotbugsXml.xml", false);
+        Issues<Issue> issues = parseFile("spotbugsXml.xml", CONFIDENCE);
         assertThat(issues).hasSize(2);
 
         assertSoftly(softly -> {
@@ -87,9 +88,9 @@ class FindBugsParserTest {
     @Test
     @Disabled("If all properties are stored in Issue than the number of duplicates should be 0")
     void issue7238() {
-        Issues<Issue> issues = parseFile("issue7238.xml", false);
+        Issues<Issue> issues = parseFile("issue7238.xml", CONFIDENCE);
 
-        assertThat(issues).hasSize(1802).hasDuplicatesSize(18);
+        assertThat(issues).hasSize(1820);
     }
 
     /**
@@ -99,7 +100,7 @@ class FindBugsParserTest {
      */
     @Test
     void issue12314() {
-        Issues<Issue> issues = parseFile("issue12314.xml", false);
+        Issues<Issue> issues = parseFile("issue12314.xml", CONFIDENCE);
         assertThat(issues).hasSize(1);
 
         assertSoftly(softly -> {
@@ -120,7 +121,7 @@ class FindBugsParserTest {
     void testMessageMapping() throws Exception {
         try (InputStream stream = read(PREFIX + FINDBUGS_NATIVE_XML)) {
             Map<String, String> mapping = new HashMap<>();
-            for (XmlBugInstance bug : new FindBugsParser(false).preParse(stream)) {
+            for (XmlBugInstance bug : new FindBugsParser(CONFIDENCE).preParse(stream)) {
                 mapping.put(bug.getInstanceHash(), bug.getMessage());
             }
             assertThat(mapping).hasSize(2);
@@ -139,10 +140,10 @@ class FindBugsParserTest {
     void testFileWithMultipleLinesAndRanges() {
         scanNativeFile(FINDBUGS_NATIVE_XML, FINDBUGS_NATIVE_XML,
                 Priority.NORMAL, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
-                5, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 1, false);
+                4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0, CONFIDENCE);
         scanNativeFile(FINDBUGS_NATIVE_XML, FINDBUGS_NATIVE_XML,
                 Priority.LOW, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
-                5, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 1, true);
+                4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0, RANK);
     }
 
     /**
@@ -153,10 +154,10 @@ class FindBugsParserTest {
     void scanFileWarningsHaveMultipleClasses() {
         scanNativeFile("findbugs-multclass.xml", "FindBugs",
                 Priority.HIGH, "umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 82, 82,
-                1, "edu/umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 93, 93, 1, false);
+                0, "edu/umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 93, 93, 0, CONFIDENCE);
         scanNativeFile("findbugs-multclass.xml", "FindBugs",
                 Priority.LOW, "umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 82, 82,
-                1, "edu/umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 93, 93, 1, true);
+                0, "edu/umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 93, 93, 0, RANK);
     }
 
     /**
@@ -164,7 +165,7 @@ class FindBugsParserTest {
      */
     @Test
     void scanFbContribFile() {
-        Issues<Issue> issues = parseFile("fbcontrib.xml", false);
+        Issues<Issue> issues = parseFile("fbcontrib.xml", CONFIDENCE);
         assertThat(issues.filter(byPackageName("hudson.plugins.tasks"))).hasSize(16);
         assertThat(issues.filter(byFileName("hudson/plugins/tasks/ResultSummary.java"))).hasSize(2);
     }
@@ -174,7 +175,7 @@ class FindBugsParserTest {
      */
     @Test
     void handleFilesWithoutMessages() {
-        Issues<Issue> issues = parseFile("findbugs-nomessage.xml", false);
+        Issues<Issue> issues = parseFile("findbugs-nomessage.xml", CONFIDENCE);
         assertThat(issues).hasSize(1);
 
         assertThat(issues.get(0))
@@ -188,34 +189,34 @@ class FindBugsParserTest {
      */
     @Test
     void thirdPartyCategory() {
-        Issues<Issue> issues = parseFile("findbugs-3rd-party-category.xml", false);
+        Issues<Issue> issues = parseFile("findbugs-3rd-party-category.xml", CONFIDENCE);
         assertThat(issues).hasSize(2);
         assertThat(issues.get(0)).hasCategory("BAD_PRACTICE").hasType("SE_NO_SERIALVERSIONID");
         assertThat(issues.get(1)).hasCategory("SECURITY").hasType("WEAK_MESSAGE_DIGEST");
     }
 
-    private void scanNativeFile(final String findbugsFile, final String projectName,
-            final Priority priority, final String fileName1, final String packageName1, final int start1,
-            final int end1,
-            final int ranges1, final String fileName2, final String packageName2, final int start2, final int end2,
-            final int ranges2, final boolean isRankActivated) {
-        Issues<Issue> issues = parseFile(findbugsFile, isRankActivated);
+    private void scanNativeFile(final String findbugsFile, final String projectName, final Priority priority,
+            final String fileName1, final String packageName1,
+            final int start1, final int end1, final int ranges1,
+            final String fileName2, final String packageName2,
+            final int start2, final int end2, final int ranges2,
+            final PriorityProperty priorityProperty) {
+        Issues<Issue> issues = parseFile(findbugsFile, priorityProperty);
         assertThat(issues.getModules()).containsExactly(projectName);
         assertThat(issues).hasSize(2);
 
         Issue first = issues.filter(byFileName(fileName1)).get(0);
         Issue second = issues.filter(byFileName(fileName2)).get(0);
 
-        assertSoftly((softly1) -> {
-            softly1.assertThat(first)
+        assertSoftly(softly -> {
+            softly.assertThat(first)
                     .hasFileName(fileName1)
                     .hasPackageName(packageName1)
                     .hasPriority(priority)
                     .hasModuleName(projectName)
                     .hasLineStart(start1)
                     .hasLineEnd(end1);
-        });
-        assertSoftly(softly -> {
+            softly.assertThat(first.getLineRanges()).hasSize(ranges1);
             softly.assertThat(second)
                     .hasFileName(fileName2)
                     .hasPackageName(packageName2)
@@ -223,6 +224,7 @@ class FindBugsParserTest {
                     .hasModuleName(projectName)
                     .hasLineStart(start2)
                     .hasLineEnd(end2);
+            softly.assertThat(second.getLineRanges()).hasSize(ranges2);
         });
     }
 

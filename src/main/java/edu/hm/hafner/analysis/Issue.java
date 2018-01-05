@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.impl.collector.Collectors2;
 
 /**
  * An issue reported by a static analysis tool. Use the provided {@link IssueBuilder builder} to create new instances.
@@ -34,20 +36,24 @@ public class Issue implements Serializable {
     private final int lineEnd;
     private final int columnStart;
     private final int columnEnd;
+    private final LineRangeList lineRanges;
 
     private final UUID id;
 
     private final String fingerprint;
 
-
-    public Issue(final Issue copy, final UUID id) {
-        this(copy.fileName, copy.lineStart, copy.lineEnd, copy.columnStart, copy.columnEnd, copy.category, copy.type,
-                copy.packageName, copy.moduleName, copy.priority, copy.message, copy.description, copy.origin,
-                copy.fingerprint, id);
-    }
-
-    public Issue(final Issue copy) {
-        this(copy, UUID.randomUUID());
+    /**
+     * Creates a new instance of {@link Issue} using the properties of the other issue instance.
+     *
+     * @param copy
+     *         the other issue to copy the properties from
+     * @param id
+     *         the ID of the created issue
+     */
+    protected Issue(final Issue copy, final UUID id) {
+        this(copy.fileName, copy.lineStart, copy.lineEnd, copy.columnStart, copy.columnEnd, copy.lineRanges,
+                copy.category, copy.type, copy.packageName, copy.moduleName, copy.priority, copy.message,
+                copy.description, copy.origin, copy.fingerprint, id);
     }
 
     /**
@@ -63,6 +69,8 @@ public class Issue implements Serializable {
      *         the first column of this issue (columns start at 1, 0 indicates the whole line)
      * @param columnEnd
      *         the last column of this issue (columns start at 1)
+     * @param lineRanges
+     *         additional line ranges of this issue
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
      * @param type
@@ -85,18 +93,20 @@ public class Issue implements Serializable {
     @SuppressWarnings("ParameterNumber")
     protected Issue(@CheckForNull final String fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
+            @CheckForNull final LineRangeList lineRanges,
             @CheckForNull final String category, @CheckForNull final String type,
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
             @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
             @CheckForNull final String origin, @CheckForNull final String fingerprint) {
-        this(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type,
+        this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
                 packageName, moduleName, priority, message, description, origin, fingerprint, UUID.randomUUID());
     }
 
     @SuppressWarnings("ParameterNumber")
     private Issue(@CheckForNull final String fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
+            @CheckForNull final LineRangeList lineRanges,
             @CheckForNull final String category, @CheckForNull final String type,
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
             @CheckForNull final Priority priority,
@@ -109,7 +119,10 @@ public class Issue implements Serializable {
         this.lineEnd = lineEnd == 0 ? lineStart : defaultInteger(lineEnd);
         this.columnStart = defaultInteger(columnStart);
         this.columnEnd = columnEnd == 0 ? columnStart : defaultInteger(columnEnd);
-
+        this.lineRanges = new LineRangeList();
+        if (lineRanges != null) {
+            this.lineRanges.addAll(lineRanges);
+        }
         this.category = StringUtils.defaultString(category);
         this.type = defaultString(type);
 
@@ -217,6 +230,16 @@ public class Issue implements Serializable {
      */
     public int getLineEnd() {
         return lineEnd;
+    }
+
+    /**
+     * Returns additional line ranges for this issue. Not that the primary range given by {@code lineStart} and {@code
+     * lineEnd} is not included.
+     *
+     * @return the last line
+     */
+    public ImmutableList<LineRange> getLineRanges() {
+        return lineRanges.stream().collect(Collectors2.toImmutableList());
     }
 
     /**
@@ -338,7 +361,14 @@ public class Issue implements Serializable {
         if (!moduleName.equals(issue.moduleName)) {
             return false;
         }
-        return origin.equals(issue.origin);
+        if (!origin.equals(issue.origin)) {
+            return false;
+        }
+        if (!lineRanges.equals(issue.lineRanges)) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -356,6 +386,7 @@ public class Issue implements Serializable {
         result = 31 * result + lineEnd;
         result = 31 * result + columnStart;
         result = 31 * result + columnEnd;
+        result = 31 * result + lineRanges.hashCode();
         return result;
     }
 }

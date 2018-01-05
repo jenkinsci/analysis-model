@@ -492,8 +492,8 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
                 @CheckForNull final String moduleName, @CheckForNull final Priority priority,
                 @CheckForNull final String message, @CheckForNull final String description,
                 @CheckForNull final String origin, final String additional) {
-            super(fileName, lineStart, lineEnd, columnStart, columnEnd, category, type, packageName, moduleName,
-                    priority, message, description, origin, "FingerPrint");
+            super(fileName, lineStart, lineEnd, columnStart, columnEnd, new LineRangeList(), category, type,
+                    packageName, moduleName, priority, message, description, origin, "FingerPrint");
 
             this.additional = additional;
         }

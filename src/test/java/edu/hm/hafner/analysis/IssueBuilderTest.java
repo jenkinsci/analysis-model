@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis;
 import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
-import static edu.hm.hafner.analysis.assertj.IssueAssert.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Unit test for {@link IssueBuilder}.
@@ -11,20 +11,20 @@ import static edu.hm.hafner.analysis.assertj.IssueAssert.*;
  * @author Marcel Binder
  */
 class IssueBuilderTest {
-    private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0,
+    private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, LINE_RANGES,
             null, null, null, null, null, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
-            CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
+            LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
 
     @Test
-    void testDefaultValues() {
+    void shouldCreateDefaultIssueIfNothingSpecified() {
         Issue issue = new IssueBuilder().build();
 
         assertThat(issue).isEqualTo(DEFAULT_ISSUE);
     }
 
     @Test
-    void testFilledIssue() {
+    void shouldCreateIssueWithAllPropertiesInitialized() {
         Issue issue = new IssueBuilder()
                 .setFileName(FILE_NAME)
                 .setLineStart(LINE_START)
@@ -45,7 +45,7 @@ class IssueBuilderTest {
     }
 
     @Test
-    void testCopy() {
+    void shouldCopyAllPropertiesOfAnIssue() {
         Issue copy = new IssueBuilder()
                 .copy(FILLED_ISSUE)
                 .build();
@@ -55,12 +55,33 @@ class IssueBuilderTest {
     }
 
     @Test
-    void testBuildNewInstance() {
+    void shouldCreateNewInstanceOnEveryCall() {
         IssueBuilder builder = new IssueBuilder().copy(FILLED_ISSUE);
         Issue issue1 = builder.build();
         Issue issue2 = builder.build();
 
         assertThat(issue1).isNotSameAs(issue2);
         assertThat(issue1).isEqualTo(issue2);
+    }
+
+    @Test
+    void shouldCollectLineRanges() {
+        IssueBuilder builder = new IssueBuilder();
+
+        builder.setLineStart(1).setLineEnd(2);
+        LineRangeList lineRanges = new LineRangeList();
+        lineRanges.add(new LineRange(3, 4));
+        lineRanges.add(new LineRange(5, 6));
+        builder.setLineRanges(lineRanges);
+
+        Issue issue = builder.build();
+        assertThat(issue).hasLineStart(1).hasLineEnd(2);
+        assertThat(issue.getLineRanges()).hasSize(2);
+        assertThat(issue.getLineRanges()).containsExactly(new LineRange(3, 4), new LineRange(5, 6));
+
+        IssueBuilder copy = new IssueBuilder();
+        copy.copy(issue);
+
+        assertThat(copy.build().getLineRanges()).containsExactly(new LineRange(3, 4), new LineRange(5, 6));
     }
 }
