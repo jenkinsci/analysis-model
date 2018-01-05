@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
@@ -86,11 +85,10 @@ class FindBugsParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7238">Issue 7238</a>
      */
     @Test
-    @Disabled("If all properties are stored in Issue than the number of duplicates should be 0")
     void issue7238() {
         Issues<Issue> issues = parseFile("issue7238.xml", CONFIDENCE);
 
-        assertThat(issues).hasSize(1820);
+        assertThat(issues).hasSize(1808).hasDuplicatesSize(12); // 12 issues are skipped (same attributes, but different instance hash)
     }
 
     /**

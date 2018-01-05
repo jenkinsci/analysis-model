@@ -291,10 +291,12 @@ public class Issue implements Serializable {
      * Returns the finger print for this issue. Used to decide if two issues are equal even if the equals method returns
      * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
      * analyzing the content of the affected file.
-     *
+     * <p>
+     *     Note: the fingerprint is not part of the equals method since the fingerprint might change due to an unrelated
+     *     refactoring of the source code.
+     * </p>
      * @return the fingerprint of this issue
      */
-    // TODO: should the fingerprint be part of equals/hashcode?
     public String getFingerprint() {
         return fingerprint;
     }

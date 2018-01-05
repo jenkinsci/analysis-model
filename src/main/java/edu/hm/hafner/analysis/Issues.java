@@ -151,7 +151,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
 
     private boolean add(final T issue) {
         if (elements.contains(issue)) {
-            sizeOfDuplicates++;
+            sizeOfDuplicates++; // elements are marked as duplicate if the fingerprint is different
             return false;
         }
         elements.add(issue);
