@@ -103,8 +103,9 @@ public class IssueBuilder {
         return this;
     }
 
-    public void setLineRanges(final LineRangeList lineRanges) {
+    public IssueBuilder setLineRanges(final LineRangeList lineRanges) {
         this.lineRanges = lineRanges;
+        return this;
     }
 
     /**

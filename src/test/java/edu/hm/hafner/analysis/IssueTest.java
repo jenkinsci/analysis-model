@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.SerializableTest;
+import static java.util.Collections.*;
 
 /**
  * Unit tests for {@link Issue}.
@@ -37,7 +38,7 @@ public class IssueTest extends SerializableTest<Issue> {
     static final String UNDEFINED = "-";
     static final String FINGERPRINT = "fingerprint";
     static final String ORIGIN = "origin";
-    static final LineRangeList LINE_RANGES = new LineRangeList();
+    static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRange(5, 6)));
 
     /**
      * Creates a new subject under test (i.e. a sub-type of {@link Issue}) using the specified properties.
@@ -252,7 +253,7 @@ public class IssueTest extends SerializableTest<Issue> {
      * @throws IOException
      *         if the file could not be written
      */
-    public static void useIfSerializationChanges(final String... args) throws IOException {
+    public static void main(final String... args) throws IOException {
         new IssueTest().createSerializationFile();
     }
 }

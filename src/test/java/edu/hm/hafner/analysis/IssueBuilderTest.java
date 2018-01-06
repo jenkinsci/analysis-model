@@ -11,7 +11,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * @author Marcel Binder
  */
 class IssueBuilderTest {
-    private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, LINE_RANGES,
+    private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, new LineRangeList(),
             null, null, null, null, null, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
             LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
@@ -39,6 +39,7 @@ class IssueBuilderTest {
                 .setMessage(MESSAGE)
                 .setDescription(DESCRIPTION)
                 .setOrigin(ORIGIN)
+                .setLineRanges(LINE_RANGES)
                 .build();
 
         assertThat(issue).isEqualTo(FILLED_ISSUE);
