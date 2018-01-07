@@ -54,7 +54,6 @@ public abstract class SerializableTest<T extends Serializable> extends ResourceT
     protected void assertThatSerializableCanBeRestoredFrom(final byte... serializedInstance) {
         try (ObjectInputStream inputStream = new ObjectInputStream(new ByteArrayInputStream(serializedInstance))) {
             Object resolved = inputStream.readObject();
-
             assertThat(resolved).isEqualTo(createSerializable());
         }
         catch (IOException | ClassNotFoundException e) {

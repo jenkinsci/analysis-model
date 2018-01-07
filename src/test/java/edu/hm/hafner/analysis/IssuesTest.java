@@ -19,7 +19,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.SerializableTest;
 import static java.util.Arrays.*;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit tests for {@link Issues}.
@@ -54,6 +54,54 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
             .setPriority(Priority.LOW)
             .build();
     private static final String EXTENDED_VALUE = "Extended";
+    private static final String ID = "id";
+
+    /**
+     * Ensures that each method that creates a copy of another issue instance also copies the corresponding properties.
+     */
+    @Test
+    void shouldProvideNoWritingIterator() {
+        Issues<Issue> issues = new Issues<>();
+        issues.add(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+        Iterator<Issue> iterator = issues.iterator();
+        iterator.next();
+        assertThatThrownBy(() -> iterator.remove()).isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    /**
+     * Ensures that each method that creates a copy of another issue instance also copies the corresponding properties.
+     */
+    @Test
+    void shouldCopyProperties() {
+        Issues<Issue> expected = new Issues<>();
+        expected.add(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+        expected.setId(ID);
+        expected.logInfo("Hello");
+        expected.logInfo("World!");
+        expected.logError("Boom!");
+
+        Issues<Issue> copy = expected.copy();
+        assertThat(copy).isEqualTo(expected);
+        assertThatAllIssuesHaveBeenAdded(copy);
+
+        Issues<Issue> issues = new Issues<>();
+        issues.addAll(expected);
+        assertThat(issues).isEqualTo(expected);
+        assertThatAllIssuesHaveBeenAdded(issues);
+    }
+
+    @Test
+    void shouldSetAndGetId() {
+        Issues<Issue> issues = new Issues<>();
+        assertThat(issues.hasId()).isFalse();
+
+        issues.setId(ID);
+        assertThat(issues.hasId()).isTrue();
+        assertThat(issues).hasId(ID);
+
+        //noinspection ConstantConditions
+        assertThatThrownBy(() -> issues.setId(null)).isInstanceOf(NullPointerException.class);
+    }
 
     @Test
     void shouldBeEmptyWhenCreated() {
@@ -72,12 +120,12 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     void shouldAddMultipleIssuesOneByOne() {
         Issues<Issue> issues = new Issues<>();
 
-        assertThat(issues.add(HIGH)).isTrue();
-        assertThat(issues.add(NORMAL_1)).isTrue();
-        assertThat(issues.add(NORMAL_2)).isTrue();
-        assertThat(issues.add(LOW_FILE_2)).isTrue();
-        assertThat(issues.add(ISSUE_5)).isTrue();
-        assertThat(issues.add(LOW_FILE_3)).isTrue();
+        issues.add(HIGH);
+        issues.add(NORMAL_1);
+        issues.add(NORMAL_2);
+        issues.add(LOW_FILE_2);
+        issues.add(ISSUE_5);
+        issues.add(LOW_FILE_3);
 
         assertThatAllIssuesHaveBeenAdded(issues);
     }
@@ -87,7 +135,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         Issues<Issue> issues = new Issues<>();
         List<Issue> issueList = asList(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
 
-        assertThat(issues.addAll(issueList)).isTrue();
+        issues.addAll(issueList);
 
         assertThatAllIssuesHaveBeenAdded(issues);
     }
@@ -110,18 +158,21 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     void shouldSkipAddedElements() {
         Issues<Issue> issues = new Issues<>(asList(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3));
 
-        Issues<Issue> empty = new Issues<>();
+        Issues<Issue> fromEmpty = new Issues<>();
 
-        assertThat(empty.addAll(issues)).isTrue();
-        assertThat(empty).hasSize(6);
-        assertThat(empty.addAll(issues)).isFalse();
-        assertThat(empty).hasSize(6);
+        fromEmpty.addAll(issues);
+        assertThatAllIssuesHaveBeenAdded(fromEmpty);
+        fromEmpty.addAll(issues);
+        assertThat(fromEmpty).hasSize(6).hasDuplicatesSize(6)
+                .hasHighPrioritySize(1)
+                .hasNormalPrioritySize(2)
+                .hasLowPrioritySize(3);
 
         Issues<Issue> left = new Issues<>(asList(HIGH, NORMAL_1, NORMAL_2));
         Issues<Issue> right = new Issues<>(asList(LOW_FILE_2, ISSUE_5, LOW_FILE_3));
 
         Issues<Issue> everything = new Issues<>();
-        assertThat(everything.addAll(left, right)).isTrue();
+        everything.addAll(left, right);
         assertThat(everything).hasSize(6);
     }
 
@@ -170,17 +221,17 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     @Test
     void shouldSkipDuplicates() {
         Issues<Issue> issues = new Issues<>();
-        assertThat(issues.add(HIGH)).isTrue();
-        assertThat(issues.add(HIGH)).isFalse();
-        assertThat(issues.addAll(asList(HIGH, LOW_FILE_2))).isFalse();
-        assertThat(issues.addAll(asList(NORMAL_1, NORMAL_2))).isTrue();
+        issues.add(HIGH);
+        assertThat(issues).hasSize(1).hasDuplicatesSize(0);
+        issues.add(HIGH);
+        assertThat(issues).hasSize(1).hasDuplicatesSize(1);
+        issues.addAll(asList(HIGH, LOW_FILE_2));
+        assertThat(issues).hasSize(2).hasDuplicatesSize(2);
+        issues.addAll(asList(NORMAL_1, NORMAL_2));
+        assertThat(issues).hasSize(4).hasDuplicatesSize(2);
 
         assertThat(issues.iterator()).containsExactly(HIGH, LOW_FILE_2, NORMAL_1, NORMAL_2);
-        assertThat(issues.iterator()).hasSize(4);
-
         assertThat(issues)
-                .hasSize(4)
-                .hasDuplicatesSize(2)
                 .hasLowPrioritySize(1)
                 .hasNormalPrioritySize(2)
                 .hasHighPrioritySize(1);
@@ -364,14 +415,25 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     }
 
     @Test
-    void shouldStoreAndRetrieveLogMessagesInCorrectOrder() {
+    void shouldStoreAndRetrieveLogAndErrorMessagesInCorrectOrder() {
         Issues<Issue> issues = new Issues<>();
 
-        issues.log("%d: %s %s", 1, "Hello", "World");
-        issues.log("%d: %s %s", 2, "Hello", "World");
+        assertThat(issues.getInfoMessages()).hasSize(0);
+        assertThat(issues.getErrorMessages()).hasSize(0);
 
-        assertThat(issues.getLogMessages()).hasSize(2);
-        assertThat(issues.getLogMessages()).containsExactly("1: Hello World", "2: Hello World");
+        issues.logInfo("%d: %s %s", 1, "Hello", "World");
+        issues.logInfo("%d: %s %s", 2, "Hello", "World");
+
+        assertThat(issues.getInfoMessages()).hasSize(2);
+        assertThat(issues.getInfoMessages()).containsExactly("1: Hello World", "2: Hello World");
+
+        issues.logError("%d: %s %s", 1, "Hello", "World");
+        issues.logError("%d: %s %s", 2, "Hello", "World");
+
+        assertThat(issues.getInfoMessages()).hasSize(2);
+        assertThat(issues.getInfoMessages()).containsExactly("1: Hello World", "2: Hello World");
+        assertThat(issues.getErrorMessages()).hasSize(2);
+        assertThat(issues.getErrorMessages()).containsExactly("1: Hello World", "2: Hello World");
     }
 
     @Test
@@ -419,8 +481,6 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         assertThat(issues).isNotEqualTo(other); // there should be duplicates
         assertThat(issues).hasDuplicatesSize(0);
         assertThat(other).hasDuplicatesSize(6);
-
-        // FIXME: check for messages
     }
 
     /**
@@ -433,7 +493,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
      * @throws IOException
      *         if the file could not be written
      */
-    public static void useIfSerializationChanges(final String... args) throws IOException {
+    public static void main(final String... args) throws IOException {
         new IssuesTest().createSerializationFile();
     }
 

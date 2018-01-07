@@ -25,6 +25,7 @@ import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
 import org.eclipse.collections.impl.collector.Collectors2;
 import org.eclipse.collections.impl.factory.Lists;
 
+import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
 import static java.util.stream.Collectors.*;
 
@@ -32,47 +33,26 @@ import static java.util.stream.Collectors.*;
  * A set of {@link Issue issues}: it contains no duplicate elements, i.e. it models the mathematical <i>set</i>
  * abstraction. Furthermore, this set of issues provides a <i>total ordering</i> on its elements. I.e., the issues in
  * this set are ordered by their index in this set: the first added issue is at position 0, the second added issues is
- * at position 1, and so on.
- *
- * <p> Additionally, this set of issues provides methods to find and filter issues based on different properties. In
- * order to create issues use the provided {@link IssueBuilder builder} class. </p>
+ * at position 1, and so on. <p> <p> Additionally, this set of issues provides methods to find and filter issues based
+ * on different properties. In order to create issues use the provided {@link IssueBuilder builder} class. </p>
  *
  * @param <T>
  *         type of the issues
  *
  * @author Ullrich Hafner
  */
-// FIXME: what about the properties like duplicates, log messages, etc. if an issue instance is copied or filtered
 @SuppressWarnings("PMD.ExcessivePublicCount")
 public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
+    private static final String DEFAULT_ID = "unset";
 
     private final Set<T> elements = new LinkedHashSet<>();
     private final int[] sizeOfPriority = new int[Priority.values().length];
-    private final List<String> logMessages = new ArrayList<>();
+    private final List<String> infoMessages = new ArrayList<>();
+    private final List<String> errorMessages = new ArrayList<>();
 
     private int sizeOfDuplicates = 0;
-
-    /**
-     * Creates and returns a new set of issues that contains all issues of the specified {@link Issues} instances. The
-     * issues of the specified array element are appended to the end of this container. The order of the issues in the
-     * individual containers is preserved.
-     *
-     * @param issues
-     *         the issues to merge
-     * @param <T>
-     *         type of the issues
-     *
-     * @return all issues
-     */
-    @SafeVarargs
-    public static <T extends Issue> Issues<T> merge(final Issues<T>... issues) {
-        Issues<T> merged = new Issues<>();
-        for (Issues<T> issue : issues) {
-            merged.addAll(issue);
-        }
-        return merged;
-    }
+    private String id = DEFAULT_ID;
 
     /**
      * Returns a predicate that checks if the package name of an issue is equal to the specified package name.
@@ -130,112 +110,103 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Appends the specified element to the end of this container.
+     * Appends all of the specified elements to the end of this container, preserving the order of the array elements.
+     * Duplicates will be skipped (the number of skipped elements is available using the method {@link
+     * #getDuplicatesSize()}.
      *
      * @param issue
      *         the issue to append
      * @param additionalIssues
      *         the additional issue to append
-     *
-     * @return {@code true} if this set did not already contain one of the specified issues, {@code false} if a
-     *         duplicate has been dropped
      */
     @SafeVarargs
-    public final boolean add(final T issue, final T... additionalIssues) {
-        boolean hasNoDuplicate = add(issue);
+    public final void add(final T issue, final T... additionalIssues) {
+        add(issue);
         for (T additional : additionalIssues) {
-            hasNoDuplicate &= add(additional);
+            add(additional);
         }
-        return hasNoDuplicate;
     }
 
-    private boolean add(final T issue) {
+    private void add(final T issue) {
         if (elements.contains(issue)) {
             sizeOfDuplicates++; // elements are marked as duplicate if the fingerprint is different
-            return false;
         }
-        elements.add(issue);
-        sizeOfPriority[issue.getPriority().ordinal()]++;
-
-        return true;
+        else {
+            elements.add(issue);
+            sizeOfPriority[issue.getPriority().ordinal()]++;
+        }
     }
 
     /**
      * Appends all of the elements in the specified collection to the end of this container, in the order that they are
-     * returned by the specified collection's iterator.
+     * returned by the specified collection's iterator. Duplicates will be skipped (the number of skipped elements is
+     * available using the method {@link #getDuplicatesSize()}.
      *
      * @param issues
      *         the issues to append
-     *
-     * @return {@code true} if this set did not already contain one of the specified issues, {@code false} if a
-     *         duplicate has been dropped
      */
-    public boolean addAll(final Collection<? extends T> issues) {
-        boolean hasNoDuplicate = true;
+    public void addAll(final Collection<? extends T> issues) {
         for (T issue : issues) {
-            hasNoDuplicate &= add(issue);
+            add(issue);
         }
-        return hasNoDuplicate;
     }
 
     /**
      * Appends all of the elements in the specified array of issues to the end of this container, in the order that they
-     * are returned by the specified collection's iterator.
+     * are returned by the specified collection's iterator. Duplicates will be skipped (the number of skipped elements
+     * is available using the method {@link #getDuplicatesSize()}.
      *
      * @param issues
      *         the issues to append
      * @param additionalIssues
      *         the additional issue to append
-     *
-     * @return {@code true} if this set did not already contain one of the specified issues, {@code false} if a
-     *         duplicate has been dropped
      */
     @SafeVarargs
-    public final boolean addAll(final Issues<T> issues, final Issues<T>... additionalIssues) {
-        boolean hasNoDuplicate = addAll(issues.elements);
+    public final void addAll(final Issues<T> issues, final Issues<T>... additionalIssues) {
+        copyProperties(issues, this);
         for (Issues<T> other : additionalIssues) {
-            hasNoDuplicate &= addAll(other.elements);
+            copyProperties(other, this);
         }
-        return hasNoDuplicate;
     }
 
     /**
      * Removes the issue with the specified ID. Note that the number of reported duplicates is not affected by calling
      * this method.
      *
-     * @param id
+     * @param issueId
      *         the ID of the issue
+     *
      * @return the removed element
      * @throws NoSuchElementException
      *         if there is no such issue found
      */
-    public T remove(final UUID id) {
+    public T remove(final UUID issueId) {
         for (T element : elements) {
-            if (element.getId().equals(id)) {
+            if (element.getId().equals(issueId)) {
                 elements.remove(element);
                 return element;
             }
         }
-        throw new NoSuchElementException("No issue found with id %s.", id);
+        throw new NoSuchElementException("No issue found with id %s.", issueId);
     }
 
     /**
      * Returns the issue with the specified ID.
      *
-     * @param id
+     * @param issueId
      *         the ID of the issue
      *
      * @return the found issue
      * @throws NoSuchElementException
      *         if there is no such issue found
      */
-    public T findById(final UUID id) {
+    public T findById(final UUID issueId) {
         for (T issue : elements) {
-            if (issue.getId().equals(id)) {
+            if (issue.getId().equals(issueId)) {
                 return issue;
             }
         }
-        throw new NoSuchElementException("No issue found with id %s.", id);
+        throw new NoSuchElementException("No issue found with id %s.", issueId);
     }
 
     /**
@@ -266,11 +237,10 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return elements.stream().filter(criterion);
     }
 
-    // FIXME: immutable or not
     @Nonnull
     @Override
     public Iterator<T> iterator() {
-        return elements.iterator();
+        return Lists.immutable.withAll(elements).iterator();
     }
 
     /**
@@ -495,12 +465,56 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      */
     public Issues<T> copy() {
         Issues<T> copied = new Issues<>();
-        copied.addAll(elements);
+        copyProperties(this, copied);
         return copied;
     }
 
+    private void copyProperties(final Issues<T> source, final Issues<T> destination) {
+        if (destination.hasId() && !source.id.equals(destination.id)) {
+            throw new IllegalArgumentException(
+                    String.format("When merging two issues instances the IDs must match: %s <-> %s",
+                    source.getId(), destination.getId()));
+        }
+
+        destination.addAll(source.elements);
+        destination.sizeOfDuplicates += source.sizeOfDuplicates;
+        destination.infoMessages.addAll(source.infoMessages);
+        destination.errorMessages.addAll(source.errorMessages);
+        destination.id = source.id;
+    }
+
     /**
-     * Logs the specified message. Use this method to log any useful information when composing this set of issues.
+     * Sets the ID of this set of issues.
+     *
+     * @param id
+     *         ID of this set of issues
+     */
+    public void setId(final String id) {
+        Ensure.that(id).isNotNull();
+
+        this.id = id;
+    }
+
+    /**
+     * Returns the ID of this set of issues.
+     *
+     * @return the ID
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Returns whether this set of issues has an associated ID.
+     *
+     * @return {@code true} if this set has an ID; {@code false} otherwise
+     */
+    public boolean hasId() {
+        return !DEFAULT_ID.equals(getId());
+    }
+
+    /**
+     * Logs the specified information message. Use this method to log any useful information when composing this set of issues.
      *
      * @param format
      *         A <a href="../util/Formatter.html#syntax">format string</a>
@@ -509,31 +523,56 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
      *         zero.
      *
-     * @see #getLogMessages()
+     * @see #getInfoMessages()
      */
-    public void log(final String format, final Object... args) {
-        logMessages.add(String.format(format, args));
+    public void logInfo(final String format, final Object... args) {
+        infoMessages.add(String.format(format, args));
     }
 
     /**
-     * Returns the log messages that have been reported since the creation of this set of issues.
+     * Logs the specified error message. Use this method to log any error when composing this set of issues.
      *
-     * @return the log messages
+     * @param format
+     *         A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args
+     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
+     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
+     *         zero.
+     *
+     * @see #getInfoMessages()
      */
-    public ImmutableList<String> getLogMessages() {
-        return Lists.immutable.ofAll(logMessages);
+    public void logError(final String format, final Object... args) {
+        errorMessages.add(String.format(format, args));
+    }
+
+    /**
+     * Returns the info messages that have been reported since the creation of this set of issues.
+     *
+     * @return the info messages
+     */
+    public ImmutableList<String> getInfoMessages() {
+        return Lists.immutable.ofAll(infoMessages);
+    }
+
+    /**
+     * Returns the error messages that have been reported since the creation of this set of issues.
+     *
+     * @return the error messages
+     */
+    public ImmutableList<String> getErrorMessages() {
+        return Lists.immutable.ofAll(errorMessages);
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        Issues<?> issues = (Issues<?>) o;
+        Issues<?> issues = (Issues<?>) obj;
 
         if (sizeOfDuplicates != issues.sizeOfDuplicates) {
             return false;
@@ -544,15 +583,19 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         if (!Arrays.equals(sizeOfPriority, issues.sizeOfPriority)) {
             return false;
         }
-        return logMessages.equals(issues.logMessages);
+        if (!infoMessages.equals(issues.infoMessages)) {
+            return false;
+        }
+        return id.equals(issues.id);
     }
 
     @Override
     public int hashCode() {
         int result = elements.hashCode();
         result = 31 * result + Arrays.hashCode(sizeOfPriority);
-        result = 31 * result + logMessages.hashCode();
+        result = 31 * result + infoMessages.hashCode();
         result = 31 * result + sizeOfDuplicates;
+        result = 31 * result + id.hashCode();
         return result;
     }
 

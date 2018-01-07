@@ -20,7 +20,8 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
      *
-     * @param actual the issue we want to make assertions on
+     * @param actual
+     *         the issue we want to make assertions on
      */
     public IssueAssert(final Issue actual) {
         super(actual, IssueAssert.class);
@@ -29,7 +30,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
      *
-     * @param actual the issue we want to make assertions on
+     * @param actual
+     *         the issue we want to make assertions on
+     *
      * @return a new {@link IssueAssert}
      */
     @SuppressWarnings("ParameterHidesMemberVariable")
@@ -40,7 +43,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific id.
      *
-     * @param id id specifying id.
+     * @param id
+     *         id specifying id.
+     *
      * @return this
      */
     public IssueAssert hasId(final UUID id) {
@@ -56,7 +61,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific filename.
      *
-     * @param fileName String specifying filename.
+     * @param fileName
+     *         String specifying filename.
+     *
      * @return this
      */
     public IssueAssert hasFileName(final String fileName) {
@@ -72,7 +79,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific category.
      *
-     * @param category String specifying category.
+     * @param category
+     *         String specifying category.
+     *
      * @return this
      */
     public IssueAssert hasCategory(final String category) {
@@ -88,7 +97,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific type.
      *
-     * @param type String specifying type.
+     * @param type
+     *         String specifying type.
+     *
      * @return this
      */
     public IssueAssert hasType(final String type) {
@@ -104,7 +115,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific priority.
      *
-     * @param priority Priority specifying priority.
+     * @param priority
+     *         Priority specifying priority.
+     *
      * @return this
      */
     public IssueAssert hasPriority(final Priority priority) {
@@ -120,7 +133,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific message.
      *
-     * @param message String specifying message.
+     * @param message
+     *         String specifying message.
+     *
      * @return this
      */
     public IssueAssert hasMessage(final String message) {
@@ -136,7 +151,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific description.
      *
-     * @param description String specifying description.
+     * @param description
+     *         String specifying description.
+     *
      * @return this
      */
     public IssueAssert hasDescription(final String description) {
@@ -151,7 +168,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific moduleName.
      *
-     * @param moduleName String specifying moduleName.
+     * @param moduleName
+     *         String specifying moduleName.
+     *
      * @return this
      */
     public IssueAssert hasModuleName(final String moduleName) {
@@ -166,7 +185,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific origin.
      *
-     * @param origin String specifying origin.
+     * @param origin
+     *         String specifying origin.
+     *
      * @return this
      */
     public IssueAssert hasOrigin(final String origin) {
@@ -181,7 +202,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue starts at a specific line.
      *
-     * @param lineStart int specifying lineStart.
+     * @param lineStart
+     *         int specifying lineStart.
+     *
      * @return this
      */
     public IssueAssert hasLineStart(final int lineStart) {
@@ -196,7 +219,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue ends at a specific line.
      *
-     * @param lineEnd int specifying lineEnd.
+     * @param lineEnd
+     *         int specifying lineEnd.
+     *
      * @return this
      */
     public IssueAssert hasLineEnd(final int lineEnd) {
@@ -211,7 +236,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue starts at a specific column.
      *
-     * @param columnStart int specifying columnStart.
+     * @param columnStart
+     *         int specifying columnStart.
+     *
      * @return this
      */
     public IssueAssert hasColumnStart(final int columnStart) {
@@ -226,7 +253,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue ends at a specific column.
      *
-     * @param columnEnd int specifying columnEnd.
+     * @param columnEnd
+     *         int specifying columnEnd.
+     *
      * @return this
      */
     public IssueAssert hasColumnEnd(final int columnEnd) {
@@ -241,7 +270,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific packageName.
      *
-     * @param packageName String specifying packageName.
+     * @param packageName
+     *         String specifying packageName.
+     *
      * @return this
      */
     public IssueAssert hasPackageName(final String packageName) {
@@ -256,7 +287,9 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     /**
      * Checks whether an Issue has a specific fingerprint.
      *
-     * @param fingerprint String specifying fingerprint.
+     * @param fingerprint
+     *         String specifying fingerprint.
+     *
      * @return this
      */
     public IssueAssert hasFingerprint(final String fingerprint) {
