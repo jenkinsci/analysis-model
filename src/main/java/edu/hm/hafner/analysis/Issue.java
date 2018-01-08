@@ -15,6 +15,7 @@ import org.eclipse.collections.impl.collector.Collectors2;
  * @author Ullrich Hafner
  */
 // Add module that is the same for a parser scan
+@SuppressWarnings("PMD.TooManyFields")
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
 

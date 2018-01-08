@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * Unit tests for {@link Issues}.
  *
  * @author Marcel Binder
+ * @author Ullrich Hafner
  */
 class IssuesTest extends SerializableTest<Issues<Issue>> {
     private static final String SERIALIZATION_NAME = "issues.ser";
@@ -88,6 +89,44 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         issues.addAll(expected);
         assertThat(issues).isEqualTo(expected);
         assertThatAllIssuesHaveBeenAdded(issues);
+
+        expected.setId("other");
+        assertThatThrownBy(() -> issues.addAll(expected)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    /** Verifies some additional variants of the {@link Issues#addAll(Issues, Issues[])}. */
+    @Test
+    void shouldVerifyPathInteriorCoverageOfAddAll() {
+        Issues<Issue> first = new Issues<>();
+        first.add(HIGH);
+        Issues<Issue> second = new Issues<>();
+        second.add(NORMAL_1, NORMAL_2);
+        Issues<Issue> third = new Issues<>();
+        third.add(LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+
+        Issues<Issue> issues = new Issues<>();
+        issues.addAll(first);
+        assertThat((Iterable<Issue>) issues).containsExactly(HIGH);
+        issues.addAll(second, third);
+        assertThatAllIssuesHaveBeenAdded(issues);
+
+        Issues<Issue> altogether = new Issues<>();
+        altogether.addAll(first, second, third);
+        assertThatAllIssuesHaveBeenAdded(issues);
+
+        // Verify that the ID will be checked now
+        first.setId(ID);
+        assertThatThrownBy(() -> {
+            Issues<Issue> secondParameterThrows = new Issues<>();
+            secondParameterThrows.addAll(first);
+            third.setId("other");
+            secondParameterThrows.addAll(second, third);
+        }).isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> {
+            Issues<Issue> thirdParameterThrows = new Issues<>();
+            thirdParameterThrows.addAll(first, second, third);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -144,7 +183,9 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     void shouldIterateOverAllElementsInCorrectOrder() {
         Issues<Issue> issues = new Issues<>();
 
-        issues.add(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3);
+        issues.add(HIGH);
+        issues.add(NORMAL_1, NORMAL_2);
+        issues.add(LOW_FILE_2, ISSUE_5, LOW_FILE_3);
         Iterator<Issue> iterator = issues.iterator();
         assertThat(iterator.next()).isSameAs(HIGH);
         assertThat(iterator.next()).isSameAs(NORMAL_1);
@@ -411,7 +452,8 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
 
         ImmutableSortedSet<String> properties = propertyGetter.apply(issues);
 
-        assertThat(properties).as("Wrong values for property " + propertyName).containsExactly("name 1", "name 2", "name 3");
+        assertThat(properties).as("Wrong values for property " + propertyName)
+                .containsExactly("name 1", "name 2", "name 3");
     }
 
     @Test

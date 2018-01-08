@@ -46,213 +46,10 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     }
 
     public LineRangeList(final Collection<LineRange> copy) {
-        data = new byte[copy.size() * 4]; // guess
+        this(copy.size() * 4); // guess
+
         for (LineRange lr : copy) {
             add(lr);
-        }
-    }
-
-    private class Cursor implements ListIterator<LineRange> {
-        int pos = 0;
-
-        private Cursor(final int pos) {
-            this.pos = pos;
-        }
-
-        private Cursor() {
-        }
-
-        /**
-         * Does the opposite of {@link #read()} and skips back one int.
-         */
-        private void prev() {
-            if (pos == 0) {
-                throw new IllegalArgumentException();
-            }
-            do {
-                pos--;
-            } while (pos > 0 && (data[pos - 1] & 0x80) == 0);
-        }
-
-        /**
-         * Reads the {@link LineRange} object the cursor is pointing at.
-         */
-        @Override
-        public LineRange next() {
-            int s = read();
-            int d = read();
-            return new LineRange(s, s + d);
-        }
-
-        @Override
-        public LineRange previous() {
-            prev();
-            prev();
-            return copy().next();
-        }
-
-        /**
-         * Removes the last returned value.
-         */
-        @Override
-        public void remove() {
-            prev();
-            prev();
-            delete();
-        }
-
-        @Override
-        public boolean hasNext() {
-            return pos < len;
-        }
-
-        @Override
-        public boolean hasPrevious() {
-            return pos > 0;
-        }
-
-        /**
-         * Reads the current variable-length encoded int value under the cursor,
-         * and moves the cursor ahead.
-         */
-        private int read() {
-            if (len <= pos) {
-                throw new IndexOutOfBoundsException();
-            }
-
-            int i = 0;
-            int v = 0;
-            do {
-                v += (data[pos] & 0x7F) << (i++ * 7);
-            } while ((data[pos++] & 0x80) == 0);
-            return v;
-        }
-
-        private void write(int i) {
-            boolean last;
-            do {
-                last = i < 0x80;
-                data[pos++] = (byte)((i & 0x7F) | (last ? 0x80 : 0));
-                i /= 0x80;
-            } while (!last);
-        }
-
-        private void write(final LineRange r) {
-            write(r.getStart());
-            write(r.getEnd() - r.getStart());
-        }
-
-        /**
-         * Reads the current value at the cursor and compares it.
-         */
-        public boolean compare(final LineRange lr) {
-            int s = read();
-            int d = read();
-            return lr.getStart() == s && lr.getEnd() == s + d;
-        }
-
-        /**
-         * Skips forward and gets the pointer to N-th element.
-         */
-        private Cursor skip(int n) {
-            for (; n > 0; n--) {
-                read();
-                read();
-            }
-            return this;
-        }
-
-        /**
-         * Counts the # of elements from the current cursor position to the end.
-         */
-        private int count() {
-            int n = 0;
-            while (pos < len) {
-                read();
-                read();
-                n++;
-            }
-            return n;
-        }
-
-        @Override
-        public int nextIndex() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public int previousIndex() {
-            throw new UnsupportedOperationException();
-        }
-
-        public Cursor copy() {
-            return new Cursor(pos);
-        }
-
-        private void adjust(final int diff) {
-            ensure(len + diff);
-            if (diff > 0) {
-                System.arraycopy(data, pos, data, pos + diff, len - pos);
-            }
-            else {
-                System.arraycopy(data, pos - diff, data, pos, len - pos + diff);
-            }
-            len += diff;
-        }
-
-        /**
-         * Rewrites the value at the current cursor position.
-         */
-        public LineRange _set(final LineRange v) {
-            Cursor c = copy();
-            LineRange old = c.next();
-            int oldSize = c.pos - pos;
-            int newSize = sizeOf(v);
-            adjust(newSize - oldSize);
-            write(v);
-            return old;
-        }
-
-        @Override
-        public void set(final LineRange v) {
-            _set(v);
-        }
-
-        /**
-         * Inserts the value at the current cursor position.
-         */
-        @Override
-        public void add(final LineRange v) {
-            int newSize = sizeOf(v);
-            adjust(newSize);
-            write(v);
-        }
-
-        /**
-         * Removes the current value at the cursor position.
-         */
-        public LineRange delete() {
-            Cursor c = copy();
-            LineRange old = c.next();
-            adjust(pos - c.pos);
-            return old;
-        }
-
-        private int sizeOf(final LineRange v) {
-            return sizeOf(v.getStart()) + sizeOf(v.getEnd() - v.getStart());
-        }
-
-        /**
-         * Computes the number of bytes that the value 'i' would occupy in its
-         * encoded form.
-         */
-        private int sizeOf(int i) {
-            int n = 0;
-            do {
-                i /= 0x80;
-                n++;
-            } while (i > 0);
-            return n;
         }
     }
 
@@ -307,7 +104,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     }
 
     @Override
-    public boolean add(final LineRange lr) {
+    public final boolean add(final LineRange lr) {
         new Cursor(len).add(lr);
         return true;
     }
@@ -340,6 +137,210 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
             byte[] small = new byte[len];
             System.arraycopy(data, 0, small, 0, len);
             data = small;
+        }
+    }
+
+    private class Cursor implements ListIterator<LineRange> {
+        int position = 0;
+
+        private Cursor(final int position) {
+            this.position = position;
+        }
+
+        private Cursor() {
+        }
+
+        /**
+         * Does the opposite of {@link #read()} and skips back one int.
+         */
+        private void prev() {
+            if (position == 0) {
+                throw new IllegalStateException("Cursor is a the beginning.");
+            }
+            do {
+                position--;
+            } while (position > 0 && (data[position - 1] & 0x80) == 0);
+        }
+
+        /**
+         * Reads the {@link LineRange} object the cursor is pointing at.
+         */
+        @Override
+        public LineRange next() {
+            int s = read();
+            int d = read();
+            return new LineRange(s, s + d);
+        }
+
+        @Override
+        public LineRange previous() {
+            prev();
+            prev();
+            return copy().next();
+        }
+
+        /**
+         * Removes the last returned value.
+         */
+        @Override
+        public void remove() {
+            prev();
+            prev();
+            delete();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return position < len;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return position > 0;
+        }
+
+        /**
+         * Reads the current variable-length encoded int value under the cursor,
+         * and moves the cursor ahead.
+         */
+        private int read() {
+            if (len <= position) {
+                throw new IndexOutOfBoundsException("Position " + position + " is >= length " + len);
+            }
+
+            int i = 0;
+            int v = 0;
+            do {
+                v += (data[position] & 0x7F) << (i++ * 7);
+            } while ((data[position++] & 0x80) == 0);
+            return v;
+        }
+
+        private void write(int i) {
+            boolean last;
+            do {
+                last = i < 0x80;
+                data[position++] = (byte)((i & 0x7F) | (last ? 0x80 : 0));
+                i /= 0x80;
+            } while (!last);
+        }
+
+        private void write(final LineRange r) {
+            write(r.getStart());
+            write(r.getEnd() - r.getStart());
+        }
+
+        /**
+         * Reads the current value at the cursor and compares it.
+         */
+        public boolean compare(final LineRange lr) {
+            int s = read();
+            int d = read();
+            return lr.getStart() == s && lr.getEnd() == s + d;
+        }
+
+        /**
+         * Skips forward and gets the pointer to N-th element.
+         */
+        private Cursor skip(int n) {
+            for (; n > 0; n--) {
+                read();
+                read();
+            }
+            return this;
+        }
+
+        /**
+         * Counts the # of elements from the current cursor position to the end.
+         */
+        private int count() {
+            int n = 0;
+            while (position < len) {
+                read();
+                read();
+                n++;
+            }
+            return n;
+        }
+
+        @Override
+        public int nextIndex() {
+            throw new UnsupportedOperationException("nextIndex is not supported");
+        }
+
+        @Override
+        public int previousIndex() {
+            throw new UnsupportedOperationException("previousIndex is not supported");
+        }
+
+        public Cursor copy() {
+            return new Cursor(position);
+        }
+
+        private void adjust(final int diff) {
+            ensure(len + diff);
+            if (diff > 0) {
+                System.arraycopy(data, position, data, position + diff, len - position);
+            }
+            else {
+                System.arraycopy(data, position - diff, data, position, len - position + diff);
+            }
+            len += diff;
+        }
+
+        /**
+         * Rewrites the value at the current cursor position.
+         */
+        public LineRange _set(final LineRange v) {
+            Cursor c = copy();
+            LineRange old = c.next();
+            int oldSize = c.position - position;
+            int newSize = sizeOf(v);
+            adjust(newSize - oldSize);
+            write(v);
+            return old;
+        }
+
+        @Override
+        public void set(final LineRange v) {
+            _set(v);
+        }
+
+        /**
+         * Inserts the value at the current cursor position.
+         */
+        @Override
+        public void add(final LineRange v) {
+            int newSize = sizeOf(v);
+            adjust(newSize);
+            write(v);
+        }
+
+        /**
+         * Removes the current value at the cursor position.
+         */
+        public LineRange delete() {
+            Cursor c = copy();
+            LineRange old = c.next();
+            adjust(position - c.position);
+            return old;
+        }
+
+        private int sizeOf(final LineRange v) {
+            return sizeOf(v.getStart()) + sizeOf(v.getEnd() - v.getStart());
+        }
+
+        /**
+         * Computes the number of bytes that the value 'i' would occupy in its
+         * encoded form.
+         */
+        private int sizeOf(int i) {
+            int n = 0;
+            do {
+                i /= 0x80;
+                n++;
+            } while (i > 0);
+            return n;
         }
     }
 }

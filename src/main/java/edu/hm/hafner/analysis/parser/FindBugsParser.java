@@ -43,7 +43,7 @@ import edu.umd.cs.findbugs.ba.SourceFinder;
  *
  * @author Ulli Hafner
  */
-// CHECKSTYLE:COUPLING-OFF
+@SuppressWarnings("classfanoutcomplexity")
 public class FindBugsParser implements Serializable {
     private static final long serialVersionUID = 8306319007761954027L;
 
