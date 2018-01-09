@@ -48,9 +48,12 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     public LineRangeList(final Collection<LineRange> copy) {
         this(copy.size() * 4); // guess
 
-        for (LineRange lr : copy) {
-            add(lr);
-        }
+        addAll(copy);
+    }
+
+    @Override
+    public final boolean addAll(final Collection<? extends LineRange> c) {
+        return super.addAll(c);
     }
 
     /**
@@ -90,7 +93,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
     @Override
     public LineRange set(final int index, final LineRange element) {
-        return new Cursor().skip(index)._set(element);
+        return new Cursor().skip(index).rewrite(element);
     }
 
     @Override
@@ -140,14 +143,18 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         }
     }
 
+    /**
+     * Navigates through the ranges and performs the conversion to and from {@link LineRange}.
+     */
     private class Cursor implements ListIterator<LineRange> {
-        int position = 0;
+        private int position;
 
-        private Cursor(final int position) {
+        Cursor(final int position) {
             this.position = position;
         }
 
-        private Cursor() {
+        Cursor() {
+            this(0);
         }
 
         /**
@@ -216,7 +223,8 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
             return v;
         }
 
-        private void write(int i) {
+        private void write(final int index) {
+            int i = index;
             boolean last;
             do {
                 last = i < 0x80;
@@ -242,8 +250,9 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         /**
          * Skips forward and gets the pointer to N-th element.
          */
-        private Cursor skip(int n) {
-            for (; n > 0; n--) {
+        private Cursor skip(final int n) {
+            int i = n;
+            for (; i > 0; i--) {
                 read();
                 read();
             }
@@ -291,7 +300,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         /**
          * Rewrites the value at the current cursor position.
          */
-        public LineRange _set(final LineRange v) {
+        public LineRange rewrite(final LineRange v) {
             Cursor c = copy();
             LineRange old = c.next();
             int oldSize = c.position - position;
@@ -303,7 +312,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
         @Override
         public void set(final LineRange v) {
-            _set(v);
+            rewrite(v);
         }
 
         /**
@@ -334,7 +343,8 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          * Computes the number of bytes that the value 'i' would occupy in its
          * encoded form.
          */
-        private int sizeOf(int i) {
+        private int sizeOf(final int index) {
+            int i = index;
             int n = 0;
             do {
                 i /= 0x80;

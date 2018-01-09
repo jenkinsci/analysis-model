@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.SerializableTest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static java.util.Arrays.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -367,7 +368,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         assertThat(found).containsExactly(HIGH);
     }
 
-    @Test
+    @Test @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
     void shouldReturnIndexedValue() {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));

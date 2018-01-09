@@ -68,6 +68,7 @@ class LineRangeListTest {
 
         for (int i = 0; i < 100; i++) {
             assertThat(list.get(i)).isEqualTo(new LineRange(i * 2, i * 2 + 1));
+            assertThat(list.contains(new LineRange(i * 2, i * 2 + 1))).isTrue();
         }
 
         assertThat(list).hasSize(100);
@@ -84,6 +85,10 @@ class LineRangeListTest {
         assertThat(middle).containsExactly(new LineRange(0, 1), new LineRange(4, 5));
 
         LineRangeList first = createThreeElements();
+        assertThat(first.contains(new LineRange(0, 1))).isTrue();
+        assertThat(first.contains(new LineRange(2, 3))).isTrue();
+        assertThat(first.contains(new LineRange(4, 5))).isTrue();
+
         first.remove(new LineRange(0, 1));
         assertThat(first).containsExactly(new LineRange(2, 3), new LineRange(4, 5));
 
