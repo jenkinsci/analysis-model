@@ -13,7 +13,7 @@ import org.apache.commons.io.LineIterator;
 /**
  * Detects the package name of a Java file.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class JavaPackageDetector extends AbstractPackageDetector {
     private final Pattern packagePattern = Pattern.compile("^\\s*package\\s*([a-z]+(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)\\s*;.*");

@@ -20,7 +20,7 @@ import edu.hm.hafner.analysis.Priority;
 /**
  * A parser for Checkstyle XML files.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class CheckStyleParser extends AbstractParser {
     private static final long serialVersionUID = -3187275729854832128L;

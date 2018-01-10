@@ -5,7 +5,7 @@ import java.io.InputStream;
 /**
  * Detects the package or namespace name of a file.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public interface PackageDetector {
     /**

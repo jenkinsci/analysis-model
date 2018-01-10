@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link JavaPackageDetector}.
+ *
+ * @author Ullrich Hafner
  */
 class JavaPackageDetectorTest extends ResourceTest {
     @ParameterizedTest(name = "{index} => file={0}, expected package={1}")
@@ -20,7 +22,8 @@ class JavaPackageDetectorTest extends ResourceTest {
             "complicated-package-declaration.txt, hudson.plugins.findbugs.util",
             "pom.xml, -",
             "ActionBinding.cs, -"})
-    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
+    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage)
+            throws IOException {
         try (InputStream stream = asInputStream(fileName)) {
             assertThat(new JavaPackageDetector().detectPackageName(stream))
                     .isEqualTo(expectedPackage);

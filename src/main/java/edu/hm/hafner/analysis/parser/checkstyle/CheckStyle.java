@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Java Bean class for a errors collection of the Checkstyle format.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class CheckStyle {
     /** All files of this violations collection. */

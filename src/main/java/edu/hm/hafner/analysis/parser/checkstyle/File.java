@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Java Bean class for a file of the Checkstyle format.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class File {
     /** Name of the file. */

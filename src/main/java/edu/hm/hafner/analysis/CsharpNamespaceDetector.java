@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Detects the namespace of a C# workspace file.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 // CHECKSTYLE:CONSTANTS-OFF
 public class CsharpNamespaceDetector extends AbstractPackageDetector {

@@ -41,7 +41,7 @@ import edu.umd.cs.findbugs.ba.SourceFinder;
 /**
  * A parser for the native FindBugs XML files (ant task, batch file or maven-findbugs-plugin >= 1.2).
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 @SuppressWarnings("classfanoutcomplexity")
 public class FindBugsParser implements Serializable {
@@ -337,7 +337,7 @@ public class FindBugsParser implements Serializable {
      * Java Bean to create the mapping of hash codes to messages using the Digester
      * XML parser.
      *
-     * @author Ulli Hafner
+     * @author Ullrich Hafner
      */
     @SuppressWarnings("all")
     public static class XmlBugInstance {

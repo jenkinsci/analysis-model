@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link CsharpNamespaceDetector}.
+ *
+ * @author Ullrich Hafner
  */
 class CsharpNamespaceDetectorTest extends ResourceTest {
     @ParameterizedTest(name = "{index} => file={0}, expected package={1}")
@@ -20,7 +22,8 @@ class CsharpNamespaceDetectorTest extends ResourceTest {
             "ActionBinding-Original-Formatting.cs, Avaloq.SmartClient.Utilities",
             "pom.xml, -",
             "MavenJavaTest.txt, -"})
-    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
+    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage)
+            throws IOException {
         try (InputStream stream = asInputStream(fileName)) {
             assertThat(new CsharpNamespaceDetector().detectPackageName(stream))
                     .isEqualTo(expectedPackage);

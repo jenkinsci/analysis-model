@@ -20,7 +20,7 @@ import edu.hm.hafner.util.VisibleForTesting;
  * Creates a fingerprint of the specified issue using the source code at the affected line. The fingerprint is computed
  * using the 1:1 content of a small number of lines before and after the affected line (see {@link #LINES_LOOK_AHEAD}).
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class FullTextFingerprint {
     /** Number of lines before and after current line to consider. */

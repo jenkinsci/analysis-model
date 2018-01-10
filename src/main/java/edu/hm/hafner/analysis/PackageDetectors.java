@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Provides convenient methods to determine the package or namespace names of a file.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public final class PackageDetectors {
     /** If no package could be assigned this value is used as package name. */

@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.pmd;
 /**
  * Java Bean class for a violation of the PMD format.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 @SuppressWarnings("all")
 public class Violation {

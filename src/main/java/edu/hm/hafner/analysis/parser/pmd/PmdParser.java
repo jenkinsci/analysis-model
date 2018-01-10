@@ -19,7 +19,7 @@ import edu.hm.hafner.analysis.Priority;
 /**
  * A parser for PMD XML files.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class PmdParser extends AbstractParser {
     private static final long serialVersionUID = 6507147028628714706L;

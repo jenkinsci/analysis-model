@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 /**
  * Base class for package detectors.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 // FIXME: Add method that uses the specified encoding when reading the files
 public abstract class AbstractPackageDetector {

@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.checkstyle;
 /**
  * Java Bean class for a violation of the Checkstyle format.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 // CHECKSTYLE:OFF
 @SuppressWarnings("javadoc")
