@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
@@ -12,27 +14,16 @@ import static org.assertj.core.api.Assertions.*;
  * Tests the class {@link JavaPackageDetector}.
  */
 class JavaPackageDetectorTest extends ResourceTest {
-    @Test
-    void shouldExtractPackageNameFromJavaSource() throws IOException {
-        try (InputStream stream = asInputStream("MavenJavaTest.txt")) {
+    @ParameterizedTest(name = "{index} => file={0}, expected package={1}")
+    @CsvSource({
+            "MavenJavaTest.txt, hudson.plugins.tasks.util",
+            "complicated-package-declaration.txt, hudson.plugins.findbugs.util",
+            "pom.xml, -",
+            "ActionBinding.cs, -"})
+    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
+        try (InputStream stream = asInputStream(fileName)) {
             assertThat(new JavaPackageDetector().detectPackageName(stream))
-                    .isEqualTo("hudson.plugins.tasks.util");
-        }
-    }
-
-    @Test
-    void shouldFindNoPackageInPomFile() throws IOException {
-        try (InputStream stream = asInputStream("pom.xml")) {
-            assertThat(new JavaPackageDetector().detectPackageName(stream))
-                    .isEqualTo("-");
-        }
-    }
-
-    @Test
-    void shouldExtractPackageNameInFileWithComplicatedFormatting() throws IOException {
-        try (InputStream stream = asInputStream("complicated-package-declaration.txt")) {
-            assertThat(new JavaPackageDetector().detectPackageName(stream))
-                    .isEqualTo("hudson.plugins.findbugs.util");
+                    .isEqualTo(expectedPackage);
         }
     }
 

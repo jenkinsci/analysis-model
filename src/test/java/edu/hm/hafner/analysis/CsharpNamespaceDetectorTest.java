@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
@@ -14,20 +14,16 @@ import static org.assertj.core.api.Assertions.*;
  * Tests the class {@link CsharpNamespaceDetector}.
  */
 class CsharpNamespaceDetectorTest extends ResourceTest {
-    @ParameterizedTest
-    @ValueSource(strings = {"ActionBinding.cs", "ActionBinding-Original-Formatting.cs"})
-    void shouldExtractPackageNameFromCSharpSource(final String fileName) throws IOException {
+    @ParameterizedTest(name = "{index} => file={0}, expected package={1}")
+    @CsvSource({
+            "ActionBinding.cs, Avaloq.SmartClient.Utilities",
+            "ActionBinding-Original-Formatting.cs, Avaloq.SmartClient.Utilities",
+            "pom.xml, -",
+            "MavenJavaTest.txt, -"})
+    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
         try (InputStream stream = asInputStream(fileName)) {
             assertThat(new CsharpNamespaceDetector().detectPackageName(stream))
-                    .isEqualTo("Avaloq.SmartClient.Utilities");
-        }
-    }
-
-    @Test
-    void shouldFindNoPackageInPomFile() throws IOException {
-        try (InputStream stream = asInputStream("pom.xml")) {
-            assertThat(new CsharpNamespaceDetector().detectPackageName(stream))
-                    .isEqualTo("-");
+                    .isEqualTo(expectedPackage);
         }
     }
 
