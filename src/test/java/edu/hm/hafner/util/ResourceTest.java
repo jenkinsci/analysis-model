@@ -1,6 +1,7 @@
 package edu.hm.hafner.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -12,8 +13,8 @@ import java.util.stream.Stream;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Base class for tests that need to read resource files from disk. Provides several useful methods
- * that simplify reading of resources from disk.
+ * Base class for tests that need to read resource files from disk. Provides several useful methods that simplify
+ * reading of resources from disk.
  *
  * @author Ullrich Hafner
  */
@@ -64,12 +65,44 @@ public class ResourceTest {
      *
      * @return the content represented by a byte array
      */
-    protected Stream<String> readResourceToStream(final String name, final Charset charset) {
+    protected Stream<String> asStream(final String name, final Charset charset) {
         try {
             return Files.lines(getPath(name), charset);
         }
         catch (IOException | URISyntaxException e) {
             throw new AssertionError("Can't read resource " + name, e);
         }
+    }
+
+    /**
+     * Finds a resource with the given name and returns an input stream with UTF-8 decoding.
+     *
+     * @param name
+     *         name of the desired resource
+     *
+     * @return the content represented by a byte array
+     */
+    protected InputStream asInputStream(final String name) {
+        return asInputStream(name, Charset.forName("UTF-8"));
+    }
+
+    /**
+     * Finds a resource with the given name and returns an input stream.
+     *
+     * @param name
+     *         name of the desired resource
+     * @param charset
+     *         the charset to use for decoding
+     *
+     * @return the content represented by a byte array
+     */
+    protected InputStream asInputStream(final String name, final Charset charset) {
+        InputStream stream = getClass().getResourceAsStream(name);
+
+        if (stream == null) {
+            throw new AssertionError("Can't find resource " + name);
+        }
+
+        return stream;
     }
 }

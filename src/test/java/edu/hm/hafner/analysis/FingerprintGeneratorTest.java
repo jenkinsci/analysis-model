@@ -113,6 +113,6 @@ class FingerprintGeneratorTest extends ResourceTest {
     }
 
     private Stream<String> asStream(final String affectedFile) {
-        return readResourceToStream(affectedFile, CHARSET_AFFECTED_FILE);
+        return asStream(affectedFile, CHARSET_AFFECTED_FILE);
     }
 }

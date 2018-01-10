@@ -16,19 +16,8 @@ import org.apache.commons.io.LineIterator;
  * @author Ulli Hafner
  */
 public class JavaPackageDetector extends AbstractPackageDetector {
-    /** Package pattern. */
-    private final Pattern pattern;
+    private final Pattern packagePattern = Pattern.compile("^\\s*package\\s*([a-z]+(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)\\s*;.*");
 
-    /**
-     * Creates a new instance of {@link JavaPackageDetector}.
-     */
-    public JavaPackageDetector() {
-        super();
-
-        pattern = Pattern.compile("^\\s*package\\s*([a-z]+(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)\\s*;.*");
-    }
-
-    /** {@inheritDoc}*/
     @Override
     public String detectPackageName(final InputStream stream) {
         try {
@@ -37,7 +26,7 @@ public class JavaPackageDetector extends AbstractPackageDetector {
 
             while (iterator.hasNext()) {
                 String line = iterator.nextLine();
-                Matcher matcher = pattern.matcher(line);
+                Matcher matcher = packagePattern.matcher(line);
                 if (matcher.matches()) {
                     return matcher.group(1);
                 }

@@ -2,10 +2,11 @@ package edu.hm.hafner.analysis;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Detects the namespace of a C# workspace file.
@@ -14,19 +15,20 @@ import org.apache.commons.lang.StringUtils;
  */
 // CHECKSTYLE:CONSTANTS-OFF
 public class CsharpNamespaceDetector extends AbstractPackageDetector {
+    private static final Pattern NAMESPACE_PATTERN = Pattern.compile("^namespace .*$");
+
     @Override
     public boolean accepts(final String fileName) {
         return fileName.endsWith(".cs");
     }
 
-    /** {@inheritDoc}*/
     @Override
     public String detectPackageName(final InputStream stream) {
         try {
             LineIterator iterator = IOUtils.lineIterator(stream, "UTF-8");
             while (iterator.hasNext()) {
                 String line = iterator.nextLine();
-                if (line.matches("^namespace .*$")) {
+                if (NAMESPACE_PATTERN.matcher(line).matches()) {
                     if (line.contains("{")) {
                         return StringUtils.substringBetween(line, " ", "{").trim();
                     }
@@ -36,7 +38,7 @@ public class CsharpNamespaceDetector extends AbstractPackageDetector {
                 }
             }
         }
-        catch (IOException exception) {
+        catch (IOException ignored) {
             // ignore
         }
         finally {
