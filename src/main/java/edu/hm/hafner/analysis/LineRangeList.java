@@ -41,6 +41,8 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     }
 
     public LineRangeList(final int capacity) {
+        super();
+
         data = new byte[capacity];
         len = 0;
     }

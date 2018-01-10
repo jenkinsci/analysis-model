@@ -193,6 +193,7 @@ class FindBugsParserTest {
         assertThat(issues.get(1)).hasCategory("SECURITY").hasType("WEAK_MESSAGE_DIGEST");
     }
 
+    @SuppressWarnings("parameternumber")
     private void scanNativeFile(final String findbugsFile, final String projectName, final Priority priority,
             final String fileName1, final String packageName1,
             final int start1, final int end1, final int ranges1,
