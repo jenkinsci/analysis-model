@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
-import java.util.stream.Stream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,10 +20,12 @@ class CSharpNamespaceDetectorTest extends ResourceTest {
     @CsvSource({
             "ActionBinding.cs, Avaloq.SmartClient.Utilities",
             "ActionBinding-Original-Formatting.cs, Avaloq.SmartClient.Utilities",
+            "Program.cs, ConsoleApplication1", // see Jenkins-48869
+            "Class1.cs, ConsoleApplication1",  // see Jenkins-48869
             "pom.xml, -",
-            "MavenJavaTest.txt, -"})
-    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) {
-        try (Stream<String> stream = asStream(fileName)) {
+            "MavenJavaTest.txt, -",})
+    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
+        try (InputStream stream = asInputStream(fileName)) {
             assertThat(new CSharpNamespaceDetector().detectPackageName(stream))
                     .isEqualTo(expectedPackage);
         }
