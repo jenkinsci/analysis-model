@@ -13,9 +13,16 @@ import static edu.hm.hafner.analysis.PackageDetectors.*;
  *
  * @author Ullrich Hafner
  */
-// CHECKSTYLE:CONSTANTS-OFF
-public class CSharpNamespaceDetector extends AbstractPackageDetector {
+class CSharpNamespaceDetector extends AbstractPackageDetector {
     private static final Pattern NAMESPACE_PATTERN = Pattern.compile("^namespace .*$");
+
+    CSharpNamespaceDetector() {
+        this(new FileSystem());
+    }
+
+    CSharpNamespaceDetector(final FileSystem fileSystem) {
+        super(fileSystem);
+    }
 
     @Override
     public boolean accepts(final String fileName) {

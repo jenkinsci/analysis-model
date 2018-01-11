@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.input.BOMInputStream;
@@ -21,6 +19,12 @@ import edu.hm.hafner.util.VisibleForTesting;
  * @author Ullrich Hafner
  */
 public abstract class AbstractPackageDetector {
+    private final FileSystem fileSystem;
+
+    protected AbstractPackageDetector(final FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
+    }
+
     /**
      * Detects the package or namespace name of the specified file.
      *
@@ -33,7 +37,7 @@ public abstract class AbstractPackageDetector {
      */
     public String detectPackageName(final String fileName, final Charset charset) {
         if (accepts(fileName)) {
-            try (InputStream stream = Files.newInputStream(Paths.get(fileName))) {
+            try (InputStream stream = fileSystem.openFile(fileName)) {
                 return detectPackageName(stream, charset);
             }
             catch (IOException | InvalidPathException ignore) {

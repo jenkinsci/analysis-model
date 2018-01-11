@@ -24,7 +24,7 @@ class CSharpNamespaceDetectorTest extends ResourceTest {
             "Program.cs, ConsoleApplication1", // see Jenkins-48869
             "Class1.cs, ConsoleApplication1",  // see Jenkins-48869
             "pom.xml, -",
-            "MavenJavaTest.txt, -",})
+            "MavenJavaTest.txt, -"})
     void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
         try (InputStream stream = asInputStream(fileName)) {
             assertThat(new CSharpNamespaceDetector().detectPackageName(stream, StandardCharsets.UTF_8))

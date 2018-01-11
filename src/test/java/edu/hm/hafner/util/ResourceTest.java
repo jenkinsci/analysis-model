@@ -100,20 +100,6 @@ public class ResourceTest {
      * @return the content represented by a byte array
      */
     protected InputStream asInputStream(final String name) {
-        return asInputStream(name, Charset.forName("UTF-8"));
-    }
-
-    /**
-     * Finds a resource with the given name and returns an input stream.
-     *
-     * @param name
-     *         name of the desired resource
-     * @param charset
-     *         the charset to use for decoding
-     *
-     * @return the content represented by a byte array
-     */
-    protected InputStream asInputStream(final String name, final Charset charset) {
         InputStream stream = getClass().getResourceAsStream(name);
 
         if (stream == null) {
@@ -122,4 +108,5 @@ public class ResourceTest {
 
         return stream;
     }
+
 }

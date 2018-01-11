@@ -11,9 +11,17 @@ import static edu.hm.hafner.analysis.PackageDetectors.*;
  *
  * @author Ullrich Hafner
  */
-public class JavaPackageDetector extends AbstractPackageDetector {
+class JavaPackageDetector extends AbstractPackageDetector {
     private static final Pattern PACKAGE_PATTERN = Pattern.compile(
             "^\\s*package\\s*([a-z]+(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)\\s*;.*");
+
+    JavaPackageDetector() {
+        this(new FileSystem());
+    }
+
+    JavaPackageDetector(final FileSystem fileSystem) {
+        super(fileSystem);
+    }
 
     @Override
     public String detectPackageName(final Stream<String> lines) {

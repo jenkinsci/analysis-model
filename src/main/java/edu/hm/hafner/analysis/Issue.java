@@ -271,6 +271,15 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns whether this issue has a package name set.
+     *
+     * @return {@code true} if this issue has a package name set
+     */
+    public boolean hasPackageName() {
+        return !UNDEFINED.equals(packageName);
+    }
+
+    /**
      * Returns the name of the module or project (or similar concept) that contains this issue.
      *
      * @return the module
