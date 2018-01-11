@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -55,7 +56,23 @@ public class ResourceTest {
 
     /**
      * Read all lines from the desired resource as a {@code Stream}, i.e. this method populates lazily as the stream is
-     * consumed. <p> Bytes from the resource are decoded into characters using the specified charset and the same line
+     * consumed.
+     * <p> Bytes from the resource are decoded into characters using UTF-8 and the same line
+     * terminators as specified by {@link Files#readAllLines(Path, Charset)} are supported.</p>
+     *
+     * @param name
+     *         name of the desired resource
+     *
+     * @return the content represented by a byte array
+     */
+    protected Stream<String> asStream(final String name) {
+        return asStream(name, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Read all lines from the desired resource as a {@code Stream}, i.e. this method populates lazily as the stream is
+     * consumed.
+     * <p> Bytes from the resource are decoded into characters using the specified charset and the same line
      * terminators as specified by {@link Files#readAllLines(Path, Charset)} are supported.</p>
      *
      * @param name

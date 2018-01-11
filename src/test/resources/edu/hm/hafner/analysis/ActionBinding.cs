@@ -1,6 +1,6 @@
 /*
  * Copyright (c) Avaloq Evolution AG
- * Allmendstr. 140, 8027 Zürich, Switzerland, http://www.avaloq.com
+ * Allmendstr. 140, 8027 ZÃ¼rich, Switzerland, http://www.avaloq.com
  * All Rights Reserved.
  *
  * Author: Hafner Ullrich

@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
-import org.apache.commons.io.IOUtils;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 /**
  * Base class for package detectors.
@@ -26,18 +25,13 @@ public abstract class AbstractPackageDetector {
      * @return the detected package or namespace name
      */
     public String detectPackageName(final String fileName) {
-        FileInputStream input = null;
         try {
             if (accepts(fileName)) {
-                input = new FileInputStream(new File(fileName));
-                return detectPackageName(input);
+                return detectPackageName(Files.lines(Paths.get(fileName)));
             }
         }
-        catch (FileNotFoundException ignored) {
-            // ignore and return empty string
-        }
-        finally {
-            IOUtils.closeQuietly(input);
+        catch (IOException | InvalidPathException ignore) {
+            // ignore IO errors
         }
         return UNKNOWN_PACKAGE;
     }
@@ -55,9 +49,9 @@ public abstract class AbstractPackageDetector {
      * Detects the package or namespace name of the specified input stream. The
      * stream will be closed automatically by the caller of this method.
      *
-     * @param stream
+     * @param lines
      *            the content of the file to scan
      * @return the detected package or namespace name
      */
-    abstract String detectPackageName(InputStream stream);
+    abstract String detectPackageName(Stream<String> lines);
 }

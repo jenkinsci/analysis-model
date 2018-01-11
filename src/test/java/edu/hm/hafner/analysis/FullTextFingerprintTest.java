@@ -64,14 +64,14 @@ class FullTextFingerprintTest extends ResourceTest {
 
         FullTextFingerprint code = new FullTextFingerprint();
 
-        String fingerprint = code.createFingerprint(10, asStream(affectedFile), getCharset());
+        String fingerprint = code.createFingerprint(10, convertBufferToStream(affectedFile), getCharset());
 
         for (int line = 0; line < 34; line++) {
             if (line == 10 || line == 20) {
-                assertThat(fingerprint).isEqualTo(code.createFingerprint(line, asStream(affectedFile), getCharset()));
+                assertThat(fingerprint).isEqualTo(code.createFingerprint(line, convertBufferToStream(affectedFile), getCharset()));
             }
             else {
-                assertThat(fingerprint).isNotEqualTo(code.createFingerprint(line, asStream(affectedFile), getCharset()));
+                assertThat(fingerprint).isNotEqualTo(code.createFingerprint(line, convertBufferToStream(affectedFile), getCharset()));
             }
         }
     }
@@ -90,11 +90,11 @@ class FullTextFingerprintTest extends ResourceTest {
     }
 
     private Iterator<String> asIterator(final String affectedFile) {
-        return asStream(affectedFile).iterator();
+        return convertBufferToStream(affectedFile).iterator();
     }
 
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    private Stream<String> asStream(final String affectedFile) {
+    private Stream<String> convertBufferToStream(final String affectedFile) {
         return new BufferedReader(new StringReader(affectedFile)).lines();
     }
 }

@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -110,9 +109,5 @@ class FingerprintGeneratorTest extends ResourceTest {
         issues.add(builder.setPackageName("a").build());
         issues.add(builder.setPackageName("b").build());
         return issues;
-    }
-
-    private Stream<String> asStream(final String affectedFile) {
-        return asStream(affectedFile, CHARSET_AFFECTED_FILE);
     }
 }

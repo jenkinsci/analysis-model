@@ -1,11 +1,9 @@
 package edu.hm.hafner.analysis;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -23,26 +21,16 @@ public class CsharpNamespaceDetector extends AbstractPackageDetector {
     }
 
     @Override
-    public String detectPackageName(final InputStream stream) {
-        try {
-            LineIterator iterator = IOUtils.lineIterator(stream, "UTF-8");
-            while (iterator.hasNext()) {
-                String line = iterator.nextLine();
-                if (NAMESPACE_PATTERN.matcher(line).matches()) {
-                    if (line.contains("{")) {
-                        return StringUtils.substringBetween(line, " ", "{").trim();
-                    }
-                    else {
-                        return StringUtils.substringAfter(line, " ").trim();
-                    }
-                }
+    public String detectPackageName(final Stream<String> lines) {
+        Optional<String> namespace = lines.filter(NAMESPACE_PATTERN.asPredicate()).findFirst();
+        if (namespace.isPresent()) {
+            String line = namespace.get();
+            if (line.contains("{")) {
+                return StringUtils.substringBetween(line, " ", "{").trim();
             }
-        }
-        catch (IOException ignored) {
-            // ignore
-        }
-        finally {
-            IOUtils.closeQuietly(stream);
+            else {
+                return StringUtils.substringAfter(line, " ").trim();
+            }
         }
         return UNKNOWN_PACKAGE;
     }

@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,9 +21,8 @@ class JavaPackageDetectorTest extends ResourceTest {
             "complicated-package-declaration.txt, hudson.plugins.findbugs.util",
             "pom.xml, -",
             "ActionBinding.cs, -"})
-    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage)
-            throws IOException {
-        try (InputStream stream = asInputStream(fileName)) {
+    void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) {
+        try (Stream<String> stream = asStream(fileName)) {
             assertThat(new JavaPackageDetector().detectPackageName(stream))
                     .isEqualTo(expectedPackage);
         }
