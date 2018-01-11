@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static edu.hm.hafner.analysis.PackageDetectors.*;
+
 /**
  * Detects the package name of a Java file.
  *
@@ -19,7 +21,7 @@ public class JavaPackageDetector extends AbstractPackageDetector {
                 .filter(Matcher::matches)
                 .findFirst()
                 .map(matcher -> matcher.group(1))
-                .orElse(UNKNOWN_PACKAGE);
+                .orElse(UNDEFINED_PACKAGE);
     }
 
     @Override

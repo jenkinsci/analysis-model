@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,7 +27,7 @@ class CSharpNamespaceDetectorTest extends ResourceTest {
             "MavenJavaTest.txt, -",})
     void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
         try (InputStream stream = asInputStream(fileName)) {
-            assertThat(new CSharpNamespaceDetector().detectPackageName(stream))
+            assertThat(new CSharpNamespaceDetector().detectPackageName(stream, StandardCharsets.UTF_8))
                     .isEqualTo(expectedPackage);
         }
     }

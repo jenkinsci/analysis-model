@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +25,7 @@ class JavaPackageDetectorTest extends ResourceTest {
             "ActionBinding.cs, -"})
     void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
         try (InputStream stream = asInputStream(fileName)) {
-            assertThat(new JavaPackageDetector().detectPackageName(stream))
+            assertThat(new JavaPackageDetector().detectPackageName(stream, StandardCharsets.UTF_8))
                     .isEqualTo(expectedPackage);
         }
     }

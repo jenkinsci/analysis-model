@@ -6,6 +6,8 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
+import static edu.hm.hafner.analysis.PackageDetectors.*;
+
 /**
  * Detects the namespace of a C# workspace file.
  *
@@ -32,7 +34,7 @@ public class CSharpNamespaceDetector extends AbstractPackageDetector {
                 return StringUtils.substringAfter(line, " ").trim();
             }
         }
-        return UNKNOWN_PACKAGE;
+        return UNDEFINED_PACKAGE;
     }
 }
 

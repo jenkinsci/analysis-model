@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public final class PackageDetectors {
     /** If no package could be assigned this value is used as package name. */
-    public static final String UNDEFINED_PACKAGE = "-";
+    static final String UNDEFINED_PACKAGE = "-";
 
     private static final List<AbstractPackageDetector> DETECTORS = Arrays.asList(
             new JavaPackageDetector(), new CSharpNamespaceDetector());
@@ -20,13 +21,15 @@ public final class PackageDetectors {
      *
      * @param fileName
      *         the filename of the file to scan
+     * @param charset
+     *         the charset to use when reading the source files
      *
-     * @return the package name or an empty string
+     * @return the package name or the String {@link #UNDEFINED_PACKAGE} if no package could be detected
      */
-    public static String detectPackageName(final String fileName) {
+    public static String detectPackageName(final String fileName, final Charset charset) {
         for (AbstractPackageDetector detector : DETECTORS) {
             if (detector.accepts(fileName)) {
-                return detector.detectPackageName(fileName);
+                return detector.detectPackageName(fileName, charset);
             }
         }
         return UNDEFINED_PACKAGE;
