@@ -13,7 +13,7 @@ public final class PackageDetectors {
     public static final String UNDEFINED_PACKAGE = "-";
 
     private static final List<AbstractPackageDetector> DETECTORS = Arrays.asList(
-            new JavaPackageDetector(), new CsharpNamespaceDetector());
+            new JavaPackageDetector(), new CSharpNamespaceDetector());
 
     /**
      * Detects the package name of the specified file based on several detector strategies.

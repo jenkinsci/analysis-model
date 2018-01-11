@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author Ullrich Hafner
  */
 // CHECKSTYLE:CONSTANTS-OFF
-public class CsharpNamespaceDetector extends AbstractPackageDetector {
+public class CSharpNamespaceDetector extends AbstractPackageDetector {
     private static final Pattern NAMESPACE_PATTERN = Pattern.compile("^namespace .*$");
 
     @Override
