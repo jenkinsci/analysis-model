@@ -68,7 +68,7 @@ public class StyleCopParser extends AbstractParser {
                     .setCategory(getCategory(element))
                     .setType(getString(element, "Rule"))
                     .setMessage(element.getTextContent())
-                    .setPriority(Priority.NORMAL).build();
+                    .setPriority(Priority.NORMAL);
 
             warnings.add(builder.build());
         }
