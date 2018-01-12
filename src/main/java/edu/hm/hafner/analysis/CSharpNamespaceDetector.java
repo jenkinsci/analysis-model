@@ -1,10 +1,8 @@
 package edu.hm.hafner.analysis;
 
-import java.util.Optional;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
 
 import static edu.hm.hafner.analysis.PackageDetectors.*;
 
@@ -14,7 +12,7 @@ import static edu.hm.hafner.analysis.PackageDetectors.*;
  * @author Ullrich Hafner
  */
 class CSharpNamespaceDetector extends AbstractPackageDetector {
-    private static final Pattern NAMESPACE_PATTERN = Pattern.compile("^namespace .*$");
+    private static final Pattern NAMESPACE_PATTERN = Pattern.compile("^\\s*namespace\\s+([^{]*)\\s*\\{?\\s*$");
 
     CSharpNamespaceDetector() {
         this(new FileSystem());
@@ -31,17 +29,11 @@ class CSharpNamespaceDetector extends AbstractPackageDetector {
 
     @Override
     public String detectPackageName(final Stream<String> lines) {
-        Optional<String> namespace = lines.filter(NAMESPACE_PATTERN.asPredicate()).findFirst();
-        if (namespace.isPresent()) {
-            String line = namespace.get();
-            if (line.contains("{")) {
-                return StringUtils.substringBetween(line, " ", "{").trim();
-            }
-            else {
-                return StringUtils.substringAfter(line, " ").trim();
-            }
-        }
-        return UNDEFINED_PACKAGE;
+        return lines.map(NAMESPACE_PATTERN::matcher)
+                .filter(Matcher::matches)
+                .findFirst()
+                .map(matcher -> matcher.group(1))
+                .orElse(UNDEFINED_PACKAGE).trim();
     }
 }
 
