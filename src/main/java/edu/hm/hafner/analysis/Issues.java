@@ -378,6 +378,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return String.format("%d issues", size());
     }
 
+    // FIXME: why immutable? This is no internal representation
     /**
      * Returns the affected modules for all issues of this container.
      *
@@ -455,7 +456,23 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @see #getProperties(Function)
      */
     public Map<String, Integer> getPropertyCount(final Function<? super T, String> propertiesMapper) {
-        return elements.stream().collect(groupingBy(propertiesMapper, reducing(0, e -> 1, Integer::sum)));
+        return elements.stream().collect(groupingBy(propertiesMapper, reducing(0, issue -> 1, Integer::sum)));
+    }
+
+    /**
+     * Returns the number of occurrences for every existing value of a given property for all issues of this container.
+     *
+     * @param propertiesMapper
+     *         the properties mapper that selects the property to evaluate
+     *
+     * @return a mapping of: property value -> number of issues for that value
+     * @see #getProperties(Function)
+     */
+    public Map<String, Issues<T>> groupByProperty(final Function<? super T, String> propertiesMapper) {
+        Map<String, List<T>> issues = elements.stream().collect(groupingBy(propertiesMapper));
+
+        return issues.entrySet().stream()
+                .collect(toMap(e -> e.getKey(), e -> new Issues<>(e.getValue())));
     }
 
     /**
