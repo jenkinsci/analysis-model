@@ -194,6 +194,7 @@
           </compilerArgs>
           <compilerId>javac-with-errorprone</compilerId>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
+          <showWarnings>true</showWarnings>
         </configuration>
         <dependencies>
           <dependency>
