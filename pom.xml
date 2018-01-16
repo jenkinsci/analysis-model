@@ -59,9 +59,9 @@
     <eclipse-collections.version>9.0.0</eclipse-collections.version>
 
     <!-- Project Test Dependencies Configuration -->
-    <junit.version>5.0.0</junit.version>
-    <mockito.version>2.12.0</mockito.version>
-    <assertj.version>3.8.0</assertj.version>
+    <junit.version>5.0.2</junit.version>
+    <mockito.version>2.13.0</mockito.version>
+    <assertj.version>3.9.0</assertj.version>
 
     <!-- Maven Plug-ins Configuration -->
     <compiler.maven.plugin>3.7.0</compiler.maven.plugin>
@@ -70,7 +70,7 @@
     <buildhelper.maven.plugin>3.0.0</buildhelper.maven.plugin>
     <surefire.maven.plugin>2.19.1</surefire.maven.plugin>
     <jar.maven.plugin>3.0.2</jar.maven.plugin>
-    <junit.surefire.provider>1.0.0</junit.surefire.provider>
+    <junit.surefire.provider>1.0.2</junit.surefire.provider>
     <pmd.maven.plugin>3.8</pmd.maven.plugin>
     <pmd.version>5.8.1</pmd.version>
     <checkstyle.maven.plugin>2.17</checkstyle.maven.plugin>
@@ -79,6 +79,10 @@
     <spotbugs.maven.plugin>3.1.1</spotbugs.maven.plugin>
     <jacoco.maven.plugin>0.7.9</jacoco.maven.plugin>
     <taglist.maven.plugin>2.4</taglist.maven.plugin>
+    <pitest-maven.plugin>1.3.1</pitest-maven.plugin>
+    <pitest-maven.junit5.plugin>0.3</pitest-maven.junit5.plugin>
+    <error-prone.maven.plugin>2.8.2</error-prone.maven.plugin>
+    <error.prone.version>2.2.0</error.prone.version>
   </properties>
 
   <dependencies>
@@ -86,6 +90,11 @@
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>annotations</artifactId>
       <version>${findbugs.annotations}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>error_prone_annotations</artifactId>
+      <version>${error.prone.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -179,8 +188,25 @@
           <target>${java.version}</target>
           <testSource>${java.version}</testSource>
           <testTarget>${java.version}</testTarget>
-          <compilerArgument>-Xlint:all</compilerArgument>
+          <compilerArgs>
+            <arg>-Xlint:all</arg>
+            <arg>-XepAllErrorsAsWarnings</arg>
+          </compilerArgs>
+          <compilerId>javac-with-errorprone</compilerId>
+          <forceJavacCompilerUse>true</forceJavacCompilerUse>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-compiler-javac-errorprone</artifactId>
+            <version>${error-prone.maven.plugin}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.google.errorprone</groupId>
+            <artifactId>error_prone_core</artifactId>
+            <version>${error.prone.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -325,6 +351,18 @@
             <excludeFilterFile>etc/findbugs-exclusion-filter.xml</excludeFilterFile>
             <includeTests>true</includeTests>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>${pitest-maven.plugin}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.pitest</groupId>
+              <artifactId>pitest-junit5-plugin</artifactId>
+              <version>${pitest-maven.junit5.plugin}</version>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>

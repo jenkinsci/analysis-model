@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.errorprone.annotations.MustBeClosed;
+
 import edu.hm.hafner.util.VisibleForTesting;
 
 /**
@@ -64,9 +66,7 @@ public class FullTextFingerprint {
      *         fingerprint actually is the hashcode of the filename)
      */
     public String compute(final String fileName, final int line, final Charset charset) {
-        try {
-            Stream<String> lines = fileSystem.readLinesFromFile(fileName, charset);
-
+        try (Stream<String> lines = fileSystem.readLinesFromFile(fileName, charset)) {
             return createFingerprint(line, lines, charset);
         }
         catch (IOException | InvalidPathException ignored) {
@@ -122,6 +122,7 @@ public class FullTextFingerprint {
      */
     @VisibleForTesting
     static class FileSystem {
+        @MustBeClosed
         Stream<String> readLinesFromFile(final String fileName, final Charset charset) throws IOException, InvalidPathException {
             return Files.lines(Paths.get(fileName), charset);
         }
