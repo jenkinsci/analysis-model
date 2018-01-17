@@ -84,5 +84,6 @@ public abstract class RegexpParser extends AbstractParser {
      *
      * @return a new annotation for the specified pattern
      */
+    // FIXME: create Issue?
     protected abstract Issue createWarning(Matcher matcher, IssueBuilder builder);
 }

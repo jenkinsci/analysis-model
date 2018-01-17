@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.io.IOUtils;
@@ -283,7 +281,8 @@ public class FindBugsParser implements Serializable {
                 sb.append(project.getSourceDirList());
                 isFirstError = false;
             }
-            Logger.getLogger(getClass().getName()).log(Level.WARNING, sb.toString());
+            // Logger.getLogger(getClass().getName()).log(Level.WARNING, sb.toString());
+            // FIXME: Too many warnings
             return sourceLine.getPackageName().replace(DOT, SLASH) + SLASH + sourceLine.getSourceFile();
         }
     }

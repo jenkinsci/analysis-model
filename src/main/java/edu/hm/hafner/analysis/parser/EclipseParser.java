@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
+import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * A parser for Eclipse compiler warnings.
@@ -17,7 +18,8 @@ import edu.hm.hafner.analysis.RegexpDocumentParser;
 public class EclipseParser extends RegexpDocumentParser {
     private static final long serialVersionUID = 425883472788422955L;
 
-    private static final String ANT_ECLIPSE_WARNING_PATTERN = "\\[?(WARNING|ERROR)\\]?" +      // group 1 'type':
+    @VisibleForTesting
+    public static final String ANT_ECLIPSE_WARNING_PATTERN = "\\[?(WARNING|ERROR)\\]?" +      // group 1 'type':
             // WARNING or ERROR in optional []
             "\\s*(?:in)?" +                  // optional " in"
             "\\s*(.*)" +                     // group 2 'filename'
@@ -55,7 +57,6 @@ public class EclipseParser extends RegexpDocumentParser {
                 .setLineStart(parseInt(getLine(matcher)))
                 .setColumnStart(columnStart)
                 .setColumnEnd(columnEnd)
-                .setCategory(StringUtils.EMPTY)
                 .setMessage(matcher.group(7))
                 .setPriority(priority)
                 .build();

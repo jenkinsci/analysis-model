@@ -12,8 +12,8 @@ import edu.hm.hafner.analysis.IssueBuilder;
  * @author Ullrich Hafner
  */
 public class JavacParser extends FastRegexpLineParser {
-
     private static final long serialVersionUID = 7199325311690082782L;
+
     private static final String JAVAC_WARNING_PATTERN = "^(?:\\[\\p{Alnum}*\\]\\s+)?" + // optional alphanumerics
             "(?:\\[WARNING\\]\\s+)?" +      // optional [WARNING]
             "([^\\[\\(]*):\\s*" +           // group 1: filename

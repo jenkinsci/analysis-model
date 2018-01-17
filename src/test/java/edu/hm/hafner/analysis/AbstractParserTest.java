@@ -15,8 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import edu.hm.hafner.util.Ensure;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -24,7 +23,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-public abstract class AbstractParserTest {
+public abstract class AbstractParserTest extends ResourceTest {
     /** Default category for parsers that do not set the category property. */
     protected static final String DEFAULT_CATEGORY = new IssueBuilder().build().getCategory();
 
@@ -135,7 +134,7 @@ public abstract class AbstractParserTest {
      * @return an {@link BOMInputStream input stream} using character set UTF-8
      */
     protected Reader openFile(final String fileName) {
-        return asReader(asStream(fileName));
+        return asReader(asInputStream(fileName));
     }
 
     private Reader asReader(final InputStream stream) {
@@ -145,14 +144,5 @@ public abstract class AbstractParserTest {
         catch (UnsupportedEncodingException ignored) {
             return new InputStreamReader(stream);
         }
-    }
-
-    @SuppressFBWarnings("UI_INHERITANCE_UNSAFE_GETRESOURCE")
-    private InputStream asStream(final String fileName) {
-        InputStream resourceAsStream = getClass().getResourceAsStream(fileName);
-
-        Ensure.that(resourceAsStream).isNotNull("File %s not found!", fileName);
-
-        return resourceAsStream;
     }
 }
