@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.AbstractParser;
@@ -27,7 +28,8 @@ public class AjcParser extends AbstractParser {
     static final String ADVICE = "Advice";
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
+            final Function<String, String> preProcessor) throws ParsingException {
         try (BufferedReader br = new BufferedReader(reader)) {
             Issues<Issue> warnings = new Issues<>();
 

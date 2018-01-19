@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import javax.annotation.Nonnull;
 import java.io.Reader;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,13 +34,14 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder) {
+    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder,
+            final Function<String, String> preProcessor) {
         Issues<Issue> warnings = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(file);
         try {
             Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
             while (iterator.hasNext()) {
-                String line = getTransformer().apply(iterator.nextLine());
+                String line = preProcessor.apply(iterator.nextLine());
                 Matcher matcher = filePattern.matcher(line);
                 if (matcher.find()) {
                     fileName = matcher.group(1);

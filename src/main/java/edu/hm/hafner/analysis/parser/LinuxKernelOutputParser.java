@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -76,7 +77,8 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder,
+            final Function<String, String> preProcessor) throws ParsingException, ParsingCanceledException {
         try (BufferedReader reader = new BufferedReader(file)) {
             Issues<Issue> warnings = new Issues<>();
 
@@ -91,12 +93,12 @@ public class LinuxKernelOutputParser extends RegexpParser {
                     StringBuilder buf = new StringBuilder();
 
                     do {
-                        buf.append(getTransformer().apply(line)).append('\n');
+                        buf.append(preProcessor.apply(line)).append('\n');
                         line = reader.readLine();
                         m = pBugEnd.matcher(line);
                     } while (!m.matches());
 
-                    buf.append(getTransformer().apply(line)).append('\n');
+                    buf.append(preProcessor.apply(line)).append('\n');
                     findAnnotations(buf.toString(), warnings, builder);
                     line = reader.readLine();
                     continue;
@@ -104,7 +106,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
 
                 m = pOutput.matcher(line);
                 if (m.matches()) {
-                    findAnnotations(getTransformer().apply(line), warnings, builder);
+                    findAnnotations(preProcessor.apply(line), warnings, builder);
                 }
 
                 line = reader.readLine();

@@ -7,6 +7,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import java.util.function.Function;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
@@ -28,7 +29,8 @@ public class LintParser extends AbstractParser {
     private static final long serialVersionUID = 3341424685245834156L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder)
+    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder,
+            final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();

@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -27,9 +28,10 @@ public abstract class RegexpDocumentParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
+            final Function<String, String> preProcessor) throws ParsingCanceledException {
         try (BufferedReader bufferedReader = new BufferedReader(reader)) {
-            String text = bufferedReader.lines().map(getTransformer()).collect(Collectors.joining("\n"));
+            String text = bufferedReader.lines().map(preProcessor).collect(Collectors.joining("\n"));
 
             Issues<Issue> warnings = new Issues<>();
             findAnnotations(text + "\n", warnings, builder);

@@ -12,15 +12,12 @@ import java.nio.charset.Charset;
 import java.util.function.Function;
 
 import org.apache.commons.io.input.BOMInputStream;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.parser.CppLintParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
 import edu.hm.hafner.analysis.parser.StyleCopParser;
-import edu.hm.hafner.util.Ensure;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import static java.util.function.Function.*;
+import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * Parses an input stream for issues of a specific static analysis tool and returns the found issues. If your parser is
@@ -42,14 +39,12 @@ public abstract class AbstractParser extends IssueParser {
     /** Category for warnings due to the usage of proprietary API. */
     public static final String PROPRIETARY_API = "Proprietary API";
 
-    @SuppressFBWarnings(value = "SE", justification = "Getter handles null")
-    private transient Function<String, String> transformer = identity();
-
     @Override
-    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder)
+    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder,
+            final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (Reader input = createReader(new FileInputStream(file), charset)) {
-            Issues<Issue> issues = parse(input, builder);
+            Issues<Issue> issues = parse(input, builder, preProcessor);
             issues.logInfo("Successfully parsed '%s': found %d issues",
                     file.getAbsolutePath(), issues.getSize());
             if (issues.getDuplicatesSize() == 1) {
@@ -80,6 +75,8 @@ public abstract class AbstractParser extends IssueParser {
      *         the reader to get the text from
      * @param builder
      *         the issue builder to use
+     * @param preProcessor
+     *         pre processes each input line before handing it to the actual parser
      *
      * @return the parsed issues
      * @throws ParsingException
@@ -87,9 +84,28 @@ public abstract class AbstractParser extends IssueParser {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<Issue> parse(Reader reader, IssueBuilder builder)
-            throws ParsingCanceledException, ParsingException;
+    public abstract Issues<Issue> parse(Reader reader, IssueBuilder builder,
+            Function<String, String> preProcessor) throws ParsingCanceledException, ParsingException;
 
+    /**
+     * Parses the specified input stream for issues. Input lines are not pre processed.
+     *
+     * @param reader
+     *         the reader to get the text from
+     * @param builder
+     *         the issue builder to use
+     *
+     * @return the parsed issues
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         Signals that the parsing has been aborted by the user
+     */
+    @VisibleForTesting
+    public Issues<Issue> parse(Reader reader, IssueBuilder builder)
+            throws ParsingCanceledException, ParsingException {
+        return parse(reader, builder, Function.identity());
+    }
     /**
      * Converts a string line number to an integer value. If the string is not a valid line number, then 0 is returned
      * which indicates a Issue at the top of the file.
@@ -138,29 +154,6 @@ public abstract class AbstractParser extends IssueParser {
             capitalized = guessCategory(message);
         }
         return capitalized;
-    }
-
-    /**
-     * Sets an optional line transformer. This transformer will be called during parsing: each line of the input file
-     * will be transformed using the provided transformer before it is handed over to the actual parser.
-     *
-     * @param transformer
-     *         the transformer
-     */
-    public void setTransformer(final Function<String, String> transformer) {
-        Ensure.that(transformer).isNotNull();
-
-        this.transformer = transformer;
-    }
-
-    /**
-     * Returns the specified line transformer. If no such transformer has been set then a transformer is returned that
-     * does not modify the input lines.
-     *
-     * @return the transformer to use
-     */
-    public Function<String, String> getTransformer() {
-        return ObjectUtils.defaultIfNull(transformer, identity());
     }
 }
 

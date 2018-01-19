@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +27,8 @@ public class CheckStyleParser extends AbstractParser {
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder)
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
+            final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new Digester();

@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.function.Function;
 
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
@@ -39,7 +40,8 @@ public class FxCopParser extends AbstractParser {
     private transient FxCopRuleSet ruleSet;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
+            final Function<String, String> preProcessor) throws ParsingException, ParsingCanceledException {
         try {
             ruleSet = new FxCopRuleSet();
             warnings = new Issues<>();

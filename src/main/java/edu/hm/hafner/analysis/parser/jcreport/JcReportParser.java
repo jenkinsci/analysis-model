@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser.jcreport;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.function.Function;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.binder.DigesterLoader;
@@ -28,7 +29,8 @@ public class JcReportParser extends AbstractParser {
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder) throws ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
+            final Function<String, String> preProcessor) throws ParsingCanceledException {
         Report report = createReport(reader);
         Issues<Issue> warnings = new Issues<>();
         for (int i = 0; i < report.getFiles().size(); i++) {

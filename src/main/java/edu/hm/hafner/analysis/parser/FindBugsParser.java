@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.io.IOUtils;
@@ -83,7 +84,8 @@ public class FindBugsParser extends IssueParser {
 
     @Override
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder)
+    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder,
+            final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         Collection<String> sources = new ArrayList<>();
         String moduleRoot = StringUtils.substringBefore(file.getAbsolutePath().replace('\\', '/'), "/target/");

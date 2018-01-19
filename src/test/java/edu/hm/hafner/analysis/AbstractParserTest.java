@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.util.function.Function;
 
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ public abstract class AbstractParserTest extends ResourceTest {
         String id = parser.getClass().getSimpleName();
         IssueBuilder builder = new IssueBuilder();
         builder.setOrigin(id);
-        Issues<Issue> issues = parser.parse(openFile(), builder);
+        Issues<Issue> issues = parser.parse(openFile(), builder, Function.identity());
         Issues<Issue> issuesByOrigin = issues.filter(issue -> id.equals(issue.getOrigin()));
 
         assertThat(issuesByOrigin.size()).as("Origin not correctly set for parser").isEqualTo(issues.size());
@@ -93,7 +94,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return the found issues
      */
     protected Issues<Issue> parse(final String fileName) {
-        return createParser().parse(openFile(fileName), new IssueBuilder());
+        return createParser().parse(openFile(fileName), new IssueBuilder(), Function.identity());
     }
 
     /**
