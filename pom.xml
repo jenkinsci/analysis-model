@@ -228,8 +228,11 @@
             <configuration>
               <includes>
                 <include>**/assertj/*</include>
-                <include>**/analysis/*Test.*</include>
                 <include>**/util/*Test.*</include>
+                <include>**/IssueTest.*</include>
+                <include>**/AbstractParserTest.*</include>
+                <include>**/Pep8ParserTest.*</include>
+                <include>**/EclipseParserTest.*</include>
               </includes>
             </configuration>
           </execution>

@@ -1,10 +1,17 @@
 package edu.hm.hafner.analysis;
 
 import javax.annotation.CheckForNull;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.function.Function;
 
+import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,18 +23,18 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static java.util.function.Function.*;
 
 /**
- * Parses an input stream for compiler warnings and returns the found issues. If your parser is based on a regular
- * expression you can extend from the existing base classes {@link RegexpLineParser} or {@link RegexpDocumentParser}.
+ * Parses an input stream for issues of a specific static analysis tool and returns the found issues. If your parser is
+ * based on a regular expression you can extend from the existing base classes {@link RegexpLineParser} or {@link
+ * RegexpDocumentParser}.
  *
  * @author Ullrich Hafner
- *
  * @see RegexpLineParser
  * @see RegexpDocumentParser
  * @see CppLintParser
  * @see EclipseParser
  * @see StyleCopParser
  */
-public abstract class AbstractParser implements Serializable {
+public abstract class AbstractParser extends IssueParser {
     private static final long serialVersionUID = 8466657735514387654L;
 
     /** Category for warnings due to usage of deprecate API. */
@@ -37,6 +44,34 @@ public abstract class AbstractParser implements Serializable {
 
     @SuppressFBWarnings(value = "SE", justification = "Getter handles null")
     private transient Function<String, String> transformer = identity();
+
+    @Override
+    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder)
+            throws ParsingException, ParsingCanceledException {
+        try (Reader input = createReader(new FileInputStream(file), charset)) {
+            Issues<Issue> issues = parse(input, builder);
+            issues.logInfo("Successfully parsed '%s': found %d issues",
+                    file.getAbsolutePath(), issues.getSize());
+            if (issues.getDuplicatesSize() == 1) {
+                issues.logInfo("Note: one issue has been dropped since it is a duplicate");
+            }
+            else if (issues.getDuplicatesSize() > 1) {
+                issues.logInfo("Note: %d issues have been dropped since they are duplicates",
+                        issues.getDuplicatesSize());
+            }
+            return issues;
+        }
+        catch (FileNotFoundException exception) {
+            throw new ParsingException(exception, "Can't find file: " + file.getAbsolutePath());
+        }
+        catch (IOException exception) {
+            throw new ParsingException(exception, "Can't scan file for issues: " + file.getAbsolutePath());
+        }
+    }
+
+    private Reader createReader(final InputStream inputStream, final Charset charset) {
+        return new InputStreamReader(new BOMInputStream(inputStream), charset);
+    }
 
     /**
      * Parses the specified input stream for issues.

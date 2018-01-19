@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
@@ -42,7 +43,7 @@ import edu.umd.cs.findbugs.ba.SourceFinder;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("classfanoutcomplexity")
-public class FindBugsParser implements Serializable {
+public class FindBugsParser extends IssueParser {
     private static final long serialVersionUID = 8306319007761954027L;
 
     /**
@@ -80,22 +81,10 @@ public class FindBugsParser implements Serializable {
         this.priorityProperty = priorityProperty;
     }
 
-    /**
-     * Parses the specified FindBugs analysis file and returns the found bugs.
-     *
-     * @param file
-     *         the FindBugs analysis file
-     * @param builder
-     *         the issue builder
-     *
-     * @return the parsed result (stored in the module instance)
-     * @throws ParsingException
-     *         Signals that during parsing a non recoverable error has been occurred
-     * @throws ParsingCanceledException
-     *         Signals that the parsing has been aborted by the user
-     */
+    @Override
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    public Issues<Issue> parse(final File file, final IssueBuilder builder) throws ParsingCanceledException, ParsingException {
+    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder)
+            throws ParsingCanceledException, ParsingException {
         Collection<String> sources = new ArrayList<>();
         String moduleRoot = StringUtils.substringBefore(file.getAbsolutePath().replace('\\', '/'), "/target/");
         sources.add(moduleRoot + "/src/main/java");
