@@ -7,12 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import org.eclipse.collections.api.set.ImmutableSet;
-import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
 import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
@@ -353,7 +352,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
-        ImmutableSet<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.LOW));
+        Set<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.LOW));
 
         assertThat(found).isEmpty();
     }
@@ -362,7 +361,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     void testFindByPropertyResultImmutable() {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
-        ImmutableSet<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.HIGH));
+        Set<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.HIGH));
 
         assertThat(found).hasSize(1);
         assertThat(found).containsExactly(HIGH);
@@ -405,7 +404,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2, LOW_FILE_2, ISSUE_5, LOW_FILE_3));
 
-        ImmutableSortedSet<String> properties = issues.getProperties(issue -> issue.getMessage());
+        Set<String> properties = issues.getProperties(issue -> issue.getMessage());
 
         assertThat(properties)
                 .contains(HIGH.getMessage())
@@ -438,7 +437,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     }
 
     private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
-            final Function<Issues<Issue>, ImmutableSortedSet<String>> propertyGetter, final String propertyName) {
+            final Function<Issues<Issue>, Set<String>> propertyGetter, final String propertyName) {
         Issues<Issue> issues = new Issues<>();
 
         IssueBuilder builder = new IssueBuilder();
@@ -451,10 +450,10 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         }
         assertThat(issues).hasSize(6);
 
-        ImmutableSortedSet<String> properties = propertyGetter.apply(issues);
+        Set<String> properties = propertyGetter.apply(issues);
 
         assertThat(properties).as("Wrong values for property " + propertyName)
-                .containsExactly("name 1", "name 2", "name 3");
+                .containsExactlyInAnyOrder("name 1", "name 2", "name 3");
     }
 
     @Test

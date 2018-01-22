@@ -20,9 +20,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.collections.api.list.ImmutableList;
-import org.eclipse.collections.api.set.ImmutableSet;
-import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
-import org.eclipse.collections.impl.collector.Collectors2;
 import org.eclipse.collections.impl.factory.Lists;
 
 import edu.hm.hafner.util.Ensure;
@@ -217,8 +214,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the found issues
      */
-    public ImmutableSet<T> findByProperty(final Predicate<? super T> criterion) {
-        return filterElements(criterion).collect(Collectors2.toImmutableSet());
+    public Set<T> findByProperty(final Predicate<? super T> criterion) {
+        return filterElements(criterion).collect(toSet());
     }
 
     /**
@@ -378,13 +375,12 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return String.format("%d issues", size());
     }
 
-    // FIXME: why immutable? This is no internal representation
     /**
      * Returns the affected modules for all issues of this container.
      *
      * @return the affected modules
      */
-    public ImmutableSortedSet<String> getModules() {
+    public Set<String> getModules() {
         return getProperties(issue -> issue.getModuleName());
     }
 
@@ -393,7 +389,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the affected packages
      */
-    public ImmutableSortedSet<String> getPackages() {
+    public Set<String> getPackages() {
         return getProperties(issue -> issue.getPackageName());
     }
 
@@ -402,7 +398,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the affected files
      */
-    public ImmutableSortedSet<String> getFiles() {
+    public Set<String> getFiles() {
         return getProperties(issue -> issue.getFileName());
     }
 
@@ -411,7 +407,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the used categories
      */
-    public ImmutableSortedSet<String> getCategories() {
+    public Set<String> getCategories() {
         return getProperties(issue -> issue.getCategory());
     }
 
@@ -420,7 +416,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the used types
      */
-    public ImmutableSortedSet<String> getTypes() {
+    public Set<String> getTypes() {
         return getProperties(issue -> issue.getType());
     }
 
@@ -429,7 +425,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the tools
      */
-    public ImmutableSortedSet<String> getToolNames() {
+    public Set<String> getToolNames() {
         return getProperties(issue -> issue.getOrigin());
     }
 
@@ -442,8 +438,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the set of different values
      * @see #getFiles()
      */
-    public ImmutableSortedSet<String> getProperties(final Function<? super T, String> propertiesMapper) {
-        return elements.stream().map(propertiesMapper).collect(Collectors2.toImmutableSortedSet());
+    public Set<String> getProperties(final Function<? super T, String> propertiesMapper) {
+        return elements.stream().map(propertiesMapper).collect(toSet());
     }
 
     /**
