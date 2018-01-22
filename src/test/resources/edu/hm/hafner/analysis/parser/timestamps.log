@@ -1,0 +1,29 @@
+Test Suite 'JSONModelTests' passed at 2018-01-22 03:03:22.063.
+Executed 17 tests, with 0 failures (0 unexpected) in 10.605 (10.610) seconds
+Test Suite 'LaneDefinitionTests' started at 2018-01-22 03:03:22.064
+Test Case '-[LaneDefinitionTests test_sortWidgetDefinitions]' started.
+Test Case '-[LaneDefinitionTests test_sortWidgetDefinitions]' passed (0.000 seconds).
+Test Suite 'LaneDefinitionTests' passed at 2018-01-22 03:03:22.065.
+Executed 1 test, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'LaneTitleAttributesTests' started at 2018-01-22 03:03:22.065
+Test Case '-[LaneTitleAttributesTests test_font]' started.
+Test Case '-[LaneTitleAttributesTests test_font]' passed (0.001 seconds).
+Test Case '-[LaneTitleAttributesTests test_fontSize]' started.
+Test Case '-[LaneTitleAttributesTests test_fontSize]' passed (0.001 seconds).
+Test Case '-[LaneTitleAttributesTests test_horizontalAlignment]' started.
+Test Case '-[LaneTitleAttributesTests test_horizontalAlignment]' passed (0.001 seconds).
+Test Case '-[LaneTitleAttributesTests test_init]' started.
+Test Case '-[LaneTitleAttributesTests test_init]' passed (0.001 seconds).
+Test Case '-[LaneTitleAttributesTests test_striketrough]' started.
+Test Case '-[LaneTitleAttributesTests test_striketrough]' passed (0.001 seconds).
+Test Case '-[LaneTitleAttributesTests test_textColor]' started.
+Test Case '-[LaneTitleAttributesTests test_textColor]' passed (0.001 seconds).
+Test Case '-[LaneTitleAttributesTests test_titleText]' started.
+Test Case '-[LaneTitleAttributesTests test_titleText]' passed (0.001 seconds).
+Test Case '-[LaneTitleAttributesTests test_underline]' started.
+Test Case '-[LaneTitleAttributesTests test_underline]' passed (0.001 seconds).
+Test Case '-[LaneTitleAttributesTests test_verticalAlignment]' started.
+Test Case '-[LaneTitleAttributesTests test_verticalAlignment]' passed (0.001 seconds).
+Test Suite 'LaneTitleAttributesTests' passed at 2018-01-22 03:03:22.074.
+Executed 9 tests, with 0 failures (0 unexpected) in 0.007 (0.009) seconds
+Test Suite 'LeastSquaresTests' started at 2018-01-22 03:03:22.075

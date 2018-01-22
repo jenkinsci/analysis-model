@@ -127,6 +127,17 @@ class ClangParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parses a file with test results. There should be no warning.
+     * @see <a href="https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin?focusedCommentId=138447465#comment-138447465">Wiki Report</a>
+     */
+    @Test
+    public void shouldNotDetectTestResults() {
+        Issues<Issue> warnings = parse("timestamps.log");
+
+        assertThat(warnings).isEmpty();
+    }
+
+    /**
      * Parses a file with fatal error message.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-36817">Issue 36817</a>
