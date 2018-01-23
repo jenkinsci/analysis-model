@@ -160,9 +160,9 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      */
     @SafeVarargs
     public final void addAll(final Issues<T> issues, final Issues<T>... additionalIssues) {
-        copyProperties(issues, this);
+        copyIssuesAndProperties(issues, this);
         for (Issues<T> other : additionalIssues) {
-            copyProperties(other, this);
+            copyIssuesAndProperties(other, this);
         }
     }
 
@@ -227,7 +227,9 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the found issues
      */
     public Issues<T> filter(final Predicate<? super T> criterion) {
-        return new Issues<>(filterElements(criterion).collect(toList()));
+        Issues<T> filtered = copyEmptyInstance();
+        filtered.addAll(filterElements(criterion).collect(toList()));
+        return filtered;
     }
 
     private Stream<T> filterElements(final Predicate<? super T> criterion) {
@@ -372,7 +374,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("%d issues", size());
+        return String.format("%d issues (ID = %s)", size(), getId());
     }
 
     /**
@@ -478,22 +480,36 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      */
     public Issues<T> copy() {
         Issues<T> copied = new Issues<>();
-        copyProperties(this, copied);
+        copyIssuesAndProperties(this, copied);
         return copied;
     }
 
-    private void copyProperties(final Issues<T> source, final Issues<T> destination) {
-        if (destination.hasId() && !source.id.equals(destination.id)) {
-            throw new IllegalArgumentException(
-                    String.format("When merging two issues instances the IDs must match: %s <-> %s",
-                    source.getId(), destination.getId()));
+    private void copyIssuesAndProperties(final Issues<T> source, final Issues<T> destination) {
+        if (!destination.hasId()) {
+            destination.id = source.id;
         }
 
         destination.addAll(source.elements);
+        copyProperties(source, destination);
+    }
+
+    private void copyProperties(final Issues<T> source, final Issues<T> destination) {
         destination.sizeOfDuplicates += source.sizeOfDuplicates;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
-        destination.id = source.id;
+    }
+
+    /**
+     * Returns a new empty issue container with the same properties as this container. The new
+     * issue container is empty and does not contain issues.
+     *
+     * @return a new issue container that contains the same properties but no issues
+     */
+    public Issues<T> copyEmptyInstance() {
+        Issues<T> empty = new Issues<>();
+        empty.setId(id);
+        copyProperties(this, empty);
+        return empty;
     }
 
     /**

@@ -18,13 +18,14 @@ import static org.mockito.Mockito.*;
 class FingerprintGeneratorTest extends ResourceTest {
     private static final String AFFECTED_FILE_NAME = "file.txt";
     private static final Charset CHARSET_AFFECTED_FILE = Charset.forName("UTF-8");
+    private static final String ID = "ID";
 
     @Test
     void shouldNotChangeIssuesWithFingerPrint() {
         FingerprintGenerator generator = new FingerprintGenerator();
 
         IssueBuilder builder = new IssueBuilder().setFileName(AFFECTED_FILE_NAME);
-        Issues<Issue> issues = new Issues<>();
+        Issues<Issue> issues = createIssues();
         issues.add(builder.build());
         assertThat(issues.get(0).hasFingerprint()).isFalse();
         String alreadySet = "already-set";
@@ -34,17 +35,19 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         assertThat(copy.get(0).hasFingerprint()).isTrue();
         assertThat(copy.get(1).getFingerprint()).isEqualTo(alreadySet);
+        assertThat(copy).hasId(ID);
     }
 
     @Test
     void shouldReturnCopyOfIssues() {
         FingerprintGenerator generator = new FingerprintGenerator();
 
-        Issues<Issue> original = new Issues<>();
+        Issues<Issue> original = createIssues();
         Issues<Issue> copy = generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
                 original, new IssueBuilder(), CHARSET_AFFECTED_FILE);
 
         assertThat(copy).isNotSameAs(original);
+        assertThat(copy).hasId(ID);
     }
 
     @Test
@@ -58,6 +61,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         Issue referenceIssue = enhanced.get(0);
         Issue currentIssue = enhanced.get(1);
+        assertThat(enhanced).hasId(ID);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isEqualTo(currentIssue.getFingerprint());
@@ -89,6 +93,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         Issues<Issue> enhanced = generator.run(fingerprint,
                 issues, new IssueBuilder(), Charset.forName("UTF-8"));
 
+        assertThat(enhanced).hasId(ID);
         Issue referenceIssue = enhanced.get(0);
         Issue currentIssue = enhanced.get(1);
 
@@ -102,12 +107,18 @@ class FingerprintGeneratorTest extends ResourceTest {
     }
 
     private Issues<Issue> createTwoIssues() {
-        Issues<Issue> issues = new Issues<>();
+        Issues<Issue> issues = createIssues();
         IssueBuilder builder = new IssueBuilder();
         builder.setFileName(AFFECTED_FILE_NAME);
         builder.setLineStart(5);
         issues.add(builder.setPackageName("a").build());
         issues.add(builder.setPackageName("b").build());
+        return issues;
+    }
+
+    private Issues<Issue> createIssues() {
+        Issues<Issue> issues = new Issues<>();
+        issues.setId(ID);
         return issues;
     }
 }

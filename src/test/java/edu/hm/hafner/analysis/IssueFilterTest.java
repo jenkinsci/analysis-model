@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issues.IssueFilterBuilder;
-import static org.assertj.core.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Unit test for {@link IssueFilterBuilder}.
@@ -200,8 +200,11 @@ public class IssueFilterTest {
      */
     private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Issues<Issue> issues,
             final Issue... expectedOutput) {
+        String id = "id";
+        issues.setId(id);
         Issues<Issue> result = issues.filter(criterion);
         assertThat(result.iterator()).containsExactly(expectedOutput);
+        assertThat(result).hasId(id);
     }
 
     /**

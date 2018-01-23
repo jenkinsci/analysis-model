@@ -48,7 +48,7 @@ public class PackageNameResolver {
         Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
                 .collect(Collectors.toMap(identity(), findPackage(charset)));
 
-        Issues<Issue> resolved = new Issues<>();
+        Issues<Issue> resolved = issues.copyEmptyInstance();
         issues.stream().forEach(issue -> {
             if (issue.hasPackageName()) {
                 resolved.add(issue);

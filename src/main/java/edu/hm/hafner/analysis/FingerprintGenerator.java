@@ -24,7 +24,7 @@ public class FingerprintGenerator {
      */
     public Issues<Issue> run(final FullTextFingerprint algorithm, final Issues<Issue> issues,
             final IssueBuilder builder, final Charset charset) {
-        Issues<Issue> enhanced = new Issues<>();
+        Issues<Issue> enhanced = issues.copyEmptyInstance();
         for (Issue issue : issues) {
             if (issue.hasFingerprint()) {
                 enhanced.add(issue);

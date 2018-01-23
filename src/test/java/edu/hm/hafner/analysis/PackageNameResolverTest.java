@@ -22,32 +22,35 @@ class PackageNameResolverTest {
     private static final Issue ISSUE_WITH_PACKAGE = new IssueBuilder().setFileName(FILE_WITH_PACKAGE)
             .setPackageName("existing")
             .build();
+    private static final String ID = "ID";
 
     @Test
     void shouldDoNothingForEmptyIssues() {
-        Issues<Issue> issues = new Issues<>();
+        Issues<Issue> issues = createIssues();
 
         PackageNameResolver resolver = new PackageNameResolver();
         Issues<Issue> resolved = resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(resolved).hasSize(0);
+        assertThat(resolved).hasId(ID);
     }
 
     @Test
     void shouldSkipExistingPackage() {
-        Issues<Issue> issues = new Issues<>();
+        Issues<Issue> issues = createIssues();
         issues.add(ISSUE_WITH_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver();
         Issues<Issue> resolved = resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(resolved).hasSize(1);
+        assertThat(resolved).hasId(ID);
         assertThat(resolved.get(0)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
     @Test
     void shouldResolvePackage() throws IOException {
-        Issues<Issue> issues = new Issues<>();
+        Issues<Issue> issues = createIssues();
         issues.add(ISSUE_WITHOUT_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
@@ -55,12 +58,13 @@ class PackageNameResolverTest {
         Issues<Issue> resolved = resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(resolved).hasSize(1);
+        assertThat(resolved).hasId(ID);
         assertThat(resolved.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
     }
 
     @Test
     void shouldResolvePackageAndSkipExistingPackage() throws IOException {
-        Issues<Issue> issues = new Issues<>();
+        Issues<Issue> issues = createIssues();
         issues.add(ISSUE_WITHOUT_PACKAGE);
         issues.add(ISSUE_WITH_PACKAGE);
 
@@ -69,6 +73,7 @@ class PackageNameResolverTest {
         Issues<Issue> resolved = resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(resolved).hasSize(2);
+        assertThat(resolved).hasId(ID);
         assertThat(resolved.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
         assertThat(resolved.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
@@ -78,5 +83,11 @@ class PackageNameResolverTest {
         when(fileSystemStub.openFile(FILE_NO_PACKAGE))
                 .thenReturn(new ByteArrayInputStream("package a.name;".getBytes()));
         return fileSystemStub;
+    }
+
+    private Issues<Issue> createIssues() {
+        Issues<Issue> issues = new Issues<>();
+        issues.setId(ID);
+        return issues;
     }
 }
