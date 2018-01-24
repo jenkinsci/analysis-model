@@ -17,6 +17,7 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.SecureDigester;
 
 /**
  * A parser for Checkstyle XML files.
@@ -31,9 +32,7 @@ public class CheckStyleParser extends AbstractParser {
             final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
-            Digester digester = new Digester();
-            digester.setValidating(false);
-            digester.setClassLoader(CheckStyleParser.class.getClassLoader());
+            Digester digester = new SecureDigester(CheckStyleParser.class);
 
             String rootXPath = "checkstyle";
             digester.addObjectCreate(rootXPath, CheckStyle.class);
