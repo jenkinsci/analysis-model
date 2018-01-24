@@ -28,6 +28,7 @@ import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.SecureDigester;
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.BugAnnotation;
@@ -135,9 +136,7 @@ public class FindBugsParser extends IssueParser {
      *         signals that an I/O exception has occurred.
      */
     public List<XmlBugInstance> preParse(final InputStream file) throws SAXException, IOException {
-        Digester digester = new Digester();
-        digester.setValidating(false);
-        digester.setClassLoader(FindBugsParser.class.getClassLoader());
+        Digester digester = new SecureDigester(FindBugsParser.class);
 
         String rootXPath = "BugCollection/BugInstance";
         digester.addObjectCreate(rootXPath, XmlBugInstance.class);

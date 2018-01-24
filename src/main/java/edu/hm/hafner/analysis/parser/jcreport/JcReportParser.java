@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.function.Function;
 
-import org.apache.commons.digester3.Digester;
-import org.apache.commons.digester3.binder.DigesterLoader;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.InputSource;
@@ -19,6 +17,7 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.SecureDigester;
 
 /**
  * JcReportParser-Class. This class parses from the jcReport.xml and creates warnings from its content.
@@ -95,10 +94,27 @@ public class JcReportParser extends AbstractParser {
      */
     public Report createReport(final Reader source) throws ParsingException {
         try {
-            DigesterLoader digesterLoader = DigesterLoader.newLoader(new JcReportModule());
-            digesterLoader.setClassLoader(JcReportModule.class.getClassLoader());
+            SecureDigester digester = new SecureDigester(JcReportParser.class);
 
-            Digester digester = digesterLoader.newDigester();
+            String report = "report";
+            digester.addObjectCreate(report, Report.class);
+            digester.addSetProperties(report);
+
+            String file = "report/file";
+            digester.addObjectCreate(file, File.class);
+            digester.addSetProperties(file,  "package", "packageName");
+            digester.addSetProperties(file,  "src-dir", "srcdir");
+            digester.addSetProperties(file);
+            digester.addSetNext(file, "addFile", File.class.getName());
+
+            String item = "report/file/item";
+            digester.addObjectCreate(item, Item.class);
+            digester.addSetProperties(item);
+            digester.addSetProperties(item,  "finding-type", "findingtype");
+            digester.addSetProperties(item,  "end-line", "endline");
+            digester.addSetProperties(item,  "end-column", "endcolumn");
+            digester.addSetNext(item, "addItem", Item.class.getName());
+
             return digester.parse(new InputSource(source));
         }
         catch (IOException | SAXException e) {

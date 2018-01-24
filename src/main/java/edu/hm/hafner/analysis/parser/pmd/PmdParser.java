@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.function.Function;
 
-import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
@@ -16,6 +15,7 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.SecureDigester;
 
 /**
  * A parser for PMD XML files.
@@ -34,9 +34,7 @@ public class PmdParser extends AbstractParser {
     public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
             final Function<String, String> preProcessor) throws ParsingCanceledException, ParsingException {
         try {
-            Digester digester = new Digester();
-            digester.setValidating(false);
-            digester.setClassLoader(PmdParser.class.getClassLoader());
+            SecureDigester digester = new SecureDigester(PmdParser.class);
 
             String rootXPath = "pmd";
             digester.addObjectCreate(rootXPath, Pmd.class);
