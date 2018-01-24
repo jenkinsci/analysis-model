@@ -24,8 +24,7 @@ public class ClangTidyParser extends RegexpLineParser {
         super(Messages._Warnings_ClangTidy_ParserName(),
                 Messages._Warnings_ClangTidy_LinkName(),
                 Messages._Warnings_ClangTidy_TrendName(),
-                CLANG_TIDY_WARNING_PATTERN,
-                false);
+                CLANG_TIDY_WARNING_PATTERN);
     }
 
     @Override
@@ -35,8 +34,8 @@ public class ClangTidyParser extends RegexpLineParser {
         int lineNumber = getLineNumber(matcher.group(2));
         int column = getLineNumber(matcher.group(3));
         String type = matcher.group(4);
-        String category = matcher.group(6);
         String message = matcher.group(5);
+        String category = matcher.group(6);
 
         Priority priority;
         if (type.contains("error")) {
@@ -45,13 +44,8 @@ public class ClangTidyParser extends RegexpLineParser {
         else {
             priority = Priority.NORMAL;
         }
-        Warning warning;
-        if (category == null) {
-            warning = createWarning(filename, lineNumber, message, priority);
-        }
-        else {
-            warning = createWarning(filename, lineNumber, category, message, priority);
-        }
+
+        Warning warning = createWarning(filename, lineNumber, category, message, priority);
         warning.setColumnPosition(column);
         return warning;
     }

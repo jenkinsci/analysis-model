@@ -86,11 +86,11 @@ clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project /path/to/project
 warning: /path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused [clang-diagnostic-unused-command-line-argument]
 
 # Relative File
-clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project src/main.cpp:1:8: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
+clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project src/../src/main.cpp:1:8: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
     case 6: return static_cast<int>(phase); break;
 
 # Absolute File
-clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project src/main.cpp:10:20: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
+clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project /src/main.cpp:10:20: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
     case 6: return static_cast<int>(phase); break;
 
 # File with multiple errors - Warning for each instance
@@ -105,3 +105,7 @@ clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project /path/to/project
             { 0, 1, 2, 3, 4, 5, 6, 7 }
               ^
               {                     }
+
+# Error Test
+/path/to/project/src/error_test.cpp:4:10: error: 'dbus/dbus.h' file not found [clang-diagnostic-error]
+#include <dbus/dbus.h>
