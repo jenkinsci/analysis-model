@@ -123,13 +123,12 @@ public class ResourceTest {
     /**
      * Finds a resource with the given name and returns the content (decoded with UTF-8) as String.
      *
-     * @param name
+     * @param fileName
      *         name of the desired resource
      *
      * @return the content represented as String
      */
-    protected String toString(final String name) {
-        return new String(readResource(name));
+    protected String toString(final String fileName) {
+        return new String(readResource(fileName));
     }
-
 }
