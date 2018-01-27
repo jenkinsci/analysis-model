@@ -14,8 +14,8 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link IntelParserTest}.
  */
-public class IntelParserTest extends AbstractParserTest {
-    public IntelParserTest() {
+class IntelParserTest extends AbstractParserTest {
+    IntelParserTest() {
         super("intelc.txt");
     }
 
@@ -92,7 +92,7 @@ public class IntelParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5402">Issue 5402</a>
      */
     @Test
-    public void issue5402() {
+    void issue5402() {
         Issues<Issue> warnings = parse("issue5402.txt");
 
         assertThat(warnings).hasSize(4);

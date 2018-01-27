@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.xml.sax.XMLReader;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
+import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
 
@@ -18,7 +19,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
  *
  * @author Ullrich Hafner
  */
-public class ArchitectureRulesTest {
+class ArchitectureRulesTest {
     /**
      * Digester must not be used directly, rather use a SecureDigester instance.
      */
@@ -26,12 +27,28 @@ public class ArchitectureRulesTest {
     void shouldNotCreateDigesterWithConstructor() {
         JavaClasses classes = new ClassFileImporter().importPackages("edu.hm.hafner");
 
-        ArchRule digestedConstructorCalls = noClasses().that().dontHaveSimpleName("SecureDigester")
+        ArchRule noDigesterConstructor = noClasses().that().dontHaveSimpleName("SecureDigester")
                 .should().callConstructor(Digester.class)
                 .orShould().callConstructor(Digester.class, SAXParser.class)
                 .orShould().callConstructor(Digester.class, XMLReader.class)
                 .orShould().callMethod(DigesterLoader.class, "newDigester");
 
-        digestedConstructorCalls.check(classes);
+        noDigesterConstructor.check(classes);
+    }
+
+    /**
+     * Test classes should not be public (Junit 5).
+     */
+    @Test
+    void shouldNotUsePublicInTestCases() {
+        JavaClasses classes = new ClassFileImporter().importPackages("edu.hm.hafner");
+
+        ArchRule noPublicClasses = noClasses()
+                .that().dontHaveModifier(JavaModifier.ABSTRACT)
+                .and().haveSimpleNameEndingWith("Test")
+                .and().dontHaveSimpleName("IssueTest")
+                .should().bePublic();
+
+        noPublicClasses.check(classes);
     }
 }

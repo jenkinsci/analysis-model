@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link ErlcParser}.
  */
-public class ErlcParserTest extends AbstractParserTest {
+class ErlcParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link AbstractParserTest}.
      */

@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Marvin Schütz, J. Behrmann
  */
-public class Pep8ParserTest extends AbstractParserTest {
+class Pep8ParserTest extends AbstractParserTest {
     protected Pep8ParserTest() {
         super("pep8Test.txt");
     }

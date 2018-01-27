@@ -19,7 +19,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author vichak
  */
 @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-public class GnuMakeGccParserTest extends AbstractParserTest {
+class GnuMakeGccParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
 
@@ -31,7 +31,7 @@ public class GnuMakeGccParserTest extends AbstractParserTest {
      * Checks that the root of the path is not changed on non-windows systems.
      */
     @Test
-    public void checkCorrectPathNonWindows() {
+    void checkCorrectPathNonWindows() {
         checkOsSpecificPath("Ubuntu", "/c");
     }
 
@@ -39,7 +39,7 @@ public class GnuMakeGccParserTest extends AbstractParserTest {
      * Checks that the root of the path is fixed if it is unix-type while running on windows.
      */
     @Test
-    public void checkCorrectPathWindows() {
+    void checkCorrectPathWindows() {
         checkOsSpecificPath("Windows NT", "c:");
     }
 

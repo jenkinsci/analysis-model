@@ -18,7 +18,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * @author Frederic Chateau
  * @author Raphael Furch
  */
-public class Gcc4LinkerParserTest extends AbstractParserTest {
+class Gcc4LinkerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = Gcc4LinkerParser.WARNING_CATEGORY;
     private static final String FILE_NAME = "-";
 
@@ -96,7 +96,7 @@ public class Gcc4LinkerParserTest extends AbstractParserTest {
 
     /** Should not report warnings already detected by {@link Gcc4CompilerParser}. */
     @Test
-    public void shouldNotReportGccWarnings() {
+    void shouldNotReportGccWarnings() {
         Issues<Issue> warnings = parse("gcc4.txt");
 
         assertThat(warnings).hasSize(2);
@@ -114,7 +114,7 @@ public class Gcc4LinkerParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
      */
     @Test
-    public void issue5445() {
+    void issue5445() {
         Issues<Issue> warnings = parse("issue5445.txt");
 
         assertThat(warnings).isEmpty();
@@ -126,7 +126,7 @@ public class Gcc4LinkerParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
      */
     @Test
-    public void issue5870() {
+    void issue5870() {
         Issues<Issue> warnings = parse("issue5870.txt");
 
         assertThat(warnings).isEmpty();
@@ -138,7 +138,7 @@ public class Gcc4LinkerParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
      */
     @Test
-    public void issue6563() {
+    void issue6563() {
         Issues<Issue> warnings = parse("issue6563.txt");
 
         assertThat(warnings).isEmpty();

@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Benedikt Spranger
  */
-public class LinuxKernelOutputParserTest extends AbstractParserTest {
+class LinuxKernelOutputParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link AbstractParserTest}.
      */

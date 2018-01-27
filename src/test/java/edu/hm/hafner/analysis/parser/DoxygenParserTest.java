@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link DoxygenParser}.
  */
-public class DoxygenParserTest extends AbstractParserTest {
+class DoxygenParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
     private static final String NO_FILE_NAME = "-";
 
@@ -36,7 +36,7 @@ public class DoxygenParserTest extends AbstractParserTest {
      */
     @Test
     @Disabled("FIXME: Check with Java 8")
-    public void issue7178() {
+    void issue7178() {
         Issues<Issue> warnings = parse("issue7178.txt");
         assertThat(warnings).isEmpty(); //seems to be 1
     }
@@ -47,7 +47,7 @@ public class DoxygenParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6971">Issue 6971</a>
      */
     @Test
-    public void issue6971() {
+    void issue6971() {
         Issues<Issue> warnings = parse("issue6971.txt");
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(4);

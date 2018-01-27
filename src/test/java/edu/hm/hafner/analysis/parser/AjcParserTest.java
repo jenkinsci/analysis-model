@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link AjcParser}.
  */
-public class AjcParserTest extends AbstractParserTest {
+class AjcParserTest extends AbstractParserTest {
     private static final String CATEGORY = new IssueBuilder().build().getCategory();
 
     AjcParserTest() {

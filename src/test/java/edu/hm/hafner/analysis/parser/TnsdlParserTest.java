@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link TnsdlParser}.
  */
-public class TnsdlParserTest extends AbstractParserTest {
-    public TnsdlParserTest() {
+class TnsdlParserTest extends AbstractParserTest {
+    TnsdlParserTest() {
         super("tnsdl.txt");
     }
 

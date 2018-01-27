@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link RFLintParser}. Created by traitanit on 3/27/2017 AD.
  */
-public class RFLintParserTest extends AbstractParserTest {
+class RFLintParserTest extends AbstractParserTest {
 
     private static final String WARNING_CATEGORY = "WARNING";
     private static final String ERROR_CATEGORY = "ERROR";

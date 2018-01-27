@@ -10,12 +10,12 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link TaskingVXCompilerParser}.
  */
-public class TaskingVXCompilerParserTest extends AbstractParserTest {
+class TaskingVXCompilerParserTest extends AbstractParserTest {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
 
-    public TaskingVXCompilerParserTest() {
+    TaskingVXCompilerParserTest() {
         super("tasking-vx.txt");
     }
 

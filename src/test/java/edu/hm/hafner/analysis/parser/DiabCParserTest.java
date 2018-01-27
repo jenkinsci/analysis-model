@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link DiabCParser}.
  */
-public class DiabCParserTest extends AbstractParserTest {
+class DiabCParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link DiabCParserTest}.
      */

@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Sebastian Seidl
  */
-public class StyleCopParserTest extends AbstractParserTest {
+class StyleCopParserTest extends AbstractParserTest {
     StyleCopParserTest() {
         super("stylecop.xml");
     }
@@ -75,7 +75,7 @@ public class StyleCopParserTest extends AbstractParserTest {
      * Verifies that the StyleCop parser works as expected with a file of 3 warnings.
      */
     @Test
-    public void testStyleCopOneFile() {
+    void testStyleCopOneFile() {
         Issues<Issue> result = parse("stylecop/onefile.xml");
 
         assertThat(result).hasSize(3);
@@ -85,7 +85,7 @@ public class StyleCopParserTest extends AbstractParserTest {
      * Verifies that the StyleCop parser works as expected with a file of 2 warnings (4.3 format).
      */
     @Test
-    public void testStyleCop43() {
+    void testStyleCop43() {
         Issues<Issue> result = parse("stylecop/stylecop-v4.3.xml");
 
         assertThat(result).hasSize(2);

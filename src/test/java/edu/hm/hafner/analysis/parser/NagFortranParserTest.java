@@ -14,7 +14,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link NagFortranParser}.
  */
-public class NagFortranParserTest extends AbstractParserTest {
+class NagFortranParserTest extends AbstractParserTest {
     NagFortranParserTest() {
         super("NagFortran.txt");
     }

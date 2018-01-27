@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-public class CssLintParserTest extends AbstractParserTest {
+class CssLintParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link CssLintParserTest}.
      */

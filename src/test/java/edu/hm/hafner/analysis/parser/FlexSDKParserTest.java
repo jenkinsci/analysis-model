@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link FlexSDKParser}.
  */
-public class FlexSDKParserTest extends AbstractParserTest {
+class FlexSDKParserTest extends AbstractParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     /**

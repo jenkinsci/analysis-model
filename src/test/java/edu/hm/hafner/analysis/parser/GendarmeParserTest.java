@@ -16,7 +16,7 @@ import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
  * @author Ullrich Hafner
  * @author Raphael Furch
  */
-public class GendarmeParserTest extends AbstractParserTest {
+class GendarmeParserTest extends AbstractParserTest {
     protected GendarmeParserTest() {
         super("gendarme/Gendarme.xml");
     }

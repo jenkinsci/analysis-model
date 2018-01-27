@@ -13,8 +13,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-public class IarParserTest extends AbstractParserTest {
-    public IarParserTest() {
+class IarParserTest extends AbstractParserTest {
+    IarParserTest() {
         super("issue8823.txt");
     }
 

@@ -10,11 +10,11 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link SunCParser}.
  */
-public class SunCParserTest extends AbstractParserTest {
+class SunCParserTest extends AbstractParserTest {
     private static final String MESSAGE = "String literal converted to char* in formal argument 1 in call to userlog(char*, ...).";
     private static final String CATEGORY = "badargtypel2w";
 
-    public SunCParserTest() {
+    SunCParserTest() {
         super("sunc.txt");
     }
 

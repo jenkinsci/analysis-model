@@ -14,14 +14,14 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link XlcParserTest}.
  */
-public class XlcParserTest {
+class XlcParserTest {
     private static final String FILE_NAME = "-";
 
     /**
      * Parses a string with xlC error.
      */
     @Test
-    public void testWarningsParserError() {
+    void testWarningsParserError() {
         Issues<Issue> warnings = parseString("\"file.c\", line 9.17: 1506-098 (E) Missing argument(s).");
 
         assertSoftly(softly -> {
@@ -39,7 +39,7 @@ public class XlcParserTest {
      * Parses a string with xlC error.
      */
     @Test
-    public void testWarningsParserSevereError() {
+    void testWarningsParserSevereError() {
         Issues<Issue> warnings = parseString("file.c, line 11.18: 1506-189 (S) Floating point constant 10.23.3 is not valid");
 
         assertSoftly(softly -> {
@@ -57,7 +57,7 @@ public class XlcParserTest {
      * Parses a string with xlC error in z/OS message format.
      */
     @Test
-    public void testWarningsParserSevereErrorZOS() {
+    void testWarningsParserSevereErrorZOS() {
         Issues<Issue> warnings = parseString("\"./Testapi.cpp\", line 4000.22: CCN5217 (S) \"AEUPD_RQ_UPDT\" is not a member of \"struct AEUPD_RQ\".");
 
         assertSoftly(softly -> {
@@ -75,7 +75,7 @@ public class XlcParserTest {
      * Parses a string with xlC unrecoverable error.
      */
     @Test
-    public void testWarningsParserUnrecoverableError() {
+    void testWarningsParserUnrecoverableError() {
         Issues<Issue> warnings2 = parseString("file.c, line 5.1: 1506-001 (U) INTERNAL COMPILER ERROR");
 
         assertSoftly(softly -> {
@@ -117,7 +117,7 @@ public class XlcParserTest {
      * Parses a string with xlC warning.
      */
     @Test
-    public void testWarningsParserWarning() {
+    void testWarningsParserWarning() {
         Issues<Issue> warnings = parseString("file.c, line 5.9: 1506-304 (W) No function prototype given for \"printf\".");
 
         assertSoftly(softly -> {
@@ -135,7 +135,7 @@ public class XlcParserTest {
      * Parses a string with xlC warning message in z/OS format.
      */
     @Test
-    public void testWarningsParserWarningZOS() {
+    void testWarningsParserWarningZOS() {
         Issues<Issue> warnings1 = parseString("\"./Testapi.cpp\", line 130.13: CCN5053 (W) The declaration of a class member within the class definition must not be qualified.");
 
         assertSoftly(softly -> {
@@ -165,7 +165,7 @@ public class XlcParserTest {
      * Parses a string with xlC informational message.
      */
     @Test
-    public void testWarningsParserInfo() {
+    void testWarningsParserInfo() {
         Issues<Issue> warnings2 = parseString("file.c, line 12.9: 1506-478 (I) The then branch of conditional is an empty statement.");
 
         assertSoftly(softly -> {
@@ -208,7 +208,7 @@ public class XlcParserTest {
      * Parses a string with xlC informational message in z/OS format.
      */
     @Test
-    public void testWarningsParserInfoZOS1() {
+    void testWarningsParserInfoZOS1() {
         Issues<Issue> warnings1 = parseString(
                 "\"./Testapi.cpp\", line 372.8: CCN6283 (I) \"Testapi::Test(long, long)\" is not a viable candidate.");
 

@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link P4Parser}.
  */
-public class P4ParserTest extends AbstractParserTest {
+class P4ParserTest extends AbstractParserTest {
     P4ParserTest() {
         super("perforce.txt");
     }

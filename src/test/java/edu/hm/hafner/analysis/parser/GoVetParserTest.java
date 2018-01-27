@@ -11,8 +11,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link GoVetParser}.
  */
-public class GoVetParserTest extends AbstractParserTest {
-    public GoVetParserTest() {
+class GoVetParserTest extends AbstractParserTest {
+    GoVetParserTest() {
         super("govet.txt");
     }
 

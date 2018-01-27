@@ -12,8 +12,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Alex Lopashev, alexlopashev@gmail.com
  */
-public class IdeaInspectionParserTest extends AbstractParserTest {
-    public IdeaInspectionParserTest() {
+class IdeaInspectionParserTest extends AbstractParserTest {
+    IdeaInspectionParserTest() {
         super("IdeaInspectionExample.xml");
     }
 

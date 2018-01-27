@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author <a href="mailto:alexey.kislin@gmail.com">Alexey Kislin</a>
  */
-public class ScalacParserTest extends AbstractParserTest {
+class ScalacParserTest extends AbstractParserTest {
     ScalacParserTest() {
         super("scalac.txt");
     }

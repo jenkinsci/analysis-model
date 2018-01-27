@@ -12,8 +12,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Emidio Stani
  */
-public class YuiCompressorParserTest extends AbstractParserTest {
-    public YuiCompressorParserTest() {
+class YuiCompressorParserTest extends AbstractParserTest {
+    YuiCompressorParserTest() {
         super("yui.txt");
     }
 

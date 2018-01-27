@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link AnsibleLintParser}.
  */
-public class AnsibleLintTest extends AbstractParserTest {
+class AnsibleLintTest extends AbstractParserTest {
     AnsibleLintTest() {
         super("ansibleLint.txt");
     }

@@ -19,7 +19,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link MsBuildParser}.
  */
-public class MsBuildParserTest extends AbstractParserTest {
+class MsBuildParserTest extends AbstractParserTest {
     MsBuildParserTest() {
         super("msbuild.txt");
     }

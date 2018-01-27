@@ -16,14 +16,14 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link XlcLinkerParser}.
  */
-public class XlcLinkerParserTest {
+class XlcLinkerParserTest {
     private static final String FILE_NAME = "-";
 
     /**
      * Parses a string with xlC linker error.
      */
     @Test
-    public void shouldParseLinkerError() {
+    void shouldParseLinkerError() {
         Issues<Issue> issues = parse("ld: 0711-987 Error occurred while reading file");
 
         assertSingleIssue(issues, softly -> {
@@ -41,7 +41,7 @@ public class XlcLinkerParserTest {
      * Parses a string with xlC linker error.
      */
     @Test
-    public void shouldParseAnotherLinkerError() {
+    void shouldParseAnotherLinkerError() {
         Issues<Issue> issues = parse("ld: 0711-317 ERROR: Undefined symbol: nofun()");
 
         assertSingleIssue(issues, softly -> {
@@ -59,7 +59,7 @@ public class XlcLinkerParserTest {
      * Parses a string with xlC linker error.
      */
     @Test
-    public void shouldParseSevereError() {
+    void shouldParseSevereError() {
         Issues<Issue> issues = parse("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
 
         assertSingleIssue(issues, softly -> {
@@ -77,7 +77,7 @@ public class XlcLinkerParserTest {
      * Parses a string with xlC linker warning.
      */
     @Test
-    public void shouldParseWarning() {
+    void shouldParseWarning() {
         Issues<Issue> issues = parse("ld: 0706-012 The -9 flag is not recognized.");
 
         assertSingleIssue(issues, softly -> {
@@ -95,7 +95,7 @@ public class XlcLinkerParserTest {
      * Parses a string with xlC linker warning.
      */
     @Test
-    public void shouldPareAnotherWarning() {
+    void shouldPareAnotherWarning() {
         Issues<Issue> issues = parse("ld: 0711-224 WARNING: Duplicate symbol: dupe");
 
         assertSingleIssue(issues, softly -> {
@@ -113,7 +113,7 @@ public class XlcLinkerParserTest {
      * Parses a string with xlC linker informational message.
      */
     @Test
-    public void shouldParseInformation() {
+    void shouldParseInformation() {
         Issues<Issue> issues = parse("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");
 
         assertSingleIssue(issues, softly -> {

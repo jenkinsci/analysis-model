@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link BuckminsterParser}.
  */
-public class BuckminsterParserTest extends AbstractParserTest {
+class BuckminsterParserTest extends AbstractParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     protected BuckminsterParserTest() {

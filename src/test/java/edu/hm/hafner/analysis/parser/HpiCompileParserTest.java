@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link AntJavacParser} for output log of a HPI compile.
  */
-public class HpiCompileParserTest extends AbstractParserTest {
-    public HpiCompileParserTest() {
+class HpiCompileParserTest extends AbstractParserTest {
+    HpiCompileParserTest() {
         super("hpi.txt");
     }
 

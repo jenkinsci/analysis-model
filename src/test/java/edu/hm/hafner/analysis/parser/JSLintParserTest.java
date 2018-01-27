@@ -16,7 +16,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Gavin Mogan <gavin@kodekoan.com>
  */
-public class JSLintParserTest extends AbstractParserTest {
+class JSLintParserTest extends AbstractParserTest {
     private static final String EXPECTED_FILE_NAME = "duckworth/hudson-jslint-freestyle/src/prototype.js";
 
     JSLintParserTest() {
@@ -29,7 +29,7 @@ public class JSLintParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-19127">Issue 19127</a>
      */
     @Test
-    public void issue19127() {
+    void issue19127() {
         Issues<Issue> warnings = parse("jslint/jslint.xml");
 
         assertThat(warnings).hasSize(197);
@@ -53,7 +53,7 @@ public class JSLintParserTest extends AbstractParserTest {
      * Tests the JS-Lint parsing for warnings in a single file.
      */
     @Test
-    public void testParseWithSingleFile() {
+    void testParseWithSingleFile() {
         Issues<Issue> results = parse("jslint/single.xml");
 
         assertThat(results).hasSize(51);
@@ -63,7 +63,7 @@ public class JSLintParserTest extends AbstractParserTest {
      * Tests parsing of CSS-Lint files.
      */
     @Test
-    public void testCssLint() {
+    void testCssLint() {
         Issues<Issue> results = parse("jslint/csslint.xml");
 
         assertThat(results).hasSize(51);

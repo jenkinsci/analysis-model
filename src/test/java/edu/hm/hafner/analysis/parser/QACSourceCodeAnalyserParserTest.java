@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link QACSourceCodeAnalyserParser}.
  */
-public class QACSourceCodeAnalyserParserTest extends AbstractParserTest {
+class QACSourceCodeAnalyserParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
     private static final String ISSUES_FILE = "QACSourceCodeAnalyser.txt";

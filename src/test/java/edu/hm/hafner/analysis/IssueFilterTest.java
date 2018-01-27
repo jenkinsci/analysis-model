@@ -12,7 +12,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  *
  * @author Raphael Furch
  */
-public class IssueFilterTest {
+class IssueFilterTest {
     private static final Issue ISSUE1 = new IssueBuilder()
             .setFileName("FileName1")
             .setPackageName("PackageName1")

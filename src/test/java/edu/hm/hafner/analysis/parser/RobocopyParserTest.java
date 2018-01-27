@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link RobocopyParser}.
  */
-public class RobocopyParserTest extends AbstractParserTest {
+class RobocopyParserTest extends AbstractParserTest {
     RobocopyParserTest() {
         super("robocopy.txt");
     }

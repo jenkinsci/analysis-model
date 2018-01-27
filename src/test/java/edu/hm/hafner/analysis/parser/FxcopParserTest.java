@@ -48,7 +48,7 @@ class FxcopParserTest extends AbstractParserTest {
      * Verifies that the FXCop parser works as expected.
      */
     @Test
-    public void testJenkins14172() {
+    void testJenkins14172() {
         Issues<Issue> result = parse("issue14172.xml");
 
         assertThat(result).hasSize(44);

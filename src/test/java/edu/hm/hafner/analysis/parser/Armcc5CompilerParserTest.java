@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link Armcc5CompilerParser}.
  */
-public class Armcc5CompilerParserTest extends AbstractParserTest {
+class Armcc5CompilerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
 
     /**

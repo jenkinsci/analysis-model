@@ -14,7 +14,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link JavaDocParser}.
  */
-public class JavaDocParserTest extends AbstractParserTest {
+class JavaDocParserTest extends AbstractParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     @Override
@@ -42,7 +42,7 @@ public class JavaDocParserTest extends AbstractParserTest {
      * Parses a warning log with JavaDoc 1.8 warnings.
      */
     @Test
-    public void falseJavaDocPositives() {
+    void falseJavaDocPositives() {
         Issues<Issue> warnings = parse("all.txt");
 
         assertThat(warnings).hasSize(8);
@@ -54,7 +54,7 @@ public class JavaDocParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-37975">Issue 37975</a>
      */
     @Test
-    public void issue37975() {
+    void issue37975() {
         Issues<Issue> warnings = parse("issue37975.txt");
         assertThat(warnings).hasSize(3);
 
@@ -91,7 +91,7 @@ public class JavaDocParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-32298">Issue 32298</a>
      */
     @Test
-    public void issue32298() {
+    void issue32298() {
         Issues<Issue> warnings = parse("issue32298.txt");
         assertThat(warnings).hasSize(7);
 
@@ -161,7 +161,7 @@ public class JavaDocParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4576">Issue 4576</a>
      */
     @Test
-    public void issue4576() {
+    void issue4576() {
         Issues<Issue> warnings = parse("issue4576.txt");
 
         assertThat(warnings).hasSize(2);
@@ -191,7 +191,7 @@ public class JavaDocParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-8630">Issue 8630</a>
      */
     @Test
-    public void issue8630() {
+    void issue8630() {
         Issues<Issue> warnings = parse("issue8630.txt");
 
         assertThat(warnings).isEmpty();
@@ -203,7 +203,7 @@ public class JavaDocParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7718">Issue 7718</a>
      */
     @Test
-    public void issue7718() {
+    void issue7718() {
         Issues<Issue> warnings = parse("issue7718.txt");
 
         assertThat(warnings).hasSize(7);

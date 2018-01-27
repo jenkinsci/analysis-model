@@ -8,7 +8,7 @@ import java.util.function.Function;
 /**
  * Parses a file and returns the issues reported in this file.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public abstract class IssueParser implements Serializable {
     /**

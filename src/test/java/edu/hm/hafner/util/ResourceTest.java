@@ -21,7 +21,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Ullrich Hafner
  */
-public class ResourceTest {
+public abstract class ResourceTest {
     /**
      * Reads the contents of the desired resource. The rules for searching resources associated with this test class are
      * implemented by the defining {@linkplain ClassLoader class loader} of this test class.  This method delegates to

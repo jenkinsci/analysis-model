@@ -10,12 +10,12 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link CodeAnalysisParser}.
  */
-public class CodeAnalysisParserTest extends AbstractParserTest {
+class CodeAnalysisParserTest extends AbstractParserTest {
 
     /**
      * Creates a new CodeAnalysisParserTest.
      */
-    public CodeAnalysisParserTest() {
+    CodeAnalysisParserTest() {
         super("codeanalysis.txt");
     }
 

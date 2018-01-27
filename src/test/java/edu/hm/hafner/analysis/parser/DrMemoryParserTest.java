@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link DrMemoryParser}.
  */
-public class DrMemoryParserTest extends AbstractParserTest {
+class DrMemoryParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link AbstractParserTest}.
      */

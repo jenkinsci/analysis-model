@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link ResharperInspectCodeParser}.
  */
-public class ResharperInspectCodeParserTest extends AbstractParserTest {
+class ResharperInspectCodeParserTest extends AbstractParserTest {
     private static final String ISSUES_FILE = "ResharperInspectCode.xml";
 
     /**

@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Jan Vansteenkiste <jan@vstone.eu>
  */
-public class PuppetLintParserTest extends AbstractParserTest {
+class PuppetLintParserTest extends AbstractParserTest {
 
     PuppetLintParserTest() {
         super("puppet-lint.txt");

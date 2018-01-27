@@ -10,12 +10,12 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link CoolfluxChessccParserTest}.
  */
-public class CoolfluxChessccParserTest extends AbstractParserTest {
+class CoolfluxChessccParserTest extends AbstractParserTest {
 
     /**
      * Creates a new CoolfluxChessccParserTest.
      */
-    public CoolfluxChessccParserTest() {
+    CoolfluxChessccParserTest() {
         super("coolfluxchesscc.txt");
     }
 

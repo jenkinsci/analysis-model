@@ -19,7 +19,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Ullrich Hafner
  * @author Raphael Furch
  */
-public class GccParserTest extends AbstractParserTest {
+class GccParserTest extends AbstractParserTest {
     private static final String GCC_ERROR = GccParser.GCC_ERROR;
     private static final String GCC_WARNING = "GCC warning";
 
@@ -33,7 +33,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-34141">Issue 34141</a>
      */
     @Test
-    public void issue34141() {
+    void issue34141() {
         Issues<Issue> warnings = parse("issue34141.txt");
 
         assertThat(warnings).isEmpty();
@@ -45,7 +45,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-17309">Issue 17309</a>
      */
     @Test
-    public void issue17309() {
+    void issue17309() {
         Issues<Issue> warnings = parse("issue17309.txt");
 
         assertThat(warnings).hasSize(1);
@@ -67,7 +67,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
-    public void issue9926() {
+    void issue9926() {
         Issues<Issue> warnings = parse("issue9926.txt");
 
         assertThat(warnings).hasSize(1);
@@ -167,7 +167,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3897">Issue 3897</a>
      */
     @Test
-    public void issue3897and3898() {
+    void issue3897and3898() {
         Issues<Issue> warnings = parse("issue3897.txt");
 
         assertThat(warnings).hasSize(3);
@@ -207,7 +207,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
-    public void issue4712() {
+    void issue4712() {
         Issues<Issue> warnings = parse("issue4712.txt");
 
         assertThat(warnings).hasSize(2);
@@ -239,7 +239,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
-    public void issue4700() {
+    void issue4700() {
         Issues<Issue> warnings = parse("issue4700.txt");
 
         assertThat(warnings).isEmpty();
@@ -251,7 +251,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4707</a>
      */
     @Test
-    public void issue4707() {
+    void issue4707() {
         Issues<Issue> warnings = parse("issue4707.txt");
 
         assertThat(warnings).hasSize(11).hasDuplicatesSize(11);
@@ -274,7 +274,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4010">Issue 4010</a>
      */
     @Test
-    public void issue4010() {
+    void issue4010() {
         Issues<Issue> warnings = parse("issue4010.txt");
 
         assertThat(warnings).hasSize(1);
@@ -296,7 +296,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4274">Issue 4274</a>
      */
     @Test
-    public void issue4274() {
+    void issue4274() {
         Issues<Issue> warnings = parse("issue4274.txt");
 
         assertThat(warnings).hasSize(4);
@@ -344,7 +344,7 @@ public class GccParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
      */
     @Test
-    public void issue4260() {
+    void issue4260() {
         Issues<Issue> warnings = parse("issue4260.txt");
 
         assertThat(warnings).hasSize(1);

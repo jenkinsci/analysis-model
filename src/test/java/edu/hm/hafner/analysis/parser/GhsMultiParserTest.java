@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link GhsMultiParser}.
  */
-public class GhsMultiParserTest extends AbstractParserTest {
+class GhsMultiParserTest extends AbstractParserTest {
     GhsMultiParserTest() {
         super("ghsmulti.txt");
     }

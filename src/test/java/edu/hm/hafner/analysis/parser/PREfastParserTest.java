@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Charles Chan
  */
-public class PREfastParserTest extends AbstractParserTest {
+class PREfastParserTest extends AbstractParserTest {
 
     PREfastParserTest() {
         super("PREfast.xml");

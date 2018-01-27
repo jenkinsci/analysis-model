@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("NullArgumentToVariableArgMethod")
-public class EnsureTest {
+class EnsureTest {
     private static final String SOME_STRING = "-";
     private static final String EMPTY_STRING = "";
     private static final String ERROR_MESSAGE = "assertThatThrownBy Error.";
@@ -22,7 +22,7 @@ public class EnsureTest {
      * Checks whether no exception is thrown if we adhere to all contracts.
      */
     @Test
-    public void shouldNotThrowExceptionIfContractIsValid() {
+    void shouldNotThrowExceptionIfContractIsValid() {
         assertThatCode(() -> {
             Ensure.that(false).isFalse();
             Ensure.that(true).isTrue();
@@ -44,7 +44,7 @@ public class EnsureTest {
      */
     @Test
     @SuppressWarnings("Convert2MethodRef")
-    public void shouldThrowExceptionIfContractIsViolated() {
+    void shouldThrowExceptionIfContractIsViolated() {
         assertThatThrownBy(() -> {
             Ensure.that(new IllegalArgumentException(ERROR_MESSAGE)).isNeverThrown(ERROR_MESSAGE);
         }).isInstanceOf(AssertionError.class).hasMessage(ERROR_MESSAGE);
@@ -90,7 +90,7 @@ public class EnsureTest {
      * Checks whether we throw an exception if a contract is violated.
      */
     @Test
-    public void shouldThrowNpeIfContractIsViolated() {
+    void shouldThrowNpeIfContractIsViolated() {
         assertThatThrownBy(() -> {
             Ensure.that((Object)null).isNotNull(ERROR_MESSAGE);
         }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
@@ -133,7 +133,7 @@ public class EnsureTest {
      * Checks whether we throw an exception if something is empty.
      */
     @Test
-    public void shouldThrowExceptionIfEmpty() {
+    void shouldThrowExceptionIfEmpty() {
         assertThatThrownBy(() -> {
             Ensure.that(new String[0]).isNotEmpty(ERROR_MESSAGE);
         }).isInstanceOf(AssertionError.class);
@@ -176,7 +176,7 @@ public class EnsureTest {
      * Verifies that the message format is correctly interpreted.
      */
     @Test
-    public void shouldThrowExceptionWithCorrectMessage() {
+    void shouldThrowExceptionWithCorrectMessage() {
         assertThatThrownBy(() -> {
             Ensure.that(EMPTY_STRING).isInstanceOf(Integer.class, "This error uses '%s' to print the number %d.", "String.format", 42);
         }).isInstanceOf(AssertionError.class).hasMessage("This error uses 'String.format' to print the number 42.");

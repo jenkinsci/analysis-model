@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link SphinxBuildParser}.
  */
-public class SphinxBuildParserTest extends AbstractParserTest {
+class SphinxBuildParserTest extends AbstractParserTest {
     SphinxBuildParserTest() {
         super("sphinxbuild.txt");
     }

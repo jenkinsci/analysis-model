@@ -18,7 +18,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Mihail Menev, menev@hm.edu
  */
-public class PerlCriticParserTest extends AbstractParserTest {
+class PerlCriticParserTest extends AbstractParserTest {
 
     PerlCriticParserTest() {
         super("perlcritic.txt");
@@ -33,7 +33,7 @@ public class PerlCriticParserTest extends AbstractParserTest {
      * Parses a file with three warnings.
      */
     @Test
-    public void testPerlCriticParserCreateWarning() {
+    void testPerlCriticParserCreateWarning() {
         Issues<Issue> warnings = parse("issue17792.txt");
 
         assertThat(warnings).hasSize(3);
@@ -74,7 +74,7 @@ public class PerlCriticParserTest extends AbstractParserTest {
      * Parses a file with three warnings without the filename in the warning.
      */
     @Test
-    public void testPerlCriticParserCreateWarningNoFileName() {
+    void testPerlCriticParserCreateWarningNoFileName() {
         Issues<Issue> warnings = parse("issue17792-nofilename.txt");
         assertThat(warnings).hasSize(3);
 

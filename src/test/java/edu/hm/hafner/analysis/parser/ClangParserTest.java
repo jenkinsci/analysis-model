@@ -109,7 +109,7 @@ class ClangParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-31936">Issue 31936</a>
      */
     @Test
-    public void issue31936() {
+    void issue31936() {
         Issues<Issue> warnings = parse("issue31936.txt");
 
         assertThat(warnings).hasSize(1);
@@ -131,7 +131,7 @@ class ClangParserTest extends AbstractParserTest {
      * @see <a href="https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin?focusedCommentId=138447465#comment-138447465">Wiki Report</a>
      */
     @Test
-    public void shouldNotDetectTestResults() {
+    void shouldNotDetectTestResults() {
         Issues<Issue> warnings = parse("timestamps.log");
 
         assertThat(warnings).isEmpty();
@@ -143,7 +143,7 @@ class ClangParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-36817">Issue 36817</a>
      */
     @Test
-    public void issue36817() {
+    void issue36817() {
         Issues<Issue> warnings = parse("issue36817.txt");
 
         assertThat(warnings).isEmpty();
@@ -155,7 +155,7 @@ class ClangParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18084">Issue 18084</a>
      */
     @Test
-    public void issue18084() {
+    void issue18084() {
         Issues<Issue> warnings = parse("issue18084.txt");
 
         assertThat(warnings).hasSize(1);
@@ -178,7 +178,7 @@ class ClangParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14333">Issue 14333</a>
      */
     @Test
-    public void issue14333() {
+    void issue14333() {
         Issues<Issue> warnings = parse("issue14333.txt");
 
         assertThat(warnings).hasSize(1);

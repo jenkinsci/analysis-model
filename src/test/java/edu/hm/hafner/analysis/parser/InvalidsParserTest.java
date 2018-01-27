@@ -11,8 +11,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link InvalidsParser}.
  */
-public class InvalidsParserTest extends AbstractParserTest {
-    public InvalidsParserTest() {
+class InvalidsParserTest extends AbstractParserTest {
+    InvalidsParserTest() {
         super("invalids.txt");
     }
 

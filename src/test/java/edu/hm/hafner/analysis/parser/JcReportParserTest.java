@@ -24,7 +24,7 @@ import edu.hm.hafner.analysis.parser.jcreport.Report;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
-public class JcReportParserTest extends AbstractParserTest {
+class JcReportParserTest extends AbstractParserTest {
     JcReportParserTest() {
         super("jcreport/testCorrect.xml");
     }
@@ -33,7 +33,7 @@ public class JcReportParserTest extends AbstractParserTest {
      * Reads a file with 5 warnings.
      */
     @Test
-    public void testGetWarningList() {
+    void testGetWarningList() {
         Issues<Issue> warnings = parseDefaultFile();
 
         assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
@@ -48,7 +48,7 @@ public class JcReportParserTest extends AbstractParserTest {
      * @throws UnsupportedEncodingException if encoding is not available
      */
     @Test
-    public void testReportParserProperties() throws UnsupportedEncodingException {
+    void testReportParserProperties() throws UnsupportedEncodingException {
         InputStreamReader readCorrectXml = getReader("testReportProps.xml");
         Report testReportProps = new JcReportParser().createReport(readCorrectXml);
 
@@ -80,7 +80,7 @@ public class JcReportParserTest extends AbstractParserTest {
      * @throws ParsingCanceledException -> thrown by jcrp.parse();
      */
     @Test
-    public void testSAXEception() throws ParsingCanceledException {
+    void testSAXEception() throws ParsingCanceledException {
         assertThatThrownBy(() -> parse("jcreport/testCorrupt.xml"))
                 .isInstanceOf(ParsingException.class);
 

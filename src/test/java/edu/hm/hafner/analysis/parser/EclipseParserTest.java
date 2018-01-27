@@ -16,7 +16,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link EclipseParser}.
  */
-public class EclipseParserTest extends AbstractParserTest {
+class EclipseParserTest extends AbstractParserTest {
     protected EclipseParserTest() {
         super("eclipse.txt");
     }

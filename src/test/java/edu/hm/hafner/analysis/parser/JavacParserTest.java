@@ -46,7 +46,7 @@ class JavacParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>
      */
     @Test
-    public void issue14043() {
+    void issue14043() {
         Issues<Issue> warnings = parse("issue14043.txt");
 
         assertThat(warnings).isEmpty();
@@ -58,7 +58,7 @@ class JavacParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12482">Issue 12482</a>
      */
     @Test
-    public void issue12482() {
+    void issue12482() {
         Issues<Issue> java6 = parse("issue12482-java6.txt");
         assertThat(java6).hasSize(62);
 
@@ -68,7 +68,7 @@ class JavacParserTest extends AbstractParserTest {
 
     /** Verifies that the Kotlin maven plugin warnings are correctly parsed. */
     @Test
-    public void kotlinMavenPlugin() {
+    void kotlinMavenPlugin() {
         Issues<Issue> warnings = parse("kotlin-maven-plugin.txt");
 
         assertThat(warnings).hasSize(4);
@@ -78,7 +78,7 @@ class JavacParserTest extends AbstractParserTest {
      * Verifies that arrays in deprecated methods are correctly handled.
      */
     @Test
-    public void parseArrayInDeprecatedMethod() {
+    void parseArrayInDeprecatedMethod() {
         Issues<Issue> warnings = parse("issue5868.txt");
 
         assertThat(warnings).hasSize(1);
@@ -99,7 +99,7 @@ class JavacParserTest extends AbstractParserTest {
      * Parses parallel pipeline output based on 'javac.txt'.
      */
     @Test
-    public void parseParallelPipelineOutput() {
+    void parseParallelPipelineOutput() {
         Issues<Issue> warnings = parse("javac-parallel-pipeline.txt");
 
         assertThat(warnings).hasSize(2);
@@ -130,7 +130,7 @@ class JavacParserTest extends AbstractParserTest {
      * Parses a file with five deprecation warnings.
      */
     @Test
-    public void parseMaven() {
+    void parseMaven() {
         Issues<Issue> warnings = parse("maven.txt");
 
         assertThat(warnings).hasSize(5);

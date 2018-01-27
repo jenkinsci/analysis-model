@@ -10,10 +10,10 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link TiCcsParser}.
  */
-public class TiCcsParserTest extends AbstractParserTest {
+class TiCcsParserTest extends AbstractParserTest {
     private static final String UNKNOWN_FILE = "-";
 
-    public TiCcsParserTest() {
+    TiCcsParserTest() {
         super("ticcs.txt");
     }
 

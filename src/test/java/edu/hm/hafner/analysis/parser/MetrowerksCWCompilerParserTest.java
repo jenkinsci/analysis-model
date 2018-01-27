@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link MetrowerksCWCompilerParser}.
  */
-public class MetrowerksCWCompilerParserTest extends AbstractParserTest {
+class MetrowerksCWCompilerParserTest extends AbstractParserTest {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";

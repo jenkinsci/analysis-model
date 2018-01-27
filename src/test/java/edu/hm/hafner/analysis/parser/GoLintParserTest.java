@@ -11,8 +11,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link GoLintParser}.
  */
-public class GoLintParserTest extends AbstractParserTest {
-    public GoLintParserTest() {
+class GoLintParserTest extends AbstractParserTest {
+    GoLintParserTest() {
         super("golint.txt");
     }
 

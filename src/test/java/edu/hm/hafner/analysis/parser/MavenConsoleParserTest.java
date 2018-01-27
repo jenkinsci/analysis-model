@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-public class MavenConsoleParserTest extends AbstractParserTest {
+class MavenConsoleParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link MavenConsoleParserTest}.
      */
@@ -29,7 +29,7 @@ public class MavenConsoleParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-16826">Issue 16826</a>
      */
     @Test
-    public void issue16826() {
+    void issue16826() {
         Issues<Issue> warnings = parse("issue16826.txt");
 
         assertThat(warnings).hasSize(1);
@@ -42,7 +42,7 @@ public class MavenConsoleParserTest extends AbstractParserTest {
      */
     @Test
     @Disabled("Until JENKINS-25278 is fixed")
-    public void largeFile() {
+    void largeFile() {
         Issues<Issue> warnings = parse("maven-large.log");
 
         assertThat(warnings).hasSize(1);

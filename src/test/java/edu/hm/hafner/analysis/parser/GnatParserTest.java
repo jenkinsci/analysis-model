@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link GnatParser}.
  */
-public class GnatParserTest extends AbstractParserTest {
+class GnatParserTest extends AbstractParserTest {
     private static final String GNAT_WARNING = "GNAT warning";
 
     GnatParserTest() {

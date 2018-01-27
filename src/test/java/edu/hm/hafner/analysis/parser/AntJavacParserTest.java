@@ -18,7 +18,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link AntJavacParser}.
  */
-public class AntJavacParserTest extends AbstractParserTest {
+class AntJavacParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link AbstractParserTest}.
      *
@@ -33,7 +33,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-24611">Issue 24611</a>
      */
     @Test
-    public void testIssue24611() {
+    void testIssue24611() {
         Issues<Issue> warnings = parse("issue24611.txt");
 
         assertThat(warnings).hasSize(2);
@@ -45,7 +45,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21240">Issue 21240</a>
      */
     @Test
-    public void issue21240() {
+    void issue21240() {
         Issues<Issue> warnings = parse("issue21240.txt");
 
         assertThat(warnings).hasSize(1);
@@ -66,7 +66,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-2133">Issue 2133</a>
      */
     @Test
-    public void issue2133() {
+    void issue2133() {
         Issues<Issue> warnings = parse("issue2133.txt");
 
         assertThat(warnings).hasSize(2);
@@ -96,7 +96,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4098">Issue 4098</a>
      */
     @Test
-    public void issue4098() {
+    void issue4098() {
         Issues<Issue> warnings = parse("issue4098.txt");
 
         assertThat(warnings).hasSize(1);
@@ -118,7 +118,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-2316">Issue 2316</a>
      */
     @Test
-    public void issue2316() {
+    void issue2316() {
         Issues<Issue> warnings = parse("issue2316.txt");
 
         assertThat(warnings)
@@ -133,7 +133,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      * Parses a warning log with 3 ANT warnings. They all use different tasks.
      */
     @Test
-    public void parseDifferentTaskNames() {
+    void parseDifferentTaskNames() {
         Issues<Issue> warnings = parse("taskname.txt");
 
         assertThat(warnings).hasSize(1).hasDuplicatesSize(2);
@@ -143,7 +143,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      * Verifies that arrays in deprecated methods are correctly handled.
      */
     @Test
-    public void parseArrayInDeprecatedMethod() {
+    void parseArrayInDeprecatedMethod() {
         Issues<Issue> warnings = parse("issue5868.txt");
 
         assertThat(warnings).hasSize(1);
@@ -165,7 +165,7 @@ public class AntJavacParserTest extends AbstractParserTest {
      * @throws UnsupportedEncodingException if the encoding is not found
      */
     @Test
-    public void parseJapaneseWarnings() throws UnsupportedEncodingException {
+    void parseJapaneseWarnings() throws UnsupportedEncodingException {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
                 AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");

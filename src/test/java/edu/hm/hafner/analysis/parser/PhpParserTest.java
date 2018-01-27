@@ -18,7 +18,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Shimi Kiviti
  */
-public class PhpParserTest extends AbstractParserTest {
+class PhpParserTest extends AbstractParserTest {
     private static final String PARSE_ERROR_CATEGORY = "PHP Parse error";
     private static final String FATAL_ERROR_CATEGORY = "PHP Fatal error";
     private static final String WARNING_CATEGORY = "PHP Warning";
@@ -35,7 +35,7 @@ public class PhpParserTest extends AbstractParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-27681">Issue 27681</a>
      */
     @Test
-    public void issue27681() {
+    void issue27681() {
         Issues<Issue> issues = parse("issue27681.txt");
 
         assertThat(issues).hasSize(1);

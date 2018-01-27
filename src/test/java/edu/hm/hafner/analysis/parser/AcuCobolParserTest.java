@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link AcuCobolParser}.
  */
-public class AcuCobolParserTest extends AbstractParserTest {
+class AcuCobolParserTest extends AbstractParserTest {
     private static final String CATEGORY = new IssueBuilder().build().getCategory();
 
     AcuCobolParserTest() {

@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link PyLintParser}.
  */
-public class PylintParserTest extends AbstractParserTest {
+class PylintParserTest extends AbstractParserTest {
 
 
     private static final String ISSUES_FILE = "pyLint.txt";

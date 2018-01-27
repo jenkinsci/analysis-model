@@ -70,7 +70,7 @@ class GnuFortranParserTest extends AbstractParserTest {
      * Test parsing of a file containing a Warning message output by the GNU Fortran Compiler.
      */
     @Test
-    public void testWarningParser() {
+    void testWarningParser() {
         Issues<Issue> warnings = parse("GnuFortranWarning.txt");
 
         assertThat(warnings).hasSize(1);
@@ -90,7 +90,7 @@ class GnuFortranParserTest extends AbstractParserTest {
      * Test parsing of a file containing an Error message output by the GNU Fortran Compiler.
      */
     @Test
-    public void testErrorParser() {
+    void testErrorParser() {
         Issues<Issue> warnings = parse("GnuFortranError.txt");
 
         assertThat(warnings).hasSize(1);
@@ -111,7 +111,7 @@ class GnuFortranParserTest extends AbstractParserTest {
      * Test parsing of a file containing a Fatal Error message output by the GNU Fortran Compiler.
      */
     @Test
-    public void testFatalErrorParser() {
+    void testFatalErrorParser() {
         Issues<Issue> warnings = parse("GnuFortranFatalError.txt");
 
         assertThat(warnings).hasSize(1);
@@ -132,7 +132,7 @@ class GnuFortranParserTest extends AbstractParserTest {
      * Test parsing of a file containing an Internal Error message output by the GNU Fortran Compiler.
      */
     @Test
-    public void testInternalErrorParser() {
+    void testInternalErrorParser() {
         Issues<Issue> warnings = parse("GnuFortranInternalError.txt");
 
         assertThat(warnings).hasSize(1);
