@@ -47,17 +47,7 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
             final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (Reader input = createReader(new FileInputStream(file), charset)) {
-            Issues<T> issues = parse(input, builder, preProcessor);
-            issues.logInfo("Successfully parsed '%s': found %d issues",
-                    file.getAbsolutePath(), issues.getSize());
-            if (issues.getDuplicatesSize() == 1) {
-                issues.logInfo("Note: one issue has been dropped since it is a duplicate");
-            }
-            else if (issues.getDuplicatesSize() > 1) {
-                issues.logInfo("Note: %d issues have been dropped since they are duplicates",
-                        issues.getDuplicatesSize());
-            }
-            return issues;
+            return parse(input, builder, preProcessor);
         }
         catch (FileNotFoundException exception) {
             throw new ParsingException(exception, "Can't find file: " + file.getAbsolutePath());
