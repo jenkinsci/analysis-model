@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -16,13 +16,13 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link JavacParser}.
  */
-class JavacParserTest extends AbstractParserTest {
+class JavacParserTest extends AbstractIssueParserTest {
     JavacParserTest() {
         super("javac.txt");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected JavacParser createParser() {
         return new JavacParser();
     }
 
@@ -59,10 +59,10 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue12482() {
-        Issues<Issue> java6 = parse("issue12482-java6.txt");
+        Issues<? extends Issue> java6 = parse("issue12482-java6.txt");
         assertThat(java6).hasSize(62);
 
-        Issues<Issue> java7 = parse("issue12482-java7.txt");
+        Issues<? extends Issue> java7 = parse("issue12482-java7.txt");
         assertThat(java7).hasSize(62);
     }
 
@@ -135,7 +135,7 @@ class JavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(5);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<? extends Issue> iterator = warnings.iterator();
         assertThatWarningIsAtLine(iterator.next(), 3);
         assertThatWarningIsAtLine(iterator.next(), 36);
         assertThatWarningIsAtLine(iterator.next(), 47);

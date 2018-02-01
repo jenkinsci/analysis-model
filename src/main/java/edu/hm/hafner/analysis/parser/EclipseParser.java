@@ -18,6 +18,7 @@ import edu.hm.hafner.util.VisibleForTesting;
 public class EclipseParser extends RegexpDocumentParser {
     private static final long serialVersionUID = 425883472788422955L;
 
+    /** Pattern for eclipse warnings. */
     @VisibleForTesting
     public static final String ANT_ECLIPSE_WARNING_PATTERN = "\\[?(WARNING|ERROR)\\]?" +      // group 1 'type':
             // WARNING or ERROR in optional []

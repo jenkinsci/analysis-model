@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<pmd-cpd>
+    <duplication lines="336" tokens="2356">
+        <file line="112" path="C:\projects\x\src\Partnerportal\Portal\WEB-INF\src\dk\nykredit\partnerportal\budget\ajax\likviditetsposter\BudgetPostBuilder.java"/>
+        <file line="123" path="C:\projects\x\src\Partnerportal\PortalComponent\dk\nykredit\partnerportal\budget\util\PostListeBuilder.java"/>
+        <codefragment>
+            <![CDATA[
+            kategori.setPoster(result);
+            kategoriList.add(kategori);
+        }
+        return obj;
+    }
+
+    public Object visitBoligkoeberbevisGruppe(BudgetGruppe.BoligkoeberbevisGruppe boligkoeberbevisGruppe,
+                                              Object obj) {
+        // @ DONE : impl this
+        for (Iterator i = boligkoeberbevisGruppe.getBudgetObjekter().iterator(); i.hasNext(); ) {
+            BudgetBoligkoeberbevis budgetObjekt = (BudgetBoligkoeberbevis) i.next();
+
+            LikviditetsposterForm.BaseKategori kategori =
+                new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), budgetObjekt, boligkoeberbevisGruppe.getLabel());
+            List result = new ArrayList();
+            for (Iterator j = budgetObjekt.getBudgetPoster().iterator(); j.hasNext(); ) {
+                BudgetPost bPost = (BudgetPost) j.next();
+                result.add(new LikviditetsposterForm.Post(result.size(), null, bPost));
+            }
+            kategori.setPoster(result);
+            kategoriList.add(kategori);
+        }
+        return obj;
+    }
+
+    public Object visitBarnGruppe(BudgetGruppe.BarnGruppe barnGruppe,
+                                  Object obj) {
+        for (Iterator i = barnGruppe.getBudgetObjekter().iterator(); i.hasNext(); ) {
+            BudgetBarn budgetObjekt = (BudgetBarn) i.next();
+
+            visitBudgetBarnObjekt(barnGruppe, budgetObjekt);
+        }
+
+        // In order to enable the user to add BudgetBarn likviditetsposter let's add a fictive barn to the lists which can be used if a
+        // BudgetBarn has not been added by the user in advance.
+        BudgetBarn budgetBarn = ModelFactory.createBudgetBarn(resourceBundle.getString("likviditetsposter.addBarnFeature.groupName"));
+        budgetBarn.setNavn(resourceBundle.getString("likviditetsposter.addBarnFeature.label"));
+
+        visitBudgetBarnObjekt(barnGruppe, budgetBarn, true);
+
+        return obj;
+    }
+
+    private void visitBudgetBarnObjekt(BudgetGruppe.BarnGruppe barnGruppe, BudgetBarn budgetObjekt) {
+        visitBudgetBarnObjekt(barnGruppe, budgetObjekt, false);
+    }
+
+    private void visitBudgetBarnObjekt(BudgetGruppe.BarnGruppe barnGruppe, BudgetBarn budgetObjekt,
+                                       boolean isAddNewScenarie) {
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), budgetObjekt,
+                barnGruppe.getLabel());
+        List result = new ArrayList();
+        for (Iterator j = budgetObjekt.getBudgetPoster().iterator(); j.hasNext(); ) {
+            BudgetPost bPost = (BudgetPost) j.next();
+            LikviditetsposterForm.Post post = new LikviditetsposterForm.Post(result.size(), null, bPost);
+            result.add(post);
+        }
+        kategori.setPoster(result);
+        if (isAddNewScenarie) {
+            kategori.setAddNewScenarie(isAddNewScenarie);
+            kategori.setAddNewScenarieAction("addBarn");
+        }
+        kategoriList.add(kategori);
+    }
+
+    public Object visitBefordringGruppe(BudgetGruppe.BefordringGruppe befordringGruppe,
+                                        Object obj) {
+        for (Iterator i = befordringGruppe.getBudgetObjekter().iterator(); i.hasNext(); ) {
+            BudgetBefordringsfradrag budgetObjekt = (BudgetBefordringsfradrag) i.next();
+
+            LikviditetsposterForm.BaseKategori kategori =
+                new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), budgetObjekt, befordringGruppe.getLabel());
+            List result = new ArrayList();
+            for (Iterator j = budgetObjekt.getBudgetPoster().iterator(); j.hasNext(); ) {
+                BudgetPost bPost = (BudgetPost) j.next();
+                result.add(new LikviditetsposterForm.Post(result.size(), null, bPost));
+            }
+            kategori.setPoster(result);
+            kategoriList.add(kategori);
+        }
+        return obj;
+    }
+
+    public Object visitBilGruppe(BudgetGruppe.BilGruppe bilGruppe,
+                                 Object obj) {
+        for (Iterator i = bilGruppe.getBudgetObjekter().iterator(); i.hasNext(); ) {
+            BudgetBil budgetObjekt = (BudgetBil) i.next();
+
+            LikviditetsposterForm.BaseKategori kategori =
+                new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), budgetObjekt, bilGruppe.getLabel());
+            List result = new ArrayList();
+            for (Iterator j = budgetObjekt.getBudgetPoster().iterator(); j.hasNext(); ) {
+                BudgetPost bPost = (BudgetPost) j.next();
+                result.add(new LikviditetsposterForm.Post(result.size(), null, bPost));
+            }
+            kategori.setPoster(result);
+            kategoriList.add(kategori);
+        }
+        return obj;
+    }
+
+    public Object visitOevrigeLaanGruppe(BudgetGruppe.OevrigeLaanGruppe oevrigeLaanGruppe,
+                                         Object obj) {
+        // @ DONE : implement this when BudgetOevrigeLaan is made
+        for (Iterator i = oevrigeLaanGruppe.getBudgetObjekter().iterator(); i.hasNext(); ) {
+            BudgetOevrigeLaan budgetObjekt = (BudgetOevrigeLaan) i.next();
+            LikviditetsposterForm.BaseKategori kategori =
+                new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), budgetObjekt, oevrigeLaanGruppe.getLabel());
+            List result = new ArrayList();
+            for (Iterator j = budgetObjekt.getBudgetPoster().iterator(); j.hasNext(); ) {
+                // EMPTY!???
+                BudgetPost bPost = (BudgetPost) j.next();
+                result.add(new LikviditetsposterForm.Post(result.size(), null, bPost));
+            }
+            kategori.setPoster(result);
+            kategoriList.add(kategori);
+        }
+        return obj;
+    }
+
+    public Object visitSkibsanparterGruppe(BudgetGruppe.SkibsanparterGruppe skibsanparterGruppe,
+                                           Object obj) {
+        for (Iterator i = skibsanparterGruppe.getBudgetObjekter().iterator(); i.hasNext(); ) {
+            BudgetSkibsanparter budgetObjekt = (BudgetSkibsanparter) i.next();
+
+            LikviditetsposterForm.BaseKategori kategori =
+                new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), budgetObjekt, skibsanparterGruppe.getLabel());
+            List result = new ArrayList();
+            for (Iterator j = budgetObjekt.getBudgetPoster().iterator(); j.hasNext(); ) {
+                BudgetPost bPost = (BudgetPost) j.next();
+                result.add(new LikviditetsposterForm.Post(result.size(), null, bPost));
+            }
+            kategori.setPoster(result);
+            kategoriList.add(kategori);
+        }
+        return obj;
+    }
+
+    public Object visitOpsparingGruppe(BudgetGruppe.OpsparingGruppe opsparingGruppe,
+                                       Object obj) {
+        for (Iterator i = opsparingGruppe.getBudgetObjekter().iterator(); i.hasNext(); ) {
+            BudgetOpsparing budgetOpsparing = (BudgetOpsparing) i.next();
+
+            LikviditetsposterForm.BaseKategori kategori =
+                new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), budgetOpsparing, opsparingGruppe.getLabel());
+            List result = new ArrayList();
+            for (Iterator j = budgetOpsparing.getBudgetPoster().iterator(); j.hasNext(); ) {
+                BudgetPost bPost = (BudgetPost) j.next();
+                result.add(new LikviditetsposterForm.Post(result.size(), null, bPost));
+            }
+            kategori.setPoster(result);
+            kategoriList.add(kategori);
+        }
+        return obj;
+    }
+
+    public Object visitAktieOgKapitalindkomstKonti(BudgetKonti.AktieOgKapitalindkomstKonti aktieOgKapitalindkomstKonti,
+                                                   Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = aktieOgKapitalindkomstKonti.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetElementKategori(kategoriList.size(), aktieOgKapitalindkomstKonti);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitFasteudgifterKonti(BudgetKonti.FasteudgifterKonti fasteudgifterKonti,
+                                          Object obj) {
+        List result = new ArrayList();
+        result.add(new LikviditetsposterForm.NyPostPost(result.size(), "Ny post", fasteudgifterKonti));
+        for (Iterator i = fasteudgifterKonti.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetElementKategori(kategoriList.size(), fasteudgifterKonti);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitOevrigeFradrag(BudgetKonti.OevrigeFradrag oevrigeFradrag,
+                                      Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = oevrigeFradrag.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetElementKategori(kategoriList.size(), oevrigeFradrag);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitPersonligtDrevetVirksomhedKonti(BudgetKonti.PersonligtDrevetVirksomhedKonti personligtDrevetVirksomhedKonti,
+                                                       Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = personligtDrevetVirksomhedKonti.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetElementKategori(kategoriList.size(), personligtDrevetVirksomhedKonti);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitPrivatforbrugKonti(BudgetKonti.PrivatforbrugKonti privatforbrugKonti,
+                                          Object obj) {
+        List result = new ArrayList();
+        result.add(new LikviditetsposterForm.NyPostPost(result.size(), "Ny post", privatforbrugKonti));
+        for (Iterator i = privatforbrugKonti.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetElementKategori(kategoriList.size(), privatforbrugKonti);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetBarn bObjekt,
+                                    Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = bObjekt.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), bObjekt);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetOpsparing bObjekt,
+                                    Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = bObjekt.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), bObjekt);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetBefordringsfradrag bObjekt,
+                                    Object obj) {
+        // Should NOT be included in list
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetLaan bObjekt,
+                                    Object obj) {
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetLoen bObjekt,
+                                    Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = bObjekt.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), bObjekt);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetEjendom bObjekt,
+                                    Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = bObjekt.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), bObjekt);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetBil bObjekt,
+                                    Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = bObjekt.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), bObjekt);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetBoligkoeberbevis bObjekt,
+                                    Object obj) {
+        // Should NOT be included
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetOevrigeLaan bObjekt,
+                                    Object obj) {
+        // Should NOT be included ?????
+        return obj;
+    }
+
+    public Object visitBudgetObjekt(BudgetSkibsanparter bObjekt,
+                                    Object obj) {
+        List result = new ArrayList();
+        for (Iterator i = bObjekt.getBudgetPoster().iterator(); i.hasNext(); ) {
+            BudgetPost budgetPost = (BudgetPost) i.next();
+            result.add(new LikviditetsposterForm.Post(result.size(), budgetPost));
+        }
+        LikviditetsposterForm.BaseKategori kategori =
+            new LikviditetsposterForm.BudgetObjektKategori(kategoriList.size(), bObjekt);
+        kategori.setPoster(result);
+        kategoriList.add(kategori);
+        return obj;
+    }
+]]>
+        </codefragment>
+    </duplication>
+    <duplication lines="163" tokens="1451">
+        <file line="459" path="C:\projects\x\src\Partnerportal\Services\dk\nykredit\services\helper\beregning\resultat\NoegletalHelper.java"/>
+        <file line="623" path="C:\projects\x\src\Partnerportal\Services\dk\nykredit\services\helper\beregning\resultat\NoegletalHelper.java"/>
+        <codefragment>
+            <![CDATA[
+    public static dk.nykredit.axisclient.domain.laan.v1.NoegletalType getAxisBean(NoegletalType model) {
+        if (model == null) {
+            return null;
+        }
+        dk.nykredit.axisclient.domain.laan.v1.NoegletalType type = new dk.nykredit.axisclient.domain.laan.v1.NoegletalType();
+        if (model.getAarligYdelseFoerSkat() != null) {
+            type.setAarligYdelseFoerSkat(ValutaBeloebHelper.getAxisBean(model.getAarligYdelseFoerSkat()));
+        }
+        if (model.getAarligYdelseEfterSkat() != null) {
+            type.setAarligYdelseEfterSkat(ValutaBeloebHelper.getAxisBean(model.getAarligYdelseEfterSkat()));
+        }
+        if (model.getAarligBruttoFradrag() != null) {
+            type.setAarligBruttoFradrag(ValutaBeloebHelper.getAxisBean(model.getAarligBruttoFradrag()));
+        }
+        if (model.getMdlYdelseFoerSkat() != null) {
+            type.setMdlYdelseFoerSkat(ValutaBeloebHelper.getAxisBean(model.getMdlYdelseFoerSkat()));
+        }
+        if (model.getMdlYdelseEfterSkat() != null) {
+            type.setMdlYdelseEfterSkat(ValutaBeloebHelper.getAxisBean(model.getMdlYdelseEfterSkat()));
+        }
+        if (model.getEffektivRenteFoerSkat() != null) {
+            type.setEffektivRenteFoerSkat(ValutaBeloebHelper.getAxisBean(model.getEffektivRenteFoerSkat()));
+        }
+        if (model.getEffektivRenteEfterSkat() != null) {
+            type.setEffektivRenteEfterSkat(ValutaBeloebHelper.getAxisBean(model.getEffektivRenteEfterSkat()));
+        }
+        if (model.getNutidsvaerdiEfterSkat() != null) {
+            type.setNutidsvaerdiEfterSkat(ValutaBeloebHelper.getAxisBean(model.getNutidsvaerdiEfterSkat()));
+        }
+        if (model.getKurs() != null) {
+            type.setKurs(ValutaBeloebHelper.getAxisBean(model.getKurs()));
+        }
+        if (model.getKursvaerdi() != null) {
+            type.setKursvaerdi(ValutaBeloebHelper.getAxisBean(model.getKursvaerdi()));
+        }
+        if (model.getHovedstol() != null) {
+            type.setHovedstol(ValutaBeloebHelper.getAxisBean(model.getHovedstol()));
+        }
+        if (model.getRestgaeld() != null) {
+            type.setRestgaeld(ValutaBeloebHelper.getAxisBean(model.getRestgaeld()));
+        }
+        if (model.getKontantRente() != null) {
+            type.setKontantRente(ValutaBeloebHelper.getAxisBean(model.getKontantRente()));
+        }
+        if (model.getObligationsRente() != null) {
+            type.setObligationsRente(ValutaBeloebHelper.getAxisBean(model.getObligationsRente()));
+        }
+        if (model.getLoebetid() != null) {
+            type.setLoebetid(ValutaBeloebHelper.getAxisBean(model.getLoebetid()));
+        }
+        if (model.getBidragsSatsUden() != null) {
+            type.setBidragsSatsUden(ValutaBeloebHelper.getAxisBean(model.getBidragsSatsUden()));
+        }
+        if (model.getBidragsSatsMed() != null) {
+            type.setBidragsSatsMed(ValutaBeloebHelper.getAxisBean(model.getBidragsSatsMed()));
+        }
+        if (model.getBidragsSatsProcent() != null) {
+            type.setBidragsSatsProcent(ValutaBeloebHelper.getAxisBean(model.getBidragsSatsProcent()));
+        }
+        if (model.getRestLoebetid() != null) {
+            type.setRestLoebetid(ValutaBeloebHelper.getAxisBean(model.getRestLoebetid()));
+        }
+        if (model.getProvenue() != null) {
+            type.setProvenue(ValutaBeloebHelper.getAxisBean(model.getProvenue()));
+        }
+        if (model.getOblRestgaeld() != null) {
+            type.setOblRestgaeld(ValutaBeloebHelper.getAxisBean(model.getOblRestgaeld()));
+        }
+        if (model.getAarligAfdrag() != null) {
+            type.setAarligAfdrag(ValutaBeloebHelper.getAxisBean(model.getAarligAfdrag()));
+        }
+        if (model.getAarligRenteBidrag() != null) {
+            type.setAarligRenteBidrag(ValutaBeloebHelper.getAxisBean(model.getAarligRenteBidrag()));
+        }
+        if (model.getFunVaegtetRentePct() != null) {
+            type.setFunVaegtetRentePct(ValutaBeloebHelper.getAxisBean(model.getFunVaegtetRentePct()));
+        }
+        if (model.getFunVaegtetRestgaeld() != null) {
+            type.setFunVaegtetRestgaeld(ValutaBeloebHelper.getAxisBean(model.getFunVaegtetRestgaeld()));
+        }
+        if (model.getFunVaegtetRestloebetid() != null) {
+            type.setFunVaegtetRestloebetid(ValutaBeloebHelper.getAxisBean(model.getFunVaegtetRestloebetid()));
+        }
+        if (model.getMdlRente() != null) {
+            type.setMdlRente(ValutaBeloebHelper.getAxisBean(model.getMdlRente()));
+        }
+        if (model.getMdlAfdrag() != null) {
+            type.setMdlAfdrag(ValutaBeloebHelper.getAxisBean(model.getMdlAfdrag()));
+        }
+        if (model.getMdlBidrag() != null) {
+            type.setMdlBidrag(ValutaBeloebHelper.getAxisBean(model.getMdlBidrag()));
+        }
+        if (model.getAarligRente() != null) {
+            type.setAarligRente(ValutaBeloebHelper.getAxisBean(model.getAarligRente()));
+        }
+        if (model.getOblHovedstol() != null) {
+            type.setOblHovedstol(ValutaBeloebHelper.getAxisBean(model.getOblHovedstol()));
+        }
+        if (model.getNutidsvaerdiEfterSkatInclOmk() != null) {
+            type.setNutidsvaerdiEfterSkatInclOmk(ValutaBeloebHelper.getAxisBean(model.getNutidsvaerdiEfterSkatInclOmk()));
+        }
+        if (model.getEffektivRenteFoerSkatExclOmk() != null) {
+            type.setEffektivRenteFoerSkatExclOmk(ValutaBeloebHelper.getAxisBean(model.getEffektivRenteFoerSkatExclOmk()));
+        }
+        if (model.getEffektivRenteEfterSkatExclOmk() != null) {
+            type.setEffektivRenteEfterSkatExclOmk(ValutaBeloebHelper.getAxisBean(model.getEffektivRenteEfterSkatExclOmk()));
+        }
+        if (model.getMdlAfdragOblRestgaeld() != null) {
+            type.setMdlAfdragOblRestgaeld(ValutaBeloebHelper.getAxisBean(model.getMdlAfdragOblRestgaeld()));
+        }
+        if (model.getAarligKernekundeRabat() != null) {
+            type.setAarligKernekundeRabat(ValutaBeloebHelper.getAxisBean(model.getAarligKernekundeRabat()));
+        }
+        if (model.getAarligBidragsBonus() != null) {
+            type.setAarligBidragsBonus(ValutaBeloebHelper.getAxisBean(model.getAarligBidragsBonus()));
+        }
+        if (model.getAarligAfdragOblRestgaeld() != null) {
+            type.setAarligAfdragOblRestgaeld(ValutaBeloebHelper.getAxisBean(model.getAarligAfdragOblRestgaeld()));
+        }
+        if (model.getBeregningssats() != null) {
+            type.setBeregningssats(ValutaBeloebHelper.getAxisBean(model.getBeregningssats()));
+        }
+        if (model.getMdlRenteFoelsomhed() != null) {
+            type.setMdlRenteFoelsomhed(ValutaBeloebHelper.getAxisBean(model.getMdlRenteFoelsomhed()));
+        }
+        if (model.getAarligRenteFoelsomhed() != null) {
+            type.setAarligRenteFoelsomhed(ValutaBeloebHelper.getAxisBean(model.getAarligRenteFoelsomhed()));
+        }
+        if (model.getIndreRentePctPa() != null) {
+            type.setIndreRentePctPa(ValutaBeloebHelper.getAxisBean(model.getIndreRentePctPa()));
+        }
+        if (model.getIndreRentePctPaEfterSkat() != null) {
+            type.setIndreRentePctPaEfterSkat(ValutaBeloebHelper.getAxisBean(model.getIndreRentePctPaEfterSkat()));
+        }
+        if (model.getLoebetidTerminer() != null) {
+            type.setLoebetidTerminer(ValutaBeloebHelper.getAxisBean(model.getLoebetidTerminer()));
+        }
+        if (model.getNominelRentePct() != null) {
+            type.setNominelRentePct(ValutaBeloebHelper.getAxisBean(model.getNominelRentePct()));
+        }
+        if (model.getLaanUdmaalingsKurs() != null) {
+            type.setLaanUdmaalingsKurs(ValutaBeloebHelper.getAxisBean(model.getLaanUdmaalingsKurs()));
+        }
+        if (model.getLaanUdmaalingsKursvaerdi() != null) {
+            type.setLaanUdmaalingsKursvaerdi(ValutaBeloebHelper.getAxisBean(model.getLaanUdmaalingsKursvaerdi()));
+        }
+        if (model.getRenteRabatSats() != null) {
+            type.setRenteRabatSats(ValutaBeloebHelper.getAxisBean(model.getRenteRabatSats()));
+        }
+        if (model.getAarligGebyrer() != null) {
+            type.setAarligGebyrer(ValutaBeloebHelper.getAxisBean(model.getAarligGebyrer()));
+        }
+        if (model.getEffektivRenteInclOmkFoerSkatMFI() != null) {
+            type.setEffektivRenteInclOmkFoerSkatMFI(ValutaBeloebHelper.getAxisBean(model.getEffektivRenteInclOmkFoerSkatMFI()));
+        }
+        if (model.getEffektivRenteExclOmkExclBidrMFI() != null) {
+            type.setEffektivRenteExclOmkExclBidrMFI(ValutaBeloebHelper.getAxisBean(model.getEffektivRenteExclOmkExclBidrMFI()));
+        }
+        if (model.getRealkreditAAop() != null) {
+            type.setRealkreditAAop(ValutaBeloebHelper.getAxisBean(model.getRealkreditAAop()));
+        }
+        return type;
+    }
+]]>
+        </codefragment>
+    </duplication>
+    <duplication lines="165" tokens="1432">
+        <file line="131" path="C:\projects\x\src\Partnerportal\Services\dk\nykredit\services\helper\beregning\resultat\NoegletalHelper.java"/>
+        <file line="295" path="C:\projects\x\src\Partnerportal\Services\dk\nykredit\services\helper\beregning\resultat\NoegletalHelper.java"/>
+        <codefragment>
+            <![CDATA[
+    public static NoegletalType getXmlBean(dk.nykredit.axisclient.domain.laan.v1.NoegletalType model) {
+        if (model == null) {
+            return null;
+        }
+        NoegletalType type = NoegletalType.Factory.newInstance();
+        if (model.getAarligYdelseFoerSkat() != null) {
+            type.setAarligYdelseFoerSkat(ValutaBeloebHelper.getXmlBean(model.getAarligYdelseFoerSkat()));
+        }
+        if (model.getAarligYdelseEfterSkat() != null) {
+            type.setAarligYdelseEfterSkat(ValutaBeloebHelper.getXmlBean(model.getAarligYdelseEfterSkat()));
+        }
+        if (model.getAarligBruttoFradrag() != null) {
+            type.setAarligBruttoFradrag(ValutaBeloebHelper.getXmlBean(model.getAarligBruttoFradrag()));
+        }
+        if (model.getMdlYdelseFoerSkat() != null) {
+            type.setMdlYdelseFoerSkat(ValutaBeloebHelper.getXmlBean(model.getMdlYdelseFoerSkat()));
+        }
+        if (model.getMdlYdelseEfterSkat() != null) {
+            type.setMdlYdelseEfterSkat(ValutaBeloebHelper.getXmlBean(model.getMdlYdelseEfterSkat()));
+        }
+        if (model.getEffektivRenteFoerSkat() != null) {
+            type.setEffektivRenteFoerSkat(ValutaBeloebHelper.getXmlBean(model.getEffektivRenteFoerSkat()));
+        }
+        if (model.getEffektivRenteEfterSkat() != null) {
+            type.setEffektivRenteEfterSkat(ValutaBeloebHelper.getXmlBean(model.getEffektivRenteEfterSkat()));
+        }
+        if (model.getNutidsvaerdiEfterSkat() != null) {
+            type.setNutidsvaerdiEfterSkat(ValutaBeloebHelper.getXmlBean(model.getNutidsvaerdiEfterSkat()));
+        }
+        if (model.getKurs() != null) {
+            type.setKurs(ValutaBeloebHelper.getXmlBean(model.getKurs()));
+        }
+        if (model.getKursvaerdi() != null) {
+            type.setKursvaerdi(ValutaBeloebHelper.getXmlBean(model.getKursvaerdi()));
+        }
+        if (model.getHovedstol() != null) {
+            type.setHovedstol(ValutaBeloebHelper.getXmlBean(model.getHovedstol()));
+        }
+        if (model.getRestgaeld() != null) {
+            type.setRestgaeld(ValutaBeloebHelper.getXmlBean(model.getRestgaeld()));
+        }
+        if (model.getKontantRente() != null) {
+            type.setKontantRente(ValutaBeloebHelper.getXmlBean(model.getKontantRente()));
+        }
+        if (model.getObligationsRente() != null) {
+            type.setObligationsRente(ValutaBeloebHelper.getXmlBean(model.getObligationsRente()));
+        }
+        if (model.getLoebetid() != null) {
+            type.setLoebetid(ValutaBeloebHelper.getXmlBean(model.getLoebetid()));
+        }
+        if (model.getBidragsSatsUden() != null) {
+            type.setBidragsSatsUden(ValutaBeloebHelper.getXmlBean(model.getBidragsSatsUden()));
+        }
+        if (model.getBidragsSatsMed() != null) {
+            type.setBidragsSatsMed(ValutaBeloebHelper.getXmlBean(model.getBidragsSatsMed()));
+        }
+        if (model.getBidragsSatsProcent() != null) {
+            type.setBidragsSatsProcent(ValutaBeloebHelper.getXmlBean(model.getBidragsSatsProcent()));
+        }
+        if (model.getRestLoebetid() != null) {
+            type.setRestLoebetid(ValutaBeloebHelper.getXmlBean(model.getRestLoebetid()));
+        }
+        if (model.getProvenue() != null) {
+            type.setProvenue(ValutaBeloebHelper.getXmlBean(model.getProvenue()));
+        }
+        if (model.getOblRestgaeld() != null) {
+            type.setOblRestgaeld(ValutaBeloebHelper.getXmlBean(model.getOblRestgaeld()));
+        }
+        if (model.getAarligAfdrag() != null) {
+            type.setAarligAfdrag(ValutaBeloebHelper.getXmlBean(model.getAarligAfdrag()));
+        }
+        if (model.getAarligRenteBidrag() != null) {
+            type.setAarligRenteBidrag(ValutaBeloebHelper.getXmlBean(model.getAarligRenteBidrag()));
+        }
+        if (model.getFunVaegtetRentePct() != null) {
+            type.setFunVaegtetRentePct(ValutaBeloebHelper.getXmlBean(model.getFunVaegtetRentePct()));
+        }
+        if (model.getFunVaegtetRestgaeld() != null) {
+            type.setFunVaegtetRestgaeld(ValutaBeloebHelper.getXmlBean(model.getFunVaegtetRestgaeld()));
+        }
+        if (model.getFunVaegtetRestloebetid() != null) {
+            type.setFunVaegtetRestloebetid(ValutaBeloebHelper.getXmlBean(model.getFunVaegtetRestloebetid()));
+        }
+        if (model.getMdlRente() != null) {
+            type.setMdlRente(ValutaBeloebHelper.getXmlBean(model.getMdlRente()));
+        }
+        if (model.getMdlAfdrag() != null) {
+            type.setMdlAfdrag(ValutaBeloebHelper.getXmlBean(model.getMdlAfdrag()));
+        }
+        if (model.getMdlBidrag() != null) {
+            type.setMdlBidrag(ValutaBeloebHelper.getXmlBean(model.getMdlBidrag()));
+        }
+        if (model.getAarligRente() != null) {
+            type.setAarligRente(ValutaBeloebHelper.getXmlBean(model.getAarligRente()));
+        }
+        if (model.getOblHovedstol() != null) {
+            type.setOblHovedstol(ValutaBeloebHelper.getXmlBean(model.getOblHovedstol()));
+        }
+        if (model.getNutidsvaerdiEfterSkatInclOmk() != null) {
+            type.setNutidsvaerdiEfterSkatInclOmk(ValutaBeloebHelper.getXmlBean(model.getNutidsvaerdiEfterSkatInclOmk()));
+        }
+        if (model.getEffektivRenteFoerSkatExclOmk() != null) {
+            type.setEffektivRenteFoerSkatExclOmk(ValutaBeloebHelper.getXmlBean(model.getEffektivRenteFoerSkatExclOmk()));
+        }
+        if (model.getEffektivRenteEfterSkatExclOmk() != null) {
+            type.setEffektivRenteEfterSkatExclOmk(ValutaBeloebHelper.getXmlBean(model.getEffektivRenteEfterSkatExclOmk()));
+        }
+        if (model.getMdlAfdragOblRestgaeld() != null) {
+            type.setMdlAfdragOblRestgaeld(ValutaBeloebHelper.getXmlBean(model.getMdlAfdragOblRestgaeld()));
+        }
+        if (model.getAarligKernekundeRabat() != null) {
+            type.setAarligKernekundeRabat(ValutaBeloebHelper.getXmlBean(model.getAarligKernekundeRabat()));
+        }
+        if (model.getAarligBidragsBonus() != null) {
+            type.setAarligBidragsBonus(ValutaBeloebHelper.getXmlBean(model.getAarligBidragsBonus()));
+        }
+        if (model.getAarligAfdragOblRestgaeld() != null) {
+            type.setAarligAfdragOblRestgaeld(ValutaBeloebHelper.getXmlBean(model.getAarligAfdragOblRestgaeld()));
+        }
+        if (model.getBeregningssats() != null) {
+            type.setBeregningssats(ValutaBeloebHelper.getXmlBean(model.getBeregningssats()));
+        }
+        if (model.getMdlRenteFoelsomhed() != null) {
+            type.setMdlRenteFoelsomhed(ValutaBeloebHelper.getXmlBean(model.getMdlRenteFoelsomhed()));
+        }
+        if (model.getAarligRenteFoelsomhed() != null) {
+            type.setAarligRenteFoelsomhed(ValutaBeloebHelper.getXmlBean(model.getAarligRenteFoelsomhed()));
+        }
+        if (model.getIndreRentePctPa() != null) {
+            type.setIndreRentePctPa(ValutaBeloebHelper.getXmlBean(model.getIndreRentePctPa()));
+        }
+        if (model.getIndreRentePctPaEfterSkat() != null) {
+            type.setIndreRentePctPaEfterSkat(ValutaBeloebHelper.getXmlBean(model.getIndreRentePctPaEfterSkat()));
+        }
+        if (model.getLoebetidTerminer() != null) {
+            type.setLoebetidTerminer(ValutaBeloebHelper.getXmlBean(model.getLoebetidTerminer()));
+        }
+        if (model.getNominelRentePct() != null) {
+            type.setNominelRentePct(ValutaBeloebHelper.getXmlBean(model.getNominelRentePct()));
+        }
+        if (model.getLaanUdmaalingsKurs() != null) {
+            type.setLaanUdmaalingsKurs(ValutaBeloebHelper.getXmlBean(model.getLaanUdmaalingsKurs()));
+        }
+        if (model.getLaanUdmaalingsKursvaerdi() != null) {
+            type.setLaanUdmaalingsKursvaerdi(ValutaBeloebHelper.getXmlBean(model.getLaanUdmaalingsKursvaerdi()));
+        }
+        if (model.getRenteRabatSats() != null) {
+            type.setRenteRabatSats(ValutaBeloebHelper.getXmlBean(model.getRenteRabatSats()));
+        }
+        if (model.getAarligGebyrer() != null) {
+            type.setAarligGebyrer(ValutaBeloebHelper.getXmlBean(model.getAarligGebyrer()));
+        }
+        if (model.getEffektivRenteInclOmkFoerSkatMFI() != null) {
+            type.setEffektivRenteInclOmkFoerSkatMFI(ValutaBeloebHelper.getXmlBean(model.getEffektivRenteInclOmkFoerSkatMFI()));
+        }
+        if (model.getEffektivRenteExclOmkExclBidrMFI() != null) {
+            type.setEffektivRenteExclOmkExclBidrMFI(ValutaBeloebHelper.getXmlBean(model.getEffektivRenteExclOmkExclBidrMFI()));
+        }
+        if (model.getRealkreditAAop() != null) {
+            type.setRealkreditAAop(ValutaBeloebHelper.getXmlBean(model.getRealkreditAAop()));
+        }
+        return type;
+    }
+
+    public static dk.nykredit.axisclient.domain.laan.v1.NoegletalType getAxisBean(Noegletal model) {
+]]>
+        </codefragment>
+    </duplication>
+    <duplication lines="44" tokens="417">
+        <file line="189" path="C:\projects\x\src\Partnerportal\PortalComponent\dk\nykredit\partnerportal\common\kundeprint\budget\BudgetPeriodeDetailTable.java"/>
+        <file line="90" path="C:\projects\x\src\Partnerportal\PortalComponent\dk\nykredit\partnerportal\common\kundeprint\budget\BudgetPeriodeHovedtalTable.java"/>
+        <codefragment>
+            <![CDATA[
+        createPeriodeRow(tableBody, createBoldTextBlock("Udgifter i alt"), new RowCallback() {
+            public Element getValue(int year, int person, int resultNo) {
+                if (resultNo == 0) {
+                    return createBoldTextBlock(
+                        getKundeprint().getResultat().getBudgetGrupper().getSumUdgifter().getAarArray(year).getPersonArray(person)
+                            .getFremskrivningArray(1).getValutaArray(0).getBeloeb().getVaerdi());
+                } else {
+                    return createBoldTextBlock(
+                        getKundeprint().getResultatSammenlign().getBudgetGrupper().getSumUdgifter().getAarArray(year).getPersonArray(person)
+                            .getFremskrivningArray(1).getValutaArray(0).getBeloeb().getVaerdi());
+                }
+            }
+        });
+
+        createEmptyRow(tableBody);
+
+        createPeriodeRow(tableBody, createDefaultTextBlock("Rådighedsbeløb pr. år"), new RowCallback() {
+            public Element getValue(int year, int person, int resultNo) {
+                if (resultNo == 0) {
+                    return createDefaultTextBlock(
+                        getKundeprint().getResultat().getHovedtal().getRaadighedsbeloeb().getAarArray(year).getPersonArray(person)
+                            .getFremskrivningArray(1).getValutaArray(0).getBeloeb().getVaerdi());
+                } else {
+                    return createDefaultTextBlock(
+                        getKundeprint().getResultatSammenlign().getHovedtal().getRaadighedsbeloeb().getAarArray(year).getPersonArray(person)
+                            .getFremskrivningArray(1).getValutaArray(0).getBeloeb().getVaerdi());
+                }
+            }
+        });
+
+        createPeriodeRow(tableBody, createBoldTextBlock("Rådighedsbeløb pr. måned"), new RowCallback() {
+            public Element getValue(int year, int person, int resultNo) {
+                if (resultNo == 0) {
+                    return createBoldTextBlock(
+                        getKundeprint().getResultat().getHovedtal().getRaadighedsbeloeb().getAarArray(year).getPersonArray(person)
+                            .getFremskrivningArray(1).getValutaArray(0).getBeloeb().getVaerdi() / 12d);
+                } else {
+                    return createBoldTextBlock(
+                        getKundeprint().getResultatSammenlign().getHovedtal().getRaadighedsbeloeb().getAarArray(year).getPersonArray(person)
+                            .getFremskrivningArray(1).getValutaArray(0).getBeloeb().getVaerdi() / 12d);
+                }
+            }
+        });
+    }
+]]>
+        </codefragment>
+    </duplication>
+</pmd-cpd>

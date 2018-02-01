@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -12,13 +11,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Andrew 'Necromant' Andrianov
  */
-class CadenceIncisiveParserTest extends AbstractParserTest {
+class CadenceIncisiveParserTest extends AbstractIssueParserTest {
     CadenceIncisiveParserTest() {
         super("CadenceIncisive.txt");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected CadenceIncisiveParser createParser() {
         return new CadenceIncisiveParser();
     }
 

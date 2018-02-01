@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -13,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link PyLintParser}.
  */
-class PylintParserTest extends AbstractParserTest {
+class PylintParserTest extends AbstractIssueParserTest {
 
 
     private static final String ISSUES_FILE = "pyLint.txt";
@@ -83,7 +82,7 @@ class PylintParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected PyLintParser createParser() {
         return new PyLintParser();
     }
 }

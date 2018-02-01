@@ -3,8 +3,8 @@ package edu.hm.hafner.analysis.assertj;
 import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.internal.Failures;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 
 /**
@@ -13,8 +13,9 @@ import edu.hm.hafner.analysis.Issues;
  * @author Marcel Binder
  */
 @SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion"})
-public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<Issue>> {
+public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<?>> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
+    private final Failures failures = Failures.instance();
 
     /**
      * Creates a new {@link IssueAssert} to make assertions on actual {@link Issues}.
@@ -22,7 +23,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<Issue>> {
      * @param actual
      *         the issue we want to make assertions on
      */
-    public IssuesAssert(final Issues<Issue> actual) {
+    public IssuesAssert(final Issues<?> actual) {
         super(actual, IssuesAssert.class);
     }
 
@@ -35,7 +36,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<Issue>> {
      *
      * @return a new {@link IssuesAssert}
      */
-    public static IssuesAssert assertThat(final Issues<Issue> actual) {
+    public static IssuesAssert assertThat(final Issues<?> actual) {
         return new IssuesAssert(actual);
     }
 

@@ -22,7 +22,7 @@ import edu.hm.hafner.analysis.SecureDigester;
  *
  * @author Ullrich Hafner
  */
-public class PmdParser extends AbstractParser {
+public class PmdParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = 6507147028628714706L;
 
     /** PMD priorities smaller than this value are mapped to {@link Priority#HIGH}. */
@@ -53,7 +53,7 @@ public class PmdParser extends AbstractParser {
 
             Pmd pmd = digester.parse(reader);
             if (pmd == null) {
-                throw new SAXException("Input stream is not a PMD file.");
+                throw new ParsingException("Input stream is not a PMD file.");
             }
 
             return convert(pmd, builder);

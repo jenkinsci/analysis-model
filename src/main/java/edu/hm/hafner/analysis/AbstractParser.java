@@ -24,6 +24,9 @@ import edu.hm.hafner.util.VisibleForTesting;
  * based on a regular expression you can extend from the existing base classes {@link RegexpLineParser} or {@link
  * RegexpDocumentParser}.
  *
+ * @param <T>
+ *         subtype of created issues
+ *
  * @author Ullrich Hafner
  * @see RegexpLineParser
  * @see RegexpDocumentParser
@@ -31,7 +34,7 @@ import edu.hm.hafner.util.VisibleForTesting;
  * @see EclipseParser
  * @see StyleCopParser
  */
-public abstract class AbstractParser extends IssueParser {
+public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
     private static final long serialVersionUID = 8466657735514387654L;
 
     /** Category for warnings due to usage of deprecate API. */
@@ -40,11 +43,11 @@ public abstract class AbstractParser extends IssueParser {
     public static final String PROPRIETARY_API = "Proprietary API";
 
     @Override
-    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder,
+    public Issues<T> parse(final File file, final Charset charset, final IssueBuilder builder,
             final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (Reader input = createReader(new FileInputStream(file), charset)) {
-            Issues<Issue> issues = parse(input, builder, preProcessor);
+            Issues<T> issues = parse(input, builder, preProcessor);
             issues.logInfo("Successfully parsed '%s': found %d issues",
                     file.getAbsolutePath(), issues.getSize());
             if (issues.getDuplicatesSize() == 1) {
@@ -84,7 +87,7 @@ public abstract class AbstractParser extends IssueParser {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<Issue> parse(Reader reader, IssueBuilder builder,
+    public abstract Issues<T> parse(Reader reader, IssueBuilder builder,
             Function<String, String> preProcessor) throws ParsingCanceledException, ParsingException;
 
     /**
@@ -102,13 +105,14 @@ public abstract class AbstractParser extends IssueParser {
      *         Signals that the parsing has been aborted by the user
      */
     @VisibleForTesting
-    public Issues<Issue> parse(Reader reader, IssueBuilder builder)
+    public Issues<T> parse(Reader reader, IssueBuilder builder)
             throws ParsingCanceledException, ParsingException {
         return parse(reader, builder, Function.identity());
     }
+
     /**
      * Converts a string line number to an integer value. If the string is not a valid line number, then 0 is returned
-     * which indicates a Issue at the top of the file.
+     * which indicates an issue at the top of the file.
      *
      * @param lineNumber
      *         the line number (as a string)

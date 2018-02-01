@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -18,7 +17,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Mihail Menev, menev@hm.edu
  */
-class PerlCriticParserTest extends AbstractParserTest {
+class PerlCriticParserTest extends AbstractIssueParserTest {
 
     PerlCriticParserTest() {
         super("perlcritic.txt");
@@ -38,7 +37,7 @@ class PerlCriticParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(3);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<? extends Issue> iterator = warnings.iterator();
 
         assertSoftly(softly -> {
             softly.assertThat(iterator.next())
@@ -78,7 +77,7 @@ class PerlCriticParserTest extends AbstractParserTest {
         Issues<Issue> warnings = parse("issue17792-nofilename.txt");
         assertThat(warnings).hasSize(3);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<? extends Issue> iterator = warnings.iterator();
 
         assertSoftly(softly -> {
             softly.assertThat(iterator.next())
@@ -116,7 +115,7 @@ class PerlCriticParserTest extends AbstractParserTest {
      * @return the warnings parser
      */
     @Override
-    protected AbstractParser createParser() {
+    protected PerlCriticParser createParser() {
         return new PerlCriticParser();
     }
 }

@@ -30,24 +30,12 @@ class FingerprintGeneratorTest extends ResourceTest {
         assertThat(issues.get(0).hasFingerprint()).isFalse();
         String alreadySet = "already-set";
         issues.add(builder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
-        Issues<Issue> copy = generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
+        generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
                 issues, new IssueBuilder(), CHARSET_AFFECTED_FILE);
 
-        assertThat(copy.get(0).hasFingerprint()).isTrue();
-        assertThat(copy.get(1).getFingerprint()).isEqualTo(alreadySet);
-        assertThat(copy).hasId(ID);
-    }
-
-    @Test
-    void shouldReturnCopyOfIssues() {
-        FingerprintGenerator generator = new FingerprintGenerator();
-
-        Issues<Issue> original = createIssues();
-        Issues<Issue> copy = generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
-                original, new IssueBuilder(), CHARSET_AFFECTED_FILE);
-
-        assertThat(copy).isNotSameAs(original);
-        assertThat(copy).hasId(ID);
+        assertThat(issues.get(0).hasFingerprint()).isTrue();
+        assertThat(issues.get(1).getFingerprint()).isEqualTo(alreadySet);
+        assertThat(issues).hasId(ID);
     }
 
     @Test
@@ -56,12 +44,12 @@ class FingerprintGeneratorTest extends ResourceTest {
         FingerprintGenerator generator = new FingerprintGenerator();
         FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-one.txt");
 
-        Issues<Issue> enhanced = generator.run(fingerprint,
+        generator.run(fingerprint,
                 issues, new IssueBuilder(), CHARSET_AFFECTED_FILE);
 
-        Issue referenceIssue = enhanced.get(0);
-        Issue currentIssue = enhanced.get(1);
-        assertThat(enhanced).hasId(ID);
+        Issue referenceIssue = issues.get(0);
+        Issue currentIssue = issues.get(1);
+        assertThat(issues).hasId(ID);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isEqualTo(currentIssue.getFingerprint());
@@ -90,12 +78,12 @@ class FingerprintGeneratorTest extends ResourceTest {
         FingerprintGenerator generator = new FingerprintGenerator();
         FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt");
 
-        Issues<Issue> enhanced = generator.run(fingerprint,
+        generator.run(fingerprint,
                 issues, new IssueBuilder(), Charset.forName("UTF-8"));
 
-        assertThat(enhanced).hasId(ID);
-        Issue referenceIssue = enhanced.get(0);
-        Issue currentIssue = enhanced.get(1);
+        assertThat(issues).hasId(ID);
+        Issue referenceIssue = issues.get(0);
+        Issue currentIssue = issues.get(1);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isNotEqualTo(currentIssue.getFingerprint());

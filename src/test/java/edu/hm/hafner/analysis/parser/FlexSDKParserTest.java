@@ -7,8 +7,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -17,11 +16,11 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link FlexSDKParser}.
  */
-class FlexSDKParserTest extends AbstractParserTest {
+class FlexSDKParserTest extends AbstractIssueParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     /**
-     * Creates a new instance of {@link AbstractParserTest}.
+     * Creates a new instance of {@link AbstractIssueParserTest}.
      */
     protected FlexSDKParserTest() {
         super("flexsdk.txt");
@@ -68,7 +67,7 @@ class FlexSDKParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected FlexSDKParser createParser() {
         return new FlexSDKParser();
     }
 }

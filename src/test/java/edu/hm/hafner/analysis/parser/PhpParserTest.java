@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -18,7 +17,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Shimi Kiviti
  */
-class PhpParserTest extends AbstractParserTest {
+class PhpParserTest extends AbstractIssueParserTest {
     private static final String PARSE_ERROR_CATEGORY = "PHP Parse error";
     private static final String FATAL_ERROR_CATEGORY = "PHP Fatal error";
     private static final String WARNING_CATEGORY = "PHP Warning";
@@ -36,7 +35,7 @@ class PhpParserTest extends AbstractParserTest {
      */
     @Test
     void issue27681() {
-        Issues<Issue> issues = parse("issue27681.txt");
+        Issues<? extends Issue> issues = parse("issue27681.txt");
 
         assertThat(issues).hasSize(1);
 
@@ -105,7 +104,7 @@ class PhpParserTest extends AbstractParserTest {
      * @return the warnings parser
      */
     @Override
-    protected AbstractParser createParser() {
+    protected PhpParser createParser() {
         return new PhpParser();
     }
 }

@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -16,13 +16,13 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link EclipseParser}.
  */
-class EclipseParserTest extends AbstractParserTest {
+public class EclipseParserTest extends AbstractIssueParserTest {
     protected EclipseParserTest() {
         super("eclipse.txt");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected AbstractParser<Issue> createParser() {
         return new EclipseParser();
     }
 
@@ -74,7 +74,7 @@ class EclipseParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(3);
 
         assertSoftly(softly -> {
-            Iterator<Issue> iterator = warnings.iterator();
+            Iterator<? extends Issue> iterator = warnings.iterator();
             softly.assertThat(iterator.next())
                     .hasPriority(Priority.NORMAL)
                     .hasLineStart(369)
@@ -160,7 +160,7 @@ class EclipseParserTest extends AbstractParserTest {
      */
     @Test
     void issue7077all() {
-        Issues<Issue> sorted = parse("issue7077-all.txt");
+        Issues<? extends Issue> sorted = parse("issue7077-all.txt");
 
         assertThat(sorted).hasSize(45);
 

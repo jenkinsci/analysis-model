@@ -6,8 +6,7 @@ import java.io.InputStreamReader;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
@@ -19,7 +18,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link MsBuildParser}.
  */
-class MsBuildParserTest extends AbstractParserTest {
+class MsBuildParserTest extends AbstractIssueParserTest {
     MsBuildParserTest() {
         super("msbuild.txt");
     }
@@ -593,7 +592,7 @@ class MsBuildParserTest extends AbstractParserTest {
     @Test
     void shouldDetectKeywordsInRegexCaseInsensitive() throws IOException {
 
-        Issues<Issue> warnings = createParser().parse(createIssue2383File(), new IssueBuilder());
+        Issues<? extends Issue> warnings = createParser().parse(createIssue2383File(), new IssueBuilder());
 
         assertThat(warnings).hasSize(2).hasHighPrioritySize(1).hasNormalPrioritySize(1);
 
@@ -714,7 +713,7 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected MsBuildParser createParser() {
         return new MsBuildParser();
     }
 }

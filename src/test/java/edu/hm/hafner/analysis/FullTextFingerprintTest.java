@@ -1,10 +1,7 @@
 package edu.hm.hafner.analysis;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.Iterator;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -64,14 +61,16 @@ class FullTextFingerprintTest extends ResourceTest {
 
         FullTextFingerprint code = new FullTextFingerprint();
 
-        String fingerprint = code.createFingerprint(10, convertBufferToStream(affectedFile), getCharset());
+        String fingerprint = code.createFingerprint(10, getTextLinesAsStream(affectedFile), getCharset());
 
         for (int line = 0; line < 34; line++) {
             if (line == 10 || line == 20) {
-                assertThat(fingerprint).isEqualTo(code.createFingerprint(line, convertBufferToStream(affectedFile), getCharset()));
+                assertThat(fingerprint).isEqualTo(
+                        code.createFingerprint(line, getTextLinesAsStream(affectedFile), getCharset()));
             }
             else {
-                assertThat(fingerprint).isNotEqualTo(code.createFingerprint(line, convertBufferToStream(affectedFile), getCharset()));
+                assertThat(fingerprint).isNotEqualTo(
+                        code.createFingerprint(line, getTextLinesAsStream(affectedFile), getCharset()));
             }
         }
     }
@@ -90,11 +89,6 @@ class FullTextFingerprintTest extends ResourceTest {
     }
 
     private Iterator<String> asIterator(final String affectedFile) {
-        return convertBufferToStream(affectedFile).iterator();
-    }
-
-    @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    private Stream<String> convertBufferToStream(final String affectedFile) {
-        return new BufferedReader(new StringReader(affectedFile)).lines();
+        return getTextLinesAsStream(affectedFile).iterator();
     }
 }

@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -12,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link GhsMultiParser}.
  */
-class GhsMultiParserTest extends AbstractParserTest {
+class GhsMultiParserTest extends AbstractIssueParserTest {
     GhsMultiParserTest() {
         super("ghsmulti.txt");
     }
@@ -47,7 +46,7 @@ class GhsMultiParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected GhsMultiParser createParser() {
         return new GhsMultiParser();
     }
 }

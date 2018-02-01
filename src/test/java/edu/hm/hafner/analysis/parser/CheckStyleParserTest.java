@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -14,7 +13,7 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 /**
  * Tests the extraction of CheckStyle analysis results.
  */
-class CheckStyleParserTest extends AbstractParserTest {
+class CheckStyleParserTest extends AbstractIssueParserTest {
     private static final String PREFIX = "checkstyle/";
 
     CheckStyleParserTest() {
@@ -22,7 +21,7 @@ class CheckStyleParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected CheckStyleParser createParser() {
         return new CheckStyleParser();
     }
 
@@ -48,7 +47,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void issue25511() {
-        Issues<Issue> issues = parseInCheckStyleFolder("issue25511.xml");
+        Issues<? extends Issue> issues = parseInCheckStyleFolder("issue25511.xml");
 
         assertThat(issues).hasSize(2);
 
@@ -63,7 +62,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void testColumnPositions() {
-        Issues<Issue> issues = parseInCheckStyleFolder("issue19122.xml");
+        Issues<? extends Issue> issues = parseInCheckStyleFolder("issue19122.xml");
 
         assertThat(issues).hasSize(58);
     }
@@ -76,12 +75,12 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void testParsingOfScalaStyleFormat() {
-        Issues<Issue> issues = parseInCheckStyleFolder("scalastyle-output.xml");
+        Issues<? extends Issue> issues = parseInCheckStyleFolder("scalastyle-output.xml");
 
         assertThat(issues).hasSize(2);
     }
 
-    private Issues<Issue> parseInCheckStyleFolder(final String fileName) {
+    private Issues<? extends Issue> parseInCheckStyleFolder(final String fileName) {
         return parse(PREFIX + fileName);
     }
 }

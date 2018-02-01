@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -11,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link RobocopyParser}.
  */
-class RobocopyParserTest extends AbstractParserTest {
+class RobocopyParserTest extends AbstractIssueParserTest {
     RobocopyParserTest() {
         super("robocopy.txt");
     }
@@ -46,7 +45,7 @@ class RobocopyParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected RobocopyParser createParser() {
         return new RobocopyParser();
     }
 }

@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import static edu.hm.hafner.analysis.Issues.*;
@@ -15,7 +14,7 @@ import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 /**
  * Tests the extraction of PMD analysis results.
  */
-class PmdParserTest extends AbstractParserTest {
+class PmdParserTest extends AbstractIssueParserTest {
     private static final String PREFIX = "pmd/";
 
     PmdParserTest() {
@@ -23,7 +22,7 @@ class PmdParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected PmdParser createParser() {
         return new PmdParser();
     }
 
@@ -31,7 +30,7 @@ class PmdParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(4);
 
-        Issues<Issue> actionIssues = issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"));
+        Issues<? extends Issue> actionIssues = issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"));
         softly.assertThat(actionIssues).hasSize(1);
         softly.assertThat(issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
         softly.assertThat(issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
@@ -53,7 +52,7 @@ class PmdParserTest extends AbstractParserTest {
 
     @Test
     void shouldCorrectlyMapLinesAndColumns() {
-        Issues<Issue> issues = parseInPmdFolder("lines-columns.xml");
+        Issues<? extends Issue> issues = parseInPmdFolder("lines-columns.xml");
 
         assertThat(issues).hasSize(1);
 
@@ -75,7 +74,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void issue12801() {
-        Issues<Issue> issues = parseInPmdFolder("issue12801.xml");
+        Issues<? extends Issue> issues = parseInPmdFolder("issue12801.xml");
 
         assertThat(issues).hasSize(2);
     }
@@ -85,7 +84,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithSeveralWarnings() {
-        Issues<Issue> issues = parseInPmdFolder("pmd.xml");
+        Issues<? extends Issue> issues = parseInPmdFolder("pmd.xml");
 
         assertThat(issues).hasSize(669);
     }
@@ -96,7 +95,7 @@ class PmdParserTest extends AbstractParserTest {
     @Test
     void verifySingleDot() {
         String fileName = "warning-message-with-dot.xml";
-        Issues<Issue> issues = parseInPmdFolder(fileName);
+        Issues<? extends Issue> issues = parseInPmdFolder(fileName);
 
         assertThat(issues).hasSize(2);
         assertThat(issues.get(0)).hasMessage("Avoid really long parameter lists.");
@@ -107,7 +106,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithNoBugs() {
-        Issues<Issue> issues = parseInPmdFolder("empty.xml");
+        Issues<? extends Issue> issues = parseInPmdFolder("empty.xml");
 
         assertThat(issues).isEmpty();
     }
@@ -117,7 +116,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void testEquals() {
-        Issues<Issue> issues = parseInPmdFolder("equals-test.xml");
+        Issues<? extends Issue> issues = parseInPmdFolder("equals-test.xml");
 
         int expectedSize = 4;
         assertThat(issues).hasSize(expectedSize);
@@ -125,7 +124,7 @@ class PmdParserTest extends AbstractParserTest {
         assertThat(issues).hasNormalPrioritySize(expectedSize);
     }
 
-    private Issues<Issue> parseInPmdFolder(final String fileName) {
+    private Issues<? extends Issue> parseInPmdFolder(final String fileName) {
         return parse(PREFIX + fileName);
     }
 }

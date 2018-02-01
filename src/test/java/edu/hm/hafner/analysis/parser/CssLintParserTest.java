@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -11,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class CssLintParserTest extends AbstractParserTest {
+class CssLintParserTest extends AbstractIssueParserTest {
     /**
      * Creates a new instance of {@link CssLintParserTest}.
      */
@@ -30,7 +29,7 @@ class CssLintParserTest extends AbstractParserTest {
      * @return the warnings parser
      */
     @Override
-    protected AbstractParser createParser() {
+    protected LintParser createParser() {
         return new LintParser();
     }
 }

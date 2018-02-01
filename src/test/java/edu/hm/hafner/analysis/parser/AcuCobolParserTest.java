@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
@@ -14,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link AcuCobolParser}.
  */
-class AcuCobolParserTest extends AbstractParserTest {
+class AcuCobolParserTest extends AbstractIssueParserTest {
     private static final String CATEGORY = new IssueBuilder().build().getCategory();
 
     AcuCobolParserTest() {
@@ -57,7 +56,7 @@ class AcuCobolParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected AcuCobolParser createParser() {
         return new AcuCobolParser();
     }
 }

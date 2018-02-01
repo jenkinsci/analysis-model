@@ -47,6 +47,8 @@ class ArchitectureRulesTest {
                 .that().dontHaveModifier(JavaModifier.ABSTRACT)
                 .and().haveSimpleNameEndingWith("Test")
                 .and().dontHaveSimpleName("IssueTest")
+                .and().dontHaveSimpleName("EclipseParserTest") // base class for warnings-plugin
+                .and().dontHaveSimpleName("Pep8ParserTest")    // base class for warnings-plugin
                 .should().bePublic();
 
         noPublicClasses.check(classes);

@@ -19,7 +19,7 @@ import edu.hm.hafner.analysis.ParsingException;
  *
  * @author Tom Diamond
  */
-public class AjcParser extends AbstractParser {
+public class AjcParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -9123765511497052454L;
 
     private static final Pattern ESCAPE_CHARACTERS = Pattern.compile((char) 27 + "\\[.*" + (char) 27 + "\\[0m");

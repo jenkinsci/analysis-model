@@ -3,8 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -15,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class MavenConsoleParserTest extends AbstractParserTest {
+class MavenConsoleParserTest extends AbstractIssueParserTest {
     /**
      * Creates a new instance of {@link MavenConsoleParserTest}.
      */
@@ -58,7 +57,7 @@ class MavenConsoleParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected MavenConsoleParser createParser() {
         return new MavenConsoleParser();
     }
 }

@@ -31,7 +31,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <p> Note that instances of this parser are not thread safe. </p>
  */
 @SuppressWarnings("unused")
-public class FxCopParser extends AbstractParser {
+public class FxCopParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -7208558002331355408L;
 
     @SuppressFBWarnings({"UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", "SE_TRANSIENT_FIELD_NOT_RESTORED"})

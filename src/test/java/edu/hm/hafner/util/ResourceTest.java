@@ -1,7 +1,9 @@
 package edu.hm.hafner.util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -61,14 +63,14 @@ public abstract class ResourceTest {
      * consumed. <p> Bytes from the resource are decoded into characters using UTF-8 and the same line terminators as
      * specified by {@link Files#readAllLines(Path, Charset)} are supported.</p>
      *
-     * @param name
+     * @param fileName
      *         name of the desired resource
      *
-     * @return the content represented by a byte array
+     * @return the content represented as a {@link Stream} of lines
      */
     @MustBeClosed
-    protected Stream<String> asStream(final String name) {
-        return asStream(name, StandardCharsets.UTF_8);
+    protected Stream<String> asStream(final String fileName) {
+        return asStream(fileName, StandardCharsets.UTF_8);
     }
 
     /**
@@ -76,20 +78,20 @@ public abstract class ResourceTest {
      * consumed. <p> Bytes from the resource are decoded into characters using the specified charset and the same line
      * terminators as specified by {@link Files#readAllLines(Path, Charset)} are supported.</p>
      *
-     * @param name
+     * @param fileName
      *         name of the desired resource
      * @param charset
      *         the charset to use for decoding
      *
-     * @return the content represented by a byte array
+     * @return the content represented as a {@link Stream} of lines
      */
     @MustBeClosed
-    protected Stream<String> asStream(final String name, final Charset charset) {
+    protected Stream<String> asStream(final String fileName, final Charset charset) {
         try {
-            return Files.lines(getPath(name), charset);
+            return Files.lines(getPath(fileName), charset);
         }
         catch (IOException | URISyntaxException e) {
-            throw new AssertionError("Can't read resource " + name, e);
+            throw new AssertionError("Can't read resource " + fileName, e);
         }
     }
 
@@ -99,7 +101,7 @@ public abstract class ResourceTest {
      * @param fileName
      *         name of the desired resource
      *
-     * @return the content represented by a byte array
+     * @return the content represented as an {@link InputStream}
      */
     protected InputStream asInputStream(final String fileName) {
         InputStream stream = getTestResourceClass().getResourceAsStream(fileName);
@@ -126,9 +128,22 @@ public abstract class ResourceTest {
      * @param fileName
      *         name of the desired resource
      *
-     * @return the content represented as String
+     * @return the content represented as a {@link Stream} of lines
      */
     protected String toString(final String fileName) {
         return new String(readResource(fileName));
+    }
+
+    /**
+     * Read all lines from the specified text String as a {@code Stream}.
+     *
+     * @param text
+     *         the text to return as {@link Stream} of lines
+     *
+     * @return the content represented by a byte array
+     */
+    @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
+    protected Stream<String> getTextLinesAsStream(final String text) {
+        return new BufferedReader(new StringReader(text)).lines();
     }
 }

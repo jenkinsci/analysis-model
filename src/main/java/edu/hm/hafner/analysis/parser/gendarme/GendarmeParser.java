@@ -37,7 +37,7 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author mathias.kluba@gmail.com
  */
-public class GendarmeParser extends AbstractParser {
+public class GendarmeParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = 1677715364464119907L;
 
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");

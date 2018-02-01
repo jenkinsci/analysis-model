@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -13,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link RFLintParser}. Created by traitanit on 3/27/2017 AD.
  */
-class RFLintParserTest extends AbstractParserTest {
+class RFLintParserTest extends AbstractIssueParserTest {
 
     private static final String WARNING_CATEGORY = "WARNING";
     private static final String ERROR_CATEGORY = "ERROR";
@@ -83,7 +82,7 @@ class RFLintParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected RFLintParser createParser() {
         return new RFLintParser();
     }
 }

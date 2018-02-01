@@ -8,9 +8,12 @@ import java.util.function.Function;
 /**
  * Parses a file and returns the issues reported in this file.
  *
+ * @param <T>
+ *         subtype of created issues
+ *
  * @author Ullrich Hafner
  */
-public abstract class IssueParser implements Serializable {
+public abstract class IssueParser<T extends Issue> implements Serializable {
     /**
      * Returns the issues found in the specified file.
      *
@@ -29,7 +32,7 @@ public abstract class IssueParser implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<Issue> parse(File file, Charset charset, IssueBuilder builder,
+    public abstract Issues<T> parse(File file, Charset charset, IssueBuilder builder,
             Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException;
 }

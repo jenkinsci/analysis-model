@@ -45,7 +45,7 @@ import edu.umd.cs.findbugs.ba.SourceFinder;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("classfanoutcomplexity")
-public class FindBugsParser extends IssueParser {
+public class FindBugsParser extends IssueParser<Issue> {
     private static final long serialVersionUID = 8306319007761954027L;
 
     /**

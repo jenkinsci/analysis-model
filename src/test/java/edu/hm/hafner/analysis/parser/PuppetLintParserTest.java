@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -15,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Jan Vansteenkiste <jan@vstone.eu>
  */
-class PuppetLintParserTest extends AbstractParserTest {
+class PuppetLintParserTest extends AbstractIssueParserTest {
 
     PuppetLintParserTest() {
         super("puppet-lint.txt");
@@ -79,7 +78,7 @@ class PuppetLintParserTest extends AbstractParserTest {
      * @return the warnings parser
      */
     @Override
-    protected AbstractParser createParser() {
+    protected PuppetLintParser createParser() {
         return new PuppetLintParser();
     }
 }

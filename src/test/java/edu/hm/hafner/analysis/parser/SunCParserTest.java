@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,7 +9,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link SunCParser}.
  */
-class SunCParserTest extends AbstractParserTest {
+class SunCParserTest extends AbstractIssueParserTest {
     private static final String MESSAGE = "String literal converted to char* in formal argument 1 in call to userlog(char*, ...).";
     private static final String CATEGORY = "badargtypel2w";
 
@@ -19,7 +18,7 @@ class SunCParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected SunCParser createParser() {
         return new SunCParser();
     }
 

@@ -29,10 +29,10 @@ class PackageNameResolverTest {
         Issues<Issue> issues = createIssues();
 
         PackageNameResolver resolver = new PackageNameResolver();
-        Issues<Issue> resolved = resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
-        assertThat(resolved).hasSize(0);
-        assertThat(resolved).hasId(ID);
+        assertThat(issues).hasSize(0);
+        assertThat(issues).hasId(ID);
     }
 
     @Test
@@ -41,11 +41,11 @@ class PackageNameResolverTest {
         issues.add(ISSUE_WITH_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver();
-        Issues<Issue> resolved = resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
-        assertThat(resolved).hasSize(1);
-        assertThat(resolved).hasId(ID);
-        assertThat(resolved.get(0)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
+        assertThat(issues).hasSize(1);
+        assertThat(issues).hasId(ID);
+        assertThat(issues.get(0)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
     @Test
@@ -55,11 +55,11 @@ class PackageNameResolverTest {
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
 
-        Issues<Issue> resolved = resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
-        assertThat(resolved).hasSize(1);
-        assertThat(resolved).hasId(ID);
-        assertThat(resolved.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
+        assertThat(issues).hasSize(1);
+        assertThat(issues).hasId(ID);
+        assertThat(issues.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
     }
 
     @Test
@@ -70,12 +70,12 @@ class PackageNameResolverTest {
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
 
-        Issues<Issue> resolved = resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
-        assertThat(resolved).hasSize(2);
-        assertThat(resolved).hasId(ID);
-        assertThat(resolved.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
-        assertThat(resolved.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
+        assertThat(issues).hasSize(2);
+        assertThat(issues).hasId(ID);
+        assertThat(issues.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
+        assertThat(issues.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
     private FileSystem createFileSystemStub() throws IOException {

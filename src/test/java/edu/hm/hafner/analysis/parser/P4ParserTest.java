@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,7 +9,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link P4Parser}.
  */
-class P4ParserTest extends AbstractParserTest {
+class P4ParserTest extends AbstractIssueParserTest {
     P4ParserTest() {
         super("perforce.txt");
     }
@@ -72,7 +71,7 @@ class P4ParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected P4Parser createParser() {
         return new P4Parser();
     }
 }

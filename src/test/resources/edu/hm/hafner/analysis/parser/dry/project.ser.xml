@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<annotation-array>
+  <dry>
+    <message>1 lines of duplicate code.</message>
+    <priority>NORMAL</priority>
+    <key>4</key>
+    <lineRanges>
+      <range>
+        <start>100</start>
+        <end>100</end>
+      </range>
+    </lineRanges>
+    <primaryLineNumber>100</primaryLineNumber>
+    <fileName>Path/To/File</fileName>
+    <moduleName>Module2</moduleName>
+    <packageName>Package1</packageName>
+    <category>Duplicate Code</category>
+    <type></type>
+    <links/>
+    <sourceCode>Test Task5</sourceCode>
+  </dry>
+  <dry>
+    <message>1 lines of duplicate code.</message>
+    <priority>LOW</priority>
+    <key>1</key>
+    <lineRanges>
+      <range>
+        <start>100</start>
+        <end>100</end>
+      </range>
+    </lineRanges>
+    <primaryLineNumber>100</primaryLineNumber>
+    <fileName>Path/To/File</fileName>
+    <moduleName>Module1</moduleName>
+    <packageName>Package1</packageName>
+    <category>Duplicate Code</category>
+    <type></type>
+    <links/>
+    <sourceCode>Test Task2</sourceCode>
+  </dry>
+  <dry>
+    <message>1 lines of duplicate code.</message>
+    <priority>NORMAL</priority>
+    <key>3</key>
+    <lineRanges>
+      <range>
+        <start>100</start>
+        <end>100</end>
+      </range>
+    </lineRanges>
+    <primaryLineNumber>100</primaryLineNumber>
+    <fileName>Path/To/File</fileName>
+    <moduleName>Module1</moduleName>
+    <packageName>Package2</packageName>
+    <category>Duplicate Code</category>
+    <type></type>
+    <links/>
+    <sourceCode>Test Task4</sourceCode>
+  </dry>
+  <dry>
+    <message>1 lines of duplicate code.</message>
+    <priority>HIGH</priority>
+    <key>0</key>
+    <lineRanges>
+      <range>
+        <start>100</start>
+        <end>100</end>
+      </range>
+    </lineRanges>
+    <primaryLineNumber>100</primaryLineNumber>
+    <fileName>Path/To/File</fileName>
+    <moduleName>Module1</moduleName>
+    <packageName>Package1</packageName>
+    <category>Duplicate Code</category>
+    <type></type>
+    <links/>
+    <sourceCode>Test Task1</sourceCode>
+  </dry>
+  <dry>
+    <message>1 lines of duplicate code.</message>
+    <priority>LOW</priority>
+    <key>2</key>
+    <lineRanges>
+      <range>
+        <start>100</start>
+        <end>100</end>
+      </range>
+    </lineRanges>
+    <primaryLineNumber>100</primaryLineNumber>
+    <fileName>Path/To/File2</fileName>
+    <moduleName>Module1</moduleName>
+    <packageName>Package1</packageName>
+    <category>Duplicate Code</category>
+    <type></type>
+    <links/>
+    <sourceCode>Test Task3</sourceCode>
+  </dry>
+</annotation-array>

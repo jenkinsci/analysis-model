@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -17,13 +16,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Sebastian Seidl
  */
-class StyleCopParserTest extends AbstractParserTest {
+class StyleCopParserTest extends AbstractIssueParserTest {
     StyleCopParserTest() {
         super("stylecop.xml");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected StyleCopParser createParser() {
         return new StyleCopParser();
     }
 
@@ -76,7 +75,7 @@ class StyleCopParserTest extends AbstractParserTest {
      */
     @Test
     void testStyleCopOneFile() {
-        Issues<Issue> result = parse("stylecop/onefile.xml");
+        Issues<? extends Issue> result = parse("stylecop/onefile.xml");
 
         assertThat(result).hasSize(3);
     }
@@ -86,7 +85,7 @@ class StyleCopParserTest extends AbstractParserTest {
      */
     @Test
     void testStyleCop43() {
-        Issues<Issue> result = parse("stylecop/stylecop-v4.3.xml");
+        Issues<? extends Issue> result = parse("stylecop/stylecop-v4.3.xml");
 
         assertThat(result).hasSize(2);
     }

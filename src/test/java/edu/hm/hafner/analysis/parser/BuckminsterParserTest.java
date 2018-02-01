@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,7 +9,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link BuckminsterParser}.
  */
-class BuckminsterParserTest extends AbstractParserTest {
+class BuckminsterParserTest extends AbstractIssueParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     protected BuckminsterParserTest() {
@@ -43,7 +42,7 @@ class BuckminsterParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected BuckminsterParser createParser() {
         return new BuckminsterParser();
     }
 }

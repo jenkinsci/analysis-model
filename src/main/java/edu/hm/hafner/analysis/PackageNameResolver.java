@@ -39,7 +39,7 @@ public class PackageNameResolver {
      *
      * @return the issues with fingerprints
      */
-    public Issues<Issue> run(final Issues<Issue> issues,
+    public void run(final Issues<?> issues,
             final IssueBuilder builder, final Charset charset) {
         Set<String> filesWithoutPackageName = issues.stream()
                 .filter(issue -> !issue.hasPackageName())
@@ -48,20 +48,12 @@ public class PackageNameResolver {
         Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
                 .collect(Collectors.toMap(identity(), findPackage(charset)));
 
-        Issues<Issue> resolved = issues.copyEmptyInstance();
         issues.stream().forEach(issue -> {
-            if (issue.hasPackageName()) {
-                resolved.add(issue);
-            }
-            else {
-                Issue copyWithPackage = builder.copy(issue)
-                        .setPackageName(packagesOfFiles.get(issue.getFileName()))
-                        .build();
-                resolved.add(copyWithPackage);
+            if (!issue.hasPackageName()) {
+                issue.setPackageName(packagesOfFiles.get(issue.getFileName()));
             }
         });
-        resolved.logInfo("Resolved package names of %d affected files", filesWithoutPackageName.size());
-        return resolved;
+        issues.logInfo("Resolved package names of %d affected files", filesWithoutPackageName.size());
     }
 
     private Function<String, String> findPackage(final Charset charset) {

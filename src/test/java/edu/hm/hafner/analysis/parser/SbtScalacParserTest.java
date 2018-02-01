@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,7 +9,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link SbtScalacParser}.
  */
-class SbtScalacParserTest extends AbstractParserTest {
+class SbtScalacParserTest extends AbstractIssueParserTest {
     SbtScalacParserTest() {
         super("sbtScalac.txt");
     }
@@ -51,7 +50,7 @@ class SbtScalacParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected SbtScalacParser createParser() {
         return new SbtScalacParser();
     }
 }

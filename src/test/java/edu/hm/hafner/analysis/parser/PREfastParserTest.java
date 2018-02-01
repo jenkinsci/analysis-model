@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -15,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Charles Chan
  */
-class PREfastParserTest extends AbstractParserTest {
+class PREfastParserTest extends AbstractIssueParserTest {
 
     PREfastParserTest() {
         super("PREfast.xml");
@@ -60,7 +59,7 @@ class PREfastParserTest extends AbstractParserTest {
      * @return the warnings parser
      */
     @Override
-    protected AbstractParser createParser() {
+    protected PREfastParser createParser() {
         return new PREfastParser();
     }
 }

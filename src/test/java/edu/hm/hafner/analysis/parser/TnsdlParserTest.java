@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,13 +9,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link TnsdlParser}.
  */
-class TnsdlParserTest extends AbstractParserTest {
+class TnsdlParserTest extends AbstractIssueParserTest {
     TnsdlParserTest() {
         super("tnsdl.txt");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected TnsdlParser createParser() {
         return new TnsdlParser();
     }
 

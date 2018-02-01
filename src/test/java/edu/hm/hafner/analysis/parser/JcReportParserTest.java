@@ -5,8 +5,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -24,7 +23,7 @@ import edu.hm.hafner.analysis.parser.jcreport.Report;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
-class JcReportParserTest extends AbstractParserTest {
+class JcReportParserTest extends AbstractIssueParserTest {
     JcReportParserTest() {
         super("jcreport/testCorrect.xml");
     }
@@ -103,7 +102,7 @@ class JcReportParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected JcReportParser createParser() {
         return new JcReportParser();
     }
 }

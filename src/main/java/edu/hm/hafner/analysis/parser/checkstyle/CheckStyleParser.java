@@ -24,7 +24,7 @@ import edu.hm.hafner.analysis.SecureDigester;
  *
  * @author Ullrich Hafner
  */
-public class CheckStyleParser extends AbstractParser {
+public class CheckStyleParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override

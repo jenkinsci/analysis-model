@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,11 +9,11 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link ArmccCompilerParser}.
  */
-class ArmccCompilerParserTest extends AbstractParserTest {
+class ArmccCompilerParserTest extends AbstractIssueParserTest {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
 
     /**
-     * Creates a new instance of {@link AbstractParserTest}.
+     * Creates a new instance of {@link AbstractIssueParserTest}.
      */
     protected ArmccCompilerParserTest() {
         super("armcc.txt");
@@ -22,7 +21,6 @@ class ArmccCompilerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-
         softly.assertThat(issues).hasSize(3);
 
         softly.assertThat(issues.get(0)).hasPriority(Priority.HIGH)
@@ -46,7 +44,7 @@ class ArmccCompilerParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected ArmccCompilerParser createParser() {
         return new ArmccCompilerParser();
     }
 }

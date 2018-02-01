@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -11,13 +10,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link GoVetParser}.
  */
-class GoVetParserTest extends AbstractParserTest {
+class GoVetParserTest extends AbstractIssueParserTest {
     GoVetParserTest() {
         super("govet.txt");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected GoVetParser createParser() {
         return new GoVetParser();
     }
 

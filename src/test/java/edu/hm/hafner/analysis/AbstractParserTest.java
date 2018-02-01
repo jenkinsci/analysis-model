@@ -22,9 +22,12 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Base class for tests of {@link AbstractParser} instances.
  *
+ * @param <T>
+ *         subtype of created issues
+ *
  * @author Ullrich Hafner
  */
-public abstract class AbstractParserTest extends ResourceTest {
+public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
     /** Default category for parsers that do not set the category property. */
     protected static final String DEFAULT_CATEGORY = new IssueBuilder().build().getCategory();
 
@@ -46,7 +49,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      */
     @Test
     void shouldParseAllIssues() {
-        Issues<Issue> issues = parseDefaultFile();
+        Issues<T> issues = parseDefaultFile();
         assertSoftly(softly -> assertThatIssuesArePresent(issues, softly));
     }
 
@@ -55,13 +58,13 @@ public abstract class AbstractParserTest extends ResourceTest {
      *
      * @return the issues in the default file
      */
-    protected Issues<Issue> parseDefaultFile() {
-        AbstractParser parser = createParser();
+    protected Issues<T> parseDefaultFile() {
+        AbstractParser<T> parser = createParser();
         String id = parser.getClass().getSimpleName();
         IssueBuilder builder = new IssueBuilder();
         builder.setOrigin(id);
-        Issues<Issue> issues = parser.parse(openFile(), builder, Function.identity());
-        Issues<Issue> issuesByOrigin = issues.filter(issue -> id.equals(issue.getOrigin()));
+        Issues<T> issues = parser.parse(openFile(), builder, Function.identity());
+        Issues<T> issuesByOrigin = issues.filter(issue -> id.equals(issue.getOrigin()));
 
         assertThat(issuesByOrigin.size()).as("Origin not correctly set for parser").isEqualTo(issues.size());
 
@@ -74,7 +77,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      */
     @Test
     void shouldBeSerializable() throws IOException {
-        AbstractParser parser = createParser();
+        AbstractParser<T> parser = createParser();
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (ObjectOutputStream stream = new ObjectOutputStream(out)) {
@@ -93,28 +96,27 @@ public abstract class AbstractParserTest extends ResourceTest {
      *
      * @return the found issues
      */
-    protected Issues<Issue> parse(final String fileName) {
+    protected Issues<T> parse(final String fileName) {
         return createParser().parse(openFile(fileName), new IssueBuilder(), Function.identity());
     }
 
     /**
      * Verifies that the provided default file has been parsed correctly. I.e., a concrete test case needs to verify
      * that the number of issues is correct and that each issue contains the correct properties.
-     *
-     * @param issues
+     *  @param issues
      *         the issues that have been created while parsing the default file
      * @param softly
      *         The soft assertions instance you can use for all {@link SoftAssertions#assertThat assertThat} calls. Note
      *         that {@link SoftAssertions#assertAll} is called automatically, you do not need to call it on your own.
      */
-    protected abstract void assertThatIssuesArePresent(Issues<Issue> issues, SoftAssertions softly);
+    protected abstract void assertThatIssuesArePresent(Issues<T> issues, SoftAssertions softly);
 
     /**
      * Creates the parser under test.
      *
      * @return the new parser instance
      */
-    protected abstract AbstractParser createParser();
+    protected abstract AbstractParser<T> createParser();
 
     /**
      * Returns an input stream for the default file.

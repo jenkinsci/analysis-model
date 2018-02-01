@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -15,10 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Benedikt Spranger
  */
-class LinuxKernelOutputParserTest extends AbstractParserTest {
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     */
+class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
     protected LinuxKernelOutputParserTest() {
         super("kernel.log");
     }
@@ -215,7 +211,7 @@ class LinuxKernelOutputParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected LinuxKernelOutputParser createParser() {
         return new LinuxKernelOutputParser();
     }
 }

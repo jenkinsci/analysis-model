@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -16,13 +15,13 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-class FxcopParserTest extends AbstractParserTest {
+class FxcopParserTest extends AbstractIssueParserTest {
     FxcopParserTest() {
         super("fxcop.xml");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected FxCopParser createParser() {
         return new FxCopParser();
     }
 
@@ -49,7 +48,7 @@ class FxcopParserTest extends AbstractParserTest {
      */
     @Test
     void testJenkins14172() {
-        Issues<Issue> result = parse("issue14172.xml");
+        Issues<? extends Issue> result = parse("issue14172.xml");
 
         assertThat(result).hasSize(44);
     }

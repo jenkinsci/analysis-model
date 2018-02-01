@@ -5,8 +5,7 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -17,12 +16,12 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link DoxygenParser}.
  */
-class DoxygenParserTest extends AbstractParserTest {
+class DoxygenParserTest extends AbstractIssueParserTest {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
     private static final String NO_FILE_NAME = "-";
 
     /**
-     * Creates a new instance of {@link AbstractParserTest}.
+     * Creates a new instance of {@link AbstractIssueParserTest}.
      */
     protected DoxygenParserTest() {
         super("doxygen.txt");
@@ -52,7 +51,7 @@ class DoxygenParserTest extends AbstractParserTest {
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(4);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<? extends Issue> iterator = warnings.iterator();
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(479)
@@ -268,7 +267,7 @@ class DoxygenParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected DoxygenParser createParser() {
         return new DoxygenParser();
     }
 }

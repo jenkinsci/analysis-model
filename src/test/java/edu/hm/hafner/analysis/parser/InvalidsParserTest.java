@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -11,13 +10,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link InvalidsParser}.
  */
-class InvalidsParserTest extends AbstractParserTest {
+class InvalidsParserTest extends AbstractIssueParserTest {
     InvalidsParserTest() {
         super("invalids.txt");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected InvalidsParser createParser() {
         return new InvalidsParser();
     }
 

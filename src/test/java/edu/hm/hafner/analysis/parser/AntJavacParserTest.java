@@ -5,8 +5,8 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
@@ -18,9 +18,9 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link AntJavacParser}.
  */
-class AntJavacParserTest extends AbstractParserTest {
+class AntJavacParserTest extends AbstractIssueParserTest {
     /**
-     * Creates a new instance of {@link AbstractParserTest}.
+     * Creates a new instance of {@link AbstractIssueParserTest}.
      *
      */
     protected AntJavacParserTest() {
@@ -169,7 +169,7 @@ class AntJavacParserTest extends AbstractParserTest {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
                 AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        Issues<Issue> warnings = createParser().parse(is, new IssueBuilder());
+        Issues<? extends Issue> warnings = createParser().parse(is, new IssueBuilder());
 
         assertThat(warnings).hasSize(1);
     }
@@ -187,7 +187,7 @@ class AntJavacParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected AntJavacParser createParser() {
         return new AntJavacParser();
     }
 }

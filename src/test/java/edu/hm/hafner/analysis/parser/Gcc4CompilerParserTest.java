@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -19,7 +18,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Frederic Chateau
  * @author Raphael Furch
  */
-class Gcc4CompilerParserTest extends AbstractParserTest {
+class Gcc4CompilerParserTest extends AbstractIssueParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
 
@@ -28,7 +27,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected Gcc4CompilerParser createParser() {
         return new Gcc4CompilerParser();
     }
 
@@ -277,7 +276,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         assertThat(warnings)
                 .hasSize(4);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<? extends Issue> iterator = warnings.iterator();
 
         assertSoftly(softly -> {
             softly.assertThat(iterator.next())

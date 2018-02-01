@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,9 +9,9 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link ErlcParser}.
  */
-class ErlcParserTest extends AbstractParserTest {
+class ErlcParserTest extends AbstractIssueParserTest {
     /**
-     * Creates a new instance of {@link AbstractParserTest}.
+     * Creates a new instance of {@link AbstractIssueParserTest}.
      */
     protected ErlcParserTest() {
         super("erlc.txt");
@@ -39,7 +38,7 @@ class ErlcParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected ErlcParser createParser() {
         return new ErlcParser();
     }
 }

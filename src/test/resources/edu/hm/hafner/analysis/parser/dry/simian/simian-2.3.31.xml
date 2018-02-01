@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="simian.xsl" type="text/xsl"?>
+<simian version="2.3.31">
+    <check failOnDuplication="true" ignoreCharacterCase="true" ignoreCurlyBraces="true" ignoreIdentifierCase="true" ignoreModifiers="true" ignoreStringCase="true" threshold="6">
+        <set lineCount="6">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="1141" endLineNumber="1147"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="1089" endLineNumber="1095"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\ddd\eee\OOOeee.aspx.cs" startLineNumber="19" endLineNumber="27"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\ddd\eee\LLLeee.aspx.cs" startLineNumber="19" endLineNumber="27"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\ddd\eee\AAAeee.aspx.cs" startLineNumber="19" endLineNumber="27"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\TR.cs" startLineNumber="93" endLineNumber="102"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\SR.cs" startLineNumber="111" endLineNumber="120"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PR.cs" startLineNumber="134" endLineNumber="143"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\LR.cs" startLineNumber="94" endLineNumber="103"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\DR.cs" startLineNumber="85" endLineNumber="94"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\CR.cs" startLineNumber="87" endLineNumber="96"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\MS.aspx.cs" startLineNumber="46" endLineNumber="51"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\MC.aspx.cs" startLineNumber="52" endLineNumber="57"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="768" endLineNumber="777"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="735" endLineNumber="744"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="357" endLineNumber="366"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PIPIPI.cs" startLineNumber="46" endLineNumber="52"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\DR.cs" startLineNumber="50" endLineNumber="56"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\CR.cs" startLineNumber="50" endLineNumber="56"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\TR.cs" startLineNumber="35" endLineNumber="43"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\SRSR.cs" startLineNumber="38" endLineNumber="46"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PRPR.cs" startLineNumber="41" endLineNumber="49"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PPR.cs" startLineNumber="34" endLineNumber="42"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PIR.cs" startLineNumber="34" endLineNumber="42"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\LR.cs" startLineNumber="35" endLineNumber="43"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.ggg\SH.cs" startLineNumber="133" endLineNumber="140"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.ggg\SH.cs" startLineNumber="130" endLineNumber="137"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\MC.aspx.cs" startLineNumber="63" endLineNumber="69"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\MS.aspx.cs" startLineNumber="65" endLineNumber="72"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\II.aspx.cs" startLineNumber="61" endLineNumber="67"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\CCA.aspx.cs" startLineNumber="16" endLineNumber="24"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\iii\Miii.aspx.cs" startLineNumber="12" endLineNumber="21"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\AL.cs" startLineNumber="28" endLineNumber="43"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\CA.cs" startLineNumber="28" endLineNumber="43"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\IR.cs" startLineNumber="28" endLineNumber="43"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\SR.cs" startLineNumber="28" endLineNumber="43"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TEP.cs" startLineNumber="28" endLineNumber="43"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TSQ.cs" startLineNumber="28" endLineNumber="43"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TSV.cs" startLineNumber="28" endLineNumber="43"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\BSQ.aspx.cs" startLineNumber="7" endLineNumber="19"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\BSV.aspx.cs" startLineNumber="7" endLineNumber="19"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\CW.cs" startLineNumber="15" endLineNumber="25"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\DW.cs" startLineNumber="15" endLineNumber="25"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\LW.cs" startLineNumber="15" endLineNumber="25"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\PIW.cs" startLineNumber="15" endLineNumber="25"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\PPW.cs" startLineNumber="15" endLineNumber="26"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\PW.cs" startLineNumber="15" endLineNumber="25"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\SW.cs" startLineNumber="15" endLineNumber="25"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\TW.cs" startLineNumber="15" endLineNumber="25"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\TR.cs" startLineNumber="20" endLineNumber="33"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\SR.cs" startLineNumber="23" endLineNumber="36"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PR.cs" startLineNumber="26" endLineNumber="39"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PPR.cs" startLineNumber="19" endLineNumber="32"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PIR.cs" startLineNumber="19" endLineNumber="32"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\DR.cs" startLineNumber="19" endLineNumber="32"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\CR.cs" startLineNumber="19" endLineNumber="32"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\LR.cs" startLineNumber="20" endLineNumber="33"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\V\V.cs" startLineNumber="31" endLineNumber="42"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.ggg\U.cs" startLineNumber="73" endLineNumber="84"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="758" endLineNumber="767"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="723" endLineNumber="734"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="463" endLineNumber="471"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\MU.aspx.cs" startLineNumber="13" endLineNumber="26"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\II.aspx.cs" startLineNumber="10" endLineNumber="23"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PPR.cs" startLineNumber="47" endLineNumber="57"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PIR.cs" startLineNumber="47" endLineNumber="57"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\LR.cs" startLineNumber="53" endLineNumber="65"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\SR.cs" startLineNumber="56" endLineNumber="68"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\PIW.cs" startLineNumber="28" endLineNumber="39"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\PPW.cs" startLineNumber="29" endLineNumber="40"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\PW.cs" startLineNumber="28" endLineNumber="39"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\CR.cs" startLineNumber="34" endLineNumber="46"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\DR.cs" startLineNumber="34" endLineNumber="46"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="638" endLineNumber="650"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="683" endLineNumber="694"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\MC.aspx.cs" startLineNumber="61" endLineNumber="69"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\hhhe\MS.aspx.cs" startLineNumber="63" endLineNumber="72"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PR.cs" startLineNumber="59" endLineNumber="71"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\TR.cs" startLineNumber="53" endLineNumber="65"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\mmm\App_Code\www.cs" startLineNumber="39" endLineNumber="47"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\mmm\App_Code\www.cs" startLineNumber="74" endLineNumber="82"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="280" endLineNumber="292"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="310" endLineNumber="322"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\ddd\eee\Aeee.aspx.cs" startLineNumber="27" endLineNumber="36"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\ddd\Us\AU.aspx.cs" startLineNumber="13" endLineNumber="22"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\Controls\ooo.cs" startLineNumber="84" endLineNumber="98"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\Controls\ppp.ascx.cs" startLineNumber="32" endLineNumber="46"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\PPW.cs" startLineNumber="29" endLineNumber="41"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\lll\PIW.cs" startLineNumber="28" endLineNumber="40"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\TR.cs" startLineNumber="18" endLineNumber="33"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\SR.cs" startLineNumber="21" endLineNumber="36"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PR.cs" startLineNumber="24" endLineNumber="39"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PPR.cs" startLineNumber="17" endLineNumber="32"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PIR.cs" startLineNumber="17" endLineNumber="32"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\DR.cs" startLineNumber="17" endLineNumber="32"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\CR.cs" startLineNumber="17" endLineNumber="32"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\PR.cs" startLineNumber="130" endLineNumber="143"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\DR.cs" startLineNumber="81" endLineNumber="94"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\aaa\fff\CR.cs" startLineNumber="83" endLineNumber="96"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\CCA.aspx.cs" startLineNumber="196" endLineNumber="209"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\CCA.aspx.cs" startLineNumber="129" endLineNumber="142"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\mmm\App_Code\PLL.cs" startLineNumber="208" endLineNumber="221"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\mmm\App_Code\PLL.cs" startLineNumber="153" endLineNumber="166"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="758" endLineNumber="777"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="723" endLineNumber="744"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\CCA.aspx.cs" startLineNumber="201" endLineNumber="214"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\CCA.aspx.cs" startLineNumber="160" endLineNumber="173"/>
+        </set>
+        <set lineCount="15">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\mmm\App_Code\PLL.cs" startLineNumber="71" endLineNumber="85"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\mmm\App_Code\PLL.cs" startLineNumber="183" endLineNumber="197"/>
+        </set>
+        <set lineCount="18">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TSV.cs" startLineNumber="46" endLineNumber="76"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TSQ.cs" startLineNumber="46" endLineNumber="76"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\SR.cs" startLineNumber="46" endLineNumber="76"/>
+        </set>
+        <set lineCount="18">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\mmm\App_Code\PLL.cs" startLineNumber="73" endLineNumber="90"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\mmm\App_Code\PLL.cs" startLineNumber="128" endLineNumber="145"/>
+        </set>
+        <set lineCount="19">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\AL.cs" startLineNumber="98" endLineNumber="131"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\CA.cs" startLineNumber="106" endLineNumber="139"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\IR.cs" startLineNumber="98" endLineNumber="131"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\SR.cs" startLineNumber="114" endLineNumber="147"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TEP.cs" startLineNumber="98" endLineNumber="131"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TSQ.cs" startLineNumber="130" endLineNumber="163"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TSV.cs" startLineNumber="130" endLineNumber="163"/>
+        </set>
+        <set lineCount="20">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="1149" endLineNumber="1180"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\yyy.bbb\ZZbbb.cs" startLineNumber="1097" endLineNumber="1128"/>
+        </set>
+        <set lineCount="26">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TEP.cs" startLineNumber="46" endLineNumber="87"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\IR.cs" startLineNumber="46" endLineNumber="87"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\CA.cs" startLineNumber="46" endLineNumber="87"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\AL.cs" startLineNumber="46" endLineNumber="87"/>
+        </set>
+        <set lineCount="27">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\AL.cs" startLineNumber="46" endLineNumber="92"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\IR.cs" startLineNumber="46" endLineNumber="92"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TEP.cs" startLineNumber="46" endLineNumber="92"/>
+        </set>
+        <set lineCount="47">
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TSQ.cs" startLineNumber="46" endLineNumber="124"/>
+            <block sourceFile="D:\HudsonHome\jobs\xxx\workspace\trunk\zzz\ccc\jjj\kkk\TSV.cs" startLineNumber="46" endLineNumber="124"/>
+        </set>
+        <summary duplicateFileCount="43" duplicateLineCount="1197" duplicateBlockCount="109" totalFileCount="199" totalRawLineCount="13980" totalSignificantLineCount="7503" processingTime="875"/>
+    </check>
+</simian>

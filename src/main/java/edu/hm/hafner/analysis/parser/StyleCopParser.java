@@ -31,7 +31,7 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author Sebastian Seidl
  */
-public class StyleCopParser extends AbstractParser {
+public class StyleCopParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = 7846052338159003458L;
 
     @Override

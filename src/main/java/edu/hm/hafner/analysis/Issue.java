@@ -21,40 +21,40 @@ public class Issue implements Serializable {
 
     private static final String UNDEFINED = "-";
 
-    private final String fileName;
-    private final String category;
-    private final String type;
-    private final Priority priority;
-    private final String message;
+    private final String category;   // fixed
+    private final String type;       // fixed
+    private final Priority priority; // fixed
+    private final String message;    // fixed
 
-    private final String description;
+    private final int lineStart;     // fixed
+    private final int lineEnd;       // fixed
+    private final int columnStart;   // fixed
+    private final int columnEnd;     // fixed
+    private final LineRangeList lineRanges; // fixed
 
-    private final String packageName;
-    private final String moduleName;
-    private final String origin;
+    private final UUID id; // fixed
 
-    private final int lineStart;
-    private final int lineEnd;
-    private final int columnStart;
-    private final int columnEnd;
-    private final LineRangeList lineRanges;
+    private final String description; // still required?
 
-    private final UUID id;
+    private final String origin;      // mutable
+    private final String moduleName;  // mutable
+    private String packageName; // mutable
+    private String fileName;   // mutable
 
-    private final String fingerprint;
+    private String fingerprint;
 
     /**
-     * Creates a new instance of {@link Issue} using the properties of the other issue instance.
+     * Creates a new instance of {@link Issue} using the properties of the other issue instance. The new issue
+     * has the same ID as the copy.
      *
      * @param copy
      *         the other issue to copy the properties from
-     * @param id
-     *         the ID of the created issue
      */
-    protected Issue(final Issue copy, final UUID id) {
-        this(copy.fileName, copy.lineStart, copy.lineEnd, copy.columnStart, copy.columnEnd, copy.lineRanges,
-                copy.category, copy.type, copy.packageName, copy.moduleName, copy.priority, copy.message,
-                copy.description, copy.origin, copy.fingerprint, id);
+    // FIXME: should''t line ranges be in a list in parameter?
+    protected Issue(final Issue copy) {
+        this(copy.getFileName(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(), copy.lineRanges,
+                copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(), copy.getPriority(), copy.getMessage(),
+                copy.getDescription(), copy.getOrigin(), copy.getFingerprint(), copy.getId());
     }
 
     /**
@@ -145,7 +145,15 @@ public class Issue implements Serializable {
         return integer < 0 ? 0 : integer;
     }
 
-    private String defaultString(@CheckForNull final String string) {
+    /**
+     * Creates a default String representation for undefined input parameters.
+     *
+     * @param string
+     *         the string to check
+     *
+     * @return the valid string or a default string if the specified string is not valid
+     */
+    protected String defaultString(@CheckForNull final String string) {
         return StringUtils.defaultIfEmpty(string, UNDEFINED);
     }
 
@@ -300,11 +308,9 @@ public class Issue implements Serializable {
     /**
      * Returns the finger print for this issue. Used to decide if two issues are equal even if the equals method returns
      * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
-     * analyzing the content of the affected file.
-     * <p>
-     *     Note: the fingerprint is not part of the equals method since the fingerprint might change due to an unrelated
-     *     refactoring of the source code.
-     * </p>
+     * analyzing the content of the affected file. <p> Note: the fingerprint is not part of the equals method since the
+     * fingerprint might change due to an unrelated refactoring of the source code. </p>
+     *
      * @return the fingerprint of this issue
      */
     public String getFingerprint() {
@@ -400,5 +406,17 @@ public class Issue implements Serializable {
         result = 31 * result + columnEnd;
         result = 31 * result + lineRanges.hashCode();
         return result;
+    }
+
+    public void setFingerprint(final String fingerprint) {
+        this.fingerprint = fingerprint;
+    }
+
+    public void setFileName(final String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setPackageName(final String packageName) {
+        this.packageName = packageName;
     }
 }

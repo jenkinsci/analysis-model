@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -16,7 +15,7 @@ import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
  * @author Ullrich Hafner
  * @author Raphael Furch
  */
-class GendarmeParserTest extends AbstractParserTest {
+class GendarmeParserTest extends AbstractIssueParserTest {
     protected GendarmeParserTest() {
         super("gendarme/Gendarme.xml");
     }
@@ -54,7 +53,7 @@ class GendarmeParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected GendarmeParser createParser() {
         return new GendarmeParser();
     }
 }

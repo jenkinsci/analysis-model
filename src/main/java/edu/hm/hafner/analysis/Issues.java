@@ -159,9 +159,9 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *         the additional issue to append
      */
     @SafeVarargs
-    public final void addAll(final Issues<T> issues, final Issues<T>... additionalIssues) {
+    public final void addAll(final Issues<? extends T> issues, final Issues<? extends T>... additionalIssues) {
         copyIssuesAndProperties(issues, this);
-        for (Issues<T> other : additionalIssues) {
+        for (Issues<? extends T> other : additionalIssues) {
             copyIssuesAndProperties(other, this);
         }
     }
@@ -484,7 +484,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return copied;
     }
 
-    private void copyIssuesAndProperties(final Issues<T> source, final Issues<T> destination) {
+    private void copyIssuesAndProperties(final Issues<? extends T> source, final Issues<T> destination) {
         if (!destination.hasId()) {
             destination.id = source.id;
         }
@@ -493,7 +493,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         copyProperties(source, destination);
     }
 
-    private void copyProperties(final Issues<T> source, final Issues<T> destination) {
+    private void copyProperties(final Issues<? extends T> source, final Issues<T> destination) {
         destination.sizeOfDuplicates += source.sizeOfDuplicates;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);

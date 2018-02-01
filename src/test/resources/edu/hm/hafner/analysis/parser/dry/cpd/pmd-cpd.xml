@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<pmd-cpd>
+   <duplication lines="14" tokens="40">
+      <file line="5" path="c:\slave\workspace\dry-test\calc-demo\Plus.cpp"/>
+      <file line="5" path="c:\slave\workspace\dry-test\calc-demo\plus1.cpp"/>
+      <codefragment><![CDATA[Plus::Plus(void) : Operation('+')
+{
+}
+
+
+Plus::~Plus(void)
+{
+}
+
+
+int Plus::perform(int x, int y)
+{
+	return x + y;
+}]]></codefragment>
+   </duplication>
+   <duplication lines="3" tokens="17">
+      <file line="11" path="c:\slave\workspace\dry-test\calc-demo\Operations.cpp"/>
+      <file line="24" path="c:\slave\workspace\dry-test\calc-demo\Operations.cpp"/>
+      <codefragment><![CDATA[Operations::~Operations(void)
+{
+	for( int i=0; i < m_size; i++) {]]></codefragment>
+   </duplication>
+   <duplication lines="3" tokens="16">
+      <file line="8" path="c:\slave\workspace\dry-test\calc-demo\Divide.h"/>
+      <file line="8" path="c:\slave\workspace\dry-test\calc-demo\Minus.h"/>
+      <file line="8" path="c:\slave\workspace\dry-test\calc-demo\Multiply.h"/>
+      <file line="8" path="c:\slave\workspace\dry-test\calc-demo\Plus.h"/>
+      <codefragment><![CDATA[	~Divide(void);
+	int perform(int x, int y);
+};]]></codefragment>
+   </duplication>
+   <duplication lines="2" tokens="15">
+      <file line="12" path="c:\slave\workspace\dry-test\calc-demo\calc-test.cpp"/>
+      <file line="13" path="c:\slave\workspace\dry-test\calc-demo\calc-test.cpp"/>
+      <codefragment><![CDATA[    REQUIRE( c.process('2').process('+').process('1').process('=').result() == 3);
+    REQUIRE( c.process("2+1=").result() == 3);]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="13">
+      <file line="9" path="c:\slave\workspace\dry-test\calc-demo\calc-test.cpp"/>
+      <file line="17" path="c:\slave\workspace\dry-test\calc-demo\calc-test.cpp"/>
+      <codefragment><![CDATA[TEST_CASE( "Simple Additions", "[Additions]" ) {
+    Calculator c;
+
+    REQUIRE( c.process('2').process('+').process('1').process('=').result() == 3);]]></codefragment>
+   </duplication>
+   <duplication lines="3" tokens="12">
+      <file line="14" path="c:\slave\workspace\dry-test\calc-demo\Divide.cpp"/>
+      <file line="14" path="c:\slave\workspace\dry-test\calc-demo\Minus.cpp"/>
+      <file line="14" path="c:\slave\workspace\dry-test\calc-demo\Multiply.cpp"/>
+      <file line="15" path="c:\slave\workspace\dry-test\calc-demo\Plus.cpp"/>
+      <file line="15" path="c:\slave\workspace\dry-test\calc-demo\plus1.cpp"/>
+      <codefragment><![CDATA[int Divide::perform(int x, int y)
+{
+	return x / y;]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="11">
+      <file line="9" path="c:\slave\workspace\dry-test\calc-demo\calc-test.cpp"/>
+      <file line="17" path="c:\slave\workspace\dry-test\calc-demo\calc-test.cpp"/>
+      <file line="23" path="c:\slave\workspace\dry-test\calc-demo\calc-test.cpp"/>
+      <codefragment><![CDATA[TEST_CASE( "Simple Additions", "[Additions]" ) {
+    Calculator c;
+
+    REQUIRE( c.process('2').process('+').process('1').process('=').result() == 3);]]></codefragment>
+   </duplication>
+   <duplication lines="2" tokens="11">
+      <file line="40" path="c:\slave\workspace\dry-test\calc-demo\Calculator.cpp"/>
+      <file line="11" path="c:\slave\workspace\dry-test\calc-demo\Operations.cpp"/>
+      <file line="24" path="c:\slave\workspace\dry-test\calc-demo\Operations.cpp"/>
+      <codefragment><![CDATA[Calculator &Calculator::process(char *str) {
+	for( int i=0; i<strlen(str); i++) {]]></codefragment>
+   </duplication>
+   <duplication lines="2" tokens="9">
+      <file line="82" path="c:\slave\workspace\dry-test\calc-demo\Calculator.cpp"/>
+      <file line="83" path="c:\slave\workspace\dry-test\calc-demo\Calculator.cpp"/>
+      <file line="84" path="c:\slave\workspace\dry-test\calc-demo\Calculator.cpp"/>
+      <codefragment><![CDATA[	m_operations->addOperation(new Minus());
+	m_operations->addOperation(new Plus());]]></codefragment>
+   </duplication>
+   <duplication lines="1" tokens="9">
+      <file line="9" path="c:\slave\workspace\dry-test\calc-demo\Divide.h"/>
+      <file line="9" path="c:\slave\workspace\dry-test\calc-demo\Minus.h"/>
+      <file line="9" path="c:\slave\workspace\dry-test\calc-demo\Multiply.h"/>
+      <file line="11" path="c:\slave\workspace\dry-test\calc-demo\Operation.h"/>
+      <file line="9" path="c:\slave\workspace\dry-test\calc-demo\Plus.h"/>
+      <codefragment><![CDATA[	int perform(int x, int y);]]></codefragment>
+   </duplication>
+</pmd-cpd>

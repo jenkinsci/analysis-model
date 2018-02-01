@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -19,7 +18,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Ullrich Hafner
  * @author Raphael Furch
  */
-class GccParserTest extends AbstractParserTest {
+class GccParserTest extends AbstractIssueParserTest {
     private static final String GCC_ERROR = GccParser.GCC_ERROR;
     private static final String GCC_WARNING = "GCC warning";
 
@@ -172,7 +171,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(3);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<? extends Issue> iterator = warnings.iterator();
 
         assertSoftly(softly -> {
             softly.assertThat(iterator.next())
@@ -212,7 +211,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(2);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<? extends Issue> iterator = warnings.iterator();
 
         assertSoftly(softly -> {
             softly.assertThat(iterator.next())
@@ -301,7 +300,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(4);
 
-        Iterator<Issue> iterator = warnings.iterator();
+        Iterator<? extends Issue> iterator = warnings.iterator();
 
         assertSoftly(softly -> {
             softly.assertThat(iterator.next())
@@ -352,7 +351,7 @@ class GccParserTest extends AbstractParserTest {
 
 
     @Override
-    protected AbstractParser createParser() {
+    protected GccParser createParser() {
         return new GccParser();
     }
 }

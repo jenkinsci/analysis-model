@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 public class IntegerParser {
     /**
      * Converts a string line number to an integer value. If the string is not a valid line number, then 0 is returned
-     * which indicates a Issue at the top of the file.
+     * which indicates an Issue at the top of the file.
      *
      * @param lineNumber the line number (as a string)
      * @return the line number

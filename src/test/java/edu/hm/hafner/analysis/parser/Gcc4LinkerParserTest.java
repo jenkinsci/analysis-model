@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -18,7 +17,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * @author Frederic Chateau
  * @author Raphael Furch
  */
-class Gcc4LinkerParserTest extends AbstractParserTest {
+class Gcc4LinkerParserTest extends AbstractIssueParserTest {
     private static final String WARNING_CATEGORY = Gcc4LinkerParser.WARNING_CATEGORY;
     private static final String FILE_NAME = "-";
 
@@ -27,7 +26,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected Gcc4LinkerParser createParser() {
         return new Gcc4LinkerParser();
     }
 
@@ -104,7 +103,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
         assertThatMessageHasUndefinedReference(warnings, 1);
     }
 
-    private void assertThatMessageHasUndefinedReference(final Issues<Issue> warnings, final int index) {
+    private void assertThatMessageHasUndefinedReference(final Issues<? extends Issue> warnings, final int index) {
         assertThat(warnings.get(index).getMessage()).startsWith("undefined reference to");
     }
 

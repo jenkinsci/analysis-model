@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,7 +9,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link CodeAnalysisParser}.
  */
-class CodeAnalysisParserTest extends AbstractParserTest {
+class CodeAnalysisParserTest extends AbstractIssueParserTest {
 
     /**
      * Creates a new CodeAnalysisParserTest.
@@ -47,7 +46,7 @@ class CodeAnalysisParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected CodeAnalysisParser createParser() {
         return new CodeAnalysisParser();
     }
 }

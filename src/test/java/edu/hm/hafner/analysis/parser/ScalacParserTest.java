@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -12,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author <a href="mailto:alexey.kislin@gmail.com">Alexey Kislin</a>
  */
-class ScalacParserTest extends AbstractParserTest {
+class ScalacParserTest extends AbstractIssueParserTest {
     ScalacParserTest() {
         super("scalac.txt");
     }
@@ -52,7 +51,7 @@ class ScalacParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected ScalacParser createParser() {
         return new ScalacParser();
     }
 }

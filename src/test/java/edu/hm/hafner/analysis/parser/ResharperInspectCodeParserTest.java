@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -13,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link ResharperInspectCodeParser}.
  */
-class ResharperInspectCodeParserTest extends AbstractParserTest {
+class ResharperInspectCodeParserTest extends AbstractIssueParserTest {
     private static final String ISSUES_FILE = "ResharperInspectCode.xml";
 
     /**
@@ -55,7 +54,7 @@ class ResharperInspectCodeParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected ResharperInspectCodeParser createParser() {
         return new ResharperInspectCodeParser();
     }
 }

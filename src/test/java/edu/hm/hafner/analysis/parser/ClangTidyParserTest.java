@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -12,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ryan Schaefer
  */
-class ClangTidyParserTest extends AbstractParserTest {
+class ClangTidyParserTest extends AbstractIssueParserTest {
     private static final String WARNING_TYPE = "Warning";
 
     ClangTidyParserTest() {
@@ -20,7 +19,7 @@ class ClangTidyParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected ClangTidyParser createParser() {
         return new ClangTidyParser();
     }
 

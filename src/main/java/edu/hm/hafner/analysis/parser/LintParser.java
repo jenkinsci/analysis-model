@@ -25,7 +25,7 @@ import edu.hm.hafner.analysis.ParsingException;
  *
  * @author Gavin Mogan <gavin@kodekoan.com>
  */
-public class LintParser extends AbstractParser {
+public class LintParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = 3341424685245834156L;
 
     @Override

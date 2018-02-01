@@ -24,7 +24,7 @@ import edu.hm.hafner.analysis.SecureDigester;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
-public class JcReportParser extends AbstractParser {
+public class JcReportParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override

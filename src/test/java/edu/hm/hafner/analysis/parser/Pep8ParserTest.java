@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Marvin Schütz, J. Behrmann
  */
-class Pep8ParserTest extends AbstractParserTest {
+public class Pep8ParserTest extends AbstractIssueParserTest {
     protected Pep8ParserTest() {
         super("pep8Test.txt");
     }
@@ -122,7 +122,7 @@ class Pep8ParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected AbstractParser<Issue> createParser() {
         return new Pep8Parser();
     }
 }

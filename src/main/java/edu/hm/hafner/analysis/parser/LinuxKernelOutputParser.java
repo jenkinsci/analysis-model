@@ -30,9 +30,9 @@ public class LinuxKernelOutputParser extends RegexpParser {
     private static final String PREAMBLE = "(?s)";
 
     /**
-     * kernel timestamp On a serial line aka serial console the output of Linux Kernel is interferred with output from
+     * kernel timestamp On a serial line aka serial console the output of Linux Kernel is interfered with output from
      * other applications. A Linux kernel can be forced to add a timestamp to all outputs, either by a compile time
-     * option or a kernel command line flag. This is used to seperate the output.
+     * option or a kernel command line flag. This is used to separate the output.
      */
     private static final String KERN_TIMESTAMP = "\\[[ ]*[0-9]+\\.[0-9]+\\]";
 

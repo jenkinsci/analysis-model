@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -12,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link GnatParser}.
  */
-class GnatParserTest extends AbstractParserTest {
+class GnatParserTest extends AbstractIssueParserTest {
     private static final String GNAT_WARNING = "GNAT warning";
 
     GnatParserTest() {
@@ -97,7 +96,7 @@ class GnatParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected GnatParser createParser() {
         return new GnatParser();
     }
 }

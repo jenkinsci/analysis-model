@@ -30,7 +30,7 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author Alex Lopashev, alexlopashev@gmail.com
  */
-public class IdeaInspectionParser extends AbstractParser {
+public class IdeaInspectionParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = 3307389086106375473L;
 
     @Override

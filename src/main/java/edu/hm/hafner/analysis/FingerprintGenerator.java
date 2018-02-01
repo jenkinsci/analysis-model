@@ -22,19 +22,13 @@ public class FingerprintGenerator {
      *
      * @return the issues with fingerprints
      */
-    public Issues<Issue> run(final FullTextFingerprint algorithm, final Issues<Issue> issues,
+    public void run(final FullTextFingerprint algorithm, final Issues<?> issues,
             final IssueBuilder builder, final Charset charset) {
-        Issues<Issue> enhanced = issues.copyEmptyInstance();
         for (Issue issue : issues) {
-            if (issue.hasFingerprint()) {
-                enhanced.add(issue);
-            }
-            else {
+            if (!issue.hasFingerprint()) {
                 String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
-                Issue issueWithFingerprint = builder.copy(issue).setFingerprint(digest).build();
-                enhanced.add(issueWithFingerprint);
+                issue.setFingerprint(digest);
             }
         }
-        return enhanced;
     }
 }

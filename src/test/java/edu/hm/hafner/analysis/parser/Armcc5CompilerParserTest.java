@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,11 +9,11 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link Armcc5CompilerParser}.
  */
-class Armcc5CompilerParserTest extends AbstractParserTest {
+class Armcc5CompilerParserTest extends AbstractIssueParserTest {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
 
     /**
-     * Creates a new instance of {@link AbstractParserTest}.
+     * Creates a new instance of {@link AbstractIssueParserTest}.
      *
      */
     protected Armcc5CompilerParserTest() {
@@ -48,7 +47,7 @@ class Armcc5CompilerParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected Armcc5CompilerParser createParser() {
         return new Armcc5CompilerParser();
     }
 }

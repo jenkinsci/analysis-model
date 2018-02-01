@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -10,13 +9,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link AntJavacParser} for output log of a HPI compile.
  */
-class HpiCompileParserTest extends AbstractParserTest {
+class HpiCompileParserTest extends AbstractIssueParserTest {
     HpiCompileParserTest() {
         super("hpi.txt");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected AntJavacParser createParser() {
         return new AntJavacParser();
     }
 

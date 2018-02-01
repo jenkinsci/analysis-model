@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -18,13 +17,13 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Neil Davis
  */
-class ClangParserTest extends AbstractParserTest {
+class ClangParserTest extends AbstractIssueParserTest {
     ClangParserTest() {
         super("apple-llvm-clang.txt");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected ClangParser createParser() {
         return new ClangParser();
     }
 
