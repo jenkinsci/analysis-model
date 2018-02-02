@@ -247,7 +247,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return a new sequential {@code Stream}
      */
-    public Stream<Issue> stream() {
+    public Stream<T> stream() {
         return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL), false);
     }
 

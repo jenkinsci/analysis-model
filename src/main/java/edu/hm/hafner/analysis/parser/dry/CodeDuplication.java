@@ -16,8 +16,18 @@ import edu.hm.hafner.util.Ensure;
  * @author Ullrich Hafner
  */
 public class CodeDuplication extends Issue {
+    private static final long serialVersionUID = 5495679948804259058L;
+
     private final DuplicationGroup group;
 
+    /**
+     * Creates a new instance of {@link CodeDuplication}.
+     *
+     * @param issue
+     *         the properties if this code duplication, represented by an {@link Issue} instance
+     * @param group
+     *         the group that links all references to the copied code fragment
+     */
     public CodeDuplication(final Issue issue, final DuplicationGroup group) {
         super(issue);
 
@@ -29,6 +39,30 @@ public class CodeDuplication extends Issue {
     @Override
     public String getDescription() {
         return group.getCodeFragment();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        CodeDuplication that = (CodeDuplication) o;
+
+        return group.equals(that.group);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + group.hashCode();
+        return result;
     }
 
     /**
@@ -91,6 +125,25 @@ public class CodeDuplication extends Issue {
 
         List<CodeDuplication> getDuplications() {
             return new ArrayList<>(occurrences);
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            DuplicationGroup that = (DuplicationGroup) o;
+
+            return codeFragment.equals(that.codeFragment);
+        }
+
+        @Override
+        public int hashCode() {
+            return codeFragment.hashCode();
         }
     }
 }
