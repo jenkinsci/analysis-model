@@ -11,16 +11,19 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class IntegerParser {
     /**
-     * Converts a string line number to an integer value. If the string is not a valid line number, then 0 is returned
-     * which indicates an Issue at the top of the file.
+     * Converts a number (represented by the specified String) to an integer value. If the string is not a valid number,
+     * then 0 is returned. This method does not throw exceptions if the value is invalid.
      *
-     * @param lineNumber the line number (as a string)
-     * @return the line number
+     * @param number
+     *         the line number (as a string)
+     *
+     * @return the converted number
+     * @see Integer#parseInt(String)
      */
-    public int parseInt(@CheckForNull final String lineNumber) {
-        if (StringUtils.isNotBlank(lineNumber)) {
+    public int parseInt(@CheckForNull final String number) {
+        if (StringUtils.isNotBlank(number)) {
             try {
-                return Integer.parseInt(lineNumber);
+                return Integer.parseInt(number);
             }
             catch (NumberFormatException ignored) {
                 // ignore and return 0

@@ -14,7 +14,6 @@ import org.eclipse.collections.impl.collector.Collectors2;
  *
  * @author Ullrich Hafner
  */
-// Add module that is the same for a parser scan
 @SuppressWarnings("PMD.TooManyFields")
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
@@ -36,25 +35,27 @@ public class Issue implements Serializable {
 
     private final String description; // still required?
 
+    private String reference;         // mutable, not part of equals
     private final String origin;      // mutable
     private final String moduleName;  // mutable
-    private String packageName; // mutable
-    private String fileName;   // mutable
+    private String packageName;       // mutable
+    private String fileName;          // mutable
 
-    private String fingerprint;
+    private String fingerprint;       // mutable, not part of equals
 
     /**
-     * Creates a new instance of {@link Issue} using the properties of the other issue instance. The new issue
-     * has the same ID as the copy.
+     * Creates a new instance of {@link Issue} using the properties of the other issue instance. The new issue has the
+     * same ID as the copy.
      *
      * @param copy
      *         the other issue to copy the properties from
      */
-    // FIXME: should''t line ranges be in a list in parameter?
+    // FIXME: shouldn't line ranges be in a list in parameter?
     protected Issue(final Issue copy) {
-        this(copy.getFileName(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(), copy.lineRanges,
-                copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(), copy.getPriority(), copy.getMessage(),
-                copy.getDescription(), copy.getOrigin(), copy.getFingerprint(), copy.getId());
+        this(copy.getFileName(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(),
+                copy.lineRanges, copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
+                copy.getPriority(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
+                copy.getFingerprint(), copy.getId());
     }
 
     /**
@@ -88,6 +89,8 @@ public class Issue implements Serializable {
      *         the description for this issue
      * @param origin
      *         the ID of the tool that did report this issue
+     * @param reference
+     *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
      * @param fingerprint
      *         the finger print for this issue
      */
@@ -99,9 +102,11 @@ public class Issue implements Serializable {
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
             @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
-            @CheckForNull final String origin, @CheckForNull final String fingerprint) {
+            @CheckForNull final String origin, @CheckForNull final String reference,
+            @CheckForNull final String fingerprint) {
         this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, priority, message, description, origin, fingerprint, UUID.randomUUID());
+                packageName, moduleName, priority, message, description, origin, reference, fingerprint,
+                UUID.randomUUID());
     }
 
     @SuppressWarnings("ParameterNumber")
@@ -112,7 +117,8 @@ public class Issue implements Serializable {
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
             @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
-            @CheckForNull final String origin, @CheckForNull final String fingerprint,
+            @CheckForNull final String origin, @CheckForNull final String reference,
+            @CheckForNull final String fingerprint,
             final UUID id) {
         this.fileName = defaultString(StringUtils.replace(StringUtils.strip(fileName), "\\", "/"));
 
@@ -135,6 +141,7 @@ public class Issue implements Serializable {
         this.description = StringUtils.stripToEmpty(description);
 
         this.origin = StringUtils.stripToEmpty(origin);
+        this.reference = StringUtils.stripToEmpty(reference);
 
         this.fingerprint = defaultString(fingerprint);
 
@@ -306,6 +313,15 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
+     *
+     * @return the reference
+     */
+    public String getReference() {
+        return reference;
+    }
+
+    /**
      * Returns the finger print for this issue. Used to decide if two issues are equal even if the equals method returns
      * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
      * analyzing the content of the affected file. <p> Note: the fingerprint is not part of the equals method since the
@@ -408,15 +424,21 @@ public class Issue implements Serializable {
         return result;
     }
 
-    public void setFingerprint(final String fingerprint) {
-        this.fingerprint = fingerprint;
+    // FIXME: write tests and encapsulate in Issues
+
+    public void setFingerprint(@CheckForNull final String fingerprint) {
+        this.fingerprint = StringUtils.stripToEmpty(fingerprint);
     }
 
-    public void setFileName(final String fileName) {
-        this.fileName = fileName;
+    public void setFileName(@CheckForNull final String fileName) {
+        this.fileName = StringUtils.stripToEmpty(fileName);
     }
 
-    public void setPackageName(final String packageName) {
-        this.packageName = packageName;
+    public void setPackageName(@CheckForNull final String packageName) {
+        this.packageName = StringUtils.stripToEmpty(packageName);
+    }
+
+    public void setReference(@CheckForNull final String reference) {
+        this.reference = StringUtils.stripToEmpty(reference);
     }
 }

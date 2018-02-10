@@ -577,7 +577,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
             return new ExtendedIssue(issue.getFileName(), issue.getLineStart(), issue.getLineEnd(),
                     issue.getColumnStart(), issue.getColumnEnd(), issue.getCategory(), issue.getType(),
                     issue.getPackageName(), issue.getModuleName(), issue.getPriority(), issue.getMessage(),
-                    issue.getDescription(), issue.getOrigin(), EXTENDED_VALUE);
+                    issue.getDescription(), issue.getOrigin(), issue.getReference(), EXTENDED_VALUE);
         }
     }
 
@@ -587,43 +587,15 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     private static class ExtendedIssue extends Issue {
         private final String additional;
 
-        /**
-         * Creates a new instance of {@link Issue} using the specified properties.
-         *
-         * @param fileName
-         *         the name of the file that contains this issue
-         * @param lineStart
-         *         the first line of this issue (lines start at 1; 0 indicates the whole file)
-         * @param lineEnd
-         *         the last line of this issue (lines start at 1)
-         * @param columnStart
-         *         the first column of this issue (columns start at 1, 0 indicates the whole line)
-         * @param columnEnd
-         *         the last column of this issue (columns start at 1)
-         * @param category
-         *         the category of this issue (depends on the available categories of the static analysis tool)
-         * @param type
-         *         the type of this issue (depends on the available types of the static analysis tool)
-         * @param packageName
-         *         the name of the package (or name space) that contains this issue
-         * @param moduleName
-         *         the name of the moduleName (or project) that contains this issue
-         * @param priority
-         *         the priority of this issue
-         * @param message
-         *         the detail message of this issue
-         * @param description
-         *         the description for this issue
-         */
         @SuppressWarnings("ParameterNumber")
         ExtendedIssue(@CheckForNull final String fileName, final int lineStart, final int lineEnd,
                 final int columnStart, final int columnEnd, @CheckForNull final String category,
                 @CheckForNull final String type, @CheckForNull final String packageName,
                 @CheckForNull final String moduleName, @CheckForNull final Priority priority,
                 @CheckForNull final String message, @CheckForNull final String description,
-                @CheckForNull final String origin, final String additional) {
+                @CheckForNull final String origin, @CheckForNull final String reference, final String additional) {
             super(fileName, lineStart, lineEnd, columnStart, columnEnd, new LineRangeList(), category, type,
-                    packageName, moduleName, priority, message, description, origin, "FingerPrint");
+                    packageName, moduleName, priority, message, description, origin, reference, "FingerPrint");
 
             this.additional = additional;
         }

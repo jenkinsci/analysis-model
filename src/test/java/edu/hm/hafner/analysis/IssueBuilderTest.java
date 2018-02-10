@@ -12,9 +12,10 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  */
 class IssueBuilderTest {
     private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, new LineRangeList(),
-            null, null, null, null, null, null, null, null, null);
+            null, null, null, null, null, null, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, FINGERPRINT);
+            LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
+            FINGERPRINT);
 
     @Test
     void shouldCreateDefaultIssueIfNothingSpecified() {
@@ -40,9 +41,17 @@ class IssueBuilderTest {
                 .setDescription(DESCRIPTION)
                 .setOrigin(ORIGIN)
                 .setLineRanges(LINE_RANGES)
+                .setReference(REFERENCE)
+                .setFingerprint(FINGERPRINT)
                 .build();
 
+        assertThatIssueIsEqualToFilled(issue);
+    }
+
+    private void assertThatIssueIsEqualToFilled(final Issue issue) {
         assertThat(issue).isEqualTo(FILLED_ISSUE);
+        assertThat(issue).hasFingerprint(FINGERPRINT);
+        assertThat(issue).hasReference(REFERENCE);
     }
 
     @Test
@@ -52,7 +61,7 @@ class IssueBuilderTest {
                 .build();
 
         assertThat(copy).isNotSameAs(FILLED_ISSUE);
-        assertThat(copy).isEqualTo(FILLED_ISSUE);
+        assertThatIssueIsEqualToFilled(copy);
     }
 
     @Test

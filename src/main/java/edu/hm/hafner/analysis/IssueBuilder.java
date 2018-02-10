@@ -31,6 +31,7 @@ public class IssueBuilder {
     private String packageName;
     private String moduleName;
     private String origin;
+    private String reference;
     private String fingerprint;
 
     public IssueBuilder setFingerprint(final String fingerprint) {
@@ -88,6 +89,11 @@ public class IssueBuilder {
         return this;
     }
 
+    public IssueBuilder setReference(final String reference) {
+        this.reference = reference;
+        return this;
+    }
+
     public IssueBuilder setPriority(final Priority priority) {
         this.priority = priority;
         return this;
@@ -130,6 +136,7 @@ public class IssueBuilder {
         packageName = copy.getPackageName();
         moduleName = copy.getModuleName();
         origin = copy.getOrigin();
+        reference = copy.getReference();
         fingerprint = copy.getFingerprint();
         lineRanges = new LineRangeList(copy.getLineRanges().castToList());
         return this;
@@ -142,6 +149,6 @@ public class IssueBuilder {
      */
     public Issue build() {
         return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, priority, message, description, origin, fingerprint);
+                packageName, moduleName, priority, message, description, origin, reference, fingerprint);
     }
 }

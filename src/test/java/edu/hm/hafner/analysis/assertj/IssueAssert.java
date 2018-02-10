@@ -300,4 +300,21 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         }
         return this;
     }
+
+    /**
+     * Checks whether an Issue has a specific reference.
+     *
+     * @param reference
+     *         String specifying reference.
+     *
+     * @return this
+     */
+    public IssueAssert hasReference(final String reference) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getReference(), reference)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "reference", actual, reference, actual.getReference());
+        }
+        return this;
+    }
 }
