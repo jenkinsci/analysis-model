@@ -26,7 +26,7 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
 
         CodeDuplication duplication = new CodeDuplication(builder.setFileName("file1").build(), group);
         assertThat(duplication.getDuplications()).isEmpty();
-        assertThat(duplication.getDescription()).isEqualTo(CODE_FRAGMENT);
+        assertThat(duplication.getDescription()).isEqualTo("<pre>fragment</pre>");
 
         CodeDuplication another = new CodeDuplication(builder.setFileName("file2").build(), group);
 

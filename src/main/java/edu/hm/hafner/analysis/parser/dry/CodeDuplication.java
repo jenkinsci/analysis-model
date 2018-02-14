@@ -38,7 +38,10 @@ public class CodeDuplication extends Issue {
 
     @Override
     public String getDescription() {
-        return group.getCodeFragment();
+        if (StringUtils.isEmpty(group.getCodeFragment())) {
+            return StringUtils.EMPTY;
+        }
+        return String.format("<pre>%s</pre>", group.getCodeFragment());
     }
 
     @Override

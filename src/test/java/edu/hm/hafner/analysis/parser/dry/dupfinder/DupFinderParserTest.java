@@ -24,7 +24,7 @@ class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
     /** File name of publisher. */
     private static final String PUBLISHER = "test/Publisher.cs";
     /** Source code. */
-    private static final String CODE_FRAGMENT = "if (items == null) throw new ArgumentNullException(\"items\");";
+    private static final String CODE_FRAGMENT = "<pre>if (items == null) throw new ArgumentNullException(\"items\");</pre>";
 
     DupFinderParserTest() {
         super("with-sourcecode.xml");
