@@ -2,7 +2,8 @@ package edu.hm.hafner.analysis;
 
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
- * be set to their default value. <p>Example:</p>
+ * be set to their default value.
+ * <p>Example:</p>
  * <p>
  * <blockquote><pre>
  * Issue issue = new IssueBuilder()
@@ -12,6 +13,7 @@ package edu.hm.hafner.analysis;
  *                      .setMessage("Missing JavaDoc")
  *                      .setPriority(Priority.LOW);
  * </pre></blockquote>
+ * </p>
  *
  * @author Ullrich Hafner
  */
@@ -110,7 +112,7 @@ public class IssueBuilder {
     }
 
     public IssueBuilder setLineRanges(final LineRangeList lineRanges) {
-        this.lineRanges = lineRanges;
+        this.lineRanges = new LineRangeList(lineRanges);
         return this;
     }
 
