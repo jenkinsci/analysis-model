@@ -19,8 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
 /**
- * Detects module names by parsing the name of a source file, the Maven pom.xml
- * file or the ANT build.xml file.
+ * Detects module names by parsing the name of a source file, the Maven pom.xml file or the ANT build.xml file.
  *
  * @author Ulli Hafner
  * @author Christoph Laeubrich (support for OSGi-Bundles)
@@ -55,9 +54,9 @@ public class ModuleDetector {
      * Creates a new instance of {@link ModuleDetector}.
      *
      * @param workspace
-     *            the workspace to scan for Maven pom.xml or ant build.xml files
+     *         the workspace to scan for Maven pom.xml or ant build.xml files
      * @param fileInputStreamFactory
-     *            factory to load files
+     *         factory to load files
      */
     public ModuleDetector(final File workspace, final FileInputStreamFactory fileInputStreamFactory) {
         factory = fileInputStreamFactory;
@@ -70,7 +69,8 @@ public class ModuleDetector {
      * Returns a mapping of path prefixes to module names.
      *
      * @param workspace
-     *            the workspace to start scanning for files
+     *         the workspace to start scanning for files
+     *
      * @return the mapping of path prefixes to module names
      */
     private Map<String, String> createFilesToModuleMapping(final File workspace) {
@@ -96,18 +96,19 @@ public class ModuleDetector {
         return mapping;
     }
 
-    private void addMapping(final Map<String, String> mapping, final String fileName, final String suffix, final String moduleName) {
+    private void addMapping(final Map<String, String> mapping, final String fileName, final String suffix,
+            final String moduleName) {
         if (StringUtils.isNotBlank(moduleName)) {
             mapping.put(StringUtils.substringBeforeLast(fileName, suffix), moduleName);
         }
     }
 
     /**
-     * Uses the path prefixes of pom.xml or build.xml files to guess a module
-     * name for the specified file.
+     * Uses the path prefixes of pom.xml or build.xml files to guess a module name for the specified file.
      *
      * @param originalFileName
-     *            file name to guess a module for, must be an absolute path
+     *         file name to guess a module for, must be an absolute path
+     *
      * @return a module name or an empty string
      */
     public String guessModuleName(final String originalFileName) {
@@ -126,7 +127,8 @@ public class ModuleDetector {
      * Finds files of the matching pattern.
      *
      * @param path
-     *            root path to scan in
+     *         root path to scan in
+     *
      * @return the found files (as absolute paths)
      */
     private String[] find(final File path) {
@@ -154,9 +156,9 @@ public class ModuleDetector {
      * Returns the project name stored in the build.xml.
      *
      * @param buildXml
-     *            Ant build.xml file name
-     * @return the project name or an empty string if the name could not be
-     *         resolved
+     *         Ant build.xml file name
+     *
+     * @return the project name or an empty string if the name could not be resolved
      */
     private String parseBuildXml(final String buildXml) {
         InputStream file = null;
@@ -187,9 +189,9 @@ public class ModuleDetector {
      * Returns the project name stored in the POM.
      *
      * @param pom
-     *            Maven POM file name
-     * @return the project name or an empty string if the name could not be
-     *         resolved
+     *         Maven POM file name
+     *
+     * @return the project name or an empty string if the name could not be resolved
      */
     private String parsePom(final String pom) {
         String name = parsePomAttribute(pom, "name");
@@ -223,9 +225,9 @@ public class ModuleDetector {
      * Scans a Manifest file for OSGi Bundle Information.
      *
      * @param manifestFile
-     *            file name of MANIFEST.MF
-     * @return the project name or an empty string if the name could not be
-     *         resolved
+     *         file name of MANIFEST.MF
+     *
+     * @return the project name or an empty string if the name could not be resolved
      */
     private String parseManifest(final String manifestFile) {
         InputStream file = null;
@@ -249,7 +251,8 @@ public class ModuleDetector {
         return StringUtils.EMPTY;
     }
 
-    private String getLocalizedValue(final Attributes attributes, final Properties properties, final String bundleName) {
+    private String getLocalizedValue(final Attributes attributes, final Properties properties,
+            final String bundleName) {
         String value = attributes.getValue(bundleName);
         if (StringUtils.startsWith(StringUtils.trim(value), REPLACEMENT_CHAR)) {
             return properties.getProperty(StringUtils.substringAfter(value, REPLACEMENT_CHAR));
@@ -296,19 +299,18 @@ public class ModuleDetector {
     }
 
     /**
-     * Factory to create an {@link InputStream} from an absolute filename.
-     *
-     * @author Ulli Hafner
+     * Facade for file system operations. May be replaced by stubs in test cases.
      */
     public interface FileInputStreamFactory {
         /**
          * Creates an {@link InputStream} from the specified filename.
          *
          * @param fileName
-         *            the file name
+         *         the file name
+         *
          * @return the input stream
-         * @throws FileNotFoundException
-         *             if the file could not be found
+         * @throws IOException
+         *         if the stream could not be opened
          */
         InputStream create(String fileName) throws FileNotFoundException;
 
@@ -316,9 +318,10 @@ public class ModuleDetector {
          * Returns all file names that match the specified pattern.
          *
          * @param root
-         *            root directory to start the search from
+         *         root directory to start the search from
          * @param pattern
-         *            the Ant pattern to search for
+         *         the Ant pattern to search for
+         *
          * @return the found file names
          */
         String[] find(File root, String pattern);
