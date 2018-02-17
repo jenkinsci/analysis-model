@@ -37,7 +37,7 @@ public class Issue implements Serializable {
 
     private String reference;         // mutable, not part of equals
     private final String origin;      // mutable
-    private final String moduleName;  // mutable
+    private String moduleName;        // mutable
     private String packageName;       // mutable
     private String fileName;          // mutable
 
@@ -289,9 +289,10 @@ public class Issue implements Serializable {
      * Returns whether this issue has a package name set.
      *
      * @return {@code true} if this issue has a package name set
+     * @see #getPackageName()
      */
     public boolean hasPackageName() {
-        return !UNDEFINED.equals(packageName);
+        return !UNDEFINED.equals(getPackageName());
     }
 
     /**
@@ -301,6 +302,16 @@ public class Issue implements Serializable {
      */
     public String getModuleName() {
         return moduleName;
+    }
+
+    /**
+     * Returns whether this issue has a module name set.
+     *
+     * @return {@code true} if this issue has a module name set
+     * @see #getModuleName()
+     */
+    public boolean hasModuleName() {
+        return !UNDEFINED.equals(getModuleName());
     }
 
     /**
@@ -432,6 +443,10 @@ public class Issue implements Serializable {
 
     public void setFileName(@CheckForNull final String fileName) {
         this.fileName = StringUtils.stripToEmpty(fileName);
+    }
+
+    public void setModuleName(@CheckForNull final String moduleName) {
+        this.moduleName = StringUtils.stripToEmpty(moduleName);
     }
 
     public void setPackageName(@CheckForNull final String packageName) {
