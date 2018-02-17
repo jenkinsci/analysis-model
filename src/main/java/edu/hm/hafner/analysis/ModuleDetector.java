@@ -13,8 +13,6 @@ import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import org.apache.commons.digester3.Digester;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
@@ -44,7 +42,7 @@ public class ModuleDetector {
             + PLUS + ALL_DIRECTORIES + OSGI_BUNDLE;
 
     /** The factory to create input streams with. */
-    private final FileInputStreamFactory factory;
+    private final FileSystem factory;
     /** Maps file names to module names. */
     private final Map<String, String> fileNameToModuleName;
     /** Sorted list of file name prefixes. */
@@ -55,11 +53,11 @@ public class ModuleDetector {
      *
      * @param workspace
      *         the workspace to scan for Maven pom.xml or ant build.xml files
-     * @param fileInputStreamFactory
-     *         factory to load files
+     * @param fileSystem
+     *         file system facade to find and load files with
      */
-    public ModuleDetector(final File workspace, final FileInputStreamFactory fileInputStreamFactory) {
-        factory = fileInputStreamFactory;
+    public ModuleDetector(final File workspace, final FileSystem fileSystem) {
+        factory = fileSystem;
         fileNameToModuleName = createFilesToModuleMapping(workspace);
         prefixes = new ArrayList<>(fileNameToModuleName.keySet());
         Collections.sort(prefixes);
@@ -161,12 +159,8 @@ public class ModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseBuildXml(final String buildXml) {
-        InputStream file = null;
-        try {
-            file = factory.create(buildXml);
-            Digester digester = new Digester();
-            digester.setValidating(false);
-            digester.setClassLoader(ModuleDetector.class.getClassLoader());
+        try (InputStream file = factory.create(buildXml)) {
+            SecureDigester digester = new SecureDigester(ModuleDetector.class);
 
             digester.push(new StringBuffer());
             String xPath = "project";
@@ -176,11 +170,8 @@ public class ModuleDetector {
             StringBuffer result = digester.parse(file);
             return result.toString();
         }
-        catch (IOException | SAXException exception) {
+        catch (IOException | SAXException ignored) {
             // ignore
-        }
-        finally {
-            IOUtils.closeQuietly(file);
         }
         return StringUtils.EMPTY;
     }
@@ -195,28 +186,21 @@ public class ModuleDetector {
      */
     private String parsePom(final String pom) {
         String name = parsePomAttribute(pom, "name");
+
         return StringUtils.defaultIfBlank(name, parsePomAttribute(pom, "artifactId"));
     }
 
     private String parsePomAttribute(final String pom, final String tagName) {
-        InputStream file = null;
-        try {
-            file = factory.create(pom);
-            Digester digester = new Digester();
-            digester.setValidating(false);
-            digester.setClassLoader(ModuleDetector.class.getClassLoader());
-
+        try (InputStream file = factory.create(pom)){
+            SecureDigester digester = new SecureDigester(ModuleDetector.class);
             digester.push(new StringBuffer());
             digester.addCallMethod("project/" + tagName, "append", 0);
 
             StringBuffer result = digester.parse(file);
             return result.toString();
         }
-        catch (IOException | SAXException exception) {
+        catch (IOException | SAXException ignored) {
             // ignore
-        }
-        finally {
-            IOUtils.closeQuietly(file);
         }
         return StringUtils.EMPTY;
     }
@@ -230,9 +214,7 @@ public class ModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseManifest(final String manifestFile) {
-        InputStream file = null;
-        try {
-            file = factory.create(manifestFile);
+        try (InputStream file = factory.create(manifestFile)) {
             Manifest manifest = new Manifest(file);
             Attributes attributes = manifest.getMainAttributes();
             Properties properties = readProperties(StringUtils.substringBefore(manifestFile, OSGI_BUNDLE));
@@ -242,17 +224,13 @@ public class ModuleDetector {
             }
             return getSymbolicName(attributes, properties);
         }
-        catch (IOException exception) {
+        catch (IOException ignored) {
             // ignore
-        }
-        finally {
-            IOUtils.closeQuietly(file);
         }
         return StringUtils.EMPTY;
     }
 
-    private String getLocalizedValue(final Attributes attributes, final Properties properties,
-            final String bundleName) {
+    private String getLocalizedValue(final Attributes attributes, final Properties properties, final String bundleName) {
         String value = attributes.getValue(bundleName);
         if (StringUtils.startsWith(StringUtils.trim(value), REPLACEMENT_CHAR)) {
             return properties.getProperty(StringUtils.substringAfter(value, REPLACEMENT_CHAR));
@@ -269,18 +247,13 @@ public class ModuleDetector {
     }
 
     private void readProperties(final String path, final Properties properties, final String fileName) {
-        InputStream file = null;
-        try {
-            file = factory.create(path + SLASH + fileName);
+        try (InputStream file = factory.create(path + SLASH + fileName)) {
             if (file != null) {
                 properties.load(file);
             }
         }
-        catch (IOException exception) {
+        catch (IOException ignored) {
             // ignore if properties are not present or not readable
-        }
-        finally {
-            IOUtils.closeQuietly(file);
         }
     }
 
@@ -301,19 +274,7 @@ public class ModuleDetector {
     /**
      * Facade for file system operations. May be replaced by stubs in test cases.
      */
-    public interface FileInputStreamFactory {
-        /**
-         * Creates an {@link InputStream} from the specified filename.
-         *
-         * @param fileName
-         *         the file name
-         *
-         * @return the input stream
-         * @throws IOException
-         *         if the stream could not be opened
-         */
-        InputStream create(String fileName) throws FileNotFoundException;
-
+    public interface FileSystem {
         /**
          * Returns all file names that match the specified pattern.
          *
@@ -325,6 +286,18 @@ public class ModuleDetector {
          * @return the found file names
          */
         String[] find(File root, String pattern);
+
+        /**
+         * Creates an {@link InputStream} from the specified filename.
+         *
+         * @param fileName
+         *         the file name
+         *
+         * @return the input stream
+         * @throws FileNotFoundException
+         *         if the stream could not be opened
+         */
+        InputStream create(String fileName) throws FileNotFoundException;
     }
 }
 

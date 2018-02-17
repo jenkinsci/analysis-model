@@ -7,7 +7,7 @@ import java.io.InputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileInputStreamFactory;
+import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
 import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -43,7 +43,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByReadingOsgiBundle() {
-        FileInputStreamFactory factory = createFileSystemStub(stub -> {
+        FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + ModuleDetector.OSGI_BUNDLE});
             when(stub.create(anyString())).thenReturn(read(MANIFEST));
         });
@@ -60,7 +60,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByReadingOsgiBundleWithVendorInL10nProperties() {
-        FileInputStreamFactory factory = createFileSystemStub(stub -> {
+        FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + ModuleDetector.OSGI_BUNDLE});
             when(stub.create(anyString())).thenReturn(read(MANIFEST), read("l10n.properties"));
         });
@@ -78,7 +78,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByReadingOsgiBundleWithManifestName() {
-        FileInputStreamFactory fileSystem = createFileSystemStub(stub -> {
+        FileSystem fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(
                     new String[]{PATH_PREFIX_OSGI + ModuleDetector.OSGI_BUNDLE});
             when(stub.create(anyString())).thenReturn(read(MANIFEST_NAME), read("l10n.properties"));
@@ -97,7 +97,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByReadingMavenPom() {
-        FileInputStreamFactory factory = createFileSystemStub(stub -> {
+        FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(
                     new String[]{PATH_PREFIX_MAVEN + ModuleDetector.MAVEN_POM});
             when(stub.create(anyString())).thenAnswer((fileName) -> read(ModuleDetector.MAVEN_POM));
@@ -114,7 +114,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByReadingMavenPomWithoutName() {
-        FileInputStreamFactory factory = createFileSystemStub(stub -> {
+        FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_MAVEN + ModuleDetector.MAVEN_POM});
             when(stub.create(anyString())).thenAnswer((fileName) -> read("no-name-pom.xml"));
         });
@@ -132,7 +132,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByReadingAntProjectFile() {
-        FileInputStreamFactory factory = createFileSystemStub(stub -> {
+        FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_ANT + ModuleDetector.ANT_PROJECT});
             when(stub.create(anyString())).thenAnswer((fileName) -> read(ModuleDetector.ANT_PROJECT));
         });
@@ -148,7 +148,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIgnoreExceptionsDuringParsing() {
-        FileInputStreamFactory fileSystem = createFileSystemStub(stub -> {
+        FileSystem fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[NO_RESULT]);
             when(stub.create(anyString())).thenThrow(new FileNotFoundException("File not found"));
         });
@@ -163,7 +163,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleIfThereAreMoreEntries() {
-        FileInputStreamFactory factory = createFileSystemStub(stub -> {
+        FileSystem factory = createFileSystemStub(stub -> {
             String ant = PATH_PREFIX_ANT + ModuleDetector.ANT_PROJECT;
             String maven = PATH_PREFIX_MAVEN + ModuleDetector.MAVEN_POM;
             when(stub.find(any(), anyString())).thenReturn(new String[]{ant, maven});
@@ -190,7 +190,7 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     private void verifyOrder(final String prefix, final String ant, final String maven, final String[] foundFiles) {
-        FileInputStreamFactory factory = createFileSystemStub(stub -> {
+        FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);
             when(stub.create(ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
             when(stub.create(maven)).thenAnswer((fileName) -> read(ModuleDetector.MAVEN_POM));
@@ -218,7 +218,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     private void verifyOrder(final String prefix, final String ant, final String maven, final String osgi,
             final String[] foundFiles) {
-        FileInputStreamFactory fileSystem = createFileSystemStub(stub -> {
+        FileSystem fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);
             when(stub.create(ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
             when(stub.create(maven)).thenAnswer((fileName) -> read(ModuleDetector.MAVEN_POM));
@@ -230,9 +230,9 @@ class ModuleDetectorTest extends ResourceTest {
         assertThat(detector.guessModuleName(prefix + "/something.txt")).isEqualTo(EXPECTED_OSGI_MODULE);
     }
 
-    private FileInputStreamFactory createFileSystemStub(final Stub stub) {
+    private FileSystem createFileSystemStub(final Stub stub) {
         try {
-            FileInputStreamFactory fileSystem = mock(FileInputStreamFactory.class);
+            FileSystem fileSystem = mock(FileSystem.class);
             stub.apply(fileSystem);
             return fileSystem;
         }
@@ -243,6 +243,6 @@ class ModuleDetectorTest extends ResourceTest {
 
     @FunctionalInterface
     private interface Stub {
-        void apply(FileInputStreamFactory f) throws FileNotFoundException;
+        void apply(FileSystem f) throws FileNotFoundException;
     }
 }
