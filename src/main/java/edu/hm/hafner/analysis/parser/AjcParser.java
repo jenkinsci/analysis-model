@@ -28,7 +28,7 @@ public class AjcParser extends AbstractParser<Issue> {
     static final String ADVICE = "Advice";
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
+    public Issues<Issue> parse(@Nonnull final Reader reader,
             final Function<String, String> preProcessor) throws ParsingException {
         try (BufferedReader br = new BufferedReader(reader)) {
             Issues<Issue> warnings = new Issues<>();
@@ -36,6 +36,7 @@ public class AjcParser extends AbstractParser<Issue> {
             String line;
             States state = States.START;
 
+            IssueBuilder builder = new IssueBuilder();
             while ((line = br.readLine()) != null) {
                 // clean up any ESC characters (e.g. terminal colors)
                 line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");

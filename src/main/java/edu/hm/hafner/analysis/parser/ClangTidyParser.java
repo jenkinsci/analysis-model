@@ -27,7 +27,7 @@ public class ClangTidyParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         Priority priority;
         if (matcher.group(4).contains("error")) {
             priority = Priority.HIGH;

@@ -25,7 +25,7 @@ public class ArmccCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String fileName = matcher.group(1);
         int lineNumber = parseInt(matcher.group(2));
         String type = matcher.group(3);

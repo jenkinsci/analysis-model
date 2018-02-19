@@ -43,7 +43,7 @@ public class GendarmeParser extends AbstractParser<Issue> {
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
+    public Issues<Issue> parse(@Nonnull final Reader reader,
             final Function<String, String> preProcessor) throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -57,7 +57,7 @@ public class GendarmeParser extends AbstractParser<Issue> {
             Element rulesElement = (Element)rootElement.getElementsByTagName("rules").item(0);
 
             Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getNamedChildElements(rulesElement, "rule"));
-            return parseViolations(XmlElementUtil.getNamedChildElements(resultsElement, "rule"), rules, builder);
+            return parseViolations(XmlElementUtil.getNamedChildElements(resultsElement, "rule"), rules);
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);
@@ -67,7 +67,7 @@ public class GendarmeParser extends AbstractParser<Issue> {
         }
     }
 
-    private Issues<Issue> parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules, final IssueBuilder builder) {
+    private Issues<Issue> parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
         Issues<Issue> warnings = new Issues<>();
         for (Element ruleElement : ruleElements) {
             String ruleName = ruleElement.getAttribute("Name");
@@ -83,8 +83,12 @@ public class GendarmeParser extends AbstractParser<Issue> {
                 Priority priority = extractPriority(defectElement);
                 int line = parseInt(extractFileNameMatch(rule, source, 2));
 
-                warnings.add(builder.setFileName(fileName).setLineStart(line).setCategory(rule.getName())
-                                           .setMessage(problem).setPriority(priority).build());
+                IssueBuilder builder = new IssueBuilder().setFileName(fileName)
+                        .setLineStart(line)
+                        .setCategory(rule.getName())
+                        .setMessage(problem)
+                        .setPriority(priority);
+                warnings.add(builder.build());
             }
         }
         return warnings;

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -46,7 +45,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
      * Checks that paths of the type "/c/anything" are changed to "c:/anything" on windows but no other OS.
      */
     private void checkOsSpecificPath(final String os, final String rootDir) {
-        Issues<? extends Issue> warnings = new GnuMakeGccParser(os).parse(openFile(), new IssueBuilder());
+        Issues<? extends Issue> warnings = new GnuMakeGccParser(os).parse(openFile());
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(14))

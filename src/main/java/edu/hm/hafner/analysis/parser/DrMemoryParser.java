@@ -73,7 +73,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
 
     @SuppressWarnings("all")
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         StringBuilder messageBuilder = new StringBuilder();
         String filePath = "Nil";
         int lineNumber = 0;

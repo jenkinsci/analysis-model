@@ -26,7 +26,7 @@ public class ErlcParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         Priority priority;
         String category;
         String categoryMatch = matcher.group(3);

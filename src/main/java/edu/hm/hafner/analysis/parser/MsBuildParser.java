@@ -32,7 +32,7 @@ public class MsBuildParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         builder.setFileName(determineFileName(matcher));
 
         if (StringUtils.isNotBlank(matcher.group(2))) {

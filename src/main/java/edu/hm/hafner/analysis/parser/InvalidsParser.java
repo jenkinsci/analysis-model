@@ -28,7 +28,7 @@ public class InvalidsParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = WARNING_PREFIX + StringUtils.capitalize(StringUtils.lowerCase(matcher.group(4)));
         String category = matcher.group(6);
         Priority priority;

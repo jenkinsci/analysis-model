@@ -31,7 +31,7 @@ public class TnsdlParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(3))
                 .setLineStart(parseInt(matcher.group(4)))
                 .setCategory(WARNING_CATEGORY)

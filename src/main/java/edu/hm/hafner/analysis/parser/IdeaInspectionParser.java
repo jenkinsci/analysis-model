@@ -34,15 +34,15 @@ public class IdeaInspectionParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = 3307389086106375473L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
-            final Function<String, String> preProcessor) throws ParsingException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+            throws ParsingException {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(new InputSource(reader));
 
-            Element rootElement = (Element)document.getElementsByTagName("problems").item(0);
-            return parseProblems(XmlElementUtil.getNamedChildElements(rootElement, "problem"), builder);
+            Element rootElement = (Element) document.getElementsByTagName("problems").item(0);
+            return parseProblems(XmlElementUtil.getNamedChildElements(rootElement, "problem"));
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);
@@ -52,17 +52,17 @@ public class IdeaInspectionParser extends AbstractParser<Issue> {
         }
     }
 
-    private Issues<Issue> parseProblems(final List<Element> elements, final IssueBuilder builder) {
+    private Issues<Issue> parseProblems(final List<Element> elements) {
         Issues<Issue> problems = new Issues<>();
         for (Element element : elements) {
             String file = getChildValue(element, "file");
-            int line = Integer.parseInt(getChildValue(element, "line"));
             Element problemClass = XmlElementUtil.getFirstElementByTagName(element, "problem_class");
-            String severity = problemClass.getAttribute("severity");
-            String category = StringEscapeUtils.unescapeXml(getValue(problemClass));
-            String description = StringEscapeUtils.unescapeXml(getChildValue(element, "description"));
-            problems.add(builder.setFileName(file).setLineStart(line).setCategory(category)
-                                       .setMessage(description).setPriority(getPriority(severity)).build());
+            IssueBuilder builder = new IssueBuilder().setFileName(file)
+                    .setLineStart(Integer.parseInt(getChildValue(element, "line")))
+                    .setCategory(StringEscapeUtils.unescapeXml(getValue(problemClass)))
+                    .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
+                    .setPriority(getPriority(problemClass.getAttribute("severity")));
+            problems.add(builder.build());
         }
         return problems;
     }

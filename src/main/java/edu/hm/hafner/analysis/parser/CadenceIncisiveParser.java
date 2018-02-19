@@ -43,7 +43,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String tool;
         String type;
         String category;

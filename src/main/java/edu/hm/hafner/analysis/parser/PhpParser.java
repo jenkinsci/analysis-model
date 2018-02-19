@@ -31,7 +31,7 @@ public class PhpParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(1);
         builder.setCategory(category).setPriority(mapPriority(category));
 

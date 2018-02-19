@@ -5,7 +5,6 @@ import java.io.StringReader;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -236,7 +235,7 @@ class XlcParserTest {
     }
 
     private Issues<Issue> parseString(final String log) {
-        Issues<Issue> warnings = new XlcCompilerParser().parse(new StringReader(log), new IssueBuilder());
+        Issues<Issue> warnings = new XlcCompilerParser().parse(new StringReader(log));
 
         assertThat(warnings).hasSize(1);
         

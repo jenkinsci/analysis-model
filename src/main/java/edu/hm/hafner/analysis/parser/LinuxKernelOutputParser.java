@@ -77,9 +77,10 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder,
-            final Function<String, String> preProcessor) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader file, final Function<String, String> preProcessor)
+            throws ParsingException, ParsingCanceledException {
         try (BufferedReader reader = new BufferedReader(file)) {
+            IssueBuilder builder = new IssueBuilder();
             Issues<Issue> warnings = new Issues<>();
 
             String line = reader.readLine();
@@ -99,14 +100,14 @@ public class LinuxKernelOutputParser extends RegexpParser {
                     } while (!m.matches());
 
                     buf.append(preProcessor.apply(line)).append('\n');
-                    findAnnotations(buf.toString(), warnings, builder);
+                    findAnnotations(buf.toString(), warnings);
                     line = reader.readLine();
                     continue;
                 }
 
                 m = pOutput.matcher(line);
                 if (m.matches()) {
-                    findAnnotations(preProcessor.apply(line), warnings, builder);
+                    findAnnotations(preProcessor.apply(line), warnings);
                 }
 
                 line = reader.readLine();
@@ -123,7 +124,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         StringBuilder messageBuilder = new StringBuilder();
         StringBuilder toolTipBuilder = new StringBuilder();
         String filePath = "Nil";

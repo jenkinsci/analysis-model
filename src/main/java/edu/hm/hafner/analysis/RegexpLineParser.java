@@ -28,15 +28,15 @@ public abstract class RegexpLineParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
-            final Function<String, String> preProcessor) throws ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+            throws ParsingCanceledException, ParsingException {
         Issues<Issue> issues = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(reader);
         try {
             currentLine = 0;
             while (iterator.hasNext()) {
                 String line = preProcessor.apply(iterator.nextLine());
-                findAnnotations(line, issues, builder);
+                findAnnotations(line, issues);
                 currentLine++;
             }
         }
@@ -44,17 +44,16 @@ public abstract class RegexpLineParser extends RegexpParser {
             iterator.close();
         }
 
-        return postProcessWarnings(issues, builder);
+        return postProcessWarnings(issues);
     }
 
     /**
      * Post processes the issues. This default implementation does nothing.
      *
      * @param issues  the issues after the parsing process
-     * @param builder the builder to create the issues with
      * @return the post processed issues
      */
-    protected Issues<Issue> postProcessWarnings(final Issues<Issue> issues, final IssueBuilder builder) {
+    protected Issues<Issue> postProcessWarnings(final Issues<Issue> issues) {
         return issues;
     }
 

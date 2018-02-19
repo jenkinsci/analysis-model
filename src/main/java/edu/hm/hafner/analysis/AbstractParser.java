@@ -43,11 +43,10 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
     public static final String PROPRIETARY_API = "Proprietary API";
 
     @Override
-    public Issues<T> parse(final File file, final Charset charset, final IssueBuilder builder,
-            final Function<String, String> preProcessor)
+    public Issues<T> parse(final File file, final Charset charset, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (Reader input = createReader(new FileInputStream(file), charset)) {
-            return parse(input, builder, preProcessor);
+            return parse(input, preProcessor);
         }
         catch (FileNotFoundException exception) {
             throw new ParsingException(exception, "Can't find file: " + file.getAbsolutePath());
@@ -66,27 +65,23 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
      *
      * @param reader
      *         the reader to get the text from
-     * @param builder
-     *         the issue builder to use
      * @param preProcessor
      *         pre processes each input line before handing it to the actual parser
      *
-     * @return the parsed issues
+     * @return the issues
      * @throws ParsingException
      *         Signals that during parsing a non recoverable error has been occurred
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<T> parse(Reader reader, IssueBuilder builder,
-            Function<String, String> preProcessor) throws ParsingCanceledException, ParsingException;
+    public abstract Issues<T> parse(Reader reader, Function<String, String> preProcessor)
+            throws ParsingCanceledException, ParsingException;
 
     /**
      * Parses the specified input stream for issues. Input lines are not pre processed.
      *
      * @param reader
      *         the reader to get the text from
-     * @param builder
-     *         the issue builder to use
      *
      * @return the parsed issues
      * @throws ParsingException
@@ -95,9 +90,9 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
      *         Signals that the parsing has been aborted by the user
      */
     @VisibleForTesting
-    public Issues<T> parse(Reader reader, IssueBuilder builder)
+    public Issues<T> parse(Reader reader)
             throws ParsingCanceledException, ParsingException {
-        return parse(reader, builder, Function.identity());
+        return parse(reader, Function.identity());
     }
 
     /**

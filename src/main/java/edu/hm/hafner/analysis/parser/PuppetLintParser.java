@@ -32,7 +32,7 @@ public class PuppetLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(matcher.group(3))

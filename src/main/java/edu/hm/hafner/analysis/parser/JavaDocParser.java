@@ -36,7 +36,7 @@ public class JavaDocParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(3);
 
         return builder.setFileName(StringUtils.defaultIfEmpty(matcher.group(1), " - "))

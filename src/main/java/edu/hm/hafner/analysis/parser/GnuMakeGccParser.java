@@ -49,7 +49,7 @@ public class GnuMakeGccParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         if (matcher.group(1) == null) {
             return handleDirectory(matcher);
         }

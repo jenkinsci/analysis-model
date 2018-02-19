@@ -28,8 +28,7 @@ public class CheckStyleParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
-            final Function<String, String> preProcessor)
+    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new SecureDigester(CheckStyleParser.class);
@@ -53,7 +52,7 @@ public class CheckStyleParser extends AbstractParser<Issue> {
                 throw new ParsingException("Input stream is not a Checkstyle file.");
             }
 
-            return convert(checkStyle, builder);
+            return convert(checkStyle);
         }
         catch (IOException | SAXException exception) {
             throw new ParsingException(exception);
@@ -68,12 +67,13 @@ public class CheckStyleParser extends AbstractParser<Issue> {
      *
      * @return a maven module of the annotations API
      */
-    private Issues<Issue> convert(final CheckStyle collection, final IssueBuilder builder) {
+    private Issues<Issue> convert(final CheckStyle collection) {
         Issues<Issue> issues = new Issues<>();
 
         for (File file : collection.getFiles()) {
             if (isValidWarning(file)) {
                 for (Error error : file.getErrors()) {
+                    IssueBuilder builder = new IssueBuilder();
                     mapPriority(error).ifPresent(priority -> builder.setPriority(priority));
 
                     String source = error.getSource();

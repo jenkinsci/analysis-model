@@ -27,7 +27,7 @@ public class TaskingVXCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(1);
         Priority priority;
         String category;

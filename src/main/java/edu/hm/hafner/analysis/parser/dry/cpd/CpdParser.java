@@ -54,14 +54,13 @@ public class CpdParser extends AbstractDryParser<Duplication> {
     }
 
     @Override
-    protected Issues<CodeDuplication> convertDuplicationsToIssues(final List<Duplication> duplications,
-            final IssueBuilder builder) {
+    protected Issues<CodeDuplication> convertDuplicationsToIssues(final List<Duplication> duplications) {
         Issues<CodeDuplication> issues = new Issues<>();
 
         for (Duplication duplication : duplications) {
             DuplicationGroup group = new DuplicationGroup(duplication.getCodeFragment());
             for (SourceFile file : duplication.getFiles()) {
-                builder.setPriority(getPriority(duplication.getLines()))
+                IssueBuilder builder = new IssueBuilder().setPriority(getPriority(duplication.getLines()))
                         .setLineStart(file.getLine())
                         .setLineEnd(file.getLine() + duplication.getLines())
                         .setFileName(file.getPath());

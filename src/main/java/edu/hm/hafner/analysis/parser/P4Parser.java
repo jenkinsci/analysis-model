@@ -34,7 +34,7 @@ public class P4Parser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(2).trim();
         Priority p = mapPriority(category);
         return builder.setFileName(matcher.group(1).trim()).setLineStart(0).setCategory(category).setMessage(

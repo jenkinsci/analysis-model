@@ -48,7 +48,7 @@ public class XlcCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String line = matcher.group(0);
 
         Matcher lineMatcher = PATTERN_WITH_LINE.matcher(line);

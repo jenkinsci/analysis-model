@@ -85,7 +85,7 @@ public class FindBugsParser extends IssueParser<Issue> {
 
     @Override
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    public Issues<Issue> parse(final File file, final Charset charset, final IssueBuilder builder,
+    public Issues<Issue> parse(final File file, final Charset charset,
             final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         Collection<String> sources = new ArrayList<>();
@@ -93,7 +93,7 @@ public class FindBugsParser extends IssueParser<Issue> {
         sources.add(moduleRoot + "/src/main/java");
         sources.add(moduleRoot + "/src/test/java");
         sources.add(moduleRoot + "/src");
-        return parse(() -> new FileInputStream(file), sources, builder);
+        return parse(() -> new FileInputStream(file), sources, new IssueBuilder());
     }
 
     @VisibleForTesting
@@ -264,14 +264,14 @@ public class FindBugsParser extends IssueParser<Issue> {
             return sourceFile.getFullFileName();
         }
         catch (IOException ignored) {
-            StringBuilder sb = new StringBuilder("Can't resolve absolute file name for file ");
-            sb.append(sourceLine.getSourceFile());
+            StringBuilder builder = new StringBuilder("Can't resolve absolute file name for file ");
+            builder.append(sourceLine.getSourceFile());
             if (isFirstError) {
-                sb.append(", dir list = ");
-                sb.append(project.getSourceDirList());
+                builder.append(", dir list = ");
+                builder.append(project.getSourceDirList());
                 isFirstError = false;
             }
-            // Logger.getLogger(getClass().getName()).log(Level.WARNING, sb.toString());
+            // Logger.getLogger(getClass().getName()).log(Level.WARNING, builder.toString());
             // FIXME: Too many warnings
             return sourceLine.getPackageName().replace(DOT, SLASH) + SLASH + sourceLine.getSourceFile();
         }

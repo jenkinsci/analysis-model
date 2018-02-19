@@ -36,7 +36,7 @@ public class GnuFortranParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = LINE_PATTERN.matcher(matcher.group(5)).replaceAll("");
         return builder.setFileName(matcher.group(1))
                 .setColumnStart(parseInt(matcher.group(3)))

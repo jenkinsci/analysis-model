@@ -28,8 +28,8 @@ public class JcReportParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
-            final Function<String, String> preProcessor) throws ParsingCanceledException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+            throws ParsingCanceledException {
         Report report = createReport(reader);
         Issues<Issue> warnings = new Issues<>();
         for (int i = 0; i < report.getFiles().size(); i++) {
@@ -37,7 +37,7 @@ public class JcReportParser extends AbstractParser<Issue> {
 
             for (int j = 0; j < file.getItems().size(); j++) {
                 Item item = file.getItems().get(j);
-                builder.setFileName(file.getName())
+                IssueBuilder builder = new IssueBuilder().setFileName(file.getName())
                         .setLineStart(parseInt(item.getLine()))
                         .setColumnStart(parseInt(item.getColumn()))
                         .setColumnEnd(parseInt(item.getEndcolumn()))

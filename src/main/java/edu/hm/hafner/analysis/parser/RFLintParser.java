@@ -34,8 +34,7 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader file, @Nonnull final IssueBuilder builder,
-            final Function<String, String> preProcessor) {
+    public Issues<Issue> parse(@Nonnull final Reader file, final Function<String, String> preProcessor) {
         Issues<Issue> warnings = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(file);
         try {
@@ -46,7 +45,7 @@ public class RFLintParser extends RegexpLineParser {
                 if (matcher.find()) {
                     fileName = matcher.group(1);
                 }
-                findAnnotations(line, warnings, builder);
+                findAnnotations(line, warnings);
             }
         }
         finally {
@@ -56,7 +55,7 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(1), message);
         Priority priority = Priority.LOW;

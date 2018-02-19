@@ -26,7 +26,7 @@ public class PerlCriticParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String filename;
         if (matcher.group(1) == null) {
             filename = "-";

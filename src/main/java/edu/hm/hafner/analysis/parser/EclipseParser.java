@@ -40,7 +40,7 @@ public class EclipseParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(1));
         Priority priority;
         if ("warning".equalsIgnoreCase(type)) {

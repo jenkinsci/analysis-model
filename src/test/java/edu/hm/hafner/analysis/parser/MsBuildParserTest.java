@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -592,7 +591,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
     @Test
     void shouldDetectKeywordsInRegexCaseInsensitive() throws IOException {
 
-        Issues<? extends Issue> warnings = createParser().parse(createIssue2383File(), new IssueBuilder());
+        Issues<? extends Issue> warnings = createParser().parse(createIssue2383File());
 
         assertThat(warnings).hasSize(2).hasHighPrioritySize(1).hasNormalPrioritySize(1);
 

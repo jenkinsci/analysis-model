@@ -31,8 +31,8 @@ public class PmdParser extends AbstractParser<Issue> {
     private static final int PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY = 4;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
-            final Function<String, String> preProcessor) throws ParsingCanceledException, ParsingException {
+    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+            throws ParsingCanceledException, ParsingException {
         try {
             SecureDigester digester = new SecureDigester(PmdParser.class);
 
@@ -56,18 +56,18 @@ public class PmdParser extends AbstractParser<Issue> {
                 throw new ParsingException("Input stream is not a PMD file.");
             }
 
-            return convert(pmd, builder);
+            return convert(pmd);
         }
         catch (IOException | SAXException exception) {
             throw new ParsingException(exception);
         }
     }
 
-    private Issues<Issue> convert(final Pmd pmdIssues, final IssueBuilder builder) {
+    private Issues<Issue> convert(final Pmd pmdIssues) {
         Issues<Issue> issues = new Issues<>();
         for (File file : pmdIssues.getFiles()) {
             for (Violation warning : file.getViolations()) {
-                builder.setPriority(mapPriority(warning))
+                IssueBuilder builder = new IssueBuilder().setPriority(mapPriority(warning))
                         .setMessage(createMessage(warning))
                         .setCategory(warning.getRuleset())
                         .setType(warning.getRule())

@@ -77,7 +77,7 @@ public class DoxygenParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message;
         String fileName = "";
         int lineNumber = 0;

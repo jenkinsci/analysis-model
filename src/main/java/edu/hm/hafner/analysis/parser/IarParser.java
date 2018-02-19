@@ -39,7 +39,7 @@ public class IarParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         builder.setPriority(determinePriority(matcher.group(GROUP_NUMBER)))
                 .setMessage(matcher.group(7));
 

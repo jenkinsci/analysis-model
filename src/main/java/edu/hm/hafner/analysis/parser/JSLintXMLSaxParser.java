@@ -15,7 +15,6 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class JSLintXMLSaxParser extends DefaultHandler {
     private final Issues<Issue> issues;
-    private final IssueBuilder builder;
     private String fileName;
 
     /** Categories. */
@@ -28,14 +27,11 @@ public class JSLintXMLSaxParser extends DefaultHandler {
      *
      * @param issues
      *         the issues
-     * @param builder
-     *         issue builder
      */
-    public JSLintXMLSaxParser(final Issues<Issue> issues, final IssueBuilder builder) {
+    public JSLintXMLSaxParser(final Issues<Issue> issues) {
         super();
 
         this.issues = issues;
-        this.builder = builder;
     }
 
     @Override
@@ -83,7 +79,7 @@ public class JSLintXMLSaxParser extends DefaultHandler {
         int lineNumber = parseInt(attributes.getValue("line"));
 
         String column = extractFrom(attributes, "column", "char");
-        builder.setFileName(fileName)
+        IssueBuilder builder = new IssueBuilder().setFileName(fileName)
                 .setLineStart(lineNumber)
                 .setCategory(category)
                 .setMessage(message)

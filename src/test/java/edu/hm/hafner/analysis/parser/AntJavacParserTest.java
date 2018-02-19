@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -169,7 +168,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
                 AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        Issues<? extends Issue> warnings = createParser().parse(is, new IssueBuilder());
+        Issues<? extends Issue> warnings = createParser().parse(is);
 
         assertThat(warnings).hasSize(1);
     }

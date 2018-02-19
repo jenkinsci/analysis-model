@@ -15,25 +15,41 @@ import java.util.function.Function;
  */
 public abstract class IssueParser<T extends Issue> implements Serializable {
     /**
-     * Returns the issues found in the specified file.
+     * Parses the specified file for issues.
      *
      * @param file
      *         the file to parse
      * @param charset
      *         the encoding to use when reading files
-     * @param builder
-     *         the issue builder to use
      * @param preProcessor
      *         pre processes each input line before handing it to the actual parser
      *
-     * @return the issues found
+     * @return the issues
      * @throws ParsingException
      *         Signals that during parsing a non recoverable error has been occurred
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<T> parse(File file, Charset charset, IssueBuilder builder,
-            Function<String, String> preProcessor)
+    public abstract Issues<T> parse(File file, Charset charset, Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException;
+
+    /**
+     * Parses the specified file for issues.
+     *
+     * @param file
+     *         the file to parse
+     * @param charset
+     *         the encoding to use when reading files
+     *
+     * @return the issues
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         Signals that the parsing has been aborted by the user
+     */
+    public Issues<T> parse(final File file, final Charset charset)
+            throws ParsingException, ParsingCanceledException {
+        return parse(file, charset, Function.identity());
+    }
 }
 

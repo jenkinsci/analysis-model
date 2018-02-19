@@ -52,18 +52,16 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
      *         the content to scan
      * @param issues
      *         the found annotations
-     * @param builder
-     *         the issue build to use
      *
      * @throws ParsingCanceledException
      *         indicates that the user canceled the operation
      */
-    protected void findAnnotations(final String content, final Issues<Issue> issues, final IssueBuilder builder)
+    protected void findAnnotations(final String content, final Issues<Issue> issues)
             throws ParsingCanceledException {
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
-            Issue warning = createWarning(matcher, builder);
+            Issue warning = createIssue(matcher, new IssueBuilder());
             if (warning != FALSE_POSITIVE) { // NOPMD
                 issues.add(warning);
             }
@@ -74,7 +72,7 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
     }
 
     /**
-     * Creates a new annotation for the specified pattern. This method is called for each matching line in the specified
+     * Creates a new issue for the specified pattern. This method is called for each matching line in the specified
      * file. If a match is a false positive, then you can return the constant {@link #FALSE_POSITIVE} to ignore this
      * warning.
      *
@@ -85,6 +83,5 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
      *
      * @return a new annotation for the specified pattern
      */
-    // FIXME: create Issue?
-    protected abstract Issue createWarning(Matcher matcher, IssueBuilder builder);
+    protected abstract Issue createIssue(Matcher matcher, IssueBuilder builder);
 }

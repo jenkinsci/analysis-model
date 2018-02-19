@@ -11,7 +11,6 @@ import org.apache.commons.digester3.Digester;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -64,8 +63,7 @@ public abstract class AbstractDryParser<T> extends AbstractParser<CodeDuplicatio
     }
 
     @Override
-    public Issues<CodeDuplication> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
-            final Function<String, String> preProcessor)
+    public Issues<CodeDuplication> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new SecureDigester(CodeDuplication.class);
@@ -80,7 +78,7 @@ public abstract class AbstractDryParser<T> extends AbstractParser<CodeDuplicatio
                 throw new ParsingException("Input stream is not a valid duplications file.");
             }
 
-            return convertDuplicationsToIssues(duplications, builder);
+            return convertDuplicationsToIssues(duplications);
         }
         catch (IOException | SAXException exception) {
             throw new ParsingException(exception);
@@ -100,10 +98,7 @@ public abstract class AbstractDryParser<T> extends AbstractParser<CodeDuplicatio
      *
      * @param duplications
      *         the parsed warnings
-     * @param builder
-     *         the issue builder to use
-     *
      * @return the converted warnings
      */
-    protected abstract Issues<CodeDuplication> convertDuplicationsToIssues(List<T> duplications, IssueBuilder builder);
+    protected abstract Issues<CodeDuplication> convertDuplicationsToIssues(List<T> duplications);
 }

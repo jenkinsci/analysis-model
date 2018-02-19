@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -133,7 +132,7 @@ class XlcLinkerParserTest {
     }
 
     private Issues<? extends Issue> parse(final String s) {
-        return new XlcLinkerParser().parse(new StringReader(s), new IssueBuilder());
+        return new XlcLinkerParser().parse(new StringReader(s));
     }
 }
 

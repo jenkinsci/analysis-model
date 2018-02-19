@@ -63,12 +63,8 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
         String id = parser.getClass().getSimpleName();
         IssueBuilder builder = new IssueBuilder();
         builder.setOrigin(id);
-        Issues<T> issues = parser.parse(openFile(), builder, Function.identity());
-        Issues<T> issuesByOrigin = issues.filter(issue -> id.equals(issue.getOrigin()));
 
-        assertThat(issuesByOrigin.size()).as("Origin not correctly set for parser").isEqualTo(issues.size());
-
-        return issues;
+        return parser.parse(openFile(), Function.identity());
     }
 
     /**
@@ -97,7 +93,7 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
      * @return the found issues
      */
     protected Issues<T> parse(final String fileName) {
-        return createParser().parse(openFile(fileName), new IssueBuilder(), Function.identity());
+        return createParser().parse(openFile(fileName), Function.identity());
     }
 
     /**

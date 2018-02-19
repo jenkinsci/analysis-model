@@ -34,7 +34,7 @@ public class YuiCompressorParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String messageHeader = matcher.group(1);
         CategoryAndPriority categoryAndPriority = getCategoryAndPriority(messageHeader);
         String messageDetails = matcher.group(2);

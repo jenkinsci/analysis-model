@@ -32,7 +32,7 @@ public class GccParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
             return builder.setFileName(matcher.group(8))
                     .setLineStart(0)

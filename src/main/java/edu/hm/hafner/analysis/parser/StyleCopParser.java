@@ -35,7 +35,7 @@ public class StyleCopParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = 7846052338159003458L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, @Nonnull final IssueBuilder builder,
+    public Issues<Issue> parse(@Nonnull final Reader reader,
             final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
@@ -52,7 +52,7 @@ public class StyleCopParser extends AbstractParser<Issue> {
             }
 
             Element rootElement = (Element) mainNode.item(0);
-            return parseViolations(XmlElementUtil.getNamedChildElements(rootElement, "Violation"), builder);
+            return parseViolations(XmlElementUtil.getNamedChildElements(rootElement, "Violation"));
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);
@@ -62,19 +62,19 @@ public class StyleCopParser extends AbstractParser<Issue> {
         }
     }
 
-    private Issues<Issue> parseViolations(final List<Element> elements, final IssueBuilder builder) {
-        Issues<Issue> warnings = new Issues<>();
+    private Issues<Issue> parseViolations(final List<Element> elements) {
+        Issues<Issue> issues = new Issues<>();
         for (Element element : elements) {
-            builder.setFileName(getString(element, "Source"))
+            IssueBuilder builder = new IssueBuilder().setFileName(getString(element, "Source"))
                     .setLineStart(getLineNumber(element))
                     .setCategory(getCategory(element))
                     .setType(getString(element, "Rule"))
                     .setMessage(element.getTextContent())
                     .setPriority(Priority.NORMAL);
 
-            warnings.add(builder.build());
+            issues.add(builder.build());
         }
-        return warnings;
+        return issues;
     }
 
     /**

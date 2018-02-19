@@ -36,7 +36,7 @@ public class XlcLinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String line = matcher.group(0);
         builder.setFileName("").setLineStart(0);
 

@@ -25,7 +25,7 @@ public class CppLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         Priority priority = mapPriority(matcher.group(5));
 
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))

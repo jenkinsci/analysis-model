@@ -37,7 +37,7 @@ public class JavacParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(5);
         String category = guessCategoryIfEmpty(matcher.group(4), message);
 

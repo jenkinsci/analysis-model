@@ -40,7 +40,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         Priority priority;
         String category;
         if (ERROR.equals(matcher.group(1))) {
@@ -57,7 +57,8 @@ public class MavenConsoleParser extends FastRegexpLineParser {
 
     // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
     @Override
-    protected Issues<Issue> postProcessWarnings(final Issues<Issue> warnings, final IssueBuilder builder) {
+    protected Issues<Issue> postProcessWarnings(final Issues<Issue> warnings) {
+        IssueBuilder builder = new IssueBuilder();
         Deque<Issue> condensed = new LinkedList<>();
         int line = -1;
         for (Issue warning : warnings) {

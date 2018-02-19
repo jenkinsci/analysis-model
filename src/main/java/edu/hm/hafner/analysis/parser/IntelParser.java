@@ -32,7 +32,7 @@ public class IntelParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createWarning(final Matcher matcher, final IssueBuilder builder) {
+    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = StringUtils.capitalize(matcher.group(4));
 
         Priority priority;
