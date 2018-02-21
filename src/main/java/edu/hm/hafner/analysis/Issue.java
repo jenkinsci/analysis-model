@@ -229,7 +229,6 @@ public class Issue implements Serializable {
         return message;
     }
 
-    // FIXME: remove description
     /**
      * Returns an additional description for this issue. Static analysis tools might provide some additional information
      * about this issue. This description may contain valid HTML.

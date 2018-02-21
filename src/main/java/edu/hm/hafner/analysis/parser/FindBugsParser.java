@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.io.IOUtils;
@@ -264,15 +266,14 @@ public class FindBugsParser extends IssueParser<Issue> {
             return sourceFile.getFullFileName();
         }
         catch (IOException ignored) {
-            StringBuilder builder = new StringBuilder("Can't resolve absolute file name for file ");
-            builder.append(sourceLine.getSourceFile());
             if (isFirstError) {
+                StringBuilder builder = new StringBuilder("Can't resolve absolute file name for file ");
+                builder.append(sourceLine.getSourceFile());
                 builder.append(", dir list = ");
                 builder.append(project.getSourceDirList());
                 isFirstError = false;
+                Logger.getLogger(getClass().getName()).log(Level.WARNING, builder.toString());
             }
-            // Logger.getLogger(getClass().getName()).log(Level.WARNING, builder.toString());
-            // FIXME: Too many warnings
             return sourceLine.getPackageName().replace(DOT, SLASH) + SLASH + sourceLine.getSourceFile();
         }
     }

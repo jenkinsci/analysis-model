@@ -4,11 +4,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Parses an input stream for compiler warnings using the provided regular expression.
+ * Parses an input stream for compiler warnings using the provided regular expression. Sub classes of this parser
+ * should create concrete {@link Issue issue} instances.
  *
  * @author Ullrich Hafner
  */
-// TODO: this hierarchy always uses Issue instances, check if the type parameter should be pushed down the hierarchy
 public abstract class RegexpParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -82635675595933170L;
 

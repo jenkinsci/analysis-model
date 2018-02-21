@@ -251,7 +251,7 @@ public class IssueTest extends SerializableTest<Issue> {
     }
 
     /**
-     * Serializes an issues to a file. Use this method in case the issue properties have been changed and the
+     * Serializes an issue to a file. Use this method in case the issue properties have been changed and the
      * readResolve method has been adapted accordingly so that the old serialization still can be read.
      *
      * @param args

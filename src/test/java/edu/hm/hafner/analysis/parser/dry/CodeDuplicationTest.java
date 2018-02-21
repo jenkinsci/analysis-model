@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,8 +16,8 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-// FIXME: add rest of serializable tests
 class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
+    private static final String SERIALIZATION_NAME = "dry.ser";
     private static final String CODE_FRAGMENT = "fragment";
 
     @Test
@@ -41,6 +43,17 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
         IssueBuilder builder = new IssueBuilder();
 
         return new CodeDuplication(builder.setFileName("file1").build(), group);
+    }
+
+    /**
+     * Verifies that saved serialized format (from a previous release) still can be resolved with the current
+     * implementation of {@link CodeDuplication}.
+     */
+    @Test
+    void shouldReadIssueFromOldSerialization() {
+        byte[] restored = readResource(SERIALIZATION_NAME);
+
+        assertThatSerializableCanBeRestoredFrom(restored);
     }
 
     /**
@@ -90,5 +103,19 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
             CodeDuplication another = new CodeDuplication(builder.build(), group);
             assertThat(group.getDuplications()).containsExactly(duplication, another);
         }
+    }
+
+    /**
+     * Serializes an code duplication to a file. Use this method in case the properties have been changed and the
+     * readResolve method has been adapted accordingly so that the old serialization still can be read.
+     *
+     * @param args
+     *         not used
+     *
+     * @throws IOException
+     *         if the file could not be written
+     */
+    public static void main(final String... args) throws IOException {
+        new CodeDuplicationTest().createSerializationFile();
     }
 }
