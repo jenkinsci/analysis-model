@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry.cpd;
 
+import java.util.function.Function;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
@@ -88,6 +90,32 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
         softly.assertThat(reporterSecond.getDescription()).isNotEmpty();
         softly.assertThat(publisherSecond.getDuplications()).containsExactly(reporterSecond);
         softly.assertThat(reporterSecond.getDuplications()).containsExactly(publisherSecond);
+    }
+
+    @Test
+    void shouldAssignPriority() {
+        Issues<? extends CodeDuplication> issues;
+
+        issues = parse(68, 25);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.HIGH);
+
+        issues = parse(69, 25);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+
+        issues = parse(100, 68);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+
+        issues = parse(100, 69);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.LOW);
+    }
+
+    private Issues<? extends CodeDuplication> parse(final int highThreshold, final int normalThreshold) {
+        return new CpdParser(highThreshold, normalThreshold)
+                .parse(openFile("issue12516.xml"), Function.identity());
     }
 
     /**

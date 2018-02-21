@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
+import java.util.function.Function;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
@@ -88,6 +90,32 @@ class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
         Issues<? extends CodeDuplication> issues = parse("otherfile.xml");
 
         assertThat(issues).hasSize(0);
+    }
+
+    @Test
+    void shouldAssignPriority() {
+        Issues<? extends CodeDuplication> issues;
+
+        issues = parse(12, 5);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.HIGH);
+
+        issues = parse(13, 5);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+
+        issues = parse(100, 12);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+
+        issues = parse(100, 13);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.LOW);
+    }
+
+    private Issues<? extends CodeDuplication> parse(final int highThreshold, final int normalThreshold) {
+        return new DupFinderParser(highThreshold, normalThreshold)
+                .parse(openFile("without-sourcecode.xml"), Function.identity());
     }
 }
 

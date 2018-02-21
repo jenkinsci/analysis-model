@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry.simian;
 
+import java.util.function.Function;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
@@ -12,7 +14,6 @@ import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
 /**
  * Tests the extraction of Simian's analysis results.
  */
-// FIXME: check for thresholds
 class SimianParserTest extends AbstractParserTest<CodeDuplication> {
     private static final String MATRIX_RUN = "c:/java/hudson/matrix/MatrixRun.java";
     private static final String MAVEN_BUILD = "c:/java/hudson/maven/MavenBuild.java";
@@ -114,5 +115,31 @@ class SimianParserTest extends AbstractParserTest<CodeDuplication> {
         Issues<? extends CodeDuplication> issues = parse("otherfile.xml");
 
         assertThat(issues).hasSize(0);
+    }
+
+    @Test
+    void shouldAssignPriority() {
+        Issues<? extends CodeDuplication> issues;
+
+        issues = parse(6, 5);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.HIGH);
+
+        issues = parse(7, 6);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+
+        issues = parse(100, 6);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+
+        issues = parse(100, 7);
+        assertThat(issues).hasSize(2);
+        assertThat(issues.get(0)).hasPriority(Priority.LOW);
+    }
+
+    private Issues<? extends CodeDuplication> parse(final int highThreshold, final int normalThreshold) {
+        return new SimianParser(highThreshold, normalThreshold)
+                .parse(openFile("twofile.xml"), Function.identity());
     }
 }
