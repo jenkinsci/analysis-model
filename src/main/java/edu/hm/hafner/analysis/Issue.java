@@ -120,7 +120,7 @@ public class Issue implements Serializable {
             @CheckForNull final String origin, @CheckForNull final String reference,
             @CheckForNull final String fingerprint,
             final UUID id) {
-        this.fileName = defaultString(StringUtils.replace(StringUtils.strip(fileName), "\\", "/"));
+        this.fileName = defaultString(normalizeFileName(fileName));
 
         this.lineStart = defaultInteger(lineStart);
         this.lineEnd = lineEnd == 0 ? lineStart : defaultInteger(lineEnd);
@@ -148,7 +148,19 @@ public class Issue implements Serializable {
         this.id = id;
     }
 
-    private int defaultInteger(final int integer) {
+    private String normalizeFileName(@CheckForNull final String fileName) {
+        return StringUtils.replace(StringUtils.strip(fileName), "\\", "/");
+    }
+
+    /**
+     * Creates a default Integer representation for undefined input parameters.
+     *
+     * @param integer
+     *         the integer to check
+     *
+     * @return the valid string or a default string if the specified string is not valid
+     */
+    protected final int defaultInteger(final int integer) {
         return integer < 0 ? 0 : integer;
     }
 
@@ -160,7 +172,7 @@ public class Issue implements Serializable {
      *
      * @return the valid string or a default string if the specified string is not valid
      */
-    protected String defaultString(@CheckForNull final String string) {
+    protected final String defaultString(@CheckForNull final String string) {
         return StringUtils.defaultIfEmpty(string, UNDEFINED);
     }
 
