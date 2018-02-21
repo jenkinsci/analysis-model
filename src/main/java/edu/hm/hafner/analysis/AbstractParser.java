@@ -22,7 +22,8 @@ import edu.hm.hafner.util.VisibleForTesting;
 /**
  * Parses an input stream for issues of a specific static analysis tool and returns the found issues. If your parser is
  * based on a regular expression you can extend from the existing base classes {@link RegexpLineParser} or {@link
- * RegexpDocumentParser}.
+ * RegexpDocumentParser}. Each parser accepts a pre-preprocessor of the input lines. Here you can remove all debugging
+ * lines that might be printed by the used build tool.
  *
  * @param <T>
  *         subtype of created issues
@@ -104,7 +105,7 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
      *
      * @return the line number
      */
-    public int parseInt(@CheckForNull final String lineNumber) {
+    protected int parseInt(@CheckForNull final String lineNumber) {
         return new IntegerParser().parseInt(lineNumber);
     }
 
@@ -116,7 +117,7 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
      *
      * @return warning category, empty string if unknown
      */
-    public String guessCategory(@CheckForNull final String message) {
+    protected String guessCategory(@CheckForNull final String message) {
         if (StringUtils.contains(message, "proprietary")) {
             return PROPRIETARY_API;
         }
@@ -137,7 +138,7 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
      *
      * @return the actual category
      */
-    public String guessCategoryIfEmpty(@CheckForNull final String category, @CheckForNull final String message) {
+    protected String guessCategoryIfEmpty(@CheckForNull final String category, @CheckForNull final String message) {
         String capitalized = StringUtils.capitalize(category);
         if (StringUtils.isEmpty(capitalized)) {
             capitalized = guessCategory(message);

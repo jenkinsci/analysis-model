@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.collections.api.list.ImmutableList;
-import org.eclipse.collections.impl.collector.Collectors2;
 
 /**
  * An issue reported by a static analysis tool. Use the provided {@link IssueBuilder builder} to create new instances.
@@ -50,10 +48,9 @@ public class Issue implements Serializable {
      * @param copy
      *         the other issue to copy the properties from
      */
-    // FIXME: shouldn't line ranges be in a list in parameter?
     protected Issue(final Issue copy) {
         this(copy.getFileName(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(),
-                copy.lineRanges, copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
+                copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
                 copy.getPriority(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
                 copy.getFingerprint(), copy.getId());
     }
@@ -232,6 +229,7 @@ public class Issue implements Serializable {
         return message;
     }
 
+    // FIXME: remove description
     /**
      * Returns an additional description for this issue. Static analysis tools might provide some additional information
      * about this issue. This description may contain valid HTML.
@@ -266,8 +264,8 @@ public class Issue implements Serializable {
      *
      * @return the last line
      */
-    public ImmutableList<LineRange> getLineRanges() {
-        return lineRanges.stream().collect(Collectors2.toImmutableList());
+    public LineRangeList getLineRanges() {
+        return new LineRangeList(lineRanges);
     }
 
     /**

@@ -140,7 +140,7 @@ public class IssueBuilder {
         origin = copy.getOrigin();
         reference = copy.getReference();
         fingerprint = copy.getFingerprint();
-        lineRanges = new LineRangeList(copy.getLineRanges().castToList());
+        lineRanges = copy.getLineRanges();
         return this;
     }
 
