@@ -44,7 +44,7 @@ public abstract class RegexpLineParser extends RegexpParser {
             iterator.close();
         }
 
-        return postProcessWarnings(issues);
+        return postProcess(issues);
     }
 
     /**
@@ -53,7 +53,7 @@ public abstract class RegexpLineParser extends RegexpParser {
      * @param issues  the issues after the parsing process
      * @return the post processed issues
      */
-    protected Issues<Issue> postProcessWarnings(final Issues<Issue> issues) {
+    protected Issues<Issue> postProcess(final Issues<Issue> issues) {
         return issues;
     }
 
