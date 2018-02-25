@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.util.Ensure;
+
 /**
  * An issue reported by a static analysis tool. Use the provided {@link IssueBuilder builder} to create new instances.
  *
@@ -33,13 +35,13 @@ public class Issue implements Serializable {
 
     private final String description; // still required?
 
-    private String reference;         // mutable, not part of equals
-    private final String origin;      // mutable
-    private String moduleName;        // mutable
-    private String packageName;       // mutable
-    private String fileName;          // mutable
+    private String reference;   // mutable, not part of equals
+    private String origin;      // mutable
+    private String moduleName;  // mutable
+    private String packageName; // mutable
+    private String fileName;    // mutable
 
-    private String fingerprint;       // mutable, not part of equals
+    private String fingerprint; // mutable, not part of equals
 
     /**
      * Creates a new instance of {@link Issue} using the properties of the other issue instance. The new issue has the
@@ -464,5 +466,10 @@ public class Issue implements Serializable {
 
     public void setReference(@CheckForNull final String reference) {
         this.reference = StringUtils.stripToEmpty(reference);
+    }
+
+    public void setOrigin(@CheckForNull final String origin) {
+        Ensure.that(origin).isNotBlank("Issue origin '%s' must be not blank (%s)", id, toString());
+        this.origin = origin;
     }
 }
