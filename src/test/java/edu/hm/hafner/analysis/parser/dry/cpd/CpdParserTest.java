@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
 class CpdParserTest extends AbstractParserTest<CodeDuplication> {
     private static final String FILE_NAME_REPORTER = "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwareMavenReporter.java";
     private static final String FILE_NAME_PUBLISHER = "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwarePublisher.java";
-    private static final String CODE_FRAGMENT = "<pre>#\n"
+    private static final String CODE_FRAGMENT = "<pre><code>#\n"
             + "\n"
             + "    ERROR HANDLING: N/A\n"
             + "    #\n"
@@ -58,7 +58,7 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
             + "for i in $*\n"
             + "do\n"
             + "files=\"$files $directory/$i\"\n"
-            + "done</pre>";
+            + "done</code></pre>";
 
     CpdParserTest() {
         super("cpd.xml");
