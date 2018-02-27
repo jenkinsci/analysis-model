@@ -121,6 +121,34 @@ public class IssueTest extends SerializableTest<Issue> {
     }
 
     @Test
+    void shouldChangeMutableProperties() {
+        Issue issue = createFilledIssue();
+
+        String origin = "new-origin";
+        issue.setOrigin(origin);
+        String reference = "new-reference";
+        issue.setReference(reference);
+        String moduleName = "new-module";
+        issue.setModuleName(moduleName);
+        String packageName = "new-package";
+        issue.setPackageName(packageName);
+        String fileName = "new-file";
+        issue.setFileName(fileName);
+        String fingerprint = "new-fingerprint";
+        issue.setFingerprint(fingerprint);
+
+        assertSoftly(softly -> {
+            softly.assertThat(issue)
+                    .hasOrigin(origin)
+                    .hasReference(reference)
+                    .hasModuleName(moduleName)
+                    .hasPackageName(packageName)
+                    .hasFileName(fileName)
+                    .hasFingerprint(fingerprint);
+        });
+    }
+
+    @Test
     void testDefaultIssueNullStringsNegativeIntegers() {
         Issue issue = createIssue(null, 0, 0, 0, 0,
                 null, null, null, null,
@@ -251,8 +279,8 @@ public class IssueTest extends SerializableTest<Issue> {
     }
 
     /**
-     * Serializes an issue to a file. Use this method in case the issue properties have been changed and the
-     * readResolve method has been adapted accordingly so that the old serialization still can be read.
+     * Serializes an issue to a file. Use this method in case the issue properties have been changed and the readResolve
+     * method has been adapted accordingly so that the old serialization still can be read.
      *
      * @param args
      *         not used

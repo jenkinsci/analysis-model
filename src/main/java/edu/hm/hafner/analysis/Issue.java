@@ -8,6 +8,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 
 /**
  * An issue reported by a static analysis tool. Use the provided {@link IssueBuilder builder} to create new instances.
@@ -20,10 +22,10 @@ public class Issue implements Serializable {
 
     private static final String UNDEFINED = "-";
 
-    private final String category;   // fixed
-    private final String type;       // fixed
-    private final Priority priority; // fixed
-    private final String message;    // fixed
+    private String category; // almost final
+    private String type;     // almost final
+    private final Priority priority;
+    private final TreeString message;
 
     private final int lineStart;     // fixed
     private final int lineEnd;       // fixed
@@ -33,15 +35,15 @@ public class Issue implements Serializable {
 
     private final UUID id; // fixed
 
-    private final String description; // still required?
+    private final TreeString description;
 
-    private String reference;   // mutable, not part of equals
-    private String origin;      // mutable
-    private String moduleName;  // mutable
-    private String packageName; // mutable
-    private String fileName;    // mutable
+    private String reference;       // mutable, not part of equals
+    private String origin;          // mutable
+    private String moduleName;      // mutable
+    private TreeString packageName; // mutable
+    private TreeString fileName;    // mutable
 
-    private String fingerprint; // mutable, not part of equals
+    private String fingerprint;     // mutable, not part of equals
 
     /**
      * Creates a new instance of {@link Issue} using the properties of the other issue instance. The new issue has the
@@ -119,7 +121,9 @@ public class Issue implements Serializable {
             @CheckForNull final String origin, @CheckForNull final String reference,
             @CheckForNull final String fingerprint,
             final UUID id) {
-        this.fileName = defaultString(normalizeFileName(fileName));
+        TreeStringBuilder builder = new TreeStringBuilder();
+
+        this.fileName = builder.intern(defaultString(normalizeFileName(fileName)));
 
         this.lineStart = defaultInteger(lineStart);
         this.lineEnd = lineEnd == 0 ? lineStart : defaultInteger(lineEnd);
@@ -129,22 +133,37 @@ public class Issue implements Serializable {
         if (lineRanges != null) {
             this.lineRanges.addAll(lineRanges);
         }
-        this.category = StringUtils.defaultString(category);
+        this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
 
-        this.packageName = defaultString(packageName);
+        this.packageName = builder.intern(defaultString(packageName));
         this.moduleName = defaultString(moduleName);
 
         this.priority = ObjectUtils.defaultIfNull(priority, Priority.NORMAL);
-        this.message = StringUtils.stripToEmpty(message);
-        this.description = StringUtils.stripToEmpty(description);
+        this.message = builder.intern(StringUtils.stripToEmpty(message));
+        this.description = builder.intern(StringUtils.stripToEmpty(description));
 
-        this.origin = StringUtils.stripToEmpty(origin);
-        this.reference = StringUtils.stripToEmpty(reference);
+        this.origin = stripToEmpty(origin);
+        this.reference = stripToEmpty(reference);
 
         this.fingerprint = defaultString(fingerprint);
 
         this.id = id;
+    }
+
+    /**
+     * Called after de-serialization to improve the memory usage.
+     *
+     * @return this
+     */
+    protected Object readResolve() {
+        category = category.intern();
+        type = type.intern();
+        moduleName = moduleName.intern();
+        origin = origin.intern();
+        reference = reference.intern();
+
+        return this;
     }
 
     private String normalizeFileName(@CheckForNull final String fileName) {
@@ -172,7 +191,19 @@ public class Issue implements Serializable {
      * @return the valid string or a default string if the specified string is not valid
      */
     protected final String defaultString(@CheckForNull final String string) {
-        return StringUtils.defaultIfEmpty(string, UNDEFINED);
+        return StringUtils.defaultIfEmpty(string, UNDEFINED).intern();
+    }
+
+    /**
+     * Strips whitespace from the start and end of a String returning an empty String if {@code null} input.
+     *
+     * @param string
+     *         the string to check
+     *
+     * @return the stripped string or the empty string if the specified string is {@code null}
+     */
+    private String stripToEmpty(@CheckForNull final String string) {
+        return StringUtils.stripToEmpty(string).intern();
     }
 
     /**
@@ -190,7 +221,17 @@ public class Issue implements Serializable {
      * @return the name of the file that contains this issue
      */
     public String getFileName() {
-        return fileName;
+        return fileName.toString();
+    }
+
+    /**
+     * Sets the name of the file that contains this issue.
+     *
+     * @param fileName
+     *         the file name to set
+     */
+    public void setFileName(@CheckForNull final String fileName) {
+        this.fileName = TreeString.of(StringUtils.stripToEmpty(fileName));
     }
 
     /**
@@ -228,7 +269,7 @@ public class Issue implements Serializable {
      * @return the message
      */
     public String getMessage() {
-        return message;
+        return message.toString();
     }
 
     /**
@@ -238,7 +279,7 @@ public class Issue implements Serializable {
      * @return the description
      */
     public String getDescription() {
-        return description;
+        return description.toString();
     }
 
     /**
@@ -293,7 +334,17 @@ public class Issue implements Serializable {
      * @return the package name
      */
     public String getPackageName() {
-        return packageName;
+        return packageName.toString();
+    }
+
+    /**
+     * Sets the name of the package or name space (or similar concept) that contains this issue.
+     *
+     * @param packageName
+     *         the name of the package
+     */
+    public void setPackageName(@CheckForNull final String packageName) {
+        this.packageName = TreeString.of(StringUtils.stripToEmpty(packageName));
     }
 
     /**
@@ -316,6 +367,16 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Sets the the name of the module or project (or similar concept) that contains this issue.
+     *
+     * @param moduleName
+     *         the module name to set
+     */
+    public void setModuleName(@CheckForNull final String moduleName) {
+        this.moduleName = stripToEmpty(moduleName);
+    }
+
+    /**
      * Returns whether this issue has a module name set.
      *
      * @return {@code true} if this issue has a module name set
@@ -335,12 +396,34 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Sets the ID of the tool that did report this issue.
+     *
+     * @param origin
+     *         the origin
+     */
+    public void setOrigin(final String origin) {
+        Ensure.that(origin).isNotBlank("Issue origin '%s' must be not blank (%s)", id, toString());
+
+        this.origin = origin.intern();
+    }
+
+    /**
      * Returns a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
      *
      * @return the reference
      */
     public String getReference() {
         return reference;
+    }
+
+    /**
+     * Sets a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
+     *
+     * @param reference
+     *         the reference
+     */
+    public void setReference(@CheckForNull final String reference) {
+        this.reference = stripToEmpty(reference);
     }
 
     /**
@@ -353,6 +436,18 @@ public class Issue implements Serializable {
      */
     public String getFingerprint() {
         return fingerprint;
+    }
+
+    /**
+     * Sets the finger print for this issue to the given value.
+     *
+     * @param fingerprint
+     *         the fingerprint to set
+     *
+     * @see #getFingerprint()
+     */
+    public void setFingerprint(@CheckForNull final String fingerprint) {
+        this.fingerprint = StringUtils.stripToEmpty(fingerprint);
     }
 
     /**
@@ -444,32 +539,5 @@ public class Issue implements Serializable {
         result = 31 * result + columnEnd;
         result = 31 * result + lineRanges.hashCode();
         return result;
-    }
-
-    // FIXME: write tests and encapsulate in Issues
-
-    public void setFingerprint(@CheckForNull final String fingerprint) {
-        this.fingerprint = StringUtils.stripToEmpty(fingerprint);
-    }
-
-    public void setFileName(@CheckForNull final String fileName) {
-        this.fileName = StringUtils.stripToEmpty(fileName);
-    }
-
-    public void setModuleName(@CheckForNull final String moduleName) {
-        this.moduleName = StringUtils.stripToEmpty(moduleName);
-    }
-
-    public void setPackageName(@CheckForNull final String packageName) {
-        this.packageName = StringUtils.stripToEmpty(packageName);
-    }
-
-    public void setReference(@CheckForNull final String reference) {
-        this.reference = StringUtils.stripToEmpty(reference);
-    }
-
-    public void setOrigin(@CheckForNull final String origin) {
-        Ensure.that(origin).isNotBlank("Issue origin '%s' must be not blank (%s)", id, toString());
-        this.origin = origin;
     }
 }

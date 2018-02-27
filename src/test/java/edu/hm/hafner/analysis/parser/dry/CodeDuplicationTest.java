@@ -115,6 +115,7 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
      * @throws IOException
      *         if the file could not be written
      */
+    @SuppressWarnings("CheckStyle")
     public static void main(final String... args) throws IOException {
         new CodeDuplicationTest().createSerializationFile();
     }
