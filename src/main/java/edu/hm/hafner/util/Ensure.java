@@ -1,12 +1,12 @@
 package edu.hm.hafner.util;
 
-import javax.annotation.CheckForNull;
 import java.util.Collection;
 import java.util.Formatter;
 import java.util.List;
 
 import org.eclipse.collections.impl.factory.Lists;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**

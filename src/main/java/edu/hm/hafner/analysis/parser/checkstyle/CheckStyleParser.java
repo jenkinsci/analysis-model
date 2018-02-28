@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class CheckStyleParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new SecureDigester(CheckStyleParser.class);

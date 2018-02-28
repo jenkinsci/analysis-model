@@ -1,10 +1,11 @@
 package edu.hm.hafner.util;
 
-import javax.annotation.CheckForNull;
 import java.io.Serializable;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * {@link TreeString} is an alternative string representation that saves the memory when you have a large number of
@@ -122,9 +123,9 @@ public final class TreeString implements Serializable {
     }
 
     /**
-     * Interns {@link #label}
+     * Interns {@link #label}.
      */
-    /* package */void dedup(final Map<String, char[]> table) {
+    void dedup(final Map<String, char[]> table) {
         String l = getLabel();
         char[] v = table.get(l);
         if (v != null) {
@@ -153,14 +154,17 @@ public final class TreeString implements Serializable {
 
     /**
      * Creates a {@link TreeString}. Useful if you need to create one-off {@link TreeString} without {@link
-     * TreeStringBuilder}. Memory consumption is still about the same to {@code new String(s)}.
+     * TreeStringBuilder}. Memory consumption is still about the same to {@code new String(string)}.
+     *
+     * @param string
+     *         the tree string
      *
      * @return the new {@link TreeString} or {@code null} if the parameter is {@code null}
      */
-    public static TreeString of(@CheckForNull final String s) {
-        if (s == null) {
+    public static TreeString of(@CheckForNull final String string) {
+        if (string == null) {
             return null;
         }
-        return new TreeString(null, s);
+        return new TreeString(null, string);
     }
 }

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -28,8 +27,8 @@ public class AjcParser extends AbstractParser<Issue> {
     static final String ADVICE = "Advice";
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader,
-            final Function<String, String> preProcessor) throws ParsingException {
+    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+            throws ParsingException {
         try (BufferedReader br = new BufferedReader(reader)) {
             Issues<Issue> warnings = new Issues<>();
 
@@ -76,7 +75,7 @@ public class AjcParser extends AbstractParser<Issue> {
         }
     }
 
-    private void fillFileName(@Nonnull final IssueBuilder builder, final String line) {
+    private void fillFileName(final IssueBuilder builder, final String line) {
         int indexOfColon = line.lastIndexOf(':');
         if (indexOfColon != -1) {
             builder.setFileName(line.substring(0, indexOfColon));
@@ -86,7 +85,7 @@ public class AjcParser extends AbstractParser<Issue> {
         }
     }
 
-    private void fillMessageAndCategory(@Nonnull final IssueBuilder builder, final String line) {
+    private void fillMessageAndCategory(final IssueBuilder builder, final String line) {
         String message = WARNING_TAG.matcher(line).replaceAll("");
         String category;
         if (message.contains("is deprecated") || message.contains("overrides a deprecated")) {

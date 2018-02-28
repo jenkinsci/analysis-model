@@ -1,10 +1,11 @@
 package edu.hm.hafner.util;
 
-import javax.annotation.CheckForNull;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Builds {@link TreeString}s that share common prefixes. Call {@link #intern(String)} and you get the {@link
@@ -19,19 +20,21 @@ import java.util.Map.Entry;
  * @author Kohsuke Kawaguchi
  */
 public class TreeStringBuilder {
-    Child root = new Child(new TreeString());
+    private Child root = new Child(new TreeString());
 
     /**
      * Interns a string.
      *
      * @param string
      *         the string to intern
+     *
+     * @return the String as {@link TreeString} instance
      */
     public TreeString intern(@CheckForNull final String string) {
         if (string == null) {
             return null;
         }
-        return root.intern(string).node;
+        return getRoot().intern(string).getNode();
     }
 
     /**
@@ -39,28 +42,38 @@ public class TreeStringBuilder {
      *
      * @param treeString
      *         the {@link TreeString} to intern
+     *
+     * @return the String as {@link TreeString} instance
      */
     public TreeString intern(@CheckForNull final TreeString treeString) {
         if (treeString == null) {
             return null;
         }
-        return root.intern(treeString.toString()).node;
+        return getRoot().intern(treeString.toString()).getNode();
     }
 
     /**
      * Further reduces the memory footprint by finding the same labels across multiple {@link TreeString}s.
      */
     public void dedup() {
-        root.dedup(new HashMap<>());
+        getRoot().dedup(new HashMap<>());
     }
 
     /** Place holder that represents no child node, until one is added. */
     private static final Map<String, Child> NO_CHILDREN = Collections.emptyMap();
 
+    Child getRoot() {
+        return root;
+    }
+
+    void setRoot(final Child root) {
+        this.root = root;
+    }
+
     /**
      * Child node that may store other elements.
      */
-    private static class Child {
+    private static final class Child {
         private final TreeString node;
 
         private Map<String, Child> children = NO_CHILDREN;
@@ -105,7 +118,7 @@ public class TreeStringBuilder {
             // no common prefix. an entirely new node.
             Child t = children.get(string);
             if (t == null) {
-                t = new Child(new TreeString(node, string));
+                t = new Child(new TreeString(getNode(), string));
                 children.put(string, t);
             }
             return t;
@@ -128,9 +141,9 @@ public class TreeStringBuilder {
          *         the prefix
          */
         private Child split(final String prefix) {
-            String suffix = node.getLabel().substring(prefix.length());
+            String suffix = getNode().getLabel().substring(prefix.length());
 
-            Child middle = new Child(node.split(prefix));
+            Child middle = new Child(getNode().split(prefix));
             middle.makeWritable();
             middle.children.put(suffix, this);
 
@@ -160,10 +173,14 @@ public class TreeStringBuilder {
          * Calls {@link TreeString#dedup(Map)} recursively.
          */
         private void dedup(final Map<String, char[]> table) {
-            node.dedup(table);
+            getNode().dedup(table);
             for (Child child : children.values()) {
                 child.dedup(table);
             }
+        }
+
+        TreeString getNode() {
+            return node;
         }
     }
 }

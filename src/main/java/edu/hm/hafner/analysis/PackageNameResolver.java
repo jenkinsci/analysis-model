@@ -36,8 +36,6 @@ public class PackageNameResolver {
      *         the issue builder to create the new issues with
      * @param charset
      *         the character set to use when reading the source files
-     *
-     * @return the issues with fingerprints
      */
     public void run(final Issues<?> issues,
             final IssueBuilder builder, final Charset charset) {

@@ -1,8 +1,8 @@
 package edu.hm.hafner.analysis;
 
-import javax.annotation.CheckForNull;
-
 import org.apache.commons.lang3.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Parses integers from string values.

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.pmd;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.function.Function;
@@ -31,7 +30,7 @@ public class PmdParser extends AbstractParser<Issue> {
     private static final int PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY = 4;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             SecureDigester digester = new SecureDigester(PmdParser.class);

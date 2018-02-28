@@ -4,7 +4,8 @@
  *
  * @author Ullrich Hafner
  */
-@ParametersAreNonnullByDefault
+@DefaultAnnotation(NonNull.class)
 package edu.hm.hafner.util;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+import edu.umd.cs.findbugs.annotations.NonNull;

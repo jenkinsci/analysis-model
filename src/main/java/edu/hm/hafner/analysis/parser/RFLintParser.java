@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.annotation.Nonnull;
 import java.io.Reader;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -34,7 +33,7 @@ public class RFLintParser extends RegexpLineParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader file, final Function<String, String> preProcessor) {
+    public Issues<Issue> parse(final Reader file, final Function<String, String> preProcessor) {
         Issues<Issue> warnings = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(file);
         try {

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import javax.annotation.Nonnull;
 import java.io.Reader;
 import java.util.function.Function;
 
@@ -28,7 +27,7 @@ public abstract class RegexpLineParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         Issues<Issue> issues = new Issues<>();
         LineIterator iterator = IOUtils.lineIterator(reader);

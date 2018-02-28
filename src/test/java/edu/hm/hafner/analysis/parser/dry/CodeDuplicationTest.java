@@ -61,7 +61,7 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
      */
     @Nested
     @DisplayName("Composing duplication group")
-    class DuplicationGroupTest{
+    class DuplicationGroupTest {
         @Test
         void shouldBeEmptyWhenCreated() {
             DuplicationGroup group = new DuplicationGroup();

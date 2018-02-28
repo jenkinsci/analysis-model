@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +23,7 @@ import org.eclipse.collections.impl.factory.Lists;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import static java.util.stream.Collectors.*;
 
 /**
@@ -236,7 +236,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return elements.stream().filter(criterion);
     }
 
-    @Nonnull
+    @NonNull
     @Override
     public Iterator<T> iterator() {
         return Lists.immutable.withAll(elements).iterator();

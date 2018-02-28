@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import javax.annotation.CheckForNull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +17,7 @@ import edu.hm.hafner.analysis.parser.CppLintParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
 import edu.hm.hafner.analysis.parser.StyleCopParser;
 import edu.hm.hafner.util.VisibleForTesting;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Parses an input stream for issues of a specific static analysis tool and returns the found issues. If your parser is
@@ -91,8 +91,7 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
      *         Signals that the parsing has been aborted by the user
      */
     @VisibleForTesting
-    public Issues<T> parse(Reader reader)
-            throws ParsingCanceledException, ParsingException {
+    public Issues<T> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
         return parse(reader, Function.identity());
     }
 

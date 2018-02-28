@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.dry;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -63,7 +62,7 @@ public abstract class AbstractDryParser<T> extends AbstractParser<CodeDuplicatio
     }
 
     @Override
-    public Issues<CodeDuplication> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+    public Issues<CodeDuplication> parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new SecureDigester(CodeDuplication.class);

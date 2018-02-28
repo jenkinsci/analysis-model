@@ -190,8 +190,9 @@ public class ModuleDetector {
         return StringUtils.defaultIfBlank(name, parsePomAttribute(pom, "artifactId"));
     }
 
+    @SuppressWarnings("OverlyBroadCatchBlock")
     private String parsePomAttribute(final String pom, final String tagName) {
-        try (InputStream file = factory.create(pom)){
+        try (InputStream file = factory.create(pom)) {
             SecureDigester digester = new SecureDigester(ModuleDetector.class);
             digester.push(new StringBuffer());
             digester.addCallMethod("project/" + tagName, "append", 0);

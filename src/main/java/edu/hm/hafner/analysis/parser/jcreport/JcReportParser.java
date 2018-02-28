@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.jcreport;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.function.Function;
@@ -28,7 +27,7 @@ public class JcReportParser extends AbstractParser<Issue> {
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor)
+    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException {
         Report report = createReport(reader);
         Issues<Issue> warnings = new Issues<>();

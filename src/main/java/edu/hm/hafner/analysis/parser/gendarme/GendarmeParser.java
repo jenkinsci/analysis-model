@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.gendarme;
 
-import javax.annotation.Nonnull;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,8 +42,8 @@ public class GendarmeParser extends AbstractParser<Issue> {
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader,
-            final Function<String, String> preProcessor) throws ParsingException, ParsingCanceledException {
+    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+            throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();

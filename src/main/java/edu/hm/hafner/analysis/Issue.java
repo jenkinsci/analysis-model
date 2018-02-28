@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import javax.annotation.CheckForNull;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -10,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * An issue reported by a static analysis tool. Use the provided {@link IssueBuilder builder} to create new instances.
@@ -166,8 +166,8 @@ public class Issue implements Serializable {
         return this;
     }
 
-    private String normalizeFileName(@CheckForNull final String fileName) {
-        return StringUtils.replace(StringUtils.strip(fileName), "\\", "/");
+    private String normalizeFileName(@CheckForNull final String platformFileName) {
+        return StringUtils.replace(StringUtils.strip(platformFileName), "\\", "/");
     }
 
     /**

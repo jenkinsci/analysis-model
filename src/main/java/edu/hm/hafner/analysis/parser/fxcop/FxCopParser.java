@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
-import javax.annotation.Nonnull;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -40,7 +39,7 @@ public class FxCopParser extends AbstractParser<Issue> {
     private transient FxCopRuleSet ruleSet;
 
     @Override
-    public Issues<Issue> parse(@Nonnull final Reader reader, final Function<String, String> preProcessor) 
+    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
             ruleSet = new FxCopRuleSet();

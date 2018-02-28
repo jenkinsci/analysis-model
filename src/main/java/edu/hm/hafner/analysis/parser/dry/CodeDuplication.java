@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.dry;
 
-import javax.annotation.CheckForNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.util.Ensure;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A code duplication reported by a code duplication detector like CPD, DupFinder, or Simian.

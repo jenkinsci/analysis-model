@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import javax.annotation.CheckForNull;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.SerializableTest;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import static java.util.Collections.*;
 
 /**
