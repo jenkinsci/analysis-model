@@ -64,21 +64,13 @@ public class JcReportParser extends AbstractParser<Issue> {
             return Priority.HIGH;
         }
 
-        if (issueLevel.contains("CriticalError")) {
+        if (issueLevel.contains("Error") || issueLevel.contains("Critical")) {
             return Priority.HIGH;
         }
-        else if (issueLevel.contains("Error")) {
-            return Priority.HIGH;
-        }
-        else if (issueLevel.contains("CriticalWarning")) {
-            return Priority.HIGH;
-        }
-        else if (issueLevel.contains("Warning")) {
+        if (issueLevel.contains("Warning")) {
             return Priority.NORMAL;
         }
-        else {
-            return Priority.LOW;
-        }
+        return Priority.LOW;
     }
 
     /**

@@ -162,12 +162,12 @@ public class ModuleDetector {
         try (InputStream file = factory.create(buildXml)) {
             SecureDigester digester = new SecureDigester(ModuleDetector.class);
 
-            digester.push(new StringBuffer());
+            digester.push(new StringBuilder());
             String xPath = "project";
             digester.addCallMethod(xPath, "append", 1);
             digester.addCallParam(xPath, 0, "name");
 
-            StringBuffer result = digester.parse(file);
+            StringBuilder result = digester.parse(file);
             return result.toString();
         }
         catch (IOException | SAXException ignored) {
@@ -194,10 +194,10 @@ public class ModuleDetector {
     private String parsePomAttribute(final String pom, final String tagName) {
         try (InputStream file = factory.create(pom)) {
             SecureDigester digester = new SecureDigester(ModuleDetector.class);
-            digester.push(new StringBuffer());
+            digester.push(new StringBuilder());
             digester.addCallMethod("project/" + tagName, "append", 0);
 
-            StringBuffer result = digester.parse(file);
+            StringBuilder result = digester.parse(file);
             return result.toString();
         }
         catch (IOException | SAXException ignored) {

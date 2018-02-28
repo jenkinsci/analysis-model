@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static java.util.Collections.*;
+
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-import static java.util.Collections.*;
 
 /**
  * Unit tests for {@link Issue}.
@@ -273,7 +274,7 @@ public class IssueTest extends SerializableTest<Issue> {
      */
     @Test
     void shouldReadIssueFromOldSerialization() {
-        byte[] restored = readResource(SERIALIZATION_NAME);
+        byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
     }

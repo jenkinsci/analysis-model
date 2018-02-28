@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -59,7 +59,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
     @Override
     protected Issues<Issue> postProcess(final Issues<Issue> warnings) {
         IssueBuilder builder = new IssueBuilder();
-        Deque<Issue> condensed = new LinkedList<>();
+        Deque<Issue> condensed = new ArrayDeque<>();
         int line = -1;
         for (Issue warning : warnings) {
             if (warning.getLineStart() == line + 1 && !condensed.isEmpty()) {

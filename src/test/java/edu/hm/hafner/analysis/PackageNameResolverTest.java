@@ -6,9 +6,10 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
 
 /**
  * Tests the class {@link PackageNameResolver}.
@@ -81,7 +82,7 @@ class PackageNameResolverTest {
     private FileSystem createFileSystemStub() throws IOException {
         FileSystem fileSystemStub = mock(FileSystem.class);
         when(fileSystemStub.openFile(FILE_NO_PACKAGE))
-                .thenReturn(new ByteArrayInputStream("package a.name;".getBytes()));
+                .thenReturn(new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
         return fileSystemStub;
     }
 

@@ -83,6 +83,8 @@ public class CodeDuplication extends Issue {
      * Links all affected files of a duplicated code fragment.
      */
     public static final class DuplicationGroup implements Serializable {
+        private static final long serialVersionUID = -5005784523279541971L;
+
         private final List<CodeDuplication> occurrences = new ArrayList<>();
         private String codeFragment = StringUtils.EMPTY;
 

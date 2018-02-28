@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.function.Function;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
@@ -211,20 +211,12 @@ public class FxCopParser extends AbstractParser<Issue> {
     }
 
     private Priority getPriority(final String issueLevel) {
-        if (issueLevel.contains("CriticalError")) {
+        if (issueLevel.contains("Error") || issueLevel.contains("Critical")) {
             return Priority.HIGH;
         }
-        else if (issueLevel.contains("Error")) {
-            return Priority.HIGH;
-        }
-        else if (issueLevel.contains("CriticalWarning")) {
-            return Priority.HIGH;
-        }
-        else if (issueLevel.contains("Warning")) {
+        if (issueLevel.contains("Warning")) {
             return Priority.NORMAL;
         }
-        else {
-            return Priority.LOW;
-        }
+        return Priority.LOW;
     }
 }

@@ -8,9 +8,9 @@ public class DotNetAssembly {
     private String culture;
     private String publicKeyToken;
 
+    @SuppressWarnings("StringSplitter")
     public DotNetAssembly(final String fullName) {
         this.fullName = fullName;
-
         String[] splitted = this.fullName.split(",");
         int cpt = 0;
         for (String s : splitted) {

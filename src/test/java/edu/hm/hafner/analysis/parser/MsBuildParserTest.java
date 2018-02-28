@@ -1,18 +1,19 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link MsBuildParser}.
@@ -589,7 +590,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-2383">Issue 2383</a>
      */
     @Test
-    void shouldDetectKeywordsInRegexCaseInsensitive() throws IOException {
+    void shouldDetectKeywordsInRegexCaseInsensitive() {
 
         Issues<? extends Issue> warnings = createParser().parse(createIssue2383File());
 
@@ -622,11 +623,10 @@ class MsBuildParserTest extends AbstractIssueParserTest {
         });
     }
 
-    private InputStreamReader createIssue2383File() throws IOException {
+    private InputStreamReader createIssue2383File() {
         return new InputStreamReader(IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
                 + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
-                + " (10): Error XXX: An error occurred", "UTF-8")
-        );
+                + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8), StandardCharsets.UTF_8);
     }
 
     @Override

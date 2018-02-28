@@ -5,10 +5,11 @@ import java.nio.charset.Charset;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import edu.hm.hafner.util.ResourceTest;
 import static org.mockito.Mockito.*;
+
+import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
+import edu.hm.hafner.util.ResourceTest;
 
 /**
  * Tests the class {@link FingerprintGenerator}.
@@ -60,6 +61,7 @@ class FingerprintGeneratorTest extends ResourceTest {
                 .isNotEqualTo("-");
     }
 
+    @SuppressWarnings("all")
     private FileSystem stubFileSystem(final String firstFile, final String secondFile) {
         try {
             FileSystem mock = mock(FileSystem.class);

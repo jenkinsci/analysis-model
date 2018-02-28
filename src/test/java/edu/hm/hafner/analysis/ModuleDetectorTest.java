@@ -7,12 +7,13 @@ import java.io.InputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
-import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
+
+import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.util.ResourceTest;
 
 /**
  * Tests the class {@link ModuleDetector}.
@@ -241,6 +242,9 @@ class ModuleDetectorTest extends ResourceTest {
         }
     }
 
+    /**
+     * Stubs the {@link PackageDetectors.FileSystem} using a lambda.
+     */
     @FunctionalInterface
     private interface Stub {
         void apply(FileSystem f) throws FileNotFoundException;

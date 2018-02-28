@@ -8,16 +8,17 @@ import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Function;
 
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
+
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.util.ResourceTest;
 
 /**
  * Base class for tests of {@link AbstractParser} instances.
@@ -78,7 +79,6 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (ObjectOutputStream stream = new ObjectOutputStream(out)) {
             stream.writeObject(parser);
-            stream.close();
         }
 
         assertThat(out.toByteArray()).isNotEmpty();
@@ -137,11 +137,6 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
     }
 
     private Reader asReader(final InputStream stream) {
-        try {
-            return new InputStreamReader(new BOMInputStream(stream), "UTF-8");
-        }
-        catch (UnsupportedEncodingException ignored) {
-            return new InputStreamReader(stream);
-        }
+        return new InputStreamReader(new BOMInputStream(stream), StandardCharsets.UTF_8);
     }
 }

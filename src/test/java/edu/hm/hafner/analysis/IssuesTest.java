@@ -16,11 +16,12 @@ import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static java.util.Arrays.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit tests for {@link Issues}.
@@ -533,7 +534,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
      */
     @Test
     void shouldReadIssueFromOldSerialization() {
-        byte[] restored = readResource(SERIALIZATION_NAME);
+        byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
     }
@@ -585,6 +586,8 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
      * An issue with an additional property.
      */
     private static class ExtendedIssue extends Issue {
+        private static final long serialVersionUID = 5565343541811947285L;
+
         private final String additional;
 
         @SuppressWarnings("ParameterNumber")

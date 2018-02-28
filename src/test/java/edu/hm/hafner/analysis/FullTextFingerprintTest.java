@@ -1,14 +1,16 @@
 package edu.hm.hafner.analysis;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
+
+import edu.hm.hafner.util.ResourceTest;
 
 /**
  * Tests the class {@link FullTextFingerprint}.
@@ -22,7 +24,7 @@ class FullTextFingerprintTest extends ResourceTest {
      */
     @Test
     void shouldExtractCorrectLines() {
-        String affectedFile = new String(readResource("context.txt"));
+        String affectedFile = new String(readAllBytes("context.txt"), StandardCharsets.UTF_8);
 
         FullTextFingerprint fingerprint = new FullTextFingerprint();
 
@@ -57,7 +59,7 @@ class FullTextFingerprintTest extends ResourceTest {
      */
     @Test
     void shouldAssignIdenticalFingerprints() {
-        String affectedFile = new String(readResource("context.txt"));
+        String affectedFile = new String(readAllBytes("context.txt"), StandardCharsets.UTF_8);
 
         FullTextFingerprint code = new FullTextFingerprint();
 

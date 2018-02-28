@@ -141,18 +141,6 @@ public final class TreeString implements Serializable {
     }
 
     /**
-     * Returns the string representation of the provided {@link TreeString}.
-     *
-     * @param treeString
-     *         the tree string
-     *
-     * @return the string representation or {@code null} if the parameter if {@code null}
-     */
-    public static String toString(@CheckForNull final TreeString treeString) {
-        return treeString == null ? null : treeString.toString();
-    }
-
-    /**
      * Creates a {@link TreeString}. Useful if you need to create one-off {@link TreeString} without {@link
      * TreeStringBuilder}. Memory consumption is still about the same to {@code new String(string)}.
      *

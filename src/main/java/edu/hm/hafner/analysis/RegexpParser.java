@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Parses an input stream for compiler warnings using the provided regular expression. Sub classes of this parser
- * should create concrete {@link Issue issue} instances.
+ * Parses an input stream for compiler warnings using the provided regular expression. Sub classes of this parser should
+ * create concrete {@link Issue issue} instances.
  *
  * @author Ullrich Hafner
  */
@@ -56,6 +56,7 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
      * @throws ParsingCanceledException
      *         indicates that the user canceled the operation
      */
+    @SuppressWarnings("ReferenceEquality")
     protected void findAnnotations(final String content, final Issues<Issue> issues)
             throws ParsingCanceledException {
         Matcher matcher = pattern.matcher(content);

@@ -14,6 +14,8 @@ import java.util.function.Function;
  * @author Ullrich Hafner
  */
 public abstract class IssueParser<T extends Issue> implements Serializable {
+    private static final long serialVersionUID = 200992696185460268L;
+
     /**
      * Parses the specified file for issues.
      *

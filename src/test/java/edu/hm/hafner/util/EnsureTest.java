@@ -101,7 +101,7 @@ class EnsureTest {
             Ensure.that(null, SOME_STRING).isNotNull(ERROR_MESSAGE);
         }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
-            Ensure.that(null, null).isNotNull(ERROR_MESSAGE);
+            Ensure.that(null, (Object[]) null).isNotNull(ERROR_MESSAGE);
         }).isInstanceOf(NullPointerException.class).hasMessage(ERROR_MESSAGE);
         assertThatThrownBy(() -> {
             Ensure.that((Object)null).isNotNull();
@@ -113,7 +113,7 @@ class EnsureTest {
             Ensure.that(null, SOME_STRING).isNotNull();
         }).isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> {
-            Ensure.that(null, null).isNotNull();
+            Ensure.that(null, (Object[]) null).isNotNull();
         }).isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> {
             Ensure.that((Object[])null).isNotEmpty(ERROR_MESSAGE);

@@ -5,8 +5,7 @@ package edu.hm.hafner.analysis.parser.checkstyle;
  *
  * @author Ullrich Hafner
  */
-// CHECKSTYLE:OFF
-@SuppressWarnings("javadoc")
+@SuppressWarnings({"all", "JavaLangClash"})
 public class Error {
     private String source;
     private String severity;

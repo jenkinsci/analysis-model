@@ -6,10 +6,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.*;
+
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.parser.dry.CodeDuplication.DuplicationGroup;
 import edu.hm.hafner.util.SerializableTest;
-import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link CodeDuplication}.
@@ -51,7 +52,7 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
      */
     @Test
     void shouldReadIssueFromOldSerialization() {
-        byte[] restored = readResource(SERIALIZATION_NAME);
+        byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
     }
@@ -61,6 +62,7 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
      */
     @Nested
     @DisplayName("Composing duplication group")
+    @SuppressWarnings("ClassCanBeStatic")
     class DuplicationGroupTest {
         @Test
         void shouldBeEmptyWhenCreated() {
