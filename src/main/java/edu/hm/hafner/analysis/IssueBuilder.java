@@ -17,7 +17,7 @@ package edu.hm.hafner.analysis;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod"})
+@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
 public class IssueBuilder {
     private String fileName;
     private int lineStart = 0;

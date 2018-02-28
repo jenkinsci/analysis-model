@@ -8,7 +8,7 @@ package edu.hm.hafner.analysis;
  * @author Ullrich Hafner
  */
 public abstract class FastRegexpLineParser extends RegexpLineParser {
-     private static final long serialVersionUID = 3005604483470005823L;
+    private static final long serialVersionUID = 3005604483470005823L;
 
     /**
      * Creates a new instance of {@link FastRegexpLineParser}.

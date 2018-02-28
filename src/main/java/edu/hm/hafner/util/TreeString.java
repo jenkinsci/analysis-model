@@ -19,6 +19,7 @@ public final class TreeString implements Serializable {
     private static final long serialVersionUID = 3621959682117480904L;
 
     /** Parent node that represents the prefix. */
+    @CheckForNull
     private TreeString parent;
 
     /** {@link #parent} + {@code label} is the string value of this node. */
@@ -128,11 +129,11 @@ public final class TreeString implements Serializable {
     void dedup(final Map<String, char[]> table) {
         String l = getLabel();
         char[] v = table.get(l);
-        if (v != null) {
-            label = v;
+        if (v == null) {
+            table.put(l, label);
         }
         else {
-            table.put(l, label);
+            label = v;
         }
     }
 
@@ -149,6 +150,7 @@ public final class TreeString implements Serializable {
      *
      * @return the new {@link TreeString} or {@code null} if the parameter is {@code null}
      */
+    @CheckForNull
     public static TreeString of(@CheckForNull final String string) {
         if (string == null) {
             return null;

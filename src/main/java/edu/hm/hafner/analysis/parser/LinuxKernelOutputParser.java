@@ -53,8 +53,8 @@ public class LinuxKernelOutputParser extends RegexpParser {
     private static final String BUGWARN_END_PATERN = PREAMBLE + KERN_TIMESTAMP + BUGWARN_END;
 
     /** Sub-pattern indices in global search pattern. */
-// not used:     private static final int ALL_OUTPUT = 1;
-// not used:     private static final int BUGWARN_TIMESTAMP = 2;
+    // not used:     private static final int ALL_OUTPUT = 1;
+    // not used:     private static final int BUGWARN_TIMESTAMP = 2;
     private static final int BUGWARN_CONTENT = 3;
     private static final int BUGWARN_ENDTRACE = 4;
     // not used:     private static final int KERNOUTPUT_TIMESTAMP = 5;
@@ -79,7 +79,6 @@ public class LinuxKernelOutputParser extends RegexpParser {
     public Issues<Issue> parse(final Reader file, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (BufferedReader reader = new BufferedReader(file)) {
-            IssueBuilder builder = new IssueBuilder();
             Issues<Issue> warnings = new Issues<>();
 
             String line = reader.readLine();

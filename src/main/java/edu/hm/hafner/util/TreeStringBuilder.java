@@ -30,6 +30,7 @@ public class TreeStringBuilder {
      *
      * @return the String as {@link TreeString} instance
      */
+    @CheckForNull
     public TreeString intern(@CheckForNull final String string) {
         if (string == null) {
             return null;
@@ -78,7 +79,7 @@ public class TreeStringBuilder {
 
         private Map<String, Child> children = NO_CHILDREN;
 
-        private Child(final TreeString node) {
+        Child(final TreeString node) {
             this.node = node;
         }
 

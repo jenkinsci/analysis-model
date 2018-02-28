@@ -18,6 +18,21 @@ import edu.hm.hafner.util.SerializableTest;
  * @author Ullrich Hafner
  */
 class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
+    /**
+     * Serializes an code duplication to a file. Use this method in case the properties have been changed and the
+     * readResolve method has been adapted accordingly so that the old serialization still can be read.
+     *
+     * @param args
+     *         not used
+     *
+     * @throws IOException
+     *         if the file could not be written
+     */
+    @SuppressWarnings("CheckStyle")
+    public static void main(final String... args) throws IOException {
+        new CodeDuplicationTest().createSerializationFile();
+    }
+
     private static final String SERIALIZATION_NAME = "dry.ser";
     private static final String CODE_FRAGMENT = "fragment";
 
@@ -85,10 +100,10 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
             assertThat(group.getCodeFragment()).isEqualTo(CODE_FRAGMENT);
 
             DuplicationGroup groupWithFragment = new DuplicationGroup(CODE_FRAGMENT);
-            assertThat(group.getCodeFragment()).isEqualTo(CODE_FRAGMENT);
+            assertThat(groupWithFragment.getCodeFragment()).isEqualTo(CODE_FRAGMENT);
 
-            group.setCodeFragment("other");
-            assertThat(group.getCodeFragment()).isEqualTo(CODE_FRAGMENT);
+            groupWithFragment.setCodeFragment("other");
+            assertThat(groupWithFragment.getCodeFragment()).isEqualTo(CODE_FRAGMENT);
         }
 
         @Test
@@ -105,20 +120,5 @@ class CodeDuplicationTest extends SerializableTest<CodeDuplication> {
             CodeDuplication another = new CodeDuplication(builder.build(), group);
             assertThat(group.getDuplications()).containsExactly(duplication, another);
         }
-    }
-
-    /**
-     * Serializes an code duplication to a file. Use this method in case the properties have been changed and the
-     * readResolve method has been adapted accordingly so that the old serialization still can be read.
-     *
-     * @param args
-     *         not used
-     *
-     * @throws IOException
-     *         if the file could not be written
-     */
-    @SuppressWarnings("CheckStyle")
-    public static void main(final String... args) throws IOException {
-        new CodeDuplicationTest().createSerializationFile();
     }
 }

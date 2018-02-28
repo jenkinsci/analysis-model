@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.assertj;
 import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.internal.Failures;
 
 import edu.hm.hafner.analysis.Issues;
 
@@ -15,7 +14,6 @@ import edu.hm.hafner.analysis.Issues;
 @SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion"})
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<?>> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
-    private final Failures failures = Failures.instance();
 
     /**
      * Creates a new {@link IssueAssert} to make assertions on actual {@link Issues}.
