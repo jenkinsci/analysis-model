@@ -150,6 +150,7 @@ public final class TreeString implements Serializable {
      *
      * @return the new {@link TreeString} or {@code null} if the parameter is {@code null}
      */
+    @SuppressWarnings("PMD.ShortMethodName")
     @CheckForNull
     public static TreeString of(@CheckForNull final String string) {
         if (string == null) {

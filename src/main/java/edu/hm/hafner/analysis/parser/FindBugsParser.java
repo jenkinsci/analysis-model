@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
 import org.xml.sax.SAXException;
 
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -31,7 +33,6 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.SecureDigester;
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.BugAnnotation;
 import edu.umd.cs.findbugs.BugInstance;
@@ -82,6 +83,8 @@ public class FindBugsParser extends IssueParser<Issue> {
      *         determines whether to use the rank or confidence when evaluation the {@link Priority}
      */
     public FindBugsParser(final PriorityProperty priorityProperty) {
+        super();
+
         this.priorityProperty = priorityProperty;
     }
 

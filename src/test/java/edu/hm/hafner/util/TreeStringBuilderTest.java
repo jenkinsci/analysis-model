@@ -15,14 +15,6 @@ import static org.assertj.core.api.Assertions.*;
  */
 class TreeStringBuilderTest {
     @Test
-    void shouldReturnNullIfNullIfProvided() {
-        TreeStringBuilder builder = new TreeStringBuilder();
-
-        assertThat(builder.intern((String)null)).isNull();
-        assertThat(builder.intern((TreeString)null)).isNull();
-    }
-
-    @Test
     void shouldCreateSimpleTreeStringsWithBuilder() {
         TreeStringBuilder builder = new TreeStringBuilder();
         assertThat(builder.intern("foo")).hasToString("foo");

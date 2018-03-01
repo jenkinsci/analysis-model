@@ -1,8 +1,9 @@
 package edu.hm.hafner.analysis;
 
 import org.apache.commons.digester3.Digester;
-import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A secure {@link Digester} implementation that does not resolve external entities.
@@ -16,19 +17,16 @@ public final class SecureDigester extends Digester {
      * @param classWithClassLoader the class to get the class loader from
      */
     public SecureDigester(final Class<?> classWithClassLoader) {
+        super();
+
         setClassLoader(classWithClassLoader.getClassLoader());
         setValidating(false);
         disableFeature("external-general-entities");
         disableFeature("external-parameter-entities");
-        setEntityResolver(new EntityResolver() {
-            @Override
-            public InputSource resolveEntity(final String publicId, final String systemId) {
-                return new InputSource();
-            }
-        });
+        setEntityResolver((publicId, systemId) -> new InputSource());
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("all") @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
     private void disableFeature(final String feature) {
         try {
             setFeature("http://xml.org/sax/features/" + feature, false);

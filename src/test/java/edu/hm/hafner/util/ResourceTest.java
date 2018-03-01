@@ -23,6 +23,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 public abstract class ResourceTest {
     /**
      * Reads the contents of the desired resource. The rules for searching resources associated with this test class are

@@ -41,6 +41,8 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
      *         the file that should contain some issues
      */
     protected AbstractParserTest(final String fileWithIssuesName) {
+        super();
+
         this.fileWithIssuesName = fileWithIssuesName;
     }
 

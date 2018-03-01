@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 /**
  * Builds {@link TreeString}s that share common prefixes. Call {@link #intern(String)} and you get the {@link
  * TreeString} that represents the same string, but as you interns more strings that share the same prefixes, those
@@ -30,11 +28,7 @@ public class TreeStringBuilder {
      *
      * @return the String as {@link TreeString} instance
      */
-    @CheckForNull
-    public TreeString intern(@CheckForNull final String string) {
-        if (string == null) {
-            return null;
-        }
+    public TreeString intern(final String string) {
         return getRoot().intern(string).getNode();
     }
 
@@ -46,10 +40,7 @@ public class TreeStringBuilder {
      *
      * @return the String as {@link TreeString} instance
      */
-    public TreeString intern(@CheckForNull final TreeString treeString) {
-        if (treeString == null) {
-            return null;
-        }
+    public TreeString intern(final TreeString treeString) {
         return getRoot().intern(treeString.toString()).getNode();
     }
 
@@ -128,6 +119,7 @@ public class TreeStringBuilder {
         /**
          * Makes sure {@link #children} is writable.
          */
+        @SuppressWarnings("PMD.CompareObjectsWithEquals")
         private void makeWritable() {
             if (children == NO_CHILDREN) {
                 children = new HashMap<>();

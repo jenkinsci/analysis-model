@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
 
 import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
 import edu.hm.hafner.util.ResourceTest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Tests the class {@link ModuleDetector}.
@@ -21,6 +22,7 @@ import edu.hm.hafner.util.ResourceTest;
 class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
     private static final String MANIFEST_NAME = "MANIFEST-NAME.MF";
+    @SuppressFBWarnings("DMI_HARDCODED_ABSOLUTE_FILENAME")
     private static final File ROOT = new File("/tmp");
     private static final String PREFIX = normalizeRoot();
 

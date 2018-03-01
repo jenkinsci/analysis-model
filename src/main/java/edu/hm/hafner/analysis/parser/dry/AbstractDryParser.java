@@ -40,6 +40,8 @@ public abstract class AbstractDryParser<T> extends AbstractParser<CodeDuplicatio
      *         minimum number of duplicate lines for normal priority warnings
      */
     protected AbstractDryParser(final int highThreshold, final int normalThreshold) {
+        super();
+
         this.highThreshold = highThreshold;
         this.normalThreshold = normalThreshold;
     }

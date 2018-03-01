@@ -19,16 +19,7 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
     protected static final String ANT_TASK = "^(?:.*\\[.*\\])?\\s*";
 
     /** Pattern of compiler warnings. */
-    private Pattern pattern;
-
-    private void setPattern(final String warningPattern, final boolean useMultiLine) {
-        if (useMultiLine) {
-            pattern = Pattern.compile(warningPattern, Pattern.MULTILINE);
-        }
-        else {
-            pattern = Pattern.compile(warningPattern);
-        }
-    }
+    private final Pattern pattern;
 
     /**
      * Creates a new instance of {@link RegexpParser}.
@@ -42,7 +33,12 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
     protected RegexpParser(final String warningPattern, final boolean useMultiLine) {
         super();
 
-        setPattern(warningPattern, useMultiLine);
+        if (useMultiLine) {
+            pattern = Pattern.compile(warningPattern, Pattern.MULTILINE);
+        }
+        else {
+            pattern = Pattern.compile(warningPattern);
+        }
     }
 
     /**
@@ -56,14 +52,14 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
      * @throws ParsingCanceledException
      *         indicates that the user canceled the operation
      */
-    @SuppressWarnings("ReferenceEquality")
+    @SuppressWarnings({"ReferenceEquality", "PMD.CompareObjectsWithEquals"})
     protected void findAnnotations(final String content, final Issues<Issue> issues)
             throws ParsingCanceledException {
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
             Issue warning = createIssue(matcher, new IssueBuilder());
-            if (warning != FALSE_POSITIVE) { // NOPMD
+            if (warning != FALSE_POSITIVE) {
                 issues.add(warning);
             }
             if (Thread.interrupted()) {

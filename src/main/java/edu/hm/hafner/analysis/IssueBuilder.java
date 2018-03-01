@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
  * be set to their default value.
@@ -24,34 +26,45 @@ public class IssueBuilder {
     private int lineEnd = 0;
     private int columnStart = 0;
     private int columnEnd = 0;
+    @CheckForNull
     private LineRangeList lineRanges;
+    @CheckForNull
     private String category;
+    @CheckForNull
     private String type;
+    @CheckForNull
     private Priority priority;
+    @CheckForNull
     private String message;
+    @CheckForNull
     private String description;
+    @CheckForNull
     private String packageName;
+    @CheckForNull
     private String moduleName;
+    @CheckForNull
     private String origin;
+    @CheckForNull
     private String reference;
+    @CheckForNull
     private String fingerprint;
 
-    public IssueBuilder setFingerprint(final String fingerprint) {
+    public IssueBuilder setFingerprint(@CheckForNull final String fingerprint) {
         this.fingerprint = fingerprint;
         return this;
     }
 
-    public IssueBuilder setFileName(final String fileName) {
+    public IssueBuilder setFileName(@CheckForNull final String fileName) {
         this.fileName = fileName;
         return this;
     }
 
-    public IssueBuilder setLineStart(final int lineStart) {
+    public IssueBuilder setLineStart(@CheckForNull final int lineStart) {
         this.lineStart = lineStart;
         return this;
     }
 
-    public IssueBuilder setLineEnd(final int lineEnd) {
+    public IssueBuilder setLineEnd(@CheckForNull final int lineEnd) {
         this.lineEnd = lineEnd;
         return this;
     }
@@ -66,47 +79,47 @@ public class IssueBuilder {
         return this;
     }
 
-    public IssueBuilder setCategory(final String category) {
+    public IssueBuilder setCategory(@CheckForNull final String category) {
         this.category = category;
         return this;
     }
 
-    public IssueBuilder setType(final String type) {
+    public IssueBuilder setType(@CheckForNull final String type) {
         this.type = type;
         return this;
     }
 
-    public IssueBuilder setPackageName(final String packageName) {
+    public IssueBuilder setPackageName(@CheckForNull final String packageName) {
         this.packageName = packageName;
         return this;
     }
 
-    public IssueBuilder setModuleName(final String moduleName) {
+    public IssueBuilder setModuleName(@CheckForNull final String moduleName) {
         this.moduleName = moduleName;
         return this;
     }
 
-    public IssueBuilder setOrigin(final String origin) {
+    public IssueBuilder setOrigin(@CheckForNull final String origin) {
         this.origin = origin;
         return this;
     }
 
-    public IssueBuilder setReference(final String reference) {
+    public IssueBuilder setReference(@CheckForNull final String reference) {
         this.reference = reference;
         return this;
     }
 
-    public IssueBuilder setPriority(final Priority priority) {
+    public IssueBuilder setPriority(@CheckForNull final Priority priority) {
         this.priority = priority;
         return this;
     }
 
-    public IssueBuilder setMessage(final String message) {
+    public IssueBuilder setMessage(@CheckForNull final String message) {
         this.message = message;
         return this;
     }
 
-    public IssueBuilder setDescription(final String description) {
+    public IssueBuilder setDescription(@CheckForNull final String description) {
         this.description = description;
         return this;
     }
