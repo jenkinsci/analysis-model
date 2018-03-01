@@ -21,13 +21,14 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
 public class IssueBuilder {
-    private String fileName;
     private int lineStart = 0;
     private int lineEnd = 0;
     private int columnStart = 0;
     private int columnEnd = 0;
     @CheckForNull
     private LineRangeList lineRanges;
+    @CheckForNull
+    private String fileName;
     @CheckForNull
     private String category;
     @CheckForNull

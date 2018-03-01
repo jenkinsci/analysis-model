@@ -1,12 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 import java.util.function.Function;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -56,12 +56,14 @@ public class IdeaInspectionParser extends AbstractParser<Issue> {
         for (Element element : elements) {
             String file = getChildValue(element, "file");
             Element problemClass = XmlElementUtil.getFirstElementByTagName(element, "problem_class");
-            IssueBuilder builder = new IssueBuilder().setFileName(file)
-                    .setLineStart(Integer.parseInt(getChildValue(element, "line")))
-                    .setCategory(StringEscapeUtils.unescapeXml(getValue(problemClass)))
-                    .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
-                    .setPriority(getPriority(problemClass.getAttribute("severity")));
-            problems.add(builder.build());
+            if (problemClass != null) {
+                IssueBuilder builder = new IssueBuilder().setFileName(file)
+                        .setLineStart(Integer.parseInt(getChildValue(element, "line")))
+                        .setCategory(StringEscapeUtils.unescapeXml(getValue(problemClass)))
+                        .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
+                        .setPriority(getPriority(problemClass.getAttribute("severity")));
+                problems.add(builder.build());
+            }
         }
         return problems;
     }
