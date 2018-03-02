@@ -40,6 +40,8 @@ public class ModuleDetector {
     private static final String PATTERN = ALL_DIRECTORIES + MAVEN_POM
             + PLUS + ALL_DIRECTORIES + ANT_PROJECT
             + PLUS + ALL_DIRECTORIES + OSGI_BUNDLE;
+    static final String PLUGIN_PROPERTIES = "plugin.properties";
+    static final String BUNDLE_PROPERTIES = "OSGI-INF/l10n/bundle.properties";
 
     /** The factory to create input streams with. */
     private final FileSystem factory;
@@ -241,8 +243,8 @@ public class ModuleDetector {
 
     private Properties readProperties(final String path) {
         Properties properties = new Properties();
-        readProperties(path, properties, "plugin.properties");
-        readProperties(path, properties, "OSGI-INF/l10n/bundle.properties");
+        readProperties(path, properties, PLUGIN_PROPERTIES);
+        readProperties(path, properties, BUNDLE_PROPERTIES);
 
         return properties;
     }

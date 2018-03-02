@@ -2,8 +2,10 @@ package edu.hm.hafner.analysis;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -211,26 +213,37 @@ class ModuleDetectorTest extends ResourceTest {
         String maven = prefix + ModuleDetector.MAVEN_POM;
         String osgi = prefix + ModuleDetector.OSGI_BUNDLE;
 
-        verifyOrder(prefix, ant, maven, osgi, new String[]{ant, maven, osgi});
-        verifyOrder(prefix, ant, maven, osgi, new String[]{ant, osgi, maven});
-        verifyOrder(prefix, ant, maven, osgi, new String[]{maven, ant, osgi});
-        verifyOrder(prefix, ant, maven, osgi, new String[]{maven, osgi, ant});
-        verifyOrder(prefix, ant, maven, osgi, new String[]{osgi, ant, maven});
-        verifyOrder(prefix, ant, maven, osgi, new String[]{osgi, maven, osgi});
+        verifyOrder(prefix, ant, maven, osgi, ant, maven, osgi);
+        verifyOrder(prefix, ant, maven, osgi, ant, osgi, maven);
+        verifyOrder(prefix, ant, maven, osgi, maven, ant, osgi);
+        verifyOrder(prefix, ant, maven, osgi, maven, osgi, ant);
+        verifyOrder(prefix, ant, maven, osgi, osgi, ant, maven);
+        verifyOrder(prefix, ant, maven, osgi, osgi, maven, osgi);
     }
 
     private void verifyOrder(final String prefix, final String ant, final String maven, final String osgi,
-            final String[] foundFiles) {
+            final String... foundFiles) {
         FileSystem fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);
-            when(stub.create(ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
+            when(stub.create(ant)).thenAnswer(filename -> read(ModuleDetector.ANT_PROJECT));
             when(stub.create(maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
-            when(stub.create(osgi)).thenReturn(read(MANIFEST));
+            when(stub.create(osgi)).thenAnswer(filename -> read(MANIFEST));
+            when(stub.create(prefix + "/" + ModuleDetector.PLUGIN_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
+            when(stub.create(prefix + "/" + ModuleDetector.BUNDLE_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
 
         assertThat(detector.guessModuleName(prefix + "/something.txt")).isEqualTo(EXPECTED_OSGI_MODULE);
+    }
+
+    private InputStream createEmptyStream() {
+        try {
+            return IOUtils.toInputStream("", "UTF-8");
+        }
+        catch (IOException ignored) {
+            return null;
+        }
     }
 
     private FileSystem createFileSystemStub(final Stub stub) {
