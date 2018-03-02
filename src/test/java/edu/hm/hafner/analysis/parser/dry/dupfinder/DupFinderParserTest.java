@@ -4,18 +4,21 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Tests the extraction of Resharper DupFinder analysis results.
  *
  * @author Rafal Jasica
  */
+@SuppressFBWarnings("BC_UNCONFIRMED_CAST_OF_RETURN_VALUE")
 class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
     /** First line in publisher. */
     private static final int PUBLISHER_LINE = 12;

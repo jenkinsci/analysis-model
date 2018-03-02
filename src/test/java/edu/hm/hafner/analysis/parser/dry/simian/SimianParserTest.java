@@ -11,10 +11,12 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Tests the extraction of Simian's analysis results.
  */
+@SuppressFBWarnings("BC_UNCONFIRMED_CAST_OF_RETURN_VALUE")
 class SimianParserTest extends AbstractParserTest<CodeDuplication> {
     private static final String MATRIX_RUN = "c:/java/hudson/matrix/MatrixRun.java";
     private static final String MAVEN_BUILD = "c:/java/hudson/maven/MavenBuild.java";

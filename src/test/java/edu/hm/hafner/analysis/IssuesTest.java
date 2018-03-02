@@ -396,7 +396,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         assertThat(found).containsExactly(HIGH);
     }
 
-    @Test @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
+    @Test @SuppressFBWarnings
     void shouldReturnIndexedValue() {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
