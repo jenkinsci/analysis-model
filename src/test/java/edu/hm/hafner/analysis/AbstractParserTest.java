@@ -62,12 +62,7 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
      * @return the issues in the default file
      */
     protected Issues<T> parseDefaultFile() {
-        AbstractParser<T> parser = createParser();
-        String id = parser.getClass().getSimpleName();
-        IssueBuilder builder = new IssueBuilder();
-        builder.setOrigin(id);
-
-        return parser.parse(openFile(), Function.identity());
+        return createParser().parse(openFile(), Function.identity());
     }
 
     /**

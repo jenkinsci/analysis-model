@@ -29,15 +29,19 @@ public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
     private static final long serialVersionUID = 7203311857999721045L;
 
     /** Determines whether the Rule property of a {@link Violation} should be used as Category or Type. */
-    public enum Rule {CATEGORY, TYPE}
+    enum Rule {
+        CATEGORY, TYPE
+    }
 
     private final Rule useRuleAs;
 
     protected AbstractViolationAdapter(final Rule useRuleAs) {
+        super();
+
         this.useRuleAs = useRuleAs;
     }
 
-    @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock"})
+    @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock", "PMD.AvoidCatchingGenericException"})
     @Override
     public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {

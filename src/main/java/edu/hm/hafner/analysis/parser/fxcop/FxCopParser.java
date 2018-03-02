@@ -196,8 +196,10 @@ public class FxCopParser extends AbstractParser<Issue> {
                 .setLineStart(parseInt(fileLine))
                 .setCategory(category)
                 .setMessage(msgBuilder.toString())
-                .setPriority(getPriority(issueLevel))
-                .setDescription(rule.getDescription());
+                .setPriority(getPriority(issueLevel));
+        if (rule != null) {
+            builder.setDescription(rule.getDescription());
+        }
         warnings.add(builder.build());
     }
 

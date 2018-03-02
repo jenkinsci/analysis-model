@@ -247,11 +247,10 @@ public class ModuleDetector {
         return properties;
     }
 
+    @SuppressWarnings("OverlyBroadCatchBlock")
     private void readProperties(final String path, final Properties properties, final String fileName) {
         try (InputStream file = factory.create(path + SLASH + fileName)) {
-            if (file != null) {
-                properties.load(file);
-            }
+            properties.load(file);
         }
         catch (IOException ignored) {
             // ignore if properties are not present or not readable
