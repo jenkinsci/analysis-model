@@ -2,21 +2,22 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
- * Tests the class {@link PREfastParser}.
+ * Tests the class {@link PreFastParser}.
  *
  * @author Charles Chan
  */
-class PREfastParserTest extends AbstractIssueParserTest {
+class PreFastParserTest extends AbstractIssueParserTest {
 
-    PREfastParserTest() {
+    PreFastParserTest() {
         super("PREfast.xml");
     }
 
@@ -59,7 +60,7 @@ class PREfastParserTest extends AbstractIssueParserTest {
      * @return the warnings parser
      */
     @Override
-    protected PREfastParser createParser() {
-        return new PREfastParser();
+    protected PreFastParser createParser() {
+        return new PreFastParser();
     }
 }

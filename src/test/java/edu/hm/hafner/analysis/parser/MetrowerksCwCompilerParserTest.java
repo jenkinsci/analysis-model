@@ -7,17 +7,17 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
- * Tests the class {@link MetrowerksCWCompilerParser}.
+ * Tests the class {@link MetrowerksCwCompilerParser}.
  */
-class MetrowerksCWCompilerParserTest extends AbstractIssueParserTest {
+class MetrowerksCwCompilerParserTest extends AbstractIssueParserTest {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
 
     /**
-     * Creates a new instance of {@link MetrowerksCWCompilerParserTest}.
+     * Creates a new instance of {@link MetrowerksCwCompilerParserTest}.
      */
-    protected MetrowerksCWCompilerParserTest() {
+    protected MetrowerksCwCompilerParserTest() {
         super("MetrowerksCWCompiler.txt");
     }
 
@@ -62,8 +62,8 @@ class MetrowerksCWCompilerParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected MetrowerksCWCompilerParser createParser() {
-        return new MetrowerksCWCompilerParser();
+    protected MetrowerksCwCompilerParser createParser() {
+        return new MetrowerksCwCompilerParser();
     }
 }
 

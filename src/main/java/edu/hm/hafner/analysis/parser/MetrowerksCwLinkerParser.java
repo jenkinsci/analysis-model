@@ -12,16 +12,16 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  *
  * @author Sven Lübke
  */
-public class MetrowerksCWLinkerParser extends RegexpLineParser {
+public class MetrowerksCwLinkerParser extends RegexpLineParser {
     private static final long serialVersionUID = 5993528761040876178L;
 
     /** Pattern of MW CodeWarrior linker warnings. */
     private static final String CW_LINKER_WARNING_PATTERN = "^(INFORMATION|WARNING|ERROR) (.+)$";
 
     /**
-     * Creates a new instance of {@link MetrowerksCWLinkerParser}.
+     * Creates a new instance of {@link MetrowerksCwLinkerParser}.
      */
-    public MetrowerksCWLinkerParser() {
+    public MetrowerksCwLinkerParser() {
         super(CW_LINKER_WARNING_PATTERN);
     }
 

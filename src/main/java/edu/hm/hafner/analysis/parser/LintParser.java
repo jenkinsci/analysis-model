@@ -1,12 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.function.Function;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
@@ -35,7 +35,7 @@ public class LintParser extends AbstractParser<Issue> {
             SAXParser parser = parserFactory.newSAXParser();
 
             Issues<Issue> issues = new Issues<>();
-            parser.parse(new ReaderInputStream(file, Charset.forName("UTF-8")), new JSLintXMLSaxParser(issues));
+            parser.parse(new ReaderInputStream(file, Charset.forName("UTF-8")), new JSLintXmlSaxParser(issues));
             return issues;
         }
         catch (IOException | ParserConfigurationException | SAXException e) {

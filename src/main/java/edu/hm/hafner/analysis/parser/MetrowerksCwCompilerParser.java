@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  *
  * @author Sven Lübke
  */
-public class MetrowerksCWCompilerParser extends RegexpLineParser {
+public class MetrowerksCwCompilerParser extends RegexpLineParser {
     private static final long serialVersionUID = 4317595592384426180L;
 
     /** Pattern of MW CodeWarrior compiler warnings. */
@@ -20,9 +20,9 @@ public class MetrowerksCWCompilerParser extends RegexpLineParser {
             + " (.*)$";
 
     /**
-     * Creates a new instance of {@link MetrowerksCWCompilerParser}.
+     * Creates a new instance of {@link MetrowerksCwCompilerParser}.
      */
-    public MetrowerksCWCompilerParser() {
+    public MetrowerksCwCompilerParser() {
         super(CW_COMPILER_WARNING_PATTERN);
     }
 

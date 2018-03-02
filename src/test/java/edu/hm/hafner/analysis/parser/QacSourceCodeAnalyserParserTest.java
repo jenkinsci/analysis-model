@@ -2,25 +2,26 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
- * Tests the class {@link QACSourceCodeAnalyserParser}.
+ * Tests the class {@link QacSourceCodeAnalyserParser}.
  */
-class QACSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
+class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
     private static final String ISSUES_FILE = "QACSourceCodeAnalyser.txt";
 
     /**
-     * Creates a new instance of {@link QACSourceCodeAnalyserParserTest}.
+     * Creates a new instance of {@link QacSourceCodeAnalyserParserTest}.
      */
-    QACSourceCodeAnalyserParserTest() {
+    QacSourceCodeAnalyserParserTest() {
         super(ISSUES_FILE);
     }
 
@@ -104,8 +105,8 @@ class QACSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected QACSourceCodeAnalyserParser createParser() {
-        return new QACSourceCodeAnalyserParser();
+    protected QacSourceCodeAnalyserParser createParser() {
+        return new QacSourceCodeAnalyserParser();
     }
 }
 

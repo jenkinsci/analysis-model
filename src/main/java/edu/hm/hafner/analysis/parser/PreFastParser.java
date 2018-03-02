@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Charles Chan
  * @see <a href="http://msdn.microsoft.com/en-us/library/ms173498.aspx" ></a>
  */
-public class PREfastParser extends RegexpLineParser {
+public class PreFastParser extends RegexpLineParser {
     private static final long serialVersionUID = 1409381677034028504L;
 
     /*
@@ -58,9 +58,9 @@ public class PREfastParser extends RegexpLineParser {
             + "</LINE>.*?<DEFECTCODE>(.+?)</DEFECTCODE>.*?<DESCRIPTION>(.+?)</DESCRIPTION>.*?</DEFECT>";
 
     /**
-     * Creates a new instance of {@link PREfastParser}.
+     * Creates a new instance of {@link PreFastParser}.
      */
-    public PREfastParser() {
+    public PreFastParser() {
         super(PREFAST_PATTERN_WARNING);
     }
 

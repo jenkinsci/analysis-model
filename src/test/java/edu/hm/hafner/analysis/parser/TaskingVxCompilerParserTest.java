@@ -7,20 +7,20 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
- * Tests the class {@link TaskingVXCompilerParser}.
+ * Tests the class {@link TaskingVxCompilerParser}.
  */
-class TaskingVXCompilerParserTest extends AbstractIssueParserTest {
+class TaskingVxCompilerParserTest extends AbstractIssueParserTest {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
 
-    TaskingVXCompilerParserTest() {
+    TaskingVxCompilerParserTest() {
         super("tasking-vx.txt");
     }
 
     @Override
-    protected TaskingVXCompilerParser createParser() {
-        return new TaskingVXCompilerParser();
+    protected TaskingVxCompilerParser createParser() {
+        return new TaskingVxCompilerParser();
     }
 
     @Override

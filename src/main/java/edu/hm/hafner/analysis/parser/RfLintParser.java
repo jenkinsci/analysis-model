@@ -21,14 +21,14 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  *
  * @author traitanit
  */
-public class RFLintParser extends RegexpLineParser {
+public class RfLintParser extends RegexpLineParser {
     private static final long serialVersionUID = -7903991158616386226L;
 
     private static final String RFLINT_ERROR_PATTERN = "([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)";
     private static final String RFLINT_FILE_PATTERN = "\\+\\s(.*)";
     private String fileName;
 
-    public RFLintParser() {
+    public RfLintParser() {
         super(RFLINT_ERROR_PATTERN);
     }
 

@@ -11,16 +11,16 @@ import edu.hm.hafner.analysis.IssueBuilder;
  *
  * @author Vivien Tintillier
  */
-public class FlexSDKParser extends FastRegexpLineParser {
+public class FlexSdkParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -185055018399324311L;
 
     private static final String FLEX_SDK_WARNING_PATTERN = "^\\s*(?:\\[.*\\])?\\s*(.*\\.as|.*\\.mxml)\\((\\d*)\\)"
             + ":\\s*(?:col:\\s*\\d*\\s*)?(?:Warning)\\s*:\\s*(.*)$";
 
     /**
-     * Creates a new instance of {@link FlexSDKParser}.
+     * Creates a new instance of {@link FlexSdkParser}.
      */
-    public FlexSDKParser() {
+    public FlexSdkParser() {
         super(FLEX_SDK_WARNING_PATTERN);
     }
 

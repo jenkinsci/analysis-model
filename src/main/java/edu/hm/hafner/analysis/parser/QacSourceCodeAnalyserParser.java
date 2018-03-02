@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  *
  * @author Sven Lübke
  */
-public class QACSourceCodeAnalyserParser extends RegexpLineParser {
+public class QacSourceCodeAnalyserParser extends RegexpLineParser {
     private static final long serialVersionUID = -8104046102312005968L;
 
     /** Pattern of QA-C Sourcecode Analyser warnings. */
@@ -21,7 +21,7 @@ public class QACSourceCodeAnalyserParser extends RegexpLineParser {
     /**
      * Creates a new instance of {@code QACSourceCodeAnalyserParser}.
      */
-    public QACSourceCodeAnalyserParser() {
+    public QacSourceCodeAnalyserParser() {
         super(QAC_WARNING_PATTERN);
     }
 

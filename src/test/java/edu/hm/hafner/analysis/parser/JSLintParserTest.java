@@ -2,13 +2,14 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link LintParser}.
@@ -37,7 +38,7 @@ class JSLintParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(JSLintXMLSaxParser.CATEGORY_UNDEFINED_VARIABLE)
+                    .hasCategory(JSLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
                     .hasLineStart(3)
                     .hasLineEnd(3)
                     .hasMessage("'window' is not defined.")
@@ -78,7 +79,7 @@ class JSLintParserTest extends AbstractIssueParserTest {
 
         softly.assertThat(issues.get(0))
                 .hasPriority(Priority.HIGH)
-                .hasCategory(JSLintXMLSaxParser.CATEGORY_PARSING)
+                .hasCategory(JSLintXmlSaxParser.CATEGORY_PARSING)
                 .hasLineStart(10)
                 .hasLineEnd(10)
                 .hasMessage("Expected 'Version' to have an indentation at 5 instead at 3.")

@@ -2,17 +2,18 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
- * Tests the class {@link RFLintParser}. Created by traitanit on 3/27/2017 AD.
+ * Tests the class {@link RfLintParser}. Created by traitanit on 3/27/2017 AD.
  */
-class RFLintParserTest extends AbstractIssueParserTest {
+class RfLintParserTest extends AbstractIssueParserTest {
 
     private static final String WARNING_CATEGORY = "WARNING";
     private static final String ERROR_CATEGORY = "ERROR";
@@ -20,9 +21,9 @@ class RFLintParserTest extends AbstractIssueParserTest {
     private static final String ISSUES_FILE = "rflint.txt";
 
     /**
-     * Creates a new instance of {@link RFLintParserTest}.
+     * Creates a new instance of {@link RfLintParserTest}.
      */
-    RFLintParserTest() {
+    RfLintParserTest() {
         super(ISSUES_FILE);
     }
 
@@ -82,7 +83,7 @@ class RFLintParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected RFLintParser createParser() {
-        return new RFLintParser();
+    protected RfLintParser createParser() {
+        return new RfLintParser();
     }
 }

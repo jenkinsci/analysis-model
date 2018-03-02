@@ -14,15 +14,15 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
- * Tests the class {@link FlexSDKParser}.
+ * Tests the class {@link FlexSdkParser}.
  */
-class FlexSDKParserTest extends AbstractIssueParserTest {
+class FlexSdkParserTest extends AbstractIssueParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     /**
      * Creates a new instance of {@link AbstractIssueParserTest}.
      */
-    protected FlexSDKParserTest() {
+    protected FlexSdkParserTest() {
         super("flexsdk.txt");
     }
 
@@ -67,7 +67,7 @@ class FlexSDKParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected FlexSDKParser createParser() {
-        return new FlexSDKParser();
+    protected FlexSdkParser createParser() {
+        return new FlexSdkParser();
     }
 }

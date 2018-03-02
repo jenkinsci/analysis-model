@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.Priority;
 /**
  * Handles parsing.
  */
-public class JSLintXMLSaxParser extends DefaultHandler {
+public class JSLintXmlSaxParser extends DefaultHandler {
     private final Issues<Issue> issues;
     private String fileName;
 
@@ -23,12 +23,12 @@ public class JSLintXMLSaxParser extends DefaultHandler {
     static final String CATEGORY_FORMATTING = "Formatting";
 
     /**
-     * Creates a new instance of {@link JSLintXMLSaxParser}.
+     * Creates a new instance of {@link JSLintXmlSaxParser}.
      *
      * @param issues
      *         the issues
      */
-    public JSLintXMLSaxParser(final Issues<Issue> issues) {
+    public JSLintXmlSaxParser(final Issues<Issue> issues) {
         super();
 
         this.issues = issues;
