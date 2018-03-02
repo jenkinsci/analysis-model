@@ -6,16 +6,16 @@ node {
     stage ('Build') {
         def mvnHome = tool 'mvn-default'
 
-        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false"
+        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore"
 
         junit testResults: '**/target/surefire-reports/TEST-*.xml'
-        warnings consoleParsers: [[parserName: 'Java Compiler (javac)']]
+        warnings consoleParsers: [[parserName: 'Java Compiler (javac)'], [parserName: 'JavaDoc Tool']]
     }
 
     stage ('Analysis') {
         def mvnHome = tool 'mvn-default'
 
-        sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs"
+        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
 
         checkstyle()
         pmd()
