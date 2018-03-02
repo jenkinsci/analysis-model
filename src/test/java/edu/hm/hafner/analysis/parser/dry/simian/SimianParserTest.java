@@ -4,10 +4,11 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
 
@@ -32,16 +33,19 @@ class SimianParserTest extends AbstractParserTest<CodeDuplication> {
             final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(2);
 
-        softly.assertThat(issues.get(0))
+        CodeDuplication firstIssue = issues.get(0);
+        softly.assertThat(firstIssue)
                 .hasLineStart(93).hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
                 .hasPriority(Priority.LOW);
-        softly.assertThat(issues.get(1))
+        softly.assertThat(firstIssue.getDescription()).isEmpty();
+
+        CodeDuplication secondIssue = issues.get(1);
+        softly.assertThat(secondIssue)
                 .hasLineStart(76).hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
                 .hasPriority(Priority.LOW);
-        softly.assertThat(issues.get(0).getDescription()).isEmpty();
-        softly.assertThat(issues.get(1).getDescription()).isEmpty();
+        softly.assertThat(secondIssue.getDescription()).isEmpty();
     }
 
     @Test
