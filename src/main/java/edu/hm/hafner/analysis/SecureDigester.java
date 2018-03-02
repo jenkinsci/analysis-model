@@ -26,7 +26,7 @@ public final class SecureDigester extends Digester {
         setEntityResolver((publicId, systemId) -> new InputSource());
     }
 
-    @SuppressWarnings("all") @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT, DE_MIGHT_IGNORE, REC_CATCH_EXCEPTION")
+    @SuppressWarnings("all") @SuppressFBWarnings
     private void disableFeature(final String feature) {
         try {
             setFeature("http://xml.org/sax/features/" + feature, false);

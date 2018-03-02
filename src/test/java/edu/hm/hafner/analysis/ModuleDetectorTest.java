@@ -24,7 +24,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
     private static final String MANIFEST_NAME = "MANIFEST-NAME.MF";
-    @SuppressFBWarnings("DMI")
+    @SuppressFBWarnings
     private static final File ROOT = new File("/tmp");
     private static final String PREFIX = normalizeRoot();
 
