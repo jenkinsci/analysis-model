@@ -1,24 +1,25 @@
-package edu.hm.hafner.analysis.parser;
+package edu.hm.hafner.analysis.parser.violations;
 
 import java.util.Iterator;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
- * Tests the class {@link ResharperInspectCodeParser}.
+ * Tests the class {@link ResharperInspectCodeAdapter}.
  */
-class ResharperInspectCodeParserTest extends AbstractIssueParserTest {
+class ResharperInspectCodeAdapterTest extends AbstractIssueParserTest {
     private static final String ISSUES_FILE = "ResharperInspectCode.xml";
 
     /**
-     * Creates a new instance of {@link ResharperInspectCodeParserTest}.
+     * Creates a new instance of {@link ResharperInspectCodeAdapterTest}.
      */
-    ResharperInspectCodeParserTest() {
+    ResharperInspectCodeAdapterTest() {
         super(ISSUES_FILE);
     }
 
@@ -31,31 +32,31 @@ class ResharperInspectCodeParserTest extends AbstractIssueParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(16)
                 .hasLineEnd(16)
-                .hasMessage("Cannot resolve symbol 'GetError'")
+                .hasMessage("Cannot resolve symbol 'GetError'. C# Compiler Errors. CSharpErrors")
                 .hasFileName("ResharperDemo/Program.cs")
-                .hasCategory("CSharpErrors")
+                .hasType("CSharpErrors")
                 .hasPriority(Priority.HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(23)
                 .hasLineEnd(23)
-                .hasMessage("Expression is always true")
+                .hasMessage("Expression is always true. Redundancies in Code. Expression is always 'true' or always 'false'")
                 .hasFileName("ResharperDemo/Program.cs")
-                .hasCategory("ConditionIsAlwaysTrueOrFalse")
+                .hasType("ConditionIsAlwaysTrueOrFalse")
                 .hasPriority(Priority.NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(41)
                 .hasLineEnd(41)
-                .hasMessage("Convert to auto-property")
+                .hasMessage("Convert to auto-property. Language Usage Opportunities. Convert property to auto-property")
                 .hasFileName("ResharperDemo/Program.cs")
-                .hasCategory("ConvertToAutoProperty")
+                .hasType("ConvertToAutoProperty")
                 .hasPriority(Priority.LOW);
     }
 
     @Override
-    protected ResharperInspectCodeParser createParser() {
-        return new ResharperInspectCodeParser();
+    protected ResharperInspectCodeAdapter createParser() {
+        return new ResharperInspectCodeAdapter();
     }
 }
 

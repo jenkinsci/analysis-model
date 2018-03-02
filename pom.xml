@@ -63,6 +63,7 @@
     <mockito.version>2.13.0</mockito.version>
     <assertj.version>3.9.0</assertj.version>
     <archunit.version>0.5.0</archunit.version>
+    <violations-lib.version>1.54</violations-lib.version>
 
     <!-- Maven Plug-ins Configuration -->
     <compiler.maven.plugin>3.7.0</compiler.maven.plugin>
@@ -126,6 +127,11 @@
       <groupId>org.eclipse.collections</groupId>
       <artifactId>eclipse-collections</artifactId>
       <version>${eclipse-collections.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>se.bjurr.violations</groupId>
+      <artifactId>violations-lib</artifactId>
+      <version>${violations-lib.version}</version>
     </dependency>
 
     <!-- FindBugs Parser Dependencies -->
