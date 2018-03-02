@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.ZPTLintParser;
  * @author Ullrich Hafner
  */
 public class ZptLintAdapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = -6204265426578715957L;
+
     /**
      * Creates a new instance of {@link ZptLintAdapter}.
      */

@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.JSHintParser;
  * @author Ullrich Hafner
  */
 public class JsHintAdapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = 2981825338893917845L;
+
     /**
      * Creates a new instance of {@link JsHintAdapter}.
      */

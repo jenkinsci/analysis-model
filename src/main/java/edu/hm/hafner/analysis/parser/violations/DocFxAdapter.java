@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.DocFXParser;
  * @author Ullrich Hafner
  */
 public class DocFxAdapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = 2162266195669804761L;
+
     /**
      * Creates a new instance of {@link DocFxAdapter}.
      */

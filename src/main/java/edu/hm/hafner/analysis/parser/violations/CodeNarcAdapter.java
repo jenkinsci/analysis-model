@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.CodeNarcParser;
  * @author Ullrich Hafner
  */
 public class CodeNarcAdapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = -5699747899173867285L;
+
     /**
      * Creates a new instance of {@link CodeNarcAdapter}.
      */

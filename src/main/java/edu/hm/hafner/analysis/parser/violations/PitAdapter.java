@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.PiTestParser;
  * @author Ullrich Hafner
  */
 public class PitAdapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = -7811207963029906228L;
+
     /**
      * Creates a new instance of {@link PitAdapter}.
      */

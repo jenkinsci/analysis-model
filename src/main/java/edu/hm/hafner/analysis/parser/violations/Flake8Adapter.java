@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.Flake8Parser;
  * @author Ullrich Hafner
  */
 public class Flake8Adapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = 4524731070497002381L;
+
     /**
      * Creates a new instance of {@link Flake8Adapter}.
      */

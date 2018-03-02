@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.MyPyParser;
  * @author Ullrich Hafner
  */
 public class MyPyAdapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = -6091072858896474363L;
+
     /**
      * Creates a new instance of {@link MyPyAdapter}.
      */

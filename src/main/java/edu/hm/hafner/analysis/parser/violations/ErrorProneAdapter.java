@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.GoogleErrorProneParser;
  * @author Ullrich Hafner
  */
 public class ErrorProneAdapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = -5800235784320729524L;
+
     /**
      * Creates a new instance of {@link ErrorProneAdapter}.
      */

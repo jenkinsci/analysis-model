@@ -8,6 +8,8 @@ import se.bjurr.violations.lib.parsers.KlocworkParser;
  * @author Ullrich Hafner
  */
 public class KlocWorkAdapter extends AbstractViolationAdapter {
+    private static final long serialVersionUID = 5676554459268768313L;
+
     /**
      * Creates a new instance of {@link KlocWorkAdapter}.
      */
