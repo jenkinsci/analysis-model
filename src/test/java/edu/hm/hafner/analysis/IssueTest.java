@@ -119,6 +119,17 @@ public class IssueTest extends SerializableTest<Issue> {
             softly.assertThat(issue.hasPackageName()).isTrue();
             softly.assertThat(issue.hasModuleName()).isTrue();
         });
+
+        assertSoftly(softly -> {
+            softly.assertThat(Issue.getPropertyValueAsString(issue, "fileName"))
+                    .isEqualTo(issue.getFileName());
+            softly.assertThat(Issue.getPropertyValueAsString(issue, "category"))
+                    .isEqualTo(issue.getCategory());
+            softly.assertThat(Issue.getPropertyValueAsString(issue, "lineStart"))
+                    .isEqualTo(String.valueOf(issue.getLineStart()));
+            softly.assertThat(Issue.getPropertyValueAsString(issue, "priority"))
+                    .isEqualTo(issue.getPriority().toString());
+        });
     }
 
     @Test

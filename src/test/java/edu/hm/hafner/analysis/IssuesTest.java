@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
@@ -58,6 +59,24 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
             .build();
     private static final String EXTENDED_VALUE = "Extended";
     private static final String ID = "id";
+
+    @Test
+    void shouldGroupIssuesByProperty() {
+        Issues<Issue> issues = new Issues<>();
+        issues.addAll(allIssuesAsList());
+
+        Map<String, Issues<Issue>> byPriority = issues.groupByProperty("priority");
+        assertThat(byPriority).hasSize(3);
+        assertThat(byPriority.get(Priority.HIGH.toString())).hasSize(1);
+        assertThat(byPriority.get(Priority.NORMAL.toString())).hasSize(2);
+        assertThat(byPriority.get(Priority.LOW.toString())).hasSize(3);
+
+        Map<String, Issues<Issue>> byFile = issues.groupByProperty("fileName");
+        assertThat(byFile).hasSize(3);
+        assertThat(byFile.get("file-1")).hasSize(3);
+        assertThat(byFile.get("file-2")).hasSize(2);
+        assertThat(byFile.get("file-3")).hasSize(1);
+    }
 
     /**
      * Ensures that each method that creates a copy of another issue instance also copies the corresponding properties.
@@ -201,7 +220,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     @Test
     void shouldAddMultipleIssuesAsCollection() {
         Issues<Issue> issues = new Issues<>();
-        List<Issue> issueList = asList(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        List<Issue> issueList = allIssuesAsList();
 
         issues.addAll(issueList);
 
@@ -226,7 +245,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
 
     @Test
     void shouldSkipAddedElements() {
-        Issues<Issue> issues = new Issues<>(asList(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3));
+        Issues<Issue> issues = new Issues<>(allIssuesAsList());
 
         Issues<Issue> fromEmpty = new Issues<>();
 
@@ -396,7 +415,8 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         assertThat(found).containsExactly(HIGH);
     }
 
-    @Test @SuppressFBWarnings
+    @Test
+    @SuppressFBWarnings
     void shouldReturnIndexedValue() {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
@@ -415,9 +435,13 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     @Test
     void shouldReturnFiles() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3));
+        issues.addAll(allIssuesAsList());
 
         assertThat(issues.getFiles()).contains("file-1", "file-1", "file-3");
+    }
+
+    private List<Issue> allIssuesAsList() {
+        return asList(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
     }
 
     @Test
@@ -431,7 +455,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     @Test
     void shouldReturnProperties() {
         Issues<Issue> issues = new Issues<>();
-        issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3));
+        issues.addAll(allIssuesAsList());
 
         Set<String> properties = issues.getProperties(issue -> issue.getMessage());
 

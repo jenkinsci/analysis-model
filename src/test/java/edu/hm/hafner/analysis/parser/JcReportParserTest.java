@@ -1,9 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
@@ -11,7 +13,6 @@ import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
@@ -43,11 +44,9 @@ class JcReportParserTest extends AbstractIssueParserTest {
      * properties are needed to create a warning. So it was decided to keep them anyway in case Jenkins is modified to
      * contain more information in the Warning-Objects. For reasons of simplicity only a Report with 1 file and 1 item
      * was created.
-     *
-     * @throws UnsupportedEncodingException if encoding is not available
      */
     @Test
-    void testReportParserProperties() throws UnsupportedEncodingException {
+    void testReportParserProperties() {
         InputStreamReader readCorrectXml = getReader("testReportProps.xml");
         Report testReportProps = new JcReportParser().createReport(readCorrectXml);
 
@@ -69,7 +68,6 @@ class JcReportParserTest extends AbstractIssueParserTest {
         assertThat(item.getEndline()).isEqualTo("70");
         assertThat(item.getMessage()).isEqualTo("SomeMessage");
         assertThat(item.getSeverity()).isEqualTo("CriticalError");
-
     }
 
     /**
@@ -85,8 +83,8 @@ class JcReportParserTest extends AbstractIssueParserTest {
 
     }
 
-    private InputStreamReader getReader(final String fileName) throws UnsupportedEncodingException {
-        return new InputStreamReader(JcReportParserTest.class.getResourceAsStream("jcreport/" + fileName), "UTF-8");
+    private InputStreamReader getReader(final String fileName) {
+        return new InputStreamReader(asInputStream("jcreport/" + fileName), StandardCharsets.UTF_8);
     }
 
     @Override

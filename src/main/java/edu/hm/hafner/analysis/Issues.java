@@ -21,17 +21,21 @@ import java.util.stream.StreamSupport;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
 
+import static java.util.stream.Collectors.*;
+
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
 import edu.umd.cs.findbugs.annotations.NonNull;
-import static java.util.stream.Collectors.*;
 
 /**
  * A set of {@link Issue issues}: it contains no duplicate elements, i.e. it models the mathematical <i>set</i>
  * abstraction. Furthermore, this set of issues provides a <i>total ordering</i> on its elements. I.e., the issues in
  * this set are ordered by their index in this set: the first added issue is at position 0, the second added issues is
- * at position 1, and so on. <p> <p> Additionally, this set of issues provides methods to find and filter issues based
- * on different properties. In order to create issues use the provided {@link IssueBuilder builder} class. </p>
+ * at position 1, and so on.
+ * <p>
+ * Additionally, this set of issues provides methods to find and filter issues based
+ * on different properties. In order to create issues use the provided {@link IssueBuilder builder} class.
+ * </p>
  *
  * @param <T>
  *         type of the issues
@@ -458,16 +462,18 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Returns the number of occurrences for every existing value of a given property for all issues of this container.
+     * Groups issues by a specified property. Returns the results as a mapping of property values to a new set of {@link
+     * Issues} for this value.
      *
-     * @param propertiesMapper
-     *         the properties mapper that selects the property to evaluate
+     * @param propertyName
+     *         the property to  that selects the property to evaluate
      *
      * @return a mapping of: property value -> number of issues for that value
      * @see #getProperties(Function)
      */
-    public Map<String, Issues<T>> groupByProperty(final Function<? super T, String> propertiesMapper) {
-        Map<String, List<T>> issues = elements.stream().collect(groupingBy(propertiesMapper));
+    public Map<String, Issues<T>> groupByProperty(final String propertyName) {
+        Map<String, List<T>> issues = elements.stream()
+                .collect(groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
                 .collect(toMap(e -> e.getKey(), e -> new Issues<>(e.getValue())));
@@ -500,8 +506,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Returns a new empty issue container with the same properties as this container. The new
-     * issue container is empty and does not contain issues.
+     * Returns a new empty issue container with the same properties as this container. The new issue container is empty
+     * and does not contain issues.
      *
      * @return a new issue container that contains the same properties but no issues
      */
@@ -543,7 +549,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Logs the specified information message. Use this method to log any useful information when composing this set of issues.
+     * Logs the specified information message. Use this method to log any useful information when composing this set of
+     * issues.
      *
      * @param format
      *         A <a href="../util/Formatter.html#syntax">format string</a>

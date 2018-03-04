@@ -1,8 +1,11 @@
 package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
+import java.util.function.Function;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,6 +21,38 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings("PMD.TooManyFields")
 public class Issue implements Serializable {
+    /**
+     * Returns the value of the property with the specified name for a given issue instance.
+     *
+     * @param issue
+     *         the issue to get the property for
+     * @param propertyName
+     *         the name of the property
+     *
+     * @return the function that obtains the value
+     */
+    public static String getPropertyValueAsString(final Issue issue, final String propertyName) {
+        try {
+            return PropertyUtils.getProperty(issue, propertyName).toString();
+        }
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
+            return propertyName;
+        }
+    }
+
+    /**
+     * Returns a function that can dynamically obtain the value of the property with the specified name of an issue
+     * instance.
+     *
+     * @param propertyName
+     *         the name of the property
+     *
+     * @return the function that obtains the value
+     */
+    public static Function<Issue, String> getPropertyValueGetter(final String propertyName) {
+        return issue -> Issue.getPropertyValueAsString(issue, propertyName);
+    }
+
     private static final long serialVersionUID = 1L; // release 1.0.0
 
     private static final String UNDEFINED = "-";
