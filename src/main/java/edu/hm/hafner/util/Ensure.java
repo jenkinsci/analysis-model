@@ -16,8 +16,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *     Note: the static methods provided by this class use a fluent interface, i.e., in order to
  * verify an assertion a method sequence needs to be called.
  * </p>
- * <p>
- *     Available checks:
+ *
+ * Available checks:
  *     <ul>
  *         <li>Boolean assertions, e.g., {@code Ensure.that(condition).isTrue(); } </li>
  *         <li>String assertions, e.g., {@code Ensure.that(string).isNotEmpty(); } </li>
@@ -25,7 +25,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *         <li>Array assertions, e.g., {@code Ensure.that(array).isNotEmpty(); } </li>
  *         <li>Iterable assertions, e.g., {@code Ensure.that(collection).isNotNull(); } </li>
  *         </ul>
- * </p>
  *
  * @author Ullrich Hafner
  * @see <a href="http://se.ethz.ch/~meyer/publications/computer/contract.pdf"> Design by Contract (Meyer, Bertrand)</a>

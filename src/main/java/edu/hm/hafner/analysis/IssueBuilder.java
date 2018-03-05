@@ -6,7 +6,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
  * be set to their default value.
  * <p>Example:</p>
- * <p>
  * <blockquote><pre>
  * Issue issue = new IssueBuilder()
  *                      .setFileName("affected.file")
@@ -15,7 +14,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *                      .setMessage("Missing JavaDoc")
  *                      .setPriority(Priority.LOW);
  * </pre></blockquote>
- * </p>
  *
  * @author Ullrich Hafner
  */

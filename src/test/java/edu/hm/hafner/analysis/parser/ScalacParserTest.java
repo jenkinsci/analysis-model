@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link ScalacParser}.
  *
- * @author <a href="mailto:alexey.kislin@gmail.com">Alexey Kislin</a>
+ * @author Alexey Kislin
  */
 class ScalacParserTest extends AbstractIssueParserTest {
     ScalacParserTest() {

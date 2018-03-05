@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 /**
  * A parser for puppet-lint checks warnings.
  *
- * @author Jan Vansteenkiste <jan@vstone.eu>
+ * @author Jan Vansteenkiste
  */
 public class PuppetLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 7492869677427430346L;

@@ -454,7 +454,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @param propertiesMapper
      *         the properties mapper that selects the property to evaluate
      *
-     * @return a mapping of: property value -> number of issues for that value
+     * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
     public Map<String, Integer> getPropertyCount(final Function<? super T, String> propertiesMapper) {
@@ -468,7 +468,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @param propertyName
      *         the property to  that selects the property to evaluate
      *
-     * @return a mapping of: property value -> number of issues for that value
+     * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
     public Map<String, Issues<T>> groupByProperty(final String propertyName) {

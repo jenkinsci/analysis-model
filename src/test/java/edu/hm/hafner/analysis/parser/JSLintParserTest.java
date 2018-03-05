@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link LintParser}.
  *
- * @author Gavin Mogan <gavin@kodekoan.com>
+ * @author Gavin Mogan
  */
 class JSLintParserTest extends AbstractIssueParserTest {
     private static final String EXPECTED_FILE_NAME = "duckworth/hudson-jslint-freestyle/src/prototype.js";

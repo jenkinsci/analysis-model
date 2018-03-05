@@ -8,9 +8,9 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
- * A parser for the scalac compiler warnings. You should use -feature & -deprecation compiler opts.
+ * A parser for the scalac compiler warnings. You should use -feature and -deprecation compiler opts.
  *
- * @author <a href="mailto:alexey.kislin@gmail.com">Alexey Kislin</a>
+ * @author Alexey Kislin
  */
 public class ScalacParser extends RegexpLineParser {
     private static final long serialVersionUID = -4034552404001800574L;

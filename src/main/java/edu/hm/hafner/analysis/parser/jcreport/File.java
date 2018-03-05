@@ -37,7 +37,7 @@ public class File {
     /**
      * Adds an Item-Object to the collection items.
      *
-     * @param item -> add this item.
+     * @param item add this item.
      */
     public void addItem(final Item item) {
         items.add(item);
@@ -56,7 +56,7 @@ public class File {
     /**
      * Setter for className-Field.
      *
-     * @param classname -> classNamesetter
+     * @param classname lassNamesetter
      */
     public void setClassname(final String classname) {
         this.classname = classname;
@@ -75,7 +75,7 @@ public class File {
     /**
      * Setter for level-Field.
      *
-     * @param level -> set level
+     * @param level set level
      */
     public void setLevel(final String level) {
         this.level = level;
@@ -85,7 +85,7 @@ public class File {
     /**
      * Getter for loc-Field.
      *
-     * @return loc -> loc
+     * @return loc loc
      */
     public String getLoc() {
         return loc;
@@ -94,7 +94,7 @@ public class File {
     /**
      * Setter for loc-Field.
      *
-     * @param loc -> locsetter
+     * @param loc locsetter
      */
     public void setLoc(final String loc) {
         this.loc = loc;
@@ -104,7 +104,7 @@ public class File {
     /**
      * Getter for name-Field.
      *
-     * @return name -> name
+     * @return name name
      */
     public String getName() {
         return name;
@@ -113,7 +113,7 @@ public class File {
     /**
      * Setter for Name-Field.
      *
-     * @param name -> name
+     * @param name name
      */
     public void setName(final String name) {
         this.name = name;
@@ -123,7 +123,7 @@ public class File {
     /**
      * Getter for packageName-Field.
      *
-     * @return packageName -> packageName.
+     * @return packageName packageName.
      */
     public String getPackageName() {
         return packageName;
@@ -132,7 +132,7 @@ public class File {
     /**
      * Setter for packageName-Field.
      *
-     * @param packageName -> packageName Setter
+     * @param packageName packageName Setter
      */
     public void setPackageName(final String packageName) {
         this.packageName = packageName;
@@ -141,7 +141,7 @@ public class File {
     /**
      * Getter for srcdir-Field.
      *
-     * @return srcdir -> srcdir.
+     * @return srcdir srcdir.
      */
     public String getSrcdir() {
         return srcdir;
@@ -150,7 +150,7 @@ public class File {
     /**
      * Setter for srcdir-Field.
      *
-     * @param srcdir -> srcdir
+     * @param srcdir srcdir
      */
     public void setSrcdir(final String srcdir) {
         this.srcdir = srcdir;

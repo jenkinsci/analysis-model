@@ -8,6 +8,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link SbtScalacParser}.
+ *
+ * @author Hochak Hung
  */
 class SbtScalacParserTest extends AbstractIssueParserTest {
     SbtScalacParserTest() {

@@ -43,7 +43,7 @@ import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
 
 /**
- * A parser for the native FindBugs XML files (ant task, batch file or maven-findbugs-plugin >= 1.2).
+ * A parser for the native FindBugs XML files.
  *
  * @author Ullrich Hafner
  */

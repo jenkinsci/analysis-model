@@ -8,9 +8,9 @@ import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
- * A parser for the sbt scala compiler warnings. You should use -feature & -deprecation compiler opts.
+ * A parser for the sbt scala compiler warnings. You should use -feature and -deprecation compiler opts.
  *
- * @author <a href="mailto:hochak@gmail.com">Hochak Hung</a>
+ * @author Hochak Hung
  */
 public class SbtScalacParser extends RegexpLineParser {
     private static final long serialVersionUID = -4233964844965517977L;

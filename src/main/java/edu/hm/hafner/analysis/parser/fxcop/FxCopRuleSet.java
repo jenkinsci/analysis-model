@@ -14,12 +14,11 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  */
 @SuppressWarnings({"PMD", "all", "CheckStyle"})
 public class FxCopRuleSet {
-
     private transient Map<String, FxCopRule> rules = new HashMap<String, FxCopRule>();
 
     /***
      * Parse the element and insert the rule into the rule set.
-     * @param element the element <Rule>
+     * @param element the element
      */
     public void addRule(final Element element) {
         FxCopRule rule = new FxCopRule(element.getAttribute("TypeName"), element.getAttribute("Category"), element
@@ -34,8 +33,11 @@ public class FxCopRuleSet {
     /**
      * Returns the text value of the named child element if it exists
      *
-     * @param element the element to check look for child elements
-     * @param tagName the name of the child element
+     * @param element
+     *         the element to check look for child elements
+     * @param tagName
+     *         the name of the child element
+     *
      * @return the text value; or "" if no element was found
      */
     private String getNamedTagText(final Element element, final String tagName) {
@@ -51,8 +53,12 @@ public class FxCopRuleSet {
     /**
      * Returns if the rule set contains a rule for the specified category and id
      *
-     * @param category the rule category
-     * @param checkId  the rule id
+     * @param category
+     *         the rule category
+     * @param checkId
+     *         the rule id
+     *
+     * @return {@code true}  if the rule set contains a rule for the specified category and id, {@code false} otherwise
      */
     public boolean contains(final String category, final String checkId) {
         return (rules.containsKey(getRuleKey(category, checkId)));
@@ -61,8 +67,11 @@ public class FxCopRuleSet {
     /**
      * Returns the specified rule if it exists
      *
-     * @param category the rule category
-     * @param checkId  the id of the rule
+     * @param category
+     *         the rule category
+     * @param checkId
+     *         the id of the rule
+     *
      * @return the rule; null otherwise
      */
     public FxCopRule getRule(final String category, final String checkId) {
@@ -77,8 +86,11 @@ public class FxCopRuleSet {
     /**
      * Returns the key for the map
      *
-     * @param category category of the rule
-     * @param checkId  id of the rule
+     * @param category
+     *         category of the rule
+     * @param checkId
+     *         id of the rule
+     *
      * @return category + "#" + checkid
      */
     private String getRuleKey(final String category, final String checkId) {
