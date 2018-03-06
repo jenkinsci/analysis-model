@@ -26,14 +26,16 @@ For [IntelliJ IDEA](https://www.jetbrains.com/idea/) users: the coding style is 
 `.idea` folder. If you import this project into IntelliJ this style will used automatically. 
 
 Moreover (since this project is about static code analysis :wink:) a configuration for the following static code
-analysis tools is defined in the `etc` folder:
+analysis tools is defined in the POM and the `etc` and `.idea` folders:
 - [Checkstyle](http://checkstyle.sourceforge.net/)
-- [PMD](http://https://pmd.github.io/)
+- [PMD](https://pmd.github.io/)
 - [FindBugs](http://findbugs.sourceforge.net/) and [SpotBugs](https://spotbugs.github.io)
+- [Error Prone](http://errorprone.info)
 - [IntelliJ](https://www.jetbrains.com/help/idea/code-inspection.html)
 
 This configuration will be picked up automatically if you build the project using maven. If you install the CheckStyle 
-plugin of IntelliJ then the correct set of CheckStyle rules will used automatically. 
+plugin of IntelliJ then the correct set of CheckStyle rules will used automatically. Moreover, the code formatter and 
+the inspection rules will be automatically picked up bey IntelliJ.
 
 ## Proposing Changes
 

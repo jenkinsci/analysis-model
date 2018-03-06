@@ -169,7 +169,6 @@
   <rule ref="rulesets/java/javabeans.xml/MissingSerialVersionUID"/>
   <rule ref="rulesets/java/junit.xml/JUnitStaticSuite"/>
   <rule ref="rulesets/java/junit.xml/JUnitSpelling"/>
-  <rule ref="rulesets/java/junit.xml/JUnitAssertionsShouldIncludeMessage"/>
   <rule ref="rulesets/java/junit.xml/UnnecessaryBooleanAssertion"/>
   <rule ref="rulesets/java/junit.xml/UseAssertEqualsInsteadOfAssertTrue"/>
   <rule ref="rulesets/java/junit.xml/UseAssertSameInsteadOfAssertTrue"/>
@@ -228,7 +227,7 @@
   <rule ref="rulesets/java/naming.xml/AvoidFieldNameMatchingTypeName"/>
   <rule ref="rulesets/java/naming.xml/NoPackage"/>
   <rule ref="rulesets/java/naming.xml/PackageCase"/>
-  <rule ref="rulesets/java/naming.xml/MisleadingVariableName"/>
+  <rule ref="rulesets/java/naming.xml/MIsLeadingVariableName"/>
   <rule ref="rulesets/java/naming.xml/GenericsNaming"/>
   <rule ref="rulesets/java/codesize.xml/NPathComplexity"/>
   <rule ref="rulesets/java/codesize.xml/ExcessiveClassLength"/>
