@@ -66,5 +66,6 @@ node {
 
         sh "${mvnHome}/bin/mvn -batch-mode -V -U -e compile compile-tests org.pitest:pitest-maven:mutationCoverage"
 
+
     }
 }

@@ -65,14 +65,27 @@ public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
     private Issues<Issue> convertToIssues(final List<Violation> violations) {
         Issues<Issue> issues = new Issues<>();
         for (Violation violation : violations) {
-            issues.add(convertToIssue(violation));
+            if (isValid(violation)) {
+                issues.add(convertToIssue(violation));
+            }
         }
         return issues;
     }
 
+    /**
+     * Returns whether this violation is valid and should be converted to an {@link Issue}. Return {@code false} if the
+     * specified violation is a false positive or should not be counted.
+     *
+     * @param violation
+     *         the violation to check
+     */
+    protected boolean isValid(final Violation violation) {
+        return true;
+    }
+
     private Issue convertToIssue(final Violation violation) {
         IssueBuilder builder = new IssueBuilder();
-        builder.setPriority(convertSeverity(violation.getSeverity()))
+        builder.setPriority(convertSeverity(violation.getSeverity(), violation))
                 .setFileName(violation.getFile())
                 .setMessage(violation.getMessage())
                 .setLineStart(violation.getStartLine())
@@ -88,7 +101,19 @@ public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
         return builder.build();
     }
 
-    private Priority convertSeverity(final SEVERITY severity) {
+    /**
+     * Computes the {@link Priority} from the specified {@link SEVERITY}. Sub-classes may override and use any of the
+     * properties of the provided violation.
+     *
+     * @param severity
+     *         the severity
+     * @param violation
+     *         the violation instance
+     *
+     * @return the {@link Priority}
+     */
+    @SuppressWarnings("unused")
+    protected Priority convertSeverity(final SEVERITY severity, final Violation violation) {
         if (severity == SEVERITY.ERROR) {
             return Priority.HIGH;
         }

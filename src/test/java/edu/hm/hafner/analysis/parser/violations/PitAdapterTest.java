@@ -19,7 +19,7 @@ class PitAdapterTest extends AbstractParserTest<Issue> {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(25);
+        softly.assertThat(issues).hasSize(22);
         softly.assertThat(issues.get(0))
                 .hasMessage("NO_COVERAGE, org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator, (Ljava/lang/Object;)Z")
                 .hasFileName("se/bjurr/violations/lib/example/CopyOfMyClass.java")
