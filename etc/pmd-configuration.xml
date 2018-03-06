@@ -4,9 +4,6 @@
          name="pmd-eclipse"
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
   <description>Ullrich Hafner's PMD rules</description>
-  <rule ref="rulesets/java/clone.xml/ProperCloneImplementation"/>
-  <rule ref="rulesets/java/clone.xml/CloneThrowsCloneNotSupportedException"/>
-  <rule ref="rulesets/java/clone.xml/CloneMethodMustImplementCloneable"/>
   <rule ref="rulesets/java/basic.xml/JumbledIncrementer"/>
   <rule ref="rulesets/java/basic.xml/ForLoopShouldBeWhileLoop"/>
   <rule ref="rulesets/java/basic.xml/OverrideBothEqualsAndHashcode"/>
@@ -30,28 +27,9 @@
   <rule ref="rulesets/java/basic.xml/AvoidBranchingStatementAsLastInLoop"/>
   <rule ref="rulesets/java/basic.xml/DontCallThreadRun"/>
   <rule ref="rulesets/java/basic.xml/DontUseFloatTypeForLoopIndices"/>
-  <rule ref="rulesets/java/empty.xml/EmptyCatchBlock">
-    <properties>
-      <property name="allowCommentedBlocks" value="true"/>
-    </properties>
-  </rule>
-  <rule ref="rulesets/java/empty.xml/EmptyIfStmt"/>
-  <rule ref="rulesets/java/empty.xml/EmptyWhileStmt"/>
-  <rule ref="rulesets/java/empty.xml/EmptyTryBlock"/>
-  <rule ref="rulesets/java/empty.xml/EmptyFinallyBlock"/>
-  <rule ref="rulesets/java/empty.xml/EmptySwitchStatements"/>
-  <rule ref="rulesets/java/empty.xml/EmptySynchronizedBlock"/>
-  <rule ref="rulesets/java/empty.xml/EmptyStatementNotInLoop"/>
-  <rule ref="rulesets/java/empty.xml/EmptyInitializer"/>
-  <rule ref="rulesets/java/empty.xml/EmptyStatementBlock"/>
-  <rule ref="rulesets/java/empty.xml/EmptyStaticInitializer"/>
-  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryConversionTemporary"/>
-  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryReturn"/>
-  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryFinalModifier"/>
-  <rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod"/>
-  <rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable"/>
-  <rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals"/>
-  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryModifier"/>
+  <rule ref="rulesets/java/clone.xml/ProperCloneImplementation"/>
+  <rule ref="rulesets/java/clone.xml/CloneThrowsCloneNotSupportedException"/>
+  <rule ref="rulesets/java/clone.xml/CloneMethodMustImplementCloneable"/>
   <rule ref="rulesets/java/design.xml/SimplifyBooleanReturns"/>
   <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>
   <rule ref="rulesets/java/design.xml/SwitchStmtsShouldHaveDefault"/>
@@ -102,6 +80,28 @@
   <rule ref="rulesets/java/design.xml/AbstractClassWithoutAnyMethod"/>
   <rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement"/>
   <rule ref="rulesets/java/design.xml/LogicInversion"/>
+  <rule ref="rulesets/java/empty.xml/EmptyCatchBlock">
+    <properties>
+      <property name="allowCommentedBlocks" value="true"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/java/empty.xml/EmptyIfStmt"/>
+  <rule ref="rulesets/java/empty.xml/EmptyWhileStmt"/>
+  <rule ref="rulesets/java/empty.xml/EmptyTryBlock"/>
+  <rule ref="rulesets/java/empty.xml/EmptyFinallyBlock"/>
+  <rule ref="rulesets/java/empty.xml/EmptySwitchStatements"/>
+  <rule ref="rulesets/java/empty.xml/EmptySynchronizedBlock"/>
+  <rule ref="rulesets/java/empty.xml/EmptyStatementNotInLoop"/>
+  <rule ref="rulesets/java/empty.xml/EmptyInitializer"/>
+  <rule ref="rulesets/java/empty.xml/EmptyStatementBlock"/>
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryConversionTemporary"/>
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryReturn"/>
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryModifier"/>
+  <rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod"/>
+  <rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable"/>
+  <rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals"/>
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryModifier"/>
+  <rule ref="rulesets/java/unnecessary.xml/UselessParentheses"/>
   <rule ref="rulesets/java/logging-java.xml/MoreThanOneLogger"/>
   <rule ref="rulesets/java/logging-java.xml/LoggerIsNotStaticFinal"/>
   <rule ref="rulesets/java/logging-java.xml/SystemPrintln"/>
@@ -119,7 +119,6 @@
   <rule ref="rulesets/java/controversial.xml/DontImportSun"/>
   <rule ref="rulesets/java/controversial.xml/SuspiciousOctalEscape"/>
   <rule ref="rulesets/java/controversial.xml/CallSuperInConstructor"/>
-  <rule ref="rulesets/java/controversial.xml/UnnecessaryParentheses"/>
   <rule ref="rulesets/java/controversial.xml/AvoidFinalLocalVariable"/>
   <rule ref="rulesets/java/controversial.xml/AvoidUsingShortType"/>
   <rule ref="rulesets/java/controversial.xml/AvoidUsingVolatile"/>
@@ -152,22 +151,7 @@
   <rule ref="rulesets/java/android.xml/CallSuperFirst"/>
   <rule ref="rulesets/java/android.xml/CallSuperLast"/>
   <rule ref="rulesets/java/android.xml/DoNotHardCodeSDCard"/>
-  <rule ref="rulesets/java/empty.xml/EmptyCatchBlock">
-    <properties>
-      <property name="allowCommentedBlocks" value="true"/>
-    </properties>
-  </rule>
-  <rule ref="rulesets/java/empty.xml/EmptyIfStmt"/>
-  <rule ref="rulesets/java/empty.xml/EmptyWhileStmt"/>
-  <rule ref="rulesets/java/empty.xml/EmptyTryBlock"/>
-  <rule ref="rulesets/java/empty.xml/EmptyFinallyBlock"/>
-  <rule ref="rulesets/java/empty.xml/EmptySwitchStatements"/>
-  <rule ref="rulesets/java/empty.xml/EmptySynchronizedBlock"/>
-  <rule ref="rulesets/java/empty.xml/EmptyStatementNotInLoop"/>
-  <rule ref="rulesets/java/empty.xml/EmptyInitializer"/>
-  <rule ref="rulesets/java/empty.xml/EmptyStatementBlock"/>
-  <rule ref="rulesets/java/empty.xml/EmptyStaticInitializer"/>
-  <rule ref="rulesets/java/imports.xml/DontImportJavaLang"/>
+ <rule ref="rulesets/java/imports.xml/DontImportJavaLang"/>
   <rule ref="rulesets/java/imports.xml/ImportFromSamePackage"/>
   <rule ref="rulesets/java/imports.xml/TooManyStaticImports"/>
   <rule ref="rulesets/java/imports.xml/UnnecessaryFullyQualifiedName"/>
@@ -248,11 +232,7 @@
   <rule ref="rulesets/java/naming.xml/GenericsNaming"/>
   <rule ref="rulesets/java/codesize.xml/NPathComplexity"/>
   <rule ref="rulesets/java/codesize.xml/ExcessiveClassLength"/>
-  <rule ref="rulesets/java/codesize.xml/CyclomaticComplexity">
-    <properties>
-      <property name="showClassesComplexity" value="false"/>
-    </properties>
-  </rule>
+  <rule ref="rulesets/java/codesize.xml/CyclomaticComplexity"/>
   <rule ref="rulesets/java/codesize.xml/ExcessivePublicCount"/>
   <rule ref="rulesets/java/codesize.xml/TooManyFields"/>
   <rule ref="rulesets/java/codesize.xml/NcssMethodCount"/>
@@ -260,7 +240,7 @@
   <rule ref="rulesets/java/codesize.xml/NcssConstructorCount"/>
   <rule ref="rulesets/java/logging-jakarta-commons.xml/UseCorrectExceptionLogging"/>
   <rule ref="rulesets/java/logging-jakarta-commons.xml/ProperLogger"/>
-  <rule ref="rulesets/java/logging-jakarta-commons.xml/GuardDebugLogging"/>
+  <rule ref="rulesets/java/logging-jakarta-commons.xml/GuardLogStatement"/>
   <rule ref="rulesets/java/coupling.xml/CouplingBetweenObjects"/>
   <rule ref="rulesets/java/coupling.xml/ExcessiveImports"/>
   <rule ref="rulesets/java/coupling.xml/LooseCoupling"/>

@@ -24,7 +24,7 @@ node ('linux') {
                 writeFile file: settingsXml, text: libraryResource('settings-azure.xml')
                 mavenOptions += "-s $settingsXml"
             }
-            mavenOptions += "clean install checkstyle:checkstyle pmd:pmd findbugs:findbugs jacoco:prepare-agent test jacoco:report"
+            mavenOptions += "clean install checkstyle:checkstyle pmd:pmd findbugs:findbugs jacoco:prepare-agent test jacoco:report org.pitest:pitest-maven:mutationCoverage"
             command = "mvn ${mavenOptions.join(' ')}"
             env << "PATH+MAVEN=${tool 'mvn'}/bin"
 
