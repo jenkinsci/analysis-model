@@ -19,12 +19,21 @@ class PitAdapterTest extends AbstractParserTest<Issue> {
 
     @Override
     protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(22);
+        softly.assertThat(issues).hasSize(2);
         softly.assertThat(issues.get(0))
-                .hasMessage("NO_COVERAGE, org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator, (Ljava/lang/Object;)Z")
-                .hasFileName("se/bjurr/violations/lib/example/CopyOfMyClass.java")
-                .hasLineStart(17)
+                .hasMessage("NO_COVERAGE, org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator, (Ljava/util/stream/Stream;)V")
+                .hasFileName("edu/hm/hafner/analysis/Issues.java")
+                .hasCategory("NO_COVERAGE")
+                .hasType("org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator")
+                .hasLineStart(110)
                 .hasPriority(Priority.NORMAL);
+        softly.assertThat(issues.get(1))
+                .hasMessage("SURVIVED, org.pitest.mutationtest.engine.gregor.mutators.MathMutator, (Ledu/hm/hafner/analysis/Issues;Ledu/hm/hafner/analysis/Issues;)V")
+                .hasCategory("SURVIVED")
+                .hasType("org.pitest.mutationtest.engine.gregor.mutators.MathMutator")
+                .hasFileName("edu/hm/hafner/analysis/Issues.java")
+                .hasLineStart(503)
+                .hasPriority(Priority.HIGH);
     }
 
     @Override

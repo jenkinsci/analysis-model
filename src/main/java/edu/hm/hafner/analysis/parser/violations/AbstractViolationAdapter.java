@@ -98,7 +98,23 @@ public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
         else {
             builder.setCategory(rule);
         }
+
+        extractAdditionalProperties(builder, violation);
+
         return builder.build();
+    }
+
+    /**
+     * Sub-classes may add additional {@link IssueBuilder} properties based on the content
+     * of the specified {@link Violation}. This default implementation is empty.
+     *
+     * @param builder
+     *         the issue builder to change
+     * @param violation
+     *         the violation instance
+     */
+    protected void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
+        // default implementation is empty
     }
 
     /**

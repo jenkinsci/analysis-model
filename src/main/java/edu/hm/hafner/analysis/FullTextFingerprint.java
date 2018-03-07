@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -10,7 +10,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,6 +27,8 @@ import edu.hm.hafner.util.VisibleForTesting;
  * @author Ullrich Hafner
  */
 public class FullTextFingerprint {
+    private static final Logger LOGGER = Logger.getLogger(FullTextFingerprint.class.getName());
+
     /** Number of lines before and after current line to consider. */
     private static final int LINES_LOOK_AHEAD = 3;
     private static final int LINE_RANGE_BUFFER_SIZE = 1000;
@@ -69,7 +73,9 @@ public class FullTextFingerprint {
         try (Stream<String> lines = fileSystem.readLinesFromFile(fileName, charset)) {
             return createFingerprint(line, lines, charset);
         }
-        catch (IOException | InvalidPathException ignored) {
+        catch (IOException | InvalidPathException | UncheckedIOException ignored) {
+            LOGGER.warning("Can't compute fingerprint for " + fileName);
+
             return getFallbackFingerprint(fileName);
         }
     }
