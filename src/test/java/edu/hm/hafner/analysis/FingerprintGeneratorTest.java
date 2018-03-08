@@ -2,8 +2,11 @@ package edu.hm.hafner.analysis;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -18,7 +21,7 @@ import edu.hm.hafner.util.ResourceTest;
  */
 class FingerprintGeneratorTest extends ResourceTest {
     private static final String AFFECTED_FILE_NAME = "file.txt";
-    private static final Charset CHARSET_AFFECTED_FILE = Charset.forName("UTF-8");
+    private static final Charset CHARSET_AFFECTED_FILE = StandardCharsets.UTF_8;
     private static final String ID = "ID";
 
     @Test
@@ -32,7 +35,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         String alreadySet = "already-set";
         issues.add(builder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
         generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
-                issues, new IssueBuilder(), CHARSET_AFFECTED_FILE);
+                issues, CHARSET_AFFECTED_FILE);
 
         assertThat(issues.get(0).hasFingerprint()).isTrue();
         assertThat(issues.get(1).getFingerprint()).isEqualTo(alreadySet);
@@ -45,8 +48,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         FingerprintGenerator generator = new FingerprintGenerator();
         FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-one.txt");
 
-        generator.run(fingerprint,
-                issues, new IssueBuilder(), CHARSET_AFFECTED_FILE);
+        generator.run(fingerprint, issues, CHARSET_AFFECTED_FILE);
 
         Issue referenceIssue = issues.get(0);
         Issue currentIssue = issues.get(1);
@@ -80,8 +82,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         FingerprintGenerator generator = new FingerprintGenerator();
         FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt");
 
-        generator.run(fingerprint,
-                issues, new IssueBuilder(), Charset.forName("UTF-8"));
+        generator.run(fingerprint, issues, CHARSET_AFFECTED_FILE);
 
         assertThat(issues).hasId(ID);
         Issue referenceIssue = issues.get(0);
@@ -90,6 +91,19 @@ class FingerprintGeneratorTest extends ResourceTest {
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isNotEqualTo(currentIssue.getFingerprint());
     }
+
+    @ParameterizedTest(name = "[{index}] Illegal filename = {0}")
+    @ValueSource(strings = {"/does/not/exist", "!<>$$&%/&(", "\0 Null-Byte"})
+    void shouldUseFallbackFingerprintOnError(final String fileName) {
+        Issues<Issue> issues = new Issues<>();
+        issues.add(new IssueBuilder().setFileName(fileName).build());
+
+        FingerprintGenerator generator = new FingerprintGenerator();
+        generator.run(new FullTextFingerprint(), issues, CHARSET_AFFECTED_FILE);
+
+        assertThat(issues.get(0)).hasFingerprint(FingerprintGenerator.createDefaultFingerprint(fileName));
+    }
+
 
     private FullTextFingerprint createFullTextFingerprint(final String firstFile, final String secondFile) {
         FileSystem fileSystem = stubFileSystem(firstFile, secondFile);

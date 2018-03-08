@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -68,15 +67,12 @@ public class FullTextFingerprint {
      *
      * @return a fingerprint of the selected range of source code lines (if the file could not be read then the
      *         fingerprint actually is the hashcode of the filename)
+     * @throws IOException
+     *         if the file could not be read
      */
-    public String compute(final String fileName, final int line, final Charset charset) {
+    public String compute(final String fileName, final int line, final Charset charset) throws IOException {
         try (Stream<String> lines = fileSystem.readLinesFromFile(fileName, charset)) {
             return createFingerprint(line, lines, charset);
-        }
-        catch (IOException | InvalidPathException | UncheckedIOException ignored) {
-            LOGGER.warning("Can't compute fingerprint for " + fileName);
-
-            return getFallbackFingerprint(fileName);
         }
     }
 
@@ -129,7 +125,8 @@ public class FullTextFingerprint {
     @VisibleForTesting
     static class FileSystem {
         @MustBeClosed
-        Stream<String> readLinesFromFile(final String fileName, final Charset charset) throws IOException, InvalidPathException {
+        Stream<String> readLinesFromFile(final String fileName, final Charset charset)
+                throws IOException, InvalidPathException {
             return Files.lines(Paths.get(fileName), charset);
         }
     }

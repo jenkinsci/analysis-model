@@ -2,11 +2,10 @@ package edu.hm.hafner.analysis;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -77,13 +76,12 @@ class FullTextFingerprintTest extends ResourceTest {
         }
     }
 
-    @ParameterizedTest(name = "[{index}] Illegal filename = {0}")
-    @ValueSource(strings = {"/does/not/exist", "!<>$$&%/&(", "\0 Null-Byte"})
-    void shouldReturnFallbackOnError(final String fileName) {
+    @Test
+    void shouldThrowNoSuchFileExceptionIfFileDoesNotExist() {
         FullTextFingerprint fingerprint = new FullTextFingerprint();
 
-        assertThat(fingerprint.compute(fileName, 1, getCharset()))
-                .isEqualTo(fingerprint.getFallbackFingerprint(fileName));
+        assertThatExceptionOfType(NoSuchFileException.class)
+                .isThrownBy(() -> fingerprint.compute("/does/not/exist", 1, getCharset()));
     }
 
     private Charset getCharset() {
