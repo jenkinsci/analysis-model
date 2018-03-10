@@ -63,7 +63,7 @@ class FingerprintGeneratorTest extends ResourceTest {
                 .isNotEqualTo("-");
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("MustBeClosedChecker")
     private FileSystem stubFileSystem(final String firstFile, final String secondFile) {
         try {
             FileSystem mock = mock(FileSystem.class);
