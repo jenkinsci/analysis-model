@@ -10,12 +10,14 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 import edu.hm.hafner.util.ResourceTest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Tests the class {@link FullTextFingerprint}.
  *
  * @author Ullrich Hafner
  */
+@SuppressFBWarnings("DMI")
 class FullTextFingerprintTest extends ResourceTest {
     /**
      * Verifies that the context of a warning starts 3 lines above the affected line and ends 3 lines below the affected
