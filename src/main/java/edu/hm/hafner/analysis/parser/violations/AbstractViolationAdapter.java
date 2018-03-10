@@ -78,6 +78,8 @@ public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
      *
      * @param violation
      *         the violation to check
+     *
+     * @return {@code true} if the violation is valid, {@code false} otherwise
      */
     protected boolean isValid(final Violation violation) {
         return true;
@@ -105,8 +107,8 @@ public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
     }
 
     /**
-     * Sub-classes may add additional {@link IssueBuilder} properties based on the content
-     * of the specified {@link Violation}. This default implementation is empty.
+     * Sub-classes may add additional {@link IssueBuilder} properties based on the content of the specified {@link
+     * Violation}. This default implementation is empty.
      *
      * @param builder
      *         the issue builder to change
