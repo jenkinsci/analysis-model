@@ -18,7 +18,6 @@ import edu.hm.hafner.analysis.Priority;
  * @author Ullrich Hafner
  */
 public class MavenConsoleParser extends FastRegexpLineParser {
-    private static final String CONSOLE = "";
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
     private static final int MAX_MESSAGE_LENGTH = 4000;
@@ -51,7 +50,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return builder.setFileName(CONSOLE).setLineStart(getCurrentLine()).setCategory(category)
+        return builder.setFileName(SELF).setLineStart(getCurrentLine()).setCategory(category)
                 .setMessage(matcher.group(2)).setPriority(priority).build();
     }
 
