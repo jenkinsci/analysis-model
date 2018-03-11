@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.function.Function;
 
+import edu.hm.hafner.analysis.parser.MavenConsoleParser;
+
 /**
  * Parses a file and returns the issues reported in this file.
  *
@@ -15,6 +17,13 @@ import java.util.function.Function;
  */
 public abstract class IssueParser<T extends Issue> implements Serializable {
     private static final long serialVersionUID = 200992696185460268L;
+
+    /**
+     * References an issue that has an affected file that is the file that has been parsed. E.g., the {@link
+     * MavenConsoleParser} creates issues from an input file that has references to itself. There are no other affected
+     * files involved.
+     */
+    public static final String SELF = "<SELF>";
 
     /**
      * Parses the specified file for issues.

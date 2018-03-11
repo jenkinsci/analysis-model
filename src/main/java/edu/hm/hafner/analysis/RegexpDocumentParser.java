@@ -33,7 +33,7 @@ public abstract class RegexpDocumentParser extends RegexpParser {
             String text = bufferedReader.lines().map(preProcessor).collect(Collectors.joining("\n"));
 
             Issues<Issue> warnings = new Issues<>();
-            findAnnotations(text + "\n", warnings);
+            findIssues(text + "\n", warnings);
             return warnings;
 
         }

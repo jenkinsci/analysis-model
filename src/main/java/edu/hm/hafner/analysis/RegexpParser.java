@@ -42,19 +42,22 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
     }
 
     /**
-     * Parses the specified string content and creates annotations for each found warning.
+     * Parses the specified string {@code content} using a regular expression and creates a set of new issues for
+     * each match. The new issues are added to the provided set of {@link Issues}.
      *
      * @param content
      *         the content to scan
      * @param issues
-     *         the found annotations
+     *         the container to add the new issues to
      *
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
      * @throws ParsingCanceledException
-     *         indicates that the user canceled the operation
+     *         Signals that the parsing has been aborted by the user
      */
     @SuppressWarnings({"ReferenceEquality", "PMD.CompareObjectsWithEquals"})
-    protected void findAnnotations(final String content, final Issues<Issue> issues)
-            throws ParsingCanceledException {
+    protected void findIssues(final String content, final Issues<Issue> issues)
+            throws ParsingException, ParsingCanceledException {
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
@@ -79,6 +82,8 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
      *         the issue builder to use
      *
      * @return a new annotation for the specified pattern
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
      */
-    protected abstract Issue createIssue(Matcher matcher, IssueBuilder builder);
+    protected abstract Issue createIssue(Matcher matcher, IssueBuilder builder) throws ParsingException;
 }

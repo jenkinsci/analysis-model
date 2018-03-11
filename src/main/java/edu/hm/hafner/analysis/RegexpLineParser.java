@@ -35,7 +35,7 @@ public abstract class RegexpLineParser extends RegexpParser {
             currentLine = 0;
             while (iterator.hasNext()) {
                 String line = preProcessor.apply(iterator.nextLine());
-                findAnnotations(line, issues);
+                findIssues(line, issues);
                 currentLine++;
             }
         }

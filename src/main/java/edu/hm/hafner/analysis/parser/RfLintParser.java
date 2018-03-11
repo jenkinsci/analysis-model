@@ -44,7 +44,7 @@ public class RfLintParser extends RegexpLineParser {
                 if (matcher.find()) {
                     fileName = matcher.group(1);
                 }
-                findAnnotations(line, warnings);
+                findIssues(line, warnings);
             }
         }
         finally {

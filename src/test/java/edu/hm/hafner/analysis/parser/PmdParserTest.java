@@ -2,12 +2,13 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
+import static edu.hm.hafner.analysis.Issues.*;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
-import static edu.hm.hafner.analysis.Issues.*;
 import edu.hm.hafner.analysis.Priority;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 
@@ -60,7 +61,7 @@ class PmdParserTest extends AbstractIssueParserTest {
                 .hasFileName(
                         "/Users/hafner/Development/jenkins/workspace/Pipeline/src/main/java/edu/hm/hafner/analysis/parser/AjcParser.java")
                 .hasLineStart(30).hasLineEnd(74)
-                .hasColumnStart(12).hasColumnEnd(5)
+                .hasColumnStart(5).hasColumnEnd(12)
                 .hasType("CyclomaticComplexity")
                 .hasCategory("Code Size")
                 .hasPriority(Priority.NORMAL)

@@ -98,14 +98,14 @@ public class LinuxKernelOutputParser extends RegexpParser {
                     } while (!m.matches());
 
                     buf.append(preProcessor.apply(line)).append('\n');
-                    findAnnotations(buf.toString(), warnings);
+                    findIssues(buf.toString(), warnings);
                     line = reader.readLine();
                     continue;
                 }
 
                 m = pOutput.matcher(line);
                 if (m.matches()) {
-                    findAnnotations(preProcessor.apply(line), warnings);
+                    findIssues(preProcessor.apply(line), warnings);
                 }
 
                 line = reader.readLine();
