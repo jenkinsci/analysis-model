@@ -21,7 +21,7 @@ public class GnuFortranParser extends RegexpDocumentParser {
      * GCC 4.2 and newer.
      */
     private static final String GFORTRAN_MSG_PATTERN = "(?s)^([^\\n]+\\.[^:\\n]+):(\\d+)" // file:line.
-            + "(?:\\.(\\d+)(-\\d+)?)?" // Optional column (with optional range).
+            + "(?:\\.(\\d+)(?:-(\\d+))?)?" // Optional column (with optional range).
             + ":\\n" + "(?:    Included at [^\\n]+\\n)*" // Optional "    Included at file:line:", any number of times.
             + "\\n" + "[^\\n]+\\n" // The offending line itself. NOCHECKSTYLE
             + "[^\\n]+\\n" // The '1' and/or '2' corresponding to the column of the error locus.

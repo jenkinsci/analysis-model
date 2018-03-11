@@ -90,6 +90,14 @@ public class IssueTest extends SerializableTest<Issue> {
                 moduleName, priority, message, description, origin, reference, fingerprint);
     }
 
+    @Test
+    void shouldEnsureThatEndIsGreaterOrEqualStart() {
+        Issue issue = new Issue(FILE_NAME, 2, 1, 2, 1, LINE_RANGES, CATEGORY, TYPE,
+                PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT);
+        assertThat(issue).hasLineStart(1).hasLineEnd(2);
+        assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
+    }
+
     /**
      * Creates an issue with all properties set to a specific value. Verifies that each getter returns the correct
      * result.

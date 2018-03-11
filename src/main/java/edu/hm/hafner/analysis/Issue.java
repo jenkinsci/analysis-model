@@ -160,10 +160,27 @@ public class Issue implements Serializable {
 
         this.fileName = builder.intern(defaultString(normalizeFileName(fileName)));
 
-        this.lineStart = defaultInteger(lineStart);
-        this.lineEnd = lineEnd == 0 ? lineStart : defaultInteger(lineEnd);
-        this.columnStart = defaultInteger(columnStart);
-        this.columnEnd = columnEnd == 0 ? columnStart : defaultInteger(columnEnd);
+        int providedLineStart = defaultInteger(lineStart);
+        int providedLineEnd = defaultInteger(lineEnd) == 0 ? providedLineStart : defaultInteger(lineEnd);
+        if (providedLineStart == 0) {
+            this.lineStart = providedLineEnd;
+            this.lineEnd = providedLineEnd;
+        }
+        else {
+            this.lineStart = Math.min(providedLineStart, providedLineEnd);
+            this.lineEnd = Math.max(providedLineStart, providedLineEnd);
+        }
+
+        int providedColumnStart = defaultInteger(columnStart);
+        int providedColumnEnd = defaultInteger(columnEnd) == 0 ? providedColumnStart : defaultInteger(columnEnd);
+        if (providedColumnStart == 0) {
+            this.columnStart = providedColumnEnd;
+            this.columnEnd = providedColumnEnd;
+        }
+        else {
+            this.columnStart = Math.min(providedColumnStart, providedColumnEnd);
+            this.columnEnd = Math.max(providedColumnStart, providedColumnEnd);
+        }
         this.lineRanges = new LineRangeList();
         if (lineRanges != null) {
             this.lineRanges.addAll(lineRanges);

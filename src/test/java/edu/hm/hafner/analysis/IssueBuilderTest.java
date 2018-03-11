@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -22,6 +24,48 @@ class IssueBuilderTest {
         Issue issue = new IssueBuilder().build();
 
         assertThat(issue).isEqualTo(DEFAULT_ISSUE);
+    }
+
+    @ParameterizedTest(name = "{index} => Input: [{0} - {1}] - Expected Output: [{2} - {3}]")
+    @CsvSource({
+            "1, 1, 1, 1",
+            "1, 2, 1, 2",
+            "2, 1, 1, 2",
+            "0, 1, 1, 1",
+            "0, 0, 0, 0",
+            "0, -1, 0, 0",
+            "1, -1, 1, 1",
+            "1, 0, 1, 1",
+            "-1, 0, 0, 0",
+            "-1, 1, 1, 1",
+            "-1, -1, 0, 0"})
+    void shouldHaveValidLineRange(
+            final int start, final int end, final int expectedStart, final int expectedEnd) {
+        IssueBuilder builder = new IssueBuilder();
+
+        builder.setLineStart(start).setLineEnd(end);
+        assertThat(builder.build()).hasLineStart(expectedStart).hasLineEnd(expectedEnd);
+    }
+
+    @ParameterizedTest(name = "{index} => Input: [{0} - {1}] - Expected Output: [{2} - {3}]")
+    @CsvSource({
+            "1, 1, 1, 1",
+            "1, 2, 1, 2",
+            "2, 1, 1, 2",
+            "0, 1, 1, 1",
+            "0, 0, 0, 0",
+            "0, -1, 0, 0",
+            "1, -1, 1, 1",
+            "1, 0, 1, 1",
+            "-1, 0, 0, 0",
+            "-1, 1, 1, 1",
+            "-1, -1, 0, 0"})
+    void shouldHaveValidColumnRange(
+            final int start, final int end, final int expectedStart, final int expectedEnd) {
+        IssueBuilder builder = new IssueBuilder();
+
+        builder.setColumnStart(start).setColumnEnd(end);
+        assertThat(builder.build()).hasColumnStart(expectedStart).hasColumnEnd(expectedEnd);
     }
 
     @Test
