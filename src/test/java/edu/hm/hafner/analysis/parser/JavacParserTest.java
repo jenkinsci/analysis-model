@@ -75,6 +75,16 @@ class JavacParserTest extends AbstractIssueParserTest {
     }
 
     /**
+     * Parses a warning log written by Gradle containing 4 Kotlin warnings.
+     */
+    @Test
+    void kotlinGradle() {
+        Issues<Issue> warnings = parse("kotlin-gradle.txt");
+
+        assertThat(warnings).hasSize(4);
+    }
+
+    /**
      * Verifies that arrays in deprecated methods are correctly handled.
      */
     @Test

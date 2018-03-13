@@ -14,15 +14,17 @@ import edu.hm.hafner.analysis.IssueBuilder;
 public class JavacParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 7199325311690082782L;
 
-    private static final String JAVAC_WARNING_PATTERN = "^(?:\\[\\p{Alnum}*\\]\\s+)?" + // optional alphanumerics
-            "(?:\\[WARNING\\]\\s+)?" +      // optional [WARNING]
-            "([^\\[\\(]*):\\s*" +           // group 1: filename
-            "[\\[\\(]" +                    // [ or (
-            "(\\d+)[.,;]*" +                // group 2: line number
-            "\\s?(\\d+)?" +                 // group 3: optional column
-            "[\\]\\)]\\s*" +                // ] or )
-            "(?:\\[(\\w+)\\])?" +           // group 4: optional category
-            "\\s*(.*)$";                    // group 5: message
+    private static final String JAVAC_WARNING_PATTERN
+            = "^(?:\\[\\p{Alnum}*\\]\\s+)?" + // optional alphanumerics
+            "(?:(?:\\[WARNING\\]|w:)\\s+)?" + // optional [WARNING] or :
+            "([^\\[\\(]*):\\s*" +             // group 1: filename
+            "[\\[\\(]" +                      // [ or (
+            "(\\d+)[.,;]*" +                  // group 2: line number
+            "\\s?(\\d+)?" +                   // group 3: optional column
+            "[\\]\\)]\\s*" +                  // ] or )
+            ":?" +                            // optional :
+            "(?:\\[(\\w+)\\])?" +             // group 4: optional category
+            "\\s*(.*)$";                      // group 5: message
 
     /**
      * Creates a new instance of {@link JavacParser}.
@@ -33,7 +35,7 @@ public class JavacParser extends FastRegexpLineParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("[");
+        return line.contains("[") || line.contains("w:");
     }
 
     @Override
