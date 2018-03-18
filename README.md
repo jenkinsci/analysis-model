@@ -14,6 +14,7 @@ All source code is licensed under the MIT license.
 [![Jenkins](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/badge/icon)](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/)
 [![Travis](https://img.shields.io/travis/jenkinsci/analysis-model.svg)](https://travis-ci.org/jenkinsci/analysis-model)
 [![Codecov](https://img.shields.io/codecov/c/github/jenkinsci/analysis-model.svg)](https://codecov.io/gh/jenkinsci/analysis-model)
+[![Coverity](https://img.shields.io/coverity/scan/14205.svg)](https://scan.coverity.com/projects/jenkinsci-analysis-model)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/jenkinsci/analysis-model.svg)](https://github.com/jenkinsci/analysis-model/pulls)
 ![JDK8](https://img.shields.io/badge/jdk-8-yellow.svg)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
