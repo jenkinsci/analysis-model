@@ -1,10 +1,13 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Defines the priority of an annotation.
@@ -25,10 +28,31 @@ public enum Priority {
      * @param priority
      *         priority as a String
      *
-     * @return enumeration value.
+     * @return enumeration value
+     * @throws IllegalArgumentException
+     *         if no priority with the specified name exists
+     * @throws NullPointerException
+     *         if {@code name} is {@code null}
      */
     public static Priority fromString(final String priority) {
         return Priority.valueOf(StringUtils.upperCase(priority));
+    }
+
+    /**
+     * Converts a String priority to an actual enumeration value.
+     *
+     * @param priority
+     *         priority as a String
+     * @param defaultValue
+     *         default priority, if the specified String is {@code null} or is not a valid {@link Priority} name
+     *
+     * @return enumeration value
+     */
+    public static Priority fromString(@CheckForNull final String priority, final Priority defaultValue) {
+        if (priority == null || Arrays.stream(values()).map(Enum::name).noneMatch(name -> name.equals(priority))) {
+            return defaultValue;
+        }
+        return fromString(priority);
     }
 
     /**
