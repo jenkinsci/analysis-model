@@ -484,7 +484,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     void shouldFilterByProperty() {
         assertFilterFor(IssueBuilder::setPackageName, Issues::getPackages, "packageName");
         assertFilterFor(IssueBuilder::setModuleName, Issues::getModules, "moduleName");
-        assertFilterFor(IssueBuilder::setOrigin, Issues::getToolNames, "toolName");
+        assertFilterFor(IssueBuilder::setOrigin, Issues::getTools, "toolName");
         assertFilterFor(IssueBuilder::setCategory, Issues::getCategories, "category");
         assertFilterFor(IssueBuilder::setType, Issues::getTypes, "type");
     }

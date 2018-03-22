@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -107,7 +108,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *         the initial set of issues for this instance
      */
     public Issues(final Stream<? extends T> issues) {
-        issues.forEach(issue -> add(issue));
+        issues.forEach(this::add);
     }
 
     /**
@@ -387,7 +388,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the affected modules
      */
     public Set<String> getModules() {
-        return getProperties(issue -> issue.getModuleName());
+        return getProperties(Issue::getModuleName);
     }
 
     /**
@@ -396,7 +397,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the affected packages
      */
     public Set<String> getPackages() {
-        return getProperties(issue -> issue.getPackageName());
+        return getProperties(Issue::getPackageName);
     }
 
     /**
@@ -405,7 +406,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the affected files
      */
     public Set<String> getFiles() {
-        return getProperties(issue -> issue.getFileName());
+        return getProperties(Issue::getFileName);
     }
 
     /**
@@ -414,7 +415,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the used categories
      */
     public Set<String> getCategories() {
-        return getProperties(issue -> issue.getCategory());
+        return getProperties(Issue::getCategory);
     }
 
     /**
@@ -423,7 +424,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the used types
      */
     public Set<String> getTypes() {
-        return getProperties(issue -> issue.getType());
+        return getProperties(Issue::getType);
     }
 
     /**
@@ -431,8 +432,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the tools
      */
-    public Set<String> getToolNames() {
-        return getProperties(issue -> issue.getOrigin());
+    public Set<String> getTools() {
+        return getProperties(Issue::getOrigin);
     }
 
     /**
@@ -476,7 +477,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
                 .collect(groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
-                .collect(toMap(e -> e.getKey(), e -> new Issues<>(e.getValue())));
+                .collect(toMap(Entry::getKey, e -> new Issues<>(e.getValue())));
     }
 
     /**
