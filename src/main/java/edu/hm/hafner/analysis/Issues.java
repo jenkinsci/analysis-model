@@ -22,6 +22,7 @@ import java.util.stream.StreamSupport;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
 
+import edu.hm.hafner.util.VisibleForTesting;
 import static java.util.stream.Collectors.*;
 
 import edu.hm.hafner.util.Ensure;
@@ -46,15 +47,18 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @SuppressWarnings("PMD.ExcessivePublicCount")
 public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
-    private static final String DEFAULT_ID = "unset";
+
+    @VisibleForTesting
+    static final String DEFAULT_ID = "-";
 
     private final Set<T> elements = new LinkedHashSet<>();
     private final int[] sizeOfPriority = new int[Priority.values().length];
     private final List<String> infoMessages = new ArrayList<>();
     private final List<String> errorMessages = new ArrayList<>();
 
-    private int sizeOfDuplicates = 0;
-    private String id = DEFAULT_ID;
+    private int duplicatesSize = 0;
+    private String origin = DEFAULT_ID;
+    private String reference = DEFAULT_ID;
 
     /**
      * Returns a predicate that checks if the package name of an issue is equal to the specified package name.
@@ -131,7 +135,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
 
     private void add(final T issue) {
         if (elements.contains(issue)) {
-            sizeOfDuplicates++; // elements are marked as duplicate if the fingerprint is different
+            duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
         }
         else {
             elements.add(issue);
@@ -302,7 +306,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return total number of duplicates
      */
     public int getDuplicatesSize() {
-        return sizeOfDuplicates;
+        return duplicatesSize;
     }
 
     /**
@@ -379,7 +383,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("%d issues (ID = %s)", size(), getId());
+        return String.format("%d issues (ID = %s)", size(), getOrigin());
     }
 
     /**
@@ -492,8 +496,11 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     private void copyIssuesAndProperties(final Issues<? extends T> source, final Issues<T> destination) {
-        if (!destination.hasId()) {
-            destination.id = source.id;
+        if (!destination.hasOrigin()) {
+            destination.origin = source.origin;
+        }
+        if (!destination.hasReference()) {
+            destination.reference = source.reference;
         }
 
         destination.addAll(source.elements);
@@ -501,7 +508,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
     }
 
     private void copyProperties(final Issues<? extends T> source, final Issues<T> destination) {
-        destination.sizeOfDuplicates += source.sizeOfDuplicates;
+        destination.duplicatesSize += source.duplicatesSize;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
     }
@@ -514,39 +521,60 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      */
     public Issues<T> copyEmptyInstance() {
         Issues<T> empty = new Issues<>();
-        empty.setId(id);
+        empty.setOrigin(origin);
+        empty.setReference(reference);
         copyProperties(this, empty);
         return empty;
     }
 
     /**
-     * Sets the ID of this set of issues.
+     * Sets the ID of the tool that did report this set of issues.
      *
-     * @param id
-     *         ID of this set of issues
+     * @param origin
+     *         the origin
      */
-    public void setId(final String id) {
-        Ensure.that(id).isNotNull();
+    public void setOrigin(final String origin) {
+        Ensure.that(origin).isNotNull();
 
-        this.id = id;
+        this.origin = origin;
     }
 
     /**
-     * Returns the ID of this set of issues.
+     * Returns the ID of the tool that did report this set of issues.
      *
-     * @return the ID
+     * @return the origin
      */
-    public String getId() {
-        return id;
+    public String getOrigin() {
+        return origin;
+    }
+
+    private boolean hasOrigin() {
+        return !DEFAULT_ID.equals(getOrigin());
     }
 
     /**
-     * Returns whether this set of issues has an associated ID.
+     * Sets a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
      *
-     * @return {@code true} if this set has an ID; {@code false} otherwise
+     * @param reference
+     *         the reference
      */
-    public boolean hasId() {
-        return !DEFAULT_ID.equals(getId());
+    public void setReference(final String reference) {
+        Ensure.that(reference).isNotNull();
+
+        this.reference = reference;
+    }
+
+    /**
+     * Returns a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
+     *
+     * @return the reference
+     */
+    public String getReference() {
+        return reference;
+    }
+
+    private boolean hasReference() {
+        return !DEFAULT_ID.equals(getReference());
     }
 
     /**
@@ -600,18 +628,19 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         return Lists.immutable.ofAll(errorMessages);
     }
 
+    @SuppressWarnings("CheckStyle")
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        Issues<?> issues = (Issues<?>) obj;
+        Issues<?> issues = (Issues<?>) o;
 
-        if (sizeOfDuplicates != issues.sizeOfDuplicates) {
+        if (duplicatesSize != issues.duplicatesSize) {
             return false;
         }
         if (!elements.equals(issues.elements)) {
@@ -623,7 +652,13 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         if (!infoMessages.equals(issues.infoMessages)) {
             return false;
         }
-        return id.equals(issues.id);
+        if (!errorMessages.equals(issues.errorMessages)) {
+            return false;
+        }
+        if (!origin.equals(issues.origin)) {
+            return false;
+        }
+        return reference.equals(issues.reference);
     }
 
     @Override
@@ -631,8 +666,10 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         int result = elements.hashCode();
         result = 31 * result + Arrays.hashCode(sizeOfPriority);
         result = 31 * result + infoMessages.hashCode();
-        result = 31 * result + sizeOfDuplicates;
-        result = 31 * result + id.hashCode();
+        result = 31 * result + errorMessages.hashCode();
+        result = 31 * result + duplicatesSize;
+        result = 31 * result + origin.hashCode();
+        result = 31 * result + reference.hashCode();
         return result;
     }
 

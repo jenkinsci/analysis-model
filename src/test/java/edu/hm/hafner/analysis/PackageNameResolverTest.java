@@ -33,7 +33,7 @@ class PackageNameResolverTest {
         resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(issues).hasSize(0);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
     }
 
     @Test
@@ -45,7 +45,7 @@ class PackageNameResolverTest {
         resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(issues).hasSize(1);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
         assertThat(issues.get(0)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
@@ -59,7 +59,7 @@ class PackageNameResolverTest {
         resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(issues).hasSize(1);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
         assertThat(issues.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
     }
 
@@ -74,7 +74,7 @@ class PackageNameResolverTest {
         resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(issues).hasSize(2);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
         assertThat(issues.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
         assertThat(issues.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
@@ -88,7 +88,7 @@ class PackageNameResolverTest {
 
     private Issues<Issue> createIssues() {
         Issues<Issue> issues = new Issues<>();
-        issues.setId(ID);
+        issues.setOrigin(ID);
         return issues;
     }
 }

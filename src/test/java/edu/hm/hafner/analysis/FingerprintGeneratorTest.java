@@ -39,7 +39,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         assertThat(issues.get(0).hasFingerprint()).isTrue();
         assertThat(issues.get(1).getFingerprint()).isEqualTo(alreadySet);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
     }
 
     @Test
@@ -52,7 +52,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         Issue referenceIssue = issues.get(0);
         Issue currentIssue = issues.get(1);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isEqualTo(currentIssue.getFingerprint());
@@ -66,10 +66,10 @@ class FingerprintGeneratorTest extends ResourceTest {
     @SuppressWarnings("MustBeClosedChecker")
     private FileSystem stubFileSystem(final String firstFile, final String secondFile) {
         try {
-            FileSystem mock = mock(FileSystem.class);
-            when(mock.readLinesFromFile(AFFECTED_FILE_NAME, CHARSET_AFFECTED_FILE))
+            FileSystem fileSystem = mock(FileSystem.class);
+            when(fileSystem.readLinesFromFile(AFFECTED_FILE_NAME, CHARSET_AFFECTED_FILE))
                     .thenReturn(asStream(firstFile)).thenReturn(asStream(secondFile));
-            return mock;
+            return fileSystem;
         }
         catch (IOException e) {
             throw new AssertionError(e);
@@ -84,7 +84,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         generator.run(fingerprint, issues, CHARSET_AFFECTED_FILE);
 
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
         Issue referenceIssue = issues.get(0);
         Issue currentIssue = issues.get(1);
 
@@ -122,7 +122,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     private Issues<Issue> createIssues() {
         Issues<Issue> issues = new Issues<>();
-        issues.setId(ID);
+        issues.setOrigin(ID);
         return issues;
     }
 }

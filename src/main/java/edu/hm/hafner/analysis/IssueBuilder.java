@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.UUID;
+
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
@@ -47,6 +49,12 @@ public class IssueBuilder {
     private String reference;
     @CheckForNull
     private String fingerprint;
+    private UUID id = UUID.randomUUID();
+
+    public IssueBuilder setId(final UUID id) {
+        this.id = id;
+        return this;
+    }
 
     public IssueBuilder setFingerprint(@CheckForNull final String fingerprint) {
         this.fingerprint = fingerprint;
@@ -162,7 +170,9 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, priority, message, description, origin, reference, fingerprint);
+        Issue issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+                packageName, moduleName, priority, message, description, origin, reference, fingerprint, id);
+        id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
+        return issue;
     }
 }

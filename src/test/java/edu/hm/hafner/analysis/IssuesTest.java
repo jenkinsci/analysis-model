@@ -87,7 +87,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         issues.add(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
         Iterator<Issue> iterator = issues.iterator();
         iterator.next();
-        assertThatThrownBy(() -> iterator.remove()).isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(iterator::remove).isInstanceOf(UnsupportedOperationException.class);
     }
 
     /**
@@ -97,7 +97,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
     void shouldCopyProperties() {
         Issues<Issue> expected = new Issues<>();
         expected.add(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
-        expected.setId(ID);
+        expected.setOrigin(ID);
         expected.logInfo("Hello");
         expected.logInfo("World!");
         expected.logError("Boom!");
@@ -113,7 +113,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
 
         Issues<Issue> empty = expected.copyEmptyInstance();
         assertThat(empty).isEmpty();
-        assertThat(empty).hasId(expected.getId());
+        assertThat(empty).hasOrigin(expected.getOrigin());
         assertThat(empty.getErrorMessages()).isEqualTo(expected.getErrorMessages());
         assertThat(empty.getInfoMessages()).isEqualTo(expected.getInfoMessages());
         assertThat(empty.getDuplicatesSize()).isEqualTo(expected.getDuplicatesSize());
@@ -146,48 +146,63 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
 
     /** Verifies that the ID of the first set of issues remains if other IDs are added. */
     @Test
-    void shouldVerifyIdOfFirstRemains() {
+    void shouldVerifyOriginAndReferenceOfFirstRemains() {
         Issues<Issue> first = new Issues<>();
-        first.setId(ID);
+        first.setOrigin(ID);
+        first.setReference(ID);
         first.add(HIGH);
         Issues<Issue> second = new Issues<>();
-        second.setId("otherId");
+        String otherId = "otherId";
+        second.setOrigin(otherId);
+        second.setReference(otherId);
         second.add(NORMAL_1, NORMAL_2);
         Issues<Issue> third = new Issues<>();
         String idOfThird = "yetAnotherId";
-        third.setId(idOfThird);
+        third.setOrigin(idOfThird);
+        third.setReference(idOfThird);
         third.add(LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         Issues<Issue> issues = new Issues<>();
         issues.addAll(first);
         assertThat((Iterable<Issue>) issues).containsExactly(HIGH);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
+        assertThat(issues).hasReference(ID);
 
         issues.addAll(second, third);
         assertThatAllIssuesHaveBeenAdded(issues);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
+        assertThat(issues).hasReference(ID);
 
         Issues<Issue> altogether = new Issues<>();
         altogether.addAll(first, second, third);
         assertThatAllIssuesHaveBeenAdded(issues);
-        assertThat(issues).hasId(ID);
+        assertThat(issues).hasOrigin(ID);
+        assertThat(issues).hasReference(ID);
 
         Issues<Issue> copy = third.copyEmptyInstance();
         copy.addAll(first, second);
-        assertThat(copy).hasId(idOfThird);
+        assertThat(copy).hasOrigin(idOfThird);
+        assertThat(copy).hasReference(idOfThird);
     }
 
     @Test
-    void shouldSetAndGetId() {
+    void shouldSetAndGetOriginAndReference() {
         Issues<Issue> issues = new Issues<>();
-        assertThat(issues.hasId()).isFalse();
+        assertThat(issues).hasOrigin(Issues.DEFAULT_ID);
+        assertThat(issues).hasReference(Issues.DEFAULT_ID);
 
-        issues.setId(ID);
-        assertThat(issues.hasId()).isTrue();
-        assertThat(issues).hasId(ID);
+        issues.setOrigin(ID);
+        assertThat(issues).hasOrigin(ID);
+        assertThat(issues).hasReference(Issues.DEFAULT_ID);
+
+        issues.setReference(ID);
+        assertThat(issues).hasOrigin(ID);
+        assertThat(issues).hasReference(ID);
 
         //noinspection ConstantConditions
-        assertThatThrownBy(() -> issues.setId(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> issues.setOrigin(null)).isInstanceOf(NullPointerException.class);
+        //noinspection ConstantConditions
+        assertThatThrownBy(() -> issues.setReference(null)).isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -293,9 +308,9 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
             softly.assertThat(issues.isNotEmpty()).isTrue();
             softly.assertThat(issues.size()).isEqualTo(6);
 
-            softly.assertThat(issues.getPropertyCount(issue -> issue.getFileName())).containsEntry("file-1", 3);
-            softly.assertThat(issues.getPropertyCount(issue -> issue.getFileName())).containsEntry("file-2", 2);
-            softly.assertThat(issues.getPropertyCount(issue -> issue.getFileName())).containsEntry("file-3", 1);
+            softly.assertThat(issues.getPropertyCount(Issue::getFileName)).containsEntry("file-1", 3);
+            softly.assertThat(issues.getPropertyCount(Issue::getFileName)).containsEntry("file-2", 2);
+            softly.assertThat(issues.getPropertyCount(Issue::getFileName)).containsEntry("file-3", 1);
 
             softly.assertThat(issues.getSizeOf(Priority.HIGH)).isEqualTo(1);
             softly.assertThat(issues.getSizeOf(Priority.NORMAL)).isEqualTo(2);
@@ -457,7 +472,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
         Issues<Issue> issues = new Issues<>();
         issues.addAll(allIssuesAsList());
 
-        Set<String> properties = issues.getProperties(issue -> issue.getMessage());
+        Set<String> properties = issues.getProperties(Issue::getMessage);
 
         assertThat(properties)
                 .contains(HIGH.getMessage())
@@ -588,7 +603,7 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
      * @throws IOException
      *         if the file could not be written
      */
-    public static void main(final String... args) throws IOException {
+    static void main(final String... args) throws IOException {
         new IssuesTest().createSerializationFile();
     }
 
@@ -622,7 +637,8 @@ class IssuesTest extends SerializableTest<Issues<Issue>> {
                 @CheckForNull final String message, @CheckForNull final String description,
                 @CheckForNull final String origin, @CheckForNull final String reference, final String additional) {
             super(fileName, lineStart, lineEnd, columnStart, columnEnd, new LineRangeList(), category, type,
-                    packageName, moduleName, priority, message, description, origin, reference, "FingerPrint");
+                    packageName, moduleName, priority, message, description, origin, reference,
+                    "FingerPrint", UUID.randomUUID());
 
             this.additional = additional;
         }
