@@ -70,8 +70,8 @@
     <javadoc.maven.plugin>3.0.0-M1</javadoc.maven.plugin>
     <resources.maven.plugin>3.0.2</resources.maven.plugin>
     <buildhelper.maven.plugin>3.0.0</buildhelper.maven.plugin>
-    <surefire.maven.plugin>2.19.1</surefire.maven.plugin>
     <jar.maven.plugin>3.0.2</jar.maven.plugin>
+    <surefire.maven.plugin>2.19.1</surefire.maven.plugin>
     <junit.surefire.provider>1.1.0</junit.surefire.provider>
     <pmd.maven.plugin>3.9.0</pmd.maven.plugin>
     <pmd.version>6.1.0</pmd.version>
