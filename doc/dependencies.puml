@@ -1,0 +1,64 @@
+@startuml
+skinparam rectangle {
+  BackgroundColor<<test>> lightGreen
+  BackgroundColor<<runtime>> lightBlue
+  BackgroundColor<<provided>> lightGray
+}
+rectangle "spotbugs-annotations" as com_github_spotbugs_spotbugs_annotations_jar
+rectangle "jsr305" as com_google_code_findbugs_jsr305_jar
+rectangle "analysis-model" as edu_hm_hafner_analysis_model_jar
+rectangle "error_prone_annotations" as com_google_errorprone_error_prone_annotations_jar
+rectangle "commons-lang3" as org_apache_commons_commons_lang3_jar
+rectangle "commons-io" as commons_io_commons_io_jar
+rectangle "cglib" as cglib_cglib_jar
+rectangle "asm" as asm_asm_jar
+rectangle "commons-digester3" as org_apache_commons_commons_digester3_jar
+rectangle "commons-beanutils" as commons_beanutils_commons_beanutils_jar
+rectangle "commons-logging" as commons_logging_commons_logging_jar
+rectangle "commons-text" as org_apache_commons_commons_text_jar
+rectangle "eclipse-collections-api" as org_eclipse_collections_eclipse_collections_api_jar
+rectangle "eclipse-collections" as org_eclipse_collections_eclipse_collections_jar
+rectangle "violations-lib" as se_bjurr_violations_violations_lib_jar
+rectangle "library" as org_jvnet_hudson_plugins_findbugs_library_jar
+rectangle "jaxen" as jaxen_jaxen_jar
+rectangle "junit-jupiter-api" as org_junit_jupiter_junit_jupiter_api_jar<<test>>
+rectangle "apiguardian-api" as org_apiguardian_apiguardian_api_jar<<test>>
+rectangle "opentest4j" as org_opentest4j_opentest4j_jar<<test>>
+rectangle "junit-platform-commons" as org_junit_platform_junit_platform_commons_jar<<test>>
+rectangle "junit-jupiter-params" as org_junit_jupiter_junit_jupiter_params_jar<<test>>
+rectangle "mockito-core" as org_mockito_mockito_core_jar<<test>>
+rectangle "byte-buddy" as net_bytebuddy_byte_buddy_jar<<test>>
+rectangle "byte-buddy-agent" as net_bytebuddy_byte_buddy_agent_jar<<test>>
+rectangle "objenesis" as org_objenesis_objenesis_jar<<test>>
+rectangle "assertj-core" as org_assertj_assertj_core_jar<<test>>
+rectangle "archunit" as com_tngtech_archunit_archunit_jar<<test>>
+rectangle "slf4j-api" as org_slf4j_slf4j_api_jar<<test>>
+com_github_spotbugs_spotbugs_annotations_jar -[#000000]-> com_google_code_findbugs_jsr305_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> com_github_spotbugs_spotbugs_annotations_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> com_google_errorprone_error_prone_annotations_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_commons_commons_lang3_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> commons_io_commons_io_jar
+cglib_cglib_jar -[#000000]-> asm_asm_jar
+org_apache_commons_commons_digester3_jar -[#000000]-> cglib_cglib_jar
+org_apache_commons_commons_digester3_jar -[#000000]-> commons_beanutils_commons_beanutils_jar
+org_apache_commons_commons_digester3_jar -[#000000]-> commons_logging_commons_logging_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_commons_commons_digester3_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_commons_commons_text_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_eclipse_collections_eclipse_collections_api_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_eclipse_collections_eclipse_collections_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> se_bjurr_violations_violations_lib_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_jvnet_hudson_plugins_findbugs_library_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> jaxen_jaxen_jar
+org_junit_jupiter_junit_jupiter_api_jar -[#000000]-> org_apiguardian_apiguardian_api_jar
+org_junit_jupiter_junit_jupiter_api_jar -[#000000]-> org_opentest4j_opentest4j_jar
+org_junit_jupiter_junit_jupiter_api_jar -[#000000]-> org_junit_platform_junit_platform_commons_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_junit_jupiter_junit_jupiter_api_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_junit_jupiter_junit_jupiter_params_jar
+org_mockito_mockito_core_jar -[#000000]-> net_bytebuddy_byte_buddy_jar
+org_mockito_mockito_core_jar -[#000000]-> net_bytebuddy_byte_buddy_agent_jar
+org_mockito_mockito_core_jar -[#000000]-> org_objenesis_objenesis_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_mockito_mockito_core_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> org_assertj_assertj_core_jar
+com_tngtech_archunit_archunit_jar -[#000000]-> org_slf4j_slf4j_api_jar
+edu_hm_hafner_analysis_model_jar -[#000000]-> com_tngtech_archunit_archunit_jar
+@enduml
