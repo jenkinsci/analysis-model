@@ -102,11 +102,9 @@ public class FindBugsParser extends IssueParser<Issue> {
     }
 
     @VisibleForTesting
-    Issues<Issue> parse(final InputStreamProvider file, final Collection<String> sources,
-            final IssueBuilder builder) throws ParsingException {
-        InputStream input = null;
-        try {
-            input = file.getInputStream();
+    Issues<Issue> parse(final InputStreamProvider file, final Collection<String> sources, final IssueBuilder builder)
+            throws ParsingException {
+        try (InputStream input = file.getInputStream()) {
             Map<String, String> hashToMessageMapping = new HashMap<>();
             Map<String, String> categories = new HashMap<>();
             for (XmlBugInstance bug : preParse(input)) {
@@ -115,14 +113,10 @@ public class FindBugsParser extends IssueParser<Issue> {
             }
             IOUtils.closeQuietly(input);
 
-            input = file.getInputStream();
-            return parse(input, sources, builder, hashToMessageMapping, categories);
+            return parse(file.getInputStream(), sources, builder, hashToMessageMapping, categories);
         }
         catch (SAXException | DocumentException | IOException exception) {
             throw new ParsingException(exception);
-        }
-        finally {
-            IOUtils.closeQuietly(input);
         }
     }
 
@@ -140,7 +134,8 @@ public class FindBugsParser extends IssueParser<Issue> {
      * @throws IOException
      *         signals that an I/O exception has occurred.
      */
-    public List<XmlBugInstance> preParse(final InputStream file) throws SAXException, IOException {
+    @VisibleForTesting
+    List<XmlBugInstance> preParse(final InputStream file) throws SAXException, IOException {
         Digester digester = new SecureDigester(FindBugsParser.class);
 
         String rootXPath = "BugCollection/BugInstance";

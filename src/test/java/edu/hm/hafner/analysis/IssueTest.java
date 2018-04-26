@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -87,13 +88,13 @@ public class IssueTest extends SerializableTest<Issue> {
             @CheckForNull final String description, @CheckForNull final String origin,
             @CheckForNull final String reference, @CheckForNull final String fingerprint) {
         return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type, packageName,
-                moduleName, priority, message, description, origin, reference, fingerprint);
+                moduleName, priority, message, description, origin, reference, fingerprint, UUID.randomUUID());
     }
 
     @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
-        Issue issue = new Issue(FILE_NAME, 2, 1, 2, 1, LINE_RANGES, CATEGORY, TYPE,
-                PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT);
+        Issue issue = new Issue(FILE_NAME, 2, 1, 2, 1, LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY,
+                MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, UUID.randomUUID());
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
     }

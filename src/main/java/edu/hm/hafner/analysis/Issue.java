@@ -95,7 +95,8 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Creates a new instance of {@link Issue} using the specified properties.
+     * Creates a new instance of {@link Issue} using the specified properties. The new issue will get a new generated
+     * ID.
      *
      * @param fileName
      *         the name of the file that contains this issue
@@ -140,22 +141,56 @@ public class Issue implements Serializable {
             @CheckForNull final String message, @CheckForNull final String description,
             @CheckForNull final String origin, @CheckForNull final String reference,
             @CheckForNull final String fingerprint) {
-        this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, priority, message, description, origin, reference, fingerprint,
-                UUID.randomUUID());
+        this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName, moduleName,
+                priority, message, description, origin, reference, fingerprint, UUID.randomUUID());
     }
 
+    /**
+     * Creates a new instance of {@link Issue} using the specified properties.
+     *
+     * @param fileName
+     *         the name of the file that contains this issue
+     * @param lineStart
+     *         the first line of this issue (lines start at 1; 0 indicates the whole file)
+     * @param lineEnd
+     *         the last line of this issue (lines start at 1)
+     * @param columnStart
+     *         the first column of this issue (columns start at 1, 0 indicates the whole line)
+     * @param columnEnd
+     *         the last column of this issue (columns start at 1)
+     * @param lineRanges
+     *         additional line ranges of this issue
+     * @param category
+     *         the category of this issue (depends on the available categories of the static analysis tool)
+     * @param type
+     *         the type of this issue (depends on the available types of the static analysis tool)
+     * @param packageName
+     *         the name of the package (or name space) that contains this issue
+     * @param moduleName
+     *         the name of the moduleName (or project) that contains this issue
+     * @param priority
+     *         the priority of this issue
+     * @param message
+     *         the detail message of this issue
+     * @param description
+     *         the description for this issue
+     * @param origin
+     *         the ID of the tool that did report this issue
+     * @param reference
+     *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
+     * @param fingerprint
+     *         the finger print for this issue
+     * @param id
+     *         the ID of this issue
+     */
     @SuppressWarnings("ParameterNumber")
-    private Issue(@CheckForNull final String fileName,
-            final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @CheckForNull final LineRangeList lineRanges,
-            @CheckForNull final String category, @CheckForNull final String type,
-            @CheckForNull final String packageName, @CheckForNull final String moduleName,
-            @CheckForNull final Priority priority,
+    protected Issue(@CheckForNull final String fileName, final int lineStart, final int lineEnd, final int columnStart,
+            final int columnEnd, @CheckForNull final LineRangeList lineRanges, @CheckForNull final String category,
+            @CheckForNull final String type, @CheckForNull final String packageName,
+            @CheckForNull final String moduleName, @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
             @CheckForNull final String origin, @CheckForNull final String reference,
-            @CheckForNull final String fingerprint,
-            final UUID id) {
+            @CheckForNull final String fingerprint, final UUID id) {
         TreeStringBuilder builder = new TreeStringBuilder();
 
         this.fileName = builder.intern(defaultString(normalizeFileName(fileName)));

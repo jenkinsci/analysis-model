@@ -56,20 +56,39 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<?>> {
     }
 
     /**
-     * Verifies that the actual ID of the {@link Issues} instance is equal to the given one.
+     * Verifies that the actual origin of the {@link Issues} instance is equal to the given one.
      *
-     * @param id
-     *         the expected ID to compare the actual {@link Issues} ID to.
+     * @param origin
+     *         the expected origin to compare the actual {@link Issues} origin to.
      *
      * @return this assertion object.
      * @throws AssertionError
-     *         if the actual {@link Issues} ID is not equal to the given one.
+     *         if the actual {@link Issues} origin is not equal to the given one.
      */
-    public IssuesAssert hasId(final String id) {
+    public IssuesAssert hasOrigin(final String origin) {
         isNotNull();
 
-        if (!Objects.equals(actual.getId(), id)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "id", actual, id, actual.getId());
+        if (!Objects.equals(actual.getOrigin(), origin)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "origin", actual, origin, actual.getOrigin());
+        }
+        return this;
+    }
+
+    /**
+     * Verifies that the actual reference of the {@link Issues} instance is equal to the given one.
+     *
+     * @param reference
+     *         the expected reference to compare the actual {@link Issues} reference to.
+     *
+     * @return this assertion object.
+     * @throws AssertionError
+     *         if the actual {@link Issues} reference is not equal to the given one.
+     */
+    public IssuesAssert hasReference(final String reference) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getReference(), reference)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "reference", actual, reference, actual.getReference());
         }
         return this;
     }

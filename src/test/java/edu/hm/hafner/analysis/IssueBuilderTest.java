@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -137,5 +139,19 @@ class IssueBuilderTest {
         copy.copy(issue);
 
         assertThat(copy.build().getLineRanges()).containsExactly(new LineRange(3, 4), new LineRange(5, 6));
+    }
+
+    @Test
+    void shouldUseProvidedId() {
+        UUID id = UUID.randomUUID();
+
+        IssueBuilder builder = new IssueBuilder();
+        builder.setId(id);
+
+        assertThat(builder.build()).hasId(id);
+        assertThat(builder.build().getId()).isNotEqualTo(id); // new random ID
+
+        builder.setId(id);
+        assertThat(builder.build()).hasId(id);
     }
 }

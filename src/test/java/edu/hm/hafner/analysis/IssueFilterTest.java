@@ -201,10 +201,10 @@ class IssueFilterTest {
     private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Issues<Issue> issues,
             final Issue... expectedOutput) {
         String id = "id";
-        issues.setId(id);
+        issues.setOrigin(id);
         Issues<Issue> result = issues.filter(criterion);
         assertThat(result.iterator()).containsExactly(expectedOutput);
-        assertThat(result).hasId(id);
+        assertThat(result).hasOrigin(id);
     }
 
     /**
