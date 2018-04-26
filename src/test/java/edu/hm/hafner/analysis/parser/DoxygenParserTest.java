@@ -36,7 +36,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
     @Test
     @Disabled("FIXME: Check with Java 8")
     void issue7178() {
-        Issues<Issue> warnings = parse("issue7178.txt");
+        Issues warnings = parse("issue7178.txt");
         assertThat(warnings).isEmpty(); //seems to be 1
     }
 
@@ -47,7 +47,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue6971() {
-        Issues<Issue> warnings = parse("issue6971.txt");
+        Issues warnings = parse("issue6971.txt");
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(4);
 
@@ -90,7 +90,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
 
     @SuppressWarnings("methodlength")
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(21).hasDuplicatesSize(1);
 
         Iterator<Issue> iterator = issues.iterator();

@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class ErrorProneAdapterTest extends AbstractParserTest<Issue> {
+class ErrorProneAdapterTest extends AbstractParserTest {
     ErrorProneAdapterTest() {
         super("error-prone.log");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(5);
         softly.assertThat(issues.get(0))
                 .hasMessage("Prefer Splitter to String.split\n"
@@ -33,7 +33,7 @@ class ErrorProneAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new ErrorProneAdapter();
     }
 }

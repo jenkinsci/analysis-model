@@ -33,7 +33,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue34141() {
-        Issues<Issue> warnings = parse("issue34141.txt");
+        Issues warnings = parse("issue34141.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -45,7 +45,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue17309() {
-        Issues<Issue> warnings = parse("issue17309.txt");
+        Issues warnings = parse("issue17309.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -67,7 +67,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue9926() {
-        Issues<Issue> warnings = parse("issue9926.txt");
+        Issues warnings = parse("issue9926.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -87,7 +87,7 @@ class GccParserTest extends AbstractIssueParserTest {
      * Parses a file with two GCC warnings.
      */
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
 
 
         softly.assertThat(issues).hasSize(8);
@@ -167,7 +167,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue3897and3898() {
-        Issues<Issue> warnings = parse("issue3897.txt");
+        Issues warnings = parse("issue3897.txt");
 
         assertThat(warnings).hasSize(3);
 
@@ -207,7 +207,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4712() {
-        Issues<Issue> warnings = parse("issue4712.txt");
+        Issues warnings = parse("issue4712.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -239,7 +239,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4700() {
-        Issues<Issue> warnings = parse("issue4700.txt");
+        Issues warnings = parse("issue4700.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -251,7 +251,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4707() {
-        Issues<Issue> warnings = parse("issue4707.txt");
+        Issues warnings = parse("issue4707.txt");
 
         assertThat(warnings).hasSize(11).hasDuplicatesSize(11);
 
@@ -274,7 +274,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4010() {
-        Issues<Issue> warnings = parse("issue4010.txt");
+        Issues warnings = parse("issue4010.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -296,7 +296,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4274() {
-        Issues<Issue> warnings = parse("issue4274.txt");
+        Issues warnings = parse("issue4274.txt");
 
         assertThat(warnings).hasSize(4);
 
@@ -344,7 +344,7 @@ class GccParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4260() {
-        Issues<Issue> warnings = parse("issue4260.txt");
+        Issues warnings = parse("issue4260.txt");
 
         assertThat(warnings).hasSize(1);
     }

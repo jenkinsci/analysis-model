@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -49,10 +50,18 @@ public class IssueBuilder {
     private String reference;
     @CheckForNull
     private String fingerprint;
+    @CheckForNull
+    private Serializable additionalProperties;
+
     private UUID id = UUID.randomUUID();
 
     public IssueBuilder setId(final UUID id) {
         this.id = id;
+        return this;
+    }
+
+    public IssueBuilder setAdditionalProperties(@CheckForNull final Serializable additionalProperties) {
+        this.additionalProperties = additionalProperties;
         return this;
     }
 
@@ -150,6 +159,7 @@ public class IssueBuilder {
         lineEnd = copy.getLineEnd();
         columnStart = copy.getColumnStart();
         columnEnd = copy.getColumnEnd();
+        lineRanges = copy.getLineRanges();
         category = copy.getCategory();
         type = copy.getType();
         priority = copy.getPriority();
@@ -160,7 +170,7 @@ public class IssueBuilder {
         origin = copy.getOrigin();
         reference = copy.getReference();
         fingerprint = copy.getFingerprint();
-        lineRanges = copy.getLineRanges();
+        additionalProperties = copy.getAdditionalProperties();
         return this;
     }
 
@@ -171,7 +181,8 @@ public class IssueBuilder {
      */
     public Issue build() {
         Issue issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, priority, message, description, origin, reference, fingerprint, id);
+                packageName, moduleName, priority, message, description, origin, reference, fingerprint,
+                additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }

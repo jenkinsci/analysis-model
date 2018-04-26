@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class JsHintAdapterTest extends AbstractParserTest<Issue> {
+class JsHintAdapterTest extends AbstractParserTest {
     JsHintAdapterTest() {
         super("jshint.xml");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(6);
         softly.assertThat(issues.get(0))
                 .hasMessage("Use '===' to compare with 'null'.: if (a == null)")
@@ -28,7 +28,7 @@ class JsHintAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new JsHintAdapter();
     }
 }

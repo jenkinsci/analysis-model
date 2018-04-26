@@ -21,9 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
 import org.xml.sax.SAXException;
 
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
-
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Issues;
@@ -33,6 +30,7 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.SecureDigester;
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.BugAnnotation;
 import edu.umd.cs.findbugs.BugInstance;
@@ -48,7 +46,7 @@ import edu.umd.cs.findbugs.ba.SourceFinder;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("classfanoutcomplexity")
-public class FindBugsParser extends IssueParser<Issue> {
+public class FindBugsParser extends IssueParser {
     private static final long serialVersionUID = 8306319007761954027L;
 
     /**
@@ -90,7 +88,7 @@ public class FindBugsParser extends IssueParser<Issue> {
 
     @Override
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    public Issues<Issue> parse(final File file, final Charset charset,
+    public Issues parse(final File file, final Charset charset,
             final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         Collection<String> sources = new ArrayList<>();
@@ -102,7 +100,7 @@ public class FindBugsParser extends IssueParser<Issue> {
     }
 
     @VisibleForTesting
-    Issues<Issue> parse(final InputStreamProvider file, final Collection<String> sources, final IssueBuilder builder)
+    Issues parse(final InputStreamProvider file, final Collection<String> sources, final IssueBuilder builder)
             throws ParsingException {
         try (InputStream input = file.getInputStream()) {
             Map<String, String> hashToMessageMapping = new HashMap<>();
@@ -173,7 +171,7 @@ public class FindBugsParser extends IssueParser<Issue> {
      * @throws DocumentException
      *         in case of a parser exception
      */
-    private Issues<Issue> parse(final InputStream file, final Collection<String> sources,
+    private Issues parse(final InputStream file, final Collection<String> sources,
             final IssueBuilder builder, final Map<String, String> hashToMessageMapping,
             final Map<String, String> categories) throws IOException, DocumentException {
 
@@ -191,7 +189,7 @@ public class FindBugsParser extends IssueParser<Issue> {
 
         Collection<BugInstance> bugs = collection.getCollection();
 
-        Issues<Issue> issues = new Issues<>();
+        Issues issues = new Issues();
         for (BugInstance warning : bugs) {
             SourceLineAnnotation sourceLine = warning.getPrimarySourceLineAnnotation();
 

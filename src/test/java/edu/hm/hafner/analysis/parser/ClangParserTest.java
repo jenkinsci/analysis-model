@@ -28,7 +28,7 @@ class ClangParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         Iterator<Issue> iterator = issues.iterator();
 
         softly.assertThat(issues).hasSize(9);
@@ -109,7 +109,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue31936() {
-        Issues<Issue> warnings = parse("issue31936.txt");
+        Issues warnings = parse("issue31936.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -131,7 +131,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void shouldNotDetectTestResults() {
-        Issues<Issue> warnings = parse("timestamps.log");
+        Issues warnings = parse("timestamps.log");
 
         assertThat(warnings).isEmpty();
     }
@@ -143,7 +143,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue36817() {
-        Issues<Issue> warnings = parse("issue36817.txt");
+        Issues warnings = parse("issue36817.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -155,7 +155,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue18084() {
-        Issues<Issue> warnings = parse("issue18084.txt");
+        Issues warnings = parse("issue18084.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -178,7 +178,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue14333() {
-        Issues<Issue> warnings = parse("issue14333.txt");
+        Issues warnings = parse("issue14333.txt");
 
         assertThat(warnings).hasSize(1);
 

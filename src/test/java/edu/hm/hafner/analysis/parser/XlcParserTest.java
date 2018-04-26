@@ -21,7 +21,7 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserError() {
-        Issues<Issue> warnings = parseString("\"file.c\", line 9.17: 1506-098 (E) Missing argument(s).");
+        Issues warnings = parseString("\"file.c\", line 9.17: 1506-098 (E) Missing argument(s).");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -39,7 +39,7 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserSevereError() {
-        Issues<Issue> warnings = parseString("file.c, line 11.18: 1506-189 (S) Floating point constant 10.23.3 is not valid");
+        Issues warnings = parseString("file.c, line 11.18: 1506-189 (S) Floating point constant 10.23.3 is not valid");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -57,7 +57,7 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserSevereErrorZOS() {
-        Issues<Issue> warnings = parseString("\"./Testapi.cpp\", line 4000.22: CCN5217 (S) \"AEUPD_RQ_UPDT\" is not a member of \"struct AEUPD_RQ\".");
+        Issues warnings = parseString("\"./Testapi.cpp\", line 4000.22: CCN5217 (S) \"AEUPD_RQ_UPDT\" is not a member of \"struct AEUPD_RQ\".");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -75,7 +75,7 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserUnrecoverableError() {
-        Issues<Issue> warnings2 = parseString("file.c, line 5.1: 1506-001 (U) INTERNAL COMPILER ERROR");
+        Issues warnings2 = parseString("file.c, line 5.1: 1506-001 (U) INTERNAL COMPILER ERROR");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings2.get(0))
@@ -87,7 +87,7 @@ class XlcParserTest {
                     .hasFileName("file.c");
         });
         
-        Issues<Issue> warnings1 = parseString("1586-346 (U) An error occurred during code generation.  The code generation return code was 1.");
+        Issues warnings1 = parseString("1586-346 (U) An error occurred during code generation.  The code generation return code was 1.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
@@ -99,7 +99,7 @@ class XlcParserTest {
                     .hasFileName(FILE_NAME);
         });
         
-        Issues<Issue> warnings = parseString("    1500-004: (U) INTERNAL COMPILER ERROR while compiling ----.  Compilation ended.  Contact your Service Representative and provide the following information: Internal abort. For more information visit: http://www.ibm.com/support/docview.wss?uid=swg21110810");
+        Issues warnings = parseString("    1500-004: (U) INTERNAL COMPILER ERROR while compiling ----.  Compilation ended.  Contact your Service Representative and provide the following information: Internal abort. For more information visit: http://www.ibm.com/support/docview.wss?uid=swg21110810");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -117,7 +117,7 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserWarning() {
-        Issues<Issue> warnings = parseString("file.c, line 5.9: 1506-304 (W) No function prototype given for \"printf\".");
+        Issues warnings = parseString("file.c, line 5.9: 1506-304 (W) No function prototype given for \"printf\".");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -135,7 +135,7 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserWarningZOS() {
-        Issues<Issue> warnings1 = parseString("\"./Testapi.cpp\", line 130.13: CCN5053 (W) The declaration of a class member within the class definition must not be qualified.");
+        Issues warnings1 = parseString("\"./Testapi.cpp\", line 130.13: CCN5053 (W) The declaration of a class member within the class definition must not be qualified.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
@@ -147,7 +147,7 @@ class XlcParserTest {
                     .hasFileName("./Testapi.cpp");
         });
         
-        Issues<Issue> warnings = parseString("CCN7504(W) \"//''\" is not a valid suboption for \"SEARCH\".  The option is ignored.");
+        Issues warnings = parseString("CCN7504(W) \"//''\" is not a valid suboption for \"SEARCH\".  The option is ignored.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -165,7 +165,7 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserInfo() {
-        Issues<Issue> warnings2 = parseString("file.c, line 12.9: 1506-478 (I) The then branch of conditional is an empty statement.");
+        Issues warnings2 = parseString("file.c, line 12.9: 1506-478 (I) The then branch of conditional is an empty statement.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings2.get(0))
@@ -177,7 +177,7 @@ class XlcParserTest {
                     .hasFileName("file.c");
         });
         
-        Issues<Issue> warnings1 = parseString("    1500-030: (I) INFORMATION: clazz::fun(): Additional optimization may be attained by recompiling and specifying MAXMEM option with a value greater than 8192.");
+        Issues warnings1 = parseString("    1500-030: (I) INFORMATION: clazz::fun(): Additional optimization may be attained by recompiling and specifying MAXMEM option with a value greater than 8192.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
@@ -190,7 +190,7 @@ class XlcParserTest {
                     .hasFileName(FILE_NAME);
         });
         
-        Issues<Issue> warnings = parseString("1540-5336 (I) Global variable \"__td __td__Q2_3std13runtime_error\" is not used.");
+        Issues warnings = parseString("1540-5336 (I) Global variable \"__td __td__Q2_3std13runtime_error\" is not used.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -208,7 +208,7 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserInfoZOS1() {
-        Issues<Issue> warnings1 = parseString(
+        Issues warnings1 = parseString(
                 "\"./Testapi.cpp\", line 372.8: CCN6283 (I) \"Testapi::Test(long, long)\" is not a viable candidate.");
 
         assertSoftly(softly -> {
@@ -221,7 +221,7 @@ class XlcParserTest {
                     .hasFileName("./Testapi.cpp");
         });
         
-        Issues<Issue> warnings = parseString("CCN8151(I) The option \"TARGET(0x410D0000)\" sets \"ARCH(5)\".");
+        Issues warnings = parseString("CCN8151(I) The option \"TARGET(0x410D0000)\" sets \"ARCH(5)\".");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -234,8 +234,8 @@ class XlcParserTest {
         });
     }
 
-    private Issues<Issue> parseString(final String log) {
-        Issues<Issue> warnings = new XlcCompilerParser().parse(new StringReader(log));
+    private Issues parseString(final String log) {
+        Issues warnings = new XlcCompilerParser().parse(new StringReader(log));
 
         assertThat(warnings).hasSize(1);
         

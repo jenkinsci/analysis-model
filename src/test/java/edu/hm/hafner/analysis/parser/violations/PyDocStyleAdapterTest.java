@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class PyDocStyleAdapterTest extends AbstractParserTest<Issue> {
+class PyDocStyleAdapterTest extends AbstractParserTest {
     PyDocStyleAdapterTest() {
         super("pydocstyle.txt");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(33);
         softly.assertThat(issues.get(0))
                 .hasMessage("Missing docstring in public module")
@@ -29,7 +29,7 @@ class PyDocStyleAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new PyDocStyleAdapter();
     }
 }

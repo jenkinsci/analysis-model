@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class ZptLintAdapterTest extends AbstractParserTest<Issue> {
+class ZptLintAdapterTest extends AbstractParserTest {
     ZptLintAdapterTest() {
         super("zptlint.log");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(2);
         softly.assertThat(issues.get(0))
                 .hasMessage("abc def ghe '\" 123")
@@ -28,7 +28,7 @@ class ZptLintAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new ZptLintAdapter();
     }
 }

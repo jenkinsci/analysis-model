@@ -25,9 +25,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * RegexpDocumentParser}. Each parser accepts a pre-preprocessor of the input lines. Here you can remove all debugging
  * lines that might be printed by the used build tool.
  *
- * @param <T>
- *         subtype of created issues
- *
  * @author Ullrich Hafner
  * @see RegexpLineParser
  * @see RegexpDocumentParser
@@ -35,7 +32,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @see EclipseParser
  * @see StyleCopParser
  */
-public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
+public abstract class AbstractParser extends IssueParser {
     private static final long serialVersionUID = 8466657735514387654L;
 
     /** Category for warnings due to usage of deprecate API. */
@@ -44,7 +41,7 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
     public static final String PROPRIETARY_API = "Proprietary API";
 
     @Override
-    public Issues<T> parse(final File file, final Charset charset, final Function<String, String> preProcessor)
+    public Issues parse(final File file, final Charset charset, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (Reader input = createReader(new FileInputStream(file), charset)) {
             return parse(input, preProcessor);
@@ -75,7 +72,7 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<T> parse(Reader reader, Function<String, String> preProcessor)
+    public abstract Issues parse(Reader reader, Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException;
 
     /**
@@ -91,7 +88,7 @@ public abstract class AbstractParser<T extends Issue> extends IssueParser<T> {
      *         Signals that the parsing has been aborted by the user
      */
     @VisibleForTesting
-    public Issues<T> parse(final Reader reader) throws ParsingCanceledException, ParsingException {
+    public Issues parse(final Reader reader) throws ParsingCanceledException, ParsingException {
         return parse(reader, Function.identity());
     }
 

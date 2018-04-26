@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class PitAdapterTest extends AbstractParserTest<Issue> {
+class PitAdapterTest extends AbstractParserTest {
     PitAdapterTest() {
         super("pit.xml");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(2);
         softly.assertThat(issues.get(0))
                 .hasMessage("NO_COVERAGE, org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator, (Ljava/util/stream/Stream;)V")
@@ -37,7 +37,7 @@ class PitAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new PitAdapter();
     }
 }

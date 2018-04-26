@@ -22,7 +22,7 @@ class PreFastParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(11);
 
         Iterator<Issue> iterator = issues.iterator();

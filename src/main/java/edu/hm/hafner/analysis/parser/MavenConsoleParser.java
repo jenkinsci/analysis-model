@@ -56,7 +56,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
 
     // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
     @Override
-    protected Issues<Issue> postProcess(final Issues<Issue> warnings) {
+    protected Issues postProcess(final Issues warnings) {
         IssueBuilder builder = new IssueBuilder();
         Deque<Issue> condensed = new ArrayDeque<>();
         int line = -1;
@@ -83,7 +83,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             }
             line = warning.getLineStart();
         }
-        Issues<Issue> noBlank = new Issues<>();
+        Issues noBlank = new Issues();
         for (Issue warning : condensed) {
             if (StringUtils.isNotBlank(warning.getMessage())) {
                 noBlank.add(warning);

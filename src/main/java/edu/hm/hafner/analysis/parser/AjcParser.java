@@ -18,7 +18,7 @@ import edu.hm.hafner.analysis.ParsingException;
  *
  * @author Tom Diamond
  */
-public class AjcParser extends AbstractParser<Issue> {
+public class AjcParser extends AbstractParser {
     private static final long serialVersionUID = -9123765511497052454L;
 
     private static final Pattern ESCAPE_CHARACTERS = Pattern.compile((char) 27 + "\\[.*" + (char) 27 + "\\[0m");
@@ -27,10 +27,10 @@ public class AjcParser extends AbstractParser<Issue> {
     static final String ADVICE = "Advice";
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException {
         try (BufferedReader br = new BufferedReader(reader)) {
-            Issues<Issue> warnings = new Issues<>();
+            Issues warnings = new Issues();
 
             String line;
             States state = States.START;

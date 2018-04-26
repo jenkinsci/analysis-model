@@ -21,7 +21,7 @@ import edu.hm.hafner.analysis.SecureDigester;
  *
  * @author Ullrich Hafner
  */
-public class PmdParser extends AbstractParser<Issue> {
+public class PmdParser extends AbstractParser {
     private static final long serialVersionUID = 6507147028628714706L;
 
     /** PMD priorities smaller than this value are mapped to {@link Priority#HIGH}. */
@@ -30,7 +30,7 @@ public class PmdParser extends AbstractParser<Issue> {
     private static final int PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY = 4;
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             SecureDigester digester = new SecureDigester(PmdParser.class);
@@ -62,8 +62,8 @@ public class PmdParser extends AbstractParser<Issue> {
         }
     }
 
-    private Issues<Issue> convert(final Pmd pmdIssues) {
-        Issues<Issue> issues = new Issues<>();
+    private Issues convert(final Pmd pmdIssues) {
+        Issues issues = new Issues();
         for (File file : pmdIssues.getFiles()) {
             for (Violation warning : file.getViolations()) {
                 IssueBuilder builder = new IssueBuilder().setPriority(mapPriority(warning))

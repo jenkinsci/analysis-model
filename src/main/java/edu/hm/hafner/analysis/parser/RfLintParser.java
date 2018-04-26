@@ -33,8 +33,8 @@ public class RfLintParser extends RegexpLineParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader file, final Function<String, String> preProcessor) {
-        Issues<Issue> warnings = new Issues<>();
+    public Issues parse(final Reader file, final Function<String, String> preProcessor) {
+        Issues warnings = new Issues();
         LineIterator iterator = IOUtils.lineIterator(file);
         try {
             Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);

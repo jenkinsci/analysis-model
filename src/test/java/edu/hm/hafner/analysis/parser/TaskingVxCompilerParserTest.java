@@ -24,7 +24,7 @@ class TaskingVxCompilerParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> warnings, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues warnings, final SoftAssertions softly) {
         softly.assertThat(warnings).hasSize(8);
 
         softly.assertThat(warnings.get(0))

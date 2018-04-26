@@ -1,12 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 import java.util.function.Function;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -29,11 +29,11 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author Alex Lopashev, alexlopashev@gmail.com
  */
-public class IdeaInspectionParser extends AbstractParser<Issue> {
+public class IdeaInspectionParser extends AbstractParser {
     private static final long serialVersionUID = 3307389086106375473L;
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -51,8 +51,8 @@ public class IdeaInspectionParser extends AbstractParser<Issue> {
         }
     }
 
-    private Issues<Issue> parseProblems(final List<Element> elements) {
-        Issues<Issue> problems = new Issues<>();
+    private Issues parseProblems(final List<Element> elements) {
+        Issues problems = new Issues();
         for (Element element : elements) {
             String file = getChildValue(element, "file");
             Element problemClass = XmlElementUtil.getFirstElementByTagName(element, "problem_class");

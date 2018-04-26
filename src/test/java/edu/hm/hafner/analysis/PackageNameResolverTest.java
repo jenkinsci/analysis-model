@@ -27,7 +27,7 @@ class PackageNameResolverTest {
 
     @Test
     void shouldDoNothingForEmptyIssues() {
-        Issues<Issue> issues = createIssues();
+        Issues issues = createIssues();
 
         PackageNameResolver resolver = new PackageNameResolver();
         resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
@@ -38,7 +38,7 @@ class PackageNameResolverTest {
 
     @Test
     void shouldSkipExistingPackage() {
-        Issues<Issue> issues = createIssues();
+        Issues issues = createIssues();
         issues.add(ISSUE_WITH_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver();
@@ -51,7 +51,7 @@ class PackageNameResolverTest {
 
     @Test
     void shouldResolvePackage() throws IOException {
-        Issues<Issue> issues = createIssues();
+        Issues issues = createIssues();
         issues.add(ISSUE_WITHOUT_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
@@ -65,7 +65,7 @@ class PackageNameResolverTest {
 
     @Test
     void shouldResolvePackageAndSkipExistingPackage() throws IOException {
-        Issues<Issue> issues = createIssues();
+        Issues issues = createIssues();
         issues.add(ISSUE_WITHOUT_PACKAGE);
         issues.add(ISSUE_WITH_PACKAGE);
 
@@ -86,8 +86,8 @@ class PackageNameResolverTest {
         return fileSystemStub;
     }
 
-    private Issues<Issue> createIssues() {
-        Issues<Issue> issues = new Issues<>();
+    private Issues createIssues() {
+        Issues issues = new Issues();
         issues.setOrigin(ID);
         return issues;
     }

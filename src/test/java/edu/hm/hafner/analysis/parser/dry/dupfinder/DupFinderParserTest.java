@@ -1,25 +1,24 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
 
 /**
  * Tests the extraction of Resharper DupFinder analysis results.
  *
  * @author Rafal Jasica
  */
-@SuppressFBWarnings("BC_UNCONFIRMED_CAST_OF_RETURN_VALUE")
-class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
+class DupFinderParserTest extends AbstractParserTest {
     /** First line in publisher. */
     private static final int PUBLISHER_LINE = 12;
     /** First line in reporter. */
@@ -29,7 +28,7 @@ class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
     /** File name of publisher. */
     private static final String PUBLISHER = "test/Publisher.cs";
     /** Source code. */
-    private static final String CODE_FRAGMENT = "<pre><code>if (items == null) throw new ArgumentNullException(\"items\");</code></pre>";
+    private static final String CODE_FRAGMENT = "if (items == null) throw new ArgumentNullException(\"items\");";
 
     DupFinderParserTest() {
         super("with-sourcecode.xml");
@@ -41,21 +40,23 @@ class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<CodeDuplication> issues,
+    protected void assertThatIssuesArePresent(final Issues issues,
             final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(2);
 
-        CodeDuplication publisher = issues.get(0);
-        CodeDuplication reporter = issues.get(1);
+        Issue publisher = issues.get(0);
+        Issue reporter = issues.get(1);
 
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(publisher, reporter);
 
-        softly.assertThat(reporter).hasDescription(CODE_FRAGMENT);
-        softly.assertThat(publisher).hasDescription(CODE_FRAGMENT);
+        Serializable additionalProperties = publisher.getAdditionalProperties();
+        softly.assertThat(additionalProperties).isEqualTo(reporter.getAdditionalProperties());
+        softly.assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
+        softly.assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isEqualTo(CODE_FRAGMENT);
     }
 
     private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(
-            final CodeDuplication publisher, final CodeDuplication reporter) {
+            final Issue publisher, final Issue reporter) {
         assertThat(publisher)
                 .hasLineStart(PUBLISHER_LINE).hasLineEnd(PUBLISHER_LINE + 11)
                 .hasFileName(PUBLISHER)
@@ -65,8 +66,7 @@ class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
                 .hasFileName(REPORTER)
                 .hasPriority(Priority.LOW);
 
-        assertThat(publisher.getDuplications()).containsExactly(reporter);
-        assertThat(reporter.getDuplications()).containsExactly(publisher);
+        assertThat(publisher.getAdditionalProperties()).isEqualTo(reporter.getAdditionalProperties());
     }
 
     /**
@@ -75,12 +75,12 @@ class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
      */
     @Test
     void scanFileWithoutSourceCode() {
-        Issues<? extends CodeDuplication> issues = parse("without-sourcecode.xml");
+        Issues issues = parse("without-sourcecode.xml");
 
         assertThat(issues).hasSize(2);
 
-        CodeDuplication publisher = issues.get(0);
-        CodeDuplication reporter = issues.get(1);
+        Issue publisher = issues.get(0);
+        Issue reporter = issues.get(1);
 
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(publisher, reporter);
 
@@ -90,14 +90,14 @@ class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
 
     @Test
     void shouldIgnoreOtherFile() {
-        Issues<? extends CodeDuplication> issues = parse("otherfile.xml");
+        Issues issues = parse("otherfile.xml");
 
         assertThat(issues).hasSize(0);
     }
 
     @Test
     void shouldAssignPriority() {
-        Issues<? extends CodeDuplication> issues;
+        Issues issues;
 
         issues = parse(12, 5);
         assertThat(issues).hasSize(2);
@@ -116,7 +116,7 @@ class DupFinderParserTest extends AbstractParserTest<CodeDuplication> {
         assertThat(issues.get(0)).hasPriority(Priority.LOW);
     }
 
-    private Issues<? extends CodeDuplication> parse(final int highThreshold, final int normalThreshold) {
+    private Issues parse(final int highThreshold, final int normalThreshold) {
         return new DupFinderParser(highThreshold, normalThreshold)
                 .parse(openFile("without-sourcecode.xml"), Function.identity());
     }

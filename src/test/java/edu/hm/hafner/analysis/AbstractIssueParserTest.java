@@ -5,7 +5,7 @@ package edu.hm.hafner.analysis;
  *
  * @author Ullrich Hafner
  */
-public abstract class AbstractIssueParserTest extends AbstractParserTest<Issue> {
+public abstract class AbstractIssueParserTest extends AbstractParserTest {
    /**
      * Creates a new instance of {@link AbstractIssueParserTest}.
      *

@@ -18,7 +18,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
                 .hasSize(8)
                 .hasNormalPrioritySize(6)
@@ -122,7 +122,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new Pep8Parser();
     }
 }

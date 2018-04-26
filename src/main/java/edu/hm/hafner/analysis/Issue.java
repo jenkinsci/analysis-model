@@ -20,7 +20,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("PMD.TooManyFields")
-public class Issue implements Serializable {
+public final class Issue implements Serializable {
     /**
      * Returns the value of the property with the specified name for a given issue instance.
      *
@@ -62,15 +62,18 @@ public class Issue implements Serializable {
     private final Priority priority;
     private final TreeString message;
 
-    private final int lineStart;     // fixed
-    private final int lineEnd;       // fixed
-    private final int columnStart;   // fixed
-    private final int columnEnd;     // fixed
+    private final int lineStart;            // fixed
+    private final int lineEnd;              // fixed
+    private final int columnStart;          // fixed
+    private final int columnEnd;            // fixed
     private final LineRangeList lineRanges; // fixed
 
-    private final UUID id; // fixed
+    private final UUID id;                  // fixed
 
-    private final TreeString description;
+    private final TreeString description;   // fixed
+
+    @CheckForNull
+    private final Serializable additionalProperties;  // fixed
 
     private String reference;       // mutable, not part of equals
     private String origin;          // mutable
@@ -91,7 +94,7 @@ public class Issue implements Serializable {
         this(copy.getFileName(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(),
                 copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
                 copy.getPriority(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
-                copy.getFingerprint(), copy.getId());
+                copy.getFingerprint(), copy.getAdditionalProperties(), copy.getId());
     }
 
     /**
@@ -130,6 +133,8 @@ public class Issue implements Serializable {
      *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
      * @param fingerprint
      *         the finger print for this issue
+     * @param additionalProperties
+     *         additional properties from the statical analysis tool
      */
     @SuppressWarnings("ParameterNumber")
     protected Issue(@CheckForNull final String fileName,
@@ -140,9 +145,10 @@ public class Issue implements Serializable {
             @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
             @CheckForNull final String origin, @CheckForNull final String reference,
-            @CheckForNull final String fingerprint) {
+            @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties) {
         this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName, moduleName,
-                priority, message, description, origin, reference, fingerprint, UUID.randomUUID());
+                priority, message, description, origin, reference, fingerprint, additionalProperties,
+                UUID.randomUUID());
     }
 
     /**
@@ -180,6 +186,8 @@ public class Issue implements Serializable {
      *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
      * @param fingerprint
      *         the finger print for this issue
+     * @param additionalProperties
+     *         additional properties from the statical analysis tool
      * @param id
      *         the ID of this issue
      */
@@ -190,7 +198,8 @@ public class Issue implements Serializable {
             @CheckForNull final String moduleName, @CheckForNull final Priority priority,
             @CheckForNull final String message, @CheckForNull final String description,
             @CheckForNull final String origin, @CheckForNull final String reference,
-            @CheckForNull final String fingerprint, final UUID id) {
+            @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties,
+            final UUID id) {
         TreeStringBuilder builder = new TreeStringBuilder();
 
         this.fileName = builder.intern(defaultString(normalizeFileName(fileName)));
@@ -234,6 +243,7 @@ public class Issue implements Serializable {
         this.reference = stripToEmpty(reference);
 
         this.fingerprint = defaultString(fingerprint);
+        this.additionalProperties = additionalProperties;
 
         this.id = id;
     }
@@ -265,7 +275,7 @@ public class Issue implements Serializable {
      *
      * @return the valid string or a default string if the specified string is not valid
      */
-    protected final int defaultInteger(final int integer) {
+    private int defaultInteger(final int integer) {
         return integer < 0 ? 0 : integer;
     }
 
@@ -277,7 +287,7 @@ public class Issue implements Serializable {
      *
      * @return the valid string or a default string if the specified string is not valid
      */
-    protected final String defaultString(@CheckForNull final String string) {
+    private String defaultString(@CheckForNull final String string) {
         return StringUtils.defaultIfEmpty(string, UNDEFINED).intern();
     }
 
@@ -298,7 +308,7 @@ public class Issue implements Serializable {
      *
      * @return the unique ID
      */
-    public final UUID getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -516,8 +526,11 @@ public class Issue implements Serializable {
     /**
      * Returns the finger print for this issue. Used to decide if two issues are equal even if the equals method returns
      * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
-     * analyzing the content of the affected file. <p> Note: the fingerprint is not part of the equals method since the
-     * fingerprint might change due to an unrelated refactoring of the source code. </p>
+     * analyzing the content of the affected file.
+     * <p>
+     * Note: the fingerprint is not part of the equals method since the fingerprint might change due to an unrelated
+     * refactoring of the source code.
+     * </p>
      *
      * @return the fingerprint of this issue
      */
@@ -546,9 +559,14 @@ public class Issue implements Serializable {
         return !UNDEFINED.equals(fingerprint);
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
+    /**
+     * Returns additional properties for this issue. A static analysis tool may store additional properties in this
+     * untyped object. This object will be serialized and is used in {@code equals} and {@code hashCode}.
+
+     */
+    @CheckForNull
+    public Serializable getAdditionalProperties() {
+        return additionalProperties;
     }
 
     @SuppressWarnings("all")
@@ -575,9 +593,6 @@ public class Issue implements Serializable {
         if (columnEnd != issue.columnEnd) {
             return false;
         }
-        if (!fileName.equals(issue.fileName)) {
-            return false;
-        }
         if (!category.equals(issue.category)) {
             return false;
         }
@@ -590,41 +605,51 @@ public class Issue implements Serializable {
         if (!message.equals(issue.message)) {
             return false;
         }
+        if (!lineRanges.equals(issue.lineRanges)) {
+            return false;
+        }
         if (!description.equals(issue.description)) {
             return false;
         }
-        if (!packageName.equals(issue.packageName)) {
-            return false;
-        }
-        if (!moduleName.equals(issue.moduleName)) {
+        if (additionalProperties != null ? !additionalProperties.equals(issue.additionalProperties) :
+                issue.additionalProperties != null) {
             return false;
         }
         if (!origin.equals(issue.origin)) {
             return false;
         }
-        if (!lineRanges.equals(issue.lineRanges)) {
+        if (!moduleName.equals(issue.moduleName)) {
             return false;
         }
-
-        return true;
+        if (!packageName.equals(issue.packageName)) {
+            return false;
+        }
+        return fileName.equals(issue.fileName);
     }
 
     @Override
     public int hashCode() {
-        int result = fileName.hashCode();
-        result = 31 * result + category.hashCode();
+        int result = category.hashCode();
         result = 31 * result + type.hashCode();
         result = 31 * result + priority.hashCode();
         result = 31 * result + message.hashCode();
-        result = 31 * result + description.hashCode();
-        result = 31 * result + packageName.hashCode();
-        result = 31 * result + moduleName.hashCode();
-        result = 31 * result + origin.hashCode();
         result = 31 * result + lineStart;
         result = 31 * result + lineEnd;
         result = 31 * result + columnStart;
         result = 31 * result + columnEnd;
         result = 31 * result + lineRanges.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        result = 31 * result + origin.hashCode();
+        result = 31 * result + moduleName.hashCode();
+        result = 31 * result + packageName.hashCode();
+        result = 31 * result + fileName.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
+    }
+
 }

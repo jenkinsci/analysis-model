@@ -76,10 +76,10 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader file, final Function<String, String> preProcessor)
+    public Issues parse(final Reader file, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (BufferedReader reader = new BufferedReader(file)) {
-            Issues<Issue> warnings = new Issues<>();
+            Issues warnings = new Issues();
 
             String line = reader.readLine();
             Pattern pBugStart = Pattern.compile(BUGWARN_START_PATERN);

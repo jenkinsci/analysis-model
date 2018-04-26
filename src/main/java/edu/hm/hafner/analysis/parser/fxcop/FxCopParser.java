@@ -30,20 +30,20 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <p> Note that instances of this parser are not thread safe. </p>
  */
 @SuppressWarnings("unused")
-public class FxCopParser extends AbstractParser<Issue> {
+public class FxCopParser extends AbstractParser {
     private static final long serialVersionUID = -7208558002331355408L;
 
     @SuppressFBWarnings({"UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", "SE_TRANSIENT_FIELD_NOT_RESTORED"})
-    private transient Issues<Issue> warnings;
+    private transient Issues warnings;
     @SuppressFBWarnings({"UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", "SE_TRANSIENT_FIELD_NOT_RESTORED"})
     private transient FxCopRuleSet ruleSet;
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
             ruleSet = new FxCopRuleSet();
-            warnings = new Issues<>();
+            warnings = new Issues();
 
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder;

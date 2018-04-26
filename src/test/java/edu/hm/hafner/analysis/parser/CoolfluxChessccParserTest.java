@@ -19,7 +19,7 @@ class CoolfluxChessccParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(1).hasDuplicatesSize(1);
 
         softly.assertThat(issues.get(0))

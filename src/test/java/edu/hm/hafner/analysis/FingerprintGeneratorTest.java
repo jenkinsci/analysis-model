@@ -29,7 +29,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         FingerprintGenerator generator = new FingerprintGenerator();
 
         IssueBuilder builder = new IssueBuilder().setFileName(AFFECTED_FILE_NAME);
-        Issues<Issue> issues = createIssues();
+        Issues issues = createIssues();
         issues.add(builder.build());
         assertThat(issues.get(0).hasFingerprint()).isFalse();
         String alreadySet = "already-set";
@@ -44,7 +44,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @Test
     void shouldAssignIdenticalFingerprint() {
-        Issues<Issue> issues = createTwoIssues();
+        Issues issues = createTwoIssues();
         FingerprintGenerator generator = new FingerprintGenerator();
         FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-one.txt");
 
@@ -78,7 +78,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @Test
     void shouldAssignDifferentFingerprint() {
-        Issues<Issue> issues = createTwoIssues();
+        Issues issues = createTwoIssues();
         FingerprintGenerator generator = new FingerprintGenerator();
         FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt");
 
@@ -95,7 +95,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     @ParameterizedTest(name = "[{index}] Illegal filename = {0}")
     @ValueSource(strings = {"/does/not/exist", "!<>$$&%/&(", "\0 Null-Byte"})
     void shouldUseFallbackFingerprintOnError(final String fileName) {
-        Issues<Issue> issues = new Issues<>();
+        Issues issues = new Issues();
         issues.add(new IssueBuilder().setFileName(fileName).build());
 
         FingerprintGenerator generator = new FingerprintGenerator();
@@ -110,8 +110,8 @@ class FingerprintGeneratorTest extends ResourceTest {
         return new FullTextFingerprint(fileSystem);
     }
 
-    private Issues<Issue> createTwoIssues() {
-        Issues<Issue> issues = createIssues();
+    private Issues createTwoIssues() {
+        Issues issues = createIssues();
         IssueBuilder builder = new IssueBuilder();
         builder.setFileName(AFFECTED_FILE_NAME);
         builder.setLineStart(5);
@@ -120,8 +120,8 @@ class FingerprintGeneratorTest extends ResourceTest {
         return issues;
     }
 
-    private Issues<Issue> createIssues() {
-        Issues<Issue> issues = new Issues<>();
+    private Issues createIssues() {
+        Issues issues = new Issues();
         issues.setOrigin(ID);
         return issues;
     }

@@ -28,10 +28,10 @@ class PmdParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(4);
 
-        Issues<? extends Issue> actionIssues = issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"));
+        Issues actionIssues = issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"));
         softly.assertThat(actionIssues).hasSize(1);
         softly.assertThat(issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
         softly.assertThat(issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
@@ -53,7 +53,7 @@ class PmdParserTest extends AbstractIssueParserTest {
 
     @Test
     void shouldCorrectlyMapLinesAndColumns() {
-        Issues<? extends Issue> issues = parseInPmdFolder("lines-columns.xml");
+        Issues issues = parseInPmdFolder("lines-columns.xml");
 
         assertThat(issues).hasSize(1);
 
@@ -75,7 +75,7 @@ class PmdParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue12801() {
-        Issues<? extends Issue> issues = parseInPmdFolder("issue12801.xml");
+        Issues issues = parseInPmdFolder("issue12801.xml");
 
         assertThat(issues).hasSize(2);
     }
@@ -85,7 +85,7 @@ class PmdParserTest extends AbstractIssueParserTest {
      */
     @Test
     void scanFileWithSeveralWarnings() {
-        Issues<? extends Issue> issues = parseInPmdFolder("pmd.xml");
+        Issues issues = parseInPmdFolder("pmd.xml");
 
         assertThat(issues).hasSize(669);
     }
@@ -96,7 +96,7 @@ class PmdParserTest extends AbstractIssueParserTest {
     @Test
     void verifySingleDot() {
         String fileName = "warning-message-with-dot.xml";
-        Issues<? extends Issue> issues = parseInPmdFolder(fileName);
+        Issues issues = parseInPmdFolder(fileName);
 
         assertThat(issues).hasSize(2);
         assertThat(issues.get(0)).hasMessage("Avoid really long parameter lists.");
@@ -107,7 +107,7 @@ class PmdParserTest extends AbstractIssueParserTest {
      */
     @Test
     void scanFileWithNoBugs() {
-        Issues<? extends Issue> issues = parseInPmdFolder("empty.xml");
+        Issues issues = parseInPmdFolder("empty.xml");
 
         assertThat(issues).isEmpty();
     }
@@ -117,7 +117,7 @@ class PmdParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testEquals() {
-        Issues<? extends Issue> issues = parseInPmdFolder("equals-test.xml");
+        Issues issues = parseInPmdFolder("equals-test.xml");
 
         int expectedSize = 4;
         assertThat(issues).hasSize(expectedSize);
@@ -125,7 +125,7 @@ class PmdParserTest extends AbstractIssueParserTest {
         assertThat(issues).hasNormalPrioritySize(expectedSize);
     }
 
-    private Issues<? extends Issue> parseInPmdFolder(final String fileName) {
+    private Issues parseInPmdFolder(final String fileName) {
         return parse(PREFIX + fileName);
     }
 }

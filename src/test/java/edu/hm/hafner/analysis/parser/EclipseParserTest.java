@@ -22,12 +22,12 @@ public class EclipseParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new EclipseParser();
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(8);
 
         Issue annotation = issues.get(0);
@@ -46,7 +46,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue21377() {
-        Issues<Issue> warnings = parse("issue21377.txt");
+        Issues warnings = parse("issue21377.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -69,7 +69,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue13969() {
-        Issues<Issue> warnings = parse("issue13969.txt");
+        Issues warnings = parse("issue13969.txt");
 
         assertThat(warnings).hasSize(3);
 
@@ -103,7 +103,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue12822() {
-        Issues<Issue> warnings = parse("issue12822.txt");
+        Issues warnings = parse("issue12822.txt");
 
         assertThat(warnings).hasSize(15);
     }
@@ -115,7 +115,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue6427() {
-        Issues<Issue> warnings = parse("issue6427.txt");
+        Issues warnings = parse("issue6427.txt");
 
         assertThat(warnings).hasSize(18);
         assertSoftly(softly -> {
@@ -135,7 +135,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue7077() {
-        Issues<Issue> warnings = parse("issue7077.txt");
+        Issues warnings = parse("issue7077.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -160,7 +160,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue7077all() {
-        Issues<? extends Issue> sorted = parse("issue7077-all.txt");
+        Issues sorted = parse("issue7077-all.txt");
 
         assertThat(sorted).hasSize(45);
 

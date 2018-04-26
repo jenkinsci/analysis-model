@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class DocFxAdapterTest extends AbstractParserTest<Issue> {
+class DocFxAdapterTest extends AbstractParserTest {
     DocFxAdapterTest() {
         super("docfx.json");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(3);
         softly.assertThat(issues.get(0))
                 .hasMessage("Invalid file link:(~/missing.md#mobiilisovellus).")
@@ -35,7 +35,7 @@ class DocFxAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new DocFxAdapter();
     }
 }

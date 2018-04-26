@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.commons.digester3.Digester;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
-import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
-import edu.hm.hafner.analysis.parser.dry.CodeDuplication.DuplicationGroup;
+import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
 
 /**
  * A parser for Simian XML files.
@@ -53,8 +53,8 @@ public class SimianParser extends AbstractDryParser<Set> {
     }
 
     @Override
-    protected Issues<CodeDuplication> convertDuplicationsToIssues(final List<Set> duplications) {
-        Issues<CodeDuplication> issues = new Issues<>();
+    protected Issues convertDuplicationsToIssues(final List<Set> duplications) {
+        Issues issues = new Issues();
 
         for (Set duplication : duplications) {
             DuplicationGroup group = new DuplicationGroup();
@@ -62,8 +62,11 @@ public class SimianParser extends AbstractDryParser<Set> {
                 IssueBuilder builder = new IssueBuilder().setPriority(getPriority(duplication.getLineCount()))
                         .setLineStart(file.getStartLineNumber())
                         .setLineEnd(file.getEndLineNumber())
-                        .setFileName(file.getSourceFile());
-                issues.add(new CodeDuplication(builder.build(), group));
+                        .setFileName(file.getSourceFile())
+                        .setAdditionalProperties(group);
+                Issue issue = builder.build();
+                group.add(issue);
+                issues.add(issue);
             }
         }
         return issues;

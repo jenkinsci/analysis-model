@@ -33,7 +33,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testIssue24611() {
-        Issues<Issue> warnings = parse("issue24611.txt");
+        Issues warnings = parse("issue24611.txt");
 
         assertThat(warnings).hasSize(2);
     }
@@ -45,7 +45,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue21240() {
-        Issues<Issue> warnings = parse("issue21240.txt");
+        Issues warnings = parse("issue21240.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -66,7 +66,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue2133() {
-        Issues<Issue> warnings = parse("issue2133.txt");
+        Issues warnings = parse("issue2133.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -96,7 +96,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4098() {
-        Issues<Issue> warnings = parse("issue4098.txt");
+        Issues warnings = parse("issue4098.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -118,7 +118,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue2316() {
-        Issues<Issue> warnings = parse("issue2316.txt");
+        Issues warnings = parse("issue2316.txt");
 
         assertThat(warnings)
                 .hasSize(18)
@@ -133,7 +133,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void parseDifferentTaskNames() {
-        Issues<Issue> warnings = parse("taskname.txt");
+        Issues warnings = parse("taskname.txt");
 
         assertThat(warnings).hasSize(1).hasDuplicatesSize(2);
     }
@@ -143,7 +143,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void parseArrayInDeprecatedMethod() {
-        Issues<Issue> warnings = parse("issue5868.txt");
+        Issues warnings = parse("issue5868.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -168,13 +168,13 @@ class AntJavacParserTest extends AbstractIssueParserTest {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
                 AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        Issues<? extends Issue> warnings = createParser().parse(is);
+        Issues warnings = createParser().parse(is);
 
         assertThat(warnings).hasSize(1);
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(1);
         softly.assertThat(issues.get(0))
                 .hasPriority(Priority.NORMAL)

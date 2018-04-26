@@ -30,7 +30,7 @@ class FindBugsParserTest {
     /** File in native format. */
     private static final String FINDBUGS_NATIVE_XML = "findbugs-native.xml";
 
-    private Issues<Issue> parseFile(final String fileName, final PriorityProperty priorityProperty) {
+    private Issues parseFile(final String fileName, final PriorityProperty priorityProperty) {
         return new FindBugsParser(priorityProperty).parse(getInputStreamProvider(PREFIX + fileName),
                 Collections.emptyList(), new IssueBuilder());
     }
@@ -50,7 +50,7 @@ class FindBugsParserTest {
      */
     @Test
     void issue46975() {
-        Issues<? extends Issue> issues = parseFile("spotbugsXml.xml", CONFIDENCE);
+        Issues issues = parseFile("spotbugsXml.xml", CONFIDENCE);
         assertThat(issues).hasSize(2);
 
         assertSoftly(softly -> {
@@ -86,7 +86,7 @@ class FindBugsParserTest {
      */
     @Test
     void issue7238() {
-        Issues<? extends Issue> issues = parseFile("issue7238.xml", CONFIDENCE);
+        Issues issues = parseFile("issue7238.xml", CONFIDENCE);
 
         assertThat(issues).hasSize(1808).hasDuplicatesSize(12); // 12 issues are skipped (same attributes, but different instance hash)
     }
@@ -98,7 +98,7 @@ class FindBugsParserTest {
      */
     @Test
     void issue12314() {
-        Issues<? extends Issue> issues = parseFile("issue12314.xml", CONFIDENCE);
+        Issues issues = parseFile("issue12314.xml", CONFIDENCE);
         assertThat(issues).hasSize(1);
 
         assertSoftly(softly -> {
@@ -163,7 +163,7 @@ class FindBugsParserTest {
      */
     @Test
     void scanFbContribFile() {
-        Issues<? extends Issue> issues = parseFile("fbcontrib.xml", CONFIDENCE);
+        Issues issues = parseFile("fbcontrib.xml", CONFIDENCE);
         assertThat(issues.filter(byPackageName("hudson.plugins.tasks"))).hasSize(16);
         assertThat(issues.filter(byFileName("hudson/plugins/tasks/ResultSummary.java"))).hasSize(2);
     }
@@ -173,7 +173,7 @@ class FindBugsParserTest {
      */
     @Test
     void handleFilesWithoutMessages() {
-        Issues<? extends Issue> issues = parseFile("findbugs-nomessage.xml", CONFIDENCE);
+        Issues issues = parseFile("findbugs-nomessage.xml", CONFIDENCE);
         assertThat(issues).hasSize(1);
 
         assertThat(issues.get(0))
@@ -187,7 +187,7 @@ class FindBugsParserTest {
      */
     @Test
     void thirdPartyCategory() {
-        Issues<? extends Issue> issues = parseFile("findbugs-3rd-party-category.xml", CONFIDENCE);
+        Issues issues = parseFile("findbugs-3rd-party-category.xml", CONFIDENCE);
         assertThat(issues).hasSize(2);
         assertThat(issues.get(0)).hasCategory("BAD_PRACTICE").hasType("SE_NO_SERIALVERSIONID");
         assertThat(issues.get(1)).hasCategory("SECURITY").hasType("WEAK_MESSAGE_DIGEST");
@@ -200,7 +200,7 @@ class FindBugsParserTest {
             final String fileName2, final String packageName2,
             final int start2, final int end2, final int ranges2,
             final PriorityProperty priorityProperty) {
-        Issues<? extends Issue> issues = parseFile(findbugsFile, priorityProperty);
+        Issues issues = parseFile(findbugsFile, priorityProperty);
         assertThat(issues.getModules()).containsExactly(projectName);
         assertThat(issues).hasSize(2);
 

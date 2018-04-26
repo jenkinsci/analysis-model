@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.commons.digester3.Digester;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
-import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
-import edu.hm.hafner.analysis.parser.dry.CodeDuplication.DuplicationGroup;
+import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
 
 /**
  * A parser for PMD's CPD XML files.
@@ -54,8 +54,8 @@ public class CpdParser extends AbstractDryParser<Duplication> {
     }
 
     @Override
-    protected Issues<CodeDuplication> convertDuplicationsToIssues(final List<Duplication> duplications) {
-        Issues<CodeDuplication> issues = new Issues<>();
+    protected Issues convertDuplicationsToIssues(final List<Duplication> duplications) {
+        Issues issues = new Issues();
 
         for (Duplication duplication : duplications) {
             DuplicationGroup group = new DuplicationGroup(duplication.getCodeFragment());
@@ -63,8 +63,11 @@ public class CpdParser extends AbstractDryParser<Duplication> {
                 IssueBuilder builder = new IssueBuilder().setPriority(getPriority(duplication.getLines()))
                         .setLineStart(file.getLine())
                         .setLineEnd(file.getLine() + duplication.getLines())
-                        .setFileName(file.getPath());
-                issues.add(new CodeDuplication(builder.build(), group));
+                        .setFileName(file.getPath())
+                        .setAdditionalProperties(group);
+                Issue issue = builder.build();
+                group.add(issue);
+                issues.add(issue);
             }
         }
         return issues;

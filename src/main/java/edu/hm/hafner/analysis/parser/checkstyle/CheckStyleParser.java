@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -23,11 +22,11 @@ import edu.hm.hafner.analysis.SecureDigester;
  *
  * @author Ullrich Hafner
  */
-public class CheckStyleParser extends AbstractParser<Issue> {
+public class CheckStyleParser extends AbstractParser {
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new SecureDigester(CheckStyleParser.class);
@@ -66,8 +65,8 @@ public class CheckStyleParser extends AbstractParser<Issue> {
      *
      * @return a maven module of the annotations API
      */
-    private Issues<Issue> convert(final CheckStyle collection) {
-        Issues<Issue> issues = new Issues<>();
+    private Issues convert(final CheckStyle collection) {
+        Issues issues = new Issues();
 
         for (File file : collection.getFiles()) {
             if (isValidWarning(file)) {

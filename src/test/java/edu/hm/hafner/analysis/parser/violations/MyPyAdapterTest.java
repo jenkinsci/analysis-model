@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class MyPyAdapterTest extends AbstractParserTest<Issue>  {
+class MyPyAdapterTest extends AbstractParserTest  {
     MyPyAdapterTest() {
         super("mypy.txt");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(5);
         softly.assertThat(issues.get(0))
                 .hasMessage("\"LogRecord\" has no attribute \"user_uuid\"")
@@ -33,7 +33,7 @@ class MyPyAdapterTest extends AbstractParserTest<Issue>  {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new MyPyAdapter();
     }
 }

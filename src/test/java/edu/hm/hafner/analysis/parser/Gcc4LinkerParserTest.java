@@ -31,7 +31,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(7).hasDuplicatesSize(1);
 
         Iterator<Issue> iterator = issues.iterator();
@@ -96,14 +96,14 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
     /** Should not report warnings already detected by {@link Gcc4CompilerParser}. */
     @Test
     void shouldNotReportGccWarnings() {
-        Issues<Issue> warnings = parse("gcc4.txt");
+        Issues warnings = parse("gcc4.txt");
 
         assertThat(warnings).hasSize(2);
         assertThatMessageHasUndefinedReference(warnings, 0);
         assertThatMessageHasUndefinedReference(warnings, 1);
     }
 
-    private void assertThatMessageHasUndefinedReference(final Issues<? extends Issue> warnings, final int index) {
+    private void assertThatMessageHasUndefinedReference(final Issues warnings, final int index) {
         assertThat(warnings.get(index).getMessage()).startsWith("undefined reference to");
     }
 
@@ -114,7 +114,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue5445() {
-        Issues<Issue> warnings = parse("issue5445.txt");
+        Issues warnings = parse("issue5445.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -126,7 +126,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue5870() {
-        Issues<Issue> warnings = parse("issue5870.txt");
+        Issues warnings = parse("issue5870.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -138,7 +138,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue6563() {
-        Issues<Issue> warnings = parse("issue6563.txt");
+        Issues warnings = parse("issue6563.txt");
 
         assertThat(warnings).isEmpty();
     }

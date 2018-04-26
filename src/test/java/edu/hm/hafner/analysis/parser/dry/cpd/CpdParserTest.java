@@ -1,26 +1,25 @@
 package edu.hm.hafner.analysis.parser.dry.cpd;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import edu.hm.hafner.analysis.parser.dry.CodeDuplication;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
 
 /**
  * Tests the extraction of PMD's CPD analysis results.
  */
-@SuppressFBWarnings("BC_UNCONFIRMED_CAST_OF_RETURN_VALUE")
-class CpdParserTest extends AbstractParserTest<CodeDuplication> {
+class CpdParserTest extends AbstractParserTest {
     private static final String FILE_NAME_REPORTER = "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwareMavenReporter.java";
     private static final String FILE_NAME_PUBLISHER = "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwarePublisher.java";
-    private static final String CODE_FRAGMENT = "<pre><code>#\n"
+    private static final String CODE_FRAGMENT = "#\n"
             + "\n"
             + "    ERROR HANDLING: N/A\n"
             + "    #\n"
@@ -61,7 +60,7 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
             + "for i in $*\n"
             + "do\n"
             + "files=\"$files $directory/$i\"\n"
-            + "done</code></pre>";
+            + "done";
 
     CpdParserTest() {
         super("cpd.xml");
@@ -73,14 +72,13 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<CodeDuplication> issues,
-            final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(4);
 
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(issues.get(0), issues.get(1));
 
-        CodeDuplication reporterSecond = issues.get(2);
-        CodeDuplication publisherSecond = issues.get(3);
+        Issue reporterSecond = issues.get(2);
+        Issue publisherSecond = issues.get(3);
         softly.assertThat(reporterSecond)
                 .hasLineStart(274).hasLineEnd(274 + 95)
                 .hasFileName(FILE_NAME_REPORTER)
@@ -89,15 +87,16 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
                 .hasLineStart(202).hasLineEnd(202 + 95)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasPriority(Priority.HIGH);
-        softly.assertThat(publisherSecond.getDescription()).isNotEmpty();
-        softly.assertThat(reporterSecond.getDescription()).isNotEmpty();
-        softly.assertThat(publisherSecond.getDuplications()).containsExactly(reporterSecond);
-        softly.assertThat(reporterSecond.getDuplications()).containsExactly(publisherSecond);
+
+        Serializable additionalProperties = publisherSecond.getAdditionalProperties();
+        softly.assertThat(additionalProperties).isEqualTo(reporterSecond.getAdditionalProperties());
+        softly.assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
+        softly.assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isNotEmpty();
     }
 
     @Test
     void shouldAssignPriority() {
-        Issues<? extends CodeDuplication> issues;
+        Issues issues;
 
         issues = parse(68, 25);
         assertThat(issues).hasSize(2);
@@ -116,7 +115,7 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
         assertThat(issues.get(0)).hasPriority(Priority.LOW);
     }
 
-    private Issues<? extends CodeDuplication> parse(final int highThreshold, final int normalThreshold) {
+    private Issues parse(final int highThreshold, final int normalThreshold) {
         return new CpdParser(highThreshold, normalThreshold)
                 .parse(openFile("issue12516.xml"), Function.identity());
     }
@@ -129,24 +128,24 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
      */
     @Test
     void issue12516() {
-        Issues<? extends CodeDuplication> issues = parse("issue12516.xml");
+        Issues issues = parse("issue12516.xml");
 
         assertThat(issues).hasSize(2);
-        CodeDuplication first = issues.get(0);
+        Issue first = issues.get(0);
         assertThat(first)
                 .hasLineStart(19).hasLineEnd(19 + 68)
                 .hasFileName("csci07/csc60/remote_copy.sh")
-                .hasDescription(CODE_FRAGMENT)
                 .hasPriority(Priority.HIGH);
-        CodeDuplication second = issues.get(1);
+        Issue second = issues.get(1);
         assertThat(second)
                 .hasLineStart(19).hasLineEnd(19 + 68)
                 .hasFileName("csci08/csc90/remote_copy.sh")
-                .hasDescription(CODE_FRAGMENT)
                 .hasPriority(Priority.HIGH);
 
-        assertThat(first.getDuplications()).containsExactly(second);
-        assertThat(second.getDuplications()).containsExactly(first);
+        Serializable additionalProperties = first.getAdditionalProperties();
+        assertThat(additionalProperties).isEqualTo(second.getAdditionalProperties());
+        assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
+        assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isEqualTo(CODE_FRAGMENT);
     }
 
     /**
@@ -156,9 +155,9 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-22356">Issue 22356</a>
      */
     @Test
-    public void issue22356() {
+    void issue22356() {
         String fileName = "issue22356.xml";
-        Issues<? extends CodeDuplication> issues = parse(fileName);
+        Issues issues = parse(fileName);
 
         assertThat(issues).hasSize(8);
     }
@@ -169,15 +168,15 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
     @Test
     void scanFileWithOneDuplication() {
         String fileName = "one-cpd.xml";
-        Issues<? extends CodeDuplication> issues = parse(fileName);
+        Issues issues = parse(fileName);
 
         assertThat(issues).hasSize(2);
 
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(issues.get(0), issues.get(1));
     }
 
-    private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(final CodeDuplication reporterFirst,
-            final CodeDuplication publisherFirst) {
+    private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(final Issue reporterFirst,
+            final Issue publisherFirst) {
         assertThat(reporterFirst)
                 .hasLineStart(76).hasLineEnd(76 + 36)
                 .hasFileName(FILE_NAME_REPORTER)
@@ -186,22 +185,23 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
                 .hasLineStart(69).hasLineEnd(69 + 36)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasPriority(Priority.NORMAL);
-        assertThat(reporterFirst.getDescription()).isNotEmpty();
-        assertThat(publisherFirst.getDescription()).isNotEmpty();
-        assertThat(reporterFirst.getDuplications()).containsExactly(publisherFirst);
-        assertThat(publisherFirst.getDuplications()).containsExactly(reporterFirst);
+        Serializable additionalProperties = reporterFirst.getAdditionalProperties();
+        assertThat(additionalProperties).isEqualTo(publisherFirst.getAdditionalProperties());
+
+        assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
+        assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isNotEmpty();
     }
 
     @Test
     void shouldIgnoreOtherFile() {
-        Issues<? extends CodeDuplication> issues = parse("otherfile.xml");
+        Issues issues = parse("otherfile.xml");
 
         assertThat(issues).hasSize(0);
     }
 
     @Test
     void shouldReadFileWithWindowsEncoding() {
-        Issues<? extends CodeDuplication> issues = parse("pmd-cpd.xml");
+        Issues issues = parse("pmd-cpd.xml");
 
         assertThat(issues).hasSize(29);
     }

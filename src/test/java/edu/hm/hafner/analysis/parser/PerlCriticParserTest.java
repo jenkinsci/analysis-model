@@ -24,7 +24,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(105);
     }
 
@@ -33,7 +33,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testPerlCriticParserCreateWarning() {
-        Issues<Issue> warnings = parse("issue17792.txt");
+        Issues warnings = parse("issue17792.txt");
 
         assertThat(warnings).hasSize(3);
 
@@ -74,7 +74,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testPerlCriticParserCreateWarningNoFileName() {
-        Issues<Issue> warnings = parse("issue17792-nofilename.txt");
+        Issues warnings = parse("issue17792-nofilename.txt");
         assertThat(warnings).hasSize(3);
 
         Iterator<? extends Issue> iterator = warnings.iterator();

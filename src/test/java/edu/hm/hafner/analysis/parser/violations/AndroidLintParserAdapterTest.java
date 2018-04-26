@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class AndroidLintParserAdapterTest extends AbstractParserTest<Issue> {
+class AndroidLintParserAdapterTest extends AbstractParserTest {
     AndroidLintParserAdapterTest() {
         super("android-lint.xml");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(2);
         softly.assertThat(issues.get(0))
                 .hasFileName("app/src/main/res/layout/fragment_main.xml")
@@ -40,7 +40,7 @@ class AndroidLintParserAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new AndroidLintParserAdapter();
     }
 }

@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class Flake8AdapterTest extends AbstractParserTest<Issue> {
+class Flake8AdapterTest extends AbstractParserTest {
     Flake8AdapterTest() {
         super("flake8.txt");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(12);
         softly.assertThat(issues.get(0))
                 .hasMessage("'db' imported but unused")
@@ -29,7 +29,7 @@ class Flake8AdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new Flake8Adapter();
     }
 }

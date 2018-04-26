@@ -17,7 +17,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(6);
 
         softly.assertThat(issues.get(0))
@@ -42,7 +42,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void falseJavaDocPositives() {
-        Issues<Issue> warnings = parse("all.txt");
+        Issues warnings = parse("all.txt");
 
         assertThat(warnings).hasSize(8);
     }
@@ -54,7 +54,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue37975() {
-        Issues<Issue> warnings = parse("issue37975.txt");
+        Issues warnings = parse("issue37975.txt");
         assertThat(warnings).hasSize(3);
 
         assertSoftly(softly -> {
@@ -91,7 +91,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue32298() {
-        Issues<Issue> warnings = parse("issue32298.txt");
+        Issues warnings = parse("issue32298.txt");
         assertThat(warnings).hasSize(7);
 
         assertSoftly(softly -> {
@@ -161,7 +161,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4576() {
-        Issues<Issue> warnings = parse("issue4576.txt");
+        Issues warnings = parse("issue4576.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -191,7 +191,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue8630() {
-        Issues<Issue> warnings = parse("issue8630.txt");
+        Issues warnings = parse("issue8630.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -203,7 +203,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue7718() {
-        Issues<Issue> warnings = parse("issue7718.txt");
+        Issues warnings = parse("issue7718.txt");
 
         assertThat(warnings).hasSize(7);
 

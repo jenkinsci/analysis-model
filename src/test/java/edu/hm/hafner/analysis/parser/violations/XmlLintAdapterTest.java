@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class XmlLintAdapterTest extends AbstractParserTest<Issue> {
+class XmlLintAdapterTest extends AbstractParserTest {
     XmlLintAdapterTest() {
         super("xmllint.txt");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(3);
         softly.assertThat(issues.get(0))
                 .hasMessage("Opening and ending tag mismatch: font line 4 and body")
@@ -29,7 +29,7 @@ class XmlLintAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new XmlLintAdapter();
     }
 }

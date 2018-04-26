@@ -35,7 +35,7 @@ public class Assertions extends org.assertj.core.api.Assertions {
      *
      * @return a new {@link IssuesAssert}
      */
-    public static IssuesAssert assertThat(final Issues<?> actual) {
+    public static IssuesAssert assertThat(final Issues actual) {
         return new IssuesAssert(actual);
     }
 

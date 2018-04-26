@@ -26,7 +26,7 @@ class FxcopParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(2);
 
         softly.assertThat(issues.get(0)).hasPriority(Priority.HIGH)
@@ -48,7 +48,7 @@ class FxcopParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testJenkins14172() {
-        Issues<? extends Issue> result = parse("issue14172.xml");
+        Issues result = parse("issue14172.xml");
 
         assertThat(result).hasSize(44);
     }

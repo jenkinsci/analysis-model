@@ -26,7 +26,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         Iterator<Issue> iterator = issues.iterator();
         softly.assertThat(issues).hasSize(4);
         softly.assertThat(iterator.next())
@@ -70,7 +70,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testWarningParser() {
-        Issues<Issue> warnings = parse("GnuFortranWarning.txt");
+        Issues warnings = parse("GnuFortranWarning.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -90,7 +90,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testErrorParser() {
-        Issues<Issue> warnings = parse("GnuFortranError.txt");
+        Issues warnings = parse("GnuFortranError.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -111,7 +111,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testFatalErrorParser() {
-        Issues<Issue> warnings = parse("GnuFortranFatalError.txt");
+        Issues warnings = parse("GnuFortranFatalError.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -132,7 +132,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testInternalErrorParser() {
-        Issues<Issue> warnings = parse("GnuFortranInternalError.txt");
+        Issues warnings = parse("GnuFortranInternalError.txt");
 
         assertThat(warnings).hasSize(1);
 

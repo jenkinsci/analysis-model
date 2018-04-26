@@ -39,19 +39,16 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * on different properties. In order to create issues use the provided {@link IssueBuilder builder} class.
  * </p>
  *
- * @param <T>
- *         type of the issues
- *
  * @author Ullrich Hafner
  */
 @SuppressWarnings("PMD.ExcessivePublicCount")
-public class Issues<T extends Issue> implements Iterable<T>, Serializable {
+public final class Issues implements Iterable<Issue>, Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
 
-    private final Set<T> elements = new LinkedHashSet<>();
+    private final Set<Issue> elements = new LinkedHashSet<>();
     private final int[] sizeOfPriority = new int[Priority.values().length];
     private final List<String> infoMessages = new ArrayList<>();
     private final List<String> errorMessages = new ArrayList<>();
@@ -98,8 +95,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @param issues
      *         the initial set of issues for this instance
      */
-    public Issues(final Collection<? extends T> issues) {
-        for (T issue : issues) {
+    public Issues(final Collection<? extends Issue> issues) {
+        for (Issue issue : issues) {
             add(issue);
         }
     }
@@ -111,7 +108,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @param issues
      *         the initial set of issues for this instance
      */
-    public Issues(final Stream<? extends T> issues) {
+    public Issues(final Stream<? extends Issue> issues) {
         issues.forEach(this::add);
     }
 
@@ -125,15 +122,14 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @param additionalIssues
      *         the additional issue to append
      */
-    @SafeVarargs
-    public final void add(final T issue, final T... additionalIssues) {
+    public void add(final Issue issue, final Issue... additionalIssues) {
         add(issue);
-        for (T additional : additionalIssues) {
+        for (Issue additional : additionalIssues) {
             add(additional);
         }
     }
 
-    private void add(final T issue) {
+    private void add(final Issue issue) {
         if (elements.contains(issue)) {
             duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
         }
@@ -151,8 +147,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @param issues
      *         the issues to append
      */
-    public void addAll(final Collection<? extends T> issues) {
-        for (T issue : issues) {
+    public void addAll(final Collection<? extends Issue> issues) {
+        for (Issue issue : issues) {
             add(issue);
         }
     }
@@ -167,10 +163,9 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @param additionalIssues
      *         the additional issue to append
      */
-    @SafeVarargs
-    public final void addAll(final Issues<? extends T> issues, final Issues<? extends T>... additionalIssues) {
+    public void addAll(final Issues issues, final Issues... additionalIssues) {
         copyIssuesAndProperties(issues, this);
-        for (Issues<? extends T> other : additionalIssues) {
+        for (Issues other : additionalIssues) {
             copyIssuesAndProperties(other, this);
         }
     }
@@ -186,8 +181,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @throws NoSuchElementException
      *         if there is no such issue found
      */
-    public T remove(final UUID issueId) {
-        for (T element : elements) {
+    public Issue remove(final UUID issueId) {
+        for (Issue element : elements) {
             if (element.getId().equals(issueId)) {
                 elements.remove(element);
                 return element;
@@ -206,8 +201,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @throws NoSuchElementException
      *         if there is no such issue found
      */
-    public T findById(final UUID issueId) {
-        for (T issue : elements) {
+    public Issue findById(final UUID issueId) {
+        for (Issue issue : elements) {
             if (issue.getId().equals(issueId)) {
                 return issue;
             }
@@ -223,7 +218,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the found issues
      */
-    public Set<T> findByProperty(final Predicate<? super T> criterion) {
+    public Set<Issue> findByProperty(final Predicate<? super Issue> criterion) {
         return filterElements(criterion).collect(toSet());
     }
 
@@ -235,19 +230,19 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return the found issues
      */
-    public Issues<T> filter(final Predicate<? super T> criterion) {
-        Issues<T> filtered = copyEmptyInstance();
+    public Issues filter(final Predicate<? super Issue> criterion) {
+        Issues filtered = copyEmptyInstance();
         filtered.addAll(filterElements(criterion).collect(toList()));
         return filtered;
     }
 
-    private Stream<T> filterElements(final Predicate<? super T> criterion) {
+    private Stream<Issue> filterElements(final Predicate<? super Issue> criterion) {
         return elements.stream().filter(criterion);
     }
 
     @NonNull
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<Issue> iterator() {
         return Lists.immutable.withAll(elements).iterator();
     }
 
@@ -256,7 +251,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return a new sequential {@code Stream}
      */
-    public Stream<T> stream() {
+    public Stream<Issue> stream() {
         return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL), false);
     }
 
@@ -370,11 +365,11 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @throws IndexOutOfBoundsException
      *         if there is no element for the given index
      */
-    public T get(final int index) {
+    public Issue get(final int index) {
         if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException("No such index " + index + " in " + toString());
         }
-        Iterator<T> all = elements.iterator();
+        Iterator<Issue> all = elements.iterator();
         for (int i = 0; i < index; i++) {
             all.next(); // skip this element
         }
@@ -449,7 +444,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return the set of different values
      * @see #getFiles()
      */
-    public Set<String> getProperties(final Function<? super T, String> propertiesMapper) {
+    public Set<String> getProperties(final Function<? super Issue, String> propertiesMapper) {
         return elements.stream().map(propertiesMapper).collect(toSet());
     }
 
@@ -462,7 +457,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
-    public Map<String, Integer> getPropertyCount(final Function<? super T, String> propertiesMapper) {
+    public Map<String, Integer> getPropertyCount(final Function<? super Issue, String> propertiesMapper) {
         return elements.stream().collect(groupingBy(propertiesMapper, reducing(0, issue -> 1, Integer::sum)));
     }
 
@@ -476,12 +471,12 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
-    public Map<String, Issues<T>> groupByProperty(final String propertyName) {
-        Map<String, List<T>> issues = elements.stream()
+    public Map<String, Issues> groupByProperty(final String propertyName) {
+        Map<String, List<Issue>> issues = elements.stream()
                 .collect(groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
-                .collect(toMap(Entry::getKey, e -> new Issues<>(e.getValue())));
+                .collect(toMap(Entry::getKey, e -> new Issues(e.getValue())));
     }
 
     /**
@@ -489,13 +484,13 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return a new issue container that contains the same elements in the same order
      */
-    public Issues<T> copy() {
-        Issues<T> copied = new Issues<>();
+    public Issues copy() {
+        Issues copied = new Issues();
         copyIssuesAndProperties(this, copied);
         return copied;
     }
 
-    private void copyIssuesAndProperties(final Issues<? extends T> source, final Issues<T> destination) {
+    private void copyIssuesAndProperties(final Issues source, final Issues destination) {
         if (!destination.hasOrigin()) {
             destination.origin = source.origin;
         }
@@ -507,7 +502,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
         copyProperties(source, destination);
     }
 
-    private void copyProperties(final Issues<? extends T> source, final Issues<T> destination) {
+    private void copyProperties(final Issues source, final Issues destination) {
         destination.duplicatesSize += source.duplicatesSize;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
@@ -519,8 +514,8 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
      *
      * @return a new issue container that contains the same properties but no issues
      */
-    public Issues<T> copyEmptyInstance() {
-        Issues<T> empty = new Issues<>();
+    public Issues copyEmptyInstance() {
+        Issues empty = new Issues();
         empty.setOrigin(origin);
         empty.setReference(reference);
         copyProperties(this, empty);
@@ -638,7 +633,7 @@ public class Issues<T extends Issue> implements Iterable<T>, Serializable {
             return false;
         }
 
-        Issues<?> issues = (Issues<?>) o;
+        Issues issues = (Issues) o;
 
         if (duplicatesSize != issues.duplicatesSize) {
             return false;

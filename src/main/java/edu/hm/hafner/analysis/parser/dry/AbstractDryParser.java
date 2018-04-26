@@ -22,13 +22,13 @@ import edu.hm.hafner.analysis.SecureDigester;
  * @param <T>
  *         the type of the parsed warnings
  */
-public abstract class AbstractDryParser<T> extends AbstractParser<CodeDuplication> {
+public abstract class AbstractDryParser<T> extends AbstractParser {
     /** Unique ID of this class. */
     private static final long serialVersionUID = 6328121785037117886L;
 
-    /** Minimum number of duplicate lines for high priority warnings. @since 2.5 */
+    /** Minimum number of duplicate lines for high priority warnings. */
     private final int highThreshold;
-    /** Minimum number of duplicate lines for normal priority warnings. @since 2.5 */
+    /** Minimum number of duplicate lines for normal priority warnings. */
     private final int normalThreshold;
 
     /**
@@ -64,10 +64,10 @@ public abstract class AbstractDryParser<T> extends AbstractParser<CodeDuplicatio
     }
 
     @Override
-    public Issues<CodeDuplication> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
-            Digester digester = new SecureDigester(CodeDuplication.class);
+            Digester digester = new SecureDigester(AbstractDryParser.class);
 
             configureParser(digester);
 
@@ -101,5 +101,5 @@ public abstract class AbstractDryParser<T> extends AbstractParser<CodeDuplicatio
      *         the parsed warnings
      * @return the converted warnings
      */
-    protected abstract Issues<CodeDuplication> convertDuplicationsToIssues(List<T> duplications);
+    protected abstract Issues convertDuplicationsToIssues(List<T> duplications);
 }

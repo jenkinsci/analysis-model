@@ -18,7 +18,7 @@ class RobocopyParserTest extends AbstractIssueParserTest {
     private static final String FILENAME = "a.log";
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(3);
 
         softly.assertThat(issues.get(0))

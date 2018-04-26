@@ -37,7 +37,7 @@ public class PackageNameResolver {
      * @param charset
      *         the character set to use when reading the source files
      */
-    public void run(final Issues<?> issues,
+    public void run(final Issues issues,
             final IssueBuilder builder, final Charset charset) {
         Set<String> filesWithoutPackageName = issues.stream()
                 .filter(issue -> !issue.hasPackageName())

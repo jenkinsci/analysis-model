@@ -20,7 +20,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(12)
                 .hasDuplicatesSize(1);
         Iterator<Issue> iterator = issues.iterator();

@@ -30,7 +30,7 @@ class JSLintParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue19127() {
-        Issues<Issue> warnings = parse("jslint/jslint.xml");
+        Issues warnings = parse("jslint/jslint.xml");
 
         assertThat(warnings).hasSize(197);
 
@@ -54,7 +54,7 @@ class JSLintParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testParseWithSingleFile() {
-        Issues<Issue> results = parse("jslint/single.xml");
+        Issues results = parse("jslint/single.xml");
 
         assertThat(results).hasSize(51);
     }
@@ -64,13 +64,13 @@ class JSLintParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testCssLint() {
-        Issues<Issue> results = parse("jslint/csslint.xml");
+        Issues results = parse("jslint/csslint.xml");
 
         assertThat(results).hasSize(51);
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(102);
 
         assertThat(issues.getFiles()).hasSize(2);

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  *
  * @author Ullrich Hafner
  */
-public abstract class RegexpParser extends AbstractParser<Issue> {
+public abstract class RegexpParser extends AbstractParser {
     private static final long serialVersionUID = -82635675595933170L;
 
     /** Used to define a false positive warnings that should be excluded after the regular expression scan. */
@@ -56,7 +56,7 @@ public abstract class RegexpParser extends AbstractParser<Issue> {
      *         Signals that the parsing has been aborted by the user
      */
     @SuppressWarnings({"ReferenceEquality", "PMD.CompareObjectsWithEquals"})
-    protected void findIssues(final String content, final Issues<Issue> issues)
+    protected void findIssues(final String content, final Issues issues)
             throws ParsingException, ParsingCanceledException {
         Matcher matcher = pattern.matcher(content);
 

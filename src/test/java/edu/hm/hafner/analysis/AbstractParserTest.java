@@ -23,12 +23,9 @@ import edu.hm.hafner.util.ResourceTest;
 /**
  * Base class for tests of {@link AbstractParser} instances.
  *
- * @param <T>
- *         subtype of created issues
- *
  * @author Ullrich Hafner
  */
-public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
+public abstract class AbstractParserTest extends ResourceTest {
     /** Default category for parsers that do not set the category property. */
     protected static final String DEFAULT_CATEGORY = new IssueBuilder().build().getCategory();
 
@@ -52,7 +49,7 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
      */
     @Test
     void shouldParseAllIssues() {
-        Issues<T> issues = parseDefaultFile();
+        Issues issues = parseDefaultFile();
         assertSoftly(softly -> assertThatIssuesArePresent(issues, softly));
     }
 
@@ -61,7 +58,7 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
      *
      * @return the issues in the default file
      */
-    protected Issues<T> parseDefaultFile() {
+    protected Issues parseDefaultFile() {
         return createParser().parse(openFile(), Function.identity());
     }
 
@@ -71,7 +68,7 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
      */
     @Test
     void shouldBeSerializable() throws IOException {
-        AbstractParser<T> parser = createParser();
+        AbstractParser parser = createParser();
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (ObjectOutputStream stream = new ObjectOutputStream(out)) {
@@ -89,7 +86,7 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
      *
      * @return the found issues
      */
-    protected Issues<T> parse(final String fileName) {
+    protected Issues parse(final String fileName) {
         return createParser().parse(openFile(fileName), Function.identity());
     }
 
@@ -102,14 +99,14 @@ public abstract class AbstractParserTest<T extends Issue> extends ResourceTest {
      *         The soft assertions instance you can use for all {@link SoftAssertions#assertThat assertThat} calls. Note
      *         that {@link SoftAssertions#assertAll} is called automatically, you do not need to call it on your own.
      */
-    protected abstract void assertThatIssuesArePresent(Issues<T> issues, SoftAssertions softly);
+    protected abstract void assertThatIssuesArePresent(Issues issues, SoftAssertions softly);
 
     /**
      * Creates the parser under test.
      *
      * @return the new parser instance
      */
-    protected abstract AbstractParser<T> createParser();
+    protected abstract AbstractParser createParser();
 
     /**
      * Returns an input stream for the default file.

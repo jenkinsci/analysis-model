@@ -36,13 +36,13 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author mathias.kluba@gmail.com
  */
-public class GendarmeParser extends AbstractParser<Issue> {
+public class GendarmeParser extends AbstractParser {
     private static final long serialVersionUID = 1677715364464119907L;
 
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -66,8 +66,8 @@ public class GendarmeParser extends AbstractParser<Issue> {
         }
     }
 
-    private Issues<Issue> parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
-        Issues<Issue> warnings = new Issues<>();
+    private Issues parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
+        Issues warnings = new Issues();
         for (Element ruleElement : ruleElements) {
             String ruleName = ruleElement.getAttribute("Name");
             String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();

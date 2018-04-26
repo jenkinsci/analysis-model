@@ -35,7 +35,7 @@ class PhpParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue27681() {
-        Issues<? extends Issue> issues = parse("issue27681.txt");
+        Issues issues = parse("issue27681.txt");
 
         assertThat(issues).hasSize(1);
 
@@ -52,7 +52,7 @@ class PhpParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(5);
 
         Iterator<Issue> iterator = issues.iterator();

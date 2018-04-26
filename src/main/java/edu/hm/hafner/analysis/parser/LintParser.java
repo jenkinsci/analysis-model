@@ -23,18 +23,18 @@ import edu.hm.hafner.analysis.ParsingException;
  *
  * @author Gavin Mogan
  */
-public class LintParser extends AbstractParser<Issue> {
+public class LintParser extends AbstractParser {
     private static final long serialVersionUID = 3341424685245834156L;
 
     @Override
-    public Issues<Issue> parse(final Reader file, final Function<String, String> preProcessor)
+    public Issues parse(final Reader file, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             SAXParser parser = parserFactory.newSAXParser();
 
-            Issues<Issue> issues = new Issues<>();
+            Issues issues = new Issues();
             parser.parse(new ReaderInputStream(file, Charset.forName("UTF-8")), new JSLintXmlSaxParser(issues));
             return issues;
         }

@@ -49,8 +49,7 @@ public abstract class AbstractPackageDetector {
 
     @VisibleForTesting
     String detectPackageName(final InputStream stream, final Charset charset) throws IOException {
-        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(new BOMInputStream(stream),
-                charset))) {
+        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(new BOMInputStream(stream), charset))) {
             return detectPackageName(buffer.lines());
         }
     }

@@ -198,11 +198,11 @@ class IssueFilterTest {
      * @param expectedOutput
      *         the expected filter result.
      */
-    private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Issues<Issue> issues,
+    private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Issues issues,
             final Issue... expectedOutput) {
         String id = "id";
         issues.setOrigin(id);
-        Issues<Issue> result = issues.filter(criterion);
+        Issues result = issues.filter(criterion);
         assertThat(result.iterator()).containsExactly(expectedOutput);
         assertThat(result).hasOrigin(id);
     }
@@ -212,8 +212,8 @@ class IssueFilterTest {
      *
      * @return issues.
      */
-    private Issues<Issue> getIssues() {
-        Issues<Issue> issues = new Issues<>();
+    private Issues getIssues() {
+        Issues issues = new Issues();
         issues.add(ISSUE1, ISSUE2, ISSUE3);
         return issues;
     }

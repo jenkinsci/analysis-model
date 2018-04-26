@@ -24,7 +24,7 @@ class IntelParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(7);
         softly.assertThat(issues.get(0))
                 .hasPriority(Priority.LOW)
@@ -92,7 +92,7 @@ class IntelParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue5402() {
-        Issues<Issue> warnings = parse("issue5402.txt");
+        Issues warnings = parse("issue5402.txt");
 
         assertThat(warnings).hasSize(4);
 

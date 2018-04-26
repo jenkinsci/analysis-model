@@ -27,7 +27,7 @@ class StyleCopParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(5);
 
         Iterator<Issue> iterator = issues.iterator();
@@ -75,7 +75,7 @@ class StyleCopParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testStyleCopOneFile() {
-        Issues<? extends Issue> result = parse("stylecop/onefile.xml");
+        Issues result = parse("stylecop/onefile.xml");
 
         assertThat(result).hasSize(3);
     }
@@ -85,7 +85,7 @@ class StyleCopParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testStyleCop43() {
-        Issues<? extends Issue> result = parse("stylecop/stylecop-v4.3.xml");
+        Issues result = parse("stylecop/stylecop-v4.3.xml");
 
         assertThat(result).hasSize(2);
     }

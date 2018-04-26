@@ -24,7 +24,7 @@ public class FingerprintGenerator {
      * @param charset
      *         the character set to use when reading the source files
      */
-    public void run(final FullTextFingerprint algorithm, final Issues<?> issues, final Charset charset) {
+    public void run(final FullTextFingerprint algorithm, final Issues issues, final Charset charset) {
         for (Issue issue : issues) {
             if (!issue.hasFingerprint()) {
                 try {

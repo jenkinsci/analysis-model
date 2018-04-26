@@ -45,7 +45,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
      * Checks that paths of the type "/c/anything" are changed to "c:/anything" on windows but no other OS.
      */
     private void checkOsSpecificPath(final String os, final String rootDir) {
-        Issues<? extends Issue> warnings = new GnuMakeGccParser(os).parse(openFile());
+        Issues warnings = new GnuMakeGccParser(os).parse(openFile());
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(14))
@@ -59,7 +59,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         Iterator<Issue> iterator = issues.iterator();
         softly.assertThat(issues).hasSize(15);
         softly.assertThat(iterator.next())

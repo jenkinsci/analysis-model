@@ -30,11 +30,11 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  *
  * @author Sebastian Seidl
  */
-public class StyleCopParser extends AbstractParser<Issue> {
+public class StyleCopParser extends AbstractParser {
     private static final long serialVersionUID = 7846052338159003458L;
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -60,8 +60,8 @@ public class StyleCopParser extends AbstractParser<Issue> {
         }
     }
 
-    private Issues<Issue> parseViolations(final List<Element> elements) {
-        Issues<Issue> issues = new Issues<>();
+    private Issues parseViolations(final List<Element> elements) {
+        Issues issues = new Issues();
         for (Element element : elements) {
             IssueBuilder builder = new IssueBuilder().setFileName(getString(element, "Source"))
                     .setLineStart(getLineNumber(element))

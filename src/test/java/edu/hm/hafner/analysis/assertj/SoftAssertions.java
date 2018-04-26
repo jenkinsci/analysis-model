@@ -63,7 +63,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
      * @param actual the issues we want to make assertions on
      * @return a new {@link IssuesAssert}
      */
-    public IssuesAssert assertThat(final Issues<? extends Issue> actual) {
+    public IssuesAssert assertThat(final Issues actual) {
         return proxy(IssuesAssert.class, Issues.class, actual);
     }
 

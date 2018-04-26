@@ -34,7 +34,7 @@ class JcReportParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testGetWarningList() {
-        Issues<Issue> warnings = parseDefaultFile();
+        Issues warnings = parseDefaultFile();
 
         assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
     }
@@ -88,7 +88,7 @@ class JcReportParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(5).hasDuplicatesSize(2);
 
         softly.assertThat(issues.get(0))

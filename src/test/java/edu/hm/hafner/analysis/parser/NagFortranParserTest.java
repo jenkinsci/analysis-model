@@ -23,7 +23,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testInfoParser() {
-        Issues<Issue> warnings = parse("NagFortranInfo.txt");
+        Issues warnings = parse("NagFortranInfo.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -47,7 +47,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testWarningParser() {
-        Issues<Issue> warnings = parse("NagFortranWarning.txt");
+        Issues warnings = parse("NagFortranWarning.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -71,7 +71,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testQuestionableParser() {
-        Issues<Issue> warnings = parse("NagFortranQuestionable.txt");
+        Issues warnings = parse("NagFortranQuestionable.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -95,7 +95,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testExtensionParser() {
-        Issues<Issue> warnings = parse("NagFortranExtension.txt");
+        Issues warnings = parse("NagFortranExtension.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -119,7 +119,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testObsolescentParser() {
-        Issues<Issue> warnings = parse("NagFortranObsolescent.txt");
+        Issues warnings = parse("NagFortranObsolescent.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -143,7 +143,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testDeletedFeatureUsedParser() {
-        Issues<Issue> warnings = parse("NagFortranDeletedFeatureUsed.txt");
+        Issues warnings = parse("NagFortranDeletedFeatureUsed.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -167,7 +167,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testErrorParser() {
-        Issues<Issue> warnings = parse("NagFortranError.txt");
+        Issues warnings = parse("NagFortranError.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -191,7 +191,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testRuntimeErrorParser() {
-        Issues<Issue> warnings = parse("NagFortranRuntimeError.txt");
+        Issues warnings = parse("NagFortranRuntimeError.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -215,7 +215,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testFatalErrorParser() {
-        Issues<Issue> warnings = parse("NagFortranFatalError.txt");
+        Issues warnings = parse("NagFortranFatalError.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -239,7 +239,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testPanicParser() {
-        Issues<Issue> warnings = parse("NagFortranPanic.txt");
+        Issues warnings = parse("NagFortranPanic.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -259,7 +259,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
                 .hasSize(10)
                 .hasHighPrioritySize(4)

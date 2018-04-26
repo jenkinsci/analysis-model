@@ -27,12 +27,12 @@ public abstract class RegexpDocumentParser extends RegexpParser {
     }
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try (BufferedReader bufferedReader = new BufferedReader(reader)) {
             String text = bufferedReader.lines().map(preProcessor).collect(Collectors.joining("\n"));
 
-            Issues<Issue> warnings = new Issues<>();
+            Issues warnings = new Issues();
             findIssues(text + "\n", warnings);
             return warnings;
 

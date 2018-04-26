@@ -23,14 +23,14 @@ import edu.hm.hafner.analysis.SecureDigester;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
-public class JcReportParser extends AbstractParser<Issue> {
+public class JcReportParser extends AbstractParser {
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException {
         Report report = createReport(reader);
-        Issues<Issue> warnings = new Issues<>();
+        Issues warnings = new Issues();
         for (int i = 0; i < report.getFiles().size(); i++) {
             File file = report.getFiles().get(i);
 

@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.Issues;
  * @author Marcel Binder
  */
 @SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion"})
-public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<?>> {
+public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
     /**
@@ -21,7 +21,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<?>> {
      * @param actual
      *         the issue we want to make assertions on
      */
-    public IssuesAssert(final Issues<?> actual) {
+    public IssuesAssert(final Issues actual) {
         super(actual, IssuesAssert.class);
     }
 
@@ -34,7 +34,7 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues<?>> {
      *
      * @return a new {@link IssuesAssert}
      */
-    public static IssuesAssert assertThat(final Issues<?> actual) {
+    public static IssuesAssert assertThat(final Issues actual) {
         return new IssuesAssert(actual);
     }
 

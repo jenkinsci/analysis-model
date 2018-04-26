@@ -5,7 +5,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import edu.hm.hafner.analysis.IntegerParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
@@ -14,7 +13,7 @@ import edu.hm.hafner.analysis.Priority;
  * Handles parsing.
  */
 public class JSLintXmlSaxParser extends DefaultHandler {
-    private final Issues<Issue> issues;
+    private final Issues issues;
     private String fileName;
 
     /** Categories. */
@@ -28,7 +27,7 @@ public class JSLintXmlSaxParser extends DefaultHandler {
      * @param issues
      *         the issues
      */
-    public JSLintXmlSaxParser(final Issues<Issue> issues) {
+    public JSLintXmlSaxParser(final Issues issues) {
         super();
 
         this.issues = issues;

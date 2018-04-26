@@ -16,10 +16,10 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  */
 class IssueBuilderTest {
     private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, new LineRangeList(),
-            null, null, null, null, null, null, null, null, null, null);
+            null, null, null, null, null, null, null, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
             LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
-            FINGERPRINT);
+            FINGERPRINT, ADDITIONAL_PROPERTIES);
 
     @Test
     void shouldCreateDefaultIssueIfNothingSpecified() {
@@ -89,6 +89,7 @@ class IssueBuilderTest {
                 .setLineRanges(LINE_RANGES)
                 .setReference(REFERENCE)
                 .setFingerprint(FINGERPRINT)
+                .setAdditionalProperties(ADDITIONAL_PROPERTIES)
                 .build();
 
         assertThatIssueIsEqualToFilled(issue);

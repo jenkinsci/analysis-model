@@ -29,7 +29,7 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue16826() {
-        Issues<Issue> warnings = parse("issue16826.txt");
+        Issues warnings = parse("issue16826.txt");
 
         assertThat(warnings).hasSize(1);
     }
@@ -42,13 +42,13 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
     @Test
     @Disabled("Until JENKINS-25278 is fixed")
     void largeFile() {
-        Issues<Issue> warnings = parse("maven-large.log");
+        Issues warnings = parse("maven-large.log");
 
         assertThat(warnings).hasSize(1);
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
                 .hasSize(4)
                 .hasHighPrioritySize(2)

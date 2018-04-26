@@ -27,7 +27,7 @@ class CppLintParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue18290() {
-        Issues<Issue> warnings = parse("issue18290.txt");
+        Issues warnings = parse("issue18290.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -48,7 +48,7 @@ class CppLintParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
                 .hasSize(1031)
                 .hasHighPrioritySize(81)

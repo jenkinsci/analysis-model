@@ -26,7 +26,7 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(6);
         softly.assertThat(issues.getFiles()).hasSize(1);
         softly.assertThat(issues.getFiles()).containsExactly(
@@ -47,7 +47,7 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue25511() {
-        Issues<? extends Issue> issues = parseInCheckStyleFolder("issue25511.xml");
+        Issues issues = parseInCheckStyleFolder("issue25511.xml");
 
         assertThat(issues).hasSize(2);
 
@@ -62,7 +62,7 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testColumnPositions() {
-        Issues<? extends Issue> issues = parseInCheckStyleFolder("issue19122.xml");
+        Issues issues = parseInCheckStyleFolder("issue19122.xml");
 
         assertThat(issues).hasSize(58);
     }
@@ -75,12 +75,12 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testParsingOfScalaStyleFormat() {
-        Issues<? extends Issue> issues = parseInCheckStyleFolder("scalastyle-output.xml");
+        Issues issues = parseInCheckStyleFolder("scalastyle-output.xml");
 
         assertThat(issues).hasSize(2);
     }
 
-    private Issues<? extends Issue> parseInCheckStyleFolder(final String fileName) {
+    private Issues parseInCheckStyleFolder(final String fileName) {
         return parse(PREFIX + fileName);
     }
 }

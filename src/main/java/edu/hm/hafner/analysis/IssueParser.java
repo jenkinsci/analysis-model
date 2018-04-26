@@ -10,12 +10,9 @@ import edu.hm.hafner.analysis.parser.MavenConsoleParser;
 /**
  * Parses a file and returns the issues reported in this file.
  *
- * @param <T>
- *         subtype of created issues
- *
  * @author Ullrich Hafner
  */
-public abstract class IssueParser<T extends Issue> implements Serializable {
+public abstract class IssueParser implements Serializable {
     private static final long serialVersionUID = 200992696185460268L;
 
     /**
@@ -41,7 +38,7 @@ public abstract class IssueParser<T extends Issue> implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues<T> parse(File file, Charset charset, Function<String, String> preProcessor)
+    public abstract Issues parse(File file, Charset charset, Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException;
 
     /**
@@ -58,8 +55,7 @@ public abstract class IssueParser<T extends Issue> implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public Issues<T> parse(final File file, final Charset charset)
-            throws ParsingException, ParsingCanceledException {
+    public Issues parse(final File file, final Charset charset) throws ParsingException, ParsingCanceledException {
         return parse(file, charset, Function.identity());
     }
 }

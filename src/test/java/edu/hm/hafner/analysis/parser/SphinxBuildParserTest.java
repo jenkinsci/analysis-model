@@ -19,7 +19,7 @@ class SphinxBuildParserTest extends AbstractIssueParserTest {
     private static final String SPHINX_BUILD_WARNING = "WARNING";
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(6);
 
         softly.assertThat(issues.get(0))

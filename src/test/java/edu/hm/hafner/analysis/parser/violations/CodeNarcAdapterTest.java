@@ -12,13 +12,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class CodeNarcAdapterTest extends AbstractParserTest<Issue>  {
+class CodeNarcAdapterTest extends AbstractParserTest  {
     CodeNarcAdapterTest() {
         super("codeNarc.xml");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(11);
         softly.assertThat(issues.get(0))
                 .hasMessage("In most cases, exceptions should not be caught and ignored (swallowed).")
@@ -29,7 +29,7 @@ class CodeNarcAdapterTest extends AbstractParserTest<Issue>  {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new CodeNarcAdapter();
     }
 }

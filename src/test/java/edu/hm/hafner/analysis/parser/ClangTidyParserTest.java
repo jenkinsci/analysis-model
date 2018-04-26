@@ -24,7 +24,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> annotation, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues annotation, final SoftAssertions softly) {
         softly.assertThat(annotation).hasSize(6);
 
         softly.assertThat(annotation.get(0))

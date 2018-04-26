@@ -25,7 +25,7 @@ import edu.hm.hafner.analysis.Priority;
  *
  * @author Ullrich Hafner
  */
-public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
+public abstract class AbstractViolationAdapter extends AbstractParser {
     private static final long serialVersionUID = 7203311857999721045L;
 
     /** Determines whether the Rule property of a {@link Violation} should be used as Category or Type. */
@@ -43,7 +43,7 @@ public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
 
     @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock", "PMD.AvoidCatchingGenericException"})
     @Override
-    public Issues<Issue> parse(final Reader reader, final Function<String, String> preProcessor)
+    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             ViolationsParser parser = createParser();
@@ -62,8 +62,8 @@ public abstract class AbstractViolationAdapter extends AbstractParser<Issue> {
      */
     protected abstract ViolationsParser createParser();
 
-    private Issues<Issue> convertToIssues(final List<Violation> violations) {
-        Issues<Issue> issues = new Issues<>();
+    private Issues convertToIssues(final List<Violation> violations) {
+        Issues issues = new Issues();
         for (Violation violation : violations) {
             if (isValid(violation)) {
                 issues.add(convertToIssue(violation));

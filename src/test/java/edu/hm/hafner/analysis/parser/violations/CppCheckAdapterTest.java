@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser.violations;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -12,13 +11,13 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class CppCheckAdapterTest extends AbstractParserTest<Issue> {
+class CppCheckAdapterTest extends AbstractParserTest {
     CppCheckAdapterTest() {
         super("cppcheck.xml");
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues).hasSize(3);
         softly.assertThat(issues.get(0))
                 .hasMessage("The scope of the variable 'i' can be reduced. "
@@ -50,7 +49,7 @@ class CppCheckAdapterTest extends AbstractParserTest<Issue> {
     }
 
     @Override
-    protected AbstractParser<Issue> createParser() {
+    protected AbstractParser createParser() {
         return new CppCheckAdapter();
     }
 }

@@ -24,7 +24,7 @@ class ResharperInspectCodeAdapterTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues<Issue> issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         assertThat(issues).hasSize(3);
 
         Iterator<Issue> iterator = issues.iterator();
