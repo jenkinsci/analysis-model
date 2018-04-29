@@ -37,6 +37,8 @@ public class IssueBuilder {
     @CheckForNull
     private Priority priority;
     @CheckForNull
+    private Severity severity;
+    @CheckForNull
     private String message;
     @CheckForNull
     private String description;
@@ -130,6 +132,11 @@ public class IssueBuilder {
         return this;
     }
 
+    public IssueBuilder setSeverity(@CheckForNull final Severity severity) {
+        this.severity = severity;
+        return this;
+    }
+
     public IssueBuilder setMessage(@CheckForNull final String message) {
         this.message = message;
         return this;
@@ -162,7 +169,7 @@ public class IssueBuilder {
         lineRanges = copy.getLineRanges();
         category = copy.getCategory();
         type = copy.getType();
-        priority = copy.getPriority();
+        severity = copy.getSeverity();
         message = copy.getMessage();
         description = copy.getDescription();
         packageName = copy.getPackageName();
@@ -180,9 +187,18 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, priority, message, description, origin, reference, fingerprint,
-                additionalProperties, id);
+
+        Issue issue;
+        if (priority != null && severity == null) {
+            issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+                    packageName, moduleName, Severity.of(priority), message, description, origin, reference, fingerprint,
+                    additionalProperties, id);
+        }
+        else {
+            issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+                    packageName, moduleName, severity, message, description, origin, reference, fingerprint,
+                    additionalProperties, id);
+        }
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }

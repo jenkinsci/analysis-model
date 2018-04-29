@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -123,9 +122,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
         assertThat(warnings)
                 .hasSize(18)
                 .hasDuplicatesSize(2)
-                .hasHighPrioritySize(0)
-                .hasNormalPrioritySize(18)
-                .hasLowPrioritySize(0);
+                .hasPriorities(0, 18, 0);
     }
 
     /**

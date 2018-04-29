@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -51,9 +50,7 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
                 .hasSize(4)
-                .hasHighPrioritySize(2)
-                .hasNormalPrioritySize(2)
-                .hasLowPrioritySize(0);
+                .hasPriorities(2, 2, 0);
     }
 
     @Override

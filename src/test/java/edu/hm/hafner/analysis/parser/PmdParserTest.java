@@ -2,13 +2,11 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.Issues.*;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
+import static edu.hm.hafner.analysis.Issues.*;
 import edu.hm.hafner.analysis.Priority;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 
@@ -36,9 +34,7 @@ class PmdParserTest extends AbstractIssueParserTest {
         softly.assertThat(issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
         softly.assertThat(issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
 
-        softly.assertThat(issues).hasHighPrioritySize(1);
-        softly.assertThat(issues).hasNormalPrioritySize(2);
-        softly.assertThat(issues).hasLowPrioritySize(1);
+        softly.assertThat(issues).hasPriorities(1, 2, 1);
 
         softly.assertThat(actionIssues.get(0))
                 .hasMessage("These nested if statements could be combined.")
@@ -122,7 +118,7 @@ class PmdParserTest extends AbstractIssueParserTest {
         int expectedSize = 4;
         assertThat(issues).hasSize(expectedSize);
         assertThat(issues.filter(byPackageName("com.avaloq.adt.env.core.db.plsqlCompletion"))).hasSize(expectedSize);
-        assertThat(issues).hasNormalPrioritySize(expectedSize);
+        assertThat(issues).hasPriorities(0, 4, 0);
     }
 
     private Issues parseInPmdFolder(final String fileName) {

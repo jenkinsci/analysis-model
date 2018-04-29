@@ -1,0 +1,8 @@
+[ERROR] /home/jenkins/workspace/nings-plugin_hm-edu-testing-ILHMAVFV64G6RU3LAS4H3JHXF7CSO4KT7MY22WMDJ4EHQY7IVHTQ/src/test/java/io/jenkins/plugins/analysis/warnings/IssuesRecorderITest.java:[38,9] cannot access io.jenkins.plugins.analysis.core.model.LabelProviderFactoryITest
+  class file for io.jenkins.plugins.analysis.core.model.LabelProviderFactoryITest not found
+[ERROR] /home/jenkins/workspace/nings-plugin_hm-edu-testing-ILHMAVFV64G6RU3LAS4H3JHXF7CSO4KT7MY22WMDJ4EHQY7IVHTQ/src/test/java/io/jenkins/plugins/analysis/warnings/IssuesRecorderITest.java:[39,9] cannot access io.jenkins.plugins.analysis.core.model.LabelProviderFactoryITest.TestFactory
+  class file for io.jenkins.plugins.analysis.core.model.LabelProviderFactoryITest$TestFactory not found
+[ERROR] /home/jenkins/workspace/nings-plugin_hm-edu-testing-ILHMAVFV64G6RU3LAS4H3JHXF7CSO4KT7MY22WMDJ4EHQY7IVHTQ/src/test/java/io/jenkins/plugins/analysis/warnings/IssuesRecorderITest.java:[52,9] cannot access io.jenkins.plugins.analysis.core.model.LabelProviderFactoryITest.TestTool
+  class file for io.jenkins.plugins.analysis.core.model.LabelProviderFactoryITest$TestTool not found
+[ERROR] /home/jenkins/workspace/nings-plugin_hm-edu-testing-ILHMAVFV64G6RU3LAS4H3JHXF7CSO4KT7MY22WMDJ4EHQY7IVHTQ/src/test/java/io/jenkins/plugins/analysis/warnings/IssuesRecorderITest.java:[53,9] cannot access io.jenkins.plugins.analysis.core.model.LabelProviderFactoryITest.TestTool.TestToolDescriptor
+  class file for io.jenkins.plugins.analysis.core.model.LabelProviderFactoryITest$TestTool$TestToolDescriptor not found

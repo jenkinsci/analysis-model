@@ -20,7 +20,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Unit tests for {@link Issues}.
@@ -63,7 +63,7 @@ class IssuesTest extends SerializableTest<Issues> {
         Issues issues = new Issues();
         issues.addAll(allIssuesAsList());
 
-        Map<String, Issues> byPriority = issues.groupByProperty("priority");
+        Map<String, Issues> byPriority = issues.groupByProperty("severity");
         assertThat(byPriority).hasSize(3);
         assertThat(byPriority.get(Priority.HIGH.toString())).hasSize(1);
         assertThat(byPriority.get(Priority.NORMAL.toString())).hasSize(2);
@@ -211,9 +211,7 @@ class IssuesTest extends SerializableTest<Issues> {
         assertThat(issues.isNotEmpty()).isFalse();
         assertThat(issues).hasSize(0);
         assertThat(issues.size()).isEqualTo(0);
-        assertThat(issues).hasHighPrioritySize(0);
-        assertThat(issues).hasLowPrioritySize(0);
-        assertThat(issues).hasNormalPrioritySize(0);
+        assertThat(issues).hasPriorities(0, 0, 0);
     }
 
     @Test
@@ -265,10 +263,9 @@ class IssuesTest extends SerializableTest<Issues> {
         fromEmpty.addAll(issues);
         assertThatAllIssuesHaveBeenAdded(fromEmpty);
         fromEmpty.addAll(issues);
-        assertThat(fromEmpty).hasSize(6).hasDuplicatesSize(6)
-                .hasHighPrioritySize(1)
-                .hasNormalPrioritySize(2)
-                .hasLowPrioritySize(3);
+        assertThat(fromEmpty).hasSize(6)
+                .hasDuplicatesSize(6)
+                .hasPriorities(1, 2, 3);
 
         Issues left = new Issues(asList(HIGH, NORMAL_1, NORMAL_2));
         Issues right = new Issues(asList(LOW_2_A, LOW_2_B, LOW_FILE_3));
@@ -294,9 +291,7 @@ class IssuesTest extends SerializableTest<Issues> {
             softly.assertThat(issues)
                     .hasSize(6)
                     .hasDuplicatesSize(0)
-                    .hasHighPrioritySize(1)
-                    .hasNormalPrioritySize(2)
-                    .hasLowPrioritySize(3);
+                    .hasPriorities(1, 2, 3);
             softly.assertThat(issues.getFiles())
                     .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat(issues.getFiles())
@@ -309,14 +304,6 @@ class IssuesTest extends SerializableTest<Issues> {
             softly.assertThat(issues.getPropertyCount(Issue::getFileName)).containsEntry("file-1", 3);
             softly.assertThat(issues.getPropertyCount(Issue::getFileName)).containsEntry("file-2", 2);
             softly.assertThat(issues.getPropertyCount(Issue::getFileName)).containsEntry("file-3", 1);
-
-            softly.assertThat(issues.getSizeOf(Priority.HIGH)).isEqualTo(1);
-            softly.assertThat(issues.getSizeOf(Priority.NORMAL)).isEqualTo(2);
-            softly.assertThat(issues.getSizeOf(Priority.LOW)).isEqualTo(3);
-
-            softly.assertThat(issues.sizeOf(Priority.HIGH)).isEqualTo(1);
-            softly.assertThat(issues.sizeOf(Priority.NORMAL)).isEqualTo(2);
-            softly.assertThat(issues.sizeOf(Priority.LOW)).isEqualTo(3);
         });
     }
 
@@ -333,10 +320,7 @@ class IssuesTest extends SerializableTest<Issues> {
         assertThat(issues).hasSize(4).hasDuplicatesSize(2);
 
         assertThat(issues.iterator()).containsExactly(HIGH, LOW_2_A, NORMAL_1, NORMAL_2);
-        assertThat(issues)
-                .hasLowPrioritySize(1)
-                .hasNormalPrioritySize(2)
-                .hasHighPrioritySize(1);
+        assertThat(issues).hasPriorities(1, 2, 1);
         assertThat(issues.getFiles()).containsExactly("file-1", "file-2");
     }
 
@@ -413,7 +397,7 @@ class IssuesTest extends SerializableTest<Issues> {
         Issues issues = new Issues();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
-        Set<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.LOW));
+        Set<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getSeverity(), Priority.LOW));
 
         assertThat(found).isEmpty();
     }
@@ -422,7 +406,7 @@ class IssuesTest extends SerializableTest<Issues> {
     void testFindByPropertyResultImmutable() {
         Issues issues = new Issues();
         issues.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
-        Set<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getPriority(), Priority.HIGH));
+        Set<Issue> found = issues.findByProperty(issue -> Objects.equals(issue.getSeverity(), Severity.WARNING_HIGH));
 
         assertThat(found).hasSize(1);
         assertThat(found).containsExactly(HIGH);

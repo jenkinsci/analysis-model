@@ -31,7 +31,7 @@ public class IssueTest extends SerializableTest<Issue> {
     static final String TYPE = "type";
     static final String PACKAGE_NAME = "package-name";
     static final String MODULE_NAME = "module-name";
-    static final Priority PRIORITY = Priority.HIGH;
+    static final Severity SEVERITY = Severity.WARNING_HIGH;
     static final String MESSAGE = "message";
     static final String MESSAGE_NOT_STRIPPED = "    message  ";
     static final String DESCRIPTION = "description";
@@ -87,7 +87,7 @@ public class IssueTest extends SerializableTest<Issue> {
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @CheckForNull final String category, @CheckForNull final String type,
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
-            @CheckForNull final Priority priority, @CheckForNull final String message,
+            @CheckForNull final Severity priority, @CheckForNull final String message,
             @CheckForNull final String description, @CheckForNull final String origin,
             @CheckForNull final String reference, @CheckForNull final String fingerprint,
             final String additionalProperties) {
@@ -99,7 +99,7 @@ public class IssueTest extends SerializableTest<Issue> {
     @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
         Issue issue = new Issue(FILE_NAME, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY,
+                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY,
                 MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
@@ -125,7 +125,7 @@ public class IssueTest extends SerializableTest<Issue> {
                     .hasType(TYPE)
                     .hasPackageName(PACKAGE_NAME)
                     .hasModuleName(MODULE_NAME)
-                    .hasPriority(PRIORITY)
+                    .hasSeverity(SEVERITY)
                     .hasMessage(MESSAGE)
                     .hasOrigin(ORIGIN)
                     .hasDescription(DESCRIPTION)
@@ -142,8 +142,8 @@ public class IssueTest extends SerializableTest<Issue> {
                     .isEqualTo(issue.getCategory());
             softly.assertThat(Issue.getPropertyValueAsString(issue, "lineStart"))
                     .isEqualTo(String.valueOf(issue.getLineStart()));
-            softly.assertThat(Issue.getPropertyValueAsString(issue, "priority"))
-                    .isEqualTo(issue.getPriority().toString());
+            softly.assertThat(Issue.getPropertyValueAsString(issue, "severity"))
+                    .isEqualTo(issue.getSeverity().toString());
         });
     }
 
@@ -179,7 +179,7 @@ public class IssueTest extends SerializableTest<Issue> {
     void testDefaultIssueNullStringsNegativeIntegers() {
         Issue issue = createIssue(null, 0, 0, 0, 0,
                 null, null, null, null,
-                PRIORITY, null, null, null, null, null, null);
+                SEVERITY, null, null, null, null, null, null);
 
         assertIsDefaultIssue(issue);
     }
@@ -187,7 +187,7 @@ public class IssueTest extends SerializableTest<Issue> {
     @Test
     void testDefaultIssueEmptyStringsNegativeIntegers() {
         Issue issue = createIssue(EMPTY, -1, -1, -1, -1,
-                EMPTY, EMPTY, EMPTY, EMPTY, PRIORITY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+                EMPTY, EMPTY, EMPTY, EMPTY, SEVERITY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
 
         assertIsDefaultIssue(issue);
     }
@@ -216,7 +216,7 @@ public class IssueTest extends SerializableTest<Issue> {
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
         Issue issue = createIssue(FILE_NAME, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE,
-                PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+                PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
         assertSoftly(softly -> {
@@ -234,7 +234,7 @@ public class IssueTest extends SerializableTest<Issue> {
                 PACKAGE_NAME, MODULE_NAME, null, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
-        assertThat(issue.getPriority()).isEqualTo(Priority.NORMAL);
+        assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
     }
 
     @Test
@@ -252,7 +252,7 @@ public class IssueTest extends SerializableTest<Issue> {
      */
     protected Issue createFilledIssue() {
         return createIssue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME,
-                MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
+                MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
     }
 
     @Test
@@ -273,7 +273,7 @@ public class IssueTest extends SerializableTest<Issue> {
     @Test
     void testFileNameBackslashConversion() {
         Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
         assertThat(issue).hasFileName(FILE_NAME);
@@ -282,7 +282,7 @@ public class IssueTest extends SerializableTest<Issue> {
     @Test
     void testMessageDescriptionStripped() {
         Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
+                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
                 REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
 
         assertSoftly(softly -> {

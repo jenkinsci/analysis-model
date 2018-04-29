@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -23,10 +22,7 @@ class ScalacParserTest extends AbstractIssueParserTest {
         softly.assertThat(issues).hasSize(3);
 
         softly.assertThat(issues)
-                .hasSize(3)
-                .hasHighPrioritySize(1)
-                .hasNormalPrioritySize(2)
-                .hasLowPrioritySize(0);
+                .hasSize(3).hasPriorities(1, 2, 0);
         softly.assertThat(issues.get(0))
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(SCALAC_CATEGORY_WARNING)

@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -27,7 +26,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasLowPrioritySize(1);
+                .hasPriorities(0, 0, 1);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("C:/file1.inc")
@@ -51,7 +50,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasNormalPrioritySize(1);
+                .hasPriorities(0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("C:/file2.f90")
@@ -75,7 +74,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasNormalPrioritySize(1);
+                .hasPriorities(0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("/file3.f90")
@@ -99,7 +98,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasNormalPrioritySize(1);
+                .hasPriorities(0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file4.f90")
@@ -123,7 +122,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasNormalPrioritySize(1);
+                .hasPriorities(0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file5.f")
@@ -147,7 +146,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasNormalPrioritySize(1);
+                .hasPriorities(0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file6.f90")
@@ -171,7 +170,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasHighPrioritySize(1);
+                .hasPriorities(1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file7.f90")
@@ -195,7 +194,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasHighPrioritySize(1);
+                .hasPriorities(1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file8.f90")
@@ -219,7 +218,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasHighPrioritySize(1);
+                .hasPriorities(1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file9.f90")
@@ -243,7 +242,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasHighPrioritySize(1);
+                .hasPriorities(1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file10.f90")
@@ -262,9 +261,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
                 .hasSize(10)
-                .hasHighPrioritySize(4)
-                .hasNormalPrioritySize(5)
-                .hasLowPrioritySize(1);
+                .hasPriorities(4, 5, 1);
 
         softly.assertThat(issues.get(0))
                 .hasFileName("C:/file1.inc")

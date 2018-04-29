@@ -7,6 +7,7 @@ import org.assertj.core.api.AbstractAssert;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * Assertions for {@link Issue}.
@@ -123,8 +124,26 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasPriority(final Priority priority) {
         isNotNull();
 
-        if (!Objects.equals(actual.getPriority(), priority)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, priority, actual.getPriority());
+        if (!Objects.equals(actual.getSeverity(), Severity.of(priority))) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, priority, actual.getSeverity());
+        }
+
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue has a specific severity.
+     *
+     * @param severity
+     *         Priority specifying severity.
+     *
+     * @return this
+     */
+    public IssueAssert hasSeverity(final Severity severity) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getSeverity(), severity)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "severity", actual, severity, actual.getSeverity());
         }
 
         return this;

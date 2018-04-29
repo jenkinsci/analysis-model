@@ -18,7 +18,7 @@ class IssueBuilderTest {
     private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, new LineRangeList(),
             null, null, null, null, null, null, null, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, PRIORITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
+            LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
 
     @Test
@@ -82,7 +82,7 @@ class IssueBuilderTest {
                 .setType(TYPE)
                 .setPackageName(PACKAGE_NAME)
                 .setModuleName(MODULE_NAME)
-                .setPriority(PRIORITY)
+                .setSeverity(SEVERITY)
                 .setMessage(MESSAGE)
                 .setDescription(DESCRIPTION)
                 .setOrigin(ORIGIN)

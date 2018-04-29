@@ -22,12 +22,11 @@ import java.util.stream.StreamSupport;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
 
-import edu.hm.hafner.util.VisibleForTesting;
-import static java.util.stream.Collectors.*;
-
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
+import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import static java.util.stream.Collectors.*;
 
 /**
  * A set of {@link Issue issues}: it contains no duplicate elements, i.e. it models the mathematical <i>set</i>
@@ -35,8 +34,8 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * this set are ordered by their index in this set: the first added issue is at position 0, the second added issues is
  * at position 1, and so on.
  * <p>
- * Additionally, this set of issues provides methods to find and filter issues based
- * on different properties. In order to create issues use the provided {@link IssueBuilder builder} class.
+ * Additionally, this set of issues provides methods to find and filter issues based on different properties. In order
+ * to create issues use the provided {@link IssueBuilder builder} class.
  * </p>
  *
  * @author Ullrich Hafner
@@ -49,7 +48,6 @@ public final class Issues implements Iterable<Issue>, Serializable {
     static final String DEFAULT_ID = "-";
 
     private final Set<Issue> elements = new LinkedHashSet<>();
-    private final int[] sizeOfPriority = new int[Priority.values().length];
     private final List<String> infoMessages = new ArrayList<>();
     private final List<String> errorMessages = new ArrayList<>();
 
@@ -135,7 +133,6 @@ public final class Issues implements Iterable<Issue>, Serializable {
         }
         else {
             elements.add(issue);
-            sizeOfPriority[issue.getPriority().ordinal()]++;
         }
     }
 
@@ -305,54 +302,27 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the number of issues of the specified priority.
+     * Returns the number of issues with the specified {@code severity} in this container.
      *
-     * @param priority
-     *         the priority of the issues
-     *
-     * @return total number of issues
-     */
-    public int getSizeOf(final Priority priority) {
-        return sizeOfPriority[priority.ordinal()];
-    }
-
-    /**
-     * Returns the number of issues of the specified priority.
-     *
-     * @param priority
-     *         the priority of the issues
+     * @param severity
+     *         the severity of the issues
      *
      * @return total number of issues
      */
-    public int sizeOf(final Priority priority) {
-        return getSizeOf(priority);
+    public int getSizeOf(final String severity) {
+        return getSizeOf(Severity.of(severity));
     }
 
     /**
-     * Returns the number of high priority issues in this container.
+     * Returns the number of issues with the specified {@link Severity} in this container.
      *
-     * @return total number of high priority issues
-     */
-    public int getHighPrioritySize() {
-        return getSizeOf(Priority.HIGH);
-    }
-
-    /**
-     * Returns the number of normal priority issues in this container.
+     * @param severity
+     *         the severity of the issues
      *
-     * @return total number of normal priority issues
+     * @return total number of issues
      */
-    public int getNormalPrioritySize() {
-        return getSizeOf(Priority.NORMAL);
-    }
-
-    /**
-     * Returns the number of low priority issues in this container.
-     *
-     * @return total number of low priority of issues
-     */
-    public int getLowPrioritySize() {
-        return getSizeOf(Priority.LOW);
+    public int getSizeOf(final Severity severity) {
+        return elements.stream().filter(issue -> issue.getSeverity().equals(severity)).mapToInt(e -> 1).sum();
     }
 
     /**
@@ -433,6 +403,13 @@ public final class Issues implements Iterable<Issue>, Serializable {
      */
     public Set<String> getTools() {
         return getProperties(Issue::getOrigin);
+    }
+
+    /**
+     * FIXME
+     */
+    public Set<Severity> getSeverities() {
+        return elements.stream().map(Issue::getSeverity).collect(toSet());
     }
 
     /**
@@ -641,9 +618,6 @@ public final class Issues implements Iterable<Issue>, Serializable {
         if (!elements.equals(issues.elements)) {
             return false;
         }
-        if (!Arrays.equals(sizeOfPriority, issues.sizeOfPriority)) {
-            return false;
-        }
         if (!infoMessages.equals(issues.infoMessages)) {
             return false;
         }
@@ -659,7 +633,6 @@ public final class Issues implements Iterable<Issue>, Serializable {
     @Override
     public int hashCode() {
         int result = elements.hashCode();
-        result = 31 * result + Arrays.hashCode(sizeOfPriority);
         result = 31 * result + infoMessages.hashCode();
         result = 31 * result + errorMessages.hashCode();
         result = 31 * result + duplicatesSize;

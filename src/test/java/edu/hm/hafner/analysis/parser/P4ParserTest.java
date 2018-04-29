@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -18,8 +17,7 @@ class P4ParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
                 .hasSize(4)
-                .hasNormalPrioritySize(2)
-                .hasLowPrioritySize(2);
+                .hasPriorities(0, 2, 2);
 
         softly.assertThat(issues.get(0))
                 .hasFileName("//eng/Tools/Hudson/instances/PCFARM08/.owner")

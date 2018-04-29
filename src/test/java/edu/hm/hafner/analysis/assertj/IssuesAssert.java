@@ -5,6 +5,8 @@ import java.util.Objects;
 import org.assertj.core.api.AbstractAssert;
 
 import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * Assertions for {@link Issues}.
@@ -132,63 +134,33 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     }
 
     /**
-     * Verifies that the actual size of high priority issues in the {@link Issues} instance is equal to the given one.
+     * Verifies that the actual size of the {@link Issues} instance is equal to the given one.
      *
-     * @param highPrioritySize
-     *         the expected size of high priority issues to compare the actual {@link Issues} size to.
+     * @param expectedSizeHigh
+     *         the expected size of issues with {@link Priority#HIGH} to compare the actual {@link Issues} size to.
+     * @param expectedSizeNormal
+     *         the expected size of issues with {@link Priority#NORMAL} to compare the actual {@link Issues} size to.
+     * @param expectedSizeLow
+     *         the expected size of issues with {@link Priority#LOW} to compare the actual {@link Issues} size to.
      *
      * @return this assertion object.
      * @throws AssertionError
-     *         if the actual {@link Issues} size of high priority issues is not equal to the given one.
+     *         if the actual {@link Issues} size is not equal to the given one.
      */
-    public IssuesAssert hasHighPrioritySize(final int highPrioritySize) {
+    public IssuesAssert hasPriorities(final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
         isNotNull();
 
-        if (actual.getHighPrioritySize() != highPrioritySize) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "high priority size", actual, highPrioritySize,
-                    actual.getHighPrioritySize());
+        if (actual.getSizeOf(Severity.WARNING_HIGH) != expectedSizeHigh) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeHigh", actual, expectedSizeHigh, actual.size());
+        }
+        if (actual.getSizeOf(Severity.WARNING_NORMAL) != expectedSizeNormal) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeNormal", actual, expectedSizeHigh, actual.size());
+        }
+        if (actual.getSizeOf(Severity.WARNING_LOW) != expectedSizeLow) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeLow", actual, expectedSizeHigh, actual.size());
         }
         return this;
     }
 
-    /**
-     * Verifies that the actual size of normal priority issues in the {@link Issues} instance is equal to the given
-     * one.
-     *
-     * @param normalPrioritySize
-     *         the expected size of normal priority issues to compare the actual {@link Issues} size to.
-     *
-     * @return this assertion object.
-     * @throws AssertionError
-     *         if the actual {@link Issues} size of normal priority issues is not equal to the given one.
-     */
-    public IssuesAssert hasNormalPrioritySize(final int normalPrioritySize) {
-        isNotNull();
 
-        if (actual.getNormalPrioritySize() != normalPrioritySize) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "normal priority size", actual, normalPrioritySize,
-                    actual.getNormalPrioritySize());
-        }
-        return this;
-    }
-
-    /**
-     * Verifies that the actual size of low priority issues in the {@link Issues} instance is equal to the given one.
-     *
-     * @param lowPrioritySize
-     *         the expected size of low priority issues to compare the actual {@link Issues} size to.
-     *
-     * @return this assertion object.
-     * @throws AssertionError
-     *         if the actual {@link Issues} size of low priority issues is not equal to the given one.
-     */
-    public IssuesAssert hasLowPrioritySize(final int lowPrioritySize) {
-        isNotNull();
-
-        if (actual.getLowPrioritySize() != lowPrioritySize) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "low priority size", actual, lowPrioritySize,
-                    actual.getLowPrioritySize());
-        }
-        return this;
-    }
 }

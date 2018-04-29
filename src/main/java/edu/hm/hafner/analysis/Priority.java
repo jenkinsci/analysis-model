@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Defines the priority of an annotation.
+ * Defines the priority of an issue.
  *
  * @author Ullrich Hafner
  */

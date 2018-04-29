@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -20,9 +19,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
-                .hasSize(8)
-                .hasNormalPrioritySize(6)
-                .hasLowPrioritySize(2);
+                .hasSize(8).hasPriorities(0, 6, 2);
 
         softly.assertThat(issues.get(0))
                 .hasFileName("optparse.py")

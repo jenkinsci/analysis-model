@@ -84,7 +84,7 @@ public abstract class SerializableTest<T extends Serializable> extends ResourceT
     }
 
     /**
-     * Serializes an issue using an {@link ObjectOutputStream } to the file /tmp/issue.ser.
+     * Serializes an issue using an {@link ObjectOutputStream } to the file /tmp/serializable.ser.
      *
      * @throws IOException
      *         if the file could not be created

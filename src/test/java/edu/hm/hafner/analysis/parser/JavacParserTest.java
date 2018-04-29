@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -41,6 +42,17 @@ class JavacParserTest extends AbstractIssueParserTest {
     }
 
     /**
+     * Parses a warning log with 4 compile errors.
+     */
+    @Test
+    void shouldParseErrors() {
+        Issues warnings = parse("javac-errors.txt");
+
+        assertThat(warnings).hasSize(4);
+        assertThat(warnings.get(0)).hasSeverity(Severity.ERROR);
+    }
+
+    /**
      * Parses a warning log with two false positives.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>
@@ -50,20 +62,6 @@ class JavacParserTest extends AbstractIssueParserTest {
         Issues warnings = parse("issue14043.txt");
 
         assertThat(warnings).isEmpty();
-    }
-
-    /**
-     * Parses a warning log with 15 warnings.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12482">Issue 12482</a>
-     */
-    @Test
-    void issue12482() {
-        Issues java6 = parse("issue12482-java6.txt");
-        assertThat(java6).hasSize(62);
-
-        Issues java7 = parse("issue12482-java7.txt");
-        assertThat(java7).hasSize(62);
     }
 
     /** Verifies that the Kotlin maven plugin warnings are correctly parsed. */

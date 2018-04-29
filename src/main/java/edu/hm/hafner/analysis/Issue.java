@@ -59,7 +59,8 @@ public final class Issue implements Serializable {
 
     private String category; // almost final
     private String type;     // almost final
-    private final Priority priority;
+
+    private final Severity severity;
     private final TreeString message;
 
     private final int lineStart;            // fixed
@@ -93,7 +94,7 @@ public final class Issue implements Serializable {
     protected Issue(final Issue copy) {
         this(copy.getFileName(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(),
                 copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
-                copy.getPriority(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
+                copy.getSeverity(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
                 copy.getFingerprint(), copy.getAdditionalProperties(), copy.getId());
     }
 
@@ -121,8 +122,8 @@ public final class Issue implements Serializable {
      *         the name of the package (or name space) that contains this issue
      * @param moduleName
      *         the name of the moduleName (or project) that contains this issue
-     * @param priority
-     *         the priority of this issue
+     * @param severity
+     *         the severity of this issue
      * @param message
      *         the detail message of this issue
      * @param description
@@ -142,12 +143,12 @@ public final class Issue implements Serializable {
             @CheckForNull final LineRangeList lineRanges,
             @CheckForNull final String category, @CheckForNull final String type,
             @CheckForNull final String packageName, @CheckForNull final String moduleName,
-            @CheckForNull final Priority priority,
+            @CheckForNull final Severity severity,
             @CheckForNull final String message, @CheckForNull final String description,
             @CheckForNull final String origin, @CheckForNull final String reference,
             @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties) {
         this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName, moduleName,
-                priority, message, description, origin, reference, fingerprint, additionalProperties,
+                severity, message, description, origin, reference, fingerprint, additionalProperties,
                 UUID.randomUUID());
     }
 
@@ -174,8 +175,8 @@ public final class Issue implements Serializable {
      *         the name of the package (or name space) that contains this issue
      * @param moduleName
      *         the name of the moduleName (or project) that contains this issue
-     * @param priority
-     *         the priority of this issue
+     * @param severity
+     *         the severity of this issue
      * @param message
      *         the detail message of this issue
      * @param description
@@ -195,7 +196,7 @@ public final class Issue implements Serializable {
     protected Issue(@CheckForNull final String fileName, final int lineStart, final int lineEnd, final int columnStart,
             final int columnEnd, @CheckForNull final LineRangeList lineRanges, @CheckForNull final String category,
             @CheckForNull final String type, @CheckForNull final String packageName,
-            @CheckForNull final String moduleName, @CheckForNull final Priority priority,
+            @CheckForNull final String moduleName, @CheckForNull final Severity severity,
             @CheckForNull final String message, @CheckForNull final String description,
             @CheckForNull final String origin, @CheckForNull final String reference,
             @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties,
@@ -235,7 +236,7 @@ public final class Issue implements Serializable {
         this.packageName = builder.intern(defaultString(packageName));
         this.moduleName = defaultString(moduleName);
 
-        this.priority = ObjectUtils.defaultIfNull(priority, Priority.NORMAL);
+        this.severity = ObjectUtils.defaultIfNull(severity, Severity.WARNING_NORMAL);
         this.message = builder.intern(StringUtils.stripToEmpty(message));
         this.description = builder.intern(StringUtils.stripToEmpty(description));
 
@@ -356,8 +357,8 @@ public final class Issue implements Serializable {
      *
      * @return the priority
      */
-    public Priority getPriority() {
-        return priority;
+    public Severity getSeverity() {
+        return severity;
     }
 
     /**
@@ -599,7 +600,7 @@ public final class Issue implements Serializable {
         if (!type.equals(issue.type)) {
             return false;
         }
-        if (priority != issue.priority) {
+        if (!severity.equals(issue.severity)) {
             return false;
         }
         if (!message.equals(issue.message)) {
@@ -631,7 +632,7 @@ public final class Issue implements Serializable {
     public int hashCode() {
         int result = category.hashCode();
         result = 31 * result + type.hashCode();
-        result = 31 * result + priority.hashCode();
+        result = 31 * result + severity.hashCode();
         result = 31 * result + message.hashCode();
         result = 31 * result + lineStart;
         result = 31 * result + lineEnd;

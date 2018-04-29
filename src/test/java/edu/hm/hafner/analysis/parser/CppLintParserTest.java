@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -51,9 +50,7 @@ class CppLintParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
         softly.assertThat(issues)
                 .hasSize(1031)
-                .hasHighPrioritySize(81)
-                .hasNormalPrioritySize(201)
-                .hasLowPrioritySize(749);
+                .hasPriorities(81, 201, 749);
         softly.assertThat(issues.get(0))
                 .hasLineStart(824)
                 .hasLineEnd(824)
