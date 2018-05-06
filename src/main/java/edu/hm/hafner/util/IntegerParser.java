@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.util;
 
 import org.apache.commons.lang3.StringUtils;
 

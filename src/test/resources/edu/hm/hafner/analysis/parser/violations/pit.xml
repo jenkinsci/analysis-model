@@ -2,7 +2,7 @@
 <mutations>
   <mutation detected='true' status='KILLED' numberOfTestsRun='1'>
     <sourceFile>Issues.java</sourceFile>
-    <mutatedClass>edu.hm.hafner.analysis.Issues</mutatedClass>
+    <mutatedClass>edu.hm.hafner.analysis.Report</mutatedClass>
     <mutatedMethod>&#60;init&#62;</mutatedMethod>
     <methodDescription>(Ljava/util/Collection;)V</methodDescription>
     <lineNumber>98</lineNumber>
@@ -14,7 +14,7 @@
   </mutation>
   <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
     <sourceFile>Issues.java</sourceFile>
-    <mutatedClass>edu.hm.hafner.analysis.Issues</mutatedClass>
+    <mutatedClass>edu.hm.hafner.analysis.Report</mutatedClass>
     <mutatedMethod>&#60;init&#62;</mutatedMethod>
     <methodDescription>(Ljava/util/stream/Stream;)V</methodDescription>
     <lineNumber>110</lineNumber>
@@ -26,7 +26,7 @@
   </mutation>
   <mutation detected='false' status='SURVIVED' numberOfTestsRun='29'>
     <sourceFile>Issues.java</sourceFile>
-    <mutatedClass>edu.hm.hafner.analysis.Issues</mutatedClass>
+    <mutatedClass>edu.hm.hafner.analysis.Report</mutatedClass>
     <mutatedMethod>copyProperties</mutatedMethod>
     <methodDescription>(Ledu/hm/hafner/analysis/Issues;Ledu/hm/hafner/analysis/Issues;)V</methodDescription>
     <lineNumber>503</lineNumber>

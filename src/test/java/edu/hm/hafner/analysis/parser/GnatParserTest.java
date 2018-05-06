@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -19,9 +19,9 @@ class GnatParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        Iterator<Issue> iterator = issues.iterator();
-        softly.assertThat(issues).hasSize(9);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        Iterator<Issue> iterator = report.iterator();
+        softly.assertThat(report).hasSize(9);
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(GNAT_WARNING)

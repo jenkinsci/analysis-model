@@ -45,12 +45,12 @@ public abstract class AbstractParserTest extends ResourceTest {
 
     /**
      * Parses the default file that must contain issues. Verification of the issues is delegated to method {@link
-     * #assertThatIssuesArePresent(Issues, SoftAssertions)} that needs to be implemented by sub classes.
+     * #assertThatIssuesArePresent(Report, SoftAssertions)} that needs to be implemented by sub classes.
      */
     @Test
     void shouldParseAllIssues() {
-        Issues issues = parseDefaultFile();
-        assertSoftly(softly -> assertThatIssuesArePresent(issues, softly));
+        Report report = parseDefaultFile();
+        assertSoftly(softly -> assertThatIssuesArePresent(report, softly));
     }
 
     /**
@@ -58,7 +58,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      *
      * @return the issues in the default file
      */
-    protected Issues parseDefaultFile() {
+    protected Report parseDefaultFile() {
         return createParser().parse(openFile(), Function.identity());
     }
 
@@ -86,20 +86,20 @@ public abstract class AbstractParserTest extends ResourceTest {
      *
      * @return the found issues
      */
-    protected Issues parse(final String fileName) {
+    protected Report parse(final String fileName) {
         return createParser().parse(openFile(fileName), Function.identity());
     }
 
     /**
      * Verifies that the provided default file has been parsed correctly. I.e., a concrete test case needs to verify
      * that the number of issues is correct and that each issue contains the correct properties.
-     *  @param issues
+     *  @param report
      *         the issues that have been created while parsing the default file
      * @param softly
      *         The soft assertions instance you can use for all {@link SoftAssertions#assertThat assertThat} calls. Note
      *         that {@link SoftAssertions#assertAll} is called automatically, you do not need to call it on your own.
      */
-    protected abstract void assertThatIssuesArePresent(Issues issues, SoftAssertions softly);
+    protected abstract void assertThatIssuesArePresent(Report report, SoftAssertions softly);
 
     /**
      * Creates the parser under test.

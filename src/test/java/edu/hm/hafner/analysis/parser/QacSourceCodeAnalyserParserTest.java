@@ -6,7 +6,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -26,10 +26,10 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(9);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(9);
 
-        Iterator<Issue> iterator = issues.iterator();
+        Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
                 .hasLineStart(34)

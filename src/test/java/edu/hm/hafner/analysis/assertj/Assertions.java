@@ -4,11 +4,11 @@ import org.assertj.core.api.IterableAssert;
 import org.eclipse.collections.api.set.sorted.ImmutableSortedSet;
 
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Custom assertions for {@link Issues} and {@link Issue}.
+ * Custom assertions for {@link Report} and {@link Issue}.
  *
  * @author Ullrich Hafner
  */
@@ -35,7 +35,7 @@ public class Assertions extends org.assertj.core.api.Assertions {
      *
      * @return a new {@link IssuesAssert}
      */
-    public static IssuesAssert assertThat(final Issues actual) {
+    public static IssuesAssert assertThat(final Report actual) {
         return new IssuesAssert(actual);
     }
 

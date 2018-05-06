@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Issues.IssueFilterBuilder;
+import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
@@ -193,16 +193,16 @@ class IssueFilterTest {
      *
      * @param criterion
      *         the filter criterion
-     * @param issues
+     * @param report
      *         the issues to filter.
      * @param expectedOutput
      *         the expected filter result.
      */
-    private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Issues issues,
+    private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Report report,
             final Issue... expectedOutput) {
         String id = "id";
-        issues.setOrigin(id);
-        Issues result = issues.filter(criterion);
+        report.setOrigin(id);
+        Report result = report.filter(criterion);
         assertThat(result.iterator()).containsExactly(expectedOutput);
         assertThat(result).hasOrigin(id);
     }
@@ -212,9 +212,9 @@ class IssueFilterTest {
      *
      * @return issues.
      */
-    private Issues getIssues() {
-        Issues issues = new Issues();
-        issues.add(ISSUE1, ISSUE2, ISSUE3);
-        return issues;
+    private Report getIssues() {
+        Report report = new Report();
+        report.add(ISSUE1, ISSUE2, ISSUE3);
+        return report;
     }
 }

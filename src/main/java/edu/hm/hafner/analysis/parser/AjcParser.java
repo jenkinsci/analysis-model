@@ -7,9 +7,8 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingException;
 
 
@@ -27,10 +26,10 @@ public class AjcParser extends AbstractParser {
     static final String ADVICE = "Advice";
 
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException {
         try (BufferedReader br = new BufferedReader(reader)) {
-            Issues warnings = new Issues();
+            Report warnings = new Report();
 
             String line;
             States state = States.START;

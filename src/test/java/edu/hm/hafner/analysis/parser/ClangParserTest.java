@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -28,10 +28,10 @@ class ClangParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        Iterator<Issue> iterator = issues.iterator();
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        Iterator<Issue> iterator = report.iterator();
 
-        softly.assertThat(issues).hasSize(9);
+        softly.assertThat(report).hasSize(9);
         softly.assertThat(iterator.next()).hasLineStart(28)
                 .hasLineEnd(28)
                 .hasColumnStart(8)
@@ -109,7 +109,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue31936() {
-        Issues warnings = parse("issue31936.txt");
+        Report warnings = parse("issue31936.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -131,7 +131,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void shouldNotDetectTestResults() {
-        Issues warnings = parse("timestamps.log");
+        Report warnings = parse("timestamps.log");
 
         assertThat(warnings).isEmpty();
     }
@@ -143,7 +143,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue36817() {
-        Issues warnings = parse("issue36817.txt");
+        Report warnings = parse("issue36817.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -155,7 +155,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue18084() {
-        Issues warnings = parse("issue18084.txt");
+        Report warnings = parse("issue18084.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -178,7 +178,7 @@ class ClangParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue14333() {
-        Issues warnings = parse("issue14333.txt");
+        Report warnings = parse("issue14333.txt");
 
         assertThat(warnings).hasSize(1);
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -26,9 +26,9 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        Iterator<Issue> iterator = issues.iterator();
-        softly.assertThat(issues).hasSize(4);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        Iterator<Issue> iterator = report.iterator();
+        softly.assertThat(report).hasSize(4);
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("Warning")
@@ -70,7 +70,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testWarningParser() {
-        Issues warnings = parse("GnuFortranWarning.txt");
+        Report warnings = parse("GnuFortranWarning.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -90,7 +90,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testErrorParser() {
-        Issues warnings = parse("GnuFortranError.txt");
+        Report warnings = parse("GnuFortranError.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -111,7 +111,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testFatalErrorParser() {
-        Issues warnings = parse("GnuFortranFatalError.txt");
+        Report warnings = parse("GnuFortranFatalError.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -132,7 +132,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testInternalErrorParser() {
-        Issues warnings = parse("GnuFortranInternalError.txt");
+        Report warnings = parse("GnuFortranInternalError.txt");
 
         assertThat(warnings).hasSize(1);
 

@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -22,10 +21,10 @@ class IdeaInspectionParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(1);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(1);
 
-        softly.assertThat(issues.get(0))
+        softly.assertThat(report.get(0))
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("Unused method parameters")
                 .hasLineStart(42)

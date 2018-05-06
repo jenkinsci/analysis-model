@@ -20,22 +20,23 @@ public abstract class RegexpLineParser extends RegexpParser {
     /**
      * Creates a new instance of {@link RegexpLineParser}.
      *
-     * @param warningPattern pattern of compiler warnings.
+     * @param warningPattern
+     *         pattern of compiler warnings.
      */
     protected RegexpLineParser(final String warningPattern) {
         super(warningPattern, false);
     }
 
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
-        Issues issues = new Issues();
+        Report report = new Report();
         LineIterator iterator = IOUtils.lineIterator(reader);
         try {
             currentLine = 0;
             while (iterator.hasNext()) {
                 String line = preProcessor.apply(iterator.nextLine());
-                findIssues(line, issues);
+                findIssues(line, report);
                 currentLine++;
             }
         }
@@ -43,17 +44,19 @@ public abstract class RegexpLineParser extends RegexpParser {
             iterator.close();
         }
 
-        return postProcess(issues);
+        return postProcess(report);
     }
 
     /**
      * Post processes the issues. This default implementation does nothing.
      *
-     * @param issues  the issues after the parsing process
+     * @param report
+     *         the issues after the parsing process
+     *
      * @return the post processed issues
      */
-    protected Issues postProcess(final Issues issues) {
-        return issues;
+    protected Report postProcess(final Report report) {
+        return report;
     }
 
     /**

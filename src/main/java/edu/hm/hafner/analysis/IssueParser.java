@@ -38,7 +38,7 @@ public abstract class IssueParser implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues parse(File file, Charset charset, Function<String, String> preProcessor)
+    public abstract Report parse(File file, Charset charset, Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException;
 
     /**
@@ -55,7 +55,7 @@ public abstract class IssueParser implements Serializable {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public Issues parse(final File file, final Charset charset) throws ParsingException, ParsingCanceledException {
+    public Report parse(final File file, final Charset charset) throws ParsingException, ParsingCanceledException {
         return parse(file, charset, Function.identity());
     }
 }

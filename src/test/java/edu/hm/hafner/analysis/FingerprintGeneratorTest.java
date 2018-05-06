@@ -29,30 +29,30 @@ class FingerprintGeneratorTest extends ResourceTest {
         FingerprintGenerator generator = new FingerprintGenerator();
 
         IssueBuilder builder = new IssueBuilder().setFileName(AFFECTED_FILE_NAME);
-        Issues issues = createIssues();
-        issues.add(builder.build());
-        assertThat(issues.get(0).hasFingerprint()).isFalse();
+        Report report = createIssues();
+        report.add(builder.build());
+        assertThat(report.get(0).hasFingerprint()).isFalse();
         String alreadySet = "already-set";
-        issues.add(builder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
+        report.add(builder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
         generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
-                issues, CHARSET_AFFECTED_FILE);
+                report, CHARSET_AFFECTED_FILE);
 
-        assertThat(issues.get(0).hasFingerprint()).isTrue();
-        assertThat(issues.get(1).getFingerprint()).isEqualTo(alreadySet);
-        assertThat(issues).hasOrigin(ID);
+        assertThat(report.get(0).hasFingerprint()).isTrue();
+        assertThat(report.get(1).getFingerprint()).isEqualTo(alreadySet);
+        assertThat(report).hasOrigin(ID);
     }
 
     @Test
     void shouldAssignIdenticalFingerprint() {
-        Issues issues = createTwoIssues();
+        Report report = createTwoIssues();
         FingerprintGenerator generator = new FingerprintGenerator();
         FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-one.txt");
 
-        generator.run(fingerprint, issues, CHARSET_AFFECTED_FILE);
+        generator.run(fingerprint, report, CHARSET_AFFECTED_FILE);
 
-        Issue referenceIssue = issues.get(0);
-        Issue currentIssue = issues.get(1);
-        assertThat(issues).hasOrigin(ID);
+        Issue referenceIssue = report.get(0);
+        Issue currentIssue = report.get(1);
+        assertThat(report).hasOrigin(ID);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isEqualTo(currentIssue.getFingerprint());
@@ -78,15 +78,15 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @Test
     void shouldAssignDifferentFingerprint() {
-        Issues issues = createTwoIssues();
+        Report report = createTwoIssues();
         FingerprintGenerator generator = new FingerprintGenerator();
         FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt");
 
-        generator.run(fingerprint, issues, CHARSET_AFFECTED_FILE);
+        generator.run(fingerprint, report, CHARSET_AFFECTED_FILE);
 
-        assertThat(issues).hasOrigin(ID);
-        Issue referenceIssue = issues.get(0);
-        Issue currentIssue = issues.get(1);
+        assertThat(report).hasOrigin(ID);
+        Issue referenceIssue = report.get(0);
+        Issue currentIssue = report.get(1);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isNotEqualTo(currentIssue.getFingerprint());
@@ -95,13 +95,13 @@ class FingerprintGeneratorTest extends ResourceTest {
     @ParameterizedTest(name = "[{index}] Illegal filename = {0}")
     @ValueSource(strings = {"/does/not/exist", "!<>$$&%/&(", "\0 Null-Byte"})
     void shouldUseFallbackFingerprintOnError(final String fileName) {
-        Issues issues = new Issues();
-        issues.add(new IssueBuilder().setFileName(fileName).build());
+        Report report = new Report();
+        report.add(new IssueBuilder().setFileName(fileName).build());
 
         FingerprintGenerator generator = new FingerprintGenerator();
-        generator.run(new FullTextFingerprint(), issues, CHARSET_AFFECTED_FILE);
+        generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
 
-        assertThat(issues.get(0)).hasFingerprint(FingerprintGenerator.createDefaultFingerprint(fileName));
+        assertThat(report.get(0)).hasFingerprint(FingerprintGenerator.createDefaultFingerprint(fileName));
     }
 
 
@@ -110,19 +110,19 @@ class FingerprintGeneratorTest extends ResourceTest {
         return new FullTextFingerprint(fileSystem);
     }
 
-    private Issues createTwoIssues() {
-        Issues issues = createIssues();
+    private Report createTwoIssues() {
+        Report report = createIssues();
         IssueBuilder builder = new IssueBuilder();
         builder.setFileName(AFFECTED_FILE_NAME);
         builder.setLineStart(5);
-        issues.add(builder.setPackageName("a").build());
-        issues.add(builder.setPackageName("b").build());
-        return issues;
+        report.add(builder.setPackageName("a").build());
+        report.add(builder.setPackageName("b").build());
+        return report;
     }
 
-    private Issues createIssues() {
-        Issues issues = new Issues();
-        issues.setOrigin(ID);
-        return issues;
+    private Report createIssues() {
+        Report report = new Report();
+        report.setOrigin(ID);
+        return report;
     }
 }

@@ -7,7 +7,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -28,7 +28,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue38215() {
-        Issues warnings = parse("issue38215.txt");
+        Report warnings = parse("issue38215.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -54,7 +54,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue22386() {
-        Issues warnings = parse("issue22386.txt");
+        Report warnings = parse("issue22386.txt");
 
         assertThat(warnings)
                 .hasSize(2)
@@ -97,7 +97,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue27914() {
-        Issues warnings = parse("issue27914.txt");
+        Report warnings = parse("issue27914.txt");
 
         assertThat(warnings)
                 .hasSize(3)
@@ -149,7 +149,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue26441() {
-        Issues warnings = parse("issue26441.txt");
+        Report warnings = parse("issue26441.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -161,7 +161,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue20544() {
-        Issues warnings = parse("issue20544.txt");
+        Report warnings = parse("issue20544.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -173,7 +173,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue20154() {
-        Issues warnings = parse("issue20154.txt");
+        Report warnings = parse("issue20154.txt");
 
         assertThat(warnings)
                 .hasSize(3)
@@ -231,7 +231,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue14888() {
-        Issues warnings = parse("issue14888.txt");
+        Report warnings = parse("issue14888.txt");
 
         assertThat(warnings)
                 .hasSize(4)
@@ -295,7 +295,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue10566() {
-        Issues warnings = parse("issue10566.txt");
+        Report warnings = parse("issue10566.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -321,7 +321,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue3582() {
-        Issues warnings = parse("issue3582.txt");
+        Report warnings = parse("issue3582.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -347,7 +347,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue8347() {
-        Issues warnings = parse("issue8347.txt");
+        Report warnings = parse("issue8347.txt");
 
         assertThat(warnings)
                 .hasSize(5)
@@ -424,7 +424,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue6709() {
-        Issues warnings = parse("issue6709.txt");
+        Report warnings = parse("issue6709.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -450,7 +450,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue9926() {
-        Issues warnings = parse("issue9926.txt");
+        Report warnings = parse("issue9926.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -477,7 +477,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4932() {
-        Issues warnings = parse("issue4932.txt");
+        Report warnings = parse("issue4932.txt");
 
         assertThat(warnings)
                 .hasSize(2)
@@ -517,7 +517,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4731() {
-        Issues warnings = parse("issue4731.txt");
+        Report warnings = parse("issue4731.txt");
 
         assertThat(warnings)
                 .hasSize(11)
@@ -590,7 +590,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
     @Test
     void shouldDetectKeywordsInRegexCaseInsensitive() {
 
-        Issues warnings = createParser().parse(createIssue2383File());
+        Report warnings = createParser().parse(createIssue2383File());
 
         assertThat(warnings)
                 .hasSize(2)
@@ -630,12 +630,12 @@ class MsBuildParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues)
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report)
                 .hasSize(6)
                 .hasPriorities(2, 3, 1);
 
-        softly.assertThat(issues.get(0))
+        softly.assertThat(report.get(0))
                 .hasFileName("Src/Parser/CSharp/cs.ATG")
                 .hasCategory("CS0168")
                 .hasPriority(Priority.NORMAL)
@@ -647,7 +647,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(17)
                 .hasColumnEnd(17);
 
-        softly.assertThat(issues.get(1))
+        softly.assertThat(report.get(1))
                 .hasFileName("C:/Src/Parser/CSharp/file.cs")
                 .hasCategory("XXX")
                 .hasPriority(Priority.HIGH)
@@ -659,7 +659,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(2))
+        softly.assertThat(report.get(2))
                 .hasFileName("Controls/MozItem.cs")
                 .hasCategory("CS0618")
                 .hasPriority(Priority.NORMAL)
@@ -672,7 +672,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(4)
                 .hasColumnEnd(4);
 
-        softly.assertThat(issues.get(3))
+        softly.assertThat(report.get(3))
                 .hasFileName("MediaPortal.cs")
                 .hasCategory("CS0162")
                 .hasPriority(Priority.NORMAL)
@@ -684,7 +684,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(5)
                 .hasColumnEnd(5);
 
-        softly.assertThat(issues.get(4))
+        softly.assertThat(report.get(4))
                 .hasFileName("x/a/b/include/abc.h")
                 .hasCategory("C1083")
                 .hasPriority(Priority.HIGH)
@@ -696,7 +696,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(5))
+        softly.assertThat(report.get(5))
                 .hasFileName("foo.h")
                 .hasCategory("701")
                 .hasPriority(Priority.LOW)

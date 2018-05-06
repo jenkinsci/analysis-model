@@ -5,8 +5,7 @@ import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -23,10 +22,10 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseLinkerError() {
-        Issues issues = parse("ld: 0711-987 Error occurred while reading file");
+        Report report = parse("ld: 0711-987 Error occurred while reading file");
 
-        assertSingleIssue(issues, softly -> {
-            softly.assertThat(issues.get(0))
+        assertSingleIssue(report, softly -> {
+            softly.assertThat(report.get(0))
                     .hasPriority(Priority.HIGH)
                     .hasCategory("0711-987")
                     .hasLineStart(0)
@@ -41,10 +40,10 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseAnotherLinkerError() {
-        Issues issues = parse("ld: 0711-317 ERROR: Undefined symbol: nofun()");
+        Report report = parse("ld: 0711-317 ERROR: Undefined symbol: nofun()");
 
-        assertSingleIssue(issues, softly -> {
-            softly.assertThat(issues.get(0))
+        assertSingleIssue(report, softly -> {
+            softly.assertThat(report.get(0))
                     .hasPriority(Priority.HIGH)
                     .hasCategory("0711-317")
                     .hasLineStart(0)
@@ -59,10 +58,10 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseSevereError() {
-        Issues issues = parse("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
+        Report report = parse("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
 
-        assertSingleIssue(issues, softly -> {
-            softly.assertThat(issues.get(0))
+        assertSingleIssue(report, softly -> {
+            softly.assertThat(report.get(0))
                     .hasPriority(Priority.HIGH)
                     .hasCategory("0711-634")
                     .hasLineStart(0)
@@ -77,10 +76,10 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseWarning() {
-        Issues issues = parse("ld: 0706-012 The -9 flag is not recognized.");
+        Report report = parse("ld: 0706-012 The -9 flag is not recognized.");
 
-        assertSingleIssue(issues, softly -> {
-            softly.assertThat(issues.get(0))
+        assertSingleIssue(report, softly -> {
+            softly.assertThat(report.get(0))
                     .hasPriority(Priority.LOW)
                     .hasCategory("0706-012")
                     .hasLineStart(0)
@@ -95,10 +94,10 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldPareAnotherWarning() {
-        Issues issues = parse("ld: 0711-224 WARNING: Duplicate symbol: dupe");
+        Report report = parse("ld: 0711-224 WARNING: Duplicate symbol: dupe");
 
-        assertSingleIssue(issues, softly -> {
-            softly.assertThat(issues.get(0))
+        assertSingleIssue(report, softly -> {
+            softly.assertThat(report.get(0))
                     .hasPriority(Priority.NORMAL)
                     .hasCategory("0711-224")
                     .hasLineStart(0)
@@ -113,10 +112,10 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseInformation() {
-        Issues issues = parse("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");
+        Report report = parse("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");
 
-        assertSingleIssue(issues, softly -> {
-            softly.assertThat(issues.get(0))
+        assertSingleIssue(report, softly -> {
+            softly.assertThat(report.get(0))
                     .hasPriority(Priority.LOW)
                     .hasCategory("0711-345")
                     .hasLineStart(0)
@@ -126,12 +125,12 @@ class XlcLinkerParserTest {
         });
     }
 
-    private void assertSingleIssue(final Issues issues, final Consumer<SoftAssertions> assertion) {
-        assertThat(issues).hasSize(1);
+    private void assertSingleIssue(final Report report, final Consumer<SoftAssertions> assertion) {
+        assertThat(report).hasSize(1);
         assertSoftly(assertion);
     }
 
-    private Issues parse(final String s) {
+    private Report parse(final String s) {
         return new XlcLinkerParser().parse(new StringReader(s));
     }
 }

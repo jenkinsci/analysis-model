@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -88,7 +88,7 @@ public class FindBugsParser extends IssueParser {
 
     @Override
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    public Issues parse(final File file, final Charset charset,
+    public Report parse(final File file, final Charset charset,
             final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         Collection<String> sources = new ArrayList<>();
@@ -100,7 +100,7 @@ public class FindBugsParser extends IssueParser {
     }
 
     @VisibleForTesting
-    Issues parse(final InputStreamProvider file, final Collection<String> sources, final IssueBuilder builder)
+    Report parse(final InputStreamProvider file, final Collection<String> sources, final IssueBuilder builder)
             throws ParsingException {
         try (InputStream input = file.getInputStream()) {
             Map<String, String> hashToMessageMapping = new HashMap<>();
@@ -171,7 +171,7 @@ public class FindBugsParser extends IssueParser {
      * @throws DocumentException
      *         in case of a parser exception
      */
-    private Issues parse(final InputStream file, final Collection<String> sources,
+    private Report parse(final InputStream file, final Collection<String> sources,
             final IssueBuilder builder, final Map<String, String> hashToMessageMapping,
             final Map<String, String> categories) throws IOException, DocumentException {
 
@@ -189,7 +189,7 @@ public class FindBugsParser extends IssueParser {
 
         Collection<BugInstance> bugs = collection.getCollection();
 
-        Issues issues = new Issues();
+        Report report = new Report();
         for (BugInstance warning : bugs) {
             SourceLineAnnotation sourceLine = warning.getPrimarySourceLineAnnotation();
 
@@ -210,10 +210,10 @@ public class FindBugsParser extends IssueParser {
                     .setFingerprint(warning.getInstanceHash());
             setAffectedLines(warning, builder, new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
 
-            issues.add(builder.build());
+            report.add(builder.build());
         }
 
-        return issues;
+        return report;
     }
 
     private Priority getPriority(final BugInstance warning) {

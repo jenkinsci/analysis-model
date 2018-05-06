@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -24,7 +23,7 @@ class TaskingVxCompilerParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues warnings, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Report warnings, final SoftAssertions softly) {
         softly.assertThat(warnings).hasSize(8);
 
         softly.assertThat(warnings.get(0))

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -27,10 +27,10 @@ public class EclipseParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(8);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(8);
 
-        Issue annotation = issues.get(0);
+        Issue annotation = report.get(0);
         softly.assertThat(annotation)
                 .hasPriority(Priority.NORMAL)
                 .hasLineStart(3)
@@ -46,7 +46,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue21377() {
-        Issues warnings = parse("issue21377.txt");
+        Report warnings = parse("issue21377.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -69,7 +69,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue13969() {
-        Issues warnings = parse("issue13969.txt");
+        Report warnings = parse("issue13969.txt");
 
         assertThat(warnings).hasSize(3);
 
@@ -103,7 +103,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue12822() {
-        Issues warnings = parse("issue12822.txt");
+        Report warnings = parse("issue12822.txt");
 
         assertThat(warnings).hasSize(15);
     }
@@ -115,7 +115,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue6427() {
-        Issues warnings = parse("issue6427.txt");
+        Report warnings = parse("issue6427.txt");
 
         assertThat(warnings).hasSize(18);
         assertSoftly(softly -> {
@@ -135,7 +135,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue7077() {
-        Issues warnings = parse("issue7077.txt");
+        Report warnings = parse("issue7077.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -160,7 +160,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue7077all() {
-        Issues sorted = parse("issue7077-all.txt");
+        Report sorted = parse("issue7077-all.txt");
 
         assertThat(sorted).hasSize(45);
 

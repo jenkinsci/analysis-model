@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -72,13 +72,13 @@ class CpdParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(4);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(4);
 
-        assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(issues.get(0), issues.get(1));
+        assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(report.get(0), report.get(1));
 
-        Issue reporterSecond = issues.get(2);
-        Issue publisherSecond = issues.get(3);
+        Issue reporterSecond = report.get(2);
+        Issue publisherSecond = report.get(3);
         softly.assertThat(reporterSecond)
                 .hasLineStart(274).hasLineEnd(274 + 95)
                 .hasFileName(FILE_NAME_REPORTER)
@@ -96,26 +96,26 @@ class CpdParserTest extends AbstractParserTest {
 
     @Test
     void shouldAssignPriority() {
-        Issues issues;
+        Report report;
 
-        issues = parse(68, 25);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.HIGH);
+        report = parse(68, 25);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.HIGH);
 
-        issues = parse(69, 25);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+        report = parse(69, 25);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
 
-        issues = parse(100, 68);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+        report = parse(100, 68);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
 
-        issues = parse(100, 69);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.LOW);
+        report = parse(100, 69);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.LOW);
     }
 
-    private Issues parse(final int highThreshold, final int normalThreshold) {
+    private Report parse(final int highThreshold, final int normalThreshold) {
         return new CpdParser(highThreshold, normalThreshold)
                 .parse(openFile("issue12516.xml"), Function.identity());
     }
@@ -128,15 +128,15 @@ class CpdParserTest extends AbstractParserTest {
      */
     @Test
     void issue12516() {
-        Issues issues = parse("issue12516.xml");
+        Report report = parse("issue12516.xml");
 
-        assertThat(issues).hasSize(2);
-        Issue first = issues.get(0);
+        assertThat(report).hasSize(2);
+        Issue first = report.get(0);
         assertThat(first)
                 .hasLineStart(19).hasLineEnd(19 + 68)
                 .hasFileName("csci07/csc60/remote_copy.sh")
                 .hasPriority(Priority.HIGH);
-        Issue second = issues.get(1);
+        Issue second = report.get(1);
         assertThat(second)
                 .hasLineStart(19).hasLineEnd(19 + 68)
                 .hasFileName("csci08/csc90/remote_copy.sh")
@@ -157,9 +157,9 @@ class CpdParserTest extends AbstractParserTest {
     @Test
     void issue22356() {
         String fileName = "issue22356.xml";
-        Issues issues = parse(fileName);
+        Report report = parse(fileName);
 
-        assertThat(issues).hasSize(8);
+        assertThat(report).hasSize(8);
     }
 
     /**
@@ -168,11 +168,11 @@ class CpdParserTest extends AbstractParserTest {
     @Test
     void scanFileWithOneDuplication() {
         String fileName = "one-cpd.xml";
-        Issues issues = parse(fileName);
+        Report report = parse(fileName);
 
-        assertThat(issues).hasSize(2);
+        assertThat(report).hasSize(2);
 
-        assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(issues.get(0), issues.get(1));
+        assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(report.get(0), report.get(1));
     }
 
     private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(final Issue reporterFirst,
@@ -194,15 +194,15 @@ class CpdParserTest extends AbstractParserTest {
 
     @Test
     void shouldIgnoreOtherFile() {
-        Issues issues = parse("otherfile.xml");
+        Report report = parse("otherfile.xml");
 
-        assertThat(issues).hasSize(0);
+        assertThat(report).hasSize(0);
     }
 
     @Test
     void shouldReadFileWithWindowsEncoding() {
-        Issues issues = parse("pmd-cpd.xml");
+        Report report = parse("pmd-cpd.xml");
 
-        assertThat(issues).hasSize(29);
+        assertThat(report).hasSize(29);
     }
 }

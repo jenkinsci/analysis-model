@@ -10,7 +10,7 @@ import org.apache.commons.digester3.Digester;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -64,7 +64,7 @@ public abstract class AbstractDryParser<T> extends AbstractParser {
     }
 
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new SecureDigester(AbstractDryParser.class);
@@ -95,11 +95,11 @@ public abstract class AbstractDryParser<T> extends AbstractParser {
     protected abstract void configureParser(Digester digester);
 
     /**
-     * Converts the parsed duplications from the original format to an {@link Issues} instance.
+     * Converts the parsed duplications from the original format to an {@link Report} instance.
      *
      * @param duplications
      *         the parsed warnings
      * @return the converted warnings
      */
-    protected abstract Issues convertDuplicationsToIssues(List<T> duplications);
+    protected abstract Report convertDuplicationsToIssues(List<T> duplications);
 }

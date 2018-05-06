@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -76,10 +76,10 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    public Issues parse(final Reader file, final Function<String, String> preProcessor)
+    public Report parse(final Reader file, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (BufferedReader reader = new BufferedReader(file)) {
-            Issues warnings = new Issues();
+            Report warnings = new Report();
 
             String line = reader.readLine();
             Pattern pBugStart = Pattern.compile(BUGWARN_START_PATERN);

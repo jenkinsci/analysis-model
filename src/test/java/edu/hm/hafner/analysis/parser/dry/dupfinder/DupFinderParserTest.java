@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -40,12 +40,12 @@ class DupFinderParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues,
+    protected void assertThatIssuesArePresent(final Report report,
             final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(2);
+        softly.assertThat(report).hasSize(2);
 
-        Issue publisher = issues.get(0);
-        Issue reporter = issues.get(1);
+        Issue publisher = report.get(0);
+        Issue reporter = report.get(1);
 
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(publisher, reporter);
 
@@ -75,12 +75,12 @@ class DupFinderParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithoutSourceCode() {
-        Issues issues = parse("without-sourcecode.xml");
+        Report report = parse("without-sourcecode.xml");
 
-        assertThat(issues).hasSize(2);
+        assertThat(report).hasSize(2);
 
-        Issue publisher = issues.get(0);
-        Issue reporter = issues.get(1);
+        Issue publisher = report.get(0);
+        Issue reporter = report.get(1);
 
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(publisher, reporter);
 
@@ -90,33 +90,33 @@ class DupFinderParserTest extends AbstractParserTest {
 
     @Test
     void shouldIgnoreOtherFile() {
-        Issues issues = parse("otherfile.xml");
+        Report report = parse("otherfile.xml");
 
-        assertThat(issues).hasSize(0);
+        assertThat(report).hasSize(0);
     }
 
     @Test
     void shouldAssignPriority() {
-        Issues issues;
+        Report report;
 
-        issues = parse(12, 5);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.HIGH);
+        report = parse(12, 5);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.HIGH);
 
-        issues = parse(13, 5);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+        report = parse(13, 5);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
 
-        issues = parse(100, 12);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+        report = parse(100, 12);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
 
-        issues = parse(100, 13);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.LOW);
+        report = parse(100, 13);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.LOW);
     }
 
-    private Issues parse(final int highThreshold, final int normalThreshold) {
+    private Report parse(final int highThreshold, final int normalThreshold) {
         return new DupFinderParser(highThreshold, normalThreshold)
                 .parse(openFile("without-sourcecode.xml"), Function.identity());
     }

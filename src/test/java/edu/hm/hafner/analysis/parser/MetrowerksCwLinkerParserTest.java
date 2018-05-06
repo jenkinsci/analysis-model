@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -22,23 +21,23 @@ class MetrowerksCwLinkerParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(3);
-        softly.assertThat(issues.get(0))
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(3);
+        softly.assertThat(report.get(0))
                 .hasPriority(Priority.HIGH)
                 .hasCategory(ERROR_CATEGORY)
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("L1822: Symbol TestFunction in file e:/work/PATH/PATH/PATH/PATH/appl_src.lib is undefined")
                 .hasFileName("See Warning message");
-        softly.assertThat(issues.get(1))
+        softly.assertThat(report.get(1))
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("L1916: Section name TEST_SECTION is too long. Name is cut to 90 characters length")
                 .hasFileName("See Warning message");
-        softly.assertThat(issues.get(2))
+        softly.assertThat(report.get(2))
                 .hasPriority(Priority.LOW)
                 .hasCategory(INFO_CATEGORY)
                 .hasLineStart(0)

@@ -29,19 +29,19 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import static java.util.stream.Collectors.*;
 
 /**
- * A set of {@link Issue issues}: it contains no duplicate elements, i.e. it models the mathematical <i>set</i>
- * abstraction. Furthermore, this set of issues provides a <i>total ordering</i> on its elements. I.e., the issues in
- * this set are ordered by their index in this set: the first added issue is at position 0, the second added issues is
- * at position 1, and so on.
+ * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e. it models the
+ * mathematical <i>set</i> abstraction. Furthermore, this report provides a <i>total ordering</i> on its elements. I.e.,
+ * the issues in this report are ordered by their index: the first added issue is at position 0, the second added issues
+ * is at position 1, and so on.
  * <p>
- * Additionally, this set of issues provides methods to find and filter issues based on different properties. In order
- * to create issues use the provided {@link IssueBuilder builder} class.
+ * Additionally, this report provides methods to find and filter issues based on different properties. In order to
+ * create issues use the provided {@link IssueBuilder builder} class.
  * </p>
  *
  * @author Ullrich Hafner
  */
 @SuppressWarnings("PMD.ExcessivePublicCount")
-public final class Issues implements Iterable<Issue>, Serializable {
+public class Report implements Iterable<Issue>, Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
 
     @VisibleForTesting
@@ -56,58 +56,43 @@ public final class Issues implements Iterable<Issue>, Serializable {
     private String reference = DEFAULT_ID;
 
     /**
-     * Returns a predicate that checks if the package name of an issue is equal to the specified package name.
-     *
-     * @param packageName
-     *         the package name to match
-     *
-     * @return the predicate
+     * Creates an empty {@link Report}.
      */
-    public static Predicate<Issue> byPackageName(final String packageName) {
-        return issue -> issue.getPackageName().equals(packageName);
-    }
-
-    /**
-     * Returns a predicate that checks if the file name of an issue is equal to the specified file name.
-     *
-     * @param fileName
-     *         the package name to match
-     *
-     * @return the predicate
-     */
-    public static Predicate<Issue> byFileName(final String fileName) {
-        return issue -> issue.getFileName().equals(fileName);
-    }
-
-    /**
-     * Creates a new empty instance of {@link Issues}.
-     */
-    public Issues() {
+    public Report() {
         // no elements to add
     }
 
     /**
-     * Creates a new instance of {@link Issues} that will be initialized with the specified collection of {@link Issue}
-     * instances.
+     * Creates a new {@link Report} that will be initialized with the specified collection of {@link Issue} instances.
      *
      * @param issues
-     *         the initial set of issues for this instance
+     *         the initial set of issues
+     *
+     * @see #add(Issue)
      */
-    public Issues(final Collection<? extends Issue> issues) {
-        for (Issue issue : issues) {
-            add(issue);
-        }
+    public Report(final Collection<? extends Issue> issues) {
+        issues.forEach(this::add);
     }
 
     /**
-     * Creates a new instance of {@link Issues} that will be initialized with the specified collection of {@link Issue}
-     * instances.
+     * Creates a new {@link Report} that will be initialized with the specified stream of {@link Issue} instances.
      *
      * @param issues
-     *         the initial set of issues for this instance
+     *         the initial set of issues
+     *
+     * @see #add(Issue)
      */
-    public Issues(final Stream<? extends Issue> issues) {
+    public Report(final Stream<? extends Issue> issues) {
         issues.forEach(this::add);
+    }
+
+    private void add(final Issue issue) {
+        if (elements.contains(issue)) {
+            duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
+        }
+        else {
+            elements.add(issue);
+        }
     }
 
     /**
@@ -124,15 +109,6 @@ public final class Issues implements Iterable<Issue>, Serializable {
         add(issue);
         for (Issue additional : additionalIssues) {
             add(additional);
-        }
-    }
-
-    private void add(final Issue issue) {
-        if (elements.contains(issue)) {
-            duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
-        }
-        else {
-            elements.add(issue);
         }
     }
 
@@ -155,14 +131,14 @@ public final class Issues implements Iterable<Issue>, Serializable {
      * are returned by the specified collection's iterator. Duplicates will be skipped (the number of skipped elements
      * is available using the method {@link #getDuplicatesSize()}.
      *
-     * @param issues
+     * @param report
      *         the issues to append
      * @param additionalIssues
      *         the additional issue to append
      */
-    public void addAll(final Issues issues, final Issues... additionalIssues) {
-        copyIssuesAndProperties(issues, this);
-        for (Issues other : additionalIssues) {
+    public void addAll(final Report report, final Report... additionalIssues) {
+        copyIssuesAndProperties(report, this);
+        for (Report other : additionalIssues) {
             copyIssuesAndProperties(other, this);
         }
     }
@@ -227,8 +203,8 @@ public final class Issues implements Iterable<Issue>, Serializable {
      *
      * @return the found issues
      */
-    public Issues filter(final Predicate<? super Issue> criterion) {
-        Issues filtered = copyEmptyInstance();
+    public Report filter(final Predicate<? super Issue> criterion) {
+        Report filtered = copyEmptyInstance();
         filtered.addAll(filterElements(criterion).collect(toList()));
         return filtered;
     }
@@ -262,9 +238,9 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns whether this container is empty.
+     * Returns whether this report is empty.
      *
-     * @return {@code true} if this container is empty, {@code false} otherwise
+     * @return {@code true} if this report is empty, {@code false} otherwise
      * @see #isNotEmpty()
      */
     public boolean isEmpty() {
@@ -272,9 +248,9 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns whether this container is not empty.
+     * Returns whether this report is not empty.
      *
-     * @return {@code true} if this container is not empty, {@code false} otherwise
+     * @return {@code true} if this report is not empty, {@code false} otherwise
      * @see #isEmpty()
      */
     public boolean isNotEmpty() {
@@ -282,7 +258,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the number of issues in this container.
+     * Returns the number of issues in this report.
      *
      * @return total number of issues
      */
@@ -291,9 +267,9 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the number of duplicates. Every issue that has been added to this container, but already is part of this
-     * container (based on {@link #equals(Object)}) is counted as a duplicate. Duplicates are not stored in this
-     * container.
+     * Returns the number of duplicates. Every issue that has been added to this report, but already is part of this
+     * report (based on {@link #equals(Object)}) is counted as a duplicate. Duplicates are not stored in this
+     * report.
      *
      * @return total number of duplicates
      */
@@ -302,7 +278,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the number of issues with the specified {@code severity} in this container.
+     * Returns the number of issues with the specified {@code severity}.
      *
      * @param severity
      *         the severity of the issues
@@ -314,7 +290,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the number of issues with the specified {@link Severity} in this container.
+     * Returns the number of issues with the specified {@link Severity}.
      *
      * @param severity
      *         the severity of the issues
@@ -352,7 +328,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the affected modules for all issues of this container.
+     * Returns the affected modules for all issues.
      *
      * @return the affected modules
      */
@@ -361,7 +337,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the affected packages for all issues of this container.
+     * Returns the affected packages for all issues.
      *
      * @return the affected packages
      */
@@ -370,7 +346,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the affected files for all issues of this container.
+     * Returns the affected files for all issues.
      *
      * @return the affected files
      */
@@ -379,7 +355,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the used categories for all issues of this container.
+     * Returns the used categories for all issues.
      *
      * @return the used categories
      */
@@ -388,7 +364,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the used types for all issues of this container.
+     * Returns the used types for all issues.
      *
      * @return the used types
      */
@@ -397,7 +373,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the names of the tools that did report the issues of this container.
+     * Returns the names of the tools that did report the issues.
      *
      * @return the tools
      */
@@ -413,7 +389,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the different values for a given property for all issues of this container.
+     * Returns the different values for a given property for all issues.
      *
      * @param propertiesMapper
      *         the properties mapper that selects the property
@@ -426,7 +402,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the number of occurrences for every existing value of a given property for all issues of this container.
+     * Returns the number of occurrences for every existing value of a given property for all issues.
      *
      * @param propertiesMapper
      *         the properties mapper that selects the property to evaluate
@@ -440,7 +416,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
 
     /**
      * Groups issues by a specified property. Returns the results as a mapping of property values to a new set of {@link
-     * Issues} for this value.
+     * Report} for this value.
      *
      * @param propertyName
      *         the property to  that selects the property to evaluate
@@ -448,12 +424,12 @@ public final class Issues implements Iterable<Issue>, Serializable {
      * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
-    public Map<String, Issues> groupByProperty(final String propertyName) {
+    public Map<String, Report> groupByProperty(final String propertyName) {
         Map<String, List<Issue>> issues = elements.stream()
                 .collect(groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
-                .collect(toMap(Entry::getKey, e -> new Issues(e.getValue())));
+                .collect(toMap(Entry::getKey, e -> new Report(e.getValue())));
     }
 
     /**
@@ -461,13 +437,13 @@ public final class Issues implements Iterable<Issue>, Serializable {
      *
      * @return a new issue container that contains the same elements in the same order
      */
-    public Issues copy() {
-        Issues copied = new Issues();
+    public Report copy() {
+        Report copied = new Report();
         copyIssuesAndProperties(this, copied);
         return copied;
     }
 
-    private void copyIssuesAndProperties(final Issues source, final Issues destination) {
+    private void copyIssuesAndProperties(final Report source, final Report destination) {
         if (!destination.hasOrigin()) {
             destination.origin = source.origin;
         }
@@ -479,7 +455,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
         copyProperties(source, destination);
     }
 
-    private void copyProperties(final Issues source, final Issues destination) {
+    private void copyProperties(final Report source, final Report destination) {
         destination.duplicatesSize += source.duplicatesSize;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
@@ -491,8 +467,8 @@ public final class Issues implements Iterable<Issue>, Serializable {
      *
      * @return a new issue container that contains the same properties but no issues
      */
-    public Issues copyEmptyInstance() {
-        Issues empty = new Issues();
+    public Report copyEmptyInstance() {
+        Report empty = new Report();
         empty.setOrigin(origin);
         empty.setReference(reference);
         copyProperties(this, empty);
@@ -610,24 +586,24 @@ public final class Issues implements Iterable<Issue>, Serializable {
             return false;
         }
 
-        Issues issues = (Issues) o;
+        Report report = (Report) o;
 
-        if (duplicatesSize != issues.duplicatesSize) {
+        if (duplicatesSize != report.duplicatesSize) {
             return false;
         }
-        if (!elements.equals(issues.elements)) {
+        if (!elements.equals(report.elements)) {
             return false;
         }
-        if (!infoMessages.equals(issues.infoMessages)) {
+        if (!infoMessages.equals(report.infoMessages)) {
             return false;
         }
-        if (!errorMessages.equals(issues.errorMessages)) {
+        if (!errorMessages.equals(report.errorMessages)) {
             return false;
         }
-        if (!origin.equals(issues.origin)) {
+        if (!origin.equals(report.origin)) {
             return false;
         }
-        return reference.equals(issues.reference);
+        return reference.equals(report.reference);
     }
 
     @Override
@@ -650,24 +626,26 @@ public final class Issues implements Iterable<Issue>, Serializable {
         private final Collection<Predicate<Issue>> includeFilters = new ArrayList<>();
         private final Collection<Predicate<Issue>> excludeFilters = new ArrayList<>();
 
+        enum FilterType {INCLUDE, EXCLUDE}
+
         /**
-         * Add a new filter for each pattern string. Add filter to include or exclude list.
+         * Adds a new filter for each patterns string. Adds the filter either to the include or exclude list.
          *
-         * @param pattern
-         *         filter pattern.
+         * @param patterns
+         *         filter patterns.
          * @param propertyToFilter
-         *         Function to get a string from Issue for pattern
+         *         Function to get a string from Issue for patterns
          */
-        private void addNewFilter(final Collection<String> pattern, final Function<Issue, String> propertyToFilter,
-                final boolean include) {
+        private void addNewFilter(final Collection<String> patterns, final Function<Issue, String> propertyToFilter,
+                final FilterType type) {
 
             Collection<Predicate<Issue>> filters = new ArrayList<>();
-            for (String patter : pattern) {
-                filters.add(issueToFilter -> Pattern.compile(patter)
-                        .matcher(propertyToFilter.apply(issueToFilter)).matches() == include);
+            for (String pattern : patterns) {
+                filters.add(issueToFilter -> Pattern.compile(pattern)
+                        .matcher(propertyToFilter.apply(issueToFilter)).matches() == (type == FilterType.INCLUDE));
             }
 
-            if (include) {
+            if (type == FilterType.INCLUDE) {
                 includeFilters.addAll(filters);
             }
             else {
@@ -696,7 +674,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setIncludeFilenameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getFileName, true);
+            addNewFilter(pattern, Issue::getFileName, FilterType.INCLUDE);
             return this;
         }
 
@@ -721,7 +699,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setExcludeFilenameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getFileName, false);
+            addNewFilter(pattern, Issue::getFileName, FilterType.EXCLUDE);
             return this;
         }
 
@@ -749,7 +727,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setIncludePackageNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getPackageName, true);
+            addNewFilter(pattern, Issue::getPackageName, FilterType.INCLUDE);
             return this;
         }
 
@@ -774,7 +752,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setExcludePackageNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getPackageName, false);
+            addNewFilter(pattern, Issue::getPackageName, FilterType.EXCLUDE);
             return this;
         }
 
@@ -802,7 +780,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setIncludeModuleNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getModuleName, true);
+            addNewFilter(pattern, Issue::getModuleName, FilterType.INCLUDE);
             return this;
         }
 
@@ -827,7 +805,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setExcludeModuleNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getModuleName, false);
+            addNewFilter(pattern, Issue::getModuleName, FilterType.EXCLUDE);
             return this;
         }
 
@@ -855,7 +833,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setIncludeCategoryFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getCategory, true);
+            addNewFilter(pattern, Issue::getCategory, FilterType.INCLUDE);
             return this;
         }
 
@@ -880,7 +858,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setExcludeCategoryFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getCategory, false);
+            addNewFilter(pattern, Issue::getCategory, FilterType.EXCLUDE);
             return this;
         }
 
@@ -908,7 +886,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setIncludeTypeFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getType, true);
+            addNewFilter(pattern, Issue::getType, FilterType.INCLUDE);
             return this;
         }
 
@@ -933,7 +911,7 @@ public final class Issues implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setExcludeTypeFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getType, false);
+            addNewFilter(pattern, Issue::getType, FilterType.EXCLUDE);
             return this;
         }
 

@@ -10,9 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Defines the priority of an issue.
+ * Defines the priority of a warning. Not that issues are now categorized using a {@link Severity} which allows a
+ * customization.
  *
  * @author Ullrich Hafner
+ * @see Severity
  */
 public enum Priority {
     /** High priority. */

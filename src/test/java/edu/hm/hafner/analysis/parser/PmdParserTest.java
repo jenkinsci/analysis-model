@@ -3,8 +3,8 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issues;
-import static edu.hm.hafner.analysis.Issues.*;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -26,15 +26,15 @@ class PmdParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(4);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(4);
 
-        Issues actionIssues = issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"));
+        Report actionIssues = report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"));
         softly.assertThat(actionIssues).hasSize(1);
-        softly.assertThat(issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
-        softly.assertThat(issues.filter(byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
+        softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
+        softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
 
-        softly.assertThat(issues).hasPriorities(1, 2, 1);
+        softly.assertThat(report).hasPriorities(1, 2, 1);
 
         softly.assertThat(actionIssues.get(0))
                 .hasMessage("These nested if statements could be combined.")
@@ -49,11 +49,11 @@ class PmdParserTest extends AbstractIssueParserTest {
 
     @Test
     void shouldCorrectlyMapLinesAndColumns() {
-        Issues issues = parseInPmdFolder("lines-columns.xml");
+        Report report = parseInPmdFolder("lines-columns.xml");
 
-        assertThat(issues).hasSize(1);
+        assertThat(report).hasSize(1);
 
-        assertThat(issues.get(0))
+        assertThat(report.get(0))
                 .hasFileName(
                         "/Users/hafner/Development/jenkins/workspace/Pipeline/src/main/java/edu/hm/hafner/analysis/parser/AjcParser.java")
                 .hasLineStart(30).hasLineEnd(74)
@@ -71,9 +71,9 @@ class PmdParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue12801() {
-        Issues issues = parseInPmdFolder("issue12801.xml");
+        Report report = parseInPmdFolder("issue12801.xml");
 
-        assertThat(issues).hasSize(2);
+        assertThat(report).hasSize(2);
     }
 
     /**
@@ -81,9 +81,9 @@ class PmdParserTest extends AbstractIssueParserTest {
      */
     @Test
     void scanFileWithSeveralWarnings() {
-        Issues issues = parseInPmdFolder("pmd.xml");
+        Report report = parseInPmdFolder("pmd.xml");
 
-        assertThat(issues).hasSize(669);
+        assertThat(report).hasSize(669);
     }
 
     /**
@@ -92,10 +92,10 @@ class PmdParserTest extends AbstractIssueParserTest {
     @Test
     void verifySingleDot() {
         String fileName = "warning-message-with-dot.xml";
-        Issues issues = parseInPmdFolder(fileName);
+        Report report = parseInPmdFolder(fileName);
 
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasMessage("Avoid really long parameter lists.");
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasMessage("Avoid really long parameter lists.");
     }
 
     /**
@@ -103,9 +103,9 @@ class PmdParserTest extends AbstractIssueParserTest {
      */
     @Test
     void scanFileWithNoBugs() {
-        Issues issues = parseInPmdFolder("empty.xml");
+        Report report = parseInPmdFolder("empty.xml");
 
-        assertThat(issues).isEmpty();
+        assertThat(report).isEmpty();
     }
 
     /**
@@ -113,15 +113,15 @@ class PmdParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testEquals() {
-        Issues issues = parseInPmdFolder("equals-test.xml");
+        Report report = parseInPmdFolder("equals-test.xml");
 
         int expectedSize = 4;
-        assertThat(issues).hasSize(expectedSize);
-        assertThat(issues.filter(byPackageName("com.avaloq.adt.env.core.db.plsqlCompletion"))).hasSize(expectedSize);
-        assertThat(issues).hasPriorities(0, 4, 0);
+        assertThat(report).hasSize(expectedSize);
+        assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.core.db.plsqlCompletion"))).hasSize(expectedSize);
+        assertThat(report).hasPriorities(0, 4, 0);
     }
 
-    private Issues parseInPmdFolder(final String fileName) {
+    private Report parseInPmdFolder(final String fileName) {
         return parse(PREFIX + fileName);
     }
 }

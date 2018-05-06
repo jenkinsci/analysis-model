@@ -6,7 +6,7 @@ import org.apache.commons.digester3.Digester;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
 import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
 
@@ -66,8 +66,8 @@ public class DupFinderParser extends AbstractDryParser<Duplicate> {
     }
 
     @Override
-    protected Issues convertDuplicationsToIssues(final List<Duplicate> duplications) {
-        Issues issues = new Issues();
+    protected Report convertDuplicationsToIssues(final List<Duplicate> duplications) {
+        Report report = new Report();
 
         for (Duplicate duplication : duplications) {
             DuplicationGroup group = new DuplicationGroup();
@@ -82,10 +82,10 @@ public class DupFinderParser extends AbstractDryParser<Duplicate> {
                         .setAdditionalProperties(group);
                 Issue issue = builder.build();
                 group.add(issue);
-                issues.add(issue);
+                report.add(issue);
             }
         }
 
-        return issues;
+        return report;
     }
 }

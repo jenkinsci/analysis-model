@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -19,16 +18,16 @@ class ErlcParserTest extends AbstractIssueParserTest {
 
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(2);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(2);
 
-        softly.assertThat(issues.get(0)).hasPriority(Priority.NORMAL)
+        softly.assertThat(report.get(0)).hasPriority(Priority.NORMAL)
                 .hasCategory("Warning")
                 .hasLineStart(125)
                 .hasLineEnd(125)
                 .hasMessage("variable 'Name' is unused")
                 .hasFileName("./test.erl");
-        softly.assertThat(issues.get(1)).hasPriority(Priority.HIGH)
+        softly.assertThat(report.get(1)).hasPriority(Priority.HIGH)
                 .hasCategory("Error")
                 .hasLineStart(175)
                 .hasLineEnd(175)

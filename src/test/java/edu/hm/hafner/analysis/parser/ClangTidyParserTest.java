@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -24,7 +23,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues annotation, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Report annotation, final SoftAssertions softly) {
         softly.assertThat(annotation).hasSize(6);
 
         softly.assertThat(annotation.get(0))

@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -26,7 +26,7 @@ public class CheckStyleParser extends AbstractParser {
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new SecureDigester(CheckStyleParser.class);
@@ -65,8 +65,8 @@ public class CheckStyleParser extends AbstractParser {
      *
      * @return a maven module of the annotations API
      */
-    private Issues convert(final CheckStyle collection) {
-        Issues issues = new Issues();
+    private Report convert(final CheckStyle collection) {
+        Report report = new Report();
 
         for (File file : collection.getFiles()) {
             if (isValidWarning(file)) {
@@ -81,11 +81,11 @@ public class CheckStyleParser extends AbstractParser {
                     builder.setLineStart(error.getLine());
                     builder.setFileName(file.getName());
                     builder.setColumnStart(error.getColumn());
-                    issues.add(builder.build());
+                    report.add(builder.build());
                 }
             }
         }
-        return issues;
+        return report;
     }
 
     private String getCategory(final String source) {

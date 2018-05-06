@@ -10,7 +10,7 @@ import org.apache.commons.io.LineIterator;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
@@ -33,8 +33,8 @@ public class RfLintParser extends RegexpLineParser {
     }
 
     @Override
-    public Issues parse(final Reader file, final Function<String, String> preProcessor) {
-        Issues warnings = new Issues();
+    public Report parse(final Reader file, final Function<String, String> preProcessor) {
+        Report warnings = new Report();
         LineIterator iterator = IOUtils.lineIterator(file);
         try {
             Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);

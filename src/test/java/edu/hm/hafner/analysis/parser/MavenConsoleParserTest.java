@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -28,7 +28,7 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue16826() {
-        Issues warnings = parse("issue16826.txt");
+        Report warnings = parse("issue16826.txt");
 
         assertThat(warnings).hasSize(1);
     }
@@ -41,14 +41,14 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
     @Test
     @Disabled("Until JENKINS-25278 is fixed")
     void largeFile() {
-        Issues warnings = parse("maven-large.log");
+        Report warnings = parse("maven-large.log");
 
         assertThat(warnings).hasSize(1);
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues)
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report)
                 .hasSize(4)
                 .hasPriorities(2, 2, 0);
     }

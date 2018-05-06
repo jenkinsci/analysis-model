@@ -30,28 +30,28 @@ public class PackageNameResolver {
     /**
      * Resolves packages or namespace names for the specified set of issues.
      *
-     * @param issues
+     * @param report
      *         the issues to analyze
      * @param builder
      *         the issue builder to create the new issues with
      * @param charset
      *         the character set to use when reading the source files
      */
-    public void run(final Issues issues,
+    public void run(final Report report,
             final IssueBuilder builder, final Charset charset) {
-        Set<String> filesWithoutPackageName = issues.stream()
+        Set<String> filesWithoutPackageName = report.stream()
                 .filter(issue -> !issue.hasPackageName())
-                .map(issue -> issue.getFileName())
+                .map(Issue::getFileName)
                 .collect(Collectors.toSet());
         Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
                 .collect(Collectors.toMap(identity(), findPackage(charset)));
 
-        issues.stream().forEach(issue -> {
+        report.stream().forEach(issue -> {
             if (!issue.hasPackageName()) {
                 issue.setPackageName(packagesOfFiles.get(issue.getFileName()));
             }
         });
-        issues.logInfo("Resolved package names of %d affected files", filesWithoutPackageName.size());
+        report.logInfo("Resolved package names of %d affected files", filesWithoutPackageName.size());
     }
 
     private Function<String, String> findPackage(final Charset charset) {

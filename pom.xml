@@ -182,6 +182,10 @@
     </dependency>
   </dependencies>
 
+  <prerequisites>
+    <maven>3.3</maven>
+  </prerequisites>
+
   <build>
     <resources>
       <resource>

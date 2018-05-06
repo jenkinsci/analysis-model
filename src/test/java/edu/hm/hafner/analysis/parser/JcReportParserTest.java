@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -17,7 +16,6 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
-import edu.hm.hafner.analysis.parser.jcreport.Report;
 
 /**
  * Tests the {@link JcReportParser}.
@@ -34,7 +32,7 @@ class JcReportParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testGetWarningList() {
-        Issues warnings = parseDefaultFile();
+        Report warnings = parseDefaultFile();
 
         assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
     }
@@ -48,7 +46,7 @@ class JcReportParserTest extends AbstractIssueParserTest {
     @Test
     void testReportParserProperties() {
         InputStreamReader readCorrectXml = getReader("testReportProps.xml");
-        Report testReportProps = new JcReportParser().createReport(readCorrectXml);
+        edu.hm.hafner.analysis.parser.jcreport.Report testReportProps = new JcReportParser().createReport(readCorrectXml);
 
         assertThat(testReportProps.getFiles().size()).isEqualTo(1);
 
@@ -88,10 +86,10 @@ class JcReportParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(5).hasDuplicatesSize(2);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(5).hasDuplicatesSize(2);
 
-        softly.assertThat(issues.get(0))
+        softly.assertThat(report.get(0))
                 .hasFileName("SomeDirectory/SomeClass.java")
                 .hasPriority(Priority.HIGH)
                 .hasMessage("SomeMessage")

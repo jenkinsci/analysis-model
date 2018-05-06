@@ -13,8 +13,7 @@ import org.apache.commons.io.input.ReaderInputStream;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 
@@ -27,16 +26,16 @@ public class LintParser extends AbstractParser {
     private static final long serialVersionUID = 3341424685245834156L;
 
     @Override
-    public Issues parse(final Reader file, final Function<String, String> preProcessor)
+    public Report parse(final Reader file, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             SAXParser parser = parserFactory.newSAXParser();
 
-            Issues issues = new Issues();
-            parser.parse(new ReaderInputStream(file, Charset.forName("UTF-8")), new JSLintXmlSaxParser(issues));
-            return issues;
+            Report report = new Report();
+            parser.parse(new ReaderInputStream(file, Charset.forName("UTF-8")), new JSLintXmlSaxParser(report));
+            return report;
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);

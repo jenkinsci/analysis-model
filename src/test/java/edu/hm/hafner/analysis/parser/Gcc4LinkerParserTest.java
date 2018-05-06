@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -31,10 +31,10 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(7).hasDuplicatesSize(1);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(7).hasDuplicatesSize(1);
 
-        Iterator<Issue> iterator = issues.iterator();
+        Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
                 .hasLineStart(0)
@@ -96,14 +96,14 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
     /** Should not report warnings already detected by {@link Gcc4CompilerParser}. */
     @Test
     void shouldNotReportGccWarnings() {
-        Issues warnings = parse("gcc4.txt");
+        Report warnings = parse("gcc4.txt");
 
         assertThat(warnings).hasSize(2);
         assertThatMessageHasUndefinedReference(warnings, 0);
         assertThatMessageHasUndefinedReference(warnings, 1);
     }
 
-    private void assertThatMessageHasUndefinedReference(final Issues warnings, final int index) {
+    private void assertThatMessageHasUndefinedReference(final Report warnings, final int index) {
         assertThat(warnings.get(index).getMessage()).startsWith("undefined reference to");
     }
 
@@ -114,7 +114,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue5445() {
-        Issues warnings = parse("issue5445.txt");
+        Report warnings = parse("issue5445.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -126,7 +126,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue5870() {
-        Issues warnings = parse("issue5870.txt");
+        Report warnings = parse("issue5870.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -138,7 +138,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue6563() {
-        Issues warnings = parse("issue6563.txt");
+        Report warnings = parse("issue6563.txt");
 
         assertThat(warnings).isEmpty();
     }

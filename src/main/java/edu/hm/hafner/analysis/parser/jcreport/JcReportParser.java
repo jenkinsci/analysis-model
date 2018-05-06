@@ -10,9 +10,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -27,10 +26,10 @@ public class JcReportParser extends AbstractParser {
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException {
-        Report report = createReport(reader);
-        Issues warnings = new Issues();
+        edu.hm.hafner.analysis.parser.jcreport.Report report = createReport(reader);
+        Report warnings = new Report();
         for (int i = 0; i < report.getFiles().size(); i++) {
             File file = report.getFiles().get(i);
 
@@ -83,12 +82,12 @@ public class JcReportParser extends AbstractParser {
      * @throws ParsingException
      *         due to digester.parse(new InputSource(source))
      */
-    public Report createReport(final Reader source) throws ParsingException {
+    public edu.hm.hafner.analysis.parser.jcreport.Report createReport(final Reader source) throws ParsingException {
         try {
             SecureDigester digester = new SecureDigester(JcReportParser.class);
 
             String report = "report";
-            digester.addObjectCreate(report, Report.class);
+            digester.addObjectCreate(report, edu.hm.hafner.analysis.parser.jcreport.Report.class);
             digester.addSetProperties(report);
 
             String file = "report/file";

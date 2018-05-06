@@ -19,13 +19,13 @@ public class FingerprintGenerator {
      *
      * @param algorithm
      *         fingerprinting algorithm
-     * @param issues
+     * @param report
      *         the issues to analyze
      * @param charset
      *         the character set to use when reading the source files
      */
-    public void run(final FullTextFingerprint algorithm, final Issues issues, final Charset charset) {
-        for (Issue issue : issues) {
+    public void run(final FullTextFingerprint algorithm, final Report report, final Charset charset) {
+        for (Issue issue : report) {
             if (!issue.hasFingerprint()) {
                 try {
                     String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
@@ -34,11 +34,11 @@ public class FingerprintGenerator {
                 catch (IOException | UncheckedIOException | InvalidPathException exception) {
                     issue.setFingerprint(createDefaultFingerprint(issue.getFileName()));
                     if (exception.getCause() instanceof MalformedInputException) {
-                        issues.logError("Provided encoding '%s' seems to be wrong for file '%s'",
+                        report.logError("Provided encoding '%s' seems to be wrong for file '%s'",
                                 charset, issue.getFileName());
                     }
                     else {
-                        issues.logError("Can't read file '%s': %s", issue.getFileName(), exception);
+                        report.logError("Can't read file '%s': %s", issue.getFileName(), exception);
                     }
                 }
             }

@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -22,23 +21,23 @@ class Armcc5CompilerParserTest extends AbstractIssueParserTest {
 
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
 
-        softly.assertThat(issues).hasSize(3);
+        softly.assertThat(report).hasSize(3);
 
-        softly.assertThat(issues.get(0)).hasPriority(Priority.HIGH)
+        softly.assertThat(report.get(0)).hasPriority(Priority.HIGH)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(197)
                 .hasLineEnd(197)
                 .hasMessage("18 - expected a \")\"")
                 .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c");
-        softly.assertThat(issues.get(1)).hasPriority(Priority.NORMAL)
+        softly.assertThat(report.get(1)).hasPriority(Priority.NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(211)
                 .hasLineEnd(211)
                 .hasMessage("12-D - parsing restarts here after previous syntax error")
                 .hasFileName("../../wnArch/wnDrv/wnDrv_Usbhw.c");
-        softly.assertThat(issues.get(2)).hasPriority(Priority.NORMAL)
+        softly.assertThat(report.get(2)).hasPriority(Priority.NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(211)
                 .hasLineEnd(211)

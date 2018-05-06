@@ -187,7 +187,6 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-
         Issue issue;
         if (priority != null && severity == null) {
             issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,

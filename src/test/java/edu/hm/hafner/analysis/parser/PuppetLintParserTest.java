@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -21,10 +21,10 @@ class PuppetLintParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(5);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(5);
 
-        Iterator<Issue> iterator = issues.iterator();
+        Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.HIGH)

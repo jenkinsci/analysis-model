@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -28,18 +28,18 @@ class SimianParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues,
+    protected void assertThatIssuesArePresent(final Report report,
             final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(2);
+        softly.assertThat(report).hasSize(2);
 
-        Issue firstIssue = issues.get(0);
+        Issue firstIssue = report.get(0);
         softly.assertThat(firstIssue)
                 .hasLineStart(93).hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
                 .hasPriority(Priority.LOW);
         softly.assertThat(firstIssue.getDescription()).isEmpty();
 
-        Issue secondIssue = issues.get(1);
+        Issue secondIssue = report.get(1);
         softly.assertThat(secondIssue)
                 .hasLineStart(76).hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
@@ -49,15 +49,15 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindOneDuplicationInTwoFiles() {
-        Issues issues = parse("twofile.xml");
+        Report report = parse("twofile.xml");
 
-        assertThat(issues).hasSize(2);
+        assertThat(report).hasSize(2);
 
-        assertThat(issues.get(0))
+        assertThat(report.get(0))
                 .hasLineStart(92).hasLineEnd(97)
                 .hasFileName(MAVEN_BUILD)
                 .hasPriority(Priority.LOW);
-        assertThat(issues.get(1))
+        assertThat(report.get(1))
                 .hasLineStart(61).hasLineEnd(66)
                 .hasFileName(MATRIX_RUN)
                 .hasPriority(Priority.LOW);
@@ -65,26 +65,26 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindTwoDuplicationsInTwoFiles() {
-        Issues issues = parse("twosets.xml");
+        Report report = parse("twosets.xml");
 
-        assertThat(issues).hasSize(4);
+        assertThat(report).hasSize(4);
 
-        assertThat(issues.get(0))
+        assertThat(report.get(0))
                 .hasLineStart(92).hasLineEnd(97)
                 .hasFileName(MAVEN_BUILD)
                 .hasPriority(Priority.LOW);
 
-        assertThat(issues.get(1))
+        assertThat(report.get(1))
                 .hasLineStart(61).hasLineEnd(66)
                 .hasFileName(MATRIX_RUN)
                 .hasPriority(Priority.LOW);
 
-        assertThat(issues.get(2))
+        assertThat(report.get(2))
                 .hasLineStart(93).hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
                 .hasPriority(Priority.LOW);
 
-        assertThat(issues.get(3))
+        assertThat(report.get(3))
                 .hasLineStart(76).hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
                 .hasPriority(Priority.LOW);
@@ -92,14 +92,14 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindOneDuplicationInFourFiles() {
-        Issues issues = parse("fourfile.xml");
+        Report report = parse("fourfile.xml");
 
-        assertThat(issues).hasSize(4);
+        assertThat(report).hasSize(4);
 
-        assertThat(issues.get(0)).hasLineStart(11).hasLineEnd(16).hasFileName(getFileName(1));
-        assertThat(issues.get(1)).hasLineStart(21).hasLineEnd(26).hasFileName(getFileName(2));
-        assertThat(issues.get(2)).hasLineStart(31).hasLineEnd(36).hasFileName(getFileName(3));
-        assertThat(issues.get(3)).hasLineStart(41).hasLineEnd(46).hasFileName(getFileName(4));
+        assertThat(report.get(0)).hasLineStart(11).hasLineEnd(16).hasFileName(getFileName(1));
+        assertThat(report.get(1)).hasLineStart(21).hasLineEnd(26).hasFileName(getFileName(2));
+        assertThat(report.get(2)).hasLineStart(31).hasLineEnd(36).hasFileName(getFileName(3));
+        assertThat(report.get(3)).hasLineStart(41).hasLineEnd(46).hasFileName(getFileName(4));
     }
 
     private String getFileName(final int number) {
@@ -108,40 +108,40 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldSupportSimianParserVersion2331() {
-        Issues issues = parse("simian-2.3.31.xml");
+        Report report = parse("simian-2.3.31.xml");
 
-        assertThat(issues).hasSize(132);
+        assertThat(report).hasSize(132);
     }
 
     @Test
     void shouldIgnoreOtherFile() {
-        Issues issues = parse("otherfile.xml");
+        Report report = parse("otherfile.xml");
 
-        assertThat(issues).hasSize(0);
+        assertThat(report).hasSize(0);
     }
 
     @Test
     void shouldAssignPriority() {
-        Issues issues;
+        Report report;
 
-        issues = parse(6, 5);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.HIGH);
+        report = parse(6, 5);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.HIGH);
 
-        issues = parse(7, 6);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+        report = parse(7, 6);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
 
-        issues = parse(100, 6);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.NORMAL);
+        report = parse(100, 6);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
 
-        issues = parse(100, 7);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasPriority(Priority.LOW);
+        report = parse(100, 7);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasPriority(Priority.LOW);
     }
 
-    private Issues parse(final int highThreshold, final int normalThreshold) {
+    private Report parse(final int highThreshold, final int normalThreshold) {
         return new SimianParser(highThreshold, normalThreshold)
                 .parse(openFile("twofile.xml"), Function.identity());
     }

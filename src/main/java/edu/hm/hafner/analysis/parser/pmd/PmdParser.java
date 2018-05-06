@@ -8,9 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -30,7 +29,7 @@ public class PmdParser extends AbstractParser {
     private static final int PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY = 4;
 
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             SecureDigester digester = new SecureDigester(PmdParser.class);
@@ -62,8 +61,8 @@ public class PmdParser extends AbstractParser {
         }
     }
 
-    private Issues convert(final Pmd pmdIssues) {
-        Issues issues = new Issues();
+    private Report convert(final Pmd pmdIssues) {
+        Report report = new Report();
         for (File file : pmdIssues.getFiles()) {
             for (Violation warning : file.getViolations()) {
                 IssueBuilder builder = new IssueBuilder().setPriority(mapPriority(warning))
@@ -76,10 +75,10 @@ public class PmdParser extends AbstractParser {
                         .setFileName(file.getName())
                         .setColumnStart(warning.getBegincolumn())
                         .setColumnEnd(warning.getEndcolumn());
-                issues.add(builder.build());
+                report.add(builder.build());
             }
         }
-        return issues;
+        return report;
     }
 
     private Priority mapPriority(final Violation warning) {

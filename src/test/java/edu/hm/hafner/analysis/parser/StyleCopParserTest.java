@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -27,10 +27,10 @@ class StyleCopParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(5);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(5);
 
-        Iterator<Issue> iterator = issues.iterator();
+        Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("ReadabilityRules")
@@ -75,7 +75,7 @@ class StyleCopParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testStyleCopOneFile() {
-        Issues result = parse("stylecop/onefile.xml");
+        Report result = parse("stylecop/onefile.xml");
 
         assertThat(result).hasSize(3);
     }
@@ -85,7 +85,7 @@ class StyleCopParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testStyleCop43() {
-        Issues result = parse("stylecop/stylecop-v4.3.xml");
+        Report result = parse("stylecop/stylecop-v4.3.xml");
 
         assertThat(result).hasSize(2);
     }

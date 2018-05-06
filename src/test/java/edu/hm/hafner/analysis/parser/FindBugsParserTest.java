@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
-import static edu.hm.hafner.analysis.Issues.*;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -30,7 +29,7 @@ class FindBugsParserTest {
     /** File in native format. */
     private static final String FINDBUGS_NATIVE_XML = "findbugs-native.xml";
 
-    private Issues parseFile(final String fileName, final PriorityProperty priorityProperty) {
+    private Report parseFile(final String fileName, final PriorityProperty priorityProperty) {
         return new FindBugsParser(priorityProperty).parse(getInputStreamProvider(PREFIX + fileName),
                 Collections.emptyList(), new IssueBuilder());
     }
@@ -50,11 +49,11 @@ class FindBugsParserTest {
      */
     @Test
     void issue46975() {
-        Issues issues = parseFile("spotbugsXml.xml", CONFIDENCE);
-        assertThat(issues).hasSize(2);
+        Report report = parseFile("spotbugsXml.xml", CONFIDENCE);
+        assertThat(report).hasSize(2);
 
         assertSoftly(softly -> {
-            softly.assertThat(issues.get(0))
+            softly.assertThat(report.get(0))
                     .hasFileName("edu/hm/hafner/analysis/IssuesTest.java")
                     .hasCategory("STYLE")
                     .hasType("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
@@ -65,7 +64,7 @@ class FindBugsParserTest {
                     .hasLineStart(286)
                     .hasLineEnd(286)
                     .hasFingerprint("3d78cb510b96490fd951f32d93e4e9ba");
-            softly.assertThat(issues.get(1))
+            softly.assertThat(report.get(1))
                     .hasFileName("edu/hm/hafner/analysis/IssuesTest.java")
                     .hasCategory("STYLE")
                     .hasType("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
@@ -86,9 +85,9 @@ class FindBugsParserTest {
      */
     @Test
     void issue7238() {
-        Issues issues = parseFile("issue7238.xml", CONFIDENCE);
+        Report report = parseFile("issue7238.xml", CONFIDENCE);
 
-        assertThat(issues).hasSize(1808).hasDuplicatesSize(12); // 12 issues are skipped (same attributes, but different instance hash)
+        assertThat(report).hasSize(1808).hasDuplicatesSize(12); // 12 issues are skipped (same attributes, but different instance hash)
     }
 
     /**
@@ -98,11 +97,11 @@ class FindBugsParserTest {
      */
     @Test
     void issue12314() {
-        Issues issues = parseFile("issue12314.xml", CONFIDENCE);
-        assertThat(issues).hasSize(1);
+        Report report = parseFile("issue12314.xml", CONFIDENCE);
+        assertThat(report).hasSize(1);
 
         assertSoftly(softly -> {
-            softly.assertThat(issues.get(0))
+            softly.assertThat(report.get(0))
                     .hasFileName("com/sedsystems/core/valid/Transformers.java")
                     .hasPackageName("com.sedsystems.core.valid")
                     .hasPriority(Priority.NORMAL)
@@ -163,9 +162,9 @@ class FindBugsParserTest {
      */
     @Test
     void scanFbContribFile() {
-        Issues issues = parseFile("fbcontrib.xml", CONFIDENCE);
-        assertThat(issues.filter(byPackageName("hudson.plugins.tasks"))).hasSize(16);
-        assertThat(issues.filter(byFileName("hudson/plugins/tasks/ResultSummary.java"))).hasSize(2);
+        Report report = parseFile("fbcontrib.xml", CONFIDENCE);
+        assertThat(report.filter(Issue.byPackageName("hudson.plugins.tasks"))).hasSize(16);
+        assertThat(report.filter(Issue.byFileName("hudson/plugins/tasks/ResultSummary.java"))).hasSize(2);
     }
 
     /**
@@ -173,13 +172,13 @@ class FindBugsParserTest {
      */
     @Test
     void handleFilesWithoutMessages() {
-        Issues issues = parseFile("findbugs-nomessage.xml", CONFIDENCE);
-        assertThat(issues).hasSize(1);
+        Report report = parseFile("findbugs-nomessage.xml", CONFIDENCE);
+        assertThat(report).hasSize(1);
 
-        assertThat(issues.get(0))
+        assertThat(report.get(0))
                 .hasCategory("STYLE")
                 .hasType("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE");
-        assertThat(issues.get(0).getMessage()).contains("Redundant nullcheck of");
+        assertThat(report.get(0).getMessage()).contains("Redundant nullcheck of");
     }
 
     /**
@@ -187,10 +186,10 @@ class FindBugsParserTest {
      */
     @Test
     void thirdPartyCategory() {
-        Issues issues = parseFile("findbugs-3rd-party-category.xml", CONFIDENCE);
-        assertThat(issues).hasSize(2);
-        assertThat(issues.get(0)).hasCategory("BAD_PRACTICE").hasType("SE_NO_SERIALVERSIONID");
-        assertThat(issues.get(1)).hasCategory("SECURITY").hasType("WEAK_MESSAGE_DIGEST");
+        Report report = parseFile("findbugs-3rd-party-category.xml", CONFIDENCE);
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasCategory("BAD_PRACTICE").hasType("SE_NO_SERIALVERSIONID");
+        assertThat(report.get(1)).hasCategory("SECURITY").hasType("WEAK_MESSAGE_DIGEST");
     }
 
     @SuppressWarnings("parameternumber")
@@ -200,12 +199,12 @@ class FindBugsParserTest {
             final String fileName2, final String packageName2,
             final int start2, final int end2, final int ranges2,
             final PriorityProperty priorityProperty) {
-        Issues issues = parseFile(findbugsFile, priorityProperty);
-        assertThat(issues.getModules()).containsExactly(projectName);
-        assertThat(issues).hasSize(2);
+        Report report = parseFile(findbugsFile, priorityProperty);
+        assertThat(report.getModules()).containsExactly(projectName);
+        assertThat(report).hasSize(2);
 
-        Issue first = issues.filter(byFileName(fileName1)).get(0);
-        Issue second = issues.filter(byFileName(fileName2)).get(0);
+        Issue first = report.filter(Issue.byFileName(fileName1)).get(0);
+        Issue second = report.filter(Issue.byFileName(fileName2)).get(0);
 
         assertSoftly(softly -> {
             softly.assertThat(first)

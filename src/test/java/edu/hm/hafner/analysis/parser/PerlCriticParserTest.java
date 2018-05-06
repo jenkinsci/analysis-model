@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -24,8 +24,8 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(105);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(105);
     }
 
     /**
@@ -33,7 +33,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testPerlCriticParserCreateWarning() {
-        Issues warnings = parse("issue17792.txt");
+        Report warnings = parse("issue17792.txt");
 
         assertThat(warnings).hasSize(3);
 
@@ -74,7 +74,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testPerlCriticParserCreateWarningNoFileName() {
-        Issues warnings = parse("issue17792-nofilename.txt");
+        Report warnings = parse("issue17792-nofilename.txt");
         assertThat(warnings).hasSize(3);
 
         Iterator<? extends Issue> iterator = warnings.iterator();

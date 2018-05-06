@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -35,12 +35,12 @@ class PhpParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue27681() {
-        Issues issues = parse("issue27681.txt");
+        Report report = parse("issue27681.txt");
 
-        assertThat(issues).hasSize(1);
+        assertThat(report).hasSize(1);
 
         assertSoftly(softly -> {
-            softly.assertThat(issues.get(0))
+            softly.assertThat(report.get(0))
                     .hasPriority(Priority.HIGH)
                     .hasCategory(FATAL_ERROR_CATEGORY)
                     .hasLineStart(0)
@@ -52,10 +52,10 @@ class PhpParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(5);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(5);
 
-        Iterator<Issue> iterator = issues.iterator();
+        Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)

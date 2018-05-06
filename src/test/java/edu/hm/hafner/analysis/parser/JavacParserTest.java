@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -28,10 +28,10 @@ class JavacParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(2);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(2);
 
-        softly.assertThat(issues.get(1))
+        softly.assertThat(report.get(1))
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(AbstractParser.DEPRECATION)
                 .hasLineStart(40)
@@ -46,7 +46,7 @@ class JavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void shouldParseErrors() {
-        Issues warnings = parse("javac-errors.txt");
+        Report warnings = parse("javac-errors.txt");
 
         assertThat(warnings).hasSize(4);
         assertThat(warnings.get(0)).hasSeverity(Severity.ERROR);
@@ -59,7 +59,7 @@ class JavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue14043() {
-        Issues warnings = parse("issue14043.txt");
+        Report warnings = parse("issue14043.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -67,7 +67,7 @@ class JavacParserTest extends AbstractIssueParserTest {
     /** Verifies that the Kotlin maven plugin warnings are correctly parsed. */
     @Test
     void kotlinMavenPlugin() {
-        Issues warnings = parse("kotlin-maven-plugin.txt");
+        Report warnings = parse("kotlin-maven-plugin.txt");
 
         assertThat(warnings).hasSize(4);
     }
@@ -77,7 +77,7 @@ class JavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void kotlinGradle() {
-        Issues warnings = parse("kotlin-gradle.txt");
+        Report warnings = parse("kotlin-gradle.txt");
 
         assertThat(warnings).hasSize(4);
     }
@@ -87,7 +87,7 @@ class JavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void parseArrayInDeprecatedMethod() {
-        Issues warnings = parse("issue5868.txt");
+        Report warnings = parse("issue5868.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -108,7 +108,7 @@ class JavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void parseParallelPipelineOutput() {
-        Issues warnings = parse("javac-parallel-pipeline.txt");
+        Report warnings = parse("javac-parallel-pipeline.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -139,7 +139,7 @@ class JavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void parseMaven() {
-        Issues warnings = parse("maven.txt");
+        Report warnings = parse("maven.txt");
 
         assertThat(warnings).hasSize(5);
 

@@ -14,14 +14,14 @@ import se.bjurr.violations.lib.parsers.ViolationsParser;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
 
 /**
- * Adapter for {@link ViolationsParser} instances. Converts the results of an {@link ViolationsParser} into the static
- * analysis {@link Issues} model.
+ * Adapter for {@link ViolationsParser} instances. Converts the results of a {@link ViolationsParser} into a static
+ * analysis {@link Report}.
  *
  * @author Ullrich Hafner
  */
@@ -43,12 +43,12 @@ public abstract class AbstractViolationAdapter extends AbstractParser {
 
     @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock", "PMD.AvoidCatchingGenericException"})
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         try {
             ViolationsParser parser = createParser();
             List<Violation> violations = parser.parseReportOutput(IOUtils.toString(reader));
-            return convertToIssues(violations);
+            return convertToReport(violations);
         }
         catch (Exception exception) {
             throw new ParsingException(exception);
@@ -62,14 +62,14 @@ public abstract class AbstractViolationAdapter extends AbstractParser {
      */
     protected abstract ViolationsParser createParser();
 
-    private Issues convertToIssues(final List<Violation> violations) {
-        Issues issues = new Issues();
+    private Report convertToReport(final List<Violation> violations) {
+        Report report = new Report();
         for (Violation violation : violations) {
             if (isValid(violation)) {
-                issues.add(convertToIssue(violation));
+                report.add(convertToIssue(violation));
             }
         }
-        return issues;
+        return report;
     }
 
     /**

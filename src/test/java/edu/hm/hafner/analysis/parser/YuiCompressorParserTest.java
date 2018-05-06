@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -22,10 +21,10 @@ class YuiCompressorParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(3);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(3);
 
-        softly.assertThat(issues.get(0))
+        softly.assertThat(report.get(0))
                 .hasPriority(Priority.LOW)
                 .hasCategory("Use single 'var' per scope")
                 .hasLineStart(0)
@@ -33,7 +32,7 @@ class YuiCompressorParserTest extends AbstractIssueParserTest {
                 .hasMessage("Try to use a single 'var' statement per scope."
                         + " [match){returnstringResult;}for( ---> var  <--- i=0;match&&i<match]")
                 .hasFileName("unknown.file");
-        softly.assertThat(issues.get(1))
+        softly.assertThat(report.get(1))
                 .hasPriority(Priority.HIGH)
                 .hasCategory("Duplicate variable")
                 .hasLineStart(0)
@@ -41,7 +40,7 @@ class YuiCompressorParserTest extends AbstractIssueParserTest {
                 .hasMessage("The variable replacement has already been declared in the same scope..."
                         + " [replace(variable,replacement);}var  ---> replacement <--- =globalStoredVars[name];if(replacement!=]")
                 .hasFileName("unknown.file");
-        softly.assertThat(issues.get(2))
+        softly.assertThat(report.get(2))
                 .hasPriority(Priority.HIGH)
                 .hasCategory("Use eval")
                 .hasLineStart(0)

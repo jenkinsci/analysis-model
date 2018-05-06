@@ -21,10 +21,9 @@ public abstract class FastRegexpLineParser extends RegexpLineParser {
     }
 
     @Override
-    protected void findIssues(final String content, final Issues issues)
-            throws ParsingCanceledException {
+    protected void findIssues(final String content, final Report report) throws ParsingCanceledException {
         if (isLineInteresting(content)) {
-            super.findIssues(content, issues);
+            super.findIssues(content, report);
         }
     }
 

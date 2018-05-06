@@ -4,16 +4,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-import edu.hm.hafner.analysis.IntegerParser;
+import edu.hm.hafner.util.IntegerParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 
 /**
  * Handles parsing.
  */
 public class JSLintXmlSaxParser extends DefaultHandler {
-    private final Issues issues;
+    private final Report report;
     private String fileName;
 
     /** Categories. */
@@ -24,13 +24,13 @@ public class JSLintXmlSaxParser extends DefaultHandler {
     /**
      * Creates a new instance of {@link JSLintXmlSaxParser}.
      *
-     * @param issues
+     * @param report
      *         the issues
      */
-    public JSLintXmlSaxParser(final Issues issues) {
+    public JSLintXmlSaxParser(final Report report) {
         super();
 
-        this.issues = issues;
+        this.report = report;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class JSLintXmlSaxParser extends DefaultHandler {
         if (StringUtils.isNotBlank(column)) {
             builder.setColumnStart(parseInt(column));
         }
-        issues.add(builder.build());
+        report.add(builder.build());
     }
 
     private int parseInt(final String line) {

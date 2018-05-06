@@ -4,26 +4,26 @@ import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
 
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.Severity;
 
 /**
- * Assertions for {@link Issues}.
+ * Assertions for {@link Report}.
  *
  * @author Marcel Binder
  */
 @SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion"})
-public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
+public class IssuesAssert extends AbstractAssert<IssuesAssert, Report> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 
     /**
-     * Creates a new {@link IssueAssert} to make assertions on actual {@link Issues}.
+     * Creates a new {@link IssueAssert} to make assertions on actual {@link Report}.
      *
      * @param actual
      *         the issue we want to make assertions on
      */
-    public IssuesAssert(final Issues actual) {
+    public IssuesAssert(final Report actual) {
         super(actual, IssuesAssert.class);
     }
 
@@ -36,16 +36,16 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
      *
      * @return a new {@link IssuesAssert}
      */
-    public static IssuesAssert assertThat(final Issues actual) {
+    public static IssuesAssert assertThat(final Report actual) {
         return new IssuesAssert(actual);
     }
 
     /**
-     * Verifies that there are no issues in the {@link Issues} instance.
+     * Verifies that there are no issues in the {@link Report} instance.
      *
      * @return this assertion object.
      * @throws AssertionError
-     *         if the actual {@link Issues} size is not zero.
+     *         if the actual {@link Report} size is not zero.
      */
     public IssuesAssert isEmpty() {
         isNotNull();
@@ -58,14 +58,14 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     }
 
     /**
-     * Verifies that the actual origin of the {@link Issues} instance is equal to the given one.
+     * Verifies that the actual origin of the {@link Report} instance is equal to the given one.
      *
      * @param origin
-     *         the expected origin to compare the actual {@link Issues} origin to.
+     *         the expected origin to compare the actual {@link Report} origin to.
      *
      * @return this assertion object.
      * @throws AssertionError
-     *         if the actual {@link Issues} origin is not equal to the given one.
+     *         if the actual {@link Report} origin is not equal to the given one.
      */
     public IssuesAssert hasOrigin(final String origin) {
         isNotNull();
@@ -77,14 +77,14 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     }
 
     /**
-     * Verifies that the actual reference of the {@link Issues} instance is equal to the given one.
+     * Verifies that the actual reference of the {@link Report} instance is equal to the given one.
      *
      * @param reference
-     *         the expected reference to compare the actual {@link Issues} reference to.
+     *         the expected reference to compare the actual {@link Report} reference to.
      *
      * @return this assertion object.
      * @throws AssertionError
-     *         if the actual {@link Issues} reference is not equal to the given one.
+     *         if the actual {@link Report} reference is not equal to the given one.
      */
     public IssuesAssert hasReference(final String reference) {
         isNotNull();
@@ -96,14 +96,14 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     }
 
     /**
-     * Verifies that the actual size of the {@link Issues} instance is equal to the given one.
+     * Verifies that the actual size of the {@link Report} instance is equal to the given one.
      *
      * @param size
-     *         the expected size to compare the actual {@link Issues} size to.
+     *         the expected size to compare the actual {@link Report} size to.
      *
      * @return this assertion object.
      * @throws AssertionError
-     *         if the actual {@link Issues} size is not equal to the given one.
+     *         if the actual {@link Report} size is not equal to the given one.
      */
     public IssuesAssert hasSize(final int size) {
         isNotNull();
@@ -115,14 +115,14 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     }
 
     /**
-     * Verifies that the actual size of duplicate issues of the {@link Issues} instance is equal to the given one.
+     * Verifies that the actual size of duplicate issues of the {@link Report} instance is equal to the given one.
      *
      * @param size
-     *         the expected size to compare the actual {@link Issues} size to.
+     *         the expected size to compare the actual {@link Report} size to.
      *
      * @return this assertion object.
      * @throws AssertionError
-     *         if the actual {@link Issues} size is not equal to the given one.
+     *         if the actual {@link Report} size is not equal to the given one.
      */
     public IssuesAssert hasDuplicatesSize(final int size) {
         isNotNull();
@@ -134,18 +134,18 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Issues> {
     }
 
     /**
-     * Verifies that the actual size of the {@link Issues} instance is equal to the given one.
+     * Verifies that the actual size of the {@link Report} instance is equal to the given one.
      *
      * @param expectedSizeHigh
-     *         the expected size of issues with {@link Priority#HIGH} to compare the actual {@link Issues} size to.
+     *         the expected size of issues with {@link Priority#HIGH} to compare the actual {@link Report} size to.
      * @param expectedSizeNormal
-     *         the expected size of issues with {@link Priority#NORMAL} to compare the actual {@link Issues} size to.
+     *         the expected size of issues with {@link Priority#NORMAL} to compare the actual {@link Report} size to.
      * @param expectedSizeLow
-     *         the expected size of issues with {@link Priority#LOW} to compare the actual {@link Issues} size to.
+     *         the expected size of issues with {@link Priority#LOW} to compare the actual {@link Report} size to.
      *
      * @return this assertion object.
      * @throws AssertionError
-     *         if the actual {@link Issues} size is not equal to the given one.
+     *         if the actual {@link Report} size is not equal to the given one.
      */
     public IssuesAssert hasPriorities(final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
         isNotNull();

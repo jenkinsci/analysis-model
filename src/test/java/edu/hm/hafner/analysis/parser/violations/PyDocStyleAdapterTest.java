@@ -2,8 +2,7 @@ package edu.hm.hafner.analysis.parser.violations;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -18,9 +17,9 @@ class PyDocStyleAdapterTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(33);
-        softly.assertThat(issues.get(0))
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(33);
+        softly.assertThat(report.get(0))
                 .hasMessage("Missing docstring in public module")
                 .hasFileName("fs/csm/admin_api/ui_api.py")
                 .hasLineStart(1)

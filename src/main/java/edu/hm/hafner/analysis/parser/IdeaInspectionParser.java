@@ -17,9 +17,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.XmlElementUtil;
@@ -33,7 +32,7 @@ public class IdeaInspectionParser extends AbstractParser {
     private static final long serialVersionUID = 3307389086106375473L;
 
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -51,8 +50,8 @@ public class IdeaInspectionParser extends AbstractParser {
         }
     }
 
-    private Issues parseProblems(final List<Element> elements) {
-        Issues problems = new Issues();
+    private Report parseProblems(final List<Element> elements) {
+        Report problems = new Report();
         for (Element element : elements) {
             String file = getChildValue(element, "file");
             Element problemClass = XmlElementUtil.getFirstElementByTagName(element, "problem_class");

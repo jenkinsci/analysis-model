@@ -6,8 +6,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -30,7 +29,7 @@ class JSLintParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue19127() {
-        Issues warnings = parse("jslint/jslint.xml");
+        Report warnings = parse("jslint/jslint.xml");
 
         assertThat(warnings).hasSize(197);
 
@@ -54,7 +53,7 @@ class JSLintParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testParseWithSingleFile() {
-        Issues results = parse("jslint/single.xml");
+        Report results = parse("jslint/single.xml");
 
         assertThat(results).hasSize(51);
     }
@@ -64,20 +63,20 @@ class JSLintParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testCssLint() {
-        Issues results = parse("jslint/csslint.xml");
+        Report results = parse("jslint/csslint.xml");
 
         assertThat(results).hasSize(51);
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(102);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(102);
 
-        assertThat(issues.getFiles()).hasSize(2);
-        assertThat(issues.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME,
+        assertThat(report.getFiles()).hasSize(2);
+        assertThat(report.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME,
                 "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
-        softly.assertThat(issues.get(0))
+        softly.assertThat(report.get(0))
                 .hasPriority(Priority.HIGH)
                 .hasCategory(JSLintXmlSaxParser.CATEGORY_PARSING)
                 .hasLineStart(10)

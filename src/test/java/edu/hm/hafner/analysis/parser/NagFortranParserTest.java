@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -22,7 +22,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testInfoParser() {
-        Issues warnings = parse("NagFortranInfo.txt");
+        Report warnings = parse("NagFortranInfo.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -46,7 +46,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testWarningParser() {
-        Issues warnings = parse("NagFortranWarning.txt");
+        Report warnings = parse("NagFortranWarning.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -70,7 +70,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testQuestionableParser() {
-        Issues warnings = parse("NagFortranQuestionable.txt");
+        Report warnings = parse("NagFortranQuestionable.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -94,7 +94,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testExtensionParser() {
-        Issues warnings = parse("NagFortranExtension.txt");
+        Report warnings = parse("NagFortranExtension.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -118,7 +118,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testObsolescentParser() {
-        Issues warnings = parse("NagFortranObsolescent.txt");
+        Report warnings = parse("NagFortranObsolescent.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -142,7 +142,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testDeletedFeatureUsedParser() {
-        Issues warnings = parse("NagFortranDeletedFeatureUsed.txt");
+        Report warnings = parse("NagFortranDeletedFeatureUsed.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -166,7 +166,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testErrorParser() {
-        Issues warnings = parse("NagFortranError.txt");
+        Report warnings = parse("NagFortranError.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -190,7 +190,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testRuntimeErrorParser() {
-        Issues warnings = parse("NagFortranRuntimeError.txt");
+        Report warnings = parse("NagFortranRuntimeError.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -214,7 +214,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testFatalErrorParser() {
-        Issues warnings = parse("NagFortranFatalError.txt");
+        Report warnings = parse("NagFortranFatalError.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -238,7 +238,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testPanicParser() {
-        Issues warnings = parse("NagFortranPanic.txt");
+        Report warnings = parse("NagFortranPanic.txt");
 
         assertThat(warnings)
                 .hasSize(1)
@@ -258,12 +258,12 @@ class NagFortranParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues)
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report)
                 .hasSize(10)
                 .hasPriorities(4, 5, 1);
 
-        softly.assertThat(issues.get(0))
+        softly.assertThat(report.get(0))
                 .hasFileName("C:/file1.inc")
                 .hasCategory("Info")
                 .hasPriority(Priority.LOW)
@@ -275,7 +275,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(1))
+        softly.assertThat(report.get(1))
                 .hasFileName("C:/file2.f90")
                 .hasCategory("Warning")
                 .hasPriority(Priority.NORMAL)
@@ -287,7 +287,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(2))
+        softly.assertThat(report.get(2))
                 .hasFileName("/file3.f90")
                 .hasCategory("Questionable")
                 .hasPriority(Priority.NORMAL)
@@ -299,7 +299,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(3))
+        softly.assertThat(report.get(3))
                 .hasFileName("file4.f90")
                 .hasCategory("Extension")
                 .hasPriority(Priority.NORMAL)
@@ -311,7 +311,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(4))
+        softly.assertThat(report.get(4))
                 .hasFileName("file5.f")
                 .hasCategory("Obsolescent")
                 .hasPriority(Priority.NORMAL)
@@ -323,7 +323,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(5))
+        softly.assertThat(report.get(5))
                 .hasFileName("file6.f90")
                 .hasCategory("Deleted feature used")
                 .hasPriority(Priority.NORMAL)
@@ -335,7 +335,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(6))
+        softly.assertThat(report.get(6))
                 .hasFileName("file7.f90")
                 .hasCategory("Error")
                 .hasPriority(Priority.HIGH)
@@ -347,7 +347,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(7))
+        softly.assertThat(report.get(7))
                 .hasFileName("file8.f90")
                 .hasCategory("Runtime Error")
                 .hasPriority(Priority.HIGH)
@@ -359,7 +359,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(8))
+        softly.assertThat(report.get(8))
                 .hasFileName("file9.f90")
                 .hasCategory("Fatal Error")
                 .hasPriority(Priority.HIGH)
@@ -371,7 +371,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
 
-        softly.assertThat(issues.get(9))
+        softly.assertThat(report.get(9))
                 .hasFileName("file10.f90")
                 .hasCategory("Panic")
                 .hasPriority(Priority.HIGH)

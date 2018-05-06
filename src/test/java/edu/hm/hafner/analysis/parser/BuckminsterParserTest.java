@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -17,23 +16,23 @@ class BuckminsterParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(3);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(3);
 
-        softly.assertThat(issues.get(0)).hasPriority(Priority.NORMAL)
+        softly.assertThat(report.get(0)).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(43)
                 .hasLineEnd(43)
                 .hasMessage("ArrayList is a raw type. References to generic type ArrayList<E> should be parameterized")
                 .hasFileName("/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp/src/org/eclipse/buckminster/tutorial/mailapp/NavigationView.java");
-        softly.assertThat(issues.get(1)).hasPriority(Priority.HIGH)
+        softly.assertThat(report.get(1)).hasPriority(Priority.HIGH)
                 .hasCategory(CATEGORY)
                 .hasLineStart(57)
                 .hasLineEnd(57)
                 .hasMessage("Type safety: The method toArray(Object[]) belongs to the raw type ArrayList. References to generic type ArrayList<E> should be parameterized")
                 .hasFileName(
                         "/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp/src/org/eclipse/buckminster/tutorial/mailapp/NavigationView.java");
-        softly.assertThat(issues.get(2)).hasPriority(Priority.NORMAL)
+        softly.assertThat(report.get(2)).hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(0)
                 .hasLineEnd(0)

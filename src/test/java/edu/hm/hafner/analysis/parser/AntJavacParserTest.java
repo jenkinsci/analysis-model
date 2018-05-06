@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -32,7 +32,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testIssue24611() {
-        Issues warnings = parse("issue24611.txt");
+        Report warnings = parse("issue24611.txt");
 
         assertThat(warnings).hasSize(2);
     }
@@ -44,7 +44,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue21240() {
-        Issues warnings = parse("issue21240.txt");
+        Report warnings = parse("issue21240.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -65,7 +65,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue2133() {
-        Issues warnings = parse("issue2133.txt");
+        Report warnings = parse("issue2133.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -95,7 +95,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4098() {
-        Issues warnings = parse("issue4098.txt");
+        Report warnings = parse("issue4098.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -117,7 +117,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue2316() {
-        Issues warnings = parse("issue2316.txt");
+        Report warnings = parse("issue2316.txt");
 
         assertThat(warnings)
                 .hasSize(18)
@@ -130,7 +130,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void parseDifferentTaskNames() {
-        Issues warnings = parse("taskname.txt");
+        Report warnings = parse("taskname.txt");
 
         assertThat(warnings).hasSize(1).hasDuplicatesSize(2);
     }
@@ -140,7 +140,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
      */
     @Test
     void parseArrayInDeprecatedMethod() {
-        Issues warnings = parse("issue5868.txt");
+        Report warnings = parse("issue5868.txt");
 
         assertThat(warnings).hasSize(1);
 
@@ -165,15 +165,15 @@ class AntJavacParserTest extends AbstractIssueParserTest {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
                 AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        Issues warnings = createParser().parse(is);
+        Report warnings = createParser().parse(is);
 
         assertThat(warnings).hasSize(1);
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(1);
-        softly.assertThat(issues.get(0))
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(1);
+        softly.assertThat(report.get(0))
                 .hasPriority(Priority.NORMAL)
                 .hasCategory("Deprecation")
                 .hasLineStart(28)

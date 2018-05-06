@@ -27,56 +27,56 @@ class PackageNameResolverTest {
 
     @Test
     void shouldDoNothingForEmptyIssues() {
-        Issues issues = createIssues();
+        Report report = createIssues();
 
         PackageNameResolver resolver = new PackageNameResolver();
-        resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
 
-        assertThat(issues).hasSize(0);
-        assertThat(issues).hasOrigin(ID);
+        assertThat(report).hasSize(0);
+        assertThat(report).hasOrigin(ID);
     }
 
     @Test
     void shouldSkipExistingPackage() {
-        Issues issues = createIssues();
-        issues.add(ISSUE_WITH_PACKAGE);
+        Report report = createIssues();
+        report.add(ISSUE_WITH_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver();
-        resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
 
-        assertThat(issues).hasSize(1);
-        assertThat(issues).hasOrigin(ID);
-        assertThat(issues.get(0)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
+        assertThat(report).hasSize(1);
+        assertThat(report).hasOrigin(ID);
+        assertThat(report.get(0)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
     @Test
     void shouldResolvePackage() throws IOException {
-        Issues issues = createIssues();
-        issues.add(ISSUE_WITHOUT_PACKAGE);
+        Report report = createIssues();
+        report.add(ISSUE_WITHOUT_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
 
-        resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
 
-        assertThat(issues).hasSize(1);
-        assertThat(issues).hasOrigin(ID);
-        assertThat(issues.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
+        assertThat(report).hasSize(1);
+        assertThat(report).hasOrigin(ID);
+        assertThat(report.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
     }
 
     @Test
     void shouldResolvePackageAndSkipExistingPackage() throws IOException {
-        Issues issues = createIssues();
-        issues.add(ISSUE_WITHOUT_PACKAGE);
-        issues.add(ISSUE_WITH_PACKAGE);
+        Report report = createIssues();
+        report.add(ISSUE_WITHOUT_PACKAGE);
+        report.add(ISSUE_WITH_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
 
-        resolver.run(issues, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
 
-        assertThat(issues).hasSize(2);
-        assertThat(issues).hasOrigin(ID);
-        assertThat(issues.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
-        assertThat(issues.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
+        assertThat(report).hasSize(2);
+        assertThat(report).hasOrigin(ID);
+        assertThat(report.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
+        assertThat(report.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
     private FileSystem createFileSystemStub() throws IOException {
@@ -86,9 +86,9 @@ class PackageNameResolverTest {
         return fileSystemStub;
     }
 
-    private Issues createIssues() {
-        Issues issues = new Issues();
-        issues.setOrigin(ID);
-        return issues;
+    private Report createIssues() {
+        Report report = new Report();
+        report.setOrigin(ID);
+        return report;
     }
 }

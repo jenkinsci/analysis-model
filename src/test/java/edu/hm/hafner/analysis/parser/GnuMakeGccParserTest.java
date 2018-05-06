@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -45,7 +45,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
      * Checks that paths of the type "/c/anything" are changed to "c:/anything" on windows but no other OS.
      */
     private void checkOsSpecificPath(final String os, final String rootDir) {
-        Issues warnings = new GnuMakeGccParser(os).parse(openFile());
+        Report warnings = new GnuMakeGccParser(os).parse(openFile());
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(14))
@@ -59,9 +59,9 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        Iterator<Issue> iterator = issues.iterator();
-        softly.assertThat(issues).hasSize(15);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        Iterator<Issue> iterator = report.iterator();
+        softly.assertThat(report).hasSize(15);
         softly.assertThat(iterator.next())
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(WARNING_CATEGORY)

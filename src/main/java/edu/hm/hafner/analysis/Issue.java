@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -21,6 +22,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings("PMD.TooManyFields")
 public final class Issue implements Serializable {
+    private static final long serialVersionUID = 1L; // release 1.0.0
+    private static final String UNDEFINED = "-";
+
     /**
      * Returns the value of the property with the specified name for a given issue instance.
      *
@@ -53,33 +57,54 @@ public final class Issue implements Serializable {
         return issue -> Issue.getPropertyValueAsString(issue, propertyName);
     }
 
-    private static final long serialVersionUID = 1L; // release 1.0.0
+    /**
+     * Returns a predicate that checks if the package name of an issue is equal to the specified package name.
+     *
+     * @param packageName
+     *         the package name to match
+     *
+     * @return the predicate
+     */
+    public static Predicate<Issue> byPackageName(final String packageName) {
+        return issue -> issue.getPackageName().equals(packageName);
+    }
 
-    private static final String UNDEFINED = "-";
+    /**
+     * Returns a predicate that checks if the file name of an issue is equal to the specified file name.
+     *
+     * @param fileName
+     *         the package name to match
+     *
+     * @return the predicate
+     */
+    public static Predicate<Issue> byFileName(final String fileName) {
+        return issue -> issue.getFileName().equals(fileName);
+    }
 
     private String category; // almost final
     private String type;     // almost final
 
     private final Severity severity;
     private final TreeString message;
-
     private final int lineStart;            // fixed
     private final int lineEnd;              // fixed
     private final int columnStart;          // fixed
+
     private final int columnEnd;            // fixed
+
     private final LineRangeList lineRanges; // fixed
 
     private final UUID id;                  // fixed
 
     private final TreeString description;   // fixed
-
     @CheckForNull
     private final Serializable additionalProperties;  // fixed
-
     private String reference;       // mutable, not part of equals
     private String origin;          // mutable
     private String moduleName;      // mutable
+
     private TreeString packageName; // mutable
+
     private TreeString fileName;    // mutable
 
     private String fingerprint;     // mutable, not part of equals

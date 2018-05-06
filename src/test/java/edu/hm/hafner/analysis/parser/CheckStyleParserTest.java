@@ -3,8 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -26,13 +25,13 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues).hasSize(6);
-        softly.assertThat(issues.getFiles()).hasSize(1);
-        softly.assertThat(issues.getFiles()).containsExactly(
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report).hasSize(6);
+        softly.assertThat(report.getFiles()).hasSize(1);
+        softly.assertThat(report.getFiles()).containsExactly(
                 "X:/Build/Results/jobs/Maven/workspace/tasks/src/main/java/hudson/plugins/tasks/parser/CsharpNamespaceDetector.java");
 
-        softly.assertThat(issues.get(2))
+        softly.assertThat(report.get(2))
                 .hasLineStart(22)
                 .hasCategory("Design")
                 .hasType("DesignForExtensionCheck")
@@ -47,12 +46,12 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue25511() {
-        Issues issues = parseInCheckStyleFolder("issue25511.xml");
+        Report report = parseInCheckStyleFolder("issue25511.xml");
 
-        assertThat(issues).hasSize(2);
+        assertThat(report).hasSize(2);
 
-        assertThat(issues.get(0)).hasMessage("',' is not followed by whitespace.");
-        assertThat(issues.get(1)).hasMessage("Type hint \"kEvent\" missing for $event at position 1");
+        assertThat(report.get(0)).hasMessage("',' is not followed by whitespace.");
+        assertThat(report.get(1)).hasMessage("Type hint \"kEvent\" missing for $event at position 1");
     }
 
     /**
@@ -62,9 +61,9 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testColumnPositions() {
-        Issues issues = parseInCheckStyleFolder("issue19122.xml");
+        Report report = parseInCheckStyleFolder("issue19122.xml");
 
-        assertThat(issues).hasSize(58);
+        assertThat(report).hasSize(58);
     }
 
     /**
@@ -75,12 +74,12 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testParsingOfScalaStyleFormat() {
-        Issues issues = parseInCheckStyleFolder("scalastyle-output.xml");
+        Report report = parseInCheckStyleFolder("scalastyle-output.xml");
 
-        assertThat(issues).hasSize(2);
+        assertThat(report).hasSize(2);
     }
 
-    private Issues parseInCheckStyleFolder(final String fileName) {
+    private Report parseInCheckStyleFolder(final String fileName) {
         return parse(PREFIX + fileName);
     }
 }

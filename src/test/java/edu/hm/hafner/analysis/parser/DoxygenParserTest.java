@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -36,7 +36,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
     @Test
     @Disabled("FIXME: Check with Java 8")
     void issue7178() {
-        Issues warnings = parse("issue7178.txt");
+        Report warnings = parse("issue7178.txt");
         assertThat(warnings).isEmpty(); //seems to be 1
     }
 
@@ -47,7 +47,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue6971() {
-        Issues warnings = parse("issue6971.txt");
+        Report warnings = parse("issue6971.txt");
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(warnings).hasSize(4);
 
@@ -90,10 +90,10 @@ class DoxygenParserTest extends AbstractIssueParserTest {
 
     @SuppressWarnings("methodlength")
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(21).hasDuplicatesSize(1);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(21).hasDuplicatesSize(1);
 
-        Iterator<Issue> iterator = issues.iterator();
+        Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(0)

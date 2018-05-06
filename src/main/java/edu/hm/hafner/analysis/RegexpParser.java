@@ -4,10 +4,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Parses an input stream for compiler warnings using the provided regular expression. Sub classes of this parser should
- * create concrete {@link Issue issue} instances.
+ * Parses an input stream for compiler warnings or issues from a static analysis tool using the provided regular
+ * expression. Normally, this base class should not directly be extended. Rather extend from the base classes {@link
+ * RegexpDocumentParser} or {@link RegexpLineParser}.
  *
  * @author Ullrich Hafner
+ * @see RegexpDocumentParser
+ * @see RegexpLineParser
  */
 public abstract class RegexpParser extends AbstractParser {
     private static final long serialVersionUID = -82635675595933170L;
@@ -24,31 +27,31 @@ public abstract class RegexpParser extends AbstractParser {
     /**
      * Creates a new instance of {@link RegexpParser}.
      *
-     * @param warningPattern
+     * @param pattern
      *         pattern of compiler warnings.
      * @param useMultiLine
      *         Enables multi line mode. In multi line mode the expressions <tt>^</tt> and <tt>$</tt> match just after or
      *         just before, respectively, a line terminator or the end of the input sequence. By default these
      */
-    protected RegexpParser(final String warningPattern, final boolean useMultiLine) {
+    protected RegexpParser(final String pattern, final boolean useMultiLine) {
         super();
 
         if (useMultiLine) {
-            pattern = Pattern.compile(warningPattern, Pattern.MULTILINE);
+            this.pattern = Pattern.compile(pattern, Pattern.MULTILINE);
         }
         else {
-            pattern = Pattern.compile(warningPattern);
+            this.pattern = Pattern.compile(pattern);
         }
     }
 
     /**
-     * Parses the specified string {@code content} using a regular expression and creates a set of new issues for
-     * each match. The new issues are added to the provided set of {@link Issues}.
+     * Parses the specified string {@code content} using a regular expression and creates a set of new issues for each
+     * match. The new issues are added to the provided set of {@link Report}.
      *
      * @param content
      *         the content to scan
-     * @param issues
-     *         the container to add the new issues to
+     * @param report
+     *         the report to add the new issues to
      *
      * @throws ParsingException
      *         Signals that during parsing a non recoverable error has been occurred
@@ -56,14 +59,14 @@ public abstract class RegexpParser extends AbstractParser {
      *         Signals that the parsing has been aborted by the user
      */
     @SuppressWarnings({"ReferenceEquality", "PMD.CompareObjectsWithEquals"})
-    protected void findIssues(final String content, final Issues issues)
+    protected void findIssues(final String content, final Report report)
             throws ParsingException, ParsingCanceledException {
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
             Issue warning = createIssue(matcher, new IssueBuilder());
             if (warning != FALSE_POSITIVE) {
-                issues.add(warning);
+                report.add(warning);
             }
             if (Thread.interrupted()) {
                 throw new ParsingCanceledException();

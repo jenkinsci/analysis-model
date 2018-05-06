@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 
 /**
@@ -56,7 +56,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
 
     // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
     @Override
-    protected Issues postProcess(final Issues warnings) {
+    protected Report postProcess(final Report warnings) {
         IssueBuilder builder = new IssueBuilder();
         Deque<Issue> condensed = new ArrayDeque<>();
         int line = -1;
@@ -83,7 +83,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             }
             line = warning.getLineStart();
         }
-        Issues noBlank = new Issues();
+        Report noBlank = new Report();
         for (Issue warning : condensed) {
             if (StringUtils.isNotBlank(warning.getMessage())) {
                 noBlank.add(warning);

@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

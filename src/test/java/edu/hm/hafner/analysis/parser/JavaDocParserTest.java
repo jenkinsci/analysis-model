@@ -3,8 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -17,10 +16,10 @@ class JavaDocParserTest extends AbstractIssueParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        assertThat(issues).hasSize(6);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(6);
 
-        softly.assertThat(issues.get(0))
+        softly.assertThat(report.get(0))
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(116)
@@ -42,7 +41,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void falseJavaDocPositives() {
-        Issues warnings = parse("all.txt");
+        Report warnings = parse("all.txt");
 
         assertThat(warnings).hasSize(8);
     }
@@ -54,7 +53,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue37975() {
-        Issues warnings = parse("issue37975.txt");
+        Report warnings = parse("issue37975.txt");
         assertThat(warnings).hasSize(3);
 
         assertSoftly(softly -> {
@@ -91,7 +90,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue32298() {
-        Issues warnings = parse("issue32298.txt");
+        Report warnings = parse("issue32298.txt");
         assertThat(warnings).hasSize(7);
 
         assertSoftly(softly -> {
@@ -161,7 +160,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue4576() {
-        Issues warnings = parse("issue4576.txt");
+        Report warnings = parse("issue4576.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -191,7 +190,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue8630() {
-        Issues warnings = parse("issue8630.txt");
+        Report warnings = parse("issue8630.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -203,7 +202,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue7718() {
-        Issues warnings = parse("issue7718.txt");
+        Report warnings = parse("issue7718.txt");
 
         assertThat(warnings).hasSize(7);
 

@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -26,7 +26,7 @@ class CppLintParserTest extends AbstractIssueParserTest {
      */
     @Test
     void issue18290() {
-        Issues warnings = parse("issue18290.txt");
+        Report warnings = parse("issue18290.txt");
 
         assertThat(warnings).hasSize(2);
 
@@ -47,11 +47,11 @@ class CppLintParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Issues issues, final SoftAssertions softly) {
-        softly.assertThat(issues)
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report)
                 .hasSize(1031)
                 .hasPriorities(81, 201, 749);
-        softly.assertThat(issues.get(0))
+        softly.assertThat(report.get(0))
                 .hasLineStart(824)
                 .hasLineEnd(824)
                 .hasMessage("Tab found; better to use spaces")

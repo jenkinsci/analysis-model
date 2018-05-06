@@ -17,9 +17,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
@@ -34,7 +33,7 @@ public class StyleCopParser extends AbstractParser {
     private static final long serialVersionUID = 7846052338159003458L;
 
     @Override
-    public Issues parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -60,8 +59,8 @@ public class StyleCopParser extends AbstractParser {
         }
     }
 
-    private Issues parseViolations(final List<Element> elements) {
-        Issues issues = new Issues();
+    private Report parseViolations(final List<Element> elements) {
+        Report report = new Report();
         for (Element element : elements) {
             IssueBuilder builder = new IssueBuilder().setFileName(getString(element, "Source"))
                     .setLineStart(getLineNumber(element))
@@ -70,9 +69,9 @@ public class StyleCopParser extends AbstractParser {
                     .setMessage(element.getTextContent())
                     .setPriority(Priority.NORMAL);
 
-            issues.add(builder.build());
+            report.add(builder.build());
         }
-        return issues;
+        return report;
     }
 
     /**

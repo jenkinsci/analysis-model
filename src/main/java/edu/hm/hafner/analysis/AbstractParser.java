@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.parser.CppLintParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
 import edu.hm.hafner.analysis.parser.StyleCopParser;
+import edu.hm.hafner.util.IntegerParser;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -41,7 +42,7 @@ public abstract class AbstractParser extends IssueParser {
     public static final String PROPRIETARY_API = "Proprietary API";
 
     @Override
-    public Issues parse(final File file, final Charset charset, final Function<String, String> preProcessor)
+    public Report parse(final File file, final Charset charset, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         try (Reader input = createReader(new FileInputStream(file), charset)) {
             return parse(input, preProcessor);
@@ -72,7 +73,7 @@ public abstract class AbstractParser extends IssueParser {
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Issues parse(Reader reader, Function<String, String> preProcessor)
+    public abstract Report parse(Reader reader, Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException;
 
     /**
@@ -88,7 +89,7 @@ public abstract class AbstractParser extends IssueParser {
      *         Signals that the parsing has been aborted by the user
      */
     @VisibleForTesting
-    public Issues parse(final Reader reader) throws ParsingCanceledException, ParsingException {
+    public Report parse(final Reader reader) throws ParsingCanceledException, ParsingException {
         return parse(reader, Function.identity());
     }
 
