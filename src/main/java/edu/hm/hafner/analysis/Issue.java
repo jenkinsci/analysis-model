@@ -21,7 +21,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("PMD.TooManyFields")
-public final class Issue implements Serializable {
+public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
     private static final String UNDEFINED = "-";
 
@@ -73,12 +73,24 @@ public final class Issue implements Serializable {
      * Returns a predicate that checks if the file name of an issue is equal to the specified file name.
      *
      * @param fileName
-     *         the package name to match
+     *         the file name to match
      *
      * @return the predicate
      */
     public static Predicate<Issue> byFileName(final String fileName) {
         return issue -> issue.getFileName().equals(fileName);
+    }
+
+    /**
+     * Returns a predicate that checks if the severity of an issue is equal to the specified severity.
+     *
+     * @param severity
+     *         the severity to match
+     *
+     * @return the predicate
+     */
+    public static Predicate<Issue> bySeverity(final Severity severity) {
+        return issue -> issue.getSeverity().equals(severity);
     }
 
     private String category; // almost final
