@@ -406,11 +406,13 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @param propertiesMapper
      *         the properties mapper that selects the property to evaluate
+     * @param <T>
+     *         type of the property
      *
      * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
-    public Map<String, Integer> getPropertyCount(final Function<? super Issue, String> propertiesMapper) {
+    public <T> Map<T, Integer> getPropertyCount(final Function<? super Issue, T> propertiesMapper) {
         return elements.stream().collect(groupingBy(propertiesMapper, reducing(0, issue -> 1, Integer::sum)));
     }
 
