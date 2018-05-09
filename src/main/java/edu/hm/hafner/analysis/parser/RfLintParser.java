@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -10,6 +11,7 @@ import org.apache.commons.io.LineIterator;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
@@ -35,8 +37,7 @@ public class RfLintParser extends RegexpLineParser {
     @Override
     public Report parse(final Reader file, final Function<String, String> preProcessor) {
         Report warnings = new Report();
-        LineIterator iterator = IOUtils.lineIterator(file);
-        try {
+        try (LineIterator iterator = IOUtils.lineIterator(file)) {
             Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
             while (iterator.hasNext()) {
                 String line = preProcessor.apply(iterator.nextLine());
@@ -47,8 +48,8 @@ public class RfLintParser extends RegexpLineParser {
                 findIssues(line, warnings);
             }
         }
-        finally {
-            iterator.close();
+        catch (IOException exception) {
+            throw new ParsingException(exception, "Can't read input lines");
         }
         return warnings;
     }

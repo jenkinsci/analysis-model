@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.function.Function;
 
@@ -31,8 +32,7 @@ public abstract class RegexpLineParser extends RegexpParser {
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         Report report = new Report();
-        LineIterator iterator = IOUtils.lineIterator(reader);
-        try {
+        try (LineIterator iterator = IOUtils.lineIterator(reader)) {
             currentLine = 0;
             while (iterator.hasNext()) {
                 String line = preProcessor.apply(iterator.nextLine());
@@ -40,8 +40,8 @@ public abstract class RegexpLineParser extends RegexpParser {
                 currentLine++;
             }
         }
-        finally {
-            iterator.close();
+        catch (IOException exception) {
+            throw new ParsingException(exception, "Can't read input lines");
         }
 
         return postProcess(report);
