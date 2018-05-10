@@ -99,13 +99,13 @@ public class Severity implements Serializable {
     /**
      * Checks if this instance has a name that is equal to the specified name.
      *
-     * @param name
+     * @param severityName
      *         the name to check
      *
      * @return {@code true} if this instance has the same name, {@code false} otherwise
      */
-    public boolean equalsIgnoreCase(final String name) {
-        return getName().equalsIgnoreCase(name);
+    public boolean equalsIgnoreCase(final String severityName) {
+        return getName().equalsIgnoreCase(severityName);
     }
 
     @Override
