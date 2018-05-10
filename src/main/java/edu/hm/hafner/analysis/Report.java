@@ -632,7 +632,11 @@ public class Report implements Iterable<Issue>, Serializable {
         private final Collection<Predicate<Issue>> includeFilters = new ArrayList<>();
         private final Collection<Predicate<Issue>> excludeFilters = new ArrayList<>();
 
-        enum FilterType {INCLUDE, EXCLUDE}
+        /** Type of the filter: include or exclude elements. */
+        enum FilterType {
+            INCLUDE,
+            EXCLUDE
+        }
 
         /**
          * Adds a new filter for each patterns string. Adds the filter either to the include or exclude list.

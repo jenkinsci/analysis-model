@@ -44,7 +44,7 @@ public class GendarmeParser extends AbstractParser {
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
-        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)){
+        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)) {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(input);
