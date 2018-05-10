@@ -1,0 +1,13 @@
+[WARNING] Javadoc Warnings
+[WARNING] /Users/hafner/Development/jenkins/workspace/Model - Analysis/src/main/java/edu/hm/hafner/analysis/Issue.java:606: warning: no @return
+[WARNING] public Serializable getAdditionalProperties() {
+[WARNING] ^
+[WARNING] /Users/hafner/Development/jenkins/workspace/Model - Analysis/src/main/java/edu/hm/hafner/analysis/Report.java:387: warning: no @return
+[WARNING] public Set<Severity> getSeverities() {
+[WARNING] ^
+[WARNING] /Users/hafner/Development/jenkins/workspace/Model - Analysis/src/main/java/edu/hm/hafner/analysis/Severity.java:33: warning: no @return
+[WARNING] public static Severity of(final Priority priority) {
+[WARNING] ^
+[WARNING] /Users/hafner/Development/jenkins/workspace/Model - Analysis/src/main/java/edu/hm/hafner/analysis/Severity.java:53: warning: no @return
+[WARNING] public static Severity of(final String name) {
+[WARNING] ^

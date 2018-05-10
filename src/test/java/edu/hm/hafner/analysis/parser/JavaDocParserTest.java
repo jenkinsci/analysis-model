@@ -3,17 +3,20 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.parser.JavaDocParser.CATEGORY_JAVADOC;
 
 /**
  * Tests the class {@link JavaDocParser}.
  */
 class JavaDocParserTest extends AbstractIssueParserTest {
-    private static final String CATEGORY = DEFAULT_CATEGORY;
+    private static final String JAVA_DOC_LINK = "JavaDoc @link";
+    private static final String JAVA_DOC_PARAM = "JavaDoc @param";
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
@@ -21,7 +24,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
         softly.assertThat(report.get(0))
                 .hasPriority(Priority.NORMAL)
-                .hasCategory(CATEGORY)
+                .hasCategory(JAVA_DOC_LINK)
                 .hasLineStart(116)
                 .hasLineEnd(116)
                 .hasMessage("Tag @link: can't find removeSpecChangeListener(ChangeListener, String) in chenomx.ccma.common.graph.module.GraphListenerRegistry")
@@ -34,6 +37,17 @@ class JavaDocParserTest extends AbstractIssueParserTest {
     }
     JavaDocParserTest() {
         super("javadoc.txt");
+    }
+
+    /**
+     * Parses a warning log with JavaDoc 1.8 warnings.
+     */
+    @Test
+    void shouldHaveACategory() {
+        Report warnings = parse("javadoc-category.txt");
+
+        assertThat(warnings).hasSize(4);
+        assertThat(warnings.filter(Issue.byCategory("JavaDoc @return"))).hasSize(4);
     }
 
     /**
@@ -59,7 +73,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("malformed HTML")
@@ -67,7 +81,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("bad use of '>'")
@@ -75,7 +89,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("unexpected end tag: </a>")
@@ -96,7 +110,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(683)
                     .hasLineEnd(683)
                     .hasMessage("no description for @param")
@@ -104,7 +118,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(85)
                     .hasLineEnd(85)
                     .hasMessage("no description for @param")
@@ -112,7 +126,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(2))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(86)
                     .hasLineEnd(86)
                     .hasMessage("no description for @param")
@@ -120,7 +134,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(3))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(190)
                     .hasLineEnd(190)
                     .hasMessage("no description for @param")
@@ -128,7 +142,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(4))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(25)
                     .hasLineEnd(25)
                     .hasMessage("bad use of '>'")
@@ -136,7 +150,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(5))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("malformed HTML")
@@ -144,7 +158,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(6))
                     .hasPriority(Priority.HIGH)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("bad use of '>'")
@@ -167,7 +181,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("Multiple sources of package comments found for package \"org.hamcrest\"")
@@ -175,7 +189,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(94)
                     .hasLineEnd(94)
                     .hasMessage("@param argument \"<code>CoreAccountNumberTO</code>\" is not a parameter")
@@ -209,7 +223,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory("JavaDoc @sys")
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("Text of tag @sys.prop in class ch.post.pf.mw.service.common.alarm.AlarmingService is too long!")
@@ -217,7 +231,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
             softly.assertThat(warnings.get(1))
                     .hasPriority(Priority.NORMAL)
-                    .hasCategory(CATEGORY)
+                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(57)
                     .hasLineEnd(57)
                     .hasMessage("@(#) is an unknown tag.")
