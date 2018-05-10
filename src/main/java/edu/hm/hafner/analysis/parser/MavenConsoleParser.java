@@ -63,7 +63,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
         for (Issue warning : warnings) {
             if (warning.getLineStart() == line + 1 && !condensed.isEmpty()) {
                 Issue previous = condensed.getLast();
-                if (previous.getSeverity() == warning.getSeverity()) {
+                if (previous.getSeverity().equals(warning.getSeverity())) {
                     condensed.removeLast();
                     if (previous.getMessage().length() + warning.getMessage().length() >= MAX_MESSAGE_LENGTH) {
                         condensed.add(builder.copy(previous).setLineStart(warning.getLineStart()).build());

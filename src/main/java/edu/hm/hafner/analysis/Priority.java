@@ -51,7 +51,7 @@ public enum Priority {
      * @return enumeration value
      */
     public static Priority fromString(@CheckForNull final String priority, final Priority defaultValue) {
-        if (priority == null || Arrays.stream(values()).map(Enum::name).noneMatch(name -> name.equals(priority))) {
+        if (priority == null || Arrays.stream(values()).map(Priority::name).noneMatch(name -> name.equals(priority))) {
             return defaultValue;
         }
         return fromString(priority);

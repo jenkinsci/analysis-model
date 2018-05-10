@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
@@ -20,7 +19,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit tests for {@link Report}.
@@ -397,7 +396,7 @@ class ReportTest extends SerializableTest<Report> {
         Report report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
-        Set<Issue> found = report.findByProperty(issue -> Objects.equals(issue.getSeverity(), Priority.LOW));
+        Set<Issue> found = report.findByProperty(Issue.bySeverity(Severity.WARNING_LOW));
 
         assertThat(found).isEmpty();
     }
@@ -406,7 +405,7 @@ class ReportTest extends SerializableTest<Report> {
     void testFindByPropertyResultImmutable() {
         Report report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
-        Set<Issue> found = report.findByProperty(issue -> Objects.equals(issue.getSeverity(), Severity.WARNING_HIGH));
+        Set<Issue> found = report.findByProperty(Issue.bySeverity(Severity.WARNING_HIGH));
 
         assertThat(found).hasSize(1);
         assertThat(found).containsExactly(HIGH);

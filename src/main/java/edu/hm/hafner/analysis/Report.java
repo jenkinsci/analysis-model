@@ -382,10 +382,10 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * FIXME
+     * Returns the severities of all issues.
      */
     public Set<Severity> getSeverities() {
-        return elements.stream().map(Issue::getSeverity).collect(toSet());
+        return getProperties(Issue::getSeverity);
     }
 
     /**
@@ -393,11 +393,13 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @param propertiesMapper
      *         the properties mapper that selects the property
+     * @param <T>
+     *         type of the property
      *
      * @return the set of different values
      * @see #getFiles()
      */
-    public Set<String> getProperties(final Function<? super Issue, String> propertiesMapper) {
+    public <T> Set<T> getProperties(final Function<? super Issue, T> propertiesMapper) {
         return elements.stream().map(propertiesMapper).collect(toSet());
     }
 

@@ -4,23 +4,24 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Function;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.text.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
 
 /**
@@ -34,19 +35,16 @@ public class IdeaInspectionParser extends AbstractParser {
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException {
-        try {
+        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)){
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(new InputSource(reader));
+            Document document = documentBuilder.parse(input);
 
             Element rootElement = (Element) document.getElementsByTagName("problems").item(0);
             return parseProblems(XmlElementUtil.getNamedChildElements(rootElement, "problem"));
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);
-        }
-        finally {
-            IOUtils.closeQuietly(reader);
         }
     }
 

@@ -93,6 +93,30 @@ public class Issue implements Serializable {
         return issue -> issue.getSeverity().equals(severity);
     }
 
+    /**
+     * Returns a predicate that checks if the category of an issue is equal to the specified category.
+     *
+     * @param category
+     *         the category to match
+     *
+     * @return the predicate
+     */
+    public static Predicate<Issue> byCategory(final String category) {
+        return issue -> issue.getCategory().equals(category);
+    }
+
+    /**
+     * Returns a predicate that checks if the type of an issue is equal to the specified type.
+     *
+     * @param type
+     *         the type to match
+     *
+     * @return the predicate
+     */
+    public static Predicate<Issue> byType(final String type) {
+        return issue -> issue.getType().equals(type);
+    }
+
     private String category; // almost final
     private String type;     // almost final
 
@@ -600,7 +624,8 @@ public class Issue implements Serializable {
     /**
      * Returns additional properties for this issue. A static analysis tool may store additional properties in this
      * untyped object. This object will be serialized and is used in {@code equals} and {@code hashCode}.
-
+     *
+     * @return the additional properties
      */
     @CheckForNull
     public Serializable getAdditionalProperties() {
