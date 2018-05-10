@@ -7,15 +7,13 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.IOUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpParser;
+import edu.hm.hafner.analysis.Report;
 
 /**
  * A Parser for Linux Kernel Output detecting WARN() and BUGS().
@@ -115,9 +113,6 @@ public class LinuxKernelOutputParser extends RegexpParser {
         }
         catch (IOException e) {
             throw new ParsingException(e);
-        }
-        finally {
-            IOUtils.closeQuietly(file);
         }
     }
 

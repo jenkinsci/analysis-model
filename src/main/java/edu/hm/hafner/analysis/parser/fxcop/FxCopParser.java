@@ -1,25 +1,26 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.function.Function;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.function.Function;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -40,7 +41,7 @@ public class FxCopParser extends AbstractParser {
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
-        try {
+        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)) {
             ruleSet = new FxCopRuleSet();
             warnings = new Report();
 
@@ -48,7 +49,7 @@ public class FxCopParser extends AbstractParser {
             DocumentBuilder docBuilder;
             docBuilder = docBuilderFactory.newDocumentBuilder();
 
-            Document doc = docBuilder.parse(new InputSource(reader));
+            Document doc = docBuilder.parse(input);
 
             NodeList mainNode = doc.getElementsByTagName("FxCopReport");
 
@@ -61,9 +62,6 @@ public class FxCopParser extends AbstractParser {
         }
         catch (IOException | ParserConfigurationException | SAXException e) {
             throw new ParsingException(e);
-        }
-        finally {
-            IOUtils.closeQuietly(reader);
         }
     }
 

@@ -35,7 +35,7 @@ public class IdeaInspectionParser extends AbstractParser {
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingException {
-        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)){
+        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)) {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(input);

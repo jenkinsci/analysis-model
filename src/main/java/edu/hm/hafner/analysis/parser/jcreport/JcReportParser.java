@@ -1,20 +1,21 @@
 package edu.hm.hafner.analysis.parser.jcreport;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Function;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 
 /**
@@ -83,7 +84,7 @@ public class JcReportParser extends AbstractParser {
      *         due to digester.parse(new InputSource(source))
      */
     public edu.hm.hafner.analysis.parser.jcreport.Report createReport(final Reader source) throws ParsingException {
-        try {
+        try (InputStream input = new ReaderInputStream(source, StandardCharsets.UTF_8)) {
             SecureDigester digester = new SecureDigester(JcReportParser.class);
 
             String report = "report";
@@ -105,13 +106,10 @@ public class JcReportParser extends AbstractParser {
             digester.addSetProperties(item,  "end-column", "endcolumn");
             digester.addSetNext(item, "addItem", Item.class.getName());
 
-            return digester.parse(new InputSource(source));
+            return digester.parse(input);
         }
         catch (IOException | SAXException e) {
             throw new ParsingException(e);
-        }
-        finally {
-            IOUtils.closeQuietly(source);
         }
     }
 }

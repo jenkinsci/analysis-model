@@ -383,6 +383,8 @@ public class Report implements Iterable<Issue>, Serializable {
 
     /**
      * Returns the severities of all issues.
+     *
+     * @return the severities
      */
     public Set<Severity> getSeverities() {
         return getProperties(Issue::getSeverity);
