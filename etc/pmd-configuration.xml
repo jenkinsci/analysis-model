@@ -151,7 +151,7 @@
   <rule ref="rulesets/java/android.xml/CallSuperFirst"/>
   <rule ref="rulesets/java/android.xml/CallSuperLast"/>
   <rule ref="rulesets/java/android.xml/DoNotHardCodeSDCard"/>
- <rule ref="rulesets/java/imports.xml/DontImportJavaLang"/>
+  <rule ref="rulesets/java/imports.xml/DontImportJavaLang"/>
   <rule ref="rulesets/java/imports.xml/ImportFromSamePackage"/>
   <rule ref="rulesets/java/imports.xml/TooManyStaticImports"/>
   <rule ref="rulesets/java/imports.xml/UnnecessaryFullyQualifiedName"/>
@@ -220,7 +220,8 @@
   <rule ref="rulesets/java/naming.xml/MethodNamingConventions"/>
   <rule ref="rulesets/java/naming.xml/ClassNamingConventions">
     <properties>
-      <property name="utilityClassPattern" value="[A-Z][a-zA-Z]+"/>
+      <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+"/>
+      <property name="classPattern" value="[A-Z][a-zA-Z0-9]+"/>
     </properties>
   </rule>
   <rule ref="rulesets/java/naming.xml/AvoidDollarSigns"/>
