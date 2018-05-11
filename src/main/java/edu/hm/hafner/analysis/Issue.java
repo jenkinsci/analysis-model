@@ -690,6 +690,7 @@ public class Issue implements Serializable {
         return fileName.equals(issue.fileName);
     }
 
+    @SuppressWarnings("all")
     @Override
     public int hashCode() {
         int result = category.hashCode();

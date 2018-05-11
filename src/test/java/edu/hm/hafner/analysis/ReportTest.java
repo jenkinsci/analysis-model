@@ -54,7 +54,6 @@ class ReportTest extends SerializableTest<Report> {
             .setFileName("file-3")
             .setPriority(Priority.LOW)
             .build();
-    private static final String EXTENDED_VALUE = "Extended";
     private static final String ID = "id";
 
     @Test

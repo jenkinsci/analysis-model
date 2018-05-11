@@ -68,7 +68,7 @@ public class Severity implements Serializable {
         return new Severity(name);
     }
 
-    private String name;
+    private final String name;
 
     /**
      * Creates a new {@link Severity} with the specified name.
