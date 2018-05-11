@@ -218,7 +218,11 @@
   <rule ref="rulesets/java/naming.xml/ShortMethodName"/>
   <rule ref="rulesets/java/naming.xml/VariableNamingConventions"/>
   <rule ref="rulesets/java/naming.xml/MethodNamingConventions"/>
-  <rule ref="rulesets/java/naming.xml/ClassNamingConventions"/>
+  <rule ref="rulesets/java/naming.xml/ClassNamingConventions">
+    <properties>
+      <property name="utilityClassPattern" value="[A-Z][a-zA-Z]+"/>
+    </properties>
+  </rule>
   <rule ref="rulesets/java/naming.xml/AvoidDollarSigns"/>
   <rule ref="rulesets/java/naming.xml/MethodWithSameNameAsEnclosingClass"/>
   <rule ref="rulesets/java/naming.xml/SuspiciousHashcodeMethodName"/>
