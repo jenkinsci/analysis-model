@@ -80,7 +80,7 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldProvideNoWritingIterator() {
         Report report = new Report();
-        report.add(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        report.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
         Iterator<Issue> iterator = report.iterator();
         iterator.next();
         assertThatThrownBy(iterator::remove).isInstanceOf(UnsupportedOperationException.class);
@@ -92,7 +92,7 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldCopyProperties() {
         Report expected = new Report();
-        expected.add(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        expected.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
         expected.setOrigin(ID);
         expected.logInfo("Hello");
         expected.logInfo("World!");
@@ -122,12 +122,9 @@ class ReportTest extends SerializableTest<Report> {
     /** Verifies some additional variants of the {@link Report#addAll(Report, Report[])}. */
     @Test
     void shouldVerifyPathInteriorCoverageOfAddAll() {
-        Report first = new Report();
-        first.add(HIGH);
-        Report second = new Report();
-        second.add(NORMAL_1, NORMAL_2);
-        Report third = new Report();
-        third.add(LOW_2_A, LOW_2_B, LOW_FILE_3);
+        Report first = new Report().add(HIGH);
+        Report second = new Report().addAll(NORMAL_1, NORMAL_2);
+        Report third = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         Report report = new Report();
         report.addAll(first);
@@ -151,12 +148,12 @@ class ReportTest extends SerializableTest<Report> {
         String otherId = "otherId";
         second.setOrigin(otherId);
         second.setReference(otherId);
-        second.add(NORMAL_1, NORMAL_2);
+        second.addAll(NORMAL_1, NORMAL_2);
         Report third = new Report();
         String idOfThird = "yetAnotherId";
         third.setOrigin(idOfThird);
         third.setReference(idOfThird);
-        third.add(LOW_2_A, LOW_2_B, LOW_FILE_3);
+        third.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         Report report = new Report();
         report.addAll(first);
@@ -241,8 +238,8 @@ class ReportTest extends SerializableTest<Report> {
         Report report = new Report();
 
         report.add(HIGH);
-        report.add(NORMAL_1, NORMAL_2);
-        report.add(LOW_2_A, LOW_2_B, LOW_FILE_3);
+        report.addAll(NORMAL_1, NORMAL_2);
+        report.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
         Iterator<Issue> iterator = report.iterator();
         assertThat(iterator.next()).isSameAs(HIGH);
         assertThat(iterator.next()).isSameAs(NORMAL_1);
@@ -254,7 +251,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldSkipAddedElements() {
-        Report report = new Report(allIssuesAsList());
+        Report report = new Report().addAll(allIssuesAsList());
 
         Report fromEmpty = new Report();
 
@@ -265,8 +262,8 @@ class ReportTest extends SerializableTest<Report> {
                 .hasDuplicatesSize(6)
                 .hasPriorities(1, 2, 3);
 
-        Report left = new Report(asList(HIGH, NORMAL_1, NORMAL_2));
-        Report right = new Report(asList(LOW_2_A, LOW_2_B, LOW_FILE_3));
+        Report left = new Report().addAll(HIGH, NORMAL_1, NORMAL_2);
+        Report right = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         Report everything = new Report();
         everything.addAll(left, right);
@@ -528,9 +525,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Override
     protected Report createSerializable() {
-        Report report = new Report();
-        report.add(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
-        return report;
+        return new Report().addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
     }
 
     /**
@@ -548,11 +543,11 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldBeNotEqualsAPropertyChanges() {
         Report report = new Report();
-        report.add(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        report.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         Report other = new Report();
         other.addAll(report);
-        other.add(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        other.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         assertThat(report).isNotEqualTo(other); // there should be duplicates
         assertThat(report).hasDuplicatesSize(0);

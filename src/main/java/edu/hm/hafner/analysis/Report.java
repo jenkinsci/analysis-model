@@ -30,9 +30,9 @@ import static java.util.stream.Collectors.*;
 
 /**
  * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e. it models the
- * mathematical <i>set</i> abstraction. Furthermore, this report provides a <i>total ordering</i> on its elements. I.e.,
- * the issues in this report are ordered by their index: the first added issue is at position 0, the second added issues
- * is at position 1, and so on.
+ * mathematical <i>set</i> abstraction. This report provides a <i>total ordering</i> on its elements. I.e., the issues
+ * in this report are ordered by their index: the first added issue is at position 0, the second added issues is at
+ * position 1, and so on.
  * <p>
  * Additionally, this report provides methods to find and filter issues based on different properties. In order to
  * create issues use the provided {@link IssueBuilder builder} class.
@@ -63,84 +63,113 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Creates a new {@link Report} that will be initialized with the specified collection of {@link Issue} instances.
+     * Creates a new {@link Report} that is an aggregation of the specified {@link Report reports}. The created report
+     * will contain the issues of all specified reports, in the same order. The properties of the specified reports will
+     * also be copied.
      *
-     * @param issues
-     *         the initial set of issues
+     * @param report
+     *         the first report of issues
+     * @param additionalReports
+     *         the additional reports to append
      *
-     * @see #add(Issue)
+     * @see #copyIssuesAndProperties(Report, Report)
      */
-    public Report(final Collection<? extends Issue> issues) {
-        issues.forEach(this::add);
+    public Report(final Report report, final Report... additionalReports) {
+        addAll(report, additionalReports);
     }
 
     /**
-     * Creates a new {@link Report} that will be initialized with the specified stream of {@link Issue} instances.
+     * Creates a new {@link Report} that is an aggregation of the specified {@link Report reports}. The created report
+     * will contain the issues of all specified reports, in the same order. The properties of the specified reports will
+     * also be copied.
      *
-     * @param issues
+     * @param reports
      *         the initial set of issues
      *
-     * @see #add(Issue)
+     * @see #copyIssuesAndProperties(Report, Report)
      */
-    public Report(final Stream<? extends Issue> issues) {
-        issues.forEach(this::add);
+    public Report(final Collection<Report> reports) {
+        for (Report other : reports) {
+            copyIssuesAndProperties(other, this);
+        }
     }
 
-    private void add(final Issue issue) {
+    /**
+     * Appends the specified issue to the end of this report. Duplicates will be skipped (the number of skipped elements
+     * is available using the method {@link #getDuplicatesSize()}.
+     *
+     * @param issue
+     *         the issue to append
+     *
+     * @return this
+     */
+    public Report add(final Issue issue) {
         if (elements.contains(issue)) {
             duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
         }
         else {
             elements.add(issue);
         }
+        return this;
     }
 
     /**
-     * Appends all of the specified elements to the end of this container, preserving the order of the array elements.
+     * Appends all of the specified issues to the end of this report, preserving the order of the array elements.
      * Duplicates will be skipped (the number of skipped elements is available using the method {@link
      * #getDuplicatesSize()}.
      *
      * @param issue
-     *         the issue to append
+     *         the first issue to append
      * @param additionalIssues
      *         the additional issue to append
+     *
+     * @return this
+     * @see #add(Issue)
      */
-    public void add(final Issue issue, final Issue... additionalIssues) {
+    public Report addAll(final Issue issue, final Issue... additionalIssues) {
         add(issue);
         for (Issue additional : additionalIssues) {
             add(additional);
         }
+        return this;
     }
 
     /**
-     * Appends all of the elements in the specified collection to the end of this container, in the order that they are
-     * returned by the specified collection's iterator. Duplicates will be skipped (the number of skipped elements is
-     * available using the method {@link #getDuplicatesSize()}.
+     * Appends all of the specified issues to the end of this report, preserving the order of the array elements.
+     * Duplicates will be skipped (the number of skipped elements is available using the method {@link
+     * #getDuplicatesSize()}.
      *
      * @param issues
      *         the issues to append
+     *
+     * @return this
+     * @see #add(Issue)
      */
-    public void addAll(final Collection<? extends Issue> issues) {
-        for (Issue issue : issues) {
-            add(issue);
+    public Report addAll(final Collection<? extends Issue> issues) {
+        for (Issue additional : issues) {
+            add(additional);
         }
+        return this;
     }
 
     /**
-     * Appends all of the elements in the specified array of issues to the end of this container, in the order that they
-     * are returned by the specified collection's iterator. Duplicates will be skipped (the number of skipped elements
-     * is available using the method {@link #getDuplicatesSize()}.
+     * Appends the specified {@link Report reports} to this report. This report will then contain the issues
+     * of all specified reports, in the same order. The properties of the specified reports will also be copied.
      *
      * @param report
-     *         the issues to append
-     * @param additionalIssues
-     *         the additional issue to append
+     *         the first report of issues
+     * @param additionalReports
+     *         the additional reports to append
+     * @return this
+     *
+     * @see #copyIssuesAndProperties(Report, Report)
      */
-    public void addAll(final Report report, final Report... additionalIssues) {
+    public Report addAll(final Report report, final Report... additionalReports) {
         copyIssuesAndProperties(report, this);
-        for (Report other : additionalIssues) {
+        for (Report other : additionalReports) {
             copyIssuesAndProperties(other, this);
         }
+        return this;
     }
 
     /**
@@ -268,8 +297,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     /**
      * Returns the number of duplicates. Every issue that has been added to this report, but already is part of this
-     * report (based on {@link #equals(Object)}) is counted as a duplicate. Duplicates are not stored in this
-     * report.
+     * report (based on {@link #equals(Object)}) is counted as a duplicate. Duplicates are not stored in this report.
      *
      * @return total number of duplicates
      */
@@ -435,7 +463,13 @@ public class Report implements Iterable<Issue>, Serializable {
                 .collect(groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
-                .collect(toMap(Entry::getKey, e -> new Report(e.getValue())));
+                .collect(toMap(
+                        Entry::getKey,
+                        e -> {
+                            Report report = new Report();
+                            report.addAll(e.getValue());
+                            return report;
+                        }));
     }
 
     /**

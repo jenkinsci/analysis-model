@@ -213,8 +213,6 @@ class IssueFilterTest {
      * @return issues.
      */
     private Report getIssues() {
-        Report report = new Report();
-        report.add(ISSUE1, ISSUE2, ISSUE3);
-        return report;
+        return new Report().addAll(ISSUE1, ISSUE2, ISSUE3);
     }
 }
