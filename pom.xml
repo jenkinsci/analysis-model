@@ -371,21 +371,14 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
           <version>${maven-pmd-plugin.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>cpd</goal>
-              </goals>
-              <configuration>
-                <includeTests>true</includeTests>
-                <minimumTokens>50</minimumTokens>
-                <excludes>
-                  <exclude>**/parser/**/*Test.java</exclude>
-                  <exclude>**/parser/*Test.java</exclude>
-                </excludes>
-              </configuration>
-            </execution>
-          </executions>
+          <configuration>
+            <rulesets>
+              <ruleset>etc/pmd-configuration.xml</ruleset>
+            </rulesets>
+            <targetJdk>${java.version}</targetJdk>
+            <includeTests>true</includeTests>
+            <minimumTokens>50</minimumTokens>
+          </configuration>
           <dependencies>
             <dependency>
               <groupId>net.sourceforge.pmd</groupId>
