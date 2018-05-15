@@ -75,7 +75,10 @@ public class Report implements Iterable<Issue>, Serializable {
      * @see #copyIssuesAndProperties(Report, Report)
      */
     public Report(final Report report, final Report... additionalReports) {
-        addAll(report, additionalReports);
+        copyIssuesAndProperties(report, this);
+        for (Report other : additionalReports) {
+            copyIssuesAndProperties(other, this);
+        }
     }
 
     /**
