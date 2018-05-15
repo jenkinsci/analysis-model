@@ -1,0 +1,7 @@
+[INFO] Compiling 143 source files to /Users/hafner/Development/jenkins/workspace/Model - Freestyle - New/target/classes
+[WARNING] /Users/hafner/Development/jenkins/workspace/Model - Freestyle - New/src/main/java/edu/hm/hafner/analysis/parser/RobocopyParser.java:[29,45] [StringSplitter] String.split(String) has surprising behavior
+    (see http://errorprone.info/bugpattern/StringSplitter)
+  Did you mean 'String file = matcher.group(4).split("\\s{11}", -1)[0];'?
+[INFO]
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ analysis-model ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
