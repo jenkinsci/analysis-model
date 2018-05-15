@@ -390,7 +390,7 @@ public class Issue implements Serializable {
      *         the file name to set
      */
     public void setFileName(@CheckForNull final String fileName) {
-        this.fileName = TreeString.of(StringUtils.stripToEmpty(fileName));
+        this.fileName = TreeString.valueOf(StringUtils.stripToEmpty(fileName));
     }
 
     /**
@@ -503,7 +503,7 @@ public class Issue implements Serializable {
      *         the name of the package
      */
     public void setPackageName(@CheckForNull final String packageName) {
-        this.packageName = TreeString.of(StringUtils.stripToEmpty(packageName));
+        this.packageName = TreeString.valueOf(StringUtils.stripToEmpty(packageName));
     }
 
     /**

@@ -150,8 +150,7 @@ public final class TreeString implements Serializable {
      *
      * @return the new {@link TreeString}
      */
-    @SuppressWarnings("PMD.ShortMethodName")
-    public static TreeString of(final String string) {
+    public static TreeString valueOf(final String string) {
         return new TreeString(null, string);
     }
 }

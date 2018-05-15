@@ -190,7 +190,7 @@ public class IssueBuilder {
         Issue issue;
         if (priority != null && severity == null) {
             issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                    packageName, moduleName, Severity.of(priority), message, description, origin, reference, fingerprint,
+                    packageName, moduleName, Severity.valueOf(priority), message, description, origin, reference, fingerprint,
                     additionalProperties, id);
         }
         else {

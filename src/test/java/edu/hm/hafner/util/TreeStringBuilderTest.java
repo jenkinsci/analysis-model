@@ -31,7 +31,7 @@ class TreeStringBuilderTest {
 
         // Utility methods:
         assertThat(builder.intern("").isBlank()).isTrue();
-        assertThat(TreeString.of("foo/bar/zot")).hasToString("foo/bar/zot");
+        assertThat(TreeString.valueOf("foo/bar/zot")).hasToString("foo/bar/zot");
     }
 
     /**

@@ -314,7 +314,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return total number of issues
      */
     public int getSizeOf(final String severity) {
-        return getSizeOf(Severity.of(severity));
+        return getSizeOf(Severity.valueOf(severity));
     }
 
     /**

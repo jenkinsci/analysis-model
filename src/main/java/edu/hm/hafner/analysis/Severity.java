@@ -31,7 +31,7 @@ public class Severity implements Serializable {
      *         the priority
      * @return the severity
      */
-    public static Severity of(final Priority priority) {
+    public static Severity valueOf(final Priority priority) {
         if (priority == Priority.HIGH) {
             return WARNING_HIGH;
         }
@@ -52,7 +52,7 @@ public class Severity implements Serializable {
      *         the name of the severity
      * @return the severity
      */
-    public static Severity of(final String name) {
+    public static Severity valueOf(final String name) {
         if (ERROR.equalsIgnoreCase(name)) {
             return ERROR;
         }

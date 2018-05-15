@@ -124,7 +124,7 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     public IssueAssert hasPriority(final Priority priority) {
         isNotNull();
 
-        if (!Objects.equals(actual.getSeverity(), Severity.of(priority))) {
+        if (!Objects.equals(actual.getSeverity(), Severity.valueOf(priority))) {
             failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, priority, actual.getSeverity());
         }
 

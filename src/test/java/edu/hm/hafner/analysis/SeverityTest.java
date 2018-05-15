@@ -25,19 +25,19 @@ class SeverityTest {
 
     @Test
     void shouldReturnLinkToConstants() {
-        assertThat(Severity.of(Priority.HIGH)).isSameAs(Severity.WARNING_HIGH);
-        assertThat(Severity.of(Priority.NORMAL)).isSameAs(Severity.WARNING_NORMAL);
-        assertThat(Severity.of(Priority.LOW)).isSameAs(Severity.WARNING_LOW);
+        assertThat(Severity.valueOf(Priority.HIGH)).isSameAs(Severity.WARNING_HIGH);
+        assertThat(Severity.valueOf(Priority.NORMAL)).isSameAs(Severity.WARNING_NORMAL);
+        assertThat(Severity.valueOf(Priority.LOW)).isSameAs(Severity.WARNING_LOW);
 
-        assertThatThrownBy(() -> Severity.of((Priority) null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> Severity.valueOf((Priority) null)).isInstanceOf(NullPointerException.class);
 
-        assertThat(Severity.of("error")).isSameAs(Severity.ERROR);
-        assertThat(Severity.of("high")).isSameAs(Severity.WARNING_HIGH);
-        assertThat(Severity.of("normal")).isSameAs(Severity.WARNING_NORMAL);
-        assertThat(Severity.of("low")).isSameAs(Severity.WARNING_LOW);
+        assertThat(Severity.valueOf("error")).isSameAs(Severity.ERROR);
+        assertThat(Severity.valueOf("high")).isSameAs(Severity.WARNING_HIGH);
+        assertThat(Severity.valueOf("normal")).isSameAs(Severity.WARNING_NORMAL);
+        assertThat(Severity.valueOf("low")).isSameAs(Severity.WARNING_LOW);
 
         String name = "severity";
-        assertThat(Severity.of(name)).isEqualTo(new Severity(name));
+        assertThat(Severity.valueOf(name)).isEqualTo(new Severity(name));
 
 
     }
