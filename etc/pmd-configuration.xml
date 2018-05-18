@@ -113,7 +113,11 @@
   <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
   <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
   <rule ref="rulesets/java/optimizations.xml/PrematureDeclaration"/>
-  <rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor"/>
+  <rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor">
+    <properties>
+      <property name="ignoredAnnotations" value="org.kohsuke.stapler.DataBoundConstructor"/>
+    </properties>
+  </rule>
   <rule ref="rulesets/java/controversial.xml/NullAssignment"/>
   <rule ref="rulesets/java/controversial.xml/AssignmentInOperand"/>
   <rule ref="rulesets/java/controversial.xml/DontImportSun"/>
@@ -234,7 +238,6 @@
   <rule ref="rulesets/java/naming.xml/PackageCase"/>
   <rule ref="rulesets/java/naming.xml/MIsLeadingVariableName"/>
   <rule ref="rulesets/java/naming.xml/GenericsNaming"/>
-  <rule ref="rulesets/java/codesize.xml/NPathComplexity"/>
   <rule ref="rulesets/java/codesize.xml/ExcessiveClassLength"/>
   <rule ref="rulesets/java/codesize.xml/CyclomaticComplexity"/>
   <rule ref="rulesets/java/codesize.xml/ExcessivePublicCount"/>
