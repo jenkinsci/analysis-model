@@ -30,7 +30,7 @@ class ArchitectureRulesTest {
      */
     @Test
     void shouldNotCreateDigesterWithConstructor() {
-        JavaClasses classes = new ClassFileImporter().importPackages("edu.hm.hafner");
+        JavaClasses classes = getAnalysisModelClasses();
 
         ArchRule noDigesterConstructor = noClasses().that().dontHaveSimpleName("SecureDigester")
                 .should().callConstructor(Digester.class)
@@ -62,7 +62,7 @@ class ArchitectureRulesTest {
      */
     @Test
     void shouldNotUsePublicInTestCases() {
-        JavaClasses classes = new ClassFileImporter().importPackages("edu.hm.hafner");
+        JavaClasses classes = getAnalysisModelClasses();
 
         ArchRule noPublicClasses = noClasses()
                 .that().dontHaveModifier(JavaModifier.ABSTRACT)
@@ -73,6 +73,23 @@ class ArchitectureRulesTest {
                 .should().bePublic();
 
         noPublicClasses.check(classes);
+    }
+
+    /**
+     * Prevents that deprecated classes from transitive dependencies are called.
+     */
+    @Test
+    void shouldNotCallCommonsLang() {
+        JavaClasses classes = getAnalysisModelClasses();
+
+        ArchRule noTestApiCalled = noClasses()
+                .should().accessClassesThat().resideInAPackage("org.apache.commons.lang..");
+
+        noTestApiCalled.check(classes);
+    }
+
+    private JavaClasses getAnalysisModelClasses() {
+        return new ClassFileImporter().importPackages("edu.hm.hafner");
     }
 
     /**
