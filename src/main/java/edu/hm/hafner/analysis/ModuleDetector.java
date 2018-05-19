@@ -13,7 +13,7 @@ import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 /**

@@ -56,6 +56,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
     public <T> IterableAssert<T> assertThat(final ImmutableSortedSet<T> actual) {
         return proxy(IterableAssert.class, Iterator.class, actual.iterator());
     }
+
     /**
      * An entry point for {@link IssuesAssert} to follow AssertJ standard {@code assertThat()}. With a static import,
      * one can write directly {@code assertThat(myIssues)} and get a specific assertion with code completion.
