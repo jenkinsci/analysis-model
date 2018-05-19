@@ -70,6 +70,18 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns a predicate that checks if the module name of an issue is equal to the specified module name.
+     *
+     * @param moduleName
+     *         the module name to match
+     *
+     * @return the predicate
+     */
+    public static Predicate<Issue> byModuleName(final String moduleName) {
+        return issue -> issue.getModuleName().equals(moduleName);
+    }
+
+    /**
      * Returns a predicate that checks if the file name of an issue is equal to the specified file name.
      *
      * @param fileName
@@ -103,6 +115,18 @@ public class Issue implements Serializable {
      */
     public static Predicate<Issue> byCategory(final String category) {
         return issue -> issue.getCategory().equals(category);
+    }
+
+    /**
+     * Returns a predicate that checks if the origin of an issue is equal to the specified origin.
+     *
+     * @param origin
+     *         the origin to match
+     *
+     * @return the predicate
+     */
+    public static Predicate<Issue> byOrigin(final String origin) {
+        return issue -> issue.getOrigin().equals(origin);
     }
 
     /**

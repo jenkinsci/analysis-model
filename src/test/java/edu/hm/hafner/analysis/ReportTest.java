@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.eclipse.collections.impl.block.factory.Predicates;
 import org.junit.jupiter.api.Test;
@@ -123,18 +124,36 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldVerifyPathInteriorCoverageOfAddAll() {
         Report first = new Report().add(HIGH);
+        first.logInfo("1 info");
+        first.logError("1 error");
         Report second = new Report().addAll(NORMAL_1, NORMAL_2);
+        second.logInfo("2 info");
+        second.logError("2 error");
         Report third = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
+        third.logInfo("3 info");
+        third.logError("3 error");
 
         Report report = new Report();
         report.addAll(first);
         assertThat((Iterable<Issue>) report).containsExactly(HIGH);
+        assertThat(report.getInfoMessages()).containsExactly("1 info");
+        assertThat(report.getErrorMessages()).containsExactly("1 error");
+
         report.addAll(second, third);
         assertThatAllIssuesHaveBeenAdded(report);
+        assertThat(report.getInfoMessages()).containsExactly("1 info", "2 info", "3 info");
+        assertThat(report.getErrorMessages()).containsExactly("1 error", "2 error", "3 error");
 
         Report altogether = new Report();
         altogether.addAll(first, second, third);
         assertThatAllIssuesHaveBeenAdded(report);
+        assertThat(report.getInfoMessages()).containsExactly("1 info", "2 info", "3 info");
+        assertThat(report.getErrorMessages()).containsExactly("1 error", "2 error", "3 error");
+
+        Report inConstructor = new Report(first, second, third);
+        assertThatAllIssuesHaveBeenAdded(inConstructor);
+        assertThat(inConstructor.getInfoMessages()).containsExactly("1 info", "2 info", "3 info");
+        assertThat(inConstructor.getErrorMessages()).containsExactly("1 error", "2 error", "3 error");
     }
 
     /** Verifies that the ID of the first set of issues remains if other IDs are added. */
@@ -398,7 +417,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
-    void testFindByPropertyResultImmutable() {
+    void testFindByProperty() {
         Report report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
         Set<Issue> found = report.findByProperty(Issue.bySeverity(Severity.WARNING_HIGH));
@@ -474,15 +493,16 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldFilterByProperty() {
-        assertFilterFor(IssueBuilder::setPackageName, Report::getPackages, "packageName");
-        assertFilterFor(IssueBuilder::setModuleName, Report::getModules, "moduleName");
-        assertFilterFor(IssueBuilder::setOrigin, Report::getTools, "toolName");
-        assertFilterFor(IssueBuilder::setCategory, Report::getCategories, "category");
-        assertFilterFor(IssueBuilder::setType, Report::getTypes, "type");
+        assertFilterFor(IssueBuilder::setPackageName, Report::getPackages, "packageName", Issue::byPackageName);
+        assertFilterFor(IssueBuilder::setModuleName, Report::getModules, "moduleName", Issue::byModuleName);
+        assertFilterFor(IssueBuilder::setOrigin, Report::getTools, "toolName", Issue::byOrigin);
+        assertFilterFor(IssueBuilder::setCategory, Report::getCategories, "category", Issue::byCategory);
+        assertFilterFor(IssueBuilder::setType, Report::getTypes, "type", Issue::byType);
+        assertFilterFor(IssueBuilder::setFileName, Report::getFiles, "fileName", Issue::byFileName);
     }
 
     private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
-            final Function<Report, Set<String>> propertyGetter, final String propertyName) {
+            final Function<Report, Set<String>> propertyGetter, final String propertyName, final Function<String, Predicate<Issue>> predicate) {
         Report report = new Report();
 
         IssueBuilder builder = new IssueBuilder();
@@ -499,6 +519,10 @@ class ReportTest extends SerializableTest<Report> {
 
         assertThat(properties).as("Wrong values for property " + propertyName)
                 .containsExactlyInAnyOrder("name 1", "name 2", "name 3");
+
+        assertThat(report.filter(predicate.apply("name 1"))).hasSize(3);
+        assertThat(report.filter(predicate.apply("name 2"))).hasSize(2);
+        assertThat(report.filter(predicate.apply("name 3"))).hasSize(1);
     }
 
     @Test
