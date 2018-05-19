@@ -82,11 +82,11 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
         CodeDuplication reporterSecond = issues.get(2);
         CodeDuplication publisherSecond = issues.get(3);
         softly.assertThat(reporterSecond)
-                .hasLineStart(274).hasLineEnd(274 + 95)
+                .hasLineStart(274).hasLineEnd(274 + 94)
                 .hasFileName(FILE_NAME_REPORTER)
                 .hasPriority(Priority.HIGH);
         softly.assertThat(publisherSecond)
-                .hasLineStart(202).hasLineEnd(202 + 95)
+                .hasLineStart(202).hasLineEnd(202 + 94)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasPriority(Priority.HIGH);
         softly.assertThat(publisherSecond.getDescription()).isNotEmpty();
@@ -134,13 +134,13 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
         assertThat(issues).hasSize(2);
         CodeDuplication first = issues.get(0);
         assertThat(first)
-                .hasLineStart(19).hasLineEnd(19 + 68)
+                .hasLineStart(19).hasLineEnd(19 + 67)
                 .hasFileName("csci07/csc60/remote_copy.sh")
                 .hasDescription(CODE_FRAGMENT)
                 .hasPriority(Priority.HIGH);
         CodeDuplication second = issues.get(1);
         assertThat(second)
-                .hasLineStart(19).hasLineEnd(19 + 68)
+                .hasLineStart(19).hasLineEnd(19 + 67)
                 .hasFileName("csci08/csc90/remote_copy.sh")
                 .hasDescription(CODE_FRAGMENT)
                 .hasPriority(Priority.HIGH);
@@ -179,11 +179,11 @@ class CpdParserTest extends AbstractParserTest<CodeDuplication> {
     private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(final CodeDuplication reporterFirst,
             final CodeDuplication publisherFirst) {
         assertThat(reporterFirst)
-                .hasLineStart(76).hasLineEnd(76 + 36)
+                .hasLineStart(76).hasLineEnd(76 + 35)
                 .hasFileName(FILE_NAME_REPORTER)
                 .hasPriority(Priority.NORMAL);
         assertThat(publisherFirst)
-                .hasLineStart(69).hasLineEnd(69 + 36)
+                .hasLineStart(69).hasLineEnd(69 + 35)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasPriority(Priority.NORMAL);
         assertThat(reporterFirst.getDescription()).isNotEmpty();
