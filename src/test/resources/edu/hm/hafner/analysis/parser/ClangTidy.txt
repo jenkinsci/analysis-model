@@ -109,3 +109,8 @@ clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project /path/to/project
 # Error Test
 /path/to/project/src/error_test.cpp:4:10: error: 'dbus/dbus.h' file not found [clang-diagnostic-error]
 #include <dbus/dbus.h>
+
+
+# Bracket Test
+/var/lib/jenkins/workspace/job/user/project.cpp:50:57: warning: implicit conversion turns string literal into bool: 'const char [28]' to 'bool' [clang-diagnostic-string-conversion]
+        case DISP_AUTO_N:                       ASSERT(!"You should not use this one"); break;

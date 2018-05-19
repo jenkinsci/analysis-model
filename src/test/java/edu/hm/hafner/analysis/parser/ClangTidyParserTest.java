@@ -24,7 +24,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report annotation, final SoftAssertions softly) {
-        softly.assertThat(annotation).hasSize(6);
+        softly.assertThat(annotation).hasSize(7);
 
         softly.assertThat(annotation.get(0))
                 .hasLineStart(1)
@@ -78,6 +78,15 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
                 .hasType("Error")
                 .hasCategory("clang-diagnostic-error")
                 .hasPriority(Priority.HIGH);
+
+        softly.assertThat(annotation.get(6))
+                .hasLineStart(50)
+                .hasColumnStart(57)
+                .hasFileName("/var/lib/jenkins/workspace/job/user/project.cpp")
+                .hasMessage("implicit conversion turns string literal into bool: 'const char [28]' to 'bool'")
+                .hasType(WARNING_TYPE)
+                .hasCategory("clang-diagnostic-string-conversion")
+                .hasPriority(Priority.NORMAL);
     }
 
 }
