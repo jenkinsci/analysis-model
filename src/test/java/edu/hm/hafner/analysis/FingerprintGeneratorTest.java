@@ -92,7 +92,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         assertThat(referenceIssue.getFingerprint()).isNotEqualTo(currentIssue.getFingerprint());
     }
 
-    @ParameterizedTest(name = "[{index}] Illegal filename = {0}")
+    @ParameterizedTest(name = "[{index}] Illegal filename")
     @ValueSource(strings = {"/does/not/exist", "!<>$$&%/&(", "\0 Null-Byte"})
     void shouldUseFallbackFingerprintOnError(final String fileName) {
         Report report = new Report();

@@ -47,6 +47,7 @@ node {
 
         def pit = scanForIssues tool: [$class: 'Pit'], pattern: '**/mutations.xml'
         publishIssues issues:[pit]
+        step([$class: 'PitPublisher', mutationStatsFile: '**/mutations.xml', killRatioMustImprove: false])
     }
 
     stage ('Coverage') {
