@@ -1,23 +1,32 @@
 pipeline {
-    agent any
+    agent 'any'
     tools {
         maven 'mvn-3.5.0'
         jdk 'jdk-default'
     }
     stages {
-        stage ('Initialize') {
+        stage ('Build') {
             steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
+                sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore'
             }
         }
 
-        stage ('Build') {
+        stage ('Analysis') {
             steps {
-                echo 'This is a minimal pipeline.'
+                sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs'
             }
+        }
+    }
+    post {
+        always {
+            junit testResults: '**/target/surefire-reports/TEST-*.xml'
+
+            recordIssues enabledForFailure: true, tools: [[pattern: '', tool: [$class: 'MavenConsole']], [pattern: '', tool: [$class: 'Java']], [pattern: '', tool: [$class: 'JavaDoc']]]
+            recordIssues enabledForFailure: true, tools: [[pattern: '', tool: [$class: 'CheckStyle']]]
+            recordIssues enabledForFailure: true, tools: [[pattern: '', tool: [$class: 'FindBugs']]]
+            recordIssues enabledForFailure: true, tools: [[pattern: '', tool: [$class: 'SpotBugs']]]
+            recordIssues enabledForFailure: true, tools: [[pattern: '**/target/cpd.xml', tool: [$class: 'Cpd']]]
+            recordIssues enabledForFailure: true, tools: [[pattern: '**/target/pmd.xml', tool: [$class: 'Pmd']]]
         }
     }
 }
