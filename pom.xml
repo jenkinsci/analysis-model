@@ -252,6 +252,15 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>${maven-jar-plugin.version}</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Built-By>Ullrich Hafner</Built-By>
+              <Url>${project.scm.url}</Url>
+              <Jenkins-ClassFilter-Whitelisted>true</Jenkins-ClassFilter-Whitelisted>
+            </manifestEntries>
+          </archive>
+        </configuration>
         <executions>
           <execution>
             <goals>
@@ -284,7 +293,6 @@
         <version>${versions-maven-plugin.version}</version>
       </plugin>
     </plugins>
-
     <pluginManagement>
       <plugins>
         <plugin>
@@ -439,6 +447,21 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <profiles>
+    <profile>
+      <id>skip-javadoc-with-tests</id>
+      <activation>
+        <property>
+          <name>skipTests</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+      </properties>
+    </profile>
+  </profiles>
 
   <repositories>
     <repository>
