@@ -1,6 +1,6 @@
 node {
     stage ('Checkout') {
-        git branch:'master', url: 'file:///Users/hafner/Development/git/analysis-model'
+        checkout scm
     }
 
     stage ('Build') {
@@ -38,23 +38,5 @@ node {
 
         def maven = scanForIssues tool: [$class: 'MavenConsole']
         publishIssues issues:[maven]
-    }
-
-    stage ('Mutation Testing') {
-        def mvnHome = tool 'mvn-default'
-
-        sh "${mvnHome}/bin/mvn -batch-mode -V -U -e compile test-compile org.pitest:pitest-maven:mutationCoverage"
-
-        def pit = scanForIssues tool: [$class: 'Pit'], pattern: '**/mutations.xml'
-        publishIssues issues:[pit]
-        step([$class: 'PitPublisher', mutationStatsFile: '**/mutations.xml', killRatioMustImprove: false])
-    }
-
-    stage ('Coverage') {
-        def mvnHome = tool 'mvn-default'
-
-        sh "${mvnHome}/bin/mvn -batch-mode -V -U -e clean jacoco:prepare-agent test jacoco:report"
-
-        jacoco()
     }
 }
