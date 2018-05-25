@@ -90,6 +90,35 @@ class MsBuildParserTest extends AbstractIssueParserTest {
     }
 
     /**
+     * MSBuildParser should support SASS messages with '-' and '_' in category.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-51485">Issue 51485</a>
+     */
+    @Test
+    void issue51485() {
+        Report warnings = parse("issue51485.txt");
+
+        assertThat(warnings)
+                .hasSize(2)
+                .hasPriorities(0, 2, 0);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("src/search-list.component.scss")
+                    .hasCategory("shorthand-values")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`")
+                    .hasLineStart(41).hasColumnStart(17);
+            softly.assertThat(warnings.get(1))
+                    .hasFileName("src/search-list.component.scss")
+                    .hasCategory("shorthand_values")
+                    .hasPriority(Priority.NORMAL)
+                    .hasMessage("Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`")
+                    .hasLineStart(42).hasColumnStart(18);
+        });
+    }
+
+    /**
      * MSBuildParser should also detect subcategories as described at <a href="http://blogs.msdn.com/b/msbuild/archive/2006/11/03/msbuild-visual-studio-aware-error-messages-and-message-formats.aspx">
      * MSBuild / Visual Studio aware error messages and message formats</a>.
      *

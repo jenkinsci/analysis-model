@@ -1,0 +1,3 @@
+src/search-list.component.scss(41,17): warning shorthand-values : Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`
+src/search-list.component.scss(42,18): warning shorthand_values : Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`
+
