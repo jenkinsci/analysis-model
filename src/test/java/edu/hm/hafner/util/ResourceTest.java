@@ -67,8 +67,11 @@ public abstract class ResourceTest {
 
     /**
      * Read all lines from the desired resource as a {@code Stream}, i.e. this method populates lazily as the stream is
-     * consumed. <p> Bytes from the resource are decoded into characters using UTF-8 and the same line terminators as
-     * specified by {@link Files#readAllLines(Path, Charset)} are supported.</p>
+     * consumed.
+     * <p>
+     * Bytes from the resource are decoded into characters using UTF-8 and the same line terminators as specified by
+     * {@link Files#readAllLines(Path, Charset)} are supported.
+     * </p>
      *
      * @param fileName
      *         name of the desired resource
@@ -82,8 +85,11 @@ public abstract class ResourceTest {
 
     /**
      * Read all lines from the desired resource as a {@code Stream}, i.e. this method populates lazily as the stream is
-     * consumed. <p> Bytes from the resource are decoded into characters using the specified charset and the same line
-     * terminators as specified by {@link Files#readAllLines(Path, Charset)} are supported.</p>
+     * consumed.
+     * <p>
+     * Bytes from the resource are decoded into characters using the specified charset and the same line terminators as
+     * specified by {@link Files#readAllLines(Path, Charset)} are supported.
+     * </p>
      *
      * @param fileName
      *         name of the desired resource
