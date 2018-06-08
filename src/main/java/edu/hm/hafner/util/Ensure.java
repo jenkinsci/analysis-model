@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.eclipse.collections.impl.factory.Lists;
 
+import com.google.errorprone.annotations.FormatMethod;
+
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -29,6 +31,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Ullrich Hafner
  * @see <a href="http://se.ethz.ch/~meyer/publications/computer/contract.pdf"> Design by Contract (Meyer, Bertrand)</a>
  */
+// FIXME: add @Format
 @SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "ConstantConditions", "CyclicClassDependency"})
 public final class Ensure {
     /**
@@ -136,6 +139,7 @@ public final class Ensure {
      *         than format specifiers, the extra arguments are ignored. The number of arguments is variable and may be
      *         zero.
      */
+    @FormatMethod
     public static void thatStatementIsNeverReached(final String explanation, final Object... args) {
         throwException(explanation, args);
     }
@@ -152,6 +156,7 @@ public final class Ensure {
      * @throws AssertionError
      *         always thrown
      */
+    @FormatMethod
     private static void throwException(final String message, final Object... args) {
         throw new AssertionError(String.format(message, args));
     }
@@ -168,6 +173,7 @@ public final class Ensure {
      * @throws AssertionError
      *         always thrown
      */
+    @FormatMethod
     private static void throwNullPointerException(final String message, final Object... args) {
         throw new NullPointerException(String.format(message, args)); // NOPMD
     }
@@ -219,6 +225,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the iterable is empty (or {@code null}), or at least one iterable element is {@code null}.
          */
+        @FormatMethod
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
 
@@ -282,6 +289,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the collection is {@code null} or if the specified element is not found
          */
+        @FormatMethod
         public void contains(final Object element, final String explanation, final Object... args) {
             isNotNull(explanation, args);
 
@@ -318,6 +326,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the collection is {@code null} or if the specified element is part of the collection
          */
+        @FormatMethod
         public void doesNotContain(final Object element, final String explanation, final Object... args) {
             isNotNull(explanation, args);
 
@@ -372,6 +381,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the array is empty (or {@code null}), or at least one array element is {@code null}.
          */
+        @FormatMethod
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
 
@@ -429,6 +439,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the string is empty (or {@code null})
          */
+        @FormatMethod
         public void isNotEmpty(final String explanation, final Object... args) {
             isNotNull(explanation);
 
@@ -460,6 +471,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the string is empty (or {@code null})
          */
+        @FormatMethod
         public void isNotBlank(final String explanation, final Object... args) {
             isNotNull();
 
@@ -536,6 +548,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the object is {@code null}
          */
+        @FormatMethod
         public void isNotNull(final String explanation, final Object... args) {
             if (value == null) {
                 throwNullPointerException(explanation, args);
@@ -571,6 +584,7 @@ public final class Ensure {
          *         if the object is not {@code null}
          */
         @SuppressWarnings("VariableNotUsedInsideIf")
+        @FormatMethod
         public void isNull(final String explanation, final Object... args) {
             if (value != null) {
                 throwException(explanation, args);
@@ -617,6 +631,7 @@ public final class Ensure {
          * @throws AssertionError
          *         the specified object is not an instance of the given type (or {@code null})
          */
+        @FormatMethod
         public void isInstanceOf(final Class<?> type, final String explanation, final Object... args) {
             isNotNull(explanation);
 
@@ -658,6 +673,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the condition is {@code true}
          */
+        @FormatMethod
         public void isFalse(final String explanation, final Object... args) {
             if (value) {
                 throwException(explanation, args);
@@ -687,6 +703,7 @@ public final class Ensure {
          * @throws AssertionError
          *         if the condition is {@code false}
          */
+        @FormatMethod
         public void isTrue(final String explanation, final Object... args) {
             if (!value) {
                 throwException(explanation, args);
@@ -734,6 +751,7 @@ public final class Ensure {
          * @throws AssertionError
          *         always thrown
          */
+        @FormatMethod
         public void isNeverThrown(final String explanation, final Object... args) {
             throw new AssertionError(String.format(explanation, args), value);
         }
