@@ -168,7 +168,6 @@
   <rule ref="rulesets/java/strictexception.xml/DoNotExtendJavaLangError"/>
   <rule ref="rulesets/java/strictexception.xml/DoNotThrowExceptionInFinally"/>
   <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNewInstanceOfSameException"/>
-  <rule ref="rulesets/java/strictexception.xml/AvoidCatchingGenericException"/>
   <rule ref="rulesets/java/strictexception.xml/AvoidLosingExceptionInformation"/>
   <rule ref="rulesets/java/javabeans.xml/MissingSerialVersionUID"/>
   <rule ref="rulesets/java/junit.xml/JUnitStaticSuite"/>

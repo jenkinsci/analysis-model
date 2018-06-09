@@ -3,6 +3,10 @@
       <Class name="~.*\$.*" />
   </Match>
   <Match>
+      <Bug code="NM" />
+      <Class name="~.*Assertions.*" />
+  </Match>
+  <Match>
       <Bug code="CD" />
       <Class name="~.*" />
   </Match>
@@ -10,7 +14,7 @@
       <Class name="~.*Messages" />
   </Match>
   <Match>
-      <Bug code="UwF, SIC, NP, Dm" />
+      <Bug code="UwF, SIC, NP, Dm, UI" />
       <Class name="~.*Test.*" />
   </Match>
 </FindBugsFilter>
