@@ -22,6 +22,8 @@ import java.util.stream.StreamSupport;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
 
+import com.google.errorprone.annotations.FormatMethod;
+
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
 import edu.hm.hafner.util.VisibleForTesting;
@@ -156,15 +158,15 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Appends the specified {@link Report reports} to this report. This report will then contain the issues
-     * of all specified reports, in the same order. The properties of the specified reports will also be copied.
+     * Appends the specified {@link Report reports} to this report. This report will then contain the issues of all
+     * specified reports, in the same order. The properties of the specified reports will also be copied.
      *
      * @param report
      *         the first report of issues
      * @param additionalReports
      *         the additional reports to append
-     * @return this
      *
+     * @return this
      * @see #copyIssuesAndProperties(Report, Report)
      */
     public Report addAll(final Report report, final Report... additionalReports) {
@@ -581,6 +583,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @see #getInfoMessages()
      */
+    @FormatMethod
     public void logInfo(final String format, final Object... args) {
         infoMessages.add(String.format(format, args));
     }
@@ -597,6 +600,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @see #getInfoMessages()
      */
+    @FormatMethod
     public void logError(final String format, final Object... args) {
         errorMessages.add(String.format(format, args));
     }
@@ -617,6 +621,15 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public ImmutableList<String> getErrorMessages() {
         return Lists.immutable.ofAll(errorMessages);
+    }
+
+    /** 
+     * Returns whether error messages have been reported.
+     *
+     * @return {@code true} if there are error messages, {@code false} otherwise
+     */
+    public boolean hasErrors() {
+        return !errorMessages.isEmpty();
     }
 
     @SuppressWarnings("CheckStyle")
