@@ -69,6 +69,9 @@ public class LinuxKernelOutputParser extends RegexpParser {
     private static final int ERROR_FUNC = 5;
     private static final Pattern TIMESTAMP_PATTERN = Pattern.compile(KERN_TIMESTAMP);
 
+    /**
+     * Creates a new parser.
+     */
     public LinuxKernelOutputParser() {
         super(LINUX_KERNEL_OUTPUT_WARNING_PATTERN, false);
     }

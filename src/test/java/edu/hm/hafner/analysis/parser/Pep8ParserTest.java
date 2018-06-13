@@ -2,8 +2,8 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -12,6 +12,9 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * @author Marvin Schütz, J. Behrmann
  */
 public class Pep8ParserTest extends AbstractIssueParserTest {
+    /**
+     * Creates a new instance of {@link Pep8ParserTest}.
+     */
     protected Pep8ParserTest() {
         super("pep8Test.txt");
     }

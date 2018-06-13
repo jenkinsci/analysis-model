@@ -1,8 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -10,12 +10,11 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  */
 class ErlcParserTest extends AbstractIssueParserTest {
     /**
-     * Creates a new instance of {@link AbstractIssueParserTest}.
+     * Creates a new instance of {@link ErlcParserTest}.
      */
     protected ErlcParserTest() {
         super("erlc.txt");
     }
-
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {

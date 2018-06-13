@@ -7,17 +7,16 @@ import java.util.function.Function;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import se.bjurr.violations.lib.model.SEVERITY;
-import se.bjurr.violations.lib.model.Violation;
-import se.bjurr.violations.lib.parsers.ViolationsParser;
-
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
+import se.bjurr.violations.lib.model.SEVERITY;
+import se.bjurr.violations.lib.model.Violation;
+import se.bjurr.violations.lib.parsers.ViolationsParser;
 
 /**
  * Adapter for {@link ViolationsParser} instances. Converts the results of a {@link ViolationsParser} into a static
@@ -35,6 +34,12 @@ public abstract class AbstractViolationAdapter extends AbstractParser {
 
     private final Rule useRuleAs;
 
+    /**
+     * Creates a new adapter instance.
+     *
+     * @param useRuleAs
+     *         determines whether the Rule property of a {@link Violation} should be used as Category or Type
+     */
     protected AbstractViolationAdapter(final Rule useRuleAs) {
         super();
 

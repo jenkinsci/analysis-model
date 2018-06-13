@@ -30,16 +30,23 @@ import java.util.ListIterator;
  */
 public class LineRangeList extends AbstractList<LineRange> implements Serializable {
     private static final long serialVersionUID = -1123973098942984623L;
+    private static final int DEFAULT_CAPACITY = 16;
 
     /** Encoded bits. */
     private byte[] data;
     /** Number of bytes in {@link #data} that's already used. This is not {@link List#size()}. */
     private int len;
 
+    /**
+     * Creates an empty {@link LineRangeList}. It uses a capacity of {@link LineRangeList#DEFAULT_CAPACITY}. 
+     */
     public LineRangeList() {
-        this(16);
+        this(DEFAULT_CAPACITY);
     }
 
+    /**
+     * Creates an empty {@link LineRangeList} with the specified capacity.
+     */   
     public LineRangeList(final int capacity) {
         super();
 
@@ -47,6 +54,9 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         len = 0;
     }
 
+    /**
+     * Creates a new {@link LineRangeList} with the specified elements.
+     */
     public LineRangeList(final Collection<LineRange> copy) {
         this(copy.size() * 4); // guess
 

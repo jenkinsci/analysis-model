@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -21,7 +21,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
     private static final String NO_FILE_NAME = "-";
 
     /**
-     * Creates a new instance of {@link AbstractIssueParserTest}.
+     * Creates a new instance of {@link DoxygenParserTest}.
      */
     protected DoxygenParserTest() {
         super("doxygen.txt");

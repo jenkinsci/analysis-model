@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -18,8 +18,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  */
 class AntJavacParserTest extends AbstractIssueParserTest {
     /**
-     * Creates a new instance of {@link AbstractIssueParserTest}.
-     *
+     * Creates a new instance of {@link AntJavacParserTest}.
      */
     protected AntJavacParserTest() {
         super("ant-javac.txt");

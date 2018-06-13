@@ -18,6 +18,9 @@ import static java.util.function.Function.*;
 public class PackageNameResolver {
     private final PackageDetectors packageDetectors;
 
+    /**
+     * Creates a new {@link PackageNameResolver}.
+     */
     public PackageNameResolver() {
         this(new FileSystem());
     }

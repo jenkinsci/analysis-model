@@ -12,9 +12,9 @@ import org.apache.commons.io.LineIterator;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Report;
 
 /**
  * A parser for <a href="http://robotframework.org/">Robot Framework</a> Parse output from <a
@@ -30,6 +30,9 @@ public class RfLintParser extends RegexpLineParser {
     private static final String RFLINT_FILE_PATTERN = "\\+\\s(.*)";
     private String fileName;
 
+    /**
+     * Creates a new parser.
+     */
     public RfLintParser() {
         super(RFLINT_ERROR_PATTERN);
     }

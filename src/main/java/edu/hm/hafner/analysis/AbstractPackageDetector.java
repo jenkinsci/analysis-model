@@ -21,6 +21,12 @@ import edu.hm.hafner.util.VisibleForTesting;
 public abstract class AbstractPackageDetector {
     private final FileSystem fileSystem;
 
+    /**
+     * Creates a new instance of {@link AbstractPackageDetector}.
+     *
+     * @param fileSystem
+     *         file system facade
+     */
     protected AbstractPackageDetector(final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
     }

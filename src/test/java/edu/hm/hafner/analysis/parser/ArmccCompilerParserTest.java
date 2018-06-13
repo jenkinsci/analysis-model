@@ -1,8 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -12,7 +12,7 @@ class ArmccCompilerParserTest extends AbstractIssueParserTest {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
 
     /**
-     * Creates a new instance of {@link AbstractIssueParserTest}.
+     * Creates a new instance of {@link ArmccCompilerParserTest}.
      */
     protected ArmccCompilerParserTest() {
         super("armcc.txt");

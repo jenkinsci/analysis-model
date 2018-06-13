@@ -9,8 +9,8 @@ import java.util.Iterator;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -20,12 +20,11 @@ class FlexSdkParserTest extends AbstractIssueParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
 
     /**
-     * Creates a new instance of {@link AbstractIssueParserTest}.
+     * Creates a new instance of {@link FlexSdkParserTest}.
      */
     protected FlexSdkParserTest() {
         super("flexsdk.txt");
     }
-
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {

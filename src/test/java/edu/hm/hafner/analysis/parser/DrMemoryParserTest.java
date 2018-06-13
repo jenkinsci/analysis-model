@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  */
 class DrMemoryParserTest extends AbstractIssueParserTest {
     /**
-     * Creates a new instance of {@link AbstractIssueParserTest}.
+     * Creates a new instance of {@link DrMemoryParserTest}.
      */
     protected DrMemoryParserTest() {
         super("drmemory.txt");
