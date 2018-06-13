@@ -227,7 +227,7 @@ public final class Ensure {
          */
         @FormatMethod
         public void isNotEmpty(final String explanation, final Object... args) {
-            isNotNull(explanation);
+            isNotNull(explanation, args);
 
             if (value.iterator().hasNext()) {
                 for (Object object : value) {
@@ -383,7 +383,7 @@ public final class Ensure {
          */
         @FormatMethod
         public void isNotEmpty(final String explanation, final Object... args) {
-            isNotNull(explanation);
+            isNotNull(explanation, args);
 
             if (values.length == 0) {
                 throwException(explanation, args);
@@ -441,7 +441,7 @@ public final class Ensure {
          */
         @FormatMethod
         public void isNotEmpty(final String explanation, final Object... args) {
-            isNotNull(explanation);
+            isNotNull(explanation, args);
 
             if (value.isEmpty()) {
                 throwException(explanation, args);
@@ -633,7 +633,7 @@ public final class Ensure {
          */
         @FormatMethod
         public void isInstanceOf(final Class<?> type, final String explanation, final Object... args) {
-            isNotNull(explanation);
+            isNotNull(explanation, args);
 
             if (!type.isInstance(value)) {
                 throwException(explanation, args);
