@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Collection;
@@ -9,22 +10,16 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * {@link List} of {@link LineRange} that stores values more efficiently at
- * runtime.
+ * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
  * <p>
- * This class thinks of {@link LineRange} as two integers (start and end-start),
- * hence a list of {@link LineRange} becomes a list of integers. The class then
- * stores those integers in {@code byte[]}. Each number is packed to UTF-8 like
- * variable length format. To store a long value N, we first split into 7 bit
- * chunk, and store each 7 bit chunk as a byte, in the little endian order. The
- * last byte gets its 8th bit set to indicate that that's the last byte. Thus in
- * this format, 0x0 gets stored as 0x80, 0x1234 gets stored as
- * {0x34,0xA4(0x24|0x80)}.
+ * This class thinks of {@link LineRange} as two integers (start and end-start), hence a list of {@link LineRange}
+ * becomes a list of integers. The class then stores those integers in {@code byte[]}. Each number is packed to UTF-8
+ * like variable length format. To store a long value N, we first split into 7 bit chunk, and store each 7 bit chunk as
+ * a byte, in the little endian order. The last byte gets its 8th bit set to indicate that that's the last byte. Thus in
+ * this format, 0x0 gets stored as 0x80, 0x1234 gets stored as {0x34,0xA4(0x24|0x80)}.
  * <p>
- * This variable length mode stores data most efficiently, since most line
- * numbers are small. Access characteristic gets close to that of
- * {@link LinkedList}, since we can only traverse this packed byte[] from the
- * start or from the end.
+ * This variable length mode stores data most efficiently, since most line numbers are small. Access characteristic gets
+ * close to that of {@link LinkedList}, since we can only traverse this packed byte[] from the start or from the end.
  *
  * @author Kohsuke Kawaguchi
  */
@@ -38,7 +33,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     private int len;
 
     /**
-     * Creates an empty {@link LineRangeList}. It uses a capacity of {@link LineRangeList#DEFAULT_CAPACITY}. 
+     * Creates an empty {@link LineRangeList}. It uses a capacity of {@link LineRangeList#DEFAULT_CAPACITY}.
      */
     public LineRangeList() {
         this(DEFAULT_CAPACITY);
@@ -46,7 +41,10 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
     /**
      * Creates an empty {@link LineRangeList} with the specified capacity.
-     */   
+     *
+     * @param capacity
+     *         the initial capacity of the list
+     */
     public LineRangeList(final int capacity) {
         super();
 
@@ -56,6 +54,9 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
     /**
      * Creates a new {@link LineRangeList} with the specified elements.
+     *
+     * @param copy
+     *         the initial elements
      */
     public LineRangeList(final Collection<LineRange> copy) {
         this(copy.size() * 4); // guess
@@ -64,7 +65,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     }
 
     @Override
-    public final boolean addAll(final Collection<? extends LineRange> c) {
+    public final boolean addAll(@Nonnull final Collection<? extends LineRange> c) {
         return super.addAll(c);
     }
 
@@ -82,7 +83,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     @Override
     public boolean contains(final Object o) {
         if (o instanceof LineRange) {
-            LineRange lr = (LineRange)o;
+            LineRange lr = (LineRange) o;
 
             for (Cursor c = new Cursor(); c.hasNext();) {
                 if (c.compare(lr)) {
@@ -129,16 +130,19 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         len = 0;
     }
 
+    @Nonnull
     @Override
     public Iterator<LineRange> iterator() {
         return new Cursor();
     }
 
+    @Nonnull
     @Override
     public ListIterator<LineRange> listIterator() {
         return new Cursor();
     }
 
+    @Nonnull
     @Override
     public ListIterator<LineRange> listIterator(final int index) {
         return new Cursor().skip(index);
@@ -219,8 +223,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         }
 
         /**
-         * Reads the current variable-length encoded int value under the cursor,
-         * and moves the cursor ahead.
+         * Reads the current variable-length encoded int value under the cursor, and moves the cursor ahead.
          */
         private int read() {
             if (len <= position) {
@@ -240,7 +243,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
             boolean last;
             do {
                 last = i < 0x80;
-                data[position++] = (byte)((i & 0x7F) | (last ? 0x80 : 0));
+                data[position++] = (byte) ((i & 0x7F) | (last ? 0x80 : 0));
                 i /= 0x80;
             } while (!last);
         }
@@ -352,8 +355,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         }
 
         /**
-         * Computes the number of bytes that the value 'i' would occupy in its
-         * encoded form.
+         * Computes the number of bytes that the value 'i' would occupy in its encoded form.
          */
         private int sizeOf(final int index) {
             int i = index;
