@@ -11,10 +11,10 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 
 /**
@@ -72,7 +72,7 @@ public class CheckStyleParser extends AbstractParser {
             if (isValidWarning(file)) {
                 for (Error error : file.getErrors()) {
                     IssueBuilder builder = new IssueBuilder();
-                    mapPriority(error).ifPresent(priority -> builder.setPriority(priority));
+                    mapPriority(error).ifPresent(builder::setPriority);
 
                     String source = error.getSource();
                     builder.setType(getType(source));
