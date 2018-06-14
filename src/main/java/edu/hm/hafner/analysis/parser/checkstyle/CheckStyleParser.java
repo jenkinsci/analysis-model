@@ -67,7 +67,7 @@ public class CheckStyleParser extends AbstractParser {
      */
     private Report convert(final CheckStyle collection) {
         Report report = new Report();
-ewee
+
         for (File file : collection.getFiles()) {
             if (isValidWarning(file)) {
                 for (Error error : file.getErrors()) {
