@@ -69,7 +69,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(byPriority.get(Priority.LOW.toString())).hasSize(3);
 
         Map<String, Report> byFile = report.groupByProperty("fileName");
-        assertThat(byFile).hasSize(5);
+        assertThat(byFile).hasSize(3);
         assertThat(byFile.get("file-1")).hasSize(3);
         assertThat(byFile.get("file-2")).hasSize(2);
         assertThat(byFile.get("file-3")).hasSize(1);
