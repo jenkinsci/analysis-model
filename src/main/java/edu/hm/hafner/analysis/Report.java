@@ -57,8 +57,6 @@ public class Report implements Iterable<Issue>, Serializable {
     private String origin = DEFAULT_ID;
     private String reference = DEFAULT_ID;
 
-    Compile Fehler
-            
     /**
      * Creates an empty {@link Report}.
      */
