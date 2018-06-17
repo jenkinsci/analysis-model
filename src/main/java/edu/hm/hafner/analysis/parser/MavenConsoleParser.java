@@ -9,8 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 
 /**
  * A parser for maven console warnings.
@@ -24,7 +24,22 @@ public class MavenConsoleParser extends FastRegexpLineParser {
 
     private static final long serialVersionUID = 1737791073711198075L;
 
-    private static final String PATTERN = "^.*\\[(WARNING|ERROR)\\]\\s*(.*)$";
+    /**
+     * Pattern for identifying warning or error maven logs.
+     * <pre>
+     * Pattern:
+     * (.*\s\s|)           -> Capture group 1 matches either empty string (e.g. [WARNING] some log) or some text followed by exactly two
+     *                        spaces (e.g. 22:07:27  [WARNING] some log)
+     * \[(WARNING|ERROR)\] -> Capture group 2 matches either [WARNING] or [ERROR]
+     * \s*                 -> matches zero or more spaces
+     * (.*)                -> Capture group 3 matches zero or more characters except line breaks, represents the actual error message
+     * </pre>
+     * <p>
+     * Typical maven logs:
+     * 1) 22:07:27  [WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+     * 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is missing
+     */
+    private static final String PATTERN = "^(.*\\s\\s|)\\[(WARNING|ERROR)\\]\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link MavenConsoleParser}.
@@ -42,7 +57,10 @@ public class MavenConsoleParser extends FastRegexpLineParser {
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         Priority priority;
         String category;
-        if (ERROR.equals(matcher.group(1))) {
+        String errorOrWarningGroup = matcher.group(2);
+        String errorOrWarningMessage = matcher.group(3);
+
+        if (ERROR.equals(errorOrWarningGroup)) {
             priority = Priority.HIGH;
             category = "Error";
         }
@@ -51,7 +69,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             category = "Warning";
         }
         return builder.setFileName(SELF).setLineStart(getCurrentLine()).setCategory(category)
-                .setMessage(matcher.group(2)).setPriority(priority).build();
+                .setMessage(errorOrWarningMessage).setPriority(priority).build();
     }
 
     // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278

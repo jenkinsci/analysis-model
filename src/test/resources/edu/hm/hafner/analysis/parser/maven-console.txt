@@ -24,3 +24,10 @@
 22:07:30  [WARNING] Failed to retrieve plugin descriptor for org.codehaus.groovy.maven:gmaven-plugin:1.1: Plugin org.codehaus.groovy.maven:gmaven-plugin:1.1 or one of its dependencies could not be resolved: Failed to read artifact descriptor for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1
 22:07:30  [WARNING] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is missing, no dependency information available
 22:07:30  [WARNING] Failed to retrieve plugin descriptor for org.codehaus.groovy.maven:gmaven-plugin:1.1: Plugin org.codehaus.groovy.maven:gmaven-plugin:1.1 or one of its dependencies could not be resolved: Failed to read artifact descriptor for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1
+
+!-- Maven logs without starting timestamp
+[INFO] Downloading https://nexus.faktorzehn.de/content/groups/private/org/codehaus/groovy/maven/gmaven-plugin/1.1/gmaven-plugin-1.1.pom
+[WARNING] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is missing, no dependency information available
+
+!-- Usual application log line containing warning/error indication
+2018-06-14 09:57:10,478 INFO [THREAD NAME] this.is.my.namespace.TestClass Current state is [WARNING]. This should not be parsed as maven warning.

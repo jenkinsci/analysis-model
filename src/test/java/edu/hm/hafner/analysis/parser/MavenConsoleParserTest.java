@@ -49,8 +49,8 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
-                .hasSize(4)
-                .hasPriorities(2, 2, 0);
+                .hasSize(5)
+                .hasPriorities(2, 3, 0);
     }
 
     @Override
