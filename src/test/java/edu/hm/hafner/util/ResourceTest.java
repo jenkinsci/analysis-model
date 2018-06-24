@@ -1,6 +1,7 @@
 package edu.hm.hafner.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -141,12 +142,29 @@ public abstract class ResourceTest {
      * @param fileName
      *         name of the desired resource
      *
-     * @return the content represented as a {@link Stream} of lines
+     * @return the content represented as {@link String}
      */
     protected String toString(final String fileName) {
         return new String(readAllBytes(fileName), StandardCharsets.UTF_8);
     }
 
+    /**
+     * Returns the content of the specified {@link File} (decoded with UTF-8) as String.
+     *
+     * @param file
+     *         the desired file
+     *
+     * @return the content represented as {@link String}
+     */
+    protected String toString(final File file) {
+        try {
+            return new String(Files.readAllBytes(file.toPath()));
+        }
+        catch (IOException e) {
+            throw new AssertionError(e);
+        }
+    }
+    
     /**
      * Read all lines from the specified text String as a {@code Stream}.
      *
