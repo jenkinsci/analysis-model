@@ -34,11 +34,12 @@ public class FingerprintGenerator {
                 catch (IOException | UncheckedIOException | InvalidPathException exception) {
                     issue.setFingerprint(createDefaultFingerprint(issue.getFileName()));
                     if (exception.getCause() instanceof MalformedInputException) {
-                        report.logError("Provided encoding '%s' seems to be wrong for file '%s'",
-                                charset, issue.getFileName());
+                        report.logError("Can't create fingerprint for file '%s', provided encoding '%s' seems to be wrong",
+                                issue.getFileName(), charset);
                     }
                     else {
-                        report.logError("Can't read file '%s': %s", issue.getFileName(), exception);
+                        report.logError("Can't create fingerprint for file '%s', IO exception has been thrown: %s", 
+                                issue.getFileName(), exception);
                     }
                 }
             }
