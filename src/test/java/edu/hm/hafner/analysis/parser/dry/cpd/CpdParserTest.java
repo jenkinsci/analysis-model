@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
@@ -80,11 +80,11 @@ class CpdParserTest extends AbstractParserTest {
         Issue reporterSecond = report.get(2);
         Issue publisherSecond = report.get(3);
         softly.assertThat(reporterSecond)
-                .hasLineStart(274).hasLineEnd(274 + 95)
+                .hasLineStart(274).hasLineEnd(274 + 95 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
                 .hasPriority(Priority.HIGH);
         softly.assertThat(publisherSecond)
-                .hasLineStart(202).hasLineEnd(202 + 95)
+                .hasLineStart(202).hasLineEnd(202 + 95 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasPriority(Priority.HIGH);
 
@@ -133,12 +133,12 @@ class CpdParserTest extends AbstractParserTest {
         assertThat(report).hasSize(2);
         Issue first = report.get(0);
         assertThat(first)
-                .hasLineStart(19).hasLineEnd(19 + 68)
+                .hasLineStart(19).hasLineEnd(19 + 68 - 1)
                 .hasFileName("csci07/csc60/remote_copy.sh")
                 .hasPriority(Priority.HIGH);
         Issue second = report.get(1);
         assertThat(second)
-                .hasLineStart(19).hasLineEnd(19 + 68)
+                .hasLineStart(19).hasLineEnd(19 + 68 - 1)
                 .hasFileName("csci08/csc90/remote_copy.sh")
                 .hasPriority(Priority.HIGH);
 
@@ -178,11 +178,11 @@ class CpdParserTest extends AbstractParserTest {
     private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(final Issue reporterFirst,
             final Issue publisherFirst) {
         assertThat(reporterFirst)
-                .hasLineStart(76).hasLineEnd(76 + 36)
+                .hasLineStart(76).hasLineEnd(76 + 36 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
                 .hasPriority(Priority.NORMAL);
         assertThat(publisherFirst)
-                .hasLineStart(69).hasLineEnd(69 + 36)
+                .hasLineStart(69).hasLineEnd(69 + 36 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasPriority(Priority.NORMAL);
         Serializable additionalProperties = reporterFirst.getAdditionalProperties();
