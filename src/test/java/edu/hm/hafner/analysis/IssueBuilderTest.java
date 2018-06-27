@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -21,6 +22,20 @@ class IssueBuilderTest {
             LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
 
+    @ParameterizedTest(name = "{index} => Full Path: {0} - Expected Base Name: file.txt")
+    @ValueSource(strings = {
+            "/path/to/file.txt", 
+            "./file.txt", 
+            "file.txt", 
+            "C:\\Programme\\Folder\\file.txt", 
+            "C:\\file.txt"
+    })
+    void shouldGetBaseName(final String fullPath) {
+        IssueBuilder issueBuilder = new IssueBuilder();
+
+        assertThat(issueBuilder.setFileName(fullPath).build()).hasBaseName("file.txt");
+    }
+    
     @Test
     void shouldCreateDefaultIssueIfNothingSpecified() {
         Issue issue = new IssueBuilder().build();

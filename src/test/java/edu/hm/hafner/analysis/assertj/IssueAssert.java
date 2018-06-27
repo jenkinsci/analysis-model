@@ -60,6 +60,24 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     }
 
     /**
+     * Checks whether an Issue has a specific basename.
+     *
+     * @param baseName
+     *         String specifying basename.
+     *
+     * @return this
+     */
+    public IssueAssert hasBaseName(final String baseName) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getBaseName(), baseName)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "base name", actual, baseName, actual.getBaseName());
+        }
+
+        return this;
+    }
+
+    /**
      * Checks whether an Issue has a specific filename.
      *
      * @param fileName

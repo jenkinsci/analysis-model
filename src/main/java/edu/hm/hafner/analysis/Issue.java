@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -399,12 +400,21 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the name of the file that contains this issue.
+     * Returns the name of the file that contains this issue. Typically this file name is the absolute name.
      *
      * @return the name of the file that contains this issue
      */
     public String getFileName() {
         return fileName.toString();
+    }
+
+    /**
+     * Returns the base name of the file that contains this issue (i.e. the file name without the full path). 
+     *
+     * @return the base name of the file that contains this issue
+     */
+    public String getBaseName() {
+        return Paths.get(fileName.toString()).getFileName().toString();
     }
 
     /**
