@@ -8,11 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.util.ResourceTest;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the class {@link FingerprintGenerator}.
@@ -101,7 +100,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         FingerprintGenerator generator = new FingerprintGenerator();
         generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
 
-        assertThat(report.get(0)).hasFingerprint(FingerprintGenerator.createDefaultFingerprint(fileName));
+        assertThat(report.get(0)).hasFingerprint(FingerprintGenerator.createDefaultFingerprint(report.get(0)));
     }
 
 

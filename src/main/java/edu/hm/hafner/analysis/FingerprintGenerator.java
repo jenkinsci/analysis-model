@@ -6,6 +6,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.InvalidPathException;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import edu.hm.hafner.util.VisibleForTesting;
 
 /**
@@ -32,13 +34,14 @@ public class FingerprintGenerator {
                     issue.setFingerprint(digest);
                 }
                 catch (IOException | UncheckedIOException | InvalidPathException exception) {
-                    issue.setFingerprint(createDefaultFingerprint(issue.getFileName()));
+                    issue.setFingerprint(createDefaultFingerprint(issue));
                     if (exception.getCause() instanceof MalformedInputException) {
-                        report.logError("Can't create fingerprint for file '%s', provided encoding '%s' seems to be wrong",
+                        report.logError(
+                                "Can't create fingerprint for file '%s', provided encoding '%s' seems to be wrong",
                                 issue.getFileName(), charset);
                     }
                     else {
-                        report.logError("Can't create fingerprint for file '%s', IO exception has been thrown: %s", 
+                        report.logError("Can't create fingerprint for file '%s', IO exception has been thrown: %s",
                                 issue.getFileName(), exception);
                     }
                 }
@@ -47,7 +50,14 @@ public class FingerprintGenerator {
     }
 
     @VisibleForTesting
-    static String createDefaultFingerprint(final String fileName) {
-        return String.format("%x", fileName.hashCode());
+    static String createDefaultFingerprint(final Issue issue) {
+        HashCodeBuilder builder = new HashCodeBuilder();
+        return String.format("FALLBACK-%x", 
+                builder.append(issue.getBaseName())
+                .append(issue.getType())
+                .append(issue.getCategory())
+                .append(issue.getSeverity())
+                .append(issue.getOrigin())
+                .append(issue.getLineStart()).build());
     }
 }

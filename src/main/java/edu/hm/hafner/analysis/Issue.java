@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.function.Function;
@@ -414,7 +415,12 @@ public class Issue implements Serializable {
      * @return the base name of the file that contains this issue
      */
     public String getBaseName() {
-        return Paths.get(fileName.toString()).getFileName().toString();
+        try {
+            return Paths.get(fileName.toString()).getFileName().toString();
+        }
+        catch (InvalidPathException e) {
+            return getFileName();
+        }
     }
 
     /**
