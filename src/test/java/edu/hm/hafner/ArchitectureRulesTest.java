@@ -32,30 +32,14 @@ class ArchitectureRulesTest {
     void shouldNotCreateDigesterWithConstructor() {
         JavaClasses classes = getAnalysisModelClasses();
 
-        ArchRule noDigesterConstructor = noClasses().that().dontHaveSimpleName("SecureDigester")
+        ArchRule noDigesterConstructorCalled = noClasses().that().dontHaveSimpleName("SecureDigester")
                 .should().callConstructor(Digester.class)
                 .orShould().callConstructor(Digester.class, SAXParser.class)
                 .orShould().callConstructor(Digester.class, XMLReader.class)
                 .orShould().callMethod(DigesterLoader.class, "newDigester");
 
-        noDigesterConstructor.check(classes);
+        noDigesterConstructorCalled.check(classes);
     }
-
-    /**
-     * Methods or constructors that are annotated with {@link VisibleForTesting} must not be called by other classes.
-     * These methods are meant to be {@code private}. Only test classes are allowed to call these methods.
-     */
-    @Test
-    void shouldNotCallVisibleForTestingOutsideOfTest() {
-        JavaClasses classes = new ClassFileImporter().importPackages("io.jenkins.plugins.analysis");
-
-        ArchRule noTestApiCalled = noClasses()
-                .that().haveSimpleNameNotEndingWith("Test")
-                .should().callCodeUnitWhere(ACCESS_IS_RESTRICTED_TO_TESTS);
-
-        noTestApiCalled.check(classes);
-    }
-
 
     /**
      * Test classes should not be public (Junit 5).
@@ -73,6 +57,21 @@ class ArchitectureRulesTest {
                 .should().bePublic();
 
         noPublicClasses.check(classes);
+    }
+
+    /**
+     * Methods or constructors that are annotated with {@link VisibleForTesting} must not be called by other classes.
+     * These methods are meant to be {@code private}. Only test classes are allowed to call these methods.
+     */
+    @Test
+    void shouldNotCallVisibleForTestingOutsideOfTest() {
+        JavaClasses classes = getAnalysisModelClasses();
+
+        ArchRule noTestApiCalled = noClasses()
+                .that().haveSimpleNameNotEndingWith("Test")
+                .should().callCodeUnitWhere(ACCESS_IS_RESTRICTED_TO_TESTS);
+
+        noTestApiCalled.check(classes);
     }
 
     /**
@@ -94,7 +93,11 @@ class ArchitectureRulesTest {
 
     /**
      * Matches if a call from outside the defining class uses a method or constructor annotated with
-     * {@link VisibleForTesting}.
+     * {@link VisibleForTesting}. There are two exceptions:
+     * <ul>
+     *     <li>The method is called on the same class</li>
+     *     <li>The method is called in a method also annotated with {@link VisibleForTesting}</li>
+     * </ul>
      */
     private static class AccessRestrictedToTests extends DescribedPredicate<JavaCall<?>> {
         AccessRestrictedToTests() {
@@ -104,7 +107,8 @@ class ArchitectureRulesTest {
         @Override
         public boolean apply(final JavaCall<?> input) {
             return input.getTarget().isAnnotatedWith(VisibleForTesting.class)
-                    && !input.getOriginOwner().equals(input.getTargetOwner());
+                    && !input.getOriginOwner().equals(input.getTargetOwner())
+                    && !input.getOrigin().isAnnotatedWith(VisibleForTesting.class);
         }
     }
 }
