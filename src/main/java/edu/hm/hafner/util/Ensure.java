@@ -31,7 +31,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Ullrich Hafner
  * @see <a href="http://se.ethz.ch/~meyer/publications/computer/contract.pdf"> Design by Contract (Meyer, Bertrand)</a>
  */
-// FIXME: add @Format
 @SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "ConstantConditions", "CyclicClassDependency"})
 public final class Ensure {
     /**

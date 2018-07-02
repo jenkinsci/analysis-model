@@ -233,7 +233,7 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Finds all issues that match the specified criterion. 
+     * Finds all issues that match the specified criterion.
      *
      * @param criterion
      *         the filter criterion
@@ -537,10 +537,11 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Sets the ID of the tool that did report this set of issues. Updates all issues with the specified ID.
+     * Sets the ID of the tool that did report this set of issues. Updates the origin of all issues with the specified
+     * ID.
      *
      * @param id
-     *         the origin
+     *         the ID of the issues of this report
      */
     public void setId(final String id) {
         Ensure.that(id).isNotNull();
