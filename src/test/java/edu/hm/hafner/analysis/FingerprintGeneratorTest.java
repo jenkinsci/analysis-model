@@ -38,7 +38,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         assertThat(report.get(0).hasFingerprint()).isTrue();
         assertThat(report.get(1).getFingerprint()).isEqualTo(alreadySet);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
     }
 
     @Test
@@ -51,7 +51,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         Issue referenceIssue = report.get(0);
         Issue currentIssue = report.get(1);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isEqualTo(currentIssue.getFingerprint());
@@ -83,7 +83,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         generator.run(fingerprint, report, CHARSET_AFFECTED_FILE);
 
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
         Issue referenceIssue = report.get(0);
         Issue currentIssue = report.get(1);
 
@@ -121,7 +121,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     private Report createIssues() {
         Report report = new Report();
-        report.setOrigin(ID);
+        report.setId(ID);
         return report;
     }
 }

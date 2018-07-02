@@ -6,10 +6,9 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static org.mockito.Mockito.*;
-
-import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
 
 /**
  * Tests the class {@link PackageNameResolver}.
@@ -33,7 +32,7 @@ class PackageNameResolverTest {
         resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(0);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
     }
 
     @Test
@@ -45,7 +44,7 @@ class PackageNameResolverTest {
         resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(1);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
         assertThat(report.get(0)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
@@ -59,7 +58,7 @@ class PackageNameResolverTest {
         resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(1);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
         assertThat(report.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
     }
 
@@ -74,7 +73,7 @@ class PackageNameResolverTest {
         resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(2);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
         assertThat(report.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
         assertThat(report.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
@@ -88,7 +87,7 @@ class PackageNameResolverTest {
 
     private Report createIssues() {
         Report report = new Report();
-        report.setOrigin(ID);
+        report.setId(ID);
         return report;
     }
 }

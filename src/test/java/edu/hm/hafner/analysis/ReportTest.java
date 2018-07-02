@@ -21,6 +21,7 @@ import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static java.util.Arrays.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.entry;
 
 /**
  * Unit tests for {@link Report}.
@@ -56,7 +57,79 @@ class ReportTest extends SerializableTest<Report> {
             .setPriority(Priority.LOW)
             .build();
     private static final String ID = "id";
+    private static final String CHECKSTYLE = "checkstyle";
+    private static final String FINDBUGS = "findbugs";
+    private static final String ANALYSIS = "analysis";
 
+    @Test
+    void shouldFilterPriorities() {
+        Report report = new Report();
+        report.addAll(allIssuesAsList());
+
+        assertThat(report.getSeverities())
+                .containsExactlyInAnyOrder(Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
+        
+        report.add(new IssueBuilder().setSeverity(Severity.ERROR).build());
+        assertThat(report.getSeverities()).containsExactlyInAnyOrder(
+                Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW, Severity.ERROR);
+
+        assertThat(report.getSizeOf(Severity.ERROR)).isEqualTo(1);
+        assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(1);
+        assertThat(report.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(2);
+        assertThat(report.getSizeOf(Severity.WARNING_LOW)).isEqualTo(3);
+
+        assertThat(report.getSizeOf(Severity.ERROR.getName())).isEqualTo(1);
+        assertThat(report.getSizeOf(Severity.WARNING_HIGH.getName())).isEqualTo(1);
+        assertThat(report.getSizeOf(Severity.WARNING_NORMAL.getName())).isEqualTo(2);
+        assertThat(report.getSizeOf(Severity.WARNING_LOW.getName())).isEqualTo(3);
+    }
+
+    @Test
+    void shouldStoreAllOrigins() {
+        Map<String, Integer> issuesByOrigin;
+
+        Report report = new Report();
+        report.setId(ANALYSIS); // FIXME: is it possible to set ID when constructing?
+        assertThat(report).hasId(ANALYSIS);
+        
+        assertThat(report.getSizeByOrigin()).isEmpty();
+
+        Report checkStyle = new Report();
+        checkStyle.setId(CHECKSTYLE);
+        Report findBugs = new Report();
+        findBugs.setId(FINDBUGS);
+        
+        report.addAll(checkStyle, findBugs);
+        assertThat(report.getSizeByOrigin()).containsOnly(entry(CHECKSTYLE, 0), entry(FINDBUGS, 0));
+
+        IssueBuilder builder = new IssueBuilder().setOrigin(FINDBUGS);
+        findBugs.add(builder.setLineStart(2).build());
+        findBugs.add(builder.setLineStart(3).build());
+        builder.setOrigin(CHECKSTYLE);
+        checkStyle.add(builder.setLineStart(1).build());
+        
+        report.addAll(checkStyle, findBugs);
+        assertThat(report.getSizeByOrigin()).containsOnly(entry(CHECKSTYLE, 1), entry(FINDBUGS, 2));
+
+
+        Report anotherCheckStyle = new Report();
+        anotherCheckStyle.setId(CHECKSTYLE);
+        anotherCheckStyle.add(builder.setLineStart(4).build());
+        anotherCheckStyle.add(builder.setLineStart(5).build());
+        anotherCheckStyle.add(builder.setLineStart(6).build());
+
+        report.addAll(anotherCheckStyle);
+        assertThat(report.getSizeByOrigin()).containsOnly(entry(CHECKSTYLE, 4), entry(FINDBUGS, 2));
+
+        Report onlyCheckStyle = report.filter(Issue.byOrigin(CHECKSTYLE));
+        assertThat(onlyCheckStyle).hasSize(4);
+        assertThat(onlyCheckStyle.getSizeByOrigin()).containsOnly(entry(CHECKSTYLE, 4), entry(FINDBUGS, 0));
+        
+        Report onlyOne = report.filter(issue -> issue.getLineStart() == 1);
+        assertThat(onlyOne).hasSize(1);
+        assertThat(onlyOne.getSizeByOrigin()).containsOnly(entry(CHECKSTYLE, 1), entry(FINDBUGS, 0));
+    }
+    
     @Test
     void shouldGroupIssuesByProperty() {
         Report report = new Report();
@@ -94,7 +167,7 @@ class ReportTest extends SerializableTest<Report> {
     void shouldCopyProperties() {
         Report expected = new Report();
         expected.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
-        expected.setOrigin(ID);
+        expected.setId(ID);
         expected.logInfo("Hello");
         expected.logInfo("World!");
         expected.logError("Boom!");
@@ -110,7 +183,7 @@ class ReportTest extends SerializableTest<Report> {
 
         Report empty = expected.copyEmptyInstance();
         assertThat(empty).isEmpty();
-        assertThat(empty).hasOrigin(expected.getOrigin());
+        assertThat(empty).hasId(expected.getId());
         assertThat(empty.getErrorMessages()).isEqualTo(expected.getErrorMessages());
         assertThat(empty.getInfoMessages()).isEqualTo(expected.getInfoMessages());
         assertThat(empty.getDuplicatesSize()).isEqualTo(expected.getDuplicatesSize());
@@ -160,59 +233,59 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldVerifyOriginAndReferenceOfFirstRemains() {
         Report first = new Report();
-        first.setOrigin(ID);
+        first.setId(ID);
         first.setReference(ID);
         first.add(HIGH);
         Report second = new Report();
         String otherId = "otherId";
-        second.setOrigin(otherId);
+        second.setId(otherId);
         second.setReference(otherId);
         second.addAll(NORMAL_1, NORMAL_2);
         Report third = new Report();
         String idOfThird = "yetAnotherId";
-        third.setOrigin(idOfThird);
+        third.setId(idOfThird);
         third.setReference(idOfThird);
         third.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         Report report = new Report();
         report.addAll(first);
         assertThat((Iterable<Issue>) report).containsExactly(HIGH);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
         assertThat(report).hasReference(ID);
 
         report.addAll(second, third);
         assertThatAllIssuesHaveBeenAdded(report);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
         assertThat(report).hasReference(ID);
 
         Report altogether = new Report();
         altogether.addAll(first, second, third);
         assertThatAllIssuesHaveBeenAdded(report);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
         assertThat(report).hasReference(ID);
 
         Report copy = third.copyEmptyInstance();
         copy.addAll(first, second);
-        assertThat(copy).hasOrigin(idOfThird);
+        assertThat(copy).hasId(idOfThird);
         assertThat(copy).hasReference(idOfThird);
     }
 
     @Test
     void shouldSetAndGetOriginAndReference() {
         Report report = new Report();
-        assertThat(report).hasOrigin(Report.DEFAULT_ID);
+        assertThat(report).hasId(Report.DEFAULT_ID);
         assertThat(report).hasReference(Report.DEFAULT_ID);
 
-        report.setOrigin(ID);
-        assertThat(report).hasOrigin(ID);
+        report.setId(ID);
+        assertThat(report).hasId(ID);
         assertThat(report).hasReference(Report.DEFAULT_ID);
 
         report.setReference(ID);
-        assertThat(report).hasOrigin(ID);
+        assertThat(report).hasId(ID);
         assertThat(report).hasReference(ID);
 
         //noinspection ConstantConditions
-        assertThatThrownBy(() -> report.setOrigin(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> report.setId(null)).isInstanceOf(NullPointerException.class);
         //noinspection ConstantConditions
         assertThatThrownBy(() -> report.setReference(null)).isInstanceOf(NullPointerException.class);
     }
@@ -502,7 +575,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
-            final Function<Report, Set<String>> propertyGetter, final String propertyName, final Function<String, Predicate<Issue>> predicate) {
+            final Function<Report, Set<String>> propertyGetter, final String propertyName, 
+            final Function<String, Predicate<Issue>> predicate) {
         Report report = new Report();
 
         IssueBuilder builder = new IssueBuilder();

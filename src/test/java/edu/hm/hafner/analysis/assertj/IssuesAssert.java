@@ -4,8 +4,8 @@ import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
 
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -67,11 +67,11 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Report> {
      * @throws AssertionError
      *         if the actual {@link Report} origin is not equal to the given one.
      */
-    public IssuesAssert hasOrigin(final String origin) {
+    public IssuesAssert hasId(final String origin) {
         isNotNull();
 
-        if (!Objects.equals(actual.getOrigin(), origin)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "origin", actual, origin, actual.getOrigin());
+        if (!Objects.equals(actual.getId(), origin)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "origin", actual, origin, actual.getId());
         }
         return this;
     }
