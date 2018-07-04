@@ -59,7 +59,7 @@ public abstract class ResourceTest {
 
     @SuppressFBWarnings("UI_INHERITANCE_UNSAFE_GETRESOURCE")
     private Path getPath(final String name) throws URISyntaxException {
-        URL resource = getClass().getResource(name);
+        URL resource = getTestResourceClass().getResource(name);
         if (resource == null) {
             throw new AssertionError("Can't find resource " + name);
         }

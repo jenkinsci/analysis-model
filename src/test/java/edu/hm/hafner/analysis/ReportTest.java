@@ -89,7 +89,7 @@ class ReportTest extends SerializableTest<Report> {
         Map<String, Integer> issuesByOrigin;
 
         Report report = new Report();
-        report.setId(ANALYSIS); // FIXME: is it possible to set ID when constructing?
+        report.setId(ANALYSIS);
         assertThat(report).hasId(ANALYSIS);
         
         assertThat(report.getSizeByOrigin()).isEmpty();
@@ -166,8 +166,8 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldCopyProperties() {
         Report expected = new Report();
-        expected.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
         expected.setId(ID);
+        expected.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
         expected.logInfo("Hello");
         expected.logInfo("World!");
         expected.logError("Boom!");
@@ -193,7 +193,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThatAllIssuesHaveBeenAdded(filtered);
     }
 
-    /** Verifies some additional variants of the {@link Report#addAll(Report, Report[])}. */
+    /** Verifies some additional variants of the {@link Report#addAll(Report[])}. */
     @Test
     void shouldVerifyPathInteriorCoverageOfAddAll() {
         Report first = new Report().add(HIGH);
@@ -664,5 +664,10 @@ class ReportTest extends SerializableTest<Report> {
      */
     public static void main(final String... args) throws IOException {
         new ReportTest().createSerializationFile();
+    }
+
+    @Override
+    protected Class<?> getTestResourceClass() {
+        return ReportTest.class;
     }
 }
