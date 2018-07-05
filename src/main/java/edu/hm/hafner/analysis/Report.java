@@ -384,12 +384,30 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns whether this report contains affected files from more than one module.
+     *
+     * @return {@code true} if the number of modules is greater than 1, {@code false} otherwise
+     */
+    public boolean hasModules() {
+        return getModules().size() > 1;
+    }
+
+    /**
      * Returns the affected packages for all issues.
      *
      * @return the affected packages
      */
     public Set<String> getPackages() {
         return getProperties(Issue::getPackageName);
+    }
+
+    /**
+     * Returns whether this report contains affected files from more than one package.
+     *
+     * @return {@code true} if the number of packages is greater than 1, {@code false} otherwise
+     */
+    public boolean hasPackages() {
+        return getPackages().size() > 1;
     }
 
     /**
@@ -402,12 +420,30 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns whether this report contains more than one affected file.
+     *
+     * @return {@code true} if the number of affected files is greater than 1, {@code false} otherwise
+     */
+    public boolean hasFiles() {
+        return getFiles().size() > 1;
+    }
+
+    /**
      * Returns the used categories for all issues.
      *
      * @return the used categories
      */
     public Set<String> getCategories() {
         return getProperties(Issue::getCategory);
+    }
+
+    /**
+     * Returns whether this report contains issues with different categories.
+     *
+     * @return {@code true} if the number of categories is greater than 1, {@code false} otherwise
+     */
+    public boolean hasCategories() {
+        return getCategories().size() > 1;
     }
 
     /**
@@ -420,6 +456,15 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns whether this report contains issues with different types.
+     *
+     * @return {@code true} if the number of types is greater than 1, {@code false} otherwise
+     */
+    public boolean hasTypes() {
+        return getTypes().size() > 1;
+    }
+
+    /**
      * Returns the names of the tools that did report the issues.
      *
      * @return the tools
@@ -429,12 +474,30 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns whether this report contains issues created by different tools.
+     *
+     * @return {@code true} if the number of tools is greater than 1, {@code false} otherwise
+     */
+    public boolean hasTools() {
+        return getTools().size() > 1;
+    }
+
+    /**
      * Returns the severities of all issues.
      *
      * @return the severities
      */
     public Set<Severity> getSeverities() {
         return getProperties(Issue::getSeverity);
+    }
+
+    /**
+     * Returns whether this report contains issues of different severities.
+     *
+     * @return {@code true} if the number of severities is greater than 1, {@code false} otherwise
+     */
+    public boolean hasSeverities() {
+        return getSeverities().size() > 1;
     }
 
     /**

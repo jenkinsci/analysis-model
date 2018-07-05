@@ -311,6 +311,9 @@
               <version>${junit.version}</version>
             </dependency>
           </dependencies>
+          <configuration>
+            <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
