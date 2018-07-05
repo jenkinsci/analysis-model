@@ -389,7 +389,11 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return {@code true} if the number of modules is greater than 1, {@code false} otherwise
      */
     public boolean hasModules() {
-        return getModules().size() > 1;
+        return hasProperty(getModules());
+    }
+
+    private boolean hasProperty(final Set<String> propertyValue) {
+        return propertyValue.size() > 1 || (propertyValue.size() == 1 && (!propertyValue.contains(DEFAULT_ID) && !propertyValue.contains("")));
     }
 
     /**
@@ -407,7 +411,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return {@code true} if the number of packages is greater than 1, {@code false} otherwise
      */
     public boolean hasPackages() {
-        return getPackages().size() > 1;
+        return hasProperty(getPackages());
     }
 
     /**
@@ -425,7 +429,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return {@code true} if the number of affected files is greater than 1, {@code false} otherwise
      */
     public boolean hasFiles() {
-        return getFiles().size() > 1;
+        return hasProperty(getFiles());
     }
 
     /**
@@ -443,7 +447,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return {@code true} if the number of categories is greater than 1, {@code false} otherwise
      */
     public boolean hasCategories() {
-        return getCategories().size() > 1;
+        return hasProperty(getCategories());
     }
 
     /**
@@ -461,7 +465,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return {@code true} if the number of types is greater than 1, {@code false} otherwise
      */
     public boolean hasTypes() {
-        return getTypes().size() > 1;
+        return hasProperty(getTypes());
     }
 
     /**
@@ -479,7 +483,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return {@code true} if the number of tools is greater than 1, {@code false} otherwise
      */
     public boolean hasTools() {
-        return getTools().size() > 1;
+        return hasProperty(getTools());
     }
 
     /**
