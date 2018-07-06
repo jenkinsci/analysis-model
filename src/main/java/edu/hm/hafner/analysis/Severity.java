@@ -2,6 +2,9 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 
+import org.eclipse.collections.api.set.ImmutableSet;
+import org.eclipse.collections.impl.factory.Sets;
+
 import edu.hm.hafner.util.Ensure;
 
 /**
@@ -23,12 +26,16 @@ public class Severity implements Serializable {
     public static final Severity WARNING_NORMAL = new Severity("NORMAL");
     /** A warning with {@link Priority#LOW}. Mapping of warning priorities is determined by the corresponding tool. */
     public static final Severity WARNING_LOW = new Severity("LOW");
+    
+    private static final ImmutableSet<Severity> ALL_SEVERITIES 
+            = Sets.immutable.of(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW);
 
     /**
      * Creates a new {@link Severity} that corresponds to the specified {@link Priority}.
      *
      * @param priority
      *         the priority
+     *
      * @return the severity
      */
     public static Severity valueOf(final Priority priority) {
@@ -50,6 +57,7 @@ public class Severity implements Serializable {
      *
      * @param name
      *         the name of the severity
+     *
      * @return the severity
      */
     public static Severity valueOf(final String name) {
@@ -66,6 +74,15 @@ public class Severity implements Serializable {
             return WARNING_LOW;
         }
         return new Severity(name);
+    }
+
+    /**
+     * Returns the set of predefined {@link Severity} instances.
+     *
+     * @return all predefined severities
+     */
+    public static ImmutableSet<Severity> getPredefinedValues() {
+        return ALL_SEVERITIES;
     }
 
     private final String name;
