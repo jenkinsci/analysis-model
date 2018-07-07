@@ -74,10 +74,8 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.hasSeverities()).isFalse();
 
         IssueBuilder builder = new IssueBuilder();
-        int line = 0;
-        builder.setLineStart(line++);
-        report.add(builder.build());
 
+        report.add(builder.build());
         assertThat(report.hasTools()).isFalse();
         assertThat(report.hasModules()).isFalse();
         assertThat(report.hasPackages()).isFalse();
@@ -85,55 +83,17 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.hasCategories()).isFalse();
         assertThat(report.hasTypes()).isFalse();
         assertThat(report.hasSeverities()).isFalse();
-        
-        report.add(builder.setOrigin("origin").build());
-        assertThat(report.hasTools()).isTrue();
-        assertThat(report.hasModules()).isFalse();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.add(builder.setModuleName("module").build());
-        assertThat(report.hasTools()).isTrue();
-        assertThat(report.hasModules()).isTrue();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.add(builder.setPackageName("package").build());
-        assertThat(report.hasTools()).isTrue();
-        assertThat(report.hasModules()).isTrue();
-        assertThat(report.hasPackages()).isTrue();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.add(builder.setFileName("file").build());
-        assertThat(report.hasTools()).isTrue();
-        assertThat(report.hasModules()).isTrue();
-        assertThat(report.hasPackages()).isTrue();
-        assertThat(report.hasFiles()).isTrue();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.add(builder.setCategory("category").build());
-        assertThat(report.hasTools()).isTrue();
-        assertThat(report.hasModules()).isTrue();
-        assertThat(report.hasPackages()).isTrue();
-        assertThat(report.hasFiles()).isTrue();
-        assertThat(report.hasCategories()).isTrue();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.add(builder.setType("type").build());
-        assertThat(report.hasTools()).isTrue();
-        assertThat(report.hasModules()).isTrue();
-        assertThat(report.hasPackages()).isTrue();
-        assertThat(report.hasFiles()).isTrue();
-        assertThat(report.hasCategories()).isTrue();
-        assertThat(report.hasTypes()).isTrue();
-        assertThat(report.hasSeverities()).isFalse();
+
+        verifyOrigin(report, builder);
+        verifiyModule(report, builder);
+        verifyPackage(report, builder);
+        verifyFile(report, builder);
+        verifyCategory(report, builder);
+        verifyType(report, builder);
+        verifySeverity(report, builder);
+    }
+
+    private void verifySeverity(final Report report, final IssueBuilder builder) {
         report.add(builder.setSeverity(Severity.WARNING_HIGH).build());
         assertThat(report.hasTools()).isTrue();
         assertThat(report.hasModules()).isTrue();
@@ -143,7 +103,73 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.hasTypes()).isTrue();
         assertThat(report.hasSeverities()).isTrue();
     }
-    
+
+    private void verifyType(final Report report, final IssueBuilder builder) {
+        report.add(builder.setType("type").build());
+        assertThat(report.hasTools()).isTrue();
+        assertThat(report.hasModules()).isTrue();
+        assertThat(report.hasPackages()).isTrue();
+        assertThat(report.hasFiles()).isTrue();
+        assertThat(report.hasCategories()).isTrue();
+        assertThat(report.hasTypes()).isTrue();
+        assertThat(report.hasSeverities()).isFalse();
+    }
+
+    private void verifyCategory(final Report report, final IssueBuilder builder) {
+        report.add(builder.setCategory("category").build());
+        assertThat(report.hasTools()).isTrue();
+        assertThat(report.hasModules()).isTrue();
+        assertThat(report.hasPackages()).isTrue();
+        assertThat(report.hasFiles()).isTrue();
+        assertThat(report.hasCategories()).isTrue();
+        assertThat(report.hasTypes()).isFalse();
+        assertThat(report.hasSeverities()).isFalse();
+    }
+
+    private void verifyFile(final Report report, final IssueBuilder builder) {
+        report.add(builder.setFileName("file").build());
+        assertThat(report.hasTools()).isTrue();
+        assertThat(report.hasModules()).isTrue();
+        assertThat(report.hasPackages()).isTrue();
+        assertThat(report.hasFiles()).isTrue();
+        assertThat(report.hasCategories()).isFalse();
+        assertThat(report.hasTypes()).isFalse();
+        assertThat(report.hasSeverities()).isFalse();
+    }
+
+    private void verifyPackage(final Report report, final IssueBuilder builder) {
+        report.add(builder.setPackageName("package").build());
+        assertThat(report.hasTools()).isTrue();
+        assertThat(report.hasModules()).isTrue();
+        assertThat(report.hasPackages()).isTrue();
+        assertThat(report.hasFiles()).isFalse();
+        assertThat(report.hasCategories()).isFalse();
+        assertThat(report.hasTypes()).isFalse();
+        assertThat(report.hasSeverities()).isFalse();
+    }
+
+    private void verifiyModule(final Report report, final IssueBuilder builder) {
+        report.add(builder.setModuleName("module").build());
+        assertThat(report.hasTools()).isTrue();
+        assertThat(report.hasModules()).isTrue();
+        assertThat(report.hasPackages()).isFalse();
+        assertThat(report.hasFiles()).isFalse();
+        assertThat(report.hasCategories()).isFalse();
+        assertThat(report.hasTypes()).isFalse();
+        assertThat(report.hasSeverities()).isFalse();
+    }
+
+    private void verifyOrigin(final Report report, final IssueBuilder builder) {
+        report.add(builder.setOrigin("origin").build());
+        assertThat(report.hasTools()).isTrue();
+        assertThat(report.hasModules()).isFalse();
+        assertThat(report.hasPackages()).isFalse();
+        assertThat(report.hasFiles()).isFalse();
+        assertThat(report.hasCategories()).isFalse();
+        assertThat(report.hasTypes()).isFalse();
+        assertThat(report.hasSeverities()).isFalse();
+    }
+
     @Test
     void shouldFilterPriorities() {
         Report report = new Report();

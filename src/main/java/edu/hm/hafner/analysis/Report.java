@@ -44,7 +44,7 @@ import static java.util.stream.Collectors.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings("PMD.ExcessivePublicCount")
+@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength"})
 public class Report implements Iterable<Issue>, Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
 
@@ -393,7 +393,8 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     private boolean hasProperty(final Set<String> propertyValue) {
-        return propertyValue.size() > 1 || (propertyValue.size() == 1 && (!propertyValue.contains(DEFAULT_ID) && !propertyValue.contains("")));
+        return propertyValue.size() > 1 
+                || (propertyValue.size() == 1 && !propertyValue.contains(DEFAULT_ID) && !propertyValue.contains(""));
     }
 
     /**
