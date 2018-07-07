@@ -91,6 +91,10 @@
     <error-prone.version>2.3.1</error-prone.version>
     <maven-depgraph-plugin.version>3.1.0</maven-depgraph-plugin.version>
     <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
+
+    <!-- Maven Surefire ArgLine -->
+    <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
+
   </properties>
 
   <dependencies>
@@ -312,7 +316,6 @@
             </dependency>
           </dependencies>
           <configuration>
-            <argLine>${argLine} -Djava.util.logging.config.file=logging.properties</argLine>
           </configuration>
         </plugin>
         <plugin>
