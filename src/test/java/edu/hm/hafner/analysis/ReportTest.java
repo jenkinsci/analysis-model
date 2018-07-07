@@ -15,13 +15,11 @@ import java.util.function.Predicate;
 import org.eclipse.collections.impl.block.factory.Predicates;
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.entry;
 
 /**
  * Unit tests for {@link Report}.
@@ -609,7 +607,6 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
-    @SuppressFBWarnings
     void shouldReturnIndexedValue() {
         Report report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
@@ -617,6 +614,14 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.get(0)).isSameAs(HIGH);
         assertThat(report.get(1)).isSameAs(NORMAL_1);
         assertThat(report.get(2)).isSameAs(NORMAL_2);
+    }
+    
+    @Test
+    @SuppressFBWarnings("RV")
+    void shouldThrowExceptionOnWrongIndex() {
+        Report report = new Report();
+        report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
+
         assertThatThrownBy(() -> report.get(-1))
                 .isInstanceOf(IndexOutOfBoundsException.class)
                 .hasMessageContaining("-1");

@@ -392,9 +392,12 @@ public class Report implements Iterable<Issue>, Serializable {
         return hasProperty(getModules());
     }
 
-    private boolean hasProperty(final Set<String> propertyValue) {
-        return propertyValue.size() > 1 
-                || (propertyValue.size() == 1 && !propertyValue.contains(DEFAULT_ID) && !propertyValue.contains(""));
+    private boolean hasProperty(final Set<String> propertyValues) {
+        return propertyValues.size() > 1 || hasMeaningfulValues(propertyValues);
+    }
+
+    private boolean hasMeaningfulValues(final Set<String> propertyValue) {
+        return propertyValue.size() == 1 && !propertyValue.contains(DEFAULT_ID) && !propertyValue.contains("");
     }
 
     /**
