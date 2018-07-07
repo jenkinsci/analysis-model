@@ -50,10 +50,67 @@ public abstract class ResourceTest {
      */
     protected byte[] readAllBytes(final String fileName) {
         try {
-            return Files.readAllBytes(getPath(fileName));
+            return readAllBytes(getPath(fileName));
         }
-        catch (IOException | URISyntaxException e) {
-            throw new AssertionError("Can't read resource " + fileName, e);
+        catch (URISyntaxException e) {
+            throw new AssertionError("Can't find resource " + fileName, e);
+        }
+    }
+
+    /**
+     * Reads the contents of the desired resource. The rules for searching resources associated with this test class are
+     * implemented by the defining {@linkplain ClassLoader class loader} of this test class.  This method delegates to
+     * this object's class loader.  If this object was loaded by the bootstrap class loader, the method delegates to
+     * {@link ClassLoader#getSystemResource}.
+     * <p>
+     * Before delegation, an absolute resource name is constructed from the given resource name using this algorithm:
+     * <p>
+     * <ul>
+     *     <li> If the {@code name} begins with a {@code '/'} (<tt>'&#92;u002f'</tt>), then the absolute name of the
+     * resource is the portion of the {@code name} following the {@code '/'}.</li>
+     *     <li> Otherwise, the absolute name is of the following form:
+     *     <blockquote> {@code modified_package_name/name} </blockquote>
+     *     <p> Where the {@code modified_package_name} is the package name of this object with {@code '/'}
+     *     substituted for {@code '.'} (<tt>'&#92;u002e'</tt>).</li>
+     *  </ul>
+     *
+     * @param file
+     *         the desired resource
+     *
+     * @return the content represented by a byte array
+     */
+    protected byte[] readAllBytes(final File file) {
+        return readAllBytes(file.toPath());
+    }
+
+    /**
+     * Reads the contents of the desired resource. The rules for searching resources associated with this test class are
+     * implemented by the defining {@linkplain ClassLoader class loader} of this test class.  This method delegates to
+     * this object's class loader.  If this object was loaded by the bootstrap class loader, the method delegates to
+     * {@link ClassLoader#getSystemResource}.
+     * <p>
+     * Before delegation, an absolute resource name is constructed from the given resource name using this algorithm:
+     * <p>
+     * <ul>
+     *     <li> If the {@code name} begins with a {@code '/'} (<tt>'&#92;u002f'</tt>), then the absolute name of the
+     * resource is the portion of the {@code name} following the {@code '/'}.</li>
+     *     <li> Otherwise, the absolute name is of the following form:
+     *     <blockquote> {@code modified_package_name/name} </blockquote>
+     *     <p> Where the {@code modified_package_name} is the package name of this object with {@code '/'}
+     *     substituted for {@code '.'} (<tt>'&#92;u002e'</tt>).</li>
+     *  </ul>
+     *
+     * @param path
+     *         path of the desired resource
+     *
+     * @return the content represented by a byte array
+     */
+    protected byte[] readAllBytes(final Path path) {
+        try {
+            return Files.readAllBytes(path);
+        }
+        catch (IOException e) {
+            throw new AssertionError("Can't read resource " + path, e);
         }
     }
 
@@ -145,7 +202,7 @@ public abstract class ResourceTest {
      * @return the content represented as {@link String}
      */
     protected String toString(final String fileName) {
-        return new String(readAllBytes(fileName), StandardCharsets.UTF_8);
+        return createString(readAllBytes(fileName));
     }
 
     /**
@@ -157,14 +214,13 @@ public abstract class ResourceTest {
      * @return the content represented as {@link String}
      */
     protected String toString(final File file) {
-        try {
-            return new String(Files.readAllBytes(file.toPath()));
-        }
-        catch (IOException e) {
-            throw new AssertionError(e);
-        }
+        return createString(readAllBytes(file));
     }
-    
+
+    private String createString(final byte[] bytes) {
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
     /**
      * Read all lines from the specified text String as a {@code Stream}.
      *

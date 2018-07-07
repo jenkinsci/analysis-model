@@ -26,7 +26,7 @@ public class RobocopyParser extends FastRegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String file = matcher.group(4).split("\\s{11}")[0];
+        String file = matcher.group(4).split("\\s{11}", -1)[0];
         return builder.setFileName(file)
                 .setLineStart(0)
                 .setCategory(matcher.group(2))
