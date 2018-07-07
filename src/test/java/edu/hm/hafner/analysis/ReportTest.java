@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.SerializableTest;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static java.util.Arrays.*;
 
 /**
@@ -615,7 +614,6 @@ class ReportTest extends SerializableTest<Report> {
     }
     
     @Test
-    @SuppressFBWarnings("RV")
     void shouldThrowExceptionOnWrongIndex() {
         Report report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));

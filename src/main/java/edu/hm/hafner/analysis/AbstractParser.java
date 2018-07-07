@@ -45,11 +45,14 @@ public abstract class AbstractParser extends IssueParser {
     public Report parse(final File file, final Charset charset, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
         String absolutePath = file.getAbsolutePath();
-        try {
-            return parse(new FileInputStream(file), charset, preProcessor, absolutePath);
+        try (InputStream inputStream = new FileInputStream(file)) {
+            return parse(inputStream, charset, preProcessor, absolutePath);
         }
         catch (FileNotFoundException exception) {
             throw new ParsingException(exception, "Can't find file: " + absolutePath);
+        }
+        catch (IOException exception) {
+            throw new ParsingException(exception, "Can't scan file for issues: " + absolutePath);
         }
     }
 
