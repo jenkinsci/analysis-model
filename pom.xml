@@ -389,6 +389,9 @@
             <targetJdk>${java.version}</targetJdk>
             <includeTests>true</includeTests>
             <minimumTokens>50</minimumTokens>
+            <excludes>
+              <exclude>**/InjectedTest.java</exclude>
+            </excludes>
           </configuration>
           <dependencies>
             <dependency>
