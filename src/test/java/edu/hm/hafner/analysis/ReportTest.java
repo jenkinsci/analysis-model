@@ -193,8 +193,6 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldStoreAllOrigins() {
-        Map<String, Integer> issuesByOrigin;
-
         Report report = new Report();
         report.setId(ANALYSIS);
         assertThat(report).hasId(ANALYSIS);
