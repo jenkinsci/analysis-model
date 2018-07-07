@@ -312,7 +312,7 @@
             </dependency>
           </dependencies>
           <configuration>
-            <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
+            <argLine>${argLine} -Djava.util.logging.config.file=logging.properties</argLine>
           </configuration>
         </plugin>
         <plugin>
