@@ -127,6 +127,7 @@ public class IssueBuilder {
         return this;
     }
 
+    // FIXME: Severity?
     public IssueBuilder setPriority(@CheckForNull final Priority priority) {
         this.priority = priority;
         return this;
