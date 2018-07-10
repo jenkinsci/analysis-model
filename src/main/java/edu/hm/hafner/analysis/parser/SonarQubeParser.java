@@ -1,10 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
 
 import org.json.JSONArray;
@@ -29,186 +25,215 @@ public abstract class SonarQubeParser extends AbstractParser {
 
     //Arrays
     /** The components array. */
-    protected static final String COMPONENTS = "components";
+    private static final String COMPONENTS = "components";
     /** The issues array. */
-    protected static final String ISSUES = "issues";
+    private static final String ISSUES = "issues";
 
     //Issues attributes
     /** issue.component attribute. */
-    protected static final String ISSUE_COMPONENT = "component";
-    /** issue.message attribute.  */
-    protected static final String ISSUE_MESSAGE = "message";
+    private static final String ISSUE_COMPONENT = "component";
+    /** issue.message attribute. */
+    private static final String ISSUE_MESSAGE = "message";
     /** issue.line attribute. */
-    protected static final String ISSUE_LINE = "line";
+    private static final String ISSUE_LINE = "line";
     /** issue.line attribute. */
-    protected static final String ISSUE_SEVERITY = "severity";
+    private static final String ISSUE_SEVERITY = "severity";
     /** issue.type attribute. */
-    protected static final String ISSUE_TYPE  = "type";
+    private static final String ISSUE_TYPE = "type";
 
     //Component attributes
     /** component.key attribute. */
-    protected static final String COMPONENT_KEY = "key";
+    private static final String COMPONENT_KEY = "key";
     /** component.path attribute. */
-    protected static final String COMPONENT_PATH = "path";
+    private static final String COMPONENT_PATH = "path";
 
     // Severity values
-    /** severity value: BLOCKER */
-    protected static final String SEVERITY_BLOCKER = "BLOCKER";
-    /** severity value: CRITICAL */
-    protected static final String SEVERITY_CRITICAL = "CRITICAL";
+    /** severity value: BLOCKER. */
+    private static final String SEVERITY_BLOCKER = "BLOCKER";
+    /** severity value: CRITICAL. */
+    private static final String SEVERITY_CRITICAL = "CRITICAL";
     // Severity MAJOR is omitted as it corresponds with default Priority: NORMAL
-    /** severity value: MINOR */
-    protected static final String SEVERITY_MINOR = "MINOR";
-    /** severity value: INFO */
-    protected static final String SEVERITY_INFO = "INFO";
-    /** Fixed category: SonarQube */
-    protected static final String CATEGORY_SONARQUBE = "SonarQube";
+    /** severity value: MINOR. */
+    private static final String SEVERITY_MINOR = "MINOR";
+    /** severity value: INFO. */
+    private static final String SEVERITY_INFO = "INFO";
+    /** Fixed category: SonarQube. */
+    private static final String CATEGORY_SONAR_QUBE = "SonarQube";
 
-    /** The issues array. */
-    protected JSONArray issues;
     /** The components array. */
-    protected JSONArray components;
+    private JSONArray components;
 
     @Override
-    public Report parse(Reader reader, Function<String, String> preProcessor)
-    		throws ParsingCanceledException, ParsingException {
-    	Report warnings = new Report();
+    public Report parse(final Reader reader, final Function<String, String> preProcessor)
+            throws ParsingCanceledException, ParsingException {
+        Report report = new Report();
 
-        JSONObject jsonReport = (JSONObject)new JSONTokener(reader).nextValue();
+        JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
-        //Get the components part to get the file paths on each issue (the component objects contain the most concise path)
-        components = new JSONArray();
-        if (jsonReport.has(COMPONENTS)) {
-            components = jsonReport.optJSONArray(COMPONENTS);
-        }
+        extractComponents(jsonReport);
 
-        issues = new JSONArray();
         if (jsonReport.has(ISSUES)) {
-            issues = jsonReport.optJSONArray(ISSUES);
-        }
-
-        //Iterate the issues
-        for (Object issue : issues) {
-            if (issue instanceof JSONObject) {
-                //Filter the issues
-                if (issueFilter((JSONObject)issue)) {
-                    //Parse each issue
-                    warnings.add(parseIssue((JSONObject)issue));
+            for (Object object : jsonReport.optJSONArray(ISSUES)) {
+                if (object instanceof JSONObject) {
+                    JSONObject issue = (JSONObject) object;
+                    if (filterIssue(issue)) {
+                        report.add(createIssueFormJsonObject(issue));
+                    }
                 }
             }
         }
-
-        return warnings;
+        return report;
     }
 
+    /**
+     * Get the components part to get the file paths on each issue (the component objects contain the most concise
+     * path).
+     *
+     * @param jsonReport
+     *         the report to get the components from
+     */
+    private void extractComponents(final JSONObject jsonReport) {
+        if (jsonReport.has(COMPONENTS)) {
+            components = jsonReport.optJSONArray(COMPONENTS);
+        }
+        else {
+            components = new JSONArray();
+        }
+    }
 
     /**
      * Decides whether or not to parse and add an issue.
-     * @param issue the issue to filter.
-     * @return true if the issue is to be parsed and added, otherwise false.
+     *
+     * @param issue
+     *         the issue to filter.
+     *
+     * @return {@code true} if the issue is to be parsed and added, otherwise {@code false}
      */
-    public boolean issueFilter(final JSONObject issue) {
-        return true;//Parse all issues by default
+    public boolean filterIssue(final JSONObject issue) {
+        return true; // Parse all issues by default
     }
 
-    /**
-     * The core of the parsing; this can be further overridden to determine how each issue is parsed and shown.
-     * @param issue the issue to parse.
-     * @return a FileAnnotation with the data of the issue to show.
-     */
-    public Issue parseIssue(final JSONObject issue) {
-    	
-    	IssueBuilder issueBuilder = new IssueBuilder();
-    	
-        //file
-        String filename = parseFilename(issue);
-
-        //line
-        int start = parseStart(issue);
-
-        //type
-        String type = parseType(issue);
-
-        //category
-        String category = parseCategory(issue);
-
-        //message
-        String message = parseMessage(issue);
-
-        //priority
-        Priority priority = parsePriority(issue);
-
+    private Issue createIssueFormJsonObject(final JSONObject issue) {
         return new IssueBuilder()
-        			.setFileName(filename) 
-        			.setLineStart(start)
-        			.setType(type)
-        			.setCategory(category)
-        			.setMessage(message)
-        			.setPriority(priority)
-        			.build();
+                .setFileName(parseFilename(issue))
+                .setLineStart(parseStart(issue))
+                .setType(parseType(issue))
+                .setCategory(parseCategory(issue))
+                .setMessage(parseMessage(issue))
+                .setPriority(parsePriority(issue))
+                .build();
     }
 
     /**
      * Parse function for filename.
-     * @param issue the object to parse.
+     *
+     * @param issue
+     *         the object to parse.
+     *
      * @return the filename.
      */
-    public String parseFilename(final JSONObject issue) {
-        String componentKey = issue.optString(ISSUE_COMPONENT);
-        return componentKey.substring(componentKey.lastIndexOf(':'));
+    private String parseFilename(final JSONObject issue) {
+        // Get component
+        String componentKey = issue.optString(ISSUE_COMPONENT, null);
+        JSONObject component = findComponentByKey(componentKey);
+
+        if (component == null) {
+            String issueComponentKey = issue.optString(ISSUE_COMPONENT);
+            return issueComponentKey.substring(issueComponentKey.lastIndexOf(':'));
+        }
+        else {
+            // Get file path inside module
+            String filePath = component.optString(COMPONENT_PATH);
+
+            // Get module file path
+            String modulePath = getModulePath(component, issue);
+            return modulePath + filePath;
+        }
     }
 
     /**
-     * Default parse for start. Override to change the default parsing.
-     * @param issue the object to parse.
+     * Extracts the module path from the specified JSON objects.
+     *
+     * @param component
+     *         the component
+     * @param issue
+     *         the issue
+     *
+     * @return the module path
+     */
+    protected abstract String getModulePath(JSONObject component, JSONObject issue);
+
+    /**
+     * Default parse for start.
+     *
+     * @param issue
+     *         the object to parse.
+     *
      * @return the start.
      */
-    public int parseStart(final JSONObject issue) {
+    private int parseStart(final JSONObject issue) {
         return issue.optInt(ISSUE_LINE, -1);
     }
 
     /**
-     * Default parse for type. Override to change the default parsing.
-     * @param issue the object to parse.
+     * Default parse for type.
+     *
+     * @param issue
+     *         the object to parse.
+     *
      * @return the type.
      */
-    public String parseType(final JSONObject issue) {
+    private String parseType(final JSONObject issue) {
         return issue.optString(ISSUE_TYPE, "");
     }
 
     /**
-     * Default parse for category. Override to change the default parsing.
-     * @param issue the object to parse.
+     * Default parse for category.
+     *
+     * @param issue
+     *         the object to parse.
+     *
      * @return the filename.
      */
-    public String parseCategory(final JSONObject issue) {
-        return CATEGORY_SONARQUBE;
+    private String parseCategory(final JSONObject issue) {
+        return CATEGORY_SONAR_QUBE;
     }
 
     /**
-     * Default parse for message. Override to change the default parsing.
-     * @param issue the object to parse.
+     * Default parse for message.
+     *
+     * @param issue
+     *         the object to parse.
+     *
      * @return the message.
      */
-    public String parseMessage(final JSONObject issue) {
+    private String parseMessage(final JSONObject issue) {
         return issue.optString(ISSUE_MESSAGE, "No message.");
     }
 
     /**
-     * Default parse for priority. Override to change the default parsing.
-     * @param issue the object to parse.
+     * Default parse for priority.
+     *
+     * @param issue
+     *         the object to parse.
+     *
      * @return the priority.
      */
-    public Priority parsePriority(final JSONObject issue) {
+    private Priority parsePriority(final JSONObject issue) {
         String severity = issue.optString(ISSUE_SEVERITY, null);
         return severityToPriority(severity);
     }
 
     //UTILITIES
+
     /**
      * Find the module path inside the corresponding component.
-     * @param moduleKeyObject the object which contains the component key.
-     * @param componentKey the component key.
+     *
+     * @param moduleKeyObject
+     *         the object which contains the component key.
+     * @param componentKey
+     *         the component key.
+     *
      * @return the module path.
      */
     protected String parseModulePath(final JSONObject moduleKeyObject, final String componentKey) {
@@ -225,16 +250,19 @@ public abstract class SonarQubeParser extends AbstractParser {
 
     /**
      * Find the component in the components array which contains this key.
-     * @param key the key of the desired component.
+     *
+     * @param key
+     *         the key of the desired component.
+     *
      * @return the desired JSONObject component, or null if it hasn't been found.
      */
-    protected JSONObject findComponentByKey (final String key) {
+    private JSONObject findComponentByKey(final String key) {
         if (components != null && key != null) {
             for (Object component : components) {
                 if (component instanceof JSONObject) {
-                    JSONObject jsonComponent = (JSONObject)component;
+                    JSONObject jsonComponent = (JSONObject) component;
                     if (key.equals(jsonComponent.optString(COMPONENT_KEY))) {
-                        return (JSONObject)component;
+                        return (JSONObject) component;
                     }
                 }
             }
@@ -243,23 +271,29 @@ public abstract class SonarQubeParser extends AbstractParser {
         return null;
     }
 
-
     /**
-     * Maps issue severity to warning priority:<br>
-     * <strong>HIGH:</strong> BLOCKER, CRITICAL<br>
-     * <strong>NORMAL:</strong> MAJOR<br>
+     * Maps issue severity to warning priority.
+     * 
+     * <br>
+     * <strong>HIGH:</strong> BLOCKER, CRITICAL
+     * <br>
+     * <strong>NORMAL:</strong> MAJOR
+     * <br>
      * <strong>LOW:</strong> MINOR, INFO
      *
-     * @param severity a String containing the SonarQube issue severity.
+     * @param severity
+     *         a String containing the SonarQube issue severity
+     *
      * @return a priority object corresponding to the passed severity.
      */
-    protected Priority severityToPriority (final String severity) {
+    private Priority severityToPriority(final String severity) {
         Priority priority = Priority.NORMAL;
         // Severity MAJOR is omitted as it corresponds with default Priority: NORMAL
         if (severity != null) {
             if (SEVERITY_BLOCKER.equals(severity) || SEVERITY_CRITICAL.equals(severity)) {
                 priority = Priority.HIGH;
-            } else if (SEVERITY_MINOR.equals(severity) || SEVERITY_INFO.equals(severity)) {
+            }
+            else if (SEVERITY_MINOR.equals(severity) || SEVERITY_INFO.equals(severity)) {
                 priority = Priority.LOW;
             }
         }

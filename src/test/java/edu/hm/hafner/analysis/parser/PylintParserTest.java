@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -13,18 +13,14 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * Tests the class {@link PyLintParser}.
  */
 class PylintParserTest extends AbstractIssueParserTest {
-
-
     private static final String ISSUES_FILE = "pyLint.txt";
 
     /**
      * Creates a new instance of {@link PylintParserTest}.
-     *
      */
     PylintParserTest() {
         super(ISSUES_FILE);
     }
-
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {

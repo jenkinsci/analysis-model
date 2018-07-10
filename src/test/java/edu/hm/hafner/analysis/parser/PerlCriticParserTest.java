@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -18,7 +18,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Mihail Menev, menev@hm.edu
  */
 class PerlCriticParserTest extends AbstractIssueParserTest {
-
     PerlCriticParserTest() {
         super("perlcritic.txt");
     }
