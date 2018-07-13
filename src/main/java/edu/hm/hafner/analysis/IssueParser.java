@@ -23,6 +23,20 @@ public abstract class IssueParser implements Serializable {
     public static final String SELF = "<SELF>";
 
     /**
+     * Returns whether this issue has an affected file that is the file that has been parsed.
+     *
+     * @param issue
+     *         the issue to check the affected file
+     *
+     * @return {@code true} if this issue has an affected file that is the file that has been parsed, {@code false}
+     *         otherwise
+     * @see #SELF
+     */
+    public static boolean isSelfReference(final Issue issue) {
+        return SELF.equals(issue.getFileName());
+    }
+
+    /**
      * Parses the specified file for issues.
      *
      * @param file
