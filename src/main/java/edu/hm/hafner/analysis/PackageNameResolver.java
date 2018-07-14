@@ -54,7 +54,7 @@ public class PackageNameResolver {
                 issue.setPackageName(packagesOfFiles.get(issue.getFileName()));
             }
         });
-        report.logInfo("Resolved package names of %d affected files", filesWithoutPackageName.size());
+        report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());
     }
 
     private Function<String, String> findPackage(final Charset charset) {
