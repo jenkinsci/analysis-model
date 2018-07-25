@@ -29,7 +29,7 @@ class PackageNameResolverTest {
         Report report = createIssues();
 
         PackageNameResolver resolver = new PackageNameResolver();
-        resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(0);
         assertThat(report).hasId(ID);
@@ -41,7 +41,7 @@ class PackageNameResolverTest {
         report.add(ISSUE_WITH_PACKAGE);
 
         PackageNameResolver resolver = new PackageNameResolver();
-        resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(1);
         assertThat(report).hasId(ID);
@@ -55,7 +55,7 @@ class PackageNameResolverTest {
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
 
-        resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(1);
         assertThat(report).hasId(ID);
@@ -70,7 +70,7 @@ class PackageNameResolverTest {
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
 
-        resolver.run(report, new IssueBuilder(), StandardCharsets.UTF_8);
+        resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(2);
         assertThat(report).hasId(ID);

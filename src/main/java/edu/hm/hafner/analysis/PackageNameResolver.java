@@ -35,17 +35,21 @@ public class PackageNameResolver {
      *
      * @param report
      *         the issues to analyze
-     * @param builder
-     *         the issue builder to create the new issues with
      * @param charset
      *         the character set to use when reading the source files
      */
-    public void run(final Report report,
-            final IssueBuilder builder, final Charset charset) {
+    public void run(final Report report, final Charset charset) {
         Set<String> filesWithoutPackageName = report.stream()
                 .filter(issue -> !issue.hasPackageName())
                 .map(Issue::getFileName)
                 .collect(Collectors.toSet());
+        
+        if (filesWithoutPackageName.isEmpty()) {
+            report.logInfo("-> all affected files already have a valid package name");
+        
+            return;
+        }
+        
         Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
                 .collect(Collectors.toMap(identity(), findPackage(charset)));
 

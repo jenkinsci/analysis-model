@@ -92,7 +92,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     }
 
     @ParameterizedTest(name = "[{index}] Illegal filename")
-    @ValueSource(strings = {"/does/not/exist", "!<>$$&%/&(", "\0 Null-Byte"})
+    @ValueSource(strings = {"/does/not/exist", "!<>$&/&(", "\0 Null-Byte"})
     void shouldUseFallbackFingerprintOnError(final String fileName) {
         Report report = new Report();
         report.add(new IssueBuilder().setFileName(fileName).build());
