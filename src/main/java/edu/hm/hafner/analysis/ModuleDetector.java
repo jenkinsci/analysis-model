@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 /**
  * Detects module names by parsing the name of a source file, the Maven pom.xml file or the ANT build.xml file.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  * @author Christoph Laeubrich (support for OSGi-Bundles)
  */
 public class ModuleDetector {

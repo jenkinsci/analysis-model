@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.dry.simian;
 /**
  * Java Bean class for a duplicated block of a Simian duplication warning.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class Block {
     private String sourceFile;

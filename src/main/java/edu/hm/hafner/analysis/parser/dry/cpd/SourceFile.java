@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.dry.cpd;
 /**
  * Java Bean class for a file of the PMD CPD format.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class SourceFile {
     /** Starting line number in file. */

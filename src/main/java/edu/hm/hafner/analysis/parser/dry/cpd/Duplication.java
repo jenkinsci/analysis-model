@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Java Bean class for a CPD duplication.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class Duplication {
     /** Number of duplicate lines. */

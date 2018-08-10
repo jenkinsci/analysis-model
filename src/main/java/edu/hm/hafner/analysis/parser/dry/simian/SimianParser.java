@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
 /**
  * A parser for Simian XML files.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class SimianParser extends AbstractDryParser<Set> {
     /** Unique ID of this class. */

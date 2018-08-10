@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
 /**
  * A parser for PMD's CPD XML files.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class CpdParser extends AbstractDryParser<Duplication> {
     /** Unique ID of this class. */

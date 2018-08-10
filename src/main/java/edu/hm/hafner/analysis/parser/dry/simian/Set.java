@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Java Bean class for a Simian duplication set.
  *
- * @author Ulli Hafner
+ * @author Ullrich Hafner
  */
 public class Set {
     private int lineCount;
