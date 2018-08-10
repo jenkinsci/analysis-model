@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry.cpd;
 
 import java.io.Serializable;
-import java.util.function.Function;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
@@ -117,7 +117,7 @@ class CpdParserTest extends AbstractParserTest {
 
     private Report parse(final int highThreshold, final int normalThreshold) {
         return new CpdParser(highThreshold, normalThreshold)
-                .parse(openFile("issue12516.xml"), Function.identity());
+                .parse(getResourceAsFile("issue12516.xml"), StandardCharsets.UTF_8);
     }
 
     /**

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
      * Checks that paths of the type "/c/anything" are changed to "c:/anything" on windows but no other OS.
      */
     private void checkOsSpecificPath(final String os, final String rootDir) {
-        Report warnings = new GnuMakeGccParser(os).parse(openFile());
+        Report warnings = new GnuMakeGccParser(os).parse(getDefaultFile(), StandardCharsets.UTF_8);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(14))

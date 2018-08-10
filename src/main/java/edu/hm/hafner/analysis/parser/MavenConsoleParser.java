@@ -68,7 +68,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
             priority = Priority.NORMAL;
             category = "Warning";
         }
-        return builder.setFileName(SELF).setLineStart(getCurrentLine()).setCategory(category)
+        return builder.setFileName(getFileName()).setLineStart(getCurrentLine()).setCategory(category)
                 .setMessage(errorOrWarningMessage).setPriority(priority).build();
     }
 

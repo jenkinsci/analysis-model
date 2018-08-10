@@ -14,8 +14,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.input.BOMInputStream;
+
 import com.google.errorprone.annotations.MustBeClosed;
 
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -206,5 +209,23 @@ public abstract class ResourceTest {
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
     protected Stream<String> getTextLinesAsStream(final String text) {
         return new BufferedReader(new StringReader(text)).lines();
+    }
+
+    /**
+     * Returns the {@link File} of the specified resource. The file name  must be relative to the test class.
+     *
+     * @param fileName
+     *         the file to read (relative this {@link AbstractParserTest} class
+     *
+     * @return an {@link BOMInputStream input stream} using character set UTF-8
+     * @see #getTestResourceClass() 
+     */
+    protected File getResourceAsFile(final String fileName) {
+        try {
+            return Paths.get(getTestResourceClass().getResource(fileName).toURI()).toFile();
+        }
+        catch (URISyntaxException e) {
+            throw new AssertionError("Can't open file " + fileName, e);
+        }
     }
 }

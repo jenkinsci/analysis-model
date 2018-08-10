@@ -40,29 +40,34 @@ public abstract class AbstractParser extends IssueParser {
     public static final String DEPRECATION = "Deprecation";
     /** Category for warnings due to the usage of proprietary API. */
     public static final String PROPRIETARY_API = "Proprietary API";
+    
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
 
     @Override
     public Report parse(final File file, final Charset charset, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
-        String absolutePath = file.getAbsolutePath();
+        fileName = file.getAbsolutePath();
         try (InputStream inputStream = new FileInputStream(file)) {
-            return parse(inputStream, charset, preProcessor, absolutePath);
+            return parse(inputStream, charset, preProcessor);
         }
         catch (FileNotFoundException exception) {
-            throw new ParsingException(exception, "Can't find file: " + absolutePath);
+            throw new ParsingException(exception, "Can't find file: " + fileName);
         }
         catch (IOException exception) {
-            throw new ParsingException(exception, "Can't scan file for issues: " + absolutePath);
+            throw new ParsingException(exception, "Can't scan file for issues: " + fileName);
         }
     }
 
-    private Report parse(final InputStream inputStream, final Charset charset,
-            final Function<String, String> preProcessor, final String absolutePath) {
+    private Report parse(final InputStream inputStream, final Charset charset, final Function<String, String> preProcessor) {
         try (Reader input = createReader(inputStream, charset)) {
             return parse(input, preProcessor);
         }
         catch (IOException exception) {
-            throw new ParsingException(exception, "Can't scan file for issues: " + absolutePath);
+            throw new ParsingException(exception, "Can't scan file for issues: " + fileName);
         }
     }
 
