@@ -73,6 +73,7 @@
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
     <maven-buildhelper-plugin.version>3.0.0</maven-buildhelper-plugin.version>
     <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
@@ -246,6 +247,28 @@
         </dependencies>
       </plugin>
       <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>deploy</phase>
+            <goals><goal>jar-no-fork</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- explicitly define maven-deploy-plugin after other to force exec order -->
+        <artifactId>maven-deploy-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>deploy</id>
+            <phase>deploy</phase>
+            <goals><goal>deploy</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
         <configuration>
@@ -258,6 +281,11 @@
             </goals>
             <!-- As soon as possible but after required generate-sources phase -->
             <phase>process-sources</phase>
+          </execution>
+          <execution>
+            <id>attach-javadocs</id>
+            <phase>deploy</phase>
+            <goals><goal>jar</goal></goals>
           </execution>
         </executions>
       </plugin>
