@@ -33,7 +33,7 @@ public abstract class RegexpLineParser extends RegexpParser {
             throws ParsingCanceledException, ParsingException {
         Report report = new Report();
         try (LineIterator iterator = IOUtils.lineIterator(reader)) {
-            currentLine = 0;
+            currentLine = 1;
             while (iterator.hasNext()) {
                 String line = preProcessor.apply(iterator.nextLine());
                 findIssues(line, report);

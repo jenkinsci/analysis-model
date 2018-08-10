@@ -94,9 +94,7 @@ public abstract class ResourceTest {
     @SuppressFBWarnings("UI_INHERITANCE_UNSAFE_GETRESOURCE")
     private Path getPath(final String name) throws URISyntaxException {
         URL resource = getTestResourceClass().getResource(name);
-        if (resource == null) {
-            throw new AssertionError("Can't find resource " + name);
-        }
+        ensureThatResourceExists(resource, name);
         return Paths.get(resource.toURI());
     }
 
@@ -154,11 +152,15 @@ public abstract class ResourceTest {
     protected InputStream asInputStream(final String fileName) {
         InputStream stream = getTestResourceClass().getResourceAsStream(fileName);
 
-        if (stream == null) {
-            throw new AssertionError("Can't find resource " + fileName);
-        }
+        ensureThatResourceExists(stream, fileName);
 
         return stream;
+    }
+
+    private void ensureThatResourceExists(final Object resource, final String fileName) {
+        if (resource == null) {
+            throw new AssertionError("Can't find resource " + fileName);
+        }
     }
 
     /**
@@ -222,7 +224,11 @@ public abstract class ResourceTest {
      */
     protected File getResourceAsFile(final String fileName) {
         try {
-            return Paths.get(getTestResourceClass().getResource(fileName).toURI()).toFile();
+            URL resource = getTestResourceClass().getResource(fileName);
+            
+            ensureThatResourceExists(resource, fileName);
+            
+            return Paths.get(resource.toURI()).toFile();
         }
         catch (URISyntaxException e) {
             throw new AssertionError("Can't open file " + fileName, e);

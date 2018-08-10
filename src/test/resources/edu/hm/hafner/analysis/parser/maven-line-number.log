@@ -1,0 +1,45 @@
+Started by user unknown or anonymous
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] node
+Running on node1 in /tmp/node1/workspace/Full Analysis - Model
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+Cloning the remote Git repository
+Cloning repository file:///Users/hafner/Development/git/white-montains/analysis-model
+ > git init /tmp/node1/workspace/Full Analysis - Model # timeout=10
+Fetching upstream changes from file:///Users/hafner/Development/git/white-montains/analysis-model
+ > git --version # timeout=10
+ > git fetch --tags --progress file:///Users/hafner/Development/git/white-montains/analysis-model +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url file:///Users/hafner/Development/git/white-montains/analysis-model # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url file:///Users/hafner/Development/git/white-montains/analysis-model # timeout=10
+Fetching upstream changes from file:///Users/hafner/Development/git/white-montains/analysis-model
+ > git fetch --tags --progress file:///Users/hafner/Development/git/white-montains/analysis-model +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 922b103fc3e8d531500e31c0ab0b5cbbdab9bc58 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 922b103fc3e8d531500e31c0ab0b5cbbdab9bc58
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master 922b103fc3e8d531500e31c0ab0b5cbbdab9bc58
+Commit message: "Improved logging of individual parts of scanner and publisher."
+ > git rev-list --no-walk 922b103fc3e8d531500e31c0ab0b5cbbdab9bc58 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] tool
+Unpacking https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.5.4/apache-maven-3.5.4-bin.zip to /tmp/node1/tools/hudson.tasks.Maven_MavenInstallation/mvn-default on node1
+[Pipeline] sh
+[Full Analysis - Model] Running shell script
++ /tmp/node1/tools/hudson.tasks.Maven_MavenInstallation/mvn-default/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore
+Apache Maven 3.5.4 (1edded0938998edf8bf061f1ceb3cfdeccf443fe; 2018-06-17T20:33:14+02:00)
+Maven home: /tmp/node1/tools/hudson.tasks.Maven_MavenInstallation/mvn-default
+Java version: 1.8.0_181, vendor: Oracle Corporation, runtime: /Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/jre
+Default locale: de_DE, platform encoding: UTF-8
+OS name: "mac os x", version: "10.13.6", arch: "x86_64", family: "mac"
+[INFO] Error stacktraces are turned on.
+[INFO] Scanning for projects...
+[WARNING] The project edu.hm.hafner:analysis-model:jar:1.0.0-SNAPSHOT uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html

@@ -60,6 +60,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
         String errorOrWarningGroup = matcher.group(2);
         String errorOrWarningMessage = matcher.group(3);
 
+        // FIXME: replace with error and warning
         if (ERROR.equals(errorOrWarningGroup)) {
             priority = Priority.HIGH;
             category = "Error";

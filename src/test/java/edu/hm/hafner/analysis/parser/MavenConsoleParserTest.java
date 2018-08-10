@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -21,8 +22,21 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
         super("maven-console.txt");
     }
 
+    @Test
+    void shouldLocateCorrectLineNumber() {
+        Report warnings = parse("maven-line-number.log");
+
+        assertThat(warnings).hasSize(1);
+        assertThat(warnings.get(0)).hasPriority(Priority.NORMAL)
+                .hasLineStart(45)
+                .hasMessage("The project edu.hm.hafner:analysis-model:jar:1.0.0-SNAPSHOT uses prerequisites which is " 
+                        + "only intended for maven-plugin projects but not for non maven-plugin projects. " 
+                        + "For such purposes you should use the maven-enforcer-plugin. " 
+                        + "See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html");
+    }
+
     /**
-     * Parses a file with three warnings, two of them will be ignored beacuse they are blank.
+     * Parses a file with three warnings, two of them will be ignored because they are blank.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-16826">Issue 16826</a>
      */
