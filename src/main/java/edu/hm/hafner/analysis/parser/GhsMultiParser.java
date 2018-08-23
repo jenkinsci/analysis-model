@@ -17,8 +17,8 @@ import edu.hm.hafner.analysis.RegexpDocumentParser;
 public class GhsMultiParser extends RegexpDocumentParser {
     private static final long serialVersionUID = 8149238560432255036L;
 
-    private static final String GHS_MULTI_WARNING_PATTERN = "\\.(.*)\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*"
-            + "([^:]+):\\s*(?m)([^\\^]*)\\s*\\^";
+    private static final String GHS_MULTI_WARNING_PATTERN =
+            "(?:\\.|[A-Z]:)(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)\\s*\\^";
 
     /**
      * Creates a new instance of {@link GhsMultiParser}.
