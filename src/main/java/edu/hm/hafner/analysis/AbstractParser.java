@@ -41,8 +41,13 @@ public abstract class AbstractParser extends IssueParser {
     /** Category for warnings due to the usage of proprietary API. */
     public static final String PROPRIETARY_API = "Proprietary API";
     
-    private String fileName;
+    private String fileName = "-";
 
+    /**
+     * Returns the absolute path of the file that is parsed. 
+     * 
+     * @return the file name
+     */
     public String getFileName() {
         return fileName;
     }
