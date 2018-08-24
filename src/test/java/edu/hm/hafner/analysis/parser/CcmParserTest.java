@@ -4,6 +4,7 @@ import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.ccm.CcmParser;
 
@@ -24,27 +25,23 @@ class CcmParserTest extends AbstractIssueParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        int expectedNumberOfLowPriority = 1;
-        int expectedNumberOfNormalPriority = 1;
-        int expectedNumberOfHighPriority = 4;
         int numberOfLowPriorityFound = 0;
         int numberOfNormalPriorityFound = 0;
         int numberOfHighPriorityFound = 0;
         for (Issue issue : report) {
-            String priority = issue.getSeverity().toString().toLowerCase();
-            if ("low".equals(priority)) {
+            if (issue.getSeverity().equals(Severity.WARNING_LOW)) {
                 numberOfLowPriorityFound++;
             }
-            else if ("normal".equals(priority)) {
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
                 numberOfNormalPriorityFound++;
             }
-            else if ("high".equals(priority)) {
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
                 numberOfHighPriorityFound++;
             }
         }
 
-        softly.assertThat(numberOfLowPriorityFound).isEqualTo(expectedNumberOfLowPriority);
-        softly.assertThat(numberOfNormalPriorityFound).isEqualTo(expectedNumberOfNormalPriority);
-        softly.assertThat(numberOfHighPriorityFound).isEqualTo(expectedNumberOfHighPriority);
+        softly.assertThat(numberOfLowPriorityFound).isEqualTo(1);
+        softly.assertThat(numberOfNormalPriorityFound).isEqualTo(1);
+        softly.assertThat(numberOfHighPriorityFound).isEqualTo(4);
     }
 }

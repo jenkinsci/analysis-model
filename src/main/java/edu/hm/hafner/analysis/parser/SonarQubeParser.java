@@ -68,23 +68,26 @@ public abstract class SonarQubeParser extends AbstractParser {
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
-        Report report = new Report();
-
         JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
         extractComponents(jsonReport);
 
         if (jsonReport.has(ISSUES)) {
-            for (Object object : jsonReport.optJSONArray(ISSUES)) {
-                if (object instanceof JSONObject) {
-                    JSONObject issue = (JSONObject) object;
-                    if (filterIssue(issue)) {
-                        report.add(createIssueFormJsonObject(issue));
-                    }
+            extractIssues(jsonReport.optJSONArray(ISSUES));
+        }
+        return new Report();
+    }
+
+    private void extractIssues(final JSONArray elements) {
+        Report report = new Report();
+        for (Object object : elements) {
+            if (object instanceof JSONObject) {
+                JSONObject issue = (JSONObject) object;
+                if (filterIssue(issue)) {
+                    report.add(createIssueFormJsonObject(issue));
                 }
             }
         }
-        return report;
     }
 
     /**
@@ -120,7 +123,7 @@ public abstract class SonarQubeParser extends AbstractParser {
                 .setFileName(parseFilename(issue))
                 .setLineStart(parseStart(issue))
                 .setType(parseType(issue))
-                .setCategory(parseCategory(issue))
+                .setCategory(CATEGORY_SONAR_QUBE)
                 .setMessage(parseMessage(issue))
                 .setPriority(parsePriority(issue))
                 .build();
@@ -187,18 +190,6 @@ public abstract class SonarQubeParser extends AbstractParser {
      */
     private String parseType(final JSONObject issue) {
         return issue.optString(ISSUE_TYPE, "");
-    }
-
-    /**
-     * Default parse for category.
-     *
-     * @param issue
-     *         the object to parse.
-     *
-     * @return the filename.
-     */
-    private String parseCategory(final JSONObject issue) {
-        return CATEGORY_SONAR_QUBE;
     }
 
     /**
