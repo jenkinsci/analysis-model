@@ -73,12 +73,12 @@ public abstract class SonarQubeParser extends AbstractParser {
         extractComponents(jsonReport);
 
         if (jsonReport.has(ISSUES)) {
-            extractIssues(jsonReport.optJSONArray(ISSUES));
+            return extractIssues(jsonReport.optJSONArray(ISSUES));
         }
         return new Report();
     }
 
-    private void extractIssues(final JSONArray elements) {
+    private Report extractIssues(final JSONArray elements) {
         Report report = new Report();
         for (Object object : elements) {
             if (object instanceof JSONObject) {
@@ -88,6 +88,7 @@ public abstract class SonarQubeParser extends AbstractParser {
                 }
             }
         }
+        return report;
     }
 
     /**
