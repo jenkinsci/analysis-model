@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Locale;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
@@ -14,17 +13,12 @@ import edu.hm.hafner.analysis.Priority;
  *
  * @author Claus Klein
  * @author Ullrich Hafner
- * @author Kay van der Zander
  */
 public class IarParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 7695540852439013425L;
 
-    private static final int GROUP_NUMBER = 5;
-
-    // search for: Fatal Error[Pe1696]: cannot open source file "c:\filename.c"
-    // search for: c:\filename.h(17) : Fatal Error[Pe1696]: cannot open source file "System/ProcDef_LPC17xx.h"
-    private static final String IAR_WARNING_PATTERN = "((\\[exec\\] )?(.*)\\((\\d+)\\)?.*)?" + "(Fatal "
-            + "[Ee]rror|Remark|Warning)\\[(\\w+)\\]: (.*(\\\".*(c|h)\\\")|.*)";
+    private static final String IAR_WARNING_PATTERN = ANT_TASK 
+            + "(?:(.*)\\((\\d+)\\) : )?(Error|Remark|Warning|Fatal [Ee]rror)\\[(\\w+)\\]: (.*)$";
 
     /**
      * Creates a new instance of {@link IarParser}.
@@ -35,36 +29,37 @@ public class IarParser extends FastRegexpLineParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("Warning") || line.contains("rror") || line.contains("Remark") || line.contains("[");
+        return line.contains("Warning") || line.contains("rror") || line.contains("Remark");
     }
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        builder.setPriority(determinePriority(matcher.group(GROUP_NUMBER)))
-                .setMessage(matcher.group(7));
-
-        if (matcher.group(3) == null) {
-            return builder.setFileName(matcher.group(8))
-                    .setLineStart(0)
-                    .setCategory(matcher.group(6))
-                    .build();
-        }
-        return builder.setFileName(matcher.group(3))
-                .setLineStart(parseInt(matcher.group(4)))
-                .setCategory(matcher.group(6))
+        return builder.setPriority(mapPriority(matcher))
+                .setMessage(normalizeWhitespaceInMessage(matcher.group(5)))
+                .setFileName(matcher.group(1))
+                .setLineStart(parseInt(matcher.group(2)))
+                .setCategory(matcher.group(4))
                 .build();
     }
 
-    private Priority determinePriority(final String message) {
-        String lowerCaseMessage = message.toLowerCase(Locale.ENGLISH);
-        if (lowerCaseMessage.contains("error")) {  // for "Fatal error", "Fatal Error", "Error" and "error" and "warning"
-            return Priority.HIGH;
+    private Priority mapPriority(final Matcher matcher) {
+        Priority priority;
+        if ("Remark".equalsIgnoreCase(matcher.group(3))) {
+            priority = Priority.LOW;
         }
-        else if (lowerCaseMessage.contains("warning")) {
-            return Priority.NORMAL;
+        else if ("Error".equalsIgnoreCase(matcher.group(3))) {
+            priority = Priority.HIGH;
+        }
+        else if ("Fatal error".equalsIgnoreCase(matcher.group(3))) {
+            priority = Priority.HIGH;
         }
         else {
-            return Priority.LOW;
+            priority = Priority.NORMAL;
         }
+        return priority;
+    }
+
+    private String normalizeWhitespaceInMessage(final String message) {
+        return message.replaceAll("\\s+", " ");
     }
 }

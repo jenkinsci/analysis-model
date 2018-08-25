@@ -59,6 +59,6 @@ class IarParserTest extends AbstractIssueParserTest {
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("cannot open source file \"c:\\JenkinsJobs\\900ZH\\Workspace\\Lib\\Drivers\\_Obsolete\\Uart\\UartInterface.c\"")
-                .hasFileName("\"c:/JenkinsJobs/900ZH/Workspace/Lib/Drivers/_Obsolete/Uart/UartInterface.c\"");
+                .hasFileName("-");
     }
 }
