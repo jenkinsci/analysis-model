@@ -4,20 +4,3 @@ install : true
 script : mvn clean verify jacoco:prepare-agent test jacoco:report -Dmaven.test.failure.ignore
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
-env:
-  global:
-    - secure: "BDdRduK0fs4lWlTTDWz5LwlTrEh/ShJtJJWreafmVHQ1y+Bcuv81Y2rJRj3g0G2oPA9q7lf564PwLDoPxq27UmYZ4afj+L9uTY/DqFxzXWf6A4L6ZVglOPVCoHCNlAgmjD71FX1+YWlIwXphVR+L5ZD44yuhV7xM4GkVQtWPR4BNo/ITLaPww268Ji9KBkiK+uzPAs7Yb4fuP/RTmgwFPP1pd4gLKbiIWVjL8NQJiXqvpVnhouYorOWwFMUKfpimytl5GLRr8AfJ+fvz6FpPxgotrb5+JNV8OYatiLNxWTpTHwPcGu7BWyM6lJgwwcVMaM5MSJ+hEf2WQZNcfAiOdNtNF77wNgVFD/vjKPPgGhTshZXn8EJP5//7WPbOTr4Fj7qWnk+0nTuxVTyBbLleP6VQXU6yP96eIkWXUQ99o7YAxTTYAEJB60NNpfuQUxz+XGu4ttwRcqjZ1J+ADEwZ9mvPalycAYnhLg1fJNfdWMZqPKv1oErVEL+XIjr6nnRS1Vot0ozWhKkIQIMjZ9XSXWYIVwIxEOPYIVloKO5m9MRHyauKLkIXapT743AeQprUkMMUf67lDhiIIB/tF5osnetsAZvJDTNy2Uwky9b/NwUfgInIlWLEerJyn89R49fBwyyzio5dbFBj/ecEqqq8R9Fxol8hlJtlXyB726cV4KM="
-
-before_install:
-  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-
-addons:
-  coverity_scan:
-    project:
-      name: "jenkinsci/analysis-model"
-      description: "Build submitted via Travis CI"
-    notification_email: ullrich.hafner@gmail.com
-    build_command_prepend: "mvn clean"
-    build_command: "mvn -DskipTests=true compile"
-    branch_pattern: master
