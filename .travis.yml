@@ -1,6 +1,7 @@
 language: java
 jdk: oraclejdk8
-install: mvn clean verify jacoco:prepare-agent test jacoco:report -Dmaven.test.failure.ignore
+install : true
+script : mvn clean verify jacoco:prepare-agent test jacoco:report -Dmaven.test.failure.ignore
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
