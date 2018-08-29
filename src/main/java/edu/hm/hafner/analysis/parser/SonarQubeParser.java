@@ -64,7 +64,7 @@ public abstract class SonarQubeParser extends AbstractParser {
     private static final String CATEGORY_SONAR_QUBE = "SonarQube";
 
     /** The components array. */
-    private JSONArray components = new JSONArray();
+    private transient JSONArray components = new JSONArray();
 
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
