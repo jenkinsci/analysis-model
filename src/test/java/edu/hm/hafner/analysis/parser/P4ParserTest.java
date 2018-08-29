@@ -17,7 +17,7 @@ class P4ParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
                 .hasSize(4)
-                .hasPriorities(0, 2, 2);
+                .hasSeverities(0, 0, 2, 2);
 
         softly.assertThat(report.get(0))
                 .hasFileName("//eng/Tools/Hudson/instances/PCFARM08/.owner")

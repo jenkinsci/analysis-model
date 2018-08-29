@@ -26,7 +26,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 0, 1);
+                .hasSeverities(0, 0, 0, 1);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("C:/file1.inc")
@@ -50,7 +50,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 1, 0);
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("C:/file2.f90")
@@ -74,7 +74,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 1, 0);
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("/file3.f90")
@@ -98,7 +98,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 1, 0);
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file4.f90")
@@ -122,7 +122,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 1, 0);
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file5.f")
@@ -146,7 +146,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 1, 0);
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file6.f90")
@@ -170,7 +170,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(1, 0, 0);
+                .hasSeverities(0, 1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file7.f90")
@@ -194,7 +194,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(1, 0, 0);
+                .hasSeverities(0, 1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file8.f90")
@@ -218,7 +218,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(1, 0, 0);
+                .hasSeverities(0, 1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file9.f90")
@@ -242,7 +242,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(1, 0, 0);
+                .hasSeverities(0, 1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("file10.f90")
@@ -261,7 +261,7 @@ class NagFortranParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
                 .hasSize(10)
-                .hasPriorities(4, 5, 1);
+                .hasSeverities(0, 4, 5, 1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("C:/file1.inc")

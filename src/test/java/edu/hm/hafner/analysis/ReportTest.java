@@ -402,7 +402,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.isNotEmpty()).isFalse();
         assertThat(report).hasSize(0);
         assertThat(report.size()).isEqualTo(0);
-        assertThat(report).hasPriorities(0, 0, 0);
+        assertThat(report).hasSeverities(0, 0, 0, 0);
     }
 
     @Test
@@ -456,7 +456,7 @@ class ReportTest extends SerializableTest<Report> {
         fromEmpty.addAll(report);
         assertThat(fromEmpty).hasSize(6)
                 .hasDuplicatesSize(6)
-                .hasPriorities(1, 2, 3);
+                .hasSeverities(0, 1, 2, 3);
 
         Report left = new Report().addAll(HIGH, NORMAL_1, NORMAL_2);
         Report right = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
@@ -482,7 +482,7 @@ class ReportTest extends SerializableTest<Report> {
             softly.assertThat(report)
                     .hasSize(6)
                     .hasDuplicatesSize(0)
-                    .hasPriorities(1, 2, 3);
+                    .hasSeverities(0, 1, 2, 3);
             softly.assertThat(report.getFiles())
                     .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat(report.getFiles())
@@ -511,7 +511,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report).hasSize(4).hasDuplicatesSize(2);
 
         assertThat(report.iterator()).containsExactly(HIGH, LOW_2_A, NORMAL_1, NORMAL_2);
-        assertThat(report).hasPriorities(1, 2, 1);
+        assertThat(report).hasSeverities(0, 1, 2, 1);
         assertThat(report.getFiles()).containsExactly("file-1", "file-2");
     }
 

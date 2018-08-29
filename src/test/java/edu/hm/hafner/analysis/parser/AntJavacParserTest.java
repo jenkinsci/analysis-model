@@ -121,7 +121,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
         assertThat(warnings)
                 .hasSize(18)
                 .hasDuplicatesSize(2)
-                .hasPriorities(0, 18, 0);
+                .hasSeverities(0, 0, 18, 0);
     }
 
     /**

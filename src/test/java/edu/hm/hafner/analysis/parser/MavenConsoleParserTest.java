@@ -64,7 +64,7 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
                 .hasSize(5)
-                .hasPriorities(2, 3, 0);
+                .hasSeverities(2, 0, 3, 0);
         report.stream().forEach(issue -> assertThat(issue.getFileName()).endsWith(getFileWithIssuesName()));
     }
 

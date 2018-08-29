@@ -22,7 +22,7 @@ class ScalacParserTest extends AbstractIssueParserTest {
         softly.assertThat(report).hasSize(3);
 
         softly.assertThat(report)
-                .hasSize(3).hasPriorities(1, 2, 0);
+                .hasSize(3).hasSeverities(0, 1, 2, 0);
         softly.assertThat(report.get(0))
                 .hasPriority(Priority.NORMAL)
                 .hasCategory(SCALAC_CATEGORY_WARNING)

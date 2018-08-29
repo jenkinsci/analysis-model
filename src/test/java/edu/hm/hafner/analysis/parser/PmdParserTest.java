@@ -34,7 +34,7 @@ class PmdParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
         softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
 
-        softly.assertThat(report).hasPriorities(1, 2, 1);
+        softly.assertThat(report).hasSeverities(0, 1, 2, 1);
 
         softly.assertThat(actionIssues.get(0))
                 .hasMessage("These nested if statements could be combined.")
@@ -118,7 +118,7 @@ class PmdParserTest extends AbstractIssueParserTest {
         int expectedSize = 4;
         assertThat(report).hasSize(expectedSize);
         assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.core.db.plsqlCompletion"))).hasSize(expectedSize);
-        assertThat(report).hasPriorities(0, 4, 0);
+        assertThat(report).hasSeverities(0, 0, 4, 0);
     }
 
     private Report parseInPmdFolder(final String fileName) {

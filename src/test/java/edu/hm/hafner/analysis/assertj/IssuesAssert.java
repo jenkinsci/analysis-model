@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
 
-import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
@@ -136,28 +135,35 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Report> {
     /**
      * Verifies that the actual size of the {@link Report} instance is equal to the given one.
      *
+     * @param expectedSizeError
+     *         the expected size of issues with {@link Severity#ERROR} to compare the actual {@link Report} size to.
      * @param expectedSizeHigh
-     *         the expected size of issues with {@link Priority#HIGH} to compare the actual {@link Report} size to.
+     *         the expected size of issues with {@link Severity#WARNING_HIGH} to compare the actual {@link Report} size to.
      * @param expectedSizeNormal
-     *         the expected size of issues with {@link Priority#NORMAL} to compare the actual {@link Report} size to.
+     *         the expected size of issues with {@link Severity#WARNING_NORMAL} to compare the actual {@link Report} size to.
      * @param expectedSizeLow
-     *         the expected size of issues with {@link Priority#LOW} to compare the actual {@link Report} size to.
+     *         the expected size of issues with {@link Severity#WARNING_LOW} to compare the actual {@link Report} size to.
      *
      * @return this assertion object.
      * @throws AssertionError
      *         if the actual {@link Report} size is not equal to the given one.
      */
-    public IssuesAssert hasPriorities(final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
+    public IssuesAssert hasSeverities(final int expectedSizeError, 
+            final int expectedSizeHigh, final int expectedSizeNormal,
+            final int expectedSizeLow) {
         isNotNull();
 
+        if (actual.getSizeOf(Severity.ERROR) != expectedSizeError) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeError", actual, expectedSizeError, actual.getSizeOf(Severity.ERROR));
+        }
         if (actual.getSizeOf(Severity.WARNING_HIGH) != expectedSizeHigh) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeHigh", actual, expectedSizeHigh, actual.size());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeHigh", actual, expectedSizeHigh, actual.getSizeOf(Severity.WARNING_HIGH));
         }
         if (actual.getSizeOf(Severity.WARNING_NORMAL) != expectedSizeNormal) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeNormal", actual, expectedSizeHigh, actual.size());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeNormal", actual, expectedSizeNormal, actual.getSizeOf(Severity.WARNING_NORMAL));
         }
         if (actual.getSizeOf(Severity.WARNING_LOW) != expectedSizeLow) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeLow", actual, expectedSizeHigh, actual.size());
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "expectedSizeLow", actual, expectedSizeLow, actual.getSizeOf(Severity.WARNING_LOW));
         }
         return this;
     }

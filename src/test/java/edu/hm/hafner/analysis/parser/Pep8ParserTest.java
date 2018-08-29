@@ -22,7 +22,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
-                .hasSize(8).hasPriorities(0, 6, 2);
+                .hasSize(8).hasSeverities(0, 0, 6, 2);
 
         softly.assertThat(report.get(0))
                 .hasFileName("optparse.py")

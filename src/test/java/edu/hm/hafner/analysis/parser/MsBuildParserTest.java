@@ -32,7 +32,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 1, 0);
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("C:/J/workspace/ci_windows/ws/build/rmw/test/test_error_handling.vcxproj")
@@ -58,7 +58,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(2)
-                .hasPriorities(0, 2, 0);
+                .hasSeverities(0, 0, 2, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -100,7 +100,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(2)
-                .hasPriorities(0, 2, 0);
+                .hasSeverities(0, 0, 2, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -130,7 +130,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(3)
-                .hasPriorities(0, 3, 0);
+                .hasSeverities(0, 0, 3, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -207,7 +207,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
         assertThat(warnings)
                 .hasSize(3)
                 .hasDuplicatesSize(5)
-                .hasPriorities(0, 3, 0);
+                .hasSeverities(0, 0, 3, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -264,7 +264,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(4)
-                .hasPriorities(4, 0, 0);
+                .hasSeverities(0, 4, 0, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -328,7 +328,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(1, 0, 0);
+                .hasSeverities(0, 1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("..//..//..//xx_Source//file.c")
@@ -354,7 +354,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(1, 0, 0);
+                .hasSeverities(0, 1, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("TestLib.lib")
@@ -380,7 +380,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(5)
-                .hasPriorities(0, 5, 0);
+                .hasSeverities(0, 0, 5, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -457,7 +457,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 1, 0);
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("Rules/TaskRules.cs")
@@ -483,7 +483,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasPriorities(0, 1, 0);
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName(
@@ -510,7 +510,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(2)
-                .hasPriorities(2, 0, 0);
+                .hasSeverities(0, 2, 0, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -551,7 +551,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
         assertThat(warnings)
                 .hasSize(11)
                 .hasDuplicatesSize(1)
-                .hasPriorities(0, 11, 0);
+                .hasSeverities(0, 0, 11, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -623,7 +623,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
 
         assertThat(warnings)
                 .hasSize(2)
-                .hasPriorities(1, 1, 0);
+                .hasSeverities(0, 1, 1, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -662,7 +662,7 @@ class MsBuildParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
                 .hasSize(6)
-                .hasPriorities(2, 3, 1);
+                .hasSeverities(0, 2, 3, 1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("Src/Parser/CSharp/cs.ATG")

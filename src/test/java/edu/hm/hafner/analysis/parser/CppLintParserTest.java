@@ -50,7 +50,7 @@ class CppLintParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
                 .hasSize(1031)
-                .hasPriorities(81, 201, 749);
+                .hasSeverities(0, 81, 201, 749);
         softly.assertThat(report.get(0))
                 .hasLineStart(824)
                 .hasLineEnd(824)

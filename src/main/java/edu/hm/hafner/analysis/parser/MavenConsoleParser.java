@@ -9,8 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for maven console warnings.
@@ -35,9 +35,9 @@ public class MavenConsoleParser extends FastRegexpLineParser {
      * (.*)                -> Capture group 3 matches zero or more characters except line breaks, represents the actual error message
      * </pre>
      * <p>
-     * Typical maven logs:
-     * 1) 22:07:27  [WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
-     * 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is missing
+     * Typical maven logs: 1) 22:07:27  [WARNING] For this reason, future Maven versions might no longer support
+     * building such malformed projects. 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is
+     * missing
      */
     private static final String PATTERN = "^(.*\\s\\s|)\\[(WARNING|ERROR)\\]\\s*(.*)$";
 
@@ -55,22 +55,21 @@ public class MavenConsoleParser extends FastRegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        Priority priority;
-        String category;
         String errorOrWarningGroup = matcher.group(2);
         String errorOrWarningMessage = matcher.group(3);
 
-        // FIXME: replace with error and warning
+        return builder.setFileName(getFileName())
+                .setLineStart(getCurrentLine())
+                .setMessage(errorOrWarningMessage)
+                .setSeverity(extractSeverity(errorOrWarningGroup))
+                .build();
+    }
+
+    private Severity extractSeverity(final String errorOrWarningGroup) {
         if (ERROR.equals(errorOrWarningGroup)) {
-            priority = Priority.HIGH;
-            category = "Error";
+            return Severity.ERROR;
         }
-        else {
-            priority = Priority.NORMAL;
-            category = "Warning";
-        }
-        return builder.setFileName(getFileName()).setLineStart(getCurrentLine()).setCategory(category)
-                .setMessage(errorOrWarningMessage).setPriority(priority).build();
+        return Severity.WARNING_NORMAL;
     }
 
     // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
