@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -28,7 +29,7 @@ public class RfLintParser extends RegexpLineParser {
 
     private static final String RFLINT_ERROR_PATTERN = "([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)";
     private static final String RFLINT_FILE_PATTERN = "\\+\\s(.*)";
-    private String fileName;
+    private String fileName = StringUtils.EMPTY;
 
     /**
      * Creates a new parser.

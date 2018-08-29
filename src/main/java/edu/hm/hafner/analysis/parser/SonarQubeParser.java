@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.Report;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Base class for SonarQube parsers.
@@ -63,7 +64,7 @@ public abstract class SonarQubeParser extends AbstractParser {
     private static final String CATEGORY_SONAR_QUBE = "SonarQube";
 
     /** The components array. */
-    private JSONArray components;
+    private JSONArray components = new JSONArray();
 
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
@@ -101,9 +102,6 @@ public abstract class SonarQubeParser extends AbstractParser {
     private void extractComponents(final JSONObject jsonReport) {
         if (jsonReport.has(COMPONENTS)) {
             components = jsonReport.optJSONArray(COMPONENTS);
-        }
-        else {
-            components = new JSONArray();
         }
     }
 
@@ -250,6 +248,7 @@ public abstract class SonarQubeParser extends AbstractParser {
      *
      * @return the desired JSONObject component, or null if it hasn't been found.
      */
+    @CheckForNull
     private JSONObject findComponentByKey(final String key) {
         if (components != null && key != null) {
             for (Object component : components) {

@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.Priority;
  */
 public class JSLintXmlSaxParser extends DefaultHandler {
     private final Report report;
-    private String fileName;
+    private String fileName = StringUtils.EMPTY;
 
     /** Categories. */
     static final String CATEGORY_PARSING = "Parsing";
