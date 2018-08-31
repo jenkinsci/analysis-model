@@ -834,7 +834,7 @@ public class Report implements Iterable<Issue>, Serializable {
          *
          * @return this.
          */
-        public IssueFilterBuilder setIncludeFilenameFilter(final Collection<String> pattern) {
+        public IssueFilterBuilder setIncludeFileNameFilter(final Collection<String> pattern) {
             addNewFilter(pattern, Issue::getFileName, FilterType.INCLUDE);
             return this;
         }
@@ -847,8 +847,8 @@ public class Report implements Iterable<Issue>, Serializable {
          *
          * @return this.
          */
-        public IssueFilterBuilder setIncludeFilenameFilter(final String... pattern) {
-            return setIncludeFilenameFilter(Arrays.asList(pattern));
+        public IssueFilterBuilder setIncludeFileNameFilter(final String... pattern) {
+            return setIncludeFileNameFilter(Arrays.asList(pattern));
         }
 
         /**
@@ -859,7 +859,7 @@ public class Report implements Iterable<Issue>, Serializable {
          *
          * @return this.
          */
-        public IssueFilterBuilder setExcludeFilenameFilter(final Collection<String> pattern) {
+        public IssueFilterBuilder setExcludeFileNameFilter(final Collection<String> pattern) {
             addNewFilter(pattern, Issue::getFileName, FilterType.EXCLUDE);
             return this;
         }
@@ -872,8 +872,8 @@ public class Report implements Iterable<Issue>, Serializable {
          *
          * @return this.
          */
-        public IssueFilterBuilder setExcludeFilenameFilter(final String... pattern) {
-            return setExcludeFilenameFilter(Arrays.asList(pattern));
+        public IssueFilterBuilder setExcludeFileNameFilter(final String... pattern) {
+            return setExcludeFileNameFilter(Arrays.asList(pattern));
         }
         //</editor-fold>
 

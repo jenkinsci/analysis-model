@@ -46,9 +46,9 @@ class IssueFilterTest {
     @Test
     void shouldPassAllWhenUselessFilterIsAdded() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeFilenameFilter("[a-zA-Z1]*")
-                .setIncludeFilenameFilter("[a-zA-Z2]*")
-                .setIncludeFilenameFilter("[a-zA-Z3]*")
+                .setIncludeFileNameFilter("[a-zA-Z1]*")
+                .setIncludeFileNameFilter("[a-zA-Z2]*")
+                .setIncludeFileNameFilter("[a-zA-Z3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
     }
@@ -56,7 +56,7 @@ class IssueFilterTest {
     @Test
     void shouldPassAllWhenUselessFilterIsAddedAsList() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeFilenameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*")
+                .setIncludeFileNameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
     }
@@ -64,7 +64,7 @@ class IssueFilterTest {
     @Test
     void shouldPassNoWhenMasterFilterIsAdded() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setExcludeFilenameFilter("[a-zA-Z_1-3]*")
+                .setExcludeFileNameFilter("[a-zA-Z_1-3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
     }
@@ -72,7 +72,7 @@ class IssueFilterTest {
     @Test
     void shouldPassNoWhenMasterFilterIsAddedAsList() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setExcludeFilenameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*")
+                .setExcludeFileNameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
     }
@@ -80,7 +80,7 @@ class IssueFilterTest {
     @Test
     void shouldFindIssue1ByAFileNameIncludeMatch() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeFilenameFilter("FileName1")
+                .setIncludeFileNameFilter("FileName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
     }
@@ -88,7 +88,7 @@ class IssueFilterTest {
     @Test
     void shouldFindIssue1ByAFileNameExcludeMatch() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setExcludeFilenameFilter("FileName1")
+                .setExcludeFileNameFilter("FileName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2, ISSUE3);
     }
@@ -162,9 +162,9 @@ class IssueFilterTest {
     @Test
     void shouldFindIntersectionFromIncludeAndExcludeBySameProperty() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeFilenameFilter("FileName1")
-                .setIncludeFilenameFilter("FileName2")
-                .setExcludeFilenameFilter("FileName2")
+                .setIncludeFileNameFilter("FileName1")
+                .setIncludeFileNameFilter("FileName2")
+                .setExcludeFileNameFilter("FileName2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
     }
@@ -172,8 +172,8 @@ class IssueFilterTest {
     @Test
     void shouldFindIntersectionFromIncludeAndExcludeByOtherProperty() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeFilenameFilter("FileName1")
-                .setIncludeFilenameFilter("FileName2")
+                .setIncludeFileNameFilter("FileName1")
+                .setIncludeFileNameFilter("FileName2")
                 .setExcludeTypeFilter("Type2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
@@ -182,7 +182,7 @@ class IssueFilterTest {
     @Test
     void shouldFindNoIntersectionFromEmptyIncludeAndExclude() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeFilenameFilter("FileNameNotExisting")
+                .setIncludeFileNameFilter("FileNameNotExisting")
                 .setExcludeTypeFilter("Type2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
