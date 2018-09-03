@@ -1,10 +1,9 @@
-# Contributing to the Static Analysis Suite
+# Contributing to the Static Analysis Model and Parsers Library
 
-This page provides information about contributing code to Jenkins' Static Analysis Suite
+This page provides information about contributing code to the Static Analysis Model and Parsers Library. This
+library is part of the Static Analysis Suite in Jenkins. Since it has no dependencies to Jenkins it might
+be used for other projects as well. 
 
-:exclamation: There's a lot more to the Jenkins project than just code. For information on contributing to the Jenkins'
-project overall, check out [Jenkins' contributing landing page](https://jenkins.io/participate/).
- 
 ## Getting started
 
 1. Fork the repository on GitHub.
@@ -39,8 +38,8 @@ the inspection rules will be automatically picked up bey IntelliJ.
 
 ## Proposing Changes
 
-The Jenkins project source code repositories are hosted on GitHub. All proposed changes are submitted and code reviewed 
-using the [GitHub Pull Request](https://help.github.com/articles/about-pull-requests/) process.
+All proposed changes are submitted and code reviewed using the 
+[GitHub Pull Request](https://help.github.com/articles/about-pull-requests/) process.
 
 To submit a pull request:
 
@@ -60,8 +59,9 @@ There is no additional action required from pull request authors at this point.
 
 ## Copyright
 
-Static Analysis Suite  is licensed under [MIT license](./LICENSE). We consider all contributions as MIT unless it's 
-explicitly stated otherwise. MIT-incompatible code contributions will be rejected.
+The Static Analysis Model and Parsers Library  is licensed under [MIT license](./LICENSE). 
+We consider all contributions as MIT unless it's explicitly stated otherwise. 
+MIT-incompatible code contributions will be rejected.
 Contributions under MIT-compatible licenses may be also rejected if they are not ultimately necessary.
 
 We **Do NOT** require pull request submitters to sign the 
@@ -78,5 +78,4 @@ The CI job for this project is located at [ci.jenkins.io](https://ci.jenkins.io/
 * [Jenkins Contribution Landing Page](https://jenkins.io/paricipate/)
 * [Jenkins IRC Channel](https://jenkins.io/chat/)
 * [Beginners Guide To Contributing](https://wiki.jenkins.io/display/JENKINS/Beginners+Guide+to+Contributing)
-* [List of newbie-friendly issues in the core](https://issues.jenkins-ci.org/issues/?jql=project%20%3D%20JENKINS%20AND%20status%20in%20(Open%2C%20%22In%20Progress%22%2C%20Reopened)%20AND%20component%20%3D%20core%20AND%20labels%20in%20(newbie-friendly))
 
