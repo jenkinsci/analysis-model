@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -60,11 +60,11 @@ class DupFinderParserTest extends AbstractParserTest {
         assertThat(publisher)
                 .hasLineStart(PUBLISHER_LINE).hasLineEnd(PUBLISHER_LINE + 11)
                 .hasFileName(PUBLISHER)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
         assertThat(reporter)
                 .hasLineStart(REPORTER_LINE).hasLineEnd(REPORTER_LINE + 11)
                 .hasFileName(REPORTER)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         assertThat(publisher.getAdditionalProperties()).isEqualTo(reporter.getAdditionalProperties());
     }
@@ -101,19 +101,19 @@ class DupFinderParserTest extends AbstractParserTest {
 
         report = parse(12, 5);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.HIGH);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_HIGH);
 
         report = parse(13, 5);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_NORMAL);
 
         report = parse(100, 12);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_NORMAL);
 
         report = parse(100, 13);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.LOW);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_LOW);
     }
 
     private Report parse(final int highThreshold, final int normalThreshold) {

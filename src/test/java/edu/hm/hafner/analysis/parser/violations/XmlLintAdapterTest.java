@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -24,7 +24,7 @@ class XmlLintAdapterTest extends AbstractParserTest {
                 .hasFileName("xml/other.xml")
                 .hasLineStart(5)
                 .hasType("parser error")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
     }
 
     @Override

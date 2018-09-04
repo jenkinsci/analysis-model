@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -33,16 +33,16 @@ public class SphinxBuildParser extends RegexpLineParser {
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(category)
                 .setMessage(message)
-                .setPriority(mapPriority(category))
+                .setSeverity(mapPriority(category))
                 .build();
     }
 
-    private Priority mapPriority(final String priority) {
+    private Severity mapPriority(final String priority) {
         if ("error".equalsIgnoreCase(priority)) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         else {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
     }
 }

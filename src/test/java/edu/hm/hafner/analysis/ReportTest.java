@@ -31,27 +31,27 @@ class ReportTest extends SerializableTest<Report> {
 
     private static final Issue HIGH = new IssueBuilder().setMessage("issue-1")
             .setFileName("file-1")
-            .setPriority(Priority.HIGH)
+            .setSeverity(Severity.WARNING_HIGH)
             .build();
     private static final Issue NORMAL_1 = new IssueBuilder().setMessage("issue-2")
             .setFileName("file-1")
-            .setPriority(Priority.NORMAL)
+            .setSeverity(Severity.WARNING_NORMAL)
             .build();
     private static final Issue NORMAL_2 = new IssueBuilder().setMessage("issue-3")
             .setFileName("file-1")
-            .setPriority(Priority.NORMAL)
+            .setSeverity(Severity.WARNING_NORMAL)
             .build();
     private static final Issue LOW_2_A = new IssueBuilder().setMessage("issue-4")
             .setFileName("file-2")
-            .setPriority(Priority.LOW)
+            .setSeverity(Severity.WARNING_LOW)
             .build();
     private static final Issue LOW_2_B = new IssueBuilder().setMessage("issue-5")
             .setFileName("file-2")
-            .setPriority(Priority.LOW)
+            .setSeverity(Severity.WARNING_LOW)
             .build();
     private static final Issue LOW_FILE_3 = new IssueBuilder().setMessage("issue-6")
             .setFileName("file-3")
-            .setPriority(Priority.LOW)
+            .setSeverity(Severity.WARNING_LOW)
             .build();
     private static final String ID = "id";
     private static final String CHECKSTYLE = "checkstyle";
@@ -241,9 +241,9 @@ class ReportTest extends SerializableTest<Report> {
 
         Map<String, Report> byPriority = report.groupByProperty("severity");
         assertThat(byPriority).hasSize(3);
-        assertThat(byPriority.get(Priority.HIGH.toString())).hasSize(1);
-        assertThat(byPriority.get(Priority.NORMAL.toString())).hasSize(2);
-        assertThat(byPriority.get(Priority.LOW.toString())).hasSize(3);
+        assertThat(byPriority.get(Severity.WARNING_HIGH.toString())).hasSize(1);
+        assertThat(byPriority.get(Severity.WARNING_NORMAL.toString())).hasSize(2);
+        assertThat(byPriority.get(Severity.WARNING_LOW.toString())).hasSize(3);
 
         Map<String, Report> byFile = report.groupByProperty("fileName");
         assertThat(byFile).hasSize(3);

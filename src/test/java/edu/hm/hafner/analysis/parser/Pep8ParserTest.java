@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -27,7 +27,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(0))
                 .hasFileName("optparse.py")
                 .hasCategory("E401")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("multiple imports on one line")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -39,7 +39,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(1))
                 .hasFileName("optparse.py")
                 .hasCategory("E302")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("expected 2 blank lines, found 1")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -51,7 +51,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(2))
                 .hasFileName("optparse.py")
                 .hasCategory("E301")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("expected 1 blank line, found 0")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -63,7 +63,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(3))
                 .hasFileName("optparse.py")
                 .hasCategory("W602")
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasMessage("deprecated form of raising exception")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -75,7 +75,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(4))
                 .hasFileName("optparse.py")
                 .hasCategory("E211")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("whitespace before '('")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -87,7 +87,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(5))
                 .hasFileName("optparse.py")
                 .hasCategory("E201")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("whitespace after '{'")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -99,7 +99,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(6))
                 .hasFileName("optparse.py")
                 .hasCategory("E221")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("multiple spaces before operator")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -111,7 +111,7 @@ public class Pep8ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(7))
                 .hasFileName("optparse.py")
                 .hasCategory("W601")
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasMessage(".has_key() is deprecated, use 'in'")
                 .hasDescription("")
                 .hasPackageName("-")

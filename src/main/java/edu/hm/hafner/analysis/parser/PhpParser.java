@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for PHP runtime errors and warnings.
@@ -33,7 +33,7 @@ public class PhpParser extends FastRegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(1);
-        builder.setCategory(category).setPriority(mapPriority(category));
+        builder.setCategory(category).setSeverity(mapPriority(category));
 
         if (matcher.group(5) == null) {
             return builder.setFileName(matcher.group(3))
@@ -49,10 +49,10 @@ public class PhpParser extends FastRegexpLineParser {
         }
     }
 
-    private Priority mapPriority(final String category) {
+    private Severity mapPriority(final String category) {
         if (category.contains("Fatal") || category.contains("Parse")) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
-        return Priority.NORMAL;
+        return Severity.WARNING_NORMAL;
     }
 }

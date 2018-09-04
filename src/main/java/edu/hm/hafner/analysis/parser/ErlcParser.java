@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -27,23 +27,23 @@ public class ErlcParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        Priority priority;
+        Severity priority;
         String category;
         String categoryMatch = matcher.group(3);
 
         if ("warning: ".equalsIgnoreCase(categoryMatch)) {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
             category = categoryMatch.substring(0, categoryMatch.length() - 2);
         }
         else {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             category = "Error";
         }
         return builder.setFileName(matcher.group(1))
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(category)
                 .setMessage(matcher.group(4))
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 }

@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
@@ -36,21 +36,21 @@ public class NagFortranParser extends RegexpDocumentParser {
                 .setLineStart(getLineNumber(matcher))
                 .setCategory(category)
                 .setMessage(matcher.group(5))
-                .setPriority(mapPriority(category))
+                .setSeverity(mapPriority(category))
                 .build();
     }
 
-    private Priority mapPriority(final String category) {
+    private Severity mapPriority(final String category) {
         switch (category) {
             case "Error":
             case "Runtime Error":
             case "Fatal Error":
             case "Panic":
-                return Priority.HIGH;
+                return Severity.WARNING_HIGH;
             case "Info":
-                return Priority.LOW;
+                return Severity.WARNING_LOW;
             default:
-                return Priority.NORMAL;
+                return Severity.WARNING_NORMAL;
         }
     }
 

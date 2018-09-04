@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -26,21 +26,21 @@ public class CppLintParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        Priority priority = mapPriority(matcher.group(5));
+        Severity priority = mapPriority(matcher.group(5));
 
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setCategory(matcher.group(4)).setMessage(matcher.group(3)).setPriority(priority).build();
+                      .setCategory(matcher.group(4)).setMessage(matcher.group(3)).setSeverity(priority).build();
     }
 
-    private Priority mapPriority(final String priority) {
+    private Severity mapPriority(final String priority) {
         int value = parseInt(priority);
         if (value >= 5) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         if (value >= 3) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
-        return Priority.LOW;
+        return Severity.WARNING_LOW;
     }
 }
 

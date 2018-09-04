@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -32,7 +32,7 @@ class ErrorProneAdapterTest extends AbstractParserTest {
                 .hasFileName("/home/bjerre/workspace/git-changelog/git-changelog-lib/src/main/java/se/bjurr/gitchangelog/internal/integrations/github/GitHubHelper.java")
                 .hasType("StringSplitter")
                 .hasLineStart(51)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override

@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -24,7 +24,7 @@ class CodeNarcAdapterTest extends AbstractParserTest  {
                 .hasFileName("foo/bar/Test.groovy")
                 .hasType("EmptyCatchBlock")
                 .hasLineStart(192)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override

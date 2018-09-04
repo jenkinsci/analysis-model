@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -35,7 +35,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
 
         Issue annotation = report.get(0);
         softly.assertThat(annotation)
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(3)
                 .hasLineEnd(3)
                 .hasMessage("The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
@@ -55,7 +55,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(13)
                     .hasLineEnd(13)
                     .hasColumnStart(15)
@@ -79,19 +79,19 @@ public class EclipseParserTest extends AbstractIssueParserTest {
         assertSoftly(softly -> {
             Iterator<? extends Issue> iterator = warnings.iterator();
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(369)
                     .hasLineEnd(369)
                     .hasMessage("The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally")
                     .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java");
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(391)
                     .hasLineEnd(391)
                     .hasMessage("The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally")
                     .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java");
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(56)
                     .hasLineEnd(56)
                     .hasMessage("The value of the field PropertyImporterTest.ERROR_RESPONSE is not used")
@@ -123,7 +123,7 @@ public class EclipseParserTest extends AbstractIssueParserTest {
         assertThat(warnings).hasSize(18);
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(10)
                     .hasLineEnd(10)
                     .hasMessage("The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
@@ -143,12 +143,12 @@ public class EclipseParserTest extends AbstractIssueParserTest {
         assertThat(warnings).hasSize(2);
 
         assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0)).hasPriority(Priority.NORMAL)
+            softly.assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage("Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized")
                     .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java");
-            softly.assertThat(warnings.get(1)).hasPriority(Priority.NORMAL)
+            softly.assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage("Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>")

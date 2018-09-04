@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -25,7 +25,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
         assertThat(report).hasSize(26);
 
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -33,7 +33,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(1))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -41,7 +41,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(2))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -49,7 +49,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(3))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -57,7 +57,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(4))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -65,7 +65,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(5))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -73,7 +73,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(6))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -81,7 +81,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(7))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -89,7 +89,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(8))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -97,7 +97,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(9))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -105,7 +105,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(10))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -113,7 +113,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(11))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -121,7 +121,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(12))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -129,7 +129,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(13))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -137,7 +137,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(14))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -145,7 +145,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(15))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("WARNING")
                 .hasLineStart(26)
                 .hasLineEnd(26)
@@ -153,7 +153,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bene/work/rtl/test-description/tmp/linux-stable-rt/drivers/misc/kaboom.c");
 
         softly.assertThat(report.get(16))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -161,7 +161,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(17))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -169,7 +169,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(18))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -177,7 +177,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(19))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -185,7 +185,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(20))
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("BUG")
                 .hasLineStart(39)
                 .hasLineEnd(39)
@@ -193,7 +193,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bene/work/rtl/test-description/tmp/linux-stable-rt/drivers/misc/kaboom.c");
 
         softly.assertThat(report.get(21))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -201,7 +201,7 @@ class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
                 .hasFileName("Nil");
 
         softly.assertThat(report.get(22))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Kernel Output")
                 .hasLineStart(0)
                 .hasLineEnd(0)

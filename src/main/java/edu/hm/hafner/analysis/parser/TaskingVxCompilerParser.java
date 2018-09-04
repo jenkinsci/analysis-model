@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -29,24 +29,24 @@ public class TaskingVxCompilerParser extends RegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(1);
-        Priority priority;
+        Severity priority;
         String category;
 
         switch (type) {
             case "E":
-                priority = Priority.HIGH;
+                priority = Severity.WARNING_HIGH;
                 category = "ERROR";
                 break;
             case "F":
-                priority = Priority.HIGH;
+                priority = Severity.WARNING_HIGH;
                 category = "License issue";
                 break;
             case "I":
-                priority = Priority.LOW;
+                priority = Severity.WARNING_LOW;
                 category = "Info";
                 break;
             default:
-                priority = Priority.NORMAL;
+                priority = Severity.WARNING_NORMAL;
                 category = "Warning";
                 break;
         }
@@ -55,7 +55,7 @@ public class TaskingVxCompilerParser extends RegexpLineParser {
                 .setLineStart(parseInt(matcher.group(4)))
                 .setCategory(category)
                 .setMessage(matcher.group(6))
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 }

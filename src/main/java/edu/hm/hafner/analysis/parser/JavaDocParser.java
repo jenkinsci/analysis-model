@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the ant JavaDoc compiler warnings.
@@ -53,17 +53,17 @@ public class JavaDocParser extends FastRegexpLineParser {
         return builder.setFileName(StringUtils.defaultIfEmpty(matcher.group(1), " - "))
                 .setLineStart(parseInt(matcher.group(2)))
                 .setMessage(message)
-                .setPriority(mapPriority(type))
+                .setSeverity(mapPriority(type))
                 .build();
     }
 
-    private Priority mapPriority(final String type) {
-        Priority priority;
+    private Severity mapPriority(final String type) {
+        Severity priority;
         if ("warning".equals(type)) {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
         else {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         return priority;
     }

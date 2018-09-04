@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -30,16 +30,16 @@ public class RuboCopParser extends RegexpLineParser {
         String category = guessCategoryIfEmpty(matcher.group(5), message);
 
         String severity = matcher.group(4);
-        Priority priority = Priority.NORMAL;
+        Severity priority = Severity.WARNING_NORMAL;
         if ("E".equals(severity) || "F".equals(severity)) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
 
         return builder.setFileName(matcher.group(1))
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(category)
                 .setMessage(message)
-                .setPriority(priority)
+                .setSeverity(priority)
                 .setColumnStart(parseInt(matcher.group(3)))
                 .build();
     }

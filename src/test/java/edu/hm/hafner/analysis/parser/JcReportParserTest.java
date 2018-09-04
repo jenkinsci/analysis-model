@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -90,7 +90,7 @@ class JcReportParserTest extends AbstractIssueParserTest {
 
         softly.assertThat(report.get(0))
                 .hasFileName("SomeDirectory/SomeClass.java")
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("SomeMessage")
                 .hasPackageName("SomePackage")
                 .hasLineStart(50);

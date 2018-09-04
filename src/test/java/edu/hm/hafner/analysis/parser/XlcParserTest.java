@@ -5,7 +5,7 @@ import java.io.StringReader;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
@@ -24,7 +24,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1506-098")
                     .hasLineStart(9)
                     .hasLineEnd(9)
@@ -42,7 +42,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1506-189")
                     .hasLineStart(11)
                     .hasLineEnd(11)
@@ -60,7 +60,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("CCN5217")
                     .hasLineStart(4000)
                     .hasLineEnd(4000)
@@ -78,7 +78,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings2.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1506-001")
                     .hasLineStart(5)
                     .hasLineEnd(5)
@@ -90,7 +90,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1586-346")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -102,7 +102,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1500-004")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -120,7 +120,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("1506-304")
                     .hasLineStart(5)
                     .hasLineEnd(5)
@@ -138,7 +138,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("CCN5053")
                     .hasLineStart(130)
                     .hasLineEnd(130)
@@ -150,7 +150,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("CCN7504")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -168,7 +168,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings2.get(0))
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("1506-478")
                     .hasLineStart(12)
                     .hasLineEnd(12)
@@ -180,7 +180,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("1500-030")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -193,7 +193,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("1540-5336")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -212,7 +212,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("CCN6283")
                     .hasLineStart(372)
                     .hasLineEnd(372)
@@ -224,7 +224,7 @@ class XlcParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("CCN8151")
                     .hasLineStart(0)
                     .hasLineEnd(0)

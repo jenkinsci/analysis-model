@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the IAR C/C++ compiler warnings. Note, that since release 4.1 this parser requires that IAR compilers
@@ -34,7 +34,7 @@ public class IarParser extends FastRegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        return builder.setPriority(mapPriority(matcher))
+        return builder.setSeverity(mapPriority(matcher))
                 .setMessage(normalizeWhitespaceInMessage(matcher.group(5)))
                 .setFileName(matcher.group(1))
                 .setLineStart(parseInt(matcher.group(2)))
@@ -42,19 +42,19 @@ public class IarParser extends FastRegexpLineParser {
                 .build();
     }
 
-    private Priority mapPriority(final Matcher matcher) {
-        Priority priority;
+    private Severity mapPriority(final Matcher matcher) {
+        Severity priority;
         if ("Remark".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.LOW;
+            priority = Severity.WARNING_LOW;
         }
         else if ("Error".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         else if ("Fatal error".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         else {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
         return priority;
     }

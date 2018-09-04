@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -38,14 +38,14 @@ public class PuppetLintParser extends RegexpLineParser {
                 .setCategory(matcher.group(3))
                 .setPackageName(detectModuleName(matcher.group(1)))
                 .setMessage(matcher.group(5))
-                .setPriority(mapPriority(matcher.group(4)))
+                .setSeverity(mapPriority(matcher.group(4)))
                 .build();
     }
 
-    private Priority mapPriority(final String level) {
-        Priority priority = Priority.NORMAL;
+    private Severity mapPriority(final String level) {
+        Severity priority = Severity.WARNING_NORMAL;
         if (level.contains("error") || level.contains("ERROR")) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         return priority;
     }

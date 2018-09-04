@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -27,22 +27,22 @@ public class GnatParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        Priority priority;
+        Severity priority;
         String category;
 
         if ("warning:".equalsIgnoreCase(matcher.group(4))) {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
             category = "GNAT warning";
         }
         else if ("(style)".equalsIgnoreCase(matcher.group(4))) {
-            priority = Priority.LOW;
+            priority = Severity.WARNING_LOW;
             category = "GNAT style";
         }
         else {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             category = "GNAT error";
         }
         return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setCategory(category).setMessage(matcher.group(5)).setPriority(priority).build();
+                      .setCategory(category).setMessage(matcher.group(5)).setSeverity(priority).build();
     }
 }

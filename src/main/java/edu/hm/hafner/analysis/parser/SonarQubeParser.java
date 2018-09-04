@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -55,7 +55,7 @@ public abstract class SonarQubeParser extends AbstractParser {
     private static final String SEVERITY_BLOCKER = "BLOCKER";
     /** severity value: CRITICAL. */
     private static final String SEVERITY_CRITICAL = "CRITICAL";
-    // Severity MAJOR is omitted as it corresponds with default Priority: NORMAL
+    // Severity MAJOR is omitted as it corresponds with default Severity: NORMAL
     /** severity value: MINOR. */
     private static final String SEVERITY_MINOR = "MINOR";
     /** severity value: INFO. */
@@ -125,7 +125,7 @@ public abstract class SonarQubeParser extends AbstractParser {
                 .setType(parseType(issue))
                 .setCategory(CATEGORY_SONAR_QUBE)
                 .setMessage(parseMessage(issue))
-                .setPriority(parsePriority(issue))
+                .setSeverity(parsePriority(issue))
                 .build();
     }
 
@@ -212,7 +212,7 @@ public abstract class SonarQubeParser extends AbstractParser {
      *
      * @return the priority.
      */
-    private Priority parsePriority(final JSONObject issue) {
+    private Severity parsePriority(final JSONObject issue) {
         String severity = issue.optString(ISSUE_SEVERITY, null);
         return severityToPriority(severity);
     }
@@ -280,15 +280,15 @@ public abstract class SonarQubeParser extends AbstractParser {
      *
      * @return a priority object corresponding to the passed severity.
      */
-    private Priority severityToPriority(final String severity) {
-        Priority priority = Priority.NORMAL;
-        // Severity MAJOR is omitted as it corresponds with default Priority: NORMAL
+    private Severity severityToPriority(final String severity) {
+        Severity priority = Severity.WARNING_NORMAL;
+        // Severity MAJOR is omitted as it corresponds with default Severity: NORMAL
         if (severity != null) {
             if (SEVERITY_BLOCKER.equals(severity) || SEVERITY_CRITICAL.equals(severity)) {
-                priority = Priority.HIGH;
+                priority = Severity.WARNING_HIGH;
             }
             else if (SEVERITY_MINOR.equals(severity) || SEVERITY_INFO.equals(severity)) {
-                priority = Priority.LOW;
+                priority = Severity.WARNING_LOW;
             }
         }
         return priority;

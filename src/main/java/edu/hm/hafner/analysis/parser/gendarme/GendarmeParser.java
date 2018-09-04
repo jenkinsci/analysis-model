@@ -27,7 +27,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
 
@@ -76,28 +76,28 @@ public class GendarmeParser extends AbstractParser {
                 String source = defectElement.getAttribute("Source");
 
                 String fileName = extractFileNameMatch(rule, source, 1);
-                Priority priority = extractPriority(defectElement);
+                Severity priority = extractPriority(defectElement);
                 int line = parseInt(extractFileNameMatch(rule, source, 2));
 
                 IssueBuilder builder = new IssueBuilder().setFileName(fileName)
                         .setLineStart(line)
                         .setCategory(rule.getName())
                         .setMessage(problem)
-                        .setPriority(priority);
+                        .setSeverity(priority);
                 warnings.add(builder.build());
             }
         }
         return warnings;
     }
 
-    private Priority extractPriority(final Element defectElement) {
+    private Severity extractPriority(final Element defectElement) {
         switch (defectElement.getAttribute("Severity")) {
             case "Low":
-                return Priority.LOW;
+                return Severity.WARNING_LOW;
             case "High":
-                return Priority.HIGH;
+                return Severity.WARNING_HIGH;
             default:
-                return Priority.NORMAL;
+                return Severity.WARNING_NORMAL;
         }
     }
 

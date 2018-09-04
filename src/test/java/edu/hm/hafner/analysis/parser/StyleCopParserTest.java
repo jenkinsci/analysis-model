@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -32,7 +32,7 @@ class StyleCopParserTest extends AbstractIssueParserTest {
 
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("ReadabilityRules")
                 .hasLineStart(18)
                 .hasLineEnd(18)
@@ -40,7 +40,7 @@ class StyleCopParserTest extends AbstractIssueParserTest {
                         "The call to components must begin with the 'this.' prefix to indicate that the item is a member of the class.")
                 .hasFileName("Form1.Designer.cs");
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("ReadabilityRules")
                 .hasLineStart(16)
                 .hasLineEnd(16)
@@ -48,21 +48,21 @@ class StyleCopParserTest extends AbstractIssueParserTest {
                         "The call to components must begin with the 'this.' prefix to indicate that the item is a member of the class.")
                 .hasFileName("Form1.Designer.cs");
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("DocumentationRules")
                 .hasLineStart(7)
                 .hasLineEnd(7)
                 .hasMessage("The class must have a documentation header.")
                 .hasFileName("MainClass.cs");
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("DocumentationRules")
                 .hasLineStart(9)
                 .hasLineEnd(9)
                 .hasMessage("The field must have a documentation header.")
                 .hasFileName("MainClass.cs");
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("DocumentationRules")
                 .hasLineStart(10)
                 .hasLineEnd(10)

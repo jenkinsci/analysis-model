@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -33,7 +33,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(annotation.get(1))
                 .hasLineStart(10)
@@ -42,7 +42,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(annotation.get(2))
                 .hasLineStart(83)
@@ -51,7 +51,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(annotation.get(3))
                 .hasLineStart(25)
@@ -60,7 +60,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
                 .hasMessage("suggest braces around initialization of subobject")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-missing-braces")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(annotation.get(4))
                 .hasLineStart(29)
@@ -69,7 +69,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
                 .hasMessage("suggest braces around initialization of subobject")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-missing-braces")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(annotation.get(5))
                 .hasColumnStart(10)
@@ -77,7 +77,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
                 .hasMessage("'dbus/dbus.h' file not found")
                 .hasType("Error")
                 .hasCategory("clang-diagnostic-error")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(annotation.get(6))
                 .hasLineStart(50)
@@ -86,7 +86,7 @@ class ClangTidyParserTest extends AbstractIssueParserTest {
                 .hasMessage("implicit conversion turns string literal into bool: 'const char [28]' to 'bool'")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-string-conversion")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
 }

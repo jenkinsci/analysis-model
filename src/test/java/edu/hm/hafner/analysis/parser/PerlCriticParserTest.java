@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -40,7 +40,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("33 of PBP")
                     .hasLineStart(1)
                     .hasLineEnd(1)
@@ -49,7 +49,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
                     .hasColumnStart(1);
 
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("431 of PBP")
                     .hasLineStart(10)
                     .hasLineEnd(10)
@@ -58,7 +58,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
                     .hasColumnStart(1);
 
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Use IPC::Open3 instead")
                     .hasLineStart(7)
                     .hasLineEnd(7)
@@ -80,7 +80,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("Don't use whitespace at the end of lines")
                     .hasLineStart(18)
                     .hasLineEnd(18)
@@ -89,7 +89,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
                     .hasColumnStart(77);
 
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("240,241 of PBP")
                     .hasLineStart(16)
                     .hasLineEnd(16)
@@ -98,7 +98,7 @@ class PerlCriticParserTest extends AbstractIssueParserTest {
                     .hasColumnStart(28);
 
             softly.assertThat(iterator.next())
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("202,204 of PBP")
                     .hasLineStart(15)
                     .hasLineEnd(15)

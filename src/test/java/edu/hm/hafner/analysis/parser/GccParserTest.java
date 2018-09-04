@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -56,7 +56,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("dereferencing pointer &apos;&lt;anonymous&gt;&apos; does break strict-aliasing rules")
                     .hasFileName("foo.cc")
                     .hasCategory(GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
+                    .hasSeverity(Severity.WARNING_HIGH);
         });
     }
 
@@ -79,7 +79,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasFileName("src/test_simple_sgs_message.cxx")
 
                     .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
 
@@ -100,7 +100,7 @@ class GccParserTest extends AbstractIssueParserTest {
                 .hasMessage("`void yyunput(int, char*)&apos; defined but not used")
                 .hasFileName("testhist.l")
                 .hasCategory(GCC_WARNING)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(73)
@@ -108,7 +108,7 @@ class GccParserTest extends AbstractIssueParserTest {
                 .hasMessage("implicit typename is deprecated, please see the documentation for details")
                 .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
                 .hasCategory(GCC_ERROR)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(4)
@@ -116,7 +116,7 @@ class GccParserTest extends AbstractIssueParserTest {
                 .hasMessage("foo.h: No such file or directory")
                 .hasFileName("foo.cc")
                 .hasCategory(GCC_ERROR)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(0)
@@ -124,7 +124,7 @@ class GccParserTest extends AbstractIssueParserTest {
                 .hasMessage("undefined reference to &apos;missing_symbol&apos;")
                 .hasFileName("foo.so")
                 .hasCategory(GCC_ERROR)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(678)
@@ -132,7 +132,7 @@ class GccParserTest extends AbstractIssueParserTest {
                 .hasMessage("missing initializer for member sigaltstack::ss_sp")
                 .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
                 .hasCategory(GCC_WARNING)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(678)
@@ -140,7 +140,7 @@ class GccParserTest extends AbstractIssueParserTest {
                 .hasMessage("missing initializer for member sigaltstack::ss_flags")
                 .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
                 .hasCategory(GCC_WARNING)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(678)
@@ -148,7 +148,7 @@ class GccParserTest extends AbstractIssueParserTest {
                 .hasMessage("missing initializer for member sigaltstack::ss_size")
                 .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
                 .hasCategory(GCC_WARNING)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(52)
@@ -156,7 +156,7 @@ class GccParserTest extends AbstractIssueParserTest {
                 .hasMessage("large integer implicitly truncated to unsigned type")
                 .hasFileName("src/test_simple_sgs_message.cxx")
                 .hasCategory(GCC_WARNING)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
 
@@ -180,7 +180,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("file.h: No such file or directory")
                     .hasFileName("/dir1/dir2/file.c")
                     .hasCategory(GccParser.GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
+                    .hasSeverity(Severity.WARNING_HIGH);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(233)
@@ -188,7 +188,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("undefined reference to `MyInterface::getValue() const&apos;")
                     .hasFileName("/dir1/dir3/file.cpp")
                     .hasCategory(GccParser.GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
+                    .hasSeverity(Severity.WARNING_HIGH);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(20)
@@ -196,7 +196,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("invalid preprocessing directive #incldue")
                     .hasFileName("/dir1/dir2/file.cpp")
                     .hasCategory(GccParser.GCC_ERROR)
-                    .hasPriority(Priority.HIGH);
+                    .hasSeverity(Severity.WARNING_HIGH);
         });
     }
 
@@ -220,7 +220,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("&apos;s2.mepSector2::lubrications&apos; may be used")
                     .hasFileName("main/mep.cpp")
                     .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(1477)
@@ -228,7 +228,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("&apos;s2.mepSector2::lubrications&apos; was declared here")
                     .hasFileName("main/mep.cpp")
                     .hasCategory("GCC note")
-                    .hasPriority(Priority.LOW);
+                    .hasSeverity(Severity.WARNING_LOW);
         });
     }
 
@@ -263,7 +263,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasFileName(
                             "/Users/rthomson/hudson/jobs/Bryce7-MacWarnings/workspace/bryce7/src/Bryce/Plugins/3DSExport/3DSExport.cpp")
                     .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
 
@@ -285,7 +285,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("cannot find -lMyLib")
                     .hasFileName("MyLib")
                     .hasCategory(GccParser.LINKER_ERROR)
-                    .hasPriority(Priority.HIGH);
+                    .hasSeverity(Severity.WARNING_HIGH);
         });
     }
 
@@ -309,7 +309,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("local declaration of &quot;command&quot; hides instance variable")
                     .hasFileName("folder1/file1.m")
                     .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(640)
@@ -317,7 +317,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("instance variable &quot;command&quot; accessed in class method")
                     .hasFileName("folder1/file1.m")
                     .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(47)
@@ -325,7 +325,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("&quot;oldGeb&quot; might be used uninitialized in this function")
                     .hasFileName("file1.m")
                     .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(640)
@@ -333,7 +333,7 @@ class GccParserTest extends AbstractIssueParserTest {
                     .hasMessage("local declaration of &quot;command&quot; hides instance variable")
                     .hasFileName("file1.m")
                     .hasCategory(GCC_WARNING)
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
 

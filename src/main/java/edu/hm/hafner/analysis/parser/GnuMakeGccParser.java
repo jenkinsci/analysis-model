@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.util.VisibleForTesting;
 
@@ -67,20 +67,20 @@ public class GnuMakeGccParser extends RegexpLineParser {
             builder.setFileName(directory + fileName);
         }
 
-        Priority priority;
+        Severity priority;
         String category;
         if (ERROR.equalsIgnoreCase(matcher.group(4))) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             category = "Error";
         }
         else {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
             category = "Warning";
         }
         return builder.setLineStart(parseInt(matcher.group(3)))
                 .setCategory(category)
                 .setMessage(matcher.group(5))
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 

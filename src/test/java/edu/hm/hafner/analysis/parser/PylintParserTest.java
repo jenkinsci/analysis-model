@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -34,7 +34,7 @@ class PylintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Line too long (85/80)")
                 .hasFileName("trunk/src/python/cachedhttp.py")
                 .hasCategory("C")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(28)
@@ -42,7 +42,7 @@ class PylintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Invalid name \"seasonCount\" (should match [a-z_][a-z0-9_]{2,30}$)")
                 .hasFileName("trunk/src/python/tv.py")
                 .hasCategory("C0103")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(35)
@@ -50,7 +50,7 @@ class PylintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Missing docstring")
                 .hasFileName("trunk/src/python/tv.py")
                 .hasCategory("C0111")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(39)
@@ -58,7 +58,7 @@ class PylintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Method should have \"self\" as first argument")
                 .hasFileName("trunk/src/python/tv.py")
                 .hasCategory("E0213")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(5)
@@ -66,7 +66,7 @@ class PylintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Unable to import 'deadbeef'")
                 .hasFileName("trunk/src/python/tv.py")
                 .hasCategory("F0401")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(39)
@@ -74,7 +74,7 @@ class PylintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Dangerous default value \"[]\" as argument")
                 .hasFileName("trunk/src/python/tv.py")
                 .hasCategory("W0102")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override

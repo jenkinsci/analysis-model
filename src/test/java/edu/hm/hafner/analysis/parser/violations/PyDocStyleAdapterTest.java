@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -24,7 +24,7 @@ class PyDocStyleAdapterTest extends AbstractParserTest {
                 .hasFileName("fs/csm/admin_api/ui_api.py")
                 .hasLineStart(1)
                 .hasType("D100")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
     }
 
     @Override

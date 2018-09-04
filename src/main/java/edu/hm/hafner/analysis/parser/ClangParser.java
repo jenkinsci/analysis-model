@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -39,15 +39,15 @@ public class ClangParser extends RegexpLineParser {
                 .setColumnStart(parseInt(matcher.group(3)))
                 .setCategory(matcher.group(6))
                 .setMessage(message)
-                .setPriority(mapPriority(matcher.group(4))).build();
+                .setSeverity(mapPriority(matcher.group(4))).build();
     }
 
-    private Priority mapPriority(final String type) {
+    private Severity mapPriority(final String type) {
         if (type.contains("error")) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         else {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
     }
 }

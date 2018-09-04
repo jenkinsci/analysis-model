@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -22,7 +22,7 @@ class P4ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(0))
                 .hasFileName("//eng/Tools/Hudson/instances/PCFARM08/.owner")
                 .hasCategory("can't add existing file")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("//eng/Tools/Hudson/instances/PCFARM08/.owner")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -34,7 +34,7 @@ class P4ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(1))
                 .hasFileName("//eng/Tools/Hudson/instances/PCFARM08/jobs/EASW-FIFA DailyTasks/config.xml")
                 .hasCategory("warning: add of existing file")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("//eng/Tools/Hudson/instances/PCFARM08/jobs/EASW-FIFA DailyTasks/config.xml")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -46,7 +46,7 @@ class P4ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(2))
                 .hasFileName("//eng/Tools/Hudson/instances/PCFARM08/jobs/BFBC2-DailyTasksEurope/config.xml")
                 .hasCategory("can't add (already opened for edit)")
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasMessage("//eng/Tools/Hudson/instances/PCFARM08/jobs/BFBC2-DailyTasksEurope/config.xml")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -58,7 +58,7 @@ class P4ParserTest extends AbstractIssueParserTest {
         softly.assertThat(report.get(3))
                 .hasFileName("//eng/Tools/Hudson/instances/PCFARM08/config.xml#8")
                 .hasCategory("nothing changed")
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasMessage("//eng/Tools/Hudson/instances/PCFARM08/config.xml#8")
                 .hasDescription("")
                 .hasPackageName("-")

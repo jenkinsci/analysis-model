@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -23,7 +23,7 @@ class ZptLintAdapterTest extends AbstractParserTest {
                 .hasMessage("abc def ghe '\" 123")
                 .hasFileName("cpplint.py")
                 .hasLineStart(4796)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
     }
 
     @Override

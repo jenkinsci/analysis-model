@@ -7,7 +7,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -35,7 +35,7 @@ class ResharperInspectCodeAdapterTest extends AbstractIssueParserTest {
                 .hasMessage("Cannot resolve symbol 'GetError'. C# Compiler Errors. CSharpErrors")
                 .hasFileName("ResharperDemo/Program.cs")
                 .hasType("CSharpErrors")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(23)
@@ -43,7 +43,7 @@ class ResharperInspectCodeAdapterTest extends AbstractIssueParserTest {
                 .hasMessage("Expression is always true. Redundancies in Code. Expression is always 'true' or always 'false'")
                 .hasFileName("ResharperDemo/Program.cs")
                 .hasType("ConditionIsAlwaysTrueOrFalse")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(41)
@@ -51,7 +51,7 @@ class ResharperInspectCodeAdapterTest extends AbstractIssueParserTest {
                 .hasMessage("Convert to auto-property. Language Usage Opportunities. Convert property to auto-property")
                 .hasFileName("ResharperDemo/Program.cs")
                 .hasType("ConvertToAutoProperty")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Override

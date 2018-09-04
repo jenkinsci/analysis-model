@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -37,19 +37,19 @@ public class TiCcsParser extends RegexpLineParser {
                 .setLineStart(parseInt(lineNumber))
                 .setCategory(matcher.group(11))
                 .setMessage(matcher.group(12))
-                .setPriority(mapPriority(matcher))
+                .setSeverity(mapPriority(matcher))
                 .build();
     }
 
-    private Priority mapPriority(final Matcher matcher) {
+    private Severity mapPriority(final Matcher matcher) {
         if (isOfType(matcher, "remark")) {
-            return Priority.LOW;
+            return Severity.WARNING_LOW;
         }
         else if (isOfType(matcher, "warning")) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
         else {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
     }
 

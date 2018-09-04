@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 import edu.hm.hafner.util.VisibleForTesting;
 
@@ -42,12 +42,12 @@ public class EclipseParser extends RegexpDocumentParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(1));
-        Priority priority;
+        Severity priority;
         if ("warning".equalsIgnoreCase(type)) {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
         else {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
 
         int columnStart = StringUtils.defaultString(matcher.group(5)).length() + 1;
@@ -59,7 +59,7 @@ public class EclipseParser extends RegexpDocumentParser {
                 .setColumnStart(columnStart)
                 .setColumnEnd(columnEnd)
                 .setMessage(matcher.group(7))
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 

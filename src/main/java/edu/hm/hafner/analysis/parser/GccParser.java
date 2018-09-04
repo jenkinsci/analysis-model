@@ -7,7 +7,7 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -38,7 +38,7 @@ public class GccParser extends RegexpLineParser {
                     .setLineStart(0)
                     .setCategory(LINKER_ERROR)
                     .setMessage(matcher.group(7))
-                    .setPriority(Priority.HIGH)
+                    .setSeverity(Severity.WARNING_HIGH)
                     .build();
         }
 
@@ -47,15 +47,15 @@ public class GccParser extends RegexpLineParser {
             return FALSE_POSITIVE;
         }
 
-        Priority priority;
+        Severity priority;
         if ("warning".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
         else if ("error".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         else if ("note".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.LOW;
+            priority = Severity.WARNING_LOW;
         }
         else if (StringUtils.isNotBlank(matcher.group(4))) {
             if (matcher.group(4).contains("instantiated from here")) {
@@ -65,7 +65,7 @@ public class GccParser extends RegexpLineParser {
                     .setLineStart(parseInt(matcher.group(2)))
                     .setCategory(GCC_ERROR)
                     .setMessage(StringEscapeUtils.escapeXml10(matcher.group(4)))
-                    .setPriority(Priority.HIGH)
+                    .setSeverity(Severity.WARNING_HIGH)
                     .build();
         }
         else {
@@ -73,14 +73,14 @@ public class GccParser extends RegexpLineParser {
                     .setLineStart(0)
                     .setCategory(GCC_ERROR)
                     .setMessage(StringEscapeUtils.escapeXml10(matcher.group(5)))
-                    .setPriority(Priority.HIGH)
+                    .setSeverity(Severity.WARNING_HIGH)
                     .build();
         }
         return builder.setFileName(fileName)
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory("GCC " + matcher.group(3))
                 .setMessage(StringEscapeUtils.escapeXml10(matcher.group(6)))
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 

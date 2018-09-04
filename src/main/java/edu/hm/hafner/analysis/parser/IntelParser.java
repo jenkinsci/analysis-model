@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for messages from the Intel C and Fortran compilers.
@@ -35,15 +35,15 @@ public class IntelParser extends FastRegexpLineParser {
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = StringUtils.capitalize(matcher.group(4));
 
-        Priority priority;
+        Severity priority;
         if (StringUtils.startsWith(category, "Remark")) {
-            priority = Priority.LOW;
+            priority = Severity.WARNING_LOW;
         }
         else if (StringUtils.startsWith(category, "Error")) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         else {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
 
         return builder.setFileName(matcher.group(1))
@@ -51,7 +51,7 @@ public class IntelParser extends FastRegexpLineParser {
                 .setColumnStart(parseInt(matcher.group(3)))
                 .setCategory(category)
                 .setMessage(matcher.group(5))
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 }

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -36,13 +36,13 @@ class CppLintParserTest extends AbstractIssueParserTest {
                     .hasMessage("Missing space before {")
                     .hasFileName("/opt/ros/fuerte/stacks/Mule/Mapping/Local_map/src/LocalCostMap.cpp")
                     .hasCategory("whitespace/braces")
-                    .hasPriority(Priority.HIGH);
+                    .hasSeverity(Severity.WARNING_HIGH);
             softly.assertThat(warnings.get(1)).hasLineStart(400)
                     .hasLineEnd(400)
                     .hasMessage("Tab found; better to use spaces")
                     .hasFileName("/opt/ros/fuerte/stacks/Mule/Mapping/Local_map/src/LocalCostMap.cpp")
                     .hasCategory("whitespace/tab")
-                    .hasPriority(Priority.LOW);
+                    .hasSeverity(Severity.WARNING_LOW);
         });
     }
 
@@ -57,7 +57,7 @@ class CppLintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Tab found; better to use spaces")
                 .hasFileName("c:/Workspace/Trunk/Project/P1/class.cpp")
                 .hasCategory("whitespace/tab")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Override

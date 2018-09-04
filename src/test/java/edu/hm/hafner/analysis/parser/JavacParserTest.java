@@ -8,7 +8,7 @@ import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -32,7 +32,7 @@ class JavacParserTest extends AbstractIssueParserTest {
         assertThat(report).hasSize(2);
 
         softly.assertThat(report.get(1))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(AbstractParser.DEPRECATION)
                 .hasLineStart(40)
                 .hasLineEnd(40)
@@ -93,7 +93,7 @@ class JavacParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
                     .hasLineEnd(14)
@@ -114,7 +114,7 @@ class JavacParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(AbstractParser.DEPRECATION)
                     .hasLineStart(12)
                     .hasLineEnd(12)
@@ -123,7 +123,7 @@ class JavacParserTest extends AbstractIssueParserTest {
                     .hasFileName(
                             "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
             softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(AbstractParser.DEPRECATION)
                     .hasLineStart(40)
                     .hasLineEnd(40)
@@ -162,7 +162,7 @@ class JavacParserTest extends AbstractIssueParserTest {
     private void assertThatWarningIsAtLine(final Issue annotation, final int lineNumber) {
         assertSoftly(softly -> {
             softly.assertThat(annotation)
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(AbstractParser.PROPRIETARY_API)
                     .hasLineStart(lineNumber)
                     .hasLineEnd(lineNumber)

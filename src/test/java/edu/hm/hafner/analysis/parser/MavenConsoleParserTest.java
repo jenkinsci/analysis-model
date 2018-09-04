@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -27,7 +27,7 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
         Report warnings = parse("maven-line-number.log");
 
         assertThat(warnings).hasSize(1);
-        assertThat(warnings.get(0)).hasPriority(Priority.NORMAL)
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(45)
                 .hasMessage("The project edu.hm.hafner:analysis-model:jar:1.0.0-SNAPSHOT uses prerequisites which is " 
                         + "only intended for maven-plugin projects but not for non maven-plugin projects. " 

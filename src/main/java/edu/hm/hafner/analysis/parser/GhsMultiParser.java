@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
@@ -34,17 +34,17 @@ public class GhsMultiParser extends RegexpDocumentParser {
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(5))
-                .setPriority(mapPriority(type))
+                .setSeverity(mapPriority(type))
                 .build();
     }
 
-    private Priority mapPriority(final String type) {
-        Priority priority;
+    private Severity mapPriority(final String type) {
+        Severity priority;
         if ("warning".equalsIgnoreCase(type)) {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
         else {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         return priority;
     }

@@ -459,9 +459,9 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the priority of this issue.
+     * Returns the severity of this issue.
      *
-     * @return the priority
+     * @return the severity
      */
     public Severity getSeverity() {
         return severity;

@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -50,7 +50,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
         String message;
         String fileName;
         int lineNumber = 0;
-        Priority priority;
+        Severity priority;
 
         if (matcher.group(1) != null) {
             /* vhdl warning from ncelab */
@@ -60,7 +60,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             fileName = matcher.group(6);
             lineNumber = parseInt(matcher.group(7));
             message = matcher.group(5);
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
         else if (matcher.group(16) != null) {
             /* Set current directory */
@@ -73,7 +73,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             fileName = matcher.group(12);
             lineNumber = parseInt(matcher.group(13));
             message = matcher.group(15);
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
         else if (matcher.group(21) != null) {
             tool = matcher.group(22);
@@ -81,14 +81,14 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             category = matcher.group(24);
             fileName = "/NotFileRelated";
             message = matcher.group(25);
-            priority = Priority.LOW;
+            priority = Severity.WARNING_LOW;
         }
         else {
             return FALSE_POSITIVE; /* Should never happen! */
         }
 
         if ("E".equalsIgnoreCase(type)) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             category = "Error (" + tool + "): " + category;
         }
         else {
@@ -101,9 +101,9 @@ public class CadenceIncisiveParser extends RegexpLineParser {
         }
         if (fileName.startsWith(SLASH)) {
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                          .setMessage(message).setPriority(priority).build();
+                          .setMessage(message).setSeverity(priority).build();
         }
         return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
-                      .setMessage(message).setPriority(priority).build();
+                      .setMessage(message).setSeverity(priority).build();
     }
 }

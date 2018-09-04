@@ -7,7 +7,7 @@ import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -28,7 +28,7 @@ class PreFastParserTest extends AbstractIssueParserTest {
         Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("28101")
                 .hasLineStart(102)
                 .hasLineEnd(102)
@@ -37,7 +37,7 @@ class PreFastParserTest extends AbstractIssueParserTest {
                 .hasFileName("sys.c");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("6014")
                 .hasLineStart(116)
                 .hasLineEnd(116)
@@ -45,7 +45,7 @@ class PreFastParserTest extends AbstractIssueParserTest {
                 .hasFileName("sys.c");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("28155")
                 .hasLineStart(137)
                 .hasLineEnd(137)

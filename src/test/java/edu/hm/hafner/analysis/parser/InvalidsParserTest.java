@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -25,7 +25,7 @@ class InvalidsParserTest extends AbstractIssueParserTest {
 
         String type = "Oracle Invalid";
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("PLW-05004")
                 .hasLineStart(45)
                 .hasLineEnd(45)
@@ -35,7 +35,7 @@ class InvalidsParserTest extends AbstractIssueParserTest {
                 .hasPackageName("E");
 
         softly.assertThat(report.get(1))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("PLW-07202")
                 .hasLineStart(5)
                 .hasLineEnd(5)
@@ -45,7 +45,7 @@ class InvalidsParserTest extends AbstractIssueParserTest {
                 .hasPackageName("E");
 
         softly.assertThat(report.get(2))
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("ORA-29521")
                 .hasLineStart(0)
                 .hasLineEnd(0)

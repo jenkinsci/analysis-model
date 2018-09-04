@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -23,12 +23,12 @@ class MyPyAdapterTest extends AbstractParserTest  {
                 .hasMessage("\"LogRecord\" has no attribute \"user_uuid\"")
                 .hasFileName("fs/cs/backend/log.py")
                 .hasLineStart(16)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
         softly.assertThat(report.get(1))
                 .hasMessage("\"LogRecord\" has no attribute \"tenant_id\"")
                 .hasFileName("fs/cs/backend/log.py")
                 .hasLineStart(17)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
     }
 
     @Override

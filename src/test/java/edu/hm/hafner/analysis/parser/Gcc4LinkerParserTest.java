@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -42,7 +42,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
                 .hasMessage("undefined reference to 'missing_symbol'")
                 .hasFileName("foo.so")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(233)
@@ -50,7 +50,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
                 .hasMessage("undefined reference to `MyInterface::getValue() const'")
                 .hasFileName("/dir1/dir3/file.cpp")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(0)
@@ -58,7 +58,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
                 .hasMessage("cannot find -lMyLib")
                 .hasFileName(FILE_NAME)
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(0)
@@ -66,7 +66,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
                 .hasMessage("undefined reference to `clock_gettime'")
                 .hasFileName("foo")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(109)
@@ -74,7 +74,7 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
                 .hasMessage("undefined reference to `main'")
                 .hasFileName("/build/buildd/eglibc-2.10.1/csu/../sysdeps/x86_64/elf/start.S")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(7)
@@ -82,14 +82,14 @@ class Gcc4LinkerParserTest extends AbstractIssueParserTest {
                 .hasMessage("undefined reference to `clock_gettime'")
                 .hasFileName("/home/me/foo.cpp")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o")
                 .hasFileName(FILE_NAME)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
     }
 

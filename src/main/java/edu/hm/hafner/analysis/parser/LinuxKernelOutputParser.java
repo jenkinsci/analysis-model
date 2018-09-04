@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpParser;
 import edu.hm.hafner.analysis.Report;
 
@@ -126,7 +126,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
         String filePath = "Nil";
         int lineNumber = 0;
         String category = "Kernel Output";
-        Priority priority = Priority.LOW;
+        Severity priority = Severity.WARNING_LOW;
 
         String bug = matcher.group(BUGWARN_CONTENT);
         String kern = matcher.group(KERNOUTPUT_CONTENT);
@@ -144,10 +144,10 @@ public class LinuxKernelOutputParser extends RegexpParser {
                 lineNumber = parseInt(pathMatcher.group(ERROR_LINE));
 
                 if ("BUG".equals(category)) {
-                    priority = Priority.HIGH;
+                    priority = Severity.WARNING_HIGH;
                 }
                 else {
-                    priority = Priority.NORMAL;
+                    priority = Severity.WARNING_NORMAL;
                 }
 
                 messageBuilder.append(category);
@@ -181,7 +181,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
                .setLineStart(lineNumber)
                .setCategory(category)
                .setMessage(message)
-               .setPriority(priority);
+               .setSeverity(priority);
 
         if (toolTipBuilder.length() > 0) {
             builder.setDescription(toolTipBuilder.toString().replace("\n", "<br>"));

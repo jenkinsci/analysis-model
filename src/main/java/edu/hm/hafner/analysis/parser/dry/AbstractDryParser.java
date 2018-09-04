@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.SecureDigester;
 
 /**
@@ -53,14 +53,14 @@ public abstract class AbstractDryParser<T> extends AbstractParser {
      *            number of duplicate lines
      * @return the priority of the warning
      */
-    protected Priority getPriority(final int lines) {
+    protected Severity getPriority(final int lines) {
         if (lines >= highThreshold) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         if (lines >= normalThreshold) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
-        return Priority.LOW;
+        return Severity.WARNING_LOW;
     }
 
     @Override

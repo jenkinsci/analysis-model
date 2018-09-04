@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -31,23 +31,23 @@ public class MetrowerksCwCompilerParser extends RegexpLineParser {
         String fileName = matcher.group(1);
         int lineNumber = parseInt(matcher.group(2));
         String message = matcher.group(5);
-        Priority priority;
+        Severity priority;
 
         String category;
         if ("error".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             category = "ERROR";
         }
         else if ("information".equalsIgnoreCase(matcher.group(3))) {
-            priority = Priority.LOW;
+            priority = Severity.WARNING_LOW;
             category = "Info";
         }
         else {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
             category = "Warning";
         }
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                      .setPriority(priority).build();
+                      .setSeverity(priority).build();
     }
 }
 

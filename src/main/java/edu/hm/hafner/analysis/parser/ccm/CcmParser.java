@@ -33,7 +33,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 
@@ -86,12 +86,12 @@ public class CcmParser extends AbstractParser {
         Report report = new Report();
 
         for (Metric metric : collection.getMetrics()) {
-            Priority priority = calculateMetricPriority(metric);
+            Severity priority = calculateMetricPriority(metric);
 
             String complexity = String.format("%s has a complexity of %d", metric.getUnit(), metric.getComplexity());
 
             IssueBuilder builder = new IssueBuilder();
-            builder.setPriority(priority)
+            builder.setSeverity(priority)
                     .setMessage(complexity)
                     .setCategory(metric.getClassification())
                     .setLineStart(metric.getStartLineNumber())
@@ -103,15 +103,15 @@ public class CcmParser extends AbstractParser {
         return report;
     }
 
-    private Priority calculateMetricPriority(final Metric metric) {
+    private Severity calculateMetricPriority(final Metric metric) {
         if (isMetricHighPriority(metric)) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         else if (isMetricModeratePriority(metric)) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
         else {
-            return Priority.LOW;
+            return Severity.WARNING_LOW;
         }
     }
 

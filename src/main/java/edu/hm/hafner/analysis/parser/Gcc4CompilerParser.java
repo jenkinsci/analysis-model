@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for gcc 4.x compiler warnings.
@@ -35,15 +35,15 @@ public class Gcc4CompilerParser extends FastRegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(5);
-        Priority priority;
+        Severity priority;
 
         StringBuilder category = new StringBuilder();
         if (matcher.group(4).contains(ERROR)) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             category.append("Error");
         }
         else {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
             category.append("Warning");
 
             Matcher classMatcher = CLASS_PATTERN.matcher(message);
@@ -57,7 +57,7 @@ public class Gcc4CompilerParser extends FastRegexpLineParser {
                 .setColumnStart(parseInt(matcher.group(3)))
                 .setCategory(category.toString())
                 .setMessage(message)
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 }

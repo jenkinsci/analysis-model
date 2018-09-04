@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.assertj.core.api.AbstractAssert;
 
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -132,28 +131,10 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     }
 
     /**
-     * Checks whether an Issue has a specific priority.
-     *
-     * @param priority
-     *         Priority specifying priority.
-     *
-     * @return this
-     */
-    public IssueAssert hasPriority(final Priority priority) {
-        isNotNull();
-
-        if (!Objects.equals(actual.getSeverity(), Severity.valueOf(priority))) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "priority", actual, priority, actual.getSeverity());
-        }
-
-        return this;
-    }
-
-    /**
      * Checks whether an Issue has a specific severity.
      *
      * @param severity
-     *         Priority specifying severity.
+     *         Severity specifying severity.
      *
      * @return this
      */

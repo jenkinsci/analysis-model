@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -59,7 +59,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(19)
@@ -67,7 +67,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Unexpected character `\"'")
                 .hasFileName("/home/user/myproject/helper/SimpleTimer.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(357)
@@ -75,7 +75,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Member getInternalParser() (function) of class XmlParser is not documented.")
                 .hasFileName(".../XmlParser.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(39)
@@ -83,7 +83,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Member XmlMemoryEntityMapEntry (typedef) of class XmlMemoryEntityResolver is not documented.")
                 .hasFileName("P:/Integration/DjRip/djrip/workspace/libraries/xml/XmlMemoryEntityResolver.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertAll();
     }
@@ -101,7 +101,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Output directory `doc/doxygen/framework' does not exist. I have created it for you.")
                 .hasFileName(NO_FILE_NAME)
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(171)
@@ -109,7 +109,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("reached end of file while inside a dot block!\nThe command that should end the block seems to be missing!")
                 .hasFileName("/home/user/myproject/component/odesolver/CentralDifferenceSolver.cpp")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(479)
@@ -117,7 +117,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(65)
@@ -125,7 +125,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("documented function `sofa::core::componentmodel::behavior::BaseController::BaseController' was not declared or defined.")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseController.cpp")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(72)
@@ -133,7 +133,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("no matching class member found for\n  void sofa::core::componentmodel::behavior::BaseController::handleEvent(core::objectmodel::Event *event)")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseController.cpp")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(699)
@@ -141,7 +141,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("no uniquely matching class member found for\n  template <>\n  const char * sofa::defaulttype::Rigid3dTypes::Name()")
                 .hasFileName("/home/user/myproject/defaulttype/RigidTypes.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(1351)
@@ -149,7 +149,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("no matching file member found for \ndefaulttype::RigidDeriv< 3, double > sofa::core::componentmodel::behavior::inertiaForce< defaulttype::RigidCoord< 3, double >, defaulttype::RigidDeriv< 3, double >, objectmodel::BaseContext::Vec3, defaulttype::RigidMass< 3, double >, objectmodel::BaseContext::SpatialVector >(const sofa::defaulttype::SolidTypes::SpatialVector &vframe, const objectmodel::BaseContext::Vec3 &aframe, const defaulttype::RigidMass< 3, double > &mass, const defaulttype::RigidCoord< 3, double > &x, const defaulttype::RigidDeriv< 3, double > &v)\nPossible candidates:\n  Deriv inertiaForce(const SV &, const Vec &, const M &, const Coord &, const Deriv &)")
                 .hasFileName("/home/user/myproject/defaulttype/RigidTypes.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(569)
@@ -157,7 +157,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("no uniquely matching class member found for\n  template < R >\n  SolidTypes< R >::Vec sofa::defaulttype::SolidTypes< R >::mult(const typename sofa::defaulttype::Mat< 3, 3, Real > &m, const typename SolidTypes< R >::Vec &v)\nPossible candidates:\n  static Vec sofa::defaulttype::SolidTypes< R >::mult(const Mat &m, const Vec &v) at line 404 of file /home/user/myproject/defaulttype/SolidTypes.h")
                 .hasFileName("/home/user/myproject/defaulttype/SolidTypes.inl")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(227)
@@ -165,7 +165,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("no uniquely matching class member found for\n  template < Real >\n  DualQuat< Real >::Vec sofa::helper::DualQuat< Real >::transform(const typename sofa::defaulttype::Vec< 3, Real > &vec)\nPossible candidates:\n  Vec sofa::helper::DualQuat< Real >::transform(const Vec &vec) at line 73 of file /home/user/myproject/helper/DualQuat.h")
                 .hasFileName("/home/user/myproject/helper/DualQuat.inl")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(496)
@@ -173,7 +173,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("no matching file member found for \nvoid sofa::helper::lcp_lexicolemke(int *nn, double *vec, double *q, double *zlem, double *wlem, int *info, int *iparamLCP, double *dparamLCP)\nPossible candidates:\n  int lcp_lexicolemke(int dim, double *q, double **M, double *res)\n  int lcp_lexicolemke(int dim, double *q, double **M, double **A, double *res)")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(163)
@@ -181,7 +181,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Found unknown command `\\notify'")
                 .hasFileName("/home/user/myproject/core/componentmodel/topology/BaseTopology.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(172)
@@ -189,7 +189,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("argument 'sv' of command @param is not found in the argument list of sofa::core::componentmodel::behavior::inertiaForce(const SV &, const Vec &, const M &, const Coord &, const Deriv &)")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/Mass.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(97)
@@ -197,7 +197,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("The following parameters of sofa::core::componentmodel::behavior::BaseForceField::addMBKdx(double mFactor, double bFactor, double kFactor) are not documented:\n  parameter 'mFactor'\n  parameter 'bFactor'\n  parameter 'kFactor'")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseForceField.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(104)
@@ -205,7 +205,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("The following parameters of sofa::core::componentmodel::behavior::BaseLMConstraint::ConstraintGroup::addConstraint(unsigned int i0, SReal c) are not documented:\n  parameter 'i0'")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseLMConstraint.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(98)
@@ -213,7 +213,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("explicit link request to 'index' could not be resolved")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseMass.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(0) // Actually 1 in the file, but the line number of this kind of messages is irrelevant
@@ -221,7 +221,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Detected potential recursive class relation between class sofa::core::componentmodel::collision::Contact::Factory and base class Factory< std::string, Contact, std::pair< std::pair< core::CollisionModel *, core::CollisionModel * >, Intersection * > >!")
                 .hasFileName(NO_FILE_NAME)
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(96)
@@ -229,7 +229,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Found unknown command `\\TODO'")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/OdeSolver.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(0) // Actually -1 in the file, but the line number of this kind of messages is irrelevant
@@ -237,7 +237,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Found unknown command `\\TODO'")
                 .hasFileName(NO_FILE_NAME)
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(19)
@@ -245,7 +245,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Unexpected character `\"'")
                 .hasFileName("/home/user/myproject/helper/SimpleTimer.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(0) // Actually 1 in the file, but the line number of this kind of messages is irrelevant
@@ -253,7 +253,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("The following parameters of sofa::component::odesolver::EulerKaapiSolver::v_peq(VecId v, VecId a, double f) are not documented:\n  parameter 'v'\n  parameter 'a'")
                 .hasFileName(NO_FILE_NAME)
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(0)
@@ -261,7 +261,7 @@ class DoxygenParserTest extends AbstractIssueParserTest {
                 .hasMessage("Could not read image `/home/user/myproject/html/struct_foo_graph.png' generated by dot!")
                 .hasFileName(NO_FILE_NAME)
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertAll();
     }

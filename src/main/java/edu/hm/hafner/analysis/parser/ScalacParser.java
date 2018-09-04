@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -31,11 +31,11 @@ public class ScalacParser extends RegexpLineParser {
                 .setLineStart(parseInt(matcher.group(3)))
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(5))
-                .setPriority(mapPriority(matcher))
+                .setSeverity(mapPriority(matcher))
                 .build();
     }
 
-    private Priority mapPriority(final Matcher matcher) {
-        return "[ERROR]".equals(matcher.group(1)) ? Priority.HIGH : Priority.NORMAL;
+    private Severity mapPriority(final Matcher matcher) {
+        return "[ERROR]".equals(matcher.group(1)) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
     }
 }

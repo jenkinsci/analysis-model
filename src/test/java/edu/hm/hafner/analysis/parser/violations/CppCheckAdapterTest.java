@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -32,7 +32,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasFileName("api.c")
                 .hasType("variableScope")
                 .hasLineStart(498)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(report.get(2))
                 .hasMessage("The scope of the variable 'i' can be reduced. The scope of the variable 'i' can be reduced. "
                             + "Warning: It can be unsafe to fix this message. Be careful. "
@@ -45,7 +45,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasFileName("api_storage.c")
                 .hasType("variableScope")
                 .hasLineStart(104)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
     }
 
     @Override

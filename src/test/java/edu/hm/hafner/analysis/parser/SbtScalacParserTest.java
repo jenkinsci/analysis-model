@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -20,7 +20,7 @@ class SbtScalacParserTest extends AbstractIssueParserTest {
         softly.assertThat(report).hasSize(4);
 
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(DEFAULT_CATEGORY)
                 .hasLineStart(111)
                 .hasLineEnd(111)
@@ -28,21 +28,21 @@ class SbtScalacParserTest extends AbstractIssueParserTest {
                         "method stop in class Thread is deprecated: see corresponding Javadoc for more information.")
                 .hasFileName("/home/user/.jenkins/jobs/job/workspace/path/SomeFile.scala");
         softly.assertThat(report.get(1))
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(DEFAULT_CATEGORY)
                 .hasLineStart(9)
                 .hasLineEnd(9)
                 .hasMessage("';' expected but identifier found.")
                 .hasFileName("/home/user/.jenkins/jobs/job/workspace/another/path/SomeFile.scala");
         softly.assertThat(report.get(2))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(DEFAULT_CATEGORY)
                 .hasLineStart(4)
                 .hasLineEnd(4)
                 .hasMessage("implicit numeric widening")
                 .hasFileName("/home/user/.jenkins/jobs/job/workspace/Main.scala");
         softly.assertThat(report.get(3))
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(DEFAULT_CATEGORY)
                 .hasLineStart(5)
                 .hasLineEnd(5)

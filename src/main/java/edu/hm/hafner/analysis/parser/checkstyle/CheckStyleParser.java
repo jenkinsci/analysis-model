@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 
@@ -72,7 +72,7 @@ public class CheckStyleParser extends AbstractParser {
             if (isValidWarning(file)) {
                 for (Error error : file.getErrors()) {
                     IssueBuilder builder = new IssueBuilder();
-                    mapPriority(error).ifPresent(builder::setPriority);
+                    mapPriority(error).ifPresent(builder::setSeverity);
 
                     String source = error.getSource();
                     builder.setType(getType(source));
@@ -96,15 +96,15 @@ public class CheckStyleParser extends AbstractParser {
         return StringUtils.substringAfterLast(source, ".");
     }
 
-    private Optional<Priority> mapPriority(final Error error) {
+    private Optional<Severity> mapPriority(final Error error) {
         if ("error".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Priority.HIGH);
+            return Optional.of(Severity.WARNING_HIGH);
         }
         if ("warning".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Priority.NORMAL);
+            return Optional.of(Severity.WARNING_NORMAL);
         }
         if ("info".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Priority.LOW);
+            return Optional.of(Severity.WARNING_LOW);
         }
         return Optional.empty();
     }

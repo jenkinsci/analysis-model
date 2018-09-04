@@ -1,17 +1,20 @@
 package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.collections.api.set.ImmutableSet;
 import org.eclipse.collections.impl.factory.Sets;
 
 import edu.hm.hafner.util.Ensure;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Severity of an issue. The predefined set of severities consists of an error and 3 warnings with {@link
- * Priority#HIGH}, {@link Priority#NORMAL}, or {@link Priority#LOW}. Additional severities can be created if this set of
- * severities is not sufficient. Note that new instances are not cached by this class so that there might exist several
- * severity instances with the same name.
+ * Severity of an issue. The predefined set of severities consists of an error and 3 warnings with priorities high,
+ * normal, or low. Additional severities can be created if this set of severities is not sufficient. Note that new
+ * instances are not cached by this class so that there might exist several severity instances with the same name.
  *
  * @author Ullrich Hafner
  */
@@ -20,36 +23,15 @@ public class Severity implements Serializable {
 
     /** An error, e.g. a compile error. */
     public static final Severity ERROR = new Severity("ERROR");
-    /** A warning with {@link Priority#HIGH}. Mapping of warning priorities is determined by the corresponding tool. */
+    /** A warning with priority high. Mapping of warning priorities is determined by the corresponding tool. */
     public static final Severity WARNING_HIGH = new Severity("HIGH");
-    /** A warning with {@link Priority#NORMAL}. Mapping of warning priorities is determined by the corresponding tool. */
+    /** A warning with priority normal. Mapping of warning priorities is determined by the corresponding tool. */
     public static final Severity WARNING_NORMAL = new Severity("NORMAL");
-    /** A warning with {@link Priority#LOW}. Mapping of warning priorities is determined by the corresponding tool. */
+    /** A warning with priority low. Mapping of warning priorities is determined by the corresponding tool. */
     public static final Severity WARNING_LOW = new Severity("LOW");
-    
-    private static final ImmutableSet<Severity> ALL_SEVERITIES 
-            = Sets.immutable.of(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW);
 
-    /**
-     * Creates a new {@link Severity} that corresponds to the specified {@link Priority}.
-     *
-     * @param priority
-     *         the priority
-     *
-     * @return the severity
-     */
-    public static Severity valueOf(final Priority priority) {
-        if (priority == Priority.HIGH) {
-            return WARNING_HIGH;
-        }
-        if (priority == Priority.NORMAL) {
-            return WARNING_NORMAL;
-        }
-        if (priority == Priority.LOW) {
-            return WARNING_LOW;
-        }
-        throw new NullPointerException("Priority must not be <<null>>.");
-    }
+    private static final ImmutableSet<Severity> ALL_SEVERITIES
+            = Sets.immutable.of(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW);
 
     /**
      * Creates a new {@link Severity} with the specified name. If the name is the same as the name of one of the
@@ -74,6 +56,52 @@ public class Severity implements Serializable {
             return WARNING_LOW;
         }
         return new Severity(name);
+    }
+
+    /**
+     * Converts a String severity to one of the predefined severities. If the provided String does not match then the default
+     * severity will be returned.
+     *
+     * @param severity
+     *         priority as a String
+     * @param defaultValue
+     *         default severity, if the specified String is {@code null} or is not a valid {@link Severity} name
+     *
+     * @return enumeration value
+     */
+    public static Severity valueOf(@CheckForNull final String severity, final Severity defaultValue) {
+        if (severity == null || ALL_SEVERITIES.stream().map(Severity::getName).noneMatch(name -> name.equals(severity))) {
+            return defaultValue;
+        }
+        return valueOf(severity);
+    }
+
+
+
+    /**
+     * Gets the severities starting from the specified severity to {@link Severity#ERROR}.
+     *
+     * @param minimumSeverity
+     *         the minimum priority
+     *
+     * @return the priorities starting from the specified priority
+     */
+    public static Collection<Severity> collectSeveritiesFrom(final Severity minimumSeverity) {
+        List<Severity> priorities = new ArrayList<>();
+        priorities.add(Severity.ERROR);
+        if (minimumSeverity == WARNING_HIGH) {
+            priorities.add(WARNING_HIGH);
+        }
+        else if (minimumSeverity == WARNING_NORMAL) {
+            priorities.add(WARNING_HIGH);
+            priorities.add(WARNING_NORMAL);
+        }
+        else if (minimumSeverity == WARNING_LOW) {
+            priorities.add(WARNING_HIGH);
+            priorities.add(WARNING_NORMAL);
+            priorities.add(WARNING_LOW);
+        }
+        return priorities;
     }
 
     /**

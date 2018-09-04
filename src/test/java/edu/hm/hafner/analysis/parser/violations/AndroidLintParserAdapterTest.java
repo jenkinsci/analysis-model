@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -26,7 +26,7 @@ class AndroidLintParserAdapterTest extends AbstractParserTest {
                 .hasLineEnd(10)
                 .hasColumnStart(9)
                 .hasColumnEnd(9)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(report.get(0).getMessage()).contains("ScrollViewSize: ScrollView size validation");
         softly.assertThat(report.get(1)).hasFileName(".gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.4.0/5b72bf48563ea8410e650de14aa33ff69a3e8c35/okio-1.4.0.jar")
                 .hasCategory("Correctness")
@@ -34,7 +34,7 @@ class AndroidLintParserAdapterTest extends AbstractParserTest {
                 .hasLineEnd(0)
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
         softly.assertThat(report.get(1).getMessage()).contains("InvalidPackage: Package not included in Android");
     }
 

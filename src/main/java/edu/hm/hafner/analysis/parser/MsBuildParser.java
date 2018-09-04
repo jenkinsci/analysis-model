@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -40,14 +40,14 @@ public class MsBuildParser extends RegexpLineParser {
             return builder.setLineStart(0)
                     .setCategory(matcher.group(1))
                     .setMessage(matcher.group(2))
-                    .setPriority(Priority.NORMAL)
+                    .setSeverity(Severity.WARNING_NORMAL)
                     .build();
         }
         if (StringUtils.isNotBlank(matcher.group(13))) {
             return builder.setLineStart(0)
                     .setCategory(matcher.group(14))
                     .setMessage(matcher.group(15))
-                    .setPriority(Priority.HIGH)
+                    .setSeverity(Severity.WARNING_HIGH)
                     .build();
         }
         if (StringUtils.isNotEmpty(matcher.group(10))) {
@@ -56,7 +56,7 @@ public class MsBuildParser extends RegexpLineParser {
                     .setCategory(matcher.group(9))
                     .setType(matcher.group(10))
                     .setMessage(matcher.group(11))
-                    .setPriority(determinePriority(matcher))
+                    .setSeverity(determinePriority(matcher))
                     .build();
         }
 
@@ -68,7 +68,7 @@ public class MsBuildParser extends RegexpLineParser {
                 .setColumnStart(parseInt(matcher.group(6)))
                 .setCategory(category)
                 .setMessage(matcher.group(11))
-                .setPriority(determinePriority(matcher))
+                .setSeverity(determinePriority(matcher))
                 .build();
 
     }
@@ -122,14 +122,14 @@ public class MsBuildParser extends RegexpLineParser {
      *
      * @return the priority of the warning
      */
-    private Priority determinePriority(final Matcher matcher) {
+    private Severity determinePriority(final Matcher matcher) {
         if (isOfType(matcher, "note") || isOfType(matcher, "info")) {
-            return Priority.LOW;
+            return Severity.WARNING_LOW;
         }
         if (isOfType(matcher, "warning")) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
-        return Priority.HIGH;
+        return Severity.WARNING_HIGH;
     }
 
     /**

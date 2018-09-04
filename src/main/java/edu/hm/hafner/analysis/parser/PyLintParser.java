@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the PyLint compiler warnings.
@@ -38,13 +38,13 @@ public class PyLintParser extends FastRegexpLineParser {
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(category)
                 .setMessage(message)
-                .setPriority(mapPriorty(category))
+                .setSeverity(mapPriorty(category))
                 .build();
     }
 
-    private Priority mapPriorty(final String category) {
+    private Severity mapPriorty(final String category) {
         //First letter of the Pylint classification is one of F/E/W/R/C. E/F/W are high priority.
-        Priority priority;
+        Severity priority;
 
         // See http://docs.pylint.org/output.html for definitions of the categories
         switch (category.charAt(0)) {
@@ -52,23 +52,23 @@ public class PyLintParser extends FastRegexpLineParser {
             // [C]onvention for coding standard violation
             case 'R':
             case 'C':
-                priority = Priority.LOW;
+                priority = Severity.WARNING_LOW;
                 break;
 
             // [W]arning for stylistic problems, or minor programming issues
             case 'W':
-                priority = Priority.NORMAL;
+                priority = Severity.WARNING_NORMAL;
                 break;
 
             // [E]rror for important programming issues (i.e. most probably bug)
             // [F]atal for errors which prevented further processing
             case 'E':
             case 'F':
-                priority = Priority.HIGH;
+                priority = Severity.WARNING_HIGH;
                 break;
 
             default:
-                priority = Priority.LOW;
+                priority = Severity.WARNING_LOW;
                 break;
         }
         return priority;

@@ -21,7 +21,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
 
@@ -65,7 +65,7 @@ public class StyleCopParser extends AbstractParser {
                     .setCategory(getCategory(element))
                     .setType(getString(element, "Rule"))
                     .setMessage(element.getTextContent())
-                    .setPriority(Priority.NORMAL);
+                    .setSeverity(Severity.WARNING_NORMAL);
 
             report.add(builder.build());
         }

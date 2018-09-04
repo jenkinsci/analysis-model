@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -26,7 +26,7 @@ class IntelParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(7);
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Remark")
                 .hasLineStart(1460)
                 .hasLineEnd(1460)
@@ -35,7 +35,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(20);
 
         softly.assertThat(report.get(1))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Remark")
                 .hasLineStart(2630)
                 .hasLineEnd(2630)
@@ -44,7 +44,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(15);
 
         softly.assertThat(report.get(2))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Remark #1")
                 .hasLineStart(721)
                 .hasLineEnd(721)
@@ -52,7 +52,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                 .hasFileName("D:/Hudson/workspace/zoo/oppdend2d_slv_strip_utils.cpp");
 
         softly.assertThat(report.get(3))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Remark #1418")
                 .hasLineStart(17)
                 .hasLineEnd(17)
@@ -60,7 +60,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                 .hasFileName("D:/Hudson/workspace/boo/serviceif.cpp");
 
         softly.assertThat(report.get(4))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Warning #6843")
                 .hasLineStart(1)
                 .hasLineEnd(1)
@@ -68,7 +68,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                 .hasFileName("/path/to/file1.f90");
 
         softly.assertThat(report.get(5))
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Remark #8577")
                 .hasLineStart(806)
                 .hasLineEnd(806)
@@ -76,7 +76,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                 .hasFileName("/path/to/file2.f");
 
         softly.assertThat(report.get(6))
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Error #5082")
                 .hasLineStart(1)
                 .hasLineEnd(1)
@@ -97,7 +97,7 @@ class IntelParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Warning #177")
                     .hasLineStart(980)
                     .hasLineEnd(980)
@@ -105,7 +105,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                     .hasFileName("<stdout>");
 
             softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Warning #177")
                     .hasLineStart(2454)
                     .hasLineEnd(2454)
@@ -113,7 +113,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                     .hasFileName("<stdout>");
 
             softly.assertThat(warnings.get(2))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Warning #1786")
                     .hasLineStart(120)
                     .hasLineEnd(120)
@@ -123,7 +123,7 @@ class IntelParserTest extends AbstractIssueParserTest {
                             "D:/hudson/workspace/continuous-snext-main-Win32/trunk/src/engine/AllocationProfiler.cpp");
 
             softly.assertThat(warnings.get(3))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("Error #1786")
                     .hasLineStart(120)
                     .hasLineEnd(120)

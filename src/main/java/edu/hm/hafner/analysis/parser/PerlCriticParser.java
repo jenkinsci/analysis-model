@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -39,10 +39,10 @@ public class PerlCriticParser extends RegexpLineParser {
         int line = parseInt(matcher.group(3));
         int column = parseInt(matcher.group(4));
         String category = matcher.group(5);
-        Priority priority = checkPriority(Integer.parseInt(matcher.group(6)));
+        Severity priority = checkPriority(Integer.parseInt(matcher.group(6)));
 
         return builder.setFileName(filename).setLineStart(line).setColumnStart(column).setCategory(category)
-                      .setMessage(message).setPriority(priority).build();
+                      .setMessage(message).setSeverity(priority).build();
     }
 
     /**
@@ -51,15 +51,15 @@ public class PerlCriticParser extends RegexpLineParser {
      * @param priority the severity level of the warning.
      * @return the priority level.
      */
-    private Priority checkPriority(final int priority) {
+    private Severity checkPriority(final int priority) {
         if (priority < 2) {
-            return Priority.LOW;
+            return Severity.WARNING_LOW;
         }
         else if (priority < 4) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
         else {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
     }
 }

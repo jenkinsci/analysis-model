@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 
@@ -43,7 +43,7 @@ public class JcReportParser extends AbstractParser {
                         .setCategory(item.getFindingtype())
                         .setPackageName(file.getPackageName())
                         .setMessage(item.getMessage())
-                        .setPriority(getPriority(item.getSeverity()));
+                        .setSeverity(getPriority(item.getSeverity()));
 
                 warnings.add(builder.build());
             }
@@ -59,18 +59,18 @@ public class JcReportParser extends AbstractParser {
      *
      * @return the priority-enum matching with the issueLevel.
      */
-    private Priority getPriority(final String issueLevel) {
+    private Severity getPriority(final String issueLevel) {
         if (StringUtils.isEmpty(issueLevel)) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
 
         if (issueLevel.contains("Error") || issueLevel.contains("Critical")) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         if (issueLevel.contains("Warning")) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
-        return Priority.LOW;
+        return Severity.WARNING_LOW;
     }
 
     /**

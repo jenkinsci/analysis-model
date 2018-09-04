@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -32,16 +32,16 @@ public class Gcc4LinkerParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        Priority priority;
+        Severity priority;
 
         String message;
         if (StringUtils.isNotBlank(matcher.group(7))) {
             // link error in ld
             if (StringUtils.equalsIgnoreCase(matcher.group(6), "warning")) {
-                priority = Priority.NORMAL;
+                priority = Severity.WARNING_NORMAL;
             }
             else {
-                priority = Priority.HIGH;
+                priority = Severity.WARNING_HIGH;
             }
             message = matcher.group(7);
         }
@@ -50,16 +50,16 @@ public class Gcc4LinkerParser extends RegexpLineParser {
             if (StringUtils.isNotBlank(matcher.group(3))) {
                 // error of type "undefined reference..."
                 message = matcher.group(3);
-                priority = Priority.HIGH;
+                priority = Severity.WARNING_HIGH;
             }
             else {
                 // generic linker error with reference to the binary section and
                 // offset
                 if (StringUtils.equalsIgnoreCase(matcher.group(4), "warning")) {
-                    priority = Priority.NORMAL;
+                    priority = Severity.WARNING_NORMAL;
                 }
                 else {
-                    priority = Priority.HIGH;
+                    priority = Severity.WARNING_HIGH;
                 }
                 message = matcher.group(5);
                 if (StringUtils.endsWith(message, ":")) {
@@ -72,7 +72,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(WARNING_CATEGORY)
                 .setMessage(message)
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 }

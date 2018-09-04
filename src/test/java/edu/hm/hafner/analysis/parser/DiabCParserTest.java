@@ -5,7 +5,7 @@ import java.util.Iterator;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -31,7 +31,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("missing return expression")
                 .hasFileName("lint.c")
                 .hasCategory("1521")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(22)
@@ -39,7 +39,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("narrowing or signed-to-unsigned type conversion found: int to unsigned char")
                 .hasFileName("lint.c")
                 .hasCategory("1643")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(28)
@@ -47,7 +47,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("constant out of range")
                 .hasFileName("lint.c")
                 .hasCategory("1243")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(4)
@@ -55,7 +55,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("function f4 is never used")
                 .hasFileName("lint.c")
                 .hasCategory("1517")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(11)
@@ -63,7 +63,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("function f5 is not found")
                 .hasFileName("lint.c")
                 .hasCategory("1378")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(5)
@@ -71,7 +71,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("division by zero")
                 .hasFileName("main.c")
                 .hasCategory("1025")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(5)
@@ -79,7 +79,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("division by zero")
                 .hasFileName("main.c")
                 .hasCategory("1025")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(976)
@@ -87,7 +87,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("function \"testing\" was declared but never referenced")
                 .hasFileName("test.cpp")
                 .hasCategory("4177")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(427)
@@ -95,7 +95,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("pointless comparison of unsigned integer with zero")
                 .hasFileName("test.cpp")
                 .hasCategory("4186")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(38)
@@ -103,7 +103,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("expected a \";\"")
                 .hasFileName("test.cpp")
                 .hasCategory("4065")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(443)
@@ -111,7 +111,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("external/internal linkage conflict with previous declaration")
                 .hasFileName("test.cpp")
                 .hasCategory("4172")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(293)
@@ -119,7 +119,7 @@ class DiabCParserTest extends AbstractIssueParserTest {
                 .hasMessage("access control not specified (\"private\" by default)")
                 .hasFileName("test.h")
                 .hasCategory("4261")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertAll();
     }

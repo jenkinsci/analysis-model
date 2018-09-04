@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -49,7 +49,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("Cannot find annotation method 'xxx()' in type 'yyyy': class file for fully.qualified.ClassName not found")
@@ -70,14 +70,14 @@ class AntJavacParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(DEFAULT_CATEGORY)
                     .hasLineStart(86)
                     .hasLineEnd(86)
                     .hasMessage("non-varargs call of varargs method with inexact argument type for last parameter;")
                     .hasFileName("/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/misuse/DescriptiveMessagesOnMisuseTest.java");
             softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(AbstractParser.DEPRECATION)
                     .hasLineStart(51)
                     .hasLineEnd(51)
@@ -100,7 +100,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Path")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -144,7 +144,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
         assertThat(warnings).hasSize(1);
 
         assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0)).hasPriority(Priority.NORMAL)
+            softly.assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(225)
                     .hasLineEnd(225)
@@ -173,7 +173,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(1);
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Deprecation")
                 .hasLineStart(28)
                 .hasLineEnd(28)

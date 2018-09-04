@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
 
@@ -58,20 +58,20 @@ public class IdeaInspectionParser extends AbstractParser {
                         .setLineStart(Integer.parseInt(getChildValue(element, "line")))
                         .setCategory(StringEscapeUtils.unescapeXml(getValue(problemClass)))
                         .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
-                        .setPriority(getPriority(problemClass.getAttribute("severity")));
+                        .setSeverity(getPriority(problemClass.getAttribute("severity")));
                 problems.add(builder.build());
             }
         }
         return problems;
     }
 
-    private Priority getPriority(final String severity) {
-        Priority priority = Priority.LOW;
+    private Severity getPriority(final String severity) {
+        Severity priority = Severity.WARNING_LOW;
         if ("WARNING".equals(severity)) {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
         else if ("ERROR".equals(severity)) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         return priority;
     }

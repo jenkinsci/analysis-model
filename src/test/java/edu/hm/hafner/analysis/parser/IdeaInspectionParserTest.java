@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -25,7 +25,7 @@ class IdeaInspectionParserTest extends AbstractIssueParserTest {
         softly.assertThat(report).hasSize(1);
 
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Unused method parameters")
                 .hasLineStart(42)
                 .hasLineEnd(42)

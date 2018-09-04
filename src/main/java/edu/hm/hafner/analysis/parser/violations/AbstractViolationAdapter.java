@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
@@ -92,7 +92,7 @@ public abstract class AbstractViolationAdapter extends AbstractParser {
 
     private Issue convertToIssue(final Violation violation) {
         IssueBuilder builder = new IssueBuilder();
-        builder.setPriority(convertSeverity(violation.getSeverity(), violation))
+        builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
                 .setFileName(violation.getFile())
                 .setMessage(violation.getMessage())
                 .setLineStart(violation.getStartLine())
@@ -125,7 +125,7 @@ public abstract class AbstractViolationAdapter extends AbstractParser {
     }
 
     /**
-     * Computes the {@link Priority} from the specified {@link SEVERITY}. Sub-classes may override and use any of the
+     * Computes the {@link Severity} from the specified {@link SEVERITY}. Sub-classes may override and use any of the
      * properties of the provided violation.
      *
      * @param severity
@@ -133,16 +133,16 @@ public abstract class AbstractViolationAdapter extends AbstractParser {
      * @param violation
      *         the violation instance
      *
-     * @return the {@link Priority}
+     * @return the {@link Severity}
      */
     @SuppressWarnings("unused")
-    protected Priority convertSeverity(final SEVERITY severity, final Violation violation) {
+    protected Severity convertSeverity(final SEVERITY severity, final Violation violation) {
         if (severity == SEVERITY.ERROR) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         if (severity == SEVERITY.WARN) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
-        return Priority.LOW;
+        return Severity.WARNING_LOW;
     }
 }

@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -29,16 +29,16 @@ public class SbtScalacParser extends RegexpLineParser {
         return builder.setFileName(matcher.group(2))
                 .setLineStart(parseInt(matcher.group(3)))
                 .setMessage(matcher.group(4))
-                .setPriority(mapPriority(matcher))
+                .setSeverity(mapPriority(matcher))
                 .build();
     }
 
-    private Priority mapPriority(final Matcher matcher) {
+    private Severity mapPriority(final Matcher matcher) {
         if ("[error]".equals(matcher.group(1))) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         else {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
     }
 }

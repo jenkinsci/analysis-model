@@ -15,7 +15,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *                      .setLineStart(0)
  *                      .setCategory("JavaDoc")
  *                      .setMessage("Missing JavaDoc")
- *                      .setPriority(Priority.LOW);
+ *                      .setSeverity(Severity.WARNING_LOW);
  * </pre></blockquote>
  *
  * @author Ullrich Hafner
@@ -34,8 +34,6 @@ public class IssueBuilder {
     private String category;
     @CheckForNull
     private String type;
-    @CheckForNull
-    private Priority priority;
     @CheckForNull
     private Severity severity;
     @CheckForNull
@@ -127,12 +125,6 @@ public class IssueBuilder {
         return this;
     }
 
-    // FIXME: Severity?
-    public IssueBuilder setPriority(@CheckForNull final Priority priority) {
-        this.priority = priority;
-        return this;
-    }
-
     public IssueBuilder setSeverity(@CheckForNull final Severity severity) {
         this.severity = severity;
         return this;
@@ -188,17 +180,9 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue;
-        if (priority != null && severity == null) {
-            issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                    packageName, moduleName, Severity.valueOf(priority), message, description, origin, reference, fingerprint,
-                    additionalProperties, id);
-        }
-        else {
-            issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                    packageName, moduleName, severity, message, description, origin, reference, fingerprint,
-                    additionalProperties, id);
-        }
+        Issue issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+                packageName, moduleName, severity, message, description, origin, reference, fingerprint,
+                additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }

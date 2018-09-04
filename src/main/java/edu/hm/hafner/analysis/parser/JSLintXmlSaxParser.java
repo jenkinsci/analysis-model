@@ -7,7 +7,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import edu.hm.hafner.util.IntegerParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * Handles parsing.
@@ -53,19 +53,19 @@ public class JSLintXmlSaxParser extends DefaultHandler {
 
     private void createWarning(final Attributes attributes) {
         String category = StringUtils.EMPTY;
-        Priority priority = Priority.NORMAL;
+        Severity priority = Severity.WARNING_NORMAL;
 
         String message = extractFrom(attributes, "reason", "message");
         if (message.startsWith("Expected")) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             category = CATEGORY_PARSING;
         }
         else if (message.endsWith(" is not defined.")) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             category = CATEGORY_UNDEFINED_VARIABLE;
         }
         else if (message.contains("Mixed spaces and tabs")) {
-            priority = Priority.LOW;
+            priority = Severity.WARNING_LOW;
             category = CATEGORY_FORMATTING;
         }
         else if (message.contains("Unnecessary semicolon")) {
@@ -82,7 +82,7 @@ public class JSLintXmlSaxParser extends DefaultHandler {
                 .setLineStart(lineNumber)
                 .setCategory(category)
                 .setMessage(message)
-                .setPriority(priority);
+                .setSeverity(priority);
 
         if (StringUtils.isNotBlank(column)) {
             builder.setColumnStart(parseInt(column));

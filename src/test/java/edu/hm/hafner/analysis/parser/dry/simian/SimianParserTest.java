@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -36,14 +36,14 @@ class SimianParserTest extends AbstractParserTest {
         softly.assertThat(firstIssue)
                 .hasLineStart(93).hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(firstIssue.getDescription()).isEmpty();
 
         Issue secondIssue = report.get(1);
         softly.assertThat(secondIssue)
                 .hasLineStart(76).hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(secondIssue.getDescription()).isEmpty();
     }
 
@@ -56,11 +56,11 @@ class SimianParserTest extends AbstractParserTest {
         assertThat(report.get(0))
                 .hasLineStart(92).hasLineEnd(97)
                 .hasFileName(MAVEN_BUILD)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
         assertThat(report.get(1))
                 .hasLineStart(61).hasLineEnd(66)
                 .hasFileName(MATRIX_RUN)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Test
@@ -72,22 +72,22 @@ class SimianParserTest extends AbstractParserTest {
         assertThat(report.get(0))
                 .hasLineStart(92).hasLineEnd(97)
                 .hasFileName(MAVEN_BUILD)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         assertThat(report.get(1))
                 .hasLineStart(61).hasLineEnd(66)
                 .hasFileName(MATRIX_RUN)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         assertThat(report.get(2))
                 .hasLineStart(93).hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         assertThat(report.get(3))
                 .hasLineStart(76).hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Test
@@ -126,19 +126,19 @@ class SimianParserTest extends AbstractParserTest {
 
         report = parse(6, 5);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.HIGH);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_HIGH);
 
         report = parse(7, 6);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_NORMAL);
 
         report = parse(100, 6);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_NORMAL);
 
         report = parse(100, 7);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.LOW);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_LOW);
     }
 
     private Report parse(final int highThreshold, final int normalThreshold) {

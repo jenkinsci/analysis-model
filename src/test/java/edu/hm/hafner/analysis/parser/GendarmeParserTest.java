@@ -5,7 +5,7 @@ import java.util.Iterator;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
 
@@ -32,7 +32,7 @@ class GendarmeParserTest extends AbstractIssueParserTest {
                 .hasMessage("This assembly is not decorated with the [CLSCompliant] attribute.")
                 .hasFileName("-")
                 .hasCategory("MarkAssemblyWithCLSCompliantRule")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(10)
@@ -40,7 +40,7 @@ class GendarmeParserTest extends AbstractIssueParserTest {
                 .hasMessage("This method does not use any instance fields, properties or methods and can be made static.")
                 .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
                 .hasCategory("MethodCanBeMadeStaticRule")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(22)
@@ -49,7 +49,7 @@ class GendarmeParserTest extends AbstractIssueParserTest {
                         "This method does not use any instance fields, properties or methods and can be made static.")
                 .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
                 .hasCategory("MethodCanBeMadeStaticRule")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -23,7 +23,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
         assertThat(report).hasSize(6);
 
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(JAVA_DOC_LINK)
                 .hasLineStart(116)
                 .hasLineEnd(116)
@@ -72,7 +72,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
@@ -80,7 +80,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
 
             softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
@@ -88,7 +88,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
 
             softly.assertThat(warnings.get(2))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
@@ -109,7 +109,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(683)
                     .hasLineEnd(683)
@@ -117,7 +117,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/Apps.java");
 
             softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(85)
                     .hasLineEnd(85)
@@ -125,7 +125,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(2))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(86)
                     .hasLineEnd(86)
@@ -133,7 +133,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(3))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(190)
                     .hasLineEnd(190)
@@ -141,7 +141,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(4))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(25)
                     .hasLineEnd(25)
@@ -149,7 +149,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottle.java");
 
             softly.assertThat(warnings.get(5))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(26)
                     .hasLineEnd(26)
@@ -157,7 +157,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java");
 
             softly.assertThat(warnings.get(6))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(26)
                     .hasLineEnd(26)
@@ -180,7 +180,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -188,7 +188,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("-");
 
             softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(JAVA_DOC_PARAM)
                     .hasLineStart(94)
                     .hasLineEnd(94)
@@ -222,7 +222,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("JavaDoc @sys")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -230,7 +230,7 @@ class JavaDocParserTest extends AbstractIssueParserTest {
                     .hasFileName("-");
 
             softly.assertThat(warnings.get(1))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(57)
                     .hasLineEnd(57)

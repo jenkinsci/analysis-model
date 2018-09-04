@@ -5,7 +5,7 @@ import java.util.Iterator;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -27,7 +27,7 @@ class PuppetLintParserTest extends AbstractIssueParserTest {
         Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("autoloader_layout")
                 .hasLineStart(1)
                 .hasLineEnd(1)
@@ -36,7 +36,7 @@ class PuppetLintParserTest extends AbstractIssueParserTest {
                 .hasPackageName("-");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("80chars")
                 .hasLineStart(3)
                 .hasLineEnd(3)
@@ -45,7 +45,7 @@ class PuppetLintParserTest extends AbstractIssueParserTest {
                 .hasPackageName("::test");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("80chars")
                 .hasLineStart(10)
                 .hasLineEnd(10)
@@ -54,7 +54,7 @@ class PuppetLintParserTest extends AbstractIssueParserTest {
                 .hasPackageName("::test::sub::class");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("hard_tabs")
                 .hasLineStart(4)
                 .hasLineEnd(4)
@@ -63,7 +63,7 @@ class PuppetLintParserTest extends AbstractIssueParserTest {
                 .hasPackageName("-");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("80chars")
                 .hasLineStart(15)
                 .hasLineEnd(15)

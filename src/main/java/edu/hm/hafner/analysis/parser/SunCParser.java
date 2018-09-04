@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -31,16 +31,16 @@ public class SunCParser extends RegexpLineParser {
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(5))
-                .setPriority(mapPriority(matcher))
+                .setSeverity(mapPriority(matcher))
                 .build();
     }
 
-    private Priority mapPriority(final Matcher matcher) {
+    private Severity mapPriority(final Matcher matcher) {
         if ("warning".equalsIgnoreCase(matcher.group(3))) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
         else {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
     }
 }

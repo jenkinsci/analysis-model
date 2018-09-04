@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.SecureDigester;
 
 /**
@@ -23,9 +23,9 @@ import edu.hm.hafner.analysis.SecureDigester;
 public class PmdParser extends AbstractParser {
     private static final long serialVersionUID = 6507147028628714706L;
 
-    /** PMD priorities smaller than this value are mapped to {@link Priority#HIGH}. */
+    /** PMD priorities smaller than this value are mapped to {@link Severity#WARNING_HIGH}. */
     private static final int PMD_PRIORITY_MAPPED_TO_HIGH_PRIORITY = 3;
-    /** PMD priorities greater than this value are mapped to {@link Priority#LOW}. */
+    /** PMD priorities greater than this value are mapped to {@link Severity#WARNING_LOW}. */
     private static final int PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY = 4;
 
     @Override
@@ -65,7 +65,7 @@ public class PmdParser extends AbstractParser {
         Report report = new Report();
         for (File file : pmdIssues.getFiles()) {
             for (Violation warning : file.getViolations()) {
-                IssueBuilder builder = new IssueBuilder().setPriority(mapPriority(warning))
+                IssueBuilder builder = new IssueBuilder().setSeverity(mapPriority(warning))
                         .setMessage(createMessage(warning))
                         .setCategory(warning.getRuleset())
                         .setType(warning.getRule())
@@ -81,18 +81,14 @@ public class PmdParser extends AbstractParser {
         return report;
     }
 
-    private Priority mapPriority(final Violation warning) {
-        Priority priority;
+    private Severity mapPriority(final Violation warning) {
         if (warning.getPriority() < PMD_PRIORITY_MAPPED_TO_HIGH_PRIORITY) {
-            priority = Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         else if (warning.getPriority() >  PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY) {
-            priority = Priority.LOW;
+            return Severity.WARNING_LOW;
         }
-        else {
-            priority = Priority.NORMAL;
-        }
-        return priority;
+        return Severity.WARNING_NORMAL;
     }
 
     private String createMessage(final Violation warning) {

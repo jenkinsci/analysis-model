@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -26,28 +26,28 @@ class AcuCobolParserTest extends AbstractIssueParserTest {
 
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(39)
                 .hasLineEnd(39)
                 .hasMessage("Imperative statement required")
                 .hasFileName("COPY/zzz.CPY");
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(111)
                 .hasLineEnd(111)
                 .hasMessage("Don't run with knives")
                 .hasFileName("C:/Documents and Settings/xxxx/COB/bbb.COB");
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(115)
                 .hasLineEnd(115)
                 .hasMessage("Don't run with knives")
                 .hasFileName("C:/Documents and Settings/xxxx/COB/bbb.COB");
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(123)
                 .hasLineEnd(123)

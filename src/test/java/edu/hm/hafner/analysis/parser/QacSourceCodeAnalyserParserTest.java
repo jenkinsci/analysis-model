@@ -7,7 +7,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -37,7 +37,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.")
                 .hasFileName("C:/PATH/PATH/PATH/PATH/Test1.c")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(185)
@@ -45,7 +45,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("A function-like macro is being defined.")
                 .hasFileName("C:/PATH/PATH/PATH/PATH/Test2.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(20233)
@@ -53,7 +53,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("A function could probably be used instead of this function-like macro.")
                 .hasFileName("C:/PATH/PATH/Test3.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(213)
@@ -61,7 +61,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("Macro defines an unrecognised code-fragment.")
                 .hasFileName("C:/PATH/Test4.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(75)
@@ -69,7 +69,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("[L] External identifier matches other identifier(s) (e.g. 'Test') in first 6 characters - program is non-conforming.")
                 .hasFileName("C:/PATH/PATH/Test5.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(46)
@@ -77,7 +77,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("[E] This in-line assembler construct is a language extension. The code has been ignored")
                 .hasFileName("C:/PATH/PATH/PATH/PATH/Test6.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(94)
@@ -85,7 +85,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("[C] Redefinition of 'P2FUNC' with a different body.")
                 .hasFileName("C:/PATH/PATH/PATH/PATH/Test7.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(724)
@@ -93,7 +93,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("Cannot find test.h - Perhaps the appropriate search path was not given?")
                 .hasFileName("C:/PATH/PATH/Test8.h")
                 .hasCategory(ERROR_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(178)
@@ -101,7 +101,7 @@ class QacSourceCodeAnalyserParserTest extends AbstractIssueParserTest {
                 .hasMessage("Macro parameter not enclosed in ().")
                 .hasFileName("C:/PATH/Test9.h")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override

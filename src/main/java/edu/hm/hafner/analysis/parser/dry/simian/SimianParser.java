@@ -59,7 +59,7 @@ public class SimianParser extends AbstractDryParser<Set> {
         for (Set duplication : duplications) {
             DuplicationGroup group = new DuplicationGroup();
             for (Block file : duplication.getBlocks()) {
-                IssueBuilder builder = new IssueBuilder().setPriority(getPriority(duplication.getLineCount()))
+                IssueBuilder builder = new IssueBuilder().setSeverity(getPriority(duplication.getLineCount()))
                         .setLineStart(file.getStartLineNumber())
                         .setLineEnd(file.getEndLineNumber())
                         .setFileName(file.getSourceFile())

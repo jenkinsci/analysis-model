@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the class {@link Severity}.
@@ -24,13 +25,7 @@ class SeverityTest {
     }
 
     @Test
-    void shouldReturnLinkToConstants() {
-        assertThat(Severity.valueOf(Priority.HIGH)).isSameAs(Severity.WARNING_HIGH);
-        assertThat(Severity.valueOf(Priority.NORMAL)).isSameAs(Severity.WARNING_NORMAL);
-        assertThat(Severity.valueOf(Priority.LOW)).isSameAs(Severity.WARNING_LOW);
-
-        assertThatThrownBy(() -> Severity.valueOf((Priority) null)).isInstanceOf(NullPointerException.class);
-
+    void shouldReturnLinkToConstants() { 
         assertThat(Severity.valueOf("error")).isSameAs(Severity.ERROR);
         assertThat(Severity.valueOf("high")).isSameAs(Severity.WARNING_HIGH);
         assertThat(Severity.valueOf("normal")).isSameAs(Severity.WARNING_NORMAL);
@@ -44,5 +39,28 @@ class SeverityTest {
     void shouldReturnPredefinedSetOfSeverities() {
         assertThat(Severity.getPredefinedValues()).containsExactlyInAnyOrder(
                 Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
+    }
+
+    @Test
+    void shouldCollectSeverities() {
+        assertThat(Severity.collectSeveritiesFrom(Severity.ERROR))
+                .containsExactly(Severity.ERROR);
+        assertThat(Severity.collectSeveritiesFrom(Severity.WARNING_HIGH))
+                .containsExactly(Severity.ERROR, Severity.WARNING_HIGH);
+        assertThat(Severity.collectSeveritiesFrom(Severity.WARNING_NORMAL))
+                .containsExactlyInAnyOrder(Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL);
+        assertThat(Severity.collectSeveritiesFrom(Severity.WARNING_LOW))
+                .containsExactlyInAnyOrder(Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
+    }
+
+    @ParameterizedTest(name = "[{index}] Default severity = {0}")
+    @ValueSource(strings = "error, high, normal, low")
+    void shouldConvertToDefault(final String severityValue) {
+        assertThat(Severity.valueOf(null, Severity.WARNING_LOW)).isSameAs(Severity.WARNING_LOW);
+        assertThat(Severity.valueOf("wrong-name", Severity.WARNING_LOW)).isSameAs(Severity.WARNING_LOW);
+
+        for (Severity valid : Severity.getPredefinedValues()) {
+            assertThat(Severity.valueOf(valid.getName(), Severity.ERROR)).isSameAs(valid);
+        }
     }
 }

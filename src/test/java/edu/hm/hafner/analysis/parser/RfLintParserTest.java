@@ -7,7 +7,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -39,7 +39,7 @@ class RfLintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Line is too long (exceeds 100 characters)")
                 .hasFileName("./Login_to_web.robot")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(40)
@@ -47,7 +47,7 @@ class RfLintParserTest extends AbstractIssueParserTest {
                 .hasMessage("No keyword documentation")
                 .hasFileName("./Login_to_web.robot")
                 .hasCategory(ERROR_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(24)
@@ -55,7 +55,7 @@ class RfLintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Line is too long (exceeds 100 characters)")
                 .hasFileName("./Merchant_Signup.robot")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(378)
@@ -63,7 +63,7 @@ class RfLintParserTest extends AbstractIssueParserTest {
                 .hasMessage("No keyword documentation")
                 .hasFileName("./Merchant_Signup.robot")
                 .hasCategory(ERROR_CATEGORY)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(73)
@@ -71,7 +71,7 @@ class RfLintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Too few steps (1) in keyword")
                 .hasFileName("./merchant_common_keyword.txt")
                 .hasCategory(WARNING_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(123)
@@ -79,7 +79,7 @@ class RfLintParserTest extends AbstractIssueParserTest {
                 .hasMessage("Ignore Error")
                 .hasFileName("./merchant_common_keyword.txt")
                 .hasCategory(IGNORE_CATEGORY)
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Override

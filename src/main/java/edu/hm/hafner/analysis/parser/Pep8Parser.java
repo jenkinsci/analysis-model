@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the Pep8 compiler warnings.
@@ -34,7 +34,7 @@ public class Pep8Parser extends FastRegexpLineParser {
                 .setColumnStart(parseInt(matcher.group(3)))
                 .setCategory(category)
                 .setMessage(message)
-                .setPriority(mapPriority(category))
+                .setSeverity(mapPriority(category))
                 .build();
     }
 
@@ -43,12 +43,12 @@ public class Pep8Parser extends FastRegexpLineParser {
         return line.contains(":");
     }
 
-    private Priority mapPriority(final String priority) {
+    private Severity mapPriority(final String priority) {
         if (priority.contains("E")) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
         else {
-            return Priority.LOW;
+            return Severity.WARNING_LOW;
         }
     }
 }

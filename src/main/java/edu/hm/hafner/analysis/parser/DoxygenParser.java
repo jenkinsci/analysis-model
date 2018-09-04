@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
@@ -81,7 +81,7 @@ public class DoxygenParser extends RegexpDocumentParser {
         String message;
         String fileName = "";
         int lineNumber = 0;
-        Priority priority;
+        Severity priority;
 
         if (StringUtils.isNotBlank(matcher.group(LOCAL_MESSAGE_GROUP))) {
             // Warning message local to a file or a function
@@ -105,11 +105,11 @@ public class DoxygenParser extends RegexpDocumentParser {
         }
         else {
             message = "Unknown doxygen error.";
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
             // should never happen
         }
 
-        return builder.setFileName(fileName).setLineStart(lineNumber).setMessage(message).setPriority(priority)
+        return builder.setFileName(fileName).setLineStart(lineNumber).setMessage(message).setSeverity(priority)
                              .build();
     }
 
@@ -120,16 +120,16 @@ public class DoxygenParser extends RegexpDocumentParser {
      *                          in the warnings output.
      * @return the priority
      */
-    private Priority parsePriority(final String warningTypeString) {
+    private Severity parsePriority(final String warningTypeString) {
         if (StringUtils.equalsIgnoreCase(warningTypeString, "notice")) {
-            return Priority.LOW;
+            return Severity.WARNING_LOW;
         }
         else if (StringUtils.equalsIgnoreCase(warningTypeString, "warning")) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
         else {
             // empty label, error or other unexpected input
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
     }
 }

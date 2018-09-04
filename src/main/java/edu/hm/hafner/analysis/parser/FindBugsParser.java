@@ -26,7 +26,7 @@ import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
@@ -56,9 +56,9 @@ public class FindBugsParser extends IssueParser {
      * confidence. Issues of different bug patterns should be compared by their rank, not their confidence.
      */
     public enum PriorityProperty {
-        /** Use the priority/confidence to create corresponding {@link Priority priorities}. */
+        /** Use the priority/confidence to create corresponding {@link Severity priorities}. */
         CONFIDENCE,
-        /** Use rank to create corresponding {@link Priority priorities}. */
+        /** Use rank to create corresponding {@link Severity priorities}. */
         RANK
     }
 
@@ -77,7 +77,7 @@ public class FindBugsParser extends IssueParser {
      * Creates a new instance of {@link FindBugsParser}.
      *
      * @param priorityProperty
-     *         determines whether to use the rank or confidence when evaluation the {@link Priority}
+     *         determines whether to use the rank or confidence when evaluation the {@link Severity}
      */
     public FindBugsParser(final PriorityProperty priorityProperty) {
         super();
@@ -197,7 +197,7 @@ public class FindBugsParser extends IssueParser {
             if (category == null) { // alternately, only if warning.getBugPattern().getType().equals("UNKNOWN")
                 category = warning.getBugPattern().getCategory();
             }
-            builder.setPriority(getPriority(warning))
+            builder.setSeverity(getPriority(warning))
                     .setMessage(StringUtils.defaultIfEmpty(hashToMessageMapping.get(warning.getInstanceHash()), message))
                     .setCategory(category)
                     .setType(type)
@@ -214,7 +214,7 @@ public class FindBugsParser extends IssueParser {
         return report;
     }
 
-    private Priority getPriority(final BugInstance warning) {
+    private Severity getPriority(final BugInstance warning) {
         if (priorityProperty == RANK) {
             return getPriorityByRank(warning);
         }
@@ -280,15 +280,15 @@ public class FindBugsParser extends IssueParser {
      *
      * @return mapped priority enumeration
      */
-    private Priority getPriorityByRank(final BugInstance warning) {
+    private Severity getPriorityByRank(final BugInstance warning) {
         int rank = warning.getBugRank();
         if (rank <= HIGH_PRIORITY_LOWEST_RANK) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         if (rank <= NORMAL_PRIORITY_LOWEST_RANK) {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
-        return Priority.LOW;
+        return Severity.WARNING_LOW;
     }
 
     /**
@@ -299,14 +299,14 @@ public class FindBugsParser extends IssueParser {
      *
      * @return mapped priority enumeration
      */
-    private Priority getPriorityByPriority(final BugInstance warning) {
+    private Severity getPriorityByPriority(final BugInstance warning) {
         switch (warning.getPriority()) {
             case 1:
-                return Priority.HIGH;
+                return Severity.WARNING_HIGH;
             case 2:
-                return Priority.NORMAL;
+                return Severity.WARNING_NORMAL;
             default:
-                return Priority.LOW;
+                return Severity.WARNING_LOW;
         }
     }
 

@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Report;
 
@@ -62,18 +62,18 @@ public class RfLintParser extends RegexpLineParser {
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(1), message);
-        Priority priority = Priority.LOW;
+        Severity priority = Severity.WARNING_LOW;
         switch (category.charAt(0)) {
             case 'E':
-                priority = Priority.HIGH;
+                priority = Severity.WARNING_HIGH;
                 category = "ERROR";
                 break;
             case 'W':
-                priority = Priority.NORMAL;
+                priority = Severity.WARNING_NORMAL;
                 category = "WARNING";
                 break;
             case 'I':
-                priority = Priority.LOW;
+                priority = Severity.WARNING_LOW;
                 category = "IGNORE";
                 break;
             default:
@@ -83,7 +83,7 @@ public class RfLintParser extends RegexpLineParser {
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(category)
                 .setMessage(message)
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 }

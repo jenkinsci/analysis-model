@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -25,14 +25,14 @@ class PitAdapterTest extends AbstractParserTest {
                 .hasCategory("NO_COVERAGE")
                 .hasType("org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator")
                 .hasLineStart(110)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(report.get(1))
                 .hasMessage("SURVIVED, org.pitest.mutationtest.engine.gregor.mutators.MathMutator, (Ledu/hm/hafner/analysis/Issues;Ledu/hm/hafner/analysis/Issues;)V")
                 .hasCategory("SURVIVED")
                 .hasType("org.pitest.mutationtest.engine.gregor.mutators.MathMutator")
                 .hasFileName("edu/hm/hafner/analysis/Issues.java")
                 .hasLineStart(503)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
@@ -130,7 +130,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
         header = header.toLowerCase(Locale.ENGLISH);
 
         String category = "Unknown";
-        Priority priority = Priority.HIGH;
+        Severity priority = Severity.WARNING_HIGH;
         if (StringUtils.isNotBlank(header)) {
             if (header.startsWith("unaddressable access")) {
                 category = "Unaddressable Access";
@@ -143,7 +143,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
             }
             else if (header.startsWith("possible leak")) {
                 category = "Possible Leak";
-                priority = Priority.NORMAL;
+                priority = Severity.WARNING_NORMAL;
             }
             else if (header.startsWith("reachable leak")) {
                 category = "Reachable Leak";
@@ -153,15 +153,15 @@ public class DrMemoryParser extends RegexpDocumentParser {
             }
             else if (header.startsWith("gdi usage error")) {
                 category = "GDI Usage Error";
-                priority = Priority.NORMAL;
+                priority = Severity.WARNING_NORMAL;
             }
             else if (header.startsWith("handle leak")) {
                 category = "Handle Leak";
-                priority = Priority.NORMAL;
+                priority = Severity.WARNING_NORMAL;
             }
             else if (header.startsWith("warning")) {
                 category = "Warning";
-                priority = Priority.NORMAL;
+                priority = Severity.WARNING_NORMAL;
             }
         }
 
@@ -169,7 +169,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
                 .setLineStart(lineNumber)
                 .setCategory(category)
                 .setMessage(message)
-                .setPriority(priority)
+                .setSeverity(priority)
                 .build();
     }
 

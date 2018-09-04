@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
@@ -38,7 +38,7 @@ class PmdParserTest extends AbstractIssueParserTest {
 
         softly.assertThat(actionIssues.get(0))
                 .hasMessage("These nested if statements could be combined.")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Basic")
                 .hasType("CollapsibleIfStatements")
                 .hasLineStart(54)
@@ -60,7 +60,7 @@ class PmdParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(5).hasColumnEnd(12)
                 .hasType("CyclomaticComplexity")
                 .hasCategory("Code Size")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("The method 'parse' has a Cyclomatic Complexity of 10.");
     }
 

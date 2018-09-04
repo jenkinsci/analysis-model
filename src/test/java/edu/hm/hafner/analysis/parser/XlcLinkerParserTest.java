@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -26,7 +26,7 @@ class XlcLinkerParserTest {
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("0711-987")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -44,7 +44,7 @@ class XlcLinkerParserTest {
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("0711-317")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -62,7 +62,7 @@ class XlcLinkerParserTest {
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("0711-634")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -80,7 +80,7 @@ class XlcLinkerParserTest {
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("0706-012")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -98,7 +98,7 @@ class XlcLinkerParserTest {
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("0711-224")
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -116,7 +116,7 @@ class XlcLinkerParserTest {
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
-                    .hasPriority(Priority.LOW)
+                    .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("0711-345")
                     .hasLineStart(0)
                     .hasLineEnd(0)

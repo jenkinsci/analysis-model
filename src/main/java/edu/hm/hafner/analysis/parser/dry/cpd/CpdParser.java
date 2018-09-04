@@ -60,7 +60,7 @@ public class CpdParser extends AbstractDryParser<Duplication> {
         for (Duplication duplication : duplications) {
             DuplicationGroup group = new DuplicationGroup(duplication.getCodeFragment());
             for (SourceFile file : duplication.getFiles()) {
-                IssueBuilder builder = new IssueBuilder().setPriority(getPriority(duplication.getLines()))
+                IssueBuilder builder = new IssueBuilder().setSeverity(getPriority(duplication.getLines()))
                         .setLineStart(file.getLine())
                         .setLineEnd(file.getLine() + duplication.getLines() - 1)
                         .setFileName(file.getPath())

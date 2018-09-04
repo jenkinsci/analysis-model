@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
@@ -35,7 +35,7 @@ class CheckStyleParserTest extends AbstractIssueParserTest {
                 .hasLineStart(22)
                 .hasCategory("Design")
                 .hasType("DesignForExtensionCheck")
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("Die Methode 'detectPackageName' ist nicht fr Vererbung entworfen - muss abstract, final oder leer sein.");
     }
 

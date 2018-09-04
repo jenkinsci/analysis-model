@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -37,7 +37,7 @@ public class CodeAnalysisParser extends RegexpLineParser {
                     .setCategory(matcher.group(8))
                     .setType(matcher.group(6))
                     .setMessage(matcher.group(10))
-                    .setPriority(Priority.NORMAL)
+                    .setSeverity(Severity.WARNING_NORMAL)
                     .build();
         }
         else {
@@ -46,7 +46,7 @@ public class CodeAnalysisParser extends RegexpLineParser {
                     .setCategory(matcher.group(8))
                     .setType(matcher.group(6))
                     .setMessage(matcher.group(10))
-                    .setPriority(Priority.NORMAL)
+                    .setSeverity(Severity.WARNING_NORMAL)
                     .build();
         }
     }

@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
@@ -44,7 +44,7 @@ public class GnuFortranParser extends RegexpDocumentParser {
                 .setLineStart(parseInt(matcher.group(2)))
                 .setCategory(category)
                 .setMessage(LINE_PATTERN.matcher(matcher.group(6)).replaceAll(""))
-                .setPriority("Warning".equals(category) ? Priority.NORMAL : Priority.HIGH)
+                .setSeverity("Warning".equals(category) ? Severity.WARNING_NORMAL : Severity.WARNING_HIGH)
                 .build();
     }
 }

@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -28,16 +28,16 @@ public class ClangTidyParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        Priority priority;
+        Severity priority;
         if (matcher.group(4).contains("error")) {
-            priority = Priority.HIGH;
+            priority = Severity.WARNING_HIGH;
         }
         else {
-            priority = Priority.NORMAL;
+            priority = Severity.WARNING_NORMAL;
         }
 
         return builder.setFileName(matcher.group(1))
-                .setPriority(priority)
+                .setSeverity(priority)
                 .setLineStart(parseInt(matcher.group(2)))
                 .setColumnStart(parseInt(matcher.group(3)))
                 .setType(StringUtils.capitalize(matcher.group(4)))

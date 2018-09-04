@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the Coolflux DSP Compiler warnings.
@@ -34,7 +34,7 @@ public class CoolfluxChessccParser extends FastRegexpLineParser {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(parseInt(matcher.group(2)))
                 .setMessage(matcher.group(3))
-                .setPriority(Priority.HIGH)
+                .setSeverity(Severity.WARNING_HIGH)
                 .build();
     }
 }

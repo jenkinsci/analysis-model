@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
@@ -50,7 +50,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(14))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(20)
                     .hasLineEnd(20)
@@ -64,7 +64,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(report).hasSize(15);
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(451)
                 .hasLineEnd(451)
@@ -72,7 +72,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/testhist.l");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(ERROR_CATEGORY)
                 .hasLineStart(73)
                 .hasLineEnd(73)
@@ -80,7 +80,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(ERROR_CATEGORY)
                 .hasLineStart(4)
                 .hasLineEnd(4)
@@ -88,7 +88,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/foo.cc");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(678)
                 .hasLineEnd(678)
@@ -96,7 +96,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(678)
                 .hasLineEnd(678)
@@ -104,7 +104,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(678)
                 .hasLineEnd(678)
@@ -112,7 +112,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(52)
                 .hasLineEnd(52)
@@ -120,7 +120,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/src/test_simple_sgs_message.cxx");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(352)
                 .hasLineEnd(352)
@@ -128,7 +128,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/dir2/main/mep.cpp");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(6)
                 .hasLineEnd(6)
@@ -136,7 +136,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/dir2/warnings.cc");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(6)
                 .hasLineEnd(6)
@@ -144,7 +144,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/dir2/warnings.cc");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(33)
                 .hasLineEnd(33)
@@ -152,7 +152,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(ERROR_CATEGORY)
                 .hasLineStart(8)
                 .hasLineEnd(8)
@@ -160,7 +160,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/dir2/dir3/fo:oo.cpp");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(ERROR_CATEGORY)
                 .hasLineStart(12)
                 .hasLineEnd(12)
@@ -168,7 +168,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
                 .hasFileName("/dir1/dir2/dir3/fo:oo.cpp");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(5)
                 .hasLineEnd(5)

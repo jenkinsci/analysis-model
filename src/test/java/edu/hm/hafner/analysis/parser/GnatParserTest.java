@@ -5,7 +5,7 @@ import java.util.Iterator;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -23,7 +23,7 @@ class GnatParserTest extends AbstractIssueParserTest {
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(report).hasSize(9);
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(GNAT_WARNING)
                 .hasLineStart(402)
                 .hasLineEnd(402)
@@ -31,7 +31,7 @@ class GnatParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/class_utilities.adb");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(GNAT_WARNING)
                 .hasLineStart(63)
                 .hasLineEnd(63)
@@ -39,7 +39,7 @@ class GnatParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/iml-interfaces-cfg.adb");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("GNAT style")
                 .hasLineStart(96)
                 .hasLineEnd(96)
@@ -47,7 +47,7 @@ class GnatParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/pointsto/andersen_results.adb");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(GNAT_WARNING)
                 .hasLineStart(3)
                 .hasLineEnd(3)
@@ -55,7 +55,7 @@ class GnatParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/generated/ada_delta_constraints.adb");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(GNAT_WARNING)
                 .hasLineStart(97)
                 .hasLineEnd(97)
@@ -63,7 +63,7 @@ class GnatParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/array_tables.adb");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(GNAT_WARNING)
                 .hasLineStart(63)
                 .hasLineEnd(63)
@@ -71,7 +71,7 @@ class GnatParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/graph_algorithms-generic_explorers.adb");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.LOW)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("GNAT style")
                 .hasLineStart(257)
                 .hasLineEnd(257)
@@ -79,7 +79,7 @@ class GnatParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/process_data.adb");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("GNAT error")
                 .hasLineStart(23)
                 .hasLineEnd(23)
@@ -87,7 +87,7 @@ class GnatParserTest extends AbstractIssueParserTest {
                 .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/tools/scangen/src/scangen.adb");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("GNAT error")
                 .hasLineStart(23)
                 .hasLineEnd(23)

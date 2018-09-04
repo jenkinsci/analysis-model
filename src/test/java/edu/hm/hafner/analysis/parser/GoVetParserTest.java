@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -24,13 +24,13 @@ class GoVetParserTest extends AbstractIssueParserTest {
         assertThat(report).hasSize(2);
 
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(46)
                 .hasLineEnd(46)
                 .hasMessage("missing argument for Fatalf(\"%#v\"): format reads arg 2, have only 1 args")
                 .hasFileName("ui_colored_test.go");
         softly.assertThat(report.get(1))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(59)
                 .hasLineEnd(59)
                 .hasMessage("missing argument for Fatalf(\"%#v\"): format reads arg 2, have only 1 args")

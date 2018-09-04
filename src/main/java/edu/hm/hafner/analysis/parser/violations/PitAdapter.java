@@ -5,7 +5,7 @@ import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.PiTestParser;
 
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * Parses PIT results files.
@@ -35,8 +35,8 @@ public class PitAdapter extends AbstractViolationAdapter {
     }
 
     @Override
-    protected Priority convertSeverity(final SEVERITY severity, final Violation violation) {
-        return "SURVIVED".equals(getSpecifics(violation, STATUS)) ? Priority.HIGH : Priority.NORMAL;
+    protected Severity convertSeverity(final SEVERITY severity, final Violation violation) {
+        return "SURVIVED".equals(getSpecifics(violation, STATUS)) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
     }
 
     private String getSpecifics(final Violation violation, final String key) {

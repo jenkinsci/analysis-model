@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -44,7 +44,7 @@ public class JavacParser extends FastRegexpLineParser {
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(1);
         if ("WARNING".equals(type)) {
-            builder.setPriority(Priority.NORMAL);
+            builder.setSeverity(Severity.WARNING_NORMAL);
         }
         else if ("ERROR".equals(type)) {
             builder.setSeverity(Severity.ERROR);

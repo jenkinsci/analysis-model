@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for Perforce execution.
@@ -36,17 +36,17 @@ public class P4Parser extends FastRegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(2).trim();
-        Priority p = mapPriority(category);
+        Severity p = mapPriority(category);
         return builder.setFileName(matcher.group(1).trim()).setLineStart(0).setCategory(category).setMessage(
                 matcher.group(1).trim())
-                .setPriority(p).build();
+                .setSeverity(p).build();
     }
 
-    private Priority mapPriority(final String category) {
+    private Severity mapPriority(final String category) {
         if (category.contains(ALREADY_OPENED) || category.equals(NOTHING_CHANGED)) {
-            return Priority.LOW;
+            return Severity.WARNING_LOW;
         }
-        return Priority.NORMAL;
+        return Severity.WARNING_NORMAL;
     }
 
     @Override

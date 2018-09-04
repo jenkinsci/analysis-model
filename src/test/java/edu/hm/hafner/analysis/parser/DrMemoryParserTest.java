@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -34,7 +34,7 @@ class DrMemoryParserTest extends AbstractIssueParserTest {
                         + "# 2 main                                               [/open_address_hash/run_open_address_hash.c:7]")
                 .hasFileName("/open_address_hash/run_open_address_hash.c")
                 .hasCategory("Leak")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(7)
@@ -45,7 +45,7 @@ class DrMemoryParserTest extends AbstractIssueParserTest {
                         + "# 2 main                                                        [/open_address_hash/run_open_address_hash.c:7]")
                 .hasFileName("/open_address_hash/run_open_address_hash.c")
                 .hasCategory("Possible Leak")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(0)
@@ -56,7 +56,7 @@ class DrMemoryParserTest extends AbstractIssueParserTest {
                         + "# 2 main")
                 .hasFileName("Unknown")
                 .hasCategory("Leak")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(16)
@@ -79,7 +79,7 @@ class DrMemoryParserTest extends AbstractIssueParserTest {
                         + "Note: @0:00:01.247 in thread 7601")
                 .hasFileName("/var/lib/jenkins/jobs/jobs_name/workspace/jenkins_config/iondb/src/tests/unit/dictionary/linear_hash/run_linear_hash.c")
                 .hasCategory("Uninitialized Read")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(164)
@@ -91,7 +91,7 @@ class DrMemoryParserTest extends AbstractIssueParserTest {
                         + "# 2 malloc!_start")
                 .hasFileName("/var/lib/jenkins/jobs/drmemory/workspace/git/src/tests/malloc.c")
                 .hasCategory("Invalid Heap Argument")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(139)
@@ -104,7 +104,7 @@ class DrMemoryParserTest extends AbstractIssueParserTest {
                         + "Note: # 1 main                            [cs2::bug.cpp:139]")
                 .hasFileName("cs2::bug.cpp")
                 .hasCategory("Invalid Heap Argument")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(0)
@@ -112,7 +112,7 @@ class DrMemoryParserTest extends AbstractIssueParserTest {
                 .hasMessage("UNADDRESSABLE ACCESS of freed memory: reading 0x001338a8-0x001338ac 4 byte(s)")
                 .hasFileName("Nil")
                 .hasCategory("Unaddressable Access")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(0)
@@ -123,7 +123,7 @@ class DrMemoryParserTest extends AbstractIssueParserTest {
                         + "Note: # 1 main                            [test/cs2::bug.cpp:139]")
                 .hasFileName("Nil")
                 .hasCategory("Invalid Heap Argument")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertAll();
     }

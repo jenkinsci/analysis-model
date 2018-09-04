@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -32,18 +32,18 @@ public class XlcCompilerParser extends RegexpLineParser {
         super(XLC_WARNING_PATTERN);
     }
 
-    private Priority toPriority(final String severity) {
+    private Severity toPriority(final String severity) {
         switch (severity.charAt(0)) {
             case 'U':
             case 'S':
             case 'E':
-                return Priority.HIGH;
+                return Severity.WARNING_HIGH;
             case 'W':
-                return Priority.NORMAL;
+                return Severity.WARNING_NORMAL;
             case 'I':
-                return Priority.LOW;
+                return Severity.WARNING_LOW;
             default:
-                return Priority.HIGH;
+                return Severity.WARNING_HIGH;
         }
     }
 
@@ -57,7 +57,7 @@ public class XlcCompilerParser extends RegexpLineParser {
                     .setLineStart(parseInt(lineMatcher.group(2)))
                     .setCategory(lineMatcher.group(3).trim())
                     .setMessage(lineMatcher.group(5))
-                    .setPriority(toPriority(lineMatcher.group(4)))
+                    .setSeverity(toPriority(lineMatcher.group(4)))
                     .build();
         }
 
@@ -71,7 +71,7 @@ public class XlcCompilerParser extends RegexpLineParser {
                     .setLineStart(0)
                     .setCategory(matcher.group(1).trim())
                     .setMessage(matcher.group(4))
-                    .setPriority(toPriority(matcher.group(2)))
+                    .setSeverity(toPriority(matcher.group(2)))
                     .build();
         }
         return FALSE_POSITIVE;

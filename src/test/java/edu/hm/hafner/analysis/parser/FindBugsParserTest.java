@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.analysis.parser.FindBugsParser.InputStreamProvider;
@@ -57,7 +57,7 @@ class FindBugsParserTest {
                     .hasFileName("edu/hm/hafner/analysis/IssuesTest.java")
                     .hasCategory("STYLE")
                     .hasType("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage("Return value of Issues.get(int) ignored, but method has no side effect")
                     .hasPackageName("edu.hm.hafner.analysis")
                     .hasModuleName("Static Analysis Model and Parsers")
@@ -68,7 +68,7 @@ class FindBugsParserTest {
                     .hasFileName("edu/hm/hafner/analysis/IssuesTest.java")
                     .hasCategory("STYLE")
                     .hasType("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage("Return value of Issues.get(int) ignored, but method has no side effect")
                     .hasPackageName("edu.hm.hafner.analysis")
                     .hasModuleName("Static Analysis Model and Parsers")
@@ -104,7 +104,7 @@ class FindBugsParserTest {
             softly.assertThat(report.get(0))
                     .hasFileName("com/sedsystems/core/valid/Transformers.java")
                     .hasPackageName("com.sedsystems.core.valid")
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasModuleName("issue12314.xml")
                     .hasLineStart(60)
                     .hasLineEnd(60);
@@ -136,10 +136,10 @@ class FindBugsParserTest {
     @Test
     void testFileWithMultipleLinesAndRanges() {
         scanNativeFile(FINDBUGS_NATIVE_XML, FINDBUGS_NATIVE_XML,
-                Priority.NORMAL, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
+                Severity.WARNING_NORMAL, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
                 4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0, CONFIDENCE);
         scanNativeFile(FINDBUGS_NATIVE_XML, FINDBUGS_NATIVE_XML,
-                Priority.LOW, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
+                Severity.WARNING_LOW, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
                 4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0, RANK);
     }
 
@@ -150,10 +150,10 @@ class FindBugsParserTest {
     @Test
     void scanFileWarningsHaveMultipleClasses() {
         scanNativeFile("findbugs-multclass.xml", "FindBugs",
-                Priority.HIGH, "umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 82, 82,
+                Severity.WARNING_HIGH, "umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 82, 82,
                 0, "edu/umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 93, 93, 0, CONFIDENCE);
         scanNativeFile("findbugs-multclass.xml", "FindBugs",
-                Priority.LOW, "umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 82, 82,
+                Severity.WARNING_LOW, "umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 82, 82,
                 0, "edu/umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 93, 93, 0, RANK);
     }
 
@@ -193,7 +193,7 @@ class FindBugsParserTest {
     }
 
     @SuppressWarnings("parameternumber")
-    private void scanNativeFile(final String findbugsFile, final String projectName, final Priority priority,
+    private void scanNativeFile(final String findbugsFile, final String projectName, final Severity priority,
             final String fileName1, final String packageName1,
             final int start1, final int end1, final int ranges1,
             final String fileName2, final String packageName2,
@@ -210,7 +210,7 @@ class FindBugsParserTest {
             softly.assertThat(first)
                     .hasFileName(fileName1)
                     .hasPackageName(packageName1)
-                    .hasPriority(priority)
+                    .hasSeverity(priority)
                     .hasModuleName(projectName)
                     .hasLineStart(start1)
                     .hasLineEnd(end1);
@@ -218,7 +218,7 @@ class FindBugsParserTest {
             softly.assertThat(second)
                     .hasFileName(fileName2)
                     .hasPackageName(packageName2)
-                    .hasPriority(priority)
+                    .hasSeverity(priority)
                     .hasModuleName(projectName)
                     .hasLineStart(start2)
                     .hasLineEnd(end2);

@@ -7,7 +7,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -36,7 +36,7 @@ class JSLintParserTest extends AbstractIssueParserTest {
         assertSoftly(softly -> {
 
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(JSLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
                     .hasLineStart(3)
                     .hasLineEnd(3)
@@ -77,7 +77,7 @@ class JSLintParserTest extends AbstractIssueParserTest {
                 "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(JSLintXmlSaxParser.CATEGORY_PARSING)
                 .hasLineStart(10)
                 .hasLineEnd(10)

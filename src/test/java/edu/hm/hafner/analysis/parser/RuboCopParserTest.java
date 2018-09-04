@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -29,14 +29,14 @@ class RuboCopParserTest extends AbstractIssueParserTest {
                 .hasLineStart(1)
                 .hasCategory("Style/FrozenStringLiteralComment")
                 .hasMessage("Missing magic comment # frozen_string_literal: true.")
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasColumnStart(1);
         softly.assertThat(report.get(1))
                 .hasFileName("spec/rails_helper.rb")
                 .hasLineStart(6)
                 .hasCategory("Style/StringLiterals")
                 .hasMessage("Prefer single-quoted strings when you don't need string interpolation or special symbols.")
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasColumnStart(7);
     }
 }

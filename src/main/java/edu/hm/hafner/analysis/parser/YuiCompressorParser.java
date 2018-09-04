@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
@@ -40,7 +40,7 @@ public class YuiCompressorParser extends RegexpDocumentParser {
         String messageDetails = matcher.group(2);
         String message = messageHeader + " [" + messageDetails + "]";
         return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
-                             .setMessage(message).setPriority(categoryAndPriority.getPriority()).build();
+                             .setMessage(message).setSeverity(categoryAndPriority.getPriority()).build();
     }
 
     @SuppressWarnings("npathcomplexity")
@@ -89,27 +89,27 @@ public class YuiCompressorParser extends RegexpDocumentParser {
      */
     private enum CategoryAndPriority {
         UNDECLARED_SYMBOL("Undeclared symbol"),
-        USE_SINGLE_VAR("Use single 'var' per scope", Priority.LOW),
+        USE_SINGLE_VAR("Use single 'var' per scope", Severity.WARNING_LOW),
         UNUSED_SYMBOL("Unused symbol"),
-        DUPLICATE_VAR("Duplicate variable", Priority.HIGH),
+        DUPLICATE_VAR("Duplicate variable", Severity.WARNING_HIGH),
         UNKNOWN(""),
-        DUPLICATE_FUN("Duplicate function", Priority.HIGH),
+        DUPLICATE_FUN("Duplicate function", Severity.WARNING_HIGH),
         INVALID_HINT("Invalid hint"),
-        UNSUPPORTED_HINT("Unsupported hint", Priority.LOW),
-        UNKNOWN_HINT("Unknown hint", Priority.LOW),
-        USE_JSCRIPT("Use Jscript", Priority.HIGH),
-        USE_EVAL("Use eval", Priority.HIGH),
-        USE_WITH("Use with", Priority.HIGH),
-        PRINT_SYMBOL("Cannot print symbol", Priority.LOW);
+        UNSUPPORTED_HINT("Unsupported hint", Severity.WARNING_LOW),
+        UNKNOWN_HINT("Unknown hint", Severity.WARNING_LOW),
+        USE_JSCRIPT("Use Jscript", Severity.WARNING_HIGH),
+        USE_EVAL("Use eval", Severity.WARNING_HIGH),
+        USE_WITH("Use with", Severity.WARNING_HIGH),
+        PRINT_SYMBOL("Cannot print symbol", Severity.WARNING_LOW);
 
         private final String category;
-        private final Priority priority;
+        private final Severity priority;
 
         CategoryAndPriority(final String category) {
-            this(category, Priority.NORMAL);
+            this(category, Severity.WARNING_NORMAL);
         }
 
-        CategoryAndPriority(final String category, final Priority priority) {
+        CategoryAndPriority(final String category, final Severity priority) {
             this.category = category;
             this.priority = priority;
         }
@@ -118,7 +118,7 @@ public class YuiCompressorParser extends RegexpDocumentParser {
             return category;
         }
 
-        public Priority getPriority() {
+        public Severity getPriority() {
             return priority;
         }
     }

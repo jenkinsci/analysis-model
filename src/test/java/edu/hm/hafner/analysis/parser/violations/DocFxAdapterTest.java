@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -24,13 +24,13 @@ class DocFxAdapterTest extends AbstractParserTest {
                 .hasFileName("sanasto.md")
                 .hasType("InvalidFileLink")
                 .hasLineStart(63)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(report.get(1))
                 .hasMessage("Invalid file link:(~/mobiilirajapinta/puuttuu.md).")
                 .hasFileName("mobiilirajapinta/json-dateandtime.md")
                 .hasType("InvalidFileLink")
                 .hasLineStart(18)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override

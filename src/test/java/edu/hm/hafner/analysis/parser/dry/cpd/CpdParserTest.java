@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -82,11 +82,11 @@ class CpdParserTest extends AbstractParserTest {
         softly.assertThat(reporterSecond)
                 .hasLineStart(274).hasLineEnd(274 + 95 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
         softly.assertThat(publisherSecond)
                 .hasLineStart(202).hasLineEnd(202 + 95 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         Serializable additionalProperties = publisherSecond.getAdditionalProperties();
         softly.assertThat(additionalProperties).isEqualTo(reporterSecond.getAdditionalProperties());
@@ -100,19 +100,19 @@ class CpdParserTest extends AbstractParserTest {
 
         report = parse(68, 25);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.HIGH);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_HIGH);
 
         report = parse(69, 25);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_NORMAL);
 
         report = parse(100, 68);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.NORMAL);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_NORMAL);
 
         report = parse(100, 69);
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasPriority(Priority.LOW);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_LOW);
     }
 
     private Report parse(final int highThreshold, final int normalThreshold) {
@@ -135,12 +135,12 @@ class CpdParserTest extends AbstractParserTest {
         assertThat(first)
                 .hasLineStart(19).hasLineEnd(19 + 68 - 1)
                 .hasFileName("csci07/csc60/remote_copy.sh")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
         Issue second = report.get(1);
         assertThat(second)
                 .hasLineStart(19).hasLineEnd(19 + 68 - 1)
                 .hasFileName("csci08/csc90/remote_copy.sh")
-                .hasPriority(Priority.HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         Serializable additionalProperties = first.getAdditionalProperties();
         assertThat(additionalProperties).isEqualTo(second.getAdditionalProperties());
@@ -180,11 +180,11 @@ class CpdParserTest extends AbstractParserTest {
         assertThat(reporterFirst)
                 .hasLineStart(76).hasLineEnd(76 + 36 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         assertThat(publisherFirst)
                 .hasLineStart(69).hasLineEnd(69 + 36 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         Serializable additionalProperties = reporterFirst.getAdditionalProperties();
         assertThat(additionalProperties).isEqualTo(publisherFirst.getAdditionalProperties());
 

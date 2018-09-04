@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -19,20 +19,20 @@ class BuckminsterParserTest extends AbstractIssueParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(3);
 
-        softly.assertThat(report.get(0)).hasPriority(Priority.NORMAL)
+        softly.assertThat(report.get(0)).hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(43)
                 .hasLineEnd(43)
                 .hasMessage("ArrayList is a raw type. References to generic type ArrayList<E> should be parameterized")
                 .hasFileName("/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp/src/org/eclipse/buckminster/tutorial/mailapp/NavigationView.java");
-        softly.assertThat(report.get(1)).hasPriority(Priority.HIGH)
+        softly.assertThat(report.get(1)).hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(CATEGORY)
                 .hasLineStart(57)
                 .hasLineEnd(57)
                 .hasMessage("Type safety: The method toArray(Object[]) belongs to the raw type ArrayList. References to generic type ArrayList<E> should be parameterized")
                 .hasFileName(
                         "/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp/src/org/eclipse/buckminster/tutorial/mailapp/NavigationView.java");
-        softly.assertThat(report.get(2)).hasPriority(Priority.NORMAL)
+        softly.assertThat(report.get(2)).hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(0)
                 .hasLineEnd(0)

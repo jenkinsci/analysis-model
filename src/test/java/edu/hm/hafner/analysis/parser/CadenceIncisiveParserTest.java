@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -29,20 +29,20 @@ class CadenceIncisiveParserTest extends AbstractIssueParserTest {
                 .hasMessage("Resolved design unit 'dummyram' at 'u_dummyrams' to 'dummysoc.dummyram:v' through a global search of all libraries.")
                 .hasFileName("/NotFileRelated")
                 .hasCategory("Warning (ncelab): CUSRCH")
-                .hasPriority(Priority.LOW);
+                .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(report.get(1))
                 .hasLineStart(313)
                 .hasMessage("10 output ports were not connected")
                 .hasFileName("/tmp/build-dir/../verilog/placeholder.v")
                 .hasCategory("Warning (ncelab): CUVWSP")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(2))
                 .hasLineStart(310)
                 .hasMessage("component instance is not fully bound (some.long:placeholder:blah:r1)")
                 .hasFileName("/tmp/build-dir/freaking_gbit_astral.vhd")
                 .hasCategory("Warning (ncelab): CUNOTB")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 }

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -41,7 +41,7 @@ class PhpParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(report.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(FATAL_ERROR_CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -58,7 +58,7 @@ class PhpParserTest extends AbstractIssueParserTest {
         Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(25)
                 .hasLineEnd(25)
@@ -66,7 +66,7 @@ class PhpParserTest extends AbstractIssueParserTest {
                 .hasFileName("PhpParser.php");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(NOTICE_CATEGORY)
                 .hasLineStart(25)
                 .hasLineEnd(25)
@@ -74,7 +74,7 @@ class PhpParserTest extends AbstractIssueParserTest {
                 .hasFileName("/path/to/file/Settings.php");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(FATAL_ERROR_CATEGORY)
                 .hasLineStart(35)
                 .hasLineEnd(35)
@@ -82,7 +82,7 @@ class PhpParserTest extends AbstractIssueParserTest {
                 .hasFileName("/MyPhpFile.php");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(PARSE_ERROR_CATEGORY)
                 .hasLineStart(35)
                 .hasLineEnd(35)
@@ -90,7 +90,7 @@ class PhpParserTest extends AbstractIssueParserTest {
                 .hasFileName("/MyPhpFile.php");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(34)
                 .hasLineEnd(34)

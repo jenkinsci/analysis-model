@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
@@ -44,25 +44,25 @@ public class XlcLinkerParser extends RegexpLineParser {
         if (lineMatcher.find()) {
             String category = lineMatcher.group(1);
             String message = lineMatcher.group(2);
-            return builder.setCategory(category).setMessage(message).setPriority(Priority.HIGH).build();
+            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_HIGH).build();
         }
         lineMatcher = PATTERN_ERROR_2.matcher(line);
         if (lineMatcher.find()) {
             String category = lineMatcher.group(1);
             String message = lineMatcher.group(2);
-            return builder.setCategory(category).setMessage(message).setPriority(Priority.HIGH).build();
+            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_HIGH).build();
         }
         lineMatcher = PATTERN_WARNING.matcher(line);
         if (lineMatcher.find()) {
             String category = lineMatcher.group(1);
             String message = lineMatcher.group(2);
-            return builder.setCategory(category).setMessage(message).setPriority(Priority.NORMAL).build();
+            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_NORMAL).build();
         }
         lineMatcher = PATTERN_INFO.matcher(line);
         if (lineMatcher.find()) {
             String category = lineMatcher.group(1);
             String message = lineMatcher.group(2);
-            return builder.setCategory(category).setMessage(message).setPriority(Priority.LOW).build();
+            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_LOW).build();
         }
         return FALSE_POSITIVE;
     }

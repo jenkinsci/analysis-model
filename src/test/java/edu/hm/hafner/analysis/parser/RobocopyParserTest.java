@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -21,21 +21,21 @@ class RobocopyParserTest extends AbstractIssueParserTest {
         assertThat(report).hasSize(3);
 
         softly.assertThat(report.get(0))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("EXTRA File")
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("b")
                 .hasFileName("b");
         softly.assertThat(report.get(1))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("New File")
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage(FILENAME)
                 .hasFileName(FILENAME);
         softly.assertThat(report.get(2))
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("same")
                 .hasLineStart(0)
                 .hasLineEnd(0)

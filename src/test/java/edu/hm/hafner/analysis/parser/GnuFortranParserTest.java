@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -30,7 +30,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(report).hasSize(4);
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.NORMAL)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Warning")
                 .hasLineStart(318)
                 .hasLineEnd(318)
@@ -38,7 +38,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
                 .hasFileName("C:/zlaror.f");
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Fatal Error")
                 .hasLineStart(7)
                 .hasLineEnd(7)
@@ -47,7 +47,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(10);
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Error")
                 .hasLineStart(81)
                 .hasLineEnd(81)
@@ -56,7 +56,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
                 .hasColumnStart(24);
 
         softly.assertThat(iterator.next())
-                .hasPriority(Priority.HIGH)
+                .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Internal Error")
                 .hasLineStart(5)
                 .hasLineEnd(5)
@@ -76,7 +76,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.NORMAL)
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Warning")
                     .hasLineStart(318)
                     .hasLineEnd(318)
@@ -96,7 +96,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("Error")
                     .hasLineStart(81)
                     .hasLineEnd(81)
@@ -117,7 +117,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("Fatal Error")
                     .hasLineStart(7)
                     .hasLineEnd(7)
@@ -138,7 +138,7 @@ class GnuFortranParserTest extends AbstractIssueParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasPriority(Priority.HIGH)
+                    .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("Internal Error")
                     .hasLineStart(5)
                     .hasLineEnd(5)

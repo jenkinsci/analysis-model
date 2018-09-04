@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the tnsdl translator warnings.
@@ -36,16 +36,16 @@ public class TnsdlParser extends FastRegexpLineParser {
                 .setLineStart(parseInt(matcher.group(4)))
                 .setCategory(WARNING_CATEGORY)
                 .setMessage(matcher.group(5))
-                .setPriority(mapPriority(matcher))
+                .setSeverity(mapPriority(matcher))
                 .build();
     }
 
-    private Priority mapPriority(final Matcher matcher) {
+    private Severity mapPriority(final Matcher matcher) {
         if (matcher.group().contains("(E)")) {
-            return Priority.HIGH;
+            return Severity.WARNING_HIGH;
         }
         else {
-            return Priority.NORMAL;
+            return Severity.WARNING_NORMAL;
         }
     }
 }

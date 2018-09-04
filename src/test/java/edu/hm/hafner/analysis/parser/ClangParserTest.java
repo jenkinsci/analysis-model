@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Priority;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -39,7 +39,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                 .hasMessage("extra tokens at end of #endif directive")
                 .hasFileName("test.c")
                 .hasCategory("-Wextra-tokens")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(iterator.next()).hasLineStart(28)
                 .hasLineEnd(28)
                 .hasColumnStart(8)
@@ -47,19 +47,19 @@ class ClangParserTest extends AbstractIssueParserTest {
                 .hasMessage("extra tokens at end of #endif directive")
                 .hasFileName("/path/to/test.c")
                 .hasCategory("-Wextra-tokens")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(iterator.next()).hasLineStart(128)
                 .hasLineEnd(128)
                 .hasMessage("extra tokens at end of #endif directive")
                 .hasFileName("test.c")
                 .hasCategory("-Wextra-tokens")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(iterator.next()).hasLineStart(28)
                 .hasLineEnd(28)
                 .hasMessage("extra tokens at end of #endif directive")
                 .hasFileName("test.c")
                 .hasCategory(DEFAULT_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(iterator.next()).hasLineStart(3)
                 .hasLineEnd(3)
                 .hasColumnStart(11)
@@ -67,7 +67,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                 .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
                 .hasFileName("t.c")
                 .hasCategory("-Wformat")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(iterator.next()).hasLineStart(3)
                 .hasLineEnd(3)
                 .hasColumnStart(11)
@@ -75,7 +75,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                 .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
                 .hasFileName("t.c")
                 .hasCategory("-Wformat,1")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(iterator.next()).hasLineStart(3)
                 .hasLineEnd(3)
                 .hasColumnStart(11)
@@ -83,7 +83,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                 .hasMessage("conversion specifies type 'char *' but the argument has type 'int'")
                 .hasFileName("t.c")
                 .hasCategory("-Wformat,Format String")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(iterator.next()).hasLineStart(47)
                 .hasLineEnd(47)
                 .hasColumnStart(15)
@@ -91,7 +91,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                 .hasMessage("invalid operands to binary expression ('int *' and '_Complex float')")
                 .hasFileName("exprs.c")
                 .hasCategory(DEFAULT_CATEGORY)
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(iterator.next()).hasLineStart(103)
                 .hasLineEnd(103)
                 .hasColumnStart(55)
@@ -99,7 +99,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                 .hasMessage("passing 'uint8_t [11]' to parameter of type 'const char *' converts between pointers to integer types with different sign")
                 .hasFileName("t.c")
                 .hasCategory("-Wpointer-sign")
-                .hasPriority(Priority.NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     /**
@@ -121,7 +121,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                     .hasMessage("implicit conversion loses integer precision: 'NSInteger' (aka 'long') to 'int'")
                     .hasFileName("/Volumes/workspace/MyApp/ViewController.m")
                     .hasCategory("-Wshorten-64-to-32")
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
 
@@ -167,7 +167,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                     .hasMessage("'test.h' file not found")
                     .hasFileName("./test.h")
                     .hasCategory(DEFAULT_CATEGORY)
-                    .hasPriority(Priority.HIGH);
+                    .hasSeverity(Severity.WARNING_HIGH);
         });
     }
 
@@ -190,7 +190,7 @@ class ClangParserTest extends AbstractIssueParserTest {
                     .hasMessage("Array access (via field 'yy_buffer_stack') results in a null pointer dereference")
                     .hasFileName("scanner.cpp")
                     .hasCategory(DEFAULT_CATEGORY)
-                    .hasPriority(Priority.NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
 }
