@@ -8,6 +8,8 @@ import java.util.List;
 import org.eclipse.collections.api.set.ImmutableSet;
 import org.eclipse.collections.impl.factory.Sets;
 
+import com.google.errorprone.annotations.Immutable;
+
 import edu.hm.hafner.util.Ensure;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -18,6 +20,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *
  * @author Ullrich Hafner
  */
+@Immutable
 public class Severity implements Serializable {
     private static final long serialVersionUID = 8921726169259131484L;
 
@@ -76,8 +79,6 @@ public class Severity implements Serializable {
         return valueOf(severity);
     }
 
-
-
     /**
      * Gets the severities starting from the specified severity to {@link Severity#ERROR}.
      *
@@ -89,14 +90,14 @@ public class Severity implements Serializable {
     public static Collection<Severity> collectSeveritiesFrom(final Severity minimumSeverity) {
         List<Severity> priorities = new ArrayList<>();
         priorities.add(Severity.ERROR);
-        if (minimumSeverity == WARNING_HIGH) {
+        if (minimumSeverity.equals(WARNING_HIGH)) {
             priorities.add(WARNING_HIGH);
         }
-        else if (minimumSeverity == WARNING_NORMAL) {
+        else if (minimumSeverity.equals(WARNING_NORMAL)) {
             priorities.add(WARNING_HIGH);
             priorities.add(WARNING_NORMAL);
         }
-        else if (minimumSeverity == WARNING_LOW) {
+        else if (minimumSeverity.equals(WARNING_LOW)) {
             priorities.add(WARNING_HIGH);
             priorities.add(WARNING_NORMAL);
             priorities.add(WARNING_LOW);
