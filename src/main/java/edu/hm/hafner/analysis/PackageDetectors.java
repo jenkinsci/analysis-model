@@ -16,7 +16,7 @@ import edu.hm.hafner.util.VisibleForTesting;
  *
  * @author Ullrich Hafner
  */
-final class PackageDetectors {
+class PackageDetectors {
     /** If no package could be assigned this value is used as package name. */
     static final String UNDEFINED_PACKAGE = "-";
 

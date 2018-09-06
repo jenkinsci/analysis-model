@@ -1,0 +1,35 @@
+package edu.hm.hafner.analysis;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
+import edu.hm.hafner.util.ResourceTest;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+/**
+ * Tests the class {@link PackageDetectors}.
+ * 
+ * @author Ullrich Hafner
+ */
+class PackageDetectorsTest extends ResourceTest {
+    @ParameterizedTest(name = "{index} => file={0}, expected package={1}")
+    @CsvSource({
+            "MavenJavaTest.txt.java, hudson.plugins.tasks.util",
+            "ActionBinding.cs, Avaloq.SmartClient.Utilities",
+            "MavenJavaTest.txt, -",
+            "pom.xml, -"})
+    void shouldExtractPackageNames(final String fileName, final String expectedPackage) throws IOException {
+        try (InputStream stream = asInputStream(fileName)) {
+            FileSystem fileSystem = mock(FileSystem.class);
+            when(fileSystem.openFile(fileName)).thenReturn(stream);
+            assertThat(new PackageDetectors(fileSystem).detectPackageName(fileName, StandardCharsets.UTF_8))
+                    .isEqualTo(expectedPackage);
+        }
+    }
+}
