@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.ViolationsParser;
@@ -26,25 +25,6 @@ import se.bjurr.violations.lib.parsers.ViolationsParser;
  */
 public abstract class AbstractViolationAdapter extends AbstractParser {
     private static final long serialVersionUID = 7203311857999721045L;
-
-    /** Determines whether the Rule property of a {@link Violation} should be used as Category or Type. */
-    enum Rule {
-        CATEGORY, TYPE
-    }
-
-    private final Rule useRuleAs;
-
-    /**
-     * Creates a new adapter instance.
-     *
-     * @param useRuleAs
-     *         determines whether the Rule property of a {@link Violation} should be used as Category or Type
-     */
-    protected AbstractViolationAdapter(final Rule useRuleAs) {
-        super();
-
-        this.useRuleAs = useRuleAs;
-    }
 
     @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock", "PMD.AvoidCatchingGenericException"})
     @Override
@@ -97,15 +77,9 @@ public abstract class AbstractViolationAdapter extends AbstractParser {
                 .setMessage(violation.getMessage())
                 .setLineStart(violation.getStartLine())
                 .setLineEnd(violation.getEndLine())
-                .setColumnStart(violation.getColumn().or(0));
-        String rule = violation.getRule().or(StringUtils.EMPTY);
-        if (useRuleAs == Rule.TYPE) {
-            builder.setType(rule);
-        }
-        else {
-            builder.setCategory(rule);
-        }
-
+                .setColumnStart(violation.getColumn())
+                .setType(violation.getRule())
+                .setCategory(violation.getCategory());
         extractAdditionalProperties(builder, violation);
 
         return builder.build();

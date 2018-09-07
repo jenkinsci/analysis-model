@@ -17,13 +17,6 @@ public class PitAdapter extends AbstractViolationAdapter {
     private static final String STATUS = "status";
     private static final String DETECTED = "detected";
 
-    /**
-     * Creates a new instance of {@link PitAdapter}.
-     */
-    public PitAdapter() {
-        super(Rule.TYPE);
-    }
-
     @Override
     protected PiTestParser createParser() {
         return new PiTestParser();

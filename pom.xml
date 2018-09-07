@@ -51,48 +51,48 @@
     <java.version>1.8</java.version>
 
     <!-- Project Dependencies Configuration -->
-    <spotbugs.annotations>3.1.5</spotbugs.annotations>
-    <commons.lang.version>3.7</commons.lang.version>
+    <spotbugs.annotations>3.1.6</spotbugs.annotations>
+    <commons.lang.version>3.8</commons.lang.version>
     <commons.io.version>2.6</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
     <commons.text.version>1.4</commons.text.version>
     <eclipse-collections.version>9.2.0</eclipse-collections.version>
 
     <!-- Project Test Dependencies Configuration -->
-    <junit.version>5.2.0</junit.version>
-    <mockito.version>2.19.0</mockito.version>
-    <assertj.version>3.10.0</assertj.version>
-    <archunit.version>0.8.2</archunit.version>
-    <violations-lib.version>1.54</violations-lib.version>
-    <json.version>20180130</json.version>
+    <junit.version>5.3.0</junit.version>
+    <mockito.version>2.21.0</mockito.version>
+    <assertj.version>3.11.1</assertj.version>
+    <archunit.version>0.9.1</archunit.version>
+    <violations-lib.version>1.59</violations-lib.version>
+    <json.version>20180813</json.version>
 
     <!-- Maven Plug-ins Configuration -->
     <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-    <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+    <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
     <maven-buildhelper-plugin.version>3.0.0</maven-buildhelper-plugin.version>
     <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
     <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
-    <junit-surefire-provider.version>1.2.0</junit-surefire-provider.version>
+    <junit-surefire-provider.version>1.3.0</junit-surefire-provider.version>
     <maven-pmd-plugin.version>3.10.0</maven-pmd-plugin.version>
-    <pmd.version>6.5.0</pmd.version>
+    <pmd.version>6.7.0</pmd.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
-    <checkstyle.version>8.11</checkstyle.version>
+    <checkstyle.version>8.12</checkstyle.version>
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
-    <spotbugs-maven-plugin.version>3.1.5</spotbugs-maven-plugin.version>
-    <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+    <spotbugs-maven-plugin.version>3.1.6</spotbugs-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
     <maven-taglist-plugin.version>2.4</maven-taglist-plugin.version>
-    <maven-pitest-plugin.version>1.4.0</maven-pitest-plugin.version>
-    <pitest-junit5-plugin.version>0.5</pitest-junit5-plugin.version>
-    <maven-error-prone-plugin.version>2.8.4</maven-error-prone-plugin.version>
+    <maven-pitest-plugin.version>1.4.2</maven-pitest-plugin.version>
+    <pitest-junit5-plugin.version>0.7</pitest-junit5-plugin.version>
+    <maven-error-prone-plugin.version>2.8.5</maven-error-prone-plugin.version>
     <error-prone.version>2.3.1</error-prone.version>
-    <maven-depgraph-plugin.version>3.1.0</maven-depgraph-plugin.version>
-    <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
+    <maven-depgraph-plugin.version>3.2.1</maven-depgraph-plugin.version>
+    <versions-maven-plugin.version>2.6</versions-maven-plugin.version>
 
     <!-- Maven Surefire ArgLine -->
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
@@ -199,10 +199,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <prerequisites>
-    <maven>3.3</maven>
-  </prerequisites>
 
   <build>
     <resources>

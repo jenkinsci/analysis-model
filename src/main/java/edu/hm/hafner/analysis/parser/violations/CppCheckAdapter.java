@@ -10,13 +10,6 @@ import se.bjurr.violations.lib.parsers.CPPCheckParser;
 public class CppCheckAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 2244442395053328008L;
 
-    /**
-     * Creates a new instance of {@link CppCheckAdapter}.
-     */
-    public CppCheckAdapter() {
-        super(Rule.TYPE);
-    }
-
     @Override
     protected CPPCheckParser createParser() {
         return new CPPCheckParser();

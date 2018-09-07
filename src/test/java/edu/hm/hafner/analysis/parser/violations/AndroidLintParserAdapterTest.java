@@ -27,7 +27,7 @@ class AndroidLintParserAdapterTest extends AbstractParserTest {
                 .hasColumnStart(9)
                 .hasColumnEnd(9)
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(report.get(0).getMessage()).contains("ScrollViewSize: ScrollView size validation");
+        softly.assertThat(report.get(0).getMessage()).contains("ScrollView size validation");
         softly.assertThat(report.get(1)).hasFileName(".gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.4.0/5b72bf48563ea8410e650de14aa33ff69a3e8c35/okio-1.4.0.jar")
                 .hasCategory("Correctness")
                 .hasLineStart(0)
@@ -35,7 +35,7 @@ class AndroidLintParserAdapterTest extends AbstractParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
                 .hasSeverity(Severity.WARNING_HIGH);
-        softly.assertThat(report.get(1).getMessage()).contains("InvalidPackage: Package not included in Android");
+        softly.assertThat(report.get(1).getMessage()).contains("Package not included in Android");
     }
 
     @Override

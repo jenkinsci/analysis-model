@@ -11,13 +11,6 @@ import se.bjurr.violations.lib.parsers.ViolationsParser;
 public class ResharperInspectCodeAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = -7285232072855215797L;
 
-    /**
-     * Creates a new instance of {@link ResharperInspectCodeAdapter}.
-     */
-    public ResharperInspectCodeAdapter() {
-        super(Rule.TYPE);
-    }
-
     @Override
     protected ViolationsParser createParser() {
         return new ResharperParser();
