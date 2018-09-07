@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -158,9 +159,9 @@
       <artifactId>jaxen</artifactId>
       <version>1.1.6</version>
     </dependency>
-    
+
     <!-- SonarQube Parser Dependencies -->
-    
+
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
@@ -252,19 +253,9 @@
         <executions>
           <execution>
             <id>attach-sources</id>
-            <phase>deploy</phase>
-            <goals><goal>jar-no-fork</goal></goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <!-- explicitly define maven-deploy-plugin after other to force exec order -->
-        <artifactId>maven-deploy-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>deploy</id>
-            <phase>deploy</phase>
-            <goals><goal>deploy</goal></goals>
+            <goals>
+              <goal>jar</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -276,16 +267,10 @@
         </configuration>
         <executions>
           <execution>
-            <goals>
-              <goal>javadoc</goal>
-            </goals>
-            <!-- As soon as possible but after required generate-sources phase -->
-            <phase>process-sources</phase>
-          </execution>
-          <execution>
             <id>attach-javadocs</id>
-            <phase>deploy</phase>
-            <goals><goal>jar</goal></goals>
+            <goals>
+              <goal>jar</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
