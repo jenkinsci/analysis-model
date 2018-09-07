@@ -255,18 +255,6 @@
         </dependencies>
       </plugin>
       <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>${maven-source-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
         <configuration>
@@ -467,6 +455,25 @@
           <configuration>
             <outputFormats>XML,HTML</outputFormats>
           </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>display-info</id>
+              <configuration>
+                <rules>
+                  <enforceBytecodeVersion>
+                    <ignoreClasses>
+                      <!-- asm dependency from PMD contains a java9 module-info.class -->
+                      <ignoreClass>module-info</ignoreClass>
+                      <ignoreClass>ModuleUtils.class</ignoreClass>
+                    </ignoreClasses>
+                  </enforceBytecodeVersion>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
