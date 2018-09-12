@@ -342,6 +342,7 @@
           <version>${maven-depgraph-plugin.version}</version>
           <configuration>
             <graphFormat>puml</graphFormat>
+            <showVersions>true</showVersions>
           </configuration>
         </plugin>
         <plugin>
