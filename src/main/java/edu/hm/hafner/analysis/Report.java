@@ -660,8 +660,7 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Logs the specified information message. Use this method to log any useful information when composing this set of
-     * issues.
+     * Logs the specified information message. Use this method to log any useful information when composing this report.
      *
      * @param format
      *         A <a href="../util/Formatter.html#syntax">format string</a>
@@ -678,7 +677,7 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Logs the specified error message. Use this method to log any error when composing this set of issues.
+     * Logs the specified error message. Use this method to log any error when composing this report.
      *
      * @param format
      *         A <a href="../util/Formatter.html#syntax">format string</a>
