@@ -439,6 +439,16 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns whether this issue has a file name set.
+     *
+     * @return {@code true} if this issue has a file name set
+     * @see #getFileName()
+     */
+    public boolean hasFileName() {
+        return !UNDEFINED.equals(getFileName());
+    }
+
+    /**
      * Returns the category of this issue (depends on the available categories of the static analysis tool). Examples
      * for categories are "Deprecation", "Design", or "JavaDoc".
      *

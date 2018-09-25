@@ -132,6 +132,7 @@ public class IssueTest extends SerializableTest<Issue> {
                     .hasFingerprint(FINGERPRINT);
             softly.assertThat(issue.hasFingerprint()).isTrue();
             softly.assertThat(issue.hasPackageName()).isTrue();
+            softly.assertThat(issue.hasFileName()).isTrue();
             softly.assertThat(issue.hasModuleName()).isTrue();
         });
 
@@ -209,6 +210,7 @@ public class IssueTest extends SerializableTest<Issue> {
                     .hasFingerprint(UNDEFINED);
             softly.assertThat(issue.hasFingerprint()).isFalse();
             softly.assertThat(issue.hasPackageName()).isFalse();
+            softly.assertThat(issue.hasFileName()).isFalse();
             softly.assertThat(issue.hasModuleName()).isFalse();
         });
     }
