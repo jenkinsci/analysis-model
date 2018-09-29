@@ -1,0 +1,9 @@
+../devopsloft/application.py:42:1: E302 expected 2 blank lines, found 1
+../devopsloft/application.py:46:1: E302 expected 2 blank lines, found 1
+../devopsloft/application.py:51:1: E302 expected 2 blank lines, found 1
+../devopsloft/application.py:55:1: E302 expected 2 blank lines, found 1
+../devopsloft/application.py:59:1: E302 expected 2 blank lines, found 1
+../devopsloft/application.py:88:1: E302 expected 2 blank lines, found 1
+../devopsloft/application.py:121:1: E302 expected 2 blank lines, found 1
+../devopsloft/application.py:141:1: E302 expected 2 blank lines, found 1
+../devopsloft/application.py:147:1: E305 expected 2 blank lines after class or function definition, found 1

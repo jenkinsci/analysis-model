@@ -1,9 +1,12 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -30,5 +33,22 @@ class Flake8AdapterTest extends AbstractParserTest {
     @Override
     protected AbstractParser createParser() {
         return new Flake8Adapter();
+    }
+
+    /**
+     * Checks whether columns are supported.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-53786">Issue 53786</a>
+     */
+    @Test
+    void shouldParseFileWithColumns() {
+        Report report = parse("flake8-issue53786");
+
+        assertThat(report).hasSize(9);
+        assertThat(report.get(0)).hasFileName("../devopsloft/application.py")
+                .hasLineStart(42)
+                .hasColumnStart(1)
+                .hasType("302")
+                .hasMessage("expected 2 blank lines, found 1");
     }
 }
