@@ -31,11 +31,13 @@ public class FingerprintGenerator {
         int errorCount = 0;
         List<String> errors = new ArrayList<>();
 
+        int sum = 0;
         for (Issue issue : report) {
             if (!issue.hasFingerprint()) {
                 try {
                     String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
                     issue.setFingerprint(digest);
+                    sum++;
                 }
                 catch (IOException | InvalidPathException exception) {
                     issue.setFingerprint(createDefaultFingerprint(issue));
@@ -62,6 +64,7 @@ public class FingerprintGenerator {
             report.logError("Can't create fingerprints for %d files:", errorCount);
             errors.forEach(report::logError);
         }
+        report.logInfo("-> created fingerprints for %d issues", sum);
     }
 
     @VisibleForTesting
