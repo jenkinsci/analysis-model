@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.InvalidPathException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -28,9 +26,7 @@ public class FingerprintGenerator {
      *         the character set to use when reading the source files
      */
     public void run(final FullTextFingerprint algorithm, final Report report, final Charset charset) {
-        int errorCount = 0;
-        List<String> errors = new ArrayList<>();
-
+        FilteredLog log = new FilteredLog(report, "Can't create fingerprints for some files:");
         int sum = 0;
         for (Issue issue : report) {
             if (!issue.hasFingerprint()) {
@@ -41,30 +37,19 @@ public class FingerprintGenerator {
                 }
                 catch (IOException | InvalidPathException exception) {
                     issue.setFingerprint(createDefaultFingerprint(issue));
-                    if (errorCount < 5) {
-                        if (exception.getCause() instanceof MalformedInputException) {
-                            errors.add(String.format(
-                                    "- '%s', provided encoding '%s' seems to be wrong",
-                                    issue.getFileName(), charset));
-                        }
-                        else {
-                            errors.add(String.format(
-                                    "- '%s', IO exception has been thrown: %s",
-                                    issue.getFileName(), exception));
-                        }
+                    if (exception.getCause() instanceof MalformedInputException) {
+                        log.logError("- '%s', provided encoding '%s' seems to be wrong",
+                                issue.getFileName(), charset);
                     }
-                    else if (errorCount == 5) {
-                        errors.add("  ... skipped logging of additional file errors ...");
+                    else {
+                        log.logError("- '%s', IO exception has been thrown: %s",
+                                issue.getFileName(), exception);
                     }
-                    errorCount++;
                 }
             }
         }
-        if (errorCount > 0) {
-            report.logError("Can't create fingerprints for %d files:", errorCount);
-            errors.forEach(report::logError);
-        }
         report.logInfo("-> created fingerprints for %d issues", sum);
+        log.logSummary();
     }
 
     @VisibleForTesting
