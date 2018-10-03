@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
@@ -40,6 +41,9 @@ public class FingerprintGenerator {
                     if (exception.getCause() instanceof MalformedInputException) {
                         log.logError("- '%s', provided encoding '%s' seems to be wrong",
                                 issue.getFileName(), charset);
+                    }
+                    else if (exception instanceof FileNotFoundException) {
+                        log.logError("- '%s' file not found", issue.getFileName());
                     }
                     else {
                         log.logError("- '%s', IO exception has been thrown: %s",
