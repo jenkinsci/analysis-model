@@ -43,7 +43,7 @@ public class FingerprintGenerator {
                     issue.setFingerprint(createDefaultFingerprint(issue));
                     if (exception.getCause() instanceof MalformedInputException) {
                         log.logError("- '%s', provided encoding '%s' seems to be wrong",
-                        issue.getFileName(), charset);
+                                issue.getFileName(), charset);
                     }
                     else {
                         log.logError("- '%s', IO exception has been thrown: %s",
