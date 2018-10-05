@@ -36,14 +36,14 @@ public class FingerprintGenerator {
                     issue.setFingerprint(digest);
                     sum++;
                 }
+                catch (FileNotFoundException exception) {
+                    log.logError("- '%s' file not found", issue.getFileName());
+                }
                 catch (IOException | InvalidPathException exception) {
                     issue.setFingerprint(createDefaultFingerprint(issue));
                     if (exception.getCause() instanceof MalformedInputException) {
                         log.logError("- '%s', provided encoding '%s' seems to be wrong",
-                                issue.getFileName(), charset);
-                    }
-                    else if (exception instanceof FileNotFoundException) {
-                        log.logError("- '%s' file not found", issue.getFileName());
+                        issue.getFileName(), charset);
                     }
                     else {
                         log.logError("- '%s', IO exception has been thrown: %s",
