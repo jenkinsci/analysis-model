@@ -27,9 +27,11 @@ public class FullTextFingerprint {
     /** Number of lines before and after current line to consider. */
     private static final int LINES_LOOK_AHEAD = 3;
     private static final int LINE_RANGE_BUFFER_SIZE = 1000;
+    private static final char[] HEX_CHARACTERS = "0123456789ABCDEF".toCharArray();
 
     private final MessageDigest digest;
     private final FileSystem fileSystem;
+
 
     /**
      * Creates a new instance of {@link FullTextFingerprint}.
@@ -86,10 +88,9 @@ public class FullTextFingerprint {
         return asHex(digest.digest()).toUpperCase(Locale.ENGLISH);
     }
 
-    private final static char[] HEX_CHARACTERS = "0123456789ABCDEF".toCharArray();
     private String asHex(final byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = HEX_CHARACTERS[v >>> 4];
             hexChars[j * 2 + 1] = HEX_CHARACTERS[v & 0x0F];
