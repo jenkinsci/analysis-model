@@ -9,11 +9,15 @@ import org.xml.sax.XMLReader;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaCall;
+import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
 
+import static com.tngtech.archunit.base.DescribedPredicate.*;
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.*;
+import static com.tngtech.archunit.lang.conditions.ArchPredicates.*;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 import edu.hm.hafner.util.VisibleForTesting;
 
@@ -61,12 +65,20 @@ public class ArchitectureRulesTest {
         ArchRule noPublicClasses = noClasses()
                 .that().dontHaveModifier(JavaModifier.ABSTRACT)
                 .and().haveSimpleNameEndingWith("Test")
-                .and().dontHaveSimpleName("IssueTest")
-                .and().dontHaveSimpleName("EclipseParserTest") // base class for warnings-plugin
-                .and().dontHaveSimpleName("Pep8ParserTest")    // base class for warnings-plugin
+                .and().haveNameNotMatching(getClass().getName())
+                .and(dont(areAllowedPublicTestClasses()))
                 .should().bePublic();
 
         noPublicClasses.check(classes);
+    }
+
+    /**
+     * Returns a predicate that provides test classes that are allowed to be public.
+     * 
+     * @return allowed public test classes
+     */
+    protected DescribedPredicate<? super JavaClass> areAllowedPublicTestClasses() {
+        return have(simpleName("IssueTest")).or(simpleName("EclipseParserTest")).or(simpleName("Pep8ParserTest"));
     }
 
     /**
