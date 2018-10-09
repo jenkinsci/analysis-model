@@ -75,18 +75,20 @@ class ArchitectureRulesTest {
     }
 
     /**
-     * Prevents that deprecated classes from transitive dependencies are called.
+     * Prevents that classes use visible but forbidden API.
      */
     @Test
-    void shouldNotCallCommonsLang() {
+    void shouldNotUseForbiddenModules() {
         JavaClasses classes = getAnalysisModelClasses();
 
-        ArchRule noTestApiCalled = noClasses()
-                .should().accessClassesThat().resideInAPackage("org.apache.commons.lang..");
+        ArchRule restrictedApi = noClasses()
+                .should().accessClassesThat().resideInAnyPackage("org.apache.commons.lang..",
+                        "javax.xml.bind.."
+                );
 
-        noTestApiCalled.check(classes);
+        restrictedApi.check(classes);
     }
-
+    
     private JavaClasses getAnalysisModelClasses() {
         return new ClassFileImporter().importPackages("edu.hm.hafner");
     }

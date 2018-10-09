@@ -65,7 +65,8 @@ class FullTextFingerprintTest extends ResourceTest {
         FullTextFingerprint code = new FullTextFingerprint();
 
         String fingerprint = code.createFingerprint(10, getTextLinesAsStream(affectedFile), getCharset());
-
+        assertThat(fingerprint).isEqualTo("C10CFE4EC75F0C7F54980D432624D1C9");
+        
         for (int line = 0; line < 34; line++) {
             if (line == 10 || line == 20) {
                 assertThat(fingerprint).isEqualTo(

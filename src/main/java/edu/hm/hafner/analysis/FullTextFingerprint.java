@@ -10,7 +10,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.stream.Stream;
-import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -84,7 +83,18 @@ public class FullTextFingerprint {
         lines.close();
         digest.update(context.getBytes(charset));
 
-        return DatatypeConverter.printHexBinary(digest.digest()).toUpperCase(Locale.ENGLISH);
+        return asHex(digest.digest()).toUpperCase(Locale.ENGLISH);
+    }
+
+    private final static char[] HEX_CHARACTERS = "0123456789ABCDEF".toCharArray();
+    private String asHex(final byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_CHARACTERS[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_CHARACTERS[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 
     @VisibleForTesting
