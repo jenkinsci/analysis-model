@@ -22,15 +22,25 @@ import edu.hm.hafner.util.VisibleForTesting;
  *
  * @author Ullrich Hafner
  */
-class ArchitectureRulesTest {
+public class ArchitectureRulesTest {
     private static final DescribedPredicate<JavaCall<?>> ACCESS_IS_RESTRICTED_TO_TESTS = new AccessRestrictedToTests();
+
+    /**
+     * Returns the classes that should be checked. Override this method in modules that depend on the analysis-model
+     * library.
+     *
+     * @return the java classes to check
+     */
+    protected JavaClasses getAllClasses() {
+        return new ClassFileImporter().importPackages("edu.hm.hafner");
+    }
 
     /**
      * Digester must not be used directly, rather use a SecureDigester instance.
      */
     @Test
     void shouldNotCreateDigesterWithConstructor() {
-        JavaClasses classes = getAnalysisModelClasses();
+        JavaClasses classes = getAllClasses();
 
         ArchRule noDigesterConstructorCalled = noClasses().that().dontHaveSimpleName("SecureDigester")
                 .should().callConstructor(Digester.class)
@@ -46,7 +56,7 @@ class ArchitectureRulesTest {
      */
     @Test
     void shouldNotUsePublicInTestCases() {
-        JavaClasses classes = getAnalysisModelClasses();
+        JavaClasses classes = getAllClasses();
 
         ArchRule noPublicClasses = noClasses()
                 .that().dontHaveModifier(JavaModifier.ABSTRACT)
@@ -65,7 +75,7 @@ class ArchitectureRulesTest {
      */
     @Test
     void shouldNotCallVisibleForTestingOutsideOfTest() {
-        JavaClasses classes = getAnalysisModelClasses();
+        JavaClasses classes = getAllClasses();
 
         ArchRule noTestApiCalled = noClasses()
                 .that().haveSimpleNameNotEndingWith("Test")
@@ -79,26 +89,29 @@ class ArchitectureRulesTest {
      */
     @Test
     void shouldNotUseForbiddenModules() {
-        JavaClasses classes = getAnalysisModelClasses();
+        JavaClasses classes = getAllClasses();
 
         ArchRule restrictedApi = noClasses()
-                .should().accessClassesThat().resideInAnyPackage("org.apache.commons.lang..",
-                        "javax.xml.bind.."
-                );
+                .should().accessClassesThat().resideInAnyPackage(getForbiddenPackages());
 
         restrictedApi.check(classes);
     }
-    
-    private JavaClasses getAnalysisModelClasses() {
-        return new ClassFileImporter().importPackages("edu.hm.hafner");
+
+    /**
+     * Returns the packages that should not be accessed. 
+     * 
+     * @return the forbidden packages
+     */
+    protected String[] getForbiddenPackages() {
+        return new String[]{"org.apache.commons.lang..", "javax.xml.bind.."};
     }
 
     /**
-     * Matches if a call from outside the defining class uses a method or constructor annotated with
-     * {@link VisibleForTesting}. There are two exceptions:
+     * Matches if a call from outside the defining class uses a method or constructor annotated with {@link
+     * VisibleForTesting}. There are two exceptions:
      * <ul>
-     *     <li>The method is called on the same class</li>
-     *     <li>The method is called in a method also annotated with {@link VisibleForTesting}</li>
+     * <li>The method is called on the same class</li>
+     * <li>The method is called in a method also annotated with {@link VisibleForTesting}</li>
      * </ul>
      */
     private static class AccessRestrictedToTests extends DescribedPredicate<JavaCall<?>> {
