@@ -149,9 +149,10 @@
     <!-- FindBugs Parser Dependencies -->
 
     <dependency>
+      <!-- TODO: check if we could remove some other included libraries as well (asm, etc.) -->
       <groupId>org.jvnet.hudson.plugins.findbugs</groupId>
       <artifactId>library</artifactId>
-      <version>2.1.0</version>
+      <version>3.0.2</version>
     </dependency>
     <dependency>
       <groupId>jaxen</groupId>
