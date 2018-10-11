@@ -9,10 +9,15 @@ import java.util.function.Function;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
@@ -21,7 +26,6 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Parser for Taglist Maven Plugin output.
@@ -35,8 +39,6 @@ public class TaglistParser extends AbstractParser {
     private static final long serialVersionUID = 1L;
 
     @Override
-    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-    @SuppressWarnings("PMD.AvoidCatchingNPE")
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
 
@@ -46,73 +48,41 @@ public class TaglistParser extends AbstractParser {
             DocumentBuilder docBuilder;
             docBuilder = docBuilderFactory.newDocumentBuilder();
 
+            XPathFactory xPathFactory = XPathFactory.newInstance();
+            XPath xPath = xPathFactory.newXPath();
+
             Document doc = docBuilder.parse(input);
 
+            IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
-            Element tags = XmlElementUtil.getFirstElementByTagName(doc.getDocumentElement(), "tags");
+            NodeList tags = (NodeList)xPath.evaluate("/report/tags/tag", doc, XPathConstants.NODESET);
+            for (Element tag : XmlElementUtil.nodeListToList(tags)) {
+                String category = xPath.evaluate("@name", tag);
+                issueBuilder.setCategory(category);
 
-            // Will not work parallel, abuses changing object state in the flat maps.
-            XmlElementUtil.getNamedChildElements(tags, "tag").stream().map(e -> {
-                Context c = new Context(e);
-                c.getIssueBuilder().setCategory(e.getAttribute("name"));
-                return c;
-            }).flatMap(c -> {
-                Element files = XmlElementUtil.getFirstElementByTagName(c.getElement(), "files");
-                return XmlElementUtil.getNamedChildElements(files, "file").stream().map(e -> {
-                    c.setElement(e);
-                    c.getIssueBuilder().setFileName(e.getAttribute("name"));
-                    return c;
-                });
-            }).flatMap(c -> {
-                Element comments = XmlElementUtil.getFirstElementByTagName(c.getElement(), "comments");
-                return XmlElementUtil.getNamedChildElements(comments, "comment").stream().map(e -> {
-                    c.setElement(e);
+                NodeList files = (NodeList)xPath.evaluate("files/file", tag, XPathConstants.NODESET);
+                for (Element file : XmlElementUtil.nodeListToList(files)) {
+                    String fileName = xPath.evaluate("@name", file);
+                    issueBuilder.setFileName(fileName);
 
-                    Element lineNumElement = XmlElementUtil.getFirstElementByTagName(e, "lineNumber");
-                    String lineNum = lineNumElement.getFirstChild().getNodeValue();
-                    c.getIssueBuilder().setLineStart(parseInt(lineNum));
+                    NodeList comments = (NodeList)xPath.evaluate("comments/comment", file, XPathConstants.NODESET);
+                    for (Element comment : XmlElementUtil.nodeListToList(comments)) {
+                        String lineNum = xPath.evaluate("lineNumber", comment);
+                        issueBuilder.setLineStart(parseInt(lineNum));
 
-                    Element msgElement = XmlElementUtil.getFirstElementByTagName(e, "comment");
-                    String msg = msgElement.getFirstChild().getNodeValue();
-                    c.getIssueBuilder().setMessage(msg);
+                        String message = xPath.evaluate("comment", comment);
+                        issueBuilder.setMessage(message);
 
-                    return c;
-                });
-            }).forEach(c -> {
-                report.add(c.getIssueBuilder().build());
-            });
+                        report.add(issueBuilder.build());
+                    }
+                }
+            }
 
             return report;
         }
-        catch (IOException | ParserConfigurationException | SAXException | NullPointerException e) {
+        catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e) {
             throw new ParsingException(e);
-        }
-    }
-
-    /**
-     * Utility class use in parsing with streams.
-     * 
-     * @author Jason Faust
-     */
-    private static class Context {
-        private final IssueBuilder issueBuilder = new IssueBuilder();
-        private Element element;
-
-        Context(final Element element) {
-            this.element = element;
-        }
-
-        public IssueBuilder getIssueBuilder() {
-            return issueBuilder;
-        }
-
-        public Element getElement() {
-            return element;
-        }
-
-        public void setElement(final Element element) {
-            this.element = element;
         }
     }
 
