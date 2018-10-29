@@ -1,5 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
+
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
@@ -31,7 +36,7 @@ class EclipseXMLParserTest extends AbstractIssueParserTest {
                 .hasLineStart(8)
                 .hasLineEnd(8)
                 .hasColumnStart(13)
-                .hasColumnEnd(17)
+                .hasColumnEnd(16)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Type mismatch: cannot convert from float to Integer");
 
@@ -40,7 +45,7 @@ class EclipseXMLParserTest extends AbstractIssueParserTest {
                 .hasLineStart(16)
                 .hasLineEnd(16)
                 .hasColumnStart(8)
-                .hasColumnEnd(41)
+                .hasColumnEnd(40)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Dead code");
 
@@ -49,7 +54,7 @@ class EclipseXMLParserTest extends AbstractIssueParserTest {
                 .hasLineStart(22)
                 .hasLineEnd(22)
                 .hasColumnStart(9)
-                .hasColumnEnd(10)
+                .hasColumnEnd(9)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The value of the local variable x is not used");
 
@@ -58,7 +63,7 @@ class EclipseXMLParserTest extends AbstractIssueParserTest {
                 .hasLineStart(27)
                 .hasLineEnd(27)
                 .hasColumnStart(8)
-                .hasColumnEnd(41)
+                .hasColumnEnd(40)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage(
                         "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally");
@@ -68,7 +73,7 @@ class EclipseXMLParserTest extends AbstractIssueParserTest {
                 .hasLineStart(33)
                 .hasLineEnd(33)
                 .hasColumnStart(13)
-                .hasColumnEnd(19)
+                .hasColumnEnd(18)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Comparing identical expressions");
 
@@ -77,9 +82,30 @@ class EclipseXMLParserTest extends AbstractIssueParserTest {
                 .hasLineStart(35)
                 .hasLineEnd(35)
                 .hasColumnStart(1)
-                .hasColumnEnd(96)
+                .hasColumnEnd(95)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The allocated object is never used");
+    }
+
+    /**
+     * Test for the info log level for the eclipse compiler.
+     */
+    @Test
+    void columnCounting() {
+        Report report = parse("eclipse-columns.xml");
+
+        assertThat(report).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(report.get(0))
+                    .hasSeverity(Severity.ERROR)
+                    .hasLineStart(2)
+                    .hasLineEnd(2)
+                    .hasColumnStart(1)
+                    .hasColumnEnd(5)
+                    .hasFileName("C:/TEMP/Column.java")
+                    .hasMessage("Syntax error on token \"12345\", delete this token");
+        });
     }
 
 }

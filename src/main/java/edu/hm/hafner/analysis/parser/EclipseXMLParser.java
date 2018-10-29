@@ -70,16 +70,15 @@ public class EclipseXMLParser extends AbstractParser {
                     String lineNum = xPath.evaluate("@line", problem);
                     issueBuilder.setLineStart(parseInt(lineNum));
 
-                    // XML output counts from column 0
+                    // Columns are a closed range, 1 based index.
+                    // XML output counts from column 0, need to offset by 1
                     String colStart = xPath.evaluate("source_context/@sourceStart", problem);
                     if (colStart != null) {
                         issueBuilder.setColumnStart(parseInt(colStart) + 1);
                     }
-
-                    // XML output counts from column 0 and stop at end, not one after end
                     String colEnd = xPath.evaluate("source_context/@sourceEnd", problem);
                     if (colEnd != null) {
-                        issueBuilder.setColumnEnd(parseInt(colEnd) + 2);
+                        issueBuilder.setColumnEnd(parseInt(colEnd) + 1);
                     }
 
                     String msg = xPath.evaluate("message/@value", problem);
