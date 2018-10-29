@@ -57,9 +57,9 @@ public class EclipseParser extends RegexpDocumentParser {
                 break;
         }
 
-        // Columns are start index to after last index, 1 based index.
+        // Columns are a closed range, 1 based index.
         int columnStart = StringUtils.defaultString(matcher.group(5)).length() + 1;
-        int columnEnd = columnStart + matcher.group(6).length();
+        int columnEnd = columnStart + matcher.group(6).length() - 1;
 
         return builder
                 .setFileName(matcher.group(2))
