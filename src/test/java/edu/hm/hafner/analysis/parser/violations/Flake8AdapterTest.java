@@ -25,7 +25,7 @@ class Flake8AdapterTest extends AbstractParserTest {
         softly.assertThat(report.get(0))
                 .hasMessage("'db' imported but unused")
                 .hasFileName("myproject/__init__.py")
-                .hasType("401")
+                .hasType("F401")
                 .hasLineStart(7)
                 .hasSeverity(Severity.WARNING_HIGH);
     }
@@ -48,7 +48,7 @@ class Flake8AdapterTest extends AbstractParserTest {
         assertThat(report.get(0)).hasFileName("../devopsloft/application.py")
                 .hasLineStart(42)
                 .hasColumnStart(1)
-                .hasType("302")
+                .hasType("E302")
                 .hasMessage("expected 2 blank lines, found 1");
     }
 }
