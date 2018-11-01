@@ -41,21 +41,27 @@ public class EclipseParser extends RegexpDocumentParser {
         super(ANT_ECLIPSE_WARNING_PATTERN, true);
     }
 
+    /**
+     * Map Eclipse compiler types to {@link Severity} levels.
+     * 
+     * @param type Non null type string.
+     * @return mapped level.
+     */
+    static Severity mapTypeToSeverity(final String type) {
+        switch (type) {
+            case "ERROR":
+                return Severity.ERROR;
+            case "INFO":
+                return Severity.WARNING_LOW;
+            default:
+                return Severity.WARNING_NORMAL;
+        }
+    }
+
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(1));
-        Severity priority;
-        switch (type) {
-            case "ERROR":
-                priority = Severity.ERROR;
-                break;
-            case "INFO":
-                priority = Severity.WARNING_LOW;
-                break;
-            default:
-                priority = Severity.WARNING_NORMAL;
-                break;
-        }
+        Severity priority = mapTypeToSeverity(type);
 
         // Columns are a closed range, 1 based index.
         int columnStart = StringUtils.defaultString(matcher.group(5)).length() + 1;

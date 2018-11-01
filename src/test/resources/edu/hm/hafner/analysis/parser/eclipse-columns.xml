@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 10/29/18, 3:53:40 PM EDT -->
+<!DOCTYPE compiler PUBLIC "-//Eclipse.org//DTD Eclipse JDT 3.2.005 Compiler//EN" "http://www.eclipse.org/jdt/core/compiler_32_005.dtd">
+<compiler copyright="Copyright IBM Corp 2000, 2015. All rights reserved." name="Eclipse Compiler for Java(TM)" version="v20180905-0317, 3.15.0">
+	<command_line>
+		<argument value="Column.java"/>
+		<argument value="-log"/>
+		<argument value="eclipse-columns.xml"/>
+	</command_line>
+	<options>
+		<option key="org.eclipse.jdt.core.compiler.annotation.inheritNullAnnotations" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.annotation.missingNonNullByDefaultAnnotation" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.annotation.nonnull" value="org.eclipse.jdt.annotation.NonNull"/>
+		<option key="org.eclipse.jdt.core.compiler.annotation.nonnull.secondary" value=""/>
+		<option key="org.eclipse.jdt.core.compiler.annotation.nonnullbydefault" value="org.eclipse.jdt.annotation.NonNullByDefault"/>
+		<option key="org.eclipse.jdt.core.compiler.annotation.nonnullbydefault.secondary" value=""/>
+		<option key="org.eclipse.jdt.core.compiler.annotation.nullable" value="org.eclipse.jdt.annotation.Nullable"/>
+		<option key="org.eclipse.jdt.core.compiler.annotation.nullable.secondary" value=""/>
+		<option key="org.eclipse.jdt.core.compiler.annotation.nullanalysis" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.codegen.lambda.genericSignature" value="do not generate"/>
+		<option key="org.eclipse.jdt.core.compiler.codegen.methodParameters" value="do not generate"/>
+		<option key="org.eclipse.jdt.core.compiler.codegen.shareCommonFinallyBlocks" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.codegen.targetPlatform" value="1.2"/>
+		<option key="org.eclipse.jdt.core.compiler.codegen.unusedLocal" value="optimize out"/>
+		<option key="org.eclipse.jdt.core.compiler.compliance" value="1.4"/>
+		<option key="org.eclipse.jdt.core.compiler.debug.lineNumber" value="generate"/>
+		<option key="org.eclipse.jdt.core.compiler.debug.localVariable" value="do not generate"/>
+		<option key="org.eclipse.jdt.core.compiler.debug.sourceFile" value="generate"/>
+		<option key="org.eclipse.jdt.core.compiler.doc.comment.support" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.emulateJavacBug8031744" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.generateClassFiles" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.maxProblemPerUnit" value="100"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.APILeak" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.annotationSuperInterface" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.assertIdentifier" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.autoboxing" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.comparingIdentical" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.deadCode" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.deadCodeInTrivialIfStatement" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.deprecation" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.deprecationInDeprecatedCode" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.deprecationWhenOverridingDeprecatedMethod" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.discouragedReference" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.emptyStatement" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.enumIdentifier" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.explicitlyClosedAutoCloseable" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.fallthroughCase" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.fatalOptionalError" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.fieldHiding" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.finalParameterBound" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.finallyBlockNotCompletingNormally" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.forbiddenReference" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.hiddenCatchBlock" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.includeNullInfoFromAsserts" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.incompatibleNonInheritedInterfaceMethod" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.incompleteEnumSwitch" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.indirectStaticAccess" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.invalidJavadoc" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.invalidJavadocTags" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.invalidJavadocTagsDeprecatedRef" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.invalidJavadocTagsNotVisibleRef" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.invalidJavadocTagsVisibility" value="public"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.localVariableHiding" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.methodWithConstructorName" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingDefaultCase" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingDeprecatedAnnotation" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingEnumCaseDespiteDefault" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingHashCodeMethod" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingJavadocComments" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingJavadocCommentsOverriding" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingJavadocCommentsVisibility" value="public"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingJavadocTagDescription" value="return_tag"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingJavadocTags" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingJavadocTagsMethodTypeParameters" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingJavadocTagsOverriding" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingJavadocTagsVisibility" value="public"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingOverrideAnnotation" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingOverrideAnnotationForInterfaceMethodImplementation" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingSerialVersion" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.missingSynchronizedOnInheritedMethod" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.noEffectAssignment" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.noImplicitStringConversion" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.nonnullParameterAnnotationDropped" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.nonnullTypeVariableFromLegacyInvocation" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.nullAnnotationInferenceConflict" value="error"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.nullReference" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.nullSpecViolation" value="error"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.nullUncheckedConversion" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.overridingMethodWithoutSuperInvocation" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.overridingPackageDefaultMethod" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.parameterAssignment" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.pessimisticNullAnalysisForFreeTypeVariables" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.possibleAccidentalBooleanAssignment" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.potentialNullReference" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.potentiallyUnclosedCloseable" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.rawTypeReference" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.redundantNullAnnotation" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.redundantNullCheck" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.redundantSpecificationOfTypeArguments" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.redundantSuperinterface" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.reportMethodCanBePotentiallyStatic" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.reportMethodCanBeStatic" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.specialParameterHidingField" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.staticAccessReceiver" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.suppressOptionalErrors" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.suppressWarnings" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.syntacticNullAnalysisForFields" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.syntheticAccessEmulation" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.tasks" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.terminalDeprecation" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.typeParameterHiding" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unavoidableGenericTypeProblems" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.uncheckedTypeOperation" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unclosedCloseable" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.undocumentedEmptyBlock" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unhandledWarningToken" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.uninternedIdentityComparison" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unlikelyCollectionMethodArgumentType" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unlikelyCollectionMethodArgumentTypeStrict" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unlikelyEqualsArgumentType" value="info"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unnecessaryElse" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unnecessaryTypeCheck" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unqualifiedFieldAccess" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unstableAutoModuleName" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownException" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownExceptionExemptExceptionAndThrowable" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownExceptionIncludeDocCommentReference" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownExceptionWhenOverriding" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedExceptionParameter" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedImport" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedLabel" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedLocal" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedObjectAllocation" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedParameter" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedParameterIncludeDocCommentReference" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedParameterWhenImplementingAbstract" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedParameterWhenOverridingConcrete" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedPrivateMember" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedTypeArgumentsForMethodInvocation" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedTypeParameter" value="ignore"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.unusedWarningToken" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.problem.varargsArgumentNeedCast" value="warning"/>
+		<option key="org.eclipse.jdt.core.compiler.processAnnotations" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.release" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.source" value="1.3"/>
+		<option key="org.eclipse.jdt.core.compiler.storeAnnotations" value="disabled"/>
+		<option key="org.eclipse.jdt.core.compiler.taskCaseSensitive" value="enabled"/>
+		<option key="org.eclipse.jdt.core.compiler.taskPriorities" value=""/>
+		<option key="org.eclipse.jdt.core.compiler.taskTags" value=""/>
+	</options>
+	<classpaths>
+		<classpath id="FOLDER" path="C:\devenv\java\jdk-10.0.2"/>
+		<classpath id="JAR" path="C:\devenv\maven\local-repo\org\eclipse\jdt\ecj\3.15.0\ecj-3.15.0.jar"/>
+	</classpaths>
+	<sources>
+		<source path="C:\TEMP\Column.java">
+			<problems errors="1" infos="0" problems="1" warnings="0">
+				<problem categoryID="20" charEnd="27" charStart="23" id="ParsingErrorDeleteToken" line="2" problemID="1610612968" severity="ERROR">
+					<message value="Syntax error on token &quot;12345&quot;, delete this token"/>
+					<source_context sourceEnd="4" sourceStart="0" value="12345"/>
+					<arguments>
+						<argument value="12345"/>
+					</arguments>
+				</problem>
+			</problems>
+		</source>
+	</sources>
+	<stats>
+		<problem_summary errors="1" infos="0" problems="1" tasks="0" warnings="0"/>
+	</stats>
+</compiler>

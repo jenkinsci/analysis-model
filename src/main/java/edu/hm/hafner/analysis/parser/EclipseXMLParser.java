@@ -26,13 +26,11 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
 
 /**
- * Parser for Taglist Maven Plugin output.
+ * Parser for Eclipse Compiler output in XML format.
  * 
  * @author Jason Faust
- * @see <a href=
- *      "https://www.mojohaus.org/taglist-maven-plugin/">https://www.mojohaus.org/taglist-maven-plugin/</a>
  */
-public class TaglistParser extends AbstractParser {
+public class EclipseXMLParser extends AbstractParser {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,26 +51,37 @@ public class TaglistParser extends AbstractParser {
             IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
-            NodeList tags = (NodeList)xPath.evaluate("/report/tags/tag", doc, XPathConstants.NODESET);
-            for (Element tag : XmlElementUtil.nodeListToList(tags)) {
-                String category = xPath.evaluate("@name", tag);
-                issueBuilder.setCategory(category);
+            NodeList sources = (NodeList)xPath.evaluate("/compiler/sources/source[problems]", doc,
+                    XPathConstants.NODESET);
+            for (Element source : XmlElementUtil.nodeListToList(sources)) {
+                String fileName = xPath.evaluate("@path", source);
+                issueBuilder.setFileName(fileName);
 
-                NodeList files = (NodeList)xPath.evaluate("files/file", tag, XPathConstants.NODESET);
-                for (Element file : XmlElementUtil.nodeListToList(files)) {
-                    String fileName = xPath.evaluate("@name", file);
-                    issueBuilder.setFileName(fileName);
-
-                    NodeList comments = (NodeList)xPath.evaluate("comments/comment", file, XPathConstants.NODESET);
-                    for (Element comment : XmlElementUtil.nodeListToList(comments)) {
-                        String lineNum = xPath.evaluate("lineNumber", comment);
-                        issueBuilder.setLineStart(parseInt(lineNum));
-
-                        String message = xPath.evaluate("comment", comment);
-                        issueBuilder.setMessage(message);
-
-                        report.add(issueBuilder.build());
+                NodeList problems = (NodeList)xPath.evaluate("problems/problem", source, XPathConstants.NODESET);
+                for (Element problem : XmlElementUtil.nodeListToList(problems)) {
+                    String type = xPath.evaluate("@severity", problem);
+                    if (type != null) {
+                        issueBuilder.setSeverity(EclipseParser.mapTypeToSeverity(type));
                     }
+
+                    String lineNum = xPath.evaluate("@line", problem);
+                    issueBuilder.setLineStart(parseInt(lineNum));
+
+                    // Columns are a closed range, 1 based index.
+                    // XML output counts from column 0, need to offset by 1
+                    String colStart = xPath.evaluate("source_context/@sourceStart", problem);
+                    if (colStart != null) {
+                        issueBuilder.setColumnStart(parseInt(colStart) + 1);
+                    }
+                    String colEnd = xPath.evaluate("source_context/@sourceEnd", problem);
+                    if (colEnd != null) {
+                        issueBuilder.setColumnEnd(parseInt(colEnd) + 1);
+                    }
+
+                    String msg = xPath.evaluate("message/@value", problem);
+                    issueBuilder.setMessage(msg);
+
+                    report.add(issueBuilder.build());
                 }
             }
 
