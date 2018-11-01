@@ -44,7 +44,8 @@ public class JavacParser extends FastRegexpLineParser {
         String type = matcher.group(1);
         if ("ERROR".equals(type)) {
             builder.setSeverity(Severity.ERROR);
-        } else {
+        }
+        else {
             builder.setSeverity(Severity.WARNING_NORMAL);
         }
 
