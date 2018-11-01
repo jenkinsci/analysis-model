@@ -153,6 +153,20 @@ class AntJavacParserTest extends AbstractIssueParserTest {
         });
     }
 
+    @Test
+    void shouldReadErrors() {
+        Report warnings = parse("gradle.java.log");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0)).hasSeverity(Severity.ERROR)
+                    .hasLineStart(59)
+                    .hasMessage("';' expected")
+                    .hasFileName("/var/lib/jenkins/workspace/webhooks/src/main/java/File.java");
+        });
+    }
+
     /**
      * Parses a warning log with 1 warnings that are generated on Japanese environment.
      *
