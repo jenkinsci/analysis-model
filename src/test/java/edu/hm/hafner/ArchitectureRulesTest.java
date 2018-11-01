@@ -16,8 +16,6 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
 
 import static com.tngtech.archunit.base.DescribedPredicate.*;
-import static com.tngtech.archunit.core.domain.JavaClass.Predicates.*;
-import static com.tngtech.archunit.lang.conditions.ArchPredicates.*;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 import edu.hm.hafner.util.VisibleForTesting;
 
@@ -78,7 +76,7 @@ public class ArchitectureRulesTest {
      * @return allowed public test classes
      */
     protected DescribedPredicate<? super JavaClass> areAllowedPublicTestClasses() {
-        return have(simpleName("IssueTest")).or(simpleName("EclipseParserTest")).or(simpleName("Pep8ParserTest"));
+        return alwaysFalse();
     }
 
     /**

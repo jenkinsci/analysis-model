@@ -11,11 +11,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Marvin Schütz, J. Behrmann
  */
-public class Pep8ParserTest extends AbstractIssueParserTest {
-    /**
-     * Creates a new instance of {@link Pep8ParserTest}.
-     */
-    protected Pep8ParserTest() {
+class Pep8ParserTest extends AbstractIssueParserTest {
+    Pep8ParserTest() {
         super("pep8Test.txt");
     }
 

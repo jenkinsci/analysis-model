@@ -17,7 +17,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *
  * @author Marcel Binder
  */
-public class IssueTest extends SerializableTest<Issue> {
+class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
 
     static final String FILE_NAME = "C:/users/tester/file-name";

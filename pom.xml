@@ -293,10 +293,7 @@
                 <include>**/assertj/*</include>
                 <include>**/util/*Test.*</include>
                 <include>**/ArchitectureRulesTest.*</include>
-                <include>**/IssueTest.*</include>
                 <include>**/Abstract*Test.*</include>
-                <include>**/Pep8ParserTest.*</include>
-                <include>**/EclipseParserTest.*</include>
               </includes>
             </configuration>
           </execution>
