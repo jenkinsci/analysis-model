@@ -1,9 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.function.Function;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,10 +12,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.AbstractParser;
@@ -42,8 +40,7 @@ public class TaglistParser extends AbstractParser {
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
 
-        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)) {
-
+        try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder;
             docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -51,7 +48,7 @@ public class TaglistParser extends AbstractParser {
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xPath = xPathFactory.newXPath();
 
-            Document doc = docBuilder.parse(input);
+            Document doc = docBuilder.parse(new InputSource(reader));
 
             IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
