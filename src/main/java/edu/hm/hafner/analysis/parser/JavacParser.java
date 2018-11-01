@@ -6,7 +6,6 @@ import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the javac compiler warnings.
@@ -43,11 +42,10 @@ public class JavacParser extends FastRegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(1);
-        if ("WARNING".equals(type)) {
-            builder.setSeverity(Severity.WARNING_NORMAL);
-        }
-        else if ("ERROR".equals(type)) {
+        if ("ERROR".equals(type)) {
             builder.setSeverity(Severity.ERROR);
+        } else {
+            builder.setSeverity(Severity.WARNING_NORMAL);
         }
 
         String message = matcher.group(6);
