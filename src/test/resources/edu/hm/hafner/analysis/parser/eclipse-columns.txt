@@ -1,0 +1,9 @@
+# 10/29/18, 3:53:36 PM EDT
+# Eclipse Compiler for Java(TM) v20180905-0317, 3.15.0, Copyright IBM Corp 2000, 2015. All rights reserved.
+----------
+1. ERROR in C:\TEMP\Column.java (at line 2)
+	12345
+	^^^^^
+Syntax error on token "12345", delete this token
+----------
+1 problem (1 error)

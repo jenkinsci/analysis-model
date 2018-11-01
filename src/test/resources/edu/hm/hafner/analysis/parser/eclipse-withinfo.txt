@@ -1,0 +1,42 @@
+# 10/15/18, 2:50:59 PM EDT
+# Eclipse Compiler for Java(TM) v20180905-0317, 3.15.0, Copyright IBM Corp 2000, 2015. All rights reserved.
+----------
+1. ERROR in C:\devenv\workspace\x\y\src\main\java\y\ECE.java (at line 8)
+	Integer x = 0.0f;
+	            ^^^^
+Type mismatch: cannot convert from float to Integer
+----------
+2. ERROR in C:\devenv\workspace\x\y\src\main\java\y\ECE.java (at line 16)
+	} else {
+            x = 20;
+        }
+	       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Dead code
+----------
+3. WARNING in C:\devenv\workspace\x\y\src\main\java\y\ECE.java (at line 22)
+	Integer x;
+	        ^
+The value of the local variable x is not used
+----------
+4. WARNING in C:\devenv\workspace\x\y\src\main\java\y\ECE.java (at line 27)
+	} else {
+            x = 30;
+        }
+	       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally
+----------
+5. INFO in C:\devenv\workspace\x\y\src\main\java\y\ECE.java (at line 33)
+	Boolean x = 7 == 7;
+	            ^^^^^^
+Comparing identical expressions
+----------
+6. INFO in C:\devenv\workspace\x\y\src\main\java\y\ECE.java (at line 35)
+	new Object() {
+            {
+                System.out.println(x);
+            }
+        };
+	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The allocated object is never used
+----------
+6 problems (2 errors, 2 warnings, 2 info)
