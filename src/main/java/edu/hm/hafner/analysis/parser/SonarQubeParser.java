@@ -25,8 +25,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *
  * @author Carles Capdevila
  */
-// FIXME: See https://issues.jenkins-ci.org/browse/JENKINS-52462
-// FIXME: See https://issues.jenkins-ci.org/browse/JENKINS-52463
 public abstract class SonarQubeParser extends AbstractParser {
     private static final long serialVersionUID = 1958805067002376816L;
 
