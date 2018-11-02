@@ -14,6 +14,11 @@ public class SonarQubeDiffParser extends SonarQubeParser {
     private static final String COMPONENT_MODULE_KEY = "moduleKey";
 
     @Override
+    protected boolean accepts(final JSONObject object) {
+        return !object.has("total");
+    }
+
+    @Override
     public boolean filterIssue(final JSONObject issue) {
         return issue.optBoolean(ISSUE_IS_NEW, false);
     }

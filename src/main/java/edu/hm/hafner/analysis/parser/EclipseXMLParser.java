@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.function.Function;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,6 +7,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.util.function.Function;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,13 +32,16 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  * @author Jason Faust
  */
 public class EclipseXMLParser extends AbstractParser {
-
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public boolean accepts(final Path file, final Charset charset) {
+        return isXmlFile(file);
+    }
 
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
-
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder;

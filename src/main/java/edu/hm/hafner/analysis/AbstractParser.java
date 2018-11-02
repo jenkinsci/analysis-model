@@ -1,13 +1,13 @@
 package edu.hm.hafner.analysis;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.function.Function;
 
 import org.apache.commons.io.input.BOMInputStream;
@@ -53,10 +53,10 @@ public abstract class AbstractParser extends IssueParser {
     }
 
     @Override
-    public Report parse(final File file, final Charset charset, final Function<String, String> preProcessor)
+    public Report parse(final Path file, final Charset charset, final Function<String, String> preProcessor)
             throws ParsingException, ParsingCanceledException {
-        fileName = file.getAbsolutePath();
-        try (InputStream inputStream = new FileInputStream(file)) {
+        fileName = file.toAbsolutePath().toString();
+        try (InputStream inputStream = Files.newInputStream(file)) {
             return parse(inputStream, charset, preProcessor);
         }
         catch (FileNotFoundException exception) {

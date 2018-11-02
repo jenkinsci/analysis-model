@@ -7,6 +7,7 @@ import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
@@ -118,7 +119,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      *
      * @return default file with issues
      */
-    protected File getDefaultFile() {
+    protected Path getDefaultFile() {
         return getResourceAsFile(fileWithIssuesName);
     }
 }

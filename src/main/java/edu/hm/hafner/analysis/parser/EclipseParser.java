@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +35,11 @@ public class EclipseParser extends RegexpDocumentParser {
             "([\\^]+).*" +                            // group 6 column pointers (^^^^^)
             "\\r?\\n(?:\\s*\\[.*\\]\\s*)?" +          // newline then optional ignored text in [] (eg [javac])
             "(.*)";                                   // group 7 'message'
+
+    @Override
+    public boolean accepts(final Path file, final Charset charset) {
+        return !isXmlFile(file);
+    }
 
     /**
      * Creates a new instance of {@link EclipseParser}.

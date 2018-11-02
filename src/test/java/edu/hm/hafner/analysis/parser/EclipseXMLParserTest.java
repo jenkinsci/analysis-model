@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static java.nio.charset.StandardCharsets.*;
 
 /**
  * Tests for {@link TaglistParser}.
@@ -17,13 +16,12 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * @author Jason Faust
  */
 class EclipseXMLParserTest extends AbstractIssueParserTest {
-
     EclipseXMLParserTest() {
         super("eclipse-withinfo.xml");
     }
 
     @Override
-    protected IssueParser createParser() {
+    protected EclipseXMLParser createParser() {
         return new EclipseXMLParser();
     }
 
@@ -87,11 +85,8 @@ class EclipseXMLParserTest extends AbstractIssueParserTest {
                 .hasMessage("The allocated object is never used");
     }
 
-    /**
-     * Test for the info log level for the eclipse compiler.
-     */
     @Test
-    void columnCounting() {
+    void shouldCountColumns() {
         Report report = parse("eclipse-columns.xml");
 
         assertThat(report).hasSize(1);
@@ -107,5 +102,15 @@ class EclipseXMLParserTest extends AbstractIssueParserTest {
                     .hasMessage("Syntax error on token \"12345\", delete this token");
         });
     }
-
+    
+    @Test
+    void shouldOnlyAcceptXmlFiles() {
+        EclipseXMLParser parser = createParser();
+        
+        assertThat(parser.accepts(getResourceAsFile("eclipse-columns.xml"), UTF_8)).isTrue();
+        assertThat(parser.accepts(getResourceAsFile("eclipse-withinfo.xml"), UTF_8)).isTrue();
+        
+        assertThat(parser.accepts(getResourceAsFile("eclipse-columns.txt"), UTF_8)).isFalse();
+        assertThat(parser.accepts(getResourceAsFile("eclipse-withinfo.txt"), UTF_8)).isFalse();
+    }
 }

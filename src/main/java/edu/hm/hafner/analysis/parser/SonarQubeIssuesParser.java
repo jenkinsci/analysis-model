@@ -13,6 +13,11 @@ public class SonarQubeIssuesParser extends SonarQubeParser {
     private static final String ISSUE_SUB_PROJECT = "subProject";
 
     @Override
+    protected boolean accepts(final JSONObject object) {
+        return object.has("total");
+    }
+
+    @Override
     protected String getModulePath(final JSONObject component, final JSONObject issue) {
         return parseModulePath(issue, ISSUE_SUB_PROJECT);
     }

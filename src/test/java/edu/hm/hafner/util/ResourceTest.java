@@ -1,7 +1,6 @@
 package edu.hm.hafner.util;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -185,7 +184,7 @@ public abstract class ResourceTest {
     }
 
     /**
-     * Returns the content of the specified {@link File} (decoded with UTF-8) as String.
+     * Returns the content of the specified {@link Path} (decoded with UTF-8) as String.
      *
      * @param file
      *         the desired file
@@ -214,7 +213,7 @@ public abstract class ResourceTest {
     }
 
     /**
-     * Returns the {@link File} of the specified resource. The file name  must be relative to the test class.
+     * Returns the {@link Path} of the specified resource. The file name  must be relative to the test class.
      *
      * @param fileName
      *         the file to read (relative this {@link AbstractParserTest} class
@@ -222,13 +221,13 @@ public abstract class ResourceTest {
      * @return an {@link BOMInputStream input stream} using character set UTF-8
      * @see #getTestResourceClass() 
      */
-    protected File getResourceAsFile(final String fileName) {
+    protected Path getResourceAsFile(final String fileName) {
         try {
             URL resource = getTestResourceClass().getResource(fileName);
             
             ensureThatResourceExists(resource, fileName);
             
-            return Paths.get(resource.toURI()).toFile();
+            return Paths.get(resource.toURI());
         }
         catch (URISyntaxException e) {
             throw new AssertionError("Can't open file " + fileName, e);

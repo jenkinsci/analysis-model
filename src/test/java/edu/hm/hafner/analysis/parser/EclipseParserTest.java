@@ -5,13 +5,13 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static java.nio.charset.StandardCharsets.*;
 
 /**
  * Tests the class {@link EclipseParser}.
@@ -22,7 +22,7 @@ class EclipseParserTest extends AbstractIssueParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected EclipseParser createParser() {
         return new EclipseParser();
     }
 
@@ -239,11 +239,8 @@ class EclipseParserTest extends AbstractIssueParserTest {
         });
     }
 
-    /**
-     * Test for the info log level for the eclipse compiler.
-     */
     @Test
-    void columnCounting() {
+    void shouldCountColumns() {
         Report report = parse("eclipse-columns.txt");
 
         assertThat(report).hasSize(1);
@@ -260,5 +257,15 @@ class EclipseParserTest extends AbstractIssueParserTest {
         });
     }
 
+    @Test
+    void shouldOnlyAcceptTextFiles() {
+        EclipseParser parser = createParser();
+
+        assertThat(parser.accepts(getResourceAsFile("eclipse-columns.txt"), UTF_8)).isTrue();
+        assertThat(parser.accepts(getResourceAsFile("eclipse-withinfo.txt"), UTF_8)).isTrue();
+
+        assertThat(parser.accepts(getResourceAsFile("eclipse-columns.xml"), UTF_8)).isFalse();
+        assertThat(parser.accepts(getResourceAsFile("eclipse-withinfo.xml"), UTF_8)).isFalse();
+    }
 }
 

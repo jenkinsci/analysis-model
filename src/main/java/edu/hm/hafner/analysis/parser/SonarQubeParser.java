@@ -1,6 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.function.Function;
 
 import org.json.JSONArray;
@@ -66,6 +70,26 @@ public abstract class SonarQubeParser extends AbstractParser {
     /** The components array. */
     @CheckForNull
     private transient JSONArray components = new JSONArray();
+    
+    @Override
+    public boolean accepts(final Path file, final Charset charset) {
+        try {
+            return accepts((JSONObject) new JSONTokener(Files.newInputStream(file)).nextValue());
+        }
+        catch (IOException ignored) {
+            return false;
+        }
+    }
+
+    /**
+     * Returns whether this parser accepts the specified JSON object as valid input. 
+     *
+     * @param object
+     *         the JSON object to analyse 
+     *
+     * @return {@code true} if this parser accepts this object as valid input, {@code false} otherwise
+     */
+    protected abstract boolean accepts(JSONObject object);
 
     @Override
     public Report parse(final Reader reader, final Function<String, String> preProcessor)

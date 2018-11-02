@@ -2,12 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static java.nio.charset.StandardCharsets.*;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link SonarQubeDiffParser}.
@@ -47,8 +47,17 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
         });
     }
 
+    @Test
+    void shouldAcceptDifferentialFile() {
+        SonarQubeParser parser = createParser();
+
+        assertThat(parser.accepts(getResourceAsFile("sonarqube-differential.json"), UTF_8)).isTrue();
+        assertThat(parser.accepts(getResourceAsFile("sonarqube-api.json"), UTF_8)).isFalse();
+
+    }
+    
     @Override
-    protected AbstractParser createParser() {
+    protected SonarQubeParser createParser() {
         return new SonarQubeDiffParser();
     }
 }

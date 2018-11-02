@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis.parser; // NOPMD
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,9 +26,9 @@ import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.BugAnnotation;
@@ -87,15 +87,14 @@ public class FindBugsParser extends IssueParser {
 
     @Override
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    public Report parse(final File file, final Charset charset,
-            final Function<String, String> preProcessor)
+    public Report parse(final Path file, final Charset charset, final Function<String, String> preProcessor)
             throws ParsingCanceledException, ParsingException {
         Collection<String> sources = new ArrayList<>();
-        String moduleRoot = StringUtils.substringBefore(file.getAbsolutePath().replace('\\', '/'), "/target/");
+        String moduleRoot = StringUtils.substringBefore(file.toAbsolutePath().toString().replace('\\', '/'), "/target/");
         sources.add(moduleRoot + "/src/main/java");
         sources.add(moduleRoot + "/src/test/java");
         sources.add(moduleRoot + "/src");
-        return parse(() -> new FileInputStream(file), sources, new IssueBuilder());
+        return parse(() -> Files.newInputStream(file), sources, new IssueBuilder());
     }
 
     @VisibleForTesting
