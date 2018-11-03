@@ -79,7 +79,7 @@ public abstract class IssueParser implements Serializable {
      */
     protected boolean isXmlFile(final Path file) {
         try (Stream<String> lines = Files.lines(file)) {
-            return lines.filter(line -> line.contains("<?xml")).limit(10).findFirst().isPresent();
+            return lines.limit(10).anyMatch(line -> line.contains("<?xml"));
         }
         catch (IOException | InvalidPathException ignored) {
             return false;
