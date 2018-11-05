@@ -32,7 +32,6 @@ class PackageNameResolverTest {
         resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(0);
-        assertThat(report).hasId(ID);
     }
 
     @Test
@@ -44,7 +43,6 @@ class PackageNameResolverTest {
         resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(1);
-        assertThat(report).hasId(ID);
         assertThat(report.get(0)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
@@ -58,7 +56,6 @@ class PackageNameResolverTest {
         resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(1);
-        assertThat(report).hasId(ID);
         assertThat(report.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
     }
 
@@ -73,7 +70,6 @@ class PackageNameResolverTest {
         resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(2);
-        assertThat(report).hasId(ID);
         assertThat(report.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
         assertThat(report.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
@@ -86,8 +82,6 @@ class PackageNameResolverTest {
     }
 
     private Report createIssues() {
-        Report report = new Report();
-        report.setId(ID);
-        return report;
+        return new Report();
     }
 }

@@ -9,8 +9,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.util.ResourceTest;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -38,7 +38,6 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         assertThat(report.get(0).hasFingerprint()).isTrue();
         assertThat(report.get(1).getFingerprint()).isEqualTo(alreadySet);
-        assertThat(report).hasId(ID);
     }
 
     @Test
@@ -51,7 +50,6 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         Issue referenceIssue = report.get(0);
         Issue currentIssue = report.get(1);
-        assertThat(report).hasId(ID);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isEqualTo(currentIssue.getFingerprint());
@@ -83,7 +81,6 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         generator.run(fingerprint, report, CHARSET_AFFECTED_FILE);
 
-        assertThat(report).hasId(ID);
         Issue referenceIssue = report.get(0);
         Issue currentIssue = report.get(1);
 
@@ -120,8 +117,6 @@ class FingerprintGeneratorTest extends ResourceTest {
     }
 
     private Report createIssues() {
-        Report report = new Report();
-        report.setId(ID);
-        return report;
+        return new Report();
     }
 }

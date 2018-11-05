@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -22,7 +21,6 @@ import java.util.stream.StreamSupport;
 
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
-import org.eclipse.collections.impl.factory.Maps;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -54,10 +52,8 @@ public class Report implements Iterable<Issue>, Serializable {
     private final Set<Issue> elements = new LinkedHashSet<>();
     private final List<String> infoMessages = new ArrayList<>();
     private final List<String> errorMessages = new ArrayList<>();
-    private final Map<String, Integer> sizeByOrigin = new HashMap<>();
 
     private int duplicatesSize = 0;
-    private String id = DEFAULT_ID;
     private String reference = DEFAULT_ID;
 
     /**
@@ -243,18 +239,7 @@ public class Report implements Iterable<Issue>, Serializable {
     public Report filter(final Predicate<? super Issue> criterion) {
         Report filtered = copyEmptyInstance();
         filtered.addAll(filterElements(criterion).collect(toList()));
-        updateSizePerOrigin(filtered);
         return filtered;
-    }
-
-    void updateSizePerOrigin(final Report filtered) {
-        Map<String, Integer> propertyCount = filtered.getPropertyCount(Issue::getOrigin);
-        for (Entry<String, Integer> entry : sizeByOrigin.entrySet()) {
-            propertyCount.merge(entry.getKey(), 0, Integer::sum); // ensure that no origin is removed 
-        }
-        if (propertyCount.size() > 1) {
-            filtered.sizeByOrigin.putAll(propertyCount);
-        }
     }
 
     private Stream<Issue> filterElements(final Predicate<? super Issue> criterion) {
@@ -371,7 +356,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("%d issues (ID = %s)", size(), getId());
+        return String.format("%d issues (reference = %s)", size(), getReference());
     }
 
     /**
@@ -574,17 +559,12 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     private void copyIssuesAndProperties(final Report source, final Report destination) {
-        if (!destination.hasOrigin()) {
-            destination.id = source.id;
-        }
         if (!destination.hasReference()) {
             destination.reference = source.reference;
         }
 
         destination.addAll(source.elements);
         copyProperties(source, destination);
-        destination.sizeByOrigin.putAll(source.sizeByOrigin);
-        destination.sizeByOrigin.merge(source.getId(), source.size(), Integer::sum);
     }
 
     private void copyProperties(final Report source, final Report destination) {
@@ -601,37 +581,9 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public Report copyEmptyInstance() {
         Report empty = new Report();
-        empty.setId(id);
         empty.setReference(reference);
         copyProperties(this, empty);
         return empty;
-    }
-
-    /**
-     * Sets the ID of the tool that did report this set of issues. Updates the origin of all issues with the specified
-     * ID.
-     *
-     * @param id
-     *         the ID of the issues of this report
-     */
-    public void setId(final String id) {
-        Ensure.that(id).isNotNull();
-        elements.forEach(issue -> issue.setOrigin(id));
-
-        this.id = id;
-    }
-
-    /**
-     * Returns the ID of the tool that did report this set of issues.
-     *
-     * @return the origin
-     */
-    public String getId() {
-        return id;
-    }
-
-    private boolean hasOrigin() {
-        return !DEFAULT_ID.equals(getId());
     }
 
     /**
@@ -744,9 +696,6 @@ public class Report implements Iterable<Issue>, Serializable {
         if (!errorMessages.equals(report.errorMessages)) {
             return false;
         }
-        if (!id.equals(report.id)) {
-            return false;
-        }
         return reference.equals(report.reference);
     }
 
@@ -756,21 +705,8 @@ public class Report implements Iterable<Issue>, Serializable {
         result = 31 * result + infoMessages.hashCode();
         result = 31 * result + errorMessages.hashCode();
         result = 31 * result + duplicatesSize;
-        result = 31 * result + id.hashCode();
         result = 31 * result + reference.hashCode();
         return result;
-    }
-
-    /**
-     * Returns the number of issues mapped by their ID. If this report does only contain issues from one origin (i.e.
-     * the origin of all contained issues is equal to the ID of this report) then an empty map is returned. If this
-     * report is an aggregation of several reports, then the number of issues per report is returned. If multiple
-     * aggregated reports share the same ID, then the sizes are summed up for each origin.
-     *
-     * @return a map of the report ID to the number of issues per ID
-     */
-    public Map<String, Integer> getSizeByOrigin() {
-        return Maps.immutable.ofAll(sizeByOrigin).toMap();
     }
 
     /**

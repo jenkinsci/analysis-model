@@ -2,8 +2,6 @@ package edu.hm.hafner;
 
 import javax.xml.parsers.SAXParser;
 
-import java.io.File;
-
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.binder.DigesterLoader;
 import org.junit.jupiter.api.Test;
@@ -104,8 +102,8 @@ public class ArchitectureRulesTest {
         JavaClasses classes = getAllClasses();
 
         ArchRule restrictedApi = noClasses()
-                .should().accessClassesThat().resideInAnyPackage(getForbiddenPackages())
-                .orShould().accessClassesThat().haveSimpleName(File.class.getName());
+                .should().accessClassesThat().resideInAnyPackage(getForbiddenPackages());
+//                .orShould().accessClassesThat().haveFullyQualifiedName(File.class.getName());
 
         restrictedApi.check(classes);
     }

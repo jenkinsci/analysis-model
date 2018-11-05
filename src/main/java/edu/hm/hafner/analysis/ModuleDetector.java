@@ -1,9 +1,9 @@
 package edu.hm.hafner.analysis;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,6 +15,8 @@ import java.util.jar.Manifest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
+
+import edu.hm.hafner.util.PathUtil;
 
 /**
  * Detects module names by parsing the name of a source file, the Maven pom.xml file or the ANT build.xml file.
@@ -58,7 +60,7 @@ public class ModuleDetector {
      * @param fileSystem
      *         file system facade to find and load files with
      */
-    public ModuleDetector(final File workspace, final FileSystem fileSystem) {
+    public ModuleDetector(final Path workspace, final FileSystem fileSystem) {
         factory = fileSystem;
         fileNameToModuleName = createFilesToModuleMapping(workspace);
         prefixes = new ArrayList<>(fileNameToModuleName.keySet());
@@ -73,7 +75,7 @@ public class ModuleDetector {
      *
      * @return the mapping of path prefixes to module names
      */
-    private Map<String, String> createFilesToModuleMapping(final File workspace) {
+    private Map<String, String> createFilesToModuleMapping(final Path workspace) {
         Map<String, String> mapping = new HashMap<>();
 
         String[] projects = find(workspace);
@@ -131,18 +133,17 @@ public class ModuleDetector {
      *
      * @return the found files (as absolute paths)
      */
-    private String[] find(final File path) {
+    private String[] find(final Path path) {
         String[] relativeFileNames = factory.find(path, PATTERN);
         String[] absoluteFileNames = new String[relativeFileNames.length];
 
-        String absolutePath = normalizePath(path.getAbsolutePath());
         for (int file = 0; file < absoluteFileNames.length; file++) {
             String relativePath = normalizePath(relativeFileNames[file]);
             if (relativePath.startsWith(SLASH)) {
                 absoluteFileNames[file] = relativePath;
             }
             else {
-                absoluteFileNames[file] = absolutePath + SLASH + relativePath;
+                absoluteFileNames[file] = new PathUtil().getAbsolutePath(path) + SLASH + relativePath;
             }
         }
         return absoluteFileNames;
@@ -233,7 +234,8 @@ public class ModuleDetector {
         return StringUtils.EMPTY;
     }
 
-    private String getLocalizedValue(final Attributes attributes, final Properties properties, final String bundleName) {
+    private String getLocalizedValue(final Attributes attributes, final Properties properties,
+            final String bundleName) {
         String value = attributes.getValue(bundleName);
         if (StringUtils.startsWith(StringUtils.trim(value), REPLACEMENT_CHAR)) {
             return properties.getProperty(StringUtils.substringAfter(value, REPLACEMENT_CHAR));
@@ -287,7 +289,7 @@ public class ModuleDetector {
          *
          * @return the found file names
          */
-        String[] find(File root, String pattern);
+        String[] find(Path root, String pattern);
 
         /**
          * Creates an {@link InputStream} from the specified filename.

@@ -1,22 +1,23 @@
 package edu.hm.hafner.analysis;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.util.PathUtil;
+import edu.hm.hafner.util.ResourceTest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
-
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
-import edu.hm.hafner.util.ResourceTest;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Tests the class {@link ModuleDetector}.
@@ -25,12 +26,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
     private static final String MANIFEST_NAME = "MANIFEST-NAME.MF";
-    private static final File ROOT = new File("/tmp");
-    private static final String PREFIX = normalizeRoot();
-
-    private static String normalizeRoot() {
-        return ROOT.getAbsolutePath().replace("\\", "/") + "/";
-    }
+    private static final Path ROOT = Paths.get("/tmp");
+    private static final String PREFIX = new PathUtil().getAbsolutePath(ROOT) + "/";
 
     private static final int NO_RESULT = 0;
 

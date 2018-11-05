@@ -57,25 +57,6 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Report> {
     }
 
     /**
-     * Verifies that the actual origin of the {@link Report} instance is equal to the given one.
-     *
-     * @param origin
-     *         the expected origin to compare the actual {@link Report} origin to.
-     *
-     * @return this assertion object.
-     * @throws AssertionError
-     *         if the actual {@link Report} origin is not equal to the given one.
-     */
-    public IssuesAssert hasId(final String origin) {
-        isNotNull();
-
-        if (!Objects.equals(actual.getId(), origin)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "origin", actual, origin, actual.getId());
-        }
-        return this;
-    }
-
-    /**
      * Verifies that the actual reference of the {@link Report} instance is equal to the given one.
      *
      * @param reference

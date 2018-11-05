@@ -200,11 +200,7 @@ class IssueFilterTest {
      */
     private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Report report,
             final Issue... expectedOutput) {
-        String id = "id";
-        report.setId(id);
-        Report result = report.filter(criterion);
-        assertThat(result.iterator()).containsExactly(expectedOutput);
-        assertThat(result).hasId(id);
+        assertThat(report.filter(criterion).iterator()).containsExactly(expectedOutput);
     }
 
     /**

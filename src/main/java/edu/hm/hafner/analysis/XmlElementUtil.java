@@ -51,7 +51,7 @@ public class XmlElementUtil {
      */
     public static List<Element> nodeListToList(final NodeList nodeList) {
         if (nodeList == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         int length = nodeList.getLength();
         List<Element> elements = new ArrayList<>(length);
@@ -63,5 +63,4 @@ public class XmlElementUtil {
         }
         return elements;
     }
-
 }
