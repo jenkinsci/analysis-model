@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.*;
 class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
     private static final String MANIFEST_NAME = "MANIFEST-NAME.MF";
-    private static final Path ROOT = Paths.get("/tmp");
+    private static final Path ROOT = Paths.get(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
     private static final String PREFIX = new PathUtil().getAbsolutePath(ROOT) + "/";
 
     private static final int NO_RESULT = 0;
