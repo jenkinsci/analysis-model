@@ -22,8 +22,8 @@ public class XmlElementUtil {
         if (parent != null) {
             Node child = parent.getFirstChild();
             while (child != null) {
-                if ((child.getNodeType() == Node.ELEMENT_NODE) && (child.getNodeName().equals(name))) {
-                    elements.add((Element)child);
+                if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equals(name)) {
+                    elements.add((Element) child);
                 }
                 child = child.getNextSibling();
             }
@@ -43,13 +43,14 @@ public class XmlElementUtil {
     }
 
     /**
-     * Convert a {@link NodeList} into a {@code List<Element>}. Also filters out non
-     * elements from the node list.
-     * 
-     * @param nodeList node list to convert.
+     * Convert a {@link NodeList} into a {@code List<Element>}. Also filters out non elements from the node list.
+     *
+     * @param nodeList
+     *         node list to convert.
+     *
      * @return list of elements.
      */
-    public static List<Element> nodeListToList(final NodeList nodeList) {
+    public static List<Element> nodeListToList(@CheckForNull final NodeList nodeList) {
         if (nodeList == null) {
             return Collections.emptyList();
         }
@@ -58,7 +59,7 @@ public class XmlElementUtil {
         for (int i = 0; i < length; i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                elements.add((Element)node);
+                elements.add((Element) node);
             }
         }
         return elements;
