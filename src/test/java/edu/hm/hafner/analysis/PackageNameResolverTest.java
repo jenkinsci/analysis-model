@@ -22,7 +22,6 @@ class PackageNameResolverTest {
     private static final Issue ISSUE_WITH_PACKAGE = new IssueBuilder().setFileName(FILE_WITH_PACKAGE)
             .setPackageName("existing")
             .build();
-    private static final String ID = "ID";
 
     @Test
     void shouldDoNothingForEmptyIssues() {
