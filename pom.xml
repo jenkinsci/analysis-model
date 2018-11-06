@@ -236,7 +236,7 @@
           <testTarget>${java.version}</testTarget>
           <compilerArgs>
             <arg>-Xlint:all</arg>
-            <arg>-XepAllErrorsAsWarnings</arg>
+            <arg>-XepAllErrorsAsWarnings -Xep:EqualsGetClass:OFF -XepDisableWarningsInGeneratedCode</arg>
           </compilerArgs>
           <compilerId>javac-with-errorprone</compilerId>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
