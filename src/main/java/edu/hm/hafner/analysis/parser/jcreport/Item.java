@@ -6,6 +6,7 @@ package edu.hm.hafner.analysis.parser.jcreport;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
+@SuppressWarnings("PMD.DataClass")
 public class Item {
 
     private String column;

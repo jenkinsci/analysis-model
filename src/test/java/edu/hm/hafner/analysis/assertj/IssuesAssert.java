@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Marcel Binder
  */
-@SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion"})
+@SuppressWarnings({"ParameterHidesMemberVariable", "NonBooleanMethodNameMayNotStartWithQuestion", "PMD.LinguisticNaming"})
 public class IssuesAssert extends AbstractAssert<IssuesAssert, Report> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
 

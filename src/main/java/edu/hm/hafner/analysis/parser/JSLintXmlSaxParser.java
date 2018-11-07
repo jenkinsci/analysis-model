@@ -13,6 +13,8 @@ import edu.hm.hafner.analysis.Severity;
  * Handles parsing.
  */
 public class JSLintXmlSaxParser extends DefaultHandler {
+    private static final String ISSUE = "issue";
+    private static final String ERROR = "error";
     private final Report report;
     private String fileName = StringUtils.EMPTY;
 
@@ -46,7 +48,7 @@ public class JSLintXmlSaxParser extends DefaultHandler {
             return;
         }
 
-        if ("issue".equals(key) || "error".equals(key)) {
+        if (ISSUE.equals(key) || ERROR.equals(key)) {
             createWarning(atts);
         }
     }

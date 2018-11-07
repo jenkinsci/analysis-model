@@ -5,6 +5,7 @@ package edu.hm.hafner.analysis.parser.dry.dupfinder;
  *
  * @author Rafal Jasica
  */
+@SuppressWarnings("PMD.DataClass")
 public class Fragment {
     private String fileName;
     private String text;

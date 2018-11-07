@@ -92,11 +92,11 @@ public class DrMemoryParser extends RegexpDocumentParser {
             String stackTrace = matcher.group(STACK_TRACE_GROUP);
 
             if (stackTrace != null) {
-                SourceCodeLocation location = findOriginatingErrLocation(stackTrace.trim().split("\\r?\\n"));
+                stackTrace = stackTrace.trim();
+                SourceCodeLocation location = findOriginatingErrLocation(stackTrace);
                 filePath = location.getFilePath();
                 lineNumber = location.getLineNumber();
 
-                stackTrace = stackTrace.trim();
                 messageBuilder.append("\n");
                 messageBuilder.append(stackTrace);
             }
@@ -179,15 +179,16 @@ public class DrMemoryParser extends RegexpDocumentParser {
      * Otherwise, the file path and line number is obtained from the top of the stack trace.
      *
      * @param stackTrace
-     *         Array of strings in the stack trace in the correct order.
+     *         the stack trace in the correct order
      *
      * @return A SourceCodeLocation of where the error originated.
      */
-    private SourceCodeLocation findOriginatingErrLocation(final String[] stackTrace) {
+    @SuppressWarnings("all")
+    private SourceCodeLocation findOriginatingErrLocation(final String stackTrace) {
         String errFilePath = "Unknown"; // Path where the error originates from
         int lineNumber = 0; // Line number where the error originates from
 
-        for (String line : stackTrace) {
+        for (String line : stackTrace.split("\\r?\\n")) {
             Matcher pathMatcher = FILE_PATH_PATTERN.matcher(line);
 
             if (pathMatcher.find()) {

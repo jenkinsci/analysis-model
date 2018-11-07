@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -83,7 +84,6 @@
     <pmd.version>6.9.0</pmd.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
     <checkstyle.version>8.14</checkstyle.version>
-    <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
     <spotbugs-maven-plugin.version>3.1.7</spotbugs-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
     <maven-taglist-plugin.version>2.4</maven-taglist-plugin.version>
@@ -237,7 +237,7 @@
           <compilerArgs>
             <arg>-Xlint:all</arg>
             <arg>-XepAllErrorsAsWarnings</arg>
-            <arg>-Xep:EqualsGetClass:OFF </arg>
+            <arg>-Xep:EqualsGetClass:OFF</arg>
           </compilerArgs>
           <compilerId>javac-with-errorprone</compilerId>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
@@ -299,6 +299,94 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${maven-pmd-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>check-pmd</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <failOnViolation>false</failOnViolation>
+          <rulesets>
+            <ruleset>etc/pmd-configuration.xml</ruleset>
+          </rulesets>
+          <targetJdk>${java.version}</targetJdk>
+          <includeTests>true</includeTests>
+          <minimumTokens>50</minimumTokens>
+          <excludes>
+            <exclude>**/InjectedTest.java</exclude>
+          </excludes>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd-core</artifactId>
+            <version>${pmd.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd-java</artifactId>
+            <version>${pmd.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>check-checkstyle</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <failOnViolation>false</failOnViolation>
+          <configLocation>etc/checkstyle-configuration.xml</configLocation>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>${checkstyle.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${spotbugs-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>check-spotbugs</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <failOnError>false</failOnError>
+          <xmlOutput>true</xmlOutput>
+          <threshold>Low</threshold>
+          <effort>Max</effort>
+          <relaxed>false</relaxed>
+          <fork>true</fork>
+          <excludeFilterFile>etc/findbugs-exclusion-filter.xml</excludeFilterFile>
+          <includeTests>true</includeTests>
+        </configuration>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -369,80 +457,7 @@
             </execution>
           </executions>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${maven-checkstyle-plugin.version}</version>
-          <configuration>
-            <configLocation>etc/checkstyle-configuration.xml</configLocation>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>com.puppycrawl.tools</groupId>
-              <artifactId>checkstyle</artifactId>
-              <version>${checkstyle.version}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>${maven-pmd-plugin.version}</version>
-          <configuration>
-            <rulesets>
-              <ruleset>etc/pmd-configuration.xml</ruleset>
-            </rulesets>
-            <targetJdk>${java.version}</targetJdk>
-            <includeTests>true</includeTests>
-            <minimumTokens>50</minimumTokens>
-            <excludes>
-              <exclude>**/InjectedTest.java</exclude>
-            </excludes>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-core</artifactId>
-              <version>${pmd.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-java</artifactId>
-              <version>${pmd.version}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>${findbugs-maven-plugin.version}</version>
-          <configuration>
-            <xmlOutput>true</xmlOutput>
-            <findbugsXmlOutput>true</findbugsXmlOutput>
-            <threshold>Low</threshold>
-            <effort>Max</effort>
-            <relaxed>false</relaxed>
-            <fork>true</fork>
-            <excludeFilterFile>etc/findbugs-exclusion-filter.xml</excludeFilterFile>
-            <includeTests>true</includeTests>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.github.spotbugs</groupId>
-          <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>${spotbugs-maven-plugin.version}</version>
-          <configuration>
-            <xmlOutput>true</xmlOutput>
-            <threshold>Low</threshold>
-            <effort>Max</effort>
-            <relaxed>false</relaxed>
-            <fork>true</fork>
-            <excludeFilterFile>etc/findbugs-exclusion-filter.xml</excludeFilterFile>
-            <includeTests>true</includeTests>
-          </configuration>
-        </plugin>
-        <plugin>
+       <plugin>
           <groupId>org.pitest</groupId>
           <artifactId>pitest-maven</artifactId>
           <version>${maven-pitest-plugin.version}</version>
@@ -481,8 +496,8 @@
   </build>
 
   <profiles>
-    <profile>
-      <id>skip-javadoc-with-tests</id>
+   <profile>
+      <id>skip-javadoc-and-analysis-with-tests</id>
       <activation>
         <property>
           <name>skipTests</name>
@@ -491,6 +506,9 @@
       </activation>
       <properties>
         <maven.javadoc.skip>true</maven.javadoc.skip>
+        <pmd.skip>true</pmd.skip>
+        <spotbugs.skip>true</spotbugs.skip>
+        <checkstyle.skip>true</checkstyle.skip>
       </properties>
     </profile>
   </profiles>

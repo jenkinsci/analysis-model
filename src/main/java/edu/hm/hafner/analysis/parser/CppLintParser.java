@@ -16,6 +16,8 @@ public class CppLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String PATTERN = "^\\s*(.*)\\s*[(:](\\d*)\\)?:\\s*(.*)\\s*\\[(.*)\\] \\[(.*)\\]$";
+    private static final int SEVERITY_HIGH_LIMIT = 5;
+    private static final int SEVERITY_NORMAL_LIMIT = 3;
 
     /**
      * Creates a new instance of {@link CppLintParser}.
@@ -34,10 +36,10 @@ public class CppLintParser extends RegexpLineParser {
 
     private Severity mapPriority(final String priority) {
         int value = parseInt(priority);
-        if (value >= 5) {
+        if (value >= SEVERITY_HIGH_LIMIT) {
             return Severity.WARNING_HIGH;
         }
-        if (value >= 3) {
+        if (value >= SEVERITY_NORMAL_LIMIT) {
             return Severity.WARNING_NORMAL;
         }
         return Severity.WARNING_LOW;

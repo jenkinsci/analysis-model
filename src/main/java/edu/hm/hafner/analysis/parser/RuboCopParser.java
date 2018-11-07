@@ -16,6 +16,8 @@ public class RuboCopParser extends RegexpLineParser {
     private static final long serialVersionUID = 7199325311690082783L;
 
     private static final String RUBOCOP_WARNING_PATTERN = "^([^:]+):(\\d+):(\\d+): ([RCWEF]): (\\S+): (.*)$";
+    private static final String ERROR = "E";
+    private static final String FATAL = "F";
 
     /**
      * Creates a new instance of {@link RuboCopParser}.
@@ -31,7 +33,7 @@ public class RuboCopParser extends RegexpLineParser {
 
         String severity = matcher.group(4);
         Severity priority = Severity.WARNING_NORMAL;
-        if ("E".equals(severity) || "F".equals(severity)) {
+        if (ERROR.equals(severity) || FATAL.equals(severity)) {
             priority = Severity.WARNING_HIGH;
         }
 

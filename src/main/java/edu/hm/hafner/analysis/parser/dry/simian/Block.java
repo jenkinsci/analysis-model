@@ -5,6 +5,7 @@ package edu.hm.hafner.analysis.parser.dry.simian;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.DataClass")
 public class Block {
     private String sourceFile;
     private int startLineNumber;

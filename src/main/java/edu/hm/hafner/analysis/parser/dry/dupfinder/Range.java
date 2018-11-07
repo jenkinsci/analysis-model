@@ -5,6 +5,7 @@ package edu.hm.hafner.analysis.parser.dry.dupfinder;
  *
  * @author Rafal Jasica
  */
+@SuppressWarnings("PMD.DataClass")
 public class Range {
     private int start;
     private int end;

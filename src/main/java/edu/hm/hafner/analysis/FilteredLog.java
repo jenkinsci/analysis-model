@@ -10,6 +10,7 @@ import com.google.errorprone.annotations.FormatMethod;
  */
 public class FilteredLog {
     private static final String SKIPPED_MESSAGE = "  ... skipped logging of %d additional errors ...";
+    private static final int MAX_LINES = 5;
 
     private final Report delegate;
     private final String title;
@@ -59,7 +60,7 @@ public class FilteredLog {
         if (lines == 0) {
             delegate.logError("%s", title);
         }
-        if (lines < 5) {
+        if (lines < MAX_LINES) {
             delegate.logError(format, args);
         }
         lines++;
@@ -79,8 +80,8 @@ public class FilteredLog {
      * reported.
      */
     public void logSummary() {
-        if (lines > 5) {
-            delegate.logError(SKIPPED_MESSAGE, lines - 5);
+        if (lines > MAX_LINES) {
+            delegate.logError(SKIPPED_MESSAGE, lines - MAX_LINES);
         }
     }
 }

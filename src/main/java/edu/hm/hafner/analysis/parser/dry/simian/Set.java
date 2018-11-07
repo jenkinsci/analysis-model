@@ -10,6 +10,7 @@ import java.util.List;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.DataClass")
 public class Set {
     private int lineCount;
     private final List<Block> blocks = new ArrayList<>();

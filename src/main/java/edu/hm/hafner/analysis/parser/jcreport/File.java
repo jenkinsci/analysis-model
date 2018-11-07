@@ -10,6 +10,7 @@ import java.util.List;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
+@SuppressWarnings("PMD.DataClass")
 public class File {
     private String name;
     private String packageName;

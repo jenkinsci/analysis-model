@@ -12,7 +12,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * @author Ullrich Hafner
  */
 class SeverityTest {
-    @Test
+    @Test @SuppressWarnings("PMD.PositionLiteralsFirstInCaseInsensitiveComparisons")
     void shouldCreateNewSeverityThatOverridesEqualsAndToString() {
         String name = "severity";
         Severity severity = new Severity(name);

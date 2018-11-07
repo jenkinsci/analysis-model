@@ -17,7 +17,6 @@ import edu.hm.hafner.util.ResourceTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -192,6 +191,7 @@ class ModuleDetectorTest extends ResourceTest {
         verifyOrder(prefix, ant, maven, new String[]{maven, ant});
     }
 
+    @SuppressWarnings("PMD.UseVarargs")
     private void verifyOrder(final String prefix, final String ant, final String maven, final String[] foundFiles) {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);

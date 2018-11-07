@@ -93,6 +93,7 @@ public final class Ensure {
      *
      * @return an array condition
      */
+    @SuppressWarnings("PMD.UseVarargs")
     public static ArrayCondition that(@CheckForNull final Object[] value) {
         return new ArrayCondition(value);
     }
@@ -347,7 +348,7 @@ public final class Ensure {
          * @param values
          *         value of the condition
          */
-        @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter", "PMD.ArrayIsStoredDirectly"})
+        @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter", "PMD.ArrayIsStoredDirectly", "PMD.UseVarargs"})
         @SuppressFBWarnings("EI2")
         public ArrayCondition(@CheckForNull final Object[] values) {
             super(values);
@@ -519,7 +520,7 @@ public final class Ensure {
          */
         @SuppressFBWarnings("EI2")
         @SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter", "PMD.ArrayIsStoredDirectly"})
-        public ObjectCondition(@CheckForNull final Object value, @CheckForNull final Object[] additionalValues) {
+        public ObjectCondition(@CheckForNull final Object value, @CheckForNull final Object... additionalValues) {
             this.value = value;
             this.additionalValues = additionalValues;
         }

@@ -10,6 +10,7 @@ import java.util.List;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.DataClass")
 public class Duplication {
     /** Number of duplicate lines. */
     private int lines;

@@ -5,6 +5,7 @@ package edu.hm.hafner.analysis.parser.dry.cpd;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.DataClass")
 public class SourceFile {
     /** Starting line number in file. */
     private int line;

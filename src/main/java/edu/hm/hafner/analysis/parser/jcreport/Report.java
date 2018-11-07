@@ -10,6 +10,7 @@ import java.util.List;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
+@SuppressWarnings("PMD.DataClass")
 public class Report {
     private List<File> files = new ArrayList<>();
 

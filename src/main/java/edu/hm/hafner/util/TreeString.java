@@ -94,8 +94,8 @@ public final class TreeString implements Serializable {
     public int hashCode() {
         int h = parent == null ? 0 : parent.hashCode();
 
-        for (int i = 0; i < label.length; i++) {
-            h = 31 * h + label[i];
+        for (char character : label) {
+            h = 31 * h + character;
         }
 
         assert toString().hashCode() == h;

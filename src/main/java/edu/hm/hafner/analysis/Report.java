@@ -42,8 +42,8 @@ import static java.util.stream.Collectors.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength"})
-// TODO: provide a readResolve method to check the instance and improve the performace (TreeString, etc.)
+@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass"})
+// TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
 
