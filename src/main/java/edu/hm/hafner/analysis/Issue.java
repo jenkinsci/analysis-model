@@ -291,7 +291,7 @@ public class Issue implements Serializable {
             final UUID id) {
         TreeStringBuilder builder = new TreeStringBuilder();
 
-        this.fileName = builder.intern(defaultString(normalizeFileName(fileName)));
+        this.fileName = builder.intern(normalizeFileName(fileName));
 
         int providedLineStart = defaultInteger(lineStart);
         int providedLineEnd = defaultInteger(lineEnd) == 0 ? providedLineStart : defaultInteger(lineEnd);
@@ -353,7 +353,8 @@ public class Issue implements Serializable {
     }
 
     private String normalizeFileName(@CheckForNull final String platformFileName) {
-        return StringUtils.replace(StringUtils.strip(platformFileName), "\\", "/");
+        return defaultString(StringUtils.replace(
+                StringUtils.strip(platformFileName), "\\", "/"));
     }
 
     /**
@@ -435,7 +436,7 @@ public class Issue implements Serializable {
      *         the file name to set
      */
     public void setFileName(@CheckForNull final String fileName) {
-        this.fileName = TreeString.valueOf(StringUtils.stripToEmpty(fileName));
+        this.fileName = TreeString.valueOf(normalizeFileName(fileName));
     }
 
     /**

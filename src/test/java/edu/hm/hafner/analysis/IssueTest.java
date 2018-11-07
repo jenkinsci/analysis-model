@@ -21,7 +21,7 @@ class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
 
     static final String FILE_NAME = "C:/users/tester/file-name";
-    static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+    private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
 
     static final int LINE_START = 1;
     static final int LINE_END = 2;
@@ -278,6 +278,9 @@ class IssueTest extends SerializableTest<Issue> {
                 TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
+        assertThat(issue).hasFileName(FILE_NAME);
+        
+        issue.setFileName(FILE_NAME_WITH_BACKSLASHES);
         assertThat(issue).hasFileName(FILE_NAME);
     }
 
