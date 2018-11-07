@@ -663,7 +663,7 @@ public class Report implements Iterable<Issue>, Serializable {
         if (!infoMessages.equals(report.infoMessages)) {
             return false;
         }
-        return (errorMessages.equals(report.errorMessages));
+        return errorMessages.equals(report.errorMessages);
     }
 
     @Override

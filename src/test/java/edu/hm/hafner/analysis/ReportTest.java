@@ -53,7 +53,6 @@ class ReportTest extends SerializableTest<Report> {
             .setFileName("file-3")
             .setSeverity(Severity.WARNING_LOW)
             .build();
-    private static final String ID = "id";
 
     @Test
     void shouldVerifyExistenceOfProperties() {
@@ -283,33 +282,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(inConstructor.getInfoMessages()).containsExactly("1 info", "2 info", "3 info");
         assertThat(inConstructor.getErrorMessages()).containsExactly("1 error", "2 error", "3 error");
     }
-
-    /** Verifies that the ID of the first set of issues remains if other IDs are added. */
-    @Test
-    void shouldVerifyPropertiesDuringCopy() {
-        Report first = new Report();
-        first.add(HIGH);
-        Report second = new Report();
-        second.addAll(NORMAL_1, NORMAL_2);
-        Report third = new Report();
-        third.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
-
-        Report report = new Report();
-        report.addAll(first);
-        assertThat((Iterable<Issue>) report).containsExactly(HIGH);
-
-        report.addAll(second, third);
-        assertThatAllIssuesHaveBeenAdded(report);
-
-        Report altogether = new Report();
-        altogether.addAll(first, second, third);
-        assertThatAllIssuesHaveBeenAdded(report);
-
-        Report copy = third.copyEmptyInstance();
-        copy.addAll(first, second);
-        // FIXME: validate and check log?
-    }
-
+    
     @Test
     void shouldBeEmptyWhenCreated() {
         Report report = new Report();
