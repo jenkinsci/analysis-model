@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.assertj;
 
-import java.util.Objects;
-
 import org.assertj.core.api.AbstractAssert;
 
 import edu.hm.hafner.analysis.Report;
@@ -53,25 +51,6 @@ public class IssuesAssert extends AbstractAssert<IssuesAssert, Report> {
             failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "empty issues", actual, "empty", "not empty");
         }
 
-        return this;
-    }
-
-    /**
-     * Verifies that the actual reference of the {@link Report} instance is equal to the given one.
-     *
-     * @param reference
-     *         the expected reference to compare the actual {@link Report} reference to.
-     *
-     * @return this assertion object.
-     * @throws AssertionError
-     *         if the actual {@link Report} reference is not equal to the given one.
-     */
-    public IssuesAssert hasReference(final String reference) {
-        isNotNull();
-
-        if (!Objects.equals(actual.getReference(), reference)) {
-            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "reference", actual, reference, actual.getReference());
-        }
         return this;
     }
 

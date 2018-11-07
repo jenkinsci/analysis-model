@@ -43,6 +43,7 @@ import static java.util.stream.Collectors.*;
  * @author Ullrich Hafner
  */
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength"})
+// TODO: provide a readResolve method to check the instance and improve the performace (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
 
@@ -54,7 +55,6 @@ public class Report implements Iterable<Issue>, Serializable {
     private final List<String> errorMessages = new ArrayList<>();
 
     private int duplicatesSize = 0;
-    private String reference = DEFAULT_ID;
 
     /**
      * Creates an empty {@link Report}.
@@ -356,7 +356,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("%d issues (reference = %s)", size(), getReference());
+        return String.format("%d issues", size());
     }
 
     /**
@@ -559,10 +559,6 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     private void copyIssuesAndProperties(final Report source, final Report destination) {
-        if (!destination.hasReference()) {
-            destination.reference = source.reference;
-        }
-
         destination.addAll(source.elements);
         copyProperties(source, destination);
     }
@@ -581,34 +577,8 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public Report copyEmptyInstance() {
         Report empty = new Report();
-        empty.setReference(reference);
         copyProperties(this, empty);
         return empty;
-    }
-
-    /**
-     * Sets a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
-     *
-     * @param reference
-     *         the reference
-     */
-    public void setReference(final String reference) {
-        Ensure.that(reference).isNotNull();
-
-        this.reference = reference;
-    }
-
-    /**
-     * Returns a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
-     *
-     * @return the reference
-     */
-    public String getReference() {
-        return reference;
-    }
-
-    private boolean hasReference() {
-        return !DEFAULT_ID.equals(getReference());
     }
 
     /**
@@ -693,10 +663,7 @@ public class Report implements Iterable<Issue>, Serializable {
         if (!infoMessages.equals(report.infoMessages)) {
             return false;
         }
-        if (!errorMessages.equals(report.errorMessages)) {
-            return false;
-        }
-        return reference.equals(report.reference);
+        return (errorMessages.equals(report.errorMessages));
     }
 
     @Override
@@ -705,7 +672,6 @@ public class Report implements Iterable<Issue>, Serializable {
         result = 31 * result + infoMessages.hashCode();
         result = 31 * result + errorMessages.hashCode();
         result = 31 * result + duplicatesSize;
-        result = 31 * result + reference.hashCode();
         return result;
     }
 

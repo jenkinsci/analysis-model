@@ -286,49 +286,28 @@ class ReportTest extends SerializableTest<Report> {
 
     /** Verifies that the ID of the first set of issues remains if other IDs are added. */
     @Test
-    void shouldVerifyOriginAndReferenceOfFirstRemains() {
+    void shouldVerifyPropertiesDuringCopy() {
         Report first = new Report();
-        first.setReference(ID);
         first.add(HIGH);
         Report second = new Report();
-        String otherId = "otherId";
-        second.setReference(otherId);
         second.addAll(NORMAL_1, NORMAL_2);
         Report third = new Report();
-        String idOfThird = "yetAnotherId";
-        third.setReference(idOfThird);
         third.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         Report report = new Report();
         report.addAll(first);
         assertThat((Iterable<Issue>) report).containsExactly(HIGH);
-        assertThat(report).hasReference(ID);
 
         report.addAll(second, third);
         assertThatAllIssuesHaveBeenAdded(report);
-        assertThat(report).hasReference(ID);
 
         Report altogether = new Report();
         altogether.addAll(first, second, third);
         assertThatAllIssuesHaveBeenAdded(report);
-        assertThat(report).hasReference(ID);
 
         Report copy = third.copyEmptyInstance();
         copy.addAll(first, second);
-    }
-
-    @Test
-    void shouldSetAndGetOriginAndReference() {
-        Report report = new Report();
-        assertThat(report).hasReference(Report.DEFAULT_ID);
-
-        assertThat(report).hasReference(Report.DEFAULT_ID);
-
-        report.setReference(ID);
-        assertThat(report).hasReference(ID);
-
-        //noinspection ConstantConditions
-        assertThatThrownBy(() -> report.setReference(null)).isInstanceOf(NullPointerException.class);
+        // FIXME: validate and check log?
     }
 
     @Test
