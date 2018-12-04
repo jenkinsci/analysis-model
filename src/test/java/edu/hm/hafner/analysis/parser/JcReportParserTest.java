@@ -1,15 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
@@ -21,7 +21,7 @@ import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
-class JcReportParserTest extends AbstractIssueParserTest {
+class JcReportParserTest extends AbstractParserTest {
     JcReportParserTest() {
         super("jcreport/testCorrect.xml");
     }
@@ -44,8 +44,8 @@ class JcReportParserTest extends AbstractIssueParserTest {
      */
     @Test
     void testReportParserProperties() {
-        InputStreamReader readCorrectXml = getReader("testReportProps.xml");
-        edu.hm.hafner.analysis.parser.jcreport.Report testReportProps = new JcReportParser().createReport(readCorrectXml);
+        ReaderFactory factory = createReaderFactory(read("testReportProps.xml"));
+        edu.hm.hafner.analysis.parser.jcreport.Report testReportProps = new JcReportParser().createReport(factory);
 
         assertThat(testReportProps.getFiles().size()).isEqualTo(1);
 
@@ -80,8 +80,8 @@ class JcReportParserTest extends AbstractIssueParserTest {
 
     }
 
-    private InputStreamReader getReader(final String fileName) {
-        return new InputStreamReader(asInputStream("jcreport/" + fileName), StandardCharsets.UTF_8);
+    private InputStream read(final String fileName) {
+        return asInputStream("jcreport/" + fileName);
     }
 
     @Override

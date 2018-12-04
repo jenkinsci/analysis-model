@@ -5,18 +5,20 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.Categories;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the class {@link AntJavacParser}.
  */
-class AntJavacParserTest extends AbstractIssueParserTest {
+class AntJavacParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link AntJavacParserTest}.
      */
@@ -78,7 +80,7 @@ class AntJavacParserTest extends AbstractIssueParserTest {
                     .hasFileName("/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/misuse/DescriptiveMessagesOnMisuseTest.java");
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(AbstractParser.DEPRECATION)
+                    .hasCategory(Categories.DEPRECATION)
                     .hasLineStart(51)
                     .hasLineEnd(51)
                     .hasMessage("<T>stubVoid(T) in org.mockito.Mockito has been deprecated")
@@ -178,7 +180,9 @@ class AntJavacParserTest extends AbstractIssueParserTest {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
                 AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        Report warnings = createParser().parse(is);
+        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        when(readerFactory.create()).thenReturn(is);
+        Report warnings = createParser().parse(readerFactory);
 
         assertThat(warnings).hasSize(1);
     }

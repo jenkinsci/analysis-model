@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis.parser.dry.simian;
 
-import java.nio.charset.StandardCharsets;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -142,7 +140,7 @@ class SimianParserTest extends AbstractParserTest {
     }
 
     private Report parse(final int highThreshold, final int normalThreshold) {
-        return new SimianParser(highThreshold, normalThreshold)
-                .parse(getResourceAsFile("twofile.xml"), StandardCharsets.UTF_8);
+        SimianParser parser = new SimianParser(highThreshold, normalThreshold);
+        return parser.parse(createReaderFactory("twofile.xml"));
     }
 }

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * @see RegexpDocumentParser
  * @see RegexpLineParser
  */
-public abstract class RegexpParser extends AbstractParser {
+public abstract class RegexpParser extends IssueParser {
     private static final long serialVersionUID = -82635675595933170L;
 
     /** Used to define a false positive warnings that should be excluded after the regular expression scan. */

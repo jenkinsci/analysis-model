@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
+import static edu.hm.hafner.analysis.Categories.guessCategory;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -30,9 +31,8 @@ public class AcuCobolParser extends FastRegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        return builder
-                .setFileName(matcher.group(2))
-                .setLineStart(parseInt(matcher.group(3)))
+        return builder.setFileName(matcher.group(2))
+                .setLineStart(matcher.group(3))
                 .setCategory(guessCategory(matcher.group(4)))
                 .setMessage(matcher.group(4))
                 .build();

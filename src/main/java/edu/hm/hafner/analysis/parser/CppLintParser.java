@@ -4,8 +4,9 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
+import static edu.hm.hafner.util.IntegerParser.parseInt;
 
 /**
  * A parser for C++ Lint compiler warnings.
@@ -30,8 +31,12 @@ public class CppLintParser extends RegexpLineParser {
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         Severity priority = mapPriority(matcher.group(5));
 
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setCategory(matcher.group(4)).setMessage(matcher.group(3)).setSeverity(priority).build();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(matcher.group(2))
+                .setCategory(matcher.group(4))
+                .setMessage(matcher.group(3))
+                .setSeverity(priority)
+                .build();
     }
 
     private Severity mapPriority(final String priority) {

@@ -51,7 +51,7 @@ public class JavaDocParser extends FastRegexpLineParser {
             builder.setCategory(CATEGORY_JAVADOC);
         }
         return builder.setFileName(StringUtils.defaultIfEmpty(matcher.group(1), " - "))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setMessage(message)
                 .setSeverity(mapPriority(type))
                 .build();

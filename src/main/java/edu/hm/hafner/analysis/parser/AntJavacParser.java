@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
+import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -47,7 +48,7 @@ public class AntJavacParser extends FastRegexpLineParser {
         }
         else if (StringUtils.isBlank(matcher.group(6))) {
             return builder.setFileName(matcher.group(1))
-                    .setLineStart(parseInt(matcher.group(2)))
+                    .setLineStart(matcher.group(2))
                     .setCategory(guessCategoryIfEmpty(matcher.group(4), matcher.group(5)))
                     .setMessage(matcher.group(5))
                     .build();

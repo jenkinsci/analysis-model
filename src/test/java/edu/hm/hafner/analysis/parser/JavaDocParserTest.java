@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -14,7 +14,7 @@ import static edu.hm.hafner.analysis.parser.JavaDocParser.CATEGORY_JAVADOC;
 /**
  * Tests the class {@link JavaDocParser}.
  */
-class JavaDocParserTest extends AbstractIssueParserTest {
+class JavaDocParserTest extends AbstractParserTest {
     private static final String JAVA_DOC_LINK = "JavaDoc @link";
     private static final String JAVA_DOC_PARAM = "JavaDoc @param";
 

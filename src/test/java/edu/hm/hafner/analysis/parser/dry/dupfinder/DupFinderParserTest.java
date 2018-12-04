@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
@@ -117,8 +116,8 @@ class DupFinderParserTest extends AbstractParserTest {
     }
 
     private Report parse(final int highThreshold, final int normalThreshold) {
-        return new DupFinderParser(highThreshold, normalThreshold)
-                .parse(getResourceAsFile("without-sourcecode.xml"), StandardCharsets.UTF_8);
+        DupFinderParser parser = new DupFinderParser(highThreshold, normalThreshold);
+        return parser.parse(createReaderFactory("without-sourcecode.xml"));
     }
 }
 

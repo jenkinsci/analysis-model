@@ -3,11 +3,10 @@ package edu.hm.hafner.analysis.parser.violations;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
+import edu.hm.hafner.analysis.Severity;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -36,7 +35,7 @@ class ErrorProneAdapterTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected ErrorProneAdapter createParser() {
         return new ErrorProneAdapter();
     }
 

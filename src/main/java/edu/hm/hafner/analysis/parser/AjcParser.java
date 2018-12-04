@@ -2,14 +2,14 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
-import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.ReaderFactory;
 
 
 /**
@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.ParsingException;
  *
  * @author Tom Diamond
  */
-public class AjcParser extends AbstractParser {
+public class AjcParser extends IssueParser {
     private static final long serialVersionUID = -9123765511497052454L;
 
     private static final Pattern ESCAPE_CHARACTERS = Pattern.compile((char) 27 + "\\[.*" + (char) 27 + "\\[0m");
@@ -26,9 +26,8 @@ public class AjcParser extends AbstractParser {
     static final String ADVICE = "Advice";
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingException {
-        try (BufferedReader br = new BufferedReader(reader)) {
+    public Report parse(final ReaderFactory reader) throws ParsingException {
+        try (BufferedReader br = reader.createBufferedReader()) {
             Report warnings = new Report();
 
             String line;
@@ -79,7 +78,7 @@ public class AjcParser extends AbstractParser {
         if (indexOfColon != -1) {
             builder.setFileName(line.substring(0, indexOfColon));
             if (line.length() > indexOfColon + 1) {
-                builder.setLineStart(parseInt(line.substring(indexOfColon + 1)));
+                builder.setLineStart(line.substring(indexOfColon + 1));
             }
         }
     }
@@ -88,7 +87,7 @@ public class AjcParser extends AbstractParser {
         String message = WARNING_TAG.matcher(line).replaceAll("");
         String category;
         if (message.contains("is deprecated") || message.contains("overrides a deprecated")) {
-            category = AbstractParser.DEPRECATION;
+            category = Categories.DEPRECATION;
         }
         else if (message.contains("adviceDidNotMatch")) {
             category = AjcParser.ADVICE;

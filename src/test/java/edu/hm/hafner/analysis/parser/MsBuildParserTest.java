@@ -1,12 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -16,7 +16,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link MsBuildParser}.
  */
-class MsBuildParserTest extends AbstractIssueParserTest {
+class MsBuildParserTest extends AbstractParserTest {
     MsBuildParserTest() {
         super("msbuild.txt");
     }
@@ -618,7 +618,6 @@ class MsBuildParserTest extends AbstractIssueParserTest {
      */
     @Test
     void shouldDetectKeywordsInRegexCaseInsensitive() {
-
         Report warnings = createParser().parse(createIssue2383File());
 
         assertThat(warnings)
@@ -652,10 +651,10 @@ class MsBuildParserTest extends AbstractIssueParserTest {
         });
     }
 
-    private InputStreamReader createIssue2383File() {
-        return new InputStreamReader(IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
+    private ReaderFactory createIssue2383File() {
+        return createReaderFactory(IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
                 + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
-                + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+                + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8));
     }
 
     @Override

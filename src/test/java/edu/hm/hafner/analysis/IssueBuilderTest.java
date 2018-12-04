@@ -84,6 +84,34 @@ class IssueBuilderTest {
         builder.setColumnStart(start).setColumnEnd(end);
         assertThat(builder.build()).hasColumnStart(expectedStart).hasColumnEnd(expectedEnd);
     }
+    
+    @Test
+    void shouldMapStringNumbers() {
+        IssueBuilder builder = new IssueBuilder();
+        
+        assertThat(builder.setLineStart("nix").build()).hasLineStart(0);
+        assertThat(builder.setLineStart("-1").build()).hasLineStart(0);
+        assertThat(builder.setLineStart("0").build()).hasLineStart(0);
+        assertThat(builder.setLineStart("1").build()).hasLineStart(1);
+
+        builder = new IssueBuilder();
+        assertThat(builder.setLineEnd("nix").build()).hasLineEnd(0);
+        assertThat(builder.setLineEnd("-1").build()).hasLineEnd(0);
+        assertThat(builder.setLineEnd("0").build()).hasLineEnd(0);
+        assertThat(builder.setLineEnd("1").build()).hasLineEnd(1);
+        
+        builder = new IssueBuilder();
+        assertThat(builder.setColumnStart("nix").build()).hasColumnStart(0);
+        assertThat(builder.setColumnStart("-1").build()).hasColumnStart(0);
+        assertThat(builder.setColumnStart("0").build()).hasColumnStart(0);
+        assertThat(builder.setColumnStart("1").build()).hasColumnStart(1);
+        
+        builder = new IssueBuilder();
+        assertThat(builder.setColumnEnd("nix").build()).hasColumnEnd(0);
+        assertThat(builder.setColumnEnd("-1").build()).hasColumnEnd(0);
+        assertThat(builder.setColumnEnd("0").build()).hasColumnEnd(0);
+        assertThat(builder.setColumnEnd("1").build()).hasColumnEnd(1);
+    }
 
     @Test
     void shouldCreateIssueWithAllPropertiesInitialized() {

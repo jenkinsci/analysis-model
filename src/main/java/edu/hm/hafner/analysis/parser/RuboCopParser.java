@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
+import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
@@ -38,11 +39,11 @@ public class RuboCopParser extends RegexpLineParser {
         }
 
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(priority)
-                .setColumnStart(parseInt(matcher.group(3)))
+                .setColumnStart(matcher.group(3))
                 .build();
     }
 }

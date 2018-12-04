@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for Metrowerks Codewarrior 4.x compiler warnings.
@@ -28,12 +28,9 @@ public class MetrowerksCwCompilerParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String fileName = matcher.group(1);
-        int lineNumber = parseInt(matcher.group(2));
-        String message = matcher.group(5);
         Severity priority;
-
         String category;
+
         if ("error".equalsIgnoreCase(matcher.group(3))) {
             priority = Severity.WARNING_HIGH;
             category = "ERROR";
@@ -46,8 +43,13 @@ public class MetrowerksCwCompilerParser extends RegexpLineParser {
             priority = Severity.WARNING_NORMAL;
             category = "Warning";
         }
-        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category).setMessage(message)
-                      .setSeverity(priority).build();
+        
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(matcher.group(2))
+                .setCategory(category)
+                .setMessage(matcher.group(5))
+                .setSeverity(priority)
+                .build();
     }
 }
 

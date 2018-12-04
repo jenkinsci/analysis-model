@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,14 +11,15 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import edu.hm.hafner.analysis.parser.FindBugsParser.InputStreamProvider;
 import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the extraction of FindBugs analysis results.
@@ -30,12 +33,10 @@ class FindBugsParserTest {
     private static final String FINDBUGS_NATIVE_XML = "findbugs-native.xml";
 
     private Report parseFile(final String fileName, final PriorityProperty priorityProperty) {
-        return new FindBugsParser(priorityProperty).parse(getInputStreamProvider(PREFIX + fileName),
+        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        when(readerFactory.create()).thenAnswer(mock -> new InputStreamReader(read(PREFIX + fileName)));
+        return new FindBugsParser(priorityProperty).parse(readerFactory,
                 Collections.emptyList(), new IssueBuilder());
-    }
-
-    private InputStreamProvider getInputStreamProvider(final String fileName) {
-        return () -> read(fileName);
     }
 
     private InputStream read(final String fileName) {
@@ -116,7 +117,7 @@ class FindBugsParserTest {
      */
     @Test
     void testMessageMapping() throws Exception {
-        try (InputStream stream = read(PREFIX + FINDBUGS_NATIVE_XML)) {
+        try (Reader stream = new InputStreamReader(read(PREFIX + FINDBUGS_NATIVE_XML))) {
             Map<String, String> mapping = new HashMap<>();
             for (XmlBugInstance bug : new FindBugsParser(CONFIDENCE).preParse(stream)) {
                 mapping.put(bug.getInstanceHash(), bug.getMessage());

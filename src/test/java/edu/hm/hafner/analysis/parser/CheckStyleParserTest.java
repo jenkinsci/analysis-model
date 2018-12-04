@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 /**
  * Tests the extraction of CheckStyle analysis results.
  */
-class CheckStyleParserTest extends AbstractIssueParserTest {
+class CheckStyleParserTest extends AbstractParserTest {
     private static final String PREFIX = "checkstyle/";
 
     CheckStyleParserTest() {

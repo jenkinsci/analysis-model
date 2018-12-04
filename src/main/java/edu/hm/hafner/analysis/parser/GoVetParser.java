@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
+import static edu.hm.hafner.analysis.Categories.guessCategory;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.RegexpLineParser;
@@ -26,13 +27,10 @@ public class GoVetParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String message = matcher.group(3);
-        String category = guessCategory(message);
-
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
-                .setCategory(category)
-                .setMessage(message)
+                .setLineStart(matcher.group(2))
+                .setCategory(guessCategory(matcher.group(3)))
+                .setMessage(matcher.group(3))
                 .build();
     }
 }

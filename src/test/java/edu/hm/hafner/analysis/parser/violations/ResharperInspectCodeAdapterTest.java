@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link ResharperInspectCodeAdapter}.
  */
-class ResharperInspectCodeAdapterTest extends AbstractIssueParserTest {
+class ResharperInspectCodeAdapterTest extends AbstractParserTest {
     private static final String ISSUES_FILE = "ResharperInspectCode.xml";
 
     /**

@@ -1,20 +1,19 @@
 package edu.hm.hafner.analysis.parser.dry;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import org.apache.commons.digester3.Digester;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
-import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A duplication parser template for Digester based parsers.
@@ -22,7 +21,7 @@ import edu.hm.hafner.analysis.SecureDigester;
  * @param <T>
  *         the type of the parsed warnings
  */
-public abstract class AbstractDryParser<T> extends AbstractParser {
+public abstract class AbstractDryParser<T> extends IssueParser {
     /** Unique ID of this class. */
     private static final long serialVersionUID = 6328121785037117886L;
 
@@ -64,8 +63,7 @@ public abstract class AbstractDryParser<T> extends AbstractParser {
     }
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingCanceledException, ParsingException {
+    public Report parse(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
         try {
             Digester digester = new SecureDigester(AbstractDryParser.class);
 
@@ -74,7 +72,7 @@ public abstract class AbstractDryParser<T> extends AbstractParser {
             List<T> duplications = new ArrayList<>();
             digester.push(duplications);
 
-            Object result = digester.parse(reader);
+            Object result = digester.parse(readerFactory.create());
             if (result != duplications) { // NOPMD
                 throw new ParsingException("Input stream is not a valid duplications file.");
             }

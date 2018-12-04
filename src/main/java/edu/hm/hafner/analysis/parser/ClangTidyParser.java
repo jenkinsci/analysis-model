@@ -38,8 +38,8 @@ public class ClangTidyParser extends RegexpLineParser {
 
         return builder.setFileName(matcher.group(1))
                 .setSeverity(priority)
-                .setLineStart(parseInt(matcher.group(2)))
-                .setColumnStart(parseInt(matcher.group(3)))
+                .setLineStart(matcher.group(2))
+                .setColumnStart(matcher.group(3))
                 .setType(StringUtils.capitalize(matcher.group(4)))
                 .setCategory(matcher.group(6))
                 .setMessage(matcher.group(5))

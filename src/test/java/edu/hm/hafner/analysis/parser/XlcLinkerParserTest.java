@@ -5,11 +5,13 @@ import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the class {@link XlcLinkerParser}.
@@ -131,7 +133,9 @@ class XlcLinkerParserTest {
     }
 
     private Report parse(final String s) {
-        return new XlcLinkerParser().parse(new StringReader(s));
+        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        when(readerFactory.create()).thenAnswer(invocation -> new StringReader(s));
+        return new XlcLinkerParser().parse(readerFactory);
     }
 }
 

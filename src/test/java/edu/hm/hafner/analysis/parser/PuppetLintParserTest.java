@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Jan Vansteenkiste <jan@vstone.eu>
  */
-class PuppetLintParserTest extends AbstractIssueParserTest {
+class PuppetLintParserTest extends AbstractParserTest {
 
     PuppetLintParserTest() {
         super("puppet-lint.txt");

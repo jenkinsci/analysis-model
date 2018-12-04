@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-import edu.hm.hafner.util.IntegerParser;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -77,23 +76,14 @@ public class JSLintXmlSaxParser extends DefaultHandler {
             category = CATEGORY_FORMATTING;
         }
 
-        int lineNumber = parseInt(attributes.getValue("line"));
-
-        String column = extractFrom(attributes, "column", "char");
         IssueBuilder builder = new IssueBuilder().setFileName(fileName)
-                .setLineStart(lineNumber)
+                .setLineStart(attributes.getValue("line"))
+                .setColumnStart(extractFrom(attributes, "column", "char"))
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(priority);
 
-        if (StringUtils.isNotBlank(column)) {
-            builder.setColumnStart(parseInt(column));
-        }
         report.add(builder.build());
-    }
-
-    private int parseInt(final String line) {
-        return new IntegerParser().parseInt(line);
     }
 
     private String extractFrom(final Attributes atts, final String first, final String second) {

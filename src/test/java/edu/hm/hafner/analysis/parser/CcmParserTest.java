@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
-import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -13,13 +12,13 @@ import edu.hm.hafner.analysis.parser.ccm.CcmParser;
  *
  * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
  */
-class CcmParserTest extends AbstractIssueParserTest {
+class CcmParserTest extends AbstractParserTest {
     CcmParserTest() {
         super("pynamodb_ccm_results_sample.xml");
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected CcmParser createParser() {
         return new CcmParser();
     }
 

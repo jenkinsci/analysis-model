@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link GnatParser}.
  */
-class GnatParserTest extends AbstractIssueParserTest {
+class GnatParserTest extends AbstractParserTest {
     private static final String GNAT_WARNING = "GNAT warning";
 
     GnatParserTest() {

@@ -47,8 +47,8 @@ public class IntelParser extends FastRegexpLineParser {
         }
 
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
-                .setColumnStart(parseInt(matcher.group(3)))
+                .setLineStart(matcher.group(2))
+                .setColumnStart(matcher.group(3))
                 .setCategory(category)
                 .setMessage(matcher.group(5))
                 .setSeverity(priority)

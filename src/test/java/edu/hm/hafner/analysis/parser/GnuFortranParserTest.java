@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -15,7 +15,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 /**
  * Tests the class {@link GnuFortranParser}.
  */
-class GnuFortranParserTest extends AbstractIssueParserTest {
+class GnuFortranParserTest extends AbstractParserTest {
     GnuFortranParserTest() {
         super("GnuFortran.txt");
     }

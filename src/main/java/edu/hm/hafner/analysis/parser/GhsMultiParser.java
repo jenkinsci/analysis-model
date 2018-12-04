@@ -31,7 +31,7 @@ public class GhsMultiParser extends RegexpDocumentParser {
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(3));
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(5))
                 .setSeverity(mapPriority(type))

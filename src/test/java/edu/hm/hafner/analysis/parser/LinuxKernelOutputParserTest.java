@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Benedikt Spranger
  */
-class LinuxKernelOutputParserTest extends AbstractIssueParserTest {
+class LinuxKernelOutputParserTest extends AbstractParserTest {
     protected LinuxKernelOutputParserTest() {
         super("kernel.log");
     }

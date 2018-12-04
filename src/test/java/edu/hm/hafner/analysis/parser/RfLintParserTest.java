@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link RfLintParser}. Created by traitanit on 3/27/2017 AD.
  */
-class RfLintParserTest extends AbstractIssueParserTest {
+class RfLintParserTest extends AbstractParserTest {
 
     private static final String WARNING_CATEGORY = "WARNING";
     private static final String ERROR_CATEGORY = "ERROR";

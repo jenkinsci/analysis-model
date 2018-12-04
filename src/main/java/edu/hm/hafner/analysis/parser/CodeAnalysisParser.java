@@ -42,7 +42,7 @@ public class CodeAnalysisParser extends RegexpLineParser {
         }
         else {
             return builder.setFileName(matcher.group(4))
-                    .setLineStart(parseInt(matcher.group(5)))
+                    .setLineStart(matcher.group(5))
                     .setCategory(matcher.group(8))
                     .setType(matcher.group(6))
                     .setMessage(matcher.group(10))

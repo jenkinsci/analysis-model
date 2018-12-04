@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
+import static edu.hm.hafner.analysis.Categories.guessCategory;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.RegexpLineParser;
@@ -30,8 +31,8 @@ public class GoLintParser extends RegexpLineParser {
         String category = guessCategory(message);
 
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
-                .setColumnStart(parseInt(matcher.group(3)))
+                .setLineStart(matcher.group(2))
+                .setColumnStart(matcher.group(3))
                 .setCategory(category)
                 .setMessage(message)
                 .build();

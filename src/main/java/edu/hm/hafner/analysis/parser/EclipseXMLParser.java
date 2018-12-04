@@ -1,37 +1,30 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.IOException;
-import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.util.function.Function;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
+import static java.lang.Integer.*;
 
 /**
  * Parser for Eclipse Compiler output in XML format.
  * 
  * @author Jason Faust
  */
-public class EclipseXMLParser extends AbstractParser {
+public class EclipseXMLParser extends IssueParser {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -40,17 +33,12 @@ public class EclipseXMLParser extends AbstractParser {
     }
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingCanceledException, ParsingException {
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder;
-            docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = readerFactory.readDocument();
 
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xPath = xPathFactory.newXPath();
-
-            Document doc = docBuilder.parse(new InputSource(reader));
 
             IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
@@ -68,8 +56,7 @@ public class EclipseXMLParser extends AbstractParser {
                         issueBuilder.setSeverity(EclipseParser.mapTypeToSeverity(type));
                     }
 
-                    String lineNum = xPath.evaluate("@line", problem);
-                    issueBuilder.setLineStart(parseInt(lineNum));
+                    issueBuilder.setLineStart(xPath.evaluate("@line", problem));
 
                     // Columns are a closed range, 1 based index.
                     // XML output counts from column 0, need to offset by 1
@@ -91,7 +78,7 @@ public class EclipseXMLParser extends AbstractParser {
 
             return report;
         }
-        catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e) {
+        catch (XPathExpressionException e) {
             throw new ParsingException(e);
         }
     }

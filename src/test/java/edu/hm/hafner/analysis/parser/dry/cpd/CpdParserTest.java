@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.parser.dry.cpd;
 
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
@@ -116,8 +116,8 @@ class CpdParserTest extends AbstractParserTest {
     }
 
     private Report parse(final int highThreshold, final int normalThreshold) {
-        return new CpdParser(highThreshold, normalThreshold)
-                .parse(getResourceAsFile("issue12516.xml"), StandardCharsets.UTF_8);
+        CpdParser parser = new CpdParser(highThreshold, normalThreshold);
+        return parser.parse(createReaderFactory("issue12516.xml"));
     }
 
     /**

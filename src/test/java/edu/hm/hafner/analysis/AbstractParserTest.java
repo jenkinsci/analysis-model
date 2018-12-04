@@ -3,11 +3,12 @@ package edu.hm.hafner.analysis;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,9 +16,10 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.ResourceTest;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
- * Base class for tests of {@link AbstractParser} instances.
+ * Base class for tests of {@link IssueParser} instances.
  *
  * @author Ullrich Hafner
  */
@@ -41,7 +43,7 @@ public abstract class AbstractParserTest extends ResourceTest {
 
     /**
      * Returns the name of the file that should contain some issues.
-     * 
+     *
      * @return the file name
      */
     protected String getFileWithIssuesName() {
@@ -64,7 +66,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return the issues in the default file
      */
     protected Report parseDefaultFile() {
-        return createParser().parse(getDefaultFile(), StandardCharsets.UTF_8);
+        return createParser().parse(getDefaultFileFactory());
     }
 
     /**
@@ -92,7 +94,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return the found issues
      */
     protected Report parse(final String fileName) {
-        return createParser().parse(getResourceAsFile(fileName), StandardCharsets.UTF_8);
+        return createParser().parse(createReaderFactory(fileName));
     }
 
     /**
@@ -115,11 +117,43 @@ public abstract class AbstractParserTest extends ResourceTest {
     protected abstract IssueParser createParser();
 
     /**
-     * Returns the default {@link File} that should be scanned for issues.
+     * Returns a factory that opens the default {@link File} on every invocation.
      *
      * @return default file with issues
      */
-    protected Path getDefaultFile() {
-        return getResourceAsFile(fileWithIssuesName);
+    protected ReaderFactory getDefaultFileFactory() {
+        return createReaderFactory(asInputStream(fileWithIssuesName));
+    }
+
+    /**
+     * Returns a factory that opens the specified {@link InputStream} on every invocation.
+     *
+     * @param inputStream
+     *         the input stream to open
+     *
+     * @return default file with issues
+     */
+    protected static ReaderFactory createReaderFactory(final InputStream inputStream) {
+        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        when(readerFactory.create()).thenAnswer(
+                invocation -> new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        when(readerFactory.readDocument()).thenCallRealMethod();
+        when(readerFactory.createBufferedReader()).thenCallRealMethod();
+        when(readerFactory.createInputSource()).thenCallRealMethod();
+        when(readerFactory.readString()).thenCallRealMethod();
+        
+        return readerFactory;
+    }
+
+    /**
+     * Returns a factory that opens the specified file on every invocation.
+     *
+     * @param fileName
+     *         the file to open
+     *
+     * @return default file with issues
+     */
+    protected ReaderFactory createReaderFactory(final String fileName) {
+        return createReaderFactory(asInputStream(fileName));
     }
 }

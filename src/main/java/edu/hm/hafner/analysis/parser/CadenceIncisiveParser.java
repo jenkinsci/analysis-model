@@ -11,6 +11,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import static edu.hm.hafner.util.IntegerParser.parseInt;
 
 /**
  * A parser for Cadence Incisive Enterprise Simulator.

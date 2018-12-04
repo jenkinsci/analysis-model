@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -14,7 +14,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Ullrich Hafner
  */
-class CppLintParserTest extends AbstractIssueParserTest {
+class CppLintParserTest extends AbstractParserTest {
     CppLintParserTest() {
         super("cpplint.txt");
     }

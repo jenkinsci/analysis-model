@@ -25,31 +25,31 @@ package edu.hm.hafner.analysis.parser.ccm;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.function.Function;
 
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for CCM XML files.
  *
  * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
  */
-public class CcmParser extends AbstractParser {
+public class CcmParser extends IssueParser {
     private static final long serialVersionUID = -5172155190810975806L;
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final ReaderFactory readerFactory)
             throws ParsingCanceledException, ParsingException {
         try {
-            Ccm module = parseCCMXmlFile(reader);
+            Ccm module = parseCCMXmlFile(readerFactory.create());
             if (module == null) {
                 throw new SAXException("Input stream is not a CCM file.");
             }

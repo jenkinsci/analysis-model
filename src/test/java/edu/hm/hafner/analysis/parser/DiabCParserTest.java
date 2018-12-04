@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link DiabCParser}.
  */
-class DiabCParserTest extends AbstractIssueParserTest {
+class DiabCParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link DiabCParserTest}.
      */

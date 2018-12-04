@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -16,7 +16,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Sebastian Seidl
  */
-class StyleCopParserTest extends AbstractIssueParserTest {
+class StyleCopParserTest extends AbstractParserTest {
     StyleCopParserTest() {
         super("stylecop.xml");
     }

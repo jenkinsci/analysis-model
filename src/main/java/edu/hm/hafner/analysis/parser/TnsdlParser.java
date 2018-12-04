@@ -15,7 +15,6 @@ import edu.hm.hafner.analysis.Severity;
 public class TnsdlParser extends FastRegexpLineParser {
     private static final long serialVersionUID = -7740789998865369930L;
 
-    static final String WARNING_CATEGORY = "Error";
     private static final String TNSDL_WARNING_PATTERN = "^tnsdl((.*)?):\\(.*\\) (.*) \\((.*)\\):(.*)$";
 
     /**
@@ -33,8 +32,7 @@ public class TnsdlParser extends FastRegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(3))
-                .setLineStart(parseInt(matcher.group(4)))
-                .setCategory(WARNING_CATEGORY)
+                .setLineStart(matcher.group(4))
                 .setMessage(matcher.group(5))
                 .setSeverity(mapPriority(matcher))
                 .build();

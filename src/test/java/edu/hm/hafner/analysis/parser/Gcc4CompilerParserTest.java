@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -18,7 +18,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Frederic Chateau
  * @author Raphael Furch
  */
-class Gcc4CompilerParserTest extends AbstractIssueParserTest {
+class Gcc4CompilerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
 

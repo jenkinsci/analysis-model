@@ -35,8 +35,8 @@ public class ClangParser extends RegexpLineParser {
         }
 
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
-                .setColumnStart(parseInt(matcher.group(3)))
+                .setLineStart(matcher.group(2))
+                .setColumnStart(matcher.group(3))
                 .setCategory(matcher.group(6))
                 .setMessage(message)
                 .setSeverity(mapPriority(matcher.group(4))).build();

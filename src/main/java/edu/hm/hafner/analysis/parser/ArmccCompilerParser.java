@@ -6,6 +6,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import static edu.hm.hafner.util.IntegerParser.parseInt;
 
 /**
  * A parser for armcc compiler warnings.
@@ -26,11 +27,8 @@ public class ArmccCompilerParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String fileName = matcher.group(1);
-        int lineNumber = parseInt(matcher.group(2));
         String type = matcher.group(3);
         int errorCode = parseInt(matcher.group(4));
-        String message = matcher.group(5);
         Severity priority;
 
         if ("error".equalsIgnoreCase(type)) {
@@ -39,8 +37,9 @@ public class ArmccCompilerParser extends RegexpLineParser {
         else {
             priority = Severity.WARNING_NORMAL;
         }
+        String message = matcher.group(5);
 
-        return builder.setFileName(fileName).setLineStart(lineNumber).setMessage(errorCode + " - " + message)
+        return builder.setFileName(matcher.group(1)).setLineStart(matcher.group(2)).setMessage(errorCode + " - " + message)
                       .setSeverity(priority).build();
     }
 }

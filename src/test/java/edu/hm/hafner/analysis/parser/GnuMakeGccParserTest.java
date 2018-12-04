@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -18,7 +17,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author vichak
  */
 @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
-class GnuMakeGccParserTest extends AbstractIssueParserTest {
+class GnuMakeGccParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
 
@@ -46,7 +45,7 @@ class GnuMakeGccParserTest extends AbstractIssueParserTest {
      * Checks that paths of the type "/c/anything" are changed to "c:/anything" on windows but no other OS.
      */
     private void checkOsSpecificPath(final String os, final String rootDir) {
-        Report warnings = new GnuMakeGccParser(os).parse(getDefaultFile(), StandardCharsets.UTF_8);
+        Report warnings = new GnuMakeGccParser(os).parse(getDefaultFileFactory());
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(14))

@@ -2,18 +2,17 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.RegexpParser;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
+import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * A Parser for Linux Kernel Output detecting WARN() and BUGS().
@@ -77,9 +76,8 @@ public class LinuxKernelOutputParser extends RegexpParser {
     }
 
     @Override
-    public Report parse(final Reader file, final Function<String, String> preProcessor)
-            throws ParsingException, ParsingCanceledException {
-        try (BufferedReader reader = new BufferedReader(file)) {
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException{
+        try (BufferedReader reader = readerFactory.createBufferedReader()) {
             Report warnings = new Report();
 
             String line = reader.readLine();
@@ -93,12 +91,12 @@ public class LinuxKernelOutputParser extends RegexpParser {
                     StringBuilder buf = new StringBuilder();
 
                     do {
-                        buf.append(preProcessor.apply(line)).append('\n');
+                        buf.append(line).append('\n');
                         line = reader.readLine();
                         m = pBugEnd.matcher(line);
                     } while (!m.matches());
 
-                    buf.append(preProcessor.apply(line)).append('\n');
+                    buf.append(line).append('\n');
                     findIssues(buf.toString(), warnings);
                     line = reader.readLine();
                     continue;
@@ -106,7 +104,7 @@ public class LinuxKernelOutputParser extends RegexpParser {
 
                 m = pOutput.matcher(line);
                 if (m.matches()) {
-                    findIssues(preProcessor.apply(line), warnings);
+                    findIssues(line, warnings);
                 }
 
                 line = reader.readLine();

@@ -1,23 +1,21 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.function.Function;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
@@ -25,7 +23,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *
  * @author Carles Capdevila
  */
-public abstract class SonarQubeParser extends AbstractParser {
+public abstract class SonarQubeParser extends IssueParser {
     private static final long serialVersionUID = 1958805067002376816L;
 
     //Arrays
@@ -90,9 +88,8 @@ public abstract class SonarQubeParser extends AbstractParser {
     protected abstract boolean accepts(JSONObject object);
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingCanceledException, ParsingException {
-        JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
+    public Report parse(final ReaderFactory reader) throws ParsingException {
+        JSONObject jsonReport = (JSONObject) new JSONTokener(reader.create()).nextValue();
 
         extractComponents(jsonReport);
 
