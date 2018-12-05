@@ -1,9 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.Reader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -66,11 +64,11 @@ public abstract class SonarQubeParser extends IssueParser {
     /** The components array. */
     @CheckForNull
     private transient JSONArray components = new JSONArray();
-    
+
     @Override
-    public boolean accepts(final Path file, final Charset charset) {
-        try {
-            return accepts((JSONObject) new JSONTokener(Files.newInputStream(file)).nextValue());
+    public boolean accepts(final ReaderFactory readerFactory) {
+        try (Reader reader = readerFactory.create()) {
+            return accepts((JSONObject) new JSONTokener(reader).nextValue());
         }
         catch (IOException ignored) {
             return false;
@@ -78,25 +76,30 @@ public abstract class SonarQubeParser extends IssueParser {
     }
 
     /**
-     * Returns whether this parser accepts the specified JSON object as valid input. 
+     * Returns whether this parser accepts the specified JSON object as valid input.
      *
      * @param object
-     *         the JSON object to analyse 
+     *         the JSON object to analyse
      *
      * @return {@code true} if this parser accepts this object as valid input, {@code false} otherwise
      */
     protected abstract boolean accepts(JSONObject object);
 
     @Override
-    public Report parse(final ReaderFactory reader) throws ParsingException {
-        JSONObject jsonReport = (JSONObject) new JSONTokener(reader.create()).nextValue();
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+        try (Reader reader = readerFactory.create()) {
+            JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
-        extractComponents(jsonReport);
+            extractComponents(jsonReport);
 
-        if (jsonReport.has(ISSUES)) {
-            return extractIssues(jsonReport.optJSONArray(ISSUES));
+            if (jsonReport.has(ISSUES)) {
+                return extractIssues(jsonReport.optJSONArray(ISSUES));
+            }
+            return new Report();
         }
-        return new Report();
+        catch (IOException e) {
+            throw new ParsingException(e);
+        }
     }
 
     private Report extractIssues(final JSONArray elements) {
@@ -286,7 +289,7 @@ public abstract class SonarQubeParser extends IssueParser {
 
     /**
      * Maps issue severity to warning priority.
-     * 
+     *
      * <br>
      * <strong>HIGH:</strong> BLOCKER, CRITICAL
      * <br>

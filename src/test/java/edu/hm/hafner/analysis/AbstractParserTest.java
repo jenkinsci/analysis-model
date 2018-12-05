@@ -138,9 +138,11 @@ public abstract class AbstractParserTest extends ResourceTest {
         when(readerFactory.create()).thenAnswer(
                 invocation -> new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         when(readerFactory.readDocument()).thenCallRealMethod();
+        when(readerFactory.readString()).thenCallRealMethod();
+        when(readerFactory.readStream()).thenCallRealMethod();
         when(readerFactory.createBufferedReader()).thenCallRealMethod();
         when(readerFactory.createInputSource()).thenCallRealMethod();
-        when(readerFactory.readString()).thenCallRealMethod();
+        when(readerFactory.getCharset()).thenReturn(StandardCharsets.UTF_8);
         
         return readerFactory;
     }

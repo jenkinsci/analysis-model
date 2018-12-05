@@ -4,19 +4,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.InvalidPathException;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.ObjectUtils;
 import org.w3c.dom.Document;
@@ -28,29 +23,29 @@ import com.google.errorprone.annotations.MustBeClosed;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * FIXME: write comment.
+ * Provides several useful helper methods to read the contents of a resource that is given by a {@link Reader}.
  *
  * @author Ullrich Hafner
  */
-public class ReaderFactory {
-    private final Path file;
+public abstract class ReaderFactory {
     private final Charset charset;
-    private final String fileName;
 
     /**
-     * Creates a new factory to read the specified file with a given charset.
+     * Creates a new factory to read a resource with a given charset.
      *
-     * @param file
-     *         the file to open
      * @param charset
      *         the charset to use when reading the file
      */
-    public ReaderFactory(final Path file, final @CheckForNull Charset charset) {
-        this.file = file;
+    public ReaderFactory(final @CheckForNull Charset charset) {
         this.charset = charset;
-
-        fileName = file.toAbsolutePath().toString().replace('\\', '/');
     }
+
+    /**
+     * Returns the name of the resource.
+     *
+     * @return the file name
+     */
+    public abstract String getFileName();
 
     /**
      * Creates a new {@link Reader} for the file.
@@ -58,21 +53,11 @@ public class ReaderFactory {
      * @return a reader
      */
     @MustBeClosed
-    public Reader create() {
-        try (InputStream inputStream = Files.newInputStream(file)) {
-            return createReader(inputStream);
-        }
-        catch (FileNotFoundException exception) {
-            throw new ParsingException(exception, "Can't find file: " + fileName);
-        }
-        catch (IOException | UncheckedIOException exception) {
-            throw new ParsingException(exception, "Can't scan file for issues: " + fileName);
-        }
-    }
+    public abstract Reader create();
 
     /**
      * Creates a new {@link BufferedReader} for the file.
-     * 
+     *
      * @return a buffered reader
      */
     @MustBeClosed
@@ -90,21 +75,30 @@ public class ReaderFactory {
         return new InputSource(new ReaderInputStream(create(), getCharset()));
     }
 
-    private Charset getCharset() {
-        return ObjectUtils.defaultIfNull(charset, StandardCharsets.UTF_8);
+    /**
+     * Provides the lines of the file as a {@link Stream} of strings.
+     *
+     * @return the file content as stream
+     * @throws ParsingException
+     *         if the file could not be read
+     */
+    @MustBeClosed
+    public Stream<String> readStream() {
+        return createBufferedReader().lines();
     }
 
     /**
      * Reads the whole file into a {@link String}.
      *
      * @return the file content as string
-     * @throws ParsingException if the file could not be read
+     * @throws ParsingException
+     *         if the file could not be read
      */
     public String readString() {
         try {
             return IOUtils.toString(create());
         }
-        catch (IOException e) {
+        catch (IOException | InvalidPathException e) {
             throw new ParsingException(e);
         }
     }
@@ -113,7 +107,8 @@ public class ReaderFactory {
      * Parses the whole file into a {@link Document}.
      *
      * @return the file content as document
-     * @throws ParsingException if the file could not be parsed
+     * @throws ParsingException
+     *         if the file could not be parsed
      */
     public Document readDocument() {
         try {
@@ -121,22 +116,13 @@ public class ReaderFactory {
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             return docBuilder.parse(createInputSource());
         }
-        catch (SAXException | IOException | ParserConfigurationException e) {
+        catch (SAXException | IOException | InvalidPathException | ParserConfigurationException e) {
             throw new ParsingException(e);
         }
     }
 
-    private Reader createReader(final InputStream inputStream) {
-        return new InputStreamReader(new BOMInputStream(inputStream), charset);
-    }
-
-    /**
-     * Returns the absolute path of the file. The file name uses UNIX path separators.
-     * 
-     * @return the file name
-     */
-    public String getFileName() {
-        return fileName;
+    protected Charset getCharset() {
+        return ObjectUtils.defaultIfNull(charset, StandardCharsets.UTF_8);
     }
 }
 

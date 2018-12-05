@@ -18,11 +18,11 @@ import edu.hm.hafner.analysis.Severity;
  * @author Ullrich Hafner
  */
 public class MavenConsoleParser extends FastRegexpLineParser {
+    private static final long serialVersionUID = 1737791073711198075L;
+    
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
     private static final int MAX_MESSAGE_LENGTH = 4000;
-
-    private static final long serialVersionUID = 1737791073711198075L;
 
     /**
      * Pattern for identifying warning or error maven logs.

@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.charset.Charset;
-import java.nio.file.Path;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.VisibleForTesting;
 
 /**
@@ -37,8 +36,8 @@ public class EclipseParser extends RegexpDocumentParser {
             "(.*)";                                   // group 7 'message'
 
     @Override
-    public boolean accepts(final Path file, final Charset charset) {
-        return !isXmlFile(file);
+    public boolean accepts(final ReaderFactory readerFactory) {
+        return !isXmlFile(readerFactory);
     }
 
     /**

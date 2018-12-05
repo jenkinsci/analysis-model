@@ -1,11 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.util.stream.Stream;
 
 /**
@@ -33,17 +28,15 @@ public abstract class IssueParser implements Serializable {
 
     /**
      * Returns whether this parser accepts the specified file as valid input. Parsers may reject a file if it is in the
-     * wrong format and will produce exceptions otherwise.
+     * wrong format to avoid exceptions during parsing.
      *
-     * @param file
-     *         the file to parse
-     * @param charset
-     *         the encoding to use when reading files
+     * @param readerFactory
+     *         provides a reader to the reports
      *
      * @return {@code true} if this parser accepts this file as valid input, or {@code false} if the file could not be
      *         parsed by this parser
      */
-    public boolean accepts(final Path file, final Charset charset) {
+    public boolean accepts(final ReaderFactory readerFactory) {
         return true;
     }
 
@@ -51,16 +44,16 @@ public abstract class IssueParser implements Serializable {
      * Returns whether the specified file is an XML file. This method just checks if the first 10 lines contain the XML
      * tag rather than parsing the whole document.
      *
-     * @param file
+     * @param readerFactory
      *         the file to check
      *
      * @return {@code true} if the file is an XML file, {@code false} otherwise
      */
-    protected boolean isXmlFile(final Path file) {
-        try (Stream<String> lines = Files.lines(file)) {
+    protected boolean isXmlFile(final ReaderFactory readerFactory) {
+        try (Stream<String> lines = readerFactory.readStream()) {
             return lines.limit(10).anyMatch(line -> line.contains("<?xml"));
         }
-        catch (IOException | InvalidPathException ignored) {
+        catch (ParsingException ignored) {
             return false;
         }
     }

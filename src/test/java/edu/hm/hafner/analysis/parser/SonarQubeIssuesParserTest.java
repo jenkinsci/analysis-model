@@ -6,7 +6,6 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static java.nio.charset.StandardCharsets.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -50,8 +49,8 @@ class SonarQubeIssuesParserTest extends AbstractParserTest {
     void shouldAcceptDifferentialFile() {
         SonarQubeParser parser = createParser();
 
-        assertThat(parser.accepts(getResourceAsFile("sonarqube-differential.json"), UTF_8)).isFalse();
-        assertThat(parser.accepts(getResourceAsFile("sonarqube-api.json"), UTF_8)).isTrue();
+        assertThat(parser.accepts(createReaderFactory("sonarqube-differential.json"))).isFalse();
+        assertThat(parser.accepts(createReaderFactory("sonarqube-api.json"))).isTrue();
     }
 
     @Override

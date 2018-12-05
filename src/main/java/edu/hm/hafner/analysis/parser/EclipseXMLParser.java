@@ -4,8 +4,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -28,8 +26,8 @@ public class EclipseXMLParser extends IssueParser {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public boolean accepts(final Path file, final Charset charset) {
-        return isXmlFile(file);
+    public boolean accepts(final ReaderFactory readerFactory) {
+        return isXmlFile(readerFactory);
     }
 
     @Override

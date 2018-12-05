@@ -11,7 +11,6 @@ import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static java.nio.charset.StandardCharsets.*;
 
 /**
  * Tests the class {@link EclipseParser}.
@@ -261,11 +260,11 @@ class EclipseParserTest extends AbstractParserTest {
     void shouldOnlyAcceptTextFiles() {
         EclipseParser parser = createParser();
 
-        assertThat(parser.accepts(getResourceAsFile("eclipse-columns.txt"), UTF_8)).isTrue();
-        assertThat(parser.accepts(getResourceAsFile("eclipse-withinfo.txt"), UTF_8)).isTrue();
+        assertThat(parser.accepts(createReaderFactory("eclipse-columns.txt"))).isTrue();
+        assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.txt"))).isTrue();
 
-        assertThat(parser.accepts(getResourceAsFile("eclipse-columns.xml"), UTF_8)).isFalse();
-        assertThat(parser.accepts(getResourceAsFile("eclipse-withinfo.xml"), UTF_8)).isFalse();
+        assertThat(parser.accepts(createReaderFactory("eclipse-columns.xml"))).isFalse();
+        assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isFalse();
     }
 }
 
