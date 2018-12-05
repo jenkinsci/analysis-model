@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.stream.Collectors;
-
 /**
  * Parses an input stream as a whole document for compiler warnings or issues from a static analysis tool using the
  * provided regular expression.
@@ -29,15 +25,8 @@ public abstract class RegexpDocumentParser extends RegexpParser {
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
-        try (BufferedReader bufferedReader = reader.createBufferedReader()) {
-            String text = bufferedReader.lines().collect(Collectors.joining("\n"));
-
-            Report warnings = new Report();
-            findIssues(text + "\n", warnings);
-            return warnings;
-        }
-        catch (IOException e) {
-            throw new ParsingException(e);
-        }
+        Report warnings = new Report();
+        findIssues(reader.readString() + "\n", warnings);
+        return warnings;
     }
 }

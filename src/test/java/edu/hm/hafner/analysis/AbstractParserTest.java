@@ -122,7 +122,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return default file with issues
      */
     protected ReaderFactory getDefaultFileFactory() {
-        return createReaderFactory(asInputStream(fileWithIssuesName));
+        return createReaderFactory(fileWithIssuesName);
     }
 
     /**
@@ -130,20 +130,22 @@ public abstract class AbstractParserTest extends ResourceTest {
      *
      * @param inputStream
      *         the input stream to open
+     * @param fileName
+     *         the file name of the resource to parse
      *
      * @return default file with issues
      */
-    protected static ReaderFactory createReaderFactory(final InputStream inputStream) {
+    protected static ReaderFactory createReaderFactory(final InputStream inputStream, final String fileName) {
         ReaderFactory readerFactory = mock(ReaderFactory.class);
         when(readerFactory.create()).thenAnswer(
                 invocation -> new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         when(readerFactory.readDocument()).thenCallRealMethod();
         when(readerFactory.readString()).thenCallRealMethod();
         when(readerFactory.readStream()).thenCallRealMethod();
-        when(readerFactory.createBufferedReader()).thenCallRealMethod();
         when(readerFactory.createInputSource()).thenCallRealMethod();
         when(readerFactory.getCharset()).thenReturn(StandardCharsets.UTF_8);
-        
+        when(readerFactory.getFileName()).thenReturn(fileName);
+
         return readerFactory;
     }
 
@@ -156,6 +158,6 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return default file with issues
      */
     protected ReaderFactory createReaderFactory(final String fileName) {
-        return createReaderFactory(asInputStream(fileName));
+        return createReaderFactory(asInputStream(fileName), fileName);
     }
 }

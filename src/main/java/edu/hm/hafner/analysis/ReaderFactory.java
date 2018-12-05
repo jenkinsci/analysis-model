@@ -9,9 +9,10 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.ObjectUtils;
 import org.w3c.dom.Document;
@@ -28,7 +29,10 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @author Ullrich Hafner
  */
 public abstract class ReaderFactory {
+    private static final Function<String, String> IDENTITY = Function.identity();
+    
     private final Charset charset;
+    private final Function<String, String> lineMapper;
 
     /**
      * Creates a new factory to read a resource with a given charset.
@@ -37,7 +41,20 @@ public abstract class ReaderFactory {
      *         the charset to use when reading the file
      */
     public ReaderFactory(final @CheckForNull Charset charset) {
+        this(charset, IDENTITY);
+    }
+
+    /**
+     * Creates a new factory to read a resource with a given charset.
+     *
+     * @param charset
+     *         the charset to use when reading the file
+     * @param lineMapper
+     *         provides a mapper to transform each of the resource lines
+     */
+    public ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
+        this.lineMapper = lineMapper;
     }
 
     /**
@@ -54,16 +71,6 @@ public abstract class ReaderFactory {
      */
     @MustBeClosed
     public abstract Reader create();
-
-    /**
-     * Creates a new {@link BufferedReader} for the file.
-     *
-     * @return a buffered reader
-     */
-    @MustBeClosed
-    public BufferedReader createBufferedReader() {
-        return new BufferedReader(create());
-    }
 
     /**
      * Creates a new {@link InputSource} for the file.
@@ -84,7 +91,16 @@ public abstract class ReaderFactory {
      */
     @MustBeClosed
     public Stream<String> readStream() {
-        return createBufferedReader().lines();
+        if (hasLineMapper()) {
+            return new BufferedReader(create()).lines().map(lineMapper);
+        }
+        else {
+            return new BufferedReader(create()).lines();
+        }
+    }
+
+    private boolean hasLineMapper() {
+        return lineMapper != null && lineMapper != IDENTITY;
     }
 
     /**
@@ -95,11 +111,8 @@ public abstract class ReaderFactory {
      *         if the file could not be read
      */
     public String readString() {
-        try {
-            return IOUtils.toString(create());
-        }
-        catch (IOException | InvalidPathException e) {
-            throw new ParsingException(e);
+        try (Stream<String> lines = readStream()) {
+            return lines.collect(Collectors.joining("\n"));
         }
     }
 

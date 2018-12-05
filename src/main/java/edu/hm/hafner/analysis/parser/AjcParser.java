@@ -1,16 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Iterator;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.ReaderFactory;
-
+import edu.hm.hafner.analysis.Report;
 
 /**
  * A parser for AspectJ (ajc) compiler warnings.
@@ -27,14 +27,16 @@ public class AjcParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
-        try (BufferedReader br = reader.createBufferedReader()) {
+        try (Stream<String> lines = reader.readStream()) {
             Report warnings = new Report();
 
-            String line;
             States state = States.START;
 
             IssueBuilder builder = new IssueBuilder();
-            while ((line = br.readLine()) != null) {
+
+            Iterator<String> lineIterator = lines.iterator();
+            while (lineIterator.hasNext()) {
+                String line = lineIterator.next();
                 // clean up any ESC characters (e.g. terminal colors)
                 line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
 
@@ -68,7 +70,7 @@ public class AjcParser extends IssueParser {
 
             return warnings;
         }
-        catch (IOException e) {
+        catch (UncheckedIOException e) {
             throw new ParsingException(e);
         }
     }
@@ -99,8 +101,8 @@ public class AjcParser extends IssueParser {
         builder.setCategory(category);
     }
 
-    /** Available states for the parser. */
-    private enum States {
-        START, PARSING, WAITING_FOR_END
-    }
+/** Available states for the parser. */
+private enum States {
+    START, PARSING, WAITING_FOR_END
+}
 }

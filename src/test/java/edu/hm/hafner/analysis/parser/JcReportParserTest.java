@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.InputStream;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
@@ -44,7 +42,7 @@ class JcReportParserTest extends AbstractParserTest {
      */
     @Test
     void testReportParserProperties() {
-        ReaderFactory factory = createReaderFactory(read("testReportProps.xml"));
+        ReaderFactory factory = createReaderFactory("jcreport/testReportProps.xml");
         edu.hm.hafner.analysis.parser.jcreport.Report testReportProps = new JcReportParser().createReport(factory);
 
         assertThat(testReportProps.getFiles().size()).isEqualTo(1);
@@ -78,10 +76,6 @@ class JcReportParserTest extends AbstractParserTest {
         assertThatThrownBy(() -> parse("jcreport/testCorrupt.xml"))
                 .isInstanceOf(ParsingException.class);
 
-    }
-
-    private InputStream read(final String fileName) {
-        return asInputStream("jcreport/" + fileName);
     }
 
     @Override

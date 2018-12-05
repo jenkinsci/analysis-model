@@ -1,6 +1,9 @@
 package edu.hm.hafner.analysis.parser; // NOPMD
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -222,12 +225,32 @@ public class FindBugsParser extends IssueParser {
         try {
             Thread.currentThread().setContextClassLoader(FindBugsParser.class.getClassLoader());
             SortedBugCollection collection = new SortedBugCollection();
+            Logger.getLogger(FindBugsParser.class.getName()).info("org.xml.sax.driver: " + System.getProperty("org.xml.sax.driver"));
+            Logger.getLogger(FindBugsParser.class.getName()).info("META-INF: " + log());
             collection.readXML(file);
             return collection;
         }
         finally {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
+    }
+    
+    private String log() {
+        try {
+            String var2 = "META-INF/services/org.xml.sax.driver";
+            InputStream var3 = ClassLoader.getSystemResourceAsStream(var2);
+
+            if (var3 != null) {
+                BufferedReader var4 = new BufferedReader(new InputStreamReader(var3, "UTF8"));
+                String var0 = var4.readLine();
+                var3.close();
+                return var0;
+            }
+        } catch (Exception var6) {
+            ;
+        }
+
+        return "";
     }
 
     private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,

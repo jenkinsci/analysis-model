@@ -43,8 +43,10 @@ public class FileReaderFactory extends ReaderFactory {
 
     @Override @MustBeClosed
     public Reader create() {
-        try (InputStream inputStream = Files.newInputStream(file)) {
-            return createReader(inputStream);
+        try {
+            InputStream inputStream = Files.newInputStream(file);
+
+            return new InputStreamReader(new BOMInputStream(inputStream), getCharset());
         }
         catch (FileNotFoundException | InvalidPathException exception) {
             throw new ParsingException(exception, "Can't find file: " + fileName);
@@ -52,10 +54,6 @@ public class FileReaderFactory extends ReaderFactory {
         catch (IOException | UncheckedIOException exception) {
             throw new ParsingException(exception, "Can't scan file for issues: " + fileName);
         }
-    }
-
-    private Reader createReader(final InputStream inputStream) {
-        return new InputStreamReader(new BOMInputStream(inputStream), getCharset());
     }
 
     /**
