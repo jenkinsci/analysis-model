@@ -17,7 +17,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.assertj.core.api.Assertions.*;
 
 /**
- * Base class to test the serialization of instances of {@link Serializable}.
+ * Base class to test the serialization of instances of {@link Serializable}. Note that the instances under test must
+ * override equals so that the test case can check the serialized instances for equality.
  *
  * @param <T>
  *         concrete type of the {@link Serializable} under test
