@@ -66,9 +66,8 @@ public class PreFastParser extends RegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        return builder
-                .setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(3))
                 .setMessage(matcher.group(4))
                 .build();

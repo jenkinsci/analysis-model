@@ -1,17 +1,13 @@
 package edu.hm.hafner.analysis.parser; // NOPMD
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,8 +20,8 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
-import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
@@ -87,20 +83,19 @@ public class FindBugsParser extends IssueParser {
 
     @Override
     @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
-    public Report parse(final Path file, final Charset charset, final Function<String, String> preProcessor)
-            throws ParsingCanceledException, ParsingException {
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         Collection<String> sources = new ArrayList<>();
-        String moduleRoot = StringUtils.substringBefore(file.toAbsolutePath().toString().replace('\\', '/'), "/target/");
+        String moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");
         sources.add(moduleRoot + "/src/main/java");
         sources.add(moduleRoot + "/src/test/java");
         sources.add(moduleRoot + "/src");
-        return parse(() -> Files.newInputStream(file), sources, new IssueBuilder());
+        return parse(readerFactory, sources, new IssueBuilder());
     }
 
     @VisibleForTesting
-    Report parse(final InputStreamProvider file, final Collection<String> sources, final IssueBuilder builder)
+    Report parse(final ReaderFactory readerFactory, final Collection<String> sources, final IssueBuilder builder)
             throws ParsingException {
-        try (InputStream input = file.getInputStream()) {
+        try (Reader input = readerFactory.create()) {
             Map<String, String> hashToMessageMapping = new HashMap<>();
             Map<String, String> categories = new HashMap<>();
             for (XmlBugInstance bug : preParse(input)) {
@@ -108,7 +103,7 @@ public class FindBugsParser extends IssueParser {
                 categories.put(bug.getType(), bug.getCategory());
             }
 
-            return parse(file.getInputStream(), sources, builder, hashToMessageMapping, categories);
+            return parse(readerFactory, sources, builder, hashToMessageMapping, categories);
         }
         catch (SAXException | DocumentException | IOException exception) {
             throw new ParsingException(exception);
@@ -130,7 +125,7 @@ public class FindBugsParser extends IssueParser {
      *         signals that an I/O exception has occurred.
      */
     @VisibleForTesting
-    List<XmlBugInstance> preParse(final InputStream file) throws SAXException, IOException {
+    List<XmlBugInstance> preParse(final Reader file) throws SAXException, IOException {
         Digester digester = new SecureDigester(FindBugsParser.class);
 
         String rootXPath = "BugCollection/BugInstance";
@@ -153,7 +148,7 @@ public class FindBugsParser extends IssueParser {
      *
      * @param builder
      *         the issue builder
-     * @param file
+     * @param factory
      *         the FindBugs analysis file
      * @param sources
      *         a collection of folders to scan for source files
@@ -168,11 +163,11 @@ public class FindBugsParser extends IssueParser {
      * @throws DocumentException
      *         in case of a parser exception
      */
-    private Report parse(final InputStream file, final Collection<String> sources,
+    private Report parse(final ReaderFactory factory, final Collection<String> sources,
             final IssueBuilder builder, final Map<String, String> hashToMessageMapping,
             final Map<String, String> categories) throws IOException, DocumentException {
 
-        SortedBugCollection collection = readXml(file);
+        SortedBugCollection collection = readXml(factory.create());
 
         Project project = collection.getProject();
         for (String sourceFolder : sources) {
@@ -222,7 +217,7 @@ public class FindBugsParser extends IssueParser {
         }
     }
 
-    private SortedBugCollection readXml(final InputStream file) throws IOException, DocumentException {
+    private SortedBugCollection readXml(final Reader file) throws IOException, DocumentException {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(FindBugsParser.class.getClassLoader());
@@ -307,13 +302,6 @@ public class FindBugsParser extends IssueParser {
             default:
                 return Severity.WARNING_LOW;
         }
-    }
-
-    /**
-     * Provides an input stream for the parser.
-     */
-    interface InputStreamProvider {
-        InputStream getInputStream() throws IOException;
     }
 
     /**

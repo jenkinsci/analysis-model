@@ -4,10 +4,12 @@ import java.io.StringReader;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the class {@link XlcParserTest}.
@@ -234,7 +236,10 @@ class XlcParserTest {
     }
 
     private Report parseString(final String log) {
-        Report warnings = new XlcCompilerParser().parse(new StringReader(log));
+        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        when(readerFactory.create()).thenAnswer(invocation -> new StringReader(log));
+
+        Report warnings = new XlcCompilerParser().parse(readerFactory);
 
         assertThat(warnings).hasSize(1);
         

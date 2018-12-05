@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -28,7 +27,7 @@ class PyDocStyleAdapterTest extends AbstractParserTest {
     }
 
     @Override
-    protected AbstractParser createParser() {
+    protected PyDocStyleAdapter createParser() {
         return new PyDocStyleAdapter();
     }
 }

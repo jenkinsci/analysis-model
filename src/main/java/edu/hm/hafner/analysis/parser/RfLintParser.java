@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,12 +8,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
 
+import static edu.hm.hafner.analysis.Categories.*;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for <a href="http://robotframework.org/">Robot Framework</a> Parse output from <a
@@ -39,12 +39,12 @@ public class RfLintParser extends RegexpLineParser {
     }
 
     @Override
-    public Report parse(final Reader file, final Function<String, String> preProcessor) {
+    public Report parse(final ReaderFactory readerFactory) {
         Report warnings = new Report();
-        try (LineIterator iterator = IOUtils.lineIterator(file)) {
+        try (LineIterator iterator = IOUtils.lineIterator(readerFactory.create())) {
             Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
             while (iterator.hasNext()) {
-                String line = preProcessor.apply(iterator.nextLine());
+                String line = iterator.nextLine();
                 Matcher matcher = filePattern.matcher(line);
                 if (matcher.find()) {
                     fileName = matcher.group(1);
@@ -80,7 +80,7 @@ public class RfLintParser extends RegexpLineParser {
                 break;
         }
         return builder.setFileName(fileName)
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(priority)

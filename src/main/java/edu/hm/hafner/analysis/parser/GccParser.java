@@ -62,7 +62,7 @@ public class GccParser extends RegexpLineParser {
                 return FALSE_POSITIVE;
             }
             return builder.setFileName(fileName)
-                    .setLineStart(parseInt(matcher.group(2)))
+                    .setLineStart(matcher.group(2))
                     .setCategory(GCC_ERROR)
                     .setMessage(StringEscapeUtils.escapeXml10(matcher.group(4)))
                     .setSeverity(Severity.WARNING_HIGH)
@@ -77,7 +77,7 @@ public class GccParser extends RegexpLineParser {
                     .build();
         }
         return builder.setFileName(fileName)
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory("GCC " + matcher.group(3))
                 .setMessage(StringEscapeUtils.escapeXml10(matcher.group(6)))
                 .setSeverity(priority)

@@ -1,28 +1,19 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.function.Function;
-
-import org.apache.commons.io.input.ReaderInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 
 /**
  * Parses a fxcop xml report file.
@@ -30,7 +21,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <p> Note that instances of this parser are not thread safe. </p>
  */
 @SuppressWarnings("unused")
-public class FxCopParser extends AbstractParser {
+public class FxCopParser extends IssueParser {
     private static final long serialVersionUID = -7208558002331355408L;
 
     @SuppressFBWarnings({"UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", "SE_TRANSIENT_FIELD_NOT_RESTORED"})
@@ -39,30 +30,21 @@ public class FxCopParser extends AbstractParser {
     private transient FxCopRuleSet ruleSet;
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final ReaderFactory readerFactory)
             throws ParsingException, ParsingCanceledException {
-        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)) {
-            ruleSet = new FxCopRuleSet();
-            warnings = new Report();
+        ruleSet = new FxCopRuleSet();
+        warnings = new Report();
 
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder;
-            docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document doc = readerFactory.readDocument();
 
-            Document doc = docBuilder.parse(input);
+        NodeList mainNode = doc.getElementsByTagName("FxCopReport");
 
-            NodeList mainNode = doc.getElementsByTagName("FxCopReport");
+        Element rootElement = (Element) mainNode.item(0);
+        parseRules(XmlElementUtil.getFirstElementByTagName(rootElement, "Rules"));
+        parseNamespaces(XmlElementUtil.getFirstElementByTagName(rootElement, "Namespaces"), null);
+        parseTargets(XmlElementUtil.getFirstElementByTagName(rootElement, "Targets"));
 
-            Element rootElement = (Element)mainNode.item(0);
-            parseRules(XmlElementUtil.getFirstElementByTagName(rootElement, "Rules"));
-            parseNamespaces(XmlElementUtil.getFirstElementByTagName(rootElement, "Namespaces"), null);
-            parseTargets(XmlElementUtil.getFirstElementByTagName(rootElement, "Targets"));
-
-            return warnings;
-        }
-        catch (IOException | ParserConfigurationException | SAXException e) {
-            throw new ParsingException(e);
-        }
+        return warnings;
     }
 
     private void parseRules(final Element rulesElement) {
@@ -190,7 +172,7 @@ public class FxCopParser extends AbstractParser {
         String fileLine = getString(issue, "Line");
 
         IssueBuilder builder = new IssueBuilder().setFileName(filePath + "/" + fileName)
-                .setLineStart(parseInt(fileLine))
+                .setLineStart(fileLine)
                 .setCategory(category)
                 .setMessage(msgBuilder.toString())
                 .setSeverity(getPriority(issueLevel));

@@ -42,7 +42,7 @@ public class InvalidsParser extends RegexpLineParser {
             priority = Severity.WARNING_NORMAL;
         }
         return builder.setFileName(matcher.group(2) + "." + matcher.group(3))
-                      .setLineStart(parseInt(matcher.group(5))).setType(type).setCategory(category)
+                      .setLineStart(matcher.group(5)).setType(type).setCategory(category)
                       .setPackageName(matcher.group(1)).setMessage(matcher.group(7)).setSeverity(priority)
                       .build();
     }

@@ -77,7 +77,7 @@ public class GnuMakeGccParser extends RegexpLineParser {
             priority = Severity.WARNING_NORMAL;
             category = "Warning";
         }
-        return builder.setLineStart(parseInt(matcher.group(3)))
+        return builder.setLineStart(matcher.group(3))
                 .setCategory(category)
                 .setMessage(matcher.group(5))
                 .setSeverity(priority)

@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -8,7 +8,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link TnsdlParser}.
  */
-class TnsdlParserTest extends AbstractIssueParserTest {
+class TnsdlParserTest extends AbstractParserTest {
     TnsdlParserTest() {
         super("tnsdl.txt");
     }
@@ -24,28 +24,24 @@ class TnsdlParserTest extends AbstractIssueParserTest {
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasCategory(TnsdlParser.WARNING_CATEGORY)
                 .hasLineStart(398)
                 .hasLineEnd(398)
                 .hasMessage("unused variable sender_pid")
                 .hasFileName("tstmasgx.sdl");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasCategory(TnsdlParser.WARNING_CATEGORY)
                 .hasLineStart(399)
                 .hasLineEnd(399)
                 .hasMessage("unused variable a_sender_pid")
                 .hasFileName("tstmasgx.sdl");
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasCategory(TnsdlParser.WARNING_CATEGORY)
                 .hasLineStart(3)
                 .hasLineEnd(3)
                 .hasMessage("Id. length is reserved in PL/M 386 intrinsics")
                 .hasFileName("s_dat:dty0132c.sdt");
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasCategory(TnsdlParser.WARNING_CATEGORY)
                 .hasLineStart(4)
                 .hasLineEnd(4)
                 .hasMessage("Id. length is reserved in PL/M 386 intrinsics")

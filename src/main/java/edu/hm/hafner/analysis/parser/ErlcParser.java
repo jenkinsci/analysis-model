@@ -40,7 +40,7 @@ public class ErlcParser extends RegexpLineParser {
             category = "Error";
         }
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(category)
                 .setMessage(matcher.group(4))
                 .setSeverity(priority)

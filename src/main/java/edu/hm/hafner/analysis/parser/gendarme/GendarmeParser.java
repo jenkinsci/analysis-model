@@ -1,66 +1,49 @@
 package edu.hm.hafner.analysis.parser.gendarme;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.XmlElementUtil;
+import static edu.hm.hafner.util.IntegerParser.parseInt;
 
 /**
  * Parses Gendarme violations.
  *
  * @author mathias.kluba@gmail.com
  */
-public class GendarmeParser extends AbstractParser {
+public class GendarmeParser extends IssueParser {
     private static final long serialVersionUID = 1677715364464119907L;
 
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingException, ParsingCanceledException {
-        try (InputStream input = new ReaderInputStream(reader, StandardCharsets.UTF_8)) {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(input);
+    public Report parse(final ReaderFactory factory) throws ParsingException {
+        Document document = factory.readDocument();
 
-            NodeList mainNode = doc.getElementsByTagName("gendarme-output");
+        NodeList mainNode = document.getElementsByTagName("gendarme-output");
 
-            Element rootElement = (Element)mainNode.item(0);
-            Element resultsElement = (Element)rootElement.getElementsByTagName("results").item(0);
-            Element rulesElement = (Element)rootElement.getElementsByTagName("rules").item(0);
+        Element rootElement = (Element) mainNode.item(0);
+        Element resultsElement = (Element) rootElement.getElementsByTagName("results").item(0);
+        Element rulesElement = (Element) rootElement.getElementsByTagName("rules").item(0);
 
-            Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getNamedChildElements(rulesElement, "rule"));
-            return parseViolations(XmlElementUtil.getNamedChildElements(resultsElement, "rule"), rules);
-        }
-        catch (IOException | ParserConfigurationException | SAXException e) {
-            throw new ParsingException(e);
-        }
+        Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getNamedChildElements(rulesElement, "rule"));
+        return parseViolations(XmlElementUtil.getNamedChildElements(resultsElement, "rule"), rules);
     }
 
     private Report parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
@@ -72,7 +55,7 @@ public class GendarmeParser extends AbstractParser {
 
             GendarmeRule rule = rules.get(ruleName);
             for (Element targetElement : targetElements) {
-                Element defectElement = (Element)targetElement.getElementsByTagName("defect").item(0);
+                Element defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
                 String source = defectElement.getAttribute("Source");
 
                 String fileName = extractFileNameMatch(rule, source, 1);

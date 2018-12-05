@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
+
 /**
  * A parser for the scalac compiler warnings. You should use -feature and -deprecation compiler opts.
  *
@@ -28,7 +29,7 @@ public class ScalacParser extends RegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(2))
-                .setLineStart(parseInt(matcher.group(3)))
+                .setLineStart(matcher.group(3))
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(5))
                 .setSeverity(mapPriority(matcher))

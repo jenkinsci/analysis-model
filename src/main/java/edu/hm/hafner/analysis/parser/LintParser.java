@@ -4,17 +4,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.function.Function;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 
 /**
@@ -22,19 +18,22 @@ import edu.hm.hafner.analysis.Report;
  *
  * @author Gavin Mogan
  */
-public class LintParser extends AbstractParser {
+public class LintParser extends IssueParser {
     private static final long serialVersionUID = 3341424685245834156L;
 
     @Override
-    public Report parse(final Reader file, final Function<String, String> preProcessor)
+    public Report parse(final ReaderFactory readerFactory)
             throws ParsingException, ParsingCanceledException {
-        try (InputStream inputStream = new ReaderInputStream(file, StandardCharsets.UTF_8);) {
+        try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             SAXParser parser = parserFactory.newSAXParser();
+            // FIXME: log the SAX parser, check if this could be part of factory
 
             Report report = new Report();
-            parser.parse(inputStream, new JSLintXmlSaxParser(report));
+            
+            parser.parse(readerFactory.createInputSource(), new JSLintXmlSaxParser(report));
+            
             return report;
         }
         catch (IOException | ParserConfigurationException | SAXException e) {

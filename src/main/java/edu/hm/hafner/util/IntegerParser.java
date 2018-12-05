@@ -9,7 +9,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *
  * @author Ullrich Hafner
  */
-public class IntegerParser {
+public final class IntegerParser {
     /**
      * Converts a number (represented by the specified String) to an integer value. If the string is not a valid number,
      * then 0 is returned. This method does not throw exceptions if the value is invalid.
@@ -20,7 +20,7 @@ public class IntegerParser {
      * @return the converted number
      * @see Integer#parseInt(String)
      */
-    public int parseInt(@CheckForNull final String number) {
+    public static int parseInt(@CheckForNull final String number) {
         if (StringUtils.isNotBlank(number)) {
             try {
                 return Integer.parseInt(number);
@@ -30,5 +30,9 @@ public class IntegerParser {
             }
         }
         return 0;
+    }
+
+    private IntegerParser() {
+        // prevents instantiation
     }
 }

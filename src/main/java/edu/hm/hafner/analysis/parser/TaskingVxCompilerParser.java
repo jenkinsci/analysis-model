@@ -52,7 +52,7 @@ public class TaskingVxCompilerParser extends RegexpLineParser {
         }
 
         return builder.setFileName(matcher.group(3))
-                .setLineStart(parseInt(matcher.group(4)))
+                .setLineStart(matcher.group(4))
                 .setCategory(category)
                 .setMessage(matcher.group(6))
                 .setSeverity(priority)

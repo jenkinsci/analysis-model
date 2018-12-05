@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Alex Lopashev, alexlopashev@gmail.com
  */
-class IdeaInspectionParserTest extends AbstractIssueParserTest {
+class IdeaInspectionParserTest extends AbstractParserTest {
     IdeaInspectionParserTest() {
         super("IdeaInspectionExample.xml");
     }

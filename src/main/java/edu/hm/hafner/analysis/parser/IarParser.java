@@ -37,7 +37,7 @@ public class IarParser extends FastRegexpLineParser {
         return builder.setSeverity(mapPriority(matcher))
                 .setMessage(normalizeWhitespaceInMessage(matcher.group(5)))
                 .setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(4))
                 .build();
     }

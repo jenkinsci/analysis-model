@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ullrich Hafner
  */
-class MavenConsoleParserTest extends AbstractIssueParserTest {
+class MavenConsoleParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link MavenConsoleParserTest}.
      */
@@ -65,7 +65,6 @@ class MavenConsoleParserTest extends AbstractIssueParserTest {
         softly.assertThat(report)
                 .hasSize(5)
                 .hasSeverities(2, 0, 3, 0);
-        report.stream().forEach(issue -> assertThat(issue.getFileName()).endsWith(getFileWithIssuesName()));
     }
 
     @Override

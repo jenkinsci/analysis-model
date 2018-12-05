@@ -27,7 +27,7 @@ public class SbtScalacParser extends RegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(2))
-                .setLineStart(parseInt(matcher.group(3)))
+                .setLineStart(matcher.group(3))
                 .setMessage(matcher.group(4))
                 .setSeverity(mapPriority(matcher))
                 .build();

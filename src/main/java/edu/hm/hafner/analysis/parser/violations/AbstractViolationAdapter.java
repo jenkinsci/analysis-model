@@ -1,16 +1,13 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import java.io.Reader;
 import java.util.List;
-import java.util.function.Function;
 
-import org.apache.commons.io.IOUtils;
-
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import se.bjurr.violations.lib.model.SEVERITY;
@@ -23,16 +20,16 @@ import se.bjurr.violations.lib.parsers.ViolationsParser;
  *
  * @author Ullrich Hafner
  */
-public abstract class AbstractViolationAdapter extends AbstractParser {
+public abstract class AbstractViolationAdapter extends IssueParser {
     private static final long serialVersionUID = 7203311857999721045L;
 
     @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock", "PMD.AvoidCatchingGenericException"})
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
+    public Report parse(final ReaderFactory readerFactory)
             throws ParsingCanceledException, ParsingException {
         try {
             ViolationsParser parser = createParser();
-            List<Violation> violations = parser.parseReportOutput(IOUtils.toString(reader));
+            List<Violation> violations = parser.parseReportOutput(readerFactory.readString());
             return convertToReport(violations);
         }
         catch (Exception exception) {

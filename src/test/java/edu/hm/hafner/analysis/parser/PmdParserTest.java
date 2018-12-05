@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 /**
  * Tests the extraction of PMD analysis results.
  */
-class PmdParserTest extends AbstractIssueParserTest {
+class PmdParserTest extends AbstractParserTest {
     private static final String PREFIX = "pmd/";
 
     PmdParserTest() {

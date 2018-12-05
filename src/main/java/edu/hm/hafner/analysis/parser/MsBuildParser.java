@@ -51,8 +51,8 @@ public class MsBuildParser extends RegexpLineParser {
                     .build();
         }
         if (StringUtils.isNotEmpty(matcher.group(10))) {
-            return builder.setLineStart(parseInt(matcher.group(5)))
-                    .setColumnStart(parseInt(matcher.group(6)))
+            return builder.setLineStart(matcher.group(5))
+                    .setColumnStart(matcher.group(6))
                     .setCategory(matcher.group(9))
                     .setType(matcher.group(10))
                     .setMessage(matcher.group(11))
@@ -64,8 +64,8 @@ public class MsBuildParser extends RegexpLineParser {
         if ("Expected".matches(category)) {
             return FALSE_POSITIVE;
         }
-        return builder.setLineStart(parseInt(matcher.group(5)))
-                .setColumnStart(parseInt(matcher.group(6)))
+        return builder.setLineStart(matcher.group(5))
+                .setColumnStart(matcher.group(6))
                 .setCategory(category)
                 .setMessage(matcher.group(11))
                 .setSeverity(determinePriority(matcher))

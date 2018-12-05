@@ -1,33 +1,30 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for Checkstyle XML files.
  *
  * @author Ullrich Hafner
  */
-public class CheckStyleParser extends AbstractParser {
+public class CheckStyleParser extends IssueParser {
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingCanceledException, ParsingException {
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try {
             Digester digester = new SecureDigester(CheckStyleParser.class);
 
@@ -45,7 +42,7 @@ public class CheckStyleParser extends AbstractParser {
             digester.addSetProperties(bugXPath);
             digester.addSetNext(bugXPath, "addError", Error.class.getName());
 
-            CheckStyle checkStyle = digester.parse(reader);
+            CheckStyle checkStyle = digester.parse(readerFactory.create());
             if (checkStyle == null) {
                 throw new ParsingException("Input stream is not a Checkstyle file.");
             }

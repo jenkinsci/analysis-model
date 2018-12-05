@@ -1,26 +1,24 @@
 package edu.hm.hafner.analysis.parser.pmd;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for PMD XML files.
  *
  * @author Ullrich Hafner
  */
-public class PmdParser extends AbstractParser {
+public class PmdParser extends IssueParser {
     private static final long serialVersionUID = 6507147028628714706L;
 
     /** PMD priorities smaller than this value are mapped to {@link Severity#WARNING_HIGH}. */
@@ -29,8 +27,7 @@ public class PmdParser extends AbstractParser {
     private static final int PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY = 4;
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingCanceledException, ParsingException {
+    public Report parse(final ReaderFactory reader) throws ParsingException {
         try {
             SecureDigester digester = new SecureDigester(PmdParser.class);
 
@@ -49,7 +46,7 @@ public class PmdParser extends AbstractParser {
             digester.addCallMethod(bugXPath, "setMessage", 0);
             digester.addSetNext(bugXPath, "addViolation", Violation.class.getName());
 
-            Pmd pmd = digester.parse(reader);
+            Pmd pmd = digester.parse(reader.create());
             if (pmd == null) {
                 throw new ParsingException("Input stream is not a PMD file.");
             }

@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
+
 /**
  * A parser for PRQA QA-C Sourcecode Analyser warnings.
  *
@@ -39,7 +40,7 @@ public class QacSourceCodeAnalyserParser extends RegexpLineParser {
         }
 
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(category)
                 .setMessage(matcher.group(7))
                 .setSeverity(priority)

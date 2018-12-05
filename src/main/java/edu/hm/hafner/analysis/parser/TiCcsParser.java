@@ -34,7 +34,7 @@ public class TiCcsParser extends RegexpLineParser {
             lineNumber = matcher.group(10);
         }
         return builder.setFileName(matcher.group(3))
-                .setLineStart(parseInt(lineNumber))
+                .setLineStart(lineNumber)
                 .setCategory(matcher.group(11))
                 .setMessage(matcher.group(12))
                 .setSeverity(mapPriority(matcher))

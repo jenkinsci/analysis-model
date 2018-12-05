@@ -2,10 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Matcher;
 
+import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
+
 
 /**
  * A parser for the Pep8 compiler warnings.
@@ -30,8 +32,8 @@ public class Pep8Parser extends FastRegexpLineParser {
         String category = guessCategoryIfEmpty(matcher.group(4), message);
 
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
-                .setColumnStart(parseInt(matcher.group(3)))
+                .setLineStart(matcher.group(2))
+                .setColumnStart(matcher.group(3))
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(mapPriority(category))

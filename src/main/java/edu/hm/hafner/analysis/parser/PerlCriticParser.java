@@ -6,6 +6,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
+import static edu.hm.hafner.util.IntegerParser.parseInt;
 
 /**
  * A parser for the Perl::Critic warnings.
@@ -37,14 +38,13 @@ public class PerlCriticParser extends RegexpLineParser {
             filename = matcher.group(1);
         }
 
-        String message = matcher.group(2);
-        int line = parseInt(matcher.group(3));
-        int column = parseInt(matcher.group(4));
-        String category = matcher.group(5);
-        Severity priority = checkPriority(Integer.parseInt(matcher.group(6)));
-
-        return builder.setFileName(filename).setLineStart(line).setColumnStart(column).setCategory(category)
-                .setMessage(message).setSeverity(priority).build();
+        return builder.setFileName(filename)
+                .setLineStart(matcher.group(3))
+                .setColumnStart(matcher.group(4))
+                .setCategory(matcher.group(5))
+                .setMessage(matcher.group(2))
+                .setSeverity(checkPriority(parseInt(matcher.group(6))))
+                .build();
     }
 
     /**

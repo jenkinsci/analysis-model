@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  *
  * @author Ryan Schaefer
  */
-class ClangTidyParserTest extends AbstractIssueParserTest {
+class ClangTidyParserTest extends AbstractParserTest {
     private static final String WARNING_TYPE = "Warning";
 
     ClangTidyParserTest() {

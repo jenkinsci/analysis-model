@@ -53,8 +53,8 @@ public class Gcc4CompilerParser extends FastRegexpLineParser {
         }
 
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
-                .setColumnStart(parseInt(matcher.group(3)))
+                .setLineStart(matcher.group(2))
+                .setColumnStart(matcher.group(3))
                 .setCategory(category.toString())
                 .setMessage(message)
                 .setSeverity(priority)

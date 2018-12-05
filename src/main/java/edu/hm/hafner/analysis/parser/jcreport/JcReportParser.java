@@ -1,34 +1,28 @@
 package edu.hm.hafner.analysis.parser.jcreport;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.function.Function;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * JcReportParser-Class. This class parses from the jcReport.xml and creates warnings from its content.
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
-public class JcReportParser extends AbstractParser {
+public class JcReportParser extends IssueParser {
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingCanceledException {
+    public Report parse(final ReaderFactory reader) {
         edu.hm.hafner.analysis.parser.jcreport.Report report = createReport(reader);
         Report warnings = new Report();
         for (int i = 0; i < report.getFiles().size(); i++) {
@@ -37,9 +31,9 @@ public class JcReportParser extends AbstractParser {
             for (int j = 0; j < file.getItems().size(); j++) {
                 Item item = file.getItems().get(j);
                 IssueBuilder builder = new IssueBuilder().setFileName(file.getName())
-                        .setLineStart(parseInt(item.getLine()))
-                        .setColumnStart(parseInt(item.getColumn()))
-                        .setColumnEnd(parseInt(item.getEndcolumn()))
+                        .setLineStart(item.getLine())
+                        .setColumnStart(item.getColumn())
+                        .setColumnEnd(item.getEndcolumn())
                         .setCategory(item.getFindingtype())
                         .setPackageName(file.getPackageName())
                         .setMessage(item.getMessage())
@@ -76,15 +70,15 @@ public class JcReportParser extends AbstractParser {
     /**
      * Creates a Report-Object out of the content within the JcReport.xml.
      *
-     * @param source
+     * @param reader
      *         the Reader-object that is the source to build the Report-Object.
      *
      * @return the finished Report-Object that creates the Warnings.
      * @throws ParsingException
      *         due to digester.parse(new InputSource(source))
      */
-    public edu.hm.hafner.analysis.parser.jcreport.Report createReport(final Reader source) throws ParsingException {
-        try (InputStream input = new ReaderInputStream(source, StandardCharsets.UTF_8)) {
+    public edu.hm.hafner.analysis.parser.jcreport.Report createReport(final ReaderFactory reader) throws ParsingException {
+        try {
             SecureDigester digester = new SecureDigester(JcReportParser.class);
 
             String report = "report";
@@ -106,7 +100,7 @@ public class JcReportParser extends AbstractParser {
             digester.addSetProperties(item,  "end-column", "endcolumn");
             digester.addSetNext(item, "addItem", Item.class.getName());
 
-            return digester.parse(input);
+            return digester.parse(reader.create());
         }
         catch (IOException | SAXException e) {
             throw new ParsingException(e);

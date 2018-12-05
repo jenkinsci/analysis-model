@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the Gnat compiler warnings.
@@ -42,7 +42,11 @@ public class GnatParser extends RegexpLineParser {
             priority = Severity.WARNING_HIGH;
             category = "GNAT error";
         }
-        return builder.setFileName(matcher.group(1)).setLineStart(parseInt(matcher.group(2)))
-                      .setCategory(category).setMessage(matcher.group(5)).setSeverity(priority).build();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(matcher.group(2))
+                .setCategory(category)
+                .setMessage(matcher.group(5))
+                .setSeverity(priority)
+                .build();
     }
 }

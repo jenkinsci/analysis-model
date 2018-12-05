@@ -69,7 +69,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
         }
 
         return builder.setFileName(StringUtils.defaultString(matcher.group(1)))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(WARNING_CATEGORY)
                 .setMessage(message)
                 .setSeverity(priority)

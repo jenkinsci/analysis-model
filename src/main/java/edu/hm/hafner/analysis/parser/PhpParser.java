@@ -37,7 +37,7 @@ public class PhpParser extends FastRegexpLineParser {
 
         if (matcher.group(5) == null) {
             return builder.setFileName(matcher.group(3))
-                    .setLineStart(parseInt(matcher.group(4)))
+                    .setLineStart(matcher.group(4))
                     .setMessage(matcher.group(2))
                     .build();
         }

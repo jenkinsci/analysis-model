@@ -28,7 +28,7 @@ public class SunCParser extends RegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(5))
                 .setSeverity(mapPriority(matcher))

@@ -76,7 +76,7 @@ public class EclipseParser extends RegexpDocumentParser {
 
         return builder
                 .setFileName(matcher.group(2))
-                .setLineStart(parseInt(getLine(matcher)))
+                .setLineStart(getLine(matcher))
                 .setColumnStart(columnStart)
                 .setColumnEnd(columnEnd)
                 .setMessage(matcher.group(7))

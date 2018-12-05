@@ -39,9 +39,9 @@ public class GnuFortranParser extends RegexpDocumentParser {
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = LINE_PATTERN.matcher(matcher.group(5)).replaceAll("");
         return builder.setFileName(matcher.group(1))
-                .setColumnStart(parseInt(matcher.group(3)))
-                .setColumnEnd(parseInt(matcher.group(4)))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setColumnStart(matcher.group(3))
+                .setColumnEnd(matcher.group(4))
+                .setLineStart(matcher.group(2))
                 .setCategory(category)
                 .setMessage(LINE_PATTERN.matcher(matcher.group(6)).replaceAll(""))
                 .setSeverity("Warning".equals(category) ? Severity.WARNING_NORMAL : Severity.WARNING_HIGH)

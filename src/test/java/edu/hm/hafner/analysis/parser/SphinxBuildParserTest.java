@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link SphinxBuildParser}.
  */
-class SphinxBuildParserTest extends AbstractIssueParserTest {
+class SphinxBuildParserTest extends AbstractParserTest {
     SphinxBuildParserTest() {
         super("sphinxbuild.txt");
     }

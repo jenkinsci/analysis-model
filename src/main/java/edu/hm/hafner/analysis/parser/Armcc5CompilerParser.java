@@ -31,11 +31,7 @@ public class Armcc5CompilerParser extends FastRegexpLineParser {
 
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String fileName = matcher.group(1);
-        int lineNumber = parseInt(matcher.group(2));
         String type = matcher.group(3);
-        String errorCode = matcher.group(4);
-        String message = matcher.group(5);
         Severity priority;
 
         if ("error".equalsIgnoreCase(type)) {
@@ -45,8 +41,12 @@ public class Armcc5CompilerParser extends FastRegexpLineParser {
             priority = Severity.WARNING_NORMAL;
         }
 
-        return builder.setFileName(fileName).setLineStart(lineNumber).setMessage(errorCode + " - " + message)
-                             .setSeverity(priority).build();
+        String errorCode = matcher.group(4);
+        String message = matcher.group(5);
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(matcher.group(2))
+                .setMessage(errorCode + " - " + message)
+                .setSeverity(priority).build();
     }
 }
 

@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import java.io.Serializable;
 import java.util.UUID;
 
+import static edu.hm.hafner.util.IntegerParser.*;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
@@ -80,8 +81,18 @@ public class IssueBuilder {
         return this;
     }
 
+    public IssueBuilder setLineStart(@CheckForNull final String lineStart) {
+        this.lineStart = parseInt(lineStart);
+        return this;
+    }
+
     public IssueBuilder setLineEnd(@CheckForNull final int lineEnd) {
         this.lineEnd = lineEnd;
+        return this;
+    }
+
+    public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
+        this.lineEnd = parseInt(lineEnd);
         return this;
     }
 
@@ -90,8 +101,18 @@ public class IssueBuilder {
         return this;
     }
 
+    public IssueBuilder setColumnStart(final String columnStart) {
+        this.columnStart = parseInt(columnStart);
+        return this;
+    }
+
     public IssueBuilder setColumnEnd(final int columnEnd) {
         this.columnEnd = columnEnd;
+        return this;
+    }
+
+    public IssueBuilder setColumnEnd(final String columnEnd) {
+        this.columnEnd = parseInt(columnEnd);
         return this;
     }
 

@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractIssueParserTest;
+import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -8,7 +8,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 /**
  * Tests the class {@link Armcc5CompilerParser}.
  */
-class Armcc5CompilerParserTest extends AbstractIssueParserTest {
+class Armcc5CompilerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
 
     /**

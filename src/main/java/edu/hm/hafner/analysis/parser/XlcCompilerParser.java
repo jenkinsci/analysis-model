@@ -54,7 +54,7 @@ public class XlcCompilerParser extends RegexpLineParser {
         Matcher lineMatcher = PATTERN_WITH_LINE.matcher(line);
         if (lineMatcher.find()) {
             return builder.setFileName(lineMatcher.group(1))
-                    .setLineStart(parseInt(lineMatcher.group(2)))
+                    .setLineStart(lineMatcher.group(2))
                     .setCategory(lineMatcher.group(3).trim())
                     .setMessage(lineMatcher.group(5))
                     .setSeverity(toPriority(lineMatcher.group(4)))

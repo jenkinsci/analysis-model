@@ -58,8 +58,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
         String errorOrWarningGroup = matcher.group(2);
         String errorOrWarningMessage = matcher.group(3);
 
-        return builder.setFileName(getFileName())
-                .setLineStart(getCurrentLine())
+        return builder.setLineStart(getCurrentLine())
                 .setMessage(errorOrWarningMessage)
                 .setSeverity(extractSeverity(errorOrWarningGroup))
                 .build();

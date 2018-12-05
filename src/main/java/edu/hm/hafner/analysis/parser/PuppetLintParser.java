@@ -34,7 +34,7 @@ public class PuppetLintParser extends RegexpLineParser {
     @Override
     protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
-                .setLineStart(parseInt(matcher.group(2)))
+                .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(3))
                 .setPackageName(detectModuleName(matcher.group(1)))
                 .setMessage(matcher.group(5))

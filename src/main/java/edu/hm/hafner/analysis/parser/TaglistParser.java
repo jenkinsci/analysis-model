@@ -1,12 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.function.Function;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -15,13 +8,11 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingCanceledException;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.XmlElementUtil;
 
@@ -32,44 +23,32 @@ import edu.hm.hafner.analysis.XmlElementUtil;
  * @see <a href=
  *      "https://www.mojohaus.org/taglist-maven-plugin/">https://www.mojohaus.org/taglist-maven-plugin/</a>
  */
-public class TaglistParser extends AbstractParser {
-
+public class TaglistParser extends IssueParser {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingCanceledException, ParsingException {
-
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder;
-            docBuilder = docBuilderFactory.newDocumentBuilder();
-
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xPath = xPathFactory.newXPath();
-
-            Document doc = docBuilder.parse(new InputSource(reader));
 
             IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
-            NodeList tags = (NodeList)xPath.evaluate("/report/tags/tag", doc, XPathConstants.NODESET);
+            Document document = readerFactory.readDocument();
+            NodeList tags = (NodeList)xPath.evaluate("/report/tags/tag", document, XPathConstants.NODESET);
             for (Element tag : XmlElementUtil.nodeListToList(tags)) {
                 String category = xPath.evaluate("@name", tag);
                 issueBuilder.setCategory(category);
 
                 NodeList files = (NodeList)xPath.evaluate("files/file", tag, XPathConstants.NODESET);
                 for (Element file : XmlElementUtil.nodeListToList(files)) {
-                    String fileName = xPath.evaluate("@name", file);
-                    issueBuilder.setFileName(fileName);
+                    issueBuilder.setFileName(xPath.evaluate("@name", file));
 
                     NodeList comments = (NodeList)xPath.evaluate("comments/comment", file, XPathConstants.NODESET);
                     for (Element comment : XmlElementUtil.nodeListToList(comments)) {
-                        String lineNum = xPath.evaluate("lineNumber", comment);
-                        issueBuilder.setLineStart(parseInt(lineNum));
-
-                        String message = xPath.evaluate("comment", comment);
-                        issueBuilder.setMessage(message);
+                        issueBuilder.setLineStart(xPath.evaluate("lineNumber", comment));
+                        issueBuilder.setMessage(xPath.evaluate("comment", comment));
 
                         report.add(issueBuilder.build());
                     }
@@ -78,7 +57,7 @@ public class TaglistParser extends AbstractParser {
 
             return report;
         }
-        catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e) {
+        catch (XPathExpressionException e) {
             throw new ParsingException(e);
         }
     }

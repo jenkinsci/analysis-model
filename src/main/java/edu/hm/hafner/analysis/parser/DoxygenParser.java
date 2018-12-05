@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
+import static edu.hm.hafner.util.IntegerParser.parseInt;
 
 /**
  * A parser for the Doxygen warnings.

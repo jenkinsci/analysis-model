@@ -2,8 +2,6 @@ package edu.hm.hafner.analysis;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -30,15 +28,13 @@ public abstract class RegexpDocumentParser extends RegexpParser {
     }
 
     @Override
-    public Report parse(final Reader reader, final Function<String, String> preProcessor)
-            throws ParsingCanceledException, ParsingException {
-        try (BufferedReader bufferedReader = new BufferedReader(reader)) {
-            String text = bufferedReader.lines().map(preProcessor).collect(Collectors.joining("\n"));
+    public Report parse(final ReaderFactory reader) throws ParsingException {
+        try (BufferedReader bufferedReader = reader.createBufferedReader()) {
+            String text = bufferedReader.lines().collect(Collectors.joining("\n"));
 
             Report warnings = new Report();
             findIssues(text + "\n", warnings);
             return warnings;
-
         }
         catch (IOException e) {
             throw new ParsingException(e);
