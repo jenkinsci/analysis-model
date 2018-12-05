@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.InvalidPathException;
@@ -39,7 +40,7 @@ public class FingerprintGenerator {
                 catch (FileNotFoundException exception) {
                     log.logError("- '%s' file not found", issue.getFileName());
                 }
-                catch (IOException | InvalidPathException exception) {
+                catch (IOException | InvalidPathException | UncheckedIOException exception) {
                     issue.setFingerprint(createDefaultFingerprint(issue));
                     if (exception.getCause() instanceof MalformedInputException) {
                         log.logError("- '%s', provided encoding '%s' seems to be wrong",

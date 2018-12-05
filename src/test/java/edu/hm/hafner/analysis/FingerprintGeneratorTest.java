@@ -1,7 +1,9 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
@@ -9,8 +11,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
-import edu.hm.hafner.util.ResourceTest;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.util.ResourceTest;
 import static org.mockito.Mockito.*;
 
 /**
@@ -23,6 +25,25 @@ class FingerprintGeneratorTest extends ResourceTest {
     private static final Charset CHARSET_AFFECTED_FILE = StandardCharsets.UTF_8;
 
     @Test
+    void shouldSkipFingerprintingIfEncodingIsWrong() throws IOException {
+        FingerprintGenerator generator = new FingerprintGenerator();
+
+        IssueBuilder builder = new IssueBuilder().setFileName(AFFECTED_FILE_NAME);
+        Report report = createIssues();
+        report.add(builder.build());
+            
+        FileSystem fileSystem = mock(FileSystem.class);
+        when(fileSystem.readLinesFromFile(anyString(), any()))
+                    .thenThrow(new UncheckedIOException(new MalformedInputException(1)));
+
+        generator.run(new FullTextFingerprint(fileSystem), report, CHARSET_AFFECTED_FILE);
+
+        assertThatIssueHasDefaultFingerprint(report);
+        assertThat(report.getErrorMessages()).contains(
+                String.format("- 'file.txt', provided encoding '%s' seems to be wrong", CHARSET_AFFECTED_FILE));
+    }
+
+    @Test
     void shouldNotChangeIssuesWithFingerPrint() {
         FingerprintGenerator generator = new FingerprintGenerator();
 
@@ -30,6 +51,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         Report report = createIssues();
         report.add(builder.build());
         assertThat(report.get(0).hasFingerprint()).isFalse();
+        
         String alreadySet = "already-set";
         report.add(builder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
         generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
@@ -63,7 +85,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     private FileSystem stubFileSystem(final String firstFile, final String secondFile) {
         try {
             FileSystem fileSystem = mock(FileSystem.class);
-            when(fileSystem.readLinesFromFile(AFFECTED_FILE_NAME, CHARSET_AFFECTED_FILE))
+            when(fileSystem.readLinesFromFile(anyString(), any()))
                     .thenReturn(asStream(firstFile)).thenReturn(asStream(secondFile));
             return fileSystem;
         }
@@ -96,9 +118,12 @@ class FingerprintGeneratorTest extends ResourceTest {
         FingerprintGenerator generator = new FingerprintGenerator();
         generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
 
-        assertThat(report.get(0)).hasFingerprint(FingerprintGenerator.createDefaultFingerprint(report.get(0)));
+        assertThatIssueHasDefaultFingerprint(report);
     }
 
+    private void assertThatIssueHasDefaultFingerprint(final Report report) {
+        assertThat(report.get(0)).hasFingerprint(FingerprintGenerator.createDefaultFingerprint(report.get(0)));
+    }
 
     private FullTextFingerprint createFullTextFingerprint(final String firstFile, final String secondFile) {
         FileSystem fileSystem = stubFileSystem(firstFile, secondFile);
