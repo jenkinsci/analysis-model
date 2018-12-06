@@ -4,35 +4,40 @@ import java.io.StringReader;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.mockito.Mockito.*;
 
 /**
  * Tests the class {@link XlcParserTest}.
  */
-class XlcParserTest {
+class XlcParserTest extends AbstractParserTest {
     private static final String FILE_NAME = "-";
 
-    /**
-     * Parses a string with xlC error.
-     */
-    @Test
-    void testWarningsParserError() {
-        Report warnings = parseString("\"file.c\", line 9.17: 1506-098 (E) Missing argument(s).");
+    XlcParserTest() {
+        super("xlc.txt");
+    }
 
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory("1506-098")
-                    .hasLineStart(9)
-                    .hasLineEnd(9)
-                    .hasMessage("Missing argument(s).")
-                    .hasFileName("file.c");
-        });
+    @Override
+    protected IssueParser createParser() {
+        return new XlcCompilerParser();
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report.get(0))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasCategory("1506-098")
+                .hasLineStart(9)
+                .hasLineEnd(9)
+                .hasMessage("Missing argument(s).")
+                .hasFileName("file.c");
     }
 
     /**
@@ -58,7 +63,8 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserSevereErrorZOS() {
-        Report warnings = parseString("\"./Testapi.cpp\", line 4000.22: CCN5217 (S) \"AEUPD_RQ_UPDT\" is not a member of \"struct AEUPD_RQ\".");
+        Report warnings = parseString(
+                "\"./Testapi.cpp\", line 4000.22: CCN5217 (S) \"AEUPD_RQ_UPDT\" is not a member of \"struct AEUPD_RQ\".");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -87,8 +93,9 @@ class XlcParserTest {
                     .hasMessage("INTERNAL COMPILER ERROR")
                     .hasFileName("file.c");
         });
-        
-        Report warnings1 = parseString("1586-346 (U) An error occurred during code generation.  The code generation return code was 1.");
+
+        Report warnings1 = parseString(
+                "1586-346 (U) An error occurred during code generation.  The code generation return code was 1.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
@@ -99,8 +106,9 @@ class XlcParserTest {
                     .hasMessage("An error occurred during code generation.  The code generation return code was 1.")
                     .hasFileName(FILE_NAME);
         });
-        
-        Report warnings = parseString("    1500-004: (U) INTERNAL COMPILER ERROR while compiling ----.  Compilation ended.  Contact your Service Representative and provide the following information: Internal abort. For more information visit: http://www.ibm.com/support/docview.wss?uid=swg21110810");
+
+        Report warnings = parseString(
+                "    1500-004: (U) INTERNAL COMPILER ERROR while compiling ----.  Compilation ended.  Contact your Service Representative and provide the following information: Internal abort. For more information visit: http://www.ibm.com/support/docview.wss?uid=swg21110810");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -108,7 +116,8 @@ class XlcParserTest {
                     .hasCategory("1500-004")
                     .hasLineStart(0)
                     .hasLineEnd(0)
-                    .hasMessage("INTERNAL COMPILER ERROR while compiling ----.  Compilation ended.  Contact your Service Representative and provide the following information: Internal abort. For more information visit: http://www.ibm.com/support/docview.wss?uid=swg21110810")
+                    .hasMessage(
+                            "INTERNAL COMPILER ERROR while compiling ----.  Compilation ended.  Contact your Service Representative and provide the following information: Internal abort. For more information visit: http://www.ibm.com/support/docview.wss?uid=swg21110810")
                     .hasFileName(FILE_NAME);
         });
     }
@@ -136,7 +145,8 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserWarningZOS() {
-        Report warnings1 = parseString("\"./Testapi.cpp\", line 130.13: CCN5053 (W) The declaration of a class member within the class definition must not be qualified.");
+        Report warnings1 = parseString(
+                "\"./Testapi.cpp\", line 130.13: CCN5053 (W) The declaration of a class member within the class definition must not be qualified.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
@@ -147,8 +157,9 @@ class XlcParserTest {
                     .hasMessage("The declaration of a class member within the class definition must not be qualified.")
                     .hasFileName("./Testapi.cpp");
         });
-        
-        Report warnings = parseString("CCN7504(W) \"//''\" is not a valid suboption for \"SEARCH\".  The option is ignored.");
+
+        Report warnings = parseString(
+                "CCN7504(W) \"//''\" is not a valid suboption for \"SEARCH\".  The option is ignored.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -166,7 +177,8 @@ class XlcParserTest {
      */
     @Test
     void testWarningsParserInfo() {
-        Report warnings2 = parseString("file.c, line 12.9: 1506-478 (I) The then branch of conditional is an empty statement.");
+        Report warnings2 = parseString(
+                "file.c, line 12.9: 1506-478 (I) The then branch of conditional is an empty statement.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings2.get(0))
@@ -177,8 +189,9 @@ class XlcParserTest {
                     .hasMessage("The then branch of conditional is an empty statement.")
                     .hasFileName("file.c");
         });
-        
-        Report warnings1 = parseString("    1500-030: (I) INFORMATION: clazz::fun(): Additional optimization may be attained by recompiling and specifying MAXMEM option with a value greater than 8192.");
+
+        Report warnings1 = parseString(
+                "    1500-030: (I) INFORMATION: clazz::fun(): Additional optimization may be attained by recompiling and specifying MAXMEM option with a value greater than 8192.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings1.get(0))
@@ -190,8 +203,9 @@ class XlcParserTest {
                             "clazz::fun(): Additional optimization may be attained by recompiling and specifying MAXMEM option with a value greater than 8192.")
                     .hasFileName(FILE_NAME);
         });
-        
-        Report warnings = parseString("1540-5336 (I) Global variable \"__td __td__Q2_3std13runtime_error\" is not used.");
+
+        Report warnings = parseString(
+                "1540-5336 (I) Global variable \"__td __td__Q2_3std13runtime_error\" is not used.");
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -221,7 +235,7 @@ class XlcParserTest {
                     .hasMessage("\"Testapi::Test(long, long)\" is not a viable candidate.")
                     .hasFileName("./Testapi.cpp");
         });
-        
+
         Report warnings = parseString("CCN8151(I) The option \"TARGET(0x410D0000)\" sets \"ARCH(5)\".");
 
         assertSoftly(softly -> {
@@ -236,13 +250,12 @@ class XlcParserTest {
     }
 
     private Report parseString(final String log) {
-        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        ReaderFactory readerFactory = createReaderFactory();
         when(readerFactory.create()).thenAnswer(invocation -> new StringReader(log));
-
-        Report warnings = new XlcCompilerParser().parse(readerFactory);
+        Report warnings = createParser().parse(readerFactory);
 
         assertThat(warnings).hasSize(1);
-        
+
         return warnings;
     }
 }

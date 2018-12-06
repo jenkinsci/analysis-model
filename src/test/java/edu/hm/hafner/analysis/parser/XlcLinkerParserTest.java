@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -16,25 +18,27 @@ import static org.mockito.Mockito.*;
 /**
  * Tests the class {@link XlcLinkerParser}.
  */
-class XlcLinkerParserTest {
+class XlcLinkerParserTest extends AbstractParserTest {
     private static final String FILE_NAME = "-";
 
-    /**
-     * Parses a string with xlC linker error.
-     */
-    @Test
-    void shouldParseLinkerError() {
-        Report report = parse("ld: 0711-987 Error occurred while reading file");
+    XlcLinkerParserTest() {
+        super("xlc-linker.txt");
+    }
 
-        assertSingleIssue(report, softly -> {
-            softly.assertThat(report.get(0))
-                    .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory("0711-987")
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasMessage("Error occurred while reading file")
-                    .hasFileName(FILE_NAME);
-        });
+    @Override
+    protected IssueParser createParser() {
+        return new XlcLinkerParser();
+    }
+
+    @Override
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        softly.assertThat(report.get(0))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasCategory("0711-987")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("Error occurred while reading file")
+                .hasFileName(FILE_NAME);
     }
 
     /**
@@ -42,7 +46,7 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseAnotherLinkerError() {
-        Report report = parse("ld: 0711-317 ERROR: Undefined symbol: nofun()");
+        Report report = parseString("ld: 0711-317 ERROR: Undefined symbol: nofun()");
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
@@ -60,7 +64,7 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseSevereError() {
-        Report report = parse("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
+        Report report = parseString("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
@@ -78,7 +82,7 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseWarning() {
-        Report report = parse("ld: 0706-012 The -9 flag is not recognized.");
+        Report report = parseString("ld: 0706-012 The -9 flag is not recognized.");
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
@@ -96,7 +100,7 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldPareAnotherWarning() {
-        Report report = parse("ld: 0711-224 WARNING: Duplicate symbol: dupe");
+        Report report = parseString("ld: 0711-224 WARNING: Duplicate symbol: dupe");
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
@@ -114,7 +118,7 @@ class XlcLinkerParserTest {
      */
     @Test
     void shouldParseInformation() {
-        Report report = parse("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");
+        Report report = parseString("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");
 
         assertSingleIssue(report, softly -> {
             softly.assertThat(report.get(0))
@@ -132,10 +136,14 @@ class XlcLinkerParserTest {
         assertSoftly(assertion);
     }
 
-    private Report parse(final String s) {
-        ReaderFactory readerFactory = mock(ReaderFactory.class);
-        when(readerFactory.create()).thenAnswer(invocation -> new StringReader(s));
-        return new XlcLinkerParser().parse(readerFactory);
+    private Report parseString(final String log) {
+        ReaderFactory readerFactory = createReaderFactory();
+        when(readerFactory.create()).thenAnswer(invocation -> new StringReader(log));
+        Report warnings = createParser().parse(readerFactory);
+
+        assertThat(warnings).hasSize(1);
+
+        return warnings;
     }
 }
 

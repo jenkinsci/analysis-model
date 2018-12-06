@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
@@ -29,16 +31,14 @@ public abstract class RegexpLineParser extends RegexpParser {
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
         Report report = new Report();
-        try (LineIterator iterator = IOUtils.lineIterator(reader.create())) {
+        try (Stream<String> lines = reader.readStream()) {
             currentLine = 1;
+            Iterator<String> iterator = lines.iterator();
             while (iterator.hasNext()) {
-                findIssues(iterator.nextLine(), report);
+                findIssues(iterator.next(), report);
                 
                 currentLine++;
             }
-        }
-        catch (IOException exception) {
-            throw new ParsingException(exception, "Can't read input lines");
         }
 
         return postProcess(report);

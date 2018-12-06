@@ -54,7 +54,8 @@ class AntJavacParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(0)
                     .hasLineEnd(0)
-                    .hasMessage("Cannot find annotation method 'xxx()' in type 'yyyy': class file for fully.qualified.ClassName not found")
+                    .hasMessage(
+                            "Cannot find annotation method 'xxx()' in type 'yyyy': class file for fully.qualified.ClassName not found")
                     .hasFileName("aaa.class");
         });
     }
@@ -77,14 +78,16 @@ class AntJavacParserTest extends AbstractParserTest {
                     .hasLineStart(86)
                     .hasLineEnd(86)
                     .hasMessage("non-varargs call of varargs method with inexact argument type for last parameter;")
-                    .hasFileName("/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/misuse/DescriptiveMessagesOnMisuseTest.java");
+                    .hasFileName(
+                            "/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/misuse/DescriptiveMessagesOnMisuseTest.java");
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.DEPRECATION)
                     .hasLineStart(51)
                     .hasLineEnd(51)
                     .hasMessage("<T>stubVoid(T) in org.mockito.Mockito has been deprecated")
-                    .hasFileName("/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/stubbing/StubbingWithThrowablesTest.java");
+                    .hasFileName(
+                            "/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/stubbing/StubbingWithThrowablesTest.java");
             softly.assertAll();
         });
     }
@@ -106,7 +109,8 @@ class AntJavacParserTest extends AbstractParserTest {
                     .hasCategory("Path")
                     .hasLineStart(0)
                     .hasLineEnd(0)
-                    .hasMessage("bad path element \"C:\\...\\.hudson\\jobs\\...\\log4j.jar\": no such file or directory")
+                    .hasMessage(
+                            "bad path element \"C:\\...\\.hudson\\jobs\\...\\log4j.jar\": no such file or directory")
                     .hasFileName("C:/.../.hudson/jobs/.../log4j.jar");
         });
     }
@@ -150,7 +154,8 @@ class AntJavacParserTest extends AbstractParserTest {
                     .hasCategory("Deprecation")
                     .hasLineStart(225)
                     .hasLineEnd(225)
-                    .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
+                    .hasMessage(
+                            "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
                     .hasFileName("D:/path/to/my/Class.java");
         });
     }
@@ -172,15 +177,16 @@ class AntJavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 1 warnings that are generated on Japanese environment.
      *
+     * @throws UnsupportedEncodingException
+     *         if the encoding is not found
      * @see <a href="http://fisheye.jenkins-ci.org/changelog/Hudson?cs=16376">Commit log on changeset 16376</a>
-     * @throws UnsupportedEncodingException if the encoding is not found
      */
     @Test
     void parseJapaneseWarnings() throws UnsupportedEncodingException {
         // force to use windows-31j - the default encoding on Windows Japanese.
         InputStreamReader is = new InputStreamReader(
                 AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        ReaderFactory readerFactory = createReaderFactory();
         when(readerFactory.create()).thenReturn(is);
         Report warnings = createParser().parse(readerFactory);
 
@@ -196,7 +202,7 @@ class AntJavacParserTest extends AbstractParserTest {
                 .hasLineStart(28)
                 .hasLineEnd(28)
                 .hasMessage("begrussen() in ths.types.IGruss has been deprecated")
-               .hasFileName("C:/Users/tiliven/.hudson/jobs/Hello THS Trunk - compile/workspace/HelloTHSTest/src/ths/Hallo.java");
+                .hasFileName("C:/Users/tiliven/.hudson/jobs/Hello THS Trunk - compile/workspace/HelloTHSTest/src/ths/Hallo.java");
     }
 
     @Override

@@ -136,16 +136,26 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return default file with issues
      */
     protected static ReaderFactory createReaderFactory(final InputStream inputStream, final String fileName) {
-        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        ReaderFactory readerFactory = createReaderFactory();
+        when(readerFactory.getFileName()).thenReturn(fileName);
         when(readerFactory.create()).thenAnswer(
                 invocation -> new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+
+        return readerFactory;
+    }
+
+    /**
+     * Returns a factory that uses real method calls for most methods.
+     *
+     * @return default file with issues
+     */
+    protected static ReaderFactory createReaderFactory() {
+        ReaderFactory readerFactory = mock(ReaderFactory.class);
         when(readerFactory.readDocument()).thenCallRealMethod();
         when(readerFactory.readString()).thenCallRealMethod();
         when(readerFactory.readStream()).thenCallRealMethod();
         when(readerFactory.createInputSource()).thenCallRealMethod();
         when(readerFactory.getCharset()).thenReturn(StandardCharsets.UTF_8);
-        when(readerFactory.getFileName()).thenReturn(fileName);
-
         return readerFactory;
     }
 
