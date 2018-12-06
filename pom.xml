@@ -311,9 +311,10 @@
         <version>${maven-pmd-plugin.version}</version>
         <executions>
           <execution>
-            <id>check-pmd</id>
+            <id>run-pmd</id>
             <goals>
-              <goal>check</goal>
+              <goal>pmd</goal>
+              <goal>cpd</goal>
             </goals>
             <phase>verify</phase>
           </execution>
@@ -349,9 +350,9 @@
         <version>${maven-checkstyle-plugin.version}</version>
         <executions>
           <execution>
-            <id>check-checkstyle</id>
+            <id>run-checkstyle</id>
             <goals>
-              <goal>check</goal>
+              <goal>checkstyle</goal>
             </goals>
             <phase>verify</phase>
           </execution>
@@ -375,9 +376,9 @@
         <version>${spotbugs-maven-plugin.version}</version>
         <executions>
           <execution>
-            <id>check-spotbugs</id>
+            <id>run-spotbugs</id>
             <goals>
-              <goal>check</goal>
+              <goal>spotbugs</goal>
             </goals>
             <phase>verify</phase>
           </execution>
