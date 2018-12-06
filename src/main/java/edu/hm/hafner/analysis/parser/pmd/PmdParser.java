@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.pmd;
 
 import java.io.IOException;
+import java.io.Reader;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -27,26 +28,26 @@ public class PmdParser extends IssueParser {
     private static final int PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY = 4;
 
     @Override
-    public Report parse(final ReaderFactory reader) throws ParsingException {
-        try {
-            SecureDigester digester = new SecureDigester(PmdParser.class);
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+        SecureDigester digester = new SecureDigester(PmdParser.class);
 
-            String rootXPath = "pmd";
-            digester.addObjectCreate(rootXPath, Pmd.class);
-            digester.addSetProperties(rootXPath);
+        String rootXPath = "pmd";
+        digester.addObjectCreate(rootXPath, Pmd.class);
+        digester.addSetProperties(rootXPath);
 
-            String fileXPath = "pmd/file";
-            digester.addObjectCreate(fileXPath, File.class);
-            digester.addSetProperties(fileXPath);
-            digester.addSetNext(fileXPath, "addFile", File.class.getName());
+        String fileXPath = "pmd/file";
+        digester.addObjectCreate(fileXPath, File.class);
+        digester.addSetProperties(fileXPath);
+        digester.addSetNext(fileXPath, "addFile", File.class.getName());
 
-            String bugXPath = "pmd/file/violation";
-            digester.addObjectCreate(bugXPath, Violation.class);
-            digester.addSetProperties(bugXPath);
-            digester.addCallMethod(bugXPath, "setMessage", 0);
-            digester.addSetNext(bugXPath, "addViolation", Violation.class.getName());
+        String bugXPath = "pmd/file/violation";
+        digester.addObjectCreate(bugXPath, Violation.class);
+        digester.addSetProperties(bugXPath);
+        digester.addCallMethod(bugXPath, "setMessage", 0);
+        digester.addSetNext(bugXPath, "addViolation", Violation.class.getName());
 
-            Pmd pmd = digester.parse(reader.create());
+        try (Reader reader = readerFactory.create()) {
+            Pmd pmd = digester.parse(reader);
             if (pmd == null) {
                 throw new ParsingException("Input stream is not a PMD file.");
             }
@@ -82,7 +83,7 @@ public class PmdParser extends IssueParser {
         if (warning.getPriority() < PMD_PRIORITY_MAPPED_TO_HIGH_PRIORITY) {
             return Severity.WARNING_HIGH;
         }
-        else if (warning.getPriority() >  PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY) {
+        else if (warning.getPriority() > PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY) {
             return Severity.WARNING_LOW;
         }
         return Severity.WARNING_NORMAL;

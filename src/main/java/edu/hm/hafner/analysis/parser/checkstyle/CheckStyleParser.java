@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Optional;
 
 import org.apache.commons.digester3.Digester;
@@ -25,24 +26,24 @@ public class CheckStyleParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try {
-            Digester digester = new SecureDigester(CheckStyleParser.class);
+        Digester digester = new SecureDigester(CheckStyleParser.class);
 
-            String rootXPath = "checkstyle";
-            digester.addObjectCreate(rootXPath, CheckStyle.class);
-            digester.addSetProperties(rootXPath);
+        String rootXPath = "checkstyle";
+        digester.addObjectCreate(rootXPath, CheckStyle.class);
+        digester.addSetProperties(rootXPath);
 
-            String fileXPath = "checkstyle/file";
-            digester.addObjectCreate(fileXPath, File.class);
-            digester.addSetProperties(fileXPath);
-            digester.addSetNext(fileXPath, "addFile", File.class.getName());
+        String fileXPath = "checkstyle/file";
+        digester.addObjectCreate(fileXPath, File.class);
+        digester.addSetProperties(fileXPath);
+        digester.addSetNext(fileXPath, "addFile", File.class.getName());
 
-            String bugXPath = "checkstyle/file/error";
-            digester.addObjectCreate(bugXPath, Error.class);
-            digester.addSetProperties(bugXPath);
-            digester.addSetNext(bugXPath, "addError", Error.class.getName());
+        String bugXPath = "checkstyle/file/error";
+        digester.addObjectCreate(bugXPath, Error.class);
+        digester.addSetProperties(bugXPath);
+        digester.addSetNext(bugXPath, "addError", Error.class.getName());
 
-            CheckStyle checkStyle = digester.parse(readerFactory.create());
+        try (Reader reader = readerFactory.create()) {
+            CheckStyle checkStyle = digester.parse(reader);
             if (checkStyle == null) {
                 throw new ParsingException("Input stream is not a Checkstyle file.");
             }

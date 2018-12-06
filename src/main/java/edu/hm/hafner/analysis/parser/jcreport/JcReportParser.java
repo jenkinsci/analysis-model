@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.jcreport;
 
 import java.io.IOException;
+import java.io.Reader;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -70,37 +71,38 @@ public class JcReportParser extends IssueParser {
     /**
      * Creates a Report-Object out of the content within the JcReport.xml.
      *
-     * @param reader
+     * @param readerFactory
      *         the Reader-object that is the source to build the Report-Object.
      *
      * @return the finished Report-Object that creates the Warnings.
      * @throws ParsingException
      *         due to digester.parse(new InputSource(source))
      */
-    public edu.hm.hafner.analysis.parser.jcreport.Report createReport(final ReaderFactory reader) throws ParsingException {
-        try {
-            SecureDigester digester = new SecureDigester(JcReportParser.class);
+    public edu.hm.hafner.analysis.parser.jcreport.Report createReport(final ReaderFactory readerFactory)
+            throws ParsingException {
+        SecureDigester digester = new SecureDigester(JcReportParser.class);
 
-            String report = "report";
-            digester.addObjectCreate(report, edu.hm.hafner.analysis.parser.jcreport.Report.class);
-            digester.addSetProperties(report);
+        String report = "report";
+        digester.addObjectCreate(report, edu.hm.hafner.analysis.parser.jcreport.Report.class);
+        digester.addSetProperties(report);
 
-            String file = "report/file";
-            digester.addObjectCreate(file, File.class);
-            digester.addSetProperties(file,  "package", "packageName");
-            digester.addSetProperties(file,  "src-dir", "srcdir");
-            digester.addSetProperties(file);
-            digester.addSetNext(file, "addFile", File.class.getName());
+        String file = "report/file";
+        digester.addObjectCreate(file, File.class);
+        digester.addSetProperties(file, "package", "packageName");
+        digester.addSetProperties(file, "src-dir", "srcdir");
+        digester.addSetProperties(file);
+        digester.addSetNext(file, "addFile", File.class.getName());
 
-            String item = "report/file/item";
-            digester.addObjectCreate(item, Item.class);
-            digester.addSetProperties(item);
-            digester.addSetProperties(item,  "finding-type", "findingtype");
-            digester.addSetProperties(item,  "end-line", "endline");
-            digester.addSetProperties(item,  "end-column", "endcolumn");
-            digester.addSetNext(item, "addItem", Item.class.getName());
+        String item = "report/file/item";
+        digester.addObjectCreate(item, Item.class);
+        digester.addSetProperties(item);
+        digester.addSetProperties(item, "finding-type", "findingtype");
+        digester.addSetProperties(item, "end-line", "endline");
+        digester.addSetProperties(item, "end-column", "endcolumn");
+        digester.addSetNext(item, "addItem", Item.class.getName());
 
-            return digester.parse(reader.create());
+        try (Reader reader = readerFactory.create()) {
+            return digester.parse(reader);
         }
         catch (IOException | SAXException e) {
             throw new ParsingException(e);

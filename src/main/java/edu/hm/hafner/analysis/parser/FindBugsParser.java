@@ -36,6 +36,7 @@ import edu.umd.cs.findbugs.BugInstance;
 import edu.umd.cs.findbugs.Project;
 import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
 
@@ -87,7 +88,6 @@ public class FindBugsParser extends IssueParser {
     }
 
     @Override
-    @SuppressWarnings({"resource", "IOResourceOpenedButNotSafelyClosed"})
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         Collection<String> sources = new ArrayList<>();
         String moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");
@@ -100,19 +100,21 @@ public class FindBugsParser extends IssueParser {
     @VisibleForTesting
     Report parse(final ReaderFactory readerFactory, final Collection<String> sources, final IssueBuilder builder)
             throws ParsingException {
+        Map<String, String> hashToMessageMapping = new HashMap<>();
+        Map<String, String> categories = new HashMap<>();
+
         try (Reader input = readerFactory.create()) {
-            Map<String, String> hashToMessageMapping = new HashMap<>();
-            Map<String, String> categories = new HashMap<>();
-            for (XmlBugInstance bug : preParse(input)) {
+            List<XmlBugInstance> bugs = preParse(input);
+            for (XmlBugInstance bug : bugs) {
                 hashToMessageMapping.put(bug.getInstanceHash(), bug.getMessage());
                 categories.put(bug.getType(), bug.getCategory());
             }
-
-            return parse(readerFactory, sources, builder, hashToMessageMapping, categories);
         }
-        catch (SAXException | DocumentException | IOException exception) {
+        catch (SAXException | IOException exception) {
             throw new ParsingException(exception);
         }
+
+        return parse(readerFactory, sources, builder, hashToMessageMapping, categories);
     }
 
     /**
@@ -153,7 +155,7 @@ public class FindBugsParser extends IssueParser {
      *
      * @param builder
      *         the issue builder
-     * @param factory
+     * @param readerFactory
      *         the FindBugs analysis file
      * @param sources
      *         a collection of folders to scan for source files
@@ -163,54 +165,59 @@ public class FindBugsParser extends IssueParser {
      *         mapping from bug types to their categories
      *
      * @return the parsed result (stored in the module instance)
-     * @throws IOException
-     *         if the file could not be parsed
-     * @throws DocumentException
-     *         in case of a parser exception
      */
-    private Report parse(final ReaderFactory factory, final Collection<String> sources,
+    private Report parse(final ReaderFactory readerFactory, final Collection<String> sources,
             final IssueBuilder builder, final Map<String, String> hashToMessageMapping,
-            final Map<String, String> categories) throws IOException, DocumentException {
+            final Map<String, String> categories) {
+        try (Reader input = readerFactory.create()) {
+            SortedBugCollection collection = readXml(input);
 
-        SortedBugCollection collection = readXml(factory.create());
-
-        Project project = collection.getProject();
-        for (String sourceFolder : sources) {
-            project.addSourceDir(sourceFolder);
-        }
-
-        SourceFinder sourceFinder = new SourceFinder(project);
-        if (StringUtils.isNotBlank(project.getProjectName())) {
-            builder.setModuleName(project.getProjectName());
-        }
-
-        Collection<BugInstance> bugs = collection.getCollection();
-
-        Report report = new Report();
-        for (BugInstance warning : bugs) {
-            SourceLineAnnotation sourceLine = warning.getPrimarySourceLineAnnotation();
-
-            String message = warning.getMessage();
-            String type = warning.getType();
-            String category = categories.get(type);
-            if (category == null) { // alternately, only if warning.getBugPattern().getType().equals("UNKNOWN")
-                category = warning.getBugPattern().getCategory();
+            Project project = collection.getProject();
+            for (String sourceFolder : sources) {
+                project.addSourceDir(sourceFolder);
             }
-            builder.setSeverity(getPriority(warning))
-                    .setMessage(StringUtils.defaultIfEmpty(hashToMessageMapping.get(warning.getInstanceHash()), message))
-                    .setCategory(category)
-                    .setType(type)
-                    .setLineStart(sourceLine.getStartLine())
-                    .setLineEnd(sourceLine.getEndLine())
-                    .setFileName(findSourceFile(project, sourceFinder, sourceLine))
-                    .setPackageName(warning.getPrimaryClass().getPackageName())
-                    .setFingerprint(warning.getInstanceHash());
-            setAffectedLines(warning, builder, new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
 
-            report.add(builder.build());
+            SourceFinder sourceFinder = new SourceFinder(project);
+            if (StringUtils.isNotBlank(project.getProjectName())) {
+                builder.setModuleName(project.getProjectName());
+            }
+
+            Collection<BugInstance> bugs = collection.getCollection();
+
+            Report report = new Report();
+            for (BugInstance warning : bugs) {
+                SourceLineAnnotation sourceLine = warning.getPrimarySourceLineAnnotation();
+
+                String message = warning.getMessage();
+                String type = warning.getType();
+                String category = categories.get(type);
+                if (category == null) { // alternately, only if warning.getBugPattern().getType().equals("UNKNOWN")
+                    category = warning.getBugPattern().getCategory();
+                }
+                builder.setSeverity(getPriority(warning))
+                        .setMessage(createMessage(hashToMessageMapping, warning, message))
+                        .setCategory(category)
+                        .setType(type)
+                        .setLineStart(sourceLine.getStartLine())
+                        .setLineEnd(sourceLine.getEndLine())
+                        .setFileName(findSourceFile(project, sourceFinder, sourceLine))
+                        .setPackageName(warning.getPrimaryClass().getPackageName())
+                        .setFingerprint(warning.getInstanceHash());
+                setAffectedLines(warning, builder, new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
+
+                report.add(builder.build());
+            }
+
+            return report;
         }
+        catch (DocumentException | IOException exception) {
+            throw new ParsingException(exception);
+        }
+    }
 
-        return report;
+    private String createMessage(final Map<String, String> hashToMessageMapping, final BugInstance warning,
+            final String message) {
+        return StringUtils.defaultIfEmpty(hashToMessageMapping.get(warning.getInstanceHash()), message);
     }
 
     private Severity getPriority(final BugInstance warning) {
@@ -236,21 +243,20 @@ public class FindBugsParser extends IssueParser {
         }
     }
 
+    @SuppressWarnings("illegalcatch")
+    @SuppressFBWarnings("DE_MIGHT_IGNORE")
     private void logSaxProperties() {
         String saxProperty = System.getProperty(ORG_XML_SAX_DRIVER);
-        if (saxProperty != null) {
-            Logger.getLogger(FindBugsParser.class.getName())
-                    .log(Level.WARNING,
-                            "System property org.xml.sax.driver has been set but should be empty: " + saxProperty);
-            return;
-        }
-        else {
-            //noinspection CheckStyle
+        if (saxProperty == null) {
             try {
                 ClassLoader cl = Thread.currentThread().getContextClassLoader();
                 String service = "META-INF/services/" + ORG_XML_SAX_DRIVER;
                 InputStream in;
-                if (cl != null) {
+                if (cl == null) {
+                    // No Context ClassLoader, try the current ClassLoader
+                    in = Object.class.getResourceAsStream(service);
+                }
+                else {
                     in = FindBugsParser.class.getResourceAsStream(service);
 
                     // If no provider found then try the current ClassLoader
@@ -258,13 +264,10 @@ public class FindBugsParser extends IssueParser {
                         in = Object.class.getResourceAsStream(service);
                     }
                 }
-                else {
-                    // No Context ClassLoader, try the current ClassLoader
-                    in = Object.class.getResourceAsStream(service);
-                }
 
                 if (in != null) {
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                    try (BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(in, StandardCharsets.UTF_8))) {
                         Logger.getLogger(FindBugsParser.class.getName())
                                 .log(Level.WARNING,
                                         "Service META-INF/services/org.xml.sax.driver has been set but should be empty: "
@@ -273,13 +276,18 @@ public class FindBugsParser extends IssueParser {
                     }
                 }
             }
-            catch (Exception ignore) {
+            catch (RuntimeException | IOException ignore) {
                 // ignore
             }
-            Logger.getLogger(FindBugsParser.class.getName())
-                    .log(Level.FINE,
-                            "Default SAX parser will be used to parse FindBugs/SpotBugs file.");
         }
+        else {
+            Logger.getLogger(FindBugsParser.class.getName()).log(
+                    Level.WARNING,
+                    "System property org.xml.sax.driver has been set but should be empty: " + saxProperty);
+            return;
+        }
+        Logger.getLogger(FindBugsParser.class.getName())
+                .log(Level.FINE, "Default SAX parser will be used to parse FindBugs/SpotBugs file.");
     }
 
     private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,

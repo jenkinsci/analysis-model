@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 import com.google.errorprone.annotations.MustBeClosed;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Provides several useful helper methods to read the contents of a resource that is given by a {@link Reader}.
@@ -31,7 +32,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public abstract class ReaderFactory {
     private static final Function<String, String> IDENTITY = Function.identity();
     
-    private final Charset charset;
+    private final @CheckForNull Charset charset;
     private final Function<String, String> lineMapper;
 
     /**
@@ -52,7 +53,7 @@ public abstract class ReaderFactory {
      * @param lineMapper
      *         provides a mapper to transform each of the resource lines
      */
-    public ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
+    public ReaderFactory(final @CheckForNull Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
         this.lineMapper = lineMapper;
     }
@@ -73,16 +74,6 @@ public abstract class ReaderFactory {
     public abstract Reader create();
 
     /**
-     * Creates a new {@link InputSource} for the file.
-     *
-     * @return a buffered reader
-     */
-    @MustBeClosed
-    public InputSource createInputSource() {
-        return new InputSource(new ReaderInputStream(create(), getCharset()));
-    }
-
-    /**
      * Provides the lines of the file as a {@link Stream} of strings.
      *
      * @return the file content as stream
@@ -90,6 +81,8 @@ public abstract class ReaderFactory {
      *         if the file could not be read
      */
     @MustBeClosed
+    @SuppressWarnings("MustBeClosedChecker")
+    @SuppressFBWarnings("OS_OPEN_STREAM")
     public Stream<String> readStream() {
         if (hasLineMapper()) {
             return new BufferedReader(create()).lines().map(lineMapper);
@@ -99,6 +92,8 @@ public abstract class ReaderFactory {
         }
     }
 
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "test stub")
     private boolean hasLineMapper() {
         return lineMapper != null && lineMapper != IDENTITY;
     }
@@ -124,17 +119,17 @@ public abstract class ReaderFactory {
      *         if the file could not be parsed
      */
     public Document readDocument() {
-        try {
+        try (Reader reader = create()) {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            return docBuilder.parse(createInputSource());
+            return docBuilder.parse(new InputSource(new ReaderInputStream(reader, getCharset())));
         }
         catch (SAXException | IOException | InvalidPathException | ParserConfigurationException e) {
             throw new ParsingException(e);
         }
     }
 
-    protected Charset getCharset() {
+    public Charset getCharset() {
         return ObjectUtils.defaultIfNull(charset, StandardCharsets.UTF_8);
     }
 }

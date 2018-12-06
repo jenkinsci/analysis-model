@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ class FindBugsParserTest {
 
     private Report parseFile(final String fileName, final PriorityProperty priorityProperty) {
         ReaderFactory readerFactory = mock(ReaderFactory.class);
-        when(readerFactory.create()).thenAnswer(mock -> new InputStreamReader(read(PREFIX + fileName)));
+        when(readerFactory.create()).thenAnswer(mock -> new InputStreamReader(read(PREFIX + fileName), StandardCharsets.UTF_8));
         return new FindBugsParser(priorityProperty).parse(readerFactory,
                 Collections.emptyList(), new IssueBuilder());
     }
@@ -117,7 +118,7 @@ class FindBugsParserTest {
      */
     @Test
     void testMessageMapping() throws Exception {
-        try (Reader stream = new InputStreamReader(read(PREFIX + FINDBUGS_NATIVE_XML))) {
+        try (Reader stream = new InputStreamReader(read(PREFIX + FINDBUGS_NATIVE_XML), StandardCharsets.UTF_8)) {
             Map<String, String> mapping = new HashMap<>();
             for (XmlBugInstance bug : new FindBugsParser(CONFIDENCE).preParse(stream)) {
                 mapping.put(bug.getInstanceHash(), bug.getMessage());

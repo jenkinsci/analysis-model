@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,8 @@ public abstract class AbstractDryParser<T> extends IssueParser {
      * Returns the priority of the warning.
      *
      * @param lines
-     *            number of duplicate lines
+     *         number of duplicate lines
+     *
      * @return the priority of the warning
      */
     protected Severity getPriority(final int lines) {
@@ -64,15 +66,15 @@ public abstract class AbstractDryParser<T> extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
-        try {
-            Digester digester = new SecureDigester(AbstractDryParser.class);
+        Digester digester = new SecureDigester(AbstractDryParser.class);
 
-            configureParser(digester);
+        configureParser(digester);
 
-            List<T> duplications = new ArrayList<>();
-            digester.push(duplications);
+        List<T> duplications = new ArrayList<>();
+        digester.push(duplications);
 
-            Object result = digester.parse(readerFactory.create());
+        try (Reader reader = readerFactory.create()) {
+            Object result = digester.parse(reader);
             if (result != duplications) { // NOPMD
                 throw new ParsingException("Input stream is not a valid duplications file.");
             }
@@ -97,6 +99,7 @@ public abstract class AbstractDryParser<T> extends IssueParser {
      *
      * @param duplications
      *         the parsed warnings
+     *
      * @return the converted warnings
      */
     protected abstract Report convertDuplicationsToIssues(List<T> duplications);

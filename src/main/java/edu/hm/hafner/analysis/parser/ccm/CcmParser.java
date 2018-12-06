@@ -46,22 +46,13 @@ public class CcmParser extends IssueParser {
     private static final long serialVersionUID = -5172155190810975806L;
 
     @Override
-    public Report parse(final ReaderFactory readerFactory)
-            throws ParsingCanceledException, ParsingException {
-        try {
-            Ccm module = parseCCMXmlFile(readerFactory.create());
-            if (module == null) {
-                throw new SAXException("Input stream is not a CCM file.");
-            }
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+        Ccm report = parseCCMXmlFile(readerFactory);
 
-            return convert(module);
-        }
-        catch (IOException | SAXException exception) {
-            throw new ParsingException(exception);
-        }
+        return convert(report);
     }
 
-    private Ccm parseCCMXmlFile(final Reader ccmXmlFile) throws IOException, SAXException {
+    private Ccm parseCCMXmlFile(final ReaderFactory ccmXmlFile) {
         SecureDigester digester = new SecureDigester(CcmParser.class);
 
         String rootXPath = "ccm";
@@ -79,7 +70,17 @@ public class CcmParser extends IssueParser {
         digester.addBeanPropertySetter("ccm/metric/endLineNumber");
         digester.addSetNext(fileMetric, "addMetric", Metric.class.getName());
 
-        return digester.parse(ccmXmlFile);
+        try (Reader reader = ccmXmlFile.create()) {
+            Ccm report = digester.parse(reader);
+            if (report == null) {
+                throw new ParsingException("Input stream is not a CCM file.");
+            }
+
+            return report;
+        }
+        catch (IOException | SAXException exception) {
+            throw new ParsingException(exception);
+        }
     }
 
     private Report convert(final Ccm collection) {
@@ -120,7 +121,7 @@ public class CcmParser extends IssueParser {
         if (metricClassification.contains("high")) {
             return true;
         }
-        return metricClassification.contentEquals("C") || metricClassification.contentEquals("D") 
+        return metricClassification.contentEquals("C") || metricClassification.contentEquals("D")
                 || metricClassification.contentEquals("E") || metricClassification.contentEquals("F");
     }
 

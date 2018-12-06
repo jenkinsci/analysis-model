@@ -24,6 +24,12 @@
     <exclude name="OnlyOneReturn"/>
     <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
     <exclude name="ConfusingTernary"/>
+    <exclude name="ClassNamingConventions"/>
+  </rule>
+  <rule ref="category/java/codestyle.xml/ClassNamingConventions">
+    <properties>
+      <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+"/>
+    </properties>
   </rule>
   <rule ref="category/java/codestyle.xml/LinguisticNaming">
     <properties>
@@ -42,6 +48,7 @@
     <exclude name="ExcessiveParameterList"/>
     <exclude name="ExcessiveMethodLength"/>
     <exclude name="UseObjectForClearerAPI"/>
+    <exclude name="AvoidCatchingGenericException"/>
   </rule>
   <rule ref="category/java/errorprone.xml">
     <exclude name="DataflowAnomalyAnalysis"/>

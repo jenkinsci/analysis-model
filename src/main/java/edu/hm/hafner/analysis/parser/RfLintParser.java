@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
@@ -40,22 +41,18 @@ public class RfLintParser extends RegexpLineParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) {
-        Report warnings = new Report();
-        try (LineIterator iterator = IOUtils.lineIterator(readerFactory.create())) {
+        try (Stream<String> lines = readerFactory.readStream()) {
+            Report warnings = new Report();
             Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
-            while (iterator.hasNext()) {
-                String line = iterator.nextLine();
+            lines.forEach(line -> {
                 Matcher matcher = filePattern.matcher(line);
                 if (matcher.find()) {
                     fileName = matcher.group(1);
                 }
                 findIssues(line, warnings);
-            }
+            });
+            return warnings;
         }
-        catch (IOException exception) {
-            throw new ParsingException(exception, "Can't read input lines");
-        }
-        return warnings;
     }
 
     @Override

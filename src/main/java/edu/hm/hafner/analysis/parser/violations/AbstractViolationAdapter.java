@@ -23,7 +23,7 @@ import se.bjurr.violations.lib.parsers.ViolationsParser;
 public abstract class AbstractViolationAdapter extends IssueParser {
     private static final long serialVersionUID = 7203311857999721045L;
 
-    @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock", "PMD.AvoidCatchingGenericException"})
+    @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock"})
     @Override
     public Report parse(final ReaderFactory readerFactory)
             throws ParsingCanceledException, ParsingException {
