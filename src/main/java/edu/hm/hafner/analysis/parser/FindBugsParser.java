@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ import edu.umd.cs.findbugs.ba.SourceFinder;
 @SuppressWarnings("classfanoutcomplexity")
 public class FindBugsParser extends IssueParser {
     private static final long serialVersionUID = 8306319007761954027L;
+    private static final String ORG_XML_SAX_DRIVER = "org.xml.sax.driver";
 
     /**
      * FindBugs 2 and 3 classifies issues using the bug rank and priority (now renamed confidence). Bugs are given a
@@ -224,9 +226,8 @@ public class FindBugsParser extends IssueParser {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(FindBugsParser.class.getClassLoader());
+            logSaxProperties();
             SortedBugCollection collection = new SortedBugCollection();
-            Logger.getLogger(FindBugsParser.class.getName()).info("org.xml.sax.driver: " + System.getProperty("org.xml.sax.driver"));
-            Logger.getLogger(FindBugsParser.class.getName()).info("META-INF: " + log());
             collection.readXML(file);
             return collection;
         }
@@ -234,23 +235,51 @@ public class FindBugsParser extends IssueParser {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
     }
-    
-    private String log() {
-        try {
-            String var2 = "META-INF/services/org.xml.sax.driver";
-            InputStream var3 = ClassLoader.getSystemResourceAsStream(var2);
 
-            if (var3 != null) {
-                BufferedReader var4 = new BufferedReader(new InputStreamReader(var3, "UTF8"));
-                String var0 = var4.readLine();
-                var3.close();
-                return var0;
-            }
-        } catch (Exception var6) {
-            ;
+    private void logSaxProperties() {
+        String saxProperty = System.getProperty(ORG_XML_SAX_DRIVER);
+        if (saxProperty != null) {
+            Logger.getLogger(FindBugsParser.class.getName())
+                    .log(Level.WARNING,
+                            "System property org.xml.sax.driver has been set but should be empty: " + saxProperty);
+            return;
         }
+        else {
+            //noinspection CheckStyle
+            try {
+                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                String service = "META-INF/services/" + ORG_XML_SAX_DRIVER;
+                InputStream in;
+                if (cl != null) {
+                    in = FindBugsParser.class.getResourceAsStream(service);
 
-        return "";
+                    // If no provider found then try the current ClassLoader
+                    if (in == null) {
+                        in = Object.class.getResourceAsStream(service);
+                    }
+                }
+                else {
+                    // No Context ClassLoader, try the current ClassLoader
+                    in = Object.class.getResourceAsStream(service);
+                }
+
+                if (in != null) {
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                        Logger.getLogger(FindBugsParser.class.getName())
+                                .log(Level.WARNING,
+                                        "Service META-INF/services/org.xml.sax.driver has been set but should be empty: "
+                                                + reader.readLine());
+                        return;
+                    }
+                }
+            }
+            catch (Exception ignore) {
+                // ignore
+            }
+            Logger.getLogger(FindBugsParser.class.getName())
+                    .log(Level.FINE,
+                            "Default SAX parser will be used to parse FindBugs/SpotBugs file.");
+        }
     }
 
     private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,
@@ -328,8 +357,7 @@ public class FindBugsParser extends IssueParser {
     }
 
     /**
-     * Java Bean to create the mapping of hash codes to messages using the Digester
-     * XML parser.
+     * Java Bean to create the mapping of hash codes to messages using the Digester XML parser.
      *
      * @author Ullrich Hafner
      */
