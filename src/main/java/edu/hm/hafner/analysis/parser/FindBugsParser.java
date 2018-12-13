@@ -286,8 +286,9 @@ public class FindBugsParser extends IssueParser {
                     "System property org.xml.sax.driver has been set but should be empty: " + saxProperty);
             return;
         }
+        // FIXME: Before 1.0 Reduce Log Level to FINE!
         Logger.getLogger(FindBugsParser.class.getName())
-                .log(Level.FINE, "Default SAX parser will be used to parse FindBugs/SpotBugs file.");
+                .log(Level.WARNING, "Default SAX parser will be used to parse FindBugs/SpotBugs file.");
     }
 
     private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,
