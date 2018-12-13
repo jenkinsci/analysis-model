@@ -84,12 +84,26 @@ public abstract class ReaderFactory {
     @SuppressWarnings("MustBeClosedChecker")
     @SuppressFBWarnings("OS_OPEN_STREAM")
     public Stream<String> readStream() {
+        BufferedReader reader = new BufferedReader(create());
+        Stream<String> stringStream = reader.lines().onClose(closeReader(reader));
         if (hasLineMapper()) {
-            return new BufferedReader(create()).lines().map(lineMapper);
+            return stringStream.map(lineMapper);
         }
         else {
-            return new BufferedReader(create()).lines();
+            return stringStream;
         }
+    }
+
+    @SuppressWarnings("illegalcatch")
+    private Runnable closeReader(final AutoCloseable closeable) {
+        return () -> {
+            try {
+                closeable.close();
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
     }
 
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
