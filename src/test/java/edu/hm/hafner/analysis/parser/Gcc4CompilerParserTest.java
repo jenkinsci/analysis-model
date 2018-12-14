@@ -11,6 +11,7 @@ import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static org.assertj.core.api.Assumptions.*;
 
 /**
  * Tests the class {@link Gcc4CompilerParser}.
@@ -168,14 +169,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(ERROR_CATEGORY)
-                    .hasLineStart(73)
-                    .hasLineEnd(73)
-                    .hasMessage("implicit typename is deprecated, please see the documentation for details")
-                    .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc");
-
-            softly.assertThat(iterator.next())
-                    .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(ERROR_CATEGORY)
                     .hasLineStart(4)
                     .hasLineEnd(4)
                     .hasMessage("foo.h: No such file or directory")
@@ -240,18 +233,28 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(WARNING_CATEGORY)
-                    .hasLineStart(33)
-                    .hasLineEnd(33)
-                    .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
-                    .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h");
-
-            softly.assertThat(iterator.next())
-                    .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(5)
                     .hasLineEnd(5)
                     .hasMessage("Your code is bad, and you should feel bad!")
                     .hasFileName("/dir4/zoidberg.c");
+
+            assumeThat(isWindows()).isFalse();
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasCategory(ERROR_CATEGORY)
+                    .hasLineStart(73)
+                    .hasLineEnd(73)
+                    .hasMessage("implicit typename is deprecated, please see the documentation for details")
+                    .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(33)
+                    .hasLineEnd(33)
+                    .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
+                    .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h");
         });
     }
 

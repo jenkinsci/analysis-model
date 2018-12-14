@@ -2,8 +2,6 @@ make[0]: Entering directory `/dir1'
 
 testhist.l:451: warning: 'void yyunput(int, char*)' defined but not used
 
-/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc:73: error: implicit typename is deprecated, please see the documentation for details
-
 foo.cc:4:39: error: foo.h: No such file or directory
 
 foo.so: undefined reference to 'missing_symbol'
@@ -35,13 +33,18 @@ warnings.cc:6: warning: passing 'Test' chooses 'int' over 'unsigned int'
 warnings.cc:6: warning:   in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'
 
 make[2]: Entering directory '/dir1/dir2/dir3'
-=============== Issue 5605
-In file included from /usr/include/c++/4.3/backward/hash_set:64,
-                 from /usr/include/boost/graph/adjacency_list.hpp:25,
-                 from Node.cpp:51:
-/usr/include/c++/4.3/backward/backward_warning.h:33:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.
 
 ============== Checking "entering directory" without recursion level ==========
 make: Entering directory `/dir4'
 zoidberg.c:5:70: warning: Your code is bad, and you should feel bad!
 make: Leaving directory `/dir4'
+
+==== already absolute ====
+
+/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc:73: error: implicit typename is deprecated, please see the documentation for details
+
+=============== Issue 5605
+In file included from /usr/include/c++/4.3/backward/hash_set:64,
+                 from /usr/include/boost/graph/adjacency_list.hpp:25,
+                 from Node.cpp:51:
+/usr/include/c++/4.3/backward/backward_warning.h:33:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.
