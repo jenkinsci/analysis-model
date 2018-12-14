@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Unit test for {@link IssueBuilder}.
@@ -132,6 +133,7 @@ class IssueBuilderTest {
     }
 
     @Test
+    @SuppressFBWarnings("DMI")
     void shouldCreateIssueWithAllPropertiesInitialized() {
         Issue issue = new IssueBuilder()
                 .setFileName(FILE_NAME)

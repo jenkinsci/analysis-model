@@ -48,8 +48,8 @@ class QacSourceCodeAnalyserParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
-                .hasLineStart(20233)
-                .hasLineEnd(20233)
+                .hasLineStart(20_233)
+                .hasLineEnd(20_233)
                 .hasMessage("A function could probably be used instead of this function-like macro.")
                 .hasFileName("C:/PATH/PATH/Test3.h")
                 .hasCategory(WARNING_CATEGORY)

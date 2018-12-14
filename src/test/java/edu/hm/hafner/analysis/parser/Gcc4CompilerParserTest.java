@@ -154,7 +154,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     @Test
     void shouldAssignAbsolutePath() {
         Report report = parse("gnuMakeGcc.txt");
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             Iterator<Issue> iterator = report.iterator();
             softly.assertThat(report).hasSize(12);
             softly.assertThat(iterator.next())

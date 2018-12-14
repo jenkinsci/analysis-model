@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 /**
  * Tests the class {@link ModuleDetector}.
  */
-@SuppressFBWarnings("DMI_HARDCODED_ABSOLUTE_FILENAME")
+@SuppressFBWarnings("DMI")
 class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
     private static final String MANIFEST_NAME = "MANIFEST-NAME.MF";

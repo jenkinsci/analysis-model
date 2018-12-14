@@ -1,5 +1,6 @@
 package edu.hm.hafner.util;
 
+import javax.annotation.CheckForNull;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -83,7 +84,7 @@ public class PathUtil {
      *
      * @return the absolute path
      */
-    public String createAbsolutePath(final String directory, final String fileName) {
+    public String createAbsolutePath(final @CheckForNull String directory, final String fileName) {
         if (isAbsolute(fileName) || StringUtils.isBlank(directory)) {
             return fileName;
         }

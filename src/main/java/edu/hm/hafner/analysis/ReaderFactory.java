@@ -94,7 +94,7 @@ public abstract class ReaderFactory {
         }
     }
 
-    @SuppressWarnings("illegalcatch")
+    @SuppressWarnings({"illegalcatch", "PMD.DoNotUseThreads", "PMD.AvoidThrowingRawExceptionTypes"})
     private Runnable closeReader(final AutoCloseable closeable) {
         return () -> {
             try {
