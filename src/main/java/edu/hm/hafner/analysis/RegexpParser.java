@@ -62,7 +62,7 @@ public abstract class RegexpParser extends IssueParser {
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
-            Optional<Issue> warning = createIssue(matcher, new IssueBuilder());
+            Optional<Issue> warning = createIssue(matcher, configureIssueBuilder(new IssueBuilder()));
             if (warning.isPresent()) {
                 report.add(warning.get());
             }
@@ -71,6 +71,18 @@ public abstract class RegexpParser extends IssueParser {
                 throw new ParsingCanceledException();
             }
         }
+    }
+
+    /**
+     * Optionally configures the issue builder instance.
+     *
+     * @param builder
+     *         the build to configure
+     *
+     * @return the builder
+     */
+    protected IssueBuilder configureIssueBuilder(final IssueBuilder builder) {
+        return builder;
     }
 
     /**
