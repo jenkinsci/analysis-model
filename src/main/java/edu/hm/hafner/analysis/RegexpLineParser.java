@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis;
 
-import java.io.IOException;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Parses an input stream line by line for compiler warnings using the provided regular expression. Multi-line regular
@@ -16,7 +16,10 @@ import org.apache.commons.io.LineIterator;
 public abstract class RegexpLineParser extends RegexpParser {
     private static final long serialVersionUID = 5932670979793111138L;
 
+    private static final Pattern MAKE_PATH = Pattern.compile(".*make(?:\\[\\d+])?: Entering directory `(.*)'");
+
     private int currentLine = 0;
+    private String currentDirectory = StringUtils.EMPTY;
 
     /**
      * Creates a new instance of {@link RegexpLineParser}.
@@ -35,13 +38,23 @@ public abstract class RegexpLineParser extends RegexpParser {
             currentLine = 1;
             Iterator<String> iterator = lines.iterator();
             while (iterator.hasNext()) {
-                findIssues(iterator.next(), report);
+                String line = iterator.next();
+                Matcher makeLineMatcher = MAKE_PATH.matcher(line);
+                if (makeLineMatcher.matches()) {
+                    currentDirectory = makeLineMatcher.group(1);
+                }
+                findIssues(line, report);
                 
                 currentLine++;
             }
         }
 
         return postProcess(report);
+    }
+
+    @Override
+    protected IssueBuilder configureIssueBuilder(final IssueBuilder builder) {
+        return builder.setDirectory(currentDirectory);
     }
 
     /**

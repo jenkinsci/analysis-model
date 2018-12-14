@@ -21,7 +21,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = Gcc4LinkerParser.WARNING_CATEGORY;
     private static final String FILE_NAME = "-";
 
-    protected Gcc4LinkerParserTest() {
+    Gcc4LinkerParserTest() {
         super("gcc4ld.txt");
     }
 

@@ -22,7 +22,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "Error";
 
-    protected Gcc4CompilerParserTest() {
+    Gcc4CompilerParserTest() {
         super("gcc4.txt");
     }
 
@@ -151,12 +151,126 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
+    @Test
+    void shouldAssignAbsolutePath() {
+        Report report = parse("gnuMakeGcc.txt");
+        SoftAssertions.assertSoftly(softly -> {
+            Iterator<Issue> iterator = report.iterator();
+            softly.assertThat(report).hasSize(12);
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(451)
+                    .hasLineEnd(451)
+                    .hasMessage("'void yyunput(int, char*)' defined but not used")
+                    .hasFileName("/dir1/testhist.l");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasCategory(ERROR_CATEGORY)
+                    .hasLineStart(73)
+                    .hasLineEnd(73)
+                    .hasMessage("implicit typename is deprecated, please see the documentation for details")
+                    .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasCategory(ERROR_CATEGORY)
+                    .hasLineStart(4)
+                    .hasLineEnd(4)
+                    .hasMessage("foo.h: No such file or directory")
+                    .hasFileName("/dir1/foo.cc");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(678)
+                    .hasLineEnd(678)
+                    .hasMessage("missing initializer for member sigaltstack::ss_sp")
+                    .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(678)
+                    .hasLineEnd(678)
+                    .hasMessage("missing initializer for member sigaltstack::ss_flags")
+                    .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(678)
+                    .hasLineEnd(678)
+                    .hasMessage("missing initializer for member sigaltstack::ss_size")
+                    .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(52)
+                    .hasLineEnd(52)
+                    .hasMessage("large integer implicitly truncated to unsigned type")
+                    .hasFileName("/dir1/src/test_simple_sgs_message.cxx");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(352)
+                    .hasLineEnd(352)
+                    .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
+                    .hasFileName("/dir1/dir2/main/mep.cpp");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(6)
+                    .hasLineEnd(6)
+                    .hasMessage("passing 'Test' chooses 'int' over 'unsigned int'")
+                    .hasFileName("/dir1/dir2/warnings.cc");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(6)
+                    .hasLineEnd(6)
+                    .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
+                    .hasFileName("/dir1/dir2/warnings.cc");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(33)
+                    .hasLineEnd(33)
+                    .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
+                    .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory(WARNING_CATEGORY)
+                    .hasLineStart(5)
+                    .hasLineEnd(5)
+                    .hasMessage("Your code is bad, and you should feel bad!")
+                    .hasFileName("/dir4/zoidberg.c");
+        });
+    }
+
     /** Should not report warnings already detected by {@link Gcc4LinkerParser}. */
     @Test
     void shouldNotReportGccWarnings() {
         Report warnings = parse("gcc4ld.txt");
 
         assertThat(warnings).isEmpty();
+    }
+
+    @Test
+    void shouldResolveAbsolutePaths() {
+        Report warnings = createParser().parse(createReaderFactory("absolute-paths.txt"));
+
+        assertThat(warnings).hasSize(188);
+
+        assertThat(warnings.get(0))
+                .hasFileName("/var/lib/jenkins/workspace/daos-stack-org_daos_PR-13-centos7/_build.external/pmix/src/util/keyval/keyval_lex.c");
     }
 
     /**
@@ -170,15 +284,13 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasLineStart(10)
-                    .hasLineEnd(10)
-                    .hasMessage("'test.h' file not found")
-                    .hasFileName("./test.h")
-                    .hasCategory(ERROR_CATEGORY)
-                    .hasSeverity(Severity.WARNING_HIGH);
-        });
+        assertSoftly(softly -> softly.assertThat(warnings.get(0))
+                .hasLineStart(10)
+                .hasLineEnd(10)
+                .hasMessage("'test.h' file not found")
+                .hasFileName("./test.h")
+                .hasCategory(ERROR_CATEGORY)
+                .hasSeverity(Severity.WARNING_HIGH));
     }
 
     /**
@@ -192,15 +304,13 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
-                    .hasLineStart(52)
-                    .hasLineEnd(52)
-                    .hasMessage("large integer implicitly truncated to unsigned type")
-                    .hasFileName("src/test_simple_sgs_message.cxx")
-                    .hasCategory(WARNING_CATEGORY)
-                    .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        assertSoftly(softly -> softly.assertThat(warnings.get(0))
+                .hasLineStart(52)
+                .hasLineEnd(52)
+                .hasMessage("large integer implicitly truncated to unsigned type")
+                .hasFileName("src/test_simple_sgs_message.cxx")
+                .hasCategory(WARNING_CATEGORY)
+                .hasSeverity(Severity.WARNING_NORMAL));
     }
 
     /**
@@ -282,7 +392,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(iterator.next())
                     .hasLineStart(4)
                     .hasLineEnd(4)
-                    .hasMessage("implicit declaration of function 'undeclared_function' [-Wimplicit-function-declaration]")
+                    .hasMessage(
+                            "implicit declaration of function 'undeclared_function' [-Wimplicit-function-declaration]")
                     .hasFileName("gcc4warning.c")
                     .hasCategory(WARNING_CATEGORY + ":implicit-function-declaration")
                     .hasSeverity(Severity.WARNING_NORMAL);

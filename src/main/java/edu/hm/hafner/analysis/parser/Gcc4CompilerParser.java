@@ -18,10 +18,10 @@ public class Gcc4CompilerParser extends FastRegexpLineParser {
 
     private static final String ERROR = "error";
     private static final String GCC_WARNING_PATTERN = ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? (warning|.*error): (.*)$";
-    private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)\\]$");
+    private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
 
     /**
-     * Creates a new instance of {@link Gcc4CompilerParser} .
+     * Creates a new instance of {@link Gcc4CompilerParser}.
      */
     public Gcc4CompilerParser() {
         super(GCC_WARNING_PATTERN);

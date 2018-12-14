@@ -3,7 +3,10 @@ package edu.hm.hafner.analysis;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+
 import static edu.hm.hafner.util.IntegerParser.*;
+import edu.hm.hafner.util.PathUtil;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
@@ -31,6 +34,8 @@ public class IssueBuilder {
     private LineRangeList lineRanges;
     @CheckForNull
     private String fileName;
+    @CheckForNull
+    private String directory;
     @CheckForNull
     private String category;
     @CheckForNull
@@ -72,7 +77,18 @@ public class IssueBuilder {
     }
 
     public IssueBuilder setFileName(@CheckForNull final String fileName) {
-        this.fileName = fileName;
+        if (StringUtils.isBlank(fileName)) {
+            this.fileName = StringUtils.EMPTY;
+        }
+        else {
+            this.fileName = new PathUtil().createAbsolutePath(directory, fileName);
+        }
+
+        return this;
+    }
+
+    public IssueBuilder setDirectory(@CheckForNull final String directory) {
+        this.directory = directory;
         return this;
     }
 

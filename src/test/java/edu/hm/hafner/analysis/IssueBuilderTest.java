@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -21,6 +22,23 @@ class IssueBuilderTest {
     private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
             LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
+    private static final String RELATIVE_FILE = "relative.txt";
+
+    @Test
+    void shouldUseAbsolutePath() {
+        IssueBuilder builder = new IssueBuilder();
+
+        builder.setFileName(RELATIVE_FILE);
+
+        assertThat(builder.build()).hasFileName(RELATIVE_FILE);
+
+        builder.setDirectory("/tmp");
+        builder.setFileName(RELATIVE_FILE);
+        assertThat(builder.build()).hasFileName("/tmp/" + RELATIVE_FILE);
+
+        builder.setFileName(null);
+        assertThat(builder.build()).hasFileName("-");
+    }
 
     @ParameterizedTest(name = "{index} => Full Path: {0} - Expected Base Name: file.txt")
     @ValueSource(strings = {
@@ -35,7 +53,7 @@ class IssueBuilderTest {
 
         assertThat(issueBuilder.setFileName(fullPath).build()).hasBaseName("file.txt");
     }
-    
+
     @Test
     void shouldCreateDefaultIssueIfNothingSpecified() {
         Issue issue = new IssueBuilder().build();
