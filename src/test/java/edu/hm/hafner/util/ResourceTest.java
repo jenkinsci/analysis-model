@@ -1,6 +1,7 @@
 package edu.hm.hafner.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -29,13 +30,22 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 public abstract class ResourceTest {
     /**
+     * Returns whether the OS under test is Windows or Unix.
+     *
+     * @return {@code true} if the OS is Windows, {@code false} otherwise
+     */
+    protected boolean isWindows() {
+        return File.pathSeparatorChar == ';';
+    }
+
+    /**
      * Reads the contents of the desired resource. The rules for searching resources associated with this test class are
      * implemented by the defining {@linkplain ClassLoader class loader} of this test class.  This method delegates to
      * this object's class loader.  If this object was loaded by the bootstrap class loader, the method delegates to
      * {@link ClassLoader#getSystemResource}.
      * <p>
      * Before delegation, an absolute resource name is constructed from the given resource name using this algorithm:
-     * <p>
+     * </p>
      * <ul>
      *     <li> If the {@code name} begins with a {@code '/'} (<tt>'&#92;u002f'</tt>), then the absolute name of the
      * resource is the portion of the {@code name} following the {@code '/'}.</li>
@@ -66,7 +76,7 @@ public abstract class ResourceTest {
      * {@link ClassLoader#getSystemResource}.
      * <p>
      * Before delegation, an absolute resource name is constructed from the given resource name using this algorithm:
-     * <p>
+     * </p>
      * <ul>
      *     <li> If the {@code name} begins with a {@code '/'} (<tt>'&#92;u002f'</tt>), then the absolute name of the
      * resource is the portion of the {@code name} following the {@code '/'}.</li>

@@ -86,13 +86,13 @@ public class PathUtil {
      */
     public String createAbsolutePath(final @CheckForNull String directory, final String fileName) {
         if (isAbsolute(fileName) || StringUtils.isBlank(directory)) {
-            return fileName;
+            return normalize(fileName);
         }
-        String normalized = normalize(directory);
-        if (normalized.endsWith(SLASH)) {
-            return normalized + fileName;
+        String normalizedDirectory = normalize(directory);
+        if (normalizedDirectory.endsWith(SLASH)) {
+            return normalizedDirectory + fileName;
         }
-        return normalized + SLASH + fileName;
+        return normalizedDirectory + SLASH + fileName;
     }
 
     private boolean isAbsolute(final String fileName) {
