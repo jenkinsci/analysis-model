@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -54,14 +55,14 @@ public class MavenConsoleParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String errorOrWarningGroup = matcher.group(2);
         String errorOrWarningMessage = matcher.group(3);
 
         return builder.setLineStart(getCurrentLine())
                 .setMessage(errorOrWarningMessage)
                 .setSeverity(extractSeverity(errorOrWarningGroup))
-                .build();
+                .buildOptional();
     }
 
     private Severity extractSeverity(final String errorOrWarningGroup) {

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -26,7 +27,7 @@ public class GnatParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         Severity priority;
         String category;
 
@@ -47,6 +48,6 @@ public class GnatParser extends RegexpLineParser {
                 .setCategory(category)
                 .setMessage(matcher.group(5))
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 }

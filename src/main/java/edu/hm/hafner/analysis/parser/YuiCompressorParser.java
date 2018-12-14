@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,13 +35,13 @@ public class YuiCompressorParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String messageHeader = matcher.group(1);
         CategoryAndPriority categoryAndPriority = getCategoryAndPriority(messageHeader);
         String messageDetails = matcher.group(2);
         String message = messageHeader + " [" + messageDetails + "]";
         return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
-                             .setMessage(message).setSeverity(categoryAndPriority.getPriority()).build();
+                             .setMessage(message).setSeverity(categoryAndPriority.getPriority()).buildOptional();
     }
 
     @SuppressWarnings("npathcomplexity")

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +40,7 @@ public class JavaDocParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(3);
 
         String message = matcher.group(4);
@@ -54,7 +55,7 @@ public class JavaDocParser extends FastRegexpLineParser {
                 .setLineStart(matcher.group(2))
                 .setMessage(message)
                 .setSeverity(mapPriority(type))
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriority(final String type) {

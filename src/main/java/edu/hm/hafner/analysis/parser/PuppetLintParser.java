@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,14 +33,14 @@ public class PuppetLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(3))
                 .setPackageName(detectModuleName(matcher.group(1)))
                 .setMessage(matcher.group(5))
                 .setSeverity(mapPriority(matcher.group(4)))
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriority(final String level) {

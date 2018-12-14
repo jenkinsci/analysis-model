@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -65,7 +66,7 @@ public class EclipseParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(1));
         Severity priority = mapTypeToSeverity(type);
 
@@ -80,7 +81,7 @@ public class EclipseParser extends RegexpDocumentParser {
                 .setColumnEnd(columnEnd)
                 .setMessage(matcher.group(7))
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 
     private String getLine(final Matcher matcher) {

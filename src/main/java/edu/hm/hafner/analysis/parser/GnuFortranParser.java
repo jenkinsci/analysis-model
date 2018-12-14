@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +37,7 @@ public class GnuFortranParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = LINE_PATTERN.matcher(matcher.group(5)).replaceAll("");
         return builder.setFileName(matcher.group(1))
                 .setColumnStart(matcher.group(3))
@@ -45,6 +46,6 @@ public class GnuFortranParser extends RegexpDocumentParser {
                 .setCategory(category)
                 .setMessage(LINE_PATTERN.matcher(matcher.group(6)).replaceAll(""))
                 .setSeverity("Warning".equals(category) ? Severity.WARNING_NORMAL : Severity.WARNING_HIGH)
-                .build();
+                .buildOptional();
     }
 }

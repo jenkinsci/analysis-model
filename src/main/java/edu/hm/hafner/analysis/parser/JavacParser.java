@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
@@ -41,7 +42,7 @@ public class JavacParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(1);
         if ("ERROR".equals(type)) {
             builder.setSeverity(Severity.ERROR);
@@ -58,7 +59,7 @@ public class JavacParser extends FastRegexpLineParser {
                 .setColumnStart(matcher.group(4))
                 .setCategory(category)
                 .setMessage(message)
-                .build();
+                .buildOptional();
     }
 }
 

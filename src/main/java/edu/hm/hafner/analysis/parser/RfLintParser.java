@@ -1,18 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
 
 import static edu.hm.hafner.analysis.Categories.*;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Report;
@@ -56,7 +53,7 @@ public class RfLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(1), message);
         Severity priority = Severity.WARNING_LOW;
@@ -81,6 +78,6 @@ public class RfLintParser extends RegexpLineParser {
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 }

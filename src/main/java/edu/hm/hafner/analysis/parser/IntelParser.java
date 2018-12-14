@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +33,7 @@ public class IntelParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = StringUtils.capitalize(matcher.group(4));
 
         Severity priority;
@@ -52,6 +53,6 @@ public class IntelParser extends FastRegexpLineParser {
                 .setCategory(category)
                 .setMessage(matcher.group(5))
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 }

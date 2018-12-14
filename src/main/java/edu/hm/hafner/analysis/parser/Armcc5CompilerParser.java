@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
@@ -30,7 +31,7 @@ public class Armcc5CompilerParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(3);
         Severity priority;
 
@@ -46,7 +47,7 @@ public class Armcc5CompilerParser extends FastRegexpLineParser {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setMessage(errorCode + " - " + message)
-                .setSeverity(priority).build();
+                .setSeverity(priority).buildOptional();
     }
 }
 

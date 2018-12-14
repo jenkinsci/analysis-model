@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -26,7 +27,7 @@ public class MetrowerksCwLinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(2);
         String messageCategory = matcher.group(1);
 
@@ -49,7 +50,7 @@ public class MetrowerksCwLinkerParser extends RegexpLineParser {
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 }
 

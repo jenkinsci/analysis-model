@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -27,13 +28,13 @@ public class ScalacParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(2))
                 .setLineStart(matcher.group(3))
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(5))
                 .setSeverity(mapPriority(matcher))
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriority(final Matcher matcher) {

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +28,7 @@ public class ClangTidyParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         Severity priority;
         if (matcher.group(4).contains("error")) {
             priority = Severity.WARNING_HIGH;
@@ -43,6 +44,6 @@ public class ClangTidyParser extends RegexpLineParser {
                 .setType(StringUtils.capitalize(matcher.group(4)))
                 .setCategory(matcher.group(6))
                 .setMessage(matcher.group(5))
-                .build();
+                .buildOptional();
     }
 }

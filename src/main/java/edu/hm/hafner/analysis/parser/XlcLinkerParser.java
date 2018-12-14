@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +37,7 @@ public class XlcLinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String line = matcher.group(0);
         builder.setFileName("").setLineStart(0);
 
@@ -44,27 +45,30 @@ public class XlcLinkerParser extends RegexpLineParser {
         if (lineMatcher.find()) {
             String category = lineMatcher.group(1);
             String message = lineMatcher.group(2);
-            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_HIGH).build();
+            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_HIGH).buildOptional();
         }
         lineMatcher = PATTERN_ERROR_2.matcher(line);
         if (lineMatcher.find()) {
             String category = lineMatcher.group(1);
             String message = lineMatcher.group(2);
-            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_HIGH).build();
+            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_HIGH).buildOptional();
         }
         lineMatcher = PATTERN_WARNING.matcher(line);
         if (lineMatcher.find()) {
             String category = lineMatcher.group(1);
             String message = lineMatcher.group(2);
-            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_NORMAL).build();
+            return builder.setCategory(category)
+                    .setMessage(message)
+                    .setSeverity(Severity.WARNING_NORMAL)
+                    .buildOptional();
         }
         lineMatcher = PATTERN_INFO.matcher(line);
         if (lineMatcher.find()) {
             String category = lineMatcher.group(1);
             String message = lineMatcher.group(2);
-            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_LOW).build();
+            return builder.setCategory(category).setMessage(message).setSeverity(Severity.WARNING_LOW).buildOptional();
         }
-        return FALSE_POSITIVE;
+        return Optional.empty();
     }
 }
 

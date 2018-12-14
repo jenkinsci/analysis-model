@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +29,7 @@ public class TiCcsParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String lineNumber = matcher.group(5);
         if (StringUtils.isBlank(lineNumber)) {
             lineNumber = matcher.group(10);
@@ -38,7 +39,7 @@ public class TiCcsParser extends RegexpLineParser {
                 .setCategory(matcher.group(11))
                 .setMessage(matcher.group(12))
                 .setSeverity(mapPriority(matcher))
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriority(final Matcher matcher) {

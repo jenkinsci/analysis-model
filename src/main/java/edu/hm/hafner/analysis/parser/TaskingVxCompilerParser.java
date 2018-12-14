@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -27,7 +28,7 @@ public class TaskingVxCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(1);
         Severity priority;
         String category;
@@ -56,6 +57,6 @@ public class TaskingVxCompilerParser extends RegexpLineParser {
                 .setCategory(category)
                 .setMessage(matcher.group(6))
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 }

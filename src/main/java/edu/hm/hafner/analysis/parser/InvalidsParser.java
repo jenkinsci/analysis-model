@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +29,7 @@ public class InvalidsParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = WARNING_PREFIX + StringUtils.capitalize(StringUtils.lowerCase(matcher.group(4)));
         String category = matcher.group(6);
         Severity priority;
@@ -44,7 +45,7 @@ public class InvalidsParser extends RegexpLineParser {
         return builder.setFileName(matcher.group(2) + "." + matcher.group(3))
                       .setLineStart(matcher.group(5)).setType(type).setCategory(category)
                       .setPackageName(matcher.group(1)).setMessage(matcher.group(7)).setSeverity(priority)
-                      .build();
+                      .buildOptional();
     }
 }
 

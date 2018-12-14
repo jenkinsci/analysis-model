@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -28,7 +29,7 @@ public class CppLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         Severity priority = mapPriority(matcher.group(5));
 
         return builder.setFileName(matcher.group(1))
@@ -36,7 +37,7 @@ public class CppLintParser extends RegexpLineParser {
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(3))
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriority(final String priority) {

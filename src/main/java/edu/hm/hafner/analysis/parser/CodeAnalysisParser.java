@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +31,7 @@ public class CodeAnalysisParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return builder.setFileName(matcher.group(11))
                     .setLineStart(0)
@@ -38,7 +39,7 @@ public class CodeAnalysisParser extends RegexpLineParser {
                     .setType(matcher.group(6))
                     .setMessage(matcher.group(10))
                     .setSeverity(Severity.WARNING_NORMAL)
-                    .build();
+                    .buildOptional();
         }
         else {
             return builder.setFileName(matcher.group(4))
@@ -47,7 +48,7 @@ public class CodeAnalysisParser extends RegexpLineParser {
                     .setType(matcher.group(6))
                     .setMessage(matcher.group(10))
                     .setSeverity(Severity.WARNING_NORMAL)
-                    .build();
+                    .buildOptional();
         }
     }
 }

@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis;
 
+import javax.swing.text.html.Option;
 import java.io.Serializable;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -222,5 +224,15 @@ public class IssueBuilder {
                 additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
+    }
+
+    /**
+     * Creates a new {@link Issue} based on the specified properties. The returned issue is wrapped in an {@link
+     * Optional}.
+     *
+     * @return the created issue
+     */
+    public Optional<Issue> buildOptional() {
+        return Optional.of(build());
     }
 }

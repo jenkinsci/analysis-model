@@ -52,7 +52,6 @@ public abstract class RegexpLineParser extends RegexpParser {
         return postProcess(report);
     }
 
-    @Override
     protected IssueBuilder configureIssueBuilder(final IssueBuilder builder) {
         return builder.setDirectory(currentDirectory);
     }

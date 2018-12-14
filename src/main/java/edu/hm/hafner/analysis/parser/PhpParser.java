@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
@@ -31,7 +32,7 @@ public class PhpParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group(1);
         builder.setCategory(category).setSeverity(mapPriority(category));
 
@@ -39,13 +40,13 @@ public class PhpParser extends FastRegexpLineParser {
             return builder.setFileName(matcher.group(3))
                     .setLineStart(matcher.group(4))
                     .setMessage(matcher.group(2))
-                    .build();
+                    .buildOptional();
         }
         else {
             return builder.setFileName("-")
                     .setLineStart(0)
                     .setMessage(matcher.group(5))
-                    .build();
+                    .buildOptional();
         }
     }
 

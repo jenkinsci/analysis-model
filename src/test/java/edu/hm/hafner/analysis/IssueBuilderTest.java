@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -135,7 +136,8 @@ class IssueBuilderTest {
     @Test
     @SuppressFBWarnings("DMI")
     void shouldCreateIssueWithAllPropertiesInitialized() {
-        Issue issue = new IssueBuilder()
+        IssueBuilder builder = new IssueBuilder();
+        Issue issue = builder
                 .setFileName(FILE_NAME)
                 .setLineStart(LINE_START)
                 .setLineEnd(LINE_END)
@@ -156,6 +158,9 @@ class IssueBuilderTest {
                 .build();
 
         assertThatIssueIsEqualToFilled(issue);
+
+        Optional<Issue> optional = builder.buildOptional();
+        assertThat(optional).contains(issue);
     }
 
     private void assertThatIssueIsEqualToFilled(final Issue issue) {

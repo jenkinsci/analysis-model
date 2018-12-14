@@ -5,6 +5,7 @@
  */
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -37,14 +38,14 @@ public class CadenceIncisiveParser extends RegexpLineParser {
         super(CADENCE_MESSAGE_PATTERN);
     }
 
-    private Issue handleDirectory(final Matcher matcher, final int offset) {
+    private Optional<Issue> handleDirectory(final Matcher matcher, final int offset) {
         directory = matcher.group(offset) + SLASH; // 17
 
-        return FALSE_POSITIVE;
+        return Optional.empty();
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String tool;
         String type;
         String category;
@@ -85,7 +86,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             priority = Severity.WARNING_LOW;
         }
         else {
-            return FALSE_POSITIVE; /* Should never happen! */
+            return Optional.empty(); /* Should never happen! */
         }
 
         if ("E".equalsIgnoreCase(type)) {
@@ -98,13 +99,13 @@ public class CadenceIncisiveParser extends RegexpLineParser {
 
         // Filename should never be null here, unless someone updates from the code above fail
         if (fileName == null) {
-            return FALSE_POSITIVE;
+            return Optional.empty();
         }
         if (fileName.startsWith(SLASH)) {
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                          .setMessage(message).setSeverity(priority).build();
+                          .setMessage(message).setSeverity(priority).buildOptional();
         }
         return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
-                      .setMessage(message).setSeverity(priority).build();
+                      .setMessage(message).setSeverity(priority).buildOptional();
     }
 }

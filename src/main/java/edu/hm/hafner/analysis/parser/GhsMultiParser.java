@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,14 +29,14 @@ public class GhsMultiParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(3));
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(4))
                 .setMessage(matcher.group(5))
                 .setSeverity(mapPriority(type))
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriority(final String type) {

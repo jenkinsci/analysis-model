@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
@@ -28,7 +29,7 @@ public class RuboCopParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(6);
         String category = guessCategoryIfEmpty(matcher.group(5), message);
 
@@ -44,7 +45,7 @@ public class RuboCopParser extends RegexpLineParser {
                 .setMessage(message)
                 .setSeverity(priority)
                 .setColumnStart(matcher.group(3))
-                .build();
+                .buildOptional();
     }
 }
 

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -29,7 +30,7 @@ public class PerlCriticParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String filename;
         if (matcher.group(1) == null) {
             filename = "-";
@@ -44,7 +45,7 @@ public class PerlCriticParser extends RegexpLineParser {
                 .setCategory(matcher.group(5))
                 .setMessage(matcher.group(2))
                 .setSeverity(checkPriority(parseInt(matcher.group(6))))
-                .build();
+                .buildOptional();
     }
 
     /**

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,9 +15,6 @@ import java.util.regex.Pattern;
  */
 public abstract class RegexpParser extends IssueParser {
     private static final long serialVersionUID = -82635675595933170L;
-
-    /** Used to define a false positive warnings that should be excluded after the regular expression scan. */
-    protected static final Issue FALSE_POSITIVE = new IssueBuilder().build();
 
     /** Pattern identifying an ant task debug output prefix. */
     protected static final String ANT_TASK = "^(?:.*\\[.*\\])?\\s*";
@@ -64,10 +62,11 @@ public abstract class RegexpParser extends IssueParser {
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
-            Issue warning = createIssue(matcher, configureIssueBuilder(new IssueBuilder()));
-            if (warning != FALSE_POSITIVE) {
-                report.add(warning);
+            Optional<Issue> warning = createIssue(matcher, new IssueBuilder());
+            if (warning.isPresent()) {
+                report.add(warning.get());
             }
+
             if (Thread.interrupted()) {
                 throw new ParsingCanceledException();
             }
@@ -75,21 +74,8 @@ public abstract class RegexpParser extends IssueParser {
     }
 
     /**
-     * Optionally configures the issue builder instance.
-     *
-     * @param builder
-     *         the build to configure
-     *
-     * @return the builder
-     */
-    protected IssueBuilder configureIssueBuilder(final IssueBuilder builder) {
-        return builder;
-    }
-
-    /**
      * Creates a new issue for the specified pattern. This method is called for each matching line in the specified
-     * file. If a match is a false positive, then you can return the constant {@link #FALSE_POSITIVE} to ignore this
-     * warning.
+     * file. If a match is a false positive, then return {@link Optional#empty()} to ignore this warning.
      *
      * @param matcher
      *         the regular expression matcher
@@ -100,5 +86,5 @@ public abstract class RegexpParser extends IssueParser {
      * @throws ParsingException
      *         Signals that during parsing a non recoverable error has been occurred
      */
-    protected abstract Issue createIssue(Matcher matcher, IssueBuilder builder) throws ParsingException;
+    protected abstract Optional<Issue> createIssue(Matcher matcher, IssueBuilder builder) throws ParsingException;
 }

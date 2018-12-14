@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,10 +29,10 @@ public class ClangParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(5);
         if (IGNORE_FORMAT.matcher(message).matches()) {
-            return FALSE_POSITIVE;
+            return Optional.empty();
         }
 
         return builder.setFileName(matcher.group(1))
@@ -39,7 +40,8 @@ public class ClangParser extends RegexpLineParser {
                 .setColumnStart(matcher.group(3))
                 .setCategory(matcher.group(6))
                 .setMessage(message)
-                .setSeverity(mapPriority(matcher.group(4))).build();
+                .setSeverity(mapPriority(matcher.group(4)))
+                .buildOptional();
     }
 
     private Severity mapPriority(final String type) {

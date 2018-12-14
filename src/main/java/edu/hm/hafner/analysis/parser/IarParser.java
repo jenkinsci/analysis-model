@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.FastRegexpLineParser;
@@ -33,13 +34,13 @@ public class IarParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setSeverity(mapPriority(matcher))
                 .setMessage(normalizeWhitespaceInMessage(matcher.group(5)))
                 .setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(4))
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriority(final Matcher matcher) {

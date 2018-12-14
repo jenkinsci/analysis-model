@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +32,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         Severity priority;
 
         String message;
@@ -63,7 +64,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
                 }
                 message = matcher.group(5);
                 if (StringUtils.endsWith(message, ":")) {
-                    return FALSE_POSITIVE;
+                    return Optional.empty();
                 }
             }
         }
@@ -73,7 +74,7 @@ public class Gcc4LinkerParser extends RegexpLineParser {
                 .setCategory(WARNING_CATEGORY)
                 .setMessage(message)
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 }
 

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -37,28 +38,28 @@ public class AntJavacParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         builder.setSeverity(mapSeverity(matcher.group(3)));
         if (StringUtils.isNotBlank(matcher.group(8))) {
             return builder.setFileName(matcher.group(8))
                     .setLineStart(0)
                     .setCategory(StringUtils.EMPTY)
                     .setMessage(matcher.group(9))
-                    .build();
+                    .buildOptional();
         }
         else if (StringUtils.isBlank(matcher.group(6))) {
             return builder.setFileName(matcher.group(1))
                     .setLineStart(matcher.group(2))
                     .setCategory(guessCategoryIfEmpty(matcher.group(4), matcher.group(5)))
                     .setMessage(matcher.group(5))
-                    .build();
+                    .buildOptional();
         }
         else {
             return builder.setFileName(matcher.group(7))
                     .setLineStart(0)
                     .setCategory("Path")
                     .setMessage(matcher.group(6))
-                    .build();
+                    .buildOptional();
         }
     }
 

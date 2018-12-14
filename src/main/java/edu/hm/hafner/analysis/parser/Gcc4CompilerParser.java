@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +34,7 @@ public class Gcc4CompilerParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(5);
         Severity priority;
 
@@ -58,7 +59,7 @@ public class Gcc4CompilerParser extends FastRegexpLineParser {
                 .setCategory(category.toString())
                 .setMessage(message)
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 }
 

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,7 +49,7 @@ public class XlcCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String line = matcher.group(0);
 
         Matcher lineMatcher = PATTERN_WITH_LINE.matcher(line);
@@ -58,13 +59,13 @@ public class XlcCompilerParser extends RegexpLineParser {
                     .setCategory(lineMatcher.group(3).trim())
                     .setMessage(lineMatcher.group(5))
                     .setSeverity(toPriority(lineMatcher.group(4)))
-                    .build();
+                    .buildOptional();
         }
 
         return createIssueWithoutLine(builder, line);
     }
 
-    private Issue createIssueWithoutLine(final IssueBuilder builder, final String line) {
+    private Optional<Issue> createIssueWithoutLine(final IssueBuilder builder, final String line) {
         Matcher matcher = PATTERN_WITHOUT_LINE.matcher(line);
         if (matcher.find()) {
             return builder.setFileName("")
@@ -72,9 +73,9 @@ public class XlcCompilerParser extends RegexpLineParser {
                     .setCategory(matcher.group(1).trim())
                     .setMessage(matcher.group(4))
                     .setSeverity(toPriority(matcher.group(2)))
-                    .build();
+                    .buildOptional();
         }
-        return FALSE_POSITIVE;
+        return Optional.empty();
     }
 }
 

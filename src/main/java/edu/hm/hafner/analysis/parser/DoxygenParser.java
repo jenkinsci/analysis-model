@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -78,7 +79,7 @@ public class DoxygenParser extends RegexpDocumentParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message;
         String fileName = "";
         int lineNumber = 0;
@@ -111,7 +112,7 @@ public class DoxygenParser extends RegexpDocumentParser {
         }
 
         return builder.setFileName(fileName).setLineStart(lineNumber).setMessage(message).setSeverity(priority)
-                             .build();
+                             .buildOptional();
     }
 
     /**

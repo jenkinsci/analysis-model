@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,19 +33,19 @@ public class GccParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
             return builder.setFileName(matcher.group(8))
                     .setLineStart(0)
                     .setCategory(LINKER_ERROR)
                     .setMessage(matcher.group(7))
                     .setSeverity(Severity.WARNING_HIGH)
-                    .build();
+                    .buildOptional();
         }
 
         String fileName = matcher.group(1);
         if (StringUtils.contains(fileName, "cleartool")) {
-            return FALSE_POSITIVE;
+            return Optional.empty();
         }
 
         Severity priority;
@@ -59,14 +60,14 @@ public class GccParser extends RegexpLineParser {
         }
         else if (StringUtils.isNotBlank(matcher.group(4))) {
             if (matcher.group(4).contains("instantiated from here")) {
-                return FALSE_POSITIVE;
+                return Optional.empty();
             }
             return builder.setFileName(fileName)
                     .setLineStart(matcher.group(2))
                     .setCategory(GCC_ERROR)
                     .setMessage(StringEscapeUtils.escapeXml10(matcher.group(4)))
                     .setSeverity(Severity.WARNING_HIGH)
-                    .build();
+                    .buildOptional();
         }
         else {
             return builder.setFileName(fileName)
@@ -74,14 +75,14 @@ public class GccParser extends RegexpLineParser {
                     .setCategory(GCC_ERROR)
                     .setMessage(StringEscapeUtils.escapeXml10(matcher.group(5)))
                     .setSeverity(Severity.WARNING_HIGH)
-                    .build();
+                    .buildOptional();
         }
         return builder.setFileName(fileName)
                 .setLineStart(matcher.group(2))
                 .setCategory("GCC " + matcher.group(3))
                 .setMessage(StringEscapeUtils.escapeXml10(matcher.group(6)))
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 
 }

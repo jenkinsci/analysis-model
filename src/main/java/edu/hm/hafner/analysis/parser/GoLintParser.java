@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import static edu.hm.hafner.analysis.Categories.guessCategory;
@@ -26,7 +27,7 @@ public class GoLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategory(message);
 
@@ -35,7 +36,7 @@ public class GoLintParser extends RegexpLineParser {
                 .setColumnStart(matcher.group(3))
                 .setCategory(category)
                 .setMessage(message)
-                .build();
+                .buildOptional();
     }
 }
 

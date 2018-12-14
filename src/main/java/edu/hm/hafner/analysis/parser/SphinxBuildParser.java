@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
@@ -26,7 +27,7 @@ public class SphinxBuildParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
 
@@ -35,7 +36,7 @@ public class SphinxBuildParser extends RegexpLineParser {
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(mapPriority(category))
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriority(final String priority) {

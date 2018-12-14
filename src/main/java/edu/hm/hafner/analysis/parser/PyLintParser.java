@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
@@ -31,7 +32,7 @@ public class PyLintParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
 
@@ -40,7 +41,7 @@ public class PyLintParser extends FastRegexpLineParser {
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(mapPriorty(category))
-                .build();
+                .buildOptional();
     }
 
     private Severity mapPriorty(final String category) {

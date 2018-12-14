@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.io.FilenameUtils;
@@ -33,7 +34,7 @@ public class MsBuildParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         builder.setFileName(determineFileName(matcher));
 
         if (StringUtils.isNotBlank(matcher.group(2))) {
@@ -41,14 +42,14 @@ public class MsBuildParser extends RegexpLineParser {
                     .setCategory(matcher.group(1))
                     .setMessage(matcher.group(2))
                     .setSeverity(Severity.WARNING_NORMAL)
-                    .build();
+                    .buildOptional();
         }
         if (StringUtils.isNotBlank(matcher.group(13))) {
             return builder.setLineStart(0)
                     .setCategory(matcher.group(14))
                     .setMessage(matcher.group(15))
                     .setSeverity(Severity.WARNING_HIGH)
-                    .build();
+                    .buildOptional();
         }
         if (StringUtils.isNotEmpty(matcher.group(10))) {
             return builder.setLineStart(matcher.group(5))
@@ -57,19 +58,19 @@ public class MsBuildParser extends RegexpLineParser {
                     .setType(matcher.group(10))
                     .setMessage(matcher.group(11))
                     .setSeverity(determinePriority(matcher))
-                    .build();
+                    .buildOptional();
         }
 
         String category = matcher.group(9);
         if ("Expected".matches(category)) {
-            return FALSE_POSITIVE;
+            return Optional.empty();
         }
         return builder.setLineStart(matcher.group(5))
                 .setColumnStart(matcher.group(6))
                 .setCategory(category)
                 .setMessage(matcher.group(11))
                 .setSeverity(determinePriority(matcher))
-                .build();
+                .buildOptional();
 
     }
 

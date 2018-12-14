@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.Locale;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,7 +75,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
 
     @SuppressWarnings("all")
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         StringBuilder messageBuilder = new StringBuilder();
         String filePath = "Nil";
         int lineNumber = 0;
@@ -171,7 +172,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(priority)
-                .build();
+                .buildOptional();
     }
 
     /**

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -26,7 +27,7 @@ public class ArmccCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(3);
         int errorCode = parseInt(matcher.group(4));
         Severity priority;
@@ -40,7 +41,7 @@ public class ArmccCompilerParser extends RegexpLineParser {
         String message = matcher.group(5);
 
         return builder.setFileName(matcher.group(1)).setLineStart(matcher.group(2)).setMessage(errorCode + " - " + message)
-                      .setSeverity(priority).build();
+                      .setSeverity(priority).buildOptional();
     }
 }
 
