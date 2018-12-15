@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
 
@@ -582,7 +584,8 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Logs the specified information message. Use this method to log any useful information when composing this report.
+     * Logs the specified information message. Use this method to log any useful information when composing this
+     * report.
      *
      * @param format
      *         A <a href="../util/Formatter.html#syntax">format string</a>
@@ -613,6 +616,26 @@ public class Report implements Iterable<Issue>, Serializable {
     @FormatMethod
     public void logError(final String format, final Object... args) {
         errorMessages.add(String.format(format, args));
+    }
+
+    /**
+     * Logs the specified exception. Use this method to log any exception when composing this report.
+     *
+     * @param exception
+     *         the exception to log
+     * @param format
+     *         A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args
+     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
+     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
+     *         zero.
+     *
+     * @see #getInfoMessages()
+     */
+    @FormatMethod
+    public void logException(final Exception exception, final String format, final Object... args) {
+        logError(format, args);
+        Collections.addAll(errorMessages, ExceptionUtils.getRootCauseStackTrace(exception));
     }
 
     /**

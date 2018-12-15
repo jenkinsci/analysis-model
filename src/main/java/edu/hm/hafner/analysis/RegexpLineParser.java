@@ -35,17 +35,14 @@ public abstract class RegexpLineParser extends RegexpParser {
     public Report parse(final ReaderFactory reader) throws ParsingException {
         Report report = new Report();
         try (Stream<String> lines = reader.readStream()) {
-            currentLine = 1;
             Iterator<String> iterator = lines.iterator();
-            while (iterator.hasNext()) {
+            for (currentLine = 1; iterator.hasNext(); currentLine++) {
                 String line = iterator.next();
                 Matcher makeLineMatcher = MAKE_PATH.matcher(line);
                 if (makeLineMatcher.matches()) {
                     currentDirectory = makeLineMatcher.group(1);
                 }
                 findIssues(line, report);
-                
-                currentLine++;
             }
         }
 
