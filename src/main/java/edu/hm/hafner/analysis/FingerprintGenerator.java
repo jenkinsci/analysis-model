@@ -32,29 +32,35 @@ public class FingerprintGenerator {
         int sum = 0;
         for (Issue issue : report) {
             if (!issue.hasFingerprint()) {
-                try {
-                    String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
-                    issue.setFingerprint(digest);
-                    sum++;
-                }
-                catch (FileNotFoundException exception) {
-                    log.logError("- '%s' file not found", issue.getFileName());
-                }
-                catch (IOException | InvalidPathException | UncheckedIOException exception) {
-                    issue.setFingerprint(createDefaultFingerprint(issue));
-                    if (exception.getCause() instanceof MalformedInputException) {
-                        log.logError("- '%s', provided encoding '%s' seems to be wrong",
-                                issue.getFileName(), charset);
-                    }
-                    else {
-                        log.logError("- '%s', IO exception has been thrown: %s",
-                                issue.getFileName(), exception);
-                    }
-                }
+                sum += computeFingerprint(issue, algorithm, charset, log);
             }
         }
         report.logInfo("-> created fingerprints for %d issues", sum);
         log.logSummary();
+    }
+
+    private int computeFingerprint(final Issue issue, final FullTextFingerprint algorithm, final Charset charset,
+            final FilteredLog log) {
+        try {
+            if (issue.hasFileName()) {
+                String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
+                issue.setFingerprint(digest);
+                return 1;
+            }
+        }
+        catch (FileNotFoundException exception) {
+            log.logError("- '%s' file not found", issue.getFileName());
+        }
+        catch (IOException | InvalidPathException | UncheckedIOException exception) {
+            if (exception.getCause() instanceof MalformedInputException) {
+                log.logError("- '%s', provided encoding '%s' seems to be wrong", issue.getFileName(), charset);
+            }
+            else {
+                log.logError("- '%s', IO exception has been thrown: %s", issue.getFileName(), exception);
+            }
+        }
+        issue.setFingerprint(createDefaultFingerprint(issue));
+        return 0;
     }
 
     @VisibleForTesting

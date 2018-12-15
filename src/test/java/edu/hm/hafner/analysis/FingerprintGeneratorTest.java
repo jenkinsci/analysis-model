@@ -62,6 +62,19 @@ class FingerprintGeneratorTest extends ResourceTest {
     }
 
     @Test
+    void shouldSetDefaultFingerprintIfNoFileIsGiven() {
+        FingerprintGenerator generator = new FingerprintGenerator();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().build());
+
+        generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
+
+        assertThatIssueHasDefaultFingerprint(report);
+        assertThat(report.getErrorMessages()).isEmpty();
+    }
+
+    @Test
     void shouldAssignIdenticalFingerprint() {
         Report report = createTwoIssues();
         FingerprintGenerator generator = new FingerprintGenerator();
