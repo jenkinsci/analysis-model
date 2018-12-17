@@ -14,5 +14,15 @@ public class ParsingCanceledException extends RuntimeException {
     public ParsingCanceledException() {
         super("Canceling parsing since build has been aborted.");
     }
+
+    /**
+     * Creates a new instance of {@link ParsingCanceledException}.
+     *
+     * @param cause
+     *         the cause (which is saved for later retrieval by the {@link #getCause()} method).
+     */
+    public ParsingCanceledException(final Throwable cause) {
+        super("Canceling parsing since build has been aborted.", cause);
+    }
 }
 

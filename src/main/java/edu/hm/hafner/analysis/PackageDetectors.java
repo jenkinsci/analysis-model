@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.errorprone.annotations.MustBeClosed;
+
 import edu.hm.hafner.util.VisibleForTesting;
 
 /**
@@ -51,6 +53,7 @@ class PackageDetectors {
      */
     @VisibleForTesting
     static class FileSystem {
+        @MustBeClosed
         InputStream openFile(final String fileName) throws IOException, InvalidPathException {
             return Files.newInputStream(Paths.get(fileName));
         }

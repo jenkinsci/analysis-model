@@ -47,7 +47,7 @@ class ModuleDetectorTest extends ResourceTest {
     void shouldIdentifyModuleByReadingOsgiBundle() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + ModuleDetector.OSGI_BUNDLE});
-            when(stub.create(anyString())).thenReturn(read(MANIFEST));
+            when(stub.open(anyString())).thenReturn(read(MANIFEST));
         });
         
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
@@ -64,7 +64,7 @@ class ModuleDetectorTest extends ResourceTest {
     void shouldIdentifyModuleByReadingOsgiBundleWithVendorInL10nProperties() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + ModuleDetector.OSGI_BUNDLE});
-            when(stub.create(anyString())).thenReturn(read(MANIFEST), read("l10n.properties"));
+            when(stub.open(anyString())).thenReturn(read(MANIFEST), read("l10n.properties"));
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
@@ -83,7 +83,7 @@ class ModuleDetectorTest extends ResourceTest {
         FileSystem fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(
                     new String[]{PATH_PREFIX_OSGI + ModuleDetector.OSGI_BUNDLE});
-            when(stub.create(anyString())).thenReturn(read(MANIFEST_NAME), read("l10n.properties"));
+            when(stub.open(anyString())).thenReturn(read(MANIFEST_NAME), read("l10n.properties"));
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
@@ -102,7 +102,7 @@ class ModuleDetectorTest extends ResourceTest {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(
                     new String[]{PATH_PREFIX_MAVEN + ModuleDetector.MAVEN_POM});
-            when(stub.create(anyString())).thenAnswer(fileName -> read(ModuleDetector.MAVEN_POM));
+            when(stub.open(anyString())).thenAnswer(fileName -> read(ModuleDetector.MAVEN_POM));
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
@@ -118,7 +118,7 @@ class ModuleDetectorTest extends ResourceTest {
     void shouldIdentifyModuleByReadingMavenPomWithoutName() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_MAVEN + ModuleDetector.MAVEN_POM});
-            when(stub.create(anyString())).thenAnswer(filename -> read("no-name-pom.xml"));
+            when(stub.open(anyString())).thenAnswer(filename -> read("no-name-pom.xml"));
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
@@ -136,7 +136,7 @@ class ModuleDetectorTest extends ResourceTest {
     void shouldIdentifyModuleByReadingAntProjectFile() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_ANT + ModuleDetector.ANT_PROJECT});
-            when(stub.create(anyString())).thenAnswer(filename -> read(ModuleDetector.ANT_PROJECT));
+            when(stub.open(anyString())).thenAnswer(filename -> read(ModuleDetector.ANT_PROJECT));
         });
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
@@ -152,7 +152,7 @@ class ModuleDetectorTest extends ResourceTest {
     void shouldIgnoreExceptionsDuringParsing() {
         FileSystem fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[NO_RESULT]);
-            when(stub.create(anyString())).thenThrow(new FileNotFoundException("File not found"));
+            when(stub.open(anyString())).thenThrow(new FileNotFoundException("File not found"));
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
@@ -169,8 +169,8 @@ class ModuleDetectorTest extends ResourceTest {
             String ant = PATH_PREFIX_ANT + ModuleDetector.ANT_PROJECT;
             String maven = PATH_PREFIX_MAVEN + ModuleDetector.MAVEN_POM;
             when(stub.find(any(), anyString())).thenReturn(new String[]{ant, maven});
-            when(stub.create(PREFIX + ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
-            when(stub.create(PREFIX + maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
+            when(stub.open(PREFIX + ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
+            when(stub.open(PREFIX + maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
@@ -195,8 +195,8 @@ class ModuleDetectorTest extends ResourceTest {
     private void verifyOrder(final String prefix, final String ant, final String maven, final String[] foundFiles) {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);
-            when(stub.create(ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
-            when(stub.create(maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
+            when(stub.open(ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
+            when(stub.open(maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
@@ -223,11 +223,11 @@ class ModuleDetectorTest extends ResourceTest {
             final String... foundFiles) {
         FileSystem fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);
-            when(stub.create(ant)).thenAnswer(filename -> read(ModuleDetector.ANT_PROJECT));
-            when(stub.create(maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
-            when(stub.create(osgi)).thenAnswer(filename -> read(MANIFEST));
-            when(stub.create(prefix + "/" + ModuleDetector.PLUGIN_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
-            when(stub.create(prefix + "/" + ModuleDetector.BUNDLE_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
+            when(stub.open(ant)).thenAnswer(filename -> read(ModuleDetector.ANT_PROJECT));
+            when(stub.open(maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
+            when(stub.open(osgi)).thenAnswer(filename -> read(MANIFEST));
+            when(stub.open(prefix + "/" + ModuleDetector.PLUGIN_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
+            when(stub.open(prefix + "/" + ModuleDetector.BUNDLE_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
         });
 
         ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
@@ -250,7 +250,7 @@ class ModuleDetectorTest extends ResourceTest {
             stub.apply(fileSystem);
             return fileSystem;
         }
-        catch (FileNotFoundException exception) {
+        catch (IOException exception) {
             throw new AssertionError(exception);
         }
     }
@@ -260,6 +260,6 @@ class ModuleDetectorTest extends ResourceTest {
      */
     @FunctionalInterface
     private interface Stub {
-        void apply(FileSystem f) throws FileNotFoundException;
+        void apply(FileSystem f) throws IOException;
     }
 }

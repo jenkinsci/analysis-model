@@ -1,8 +1,8 @@
 package edu.hm.hafner.analysis;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +15,8 @@ import java.util.jar.Manifest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
+
+import com.google.errorprone.annotations.MustBeClosed;
 
 import edu.hm.hafner.util.PathUtil;
 
@@ -162,7 +164,7 @@ public class ModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseBuildXml(final String buildXml) {
-        try (InputStream file = factory.create(buildXml)) {
+        try (InputStream file = factory.open(buildXml)) {
             SecureDigester digester = new SecureDigester(ModuleDetector.class);
 
             digester.push(new StringBuilder());
@@ -173,7 +175,7 @@ public class ModuleDetector {
             StringBuilder result = digester.parse(file);
             return result.toString();
         }
-        catch (IOException | SAXException ignored) {
+        catch (IOException | SAXException | InvalidPathException ignored) {
             // ignore
         }
         return StringUtils.EMPTY;
@@ -195,7 +197,7 @@ public class ModuleDetector {
 
     @SuppressWarnings("OverlyBroadCatchBlock")
     private String parsePomAttribute(final String pom, final String tagName) {
-        try (InputStream file = factory.create(pom)) {
+        try (InputStream file = factory.open(pom)) {
             SecureDigester digester = new SecureDigester(ModuleDetector.class);
             digester.push(new StringBuilder());
             digester.addCallMethod("project/" + tagName, "append", 0);
@@ -203,7 +205,7 @@ public class ModuleDetector {
             StringBuilder result = digester.parse(file);
             return result.toString();
         }
-        catch (IOException | SAXException ignored) {
+        catch (IOException | SAXException | InvalidPathException ignored) {
             // ignore
         }
         return StringUtils.EMPTY;
@@ -218,7 +220,7 @@ public class ModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseManifest(final String manifestFile) {
-        try (InputStream file = factory.create(manifestFile)) {
+        try (InputStream file = factory.open(manifestFile)) {
             Manifest manifest = new Manifest(file);
             Attributes attributes = manifest.getMainAttributes();
             Properties properties = readProperties(StringUtils.substringBefore(manifestFile, OSGI_BUNDLE));
@@ -228,7 +230,7 @@ public class ModuleDetector {
             }
             return getSymbolicName(attributes, properties);
         }
-        catch (IOException ignored) {
+        catch (IOException | InvalidPathException ignored) {
             // ignore
         }
         return StringUtils.EMPTY;
@@ -253,10 +255,10 @@ public class ModuleDetector {
 
     @SuppressWarnings("OverlyBroadCatchBlock")
     private void readProperties(final String path, final Properties properties, final String fileName) {
-        try (InputStream file = factory.create(path + SLASH + fileName)) {
+        try (InputStream file = factory.open(path + SLASH + fileName)) {
             properties.load(file);
         }
-        catch (IOException ignored) {
+        catch (IOException | InvalidPathException ignored) {
             // ignore if properties are not present or not readable
         }
     }
@@ -298,10 +300,13 @@ public class ModuleDetector {
          *         the file name
          *
          * @return the input stream
-         * @throws FileNotFoundException
+         * @throws IOException
          *         if the stream could not be opened
+         * @throws InvalidPathException
+         *         if the file name is invalid
          */
-        InputStream create(String fileName) throws FileNotFoundException;
+        @MustBeClosed
+        InputStream open(String fileName) throws IOException, InvalidPathException;
     }
 }
 
