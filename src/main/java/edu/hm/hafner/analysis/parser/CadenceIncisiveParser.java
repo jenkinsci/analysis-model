@@ -8,6 +8,8 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
@@ -73,7 +75,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             tool = matcher.group(22);
             type = matcher.group(23);
             category = matcher.group(24);
-            fileName = "/NotFileRelated";
+            fileName = StringUtils.EMPTY ;
             message = matcher.group(25);
             priority = Severity.WARNING_LOW;
         }

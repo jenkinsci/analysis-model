@@ -27,7 +27,7 @@ class CadenceIncisiveParserTest extends AbstractParserTest {
         softly.assertThat(report.get(0))
                 .hasLineStart(0)
                 .hasMessage("Resolved design unit 'dummyram' at 'u_dummyrams' to 'dummysoc.dummyram:v' through a global search of all libraries.")
-                .hasFileName("/NotFileRelated")
+                .hasFileName("-")
                 .hasCategory("Warning (ncelab): CUSRCH")
                 .hasSeverity(Severity.WARNING_LOW);
 
