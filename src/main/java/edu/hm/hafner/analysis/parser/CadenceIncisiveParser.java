@@ -29,19 +29,12 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             + ")|(" + "(^g?make\\[.*\\]: Entering directory)\\s*(['`]((.*))\\')" // make: entering directory
             + ")|(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+): (.*)$" //Single generic warning
             + ")";
-    private String directory = "";
 
     /**
      * Creates a new instance of {@link CadenceIncisiveParser}.
      */
     public CadenceIncisiveParser() {
         super(CADENCE_MESSAGE_PATTERN);
-    }
-
-    private Optional<Issue> handleDirectory(final Matcher matcher, final int offset) {
-        directory = matcher.group(offset) + SLASH; // 17
-
-        return Optional.empty();
     }
 
     @Override
@@ -65,8 +58,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             priority = Severity.WARNING_NORMAL;
         }
         else if (matcher.group(16) != null) {
-            /* Set current directory */
-            return handleDirectory(matcher, 20);
+            return Optional.empty();
         }
         else if (matcher.group(8) != null) {
             tool = matcher.group(9);
@@ -105,7 +97,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
                           .setMessage(message).setSeverity(priority).buildOptional();
         }
-        return builder.setFileName(directory + fileName).setLineStart(lineNumber).setCategory(category)
+        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
                       .setMessage(message).setSeverity(priority).buildOptional();
     }
 }
