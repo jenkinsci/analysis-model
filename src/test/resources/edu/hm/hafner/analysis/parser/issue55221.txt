@@ -12,3 +12,37 @@ StarUlPhyRxCommonCamelot.h:179:32: warning: ‘ParamNumeric<unsigned int> StarLi
 ParamNumeric<unsigned> UseDSPBuilderFFT;
 ^~~~~~~~~~~~~~~~
 
+make[1]: Leaving directory '/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/BitTrue'
+make[1]: Entering directory '/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue'
+<snip>
+g++ -c -Wall -m64 -DSYSTEMC -Wno-unused-variable -Wno-unused-function -I../../../Kernel -I../../../StarLibs/StdStars -I../../../StarLibs/LinkSim/ChannelModels/TML -I../../../StarLibs/LinkSim/LTE -I../../../StarLibs/Camelot/BitTrue -I../../../StarLibs/Camelot/ScBitTrue/Altera80 -I../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT -I/net/simdata/Hudson_OpenSourceLibs/SystemC/rel-2.3.3/src -I/usr/include/ -fpic -O3 vfft_fft_core_VFFT1_CModel.cpp -o _gnuRelease/vfft_fft_core_VFFT1_CModel.o
+In file included from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/csl.h:6:0,
+                 from vfft_fft_core_VFFT1_CModel.h:2,
+                 from vfft_fft_core_VFFT1_CModel.cpp:2:
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h: In instantiation of ‘bool csl::StimulusFile::Get(int64_t&) [with long unsigned int bit_width = 1; int64_t = long int]’:
+vfft_fft_core_VFFT1_CModel.h:27:30:   required from here
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h:168:21: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+             GetUInt((uint32_t&)result);
+                     ^~~~~~~~~~~~~~~~~
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h: In instantiation of ‘bool csl::StimulusFile::Get(int64_t&) [with long unsigned int bit_width = 8; int64_t = long int]’:
+vfft_fft_core_VFFT1_CModel.h:28:30:   required from here
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h:168:21: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h: In instantiation of ‘bool csl::StimulusFile::Get(int64_t&) [with long unsigned int bit_width = 4; int64_t = long int]’:
+vfft_fft_core_VFFT1_CModel.h:29:33:   required from here
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h:168:21: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h: In instantiation of ‘bool csl::StimulusFile::Get(int64_t&) [with long unsigned int bit_width = 16; int64_t = long int]’:
+vfft_fft_core_VFFT1_CModel.h:30:36:   required from here
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h:168:21: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h: In instantiation of ‘bool csl::StimulusFile::Get(int64_t&) [with long unsigned int bit_width = 26; int64_t = long int]’:
+vfft_fft_core_VFFT1_CModel.h:56:37:   required from here
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h:168:21: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+In file included from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/steps.h:4:0,
+                 from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/csl.h:4,
+                 from vfft_fft_core_VFFT1_CModel.h:2,
+                 from vfft_fft_core_VFFT1_CModel.cpp:2:
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h: In instantiation of ‘static typename std::enable_if<(0 == sizeof... (PS)), T&&>::type csl::PostExec::Compound<P, PS>::Execute(T&&) [with T = long int; P = csl::PostExec::Complement; PS = {}; typename std::enable_if<(0 == sizeof... (PS)), T&&>::type = long int&&]’:
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h:99:34:   required from ‘static typename std::enable_if<(0 != sizeof... (PS)), T&&>::type csl::PostExec::Compound<P, PS>::Execute(T&&) [with T = long int; P = csl::PostExec::Mask<1, false>; PS = {csl::PostExec::Complement}; typename std::enable_if<(0 != sizeof... (PS)), T&&>::type = long int&&]’
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/steps.h:696:1:   required from ‘static void csl::StepLogicalNXOr<bitWidth, maskOutput>::Execute(T_IQ&, const T_IA&, const T_IB&) [with T_IQ = long int; T_IA = long int; T_IB = long int; long unsigned int bitWidth = 1; bool maskOutput = false]’
+vfft_fft_core_VFFT1_CModel.cpp:502:63:   required from here
+../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h:105:39: warning: returning reference to temporary [-Wreturn-local-addr]
+   return P::Execute(std::forward<T>(v));

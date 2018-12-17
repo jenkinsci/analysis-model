@@ -437,7 +437,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     void issue55221() {
         Report warnings = parse("issue55221.txt");
 
-        assertThat(warnings).hasSize(2);
+        assertThat(warnings).hasSize(4);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -454,6 +454,21 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasMessage("‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]")
                     .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
                     .hasCategory(WARNING_CATEGORY + ":reorder")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(warnings.get(2))
+                    .hasLineStart(168)
+                    .hasColumnStart(21)
+                    .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]")
+                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
+                    .hasCategory(WARNING_CATEGORY + ":strict-aliasing")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(warnings.get(3))
+                    .hasLineStart(105)
+                    .hasColumnStart(39)
+                    .hasMessage("returning reference to temporary [-Wreturn-local-addr]")
+                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h")
+                    .hasCategory(WARNING_CATEGORY + ":return-local-addr")
                     .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
