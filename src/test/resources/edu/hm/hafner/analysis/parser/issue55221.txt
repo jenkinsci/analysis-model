@@ -1,0 +1,14 @@
+make[1]: Leaving directory '/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/BitTrue'
+make[1]: Entering directory '/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue'
+
+g++ -c -Wall -m64 -DSYSTEMC -Wno-unused-variable -Wno-unused-function -I../../../Kernel -I../../../StarLibs/StdStars -I../../../StarLibs/LinkSim/ChannelModels/TML -I../../../StarLibs/LinkSim/LTE -I../../../StarLibs/Camelot/BitTrue -I../../../StarLibs/Camelot/ScBitTrue/Altera80 -I../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT -I/net/simdata/Hudson_OpenSourceLibs/SystemC/rel-2.3.3/src -I/usr/include/ -fpic -O3 Alterafft.cpp -o _gnuRelease/Alterafft.o
+g++ -c -Wall -m64 -DSYSTEMC -Wno-unused-variable -Wno-unused-function -I../../../Kernel -I../../../StarLibs/StdStars -I../../../StarLibs/LinkSim/ChannelModels/TML -I../../../StarLibs/LinkSim/LTE -I../../../StarLibs/Camelot/BitTrue -I../../../StarLibs/Camelot/ScBitTrue/Altera80 -I../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT -I/net/simdata/Hudson_OpenSourceLibs/SystemC/rel-2.3.3/src -I/usr/include/ -fpic -O3 StarUlPhyRxCommonCamelot.cpp -o _gnuRelease/StarUlPhyRxCommonCamelot.o
+In file included from StarUlPhyRxCommonCamelot.cpp:20:0:
+StarUlPhyRxCommonCamelot.h: In constructor ‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::StarUlPhyRxCommonCamelot(const string&)’:
+StarUlPhyRxCommonCamelot.h:204:26: warning: ‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]
+ParamNumeric<unsigned> SectorDLCAL;
+^~~~~~~~~~~
+StarUlPhyRxCommonCamelot.h:179:32: warning: ‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]
+ParamNumeric<unsigned> UseDSPBuilderFFT;
+^~~~~~~~~~~~~~~~
+

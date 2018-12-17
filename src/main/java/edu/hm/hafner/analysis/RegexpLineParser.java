@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 public abstract class RegexpLineParser extends RegexpParser {
     private static final long serialVersionUID = 5932670979793111138L;
 
-    private static final Pattern MAKE_PATH = Pattern.compile(".*make(?:\\[\\d+])?: Entering directory `(.*)'");
+    private static final Pattern MAKE_PATH = Pattern.compile(".*make(?:\\[\\d+])?: Entering directory [`'](.*)['`]");
 
     private int currentLine = 0;
     private String currentDirectory = StringUtils.EMPTY;

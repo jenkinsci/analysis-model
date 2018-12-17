@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assumptions.*;
  *
  * @author Frederic Chateau
  * @author Raphael Furch
+ * @author Ullrich Hafner
  */
 class Gcc4CompilerParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
@@ -423,6 +424,36 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasMessage("control reaches end of non-void function [-Wreturn-type]")
                     .hasFileName("gcc4warning.c")
                     .hasCategory(WARNING_CATEGORY + ":return-type")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        });
+    }
+
+    /**
+     * Detect make paths using different types of apostrophe's.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55221">Issue 55221</a>
+     */
+    @Test
+    void issue55221() {
+        Report warnings = parse("issue55221.txt");
+
+        assertThat(warnings).hasSize(2);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(204)
+                    .hasColumnStart(26)
+                    .hasMessage("‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]")
+                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
+                    .hasCategory(WARNING_CATEGORY + ":reorder")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(warnings.get(1))
+                    .hasLineStart(179)
+                    .hasColumnStart(32)
+                    .hasMessage("‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]")
+                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
+                    .hasCategory(WARNING_CATEGORY + ":reorder")
                     .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
