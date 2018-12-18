@@ -10,11 +10,24 @@ import com.google.errorprone.annotations.FormatMethod;
  */
 public class FilteredLog {
     private static final String SKIPPED_MESSAGE = "  ... skipped logging of %d additional errors ...";
-    private static final int MAX_LINES = 5;
+    private static final int DEFAULT_MAX_LINES = 20;
 
     private final Report delegate;
     private final String title;
+    private int maxLines;
     private int lines = 0;
+
+    /**
+     * Creates a new {@link FilteredLog} for a {@link Report}. Number of printed errors: {@link #DEFAULT_MAX_LINES}.
+     *
+     * @param report
+     *         the report to filter the error log
+     * @param title
+     *         the title of the error messages
+     */
+    public FilteredLog(final Report report, final String title) {
+        this(report, title, DEFAULT_MAX_LINES);
+    }
 
     /**
      * Creates a new {@link FilteredLog} for a {@link Report}.
@@ -23,10 +36,13 @@ public class FilteredLog {
      *         the report to filter the error log
      * @param title
      *         the title of the error messages
+     * @param maxLines
+     *         the maximum number of lines to log
      */
-    public FilteredLog(final Report report, final String title) {
+    public FilteredLog(final Report report, final String title, final int maxLines) {
         delegate = report;
         this.title = title;
+        this.maxLines = maxLines;
     }
 
     /**
@@ -60,7 +76,7 @@ public class FilteredLog {
         if (lines == 0) {
             delegate.logError("%s", title);
         }
-        if (lines < MAX_LINES) {
+        if (lines < maxLines) {
             delegate.logError(format, args);
         }
         lines++;
@@ -80,8 +96,8 @@ public class FilteredLog {
      * reported.
      */
     public void logSummary() {
-        if (lines > MAX_LINES) {
-            delegate.logError(SKIPPED_MESSAGE, lines - MAX_LINES);
+        if (lines > maxLines) {
+            delegate.logError(SKIPPED_MESSAGE, lines - maxLines);
         }
     }
 }

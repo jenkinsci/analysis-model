@@ -15,7 +15,7 @@ class FilteredLogTest {
     @Test
     void shouldLogNothing() {
         Report report = new Report();
-        FilteredLog filteredLog = new FilteredLog(report, TITLE);
+        FilteredLog filteredLog = new FilteredLog(report, TITLE, 5);
 
         assertThat(report.getErrorMessages()).isEmpty();
         filteredLog.logSummary();
@@ -25,7 +25,7 @@ class FilteredLogTest {
     @Test
     void shouldLogAllErrors() {
         Report report = new Report();
-        FilteredLog filteredLog = new FilteredLog(report, TITLE);
+        FilteredLog filteredLog = new FilteredLog(report, TITLE, 5);
 
         filteredLog.logError("1");
         filteredLog.logError("2");
@@ -42,7 +42,7 @@ class FilteredLogTest {
     @Test
     void shouldSkipAdditionalErrors() {
         Report report = new Report();
-        FilteredLog filteredLog = new FilteredLog(report, TITLE);
+        FilteredLog filteredLog = new FilteredLog(report, TITLE, 5);
 
         filteredLog.logError("1");
         filteredLog.logError("2");
