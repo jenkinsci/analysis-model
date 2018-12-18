@@ -6,7 +6,7 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>1.0.0-RC23</version>
+  <version>1.0.0-RC24-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
@@ -20,7 +20,7 @@
     <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}.git</developerConnection>
     <url>https://github.com/jenkinsci/${project.artifactId}</url>
-    <tag>analysis-model-1.0.0-RC23</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <licenses>
