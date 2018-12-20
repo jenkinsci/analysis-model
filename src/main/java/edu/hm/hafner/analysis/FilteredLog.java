@@ -1,5 +1,9 @@
 package edu.hm.hafner.analysis;
 
+import java.util.Arrays;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import com.google.errorprone.annotations.FormatMethod;
 
 /**
@@ -47,7 +51,7 @@ public class FilteredLog {
 
     /**
      * Logs the specified information message. Use this method to log any useful information when composing this
-     * report.
+     * log.
      *
      * @param format
      *         A <a href="../util/Formatter.html#syntax">format string</a>
@@ -62,7 +66,7 @@ public class FilteredLog {
     }
 
     /**
-     * Logs the specified error message. Use this method to log any error when composing this report.
+     * Logs the specified error message. Use this method to log any error when composing this log.
      *
      * @param format
      *         A <a href="../util/Formatter.html#syntax">format string</a>
@@ -73,11 +77,39 @@ public class FilteredLog {
      */
     @FormatMethod
     public void logError(final String format, final Object... args) {
+        printTitle();
+
+        if (lines < maxLines) {
+            delegate.logError(format, args);
+        }
+        lines++;
+    }
+
+    private void printTitle() {
         if (lines == 0) {
             delegate.logError("%s", title);
         }
+    }
+
+    /**
+     * Logs the specified exception. Use this method to log any exception when composing this log.
+     *
+     * @param exception
+     *         the exception to log
+     * @param format
+     *         A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args
+     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
+     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
+     *         zero.
+     */
+    @FormatMethod
+    public void logException(final Exception exception, final String format, final Object... args) {
+        printTitle();
+
         if (lines < maxLines) {
             delegate.logError(format, args);
+            Arrays.stream(ExceptionUtils.getRootCauseStackTrace(exception)).forEach(s -> delegate.logError(s));
         }
         lines++;
     }
