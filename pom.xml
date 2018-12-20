@@ -211,7 +211,13 @@
     </dependency>
     <dependency>
       <groupId>com.tngtech.archunit</groupId>
-      <artifactId>archunit</artifactId>
+      <artifactId>archunit-junit5-api</artifactId>
+      <version>${archunit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit-junit5-engine</artifactId>
       <version>${archunit.version}</version>
       <scope>test</scope>
     </dependency>
@@ -299,7 +305,6 @@
               <includes>
                 <include>**/assertj/*</include>
                 <include>**/util/*Test.*</include>
-                <include>**/ArchitectureRulesTest.*</include>
                 <include>**/Abstract*Test.*</include>
               </includes>
             </configuration>
@@ -403,6 +408,13 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.tngtech.archunit</groupId>
+              <artifactId>archunit-junit5-engine</artifactId>
+              <version>${archunit.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

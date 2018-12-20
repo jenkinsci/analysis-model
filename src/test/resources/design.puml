@@ -1,0 +1,21 @@
+@startuml
+
+skinparam componentStyle uml2
+skinparam component {
+  BorderColor #a0a0a0
+  BackgroundColor #f8f8f8
+}
+
+[Parsers] <<..analysis.parser..>>
+[Assertions] <<..assertj>>
+[Model] <<..analysis>>
+
+[Utilities] <<..util>>
+
+[Parsers] --> [Model]
+[Parsers] --> [Utilities]
+[Parsers] --> [Assertions]
+[Model] --> [Utilities]
+[Assertions] --> [Model]
+
+@enduml
