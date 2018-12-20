@@ -54,8 +54,21 @@ class FilteredLogTest {
 
         assertThat(report.getErrorMessages()).containsExactly(TITLE, "1", "2", "3", "4", "5");
         filteredLog.logSummary();
-        assertThat(report.getErrorMessages()).containsExactly(TITLE, "1", "2", "3", "4", "5", 
+        assertThat(report.getErrorMessages()).containsExactly(TITLE, "1", "2", "3", "4", "5",
                 "  ... skipped logging of 2 additional errors ...");
         assertThat(filteredLog.size()).isEqualTo(7);
+    }
+
+    @Test
+    void shouldLogExceptions() {
+        Report report = new Report();
+        FilteredLog filteredLog = new FilteredLog(report, TITLE, 1);
+
+        filteredLog.logException(new IllegalArgumentException("Cause"), "Message");
+        filteredLog.logException(new IllegalArgumentException(""), "Message");
+
+        assertThat(report.getErrorMessages()).contains(TITLE,
+                "Message", "java.lang.IllegalArgumentException: Cause",
+                "\tat edu.hm.hafner.analysis.FilteredLogTest.shouldLogExceptions(FilteredLogTest.java:67)");
     }
 }
