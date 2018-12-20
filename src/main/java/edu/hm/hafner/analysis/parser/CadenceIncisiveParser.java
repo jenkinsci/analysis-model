@@ -12,9 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
-import static edu.hm.hafner.util.IntegerParser.parseInt;
+import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * A parser for Cadence Incisive Enterprise Simulator.
@@ -75,7 +76,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             tool = matcher.group(22);
             type = matcher.group(23);
             category = matcher.group(24);
-            fileName = StringUtils.EMPTY ;
+            fileName = StringUtils.EMPTY;
             message = matcher.group(25);
             priority = Severity.WARNING_LOW;
         }
@@ -97,9 +98,9 @@ public class CadenceIncisiveParser extends RegexpLineParser {
         }
         if (fileName.startsWith(SLASH)) {
             return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                          .setMessage(message).setSeverity(priority).buildOptional();
+                    .setMessage(message).setSeverity(priority).buildOptional();
         }
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                      .setMessage(message).setSeverity(priority).buildOptional();
+                .setMessage(message).setSeverity(priority).buildOptional();
     }
 }

@@ -12,6 +12,9 @@ import com.tngtech.archunit.core.domain.JavaCall;
  * </ul>
  */
 public class AccessRestrictedToTests extends DescribedPredicate<JavaCall<?>> {
+    /**
+     * Creates a new instance of {@link AccessRestrictedToTests}.
+     */
     public AccessRestrictedToTests() {
         super("access is restricted to tests");
     }

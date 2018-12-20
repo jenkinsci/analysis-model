@@ -21,6 +21,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("hideutilityclassconstructor")
 @AnalyzeClasses(packages = "edu.hm.hafner..")
 class ArchitectureTest {
     /** Digester must not be used directly, rather use a SecureDigester instance. */
