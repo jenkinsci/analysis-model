@@ -53,8 +53,8 @@ public class XmlElementUtil {
      *
      * @return the first element if there is a match, {@link Optional#empty()} otherwise
      */
-    public static Optional<Element> getFirstChildElementByName(final Element parent, final String tagName) {
-        return getChildElementsByName(parent, tagName).stream().findFirst();
+    public static Optional<Element> getFirstChildElementByName(final Element parent, final String name) {
+        return getChildElementsByName(parent, name).stream().findFirst();
     }
 
     /**
