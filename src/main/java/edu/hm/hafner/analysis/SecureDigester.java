@@ -26,7 +26,7 @@ public final class SecureDigester extends Digester {
         setEntityResolver((publicId, systemId) -> new InputSource());
     }
 
-    @SuppressWarnings("all") @SuppressFBWarnings
+    @SuppressFBWarnings @SuppressWarnings("illegalcatch")
     private void disableFeature(final String feature) {
         try {
             setFeature("http://xml.org/sax/features/" + feature, false);

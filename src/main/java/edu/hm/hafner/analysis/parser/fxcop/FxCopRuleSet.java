@@ -2,10 +2,12 @@ package edu.hm.hafner.analysis.parser.fxcop;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 
-import edu.hm.hafner.analysis.XmlElementUtil;
+import edu.hm.hafner.util.XmlElementUtil;
 
 /**
  * Internal set containing rules for FxCop.
@@ -41,12 +43,12 @@ public class FxCopRuleSet {
      * @return the text value; or "" if no element was found
      */
     private String getNamedTagText(final Element element, final String tagName) {
-        Element foundElement = XmlElementUtil.getFirstElementByTagName(element, tagName);
-        if (foundElement == null) {
-            return "";
+        Optional<Element> foundElement = XmlElementUtil.getFirstChildElementByName(element, tagName);
+        if (foundElement.isPresent()) {
+            return foundElement.get().getTextContent();
         }
         else {
-            return foundElement.getTextContent();
+            return StringUtils.EMPTY;
         }
     }
 

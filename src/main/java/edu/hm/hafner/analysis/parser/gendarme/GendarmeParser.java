@@ -19,7 +19,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.XmlElementUtil;
+import edu.hm.hafner.util.XmlElementUtil;
 import static edu.hm.hafner.util.IntegerParser.parseInt;
 
 /**
@@ -42,8 +42,8 @@ public class GendarmeParser extends IssueParser {
         Element resultsElement = (Element) rootElement.getElementsByTagName("results").item(0);
         Element rulesElement = (Element) rootElement.getElementsByTagName("rules").item(0);
 
-        Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getNamedChildElements(rulesElement, "rule"));
-        return parseViolations(XmlElementUtil.getNamedChildElements(resultsElement, "rule"), rules);
+        Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getChildElementsByName(rulesElement, "rule"));
+        return parseViolations(XmlElementUtil.getChildElementsByName(resultsElement, "rule"), rules);
     }
 
     private Report parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
@@ -51,7 +51,7 @@ public class GendarmeParser extends IssueParser {
         for (Element ruleElement : ruleElements) {
             String ruleName = ruleElement.getAttribute("Name");
             String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
-            List<Element> targetElements = XmlElementUtil.getNamedChildElements(ruleElement, "target");
+            List<Element> targetElements = XmlElementUtil.getChildElementsByName(ruleElement, "target");
 
             GendarmeRule rule = rules.get(ruleName);
             for (Element targetElement : targetElements) {

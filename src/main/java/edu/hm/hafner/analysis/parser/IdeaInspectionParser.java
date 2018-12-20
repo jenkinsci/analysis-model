@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.w3c.dom.Document;
@@ -13,7 +14,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.XmlElementUtil;
+import edu.hm.hafner.util.XmlElementUtil;
 
 /**
  * A parser for IntelliJ IDEA inspections.
@@ -28,20 +29,21 @@ public class IdeaInspectionParser extends IssueParser {
         Document document = readerFactory.readDocument();
 
         Element rootElement = (Element) document.getElementsByTagName("problems").item(0);
-        return parseProblems(XmlElementUtil.getNamedChildElements(rootElement, "problem"));
+        return parseProblems(XmlElementUtil.getChildElementsByName(rootElement, "problem"));
     }
 
     private Report parseProblems(final List<Element> elements) {
         Report problems = new Report();
         for (Element element : elements) {
             String file = getChildValue(element, "file");
-            Element problemClass = XmlElementUtil.getFirstElementByTagName(element, "problem_class");
-            if (problemClass != null) {
+            Optional<Element> problemClass = XmlElementUtil.getFirstChildElementByName(element, "problem_class");
+            if (problemClass.isPresent()) {
+                Element problem = problemClass.get();
                 IssueBuilder builder = new IssueBuilder().setFileName(file)
                         .setLineStart(Integer.parseInt(getChildValue(element, "line")))
-                        .setCategory(StringEscapeUtils.unescapeXml(getValue(problemClass)))
+                        .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
                         .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
-                        .setSeverity(getPriority(problemClass.getAttribute("severity")));
+                        .setSeverity(getPriority(problem.getAttribute("severity")));
                 problems.add(builder.build());
             }
         }
@@ -64,9 +66,9 @@ public class IdeaInspectionParser extends IssueParser {
     }
 
     private String getChildValue(final Element element, final String childTag) {
-        Element firstElement = XmlElementUtil.getFirstElementByTagName(element, childTag);
-        if (firstElement != null) {
-            Node child = firstElement.getFirstChild();
+        Optional<Element> firstElement = XmlElementUtil.getFirstChildElementByName(element, childTag);
+        if (firstElement.isPresent()) {
+            Node child = firstElement.get().getFirstChild();
             if (child != null) {
                 return child.getNodeValue();
             }

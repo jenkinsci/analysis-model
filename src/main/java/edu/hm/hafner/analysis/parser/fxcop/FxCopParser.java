@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
+import java.util.Optional;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -11,7 +13,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.XmlElementUtil;
+import edu.hm.hafner.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 
@@ -30,8 +32,7 @@ public class FxCopParser extends IssueParser {
     private transient FxCopRuleSet ruleSet;
 
     @Override
-    public Report parse(final ReaderFactory readerFactory)
-            throws ParsingException, ParsingCanceledException {
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         ruleSet = new FxCopRuleSet();
         warnings = new Report();
 
@@ -40,119 +41,120 @@ public class FxCopParser extends IssueParser {
         NodeList mainNode = doc.getElementsByTagName("FxCopReport");
 
         Element rootElement = (Element) mainNode.item(0);
-        parseRules(XmlElementUtil.getFirstElementByTagName(rootElement, "Rules"));
-        parseNamespaces(XmlElementUtil.getFirstElementByTagName(rootElement, "Namespaces"), null);
-        parseTargets(XmlElementUtil.getFirstElementByTagName(rootElement, "Targets"));
+        parseRules(rootElement);
+        parseNamespaces(rootElement, null);
+        parseTargets(rootElement);
 
         return warnings;
     }
 
-    private void parseRules(final Element rulesElement) {
-        if (rulesElement != null) {
-            for (Element rule : XmlElementUtil.getNamedChildElements(rulesElement, "Rule")) {
+    private void parseRules(final Element rootElement) {
+        Optional<Element> rulesElement = XmlElementUtil.getFirstChildElementByName(rootElement, "Rules");
+        if (rulesElement.isPresent()) {
+            for (Element rule : XmlElementUtil.getChildElementsByName(rulesElement.get(), "Rule")) {
                 ruleSet.addRule(rule);
             }
         }
     }
 
-    private void parseTargets(final Element targetsElement) {
-        if (targetsElement != null) {
-            for (Element target : XmlElementUtil.getNamedChildElements(targetsElement, "Target")) {
+    private void parseTargets(final Element rootElement) {
+        Optional<Element> targetsElement = XmlElementUtil.getFirstChildElementByName(rootElement, "Targets");
+        if (targetsElement.isPresent()) {
+            for (Element target : XmlElementUtil.getChildElementsByName(targetsElement.get(), "Target")) {
                 String name = getString(target, "Name");
-                parseMessages(XmlElementUtil.getFirstElementByTagName(target, "Messages"), name);
-                parseModules(XmlElementUtil.getFirstElementByTagName(target, "Modules"), name);
-                parseResources(XmlElementUtil.getFirstElementByTagName(target, "Resources"), name);
+                parseMessages(target, name);
+                parseModules(target, name);
+                parseResources(target, name);
             }
         }
     }
 
-    private void parseResources(final Element resources, final String parentName) {
-        if (resources != null) {
-            for (Element target : XmlElementUtil.getNamedChildElements(resources, "Resource")) {
-                String name = getString(target, "Name");
-                parseMessages(XmlElementUtil.getFirstElementByTagName(target, "Messages"), name);
+    private void parseResources(final Element target, final String parentName) {
+        Optional<Element> resources = XmlElementUtil.getFirstChildElementByName(target, "Resources");
+        if (resources.isPresent()) {
+            for (Element resource : XmlElementUtil.getChildElementsByName(resources.get(), "Resource")) {
+                String name = getString(resource, "Name");
+                parseMessages(resource, name);
             }
         }
     }
 
-    private void parseModules(final Element modulesElement, final String parentName) {
-        if (modulesElement != null) {
-            for (Element module : XmlElementUtil.getNamedChildElements(modulesElement, "Module")) {
+    private void parseModules(final Element target, final String parentName) {
+        Optional<Element> modulesElement = XmlElementUtil.getFirstChildElementByName(target, "Modules");
+        if (modulesElement.isPresent()) {
+            for (Element module : XmlElementUtil.getChildElementsByName(modulesElement.get(), "Module")) {
                 String name = getString(module, "Name");
-                parseMessages(XmlElementUtil.getFirstElementByTagName(module, "Messages"), name);
-                parseNamespaces(XmlElementUtil.getFirstElementByTagName(module, "Namespaces"), name);
+                parseMessages(module, name);
+                parseNamespaces(module, name);
             }
         }
     }
 
-    private void parseNamespaces(final Element namespacesElement, final String parentName) {
-        if (namespacesElement != null) {
-            for (Element namespace : XmlElementUtil.getNamedChildElements(namespacesElement, "Namespace")) {
+    private void parseNamespaces(final Element rootElement, final String parentName) {
+        Optional<Element> namespacesElement = XmlElementUtil.getFirstChildElementByName(rootElement, "Namespaces");
+        if (namespacesElement.isPresent()) {
+            for (Element namespace : XmlElementUtil.getChildElementsByName(namespacesElement.get(), "Namespace")) {
                 String name = getString(namespace, "Name");
 
-                parseMessages(XmlElementUtil.getFirstElementByTagName(namespace, "Messages"), name);
-                parseTypes(XmlElementUtil.getFirstElementByTagName(namespace, "Types"), name);
+                parseMessages(namespace, name);
+                parseTypes(namespace, name);
             }
         }
     }
 
     private void parseTypes(final Element typesElement, final String parentName) {
-        if (typesElement != null) {
-            for (Element type : XmlElementUtil.getNamedChildElements(typesElement, "Type")) {
+        Optional<Element> types = XmlElementUtil.getFirstChildElementByName(typesElement, "Types");
+        if (types.isPresent()) {
+            for (Element type : XmlElementUtil.getChildElementsByName(types.get(), "Type")) {
                 String name = parentName + "." + getString(type, "Name");
 
-                parseMessages(XmlElementUtil.getFirstElementByTagName(type, "Messages"), name);
-                parseMembers(XmlElementUtil.getFirstElementByTagName(type, "Members"), name);
+                parseMessages(type, name);
+                parseMembers(type, name);
             }
         }
     }
 
-    private void parseMembers(final Element membersElement, final String parentName) {
-        if (membersElement != null) {
-            for (Element member : XmlElementUtil.getNamedChildElements(membersElement, "Member")) {
+    private void parseMembers(final Element members, final String parentName) {
+        Optional<Element> membersElement = XmlElementUtil.getFirstChildElementByName(members, "Members");
+        if (membersElement.isPresent()) {
+            for (Element member : XmlElementUtil.getChildElementsByName(membersElement.get(), "Member")) {
                 parseMember(member, parentName);
             }
         }
     }
 
     private void parseAccessors(final Element accessorsElement, final String parentName) {
-        if (accessorsElement != null) {
-            for (Element member : XmlElementUtil.getNamedChildElements(accessorsElement, "Accessor")) {
+        Optional<Element> accessors = XmlElementUtil.getFirstChildElementByName(accessorsElement, "Accessors");
+        if (accessors.isPresent()) {
+            for (Element member : XmlElementUtil.getChildElementsByName(accessors.get(), "Accessor")) {
                 parseMember(member, parentName);
             }
         }
     }
 
     private void parseMember(final Element member, final String parentName) {
-        parseMessages(XmlElementUtil.getFirstElementByTagName(member, "Messages"), parentName);
-        parseAccessors(XmlElementUtil.getFirstElementByTagName(member, "Accessors"), parentName);
+        parseMessages(member, parentName);
+        parseAccessors(member, parentName);
     }
 
     private void parseMessages(final Element messages, final String parentName) {
-        parseMessages(messages, parentName, null);
-    }
-
-    private void parseMessages(final Element messages, final String parentName, final String subName) {
-        if (messages != null) {
-            for (Element message : XmlElementUtil.getNamedChildElements(messages, "Message")) {
-                for (Element issue : XmlElementUtil.getNamedChildElements(message, "Issue")) {
-                    parseIssue(issue, message, parentName, subName);
+        Optional<Element> messagesElement = XmlElementUtil.getFirstChildElementByName(messages, "Messages");
+        if (messagesElement.isPresent()) {
+            for (Element message : XmlElementUtil.getChildElementsByName(messagesElement.get(), "Message")) {
+                for (Element issue : XmlElementUtil.getChildElementsByName(message, "Issue")) {
+                    parseIssue(issue, message, parentName);
                 }
             }
         }
     }
 
-    private void parseIssue(final Element issue, final Element parent, final String parentName, final String subName) {
+    private void parseIssue(final Element issue, final Element parent, final String parentName) {
         String typeName = getString(parent, "TypeName");
         String category = getString(parent, "Category");
         String checkId = getString(parent, "CheckId");
         String issueLevel = getString(issue, "Level");
 
         StringBuilder msgBuilder = new StringBuilder();
-        if (subName != null) {
-            msgBuilder.append(subName);
-            msgBuilder.append(' ');
-        }
         FxCopRule rule = ruleSet.getRule(category, checkId);
         if (rule == null) {
             msgBuilder.append(typeName);

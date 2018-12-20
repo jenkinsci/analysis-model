@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.XmlElementUtil;
+import edu.hm.hafner.util.XmlElementUtil;
 import static java.lang.Integer.*;
 
 /**
@@ -36,7 +36,7 @@ public class StyleCopParser extends IssueParser {
         }
 
         Element rootElement = (Element) mainNode.item(0);
-        return parseViolations(XmlElementUtil.getNamedChildElements(rootElement, "Violation"));
+        return parseViolations(XmlElementUtil.getChildElementsByName(rootElement, "Violation"));
     }
 
     private Report parseViolations(final List<Element> elements) {

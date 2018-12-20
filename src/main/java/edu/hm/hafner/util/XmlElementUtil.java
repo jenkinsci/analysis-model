@@ -1,8 +1,9 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -12,12 +13,23 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 //CHECKSTYLE:OFF
 @SuppressWarnings({"PMD", "all"})
+/**
+ * Provides some useful methods to process the DOM.
+ *
+ * @author Ullrich Hafner
+ */
 public class XmlElementUtil {
-    private XmlElementUtil() {
-        // prevents instantiation
-    }
-
-    public static List<Element> getNamedChildElements(final Element parent, final String name) {
+    /**
+     * Returns all elements in the parent that match the specified name.
+     *
+     * @param parent
+     *         the parent element
+     * @param name
+     *         the expected name of the childs
+     *
+     * @return the elements, the list might be empty if there is no match
+     */
+    public static List<Element> getChildElementsByName(final Element parent, final String name) {
         List<Element> elements = new ArrayList<Element>();
         if (parent != null) {
             Node child = parent.getFirstChild();
@@ -31,15 +43,18 @@ public class XmlElementUtil {
         return elements;
     }
 
-    @CheckForNull
-    public static Element getFirstElementByTagName(final Element parent, final String tagName) {
-        List<Element> foundElements = getNamedChildElements(parent, tagName);
-        if (foundElements.size() > 0) {
-            return foundElements.get(0);
-        }
-        else {
-            return null;
-        }
+    /**
+     * Returns the first element in the parent that match the specified name.
+     *
+     * @param parent
+     *         the parent element
+     * @param name
+     *         the expected name of the childs
+     *
+     * @return the first element if there is a match, {@link Optional#empty()} otherwise
+     */
+    public static Optional<Element> getFirstChildElementByName(final Element parent, final String tagName) {
+        return getChildElementsByName(parent, tagName).stream().findFirst();
     }
 
     /**
@@ -63,5 +78,9 @@ public class XmlElementUtil {
             }
         }
         return elements;
+    }
+
+    private XmlElementUtil() {
+        // prevents instantiation
     }
 }

@@ -10,15 +10,16 @@ import java.util.stream.Stream;
 
 import org.apache.commons.io.input.BOMInputStream;
 
-import static edu.hm.hafner.analysis.PackageDetectors.*;
 import edu.hm.hafner.util.VisibleForTesting;
+
+import static edu.hm.hafner.analysis.PackageDetectors.*;
 
 /**
  * Base class for package detectors.
  *
  * @author Ullrich Hafner
  */
-public abstract class AbstractPackageDetector {
+abstract class AbstractPackageDetector {
     private final FileSystem fileSystem;
 
     /**
@@ -27,7 +28,7 @@ public abstract class AbstractPackageDetector {
      * @param fileSystem
      *         file system facade
      */
-    protected AbstractPackageDetector(final FileSystem fileSystem) {
+    AbstractPackageDetector(final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
     }
 
