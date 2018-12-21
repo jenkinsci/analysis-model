@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This 'analysis-model' project is a library to read static analysis reports into a Java object model. 
-Currently it is used only by [Jenkins' warnings plug-in](https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin). 
+Currently it is used only by [Jenkins' warnings next generation plug-in](https://github.com/jenkinsci/warnings-ng-plugin). 
 Since this library has no dependencies to the Jenkins project it might be used by other static analysis visualization 
 tools as well in the future.
 
