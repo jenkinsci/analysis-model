@@ -257,9 +257,10 @@
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Xlint:all</arg>
-            <arg>-XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner</arg>
             <arg>-XepAllErrorsAsWarnings</arg>
             <arg>-Xep:EqualsGetClass:OFF</arg>
+            <arg>-Xep:NullAway:WARN</arg>
+            <arg>-XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner</arg>
           </compilerArgs>
           <compilerId>javac-with-errorprone</compilerId>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
