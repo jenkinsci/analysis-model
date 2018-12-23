@@ -26,11 +26,11 @@ package edu.hm.hafner.analysis.parser.ccm;
 import java.io.IOException;
 import java.io.Reader;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
@@ -117,7 +117,7 @@ public class CcmParser extends IssueParser {
     }
 
     private boolean isMetricHighPriority(final Metric metric) {
-        String metricClassification = metric.getClassification();
+        String metricClassification = StringUtils.defaultString(metric.getClassification());
         if (metricClassification.contains("high")) {
             return true;
         }
@@ -126,7 +126,7 @@ public class CcmParser extends IssueParser {
     }
 
     private boolean isMetricModeratePriority(final Metric metric) {
-        String metricClassification = metric.getClassification();
+        String metricClassification = StringUtils.defaultString(metric.getClassification());
         if (metricClassification.contains("moderate")) {
             return true;
         }

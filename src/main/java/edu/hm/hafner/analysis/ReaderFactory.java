@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -32,7 +32,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public abstract class ReaderFactory {
     private static final Function<String, String> IDENTITY = Function.identity();
     
-    private final @CheckForNull Charset charset;
+    private final @Nullable Charset charset;
     private final Function<String, String> lineMapper;
 
     /**
@@ -41,7 +41,7 @@ public abstract class ReaderFactory {
      * @param charset
      *         the charset to use when reading the file
      */
-    public ReaderFactory(final @CheckForNull Charset charset) {
+    public ReaderFactory(final @Nullable Charset charset) {
         this(charset, IDENTITY);
     }
 
@@ -53,7 +53,7 @@ public abstract class ReaderFactory {
      * @param lineMapper
      *         provides a mapper to transform each of the resource lines
      */
-    public ReaderFactory(final @CheckForNull Charset charset, final Function<String, String> lineMapper) {
+    public ReaderFactory(final @Nullable Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
         this.lineMapper = lineMapper;
     }

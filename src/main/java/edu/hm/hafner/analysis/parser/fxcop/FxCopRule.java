@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 /**
  * Internal model for a FxCop rule.
  *
@@ -7,12 +9,15 @@ package edu.hm.hafner.analysis.parser.fxcop;
  */
 @SuppressWarnings({"PMD", "all", "CheckStyle"})
 public class FxCopRule {
-    private transient String name;
-    private transient String typeName;
-    private transient String category;
-    private transient String checkId;
-    private transient String url;
-    private transient String description;
+    private String typeName;
+    private String category;
+    private String checkId;
+    @Nullable
+    private String name;
+    @Nullable
+    private String url;
+    @Nullable
+    private String description;
 
     public FxCopRule(final String typeName, final String category, final String checkId) {
         this.typeName = typeName;
@@ -20,6 +25,7 @@ public class FxCopRule {
         this.checkId = checkId;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }
@@ -28,6 +34,7 @@ public class FxCopRule {
         this.name = name;
     }
 
+    @Nullable
     public String getUrl() {
         return url;
     }
@@ -36,6 +43,7 @@ public class FxCopRule {
         this.url = url;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }

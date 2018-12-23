@@ -29,16 +29,18 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.BugAnnotation;
 import edu.umd.cs.findbugs.BugInstance;
 import edu.umd.cs.findbugs.Project;
 import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
+
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 
 /**
  * A parser for the native FindBugs XML files.
@@ -372,11 +374,16 @@ public class FindBugsParser extends IssueParser {
      */
     @SuppressWarnings("all")
     public static class XmlBugInstance {
+        @Nullable
         private String instanceHash;
+        @Nullable
         private String message;
+        @Nullable
         private String type;
+        @Nullable
         private String category;
 
+        @Nullable
         public String getInstanceHash() {
             return instanceHash;
         }
@@ -385,6 +392,7 @@ public class FindBugsParser extends IssueParser {
             this.instanceHash = instanceHash;
         }
 
+        @Nullable
         public String getMessage() {
             return message;
         }
@@ -393,6 +401,7 @@ public class FindBugsParser extends IssueParser {
             this.message = message;
         }
 
+        @Nullable
         public String getType() {
             return type;
         }
@@ -401,6 +410,7 @@ public class FindBugsParser extends IssueParser {
             this.type = type;
         }
 
+        @Nullable
         public String getCategory() {
             return category;
         }

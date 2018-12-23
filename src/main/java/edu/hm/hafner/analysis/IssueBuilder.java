@@ -1,15 +1,15 @@
 package edu.hm.hafner.analysis;
 
-import javax.swing.text.html.Option;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
-import static edu.hm.hafner.util.IntegerParser.*;
 import edu.hm.hafner.util.PathUtil;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
+
+import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
@@ -32,33 +32,33 @@ public class IssueBuilder {
     private int lineEnd = 0;
     private int columnStart = 0;
     private int columnEnd = 0;
-    @CheckForNull
+    @Nullable
     private LineRangeList lineRanges;
-    @CheckForNull
+    @Nullable
     private String fileName;
-    @CheckForNull
+    @Nullable
     private String directory;
-    @CheckForNull
+    @Nullable
     private String category;
-    @CheckForNull
+    @Nullable
     private String type;
-    @CheckForNull
+    @Nullable
     private Severity severity;
-    @CheckForNull
+    @Nullable
     private String message;
-    @CheckForNull
+    @Nullable
     private String description;
-    @CheckForNull
+    @Nullable
     private String packageName;
-    @CheckForNull
+    @Nullable
     private String moduleName;
-    @CheckForNull
+    @Nullable
     private String origin;
-    @CheckForNull
+    @Nullable
     private String reference;
-    @CheckForNull
+    @Nullable
     private String fingerprint;
-    @CheckForNull
+    @Nullable
     private Serializable additionalProperties;
 
     private UUID id = UUID.randomUUID();
@@ -68,18 +68,18 @@ public class IssueBuilder {
         return this;
     }
 
-    public IssueBuilder setAdditionalProperties(@CheckForNull final Serializable additionalProperties) {
+    public IssueBuilder setAdditionalProperties(@Nullable final Serializable additionalProperties) {
         this.additionalProperties = additionalProperties;
         return this;
     }
 
-    public IssueBuilder setFingerprint(@CheckForNull final String fingerprint) {
+    public IssueBuilder setFingerprint(@Nullable final String fingerprint) {
         this.fingerprint = fingerprint;
         return this;
     }
 
-    public IssueBuilder setFileName(@CheckForNull final String fileName) {
-        if (StringUtils.isBlank(fileName)) {
+    public IssueBuilder setFileName(@Nullable final String fileName) {
+        if (fileName == null) {
             this.fileName = StringUtils.EMPTY;
         }
         else {
@@ -89,27 +89,27 @@ public class IssueBuilder {
         return this;
     }
 
-    public IssueBuilder setDirectory(@CheckForNull final String directory) {
+    public IssueBuilder setDirectory(@Nullable final String directory) {
         this.directory = directory;
         return this;
     }
 
-    public IssueBuilder setLineStart(@CheckForNull final int lineStart) {
+    public IssueBuilder setLineStart(final int lineStart) {
         this.lineStart = lineStart;
         return this;
     }
 
-    public IssueBuilder setLineStart(@CheckForNull final String lineStart) {
+    public IssueBuilder setLineStart(@Nullable final String lineStart) {
         this.lineStart = parseInt(lineStart);
         return this;
     }
 
-    public IssueBuilder setLineEnd(@CheckForNull final int lineEnd) {
+    public IssueBuilder setLineEnd(final int lineEnd) {
         this.lineEnd = lineEnd;
         return this;
     }
 
-    public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
+    public IssueBuilder setLineEnd(@Nullable final String lineEnd) {
         this.lineEnd = parseInt(lineEnd);
         return this;
     }
@@ -119,7 +119,7 @@ public class IssueBuilder {
         return this;
     }
 
-    public IssueBuilder setColumnStart(final String columnStart) {
+    public IssueBuilder setColumnStart(@Nullable final String columnStart) {
         this.columnStart = parseInt(columnStart);
         return this;
     }
@@ -129,52 +129,52 @@ public class IssueBuilder {
         return this;
     }
 
-    public IssueBuilder setColumnEnd(final String columnEnd) {
+    public IssueBuilder setColumnEnd(@Nullable final String columnEnd) {
         this.columnEnd = parseInt(columnEnd);
         return this;
     }
 
-    public IssueBuilder setCategory(@CheckForNull final String category) {
+    public IssueBuilder setCategory(@Nullable final String category) {
         this.category = category;
         return this;
     }
 
-    public IssueBuilder setType(@CheckForNull final String type) {
+    public IssueBuilder setType(@Nullable final String type) {
         this.type = type;
         return this;
     }
 
-    public IssueBuilder setPackageName(@CheckForNull final String packageName) {
+    public IssueBuilder setPackageName(@Nullable final String packageName) {
         this.packageName = packageName;
         return this;
     }
 
-    public IssueBuilder setModuleName(@CheckForNull final String moduleName) {
+    public IssueBuilder setModuleName(@Nullable final String moduleName) {
         this.moduleName = moduleName;
         return this;
     }
 
-    public IssueBuilder setOrigin(@CheckForNull final String origin) {
+    public IssueBuilder setOrigin(@Nullable final String origin) {
         this.origin = origin;
         return this;
     }
 
-    public IssueBuilder setReference(@CheckForNull final String reference) {
+    public IssueBuilder setReference(@Nullable final String reference) {
         this.reference = reference;
         return this;
     }
 
-    public IssueBuilder setSeverity(@CheckForNull final Severity severity) {
+    public IssueBuilder setSeverity(@Nullable final Severity severity) {
         this.severity = severity;
         return this;
     }
 
-    public IssueBuilder setMessage(@CheckForNull final String message) {
+    public IssueBuilder setMessage(@Nullable final String message) {
         this.message = message;
         return this;
     }
 
-    public IssueBuilder setDescription(@CheckForNull final String description) {
+    public IssueBuilder setDescription(@Nullable final String description) {
         this.description = description;
         return this;
     }

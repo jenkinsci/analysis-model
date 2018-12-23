@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Base class for SonarQube parsers.
@@ -62,7 +62,7 @@ public abstract class SonarQubeParser extends IssueParser {
     private static final String CATEGORY_SONAR_QUBE = "SonarQube";
 
     /** The components array. */
-    @CheckForNull
+    @Nullable
     private transient JSONArray components = new JSONArray();
 
     @Override
@@ -271,7 +271,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the desired JSONObject component, or null if it hasn't been found.
      */
-    @CheckForNull
+    @Nullable
     private JSONObject findComponentByKey(final String key) {
         if (components != null && key != null) {
             for (Object component : components) {

@@ -1,11 +1,12 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.PiTestParser;
-
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 
 /**
  * Parses PIT results files.
@@ -32,6 +33,7 @@ public class PitAdapter extends AbstractViolationAdapter {
         return "SURVIVED".equals(getSpecifics(violation, STATUS)) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
     }
 
+    @Nullable
     private String getSpecifics(final Violation violation, final String key) {
         return violation.getSpecifics().get(key);
     }

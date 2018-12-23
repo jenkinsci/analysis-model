@@ -1,10 +1,10 @@
 package edu.hm.hafner.util;
 
-import javax.annotation.CheckForNull;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -70,8 +70,8 @@ public class PathUtil {
         }
     }
 
-    private String normalize(final String fileName) {
-        return fileName.replace(BACK_SLASH, SLASH);
+    private String normalize(@Nullable final String fileName) {
+        return StringUtils.replace(fileName, BACK_SLASH, SLASH);
     }
 
     /**
@@ -84,8 +84,8 @@ public class PathUtil {
      *
      * @return the absolute path
      */
-    public String createAbsolutePath(final @CheckForNull String directory, final String fileName) {
-        if (isAbsolute(fileName) || StringUtils.isBlank(directory)) {
+    public String createAbsolutePath(final @Nullable String directory, final String fileName) {
+        if (isAbsolute(fileName) || StringUtils.isEmpty(directory)) {
             return normalize(fileName);
         }
         String normalizedDirectory = normalize(directory);
