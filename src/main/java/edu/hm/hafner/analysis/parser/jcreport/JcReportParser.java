@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser.jcreport;
 import java.io.IOException;
 import java.io.Reader;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -12,7 +13,6 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * JcReportParser-Class. This class parses from the jcReport.xml and creates warnings from its content.
@@ -54,8 +54,8 @@ public class JcReportParser extends IssueParser {
      *
      * @return the priority-enum matching with the issueLevel.
      */
-    private Severity getPriority(@Nullable final String issueLevel) {
-        if (issueLevel == null || issueLevel.length() == 0) {
+    private Severity getPriority(final String issueLevel) {
+        if (StringUtils.isEmpty(issueLevel)) {
             return Severity.WARNING_HIGH;
         }
 

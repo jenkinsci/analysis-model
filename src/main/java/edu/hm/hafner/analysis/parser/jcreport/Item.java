@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser.jcreport;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
-
 /**
  * This the Item-Class The Java-Bean-Conformity was chosen due to the digesters style of assigning. It represents the
  * Item-Tags within the report.xml. Items have properties, that are mandatory to create a warning.
@@ -11,26 +9,18 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 @SuppressWarnings("PMD.DataClass")
 public class Item {
 
-    @Nullable
     private String column;
-    @Nullable
     private String findingtype;
-    @Nullable
     private String line;
-    @Nullable
     private String message;
-    @Nullable
     private String origin;
-    @Nullable
     private String severity;
-    @Nullable
     private String endcolumn;
 
     /**
      * Although this property is not used. It was decided to keep it available when Jenkins is modified and needs access
      * to this field;
      */
-    @Nullable
     private String endline;
 
     /**
@@ -38,7 +28,6 @@ public class Item {
      *
      * @return column string
      */
-    @Nullable
     public String getColumn() {
         return column;
     }
@@ -57,7 +46,6 @@ public class Item {
      *
      * @return findingtype getter
      */
-    @Nullable
     public String getFindingtype() {
         return findingtype;
     }
@@ -76,7 +64,6 @@ public class Item {
      *
      * @return line getter
      */
-    @Nullable
     public String getLine() {
         return line;
     }
@@ -95,7 +82,6 @@ public class Item {
      *
      * @return message getter
      */
-    @Nullable
     public String getMessage() {
         return message;
     }
@@ -114,7 +100,6 @@ public class Item {
      *
      * @return origin getter
      */
-    @Nullable
     public String getOrigin() {
         return origin;
     }
@@ -133,7 +118,6 @@ public class Item {
      *
      * @return severity getter
      */
-    @Nullable
     public String getSeverity() {
         return severity;
     }
@@ -153,7 +137,6 @@ public class Item {
      *
      * @return endline getter
      */
-    @Nullable
     public String getEndline() {
         return endline;
     }
@@ -173,7 +156,6 @@ public class Item {
      *
      * @return endcolumn getter
      */
-    @Nullable
     public String getEndcolumn() {
         return endcolumn;
     }

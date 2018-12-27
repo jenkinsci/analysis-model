@@ -11,7 +11,7 @@ import org.eclipse.collections.impl.factory.Sets;
 import com.google.errorprone.annotations.Immutable;
 
 import edu.hm.hafner.util.Ensure;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Severity of an issue. The predefined set of severities consists of an error and 3 warnings with priorities high,
@@ -72,7 +72,7 @@ public class Severity implements Serializable {
      *
      * @return enumeration value
      */
-    public static Severity valueOf(@Nullable final String severity, final Severity defaultValue) {
+    public static Severity valueOf(@CheckForNull final String severity, final Severity defaultValue) {
         if (severity == null || ALL_SEVERITIES.stream().map(Severity::getName).noneMatch(name -> name.equals(severity))) {
             return defaultValue;
         }

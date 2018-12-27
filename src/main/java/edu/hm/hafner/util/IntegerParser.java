@@ -2,7 +2,7 @@ package edu.hm.hafner.util;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Parses integers from string values.
@@ -20,7 +20,7 @@ public final class IntegerParser {
      * @return the converted number
      * @see Integer#parseInt(String)
      */
-    public static int parseInt(@Nullable final String number) {
+    public static int parseInt(@CheckForNull final String number) {
         if (StringUtils.isNotBlank(number)) {
             try {
                 return Integer.parseInt(number);

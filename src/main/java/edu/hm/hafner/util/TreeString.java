@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * {@link TreeString} is an alternative string representation that saves the memory when you have a large number of
@@ -19,7 +19,7 @@ public final class TreeString implements Serializable {
     private static final long serialVersionUID = 3621959682117480904L;
 
     /** Parent node that represents the prefix. */
-    @Nullable
+    @CheckForNull
     private TreeString parent;
 
     /** {@link #parent} + {@code label} is the string value of this node. */
@@ -40,7 +40,7 @@ public final class TreeString implements Serializable {
      * @param label
      *         the suffix
      */
-    TreeString(@Nullable final TreeString parent, final String label) {
+    TreeString(@CheckForNull final TreeString parent, final String label) {
         Ensure.that(parent == null || !label.isEmpty())
                 .isTrue("if there's a parent '%s', label '%s' can't be empty", parent, label);
 

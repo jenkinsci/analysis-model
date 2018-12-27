@@ -239,8 +239,8 @@ class ModuleDetectorTest extends ResourceTest {
         try {
             return IOUtils.toInputStream("", "UTF-8");
         }
-        catch (IOException exception) {
-            throw new AssertionError(exception);
+        catch (IOException ignored) {
+            return null;
         }
     }
 

@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
-
 /**
  * Java Bean class for a file of the Checkstyle format.
  *
@@ -14,7 +12,6 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 public class File {
     /** Name of the file. */
-    @Nullable
     private String name;
     /** All errors of this file. */
     private final List<Error> errors = new ArrayList<>();
@@ -44,7 +41,6 @@ public class File {
      *
      * @return the name of this file
      */
-    @Nullable
     public String getName() {
         return name;
     }

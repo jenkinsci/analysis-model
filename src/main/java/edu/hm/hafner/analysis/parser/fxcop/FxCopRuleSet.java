@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 
 import edu.hm.hafner.util.XmlElementUtil;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Internal set containing rules for FxCop.
@@ -17,7 +16,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 @SuppressWarnings({"PMD", "all", "CheckStyle"})
 public class FxCopRuleSet {
-    private Map<String, FxCopRule> rules = new HashMap<String, FxCopRule>();
+    private transient Map<String, FxCopRule> rules = new HashMap<String, FxCopRule>();
 
     /***
      * Parse the element and insert the rule into the rule set.
@@ -77,7 +76,6 @@ public class FxCopRuleSet {
      *
      * @return the rule; null otherwise
      */
-    @Nullable
     public FxCopRule getRule(final String category, final String checkId) {
         String key = getRuleKey(category, checkId);
         FxCopRule rule = null;
