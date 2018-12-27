@@ -79,7 +79,7 @@ public class IssueBuilder {
     }
 
     public IssueBuilder setFileName(@Nullable final String fileName) {
-        if (StringUtils.isEmpty(fileName)) {
+        if (fileName == null) {
             this.fileName = StringUtils.EMPTY;
         }
         else {

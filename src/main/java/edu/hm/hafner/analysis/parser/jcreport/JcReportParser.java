@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser.jcreport;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -56,7 +55,7 @@ public class JcReportParser extends IssueParser {
      * @return the priority-enum matching with the issueLevel.
      */
     private Severity getPriority(@Nullable final String issueLevel) {
-        if (StringUtils.isBlank(issueLevel)) {
+        if (issueLevel == null || issueLevel.length() == 0) {
             return Severity.WARNING_HIGH;
         }
 
