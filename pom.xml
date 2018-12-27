@@ -257,8 +257,10 @@
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Xlint:all</arg>
+            <arg>-XepAllDisabledChecksAsWarnings</arg>
             <arg>-XepAllErrorsAsWarnings</arg>
             <arg>-Xep:EqualsGetClass:OFF</arg>
+            <arg>-Xep:NullableDereference:OFF</arg> // Exception
             <arg>-Xep:NullAway:WARN</arg>
             <arg>-XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner</arg>
           </compilerArgs>
