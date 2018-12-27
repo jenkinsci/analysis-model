@@ -3,11 +3,12 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for the javac compiler warnings.
@@ -17,7 +18,7 @@ import edu.hm.hafner.analysis.Severity;
 public class JavacParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 7199325311690082782L;
 
-    private static final String JAVAC_WARNING_PATTERN
+    static final String JAVAC_WARNING_PATTERN
             = "^(?:\\[\\p{Alnum}*\\]\\s+)?"
             + "(?:(?:\\[(WARNING|ERROR)\\]|w:)\\s+)" // optional [WARNING] or [ERROR] or w:
             + "([^\\[\\(]*):\\s*" +             // group 1: filename
@@ -43,6 +44,10 @@ public class JavacParser extends FastRegexpLineParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+        return Optional.of(buildIssue(matcher, builder));
+    }
+
+    static Issue buildIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(1);
         if ("ERROR".equals(type)) {
             builder.setSeverity(Severity.ERROR);
@@ -59,7 +64,7 @@ public class JavacParser extends FastRegexpLineParser {
                 .setColumnStart(matcher.group(4))
                 .setCategory(category)
                 .setMessage(message)
-                .buildOptional();
+                .build();
     }
 }
 
