@@ -3,7 +3,10 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
+import org.apache.commons.lang3.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -13,17 +16,21 @@ import edu.hm.hafner.analysis.Severity;
  * A parser for the PyLint compiler warnings.
  *
  * @author Sebastian Hansbauer
+ * @author Björn Pedersen
  */
 public class PyLintParser extends FastRegexpLineParser {
     private static final long serialVersionUID = 4464053085862883240L;
 
-    private static final String PYLINT_ERROR_PATTERN = "(.*):(\\d+): \\[(\\D\\d*).*\\] (.*)";
+    // the default pattern matches "--output-format=parseable" output.
+    private static final String DEFAULT_PYLINT_ERROR_PATTERN = "(?<path>.*):(?<line>\\d+): \\[(?<category>\\D\\d*)\\((?<symbol>.*)\\), .*?\\] (?<message>.*)";
 
+
+    public static final String UNKNOWN_CAT = "pylint-unknown";
     /**
      * Creates a new instance of {@link PyLintParser}.
      */
     public PyLintParser() {
-        super(PYLINT_ERROR_PATTERN);
+        super(DEFAULT_PYLINT_ERROR_PATTERN);
     }
 
     @Override
@@ -33,22 +40,30 @@ public class PyLintParser extends FastRegexpLineParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String message = matcher.group(4);
-        String category = guessCategoryIfEmpty(matcher.group(3), message);
+        String message = matcher.group("message");
+        String category = matcher.group("symbol");
+        if (StringUtils.isEmpty(category)) {
+               category = UNKNOWN_CAT;
+        }
+        Severity priority = mapPriority(matcher.group("category"));
 
-        return builder.setFileName(matcher.group(1))
-                .setLineStart(matcher.group(2))
+        return builder.setFileName(matcher.group("path"))
+                .setLineStart(matcher.group("line"))
                 .setCategory(category)
                 .setMessage(message)
-                .setSeverity(mapPriorty(category))
+                .setSeverity(priority)
                 .buildOptional();
     }
 
-    private Severity mapPriorty(final String category) {
+    private Severity mapPriority(final String category) {
         //First letter of the Pylint classification is one of F/E/W/R/C. E/F/W are high priority.
         Severity priority;
 
         // See http://docs.pylint.org/output.html for definitions of the categories
+        if (category.isEmpty()) {
+           // if the category is missing from the output, default to 'normal'.
+           return Severity.WARNING_NORMAL;
+        }
         switch (category.charAt(0)) {
             // [R]efactor for a ?good practice? metric violation
             // [C]onvention for coding standard violation
