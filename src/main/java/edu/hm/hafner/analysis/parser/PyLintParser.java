@@ -33,6 +33,11 @@ public class PyLintParser extends FastRegexpLineParser {
         super(DEFAULT_PYLINT_ERROR_PATTERN);
     }
 
+    public PyLintParser(@CheckForNull String regExp) {
+        super(regExp);
+    }
+
+
     @Override
     protected boolean isLineInteresting(final String line) {
         return line.contains("[");
