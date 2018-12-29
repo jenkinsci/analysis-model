@@ -24,7 +24,7 @@ class IntelParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(7);
+        softly.assertThat(report).hasSize(8);
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Remark")
@@ -82,6 +82,14 @@ class IntelParserTest extends AbstractParserTest {
                 .hasLineEnd(1)
                 .hasMessage("Syntax error, found END-OF-STATEMENT when expecting one of: ( % [ : . = =>")
                 .hasFileName("t.f90");
+
+        softly.assertThat(report.get(7))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasCategory("Error ")
+                .hasLineStart(17)
+                .hasLineEnd(17)
+                .hasMessage("expected a \";\"")
+                .hasFileName("main.cpp");
     }
 
     /**
