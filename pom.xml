@@ -61,6 +61,7 @@
     <eclipse-collections.version>9.2.0</eclipse-collections.version>
     <jdt-annotation.version>2.2.100</jdt-annotation.version>
     <findbugs.parser.library.version>4.0.0</findbugs.parser.library.version>
+    <j2html.version>1.3.0</j2html.version>
 
     <!-- Project Test Dependencies Configuration -->
     <junit.version>5.3.2</junit.version>
@@ -159,6 +160,11 @@
       <version>${jdt-annotation.version}</version>
       <scope>provided</scope>
       <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.j2html</groupId>
+      <artifactId>j2html</artifactId>
+      <version>${j2html.version}</version>
     </dependency>
 
     <!-- FindBugs Parser Dependencies -->
@@ -260,6 +266,8 @@
             <arg>-XepAllDisabledChecksAsWarnings</arg>
             <arg>-XepAllErrorsAsWarnings</arg>
             <arg>-Xep:EqualsGetClass:OFF</arg>
+            <arg>-Xep:AndroidJdkLibsChecker:OFF</arg>
+            <arg>-Xep:Java7ApiChecker:OFF</arg>
             <arg>-Xep:NullableDereference:OFF</arg> // Exception
             <arg>-Xep:NullAway:WARN</arg>
             <arg>-XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner</arg>
