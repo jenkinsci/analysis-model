@@ -269,6 +269,9 @@
             <arg>-Xep:AndroidJdkLibsChecker:OFF</arg>
             <arg>-Xep:Java7ApiChecker:OFF</arg>
             <arg>-Xep:Var:OFF</arg>
+            <arg>-Xep:MethodCanBeStatic:OFF</arg>
+            <arg>-Xep:WildcardImport:OFF</arg>
+            <arg>-Xep:ThrowsUncheckedException:OFF</arg>
             <arg>-Xep:NullableDereference:OFF</arg> // Exception
             <arg>-Xep:NullAway:WARN</arg>
             <arg>-XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner</arg>
