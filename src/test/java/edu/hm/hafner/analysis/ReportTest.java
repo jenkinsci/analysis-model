@@ -15,9 +15,10 @@ import java.util.function.Predicate;
 import org.eclipse.collections.impl.block.factory.Predicates;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.util.SerializableTest;
+
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import edu.hm.hafner.util.SerializableTest;
 import static java.util.Arrays.*;
 
 /**
@@ -187,6 +188,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void shouldGroupIssuesByProperty() {
         Report report = new Report();
         report.addAll(allIssuesAsList());

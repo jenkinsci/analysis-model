@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Collection;
@@ -8,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import javax.annotation.Nonnull;
 
 /**
  * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
@@ -115,14 +115,14 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     }
 
     @Override
-    public LineRange remove(final int index) {
-        return new Cursor().skip(index).delete();
-    }
-
-    @Override
     public final boolean add(final LineRange lr) {
         new Cursor(len).add(lr);
         return true;
+    }
+
+    @Override
+    public LineRange remove(final int index) {
+        return new Cursor().skip(index).delete();
     }
 
     @Override

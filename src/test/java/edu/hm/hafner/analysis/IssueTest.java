@@ -5,12 +5,12 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.util.SerializableTest;
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static java.util.Collections.*;
-
-import edu.hm.hafner.util.SerializableTest;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Unit tests for {@link Issue}.
@@ -177,6 +177,7 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void testDefaultIssueNullStringsNegativeIntegers() {
         Issue issue = createIssue(null, 0, 0, 0, 0,
                 null, null, null, null,

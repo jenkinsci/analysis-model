@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -12,6 +9,9 @@ import java.nio.file.InvalidPathException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.ObjectUtils;
@@ -31,8 +31,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public abstract class ReaderFactory {
     private static final Function<String, String> IDENTITY = Function.identity();
-    
-    private final @Nullable Charset charset;
+
+    @Nullable private final Charset charset;
     private final Function<String, String> lineMapper;
 
     /**

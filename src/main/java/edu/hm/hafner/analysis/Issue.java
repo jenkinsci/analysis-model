@@ -23,7 +23,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass"})
+@SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
     private static final String UNDEFINED = "-";

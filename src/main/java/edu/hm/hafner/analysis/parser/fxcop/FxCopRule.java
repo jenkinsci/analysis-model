@@ -9,9 +9,9 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 @SuppressWarnings({"PMD", "all", "CheckStyle"})
 public class FxCopRule {
-    private String typeName;
-    private String category;
-    private String checkId;
+    private final String typeName;
+    private final String category;
+    private final String checkId;
     @Nullable
     private String name;
     @Nullable

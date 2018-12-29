@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * A stream of lines with a lookahead of one line. Useful to parse a stream of lines when it is required to check if the
  * next line matches a given regular expression.
@@ -12,10 +14,11 @@ import java.util.stream.Stream;
  * @author Ullrich Hafner
  */
 public class LookaheadStream implements AutoCloseable {
-    private Stream<String> stream;
-    private Iterator<String> lineIterator;
+    private final Stream<String> stream;
+    private final Iterator<String> lineIterator;
+
     private boolean isLookaheadFilled = false;
-    private String lookaheadLine;
+    private String lookaheadLine = StringUtils.EMPTY;
 
     /**
      * Wraps the specified stream of lines into a {@link LookaheadStream}.
@@ -44,21 +47,6 @@ public class LookaheadStream implements AutoCloseable {
     }
 
     /**
-     * Returns the next element in the stream.
-     *
-     * @return the next element in the stream
-     * @throws NoSuchElementException
-     *         if the stream has no more elements
-     */
-    public String next() {
-        if (isLookaheadFilled) {
-            isLookaheadFilled = false;
-            return lookaheadLine;
-        }
-        return lineIterator.next();
-    }
-
-    /**
      * Returns {@code true} if the stream has at least one more element that matches the given regular expression.
      *
      * @param regexp
@@ -76,5 +64,20 @@ public class LookaheadStream implements AutoCloseable {
         }
 
         return Pattern.matches(regexp, lookaheadLine);
+    }
+
+    /**
+     * Returns the next element in the stream.
+     *
+     * @return the next element in the stream
+     * @throws NoSuchElementException
+     *         if the stream has no more elements
+     */
+    public String next() {
+        if (isLookaheadFilled) {
+            isLookaheadFilled = false;
+            return lookaheadLine;
+        }
+        return lineIterator.next();
     }
 }

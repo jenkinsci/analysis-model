@@ -652,9 +652,9 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     private ReaderFactory createIssue2383File() {
-        return createReaderFactory(IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
+        return createReaderFactory("file.txt", IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
                 + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
-                + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8), "file.txt");
+                + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8));
     }
 
     @Override

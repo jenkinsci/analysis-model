@@ -120,39 +120,6 @@ public class FindBugsParser extends IssueParser {
     }
 
     /**
-     * Pre-parses a file for some information not available from the FindBugs parser. Creates a mapping of FindBugs
-     * warnings to messages. A bug is represented by its unique hash code. Also obtains original categories for bug
-     * types.
-     *
-     * @param file
-     *         the FindBugs XML file
-     *
-     * @return the map of warning messages
-     * @throws SAXException
-     *         if the file contains no valid XML
-     * @throws IOException
-     *         signals that an I/O exception has occurred.
-     */
-    @VisibleForTesting
-    List<XmlBugInstance> preParse(final Reader file) throws SAXException, IOException {
-        Digester digester = new SecureDigester(FindBugsParser.class);
-
-        String rootXPath = "BugCollection/BugInstance";
-        digester.addObjectCreate(rootXPath, XmlBugInstance.class);
-        digester.addSetProperties(rootXPath);
-
-        String fileXPath = rootXPath + "/LongMessage";
-        digester.addCallMethod(fileXPath, "setMessage", 0);
-
-        digester.addSetNext(rootXPath, "add", Object.class.getName());
-        ArrayList<XmlBugInstance> bugs = new ArrayList<>();
-        digester.push(bugs);
-        digester.parse(file);
-
-        return bugs;
-    }
-
-    /**
      * Returns the parsed FindBugs analysis file. This scanner accepts files in the native FindBugs format.
      *
      * @param builder
@@ -215,6 +182,39 @@ public class FindBugsParser extends IssueParser {
         catch (DocumentException | IOException exception) {
             throw new ParsingException(exception);
         }
+    }
+
+    /**
+     * Pre-parses a file for some information not available from the FindBugs parser. Creates a mapping of FindBugs
+     * warnings to messages. A bug is represented by its unique hash code. Also obtains original categories for bug
+     * types.
+     *
+     * @param file
+     *         the FindBugs XML file
+     *
+     * @return the map of warning messages
+     * @throws SAXException
+     *         if the file contains no valid XML
+     * @throws IOException
+     *         signals that an I/O exception has occurred.
+     */
+    @VisibleForTesting
+    List<XmlBugInstance> preParse(final Reader file) throws SAXException, IOException {
+        Digester digester = new SecureDigester(FindBugsParser.class);
+
+        String rootXPath = "BugCollection/BugInstance";
+        digester.addObjectCreate(rootXPath, XmlBugInstance.class);
+        digester.addSetProperties(rootXPath);
+
+        String fileXPath = rootXPath + "/LongMessage";
+        digester.addCallMethod(fileXPath, "setMessage", 0);
+
+        digester.addSetNext(rootXPath, "add", Object.class.getName());
+        ArrayList<XmlBugInstance> bugs = new ArrayList<>();
+        digester.push(bugs);
+        digester.parse(file);
+
+        return bugs;
     }
 
     private String createMessage(final Map<String, String> hashToMessageMapping, final BugInstance warning,

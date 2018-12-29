@@ -18,7 +18,7 @@ public class FilteredLog {
 
     private final Report delegate;
     private final String title;
-    private int maxLines;
+    private final int maxLines;
     private int lines = 0;
 
     /**

@@ -17,7 +17,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 @SuppressWarnings({"PMD", "all", "CheckStyle"})
 public class FxCopRuleSet {
-    private Map<String, FxCopRule> rules = new HashMap<String, FxCopRule>();
+    private final Map<String, FxCopRule> rules = new HashMap<String, FxCopRule>();
 
     /***
      * Parse the element and insert the rule into the rule set.

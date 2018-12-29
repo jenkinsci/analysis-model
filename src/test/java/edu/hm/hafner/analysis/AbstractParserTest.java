@@ -13,8 +13,9 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import edu.hm.hafner.util.ResourceTest;
+
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -128,14 +129,14 @@ public abstract class AbstractParserTest extends ResourceTest {
     /**
      * Returns a factory that opens the specified {@link InputStream} on every invocation.
      *
-     * @param inputStream
-     *         the input stream to open
      * @param fileName
      *         the file name of the resource to parse
+     * @param inputStream
+     *         the input stream to open
      *
      * @return default file with issues
      */
-    protected static ReaderFactory createReaderFactory(final InputStream inputStream, final String fileName) {
+    protected static ReaderFactory createReaderFactory(final String fileName, final InputStream inputStream) {
         ReaderFactory readerFactory = createReaderFactory();
         when(readerFactory.getFileName()).thenReturn(fileName);
         when(readerFactory.create()).thenAnswer(
@@ -167,6 +168,6 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return default file with issues
      */
     protected ReaderFactory createReaderFactory(final String fileName) {
-        return createReaderFactory(asInputStream(fileName), fileName);
+        return createReaderFactory(fileName, asInputStream(fileName));
     }
 }

@@ -269,6 +269,7 @@
             <arg>-Xep:AndroidJdkLibsChecker:OFF</arg>
             <arg>-Xep:Java7ApiChecker:OFF</arg>
             <arg>-Xep:Var:OFF</arg>
+            <arg>-Xep:PrivateConstructorForUtilityClass:OFF</arg>
             <arg>-Xep:MethodCanBeStatic:OFF</arg>
             <arg>-Xep:WildcardImport:OFF</arg>
             <arg>-Xep:ThrowsUncheckedException:OFF</arg>

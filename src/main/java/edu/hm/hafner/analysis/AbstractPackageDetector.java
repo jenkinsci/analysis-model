@@ -62,16 +62,6 @@ abstract class AbstractPackageDetector {
     }
 
     /**
-     * Returns whether this classifier accepts the specified file for processing.
-     *
-     * @param fileName
-     *         the file name
-     *
-     * @return {@code true} if the classifier accepts the specified file for processing.
-     */
-    abstract boolean accepts(String fileName);
-
-    /**
      * Detects the package or namespace name of the specified input stream. The stream will be closed automatically by
      * the caller of this method.
      *
@@ -81,4 +71,14 @@ abstract class AbstractPackageDetector {
      * @return the detected package or namespace name
      */
     abstract String detectPackageName(Stream<String> lines);
+
+    /**
+     * Returns whether this classifier accepts the specified file for processing.
+     *
+     * @param fileName
+     *         the file name
+     *
+     * @return {@code true} if the classifier accepts the specified file for processing.
+     */
+    abstract boolean accepts(String fileName);
 }

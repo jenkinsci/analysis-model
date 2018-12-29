@@ -191,19 +191,6 @@ class ModuleDetectorTest extends ResourceTest {
         verifyOrder(prefix, ant, maven, new String[]{maven, ant});
     }
 
-    @SuppressWarnings("PMD.UseVarargs")
-    private void verifyOrder(final String prefix, final String ant, final String maven, final String[] foundFiles) {
-        FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(foundFiles);
-            when(stub.open(ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
-            when(stub.open(maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
-        });
-
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
-
-        assertThat(detector.guessModuleName(prefix + "/something.txt")).isEqualTo(EXPECTED_MAVEN_MODULE);
-    }
-
     @Test
     void shouldEnsureThatOsgiHasPrecedenceOverMavenAndAnt() {
         String prefix = "/prefix/";
@@ -217,6 +204,19 @@ class ModuleDetectorTest extends ResourceTest {
         verifyOrder(prefix, ant, maven, osgi, maven, osgi, ant);
         verifyOrder(prefix, ant, maven, osgi, osgi, ant, maven);
         verifyOrder(prefix, ant, maven, osgi, osgi, maven, osgi);
+    }
+
+    @SuppressWarnings("PMD.UseVarargs")
+    private void verifyOrder(final String prefix, final String ant, final String maven, final String[] foundFiles) {
+        FileSystem factory = createFileSystemStub(stub -> {
+            when(stub.find(any(), anyString())).thenReturn(foundFiles);
+            when(stub.open(ant)).thenReturn(read(ModuleDetector.ANT_PROJECT));
+            when(stub.open(maven)).thenAnswer(filename -> read(ModuleDetector.MAVEN_POM));
+        });
+
+        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+
+        assertThat(detector.guessModuleName(prefix + "/something.txt")).isEqualTo(EXPECTED_MAVEN_MODULE);
     }
 
     private void verifyOrder(final String prefix, final String ant, final String maven, final String osgi,

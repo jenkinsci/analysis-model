@@ -8,17 +8,19 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the {@link JcReportParser}.
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
+@SuppressWarnings("NullAway")
 class JcReportParserTest extends AbstractParserTest {
     JcReportParserTest() {
         super("jcreport/testCorrect.xml");

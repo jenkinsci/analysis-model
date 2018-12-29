@@ -11,13 +11,13 @@ import org.w3c.dom.NodeList;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 
-//CHECKSTYLE:OFF
-@SuppressWarnings({"PMD", "all"})
 /**
  * Provides some useful methods to process the DOM.
  *
  * @author Ullrich Hafner
  */
+//CHECKSTYLE:OFF
+@SuppressWarnings({"PMD", "all"})
 public class XmlElementUtil {
     /**
      * Returns all elements in the parent that match the specified name.
