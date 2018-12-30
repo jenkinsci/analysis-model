@@ -15,13 +15,21 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
- * TODO
+ * Parses a report file line by line for issues using a pre-defined regular expression. If the regular expression
+ * matches then the abstract method {@link #createIssue(Matcher, LookaheadStream, IssueBuilder)} will be called.
+ * Sub classes need to provide an implementation that transforms the {@link Matcher} instance into a new issue.
+ * If required, sub classes may consume additional lines from the report file before control is handed back to the
+ * template method of this parser.
  *
  * @author Ullrich Hafner
  */
 public abstract class LookaheadParser extends IssueParser {
+    private static final long serialVersionUID = 3240719494150024894L;
+
     /** Pattern of compiler warnings. */
     private final Pattern pattern;
+
+    private int currentLine = 0;
 
     /**
      * Creates a new instance of {@link LookaheadParser}.
@@ -46,7 +54,6 @@ public abstract class LookaheadParser extends IssueParser {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.matches()) {
                     createIssue(matcher, lookahead, builder).ifPresent(report::add);
-
                 }
                 if (Thread.interrupted()) {
                     throw new ParsingCanceledException();
@@ -54,7 +61,7 @@ public abstract class LookaheadParser extends IssueParser {
             }
         }
 
-        return report;
+        return postProcess(report);
     }
 
     /**
@@ -76,7 +83,7 @@ public abstract class LookaheadParser extends IssueParser {
             throws ParsingException;
 
     /**
-     * Optionally configures the issue builder instance.
+     * Optionally configures the issue builder instance. This default implementation does nothing.
      *
      * @param builder
      *         the build to configure
@@ -85,5 +92,26 @@ public abstract class LookaheadParser extends IssueParser {
      */
     protected IssueBuilder configureIssueBuilder(final IssueBuilder builder) {
         return builder;
+    }
+
+    /**
+     * Post processes the issues. This default implementation does nothing.
+     *
+     * @param report
+     *         the issues after the parsing process
+     *
+     * @return the post processed issues
+     */
+    protected Report postProcess(final Report report) {
+        return report;
+    }
+
+    /**
+     * Returns the number of the current line in the parsed file.
+     *
+     * @return the current line
+     */
+    protected int getCurrentLine() {
+        return currentLine;
     }
 }
