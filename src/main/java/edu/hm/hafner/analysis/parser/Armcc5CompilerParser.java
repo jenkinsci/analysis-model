@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Dmytro Kutianskyi
  */
-public class Armcc5CompilerParser extends FastRegexpLineParser {
+public class Armcc5CompilerParser extends RegexpLineParser {
     private static final long serialVersionUID = -2677728927938443701L;
 
     private static final String ARMCC5_WARNING_PATTERN = "^(.+)\\((\\d+)\\): (warning|error):  #(.+): (.+)$";

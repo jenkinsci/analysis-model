@@ -8,7 +8,6 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 import static j2html.TagCreator.*;
@@ -40,15 +39,10 @@ public class ErrorProneParser extends LookaheadParser {
                 .setColumnStart(matcher.group("column"))
                 .setType(matcher.group("type"))
                 .setMessage(matcher.group("message"));
-        if ("ERROR".equals(matcher.group("severity"))) {
-            builder.setSeverity(Severity.ERROR);
-        }
-        else {
-            builder.setSeverity(Severity.WARNING_NORMAL);
-        }
+        builder.guessSeverity(matcher.group("severity"));
         StringBuilder description = new StringBuilder();
         StringBuilder url = new StringBuilder();
-        while (lookahead.hasNext("\\s+.*")) {
+        while (lookahead.hasNext("^\\s+.*")) {
             String line = lookahead.next();
             Matcher urlMatcher = URL_PATTERN.matcher(line);
             if (urlMatcher.matches()) {

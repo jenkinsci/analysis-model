@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 import static edu.hm.hafner.analysis.Categories.*;
@@ -16,7 +16,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Marvin Schütz
  */
-public class Pep8Parser extends FastRegexpLineParser {
+public class Pep8Parser extends RegexpLineParser {
     private static final long serialVersionUID = -8444940209330966997L;
 
     private static final String PEP8_WARNING_PATTERN = "(.*):(\\d+):(\\d+): (\\D\\d*) (.*)";

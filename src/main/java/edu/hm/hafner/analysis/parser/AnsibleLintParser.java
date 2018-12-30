@@ -3,17 +3,16 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-
+import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for the ansible lint warnings.
  *
  * @author Ce Qi
  */
-public class AnsibleLintParser extends FastRegexpLineParser {
+public class AnsibleLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 8481090596321427484L;
 
     private static final String ANSIBLE_LINT_WARNING_PATTERN = "(.*)\\:([0-9]*)\\:\\s*\\[.*(ANSIBLE[0-9]*)\\]\\s(.*)";

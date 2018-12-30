@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 import static edu.hm.hafner.analysis.Categories.*;
@@ -15,7 +15,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Sebastian Hansbauer
  */
-public class PyLintParser extends FastRegexpLineParser {
+public class PyLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 4464053085862883240L;
 
     private static final String PYLINT_ERROR_PATTERN = "(.*):(\\d+): \\[(\\D\\d*).*\\] (.*)";

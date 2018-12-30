@@ -1,24 +1,23 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for maven console warnings.
  *
  * @author Ullrich Hafner
  */
-public class MavenConsoleParser extends FastRegexpLineParser {
+public class MavenConsoleParser extends LookaheadParser {
     private static final long serialVersionUID = 1737791073711198075L;
     
     private static final String WARNING = "WARNING";
@@ -29,8 +28,8 @@ public class MavenConsoleParser extends FastRegexpLineParser {
      * Pattern for identifying warning or error maven logs.
      * <pre>
      * Pattern:
-     * (.*\s\s|)           -> Capture group 1 matches either empty string (e.g. [WARNING] some log) or some text followed by exactly two
-     *                        spaces (e.g. 22:07:27  [WARNING] some log)
+     * (.*\s\s|)           -> Capture group 1 matches either empty string (e.g. [WARNING] some log) or some text
+     *                        followed by exactly two spaces (e.g. 22:07:27  [WARNING] some log)
      * \[(WARNING|ERROR)\] -> Capture group 2 matches either [WARNING] or [ERROR]
      * \s*                 -> matches zero or more spaces
      * (.*)                -> Capture group 3 matches zero or more characters except line breaks, represents the actual error message
@@ -40,7 +39,7 @@ public class MavenConsoleParser extends FastRegexpLineParser {
      * building such malformed projects. 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is
      * missing
      */
-    private static final String PATTERN = "^(.*\\s\\s|)\\[(WARNING|ERROR)\\]\\s*(.*)$";
+    private static final String PATTERN = "^(?:.*\\s\\s|)\\[(?<severity>WARNING|ERROR)\\]\\s*(?<message>.*)$";
 
     /**
      * Creates a new instance of {@link MavenConsoleParser}.
@@ -55,59 +54,22 @@ public class MavenConsoleParser extends FastRegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String errorOrWarningGroup = matcher.group(2);
-        String errorOrWarningMessage = matcher.group(3);
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) throws ParsingException {
+        String severity = matcher.group("severity");
+        builder.setLineStart(lookahead.getLine()).guessSeverity(severity);
 
-        return builder.setLineStart(getCurrentLine())
-                .setMessage(errorOrWarningMessage)
-                .setSeverity(extractSeverity(errorOrWarningGroup))
-                .buildOptional();
-    }
+        StringBuilder message = new StringBuilder(matcher.group("message"));
+        String continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\]";
+        while (lookahead.hasNext(continuation)) {
+            message.append("\n");
+            message.append(RegExUtils.removeFirst(lookahead.next(), continuation));
+        }
 
-    private Severity extractSeverity(final String errorOrWarningGroup) {
-        if (ERROR.equals(errorOrWarningGroup)) {
-            return Severity.ERROR;
+        if (StringUtils.isBlank(message.toString())) {
+            return Optional.empty();
         }
-        return Severity.WARNING_NORMAL;
-    }
-
-    // TODO: post processing is quite slow for large number of warnings, see JENKINS-25278
-    @Override
-    protected Report postProcess(final Report warnings) {
-        IssueBuilder builder = new IssueBuilder();
-        Deque<Issue> condensed = new ArrayDeque<>();
-        int line = -1;
-        for (Issue warning : warnings) {
-            if (warning.getLineStart() == line + 1 && !condensed.isEmpty()) {
-                Issue previous = condensed.getLast();
-                if (previous.getSeverity().equals(warning.getSeverity())) {
-                    condensed.removeLast();
-                    if (previous.getMessage().length() + warning.getMessage().length() >= MAX_MESSAGE_LENGTH) {
-                        condensed.add(builder.copy(previous).setLineStart(warning.getLineStart()).build());
-                    }
-                    else {
-                        condensed.add(builder.copy(previous).setLineStart(warning.getLineStart())
-                                .setMessage(previous.getMessage() + "\n" + warning.getMessage())
-                                .build());
-                    }
-                }
-                else {
-                    condensed.add(warning);
-                }
-            }
-            else {
-                condensed.add(warning);
-            }
-            line = warning.getLineStart();
-        }
-        Report noBlank = new Report();
-        for (Issue warning : condensed) {
-            if (StringUtils.isNotBlank(warning.getMessage())) {
-                noBlank.add(warning);
-            }
-        }
-        return noBlank;
+        return builder.setMessage(message.toString()).buildOptional();
     }
 }
 

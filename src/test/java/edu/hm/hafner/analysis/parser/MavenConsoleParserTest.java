@@ -1,13 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the class {@link MavenConsoleParser}.
@@ -43,19 +43,6 @@ class MavenConsoleParserTest extends AbstractParserTest {
     @Test
     void issue16826() {
         Report warnings = parse("issue16826.txt");
-
-        assertThat(warnings).hasSize(1);
-    }
-
-    /**
-     * Parses a file with three warnings, two of them will be ignored because they are blank.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-25278">Issue 25278</a>
-     */
-    @Test
-    @Disabled("Until JENKINS-25278 is fixed")
-    void largeFile() {
-        Report warnings = parse("maven-large.log");
 
         assertThat(warnings).hasSize(1);
     }

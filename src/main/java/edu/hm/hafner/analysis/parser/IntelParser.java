@@ -5,9 +5,9 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Vangelis Livadiotis
  */
-public class IntelParser extends FastRegexpLineParser {
+public class IntelParser extends RegexpLineParser {
     private static final long serialVersionUID = 8409744276858003050L;
     private static final String INTEL_PATTERN = "^(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*("
             + "(?:remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";

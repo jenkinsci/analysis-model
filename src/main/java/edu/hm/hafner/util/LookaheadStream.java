@@ -19,6 +19,7 @@ public class LookaheadStream implements AutoCloseable {
 
     private boolean isLookaheadFilled = false;
     private String lookaheadLine = StringUtils.EMPTY;
+    private int line = 0;
 
     /**
      * Wraps the specified stream of lines into a {@link LookaheadStream}.
@@ -59,11 +60,11 @@ public class LookaheadStream implements AutoCloseable {
             if (!hasNext()) {
                 return false;
             }
-            lookaheadLine = next();
+            lookaheadLine = lineIterator.next();
             isLookaheadFilled = true;
         }
 
-        return Pattern.matches(regexp, lookaheadLine);
+        return Pattern.compile(regexp).matcher(lookaheadLine).find();
     }
 
     /**
@@ -74,10 +75,26 @@ public class LookaheadStream implements AutoCloseable {
      *         if the stream has no more elements
      */
     public String next() {
+        line++;
+
         if (isLookaheadFilled) {
             isLookaheadFilled = false;
             return lookaheadLine;
         }
         return lineIterator.next();
+    }
+
+    /**
+     * Returns the line number of the line that has been handed out using the {@link #next()} method.
+     *
+     * @return the current line, or 0 if no line has been handed out yet
+     */
+    public int getLine() {
+        return line;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[%d] -> '%s'", line, lookaheadLine);
     }
 }

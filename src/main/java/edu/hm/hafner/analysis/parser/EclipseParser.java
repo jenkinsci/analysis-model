@@ -13,7 +13,6 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -29,6 +28,10 @@ public class EclipseParser extends LookaheadParser {
             ".*\\d+\\.\\s*(?<severity>WARNING|ERROR|INFO) in (?<file>.*)\\s*\\(at line (?<line>\\d+)\\)";
     private static final Pattern ANT_PREFIX = Pattern.compile("\\[.*\\] ");
 
+    static final String WARNING = "WARNING";
+    static final String ERROR = "ERROR";
+    static final String INFO = "INFO";
+
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
         return !isXmlFile(readerFactory);
@@ -41,29 +44,15 @@ public class EclipseParser extends LookaheadParser {
         super(ECLIPSE_FIRST_LINE_REGEXP);
     }
 
-    /**
-     * Map Eclipse compiler types to {@link Severity} levels.
-     *
-     * @param type
-     *         Non null type string.
-     *
-     * @return mapped level.
-     */
-    static Severity mapTypeToSeverity(final String type) {
-        switch (type) {
-            case "ERROR":
-                return Severity.ERROR;
-            case "INFO":
-                return Severity.WARNING_LOW;
-            default:
-                return Severity.WARNING_NORMAL;
-        }
+    @Override
+    protected boolean isLineInteresting(final String line) {
+        return line.contains(WARNING) || line.contains(ERROR) || line.contains(INFO);
     }
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        builder.setSeverity(mapTypeToSeverity(matcher.group("severity")))
+        builder.guessSeverity(matcher.group("severity"))
                 .setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"));
 

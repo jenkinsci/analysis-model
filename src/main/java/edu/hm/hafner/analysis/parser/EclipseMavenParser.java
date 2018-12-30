@@ -40,9 +40,14 @@ public class EclipseMavenParser extends LookaheadParser {
     }
 
     @Override
+    protected boolean isLineInteresting(final String line) {
+        return line.contains(WARNING) || line.contains(ERROR) || line.contains(INFO);
+    }
+
+    @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        builder.setSeverity(mapTypeToSeverity(matcher.group("severity")))
+        builder.guessSeverity(matcher.group("severity"))
                 .setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"));
 

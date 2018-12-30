@@ -5,6 +5,8 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 /**
  * Tests the class {@link ErrorProneParser}.
  *
@@ -17,7 +19,7 @@ class ErrorProneParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(9);
+        assertThat(report).hasSize(9);
 
         softly.assertThat(report.get(0))
                 .hasFileName("/Users/hafner/Development/git/analysis-model/src/main/java/edu/hm/hafner/analysis/IssueBuilder.java")

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.collections.api.set.ImmutableSet;
 import org.eclipse.collections.impl.factory.Sets;
 
@@ -62,8 +63,8 @@ public class Severity implements Serializable {
     }
 
     /**
-     * Converts a String severity to one of the predefined severities. If the provided String does not match then the default
-     * severity will be returned.
+     * Converts a String severity to one of the predefined severities. If the provided String does not match then the
+     * default severity will be returned.
      *
      * @param severity
      *         priority as a String
@@ -73,10 +74,31 @@ public class Severity implements Serializable {
      * @return enumeration value
      */
     public static Severity valueOf(@Nullable final String severity, final Severity defaultValue) {
-        if (severity == null || ALL_SEVERITIES.stream().map(Severity::getName).noneMatch(name -> name.equals(severity))) {
+        if (severity == null || ALL_SEVERITIES.stream()
+                .map(Severity::getName)
+                .noneMatch(name -> name.equals(severity))) {
             return defaultValue;
         }
         return valueOf(severity);
+    }
+
+    /**
+     * Converts a String severity to one of the predefined severities. If the provided String does not match (even
+     * partly) then the default severity will be returned.
+     *
+     * @param severity
+     *         the severity string
+     *
+     * @return mapped level.
+     */
+    public static Severity guessFromString(final String severity) {
+        if (StringUtils.containsIgnoreCase(severity, "error")) {
+            return Severity.ERROR;
+        }
+        if (StringUtils.containsIgnoreCase(severity, "info")) {
+            return Severity.WARNING_LOW;
+        }
+        return Severity.WARNING_NORMAL;
     }
 
     /**

@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Claus Klein
  * @author Ullrich Hafner
  */
-public class IarParser extends FastRegexpLineParser {
+public class IarParser extends RegexpLineParser {
     private static final long serialVersionUID = 7695540852439013425L;
 
     private static final String IAR_WARNING_PATTERN = ANT_TASK 

@@ -15,6 +15,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.XmlElementUtil;
+
 import static java.lang.Integer.*;
 
 /**
@@ -49,12 +50,9 @@ public class EclipseXMLParser extends IssueParser {
 
                 NodeList problems = (NodeList)xPath.evaluate("problems/problem", source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
-                    String type = xPath.evaluate("@severity", problem);
-                    if (type != null) {
-                        issueBuilder.setSeverity(EclipseParser.mapTypeToSeverity(type));
-                    }
-
-                    issueBuilder.setLineStart(xPath.evaluate("@line", problem));
+                    issueBuilder.guessSeverity(xPath.evaluate("@severity", problem))
+                            .setLineStart(xPath.evaluate("@line", problem))
+                            .setMessage(xPath.evaluate("message/@value", problem));
 
                     // Columns are a closed range, 1 based index.
                     // XML output counts from column 0, need to offset by 1
@@ -67,8 +65,6 @@ public class EclipseXMLParser extends IssueParser {
                         issueBuilder.setColumnEnd(parseInt(colEnd) + 1);
                     }
 
-                    String msg = xPath.evaluate("message/@value", problem);
-                    issueBuilder.setMessage(msg);
 
                     report.add(issueBuilder.build());
                 }

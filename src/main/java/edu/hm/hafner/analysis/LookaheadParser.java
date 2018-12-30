@@ -28,8 +28,6 @@ public abstract class LookaheadParser extends IssueParser {
 
     private final Pattern pattern;
 
-    private int currentLine = 0;
-
     /**
      * Creates a new instance of {@link LookaheadParser}.
      *
@@ -48,7 +46,7 @@ public abstract class LookaheadParser extends IssueParser {
         try (Stream<String> lines = readerFactory.readStream()) {
             LookaheadStream lookahead = new LookaheadStream(lines);
             IssueBuilder builder = new IssueBuilder();
-            for (currentLine = 1; lookahead.hasNext(); currentLine++) {
+            while (lookahead.hasNext()) {
                 String line = lookahead.next();
                 if (line.contains(ENTERING_DIRECTORY)) {
                     Matcher makeLineMatcher = MAKE_PATH.matcher(line);
@@ -114,14 +112,5 @@ public abstract class LookaheadParser extends IssueParser {
      */
     protected Report postProcess(final Report report) {
         return report;
-    }
-
-    /**
-     * Returns the number of the current line in the parsed file.
-     *
-     * @return the current line
-     */
-    protected int getCurrentLine() {
-        return currentLine;
     }
 }

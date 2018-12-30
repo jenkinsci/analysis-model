@@ -20,6 +20,7 @@ class LookaheadStreamTest extends ResourceTest {
         LookaheadStream stream = new LookaheadStream(getTextLinesAsStream(""));
 
         assertThat(stream.hasNext()).isFalse();
+        assertThat(stream.getLine()).isEqualTo(0);
         assertThatExceptionOfType(java.util.NoSuchElementException.class).isThrownBy(stream::next);
     }
 
@@ -29,6 +30,7 @@ class LookaheadStreamTest extends ResourceTest {
 
         assertThat(stream.hasNext()).isTrue();
         assertThat(stream.next()).isEqualTo(FIRST_LINE);
+        assertThat(stream.getLine()).isEqualTo(1);
 
         assertThat(stream.hasNext()).isFalse();
     }
@@ -39,8 +41,10 @@ class LookaheadStreamTest extends ResourceTest {
 
         assertThat(stream.hasNext()).isTrue();
         assertThat(stream.next()).isEqualTo(FIRST_LINE);
+        assertThat(stream.getLine()).isEqualTo(1);
         assertThat(stream.hasNext()).isTrue();
         assertThat(stream.next()).isEqualTo("Second Line");
+        assertThat(stream.getLine()).isEqualTo(2);
 
         assertThat(stream.hasNext()).isFalse();
     }
@@ -50,14 +54,16 @@ class LookaheadStreamTest extends ResourceTest {
         LookaheadStream stream = new LookaheadStream(getTextLinesAsStream("First Line\nSecond Line"));
 
         assertThat(stream.hasNext()).isTrue();
-        assertThat(stream.hasNext(".*Line$")).isTrue();
+        assertThat(stream.hasNext("Line$")).isTrue();
         assertThat(stream.hasNext("Second.*")).isFalse();
         assertThat(stream.next()).isEqualTo(FIRST_LINE);
+        assertThat(stream.getLine()).isEqualTo(1);
 
         assertThat(stream.hasNext()).isTrue();
-        assertThat(stream.hasNext(".*Line$")).isTrue();
+        assertThat(stream.hasNext("Line$")).isTrue();
         assertThat(stream.hasNext("First.*")).isFalse();
         assertThat(stream.next()).isEqualTo("Second Line");
+        assertThat(stream.getLine()).isEqualTo(2);
 
         assertThat(stream.hasNext()).isFalse();
         assertThat(stream.hasNext(".*")).isFalse();

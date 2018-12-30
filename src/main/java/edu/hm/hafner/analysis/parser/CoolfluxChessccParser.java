@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Vangelis Livadiotis
  */
-public class CoolfluxChessccParser extends FastRegexpLineParser {
+public class CoolfluxChessccParser extends RegexpLineParser {
     private static final long serialVersionUID = 4742509996511002391L;
 
     private static final String CHESSCC_PATTERN = "^.*?Warning in \"([^\"]+)\", line (\\d+),.*?:\\s*(.*)$";

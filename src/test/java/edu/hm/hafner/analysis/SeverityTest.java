@@ -12,6 +12,21 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * @author Ullrich Hafner
  */
 class SeverityTest {
+    @Test
+    void shouldAssignSeverities() {
+        assertThat(Severity.guessFromString("error")).isEqualTo(Severity.ERROR);
+        assertThat(Severity.guessFromString("ERROR")).isEqualTo(Severity.ERROR);
+        assertThat(Severity.guessFromString("[ERROR]")).isEqualTo(Severity.ERROR);
+
+        assertThat(Severity.guessFromString("info")).isEqualTo(Severity.WARNING_LOW);
+        assertThat(Severity.guessFromString("INFO")).isEqualTo(Severity.WARNING_LOW);
+        assertThat(Severity.guessFromString("[INFO]")).isEqualTo(Severity.WARNING_LOW);
+
+        assertThat(Severity.guessFromString("warning")).isEqualTo(Severity.WARNING_NORMAL);
+        assertThat(Severity.guessFromString("WARNING")).isEqualTo(Severity.WARNING_NORMAL);
+        assertThat(Severity.guessFromString("[WARNING]")).isEqualTo(Severity.WARNING_NORMAL);
+    }
+
     @Test @SuppressWarnings("PMD.PositionLiteralsFirstInCaseInsensitiveComparisons")
     void shouldCreateNewSeverityThatOverridesEqualsAndToString() {
         String name = "severity";
