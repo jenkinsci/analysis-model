@@ -63,8 +63,6 @@ public class AjcParser extends IssueParser {
                             warnings.add(builder.build());
                         }
                         break;
-                    default:
-                        // not possible
                 }
             }
 
