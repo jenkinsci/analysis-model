@@ -1,77 +1,29 @@
 package edu.hm.hafner.analysis;
 
-import java.util.Iterator;
+import java.util.Optional;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
- * Parses an input stream line by line for compiler warnings using the provided regular expression. Multi-line regular
- * expressions are not supported, each warning has to be one a single line.
+ * Parses a report file line by line for issues using a pre-defined regular expression. If the regular expression
+ * matches then the abstract method {@link #createIssue(Matcher, LookaheadStream, IssueBuilder)} will be called. Sub
+ * classes need to provide an implementation that transforms the {@link Matcher} instance into a new issue. If required,
+ * sub classes may consume additional lines from the report file before control is handed back to the template method of
+ * this parser.
  *
  * @author Ullrich Hafner
  */
-public abstract class RegexpLineParser extends RegexpParser {
-    private static final long serialVersionUID = 5932670979793111138L;
-
-    private static final Pattern MAKE_PATH = Pattern.compile(".*make(?:\\[\\d+])?: Entering directory [`'](.*)['`]");
-
-    private int currentLine = 0;
-    private String currentDirectory = StringUtils.EMPTY;
-
-    /**
-     * Creates a new instance of {@link RegexpLineParser}.
-     *
-     * @param warningPattern
-     *         pattern of compiler warnings.
-     */
-    protected RegexpLineParser(final String warningPattern) {
-        super(warningPattern, false);
+public abstract class RegexpLineParser extends LookaheadParser {
+    public RegexpLineParser(final String pattern) {
+        super(pattern);
     }
 
     @Override
-    public Report parse(final ReaderFactory reader) throws ParsingException {
-        Report report = new Report();
-        try (Stream<String> lines = reader.readStream()) {
-            Iterator<String> iterator = lines.iterator();
-            for (currentLine = 1; iterator.hasNext(); currentLine++) {
-                String line = iterator.next();
-                Matcher makeLineMatcher = MAKE_PATH.matcher(line);
-                if (makeLineMatcher.matches()) {
-                    currentDirectory = makeLineMatcher.group(1);
-                }
-                findIssues(line, report);
-            }
-        }
-
-        return postProcess(report);
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) throws ParsingException {
+        return createIssue(matcher, builder);
     }
 
-    @Override
-    protected IssueBuilder configureIssueBuilder(final IssueBuilder builder) {
-        return builder.setDirectory(currentDirectory);
-    }
-
-    /**
-     * Post processes the issues. This default implementation does nothing.
-     *
-     * @param report
-     *         the issues after the parsing process
-     *
-     * @return the post processed issues
-     */
-    protected Report postProcess(final Report report) {
-        return report;
-    }
-
-    /**
-     * Returns the number of the current line in the parsed file.
-     *
-     * @return the current line
-     */
-    protected int getCurrentLine() {
-        return currentLine;
-    }
+    protected abstract Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder);
 }

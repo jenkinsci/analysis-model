@@ -5,6 +5,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 /**
  * Tests the class {@link ClangTidyParser}.
  *
@@ -24,7 +26,7 @@ class ClangTidyParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report annotation, final SoftAssertions softly) {
-        softly.assertThat(annotation).hasSize(7);
+        assertThat(annotation).hasSize(7);
 
         softly.assertThat(annotation.get(0))
                 .hasLineStart(1)

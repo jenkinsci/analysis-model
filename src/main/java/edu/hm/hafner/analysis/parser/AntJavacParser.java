@@ -5,11 +5,12 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
-import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
 import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for the ant javac compiler warnings.

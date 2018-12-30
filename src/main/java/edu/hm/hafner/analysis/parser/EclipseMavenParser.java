@@ -9,6 +9,7 @@ import org.apache.commons.lang3.RegExUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.util.LookaheadStream;
 
