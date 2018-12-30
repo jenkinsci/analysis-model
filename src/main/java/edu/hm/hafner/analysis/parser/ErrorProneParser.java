@@ -1,16 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
@@ -21,35 +17,23 @@ import static j2html.TagCreator.*;
  *
  * @author Ullrich Hafner
  */
-public class ErrorProneParser extends IssueParser {
+public class ErrorProneParser extends LookaheadParser {
     private static final Pattern URL_PATTERN = Pattern.compile("\\s+\\(see (?<url>http\\S+)\\s*\\)");
     private static final Pattern FIX_PATTERN = Pattern.compile("\\s+Did you mean '(?<code>.*)'\\?");
-    private static final Pattern WARNING_PATTERN
-            = Pattern.compile("\\[(?<severity>WARNING|ERROR)\\]\\s+"
+    private static final String WARNINGS_PATTERN
+            = "\\[(?<severity>WARNING|ERROR)\\]\\s+"
             + "(?<file>.+):"
             + "\\[(?<line>\\d+),(?<column>\\d+)\\]\\s+"
             + "\\[(?<type>\\w+)\\]\\s+"
-            + "(?<message>.*)");
+            + "(?<message>.*)";
 
-    @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        Report report = new Report();
-        try (Stream<String> lines = readerFactory.readStream()) {
-            LookaheadStream lookahead = new LookaheadStream(lines);
-            while (lookahead.hasNext()) {
-                String line = lookahead.next();
-                Matcher matcher = WARNING_PATTERN.matcher(line);
-                if (matcher.matches()) {
-                    report.add(findIssues(matcher, lookahead));
-                }
-            }
-        }
-
-        return report;
+    public ErrorProneParser() {
+        super(WARNINGS_PATTERN);
     }
 
-    private Issue findIssues(final Matcher matcher, final LookaheadStream lookahead) {
-        IssueBuilder builder = new IssueBuilder();
+    @Override
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) throws ParsingException {
         builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))
                 .setColumnStart(matcher.group("column"))
@@ -82,6 +66,6 @@ public class ErrorProneParser extends IssueParser {
             }
         }
 
-        return builder.setDescription(description.toString() + url.toString()).build();
+        return builder.setDescription(description.toString() + url.toString()).buildOptional();
     }
 }
