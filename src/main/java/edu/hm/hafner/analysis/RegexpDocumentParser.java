@@ -5,7 +5,9 @@ package edu.hm.hafner.analysis;
  * provided regular expression.
  *
  * @author Ullrich Hafner
+ * @deprecated use {@link LookaheadParser} if possible since it is much faster when parsing large files
  */
+@Deprecated
 public abstract class RegexpDocumentParser extends RegexpParser {
     private static final long serialVersionUID = -4985090860783261124L;
 
