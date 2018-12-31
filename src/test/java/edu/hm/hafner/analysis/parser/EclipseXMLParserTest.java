@@ -7,7 +7,6 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests for {@link TaglistParser}.
@@ -32,8 +31,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.ERROR)
                 .hasLineStart(8)
                 .hasLineEnd(8)
-                .hasColumnStart(13)
-                .hasColumnEnd(16)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Type mismatch: cannot convert from float to Integer");
 
@@ -41,8 +40,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.ERROR)
                 .hasLineStart(16)
                 .hasLineEnd(16)
-                .hasColumnStart(8)
-                .hasColumnEnd(40)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Dead code");
 
@@ -50,8 +49,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(22)
                 .hasLineEnd(22)
-                .hasColumnStart(9)
-                .hasColumnEnd(9)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The value of the local variable x is not used");
 
@@ -59,8 +58,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(27)
                 .hasLineEnd(27)
-                .hasColumnStart(8)
-                .hasColumnEnd(40)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage(
                         "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally");
@@ -69,8 +68,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasLineStart(33)
                 .hasLineEnd(33)
-                .hasColumnStart(13)
-                .hasColumnEnd(18)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Comparing identical expressions");
 
@@ -78,38 +77,18 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasLineStart(35)
                 .hasLineEnd(35)
-                .hasColumnStart(1)
-                .hasColumnEnd(95)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The allocated object is never used");
     }
 
     @Test
-    void shouldCountColumns() {
-        Report report = parse("eclipse-columns.xml");
-
-        assertThat(report).hasSize(1);
-
-        assertSoftly(softly -> {
-            softly.assertThat(report.get(0))
-                    .hasSeverity(Severity.ERROR)
-                    .hasLineStart(2)
-                    .hasLineEnd(2)
-                    .hasColumnStart(1)
-                    .hasColumnEnd(5)
-                    .hasFileName("C:/TEMP/Column.java")
-                    .hasMessage("Syntax error on token \"12345\", delete this token");
-        });
-    }
-    
-    @Test
     void shouldOnlyAcceptXmlFiles() {
         EclipseXMLParser parser = createParser();
         
-        assertThat(parser.accepts(createReaderFactory("eclipse-columns.xml"))).isTrue();
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isTrue();
         
-        assertThat(parser.accepts(createReaderFactory("eclipse-columns.txt"))).isFalse();
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.txt"))).isFalse();
     }
 }

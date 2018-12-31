@@ -74,11 +74,13 @@ public class EclipseParser extends RegexpDocumentParser {
         int columnStart = StringUtils.defaultString(matcher.group(5)).length() + 1;
         int columnEnd = columnStart + matcher.group(6).length() - 1;
 
+        // Use columns to make issue 'unique', range isn't useful for counting in the physical source.
+        String range = columnStart + "-" + columnEnd;
+
         return builder
                 .setFileName(matcher.group(2))
                 .setLineStart(getLine(matcher))
-                .setColumnStart(columnStart)
-                .setColumnEnd(columnEnd)
+                .setAdditionalProperties(range)
                 .setMessage(matcher.group(7))
                 .setSeverity(priority)
                 .buildOptional();

@@ -56,16 +56,18 @@ public class EclipseXMLParser extends IssueParser {
 
                     issueBuilder.setLineStart(xPath.evaluate("@line", problem));
 
-                    // Columns are a closed range, 1 based index.
-                    // XML output counts from column 0, need to offset by 1
+                    // Use columns to make issue 'unique', range isn't useful for counting in the physical source.
+                    StringBuilder range = new StringBuilder();
                     String colStart = xPath.evaluate("source_context/@sourceStart", problem);
                     if (colStart != null) {
-                        issueBuilder.setColumnStart(parseInt(colStart) + 1);
+                        range.append(colStart);
                     }
+                    range.append('-');
                     String colEnd = xPath.evaluate("source_context/@sourceEnd", problem);
                     if (colEnd != null) {
-                        issueBuilder.setColumnEnd(parseInt(colEnd) + 1);
+                        range.append(colEnd);
                     }
+                    issueBuilder.setAdditionalProperties(range.toString());
 
                     String msg = xPath.evaluate("message/@value", problem);
                     issueBuilder.setMessage(msg);
