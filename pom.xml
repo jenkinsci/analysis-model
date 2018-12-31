@@ -6,7 +6,7 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
@@ -451,10 +451,15 @@
                   }
                 }
             ]]></analysisConfiguration>
+          <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
         </configuration>
         <executions>
           <execution>
-            <goals><goal>check</goal></goals>
+            <id>run-revapi</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
           </execution>
         </executions>
       </plugin>
