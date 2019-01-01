@@ -18,7 +18,6 @@ pipeline {
             recordIssues enabledForFailure: true, tool: mavenConsole()
             recordIssues enabledForFailure: true, tools: [java(), javaDoc()]
             recordIssues enabledForFailure: true, tool: checkstyle()
-            recordIssues enabledForFailure: true, tool: taskScanner(includePattern:'**/*.java', highTags:'FIXME', normalTags:'TODO')
         }
     }
 }
