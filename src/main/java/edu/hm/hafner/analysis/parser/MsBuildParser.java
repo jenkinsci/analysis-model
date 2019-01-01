@@ -35,7 +35,10 @@ public class MsBuildParser extends RegexpLineParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        builder.setFileName(determineFileName(matcher));
+        String fileName = determineFileName(matcher);
+        if (!"MSBUILD".equals(fileName.trim())) {
+            builder.setFileName(fileName);
+        }
 
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return builder.setLineStart(0)

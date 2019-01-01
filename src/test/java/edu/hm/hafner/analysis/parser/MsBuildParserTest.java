@@ -211,7 +211,6 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasFileName("MSBUILD")
                     .hasCategory("CA2210")
                     .hasType("Microsoft.Design")
                     .hasSeverity(Severity.WARNING_NORMAL)
