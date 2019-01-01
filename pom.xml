@@ -454,7 +454,6 @@
                   }
                 }
             ]]></analysisConfiguration>
-          <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
         </configuration>
         <executions>
           <execution>
