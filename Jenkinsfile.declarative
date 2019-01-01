@@ -16,8 +16,12 @@ pipeline {
             junit testResults: '**/target/surefire-reports/TEST-*.xml'
 
             recordIssues enabledForFailure: true, tool: mavenConsole()
-            recordIssues enabledForFailure: true, tools: [java(), javaDoc()]
+            recordIssues enabledForFailure: true, tool: java()
             recordIssues enabledForFailure: true, tool: checkstyle()
+            recordIssues enabledForFailure: true, tool: spotBugs()
+            recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
+            recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+            recordIssues enabledForFailure: true, tool: taskScanner(includePattern:'**/*.java', highTags:'FIXME', normalTags:'TODO')
         }
     }
 }
