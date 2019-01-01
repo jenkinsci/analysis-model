@@ -264,7 +264,12 @@
           <compilerArgs>
             <arg>-Xlint:all</arg>
             <arg>-XepAllDisabledChecksAsWarnings</arg>
+            <arg>-XepIgnoreUnknownCheckNames</arg>
             <arg>-XepAllErrorsAsWarnings</arg>
+            <!-- NullAway configuration -->
+            <arg>-Xep:NullAway:WARN</arg>
+            <arg>-XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner</arg>
+            <!-- Disabled Rules -->
             <arg>-Xep:EqualsGetClass:OFF</arg>
             <arg>-Xep:AndroidJdkLibsChecker:OFF</arg>
             <arg>-Xep:Java7ApiChecker:OFF</arg>
@@ -274,8 +279,6 @@
             <arg>-Xep:WildcardImport:OFF</arg>
             <arg>-Xep:ThrowsUncheckedException:OFF</arg>
             <arg>-Xep:NullableDereference:OFF</arg> // Exception
-            <arg>-Xep:NullAway:WARN</arg>
-            <arg>-XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner</arg>
           </compilerArgs>
           <compilerId>javac-with-errorprone</compilerId>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
