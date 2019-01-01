@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser.dry.cpd;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
-
 /**
  * Java Bean class for a file of the PMD CPD format.
  *
@@ -12,7 +10,6 @@ public class SourceFile {
     /** Starting line number in file. */
     private int line;
     /** Path of the file. */
-    @Nullable
     private String path;
 
     /**
@@ -20,7 +17,6 @@ public class SourceFile {
      *
      * @return the path of this file
      */
-    @Nullable
     public String getPath() {
         return path;
     }
@@ -28,8 +24,7 @@ public class SourceFile {
     /**
      * Sets the path of this file to the specified value.
      *
-     * @param path
-     *         the value to set
+     * @param path the value to set
      */
     public void setPath(final String path) {
         this.path = path;
@@ -47,8 +42,7 @@ public class SourceFile {
     /**
      * Sets the line of the duplication to the specified value.
      *
-     * @param line
-     *         the value to set
+     * @param line the value to set
      */
     public void setLine(final int line) {
         this.line = line;

@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Provides convenience methods to detect categories. 
@@ -23,7 +23,7 @@ public final class Categories {
      *
      * @return warning category, empty string if unknown
      */
-    public static String guessCategory(@Nullable final String message) {
+    public static String guessCategory(@CheckForNull final String message) {
         if (StringUtils.contains(message, "proprietary")) {
             return PROPRIETARY_API;
         }
@@ -44,7 +44,7 @@ public final class Categories {
      *
      * @return the actual category
      */
-    public static String guessCategoryIfEmpty(@Nullable final String category, @Nullable final String message) {
+    public static String guessCategoryIfEmpty(@CheckForNull final String category, @CheckForNull final String message) {
         String capitalized = StringUtils.capitalize(category);
         if (StringUtils.isEmpty(capitalized)) {
             capitalized = guessCategory(message);

@@ -1,17 +1,11 @@
 package edu.hm.hafner.analysis.parser.gendarme;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
-
 @SuppressWarnings("all")
 public class DotNetAssembly {
     private final String fullName;
-    @Nullable
     private String name;
-    @Nullable
     private String version;
-    @Nullable
     private String culture;
-    @Nullable
     private String publicKeyToken;
 
     @SuppressWarnings("StringSplitter")
@@ -47,22 +41,18 @@ public class DotNetAssembly {
         return fullName;
     }
 
-    @Nullable
     public String getName() {
         return name;
     }
 
-    @Nullable
     public String getVersion() {
         return version;
     }
 
-    @Nullable
     public String getCulture() {
         return culture;
     }
 
-    @Nullable
     public String getPublicKeyToken() {
         return publicKeyToken;
     }

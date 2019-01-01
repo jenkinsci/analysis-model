@@ -90,7 +90,7 @@ public class PmdParser extends IssueParser {
     }
 
     private String createMessage(final Violation warning) {
-        String original = StringUtils.defaultString(warning.getMessage());
+        String original = warning.getMessage();
         if (StringUtils.endsWith(original, ".")) {
             return original;
         }

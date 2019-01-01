@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
-
 /**
  * Java Bean class for a file of the PMD format.
  *
@@ -15,7 +13,6 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class File {
     /** Name of the file. */
-    @Nullable
     private String name;
     /** All violations of this file. */
     private final List<Violation> violations = new ArrayList<>();
@@ -45,7 +42,6 @@ public class File {
      *
      * @return the name of this file
      */
-    @Nullable
     public String getName() {
         return name;
     }

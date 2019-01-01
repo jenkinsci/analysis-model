@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Provides some useful methods to process the DOM.
@@ -65,7 +65,7 @@ public class XmlElementUtil {
      *
      * @return list of elements.
      */
-    public static List<Element> nodeListToList(@Nullable final NodeList nodeList) {
+    public static List<Element> nodeListToList(@CheckForNull final NodeList nodeList) {
         if (nodeList == null) {
             return Collections.emptyList();
         }

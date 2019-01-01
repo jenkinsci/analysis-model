@@ -15,7 +15,6 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * A parser for Checkstyle XML files.
@@ -87,11 +86,11 @@ public class CheckStyleParser extends IssueParser {
         return report;
     }
 
-    private String getCategory(@Nullable final String source) {
+    private String getCategory(final String source) {
         return StringUtils.capitalize(getType(StringUtils.substringBeforeLast(source, ".")));
     }
 
-    private String getType(@Nullable final String source) {
+    private String getType(final String source) {
         return StringUtils.substringAfterLast(source, ".");
     }
 
@@ -118,7 +117,7 @@ public class CheckStyleParser extends IssueParser {
      * @return {@code true} if this warning is valid
      */
     private boolean isValidWarning(final File file) {
-        return !StringUtils.endsWith(file.getName(), "package.html");
+        return !file.getName().endsWith("package.html");
     }
 }
 

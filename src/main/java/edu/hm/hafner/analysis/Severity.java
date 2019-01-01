@@ -63,8 +63,8 @@ public class Severity implements Serializable {
     }
 
     /**
-     * Converts a String severity to one of the predefined severities. If the provided String does not match then the
-     * default severity will be returned.
+     * Converts a String severity to one of the predefined severities. If the provided String does not match then the default
+     * severity will be returned.
      *
      * @param severity
      *         priority as a String

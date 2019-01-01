@@ -13,7 +13,6 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * JcReportParser-Class. This class parses from the jcReport.xml and creates warnings from its content.
@@ -55,8 +54,8 @@ public class JcReportParser extends IssueParser {
      *
      * @return the priority-enum matching with the issueLevel.
      */
-    private Severity getPriority(@Nullable final String issueLevel) {
-        if (StringUtils.isBlank(issueLevel)) {
+    private Severity getPriority(final String issueLevel) {
+        if (StringUtils.isEmpty(issueLevel)) {
             return Severity.WARNING_HIGH;
         }
 

@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
-
 /**
  * Java Bean class for a Reshaper DupFinder fragment.
  *
@@ -9,13 +7,9 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 @SuppressWarnings("PMD.DataClass")
 public class Fragment {
-    @Nullable
     private String fileName;
-    @Nullable
     private String text;
-    @Nullable
     private Range lineRange;
-    @Nullable
     private Range offsetRange;
 
     /**
@@ -23,7 +17,6 @@ public class Fragment {
      *
      * @return the path of this file
      */
-    @Nullable
     public String getFileName() {
         return fileName;
     }
@@ -42,7 +35,6 @@ public class Fragment {
      *
      * @return the text
      */
-    @Nullable
     public String getText() {
         return text;
     }
@@ -62,9 +54,6 @@ public class Fragment {
      * @return the line range
      */
     public Range getLineRange() {
-        if (lineRange == null) {
-            return new Range();
-        }
         return lineRange;
     }
 
@@ -83,7 +72,6 @@ public class Fragment {
      *
      * @return the offset range
      */
-    @Nullable
     public Range getOffsetRange() {
         return offsetRange;
     }

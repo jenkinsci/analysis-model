@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
@@ -84,13 +85,18 @@ public abstract class ReaderFactory {
     @SuppressWarnings("MustBeClosedChecker")
     @SuppressFBWarnings("OS_OPEN_STREAM")
     public Stream<String> readStream() {
-        BufferedReader reader = new BufferedReader(create());
-        Stream<String> stringStream = reader.lines().onClose(closeReader(reader));
-        if (hasLineMapper()) {
-            return stringStream.map(lineMapper);
+        try {
+            BufferedReader reader = new BufferedReader(create());
+            Stream<String> stringStream = reader.lines().onClose(closeReader(reader));
+            if (hasLineMapper()) {
+                return stringStream.map(lineMapper);
+            }
+            else {
+                return stringStream;
+            }
         }
-        else {
-            return stringStream;
+        catch (UncheckedIOException e) {
+            throw new ParsingException(e);
         }
     }
 
@@ -122,6 +128,9 @@ public abstract class ReaderFactory {
     public String readString() {
         try (Stream<String> lines = readStream()) {
             return lines.collect(Collectors.joining("\n"));
+        }
+        catch (UncheckedIOException e) {
+            throw new ParsingException(e);
         }
     }
 
