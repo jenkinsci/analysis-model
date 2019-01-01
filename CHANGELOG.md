@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-1.1.0...master)
 
 ### Added
+- Added support for [ErrorProne](http://errorprone.info) in maven builds. Parser now reports descrption with link to external documentation.
 - [API]: Added new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
 
@@ -16,6 +17,8 @@ that provides a lookahead of the next report line
 ### Fixed
 - [PR#74](https://github.com/jenkinsci/analysis-model/pull/74): IntelParser: Check for project number in regex.
 - Maven Parser: Disabled post processing on agent since there are no source files involved.
+- [JENKINS-55328](https://issues.jenkins-ci.org/browse/JENKINS-55328): Show error message if symbol 'pmd' is used
+- [JENKINS-55358](https://issues.jenkins-ci.org/browse/JENKINS-55358): Improved parser to support ECJ reports of ant. 
  
 ### Deprecated
 - [edu.hm.hafner.analysis.FastRegexpLineParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/FastRegexpLineParser.java)

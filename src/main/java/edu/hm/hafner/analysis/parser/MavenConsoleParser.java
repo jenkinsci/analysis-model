@@ -17,6 +17,9 @@ import edu.hm.hafner.util.LookaheadStream;
  *
  * @author Ullrich Hafner
  */
+// FIXME: [INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ analysis-model ---
+//         skip error messages that are part of the following plugin
+//         use plugin as category
 public class MavenConsoleParser extends LookaheadParser {
     private static final long serialVersionUID = 1737791073711198075L;
     
