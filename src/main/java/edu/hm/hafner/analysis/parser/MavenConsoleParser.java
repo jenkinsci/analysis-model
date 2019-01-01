@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +11,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -25,7 +27,9 @@ public class MavenConsoleParser extends LookaheadParser {
     
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
-    private static final int MAX_MESSAGE_LENGTH = 4000;
+
+    private static final Pattern MAVEN_PLUGIN_START = Pattern.compile(
+            "\\[INFO\\] --- (?<id>\\S+):(?<version>\\S+):(?<goal>\\S+)\\s.*");
 
     /**
      * Pattern for identifying warning or error maven logs.
@@ -44,6 +48,8 @@ public class MavenConsoleParser extends LookaheadParser {
      */
     private static final String PATTERN = "^(?:.*\\s\\s|)\\[(?<severity>WARNING|ERROR)\\]\\s*(?<message>.*)$";
 
+    private String goal = StringUtils.EMPTY;
+
     /**
      * Creates a new instance of {@link MavenConsoleParser}.
      */
@@ -53,6 +59,10 @@ public class MavenConsoleParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
+        Matcher matcher = MAVEN_PLUGIN_START.matcher(line);
+        if (matcher.find()) {
+            goal = String.format("%s:%s", matcher.group("id"), matcher.group("goal"));
+        }
         return line.contains(WARNING) || line.contains(ERROR);
     }
 
@@ -63,16 +73,21 @@ public class MavenConsoleParser extends LookaheadParser {
         builder.setLineStart(lookahead.getLine()).guessSeverity(severity);
 
         StringBuilder message = new StringBuilder(matcher.group("message"));
-        String continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\]";
+        String continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\] ";
         while (lookahead.hasNext(continuation)) {
             message.append("\n");
             message.append(RegExUtils.removeFirst(lookahead.next(), continuation));
         }
-
+        if (message.lastIndexOf("Unable to locate Source XRef to link to") >= 0) {
+            builder.setSeverity(Severity.WARNING_LOW);
+        }
         if (StringUtils.isBlank(message.toString())) {
             return Optional.empty();
         }
-        return builder.setMessage(message.toString()).buildOptional();
+        return builder.setMessage(message.toString())
+                .setType(goal)
+                .setLineEnd(lookahead.getLine())
+                .buildOptional();
     }
 }
 

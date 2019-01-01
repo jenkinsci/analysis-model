@@ -47,7 +47,19 @@ class EclipseMavenParserTest extends AbstractParserTest {
                 .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java");
     }
 
-     /**
+    /**
+     * Parses a warning log with previously undetected warnings.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
+     */
+    @Test
+    void shouldNotFindAntIssues() {
+        Report warnings = parse("eclipse.txt");
+
+        assertThat(warnings).hasSize(0);
+    }
+
+    /**
      * Parses a warning log with previously undetected warnings.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
