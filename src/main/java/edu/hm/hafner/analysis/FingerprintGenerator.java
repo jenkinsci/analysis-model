@@ -27,6 +27,7 @@ public class FingerprintGenerator {
      * @param charset
      *         the character set to use when reading the source files
      */
+    // FIXME: filter console.log
     public void run(final FullTextFingerprint algorithm, final Report report, final Charset charset) {
         FilteredLog log = new FilteredLog(report, "Can't create fingerprints for some files:");
         int sum = 0;
