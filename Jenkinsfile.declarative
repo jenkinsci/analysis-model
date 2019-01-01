@@ -16,8 +16,9 @@ pipeline {
             junit testResults: '**/target/surefire-reports/TEST-*.xml'
 
             recordIssues enabledForFailure: true, tool: mavenConsole()
+            recordIssues enabledForFailure: true, tool: errorProne()
             recordIssues enabledForFailure: true, tool: java()
-            recordIssues enabledForFailure: true, tool: checkstyle()
+            recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()
             recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
