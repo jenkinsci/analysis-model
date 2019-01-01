@@ -63,8 +63,6 @@ class EclipseMavenParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(13)
                     .hasLineEnd(13)
-                    .hasColumnStart(11)
-                    .hasColumnEnd(11 + 12)
                     .hasMessage("The method getOldValue() from the type SomeType is deprecated")
                     .hasFileName("/path/to/job/job-name/module/src/main/java/com/example/Example.java");
         });
@@ -74,10 +72,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
     void shouldOnlyAcceptTextFiles() {
         EclipseMavenParser parser = createParser();
 
-        assertThat(parser.accepts(createReaderFactory("eclipse-columns.txt"))).isTrue();
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.txt"))).isTrue();
-
-        assertThat(parser.accepts(createReaderFactory("eclipse-columns.xml"))).isFalse();
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isFalse();
     }
 }

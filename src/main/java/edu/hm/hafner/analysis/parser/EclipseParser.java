@@ -78,7 +78,7 @@ public class EclipseParser extends LookaheadParser {
                 // Columns are a closed range, 1 based index.
                 int columnStart = StringUtils.defaultString(columnMatcher.group(1)).length() + 1;
                 int columnEnd = columnStart + columnMatcher.group(2).length() - 1;
-                builder.setColumnStart(columnStart).setColumnEnd(columnEnd);
+                setColumnRange(builder, columnStart, columnEnd);
             }
         }
         else {
@@ -92,8 +92,12 @@ public class EclipseParser extends LookaheadParser {
                 pos++;
             }
             int columnEnd = pos;
-            builder.setColumnStart(columnStart).setColumnEnd(columnEnd);
+            setColumnRange(builder, columnStart, columnEnd);
         }
+    }
+
+    private static void setColumnRange(final IssueBuilder builder, final int columnStart, final int columnEnd) {
+        builder.setAdditionalProperties(columnStart + "-" + columnEnd);
     }
 
     static void extractMessage(final IssueBuilder builder, final String message) {

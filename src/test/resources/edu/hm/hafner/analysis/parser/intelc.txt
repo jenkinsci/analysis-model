@@ -9,3 +9,6 @@ D:\Hudson\workspace\boo\serviceif.cpp(17): remark #1418: external function defin
 /path/to/file1.f90(1): warning #6843: A dummy argument with an explicit INTENT(OUT) declaration is not given an explicit value.   [X]
 /path/to/file2.f(806): remark #8577: The scale factor (k) and number of fractional digits (d) do not have the allowed combination of either -d < k <= 0 or 0 < k < d+2. Expect asterisks as output.
 t.f90(1): error #5082: Syntax error, found END-OF-STATEMENT when expecting one of: ( % [ : . = =>
+
+# Visual Studio project number
+1>main.cpp(17): error : expected a ";"
