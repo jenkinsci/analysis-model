@@ -5,15 +5,9 @@ pipeline {
         jdk 'jdk-default'
     }
     stages {
-        stage ('Build') {
+        stage ('Build and Analysis') {
             steps {
                 sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore'
-            }
-        }
-
-        stage ('Analysis') {
-            steps {
-                sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs'
             }
         }
     }
@@ -21,12 +15,13 @@ pipeline {
         always {
             junit testResults: '**/target/surefire-reports/TEST-*.xml'
 
-            recordIssues enabledForFailure: true, tools: [[pattern: '', tool: [$class: 'MavenConsole']], [pattern: '', tool: [$class: 'Java']], [pattern: '', tool: [$class: 'JavaDoc']]]
-            recordIssues enabledForFailure: true, tools: [[pattern: '', tool: [$class: 'CheckStyle']]]
-            recordIssues enabledForFailure: true, tools: [[pattern: '', tool: [$class: 'FindBugs']]]
-            recordIssues enabledForFailure: true, tools: [[pattern: '', tool: [$class: 'SpotBugs']]]
-            recordIssues enabledForFailure: true, tools: [[pattern: '**/target/cpd.xml', tool: [$class: 'Cpd']]]
-            recordIssues enabledForFailure: true, tools: [[pattern: '**/target/pmd.xml', tool: [$class: 'Pmd']]]
+            recordIssues enabledForFailure: true, tool: mavenConsole()
+            recordIssues enabledForFailure: true, tools: [java(), javaDoc()]
+            recordIssues enabledForFailure: true, tool: checkstyle()
+            recordIssues enabledForFailure: true, tool: spotBugs()
+            recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
+            recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+            recordIssues enabledForFailure: true, tool: taskScanner(includePattern:'**/*.java', highTags:'FIXME', normalTags:'TODO')
         }
     }
 }
