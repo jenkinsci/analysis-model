@@ -3,8 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.RegexpLineParser;
@@ -52,10 +50,6 @@ public class JavacParser extends RegexpLineParser {
         }
         else {
             builder.setSeverity(Severity.WARNING_NORMAL);
-        }
-
-        if (StringUtils.isNotBlank(matcher.group(5))) {
-            return Optional.empty(); // will be consumed by error prone parser
         }
 
         String message = matcher.group(6);
