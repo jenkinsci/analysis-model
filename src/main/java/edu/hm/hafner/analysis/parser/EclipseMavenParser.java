@@ -55,11 +55,8 @@ public class EclipseMavenParser extends LookaheadParser {
         while (lookahead.hasNext("^\\t.*$") && lookahead.hasNext()) {
             code.add(lookahead.next());
         }
+        builder.setAdditionalProperties(code.hashCode());
 
-        int size = code.size();
-        if (size > 1) {
-            builder.setAdditionalProperties(RegExUtils.removeFirst(code.get(size - 1), ".*\\t"));
-        }
         if (lookahead.hasNext()) {
             extractMessage(builder, RegExUtils.removeFirst(lookahead.next(), ".*\\t"));
         }

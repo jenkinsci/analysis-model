@@ -82,7 +82,7 @@ public class MavenConsoleParser extends LookaheadParser {
         StringBuilder message = new StringBuilder(matcher.group("message"));
         String continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\] ";
         while (lookahead.hasNext(continuation)) {
-            message.append("\n");
+            message.append('\n');
             message.append(RegExUtils.removeFirst(lookahead.next(), continuation));
         }
         if (message.lastIndexOf("Unable to locate Source XRef to link to") >= 0) {

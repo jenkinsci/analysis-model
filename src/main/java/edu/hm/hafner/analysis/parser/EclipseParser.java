@@ -23,7 +23,6 @@ public class EclipseParser extends LookaheadParser {
 
     private static final String ECLIPSE_FIRST_LINE_REGEXP =
             ".*\\d+\\.\\s*(?<severity>WARNING|ERROR|INFO) in (?<file>.*)\\s*\\(at line (?<line>\\d+)\\)";
-    private static final Pattern ANT_PREFIX = Pattern.compile("\\[.*\\] ");
 
     static final String WARNING = "WARNING";
     static final String ERROR = "ERROR";
@@ -58,11 +57,10 @@ public class EclipseParser extends LookaheadParser {
             context.add(lookahead.next());
         }
 
-        int size = context.size();
-        if (size > 1) {
-            extractMessage(builder, context.get(size - 1));
-            builder.setAdditionalProperties(context.get(size - 2));
+        if (!context.isEmpty()) {
+            extractMessage(builder, context.remove(context.size() - 1));
         }
+        builder.setAdditionalProperties(context.hashCode());
 
         return builder.buildOptional();
     }

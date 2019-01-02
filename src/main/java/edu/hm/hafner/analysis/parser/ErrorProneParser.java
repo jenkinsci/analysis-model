@@ -18,6 +18,8 @@ import static j2html.TagCreator.*;
  * @author Ullrich Hafner
  */
 public class ErrorProneParser extends LookaheadParser {
+    private static final long serialVersionUID = 8434408068719510740L;
+
     private static final Pattern URL_PATTERN = Pattern.compile("\\s+\\(see (?<url>http\\S+)\\s*\\)");
     private static final Pattern FIX_PATTERN = Pattern.compile("\\s+Did you mean '(?<code>.*)'\\?");
     private static final String WARNINGS_PATTERN
@@ -27,6 +29,9 @@ public class ErrorProneParser extends LookaheadParser {
             + "\\[(?<type>\\w+)\\]\\s+"
             + "(?<message>.*)";
 
+    /**
+     * Creates a new instance of {@link ErrorProneParser}.
+     */
     public ErrorProneParser() {
         super(WARNINGS_PATTERN);
     }

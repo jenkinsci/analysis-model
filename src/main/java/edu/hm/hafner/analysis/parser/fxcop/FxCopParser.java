@@ -28,6 +28,9 @@ public class FxCopParser extends IssueParser {
         return new XmlParser().parse(readerFactory);
     }
 
+    /**
+     * Handles parsing of the XML file.
+     */
     private static class XmlParser {
         private final Report warnings = new Report();
         private final FxCopRuleSet ruleSet = new FxCopRuleSet();

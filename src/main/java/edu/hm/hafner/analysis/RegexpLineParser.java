@@ -17,7 +17,8 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 public abstract class RegexpLineParser extends LookaheadParser {
     private static final long serialVersionUID = 434000822024807289L;
-    @Nullable private LookaheadStream lookahead;
+    @Nullable
+    private LookaheadStream temporaryLookahead;
 
     /**
      * Creates a new instance of {@link RegexpLineParser}.
@@ -32,7 +33,7 @@ public abstract class RegexpLineParser extends LookaheadParser {
     @Override
     protected final Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) throws ParsingException {
-        this.lookahead = lookahead;
+        temporaryLookahead = lookahead;
 
         return createIssue(matcher, builder);
     }
@@ -60,6 +61,6 @@ public abstract class RegexpLineParser extends LookaheadParser {
      */
     @Deprecated
     protected int getCurrentLine() {
-        return lookahead != null ? lookahead.getLine() : 0;
+        return temporaryLookahead == null ? 0 : temporaryLookahead.getLine();
     }
 }
