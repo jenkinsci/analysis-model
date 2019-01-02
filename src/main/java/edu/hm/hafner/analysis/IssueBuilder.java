@@ -169,8 +169,8 @@ public class IssueBuilder {
         return this;
     }
 
-    public IssueBuilder guessSeverity(@Nullable final String severity) {
-        this.severity = Severity.guessFromString(severity);
+    public IssueBuilder guessSeverity(@Nullable final String severityString) {
+        this.severity = Severity.guessFromString(severityString);
         return this;
     }
 

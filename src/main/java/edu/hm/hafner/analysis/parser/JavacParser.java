@@ -3,6 +3,8 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.RegexpLineParser;
@@ -18,7 +20,7 @@ import static edu.hm.hafner.analysis.Categories.*;
 public class JavacParser extends RegexpLineParser {
     private static final long serialVersionUID = 7199325311690082782L;
 
-    static final String JAVAC_WARNING_PATTERN
+    private static final String JAVAC_WARNING_PATTERN
             = "^(?:\\[\\p{Alnum}*\\]\\s+)?"
             + "(?:(?:\\[(WARNING|ERROR)\\]|w:)\\s+)" // optional [WARNING] or [ERROR] or w:
             + "([^\\[\\(]*):\\s*" +             // group 1: filename
@@ -44,16 +46,16 @@ public class JavacParser extends RegexpLineParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        return Optional.of(buildIssue(matcher, builder));
-    }
-
-    static Issue buildIssue(final Matcher matcher, final IssueBuilder builder) {
         String type = matcher.group(1);
         if ("ERROR".equals(type)) {
             builder.setSeverity(Severity.ERROR);
         }
         else {
             builder.setSeverity(Severity.WARNING_NORMAL);
+        }
+
+        if (StringUtils.isNotBlank(matcher.group(5))) {
+            return Optional.empty(); // will be consumed by error prone parser
         }
 
         String message = matcher.group(6);
@@ -64,7 +66,7 @@ public class JavacParser extends RegexpLineParser {
                 .setColumnStart(matcher.group(4))
                 .setCategory(category)
                 .setMessage(message)
-                .build();
+                .buildOptional();
     }
 }
 
