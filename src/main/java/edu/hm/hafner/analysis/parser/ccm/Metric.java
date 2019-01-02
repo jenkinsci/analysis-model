@@ -23,6 +23,8 @@
  */
 package edu.hm.hafner.analysis.parser.ccm;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 /**
  * <p>Entity representing the Metric from CCM.exe output.</p>
  *
@@ -42,6 +44,7 @@ public class Metric {
     /**
      * String containing Class_Name::Method_Name
      */
+    @Nullable
     private String unit;
 
     /**
@@ -49,11 +52,13 @@ public class Metric {
      * there is no documentation on which values are used to determine a method's CC classification CCM Plugin only
      * outputs this value. But does not use the information as a constraint in any place.
      */
+    @Nullable
     private String classification;
 
     /**
      * The file name (e.g.:\ascx\request\open\form.ascx.cs).
      */
+    @Nullable
     private String file;
 
     /**
@@ -74,6 +79,7 @@ public class Metric {
         this.complexity = complexity;
     }
 
+    @Nullable
     public String getUnit() {
         return unit;
     }
@@ -82,6 +88,7 @@ public class Metric {
         this.unit = unit;
     }
 
+    @Nullable
     public String getClassification() {
         return classification;
     }
@@ -90,6 +97,7 @@ public class Metric {
         this.classification = classification;
     }
 
+    @Nullable
     public String getFile() {
         return file;
     }
