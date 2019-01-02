@@ -31,7 +31,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Ullrich Hafner
  * @see <a href="http://se.ethz.ch/~meyer/publications/computer/contract.pdf"> Design by Contract (Meyer, Bertrand)</a>
  */
-@SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "ConstantConditions", "CyclicClassDependency"})
+@SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "ConstantConditions", "CyclicClassDependency", "NullAway"})
 public final class Ensure {
     /**
      * Returns a boolean condition.
@@ -186,6 +186,7 @@ public final class Ensure {
      * Assertions for iterables.
      */
     public static class IterableCondition extends ObjectCondition {
+        @Nullable
         private final Iterable<?> value;
 
         /**
@@ -246,6 +247,7 @@ public final class Ensure {
      * Assertions for iterables.
      */
     public static class CollectionCondition extends IterableCondition {
+        @Nullable
         private final Collection<?> value;
 
         /**
@@ -340,6 +342,7 @@ public final class Ensure {
      * Assertions for arrays.
      */
     public static class ArrayCondition extends ObjectCondition {
+        @Nullable
         private final Object[] values;
 
         /**
@@ -402,6 +405,7 @@ public final class Ensure {
      * Assertions for strings.
      */
     public static class StringCondition extends ObjectCondition {
+        @Nullable
         private final String value;
 
         /**
@@ -497,7 +501,9 @@ public final class Ensure {
      * Assertions for objects.
      */
     public static class ObjectCondition {
+        @Nullable
         private final Object value;
+        @Nullable
         private final Object[] additionalValues;
 
         /**
@@ -725,7 +731,7 @@ public final class Ensure {
      * Assertions for exceptions.
      */
     public static class ExceptionCondition {
-        /** The value of the condition. */
+        @Nullable
         private final Throwable value;
 
         /**
