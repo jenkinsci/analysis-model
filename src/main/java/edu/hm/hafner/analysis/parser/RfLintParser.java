@@ -26,22 +26,20 @@ import static edu.hm.hafner.analysis.Categories.*;
 public class RfLintParser extends IarParser {
     private static final long serialVersionUID = -7903991158616386226L;
 
-    private static final String RFLINT_ERROR_PATTERN = "([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)";
-    private static final String RFLINT_FILE_PATTERN = "\\+\\s(.*)";
     private String fileName = StringUtils.EMPTY;
-    private Pattern pattern = Pattern.compile(RFLINT_ERROR_PATTERN);
+    private static final Pattern WARNING_PATTERN = Pattern.compile("([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)");
+    private static final Pattern FILE_PATTERN = Pattern.compile("\\+\\s(.*)");
 
     @Override
     public Report parse(final ReaderFactory readerFactory) {
         try (Stream<String> lines = readerFactory.readStream()) {
             Report warnings = new Report();
-            Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
             lines.forEach(line -> {
-                Matcher fileMatcher = filePattern.matcher(line);
+                Matcher fileMatcher = FILE_PATTERN.matcher(line);
                 if (fileMatcher.find()) {
                     fileName = fileMatcher.group(1);
                 }
-                Matcher matcher = pattern.matcher(line);
+                Matcher matcher = WARNING_PATTERN.matcher(line);
                 if (matcher.find()) {
                     Optional<Issue> warning = createIssue(matcher, new IssueBuilder());
                     if (warning.isPresent()) {
