@@ -20,7 +20,8 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.XmlElementUtil;
-import static edu.hm.hafner.util.IntegerParser.parseInt;
+
+import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * Parses Gendarme violations.
@@ -54,20 +55,22 @@ public class GendarmeParser extends IssueParser {
             List<Element> targetElements = XmlElementUtil.getChildElementsByName(ruleElement, "target");
 
             GendarmeRule rule = rules.get(ruleName);
-            for (Element targetElement : targetElements) {
-                Element defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
-                String source = defectElement.getAttribute("Source");
+            if (rule != null) {
+                for (Element targetElement : targetElements) {
+                    Element defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
+                    String source = defectElement.getAttribute("Source");
 
-                String fileName = extractFileNameMatch(rule, source, 1);
-                Severity priority = extractPriority(defectElement);
-                int line = parseInt(extractFileNameMatch(rule, source, 2));
+                    String fileName = extractFileNameMatch(rule, source, 1);
+                    Severity priority = extractPriority(defectElement);
+                    int line = parseInt(extractFileNameMatch(rule, source, 2));
 
-                IssueBuilder builder = new IssueBuilder().setFileName(fileName)
-                        .setLineStart(line)
-                        .setCategory(rule.getName())
-                        .setMessage(problem)
-                        .setSeverity(priority);
-                warnings.add(builder.build());
+                    IssueBuilder builder = new IssueBuilder().setFileName(fileName)
+                            .setLineStart(line)
+                            .setCategory(rule.getName())
+                            .setMessage(problem)
+                            .setSeverity(priority);
+                    warnings.add(builder.build());
+                }
             }
         }
         return warnings;

@@ -91,7 +91,7 @@ public class Severity implements Serializable {
      *
      * @return mapped level.
      */
-    public static Severity guessFromString(final String severity) {
+    public static Severity guessFromString(@Nullable final String severity) {
         if (StringUtils.containsIgnoreCase(severity, "error")) {
             return Severity.ERROR;
         }

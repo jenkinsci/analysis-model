@@ -44,7 +44,7 @@ public final class DuplicationGroup implements Serializable {
      *         the copied code fragment
      */
     @SuppressWarnings("InstanceVariableUsedBeforeInitialized")
-    public void setCodeFragment(final String codeFragment) {
+    public void setCodeFragment(@Nullable final String codeFragment) {
         if (StringUtils.isBlank(this.codeFragment)) {
             this.codeFragment = StringUtils.defaultString(codeFragment);
         }

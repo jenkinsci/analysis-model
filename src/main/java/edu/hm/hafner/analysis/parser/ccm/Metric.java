@@ -34,7 +34,6 @@ package edu.hm.hafner.analysis.parser.ccm;
  */
 @SuppressWarnings("all")
 public class Metric {
-
     /**
      * Total CC of the method.
      */
@@ -66,19 +65,6 @@ public class Metric {
      * The end line number of the measurement
      */
     private int endLineNumber;
-
-    public Metric() {
-        super();
-    }
-
-    public Metric(int complexity, String unit, String classification,
-            String file) {
-        super();
-        this.complexity = complexity;
-        this.unit = unit;
-        this.classification = classification;
-        this.file = file;
-    }
 
     public int getComplexity() {
         return complexity;

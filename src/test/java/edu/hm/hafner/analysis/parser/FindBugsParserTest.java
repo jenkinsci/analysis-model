@@ -15,16 +15,18 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
+
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
-import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
 import static org.mockito.Mockito.*;
 
 /**
  * Tests the extraction of FindBugs analysis results.
  */
+@SuppressWarnings("NullAway")
 class FindBugsParserTest {
     private static final String PREFIX = "findbugs/";
 
