@@ -13,7 +13,7 @@ that provides a lookahead of the next report line
 
 ### Changed
 - Improved maven console parser: use the maven goal that logs a warning as issue type. Ignore all warnings
-from the maven-compiler-plugin since these are already poicked up by the Java parser.
+from the maven-compiler-plugin since these are already picked up by the Java parser.
 
 - [API]: Replaced `CheckForNull` annotations with `Nullable` in order to enable [NullAway](https://github.com/uber/NullAway) checker in build
 
