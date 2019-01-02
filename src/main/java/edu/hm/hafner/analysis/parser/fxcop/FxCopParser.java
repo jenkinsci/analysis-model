@@ -12,7 +12,6 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.XmlElementUtil;
 
 /**
@@ -176,7 +175,7 @@ public class FxCopParser extends IssueParser {
                     .setLineStart(fileLine)
                     .setCategory(category)
                     .setMessage(msgBuilder.toString())
-                    .setSeverity(getPriority(issueLevel));
+                    .guessSeverity(issueLevel);
             if (rule != null) {
                 builder.setDescription(rule.getDescription());
             }
@@ -190,16 +189,6 @@ public class FxCopParser extends IssueParser {
             else {
                 return "";
             }
-        }
-
-        private Severity getPriority(final String issueLevel) {
-            if (issueLevel.contains("Error") || issueLevel.contains("Critical")) {
-                return Severity.WARNING_HIGH;
-            }
-            if (issueLevel.contains("Warning")) {
-                return Severity.WARNING_NORMAL;
-            }
-            return Severity.WARNING_LOW;
         }
     }
 }

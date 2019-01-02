@@ -33,7 +33,7 @@ class JcReportParserTest extends AbstractParserTest {
     void testGetWarningList() {
         Report warnings = parseDefaultFile();
 
-        assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
+        assertThat(warnings).hasSize(6).hasDuplicatesSize(1);
     }
 
     /**
@@ -82,11 +82,11 @@ class JcReportParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(5).hasDuplicatesSize(2);
+        assertThat(report).hasSize(6).hasDuplicatesSize(1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("SomeDirectory/SomeClass.java")
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasMessage("SomeMessage")
                 .hasPackageName("SomePackage")
                 .hasLineStart(50);

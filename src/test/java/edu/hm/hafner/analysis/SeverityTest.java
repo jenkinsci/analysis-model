@@ -25,6 +25,11 @@ class SeverityTest {
         assertThat(Severity.guessFromString("warning")).isEqualTo(Severity.WARNING_NORMAL);
         assertThat(Severity.guessFromString("WARNING")).isEqualTo(Severity.WARNING_NORMAL);
         assertThat(Severity.guessFromString("[WARNING]")).isEqualTo(Severity.WARNING_NORMAL);
+
+        assertThat(Severity.guessFromString("something")).isEqualTo(Severity.WARNING_LOW);
+        assertThat(Severity.guessFromString("")).isEqualTo(Severity.WARNING_LOW);
+        assertThat(Severity.guessFromString("critical thing")).isEqualTo(Severity.ERROR);
+        assertThat(Severity.guessFromString("severe problem")).isEqualTo(Severity.ERROR);
     }
 
     @Test @SuppressWarnings("PMD.PositionLiteralsFirstInCaseInsensitiveComparisons")

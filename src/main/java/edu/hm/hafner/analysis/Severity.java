@@ -12,6 +12,7 @@ import org.eclipse.collections.impl.factory.Sets;
 import com.google.errorprone.annotations.Immutable;
 
 import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.StringContainsUtils;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
@@ -92,13 +93,16 @@ public class Severity implements Serializable {
      * @return mapped level.
      */
     public static Severity guessFromString(@Nullable final String severity) {
-        if (StringUtils.containsIgnoreCase(severity, "error")) {
+        if (StringContainsUtils.containsAnyIgnoreCase(severity, "error", "severe", "critical")) {
             return Severity.ERROR;
         }
         if (StringUtils.containsIgnoreCase(severity, "info")) {
             return Severity.WARNING_LOW;
         }
-        return Severity.WARNING_NORMAL;
+        if (StringUtils.containsIgnoreCase(severity, "warning")) {
+            return Severity.WARNING_NORMAL;
+        }
+        return Severity.WARNING_LOW;
     }
 
     /**

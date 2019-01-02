@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,9 +9,10 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the extraction of Resharper DupFinder analysis results.
@@ -51,7 +53,8 @@ class DupFinderParserTest extends AbstractParserTest {
         Serializable additionalProperties = publisher.getAdditionalProperties();
         softly.assertThat(additionalProperties).isEqualTo(reporter.getAdditionalProperties());
         softly.assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
-        softly.assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isEqualTo(CODE_FRAGMENT);
+        softly.assertThat(((DuplicationGroup) Objects.requireNonNull(additionalProperties)).getCodeFragment())
+                .isEqualTo(CODE_FRAGMENT);
     }
 
     private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(
