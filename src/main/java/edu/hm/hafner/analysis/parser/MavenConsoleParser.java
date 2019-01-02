@@ -14,6 +14,8 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
+import static j2html.TagCreator.*;
+
 /**
  * A parser for maven console warnings.
  *
@@ -63,7 +65,12 @@ public class MavenConsoleParser extends LookaheadParser {
         if (matcher.find()) {
             goal = String.format("%s:%s", matcher.group("id"), matcher.group("goal"));
         }
-        return line.contains(WARNING) || line.contains(ERROR);
+
+        return isValidGoal() && (line.contains(WARNING) || line.contains(ERROR));
+    }
+
+    private boolean isValidGoal() {
+        return !goal.contains("maven-compiler-plugin"); // will be captured by another parser already
     }
 
     @Override
@@ -84,7 +91,7 @@ public class MavenConsoleParser extends LookaheadParser {
         if (StringUtils.isBlank(message.toString())) {
             return Optional.empty();
         }
-        return builder.setMessage(message.toString())
+        return builder.setDescription(pre().with(code().withText(message.toString())).render())
                 .setType(goal)
                 .setLineEnd(lookahead.getLine())
                 .buildOptional();
