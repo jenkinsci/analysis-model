@@ -35,13 +35,7 @@ public class MsBuildParser extends RegexpLineParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String fileName = determineFileName(matcher);
-        if ("MSBUILD".equals(fileName.trim())) {
-            builder.setFileName("-");
-        }
-        else {
-            builder.setFileName(fileName);
-        }
+        builder.setFileName(determineFileName(matcher));
 
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return builder.setLineStart(0)
@@ -112,6 +106,9 @@ public class MsBuildParser extends RegexpLineParser {
         String projectDir = matcher.group(12);
         if (canResolveRelativeFileName(fileName, projectDir)) {
             fileName = FilenameUtils.concat(projectDir, fileName);
+        }
+        if ("MSBUILD".equals(fileName.trim())) {
+            fileName = "-";
         }
         return fileName;
     }
