@@ -23,7 +23,8 @@ public class ErrorProneParser extends LookaheadParser {
     private static final Pattern URL_PATTERN = Pattern.compile("\\s+\\(see (?<url>http\\S+)\\s*\\)");
     private static final Pattern FIX_PATTERN = Pattern.compile("\\s+Did you mean '(?<code>.*)'\\?");
     private static final String WARNINGS_PATTERN
-            = "\\[(?<severity>WARNING|ERROR)\\]\\s+"
+            = "^(?:\\[\\p{Alnum}*\\]\\s+)?"
+            + "\\[(?<severity>WARNING|ERROR)\\]\\s+"
             + "(?<file>.+):"
             + "\\[(?<line>\\d+),(?<column>\\d+)\\]\\s+"
             + "\\[(?<type>\\w+)\\]\\s+"
@@ -53,7 +54,7 @@ public class ErrorProneParser extends LookaheadParser {
             if (urlMatcher.matches()) {
                 url.append(p().with(
                         a().withHref(urlMatcher.group("url"))
-                        .withText("See ErrorProne documentation."))
+                                .withText("See ErrorProne documentation."))
                         .render());
             }
             else {
