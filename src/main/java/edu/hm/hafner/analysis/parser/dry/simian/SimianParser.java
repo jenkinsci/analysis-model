@@ -53,13 +53,13 @@ public class SimianParser extends AbstractDryParser<Set> {
     }
 
     @Override
-    protected Report convertDuplicationsToIssues(final List<Set> duplications) {
+    protected Report convertDuplicationsToIssues(final List<Set> duplications, final IssueBuilder issueBuilder) {
         Report report = new Report();
 
         for (Set duplication : duplications) {
             DuplicationGroup group = new DuplicationGroup();
             for (Block file : duplication.getBlocks()) {
-                IssueBuilder builder = new IssueBuilder().setSeverity(getPriority(duplication.getLineCount()))
+                IssueBuilder builder = issueBuilder.setSeverity(getPriority(duplication.getLineCount()))
                         .setLineStart(file.getStartLineNumber())
                         .setLineEnd(file.getEndLineNumber())
                         .setFileName(file.getSourceFile())

@@ -83,16 +83,18 @@ class CpdParserTest extends AbstractParserTest {
         softly.assertThat(reporterSecond)
                 .hasLineStart(274).hasLineEnd(274 + 95 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasMessage("Found duplicated code.");
         softly.assertThat(publisherSecond)
                 .hasLineStart(202).hasLineEnd(202 + 95 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasMessage("Found duplicated code.");
 
         Serializable additionalProperties = publisherSecond.getAdditionalProperties();
         softly.assertThat(additionalProperties).isEqualTo(reporterSecond.getAdditionalProperties());
         softly.assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
-        softly.assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isNotEmpty();
+        softly.assertThat(((DuplicationGroup) additionalProperties).getCodeFragment()).isNotEmpty();
     }
 
     @Test
@@ -146,7 +148,7 @@ class CpdParserTest extends AbstractParserTest {
         Serializable additionalProperties = first.getAdditionalProperties();
         assertThat(additionalProperties).isEqualTo(second.getAdditionalProperties());
         assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
-        assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isEqualTo(CODE_FRAGMENT);
+        assertThat(((DuplicationGroup) additionalProperties).getCodeFragment()).isEqualTo(CODE_FRAGMENT);
     }
 
     /**
@@ -190,7 +192,7 @@ class CpdParserTest extends AbstractParserTest {
         assertThat(additionalProperties).isEqualTo(publisherFirst.getAdditionalProperties());
 
         assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
-        assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isNotEmpty();
+        assertThat(((DuplicationGroup) additionalProperties).getCodeFragment()).isNotEmpty();
     }
 
     @Test

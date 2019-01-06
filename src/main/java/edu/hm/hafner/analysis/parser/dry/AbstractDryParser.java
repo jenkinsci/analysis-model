@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.digester3.Digester;
 import org.xml.sax.SAXException;
 
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -79,7 +80,7 @@ public abstract class AbstractDryParser<T> extends IssueParser {
                 throw new ParsingException("Input stream is not a valid duplications file.");
             }
 
-            return convertDuplicationsToIssues(duplications);
+            return convertDuplicationsToIssues(duplications, new IssueBuilder().setMessage("Found duplicated code."));
         }
         catch (IOException | SAXException exception) {
             throw new ParsingException(exception);
@@ -99,8 +100,10 @@ public abstract class AbstractDryParser<T> extends IssueParser {
      *
      * @param duplications
      *         the parsed warnings
+     * @param issueBuilder
+     *         the issue builder to use
      *
      * @return the converted warnings
      */
-    protected abstract Report convertDuplicationsToIssues(List<T> duplications);
+    protected abstract Report convertDuplicationsToIssues(List<T> duplications, final IssueBuilder issueBuilder);
 }
