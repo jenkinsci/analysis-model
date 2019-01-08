@@ -143,8 +143,11 @@ public abstract class ReaderFactory {
      */
     public Document readDocument() {
         try (Reader reader = create()) {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            disableFeature(factory, "external-general-entities");
+            disableFeature(factory, "external-parameter-entities");
+            disableFeature(factory, "load-external-dtd");
+            DocumentBuilder docBuilder = factory.newDocumentBuilder();
             return docBuilder.parse(new InputSource(new ReaderInputStream(reader, getCharset())));
         }
         catch (SAXException | IOException | InvalidPathException | ParserConfigurationException e) {
@@ -152,6 +155,15 @@ public abstract class ReaderFactory {
         }
     }
 
+    @SuppressFBWarnings @SuppressWarnings("illegalcatch")
+    private void disableFeature(final DocumentBuilderFactory factory, final String feature) {
+        try {
+            factory.setFeature("http://xml.org/sax/features/" + feature, false);
+        }
+        catch (Exception ignored) {
+            // ignore and continue
+        }
+    }
     public Charset getCharset() {
         return ObjectUtils.defaultIfNull(charset, StandardCharsets.UTF_8);
     }
