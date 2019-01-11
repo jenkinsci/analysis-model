@@ -49,6 +49,22 @@ class FindBugsParserTest {
     /**
      * Parses messages from SpotBugs.
      *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55514">JENKINS-55514</a>
+     */
+    @Test
+    void shouldAssignCorrectSeverity() {
+        assertThat(parseFile("findbugs-severities.xml", CONFIDENCE))
+                .hasSize(12)
+                .hasSeverities(0, 1, 11, 0);
+
+        assertThat(parseFile("findbugs-severities.xml", RANK))
+                .hasSize(12)
+                .hasSeverities(0, 0, 0, 12);
+    }
+
+    /**
+     * Parses messages from SpotBugs.
+     *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-46975">JENKINS-46975</a>
      */
     @Test
