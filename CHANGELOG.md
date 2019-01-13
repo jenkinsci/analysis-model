@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for [ErrorProne](http://errorprone.info) in maven builds. Parser now reports description with link to external documentation.
 - [API]: Added new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
+- [JENKINS-55442](https://issues.jenkins-ci.org/browse/JENKINS-55442): Added include/exclude filters for issue messages.
 
 ### Changed
 - Improved maven console parser: use the maven goal that logs a warning as issue type. Ignore all warnings
