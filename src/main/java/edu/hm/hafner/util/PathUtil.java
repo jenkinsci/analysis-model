@@ -1,12 +1,13 @@
 package edu.hm.hafner.util;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.commons.lang3.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Utilities for {@link Path} instances.
