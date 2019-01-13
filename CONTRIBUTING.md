@@ -34,7 +34,7 @@ analysis tools is defined in the POM and the `etc` and `.idea` folders:
 
 This configuration will be picked up automatically if you build the project using maven. If you install the CheckStyle 
 plugin of IntelliJ then the correct set of CheckStyle rules will used automatically. Moreover, the code formatter and 
-the inspection rules will be automatically picked up bey IntelliJ.
+the inspection rules will be automatically picked up by IntelliJ.
 
 ## Proposing Changes
 

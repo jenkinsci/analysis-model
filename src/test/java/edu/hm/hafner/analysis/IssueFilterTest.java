@@ -19,6 +19,7 @@ class IssueFilterTest {
             .setModuleName("ModuleName1")
             .setCategory("CategoryName1")
             .setType("Type1")
+            .setMessage("Message1")
             .build();
     private static final Issue ISSUE2 = new IssueBuilder()
             .setFileName("FileName2")
@@ -26,6 +27,7 @@ class IssueFilterTest {
             .setModuleName("ModuleName2")
             .setCategory("CategoryName2")
             .setType("Type2")
+            .setMessage("Message2")
             .build();
 
     private static final Issue ISSUE3 = new IssueBuilder()
@@ -34,6 +36,7 @@ class IssueFilterTest {
             .setModuleName("ModuleName3")
             .setCategory("CategoryName3")
             .setType("Type3")
+            .setMessage("Message3")
             .build();
 
     @Test
@@ -186,6 +189,22 @@ class IssueFilterTest {
                 .setExcludeTypeFilter("Type2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
+    }
+
+    @Test
+    void shouldFindIssue1ByAMessageIncludeMatch() {
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
+                .setIncludeMessageFilter("Message1")
+                .build();
+        applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
+    }
+
+    @Test
+    void shouldRemoveIssue2ByAMessageExcludeMatch() {
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
+                .setExcludeMessageFilter("Message2")
+                .build();
+        applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
     }
 
     /**
