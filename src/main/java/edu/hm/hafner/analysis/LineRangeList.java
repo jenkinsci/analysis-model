@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import javax.annotation.Nonnull;
 
 /**
  * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
@@ -65,7 +64,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     }
 
     @Override
-    public final boolean addAll(@Nonnull final Collection<? extends LineRange> c) {
+    public final boolean addAll(final Collection<? extends LineRange> c) {
         return super.addAll(c);
     }
 
@@ -130,19 +129,16 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         len = 0;
     }
 
-    @Nonnull
     @Override
     public Iterator<LineRange> iterator() {
         return new Cursor();
     }
 
-    @Nonnull
     @Override
     public ListIterator<LineRange> listIterator() {
         return new Cursor();
     }
 
-    @Nonnull
     @Override
     public ListIterator<LineRange> listIterator(final int index) {
         return new Cursor().skip(index);
