@@ -105,5 +105,5 @@ public abstract class AbstractDryParser<T> extends IssueParser {
      *
      * @return the converted warnings
      */
-    protected abstract Report convertDuplicationsToIssues(List<T> duplications, final IssueBuilder issueBuilder);
+    protected abstract Report convertDuplicationsToIssues(List<T> duplications, IssueBuilder issueBuilder);
 }
