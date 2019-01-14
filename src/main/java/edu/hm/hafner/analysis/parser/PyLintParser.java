@@ -26,7 +26,7 @@ public class PyLintParser extends RegexpLineParser {
     // the default pattern matches "--output-format=parseable" output.
     private static final String DEFAULT_PYLINT_ERROR_PATTERN = "(?<path>.*):(?<line>\\d+): \\[(?<category>\\D\\d*)\\((?<symbol>.*)\\), .*?\\] (?<message>.*)";
 
-    public static final String UNKNOWN_CAT = "pylint-unknown";
+    private static final String UNKNOWN_CAT = "pylint-unknown";
 
     /**
      * Creates a new instance of {@link PyLintParser}.
