@@ -24,8 +24,8 @@ public class PyLintParser extends FastRegexpLineParser {
     // the default pattern matches "--output-format=parseable" output.
     private static final String DEFAULT_PYLINT_ERROR_PATTERN = "(?<path>.*):(?<line>\\d+): \\[(?<category>\\D\\d*)\\((?<symbol>.*)\\), .*?\\] (?<message>.*)";
 
-
     public static final String UNKNOWN_CAT = "pylint-unknown";
+
     /**
      * Creates a new instance of {@link PyLintParser}.
      */
@@ -37,7 +37,6 @@ public class PyLintParser extends FastRegexpLineParser {
         super(regExp);
     }
 
-
     @Override
     protected boolean isLineInteresting(final String line) {
         return line.contains("[");
@@ -46,52 +45,55 @@ public class PyLintParser extends FastRegexpLineParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group("message");
-        String category = matcher.group("symbol");
-        if (StringUtils.isEmpty(category)) {
-               category = UNKNOWN_CAT;
+        String category;
+        try {
+            category = matcher.group("symbol");
+            if (StringUtils.isEmpty(category)) {
+                category = UNKNOWN_CAT;
+            }
+        } catch (IllegalArgumentException e) {
+            // if no symbolic name is available, use the numeric one
+            category = matcher.group("category");
         }
         Severity priority = mapPriority(matcher.group("category"));
 
-        return builder.setFileName(matcher.group("path"))
-                .setLineStart(matcher.group("line"))
-                .setCategory(category)
-                .setMessage(message)
-                .setSeverity(priority)
-                .buildOptional();
+        return builder.setFileName(matcher.group("path")).setLineStart(matcher.group("line")).setCategory(category)
+                .setMessage(message).setSeverity(priority).buildOptional();
     }
 
     private Severity mapPriority(final String category) {
-        //First letter of the Pylint classification is one of F/E/W/R/C. E/F/W are high priority.
+        // First letter of the Pylint classification is one of F/E/W/R/C. E/F/W are high
+        // priority.
         Severity priority;
 
         // See http://docs.pylint.org/output.html for definitions of the categories
         if (category.isEmpty()) {
-           // if the category is missing from the output, default to 'normal'.
-           return Severity.WARNING_NORMAL;
+            // if the category is missing from the output, default to 'normal'.
+            return Severity.WARNING_NORMAL;
         }
         switch (category.charAt(0)) {
-            // [R]efactor for a ?good practice? metric violation
-            // [C]onvention for coding standard violation
-            case 'R':
-            case 'C':
-                priority = Severity.WARNING_LOW;
-                break;
+        // [R]efactor for a ?good practice? metric violation
+        // [C]onvention for coding standard violation
+        case 'R':
+        case 'C':
+            priority = Severity.WARNING_LOW;
+            break;
 
-            // [W]arning for stylistic problems, or minor programming issues
-            case 'W':
-                priority = Severity.WARNING_NORMAL;
-                break;
+        // [W]arning for stylistic problems, or minor programming issues
+        case 'W':
+            priority = Severity.WARNING_NORMAL;
+            break;
 
-            // [E]rror for important programming issues (i.e. most probably bug)
-            // [F]atal for errors which prevented further processing
-            case 'E':
-            case 'F':
-                priority = Severity.WARNING_HIGH;
-                break;
+        // [E]rror for important programming issues (i.e. most probably bug)
+        // [F]atal for errors which prevented further processing
+        case 'E':
+        case 'F':
+            priority = Severity.WARNING_HIGH;
+            break;
 
-            default:
-                priority = Severity.WARNING_LOW;
-                break;
+        default:
+            priority = Severity.WARNING_LOW;
+            break;
         }
         return priority;
     }
