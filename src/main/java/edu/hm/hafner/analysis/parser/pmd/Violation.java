@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.pmd;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 /**
  * Java Bean class for a violation of the PMD format.
  *
@@ -8,13 +10,18 @@ package edu.hm.hafner.analysis.parser.pmd;
 @SuppressWarnings("all")
 public class Violation {
     /** Type of warning. */
+    @Nullable
     private String rule;
     /** Category of warning. */
+    @Nullable
     private String ruleset;
 
+    @Nullable
     private String externalInfoUrl;
+    @Nullable
     private String javaPackage;
     private int priority;
+    @Nullable
     private String message;
     private int beginline;
     private int endline;
@@ -22,24 +29,28 @@ public class Violation {
     private int endcolumn;
 
     // CHECKSTYLE:OFF
+    @Nullable
     public String getRule() {
         return rule;
     }
     public void setRule(final String rule) {
         this.rule = rule;
     }
+    @Nullable
     public String getRuleset() {
         return ruleset;
     }
     public void setRuleset(final String ruleset) {
         this.ruleset = ruleset;
     }
+    @Nullable
     public String getExternalInfoUrl() {
         return externalInfoUrl;
     }
     public void setExternalInfoUrl(final String externalInfoUrl) {
         this.externalInfoUrl = externalInfoUrl;
     }
+    @Nullable
     public String getPackage() {
         return javaPackage;
     }
@@ -52,6 +63,7 @@ public class Violation {
     public void setPriority(final int priority) {
         this.priority = priority;
     }
+    @Nullable
     public String getMessage() {
         return message;
     }

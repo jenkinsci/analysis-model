@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Shimi Kiviti
  */
-public class PhpParser extends FastRegexpLineParser {
+public class PhpParser extends RegexpLineParser {
     private static final long serialVersionUID = -5154327854315791181L;
 
     private static final String PHP_WARNING_PATTERN = "^.*(PHP Warning|PHP Notice|PHP Fatal error|PHP Parse error)"

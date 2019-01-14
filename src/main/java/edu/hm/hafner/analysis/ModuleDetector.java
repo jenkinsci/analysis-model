@@ -120,7 +120,7 @@ public class ModuleDetector {
 
         String guessedModule = StringUtils.EMPTY;
         for (String path : prefixes) {
-            if (fullPath.startsWith(path)) {
+            if (fullPath.startsWith(path) && fileNameToModuleName.containsKey(path)) {
                 guessedModule = fileNameToModuleName.get(path);
             }
         }

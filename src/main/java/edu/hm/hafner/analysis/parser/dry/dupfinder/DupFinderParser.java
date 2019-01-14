@@ -66,7 +66,7 @@ public class DupFinderParser extends AbstractDryParser<Duplicate> {
     }
 
     @Override
-    protected Report convertDuplicationsToIssues(final List<Duplicate> duplications) {
+    protected Report convertDuplicationsToIssues(final List<Duplicate> duplications, final IssueBuilder issueBuilder) {
         Report report = new Report();
 
         for (Duplicate duplication : duplications) {
@@ -75,7 +75,7 @@ public class DupFinderParser extends AbstractDryParser<Duplicate> {
                 group.setCodeFragment(fragment.getText());
                 Range lineRange = fragment.getLineRange();
                 int count = lineRange.getEnd() - lineRange.getStart() + 1;
-                IssueBuilder builder = new IssueBuilder().setSeverity(getPriority(count))
+                IssueBuilder builder = issueBuilder.setSeverity(getPriority(count))
                         .setLineStart(lineRange.getStart())
                         .setLineEnd(lineRange.getEnd())
                         .setFileName(fragment.getFileName())

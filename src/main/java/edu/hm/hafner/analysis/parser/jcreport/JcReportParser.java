@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser.jcreport;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -12,7 +11,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
-import edu.hm.hafner.analysis.Severity;
 
 /**
  * JcReportParser-Class. This class parses from the jcReport.xml and creates warnings from its content.
@@ -38,34 +36,12 @@ public class JcReportParser extends IssueParser {
                         .setCategory(item.getFindingtype())
                         .setPackageName(file.getPackageName())
                         .setMessage(item.getMessage())
-                        .setSeverity(getPriority(item.getSeverity()));
+                        .guessSeverity(item.getSeverity());
 
                 warnings.add(builder.build());
             }
         }
         return warnings;
-    }
-
-    /**
-     * The severity-level parsed from the JcReport will be matched with a priority.
-     *
-     * @param issueLevel
-     *         the severity-level parsed from the JcReport.
-     *
-     * @return the priority-enum matching with the issueLevel.
-     */
-    private Severity getPriority(final String issueLevel) {
-        if (StringUtils.isEmpty(issueLevel)) {
-            return Severity.WARNING_HIGH;
-        }
-
-        if (issueLevel.contains("Error") || issueLevel.contains("Critical")) {
-            return Severity.WARNING_HIGH;
-        }
-        if (issueLevel.contains("Warning")) {
-            return Severity.WARNING_NORMAL;
-        }
-        return Severity.WARNING_LOW;
     }
 
     /**

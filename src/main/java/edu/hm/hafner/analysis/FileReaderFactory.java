@@ -15,7 +15,7 @@ import org.apache.commons.io.input.BOMInputStream;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Provides a {@link ReaderFactory} that returns readers for a given file.
@@ -34,7 +34,7 @@ public class FileReaderFactory extends ReaderFactory {
      * @param charset
      *         the charset to use when reading the file
      */
-    public FileReaderFactory(final Path file, final @CheckForNull Charset charset) {
+    public FileReaderFactory(final Path file, final @Nullable Charset charset) {
         super(charset);
         
         this.file = file;

@@ -7,10 +7,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for the PyLint compiler warnings.
@@ -18,7 +20,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Sebastian Hansbauer
  * @author Björn Pedersen
  */
-public class PyLintParser extends FastRegexpLineParser {
+public class PyLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 4464053085862883240L;
 
     // the default pattern matches "--output-format=parseable" output.

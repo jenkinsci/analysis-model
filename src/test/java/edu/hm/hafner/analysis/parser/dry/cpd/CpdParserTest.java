@@ -6,16 +6,17 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the extraction of PMD's CPD analysis results.
  */
+@SuppressWarnings("NullAway")
 class CpdParserTest extends AbstractParserTest {
     private static final String FILE_NAME_REPORTER = "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwareMavenReporter.java";
     private static final String FILE_NAME_PUBLISHER = "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwarePublisher.java";
@@ -82,16 +83,18 @@ class CpdParserTest extends AbstractParserTest {
         softly.assertThat(reporterSecond)
                 .hasLineStart(274).hasLineEnd(274 + 95 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasMessage("Found duplicated code.");
         softly.assertThat(publisherSecond)
                 .hasLineStart(202).hasLineEnd(202 + 95 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasMessage("Found duplicated code.");
 
         Serializable additionalProperties = publisherSecond.getAdditionalProperties();
         softly.assertThat(additionalProperties).isEqualTo(reporterSecond.getAdditionalProperties());
         softly.assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
-        softly.assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isNotEmpty();
+        softly.assertThat(((DuplicationGroup) additionalProperties).getCodeFragment()).isNotEmpty();
     }
 
     @Test
@@ -145,7 +148,7 @@ class CpdParserTest extends AbstractParserTest {
         Serializable additionalProperties = first.getAdditionalProperties();
         assertThat(additionalProperties).isEqualTo(second.getAdditionalProperties());
         assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
-        assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isEqualTo(CODE_FRAGMENT);
+        assertThat(((DuplicationGroup) additionalProperties).getCodeFragment()).isEqualTo(CODE_FRAGMENT);
     }
 
     /**
@@ -189,7 +192,7 @@ class CpdParserTest extends AbstractParserTest {
         assertThat(additionalProperties).isEqualTo(publisherFirst.getAdditionalProperties());
 
         assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
-        assertThat(((DuplicationGroup)additionalProperties).getCodeFragment()).isNotEmpty();
+        assertThat(((DuplicationGroup) additionalProperties).getCodeFragment()).isNotEmpty();
     }
 
     @Test

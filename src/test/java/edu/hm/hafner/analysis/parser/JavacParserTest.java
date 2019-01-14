@@ -9,8 +9,9 @@ import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -96,8 +97,7 @@ class JavacParserTest extends AbstractParserTest {
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
                     .hasLineEnd(14)
-                    .hasMessage(
-                            "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
+                    .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
                     .hasFileName("D:/path/to/my/Class.java");
         });
     }

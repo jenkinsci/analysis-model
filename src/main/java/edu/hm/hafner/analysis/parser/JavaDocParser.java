@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -16,7 +16,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Ullrich Hafner
  */
-public class JavaDocParser extends FastRegexpLineParser {
+public class JavaDocParser extends RegexpLineParser {
     private static final long serialVersionUID = 7127568148333474921L;
     private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit"
             + " code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";

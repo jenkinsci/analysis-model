@@ -3,18 +3,19 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for the javac compiler warnings.
  *
  * @author Ullrich Hafner
  */
-public class JavacParser extends FastRegexpLineParser {
+public class JavacParser extends RegexpLineParser {
     private static final long serialVersionUID = 7199325311690082782L;
 
     private static final String JAVAC_WARNING_PATTERN

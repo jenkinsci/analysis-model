@@ -1,11 +1,10 @@
 package edu.hm.hafner.util;
 
-import java.io.File;
-
 import org.junit.jupiter.api.Test;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import static org.assertj.core.api.Assertions.assertThat;
+
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assumptions.*;
 
 /**

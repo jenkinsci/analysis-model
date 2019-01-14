@@ -5,18 +5,19 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
-import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for the ant javac compiler warnings.
  *
  * @author Ullrich Hafner
  */
-public class AntJavacParser extends FastRegexpLineParser {
+public class AntJavacParser extends RegexpLineParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*"

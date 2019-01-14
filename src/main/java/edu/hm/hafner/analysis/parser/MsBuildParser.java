@@ -107,6 +107,9 @@ public class MsBuildParser extends RegexpLineParser {
         if (canResolveRelativeFileName(fileName, projectDir)) {
             fileName = FilenameUtils.concat(projectDir, fileName);
         }
+        if ("MSBUILD".equals(fileName.trim())) {
+            fileName = "-";
+        }
         return fileName;
     }
 

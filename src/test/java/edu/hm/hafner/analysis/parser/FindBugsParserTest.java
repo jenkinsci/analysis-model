@@ -15,16 +15,18 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
+
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
-import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
 import static org.mockito.Mockito.*;
 
 /**
  * Tests the extraction of FindBugs analysis results.
  */
+@SuppressWarnings("NullAway")
 class FindBugsParserTest {
     private static final String PREFIX = "findbugs/";
 
@@ -42,6 +44,22 @@ class FindBugsParserTest {
 
     private InputStream read(final String fileName) {
         return FindBugsParserTest.class.getResourceAsStream(fileName);
+    }
+
+    /**
+     * Parses messages from SpotBugs.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55514">JENKINS-55514</a>
+     */
+    @Test
+    void shouldAssignCorrectSeverity() {
+        assertThat(parseFile("findbugs-severities.xml", CONFIDENCE))
+                .hasSize(12)
+                .hasSeverities(0, 1, 11, 0);
+
+        assertThat(parseFile("findbugs-severities.xml", RANK))
+                .hasSize(12)
+                .hasSeverities(0, 0, 0, 12);
     }
 
     /**

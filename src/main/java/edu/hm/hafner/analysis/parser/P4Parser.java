@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Adrian Deccico
  */
-public class P4Parser extends FastRegexpLineParser {
+public class P4Parser extends RegexpLineParser {
     private static final long serialVersionUID = -8106854254745366432L;
 
     private static final String ALREADY_OPENED = "already opened for edit";

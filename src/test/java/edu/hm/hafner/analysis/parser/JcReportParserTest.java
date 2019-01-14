@@ -8,17 +8,19 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the {@link JcReportParser}.
  *
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
+@SuppressWarnings("NullAway")
 class JcReportParserTest extends AbstractParserTest {
     JcReportParserTest() {
         super("jcreport/testCorrect.xml");
@@ -31,7 +33,7 @@ class JcReportParserTest extends AbstractParserTest {
     void testGetWarningList() {
         Report warnings = parseDefaultFile();
 
-        assertThat(warnings).hasSize(5).hasDuplicatesSize(2);
+        assertThat(warnings).hasSize(6).hasDuplicatesSize(1);
     }
 
     /**
@@ -80,11 +82,11 @@ class JcReportParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(5).hasDuplicatesSize(2);
+        assertThat(report).hasSize(6).hasDuplicatesSize(1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("SomeDirectory/SomeClass.java")
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasMessage("SomeMessage")
                 .hasPackageName("SomePackage")
                 .hasLineStart(50);

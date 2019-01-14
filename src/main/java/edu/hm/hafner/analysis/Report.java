@@ -1012,5 +1012,58 @@ public class Report implements Iterable<Issue>, Serializable {
             return setExcludeTypeFilter(Arrays.asList(pattern));
         }
         //</editor-fold>
+
+        //<editor-fold desc="Message">
+
+        /**
+         * Add a new filter to include issues with matching issue message.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeMessageFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, Issue::getMessage, FilterType.INCLUDE);
+            return this;
+        }
+
+        /**
+         * Add a new filter to include issues with matching issue message.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setIncludeMessageFilter(final String... pattern) {
+            return setIncludeMessageFilter(Arrays.asList(pattern));
+        }
+
+        /**
+         * Add a new filter to exclude issues with matching issue message.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeMessageFilter(final Collection<String> pattern) {
+            addNewFilter(pattern, Issue::getMessage, FilterType.EXCLUDE);
+            return this;
+        }
+
+        /**
+         * Add a new filter to exclude issues with matching issue message.
+         *
+         * @param pattern
+         *         pattern
+         *
+         * @return this.
+         */
+        public IssueFilterBuilder setExcludeMessageFilter(final String... pattern) {
+            return setExcludeMessageFilter(Arrays.asList(pattern));
+        }
+        //</editor-fold>
     }
 }

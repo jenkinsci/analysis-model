@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -41,57 +40,20 @@ class EclipseParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with previously undetected warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55358">Issue 55358</a>
      */
     @Test
-    void issue21377() {
-        Report warnings = parse("issue21377.txt");
+    void issue55358() {
+        Report warnings = parse("java-eclipse-ant.log");
 
-        assertThat(warnings).hasSize(1);
+        assertThat(warnings).hasSize(27);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasLineStart(13)
-                    .hasLineEnd(13)
-                    .hasColumnStart(11)
-                    .hasColumnEnd(11 + 12)
-                    .hasMessage("The method getOldValue() from the type SomeType is deprecated")
-                    .hasFileName("/path/to/job/job-name/module/src/main/java/com/example/Example.java");
-        });
-    }
-
-    /**
-     * Parses a warning log with 2 previously undetected warnings.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-13969">Issue 13969</a>
-     */
-    @Test
-    void issue13969() {
-        Report warnings = parse("issue13969.txt");
-
-        assertThat(warnings).hasSize(3);
-
-        assertSoftly(softly -> {
-            Iterator<? extends Issue> iterator = warnings.iterator();
-            softly.assertThat(iterator.next())
-                    .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasLineStart(369)
-                    .hasLineEnd(369)
-                    .hasMessage("The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally")
-                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java");
-            softly.assertThat(iterator.next())
-                    .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasLineStart(391)
-                    .hasLineEnd(391)
-                    .hasMessage("The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally")
-                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java");
-            softly.assertThat(iterator.next())
-                    .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasLineStart(56)
-                    .hasLineEnd(56)
-                    .hasMessage("The value of the field PropertyImporterTest.ERROR_RESPONSE is not used")
-                    .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java");
+                    .hasLineStart(82)
+                    .hasMessage("Class is a raw type. References to generic type Class<T> should be parameterized")
+                    .hasFileName("C:/PCI_Dev/source/pcisvn/CUSTOMER/CUSTOMER_Market/Code/CUSTOMER_Market/src/CUSTOMER/AutomatedProcess/BackOffice/Dataset/CUSTOMERBaseDataset.java");
         });
     }
 
@@ -185,8 +147,6 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(8)
                     .hasLineEnd(8)
-                    .hasColumnStart(13)
-                    .hasColumnEnd(16)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("Type mismatch: cannot convert from float to Integer");
 
@@ -194,8 +154,6 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(16)
                     .hasLineEnd(16)
-                    .hasColumnStart(8)
-                    .hasColumnEnd(40)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("Dead code");
 
@@ -203,8 +161,6 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(22)
                     .hasLineEnd(22)
-                    .hasColumnStart(9)
-                    .hasColumnEnd(9)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("The value of the local variable x is not used");
 
@@ -212,8 +168,6 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(27)
                     .hasLineEnd(27)
-                    .hasColumnStart(8)
-                    .hasColumnEnd(40)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage(
                             "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally");
@@ -222,8 +176,6 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasLineStart(33)
                     .hasLineEnd(33)
-                    .hasColumnStart(13)
-                    .hasColumnEnd(18)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("Comparing identical expressions");
 
@@ -231,28 +183,8 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasLineStart(35)
                     .hasLineEnd(35)
-                    .hasColumnStart(1)
-                    .hasColumnEnd(95)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("The allocated object is never used");
-        });
-    }
-
-    @Test
-    void shouldCountColumns() {
-        Report report = parse("eclipse-columns.txt");
-
-        assertThat(report).hasSize(1);
-
-        assertSoftly(softly -> {
-            softly.assertThat(report.get(0))
-                    .hasSeverity(Severity.ERROR)
-                    .hasLineStart(2)
-                    .hasLineEnd(2)
-                    .hasColumnStart(1)
-                    .hasColumnEnd(5)
-                    .hasFileName("C:/TEMP/Column.java")
-                    .hasMessage("Syntax error on token \"12345\", delete this token");
         });
     }
 
@@ -260,10 +192,7 @@ class EclipseParserTest extends AbstractParserTest {
     void shouldOnlyAcceptTextFiles() {
         EclipseParser parser = createParser();
 
-        assertThat(parser.accepts(createReaderFactory("eclipse-columns.txt"))).isTrue();
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.txt"))).isTrue();
-
-        assertThat(parser.accepts(createReaderFactory("eclipse-columns.xml"))).isFalse();
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isFalse();
     }
 }

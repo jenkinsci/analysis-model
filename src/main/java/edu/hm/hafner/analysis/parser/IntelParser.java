@@ -5,9 +5,9 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -15,9 +15,9 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Vangelis Livadiotis
  */
-public class IntelParser extends FastRegexpLineParser {
+public class IntelParser extends RegexpLineParser {
     private static final long serialVersionUID = 8409744276858003050L;
-    private static final String INTEL_PATTERN = "^(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*("
+    private static final String INTEL_PATTERN = "^(\\d+>)?(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*("
             + "(?:remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";
 
     /**
@@ -34,7 +34,7 @@ public class IntelParser extends FastRegexpLineParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String category = StringUtils.capitalize(matcher.group(4));
+        String category = StringUtils.capitalize(matcher.group(5));
 
         Severity priority;
         if (StringUtils.startsWith(category, "Remark")) {
@@ -47,11 +47,11 @@ public class IntelParser extends FastRegexpLineParser {
             priority = Severity.WARNING_NORMAL;
         }
 
-        return builder.setFileName(matcher.group(1))
-                .setLineStart(matcher.group(2))
-                .setColumnStart(matcher.group(3))
+        return builder.setFileName(matcher.group(2))
+                .setLineStart(matcher.group(3))
+                .setColumnStart(matcher.group(4))
                 .setCategory(category)
-                .setMessage(matcher.group(5))
+                .setMessage(matcher.group(6))
                 .setSeverity(priority)
                 .buildOptional();
     }

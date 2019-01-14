@@ -1,77 +1,66 @@
 package edu.hm.hafner.analysis;
 
-import java.util.Iterator;
+import java.util.Optional;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
+import edu.hm.hafner.util.LookaheadStream;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
- * Parses an input stream line by line for compiler warnings using the provided regular expression. Multi-line regular
- * expressions are not supported, each warning has to be one a single line.
+ * Parses a report file line by line for issues using a pre-defined regular expression. If the regular expression
+ * matches then the abstract method {@link #createIssue(Matcher, IssueBuilder)} will be called. Sub classes need to
+ * provide an implementation that transforms the {@link Matcher} instance into a new issue. This class basically
+ * simplifies the parent class {@link LookaheadParser} so that sub classes are not allowed to consume additional lines
+ * of the report anymore.
  *
  * @author Ullrich Hafner
  */
-public abstract class RegexpLineParser extends RegexpParser {
-    private static final long serialVersionUID = 5932670979793111138L;
-
-    private static final Pattern MAKE_PATH = Pattern.compile(".*make(?:\\[\\d+])?: Entering directory [`'](.*)['`]");
-
-    private int currentLine = 0;
-    private String currentDirectory = StringUtils.EMPTY;
+public abstract class RegexpLineParser extends LookaheadParser {
+    private static final long serialVersionUID = 434000822024807289L;
+    @Nullable
+    private LookaheadStream temporaryLookahead;
 
     /**
      * Creates a new instance of {@link RegexpLineParser}.
      *
-     * @param warningPattern
+     * @param pattern
      *         pattern of compiler warnings.
      */
-    protected RegexpLineParser(final String warningPattern) {
-        super(warningPattern, false);
+    protected RegexpLineParser(final String pattern) {
+        super(pattern);
     }
 
     @Override
-    public Report parse(final ReaderFactory reader) throws ParsingException {
-        Report report = new Report();
-        try (Stream<String> lines = reader.readStream()) {
-            Iterator<String> iterator = lines.iterator();
-            for (currentLine = 1; iterator.hasNext(); currentLine++) {
-                String line = iterator.next();
-                Matcher makeLineMatcher = MAKE_PATH.matcher(line);
-                if (makeLineMatcher.matches()) {
-                    currentDirectory = makeLineMatcher.group(1);
-                }
-                findIssues(line, report);
-            }
-        }
+    protected final Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) throws ParsingException {
+        temporaryLookahead = lookahead;
 
-        return postProcess(report);
-    }
-
-    @Override
-    protected IssueBuilder configureIssueBuilder(final IssueBuilder builder) {
-        return builder.setDirectory(currentDirectory);
+        return createIssue(matcher, builder);
     }
 
     /**
-     * Post processes the issues. This default implementation does nothing.
+     * Creates a new issue for the specified pattern. This method is called for each matching line in the specified
+     * file. If a match is a false positive, then return {@link Optional#empty()} to ignore this warning.
      *
-     * @param report
-     *         the issues after the parsing process
+     * @param matcher
+     *         the regular expression matcher
+     * @param builder
+     *         the issue builder to use
      *
-     * @return the post processed issues
+     * @return a new annotation for the specified pattern
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
      */
-    protected Report postProcess(final Report report) {
-        return report;
-    }
+    protected abstract Optional<Issue> createIssue(Matcher matcher, IssueBuilder builder);
 
     /**
      * Returns the number of the current line in the parsed file.
      *
      * @return the current line
+     * @deprecated use {@link LookaheadParser} as base class to obtain the current line
      */
+    @Deprecated
     protected int getCurrentLine() {
-        return currentLine;
+        return temporaryLookahead == null ? 0 : temporaryLookahead.getLine();
     }
 }

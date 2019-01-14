@@ -5,12 +5,12 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.util.SerializableTest;
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static java.util.Collections.*;
-
-import edu.hm.hafner.util.SerializableTest;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Unit tests for {@link Issue}.
@@ -83,13 +83,13 @@ class IssueTest extends SerializableTest<Issue> {
      * @return the subject under test
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue createIssue(@CheckForNull final String fileName,
+    protected Issue createIssue(@Nullable final String fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @CheckForNull final String category, @CheckForNull final String type,
-            @CheckForNull final String packageName, @CheckForNull final String moduleName,
-            @CheckForNull final Severity priority, @CheckForNull final String message,
-            @CheckForNull final String description, @CheckForNull final String origin,
-            @CheckForNull final String reference, @CheckForNull final String fingerprint,
+            @Nullable final String category, @Nullable final String type,
+            @Nullable final String packageName, @Nullable final String moduleName,
+            @Nullable final Severity priority, @Nullable final String message,
+            @Nullable final String description, @Nullable final String origin,
+            @Nullable final String reference, @Nullable final String fingerprint,
             final String additionalProperties) {
         return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type, packageName,
                 moduleName, priority, message, description, origin, reference, fingerprint, additionalProperties,
@@ -177,6 +177,7 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void testDefaultIssueNullStringsNegativeIntegers() {
         Issue issue = createIssue(null, 0, 0, 0, 0,
                 null, null, null, null,

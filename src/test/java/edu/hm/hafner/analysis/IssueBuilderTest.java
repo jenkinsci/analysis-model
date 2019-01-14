@@ -3,15 +3,15 @@ package edu.hm.hafner.analysis;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Unit test for {@link IssueBuilder}.
@@ -44,10 +44,10 @@ class IssueBuilderTest {
 
     @ParameterizedTest(name = "{index} => Full Path: {0} - Expected Base Name: file.txt")
     @ValueSource(strings = {
-            "/path/to/file.txt", 
-            "./file.txt", 
-            "file.txt", 
-            "C:\\Programme\\Folder\\file.txt", 
+            "/path/to/file.txt",
+            "./file.txt",
+            "file.txt",
+            "C:\\Programme\\Folder\\file.txt",
             "C:\\file.txt"
     })
     void shouldGetBaseName(final String fullPath) {
@@ -104,11 +104,11 @@ class IssueBuilderTest {
         builder.setColumnStart(start).setColumnEnd(end);
         assertThat(builder.build()).hasColumnStart(expectedStart).hasColumnEnd(expectedEnd);
     }
-    
+
     @Test
     void shouldMapStringNumbers() {
         IssueBuilder builder = new IssueBuilder();
-        
+
         assertThat(builder.setLineStart("nix").build()).hasLineStart(0);
         assertThat(builder.setLineStart("-1").build()).hasLineStart(0);
         assertThat(builder.setLineStart("0").build()).hasLineStart(0);
@@ -119,13 +119,13 @@ class IssueBuilderTest {
         assertThat(builder.setLineEnd("-1").build()).hasLineEnd(0);
         assertThat(builder.setLineEnd("0").build()).hasLineEnd(0);
         assertThat(builder.setLineEnd("1").build()).hasLineEnd(1);
-        
+
         builder = new IssueBuilder();
         assertThat(builder.setColumnStart("nix").build()).hasColumnStart(0);
         assertThat(builder.setColumnStart("-1").build()).hasColumnStart(0);
         assertThat(builder.setColumnStart("0").build()).hasColumnStart(0);
         assertThat(builder.setColumnStart("1").build()).hasColumnStart(1);
-        
+
         builder = new IssueBuilder();
         assertThat(builder.setColumnEnd("nix").build()).hasColumnEnd(0);
         assertThat(builder.setColumnEnd("-1").build()).hasColumnEnd(0);

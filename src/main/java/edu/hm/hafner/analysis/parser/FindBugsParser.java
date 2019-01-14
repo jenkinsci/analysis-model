@@ -29,16 +29,18 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.BugAnnotation;
 import edu.umd.cs.findbugs.BugInstance;
 import edu.umd.cs.findbugs.Project;
 import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
+
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 
 /**
  * A parser for the native FindBugs XML files.
@@ -118,39 +120,6 @@ public class FindBugsParser extends IssueParser {
     }
 
     /**
-     * Pre-parses a file for some information not available from the FindBugs parser. Creates a mapping of FindBugs
-     * warnings to messages. A bug is represented by its unique hash code. Also obtains original categories for bug
-     * types.
-     *
-     * @param file
-     *         the FindBugs XML file
-     *
-     * @return the map of warning messages
-     * @throws SAXException
-     *         if the file contains no valid XML
-     * @throws IOException
-     *         signals that an I/O exception has occurred.
-     */
-    @VisibleForTesting
-    List<XmlBugInstance> preParse(final Reader file) throws SAXException, IOException {
-        Digester digester = new SecureDigester(FindBugsParser.class);
-
-        String rootXPath = "BugCollection/BugInstance";
-        digester.addObjectCreate(rootXPath, XmlBugInstance.class);
-        digester.addSetProperties(rootXPath);
-
-        String fileXPath = rootXPath + "/LongMessage";
-        digester.addCallMethod(fileXPath, "setMessage", 0);
-
-        digester.addSetNext(rootXPath, "add", Object.class.getName());
-        ArrayList<XmlBugInstance> bugs = new ArrayList<>();
-        digester.push(bugs);
-        digester.parse(file);
-
-        return bugs;
-    }
-
-    /**
      * Returns the parsed FindBugs analysis file. This scanner accepts files in the native FindBugs format.
      *
      * @param builder
@@ -213,6 +182,39 @@ public class FindBugsParser extends IssueParser {
         catch (DocumentException | IOException exception) {
             throw new ParsingException(exception);
         }
+    }
+
+    /**
+     * Pre-parses a file for some information not available from the FindBugs parser. Creates a mapping of FindBugs
+     * warnings to messages. A bug is represented by its unique hash code. Also obtains original categories for bug
+     * types.
+     *
+     * @param file
+     *         the FindBugs XML file
+     *
+     * @return the map of warning messages
+     * @throws SAXException
+     *         if the file contains no valid XML
+     * @throws IOException
+     *         signals that an I/O exception has occurred.
+     */
+    @VisibleForTesting
+    List<XmlBugInstance> preParse(final Reader file) throws SAXException, IOException {
+        Digester digester = new SecureDigester(FindBugsParser.class);
+
+        String rootXPath = "BugCollection/BugInstance";
+        digester.addObjectCreate(rootXPath, XmlBugInstance.class);
+        digester.addSetProperties(rootXPath);
+
+        String fileXPath = rootXPath + "/LongMessage";
+        digester.addCallMethod(fileXPath, "setMessage", 0);
+
+        digester.addSetNext(rootXPath, "add", Object.class.getName());
+        ArrayList<XmlBugInstance> bugs = new ArrayList<>();
+        digester.push(bugs);
+        digester.parse(file);
+
+        return bugs;
     }
 
     private String createMessage(final Map<String, String> hashToMessageMapping, final BugInstance warning,
@@ -372,11 +374,16 @@ public class FindBugsParser extends IssueParser {
      */
     @SuppressWarnings("all")
     public static class XmlBugInstance {
+        @Nullable
         private String instanceHash;
+        @Nullable
         private String message;
+        @Nullable
         private String type;
+        @Nullable
         private String category;
 
+        @Nullable
         public String getInstanceHash() {
             return instanceHash;
         }
@@ -385,6 +392,7 @@ public class FindBugsParser extends IssueParser {
             this.instanceHash = instanceHash;
         }
 
+        @Nullable
         public String getMessage() {
             return message;
         }
@@ -393,6 +401,7 @@ public class FindBugsParser extends IssueParser {
             this.message = message;
         }
 
+        @Nullable
         public String getType() {
             return type;
         }
@@ -401,6 +410,7 @@ public class FindBugsParser extends IssueParser {
             this.type = type;
         }
 
+        @Nullable
         public String getCategory() {
             return category;
         }

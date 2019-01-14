@@ -7,13 +7,14 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import static edu.hm.hafner.analysis.Categories.*;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for <a href="http://robotframework.org/">Robot Framework</a> Parse output from <a
@@ -22,31 +23,33 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author traitanit
  */
-public class RfLintParser extends RegexpLineParser {
+public class RfLintParser extends IarParser {
     private static final long serialVersionUID = -7903991158616386226L;
 
-    private static final String RFLINT_ERROR_PATTERN = "([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)";
-    private static final String RFLINT_FILE_PATTERN = "\\+\\s(.*)";
     private String fileName = StringUtils.EMPTY;
-
-    /**
-     * Creates a new parser.
-     */
-    public RfLintParser() {
-        super(RFLINT_ERROR_PATTERN);
-    }
+    private static final Pattern WARNING_PATTERN = Pattern.compile("([W|E|I]): (\\d+), (\\d+): (.*) \\((.*)\\)");
+    private static final Pattern FILE_PATTERN = Pattern.compile("\\+\\s(.*)");
 
     @Override
     public Report parse(final ReaderFactory readerFactory) {
         try (Stream<String> lines = readerFactory.readStream()) {
             Report warnings = new Report();
-            Pattern filePattern = Pattern.compile(RFLINT_FILE_PATTERN);
             lines.forEach(line -> {
-                Matcher matcher = filePattern.matcher(line);
-                if (matcher.find()) {
-                    fileName = matcher.group(1);
+                Matcher fileMatcher = FILE_PATTERN.matcher(line);
+                if (fileMatcher.find()) {
+                    fileName = fileMatcher.group(1);
                 }
-                findIssues(line, warnings);
+                Matcher matcher = WARNING_PATTERN.matcher(line);
+                if (matcher.find()) {
+                    Optional<Issue> warning = createIssue(matcher, new IssueBuilder());
+                    if (warning.isPresent()) {
+                        warnings.add(warning.get());
+                    }
+
+                }
+                if (Thread.interrupted()) {
+                    throw new ParsingCanceledException();
+                }
             });
             return warnings;
         }

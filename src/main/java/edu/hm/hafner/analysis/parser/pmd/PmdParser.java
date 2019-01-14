@@ -91,6 +91,9 @@ public class PmdParser extends IssueParser {
 
     private String createMessage(final Violation warning) {
         String original = warning.getMessage();
+        if (original == null) {
+            return StringUtils.EMPTY;
+        }
         if (StringUtils.endsWith(original, ".")) {
             return original;
         }

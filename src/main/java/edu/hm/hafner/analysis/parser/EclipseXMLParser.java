@@ -15,7 +15,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.XmlElementUtil;
-import static java.lang.Integer.*;
 
 /**
  * Parser for Eclipse Compiler output in XML format.
@@ -49,26 +48,23 @@ public class EclipseXMLParser extends IssueParser {
 
                 NodeList problems = (NodeList)xPath.evaluate("problems/problem", source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
-                    String type = xPath.evaluate("@severity", problem);
-                    if (type != null) {
-                        issueBuilder.setSeverity(EclipseParser.mapTypeToSeverity(type));
-                    }
+                    issueBuilder.guessSeverity(xPath.evaluate("@severity", problem))
+                            .setLineStart(xPath.evaluate("@line", problem))
+                            .setMessage(xPath.evaluate("message/@value", problem));
 
-                    issueBuilder.setLineStart(xPath.evaluate("@line", problem));
-
-                    // Columns are a closed range, 1 based index.
-                    // XML output counts from column 0, need to offset by 1
+                    // Use columns to make issue 'unique', range isn't useful for counting in the physical source.
+                    StringBuilder range = new StringBuilder();
                     String colStart = xPath.evaluate("source_context/@sourceStart", problem);
                     if (colStart != null) {
-                        issueBuilder.setColumnStart(parseInt(colStart) + 1);
+                        range.append(colStart);
                     }
+                    range.append('-');
                     String colEnd = xPath.evaluate("source_context/@sourceEnd", problem);
                     if (colEnd != null) {
-                        issueBuilder.setColumnEnd(parseInt(colEnd) + 1);
+                        range.append(colEnd);
                     }
+                    issueBuilder.setAdditionalProperties(range.toString());
 
-                    String msg = xPath.evaluate("message/@value", problem);
-                    issueBuilder.setMessage(msg);
 
                     report.add(issueBuilder.build());
                 }

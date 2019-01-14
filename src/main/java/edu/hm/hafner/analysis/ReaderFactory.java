@@ -1,17 +1,18 @@
 package edu.hm.hafner.analysis;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.ObjectUtils;
@@ -21,7 +22,7 @@ import org.xml.sax.SAXException;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -31,8 +32,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public abstract class ReaderFactory {
     private static final Function<String, String> IDENTITY = Function.identity();
-    
-    private final @CheckForNull Charset charset;
+
+    @Nullable private final Charset charset;
     private final Function<String, String> lineMapper;
 
     /**
@@ -41,7 +42,7 @@ public abstract class ReaderFactory {
      * @param charset
      *         the charset to use when reading the file
      */
-    public ReaderFactory(final @CheckForNull Charset charset) {
+    public ReaderFactory(final @Nullable Charset charset) {
         this(charset, IDENTITY);
     }
 
@@ -53,7 +54,7 @@ public abstract class ReaderFactory {
      * @param lineMapper
      *         provides a mapper to transform each of the resource lines
      */
-    public ReaderFactory(final @CheckForNull Charset charset, final Function<String, String> lineMapper) {
+    public ReaderFactory(final @Nullable Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
         this.lineMapper = lineMapper;
     }
@@ -84,13 +85,18 @@ public abstract class ReaderFactory {
     @SuppressWarnings("MustBeClosedChecker")
     @SuppressFBWarnings("OS_OPEN_STREAM")
     public Stream<String> readStream() {
-        BufferedReader reader = new BufferedReader(create());
-        Stream<String> stringStream = reader.lines().onClose(closeReader(reader));
-        if (hasLineMapper()) {
-            return stringStream.map(lineMapper);
+        try {
+            BufferedReader reader = new BufferedReader(create());
+            Stream<String> stringStream = reader.lines().onClose(closeReader(reader));
+            if (hasLineMapper()) {
+                return stringStream.map(lineMapper);
+            }
+            else {
+                return stringStream;
+            }
         }
-        else {
-            return stringStream;
+        catch (UncheckedIOException e) {
+            throw new ParsingException(e);
         }
     }
 
@@ -123,6 +129,9 @@ public abstract class ReaderFactory {
         try (Stream<String> lines = readStream()) {
             return lines.collect(Collectors.joining("\n"));
         }
+        catch (UncheckedIOException e) {
+            throw new ParsingException(e);
+        }
     }
 
     /**
@@ -134,8 +143,11 @@ public abstract class ReaderFactory {
      */
     public Document readDocument() {
         try (Reader reader = create()) {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            disableFeature(factory, "external-general-entities");
+            disableFeature(factory, "external-parameter-entities");
+            disableFeature(factory, "load-external-dtd");
+            DocumentBuilder docBuilder = factory.newDocumentBuilder();
             return docBuilder.parse(new InputSource(new ReaderInputStream(reader, getCharset())));
         }
         catch (SAXException | IOException | InvalidPathException | ParserConfigurationException e) {
@@ -143,6 +155,15 @@ public abstract class ReaderFactory {
         }
     }
 
+    @SuppressFBWarnings @SuppressWarnings("illegalcatch")
+    private void disableFeature(final DocumentBuilderFactory factory, final String feature) {
+        try {
+            factory.setFeature("http://xml.org/sax/features/" + feature, false);
+        }
+        catch (Exception ignored) {
+            // ignore and continue
+        }
+    }
     public Charset getCharset() {
         return ObjectUtils.defaultIfNull(charset, StandardCharsets.UTF_8);
     }

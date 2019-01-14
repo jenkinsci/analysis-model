@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 /**
  * File-Class. Stores field to create a warning. It represents the File-Tags within the report.xml. The
  * Java-Bean-Conformity was chosen due to the digesters style of assigning.
@@ -12,19 +14,24 @@ import java.util.List;
  */
 @SuppressWarnings("PMD.DataClass")
 public class File {
+    @Nullable
     private String name;
+    @Nullable
     private String packageName;
+    @Nullable
     private String srcdir;
-    private final transient List<Item> items = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
 
     /**
      * These properties are not used to create Warnings. It was decided to keep them available when Jenkins is modified
      * and needs access to these fields;
      */
+    @Nullable
     private String level;
+    @Nullable
     private String loc;
+    @Nullable
     private String classname;
-
 
     /**
      * Getter for the Item-Collection.
@@ -50,6 +57,7 @@ public class File {
      *
      * @return String className.
      */
+    @Nullable
     public String getClassname() {
         return classname;
     }
@@ -68,6 +76,7 @@ public class File {
      *
      * @return level
      */
+    @Nullable
     public String getLevel() {
         return level;
     }
@@ -88,6 +97,7 @@ public class File {
      *
      * @return loc loc
      */
+    @Nullable
     public String getLoc() {
         return loc;
     }
@@ -107,6 +117,7 @@ public class File {
      *
      * @return name name
      */
+    @Nullable
     public String getName() {
         return name;
     }
@@ -126,6 +137,7 @@ public class File {
      *
      * @return packageName packageName.
      */
+    @Nullable
     public String getPackageName() {
         return packageName;
     }
@@ -144,6 +156,7 @@ public class File {
      *
      * @return srcdir srcdir.
      */
+    @Nullable
     public String getSrcdir() {
         return srcdir;
     }

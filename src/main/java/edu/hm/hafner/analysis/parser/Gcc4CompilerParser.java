@@ -4,9 +4,9 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.hm.hafner.analysis.FastRegexpLineParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Frederic Chateau
  */
-public class Gcc4CompilerParser extends FastRegexpLineParser {
+public class Gcc4CompilerParser extends RegexpLineParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String ERROR = "error";

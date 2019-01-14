@@ -9,8 +9,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -211,12 +212,12 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasFileName("MSBUILD")
                     .hasCategory("CA2210")
                     .hasType("Microsoft.Design")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage("Sign 'SampleCodeAnalysis.exe' with a strong name key.")
                     .hasDescription("")
+                    .hasFileName("-")
                     .hasPackageName("-")
                     .hasLineStart(0)
                     .hasLineStart(0)
@@ -228,8 +229,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage(
-                            "Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
+                    .hasMessage("Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(12)
@@ -242,8 +242,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage(
-                            "Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
+                    .hasMessage("Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(13)
@@ -652,9 +651,9 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     private ReaderFactory createIssue2383File() {
-        return createReaderFactory(IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
+        return createReaderFactory("file.txt", IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
                 + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
-                + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8), "file.txt");
+                + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8));
     }
 
     @Override
