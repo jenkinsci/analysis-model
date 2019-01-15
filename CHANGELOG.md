@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-1.1.0...master)
+## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.0...master)
+
+## [2.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-1.1.0...analysis-model-2.0.0) - 2019-1-15
 
 ### Added
 - Added support for [ErrorProne](http://errorprone.info) in maven builds. Parser now reports description with link to external documentation.
