@@ -22,9 +22,10 @@ from the maven-compiler-plugin since these are already picked up by the Java par
 - [PR#74](https://github.com/jenkinsci/analysis-model/pull/74): IntelParser: Check for project number in regex.
 - [JENKINS-25278](https://issues.jenkins-ci.org/browse/JENKINS-25278): Improved performance of Maven console parser. 
 - [JENKINS-55328](https://issues.jenkins-ci.org/browse/JENKINS-55328): Show error message if symbol 'pmd' is used
+- [JENKINS-55340](https://issues.jenkins-ci.org/browse/JENKINS-55340), [PR#73](https://github.com/jenkinsci/analysis-model/pull/73): 
+: Fixed PyLint parser: detect human readable categories. 
 - [JENKINS-55358](https://issues.jenkins-ci.org/browse/JENKINS-55358): Improved parser to support ECJ reports of ant. 
 - [JENKINS-55368](https://issues.jenkins-ci.org/browse/JENKINS-55368): Fixed parser to remove console notes. 
- 
 ### Deprecated
 - [edu.hm.hafner.analysis.FastRegexpLineParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/FastRegexpLineParser.java)
 - [edu.hm.hafner.analysis.RegexpDocumentParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/RegexpDocumentParser.java)

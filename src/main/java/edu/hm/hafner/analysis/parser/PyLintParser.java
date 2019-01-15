@@ -5,26 +5,21 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
 
-import static edu.hm.hafner.analysis.Categories.*;
-
 /**
  * A parser for the PyLint compiler warnings.
  *
- * @author Sebastian Hansbauer
  * @author Björn Pedersen
  */
 public class PyLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 4464053085862883240L;
 
     // the default pattern matches "--output-format=parseable" output.
-    private static final String DEFAULT_PYLINT_ERROR_PATTERN = "(?<path>.*):(?<line>\\d+): \\[(?<category>\\D\\d*)\\((?<symbol>.*)\\), .*?\\] (?<message>.*)";
+    private static final String PYLINT_PATTERN = "(?<path>.*):(?<line>\\d+): \\[(?<category>\\D\\d*)(?:\\((?<symbol>.*)\\), )?.*?\\] (?<message>.*)";
 
     private static final String UNKNOWN_CAT = "pylint-unknown";
 
@@ -32,11 +27,7 @@ public class PyLintParser extends RegexpLineParser {
      * Creates a new instance of {@link PyLintParser}.
      */
     public PyLintParser() {
-        super(DEFAULT_PYLINT_ERROR_PATTERN);
-    }
-
-    public PyLintParser(@CheckForNull String regExp) {
-        super(regExp);
+        super(PYLINT_PATTERN);
     }
 
     @Override
@@ -46,27 +37,19 @@ public class PyLintParser extends RegexpLineParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String message = matcher.group("message");
-        String category;
-        try {
-            category = matcher.group("symbol");
-            if (StringUtils.isEmpty(category)) {
-                category = UNKNOWN_CAT;
-            }
-        } catch (IllegalArgumentException e) {
-            // if no symbolic name is available, use the numeric one
-            category = matcher.group("category");
-        }
-        Severity priority = mapPriority(matcher.group("category"));
+        String category = matcher.group("category");
+        builder.setSeverity(mapPriority(category));
+        builder.setCategory(StringUtils.firstNonBlank(matcher.group("symbol"), category, UNKNOWN_CAT));
 
-        return builder.setFileName(matcher.group("path")).setLineStart(matcher.group("line")).setCategory(category)
-                .setMessage(message).setSeverity(priority).buildOptional();
+        return builder.setFileName(matcher.group("path"))
+                .setLineStart(matcher.group("line"))
+                .setMessage(matcher.group("message"))
+                .buildOptional();
     }
 
     private Severity mapPriority(final String category) {
         // First letter of the Pylint classification is one of F/E/W/R/C. E/F/W are high
         // priority.
-        Severity priority;
 
         // See http://docs.pylint.org/output.html for definitions of the categories
         if (category.isEmpty()) {
@@ -74,29 +57,24 @@ public class PyLintParser extends RegexpLineParser {
             return Severity.WARNING_NORMAL;
         }
         switch (category.charAt(0)) {
-        // [R]efactor for a ?good practice? metric violation
-        // [C]onvention for coding standard violation
-        case 'R':
-        case 'C':
-            priority = Severity.WARNING_LOW;
-            break;
+            // [R]efactor for a ?good practice? metric violation
+            // [C]onvention for coding standard violation
+            case 'R':
+            case 'C':
+                return Severity.WARNING_LOW;
 
-        // [W]arning for stylistic problems, or minor programming issues
-        case 'W':
-            priority = Severity.WARNING_NORMAL;
-            break;
+            // [W]arning for stylistic problems, or minor programming issues
+            case 'W':
+                return Severity.WARNING_NORMAL;
 
-        // [E]rror for important programming issues (i.e. most probably bug)
-        // [F]atal for errors which prevented further processing
-        case 'E':
-        case 'F':
-            priority = Severity.WARNING_HIGH;
-            break;
+            // [E]rror for important programming issues (i.e. most probably bug)
+            // [F]atal for errors which prevented further processing
+            case 'E':
+            case 'F':
+                return Severity.WARNING_HIGH;
 
-        default:
-            priority = Severity.WARNING_LOW;
-            break;
+            default:
+                return Severity.WARNING_LOW;
         }
-        return priority;
     }
 }
