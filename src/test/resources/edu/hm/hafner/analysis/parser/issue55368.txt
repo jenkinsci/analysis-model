@@ -1,0 +1,7 @@
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ x ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] /home/piotr/.../X.java:[9,214] The method isValid(String) from the type X can potentially be declared as static
+[WARNING] /home/piotr/.../X.java:[54,1802] The method as10(String) from the type X can potentially be declared as static
+[WARNING] /home/piotr/.../X.java:[60,2018] The method as13(String) from the type X can potentially be declared as static
+[INFO]
+[INFO] -----------------------< G:A >------------------------

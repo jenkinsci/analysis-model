@@ -80,6 +80,36 @@ class EclipseMavenParserTest extends AbstractParserTest {
         });
     }
 
+    /**
+     * Parses an Eclipse warnings report that contains single line warnings only.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55368">Issue 55368</a>
+     */
+    @Test
+    void issue55368() {
+        Report warnings = parse("issue55368.txt");
+
+        assertThat(warnings).hasSize(3);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(9)
+                    .hasMessage("The method isValid(String) from the type X can potentially be declared as static")
+                    .hasFileName("/home/piotr/.../X.java");
+            softly.assertThat(warnings.get(1))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(54)
+                    .hasMessage("The method as10(String) from the type X can potentially be declared as static")
+                    .hasFileName("/home/piotr/.../X.java");
+            softly.assertThat(warnings.get(2))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(60)
+                    .hasMessage("The method as13(String) from the type X can potentially be declared as static")
+                    .hasFileName("/home/piotr/.../X.java");
+        });
+    }
+
     @Test
     void shouldOnlyAcceptTextFiles() {
         EclipseMavenParser parser = createParser();

@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -25,7 +26,7 @@ public class EclipseMavenParser extends LookaheadParser {
     private static final long serialVersionUID = 425883472788422955L;
 
     private static final String ECLIPSE_FIRST_LINE_REGEXP =
-            "\\s*\\[(?<severity>WARNING|ERROR|INFO)\\]\\s*(?<file>.*):\\[(?<line>\\d+)(?:,\\d+)?\\].*";
+            "\\s*\\[(?<severity>WARNING|ERROR|INFO)\\]\\s*(?<file>.*):\\[(?<line>\\d+)(?:,\\d+)?\\](?<message>.*)";
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
@@ -51,14 +52,20 @@ public class EclipseMavenParser extends LookaheadParser {
                 .setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"));
 
-        List<String> code = new ArrayList<>();
-        while (lookahead.hasNext("^\\t.*$") && lookahead.hasNext()) {
-            code.add(lookahead.next());
+        String message = matcher.group("message");
+        if (StringUtils.isNotBlank(message)) { // single line format
+            builder.setMessage(message);
         }
-        builder.setAdditionalProperties(code.hashCode());
+        else { // multi line format
+            List<String> code = new ArrayList<>();
+            while (lookahead.hasNext("^\\t.*$") && lookahead.hasNext()) {
+                code.add(lookahead.next());
+            }
+            builder.setAdditionalProperties(code.hashCode());
 
-        if (lookahead.hasNext()) {
-            extractMessage(builder, RegExUtils.removeFirst(lookahead.next(), ".*\\t"));
+            if (lookahead.hasNext()) {
+                extractMessage(builder, RegExUtils.removeFirst(lookahead.next(), ".*\\t"));
+            }
         }
 
         return builder.buildOptional();
