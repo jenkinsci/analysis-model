@@ -2,3 +2,5 @@
 /workspace/roles/upgrade/tasks/main.yml:1: [EANSIBLE0012] Commands should not change things if nothing needs doing
 /workspace/roles/upgrade/tasks/main.yml:12: [EANSIBLE0011] All tasks should be named
 /workspace/roles/roll_forward_target/tasks/main.yml:12: [EANSIBLE0013] Use shell only when shell functionality is required
+
+/workspace/roles/some_role/tasks/main.yml:9: [E301] Commands should not change things if nothing needs doing
