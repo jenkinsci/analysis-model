@@ -8,14 +8,17 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
- * A parser for the ansible lint warnings.
+ * A parser for Ansible Lint warnings.
+ * 
+ * The parser expects the Ansible Lint output to be in a "parseable output in the format of pep8".
+ * Pass the argument {@code -p} to Ansible Lint to get a compatible output.
  *
  * @author Ce Qi
  */
 public class AnsibleLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 8481090596321427484L;
 
-    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(.*)\\:([0-9]*)\\:\\s*\\[.*(ANSIBLE[0-9]*)\\]\\s(.*)";
+    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(.*)\\:([0-9]*)\\:\\s*\\[(.*)\\]\\s(.*)";
 
     /**
      * Creates a new instance of {@link AnsibleLintParser}.
