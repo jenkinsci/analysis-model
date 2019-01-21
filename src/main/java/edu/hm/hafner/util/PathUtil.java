@@ -2,6 +2,7 @@ package edu.hm.hafner.util;
 
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -30,7 +31,7 @@ public class PathUtil {
      *         if the path could not be found
      */
     public String toString(final Path path) throws IOException {
-        return normalize(path.toAbsolutePath().normalize().toRealPath().toString());
+        return normalize(path.toAbsolutePath().normalize().toRealPath(LinkOption.NOFOLLOW_LINKS).toString());
     }
 
     /**

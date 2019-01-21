@@ -7,6 +7,11 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assumptions.*;
 
+import java.io.IOException;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * Tests the class {@link PathUtil}.
  *
@@ -54,5 +59,17 @@ class PathUtilTest extends ResourceTest {
         PathUtil pathUtil = new PathUtil();
 
         assertThat(pathUtil.createAbsolutePath("C:\\tmp", "C:\\tmp\\file.txt")).isEqualTo("C:/tmp/file.txt");
+    }
+
+    @Test
+    void stayInSymbolicLinks() throws IOException {
+        Path current = Paths.get(".");
+        Path real = current.toRealPath();
+        Path realWithSymbolic = current.toRealPath(LinkOption.NOFOLLOW_LINKS);
+        assumeThat(real).isNotEqualTo(realWithSymbolic);
+
+        String fromUtil = new PathUtil().getAbsolutePath(current);
+        String unixStyle = realWithSymbolic.toString().replace('\\', '/');
+        assertThat(fromUtil).isEqualTo(unixStyle);
     }
 }
