@@ -2,7 +2,5 @@ node_modules
 target
 *.iml
 .classpath
-.project
-.settings
 pom.xml.versionsBackup
 .DS_Store
