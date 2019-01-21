@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.1...master)
+## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.2...master)
+
+## [2.0.2](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.1...analysis-model-2.0.2) - 2019-1-21
+
+### Fixed
+- [PR#79](https://github.com/jenkinsci/analysis-model/pull/74): Correctly detect categories for Ansible Lint 4.x.
 
 ## [2.0.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.0...analysis-model-2.0.1) - 2019-1-16
 
