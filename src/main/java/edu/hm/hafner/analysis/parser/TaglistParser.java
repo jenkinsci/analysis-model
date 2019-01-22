@@ -15,6 +15,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.XmlElementUtil;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Parser for Taglist Maven Plugin output. During parse, class names are converted into assumed file system names, so
@@ -71,7 +72,7 @@ public class TaglistParser extends IssueParser {
         return clazz.replace('.', '/').concat(".java");
     }
 
-    private String class2package(String clazz) {
+    private @Nullable String class2package(String clazz) {
         int idx = clazz.lastIndexOf('.');
         return idx > 0 ? clazz.substring(0, idx) : null;
     }
