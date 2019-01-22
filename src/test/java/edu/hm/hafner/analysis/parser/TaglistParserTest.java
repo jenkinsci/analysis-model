@@ -32,7 +32,9 @@ class TaglistParserTest extends AbstractParserTest {
                 .hasLineStart(6)
                 .hasLineEnd(6)
                 .hasMessage("main")
-                .hasFileName("y.Z");
+                .hasFileName("y/Z.java")
+                .hasPackageName("y")
+                .hasAdditionalProperties("y.Z");
 
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -40,7 +42,9 @@ class TaglistParserTest extends AbstractParserTest {
                 .hasLineStart(3)
                 .hasLineEnd(3)
                 .hasMessage("todo")
-                .hasFileName("y.Z");
+                .hasFileName("y/Z.java")
+                .hasPackageName("y")
+                .hasAdditionalProperties("y.Z");
 
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -48,7 +52,9 @@ class TaglistParserTest extends AbstractParserTest {
                 .hasLineStart(8)
                 .hasLineEnd(8)
                 .hasMessage("main method")
-                .hasFileName("y.Z");
+                .hasFileName("y/Z.java")
+                .hasPackageName("y")
+                .hasAdditionalProperties("y.Z");
 
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -56,7 +62,9 @@ class TaglistParserTest extends AbstractParserTest {
                 .hasLineStart(3)
                 .hasLineEnd(3)
                 .hasMessage("todo")
-                .hasFileName("y.Z2");
+                .hasFileName("y/Z2.java")
+                .hasPackageName("y")
+                .hasAdditionalProperties("y.Z2");
     }
 
 }

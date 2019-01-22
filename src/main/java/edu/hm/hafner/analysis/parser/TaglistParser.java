@@ -17,11 +17,11 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.XmlElementUtil;
 
 /**
- * Parser for Taglist Maven Plugin output.
+ * Parser for Taglist Maven Plugin output. During parse, class names are converted into assumed file system names, so
+ * {@code package.name.class} becomes {@code package/name/class.java}.
  * 
  * @author Jason Faust
- * @see <a href=
- *      "https://www.mojohaus.org/taglist-maven-plugin/">https://www.mojohaus.org/taglist-maven-plugin/</a>
+ * @see <a href= "https://www.mojohaus.org/taglist-maven-plugin/">https://www.mojohaus.org/taglist-maven-plugin/</a>
  */
 public class TaglistParser extends IssueParser {
     private static final long serialVersionUID = 1L;
@@ -43,7 +43,12 @@ public class TaglistParser extends IssueParser {
 
                 NodeList files = (NodeList)xPath.evaluate("files/file", tag, XPathConstants.NODESET);
                 for (Element file : XmlElementUtil.nodeListToList(files)) {
-                    issueBuilder.setFileName(xPath.evaluate("@name", file));
+                    String clazz = xPath.evaluate("@name", file);
+                    if (clazz != null) {
+                        issueBuilder.setFileName(class2file(clazz));
+                        issueBuilder.setPackageName(class2package(clazz));
+                        issueBuilder.setAdditionalProperties(clazz);
+                    }
 
                     NodeList comments = (NodeList)xPath.evaluate("comments/comment", file, XPathConstants.NODESET);
                     for (Element comment : XmlElementUtil.nodeListToList(comments)) {
@@ -60,6 +65,15 @@ public class TaglistParser extends IssueParser {
         catch (XPathExpressionException e) {
             throw new ParsingException(e);
         }
+    }
+
+    private String class2file(String clazz) {
+        return clazz.replace('.', '/').concat(".java");
+    }
+
+    private String class2package(String clazz) {
+        int idx = clazz.lastIndexOf('.');
+        return idx > 0 ? clazz.substring(0, idx) : null;
     }
 
 }
