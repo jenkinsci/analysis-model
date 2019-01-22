@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.assertj;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -332,6 +333,24 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
 
         if (!Objects.equals(actual.getReference(), reference)) {
             failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "reference", actual, reference, actual.getReference());
+        }
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue has specific additional properties.
+     *
+     * @param additionalProperties
+     *         Serializable specifying additional properties.
+     *
+     * @return this
+     */
+    public IssueAssert hasAdditionalProperties(final Serializable additionalProperties) {
+        isNotNull();
+
+        if (!Objects.equals(actual.getAdditionalProperties(), additionalProperties)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "additional properties", actual, additionalProperties,
+                    actual.getAdditionalProperties());
         }
         return this;
     }
