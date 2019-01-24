@@ -17,7 +17,7 @@ import static edu.hm.hafner.util.IntegerParser.parseInt;
 public class CppLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
-    private static final String PATTERN = "^\\s*(.*)\\s*[(:](\\d*)\\)?:\\s*(.*)\\s*\\[(.*)\\] \\[(.*)\\]$";
+    private static final String PATTERN = "^\\s*(.*)\\s*[(:](\\d+)\\)?:\\s*(.*)\\s*\\[(.*)\\] \\[(.*)\\]$";
     private static final int SEVERITY_HIGH_LIMIT = 5;
     private static final int SEVERITY_NORMAL_LIMIT = 3;
 
