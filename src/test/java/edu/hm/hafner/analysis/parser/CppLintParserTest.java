@@ -60,6 +60,26 @@ class CppLintParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_LOW);
     }
 
+    /**
+     * Test CppLint messge with double colon.
+     */
+    @Test
+    void cpplintMessageWithColon() {
+        Report warnings = parse("cpplint-message-with-colon.txt");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(1)
+                    .hasLineEnd(1)
+                    .hasMessage("Is this a non-const reference? If so, make const or use a pointer: std::vector<int> & indices")
+                    .hasFileName("/path/to/file.cpp")
+                    .hasCategory("runtime/references")
+                    .hasSeverity(Severity.WARNING_LOW);
+        });
+    }
+
     @Override
     protected CppLintParser createParser() {
         return new CppLintParser();
