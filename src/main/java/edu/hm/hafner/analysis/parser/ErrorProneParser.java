@@ -59,7 +59,7 @@ public class ErrorProneParser extends LookaheadParser {
      *
      * @return the description
      */
-     static String createDescription(final LookaheadStream lookahead) {
+    static String createDescription(final LookaheadStream lookahead) {
         StringBuilder description = new StringBuilder();
         StringBuilder url = new StringBuilder();
         while (lookahead.hasNext("^\\s+.*")) {
