@@ -68,11 +68,11 @@ public class TaglistParser extends IssueParser {
         }
     }
 
-    private String class2file(String clazz) {
+    private String class2file(final String clazz) {
         return clazz.replace('.', '/').concat(".java");
     }
 
-    private @Nullable String class2package(String clazz) {
+    private @Nullable String class2package(final String clazz) {
         int idx = clazz.lastIndexOf('.');
         return idx > 0 ? clazz.substring(0, idx) : null;
     }

@@ -12,7 +12,6 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * @author Jason Faust
  */
 class TaglistParserTest extends AbstractParserTest {
-
     TaglistParserTest() {
         super("taglist.xml");
     }
@@ -66,5 +65,4 @@ class TaglistParserTest extends AbstractParserTest {
                 .hasPackageName("y")
                 .hasAdditionalProperties("y.Z2");
     }
-
 }
