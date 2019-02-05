@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [JENKINS-55775](https://issues.jenkins-ci.org/browse/JENKINS-55775),
 [JENKINS-55839](https://issues.jenkins-ci.org/browse/JENKINS-55839),
 [JENKINS-51439](https://issues.jenkins-ci.org/browse/JENKINS-51439): Added folder of affected file as property.
+- [JENKINS-55846](https://issues.jenkins-ci.org/browse/JENKINS-55846): 
+ErrorProne parser: Added support for Gradle reports.
 
 ### Fixed
 - [JENKINS-55805](https://issues.jenkins-ci.org/browse/JENKINS-55805): 

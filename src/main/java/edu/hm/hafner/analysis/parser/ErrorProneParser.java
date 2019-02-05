@@ -44,8 +44,22 @@ public class ErrorProneParser extends LookaheadParser {
                 .setLineStart(matcher.group("line"))
                 .setColumnStart(matcher.group("column"))
                 .setType(matcher.group("type"))
-                .setMessage(matcher.group("message"));
-        builder.guessSeverity(matcher.group("severity"));
+                .setMessage(matcher.group("message"))
+                .guessSeverity(matcher.group("severity"))
+                .setDescription(createDescription(lookahead));
+
+        return builder.buildOptional();
+    }
+
+    /**
+     * Extracts the description of a warning.
+     *
+     * @param lookahead
+     *         the input stream
+     *
+     * @return the description
+     */
+     static String createDescription(final LookaheadStream lookahead) {
         StringBuilder description = new StringBuilder();
         StringBuilder url = new StringBuilder();
         while (lookahead.hasNext("^\\s+.*")) {
@@ -67,6 +81,7 @@ public class ErrorProneParser extends LookaheadParser {
             }
         }
 
-        return builder.setDescription(description.toString() + url.toString()).buildOptional();
+        return description.toString() + url.toString();
     }
+
 }
