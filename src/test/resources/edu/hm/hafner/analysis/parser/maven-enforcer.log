@@ -1,0 +1,45 @@
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (display-info) @ warnings-ng ---
+[INFO] Adding ignore: module-info
+[INFO] Adding ignore: **/ModuleUtils*
+[WARNING] Rule 4: org.apache.maven.plugins.enforcer.RequireUpperBoundDeps failed with message:
+Failed while enforcing RequireUpperBoundDeps. The error(s) are [
+Require upper bound dependencies error for org.jenkins-ci:annotation-indexer:1.11 paths to dependency are:
++-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT
+  +-org.jenkins-ci.plugins:git:3.9.1
+    +-org.jenkins-ci:annotation-indexer:1.11
+and
++-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT
+  +-org.jenkins-ci.main:jenkins-core:2.89.1
+    +-org.jenkins-ci:annotation-indexer:1.12
+and
++-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT
+  +-org.kohsuke:access-modifier-annotation:1.15
+    +-org.jenkins-ci:annotation-indexer:1.4
+and
++-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT
+  +-org.jenkins-ci.plugins:git:3.9.1
+    +-com.infradna.tool:bridge-method-annotation:1.17
+      +-org.jenkins-ci:annotation-indexer:1.4
+and
++-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT
+  +-org.jenkins-ci.main:jenkins-core:2.89.1
+    +-org.jenkins-ci:bytecode-compatibility-transformer:1.8
+      +-org.jenkins-ci:annotation-indexer:1.4
+,
+Require upper bound dependencies error for commons-net:commons-net:3.5 paths to dependency are:
++-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT
+  +-org.jenkins-ci.main:maven-plugin:3.1.2
+    +-org.apache.maven.wagon:wagon-ftp:3.0.0
+      +-commons-net:commons-net:3.5
+and
++-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT
+  +-org.jenkins-ci.main:jenkins-test-harness:2.42
+    +-org.jenkins-ci.main:jenkins-test-harness-htmlunit:2.31-1
+      +-commons-net:commons-net:3.6
+]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.251 s
+[INFO] Finished at: 2019-02-05T20:42:33+01:00
+[INFO] ------------------------------------------------------------------------

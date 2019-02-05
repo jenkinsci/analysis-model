@@ -21,9 +21,6 @@ import static j2html.TagCreator.*;
  *
  * @author Ullrich Hafner
  */
-// FIXME: [INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ analysis-model ---
-//         skip error messages that are part of the following plugin
-//         use plugin as category
 public class MavenConsoleParser extends LookaheadParser {
     private static final long serialVersionUID = 1737791073711198075L;
     
@@ -48,7 +45,7 @@ public class MavenConsoleParser extends LookaheadParser {
      * building such malformed projects. 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is
      * missing
      */
-    private static final String PATTERN = "^(?:.*\\s\\s|)\\[(?<severity>WARNING|ERROR)\\]\\s*(?<message>.*)$";
+    private static final String PATTERN = "^(?<timestamp>.*\\s|)\\[(?<severity>WARNING|ERROR)\\]\\s*(?<message>.*)$";
 
     private String goal = StringUtils.EMPTY;
 
@@ -80,16 +77,29 @@ public class MavenConsoleParser extends LookaheadParser {
         builder.setLineStart(lookahead.getLine()).guessSeverity(severity);
 
         StringBuilder message = new StringBuilder(matcher.group("message"));
-        String continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\] ";
-        while (lookahead.hasNext(continuation)) {
-            message.append('\n');
-            message.append(RegExUtils.removeFirst(lookahead.next(), continuation));
+
+        if (goal.startsWith("maven-enforcer-plugin")) {
+            String timestamp = matcher.group("timestamp");
+            int length = StringUtils.length(timestamp);
+
+            String continuation = "^(?:.*\\s|)\\[";
+            while (!lookahead.hasNext(continuation)) {
+                message.append('\n');
+                message.append(StringUtils.substring(lookahead.next(), length));
+            }
         }
-        if (message.lastIndexOf("Unable to locate Source XRef to link to") >= 0) {
-            builder.setSeverity(Severity.WARNING_LOW);
-        }
-        if (StringUtils.isBlank(message.toString())) {
-            return Optional.empty();
+        else {
+            String continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\] ";
+            while (lookahead.hasNext(continuation)) {
+                message.append('\n');
+                message.append(RegExUtils.removeFirst(lookahead.next(), continuation));
+            }
+            if (message.lastIndexOf("Unable to locate Source XRef to link to") >= 0) {
+                builder.setSeverity(Severity.WARNING_LOW);
+            }
+            if (StringUtils.isBlank(message.toString())) {
+                return Optional.empty();
+            }
         }
         return builder.setDescription(pre().with(code().withText(message.toString())).render())
                 .setType(goal)

@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [JENKINS-51439](https://issues.jenkins-ci.org/browse/JENKINS-51439): Added folder of affected file as property.
 - [JENKINS-55846](https://issues.jenkins-ci.org/browse/JENKINS-55846): 
 ErrorProne parser: Added support for Gradle reports.
+- [JENKINS-55873](https://issues.jenkins-ci.org/browse/JENKINS-55873): 
+MavenConsole parser: Added support for maven-enforcer-plugin error messages.
 
 ### Fixed
 - [JENKINS-55805](https://issues.jenkins-ci.org/browse/JENKINS-55805): 
