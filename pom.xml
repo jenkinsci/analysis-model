@@ -435,17 +435,20 @@
           </dependency>
         </dependencies>
         <configuration>
-          <analysisConfiguration><![CDATA[
-                {
-                  "revapi": {
-                    "semver": {
-                      "ignore": {
-                        "enabled": true
-                      }
-                    }
-                  }
-                }
-            ]]></analysisConfiguration>
+          <analysisConfiguration>
+            <revapi.semver.ignore>
+              <enabled>true</enabled>
+            </revapi.semver.ignore>
+            <revapi.ignore>
+              <item>
+                <regex>false</regex>
+                <code>java.field.constantValueChanged</code>
+                <old>field edu.hm.hafner.analysis.LookaheadParser.ANT_TASK</old>
+                <new>field edu.hm.hafner.analysis.LookaheadParser.ANT_TASK</new>
+                <justification>Just a performance improvement of the regexp.</justification>
+              </item>
+            </revapi.ignore>
+          </analysisConfiguration>
         </configuration>
         <executions>
           <execution>
