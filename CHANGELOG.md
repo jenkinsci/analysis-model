@@ -6,10 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.2...master)
 
+### Added
+- [JENKINS-51267](https://issues.jenkins-ci.org/browse/JENKINS-51267), 
+[JENKINS-51438](https://issues.jenkins-ci.org/browse/JENKINS-51438),
+[JENKINS-55730](https://issues.jenkins-ci.org/browse/JENKINS-55730),
+[JENKINS-55775](https://issues.jenkins-ci.org/browse/JENKINS-55775),
+[JENKINS-55839](https://issues.jenkins-ci.org/browse/JENKINS-55839),
+[JENKINS-51439](https://issues.jenkins-ci.org/browse/JENKINS-51439): Added folder of affected file as property.
+
+### Fixed
+- [PR#82](https://github.com/jenkinsci/analysis-model/pull/82): CppLint: Fixed parser for messages with colon.
+- [JENKINS-55715](https://issues.jenkins-ci.org/browse/JENKINS-55715), 
+[PR#81](https://github.com/jenkinsci/analysis-model/pull/81): 
+Taglist Parser: Convert class name into a file name and a package.
+- [PR#80](https://github.com/jenkinsci/analysis-model/pull/80): Keep PathUtil inside of sym-linked directories.
+
 ## [2.0.2](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.1...analysis-model-2.0.2) - 2019-1-21
 
 ### Fixed
-- [PR#79](https://github.com/jenkinsci/analysis-model/pull/74): Correctly detect categories for Ansible Lint 4.x.
+- [PR#79](https://github.com/jenkinsci/analysis-model/pull/79): Correctly detect categories for Ansible Lint 4.x.
 
 ## [2.0.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.0...analysis-model-2.0.1) - 2019-1-16
 
