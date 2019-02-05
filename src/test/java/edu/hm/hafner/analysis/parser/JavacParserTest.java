@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.time.Duration;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JavacParser}.
@@ -39,6 +41,16 @@ class JavacParserTest extends AbstractParserTest {
                 .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
                 .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
                 .hasColumnStart(36);
+    }
+
+    /**
+     * Parses a warning log with two false positives.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
+     */
+    @Test
+    void issue55805() {
+        assertTimeoutPreemptively(Duration.ofSeconds(5), () -> parse("issue55805.txt"));
     }
 
     /**

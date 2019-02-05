@@ -20,7 +20,7 @@ public abstract class LookaheadParser extends IssueParser {
     private static final long serialVersionUID = 3240719494150024894L;
 
     /** Pattern identifying an ant task debug output prefix. */
-    protected static final String ANT_TASK = "^(?:.*\\[.*\\])?\\s*";
+    protected static final String ANT_TASK = "^(?:.*\\[[^]]*\\])?\\s*";
 
     private static final String ENTERING_DIRECTORY = "Entering directory";
     private static final Pattern MAKE_PATH

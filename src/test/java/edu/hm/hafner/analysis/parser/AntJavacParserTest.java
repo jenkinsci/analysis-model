@@ -2,17 +2,20 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -24,6 +27,16 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     protected AntJavacParserTest() {
         super("ant-javac.txt");
+    }
+
+    /**
+     * Parses a warning log with two false positives.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
+     */
+    @Test
+    void issue55805() {
+        assertTimeoutPreemptively(Duration.ofSeconds(5), () -> parse("issue55805.txt"));
     }
 
     /**

@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [JENKINS-51439](https://issues.jenkins-ci.org/browse/JENKINS-51439): Added folder of affected file as property.
 
 ### Fixed
+- [JENKINS-55805](https://issues.jenkins-ci.org/browse/JENKINS-55805): 
+Java Ant Parser: Improved performance of ant task detection.
 - [PR#82](https://github.com/jenkinsci/analysis-model/pull/82): CppLint: Fixed parser for messages with colon.
 - [JENKINS-55715](https://issues.jenkins-ci.org/browse/JENKINS-55715), 
 [PR#81](https://github.com/jenkinsci/analysis-model/pull/81): 
