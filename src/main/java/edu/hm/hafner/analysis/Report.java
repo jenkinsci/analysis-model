@@ -420,7 +420,10 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return {@code true} if the number of folders is greater than 1, {@code false} otherwise
      */
     public boolean hasFolders() {
-        return hasProperty(getFolders());
+        Set<String> packages = getPackages();
+        packages.remove(DEFAULT_ID);
+
+        return hasProperty(getFolders()) && packages.isEmpty();
     }
 
     /**

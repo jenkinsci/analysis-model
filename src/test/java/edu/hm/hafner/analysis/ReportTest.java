@@ -147,7 +147,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyFolder(final Report report) {
-        Issue additional = new IssueBuilder().setFileName("/tmp/file.txt").build();
+        IssueBuilder builder = new IssueBuilder();
+        Issue additional = builder.setFileName("/tmp/file.txt").build();
         report.add(additional);
         assertThat(report.hasTools()).isFalse();
         assertThat(report.hasModules()).isFalse();
@@ -157,6 +158,13 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.hasCategories()).isFalse();
         assertThat(report.hasTypes()).isFalse();
         assertThat(report.hasSeverities()).isFalse();
+
+        Issue withPackageName = builder.setPackageName("something").build();
+        report.add(withPackageName);
+        assertThat(report.hasPackages()).isTrue();
+        assertThat(report.hasFolders()).isFalse();
+
+        report.remove(withPackageName.getId());
         report.remove(additional.getId());
     }
 
