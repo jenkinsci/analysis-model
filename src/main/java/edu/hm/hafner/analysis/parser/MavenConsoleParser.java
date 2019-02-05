@@ -82,7 +82,7 @@ public class MavenConsoleParser extends LookaheadParser {
             String timestamp = matcher.group("timestamp");
             int length = StringUtils.length(timestamp);
 
-            String continuation = "^(?:.*\\s|)\\[";
+            String continuation = "^(?:.*\\s|)\\[(INFO|WARNING|ERROR)";
             while (!lookahead.hasNext(continuation)) {
                 message.append('\n');
                 message.append(StringUtils.substring(lookahead.next(), length));
