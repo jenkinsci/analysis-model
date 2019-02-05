@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 
 /**
  * Tests the class {@link ErrorProneAdapter}.
@@ -34,15 +35,15 @@ class ErrorProneAdapterTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
+    @Test @Disabled
+    void shouldParseGradleLogWithWindowsDrive() {
+        Report report = parse("issue55846.log");
+
+        assertThat(report).hasSize(2);
+    }
+
     @Override
     protected ErrorProneAdapter createParser() {
         return new ErrorProneAdapter();
-    }
-
-    @Test @Disabled("See https://github.com/tomasbjerre/violations-lib/issues/37")
-    void shouldProvideDetailsWhenParsingMavenLog() {
-        Report report = parse("error-prone-maven.log");
-
-        assertThat(report).hasSize(1);
     }
 }
