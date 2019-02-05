@@ -10,6 +10,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * Tests the class {@link IarParser}.
  *
  * @author Ullrich Hafner
+ * @author Jon Ware
  */
 class IarParserTest extends AbstractParserTest {
     IarParserTest() {
@@ -23,7 +24,7 @@ class IarParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(5).hasDuplicatesSize(1);
+        assertThat(report).hasSize(6).hasDuplicatesSize(1);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -60,5 +61,12 @@ class IarParserTest extends AbstractParserTest {
                 .hasLineEnd(0)
                 .hasMessage("cannot open source file \"c:\\JenkinsJobs\\900ZH\\Workspace\\Lib\\Drivers\\_Obsolete\\Uart\\UartInterface.c\"")
                 .hasFileName("-");
+	softly.assertThat(report.get(5))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("Pe177")
+                .hasLineStart(861)
+                .hasLineEnd(861)
+                .hasMessage("function \"FlashErase\" was declared but never referenced")
+                .hasFileName("d:/jenkins/workspace/Nightly/src/flash/flashdrv.c");
     }
 }
