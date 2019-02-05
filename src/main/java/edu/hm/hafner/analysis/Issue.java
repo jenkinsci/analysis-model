@@ -97,6 +97,18 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns a predicate that checks if the folder of an issue is equal to the specified folder.
+     *
+     * @param folder
+     *         the folder to match
+     *
+     * @return the predicate
+     */
+    public static Predicate<Issue> byFolder(final String folder) {
+        return issue -> issue.getFolder().equals(folder);
+    }
+
+    /**
      * Returns a predicate that checks if the severity of an issue is equal to the specified severity.
      *
      * @param severity
@@ -409,6 +421,24 @@ public class Issue implements Serializable {
      */
     public String getFileName() {
         return fileName.toString();
+    }
+
+    /**
+     * Returns the folder that contains the affected file of this issue.
+     *
+     * @return the folder of the file that contains this issue
+     */
+    public String getFolder() {
+        try {
+            Path folder = Paths.get(getFileName()).getParent();
+            if (folder == null) {
+                return UNDEFINED; // fallback
+            }
+            return folder.toString();
+        }
+        catch (InvalidPathException e) {
+            return UNDEFINED;
+        }
     }
 
     /**

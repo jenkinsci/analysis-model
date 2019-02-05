@@ -33,13 +33,19 @@ class IssueBuilderTest {
         builder.setFileName(RELATIVE_FILE);
 
         assertThat(builder.build()).hasFileName(RELATIVE_FILE);
+        assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
+        assertThat(builder.build().getFolder()).isEqualTo(UNDEFINED);
 
         builder.setDirectory("/tmp");
         builder.setFileName(RELATIVE_FILE);
         assertThat(builder.build()).hasFileName("/tmp/" + RELATIVE_FILE);
+        assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
+        assertThat(builder.build().getFolder()).isEqualTo("/tmp");
 
         builder.setFileName(null);
         assertThat(builder.build()).hasFileName("-");
+        assertThat(builder.build()).hasBaseName("-");
+        assertThat(builder.build().getFolder()).isEqualTo(UNDEFINED);
     }
 
     @ParameterizedTest(name = "{index} => Full Path: {0} - Expected Base Name: file.txt")

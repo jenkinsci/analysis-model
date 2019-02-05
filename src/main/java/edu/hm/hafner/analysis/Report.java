@@ -406,6 +406,24 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns the folders for all affected files of the issues.
+     *
+     * @return the affected packages
+     */
+    public Set<String> getFolders() {
+        return getProperties(Issue::getFolder);
+    }
+
+    /**
+     * Returns whether this report contains more than one folder with affected files.
+     *
+     * @return {@code true} if the number of folders is greater than 1, {@code false} otherwise
+     */
+    public boolean hasFolders() {
+        return hasProperty(getFolders());
+    }
+
+    /**
      * Returns the affected files for all issues.
      *
      * @return the affected files

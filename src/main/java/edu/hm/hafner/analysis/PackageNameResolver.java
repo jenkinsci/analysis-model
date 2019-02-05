@@ -6,8 +6,9 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static edu.hm.hafner.analysis.PackageDetectors.*;
 import edu.hm.hafner.util.VisibleForTesting;
+
+import static edu.hm.hafner.analysis.PackageDetectors.*;
 import static java.util.function.Function.*;
 
 /**
