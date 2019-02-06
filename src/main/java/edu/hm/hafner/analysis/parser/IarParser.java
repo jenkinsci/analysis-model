@@ -14,12 +14,13 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Claus Klein
  * @author Ullrich Hafner
+ * @author Jon Ware
  */
 public class IarParser extends RegexpLineParser {
     private static final long serialVersionUID = 7695540852439013425L;
 
     private static final String IAR_WARNING_PATTERN = ANT_TASK 
-            + "(?:(.*)\\((\\d+)\\) : )?(Error|Remark|Warning|Fatal [Ee]rror)\\[(\\w+)\\]: (.*)$";
+            + "(?:\"?(.*?)\"?[\\(,](\\d+)\\)?\\s+:?\\s+)?(Error|Remark|Warning|Fatal [Ee]rror)\\[(\\w+)\\]: (.*)$";
 
     /**
      * Creates a new instance of {@link IarParser}.
