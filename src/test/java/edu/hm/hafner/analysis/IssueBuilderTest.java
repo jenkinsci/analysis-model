@@ -26,6 +26,7 @@ class IssueBuilderTest {
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
 
+    @SuppressFBWarnings("DMI")
     @Test
     void shouldCreateAbsolutePath() {
         IssueBuilder builder = new IssueBuilder();

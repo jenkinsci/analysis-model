@@ -16,6 +16,7 @@ import org.eclipse.collections.impl.block.factory.Predicates;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.util.SerializableTest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -146,6 +147,7 @@ class ReportTest extends SerializableTest<Report> {
         report.remove(additional.getId());
     }
 
+    @SuppressFBWarnings("DMI")
     private void verifyFolder(final Report report) {
         IssueBuilder builder = new IssueBuilder();
         Issue additional = builder.setFileName("/tmp/file.txt").build();
