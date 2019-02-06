@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.0...master)
 
-## [2.1.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.2...analysis-model-2.1.0)
+### Fixed
+- [JENKINS-56001](https://issues.jenkins-ci.org/browse/JENKINS-56001): 
+Improved absolute path detection: make detection independent of running OS.
+
+## [2.1.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.0.2...analysis-model-2.1.0) - 2019-2-5
 
 ### Added
 - [JENKINS-51267](https://issues.jenkins-ci.org/browse/JENKINS-51267), 

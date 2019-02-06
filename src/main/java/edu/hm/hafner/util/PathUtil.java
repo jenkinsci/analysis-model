@@ -6,6 +6,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -98,11 +99,6 @@ public class PathUtil {
     }
 
     private boolean isAbsolute(final String fileName) {
-        try {
-            return Paths.get(fileName).isAbsolute();
-        }
-        catch (InvalidPathException ignored) {
-            return false;
-        }
+        return FilenameUtils.getPrefixLength(fileName) > 0;
     }
 }

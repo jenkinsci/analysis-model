@@ -27,7 +27,7 @@ class IssueBuilderTest {
     private static final String RELATIVE_FILE = "relative.txt";
 
     @Test
-    void shouldUseAbsolutePath() {
+    void shouldCreateAbsolutePath() {
         IssueBuilder builder = new IssueBuilder();
 
         builder.setFileName(RELATIVE_FILE);
@@ -41,6 +41,11 @@ class IssueBuilderTest {
         assertThat(builder.build()).hasFileName("/tmp/" + RELATIVE_FILE);
         assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
         assertThat(builder.build().getFolder()).isEqualTo("/tmp");
+
+        builder.setFileName("/tmp/absolute.txt");
+        assertThat(builder.build()).hasFileName("/tmp/absolute.txt");
+        builder.setFileName("C:\\tmp\\absolute.txt");
+        assertThat(builder.build()).hasFileName("C:/tmp/absolute.txt");
 
         builder.setFileName(null);
         assertThat(builder.build()).hasFileName("-");
