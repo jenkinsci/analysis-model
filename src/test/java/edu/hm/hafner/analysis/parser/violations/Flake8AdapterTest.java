@@ -53,7 +53,7 @@ class Flake8AdapterTest extends AbstractParserTest {
                 .hasMessage("expected 2 blank lines, found 1");
     }
 
-    @Test @Disabled("See issue https://github.com/tomasbjerre/violations-lib/issues/")
+    @Test @Disabled("See issue https://github.com/tomasbjerre/violations-lib/issues/58")
     void shouldParseWithCurrentDirPrefix() {
         Report report = parse("flake8.log");
 
