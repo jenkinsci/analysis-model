@@ -1,14 +1,22 @@
 # Contributing to the Static Analysis Model and Parsers Library
 
 This page provides information about contributing code to the Static Analysis Model and Parsers Library. This
-library is part of the Static Analysis Suite in Jenkins. Since it has no dependencies to Jenkins it might
-be used for other projects as well. 
+library is part of Jenkins' [Warnings Next Generation Plugin](https://github.com/jenkinsci/warnings-ng-plugin). 
+Since it has no dependencies to Jenkins it might be used for other projects as well in the future. 
+
+## Beginner Topics
+
+If you don't have a specific problem or task in mind, i.e.,  you simply want to participate in this open source project 
+I would suggest to have a look at the 
+[open issues in our issues tracker](https://issues.jenkins-ci.org/issues/?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20component%20%3D%20analysis-model%20AND%20labels%20in%20(help-wanted%2C%20newbie-friendly)%20order%20by%20updated%20DESC). 
+I marked several newbie friendly issues with the labels `newbie-friendly` and `help-wanted`. These are a good starting
+point to get in touch with this library.
 
 ## Getting started
 
 1. Fork the repository on GitHub.
 2. Clone the forked repository to your machine.
-3. Install the development tools. In order to contribute to Jenkins' Static Analysis Suite, you need the following tools:
+3. Install the development tools. In order to contribute you need the following tools:
    * Java Development Kit (JDK) 8.
    * Maven 3.3.9 or above. You can download it [here](https://maven.apache.org/download.cgi).
    * Any IDE which supports importing Maven projects.
@@ -21,14 +29,15 @@ Start reading the code and you'll get the hang of it. A complete description of 
 coding guidelines is part of a [separate GitHub repository](https://github.com/uhafner/codingstyle), which 
 is only available in German. 
 
-For [IntelliJ IDEA](https://www.jetbrains.com/idea/) users: the coding style is stored in configuration files below the 
-`.idea` folder. If you import this project into IntelliJ this style will used automatically. 
+For [IntelliJ IDEA](https://www.jetbrains.com/idea/) or [Eclipse](https://www.eclipse.org/) users: 
+the coding style is stored in configuration files within this project. If you import this project into 
+IntelliJ or Eclipse this style will used automatically. 
 
 Moreover (since this project is about static code analysis :wink:) a configuration for the following static code
 analysis tools is defined in the POM and the `etc` and `.idea` folders:
 - [Checkstyle](http://checkstyle.sourceforge.net/)
 - [PMD](https://pmd.github.io/)
-- [FindBugs](http://findbugs.sourceforge.net/) and [SpotBugs](https://spotbugs.github.io)
+- [SpotBugs](https://spotbugs.github.io)
 - [Error Prone](http://errorprone.info)
 - [IntelliJ](https://www.jetbrains.com/help/idea/code-inspection.html)
 
