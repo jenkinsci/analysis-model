@@ -434,7 +434,7 @@ public class Issue implements Serializable {
             if (folder == null) {
                 return UNDEFINED; // fallback
             }
-            return folder.toString();
+            return normalizeFileName(folder.toString());
         }
         catch (InvalidPathException e) {
             return UNDEFINED;
