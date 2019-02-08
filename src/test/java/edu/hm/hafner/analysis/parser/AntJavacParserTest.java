@@ -22,15 +22,12 @@ import static org.mockito.Mockito.*;
  * Tests the class {@link AntJavacParser}.
  */
 class AntJavacParserTest extends AbstractParserTest {
-    /**
-     * Creates a new instance of {@link AntJavacParserTest}.
-     */
-    protected AntJavacParserTest() {
+    AntJavacParserTest() {
         super("ant-javac.txt");
     }
 
     /**
-     * Parses a warning log with two false positives.
+     * Parses a warning log with a very long line that will take several seconds to parse.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
      */
