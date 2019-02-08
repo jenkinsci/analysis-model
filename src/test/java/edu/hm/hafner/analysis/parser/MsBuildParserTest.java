@@ -28,6 +28,31 @@ class MsBuildParserTest extends AbstractParserTest {
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-38215">Issue 38215</a>
      */
     @Test
+    void issue56030() {
+        Report warnings = parse("issue56030.log");
+
+        assertThat(warnings).hasSize(2);
+
+        assertSoftly(softly -> softly.assertThat(warnings.get(0))
+                .hasFileName("C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
+                .hasCategory("C4275")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("non dll-interface class 'transport::RtcpSpec' used as base for dll-interface class 'transport::TransportRTCPInstance' (compiling source file transport\\source\\TransportH265VideoRTPSource.cpp)")
+                .hasLineStart(39));
+        assertSoftly(softly -> softly.assertThat(warnings.get(1))
+                .hasFileName("C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
+                .hasCategory("C4251")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("'transport::TransportRTCPInstance::m_CNAME': class 'transport::SDESItem' needs to have dll-interface to be used by clients of class 'transport::TransportRTCPInstance' (compiling source file transport\\source\\TransportH265VideoRTPSource.cpp)")
+                .hasLineStart(155));
+    }
+
+    /**
+     * MSBuildParser should make relative paths absolute, based on the project name listed in the message.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-38215">Issue 38215</a>
+     */
+    @Test
     void issue38215() {
         Report warnings = parse("issue38215.txt");
 
@@ -651,8 +676,8 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     private ReaderFactory createIssue2383File() {
-        return createReaderFactory("file.txt", IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
-                + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
+        return createReaderFactory("file.txt", IOUtils.toInputStream("Src/Parser/CSharp/cs.ATG (2242,17):  Warning"
+                + " CS0168: The variable 'type' is declared but never used\r\nC:/Src/Parser/CSharp/file.cs"
                 + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8));
     }
 
