@@ -24,7 +24,7 @@ class IntelParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(8);
+        softly.assertThat(report).hasSize(9);
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Remark")
@@ -90,6 +90,14 @@ class IntelParserTest extends AbstractParserTest {
                 .hasLineEnd(17)
                 .hasMessage("expected a \";\"")
                 .hasFileName("main.cpp");
+
+        softly.assertThat(report.get(8))
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasCategory("Message #593")
+                .hasLineStart(35)
+                .hasLineEnd(35)
+                .hasMessage("variable \"var\" was set but never used")
+                .hasFileName("D:/path/to/source/file.cpp");
     }
 
     /**

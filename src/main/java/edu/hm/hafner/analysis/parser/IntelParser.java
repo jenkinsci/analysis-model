@@ -18,7 +18,7 @@ import edu.hm.hafner.analysis.Severity;
 public class IntelParser extends RegexpLineParser {
     private static final long serialVersionUID = 8409744276858003050L;
     private static final String INTEL_PATTERN = "^(\\d+>)?(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*("
-            + "(?:remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";
+            + "(?:message|remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";
 
     /**
      * Creates a new instance of {@link IntelParser}.
@@ -29,7 +29,7 @@ public class IntelParser extends RegexpLineParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("warning") || line.contains("error") || line.contains("remark");
+        return line.contains("warning") || line.contains("error") || line.contains("remark") || line.contains("message");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class IntelParser extends RegexpLineParser {
         String category = StringUtils.capitalize(matcher.group(5));
 
         Severity priority;
-        if (StringUtils.startsWith(category, "Remark")) {
+        if (StringUtils.startsWith(category, "Remark") || StringUtils.startsWith(category, "Message")) {
             priority = Severity.WARNING_LOW;
         }
         else if (StringUtils.startsWith(category, "Error")) {
