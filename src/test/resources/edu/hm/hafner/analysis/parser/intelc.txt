@@ -12,3 +12,6 @@ t.f90(1): error #5082: Syntax error, found END-OF-STATEMENT when expecting one o
 
 # Visual Studio project number
 1>main.cpp(17): error : expected a ";"
+
+# message
+D:\path\to\source\file.cpp(35): message #593: variable "var" was set but never used
