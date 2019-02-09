@@ -58,7 +58,7 @@ class Flake8AdapterTest extends AbstractParserTest {
         Report report = parse("flake8.log");
 
         assertThat(report).hasSize(2);
-        SoftAssertions.assertSoftly((softly) -> {
+        SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(report.get(0)).hasFileName("./src/init.py")
                     .hasLineStart(66)
                     .hasColumnStart(121)
