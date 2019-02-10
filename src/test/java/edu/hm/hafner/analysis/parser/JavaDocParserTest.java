@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.time.Duration;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
@@ -13,7 +11,6 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static edu.hm.hafner.analysis.parser.JavaDocParser.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link JavaDocParser}.
@@ -24,16 +21,6 @@ class JavaDocParserTest extends AbstractParserTest {
 
     JavaDocParserTest() {
         super("javadoc.txt");
-    }
-
-    /**
-     * Parses a warning log with a very long line that will take several seconds to parse.
-     *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
-     */
-    @Test
-    void issue55805() {
-        assertTimeoutPreemptively(Duration.ofSeconds(5), () -> parse("issue55805.txt"));
     }
 
     @Override
