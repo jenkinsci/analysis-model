@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.1...master)
+## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...master)
+
+## [2.1.2](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.1...analysis-model-2.1.2) - 2019-2-10
+
+### Fixed
+- [violations-lib#58](https://github.com/tomasbjerre/violations-lib/issues/58): 
+Flake8: Fixed broken file name if columns has more than one digit.
+- [PR#85](https://github.com/jenkinsci/analysis-model/pull/84): 
+Intel Parser: Look for diagnostics with the category "message".
 
 ## [2.1.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.0...analysis-model-2.1.1) - 2019-2-7
 
