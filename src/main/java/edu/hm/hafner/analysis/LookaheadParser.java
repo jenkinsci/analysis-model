@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.File;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,7 +52,8 @@ public abstract class LookaheadParser extends IssueParser {
                 if (line.contains(ENTERING_DIRECTORY)) {
                     Matcher makeLineMatcher = MAKE_PATH.matcher(line);
                     if (makeLineMatcher.matches()) {
-                        builder.setDirectory(makeLineMatcher.group("dir"));
+                        String dir = fixMsysTypePath(makeLineMatcher.group("dir"));
+                        builder.setDirectory(dir);
                     }
                 }
                 else if (isLineInteresting(line)) {
@@ -112,5 +114,26 @@ public abstract class LookaheadParser extends IssueParser {
      */
     protected Report postProcess(final Report report) {
         return report;
+    }
+    
+    /**
+     * MSYS make on windows replaces "c:/" by "/c/" - here we change it back
+     * 
+     * @param path A path to be fixed
+     * @return The fixed path
+     */
+    private String fixMsysTypePath(String path) {
+        if (isWindows() && path.matches("/[A-Za-z]/.*")) {
+            path = path.charAt(1) + ":" + path.substring(2);
+        }
+        return path;
+    }
+
+    /** Override only for testing 
+     * 
+     * @return true if current platform is windows, false otherwise 
+     */
+    protected boolean isWindows() {
+        return File.pathSeparatorChar == ';';
     }
 }
