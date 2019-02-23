@@ -1,0 +1,35 @@
+[build] $ cmake -G Ninja /shd/CTC/TOOLS/Jenkins/workspace/ChrisTest
+-- The C compiler identification is GNU 4.8.5
+-- The CXX compiler identification is GNU 4.8.5
+-- Check for working C compiler using: Ninja
+-- Check for working C compiler using: Ninja -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler using: Ninja
+-- Check for working CXX compiler using: Ninja -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Warning (dev) in CMakeLists.txt:
+  No cmake_minimum_required command is present.  A line of code such as
+
+    cmake_minimum_required(VERSION 3.5)
+
+  should be added at the top of the file.  The version specified may be lower
+  if you wish to support older CMake versions for this project.  For more
+  information run "cmake --help-policy CMP0000".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/build
+[build] $ /usr/bin/ninja
+[1/2] Building CXX object CMakeFiles/TestLib.dir/main.o
+../main.cpp: In function ‘void doSomething()’:
+../main.cpp:1:26: warning: unused variable ‘a’ [-Wunused-variable]
+ void doSomething() { int a; }
+                          ^
+[2/2] Linking CXX static library libTestLib.a

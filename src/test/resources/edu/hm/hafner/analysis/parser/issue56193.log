@@ -1,0 +1,101 @@
+[EnvInject] - Loading node environment variables.
+Building remotely on Kepler (windows) in workspace G:\Jenkins-Alserver-Slave\workspace\ninjamgs
+using credential 6cf44517-d641-478f-9dd2-78231dac281dca1
+ > C:\Program Files\Git\bin\git.exe rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > C:\Program Files\Git\bin\git.exe config remote.origin.url git@corp:/swcert.git # timeout=10
+Cleaning workspace
+ > C:\Program Files\Git\bin\git.exe rev-parse --verify HEAD # timeout=10
+Resetting working tree
+ > C:\Program Files\Git\bin\git.exe reset --hard # timeout=10
+ > C:\Program Files\Git\bin\git.exe clean -fdx # timeout=10
+Fetching upstream changes from git@alserver.rnd.samsung.ru:v.eremeev/swcert.git
+ > C:\Program Files\Git\bin\git.exe --version # timeout=10
+using GIT_SSH to set credentials OpenSSH key
+ > C:\Program Files\Git\bin\git.exe fetch --tags --progress git@corp:/swcert.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > C:\Program Files\Git\bin\git.exe rev-parse "refs/remotes/origin/master^{commit}" # timeout=10
+ > C:\Program Files\Git\bin\git.exe rev-parse "refs/remotes/origin/origin/master^{commit}" # timeout=10
+Checking out Revision efdbe2ef020f5440631e7038e8a07d585d9b8bbf (refs/remotes/origin/master)
+ > C:\Program Files\Git\bin\git.exe config core.sparsecheckout # timeout=10
+ > C:\Program Files\Git\bin\git.exe checkout -f efdbe2ef020f5440631e7038e8a07d585d9b8bbf # timeout=10
+Commit message: "generate warning"
+ > C:\Program Files\Git\bin\git.exe rev-list --no-walk a84a334401b2877d6590e1b3a771559d3ae99a0b # timeout=10
+Cleaning workspace
+ > C:\Program Files\Git\bin\git.exe rev-parse --verify HEAD # timeout=10
+Resetting working tree
+ > C:\Program Files\Git\bin\git.exe reset --hard # timeout=10
+ > C:\Program Files\Git\bin\git.exe clean -fdx # timeout=10
+[ninjamgs] $ cmd /c call C:\Windows\TEMP\jenkins2176474102492115981.bat
+
+G:\Jenkins-Alserver-Slave\workspace\ninjamgs>cd Lesson1 
+
+G:\Jenkins-Alserver-Slave\workspace\ninjamgs\Lesson1>build.cmd
+
+G:\Jenkins-Alserver-Slave\workspace\ninjamgs\Lesson1>C:\Windows\System32\chcp 437 
+Active code page: 437
+
+G:\Jenkins-Alserver-Slave\workspace\ninjamgs\Lesson1>call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64 
+-- The C compiler identification is MSVC 19.0.24210.0
+-- The CXX compiler identification is MSVC 19.0.24210.0
+-- Check for working C compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/amd64/cl.exe
+-- Check for working C compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/amd64/cl.exe -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/amd64/cl.exe
+-- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/amd64/cl.exe -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: G:/Jenkins-Alserver-Slave/workspace/ninjamgs/Lesson1/build
+[1/10] Building CXX object CMakeFiles\merge_count.dir\merge_count.cpp.obj
+[2/10] Building CXX object CMakeFiles\palyndrome.dir\palyndrome.cpp.obj
+[3/10] Building CXX object CMakeFiles\bubble.dir\bubble.cpp.obj
+..\bubble.cpp(17): warning C4101: 'a': unreferenced local variable
+[4/10] Building CXX object CMakeFiles\merge.dir\merge.cpp.obj
+[5/10] Building CXX object CMakeFiles\olymp.dir\olymp.cpp.obj
+[6/10] Linking CXX executable merge_count.exe
+[7/10] Linking CXX executable bubble.exe
+[8/10] Linking CXX executable palyndrome.exe
+[9/10] Linking CXX executable merge.exe
+[10/10] Linking CXX executable olymp.exe
+using credential 6cf33517-d541-478f-9dd2-78dac281dca1
+[MSBuild] Sleeping for 5 seconds due to JENKINS-32191...
+[MSBuild] Parsing console log (workspace: 'G:\Jenkins-Alserver-Slave\workspace\ninjamgs')
+ > C:\Program Files\Git\bin\git.exe rev-parse "efdbe2ef020f5440631e7038e8a07d585d9b8bbf^{commit}" # timeout=10
+[MSBuild] [ERROR] Can't resolve absolute paths for some files:
+[MSBuild] [ERROR] - ../bubble.cpp
+[MSBuild] [ERROR] Can't create fingerprints for some files:
+[MSBuild] [ERROR] - '../bubble.cpp', IO exception has been thrown: java.nio.file.NoSuchFileException: ..\bubble.cpp
+[MSBuild] [ERROR] Can't create blame requests for some affected files:
+[MSBuild] [ERROR] - Skipping non-workspace file ../bubble.cpp
+[MSBuild] Post processing issues on 'Kepler' with encoding 'UTF-8'
+[MSBuild] Resolving absolute file names for all issues in workspace 'G:\Jenkins-Alserver-Slave\workspace\ninjamgs'
+[MSBuild] -> 0 resolved, 1 unresolved, 0 already resolved
+[MSBuild] Copying affected files to Jenkins' build folder '/jenkins/home/jenkins/jobs/ninjamgs/builds/6/files-with-issues'
+[MSBuild] -> 0 copied, 0 not in workspace, 1 not-found, 0 with I/O error
+[MSBuild] Resolving module names from module definitions (build.xml, pom.xml, or Manifest.mf files)
+[MSBuild] -> resolved module names for 1 issues
+[MSBuild] Resolving package names (or namespaces) by parsing the affected files
+[MSBuild] -> resolved package names of 1 affected files
+[MSBuild] No filter has been set, publishing all 1 issues
+[MSBuild] Creating fingerprints for all affected code blocks to track issues over different builds
+[MSBuild] -> created fingerprints for 0 issues
+[MSBuild] Invoking Git blamer to create author and commit information for all affected files
+[MSBuild] GIT_COMMIT env = 'efdbe2ef020f5440631e7038e8a07d585d9b8bbf'
+[MSBuild] Git working tree = 'G:\Jenkins-Alserver-Slave\workspace\ninjamgs'
+[MSBuild] Git commit ID = 'efdbe2ef020f5440631e7038e8a07d585d9b8bbf'
+[MSBuild] Job workspace = 'G:\Jenkins-Alserver-Slave\workspace\ninjamgs'
+[MSBuild] Created no blame requests - Git blame will be skipped
+[MSBuild] -> blamed authors of issues in 0 files
+[MSBuild] Attaching ResultAction with ID 'msbuild' to run 'ninjamgs #6'.
+[MSBuild] Using reference build 'ninjamgs #5' to compute new, fixed, and outstanding issues
+[MSBuild] Issues delta (vs. reference build): outstanding: 0, new: 1, fixed: 0
+[MSBuild] No quality gates have been set - skipping
+[MSBuild] Health report is disabled - skipping
+[MSBuild] Created analysis result for 1 issues (found 1 new issues, fixed 0 issues)
+Finished: SUCCESS

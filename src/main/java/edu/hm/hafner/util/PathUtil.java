@@ -32,7 +32,7 @@ public class PathUtil {
      *         if the path could not be found
      */
     public String toString(final Path path) throws IOException {
-        return normalize(path.toAbsolutePath().normalize().toRealPath(LinkOption.NOFOLLOW_LINKS).toString());
+        return makeUnixPath(path.toAbsolutePath().normalize().toRealPath(LinkOption.NOFOLLOW_LINKS).toString());
     }
 
     /**
@@ -50,7 +50,7 @@ public class PathUtil {
             return getAbsolutePath(Paths.get(path));
         }
         catch (InvalidPathException ignored) {
-            return normalize(path);
+            return makeUnixPath(path);
         }
     }
 
@@ -66,14 +66,14 @@ public class PathUtil {
      */
     public String getAbsolutePath(final Path path) {
         try {
-            return normalize(toString(path));
+            return makeUnixPath(toString(path));
         }
         catch (IOException | InvalidPathException ignored) {
-            return normalize(path.toString());
+            return makeUnixPath(path.toString());
         }
     }
 
-    private String normalize(final String fileName) {
+    private String makeUnixPath(final String fileName) {
         return fileName.replace(BACK_SLASH, SLASH);
     }
 
@@ -89,13 +89,19 @@ public class PathUtil {
      */
     public String createAbsolutePath(final @Nullable String directory, final String fileName) {
         if (isAbsolute(fileName) || StringUtils.isBlank(directory)) {
-            return normalize(fileName);
+            return makeUnixPath(fileName);
         }
-        String normalizedDirectory = normalize(directory);
-        if (normalizedDirectory.endsWith(SLASH)) {
-            return normalizedDirectory + fileName;
+        String path = makeUnixPath(directory);
+
+        String separator;
+        if (path.endsWith(SLASH)) {
+            separator = StringUtils.EMPTY;
         }
-        return normalizedDirectory + SLASH + fileName;
+        else {
+            separator = SLASH;
+        }
+        String normalized = FilenameUtils.normalize(String.join(separator, path, fileName));
+        return normalized == null ? fileName : normalized;
     }
 
     private boolean isAbsolute(final String fileName) {

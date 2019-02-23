@@ -23,9 +23,28 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
+     * MSBuildParser should make relative paths absolute if cmake is used.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56193">Issue 56193</a>
+     */
+    @Test
+    void issue56193() {
+        Report warnings = parse("issue56193.log");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> softly.assertThat(warnings.get(0))
+                .hasFileName("G:/Jenkins-Alserver-Slave/workspace/ninjamgs/Lesson1/bubble.cpp")
+                .hasCategory("C4101")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("'a': unreferenced local variable")
+                .hasLineStart(17));
+    }
+
+    /**
      * MSBuildParser should make relative paths absolute, based on the project name listed in the message.
      *
-     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-38215">Issue 38215</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56030">Issue 56030</a>
      */
     @Test
     void issue56030() {

@@ -1,0 +1,23 @@
+Gbuild] $ cmake /shd/CTC/TOOLS/Jenkins/workspace/ChrisTest
+CMake Warning (dev) in CMakeLists.txt:
+  No cmake_minimum_required command is present.  A line of code such as
+
+    cmake_minimum_required(VERSION 3.5)
+
+  should be added at the top of the file.  The version specified may be lower
+  if you wish to support older CMake versions for this project.  For more
+  information run "cmake --help-policy CMP0000".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/build
+[build] $ /usr/bin/gmake
+Scanning dependencies of target TestLib
+[ 50%] Building CXX object CMakeFiles/TestLib.dir/main.o
+/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp: In function ‘void doSomething()’:
+/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp:1:26: warning: unused variable ‘a’ [-Wunused-variable]
+ void doSomething() { int a; }
+                          ^
+[100%] Linking CXX static library libTestLib.a
+[100%] Built target TestLib

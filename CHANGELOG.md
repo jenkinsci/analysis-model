@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...master)
+### Fixed
+- [JENKINS-56020](https://issues.jenkins-ci.org/browse/JENKINS-56020), 
+[JENKINS-56193](https://issues.jenkins-ci.org/browse/JENKINS-56193): 
+Fixed absolute paths if Ninja build system is used.
 
 ## [2.1.2](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.1...analysis-model-2.1.2) - 2019-2-10
 

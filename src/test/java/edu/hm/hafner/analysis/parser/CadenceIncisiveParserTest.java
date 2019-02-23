@@ -34,7 +34,7 @@ class CadenceIncisiveParserTest extends AbstractParserTest {
         softly.assertThat(report.get(1))
                 .hasLineStart(313)
                 .hasMessage("10 output ports were not connected")
-                .hasFileName("/tmp/build-dir/../verilog/placeholder.v")
+                .hasFileName("/tmp/verilog/placeholder.v")
                 .hasCategory("Warning (ncelab): CUVWSP")
                 .hasSeverity(Severity.WARNING_NORMAL);
 

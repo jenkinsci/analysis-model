@@ -8,8 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assumptions.*;
 
@@ -181,7 +182,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineStart(678)
                     .hasLineEnd(678)
                     .hasMessage("missing initializer for member sigaltstack::ss_sp")
-                    .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
+                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -189,7 +190,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineStart(678)
                     .hasLineEnd(678)
                     .hasMessage("missing initializer for member sigaltstack::ss_flags")
-                    .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
+                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -197,7 +198,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineStart(678)
                     .hasLineEnd(678)
                     .hasMessage("missing initializer for member sigaltstack::ss_size")
-                    .hasFileName("/dir1/../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
+                    .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -275,6 +276,38 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         assertThat(warnings.get(0))
                 .hasFileName("/var/lib/jenkins/workspace/daos-stack-org_daos_PR-13-centos7/_build.external/pmix/src/util/keyval/keyval_lex.c");
+    }
+
+    /**
+     * Parser should make relative paths absolute if cmake/ninja is used.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>
+     */
+    @Test
+    void issue56020() {
+        Report makefileReport = parse("issue56020.makefile.log");
+
+        assertThat(makefileReport).hasSize(1);
+
+        assertSoftly(softly -> softly.assertThat(makefileReport.get(0))
+                .hasLineStart(1)
+                .hasColumnStart(26)
+                .hasMessage("unused variable ‘a’ [-Wunused-variable]")
+                .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
+                .hasCategory("Warning:unused-variable")
+                .hasSeverity(Severity.WARNING_NORMAL));
+
+        Report ninjaReport = parse("issue56020.ninja.log");
+
+        assertThat(ninjaReport).hasSize(1);
+
+        assertSoftly(softly -> softly.assertThat(ninjaReport.get(0))
+                .hasLineStart(1)
+                .hasColumnStart(26)
+                .hasMessage("unused variable ‘a’ [-Wunused-variable]")
+                .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
+                .hasCategory("Warning:unused-variable")
+                .hasSeverity(Severity.WARNING_NORMAL));
     }
 
     /**
@@ -460,14 +493,14 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineStart(168)
                     .hasColumnStart(21)
                     .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]")
-                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
+                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
                     .hasCategory(WARNING_CATEGORY + ":strict-aliasing")
                     .hasSeverity(Severity.WARNING_NORMAL);
             softly.assertThat(warnings.get(3))
                     .hasLineStart(105)
                     .hasColumnStart(39)
                     .hasMessage("returning reference to temporary [-Wreturn-local-addr]")
-                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h")
+                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h")
                     .hasCategory(WARNING_CATEGORY + ":return-local-addr")
                     .hasSeverity(Severity.WARNING_NORMAL);
         });
