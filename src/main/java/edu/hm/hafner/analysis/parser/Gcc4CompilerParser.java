@@ -6,19 +6,20 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for gcc 4.x compiler warnings.
  *
  * @author Frederic Chateau
  */
-public class Gcc4CompilerParser extends RegexpLineParser {
+public class Gcc4CompilerParser extends LookaheadParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String ERROR = "error";
-    private static final String GCC_WARNING_PATTERN = ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? (warning|.*error): (.*)$";
+    private static final String GCC_WARNING_PATTERN = ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
 
     /**
@@ -30,35 +31,30 @@ public class Gcc4CompilerParser extends RegexpLineParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("warning") || line.contains("error");
+        return line.contains("arning") || line.contains("rror");
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String message = matcher.group(5);
-        Severity priority;
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
+        StringBuilder message = new StringBuilder(matcher.group(5));
 
-        StringBuilder category = new StringBuilder();
-        if (matcher.group(4).contains(ERROR)) {
-            priority = Severity.WARNING_HIGH;
-            category.append("Error");
+        Matcher classMatcher = CLASS_PATTERN.matcher(message.toString());
+        if (classMatcher.find() && classMatcher.group(1) != null) {
+            builder.setCategory(classMatcher.group(1));
         }
-        else {
-            priority = Severity.WARNING_NORMAL;
-            category.append("Warning");
 
-            Matcher classMatcher = CLASS_PATTERN.matcher(message);
-            if (classMatcher.find() && classMatcher.group(1) != null) {
-                category.append(':').append(classMatcher.group(1));
-            }
+        while (lookahead.hasNext("^\\s\\s\\S*")) {
+            message.append("\n");
+            message.append(lookahead.next());
         }
+
 
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setColumnStart(matcher.group(3))
-                .setCategory(category.toString())
-                .setMessage(message)
-                .setSeverity(priority)
+                .setMessage(message.toString())
+                .setSeverity(Severity.guessFromString(matcher.group(4)))
                 .buildOptional();
     }
 }

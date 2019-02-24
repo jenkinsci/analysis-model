@@ -1,0 +1,28 @@
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/source/bml/micro_machines/serviceprovider/keyboard/KeyboardConnectGuardStateMachine.hpp:19: warning: unable to resolve reference to `bml::types::key_t::KEY_CONNECT' for \ref command
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/source/bml/micro_machines/serviceprovider/keyboard/KeyboardConnectGuardStateMachine.hpp:19: warning: unable to resolve reference to `bml::types::key_t::KEY_CONNECT' for \ref command
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis/arm_math.h:5110: warning: explicit link request to 'define' could not be resolved
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis/arm_math.h:2257: warning: argument 'pSrc' of command @param is not found in the argument list of arm_bitreversal_q15(q15_t *pSrc16, uint32_t fftLen, uint16_t bitRevFactor, uint16_t *pBitRevTab)
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis/arm_math.h:2265: warning: The following parameters of arm_bitreversal_q15(q15_t *pSrc16, uint32_t fftLen, uint16_t bitRevFactor, uint16_t *pBitRevTab) are not documented:
+parameter 'pSrc16'
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis/arm_math.h:2212: warning: argument 'pBitRevTab' of command @param is not found in the argument list of arm_bitreversal_q31(q31_t *pSrc, uint32_t fftLen, uint16_t bitRevFactor, uint16_t *pBitRevTable)
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis/arm_math.h:2220: warning: The following parameters of arm_bitreversal_q31(q31_t *pSrc, uint32_t fftLen, uint16_t bitRevFactor, uint16_t *pBitRevTable) are not documented:
+parameter 'pBitRevTable'
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis_dsp/MatrixFunctions/arm_mat_inverse_f32.c:70: warning: argument 'src' of command @param is not found in the argument list of arm_mat_inverse_f32(const arm_matrix_instance_f32 *pSrc, arm_matrix_instance_f32 *pDst)
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis_dsp/MatrixFunctions/arm_mat_inverse_f32.c:70: warning: argument 'dst' of command @param is not found in the argument list of arm_mat_inverse_f32(const arm_matrix_instance_f32 *pSrc, arm_matrix_instance_f32 *pDst)
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis_dsp/StatisticsFunctions/arm_min_q7.c:48: warning: argument 'result' of command @param is not found in the argument list of arm_min_q7(q7_t *pSrc, uint32_t blockSize, q7_t *pResult, uint32_t *pIndex)
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/cmsis_dsp/StatisticsFunctions/arm_min_q7.c:48: warning: argument 'index' of command @param is not found in the argument list of arm_min_q7(q7_t *pSrc, uint32_t blockSize, q7_t *pResult, uint32_t *pIndex)
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/stm32f4xx/libinc/stm32f4xx_flash.h:354: warning: The following parameters of FLASH_ITConfig(uint32_t FLASH_IT, FunctionalState NewState) are not documented:
+parameter 'NewState'
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/stm32f4xx/libsrc/stm32f4xx_gpio.c:518: warning: End of list marker found without any preceding list items
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/stm32f4xx/libinc/stm32f4xx_i2c.h:599: warning: The following parameters of I2C_ReadRegister(I2C_TypeDef *I2Cx, uint8_t I2C_Register) are not documented:
+parameter 'I2Cx'
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/stm32f4xx/libsrc/stm32f4xx_flash.c:966: warning: The following parameters of FLASH_ITConfig(uint32_t FLASH_IT, FunctionalState NewState) are not documented:
+parameter 'NewState'
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/stm32f4xx/libsrc/stm32f4xx_gpio.c:518: warning: End of list marker found without any preceding list items
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/external/specific/arm/stm32f4xx/libsrc/stm32f4xx_i2c.c:1077: warning: The following parameters of I2C_ReadRegister(I2C_TypeDef *I2Cx, uint8_t I2C_Register) are not documented:
+parameter 'I2Cx'
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/source/bml/micro_machines/serviceprovider/keyboard/KeyboardConnectGuardStateMachine.hpp:19: warning: unable to resolve reference to `bml::types::key_t::KEY_CONNECT' for \ref command
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/source/bml/micro_machines/serviceprovider/keyboard/KeyboardConnectGuardStateMachine.hpp:19: warning: unable to resolve reference to `bml::types::key_t::KEY_CONNECT' for \ref command
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/source/bml/micro_machines/serviceprovider/keyboard/KeyboardConnectGuardStateMachine.hpp:19: warning: unable to resolve reference to `bml::types::key_t::KEY_CONNECT' for \ref command
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/source/bml/micro_machines/serviceprovider/keyboard/KeyboardConnectGuardStateMachine.hpp:19: warning: unable to resolve reference to `bml::types::key_t::KEY_CONNECT' for \ref command
+C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump/source/bml/micro_machines/serviceprovider/keyboard/KeyboardConnectGuardStateMachine.hpp:19: warning: unable to resolve reference to `bml::types::key_t::KEY_CONNECT' for \ref command

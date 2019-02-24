@@ -17,7 +17,7 @@ Possible candidates:
   template < R >
   SolidTypes< R >::Vec sofa::defaulttype::SolidTypes< R >::mult(const typename sofa::defaulttype::Mat< 3, 3, Real > &m, const typename SolidTypes< R >::Vec &v)
 Possible candidates:
-  static Vec sofa::defaulttype::SolidTypes< R >::mult(const Mat &m, const Vec &v) at line 404 of file /home/user/myproject/defaulttype/SolidTypes.h
+  static Vec sofa::defaulttype::SolidTypes< R >::mult(const Mat &m, const Vec &v) at line 404 of file /home/user/myprojeOdeSolverct/defaulttype/SolidTypes.h
 /home/user/myproject/helper/DualQuat.inl:227: Warning: no uniquely matching class member found for
   template < Real >
   DualQuat< Real >::Vec sofa::helper::DualQuat< Real >::transform(const typename sofa::defaulttype::Vec< 3, Real > &vec)

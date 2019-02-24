@@ -16,7 +16,9 @@ import static edu.hm.hafner.util.IntegerParser.parseInt;
  *
  * @author Frederic Chateau
  * @author Bruno Matos
+ * @deprecated all warnings should be detected by {@link Gcc4CompilerParser}
  */
+@Deprecated
 public class DoxygenParser extends RegexpDocumentParser {
     private static final long serialVersionUID = -6770174143703245309L;
 

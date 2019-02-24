@@ -45,7 +45,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(451)
                 .hasMessage("'void yyunput(int, char*)' defined but not used")
                 .hasFileName("testhist.l")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
@@ -53,8 +52,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(73)
                 .hasMessage("implicit typename is deprecated, please see the documentation for details")
                 .hasFileName("/u1/drjohn/bfdist/packages/RegrTest/V00-03-01/RgtAddressLineScan.cc")
-                .hasCategory(ERROR_CATEGORY)
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.ERROR);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(4)
@@ -63,22 +61,19 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasColumnEnd(39)
                 .hasMessage("foo.h: No such file or directory")
                 .hasFileName("foo.cc")
-                .hasCategory(ERROR_CATEGORY)
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.ERROR);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(678)
                 .hasLineEnd(678)
                 .hasMessage("missing initializer for member sigaltstack::ss_sp")
-                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                .hasCategory(WARNING_CATEGORY);
+                .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(678)
                 .hasLineEnd(678)
                 .hasMessage("missing initializer for member sigaltstack::ss_flags")
                 .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
@@ -86,7 +81,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(678)
                 .hasMessage("missing initializer for member sigaltstack::ss_size")
                 .hasFileName("../../lib/linux-i686/include/boost/test/impl/execution_monitor.ipp")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
@@ -94,7 +88,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(52)
                 .hasMessage("large integer implicitly truncated to unsigned type")
                 .hasFileName("src/test_simple_sgs_message.cxx")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
@@ -102,7 +95,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(352)
                 .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
                 .hasFileName("main/mep.cpp")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
@@ -110,7 +102,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(6)
                 .hasMessage("passing 'Test' chooses 'int' over 'unsigned int'")
                 .hasFileName("warnings.cc")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
@@ -118,7 +109,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(6)
                 .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
                 .hasFileName("warnings.cc")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
@@ -126,7 +116,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(33)
                 .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
                 .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
@@ -134,23 +123,21 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(8)
                 .hasMessage("'bar' was not declared in this scope")
                 .hasFileName("fo:oo.cpp")
-                .hasCategory(ERROR_CATEGORY)
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.ERROR);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(12)
                 .hasLineEnd(12)
                 .hasMessage("expected ';' before 'return'")
                 .hasFileName("fo:oo.cpp")
-                .hasCategory(ERROR_CATEGORY)
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.ERROR);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(23)
                 .hasLineEnd(23)
                 .hasMessage("unused variable 'j' [-Wunused-variable]")
                 .hasFileName("warner.cpp")
-                .hasCategory("Warning:unused-variable")
+                .hasCategory("unused-variable")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
@@ -162,15 +149,13 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(report).hasSize(12);
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(451)
                     .hasLineEnd(451)
                     .hasMessage("'void yyunput(int, char*)' defined but not used")
                     .hasFileName("/dir1/testhist.l");
 
             softly.assertThat(iterator.next())
-                    .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(ERROR_CATEGORY)
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(4)
                     .hasLineEnd(4)
                     .hasMessage("foo.h: No such file or directory")
@@ -178,7 +163,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(678)
                     .hasLineEnd(678)
                     .hasMessage("missing initializer for member sigaltstack::ss_sp")
@@ -186,7 +170,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(678)
                     .hasLineEnd(678)
                     .hasMessage("missing initializer for member sigaltstack::ss_flags")
@@ -194,7 +177,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(678)
                     .hasLineEnd(678)
                     .hasMessage("missing initializer for member sigaltstack::ss_size")
@@ -202,7 +184,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(52)
                     .hasLineEnd(52)
                     .hasMessage("large integer implicitly truncated to unsigned type")
@@ -210,7 +191,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(352)
                     .hasLineEnd(352)
                     .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
@@ -218,7 +198,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(6)
                     .hasLineEnd(6)
                     .hasMessage("passing 'Test' chooses 'int' over 'unsigned int'")
@@ -226,7 +205,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(6)
                     .hasLineEnd(6)
                     .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
@@ -234,7 +212,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(5)
                     .hasLineEnd(5)
                     .hasMessage("Your code is bad, and you should feel bad!")
@@ -243,8 +220,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             assumeThat(isWindows()).isFalse();
 
             softly.assertThat(iterator.next())
-                    .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(ERROR_CATEGORY)
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(73)
                     .hasLineEnd(73)
                     .hasMessage("implicit typename is deprecated, please see the documentation for details")
@@ -252,7 +228,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(WARNING_CATEGORY)
                     .hasLineStart(33)
                     .hasLineEnd(33)
                     .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
@@ -294,7 +269,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasColumnStart(26)
                 .hasMessage("unused variable ‘a’ [-Wunused-variable]")
                 .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
-                .hasCategory("Warning:unused-variable")
+                .hasCategory("unused-variable")
                 .hasSeverity(Severity.WARNING_NORMAL));
 
         Report ninjaReport = parse("issue56020.ninja.log");
@@ -306,7 +281,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasColumnStart(26)
                 .hasMessage("unused variable ‘a’ [-Wunused-variable]")
                 .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
-                .hasCategory("Warning:unused-variable")
+                .hasCategory("unused-variable")
                 .hasSeverity(Severity.WARNING_NORMAL));
     }
 
@@ -326,8 +301,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(10)
                 .hasMessage("'test.h' file not found")
                 .hasFileName("./test.h")
-                .hasCategory(ERROR_CATEGORY)
-                .hasSeverity(Severity.WARNING_HIGH));
+                .hasSeverity(Severity.ERROR));
     }
 
     /**
@@ -346,7 +320,6 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(52)
                 .hasMessage("large integer implicitly truncated to unsigned type")
                 .hasFileName("src/test_simple_sgs_message.cxx")
-                .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL));
     }
 
@@ -432,7 +405,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasMessage(
                             "implicit declaration of function 'undeclared_function' [-Wimplicit-function-declaration]")
                     .hasFileName("gcc4warning.c")
-                    .hasCategory(WARNING_CATEGORY + ":implicit-function-declaration")
+                    .hasCategory("implicit-function-declaration")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
@@ -440,7 +413,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineEnd(3)
                     .hasMessage("unused variable 'unused_local' [-Wunused-variable]")
                     .hasFileName("gcc4warning.c")
-                    .hasCategory(WARNING_CATEGORY + ":unused-variable")
+                    .hasCategory("unused-variable")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
@@ -448,7 +421,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineEnd(1)
                     .hasMessage("unused parameter 'unused_parameter' [-Wunused-parameter]")
                     .hasFileName("gcc4warning.c")
-                    .hasCategory(WARNING_CATEGORY + ":unused-parameter")
+                    .hasCategory("unused-parameter")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
@@ -456,7 +429,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineEnd(5)
                     .hasMessage("control reaches end of non-void function [-Wreturn-type]")
                     .hasFileName("gcc4warning.c")
-                    .hasCategory(WARNING_CATEGORY + ":return-type")
+                    .hasCategory("return-type")
                     .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
@@ -470,7 +443,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     void issue55221() {
         Report warnings = parse("issue55221.txt");
 
-        assertThat(warnings).hasSize(4);
+        assertThat(warnings).hasSize(5).hasDuplicatesSize(3);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -478,7 +451,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasColumnStart(26)
                     .hasMessage("‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]")
                     .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
-                    .hasCategory(WARNING_CATEGORY + ":reorder")
+                    .hasCategory("reorder")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(warnings.get(1))
@@ -486,22 +459,29 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasColumnStart(32)
                     .hasMessage("‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]")
                     .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
-                    .hasCategory(WARNING_CATEGORY + ":reorder")
+                    .hasCategory("reorder")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(warnings.get(2))
                     .hasLineStart(168)
                     .hasColumnStart(21)
-                    .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]")
+                    .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]\n             GetUInt((uint32_t&)result);\n                     ^~~~~~~~~~~~~~~~~")
                     .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
-                    .hasCategory(WARNING_CATEGORY + ":strict-aliasing")
+                    .hasCategory("strict-aliasing")
                     .hasSeverity(Severity.WARNING_NORMAL);
             softly.assertThat(warnings.get(3))
+                    .hasLineStart(168)
+                    .hasColumnStart(21)
+                    .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]")
+                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
+                    .hasCategory("strict-aliasing")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(warnings.get(4))
                     .hasLineStart(105)
                     .hasColumnStart(39)
-                    .hasMessage("returning reference to temporary [-Wreturn-local-addr]")
+                    .hasMessage("returning reference to temporary [-Wreturn-local-addr]\n   return P::Execute(std::forward<T>(v));")
                     .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h")
-                    .hasCategory(WARNING_CATEGORY + ":return-local-addr")
+                    .hasCategory("return-local-addr")
                     .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
