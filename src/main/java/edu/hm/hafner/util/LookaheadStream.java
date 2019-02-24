@@ -60,11 +60,30 @@ public class LookaheadStream implements AutoCloseable {
             if (!hasNext()) {
                 return false;
             }
-            lookaheadLine = lineIterator.next();
-            isLookaheadFilled = true;
+            fillLookahead();
         }
 
         return Pattern.compile(regexp).matcher(lookaheadLine).find();
+    }
+
+    /**
+     * Peeks the next element in the stream. I.e., the next element is returned but not removed from the stream so that
+     * the next call of {@link #next()} will again return this value.
+     *
+     * @return the next element in the stream
+     * @throws NoSuchElementException
+     *         if the stream has no more elements
+     */
+    public String peekNext() {
+        if (!isLookaheadFilled) {
+            fillLookahead();
+        }
+        return lookaheadLine;
+    }
+
+    private void fillLookahead() {
+        lookaheadLine = lineIterator.next();
+        isLookaheadFilled = true;
     }
 
     /**

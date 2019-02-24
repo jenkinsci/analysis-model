@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.hm.hafner.util.StringContainsUtils;
 
 /**
  * A parser for gcc 4.x compiler warnings.
@@ -18,8 +19,8 @@ import edu.hm.hafner.util.LookaheadStream;
 public class Gcc4CompilerParser extends LookaheadParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
-    private static final String ERROR = "error";
-    private static final String GCC_WARNING_PATTERN = ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
+    private static final String GCC_WARNING_PATTERN =
+            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
 
     /**
@@ -44,11 +45,10 @@ public class Gcc4CompilerParser extends LookaheadParser {
             builder.setCategory(classMatcher.group(1));
         }
 
-        while (lookahead.hasNext("^\\s\\s\\S*")) {
+        while (lookahead.hasNext() && isMessageContinuation(lookahead)) {
             message.append("\n");
             message.append(lookahead.next());
         }
-
 
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
@@ -56,6 +56,23 @@ public class Gcc4CompilerParser extends LookaheadParser {
                 .setMessage(message.toString())
                 .setSeverity(Severity.guessFromString(matcher.group(4)))
                 .buildOptional();
+    }
+
+    private boolean isMessageContinuation(final LookaheadStream lookahead) {
+        String peek = lookahead.peekNext();
+        if (peek.length() < 3) {
+            return false;
+        }
+        if (peek.charAt(0) == '/' || peek.charAt(0) == '[' || peek.charAt(0) == '<' || peek.charAt(0) == '=') {
+            return false;
+        }
+        if (peek.charAt(1) == ':') {
+            return false;
+        }
+        if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
+            return false;
+        }
+        return !(StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make"));
     }
 }
 

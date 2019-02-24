@@ -5,7 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...master)
+
+### Added
+- Gcc4: Show multi-line warnings messages. Map all errors to severity error. 
+
 ### Fixed
+- [JENKINS-55840](https://issues.jenkins-ci.org/browse/JENKINS-55840), 
+[JENKINS-27973](https://issues.jenkins-ci.org/browse/JENKINS-27973),
+[JENKINS-7178](https://issues.jenkins-ci.org/browse/JENKINS-7178): 
+Refactored Gcc4 parser so that it is also capable of parsing Doxygen warnings.
 - [JENKINS-56020](https://issues.jenkins-ci.org/browse/JENKINS-56020), 
 [JENKINS-56193](https://issues.jenkins-ci.org/browse/JENKINS-56193): 
 Fixed absolute paths if Ninja build system is used.

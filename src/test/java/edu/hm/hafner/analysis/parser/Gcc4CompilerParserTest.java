@@ -93,7 +93,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(352)
                 .hasLineEnd(352)
-                .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
+                .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function\n"
+                        + "main/mep.cpp:1477: note: 's2.mepSector2::lubrications' was declared here")
                 .hasFileName("main/mep.cpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -128,7 +129,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(12)
                 .hasLineEnd(12)
-                .hasMessage("expected ';' before 'return'")
+                .hasMessage("expected ';' before 'return'\n"
+                        + "foo bar.hello*world:12:")
                 .hasFileName("fo:oo.cpp")
                 .hasSeverity(Severity.ERROR);
 
@@ -193,7 +195,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(352)
                     .hasLineEnd(352)
-                    .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function")
+                    .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function\n"
+                            + "main/mep.cpp:1477: note: 's2.mepSector2::lubrications' was declared here")
                     .hasFileName("/dir1/dir2/main/mep.cpp");
 
             softly.assertThat(iterator.next())
@@ -267,7 +270,9 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         assertSoftly(softly -> softly.assertThat(makefileReport.get(0))
                 .hasLineStart(1)
                 .hasColumnStart(26)
-                .hasMessage("unused variable ‘a’ [-Wunused-variable]")
+                .hasMessage("unused variable ‘a’ [-Wunused-variable]\n"
+                        + " void doSomething() { int a; }\n"
+                        + "                          ^")
                 .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
                 .hasCategory("unused-variable")
                 .hasSeverity(Severity.WARNING_NORMAL));
@@ -279,7 +284,9 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         assertSoftly(softly -> softly.assertThat(ninjaReport.get(0))
                 .hasLineStart(1)
                 .hasColumnStart(26)
-                .hasMessage("unused variable ‘a’ [-Wunused-variable]")
+                .hasMessage("unused variable ‘a’ [-Wunused-variable]\n"
+                        + " void doSomething() { int a; }\n"
+                        + "                          ^")
                 .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
                 .hasCategory("unused-variable")
                 .hasSeverity(Severity.WARNING_NORMAL));
@@ -299,7 +306,9 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasLineStart(10)
                 .hasLineEnd(10)
-                .hasMessage("'test.h' file not found")
+                .hasMessage("'test.h' file not found\n"
+                        + "#include \"test.h\"\n"
+                        + "         ^")
                 .hasFileName("./test.h")
                 .hasSeverity(Severity.ERROR));
     }
@@ -443,13 +452,15 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     void issue55221() {
         Report warnings = parse("issue55221.txt");
 
-        assertThat(warnings).hasSize(5).hasDuplicatesSize(3);
+        assertThat(warnings).hasSize(6).hasDuplicatesSize(2);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(204)
                     .hasColumnStart(26)
-                    .hasMessage("‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]")
+                    .hasMessage("‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]\n"
+                            + "ParamNumeric<unsigned> SectorDLCAL;\n"
+                            + "^~~~~~~~~~~")
                     .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
                     .hasCategory("reorder")
                     .hasSeverity(Severity.WARNING_NORMAL);
@@ -457,7 +468,9 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(1))
                     .hasLineStart(179)
                     .hasColumnStart(32)
-                    .hasMessage("‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]")
+                    .hasMessage("‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]\n"
+                            + "ParamNumeric<unsigned> UseDSPBuilderFFT;\n"
+                            + "^~~~~~~~~~~~~~~~")
                     .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
                     .hasCategory("reorder")
                     .hasSeverity(Severity.WARNING_NORMAL);
@@ -477,6 +490,17 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasCategory("strict-aliasing")
                     .hasSeverity(Severity.WARNING_NORMAL);
             softly.assertThat(warnings.get(4))
+                    .hasLineStart(168)
+                    .hasColumnStart(21)
+                    .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]\n"
+                            + "In file included from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/steps.h:4:0,\n"
+                            + "                 from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/csl.h:4,\n"
+                            + "                 from vfft_fft_core_VFFT1_CModel.h:2,\n"
+                            + "                 from vfft_fft_core_VFFT1_CModel.cpp:2:")
+                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
+                    .hasCategory("strict-aliasing")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(warnings.get(5))
                     .hasLineStart(105)
                     .hasColumnStart(39)
                     .hasMessage("returning reference to temporary [-Wreturn-local-addr]\n   return P::Execute(std::forward<T>(v));")
