@@ -93,7 +93,7 @@
     <maven-pitest-plugin.version>1.4.3</maven-pitest-plugin.version>
     <pitest-junit5-plugin.version>0.8</pitest-junit5-plugin.version>
     <maven-error-prone-plugin.version>2.8.5</maven-error-prone-plugin.version>
-    <error-prone.version>2.3.2</error-prone.version>
+    <error-prone.version>2.3.3</error-prone.version>
     <nullaway.version>0.3.0</nullaway.version>
     <maven-depgraph-plugin.version>3.3.0</maven-depgraph-plugin.version>
     <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
