@@ -101,7 +101,7 @@ public class PathUtil {
             separator = SLASH;
         }
         String normalized = FilenameUtils.normalize(String.join(separator, path, fileName));
-        return normalized == null ? fileName : normalized;
+        return makeUnixPath(normalized == null ? fileName : normalized);
     }
 
     private boolean isAbsolute(final String fileName) {
