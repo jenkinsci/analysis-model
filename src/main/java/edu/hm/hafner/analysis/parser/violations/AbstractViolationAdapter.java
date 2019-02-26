@@ -45,6 +45,14 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      */
     protected abstract ViolationsParser createParser();
 
+    /**
+     * Converts the list of violations to a corresponding report of issues.
+     *
+     * @param violations
+     *         the violations
+     *
+     * @return the report
+     */
     protected Report convertToReport(final List<Violation> violations) {
         Report report = new Report();
         for (Violation violation : violations) {
