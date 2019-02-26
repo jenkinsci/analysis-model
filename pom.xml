@@ -87,7 +87,7 @@
     <pmd.version>6.10.0</pmd.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
     <checkstyle.version>8.18</checkstyle.version>
-    <spotbugs-maven-plugin.version>3.1.10</spotbugs-maven-plugin.version>
+    <spotbugs-maven-plugin.version>3.1.11</spotbugs-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
     <maven-taglist-plugin.version>2.4</maven-taglist-plugin.version>
     <maven-pitest-plugin.version>1.4.5</maven-pitest-plugin.version>
