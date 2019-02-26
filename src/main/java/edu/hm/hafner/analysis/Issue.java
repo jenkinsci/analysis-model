@@ -551,6 +551,7 @@ public class Issue implements Serializable {
      *
      * @return the last line
      */
+    // FIXME: actually we need a list of locations since a warning may involve several files
     public LineRangeList getLineRanges() {
         return new LineRangeList(lineRanges);
     }

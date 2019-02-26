@@ -10,6 +10,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.ViolationsParser;
@@ -44,7 +45,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      */
     protected abstract ViolationsParser createParser();
 
-    private Report convertToReport(final List<Violation> violations) {
+    protected Report convertToReport(final List<Violation> violations) {
         Report report = new Report();
         for (Violation violation : violations) {
             if (isValid(violation)) {
@@ -67,7 +68,30 @@ public abstract class AbstractViolationAdapter extends IssueParser {
         return true;
     }
 
-    private Issue convertToIssue(final Violation violation) {
+    /**
+     * Converts the specified violation to a corresponding {@link Issue} instance.
+     *
+     * @param violation
+     *         the violation
+     *
+     * @return corresponding {@link Issue}
+     */
+    protected Issue convertToIssue(final Violation violation) {
+        IssueBuilder builder = createIssueBuilder(violation);
+        extractAdditionalProperties(builder, violation);
+
+        return builder.build();
+    }
+
+    /**
+     * Converts the specified violation to a corresponding {@link IssueBuilder} instance.
+     *
+     * @param violation
+     *         the violation
+     *
+     * @return corresponding {@link IssueBuilder} instance
+     */
+    protected IssueBuilder createIssueBuilder(final Violation violation) {
         IssueBuilder builder = new IssueBuilder();
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
                 .setFileName(violation.getFile())
@@ -77,9 +101,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
                 .setColumnStart(violation.getColumn())
                 .setType(violation.getRule())
                 .setCategory(violation.getCategory());
-        extractAdditionalProperties(builder, violation);
-
-        return builder.build();
+        return builder;
     }
 
     /**

@@ -63,6 +63,20 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         addAll(copy);
     }
 
+    /**
+     * Creates a new {@link LineRangeList} with the specified elements.
+     *
+     * @param initialElements
+     *         the initial elements
+     */
+    public LineRangeList(final LineRange... initialElements) {
+        this(initialElements.length * 4); // guess
+
+        for (LineRange element : initialElements) {
+            add(element);
+        }
+    }
+
     @Override
     public final boolean addAll(final Collection<? extends LineRange> c) {
         return super.addAll(c);

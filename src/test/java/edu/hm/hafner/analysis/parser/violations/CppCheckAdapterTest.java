@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -53,7 +54,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
     }
 
     /** Verifies that the parser finds multiple locations (line ranges) for a given warning. */
-    @Test @Disabled("see JENKINS-55733")
+    @Test
     void shouldFindMultipleLocations() {
         Report report = parse("issue55733.xml");
 
@@ -64,7 +65,38 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasLineStart(53)
                 .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
+        assertThat(report.get(0).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(51)));
+
+        assertThat(report.get(1)).hasFileName(
+                "surface/src/3rdparty/opennurbs/opennurbs_brep_tools.cpp")
+                .hasLineStart(346)
+                .hasMessage("Condition 'rc' is always true")
+                .hasType("knownConditionTrueFalse");
+        assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(335)));
     }
+
+    /** Verifies that the parser finds multiple locations (line ranges) for a given warning with the same error ID. */
+    @Test
+    void shouldFindMultipleLocationsWithSameId() {
+        Report report = parse("issue55733-multiple-tags-with-same-id.xml");
+
+        assertThat(report).hasSize(2);
+
+        assertThat(report.get(0)).hasFileName(
+                "apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
+                .hasLineStart(53)
+                .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
+                .hasType("redundantAssignment");
+        assertThat(report.get(0).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(51)));
+
+        assertThat(report.get(1)).hasFileName(
+                "that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
+                .hasLineStart(51)
+                .hasMessage("Variable 'that' is reassigned a value before the old one has been used.")
+                .hasType("redundantAssignment");
+        assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(53)));
+    }
+
 
     @Override
     protected CppCheckAdapter createParser() {

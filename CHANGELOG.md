@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Gcc4: Show multi-line warnings messages. Map all errors to severity error. 
 
 ### Fixed
+- [JENKINS-55733](https://issues.jenkins-ci.org/browse/JENKINS-55733): 
+CppCheck: Added support of multiple locations per warning.
 - [JENKINS-55840](https://issues.jenkins-ci.org/browse/JENKINS-55840), 
 [JENKINS-27973](https://issues.jenkins-ci.org/browse/JENKINS-27973),
 [JENKINS-7178](https://issues.jenkins-ci.org/browse/JENKINS-7178): 

@@ -16,6 +16,16 @@ public class LineRange implements Serializable {
     /**
      * Creates a new instance of {@link LineRange}.
      *
+     * @param line
+     *            the single line of this range
+     */
+    public LineRange(final int line) {
+        this(line, line);
+    }
+
+    /**
+     * Creates a new instance of {@link LineRange}.
+     *
      * @param start
      *            start of the range
      * @param end
