@@ -19,8 +19,8 @@ import edu.hm.hafner.analysis.Severity;
 public class IarParser extends RegexpLineParser {
     private static final long serialVersionUID = 7695540852439013425L;
 
-    private static final String IAR_WARNING_PATTERN = ANT_TASK 
-            + "(?:\"?(.*?)\"?[\\(,](\\d+)\\)?\\s+:?\\s+)?(Error|Remark|Warning|Fatal [Ee]rror)\\[(\\w+)\\]: (.*)$";
+    private static final String IAR_WARNING_PATTERN = ANT_TASK
+            + "(?:\"?(.*?)\"?[\\(,](\\d+)\\)?\\s+(:\\s)?)?(Error|Remark|Warning|Fatal [Ee]rror)\\[(\\w+)\\]: (.*)$";
 
     /**
      * Creates a new instance of {@link IarParser}.
@@ -37,22 +37,22 @@ public class IarParser extends RegexpLineParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         return builder.setSeverity(mapPriority(matcher))
-                .setMessage(normalizeWhitespaceInMessage(matcher.group(5)))
+                .setMessage(normalizeWhitespaceInMessage(matcher.group(6)))
                 .setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
-                .setCategory(matcher.group(4))
+                .setCategory(matcher.group(5))
                 .buildOptional();
     }
 
     private Severity mapPriority(final Matcher matcher) {
         Severity priority;
-        if ("Remark".equalsIgnoreCase(matcher.group(3))) {
+        if ("Remark".equalsIgnoreCase(matcher.group(4))) {
             priority = Severity.WARNING_LOW;
         }
-        else if ("Error".equalsIgnoreCase(matcher.group(3))) {
+        else if ("Error".equalsIgnoreCase(matcher.group(4))) {
             priority = Severity.WARNING_HIGH;
         }
-        else if ("Fatal error".equalsIgnoreCase(matcher.group(3))) {
+        else if ("Fatal error".equalsIgnoreCase(matcher.group(4))) {
             priority = Severity.WARNING_HIGH;
         }
         else {
