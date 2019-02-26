@@ -1,0 +1,4 @@
+"c:\external\specific\cpp\iar_cxxabi.cpp",432 Warning[Pe852]: expression must be a pointer to a complete object type
+"external/specific/wiced/WICED/security/BESL/host/WICED/wiced_p2p.c",81 Warning[Pe549]: variable "result" is used before its value is set
+"external/specific/wiced/WICED/platform/MCU/RTOS_STM32F4xx/platform_dct_external.c",412 Warning[Pe223]: function "memcpy" declared implicitly
+"source/dal/InterMcu/InterMcuTransport.cpp",633 Error[Pe018]: expected a ")"
