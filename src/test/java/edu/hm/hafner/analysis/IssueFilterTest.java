@@ -219,7 +219,7 @@ class IssueFilterTest {
      */
     private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Report report,
             final Issue... expectedOutput) {
-        assertThat(report.filter(criterion).iterator()).containsExactly(expectedOutput);
+        assertThat(report.filter(criterion).iterator()).toIterable().containsExactly(expectedOutput);
     }
 
     /**

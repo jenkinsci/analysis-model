@@ -66,7 +66,7 @@
     <junit.version>5.4.0</junit.version>
     <junit-platform-launcher.version>1.4.0</junit-platform-launcher.version>
     <mockito.version>2.24.5</mockito.version>
-    <assertj.version>3.11.1</assertj.version>
+    <assertj.version>3.12.0</assertj.version>
     <archunit.version>0.9.3</archunit.version>
     <violations-lib.version>1.82</violations-lib.version>
     <json.version>20180813</json.version>
@@ -440,19 +440,6 @@
               <enabled>true</enabled>
             </revapi.semver.ignore>
             <revapi.ignore>
-              <item>
-                <regex>true</regex>
-                <code>java.field.enumConstantOrderChanged</code>
-                <old>field se.bjurr.violations.lib.reports.Parser.*</old>
-                <new>field se.bjurr.violations.lib.reports.Parser.*</new>
-                <justification>Just a performance improvement of the regexp.</justification>
-              </item>
-              <item>
-                <regex>true</regex>
-                <code>java.field.addedStaticField</code>
-                <new>field se.bjurr.violations.lib.reports.Parser.*</new>
-                <justification>Just a performance improvement of the regexp.</justification>
-              </item>
             </revapi.ignore>
           </analysisConfiguration>
         </configuration>

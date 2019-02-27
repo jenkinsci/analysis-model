@@ -449,7 +449,7 @@ class ReportTest extends SerializableTest<Report> {
         report.addAll(asList(NORMAL_1, NORMAL_2));
         assertThat(report).hasSize(4).hasDuplicatesSize(2);
 
-        assertThat(report.iterator()).containsExactly(HIGH, LOW_2_A, NORMAL_1, NORMAL_2);
+        assertThat(report.iterator()).toIterable().containsExactly(HIGH, LOW_2_A, NORMAL_1, NORMAL_2);
         assertThat(report).hasSeverities(0, 1, 2, 1);
         assertThat(report.getFiles()).containsExactly("file-1", "file-2");
     }
@@ -606,11 +606,11 @@ class ReportTest extends SerializableTest<Report> {
         Report copy = original.copy();
 
         assertThat(copy).isNotSameAs(original);
-        assertThat(copy.iterator()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
+        assertThat(copy.iterator()).toIterable().containsExactly(HIGH, NORMAL_1, NORMAL_2);
 
         copy.add(LOW_2_A);
-        assertThat(original.iterator()).containsExactly(HIGH, NORMAL_1, NORMAL_2);
-        assertThat(copy.iterator()).containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_2_A);
+        assertThat(original.iterator()).toIterable().containsExactly(HIGH, NORMAL_1, NORMAL_2);
+        assertThat(copy.iterator()).toIterable().containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_2_A);
     }
 
     @Test
