@@ -439,8 +439,6 @@
             <revapi.semver.ignore>
               <enabled>true</enabled>
             </revapi.semver.ignore>
-            <revapi.ignore>
-            </revapi.ignore>
           </analysisConfiguration>
         </configuration>
         <executions>
