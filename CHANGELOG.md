@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...master)
 
 ### Added
+
 - Gcc4: Show multi-line warnings messages. Map all errors to severity error. 
 
 ### Fixed
+
+- [JENKINS-55750](https://issues.jenkins-ci.org/browse/JENKINS-55750),
+[PR#102](https://github.com/jenkinsci/analysis-model/pull/102): 
+IarParser: Added support for absolute Windows paths.
 - [JENKINS-55733](https://issues.jenkins-ci.org/browse/JENKINS-55733): 
 CppCheck: Added support of multiple locations per warning.
 - [JENKINS-55840](https://issues.jenkins-ci.org/browse/JENKINS-55840), 
@@ -21,6 +26,7 @@ Refactored Gcc4 parser so that it is also capable of parsing Doxygen warnings.
 Fixed absolute paths if Ninja build system is used.
 
 ### Changed
+
 - [API]: GccParser uses new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
 
@@ -29,7 +35,7 @@ that provides a lookahead of the next report line
 ### Fixed
 - [violations-lib#58](https://github.com/tomasbjerre/violations-lib/issues/58): 
 Flake8: Fixed broken file name if columns has more than one digit.
-- [PR#85](https://github.com/jenkinsci/analysis-model/pull/84): 
+- [PR#85](https://github.com/jenkinsci/analysis-model/pull/85): 
 Intel Parser: Look for diagnostics with the category "message".
 
 ## [2.1.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.0...analysis-model-2.1.1) - 2019-2-7
