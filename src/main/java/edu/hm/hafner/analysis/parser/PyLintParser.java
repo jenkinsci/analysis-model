@@ -45,8 +45,13 @@ public class PyLintParser extends RegexpLineParser {
         if (moduleName != null) {
             if (moduleName.contains(".")) {
                 builder.setPackageName(moduleName.substring(0, moduleName.lastIndexOf(".")));
+            } else {
+                builder.setPackageName("-");
             }
             builder.setModuleName(moduleName);
+        } else {
+            builder.setPackageName("-")
+                .setModuleName("-");
         }
 
         return builder.setFileName(matcher.group("path"))

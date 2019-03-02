@@ -236,7 +236,7 @@ class PylintParserTest extends AbstractParserTest {
                     .hasCategory("W0611")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasModuleName("module_name_no_package")
-                    .hasPackageName(null);
+                    .hasPackageName("-");
         });
     }
 
