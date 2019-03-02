@@ -7,12 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...master)
 
 ### Added
-
 - Gcc4: Show multi-line warnings messages. Map all errors to severity error. 
 - [PR#103](https://github.com/jenkinsci/analysis-model/pull/103): New parser for IAR CSTAT warnings.
 
 ### Fixed
-
 - [JENKINS-55750](https://issues.jenkins-ci.org/browse/JENKINS-55750),
 [PR#102](https://github.com/jenkinsci/analysis-model/pull/102): 
 IarParser: Added support for absolute Windows paths.
@@ -27,7 +25,6 @@ Refactored Gcc4 parser so that it is also capable of parsing Doxygen warnings.
 Fixed absolute paths if Ninja build system is used.
 
 ### Changed
-
 - [API]: GccParser uses new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
 
