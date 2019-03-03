@@ -168,7 +168,7 @@ class PylintParserTest extends AbstractParserTest {
     void shouldParseReportWithoutSymbol() {
         Report report = parse("pyLint.txt");
 
-        assertThat(report).hasSize(6);
+        assertThat(report).hasSize(8);
 
         Iterator<Issue> iterator = report.iterator();
         SoftAssertions.assertSoftly(softly -> {
@@ -219,6 +219,24 @@ class PylintParserTest extends AbstractParserTest {
                     .hasFileName("trunk/src/python/tv.py")
                     .hasCategory("W0102")
                     .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(iterator.next())
+                    .hasLineStart(1)
+                    .hasLineEnd(1)
+                    .hasMessage("Unused import os (unused-import)")
+                    .hasFileName("trunk/src/python_package/module_name.py")
+                    .hasCategory("W0611")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasModuleName("python_package.module_name")
+                    .hasPackageName("python_package");
+            softly.assertThat(iterator.next())
+                    .hasLineStart(1)
+                    .hasLineEnd(1)
+                    .hasMessage("Unused import os (unused-import)")
+                    .hasFileName("trunk/src/module_name_no_package.py")
+                    .hasCategory("W0611")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasModuleName("module_name_no_package")
+                    .hasPackageName("-");
         });
     }
 

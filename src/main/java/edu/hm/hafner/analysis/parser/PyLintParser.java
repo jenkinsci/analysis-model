@@ -19,7 +19,7 @@ public class PyLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 4464053085862883240L;
 
     // the default pattern matches "--output-format=parseable" output.
-    private static final String PYLINT_PATTERN = "(?<path>.*):(?<line>\\d+): \\[(?<category>\\D\\d*)(?:\\((?<symbol>.*)\\), )?.*?\\] (?<message>.*)";
+    private static final String PYLINT_PATTERN = "(?<path>[^:]*)(?:\\:(?<module>.*))?:(?<line>\\d+): \\[(?<category>\\D\\d*)(?:\\((?<symbol>.*)\\), )?.*?\\] (?<message>.*)";
 
     private static final String UNKNOWN_CAT = "pylint-unknown";
 
@@ -40,6 +40,21 @@ public class PyLintParser extends RegexpLineParser {
         String category = matcher.group("category");
         builder.setSeverity(mapPriority(category));
         builder.setCategory(StringUtils.firstNonBlank(matcher.group("symbol"), category, UNKNOWN_CAT));
+
+        final String moduleName = matcher.group("module");
+        if (moduleName != null) {
+            if (moduleName.contains(".")) {
+                builder.setPackageName(moduleName.substring(0, moduleName.lastIndexOf(".")));
+            }
+            else {
+                builder.setPackageName("-");
+            }
+            builder.setModuleName(moduleName);
+        }
+        else {
+            builder.setPackageName("-")
+                .setModuleName("-");
+        }
 
         return builder.setFileName(matcher.group("path"))
                 .setLineStart(matcher.group("line"))
