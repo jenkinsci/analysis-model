@@ -6,3 +6,4 @@ trunk/src/python/tv.py:5: [F0401, ] Unable to import 'deadbeef'
 trunk/src/python/tv.py:39: [W0102, Episode.__init__] Dangerous default value "[]" as argument
 trunk/src/python_package/module_name.py:python_package.module_name:1: [W0611, ] Unused import os (unused-import)
 trunk/src/module_name_no_package.py:module_name_no_package:1: [W0611, ] Unused import os (unused-import)
+trunk/src/python/tv.py:32: [I1101(c-extension-no-member), run] Module 'PySide2.QtWidgets' has no 'QApplication' member, but source is unavailable.
