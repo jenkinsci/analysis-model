@@ -22,7 +22,7 @@ public class PyLintParser extends RegexpLineParser {
     private static final String PYLINT_PATTERN = "(?<path>[^:]*)(?:\\:(?<module>.*))?:(?<line>\\d+): \\[(?<type>(?<category>[A-Z])\\d*)(?:\\((?<symbol>.*)\\), )?.*?\\] (?<message>.*)";
 
     private static final String UNKNOWN_CAT = "pylint-unknown-category";
-    private static final String UNKNOWN_TYPE = "pylint-unkown-type";
+    private static final String UNKNOWN_TYPE = "pylint-unknown-type";
 
     /**
      * Creates a new instance of {@link PyLintParser}.
@@ -40,7 +40,7 @@ public class PyLintParser extends RegexpLineParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         String category = matcher.group("category");
         builder.setSeverity(mapPriority(category));
-        builder.setCategory(StringUtils.firstNonBlank(mapCategory(category), UNKNOWN_CAT));
+        builder.setCategory(mapCategory(category));
         builder.setType(StringUtils.firstNonBlank(matcher.group("symbol"), matcher.group("type"), UNKNOWN_TYPE));
 
         final String moduleName = matcher.group("module");
@@ -65,7 +65,7 @@ public class PyLintParser extends RegexpLineParser {
     }
 
     private String mapCategory(final String category) {
-        if (category.isEmpty()) {
+        if (StringUtils.isEmpty(category)) {
             return UNKNOWN_CAT;
         }
         switch (category) {
