@@ -36,7 +36,7 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/non_existant.py")
                 .hasType("fatal")
                 .hasCategory("Fatal")
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.ERROR);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(16)
@@ -241,7 +241,7 @@ class PylintParserTest extends AbstractParserTest {
                     .hasFileName("trunk/src/python/tv.py")
                     .hasType("F0401")
                     .hasCategory("Fatal")
-                    .hasSeverity(Severity.WARNING_HIGH);
+                    .hasSeverity(Severity.ERROR);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(39)

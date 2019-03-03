@@ -110,10 +110,11 @@ public class PyLintParser extends RegexpLineParser {
                 return Severity.WARNING_NORMAL;
 
             // [E]rror for important programming issues (i.e. most probably bug)
-            // [F]atal for errors which prevented further processing
             case "E":
-            case "F":
                 return Severity.WARNING_HIGH;
+            // [F]atal for errors which prevented further processing
+            case "F":
+                return Severity.ERROR;
 
             default:
                 return Severity.WARNING_LOW;
