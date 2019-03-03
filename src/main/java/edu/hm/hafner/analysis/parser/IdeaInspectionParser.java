@@ -23,6 +23,7 @@ import edu.hm.hafner.util.XmlElementUtil;
  */
 public class IdeaInspectionParser extends IssueParser {
     private static final long serialVersionUID = 3307389086106375473L;
+    private static final String PATH_PREFIX = "file://";
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
@@ -39,7 +40,7 @@ public class IdeaInspectionParser extends IssueParser {
             Optional<Element> problemClass = XmlElementUtil.getFirstChildElementByName(element, "problem_class");
             if (problemClass.isPresent()) {
                 Element problem = problemClass.get();
-                IssueBuilder builder = new IssueBuilder().setFileName(file)
+                IssueBuilder builder = new IssueBuilder().setFileName(stripPathPrefix(file))
                         .setLineStart(Integer.parseInt(getChildValue(element, "line")))
                         .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
                         .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
@@ -59,6 +60,14 @@ public class IdeaInspectionParser extends IssueParser {
             priority = Severity.WARNING_HIGH;
         }
         return priority;
+    }
+
+    private String stripPathPrefix(final String file) {
+        String strippedFile = file;
+        if (file.startsWith(PATH_PREFIX)) {
+            strippedFile = file.substring(PATH_PREFIX.length());
+        }
+        return strippedFile;
     }
 
     private String getValue(final Element element) {
