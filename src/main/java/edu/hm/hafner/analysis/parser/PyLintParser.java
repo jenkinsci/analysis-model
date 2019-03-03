@@ -19,7 +19,7 @@ public class PyLintParser extends RegexpLineParser {
     private static final long serialVersionUID = 4464053085862883240L;
 
     // the default pattern matches "--output-format=parseable" output.
-    private static final String PYLINT_PATTERN = "(?<path>[^:]*)(?:\\:(?<module>.*))?:(?<line>\\d+): \\[(?<type>(?<category>[A-Z])\\d*)(?:\\((?<symbol>.*)\\), )?.*?\\] (?<message>.*)";
+    private static final String PYLINT_PATTERN = "(?<path>[^:]*)(?:\\:(?<module>.*))?:(?<line>\\d+): \\[(?<type>(?<category>[A-Z])\\d*)?(?:\\((?<symbol>.*)\\), )?.*?\\] (?<message>.*)";
 
     private static final String UNKNOWN_CAT = "pylint-unknown-category";
     private static final String UNKNOWN_TYPE = "pylint-unknown-type";
@@ -92,7 +92,7 @@ public class PyLintParser extends RegexpLineParser {
         // priority.
 
         // See http://docs.pylint.org/output.html for definitions of the categories
-        if (category.isEmpty()) {
+        if (StringUtils.isEmpty(category)) {
             // if the category is missing from the output, default to 'normal'.
             return Severity.WARNING_NORMAL;
         }

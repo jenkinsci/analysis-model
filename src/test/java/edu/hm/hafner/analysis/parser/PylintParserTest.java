@@ -27,7 +27,7 @@ class PylintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(20);
+        assertThat(report).hasSize(21);
 
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
@@ -36,7 +36,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/non_existant.py")
                 .hasType("fatal")
                 .hasCategory("Fatal")
-                .hasSeverity(Severity.ERROR);
+                .hasSeverity(Severity.ERROR)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(16)
@@ -44,7 +46,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("bad-whitespace")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(24)
@@ -52,7 +56,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("superfluous-parens")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(1)
@@ -60,7 +66,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("missing-docstring")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(5)
@@ -68,7 +76,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("invalid-name")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(6)
@@ -76,7 +86,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("invalid-name")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(7)
@@ -84,7 +96,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("invalid-name")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(8)
@@ -92,7 +106,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("invalid-name")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(9)
@@ -100,7 +116,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("invalid-name")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(26)
@@ -108,7 +126,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("invalid-name")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(26)
@@ -116,7 +136,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("missing-docstring")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(27)
@@ -124,7 +146,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("missing-docstring")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(27)
@@ -132,7 +156,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("no-self-argument")
                 .hasCategory("Error")
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(30)
@@ -140,7 +166,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("dangerous-default-value")
                 .hasCategory("Warning")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(30)
@@ -148,7 +176,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("missing-docstring")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(30)
@@ -156,7 +186,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("no-self-use")
                 .hasCategory("Refactor")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(33)
@@ -164,7 +196,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("import-error")
                 .hasCategory("Error")
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(33)
@@ -172,7 +206,9 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("wrong-import-position")
                 .hasCategory("Convention")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
 
         softly.assertThat(iterator.next())
                 .hasLineStart(33)
@@ -180,21 +216,34 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("unused-import")
                 .hasCategory("Warning")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasModuleName("-")
+                .hasPackageName("-");
+
         softly.assertThat(iterator.next())
                 .hasLineStart(32)
                 .hasMessage("Module 'PySide2.QtWidgets' has no 'QApplication' member, but source is unavailable.")
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("c-extension-no-member")
                 .hasCategory("Informational")
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(34)
+                .hasMessage("Unused import deadbeef")
+                .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
+                .hasType("unused-import")
+                .hasCategory("pylint-unknown-category")
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Test
     void shouldParseReportWithoutSymbol() {
         Report report = parse("pyLint.txt");
 
-        assertThat(report).hasSize(8);
+        assertThat(report).hasSize(9);
 
         Iterator<Issue> iterator = report.iterator();
         SoftAssertions.assertSoftly(softly -> {
@@ -205,7 +254,9 @@ class PylintParserTest extends AbstractParserTest {
                     .hasFileName("trunk/src/python/cachedhttp.py")
                     .hasType("C")
                     .hasCategory("Convention")
-                    .hasSeverity(Severity.WARNING_LOW);
+                    .hasSeverity(Severity.WARNING_LOW)
+                    .hasModuleName("-")
+                    .hasPackageName("-");
 
             softly.assertThat(iterator.next())
                     .hasLineStart(28)
@@ -214,7 +265,9 @@ class PylintParserTest extends AbstractParserTest {
                     .hasFileName("trunk/src/python/tv.py")
                     .hasType("C0103")
                     .hasCategory("Convention")
-                    .hasSeverity(Severity.WARNING_LOW);
+                    .hasSeverity(Severity.WARNING_LOW)
+                    .hasModuleName("-")
+                    .hasPackageName("-");
 
             softly.assertThat(iterator.next())
                     .hasLineStart(35)
@@ -223,7 +276,9 @@ class PylintParserTest extends AbstractParserTest {
                     .hasFileName("trunk/src/python/tv.py")
                     .hasType("C0111")
                     .hasCategory("Convention")
-                    .hasSeverity(Severity.WARNING_LOW);
+                    .hasSeverity(Severity.WARNING_LOW)
+                    .hasModuleName("-")
+                    .hasPackageName("-");
 
             softly.assertThat(iterator.next())
                     .hasLineStart(39)
@@ -232,7 +287,9 @@ class PylintParserTest extends AbstractParserTest {
                     .hasFileName("trunk/src/python/tv.py")
                     .hasType("E0213")
                     .hasCategory("Error")
-                    .hasSeverity(Severity.WARNING_HIGH);
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasModuleName("-")
+                    .hasPackageName("-");
 
             softly.assertThat(iterator.next())
                     .hasLineStart(5)
@@ -241,7 +298,9 @@ class PylintParserTest extends AbstractParserTest {
                     .hasFileName("trunk/src/python/tv.py")
                     .hasType("F0401")
                     .hasCategory("Fatal")
-                    .hasSeverity(Severity.ERROR);
+                    .hasSeverity(Severity.ERROR)
+                    .hasModuleName("-")
+                    .hasPackageName("-");
 
             softly.assertThat(iterator.next())
                     .hasLineStart(39)
@@ -250,33 +309,42 @@ class PylintParserTest extends AbstractParserTest {
                     .hasFileName("trunk/src/python/tv.py")
                     .hasType("W0102")
                     .hasCategory("Warning")
-                    .hasSeverity(Severity.WARNING_NORMAL);
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasModuleName("-")
+                    .hasPackageName("-");
+
             softly.assertThat(iterator.next())
                     .hasLineStart(1)
                     .hasLineEnd(1)
                     .hasMessage("Unused import os (unused-import)")
                     .hasFileName("trunk/src/python_package/module_name.py")
-                    .hasCategory("W0611")
+                    .hasType("W0611")
+                    .hasCategory("Warning")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasModuleName("python_package.module_name")
                     .hasPackageName("python_package");
+
             softly.assertThat(iterator.next())
                     .hasLineStart(1)
                     .hasLineEnd(1)
                     .hasMessage("Unused import os (unused-import)")
                     .hasFileName("trunk/src/module_name_no_package.py")
-                    .hasCategory("W0611")
+                    .hasType("W0611")
+                    .hasCategory("Warning")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasModuleName("module_name_no_package")
                     .hasPackageName("-");
+
             softly.assertThat(iterator.next())
                     .hasLineStart(32)
                     .hasLineEnd(32)
                     .hasMessage("Module 'PySide2.QtWidgets' has no 'QApplication' member, but source is unavailable.")
                     .hasFileName("trunk/src/python/tv.py")
-                    .hasType("c-extension-no-member")
+                    .hasType("I1101")
                     .hasCategory("Informational")
-                    .hasSeverity(Severity.WARNING_LOW);
+                    .hasSeverity(Severity.WARNING_LOW)
+                    .hasModuleName("-")
+                    .hasPackageName("-");
         });
     }
 
