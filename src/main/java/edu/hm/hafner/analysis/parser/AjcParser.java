@@ -21,7 +21,7 @@ public class AjcParser extends IssueParser {
     private static final long serialVersionUID = -9123765511497052454L;
 
     private static final Pattern ESCAPE_CHARACTERS = Pattern.compile((char) 27 + "\\[.*" + (char) 27 + "\\[0m");
-    private static final Pattern WARNING_TAG = Pattern.compile("\\[WARNING\\] ");
+    private static final String WARNING_TAG = "[WARNING] ";
 
     static final String ADVICE = "Advice";
 
@@ -47,7 +47,8 @@ public class AjcParser extends IssueParser {
                         }
                         break;
                     case PARSING:
-                        if (line.startsWith("[WARNING] ")) {
+                        if (line.startsWith(WARNING_TAG)) {
+                            line = line.substring(WARNING_TAG.length());
                             state = States.WAITING_FOR_END;
 
                             fillMessageAndCategory(builder, line);
@@ -84,18 +85,17 @@ public class AjcParser extends IssueParser {
     }
 
     private void fillMessageAndCategory(final IssueBuilder builder, final String line) {
-        String message = WARNING_TAG.matcher(line).replaceAll("");
         String category;
-        if (message.contains("is deprecated") || message.contains("overrides a deprecated")) {
+        if (line.contains("is deprecated") || line.contains("overrides a deprecated")) {
             category = Categories.DEPRECATION;
         }
-        else if (message.contains("adviceDidNotMatch")) {
+        else if (line.contains("adviceDidNotMatch")) {
             category = AjcParser.ADVICE;
         }
         else {
             category = "";
         }
-        builder.setMessage(message);
+        builder.setMessage(line);
         builder.setCategory(category);
     }
 
