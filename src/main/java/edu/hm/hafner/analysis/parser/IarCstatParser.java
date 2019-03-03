@@ -43,10 +43,10 @@ public class IarCstatParser extends RegexpLineParser {
 
     private Severity mapSeverity(final String category) {
         Severity severity;
-        if (category.equals("Severity-Low")) {
+        if ("Severity-Low".equals(category)) {
             severity = Severity.WARNING_LOW;
         }
-        else if (category.equals("Severity-High")) {
+        else if ("Severity-High".equals(category)) {
             severity = Severity.WARNING_HIGH;
         }
         else {
