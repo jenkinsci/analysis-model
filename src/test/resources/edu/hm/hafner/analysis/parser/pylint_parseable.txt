@@ -23,6 +23,7 @@ src/test/resources/python_src/pypackage/pymodule.py:33: [C0413(wrong-import-posi
 src/test/resources/python_src/pypackage/pymodule.py:33: [W0611(unused-import), ] Unused import deadbeef
 src/test/resources/python_src/pypackage/pymodule.py:32: [I1101(c-extension-no-member), run] Module 'PySide2.QtWidgets' has no 'QApplication' member, but source is unavailable.
 src/test/resources/python_src/pypackage/pymodule.py:34: [(unused-import), ] Unused import deadbeef
+src/test/resources/python_src/pypackage/pymodule.py:35: [Z9999(new-unknown-issue), ] This is a category/type that dooesn't exists in Pylint
 
 --------------------------------------------------------------------
 Your code has been rated at -0.40/10 (previous run: -0.40/10, +0.00)

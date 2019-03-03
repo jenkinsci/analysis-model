@@ -27,7 +27,7 @@ class PylintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(21);
+        assertThat(report).hasSize(22);
 
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
@@ -236,7 +236,19 @@ class PylintParserTest extends AbstractParserTest {
                 .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
                 .hasType("unused-import")
                 .hasCategory("pylint-unknown-category")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasModuleName("-")
+                .hasPackageName("-");
+
+        softly.assertThat(iterator.next())
+                .hasLineStart(35)
+                .hasMessage("This is a category/type that dooesn't exists in Pylint")
+                .hasFileName("src/test/resources/python_src/pypackage/pymodule.py")
+                .hasType("new-unknown-issue")
+                .hasCategory("pylint-unknown-category")
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasModuleName("-")
+                .hasPackageName("-");
     }
 
     @Test
