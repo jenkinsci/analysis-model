@@ -27,8 +27,12 @@ public class IarCstatParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("Severity-");
+    protected String interestingLineContent(String line) {
+        if (line.contains("Severity-")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

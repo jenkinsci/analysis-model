@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 
 /**
  * A parser for Ansible Lint warnings.
- * 
+ *
  * The parser expects the Ansible Lint output to be in a "parseable output in the format of pep8".
  * Pass the argument {@code -p} to Ansible Lint to get a compatible output.
  *
@@ -28,8 +28,12 @@ public class AnsibleLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("[");
+    protected String interestingLineContent(String line) {
+        if (line.contains("[")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

@@ -38,8 +38,13 @@ public class JavacParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("[") || line.contains("w:");
+    protected String interestingLineContent(String line) {
+        if (line.contains("[")
+                || line.contains("w:")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

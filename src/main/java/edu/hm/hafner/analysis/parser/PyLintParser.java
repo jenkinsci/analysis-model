@@ -32,8 +32,12 @@ public class PyLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("[");
+    protected String interestingLineContent(String line) {
+        if (line.contains("[")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

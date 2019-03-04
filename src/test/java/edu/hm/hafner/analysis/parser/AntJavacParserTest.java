@@ -33,7 +33,7 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue55805() {
-        assertTimeoutPreemptively(Duration.ofSeconds(5), () -> parse("issue55805.txt"));
+        assertTimeoutPreemptively(Duration.ofSeconds(1), () -> parse("issue55805.txt"));
     }
 
     /**

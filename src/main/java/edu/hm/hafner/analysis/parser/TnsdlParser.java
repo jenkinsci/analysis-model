@@ -26,8 +26,12 @@ public class TnsdlParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("tnsdl");
+    protected String interestingLineContent(String line) {
+        if (line.contains("tnsdl")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis;
 /**
  * Parses an input stream line by line for compiler warnings using the provided regular expression. Multi-line regular
  * expressions are not supported, each warning has to be one a single line. A parser must implement some fast checks
- * (i.e. string or character comparisons) before the line parsing is started, see {@link #isLineInteresting(String)}.
+ * (i.e. string or character comparisons) before the line parsing is started, see {@link #interestingLineContent(String)}.
  *
  * @author Ullrich Hafner
  * @deprecated use {@link LookaheadParser}

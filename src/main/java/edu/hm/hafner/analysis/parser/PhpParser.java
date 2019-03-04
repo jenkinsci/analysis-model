@@ -27,8 +27,12 @@ public class PhpParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("PHP");
+    protected String interestingLineContent(String line) {
+        if (line.contains("PHP")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

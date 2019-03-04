@@ -1,5 +1,9 @@
 package edu.hm.hafner.analysis.parser;
 
+import static edu.hm.hafner.analysis.parser.EclipseParser.ERROR;
+import static edu.hm.hafner.analysis.parser.EclipseParser.INFO;
+import static edu.hm.hafner.analysis.parser.EclipseParser.WARNING;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +45,14 @@ public class EclipseParser extends LookaheadParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains(WARNING) || line.contains(ERROR) || line.contains(INFO);
+    protected String interestingLineContent(String line) {
+        if (line.contains(WARNING)
+                || line.contains(ERROR)
+                || line.contains(INFO)) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

@@ -23,7 +23,7 @@ import static j2html.TagCreator.*;
  */
 public class MavenConsoleParser extends LookaheadParser {
     private static final long serialVersionUID = 1737791073711198075L;
-    
+
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
 
@@ -57,13 +57,17 @@ public class MavenConsoleParser extends LookaheadParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
+    protected String interestingLineContent(String line) {
         Matcher matcher = MAVEN_PLUGIN_START.matcher(line);
         if (matcher.find()) {
             goal = String.format("%s:%s", matcher.group("id"), matcher.group("goal"));
         }
 
-        return isValidGoal() && (line.contains(WARNING) || line.contains(ERROR));
+        if (isValidGoal() && (line.contains(WARNING) || line.contains(ERROR))) {
+            return line;
+        }
+
+        return null;
     }
 
     private boolean isValidGoal() {

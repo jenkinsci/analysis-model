@@ -1,7 +1,6 @@
 package edu.hm.hafner.util;
 
 import java.util.Collection;
-import java.util.Formatter;
 import java.util.List;
 
 import org.eclipse.collections.impl.factory.Lists;

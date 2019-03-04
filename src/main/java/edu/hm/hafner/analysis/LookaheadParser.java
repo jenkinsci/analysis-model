@@ -5,6 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang.StringUtils;
+
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -62,10 +64,13 @@ public abstract class LookaheadParser extends IssueParser {
                         builder.setDirectory(ninja.group("dir"));
                     }
                 }
-                else if (isLineInteresting(line)) {
-                    Matcher matcher = pattern.matcher(line);
-                    if (matcher.find()) {
-                        createIssue(matcher, lookahead, builder).ifPresent(report::add);
+                else {
+                    final String content = interestingLineContent(line);
+                    if (content != null && content.length() != 0) {
+                        Matcher matcher = pattern.matcher(content);
+                        if (matcher.find()) {
+                            createIssue(matcher, lookahead, builder).ifPresent(report::add);
+                        }
                     }
                 }
                 if (Thread.interrupted()) {
@@ -105,9 +110,33 @@ public abstract class LookaheadParser extends IssueParser {
      *
      * @return {@code true} if the line should be handed over to the regular expression scanner, {@code false} if the
      *         line does not contain a warning.
+     * @deprecated use interestingLineContent(String) instead
      */
+    @Deprecated
     protected boolean isLineInteresting(final String line) {
         return true;
+    }
+
+    /**
+     * Returns a substring of the given line whether the specified line is interesting.
+     * This substring will be matched by the defined regular expression.
+     * Here a parser can implement some fast checks (i.e. string or character comparisons) in order to see
+     * if a required condition is met. This default implementation does always return the {@code line} itself
+     *
+     * @param line
+     *         the line to inspect
+     *
+     * @return the {@code line} if the line should be handed over to the regular expression scanner,
+     *         an substring of the {@code line} if the regular expression scanner should work on a smaller
+     *         part (e.g. for performance reasons),
+     *         or {@code null} if the line is line does not contain a warning.
+     */
+    protected String interestingLineContent(final String line) {
+        // call isLineInteresting for backward compatibility
+        if (isLineInteresting(line)) {
+            return line;
+        }
+        return null;
     }
 
     /**

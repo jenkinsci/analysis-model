@@ -31,12 +31,17 @@ public class JavaDocParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("javadoc") || line.contains("@") || hasErrorPrefixAndErrorInMessage(line);
-    }
+    protected String interestingLineContent(String line) {
+        if (line.contains("javadoc")
+                || line.contains("@")
+                || (line.contains("error") && line.contains("ERROR"))) {
+            if (line.length() > 4000) {
+                return line.substring(0, 4000);
+            }
+            return line;
+        }
 
-    private boolean hasErrorPrefixAndErrorInMessage(final String line) {
-        return line.contains("error") && line.contains("ERROR");
+        return null;
     }
 
     @Override

@@ -28,8 +28,15 @@ public class IntelParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("warning") || line.contains("error") || line.contains("remark") || line.contains("message");
+    protected String interestingLineContent(String line) {
+        if (line.contains("warning")
+                || line.contains("error")
+                || line.contains("remark")
+                || line.contains("message")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

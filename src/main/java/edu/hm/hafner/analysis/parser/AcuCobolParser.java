@@ -27,8 +27,12 @@ public class AcuCobolParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("Warning");
+    protected String interestingLineContent(String line) {
+        if (line.contains("Warning")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override

@@ -30,8 +30,14 @@ public class IarParser extends RegexpLineParser {
     }
 
     @Override
-    protected boolean isLineInteresting(final String line) {
-        return line.contains("Warning") || line.contains("rror") || line.contains("Remark");
+    protected String interestingLineContent(String line) {
+        if (line.contains("Warning")
+                || line.contains("rror")
+                || line.contains("Remark")) {
+            return line;
+        }
+
+        return null;
     }
 
     @Override
