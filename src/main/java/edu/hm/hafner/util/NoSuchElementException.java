@@ -1,7 +1,5 @@
 package edu.hm.hafner.util;
 
-import java.util.Formatter;
-
 import com.google.errorprone.annotations.FormatMethod;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

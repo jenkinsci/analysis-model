@@ -14,11 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import org.apache.commons.io.input.BOMInputStream;
-
 import com.google.errorprone.annotations.MustBeClosed;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -229,14 +226,14 @@ public abstract class ResourceTest {
      *         the file to read (relative this {@link AbstractParserTest} class
      *
      * @return an {@link BOMInputStream input stream} using character set UTF-8
-     * @see #getTestResourceClass() 
+     * @see #getTestResourceClass()
      */
     protected Path getResourceAsFile(final String fileName) {
         try {
             URL resource = getTestResourceClass().getResource(fileName);
-            
+
             ensureThatResourceExists(resource, fileName);
-            
+
             return Paths.get(resource.toURI());
         }
         catch (URISyntaxException e) {

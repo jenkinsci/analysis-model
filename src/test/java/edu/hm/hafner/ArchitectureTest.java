@@ -12,7 +12,6 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 import edu.hm.hafner.util.AccessRestrictedToTests;
-import edu.hm.hafner.util.VisibleForTesting;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 

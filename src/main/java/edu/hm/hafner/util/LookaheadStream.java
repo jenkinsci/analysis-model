@@ -1,7 +1,6 @@
 package edu.hm.hafner.util;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
