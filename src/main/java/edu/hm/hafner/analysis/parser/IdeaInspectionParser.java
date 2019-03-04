@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,11 +64,7 @@ public class IdeaInspectionParser extends IssueParser {
     }
 
     private String stripPathPrefix(final String file) {
-        String strippedFile = file;
-        if (file.startsWith(PATH_PREFIX)) {
-            strippedFile = file.substring(PATH_PREFIX.length());
-        }
-        return strippedFile;
+        return StringUtils.removeStart(file, PATH_PREFIX);
     }
 
     private String getValue(final Element element) {
