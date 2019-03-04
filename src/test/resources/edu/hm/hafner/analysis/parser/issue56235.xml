@@ -1,0 +1,61 @@
+<problems>
+    <problem>
+        <file>file://$PROJECT_DIR$/src/main/java/edu/hm/hafner/analysis/RegexpParser.java</file>
+        <line>66</line>
+        <module>analysis-model</module>
+        <package>edu.hm.hafner.analysis</package>
+        <entry_point TYPE="method" FQNAME="edu.hm.hafner.analysis.RegexpParser void findIssues(java.lang.String content, edu.hm.hafner.analysis.Report report)" />
+        <problem_class severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Optional.isPresent() can be replaced with functional-style expression</problem_class>
+        <description>Can be replaced with single expression in functional style</description>
+    </problem>
+    <problem>
+        <file>file://$PROJECT_DIR$/src/test/java/edu/hm/hafner/Example.jenkinsfile</file>
+        <line>9</line>
+        <package>&lt;default&gt;</package>
+        <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/src/test/java/edu/hm/hafner/Example.jenkinsfile" />
+        <problem_class severity="TYPO" attribute_key="TYPO">Typo</problem_class>
+        <description>Typo: In word 'Dsurefire'</description>
+    </problem>
+    <problem>
+        <file>file://$PROJECT_DIR$/src/test/java/edu/hm/hafner/analysis/assertj/IssueAssert.java</file>
+        <line>40</line>
+        <module>analysis-model</module>
+        <package>edu.hm.hafner.analysis.assertj</package>
+        <entry_point TYPE="method" FQNAME="edu.hm.hafner.analysis.assertj.IssueAssert edu.hm.hafner.analysis.assertj.IssueAssert assertThat(edu.hm.hafner.analysis.Issue actual)" />
+        <problem_class severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Redundant suppression</problem_class>
+        <hints>
+            <hint value="ParameterHidesMemberVariable;JAVA" />
+        </hints>
+        <description>Redundant suppression</description>
+    </problem>
+    <problem>
+        <file>file://$PROJECT_DIR$/src/main/java/edu/hm/hafner/analysis/ModuleDetector.java</file>
+        <line>309</line>
+        <module>analysis-model</module>
+        <package>edu.hm.hafner.analysis</package>
+        <entry_point TYPE="method" FQNAME="edu.hm.hafner.analysis.ModuleDetector.FileSystem java.io.InputStream open(java.lang.String fileName)" />
+        <problem_class severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant 'throws' clause</problem_class>
+        <hints>
+            <hint value="IOException" />
+        </hints>
+        <description>The declared exception &lt;code&gt;IOException&lt;/code&gt; is never thrown in method implementations</description>
+    </problem>
+    <problem>
+        <file>file://$PROJECT_DIR$/src/main/java/edu/hm/hafner/analysis/IssueBuilder.java</file>
+        <line>53</line>
+        <module>analysis-model</module>
+        <package>edu.hm.hafner.analysis</package>
+        <entry_point TYPE="field" FQNAME="edu.hm.hafner.analysis.IssueBuilder moduleName" />
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">@NotNull/@Nullable problems</problem_class>
+        <description>Not 'edu.umd.cs.findbugs.annotations.Nullable' but 'org.jetbrains.annotations.Nullable' would be used for code generation.</description>
+    </problem>
+    <problem>
+        <file>file://$PROJECT_DIR$/src/test/java/edu/hm/hafner/analysis/parser/dry/cpd/CpdParserTest.java</file>
+        <line>195</line>
+        <module>analysis-model</module>
+        <package>edu.hm.hafner.analysis.parser.dry.cpd</package>
+        <entry_point TYPE="method" FQNAME="edu.hm.hafner.analysis.parser.dry.cpd.CpdParserTest void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(edu.hm.hafner.analysis.Issue reporterFirst, edu.hm.hafner.analysis.Issue publisherFirst)" />
+        <problem_class severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Constant conditions &amp; exceptions</problem_class>
+        <description>Method invocation &lt;code&gt;getCodeFragment&lt;/code&gt; may produce &lt;code&gt;NullPointerException&lt;/code&gt;</description>
+    </problem>
+</problems>

@@ -23,6 +23,7 @@ Refactored Gcc4 parser so that it is also capable of parsing Doxygen warnings.
 - [JENKINS-56020](https://issues.jenkins-ci.org/browse/JENKINS-56020), 
 [JENKINS-56193](https://issues.jenkins-ci.org/browse/JENKINS-56193): 
 Fixed absolute paths if Ninja build system is used.
+- [JENKINS-56235](https://issues.jenkins-ci.org/browse/JENKINS-56235): Fixed IDEA inspection file paths
 
 ### Changed
 - [API]: GccParser uses new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
