@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.parser.EclipseParser.ERROR;
-import static edu.hm.hafner.analysis.parser.EclipseParser.INFO;
-import static edu.hm.hafner.analysis.parser.EclipseParser.WARNING;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
