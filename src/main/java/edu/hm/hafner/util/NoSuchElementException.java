@@ -27,7 +27,7 @@ public class NoSuchElementException extends java.util.NoSuchElementException {
      *         <cite>The Java&trade; Virtual Machine Specification</cite>. The behaviour on a {@code null} argument
      *         depends on the <a href="../util/Formatter.html#syntax">conversion</a>.
      *
-     * @see Formatter
+     * @see java.util.Formatter
      */
     @FormatMethod
     public NoSuchElementException(final String format, final Object... args) {

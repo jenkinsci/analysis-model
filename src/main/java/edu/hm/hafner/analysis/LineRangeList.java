@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 /**
- * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
+ * {@link java.util.List} of {@link LineRange} that stores values more efficiently at runtime.
  * <p>
  * This class thinks of {@link LineRange} as two integers (start and end-start), hence a list of {@link LineRange}
  * becomes a list of integers. The class then stores those integers in {@code byte[]}. Each number is packed to UTF-8
@@ -16,7 +16,7 @@ import java.util.ListIterator;
  * this format, 0x0 gets stored as 0x80, 0x1234 gets stored as {0x34,0xA4(0x24|0x80)}.
  * <p>
  * This variable length mode stores data most efficiently, since most line numbers are small. Access characteristic gets
- * close to that of {@link LinkedList}, since we can only traverse this packed byte[] from the start or from the end.
+ * close to that of {@link java.util.LinkedList}, since we can only traverse this packed byte[] from the start or from the end.
  *
  * @author Kohsuke Kawaguchi
  */
@@ -26,7 +26,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
     /** Encoded bits. */
     private byte[] data;
-    /** Number of bytes in {@link #data} that's already used. This is not {@link List#size()}. */
+    /** Number of bytes in {@link #data} that's already used. This is not {@link java.util.List#size()}. */
     private int len;
 
     /**

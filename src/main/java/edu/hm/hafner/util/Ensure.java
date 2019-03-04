@@ -132,7 +132,7 @@ public final class Ensure {
      * Always throws an {@link AssertionError}.
      *
      * @param explanation
-     *         a {@link Formatter formatted message} explaining the assertion
+     *         a {@link java.util.Formatter formatted message} explaining the assertion
      * @param args
      *         Arguments referenced by the format specifiers in the formatted explanation. If there are more arguments
      *         than format specifiers, the extra arguments are ignored. The number of arguments is variable and may be
@@ -147,7 +147,7 @@ public final class Ensure {
      * Throws an {@link AssertionError} with the specified detail message.
      *
      * @param message
-     *         a {@link Formatter formatted message} with the description of the error
+     *         a {@link java.util.FormatterClosedException formatted message} with the description of the error
      * @param args
      *         Arguments referenced by the format specifiers in the formatted message. If there are more arguments than
      *         format specifiers, the extra arguments are ignored. The number of arguments is variable and may be zero.
@@ -164,7 +164,7 @@ public final class Ensure {
      * Throws a {@link NullPointerException} with the specified detail message.
      *
      * @param message
-     *         a {@link Formatter formatted message} with the description of the error
+     *         a {@link java.util.Formatter formatted message} with the description of the error
      * @param args
      *         Arguments referenced by the format specifiers in the formatted message. If there are more arguments than
      *         format specifiers, the extra arguments are ignored. The number of arguments is variable and may be zero.
@@ -216,7 +216,7 @@ public final class Ensure {
          * that each element of the iterable is not {@code null}.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -281,7 +281,7 @@ public final class Ensure {
          * @param element
          *         the element to find
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -318,7 +318,7 @@ public final class Ensure {
          * @param element
          *         the element that must not be in the collection
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -374,7 +374,7 @@ public final class Ensure {
          * that each element of the array is not {@code null}.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -433,7 +433,7 @@ public final class Ensure {
          * Ensures that the given string is not {@code null} and contains at least one character.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -465,7 +465,7 @@ public final class Ensure {
          * Ensures that the given string is not {@code null} and contains at least one non-whitespace character.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -544,7 +544,7 @@ public final class Ensure {
          * Ensures that the given object is not {@code null}.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -579,7 +579,7 @@ public final class Ensure {
          * Ensures that the given object is {@code null}.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -627,7 +627,7 @@ public final class Ensure {
          * @param type
          *         the type to check the specified object for
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -669,7 +669,7 @@ public final class Ensure {
          * Ensures that the given condition is {@code false}.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -699,7 +699,7 @@ public final class Ensure {
          * Ensures that the given condition is {@code true}.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
@@ -747,7 +747,7 @@ public final class Ensure {
          * Ensures that the exception is never thrown. I.e., this method will always throw an {@link AssertionError}.
          *
          * @param explanation
-         *         a {@link Formatter formatted message} explaining the assertion
+         *         a {@link java.util.Formatter formatted message} explaining the assertion
          * @param args
          *         Arguments referenced by the format specifiers in the formatted explanation. If there are more
          *         arguments than format specifiers, the extra arguments are ignored. The number of arguments is
