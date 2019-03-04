@@ -5,6 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -64,7 +66,7 @@ public abstract class LookaheadParser extends IssueParser {
                 }
                 else {
                     final String content = interestingLineContent(line);
-                    if (content != null && content.length() != 0) {
+                    if (StringUtils.isNotEmpty(content)) {
                         Matcher matcher = pattern.matcher(content);
                         if (matcher.find()) {
                             createIssue(matcher, lookahead, builder).ifPresent(report::add);
