@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.util.StringContainsUtils.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link StringContainsUtils}.

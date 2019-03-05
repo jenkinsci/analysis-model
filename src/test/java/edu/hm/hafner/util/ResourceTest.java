@@ -229,14 +229,14 @@ public abstract class ResourceTest {
      *         the file to read (relative this {@link AbstractParserTest} class
      *
      * @return an {@link BOMInputStream input stream} using character set UTF-8
-     * @see #getTestResourceClass() 
+     * @see #getTestResourceClass()
      */
     protected Path getResourceAsFile(final String fileName) {
         try {
             URL resource = getTestResourceClass().getResource(fileName);
-            
+
             ensureThatResourceExists(resource, fileName);
-            
+
             return Paths.get(resource.toURI());
         }
         catch (URISyntaxException e) {

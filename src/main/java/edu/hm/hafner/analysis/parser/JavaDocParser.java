@@ -23,6 +23,8 @@ public class JavaDocParser extends RegexpLineParser {
     static final String CATEGORY_JAVADOC = "JavaDoc";
     static final Pattern TAG_PATTERN = Pattern.compile(".*(@\\w+).*");
 
+    private static final int MAX_LINE_LENGTH = 1000; // see JENKINS-55805
+
     /**
      * Creates a new instance of {@link JavaDocParser}.
      */
@@ -32,7 +34,7 @@ public class JavaDocParser extends RegexpLineParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("javadoc") || line.contains("@") || hasErrorPrefixAndErrorInMessage(line);
+        return line.length() < MAX_LINE_LENGTH && (line.contains("javadoc") || line.contains("@") || hasErrorPrefixAndErrorInMessage(line));
     }
 
     private boolean hasErrorPrefixAndErrorInMessage(final String line) {

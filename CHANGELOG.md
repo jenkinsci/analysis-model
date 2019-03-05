@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR#103](https://github.com/jenkinsci/analysis-model/pull/103): New parser for IAR CSTAT warnings.
 
 ### Fixed
+- [JENKINS-55805](https://issues.jenkins-ci.org/browse/JENKINS-55805): 
+JavaDoc Parser: Improved performance (skip overly long lines).
 - [JENKINS-55750](https://issues.jenkins-ci.org/browse/JENKINS-55750),
 [PR#102](https://github.com/jenkinsci/analysis-model/pull/102): 
 IarParser: Added support for absolute Windows paths.

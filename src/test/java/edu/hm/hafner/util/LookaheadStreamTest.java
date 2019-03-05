@@ -17,56 +17,56 @@ class LookaheadStreamTest extends ResourceTest {
 
     @Test
     void shouldHandleEmptyLines() {
-        LookaheadStream stream = new LookaheadStream(getTextLinesAsStream(""));
-
-        assertThat(stream.hasNext()).isFalse();
-        assertThat(stream.getLine()).isEqualTo(0);
-        assertThatExceptionOfType(java.util.NoSuchElementException.class).isThrownBy(stream::next);
+        try (LookaheadStream stream = new LookaheadStream(getTextLinesAsStream(""))) {
+            assertThat(stream.hasNext()).isFalse();
+            assertThat(stream.getLine()).isEqualTo(0);
+            assertThatExceptionOfType(java.util.NoSuchElementException.class).isThrownBy(stream::next);
+        }
     }
 
     @Test
     void shouldReturnSingleLine() {
-        LookaheadStream stream = new LookaheadStream(getTextLinesAsStream(FIRST_LINE));
+        try (LookaheadStream stream = new LookaheadStream(getTextLinesAsStream(FIRST_LINE))) {
+            assertThat(stream.hasNext()).isTrue();
+            assertThat(stream.next()).isEqualTo(FIRST_LINE);
+            assertThat(stream.getLine()).isEqualTo(1);
 
-        assertThat(stream.hasNext()).isTrue();
-        assertThat(stream.next()).isEqualTo(FIRST_LINE);
-        assertThat(stream.getLine()).isEqualTo(1);
-
-        assertThat(stream.hasNext()).isFalse();
+            assertThat(stream.hasNext()).isFalse();
+        }
     }
 
     @Test
     void shouldReturnMultipleLines() {
-        LookaheadStream stream = new LookaheadStream(getTextLinesAsStream("First Line\nSecond Line"));
+        try (LookaheadStream stream = new LookaheadStream(getTextLinesAsStream("First Line\nSecond Line"))) {
+            assertThat(stream.hasNext()).isTrue();
+            assertThat(stream.next()).isEqualTo(FIRST_LINE);
+            assertThat(stream.getLine()).isEqualTo(1);
+            assertThat(stream.hasNext()).isTrue();
+            assertThat(stream.next()).isEqualTo("Second Line");
+            assertThat(stream.getLine()).isEqualTo(2);
 
-        assertThat(stream.hasNext()).isTrue();
-        assertThat(stream.next()).isEqualTo(FIRST_LINE);
-        assertThat(stream.getLine()).isEqualTo(1);
-        assertThat(stream.hasNext()).isTrue();
-        assertThat(stream.next()).isEqualTo("Second Line");
-        assertThat(stream.getLine()).isEqualTo(2);
-
-        assertThat(stream.hasNext()).isFalse();
+            assertThat(stream.hasNext()).isFalse();
+        }
     }
 
     @Test
     void shouldReturnLookAheadLines() {
-        LookaheadStream stream = new LookaheadStream(getTextLinesAsStream("First Line\nSecond Line"));
+        try (LookaheadStream stream = new LookaheadStream(getTextLinesAsStream("First Line\nSecond Line"))) {
+            assertThat(stream.hasNext()).isTrue();
+            assertThat(stream.hasNext("Line$")).isTrue();
+            assertThat(stream.hasNext("Second.*")).isFalse();
+            assertThat(stream.next()).isEqualTo(FIRST_LINE);
+            assertThat(stream.getLine()).isEqualTo(1);
 
-        assertThat(stream.hasNext()).isTrue();
-        assertThat(stream.hasNext("Line$")).isTrue();
-        assertThat(stream.hasNext("Second.*")).isFalse();
-        assertThat(stream.next()).isEqualTo(FIRST_LINE);
-        assertThat(stream.getLine()).isEqualTo(1);
+            assertThat(stream.hasNext()).isTrue();
+            assertThat(stream.hasNext("Line$")).isTrue();
+            assertThat(stream.hasNext("First.*")).isFalse();
+            assertThat(stream.next()).isEqualTo("Second Line");
+            assertThat(stream.getLine()).isEqualTo(2);
 
-        assertThat(stream.hasNext()).isTrue();
-        assertThat(stream.hasNext("Line$")).isTrue();
-        assertThat(stream.hasNext("First.*")).isFalse();
-        assertThat(stream.next()).isEqualTo("Second Line");
-        assertThat(stream.getLine()).isEqualTo(2);
-
-        assertThat(stream.hasNext()).isFalse();
-        assertThat(stream.hasNext(".*")).isFalse();
+            assertThat(stream.hasNext()).isFalse();
+            assertThat(stream.hasNext(".*")).isFalse();
+        }
     }
 
     @Test
