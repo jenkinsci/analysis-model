@@ -1,33 +1,39 @@
+# Requires mvn-3.6.0 configured
+
 node {
     stage ('Checkout') {
         checkout scm
     }
 
     stage ('Build') {
-            def mvnHome = tool 'mvn-3.6.0'
+        def mvnHome = tool 'mvn-3.6.0'
 
-            sh "${mvnHome}/bin/mvn --batch-mode -V -U -e clean verify -DskipTests"
+        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e clean verify -DskipTests"
 
-            recordIssues tools: [java(), javaDoc()], aggregatingResults: 'true', id: 'java', name: 'Java'
-            recordIssues tool: errorProne()
-        }
+        recordIssues tools: [java(), javaDoc()], aggregatingResults: 'true', id: 'java', name: 'Java'
+        recordIssues tool: errorProne()
+    }
 
-        stage ('Analysis') {
-            def mvnHome = tool 'mvn-3.6.0'
+    stage ('Analysis') {
+        def mvnHome = tool 'mvn-3.6.0'
 
-            sh "${mvnHome}/bin/mvn --batch-mode -V -U -e verify"
+        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e verify"
 
-            recordIssues tools: [checkStyle(),
-                spotBugs(pattern: 'target/spotbugsXml.xml'),
-                pmdParser(pattern: 'target/pmd.xml'),
-                cpd(pattern: 'target/cpd.xml'),
-                taskScanner(highTags:'FIXME', normalTags:'TODO', includePattern: '**/*.java', excludePattern: 'target/**/*')]
-        }
+        recordIssues tools: [checkStyle(),
+            spotBugs(pattern: 'target/spotbugsXml.xml'),
+            pmdParser(pattern: 'target/pmd.xml'),
+            cpd(pattern: 'target/cpd.xml'),
+            taskScanner(highTags:'FIXME', normalTags:'TODO', includePattern: '**/*.java', excludePattern: 'target/**/*')]
+    }
 
-        stage ('Coverage') {
-            def mvnHome = tool 'mvn-3.6.0'
+    stage ('Coverage') {
+        def mvnHome = tool 'mvn-3.6.0'
 
-            sh "${mvnHome}/bin/mvn --batch-mode -V -U -e jacoco:prepare-agent test jacoco:report -Djenkins.test.timeout=240"
-            publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
-        }
+        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e jacoco:prepare-agent test jacoco:report -Djenkins.test.timeout=240"
+        publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
+    }
+
+    stage ('Collect Maven Warnings') {
+        recordIssues tool: mavenConsole()
+    }
 }
