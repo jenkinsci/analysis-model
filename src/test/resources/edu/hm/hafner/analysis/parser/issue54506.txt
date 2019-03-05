@@ -1,0 +1,3 @@
+[ImmutableEnumChecker] enums should be immutable: 'Type' has field 'mime' of type 'com.acme.MyEnumType', the declaration of type 'com.acme.MyEnumType' is not annotated with @com.google.errorprone.annotations.Immutable
+
+[UnitTestGroup2] 2019-01-08 14:02:07 /opt/data/jenkins/Pipeline-Bitbucket/core@2/processing/src/java/com/acme/export/print/AbstractPdfExporter.java:54: warning: [deprecation] createTmpDirectory(String) in FileUtils has been deprecated

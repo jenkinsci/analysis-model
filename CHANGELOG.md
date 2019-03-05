@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - [JENKINS-55805](https://issues.jenkins-ci.org/browse/JENKINS-55805): 
 JavaDoc Parser: Improved performance (skip overly long lines).
+- [JENKINS-54506](https://issues.jenkins-ci.org/browse/JENKINS-54506):
+JavaDoc Parser: Java errors were detected as JavaDoc warnings.
 - [JENKINS-55750](https://issues.jenkins-ci.org/browse/JENKINS-55750),
 [PR#102](https://github.com/jenkinsci/analysis-model/pull/102): 
 IarParser: Added support for absolute Windows paths.

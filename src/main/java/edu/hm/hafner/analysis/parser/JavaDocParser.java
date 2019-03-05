@@ -33,7 +33,7 @@ public class JavaDocParser extends RegexpLineParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         return super.isLineInteresting(line)
-                && (line.contains("javadoc") || line.contains("@") || hasErrorPrefixAndErrorInMessage(line));
+                && (line.contains("javadoc") || line.contains(" @") || hasErrorPrefixAndErrorInMessage(line));
     }
 
     private boolean hasErrorPrefixAndErrorInMessage(final String line) {
