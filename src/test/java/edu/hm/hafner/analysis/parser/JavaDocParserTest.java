@@ -10,6 +10,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
+import java.util.Iterator;
+
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -213,11 +215,11 @@ class JavaDocParserTest extends AbstractParserTest {
     @Test
     void issue7718() {
         Report warnings = parse("issue7718.txt");
-
         assertThat(warnings).hasSize(7);
 
+        Iterator<Issue> iterator = warnings.iterator();
         assertSoftly(softly -> {
-            softly.assertThat(warnings.get(0))
+            softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("JavaDoc @sys")
                     .hasLineStart(0)
@@ -225,14 +227,66 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasMessage("Text of tag @sys.prop in class ch.post.pf.mw.service.common.alarm.AlarmingService is too long!")
                     .hasFileName("-");
 
-            softly.assertThat(warnings.get(1))
+            softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("-")
                     .hasLineStart(57)
                     .hasLineEnd(57)
                     .hasMessage("@(#) is an unknown tag.")
                     .hasFileName("/u01/src/KinePolygon.java");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory("JavaDoc @param")
+                    .hasLineStart(26)
+                    .hasLineEnd(26)
+                    .hasMessage("@param argument \"wBuffer\" is not a parameter name.")
+                    .hasFileName("/u01/src/SpeedUnit.java");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory("JavaDoc @return")
+                    .hasLineStart(65)
+                    .hasLineEnd(65)
+                    .hasMessage("@return tag cannot be used in method with void return type.")
+                    .hasFileName("/u01/src/code/com/abc/Argument.java");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory("JavaDoc @see")
+                    .hasLineStart(1005)
+                    .hasLineEnd(1005)
+                    .hasMessage("Tag @see: can't find climb(int,")
+                    .hasFileName("/u01/src/code/com/abc/acPerformance/AcPerformanceServicesImpl.java");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory("JavaDoc @return")
+                    .hasLineStart(517)
+                    .hasLineEnd(517)
+                    .hasMessage("Tag @return cannot be used in field documentation. It can only be used in the following types of documentation: method.")
+                    .hasFileName("/u01/src/code/com/abc/CodedRouteFormat.java");
+
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory("JavaDoc @List")
+                    .hasLineStart(64)
+                    .hasLineEnd(64)
+                    .hasMessage("@List is an unknown tag.")
+                    .hasFileName("/u01/src/code/com/abc/adasupport/EnhancedListIterator.java");
         });
+    }
+
+    /**
+     * Parses a log with Java compiler message (false positive).
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-54506">Issue 54506</a>
+     */
+    @Test
+    void issue54506() {
+        Report warnings = parse("issue54506.txt");
+
+        assertThat(warnings).isEmpty();
     }
 
     /**
