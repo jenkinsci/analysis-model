@@ -20,6 +20,8 @@ public abstract class RegexpLineParser extends LookaheadParser {
     @Nullable
     private LookaheadStream temporaryLookahead;
 
+    private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805
+
     /**
      * Creates a new instance of {@link RegexpLineParser}.
      *
@@ -28,6 +30,11 @@ public abstract class RegexpLineParser extends LookaheadParser {
      */
     protected RegexpLineParser(final String pattern) {
         super(pattern);
+    }
+
+    @Override
+    protected boolean isLineInteresting(final String line) {
+        return line.length() < MAX_LINE_LENGTH; // skip long lines, see JENKINS-55805
     }
 
     @Override

@@ -12,7 +12,6 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static edu.hm.hafner.analysis.parser.JavaDocParser.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -77,7 +76,6 @@ class JavaDocParserTest extends AbstractParserTest {
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("malformed HTML")
@@ -85,7 +83,6 @@ class JavaDocParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("bad use of '>'")
@@ -93,7 +90,6 @@ class JavaDocParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(2))
                     .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("unexpected end tag: </a>")
@@ -146,7 +142,6 @@ class JavaDocParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(4))
                     .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(25)
                     .hasLineEnd(25)
                     .hasMessage("bad use of '>'")
@@ -154,7 +149,6 @@ class JavaDocParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(5))
                     .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("malformed HTML")
@@ -162,7 +156,6 @@ class JavaDocParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(6))
                     .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("bad use of '>'")
@@ -185,7 +178,6 @@ class JavaDocParserTest extends AbstractParserTest {
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(CATEGORY_JAVADOC)
                     .hasLineStart(0)
                     .hasLineEnd(0)
                     .hasMessage("Multiple sources of package comments found for package \"org.hamcrest\"")
@@ -235,7 +227,7 @@ class JavaDocParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasCategory(CATEGORY_JAVADOC)
+                    .hasCategory("-")
                     .hasLineStart(57)
                     .hasLineEnd(57)
                     .hasMessage("@(#) is an unknown tag.")
