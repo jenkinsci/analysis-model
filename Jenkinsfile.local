@@ -1,5 +1,3 @@
-# Requires mvn-3.6.0 configured
-
 node {
     stage ('Checkout') {
         checkout scm
