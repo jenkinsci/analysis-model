@@ -1,11 +1,11 @@
 node {
+    def mvnHome = tool 'Default'
+
     stage ('Checkout') {
         checkout scm
     }
 
     stage ('Build') {
-        def mvnHome = tool 'mvn-3.6.0'
-
         sh "${mvnHome}/bin/mvn --batch-mode -V -U -e clean verify -DskipTests"
 
         recordIssues tools: [java(), javaDoc()], aggregatingResults: 'true', id: 'java', name: 'Java'
@@ -13,8 +13,6 @@ node {
     }
 
     stage ('Analysis') {
-        def mvnHome = tool 'mvn-3.6.0'
-
         sh "${mvnHome}/bin/mvn --batch-mode -V -U -e verify"
 
         recordIssues tools: [checkStyle(),
@@ -25,8 +23,6 @@ node {
     }
 
     stage ('Coverage') {
-        def mvnHome = tool 'mvn-3.6.0'
-
         sh "${mvnHome}/bin/mvn --batch-mode -V -U -e jacoco:prepare-agent test jacoco:report -Djenkins.test.timeout=240"
         publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
     }
