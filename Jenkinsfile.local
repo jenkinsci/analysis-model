@@ -1,5 +1,5 @@
 node {
-    def mvnHome = tool 'Default'
+    def mvnHome = tool 'mvn-default'
 
     stage ('Checkout') {
         checkout scm
