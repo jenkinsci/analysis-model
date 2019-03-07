@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Gcc4: Show multi-line warnings messages. Map all errors to severity error. 
 - [PR#103](https://github.com/jenkinsci/analysis-model/pull/103): New parser for IAR CSTAT warnings.
+- [PR#100](https://github.com/jenkinsci/analysis-model/pull/100): Add package and module support for Pylint.
 
 ### Fixed
 - [JENKINS-55805](https://issues.jenkins-ci.org/browse/JENKINS-55805): 
@@ -28,6 +29,7 @@ Refactored Gcc4 parser so that it is also capable of parsing Doxygen warnings.
 [JENKINS-56193](https://issues.jenkins-ci.org/browse/JENKINS-56193): 
 Fixed absolute paths if Ninja build system is used.
 - [JENKINS-56235](https://issues.jenkins-ci.org/browse/JENKINS-56235): Fixed IDEA inspection file paths
+- [PR#104](https://github.com/jenkinsci/analysis-model/pull/104): Pylint: Add types, make categories types and categories, categories.
 
 ### Changed
 - [API]: GccParser uses new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
