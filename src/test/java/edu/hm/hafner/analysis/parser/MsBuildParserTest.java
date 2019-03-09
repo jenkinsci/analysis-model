@@ -785,8 +785,8 @@ class MsBuildParserTest extends AbstractParserTest {
         Report warnings = parse("MSBuildANSIColor.txt");
 
         assertThat(warnings)
-                .hasSize(232)
-                .hasSeverities(0, 0, 232, 0);
+                .hasSize(1)
+                .hasSeverities(0, 0, 1, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("C:/j/6aa722/src/CodeRunner/GenericCodeRunner/CompositeCode.cs")
