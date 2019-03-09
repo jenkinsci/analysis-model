@@ -780,6 +780,28 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasColumnEnd(0);
     }
 
+    @Test
+    void ansiColor() {
+        Report warnings = parse("MSBuildANSIColor.txt");
+
+        assertThat(warnings)
+                .hasSize(232)
+                .hasSeverities(0, 0, 232, 0);
+
+        assertSoftly(softly -> softly.assertThat(warnings.get(0))
+                .hasFileName("C:/j/6aa722/src/CodeRunner/GenericCodeRunner/CompositeCode.cs")
+                .hasCategory("CS1591")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("Missing XML comment for publicly visible type or member 'CompositeCode.this[int]'")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(137)
+                .hasLineEnd(137)
+                .hasColumnStart(32)
+                .hasColumnEnd(32));
+                
+    }
+
     @Override
     protected MsBuildParser createParser() {
         return new MsBuildParser();

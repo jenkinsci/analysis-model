@@ -1,0 +1,1 @@
+[2019-03-08T19:56:38.336Z] [m[36;1m     2>[m[33;1mGenericCodeRunner\CompositeCode.cs(137,32): warning CS1591: Missing XML comment for publicly visible type or member 'CompositeCode.this[int]' [C:\j\6aa722\src\CodeRunner\CodeRunner.csproj]

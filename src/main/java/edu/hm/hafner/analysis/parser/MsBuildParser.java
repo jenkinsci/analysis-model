@@ -34,6 +34,15 @@ public class MsBuildParser extends RegexpLineParser {
     }
 
     @Override
+    protected  String preProcessContent(String content){
+
+        //Remove ANSI Color contents based on MSBuild parameter: /consoleloggerparameters:ForceConsoleColor
+        String newcontent= content.replaceAll(".*\u001B\\[[;\\d]*[ -/]*[@-~]","");
+        return newcontent;
+    }
+
+
+    @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         builder.setFileName(determineFileName(matcher));
 

@@ -42,6 +42,16 @@ public abstract class LookaheadParser extends IssueParser {
         this.pattern = Pattern.compile(pattern);
     }
 
+    /**
+     * Returns the content with any custom tool preprocessing that is needed.
+     *
+     * @param content
+     *         Line to be processed before matching has happened.
+     */
+    protected  String preProcessContent(String content){
+        return content;
+    }
+
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         Report report = new Report();
@@ -49,7 +59,7 @@ public abstract class LookaheadParser extends IssueParser {
             LookaheadStream lookahead = new LookaheadStream(lines);
             IssueBuilder builder = new IssueBuilder();
             while (lookahead.hasNext()) {
-                String line = lookahead.next();
+                String line = preProcessContent(lookahead.next());
                 if (line.contains(ENTERING_DIRECTORY)) {
                     Matcher makeLineMatcher = MAKE_PATH.matcher(line);
                     if (makeLineMatcher.matches()) {
