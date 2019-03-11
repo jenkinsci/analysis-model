@@ -1,20 +1,23 @@
 node {
-    def mvnHome = tool 'mvn-default'
-
     stage ('Checkout') {
         checkout scm
     }
 
     stage ('Build') {
-        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e clean verify -DskipTests"
+        withMaven(maven: 'mvn-default', mavenLocalRepo: '/var/data/m2repository', mavenOpts: '-Xmx768m -Xms512m') {
+            sh 'mvn -V -U -e clean verify -DskipTests'
+        }
 
         recordIssues tools: [java(), javaDoc()], aggregatingResults: 'true', id: 'java', name: 'Java'
         recordIssues tool: errorProne()
     }
 
     stage ('Analysis') {
-        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e verify"
+        withMaven(maven: 'mvn-default', mavenLocalRepo: '/var/data/m2repository', mavenOpts: '-Xmx768m -Xms512m') {
+            sh "mvn -V -U -e verify"
+        }
 
+        junit testResults: '**/target/*-reports/TEST-*.xml'
         recordIssues tools: [checkStyle(),
             spotBugs(pattern: 'target/spotbugsXml.xml'),
             pmdParser(pattern: 'target/pmd.xml'),
@@ -23,7 +26,9 @@ node {
     }
 
     stage ('Coverage') {
-        sh "${mvnHome}/bin/mvn --batch-mode -V -U -e jacoco:prepare-agent test jacoco:report -Djenkins.test.timeout=240"
+        withMaven(maven: 'mvn-default', mavenLocalRepo: '/var/data/m2repository', mavenOpts: '-Xmx768m -Xms512m') {
+            sh "mvn -V -U -e jacoco:prepare-agent test jacoco:report -Djenkins.test.timeout=240"
+        }
         publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
     }
 
