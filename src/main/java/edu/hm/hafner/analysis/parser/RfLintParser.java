@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,10 +14,12 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ReaderFactory;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 import static edu.hm.hafner.analysis.Categories.*;
+import static edu.hm.hafner.analysis.parser.IarParser.*;
 
 /**
  * A parser for <a href="http://robotframework.org/">Robot Framework</a>. Parses output from <a
@@ -27,8 +30,16 @@ import static edu.hm.hafner.analysis.Categories.*;
  * </pre>
  *
  * @author traitanit
+ * @author Bassam Khouri
  */
-public class RfLintParser extends IarParser {
+public class RfLintParser extends RegexpLineParser {
+    /**
+     * Creates a new instance of {@link IarParser}.
+     */
+    public RfLintParser() {
+        super(IAR_WARNING_PATTERN); // same pattern as IAR parser
+    }
+
     /**
      * Map of Robot Framework severity to the analysis model severity.
      */
@@ -172,7 +183,6 @@ public class RfLintParser extends IarParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String packageName = Paths.get(fileName).getParent().toString();
         String message = matcher.group("message");
         String severityStr = guessCategoryIfEmpty(matcher.group("severity"), message);
         String ruleName = matcher.group("ruleName");
@@ -182,8 +192,7 @@ public class RfLintParser extends IarParser {
         Severity priority = RfLintSeverity.fromCharacter(severityCharacter).getSeverityLevel();
 
         return builder.setFileName(fileName)
-                .setPackageName(packageName)
-                .setDirectory(packageName)
+                .setPackageName(Objects.toString(Paths.get(fileName).getParent()))
                 .setLineStart(matcher.group("lineNumber"))
                 .setColumnStart(matcher.group("columnNumber"))
                 .setCategory(category.getName())
@@ -192,4 +201,5 @@ public class RfLintParser extends IarParser {
                 .setSeverity(priority)
                 .buildOptional();
     }
+
 }

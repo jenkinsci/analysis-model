@@ -15,6 +15,7 @@ import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
  * Tests the class {@link RfLintParser}.
  *
  * @author traitanit
+ * @author Bassam Khouri
  */
 class RfLintParserTest extends AbstractParserTest {
     private static final String SUITE_CATEGORY = "Suite";
