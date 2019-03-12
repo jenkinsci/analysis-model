@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Gcc4: Show multi-line warnings messages. Map all errors to severity error. 
 - [PR#103](https://github.com/jenkinsci/analysis-model/pull/103): New parser for IAR CSTAT warnings.
 - [PR#100](https://github.com/jenkinsci/analysis-model/pull/100): Add package and module support for Pylint.
+- [JENKINS-56393](https://issues.jenkins-ci.org/browse/JENKINS-56393): Improved RfLintParser - Set category and type
+- [JENKINS-56394](https://issues.jenkins-ci.org/browse/JENKINS-56394): Improved RfLintParser - add directory as the package name
 
 ### Fixed
 - [JENKINS-55805](https://issues.jenkins-ci.org/browse/JENKINS-55805): 
