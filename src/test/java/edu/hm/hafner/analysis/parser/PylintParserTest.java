@@ -25,6 +25,7 @@ class PylintParserTest extends AbstractParserTest {
         super(ISSUES_FILE);
     }
 
+    @SuppressWarnings("methodlength")
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(22);
