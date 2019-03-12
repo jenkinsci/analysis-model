@@ -72,7 +72,8 @@ public class TaglistParser extends IssueParser {
         return clazz.replace('.', '/').concat(".java");
     }
 
-    private @Nullable String class2package(final String clazz) {
+    @Nullable
+    private String class2package(final String clazz) {
         int idx = clazz.lastIndexOf('.');
         return idx > 0 ? clazz.substring(0, idx) : null;
     }

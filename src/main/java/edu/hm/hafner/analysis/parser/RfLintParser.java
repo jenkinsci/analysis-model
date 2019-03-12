@@ -86,7 +86,7 @@ public class RfLintParser extends IssueParser {
         OTHER("Other"),
         CUSTOM("Custom");
 
-        private String name;
+        private final String name;
 
         RfLintCategory(final String name) {
             this.name = name;
@@ -120,7 +120,7 @@ public class RfLintParser extends IssueParser {
         TRAILING_WHITESPACE(RfLintCategory.OTHER),
         UNKNOWN(RfLintCategory.CUSTOM);
 
-        private RfLintCategory category;
+        private final RfLintCategory category;
 
         RfLintRuleName(final RfLintCategory category) {
             this.category = category;

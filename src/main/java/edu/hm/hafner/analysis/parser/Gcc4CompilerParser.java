@@ -73,7 +73,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
         if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
             return false;
         }
-        return !(StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make"));
+        return !StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make");
     }
 }
 
