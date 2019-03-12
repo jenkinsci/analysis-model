@@ -58,6 +58,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
                 .buildOptional();
     }
 
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     private boolean isMessageContinuation(final LookaheadStream lookahead) {
         String peek = lookahead.peekNext();
         if (peek.length() < 3) {
