@@ -8,6 +8,9 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.CaseUtils;
+import org.apache.commons.text.WordUtils;
+import org.omg.CORBA.UNKNOWN;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -92,22 +95,6 @@ public class RfLintParser extends IssueParser {
         public String getName() {
             return this.name;
         }
-
-        /**
-         * Determines the RfLint category based on the provided rule name.
-         *
-         * @param ruleName
-         *         The rule name
-         *
-         * @return An instance of the RfLintCategory associated with the rule name.
-         */
-        public static RfLintCategory fromRuleName(final String ruleName) {
-            if (EnumUtils.isValidEnum(RfLintRuleName.class, ruleName)) {
-                RfLintRuleName rule = RfLintRuleName.valueOf(ruleName);
-                return rule.getCategory();
-            }
-            return RfLintCategory.CUSTOM;
-        }
     }
 
     /**
@@ -130,7 +117,8 @@ public class RfLintParser extends IssueParser {
         TOO_FEW_TEST_STEPS(RfLintCategory.TEST_CASE),
         TOO_MANY_TEST_STEPS(RfLintCategory.TEST_CASE),
         TRAILING_BLANK_LINES(RfLintCategory.OTHER),
-        TRAILING_WHITESPACE(RfLintCategory.OTHER);
+        TRAILING_WHITESPACE(RfLintCategory.OTHER),
+        UNKNOWN(RfLintCategory.CUSTOM);
 
         private RfLintCategory category;
 
@@ -140,6 +128,23 @@ public class RfLintParser extends IssueParser {
 
         public RfLintCategory getCategory() {
             return this.category;
+        }
+
+        /**
+         * Determines the RfLintRuleName based on the provided name.
+         *
+         * @param name
+         *         the name of the rule
+         *
+         * @return An instance of RfLintRuleName matching the name. `UNKNOWN` as the default if the name is not valid.
+         */
+        public static RfLintRuleName fromName(final String name) {
+            for (RfLintRuleName rule : values()) {
+                if (CaseUtils.toCamelCase(rule.name(), true, '_').equals(name)) {
+                    return rule;
+                }
+            }
+            return UNKNOWN;
         }
     }
 
@@ -174,11 +179,10 @@ public class RfLintParser extends IssueParser {
     private Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group("message");
         String severityStr = guessCategoryIfEmpty(matcher.group("severity"), message);
+        Severity priority = RfLintSeverity.fromCharacter(severityStr.charAt(0)).getSeverityLevel();
         String ruleName = matcher.group("ruleName");
 
-        char severityCharacter = severityStr.charAt(0);
-        RfLintCategory category = RfLintCategory.fromRuleName(ruleName);
-        Severity priority = RfLintSeverity.fromCharacter(severityCharacter).getSeverityLevel();
+        RfLintCategory category = RfLintRuleName.fromName(ruleName).getCategory();
 
         return builder.setFileName(fileName)
                 .setPackageName(Objects.toString(Paths.get(fileName).getParent()))
