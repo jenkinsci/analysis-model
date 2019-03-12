@@ -12,7 +12,9 @@ import java.util.Iterator;
 import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
 
 /**
- * Tests the class {@link RfLintParser}. Created by traitanit on 3/27/2017 AD.
+ * Tests the class {@link RfLintParser}.
+ *
+ * @author traitanit
  */
 class RfLintParserTest extends AbstractParserTest {
     private static final String SUITE_CATEGORY = "Suite";
@@ -29,6 +31,7 @@ class RfLintParserTest extends AbstractParserTest {
         super(ISSUES_FILE);
     }
 
+    @SuppressWarnings("methodlength")
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(25);

@@ -16,19 +16,21 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
-import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
- * A parser for <a href="http://robotframework.org/">Robot Framework</a> Parse output from <a
- * href="https://github.com/boakley/robotframework-lint">robotframework-lint</a>. To generate rflint file cmd$ pip
- * install robotframework-lint cmd$ rflint path/to/test.robot
+ * A parser for <a href="http://robotframework.org/">Robot Framework</a>. Parses output from <a
+ * href="https://github.com/boakley/robotframework-lint">robotframework-lint</a>.
+ * To generate rflint file use: <pre>
+ *     cmd$ pip install robotframework-lint
+ *     cmd$ rflint path/to/test.robot
+ * </pre>
  *
  * @author traitanit
  */
 public class RfLintParser extends IarParser {
-
     /**
-     *  Map of Robot Framework severity to the analysis model severity.
+     * Map of Robot Framework severity to the analysis model severity.
      */
     private enum RfLintSeverity {
         ERROR(Severity.WARNING_HIGH),
@@ -40,11 +42,11 @@ public class RfLintParser extends IarParser {
 
         private final Severity severityLevel;
 
-        RfLintSeverity(Severity level) {
+        RfLintSeverity(final Severity level) {
             this.severityLevel = level;
         }
 
-        RfLintSeverity(RfLintSeverity e) {
+        RfLintSeverity(final RfLintSeverity e) {
             this(e.severityLevel);
         }
 
@@ -55,16 +57,17 @@ public class RfLintParser extends IarParser {
         /**
          * Determines the RfLintSeverity based on the provided character.
          *
-         * @param violationSeverity The character presentiting the violation severity
-         * @return An instance of RfLintSeverity matching the character.  `WARNING` as the default if the severity
-         *      character is not valid.
+         * @param violationSeverity
+         *         The character presentiting the violation severity
+         *
+         * @return An instance of RfLintSeverity matching the character. `WARNING` as the default if the severity
+         *         character is not valid.
          */
         public static RfLintSeverity fromCharacter(final char violationSeverity) {
-            RfLintSeverity severity = WARNING;
             if (EnumUtils.isValidEnum(RfLintSeverity.class, String.valueOf(violationSeverity))) {
-                severity = RfLintSeverity.valueOf(String.valueOf(violationSeverity));
+                return RfLintSeverity.valueOf(String.valueOf(violationSeverity));
             }
-            return severity;
+            return WARNING;
         }
     }
 
@@ -80,7 +83,7 @@ public class RfLintParser extends IarParser {
 
         private String name;
 
-        RfLintCategory(String name) {
+        RfLintCategory(final String name) {
             this.name = name;
         }
 
@@ -91,16 +94,17 @@ public class RfLintParser extends IarParser {
         /**
          * Determines the RfLint category based on the provided rule name.
          *
-         * @param ruleName The rule name
+         * @param ruleName
+         *         The rule name
+         *
          * @return An instance of the RfLintCategory associated with the rule name.
          */
         public static RfLintCategory fromRuleName(final String ruleName) {
-            RfLintCategory category = RfLintCategory.CUSTOM;
             if (EnumUtils.isValidEnum(RfLintRuleName.class, ruleName)) {
                 RfLintRuleName rule = RfLintRuleName.valueOf(ruleName);
-                category = rule.getCategory();
+                return rule.getCategory();
             }
-            return category;
+            return RfLintCategory.CUSTOM;
         }
     }
 
@@ -128,7 +132,7 @@ public class RfLintParser extends IarParser {
 
         private RfLintCategory category;
 
-        RfLintRuleName(RfLintCategory category) {
+        RfLintRuleName(final RfLintCategory category) {
             this.category = category;
         }
 
@@ -141,7 +145,8 @@ public class RfLintParser extends IarParser {
     private static final long serialVersionUID = -7903991158616386226L;
 
     private String fileName = StringUtils.EMPTY;
-    private static final Pattern WARNING_PATTERN = Pattern.compile("(?<severity>[W|E|I]): (?<lineNumber>\\d+), (?<columnNumber>\\d+): (?<message>.*) \\((?<ruleName>.*)\\)");
+    private static final Pattern WARNING_PATTERN = Pattern.compile(
+            "(?<severity>[WEI]): (?<lineNumber>\\d+), (?<columnNumber>\\d+): (?<message>.*) \\((?<ruleName>.*)\\)");
     private static final Pattern FILE_PATTERN = Pattern.compile("\\+\\s(?<filename>.*)");
 
     @Override
@@ -155,11 +160,7 @@ public class RfLintParser extends IarParser {
                 }
                 Matcher matcher = WARNING_PATTERN.matcher(line);
                 if (matcher.find()) {
-                    Optional<Issue> warning = createIssue(matcher, new IssueBuilder());
-                    if (warning.isPresent()) {
-                        warnings.add(warning.get());
-                    }
-
+                    createIssue(matcher, new IssueBuilder()).ifPresent(warnings::add);
                 }
                 if (Thread.interrupted()) {
                     throw new ParsingCanceledException();
@@ -168,7 +169,6 @@ public class RfLintParser extends IarParser {
             return warnings;
         }
     }
-
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
@@ -182,14 +182,14 @@ public class RfLintParser extends IarParser {
         Severity priority = RfLintSeverity.fromCharacter(severityCharacter).getSeverityLevel();
 
         return builder.setFileName(fileName)
-            .setPackageName(packageName)
-            .setDirectory(packageName)
-            .setLineStart(matcher.group("lineNumber"))
-            .setColumnStart(matcher.group("columnNumber"))
-            .setCategory(category.getName())
-            .setType(ruleName)
-            .setMessage(message)
-            .setSeverity(priority)
-            .buildOptional();
+                .setPackageName(packageName)
+                .setDirectory(packageName)
+                .setLineStart(matcher.group("lineNumber"))
+                .setColumnStart(matcher.group("columnNumber"))
+                .setCategory(category.getName())
+                .setType(ruleName)
+                .setMessage(message)
+                .setSeverity(priority)
+                .buildOptional();
     }
 }
