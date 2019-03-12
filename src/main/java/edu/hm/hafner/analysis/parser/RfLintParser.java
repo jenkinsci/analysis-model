@@ -114,23 +114,23 @@ public class RfLintParser extends IssueParser {
      * The list of the rule names built into rflint.
      */
     private enum RfLintRuleName {
-        DuplicateKeywordNames(RfLintCategory.SUITE),
-        DuplicateTestNames(RfLintCategory.SUITE),
-        FileTooLong(RfLintCategory.OTHER),
-        InvalidTable(RfLintCategory.SUITE),
-        LineTooLong(RfLintCategory.OTHER),
-        PeriodInSuiteName(RfLintCategory.SUITE),
-        PeriodInTestName(RfLintCategory.TEST_CASE),
-        RequireKeywordDocumentation(RfLintCategory.KEYWORD),
-        RequireSuiteDocumentation(RfLintCategory.SUITE),
-        RequireTestDocumentation(RfLintCategory.SUITE),
-        TagWithSpaces(RfLintCategory.TEST_CASE),
-        TooFewKeywordSteps(RfLintCategory.KEYWORD),
-        TooManyTestCases(RfLintCategory.SUITE),
-        TooFewTestSteps(RfLintCategory.TEST_CASE),
-        TooManyTestSteps(RfLintCategory.TEST_CASE),
-        TrailingBlankLines(RfLintCategory.OTHER),
-        TrailingWhitespace(RfLintCategory.OTHER);
+        DUPLICATE_KEYWORD_NAMES(RfLintCategory.SUITE),
+        DUPLICATE_TEST_NAMES(RfLintCategory.SUITE),
+        FILE_TOO_LONG(RfLintCategory.OTHER),
+        INVALID_TABLE(RfLintCategory.SUITE),
+        LINE_TOO_LONG(RfLintCategory.OTHER),
+        PERIOD_IN_SUITE_NAME(RfLintCategory.SUITE),
+        PERIOD_IN_TEST_NAME(RfLintCategory.TEST_CASE),
+        REQUIRE_KEYWORD_DOCUMENTATION(RfLintCategory.KEYWORD),
+        REQUIRE_SUITE_DOCUMENTATION(RfLintCategory.SUITE),
+        REQUIRE_TEST_DOCUMENTATION(RfLintCategory.SUITE),
+        TAG_WITH_SPACES(RfLintCategory.TEST_CASE),
+        TOO_FEW_KEYWORD_STEPS(RfLintCategory.KEYWORD),
+        TOO_MANY_TEST_CASES(RfLintCategory.SUITE),
+        TOO_FEW_TEST_STEPS(RfLintCategory.TEST_CASE),
+        TOO_MANY_TEST_STEPS(RfLintCategory.TEST_CASE),
+        TRAILING_BLANK_LINES(RfLintCategory.OTHER),
+        TRAILING_WHITESPACE(RfLintCategory.OTHER);
 
         private RfLintCategory category;
 
@@ -141,7 +141,6 @@ public class RfLintParser extends IssueParser {
         public RfLintCategory getCategory() {
             return this.category;
         }
-
     }
 
     private static final long serialVersionUID = -7903991158616386226L;
@@ -191,5 +190,4 @@ public class RfLintParser extends IssueParser {
                 .setSeverity(priority)
                 .build();
     }
-
 }
