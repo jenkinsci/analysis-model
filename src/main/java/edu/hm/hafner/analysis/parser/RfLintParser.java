@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import java.nio.file.Paths;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -12,14 +11,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 import static edu.hm.hafner.analysis.Categories.*;
-import static edu.hm.hafner.analysis.parser.IarParser.*;
 
 /**
  * A parser for <a href="http://robotframework.org/">Robot Framework</a>. Parses output from <a
@@ -32,14 +30,7 @@ import static edu.hm.hafner.analysis.parser.IarParser.*;
  * @author traitanit
  * @author Bassam Khouri
  */
-public class RfLintParser extends RegexpLineParser {
-    /**
-     * Creates a new instance of {@link IarParser}.
-     */
-    public RfLintParser() {
-        super(IAR_WARNING_PATTERN); // same pattern as IAR parser
-    }
-
+public class RfLintParser extends IssueParser {
     /**
      * Map of Robot Framework severity to the analysis model severity.
      */
@@ -171,7 +162,7 @@ public class RfLintParser extends RegexpLineParser {
                 }
                 Matcher matcher = WARNING_PATTERN.matcher(line);
                 if (matcher.find()) {
-                    createIssue(matcher, new IssueBuilder()).ifPresent(warnings::add);
+                    warnings.add(createIssue(matcher, new IssueBuilder()));
                 }
                 if (Thread.interrupted()) {
                     throw new ParsingCanceledException();
@@ -181,8 +172,7 @@ public class RfLintParser extends RegexpLineParser {
         }
     }
 
-    @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    private Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
         String message = matcher.group("message");
         String severityStr = guessCategoryIfEmpty(matcher.group("severity"), message);
         String ruleName = matcher.group("ruleName");
@@ -199,7 +189,7 @@ public class RfLintParser extends RegexpLineParser {
                 .setType(ruleName)
                 .setMessage(message)
                 .setSeverity(priority)
-                .buildOptional();
+                .build();
     }
 
 }
