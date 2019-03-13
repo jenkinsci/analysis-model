@@ -4,11 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 
-/**
- * Provides convenience methods to detect categories. 
- *
- * @author Ullrich Hafner
- */
 public final class Categories {
     /** Category for warnings due to usage of deprecate API. */
     public static final String DEPRECATION = "Deprecation";
