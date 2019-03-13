@@ -49,7 +49,7 @@ public class PyLintParser extends RegexpLineParser {
         }
         else {
             if (moduleName.contains(".")) {
-                builder.setPackageName(moduleName.substring(0, moduleName.lastIndexOf(".")));
+                builder.setPackageName(moduleName.substring(0, moduleName.lastIndexOf('.')));
             }
             else {
                 builder.setPackageName("-");
