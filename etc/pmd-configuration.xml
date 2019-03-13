@@ -56,6 +56,13 @@
     <exclude name="AvoidDuplicateLiterals"/>
     <exclude name="TestClassWithoutTestCases"/>
     <exclude name="EmptyCatchBlock"/>
+    <exclude name="AvoidLiteralsInIfCondition"/>
+    <exclude name="UseProperClassLoader"/>
+  </rule>
+  <rule ref="category/java/errorprone.xml/AvoidLiteralsInIfCondition">
+    <properties>
+      <property name="ignoreMagicNumbers" value="-1,0,1"/>
+    </properties>
   </rule>
   <rule ref="category/java/errorprone.xml/EmptyCatchBlock">
     <properties>
