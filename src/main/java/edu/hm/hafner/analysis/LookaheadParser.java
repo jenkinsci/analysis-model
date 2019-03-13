@@ -51,16 +51,10 @@ public abstract class LookaheadParser extends IssueParser {
             while (lookahead.hasNext()) {
                 String line = lookahead.next();
                 if (line.contains(ENTERING_DIRECTORY)) {
-                    Matcher makeLineMatcher = MAKE_PATH.matcher(line);
-                    if (makeLineMatcher.matches()) {
-                        builder.setDirectory(makeLineMatcher.group("dir"));
-                    }
+                    extractAndStoreDirectory(builder, line, MAKE_PATH);
                 }
                 else if (line.contains(NINJA_PREFIX)) {
-                    Matcher ninja = NINJA_PATH.matcher(line);
-                    if (ninja.matches()) {
-                        builder.setDirectory(ninja.group("dir"));
-                    }
+                    extractAndStoreDirectory(builder, line, NINJA_PATH);
                 }
                 else if (isLineInteresting(line)) {
                     Matcher matcher = pattern.matcher(line);
@@ -75,6 +69,13 @@ public abstract class LookaheadParser extends IssueParser {
         }
 
         return postProcess(report);
+    }
+
+    private void extractAndStoreDirectory(final IssueBuilder builder, final String line, final Pattern makePath) {
+        Matcher makeLineMatcher = makePath.matcher(line);
+        if (makeLineMatcher.matches()) {
+            builder.setDirectory(makeLineMatcher.group("dir"));
+        }
     }
 
     /**

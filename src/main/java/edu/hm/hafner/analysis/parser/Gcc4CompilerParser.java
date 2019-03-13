@@ -46,7 +46,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
         }
 
         while (lookahead.hasNext() && isMessageContinuation(lookahead)) {
-            message.append("\n");
+            message.append('\n');
             message.append(lookahead.next());
         }
 
