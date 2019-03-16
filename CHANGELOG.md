@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...master)
 
+### Fixed
+- [JENKINS-55345](https://issues.jenkins-ci.org/browse/JENKINS-55345): 
+DocFX Parser: Ignore Info messages and do not treat them as warnings.
+
 ## [3.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...analysis-model-3.0.0) - 2019-3-15
 
 ### Added

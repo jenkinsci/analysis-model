@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import se.bjurr.violations.lib.model.SEVERITY;
+import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.DocFXParser;
 
 /**
@@ -13,5 +15,11 @@ public class DocFxAdapter extends AbstractViolationAdapter {
     @Override
     protected DocFXParser createParser() {
         return new DocFXParser();
+    }
+
+    @Override
+    protected boolean isValid(final Violation violation) {
+        SEVERITY severity = violation.getSeverity();
+        return severity != SEVERITY.INFO;
     }
 }
