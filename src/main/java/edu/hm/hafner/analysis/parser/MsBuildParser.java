@@ -133,7 +133,7 @@ public class MsBuildParser extends RegexpLineParser {
         if (isOfType(matcher, "warning")) {
             return Severity.WARNING_NORMAL;
         }
-        return Severity.WARNING_HIGH;
+        return Severity.ERROR;
     }
 
     /**
