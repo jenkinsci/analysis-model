@@ -23,6 +23,17 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parses a file with false positive message.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-42823">Issue 42823</a>
+     */
+    @Test
+    void issue42823() {
+        Report warnings = parse("issue42823.txt");
+        assertThat(warnings).isEmpty();
+    }
+
+    /**
      * MSBuildParser should make relative paths absolute if cmake is used.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56193">Issue 56193</a>
