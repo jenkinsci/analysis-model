@@ -13,7 +13,7 @@ DocFX Parser: Ignore Info messages and do not treat them as warnings.
 msbuild Parser: Fix false positive with parser.
 
 ### Removed
-- [API]: Deprecated and unused classes DoxygenParser and DotNetAssembly have been removed.
+- API: Deprecated and unused classes DoxygenParser and DotNetAssembly have been removed.
 
 ## [3.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...analysis-model-3.0.0) - 2019-3-15
 
@@ -47,7 +47,7 @@ Fixed absolute paths if Ninja build system is used.
 - [PR#104](https://github.com/jenkinsci/analysis-model/pull/104): Pylint: Add types, make categories types and categories, categories.
 
 ### Changed
-- [API]: GccParser uses new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+- API: GccParser uses new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
 
 ## [2.1.2](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.1...analysis-model-2.1.2) - 2019-2-10
