@@ -25,8 +25,8 @@ public abstract class LookaheadParser extends IssueParser {
     private static final String ENTERING_DIRECTORY = "Entering directory";
     private static final Pattern MAKE_PATH
             = Pattern.compile(".*make(?:\\[\\d+])?: " + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
-    private static final String NINJA_PREFIX = "-- Build files have";
-    private static final Pattern NINJA_PATH = Pattern.compile(NINJA_PREFIX + " been written to: (?<dir>.*)");
+    private static final String CMAKE_PREFIX = "-- Build files have";
+    private static final Pattern CMAKE_PATH = Pattern.compile(CMAKE_PREFIX + " been written to: (?<dir>.*)");
 
     private final Pattern pattern;
 
@@ -53,8 +53,8 @@ public abstract class LookaheadParser extends IssueParser {
                 if (line.contains(ENTERING_DIRECTORY)) {
                     extractAndStoreDirectory(builder, line, MAKE_PATH);
                 }
-                else if (line.contains(NINJA_PREFIX)) {
-                    extractAndStoreDirectory(builder, line, NINJA_PATH);
+                else if (line.contains(CMAKE_PREFIX)) {
+                    extractAndStoreDirectory(builder, line, CMAKE_PATH);
                 }
                 else if (isLineInteresting(line)) {
                     Matcher matcher = pattern.matcher(line);
