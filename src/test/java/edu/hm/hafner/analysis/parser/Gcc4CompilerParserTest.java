@@ -2,11 +2,8 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
-
-import com.sun.tools.javac.resources.compiler;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
@@ -465,7 +462,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                 .hasFileName("Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h")
                 .hasLineStart(263);
         assertThat(warnings.get(0).getMessage())
-                .startsWith("'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]\n");
+                .startsWith(
+                        "'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]\n");
 
         Predicate<Issue> predicate = new IssueFilterBuilder()
                 .setExcludeMessageFilter(".*QVTKWidget.*", ".*tmpnam.*")
