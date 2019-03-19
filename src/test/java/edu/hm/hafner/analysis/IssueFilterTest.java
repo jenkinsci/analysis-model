@@ -40,6 +40,19 @@ class IssueFilterTest {
             .build();
 
     @Test
+    void shouldMatchMultiLines() {
+        Predicate<? super Issue> predicate = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setMessage("something").build());
+        report.add(new IssueBuilder().setMessage("something\nelse").build());
+        report.add(new IssueBuilder().setMessage("else\nsomething").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(0);
+    }
+
+    @Test
     void shouldNothingChangeWhenNoFilterIsAdded() {
         Predicate<? super Issue> filter = new IssueFilterBuilder().build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);

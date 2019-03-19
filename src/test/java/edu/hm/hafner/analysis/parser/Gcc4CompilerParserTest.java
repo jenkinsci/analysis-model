@@ -1,12 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
+
+import com.sun.tools.javac.resources.compiler;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -443,6 +448,30 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasCategory("return-type")
                     .hasSeverity(Severity.WARNING_NORMAL);
         });
+    }
+
+    /**
+     * Detects several multi line messages.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56612">Issue 56612</a>
+     */
+    @Test
+    void issue56612() {
+        Report warnings = parse("issue56612.log");
+
+        assertThat(warnings).hasSize(6);
+
+        assertThat(warnings.get(0))
+                .hasFileName("Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h")
+                .hasLineStart(263);
+        assertThat(warnings.get(0).getMessage())
+                .startsWith("'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]\n");
+
+        Predicate<Issue> predicate = new IssueFilterBuilder()
+                .setExcludeMessageFilter(".*QVTKWidget.*", ".*tmpnam.*")
+                .setExcludeFileNameFilter(".*qrc_icons\\.cpp.*").build();
+        Report filtered = warnings.filter(predicate);
+        assertThat(filtered).hasSize(0);
     }
 
     /**
