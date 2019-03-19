@@ -12,6 +12,9 @@ DocFX Parser: Ignore Info messages and do not treat them as warnings.
 - [JENKINS-42823](https://issues.jenkins-ci.org/browse/JENKINS-42823): 
 msbuild Parser: Fix false positive with parser.
 
+### Removed
+- [API]: Deprecated and unused classes DoxygenParser and DotNetAssembly have been removed.
+
 ## [3.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...analysis-model-3.0.0) - 2019-3-15
 
 ### Added
