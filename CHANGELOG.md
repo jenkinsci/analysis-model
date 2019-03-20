@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...master)
+## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.0.0...master)
+
+## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
 
 ### Fixed
 - [JENKINS-56612](https://issues.jenkins-ci.org/browse/JENKINS-56612): 
@@ -12,7 +14,7 @@ Fixed filtering of multiline messages.
 - [JENKINS-55345](https://issues.jenkins-ci.org/browse/JENKINS-55345): 
 DocFX Parser: Ignore Info messages and do not treat them as warnings.
 - [JENKINS-42823](https://issues.jenkins-ci.org/browse/JENKINS-42823): 
-msbuild Parser: Fix false positive with parser.
+MsBuild Parser: Fix false positive with parser.
 
 ### Removed
 - API: Deprecated and unused classes `DoxygenParser` and `DotNetAssembly` have been removed.
