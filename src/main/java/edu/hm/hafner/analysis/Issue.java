@@ -10,7 +10,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
@@ -336,7 +335,7 @@ public class Issue implements Serializable {
         this.packageName = builder.intern(defaultString(packageName));
         this.moduleName = defaultString(moduleName);
 
-        this.severity = ObjectUtils.defaultIfNull(severity, Severity.WARNING_NORMAL);
+        this.severity = severity != null ? severity : Severity.WARNING_NORMAL;
         this.message = builder.intern(StringUtils.stripToEmpty(message));
         this.description = builder.intern(StringUtils.stripToEmpty(description));
 
