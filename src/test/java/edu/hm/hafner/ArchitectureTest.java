@@ -27,7 +27,7 @@ class ArchitectureTest {
     /** Digester must not be used directly, rather use a SecureDigester instance. */
     @ArchTest
     static final ArchRule NO_DIGESTER_CONSTRUCTOR_CALLED =
-            noClasses().that().dontHaveSimpleName("SecureDigester")
+            noClasses().that().doNotHaveSimpleName("SecureDigester")
                     .should().callConstructor(Digester.class)
                     .orShould().callConstructor(Digester.class, SAXParser.class)
                     .orShould().callConstructor(Digester.class, XMLReader.class)
@@ -37,7 +37,7 @@ class ArchitectureTest {
     @ArchTest
     static final ArchRule NO_PUBLIC_TEST_CLASSES =
             noClasses().that().haveSimpleNameEndingWith("Test")
-                    .and().dontHaveModifier(JavaModifier.ABSTRACT)
+                    .and().doNotHaveModifier(JavaModifier.ABSTRACT)
                     .should().bePublic();
 
     /**
