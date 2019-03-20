@@ -9,9 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
-import static edu.hm.hafner.util.IntegerParser.parseInt;
+import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * A parser for the Dr. Memory Errors.
@@ -190,7 +191,7 @@ public class DrMemoryParser extends RegexpDocumentParser {
         String errFilePath = "Unknown"; // Path where the error originates from
         int lineNumber = 0; // Line number where the error originates from
 
-        for (String line : stackTrace.split("\\r?\\n")) {
+        for (String line : stackTrace.split("\\r?\\n", -1)) {
             Matcher pathMatcher = FILE_PATH_PATTERN.matcher(line);
 
             if (pathMatcher.find()) {

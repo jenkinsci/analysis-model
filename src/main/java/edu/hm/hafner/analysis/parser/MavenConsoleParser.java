@@ -32,18 +32,20 @@ public class MavenConsoleParser extends LookaheadParser {
 
     /**
      * Pattern for identifying warning or error maven logs.
-     * <pre>
+     *  <pre>{@code
      * Pattern:
      * (.*\s\s|)           -> Capture group 1 matches either empty string (e.g. [WARNING] some log) or some text
      *                        followed by exactly two spaces (e.g. 22:07:27  [WARNING] some log)
      * \[(WARNING|ERROR)\] -> Capture group 2 matches either [WARNING] or [ERROR]
      * \s*                 -> matches zero or more spaces
      * (.*)                -> Capture group 3 matches zero or more characters except line breaks, represents the actual error message
-     * </pre>
+     * }</pre>
      * <p>
-     * Typical maven logs: 1) 22:07:27  [WARNING] For this reason, future Maven versions might no longer support
-     * building such malformed projects. 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is
-     * missing
+     * Typical maven logs:
+     * <pre>{@code
+     * 1) 22:07:27  [WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+     * 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is missing
+     * }</pre>
      */
     private static final String PATTERN = "^(?<timestamp>.*\\s|)\\[(?<severity>WARNING|ERROR)\\]\\s*(?<message>.*)$";
 
