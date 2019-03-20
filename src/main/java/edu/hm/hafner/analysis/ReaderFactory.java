@@ -15,7 +15,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.input.ReaderInputStream;
-import org.apache.commons.lang3.ObjectUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -33,7 +32,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public abstract class ReaderFactory {
     private static final Function<String, String> IDENTITY = Function.identity();
 
-    @Nullable private final Charset charset;
+    @Nullable
+    private final Charset charset;
     private final Function<String, String> lineMapper;
 
     /**
@@ -155,7 +155,8 @@ public abstract class ReaderFactory {
         }
     }
 
-    @SuppressFBWarnings @SuppressWarnings("illegalcatch")
+    @SuppressFBWarnings
+    @SuppressWarnings("illegalcatch")
     private void disableFeature(final DocumentBuilderFactory factory, final String feature) {
         try {
             factory.setFeature("http://xml.org/sax/features/" + feature, false);
@@ -164,8 +165,17 @@ public abstract class ReaderFactory {
             // ignore and continue
         }
     }
+
+    /**
+     * Returns the character set that is used to read the stream.
+     *
+     * @return the character set
+     */
     public Charset getCharset() {
-        return ObjectUtils.defaultIfNull(charset, StandardCharsets.UTF_8);
+        if (charset == null) {
+            return StandardCharsets.UTF_8;
+        }
+        return charset;
     }
 }
 

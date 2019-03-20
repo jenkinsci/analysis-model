@@ -9,8 +9,6 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.CaseUtils;
-import org.apache.commons.text.WordUtils;
-import org.omg.CORBA.UNKNOWN;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
