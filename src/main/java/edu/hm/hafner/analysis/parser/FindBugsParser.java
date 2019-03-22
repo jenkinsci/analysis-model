@@ -47,7 +47,7 @@ import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings("classfanoutcomplexity")
+@SuppressWarnings("ClassFanOutComplexity")
 public class FindBugsParser extends IssueParser {
     private static final long serialVersionUID = 8306319007761954027L;
     private static final String ORG_XML_SAX_DRIVER = "org.xml.sax.driver";
