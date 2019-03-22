@@ -193,4 +193,28 @@ class ClangParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL);
         });
     }
+
+    /**
+     * Parses a file with one error that contains a timestamp prefix from timestamper-plugin 1.9.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56484">Issue 56484</a>
+     */
+    @Test
+    void issue56484() {
+        Report warnings = parse("issue56484.txt");
+
+        assertThat(warnings).hasSize(1);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(1)
+                    .hasLineEnd(1)
+                    .hasColumnStart(2)
+                    .hasColumnEnd(2)
+                    .hasMessage("This is an error.")
+                    .hasFileName("test.c")
+                    .hasCategory(DEFAULT_CATEGORY)
+                    .hasSeverity(Severity.WARNING_HIGH);
+        });
+    }
 }

@@ -1,0 +1,1 @@
+00:00:01.047  test.c:1:2: error: This is an error.
