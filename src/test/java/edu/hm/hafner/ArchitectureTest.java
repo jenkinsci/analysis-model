@@ -4,8 +4,11 @@ import javax.xml.parsers.SAXParser;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.binder.DigesterLoader;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.XMLReader;
 
+import com.tngtech.archunit.base.DescribedPredicate;
+import com.tngtech.archunit.core.domain.JavaCall;
 import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -51,8 +54,33 @@ class ArchitectureTest {
 
     /** Prevents that classes use visible but forbidden API. */
     @ArchTest
-    static final ArchRule NO_RESTRICTED_API_CALLED =
+    static final ArchRule NO_FORBIDDEN_PACKAGE_ACCESSED =
             noClasses()
             .should().accessClassesThat().resideInAnyPackage(
-                    "org.apache.commons.lang..", "javax.xml.bind..");
+                    "org.apache.commons.lang..", "javax.xml.bind..", "javax.annotation..");
+
+    /** Prevents that classes use visible but forbidden API. */
+    @ArchTest
+    static final ArchRule NO_FORBIDDEN_CLASSES_CALLED
+            = noClasses()
+            .should().callCodeUnitWhere(new TargetIsForbiddenClass(
+                    "org.junit.jupiter.api.Assertions", "org.junit.Assert"));
+
+    /**
+     * Matches if a code unit of one of the registered classes has been called.
+     */
+    private static class TargetIsForbiddenClass extends DescribedPredicate<JavaCall<?>> {
+        private final String[] classes;
+
+        TargetIsForbiddenClass(final String... classes) {
+            super("forbidden class");
+            this.classes = classes;
+        }
+
+        @Override
+        public boolean apply(final JavaCall<?> input) {
+            return StringUtils.containsAny(input.getTargetOwner().getFullName(), classes)
+                    && !input.getName().equals("assertTimeoutPreemptively");
+        }
+    }
 }

@@ -17,7 +17,7 @@ DocFX Parser: Ignore Info messages and do not treat them as warnings.
 MsBuild Parser: Fix false positive with parser.
 
 ### Removed
-- API: Deprecated and unused classes `DoxygenParser` and `DotNetAssembly` have been removed.
+- \[API\]: Deprecated and unused classes `DoxygenParser` and `DotNetAssembly` have been removed.
 
 ## [3.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...analysis-model-3.0.0) - 2019-3-15
 
@@ -51,7 +51,7 @@ Fixed absolute paths if Ninja build system is used.
 - [PR#104](https://github.com/jenkinsci/analysis-model/pull/104): Pylint: Add types, make categories types and categories, categories.
 
 ### Changed
-- API: `Gcc4CompilerParser` uses new base class 
+- \[API\]: `Gcc4CompilerParser` uses new base class 
 [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
 
@@ -107,7 +107,7 @@ Taglist Parser: Convert class name into a file name and a package.
 
 ### Added
 - Added support for [ErrorProne](http://errorprone.info) in maven builds. Parser now reports description with link to external documentation.
-- [API]: Added new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+- \[API\]: Added new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
 - [JENKINS-55442](https://issues.jenkins-ci.org/browse/JENKINS-55442), 
 [PR#78](https://github.com/jenkinsci/analysis-model/pull/78): Added include/exclude filters for issue messages. 
@@ -115,7 +115,7 @@ that provides a lookahead of the next report line
 ### Changed
 - Improved maven console parser: use the maven goal that logs a warning as issue type. Ignore all warnings
 from the maven-compiler-plugin since these are already picked up by the Java parser.
-- [API]: Replaced `CheckForNull` annotations with `Nullable` in order to enable [NullAway](https://github.com/uber/NullAway) checker in build
+- \[API\]: Replaced `CheckForNull` annotations with `Nullable` in order to enable [NullAway](https://github.com/uber/NullAway) checker in build
 
 ### Fixed
 - [PR#74](https://github.com/jenkinsci/analysis-model/pull/74): IntelParser: Check for project number in regex.
