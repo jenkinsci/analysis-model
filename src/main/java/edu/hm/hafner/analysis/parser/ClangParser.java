@@ -17,7 +17,9 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 public class ClangParser extends RegexpLineParser {
     private static final long serialVersionUID = -3015592762345283182L;
 
-    private static final String CLANG_WARNING_PATTERN = "^\\s*(?:\\d+%)?([^%]*?):(\\d+):(?:(\\d+):)?" + "(?:"
+    private static final String CLANG_WARNING_PATTERN = "^"
+            + "(?:\\[\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\])?" // Ignore timestamper-plugin 1.9 prefix.
+            + "\\s*(?:\\d+%)?([^%]*?):(\\d+):(?:(\\d+):)?" + "(?:"
             + "(?:\\{\\d+:\\d+-\\d+:\\d+\\})+:)?\\s*(warning|[^\\[\\]]*error):" + "\\s*(.*?)(?:\\[([^\\[]*)\\])?$";
     private static final Pattern IGNORE_FORMAT = Pattern.compile("^-\\[.*\\].*$");
 
