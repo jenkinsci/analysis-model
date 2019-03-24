@@ -47,8 +47,9 @@ public class MsBuildParser extends RegexpLineParser {
         if (StringUtils.isNotBlank(matcher.group(13))) {
             return builder.setLineStart(0)
                     .setCategory(matcher.group(14))
+                    .setType(matcher.group(13))
                     .setMessage(matcher.group(15))
-                    .setSeverity(Severity.WARNING_HIGH)
+                    .setSeverity(Severity.guessFromString(matcher.group(8)))
                     .buildOptional();
         }
         if (StringUtils.isNotEmpty(matcher.group(10))) {
@@ -57,7 +58,7 @@ public class MsBuildParser extends RegexpLineParser {
                     .setCategory(matcher.group(9))
                     .setType(matcher.group(10))
                     .setMessage(matcher.group(11))
-                    .setSeverity(determinePriority(matcher))
+                    .setSeverity(Severity.guessFromString(matcher.group(8)))
                     .buildOptional();
         }
 
@@ -69,9 +70,8 @@ public class MsBuildParser extends RegexpLineParser {
                 .setColumnStart(matcher.group(6))
                 .setCategory(category)
                 .setMessage(matcher.group(11))
-                .setSeverity(determinePriority(matcher))
+                .setSeverity(Severity.guessFromString(matcher.group(8)))
                 .buildOptional();
-
     }
 
     /**
@@ -116,38 +116,6 @@ public class MsBuildParser extends RegexpLineParser {
     private boolean canResolveRelativeFileName(final String fileName, final String projectDir) {
         return StringUtils.isNotBlank(projectDir) && FilenameUtils.getPrefixLength(fileName) == 0
                 && !"MSBUILD".equals(fileName.trim());
-    }
-
-    /**
-     * Determines the priority of the warning.
-     *
-     * @param matcher
-     *         the matcher to get the matches from
-     *
-     * @return the priority of the warning
-     */
-    private Severity determinePriority(final Matcher matcher) {
-        if (isOfType(matcher, "note") || isOfType(matcher, "info")) {
-            return Severity.WARNING_LOW;
-        }
-        if (isOfType(matcher, "warning")) {
-            return Severity.WARNING_NORMAL;
-        }
-        return Severity.ERROR;
-    }
-
-    /**
-     * Returns whether the warning type is of the specified type.
-     *
-     * @param matcher
-     *         the matcher
-     * @param type
-     *         the type to match with
-     *
-     * @return {@code true} if the warning type is of the specified type
-     */
-    private boolean isOfType(final Matcher matcher, final String type) {
-        return StringUtils.containsIgnoreCase(matcher.group(8), type);
     }
 }
 
