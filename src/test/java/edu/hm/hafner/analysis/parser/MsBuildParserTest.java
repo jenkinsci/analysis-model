@@ -318,13 +318,13 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertThat(warnings)
                 .hasSize(4)
-                .hasSeverities(0, 4, 0, 0);
+                .hasSeverities(4, 0, 0, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
                     .hasCategory("40")
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasMessage("Undeclared identifier 'TRUE'")
                     .hasDescription("")
                     .hasPackageName("-")
@@ -336,7 +336,7 @@ class MsBuildParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(1))
                     .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
                     .hasCategory("63")
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasMessage("Expected an lvalue")
                     .hasDescription("")
                     .hasPackageName("-")
@@ -348,7 +348,7 @@ class MsBuildParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(2))
                     .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
                     .hasCategory("40")
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasMessage("Undeclared identifier 'pDstCwData'")
                     .hasDescription("")
                     .hasPackageName("-")
@@ -360,7 +360,7 @@ class MsBuildParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(3))
                     .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
                     .hasCategory("10")
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasMessage("Expecting a structure or union")
                     .hasDescription("")
                     .hasPackageName("-")
@@ -382,12 +382,12 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasSeverities(0, 1, 0, 0);
+                .hasSeverities(1, 0, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("..//..//..//xx_Source//file.c")
                 .hasCategory("c1083")
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasMessage("cannot open include file: 'Header.h': No such file or directory")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -408,12 +408,12 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertThat(warnings)
                 .hasSize(1)
-                .hasSeverities(0, 1, 0, 0);
+                .hasSeverities(1, 0, 0, 0);
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName("TestLib.lib")
                 .hasCategory("LNK1181")
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasMessage("cannot open input file 'TestLib.lib'")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -564,13 +564,13 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertThat(warnings)
                 .hasSize(2)
-                .hasSeverities(0, 2, 0, 0);
+                .hasSeverities(2, 0, 0, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
                     .hasFileName("SynchronisationHeure.obj")
                     .hasCategory("LNK2001")
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasMessage("unresolved external symbol \"public:")
                     .hasDescription("")
                     .hasPackageName("-")
@@ -582,7 +582,7 @@ class MsBuildParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(1))
                     .hasFileName("Release/Navineo.exe")
                     .hasCategory("LNK1120")
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasMessage("1 unresolved externals")
                     .hasDescription("")
                     .hasPackageName("-")
@@ -676,7 +676,7 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertThat(warnings)
                 .hasSize(2)
-                .hasSeverities(0, 1, 1, 0);
+                .hasSeverities(1, 0, 1, 0);
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
@@ -694,7 +694,7 @@ class MsBuildParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(1))
                     .hasFileName("C:/Src/Parser/CSharp/file.cs")
                     .hasCategory("XXX")
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasMessage("An error occurred")
                     .hasDescription("")
                     .hasPackageName("-")
@@ -715,7 +715,7 @@ class MsBuildParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
                 .hasSize(6)
-                .hasSeverities(0, 2, 3, 1);
+                .hasSeverities(2, 0, 3, 1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("Src/Parser/CSharp/cs.ATG")
@@ -732,7 +732,7 @@ class MsBuildParserTest extends AbstractParserTest {
         softly.assertThat(report.get(1))
                 .hasFileName("C:/Src/Parser/CSharp/file.cs")
                 .hasCategory("XXX")
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasMessage("An error occurred")
                 .hasDescription("")
                 .hasPackageName("-")
@@ -769,7 +769,7 @@ class MsBuildParserTest extends AbstractParserTest {
         softly.assertThat(report.get(4))
                 .hasFileName("x/a/b/include/abc.h")
                 .hasCategory("C1083")
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasMessage("Cannot open include file: xyz.h:...")
                 .hasDescription("")
                 .hasPackageName("-")
