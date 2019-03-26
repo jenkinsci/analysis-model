@@ -1,0 +1,11 @@
+[step1] CMake Warning:
+[step1]   Manually-specified variables were not used by the project
+
+[step2] CMake Warning in CMakeLists.txt:
+[step2]   The build directory is a subdirectory of the source directory.
+
+CMake Warning (dev) at tools/gtest-1.8/googlemock/CMakeLists.txt:10 (option):
+I'm the message
+
+CMake Warning at project/utils/fancy.cmake:423 (message):
+Special workaround applied
