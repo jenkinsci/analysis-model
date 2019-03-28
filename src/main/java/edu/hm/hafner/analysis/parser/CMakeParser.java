@@ -39,7 +39,7 @@ public class CMakeParser extends LookaheadParser {
         return builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))
                 .setCategory(matcher.group("category"))
-	            .setMessage(message)
+                .setMessage(message)
                 .setSeverity(Severity.WARNING_NORMAL)
                 .buildOptional();
     }
