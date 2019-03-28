@@ -21,7 +21,6 @@ class IssueFilterTest {
             .setCategory("CategoryName1")
             .setType("Type1")
             .setMessage("Message1")
-            .setDescription("Description1")
             .build();
     private static final Issue ISSUE2 = new IssueBuilder()
             .setFileName("FileName2")
@@ -30,7 +29,6 @@ class IssueFilterTest {
             .setCategory("CategoryName2")
             .setType("Type2")
             .setMessage("Message2")
-            .setDescription("Description2")
             .build();
 
     private static final Issue ISSUE3 = new IssueBuilder()
@@ -40,11 +38,10 @@ class IssueFilterTest {
             .setCategory("CategoryName3")
             .setType("Type3")
             .setMessage("Message3")
-            .setDescription("Description3")
             .build();
 
     @Test
-    void shouldMatchMultiLines() {
+    void shouldMatchMultiLinesInMessage() {
         Predicate<? super Issue> predicate
                 = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
 
@@ -63,7 +60,7 @@ class IssueFilterTest {
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56526">Issue 56526</a>
      */
     @Test
-    void shouldMatchMultiLinesInDetails() {
+    void shouldMatchMultiLinesInDescription() {
         Predicate<? super Issue> predicate
                 = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
 
@@ -82,7 +79,7 @@ class IssueFilterTest {
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56526">Issue 56526</a>
      */
     @Test
-    void shouldMatchMultiLinesInInclude() {
+    void shouldMatchMessageOrDescriptionInIncludeFilter() {
         Predicate<? super Issue> predicate
                 = new IssueFilterBuilder().setIncludeMessageFilter(".*something.*").build();
 
@@ -250,15 +247,7 @@ class IssueFilterTest {
     @Test
     void shouldFindIssue1ByAMessageIncludeMatch() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeMessageFilter(".*Message1.*")
-                .build();
-        applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
-    }
-
-    @Test
-    void shouldFindIssue1ByADescriptionIncludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeMessageFilter(".*Description1.*")
+                .setIncludeMessageFilter("Message1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
     }
@@ -266,15 +255,7 @@ class IssueFilterTest {
     @Test
     void shouldRemoveIssue2ByAMessageExcludeMatch() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setExcludeMessageFilter(".*Message2.*")
-                .build();
-        applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
-    }
-
-    @Test
-    void shouldRemoveIssue2ByADescriptionExcludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setExcludeMessageFilter(".*Description2.*")
+                .setExcludeMessageFilter("Message2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
     }

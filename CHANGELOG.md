@@ -18,6 +18,8 @@ Fixed filtering of multiline messages.
 DocFX Parser: Ignore Info messages and do not treat them as warnings.
 - [JENKINS-42823](https://issues.jenkins-ci.org/browse/JENKINS-42823): 
 MsBuild Parser: Fix false positive with parser.
+- [JENKINS-56526](https://issues.jenkins-ci.org/browse/JENKINS-56526): 
+Filters: let the message filter scan for texts in message **and** description.
 
 ### Removed
 - \[API\]: Deprecated and unused classes `DoxygenParser` and `DotNetAssembly` have been removed.
