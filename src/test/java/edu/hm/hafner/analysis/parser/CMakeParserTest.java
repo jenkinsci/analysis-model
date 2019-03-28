@@ -7,6 +7,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link CMakeParser}.
+ *
+ * @author Uwe Brandt
  */
 class CMakeParserTest extends AbstractParserTest {
     CMakeParserTest() {
@@ -21,7 +23,7 @@ class CMakeParserTest extends AbstractParserTest {
                 .hasCategory("")
                 .hasLineStart(0)
                 .hasMessage("[step1]   Manually-specified variables were not used by the project")
-                .hasFileName("<none>");
+                .hasFileName("-");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("")
