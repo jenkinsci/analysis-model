@@ -30,6 +30,7 @@ import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
+
 import static java.util.stream.Collectors.*;
 
 /**
@@ -1045,7 +1046,7 @@ public class Report implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setIncludeMessageFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getMessage, FilterType.INCLUDE);
+            addNewFilter(pattern, Issue::getMessageAndDescription, FilterType.INCLUDE);
             return this;
         }
 
@@ -1070,7 +1071,7 @@ public class Report implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setExcludeMessageFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getMessage, FilterType.EXCLUDE);
+            addNewFilter(pattern, Issue::getMessageAndDescription, FilterType.EXCLUDE);
             return this;
         }
 

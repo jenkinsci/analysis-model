@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
+
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
@@ -41,7 +42,8 @@ class IssueFilterTest {
 
     @Test
     void shouldMatchMultiLines() {
-        Predicate<? super Issue> predicate = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
 
         Report report = new Report();
         report.add(new IssueBuilder().setMessage("something").build());
@@ -52,11 +54,25 @@ class IssueFilterTest {
         assertThat(filtered).hasSize(0);
     }
 
+    // See https://issues.jenkins-ci.org/browse/JENKINS-56526
+    @Test
+    void shouldMatchMultiLinesInDetails() {
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setDescription("something").build());
+        report.add(new IssueBuilder().setDescription("something\nelse").build());
+        report.add(new IssueBuilder().setDescription("else\nsomething").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(0);
+    }
+
     @Test
     void shouldNothingChangeWhenNoFilterIsAdded() {
         Predicate<? super Issue> filter = new IssueFilterBuilder().build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
-
     }
 
     @Test

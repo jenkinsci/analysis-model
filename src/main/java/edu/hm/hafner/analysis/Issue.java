@@ -517,6 +517,15 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns the detailed message and description for this issue.
+     *
+     * @return the message
+     */
+    public String getMessageAndDescription() {
+        return String.format("%s\n%s", message, description);
+    }
+
+    /**
      * Returns an additional description for this issue. Static analysis tools might provide some additional information
      * about this issue. This description may contain valid HTML.
      *
