@@ -1046,7 +1046,7 @@ public class Report implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setIncludeMessageFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getMessageAndDescription, FilterType.INCLUDE);
+            addMessageFilter(pattern, FilterType.INCLUDE);
             return this;
         }
 
@@ -1071,8 +1071,13 @@ public class Report implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setExcludeMessageFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getMessageAndDescription, FilterType.EXCLUDE);
+            addMessageFilter(pattern, FilterType.EXCLUDE);
             return this;
+        }
+
+        private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
+            addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
+                    filterType);
         }
 
         /**

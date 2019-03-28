@@ -21,6 +21,7 @@ class IssueFilterTest {
             .setCategory("CategoryName1")
             .setType("Type1")
             .setMessage("Message1")
+            .setDescription("Description1")
             .build();
     private static final Issue ISSUE2 = new IssueBuilder()
             .setFileName("FileName2")
@@ -29,6 +30,7 @@ class IssueFilterTest {
             .setCategory("CategoryName2")
             .setType("Type2")
             .setMessage("Message2")
+            .setDescription("Description2")
             .build();
 
     private static final Issue ISSUE3 = new IssueBuilder()
@@ -38,6 +40,7 @@ class IssueFilterTest {
             .setCategory("CategoryName3")
             .setType("Type3")
             .setMessage("Message3")
+            .setDescription("Description3")
             .build();
 
     @Test
@@ -54,7 +57,11 @@ class IssueFilterTest {
         assertThat(filtered).hasSize(0);
     }
 
-    // See https://issues.jenkins-ci.org/browse/JENKINS-56526
+    /**
+     * Verifies that the message filter reads the description and the message.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56526">Issue 56526</a>
+     */
     @Test
     void shouldMatchMultiLinesInDetails() {
         Predicate<? super Issue> predicate
@@ -67,6 +74,26 @@ class IssueFilterTest {
 
         Report filtered = report.filter(predicate);
         assertThat(filtered).hasSize(0);
+    }
+
+    /**
+     * Verifies that the message filter reads the description and the message.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56526">Issue 56526</a>
+     */
+    @Test
+    void shouldMatchMultiLinesInInclude() {
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setIncludeMessageFilter(".*something.*").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setDescription("something").setMessage("else").build());
+        report.add(new IssueBuilder().setDescription("else").setMessage("something").build());
+        report.add(new IssueBuilder().setDescription("else").setMessage("else").build());
+        report.add(new IssueBuilder().setDescription("something").setMessage("something").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(3);
     }
 
     @Test
@@ -223,7 +250,15 @@ class IssueFilterTest {
     @Test
     void shouldFindIssue1ByAMessageIncludeMatch() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setIncludeMessageFilter("Message1")
+                .setIncludeMessageFilter(".*Message1.*")
+                .build();
+        applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
+    }
+
+    @Test
+    void shouldFindIssue1ByADescriptionIncludeMatch() {
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
+                .setIncludeMessageFilter(".*Description1.*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
     }
@@ -231,7 +266,15 @@ class IssueFilterTest {
     @Test
     void shouldRemoveIssue2ByAMessageExcludeMatch() {
         Predicate<? super Issue> filter = new IssueFilterBuilder()
-                .setExcludeMessageFilter("Message2")
+                .setExcludeMessageFilter(".*Message2.*")
+                .build();
+        applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
+    }
+
+    @Test
+    void shouldRemoveIssue2ByADescriptionExcludeMatch() {
+        Predicate<? super Issue> filter = new IssueFilterBuilder()
+                .setExcludeMessageFilter(".*Description2.*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
     }
