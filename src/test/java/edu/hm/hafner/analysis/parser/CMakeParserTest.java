@@ -32,13 +32,13 @@ class CMakeParserTest extends AbstractParserTest {
                 .hasFileName("CMakeLists.txt");
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasCategory("(option)")
+                .hasCategory("option")
                 .hasLineStart(10)
                 .hasMessage("I'm the message")
                 .hasFileName("tools/gtest-1.8/googlemock/CMakeLists.txt");
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasCategory("(message)")
+                .hasCategory("message")
                 .hasLineStart(423)
                 .hasMessage("Special workaround applied")
                 .hasFileName("project/utils/fancy.cmake");

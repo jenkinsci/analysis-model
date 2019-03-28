@@ -36,9 +36,11 @@ public class CMakeParser extends LookaheadParser {
         if (lookahead.hasNext()) {
             message = lookahead.next();
         }
+        // if the category is contained in brackets, remove those brackets
+        String category = StringUtils.strip(matcher.group("category"), "()");
         return builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))
-                .setCategory(matcher.group("category"))
+                .setCategory(category)
                 .setMessage(message)
                 .setSeverity(Severity.WARNING_NORMAL)
                 .buildOptional();
