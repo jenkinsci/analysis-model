@@ -31,7 +31,7 @@ public class CMakeParser extends LookaheadParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-					  final IssueBuilder builder) {
+                                          final IssueBuilder builder) {
         String message = "";
         if (lookahead.hasNext()) {
             message = lookahead.next();
