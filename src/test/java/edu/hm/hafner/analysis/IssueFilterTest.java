@@ -58,8 +58,9 @@ class IssueFilterTest {
     }
 
     @Test
-    void shouldMatchMultiLines() {
-        Predicate<? super Issue> predicate = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+    void shouldMatchMultiLinesInMessage() {
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
 
         Report report = new Report();
         report.add(new IssueBuilder().setMessage("something").build());
@@ -70,11 +71,49 @@ class IssueFilterTest {
         assertThat(filtered).hasSize(0);
     }
 
+    /**
+     * Verifies that the message filter reads the description and the message.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56526">Issue 56526</a>
+     */
+    @Test
+    void shouldMatchMultiLinesInDescription() {
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setDescription("something").build());
+        report.add(new IssueBuilder().setDescription("something\nelse").build());
+        report.add(new IssueBuilder().setDescription("else\nsomething").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(0);
+    }
+
+    /**
+     * Verifies that the message filter reads the description and the message.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56526">Issue 56526</a>
+     */
+    @Test
+    void shouldMatchMessageOrDescriptionInIncludeFilter() {
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setIncludeMessageFilter(".*something.*").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setDescription("something").setMessage("else").build());
+        report.add(new IssueBuilder().setDescription("else").setMessage("something").build());
+        report.add(new IssueBuilder().setDescription("else").setMessage("else").build());
+        report.add(new IssueBuilder().setDescription("something").setMessage("something").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(3);
+    }
+
     @Test
     void shouldNothingChangeWhenNoFilterIsAdded() {
         Predicate<? super Issue> filter = new IssueFilterBuilder().build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
-
     }
 
     @Test
