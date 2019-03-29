@@ -20,7 +20,7 @@ public class CMakeParser extends LookaheadParser {
     private static final long serialVersionUID = 8149238560432255036L;
 
     private static final String CMAKE_WARNING_PATTERN =
-            "^(?<prefix>.*?)CMake\\s+Warning(?:.*?(?<file>\\S+)){0,1}(?::(?<line>\\d+)\\s+(?<category>\\S+)){0,1}\\s*:";
+            "^(?<prefix>.*?)CMake\\s+(?<type>Warning|Deprecation Warning|Error)(?:.*?(?<file>\\S+)){0,1}(?::(?<line>\\d+)\\s+(?<category>\\S+)){0,1}\\s*:";
 
     /**
      * Creates a new instance of {@link CMakeParser}.
@@ -39,7 +39,7 @@ public class CMakeParser extends LookaheadParser {
                 .setLineStart(matcher.group("line"))
                 .setCategory(category)
                 .setMessage(readMessage(lookahead, prefixLength))
-                .setSeverity(Severity.WARNING_NORMAL)
+                .setSeverity(Severity.guessFromString(matcher.group("type")))
                 .buildOptional();
     }
 

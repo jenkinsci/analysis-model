@@ -5,7 +5,13 @@
 [step2]   The build directory is a subdirectory of the source directory.
 
 CMake Warning (dev) at tools/gtest-1.8/googlemock/CMakeLists.txt:10 (option):
-I'm the message
+  I'm the message
 
 CMake Warning at project/utils/fancy.cmake:423 (message):
-Special workaround applied
+  Special workaround applied
+
+CMake Error at error.cmake:2 (message):
+  Uh oh !$%@!
+
+CMake Deprecation Warning at legacy.cmake:23 (message):
+  function foo is deprecated, use bar instead

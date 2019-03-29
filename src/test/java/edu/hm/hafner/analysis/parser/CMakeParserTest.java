@@ -17,7 +17,7 @@ class CMakeParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(4);
+        softly.assertThat(report).hasSize(6);
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("")
@@ -42,6 +42,18 @@ class CMakeParserTest extends AbstractParserTest {
                 .hasLineStart(423)
                 .hasMessage("Special workaround applied")
                 .hasFileName("project/utils/fancy.cmake");
+        softly.assertThat(report.get(4))
+                .hasSeverity(Severity.ERROR)
+                .hasCategory("message")
+                .hasLineStart(2)
+                .hasMessage("Uh oh !$%@!")
+                .hasFileName("error.cmake");
+        softly.assertThat(report.get(5))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("message")
+                .hasLineStart(23)
+                .hasMessage("function foo is deprecated, use bar instead")
+                .hasFileName("legacy.cmake");
     }
 
     @Override
