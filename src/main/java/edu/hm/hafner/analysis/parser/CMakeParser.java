@@ -20,7 +20,7 @@ public class CMakeParser extends LookaheadParser {
     private static final long serialVersionUID = 8149238560432255036L;
 
     private static final String CMAKE_WARNING_PATTERN =
-            "CMake\\s+Warning(?:.*?(?<file>\\S+)){0,1}(?::(?<line>\\d+)\\s+(?<category>\\S+)){0,1}\\s*:";
+            "^(?<prefix>.*?)CMake\\s+Warning(?:.*?(?<file>\\S+)){0,1}(?::(?<line>\\d+)\\s+(?<category>\\S+)){0,1}\\s*:";
 
     /**
      * Creates a new instance of {@link CMakeParser}.
@@ -34,19 +34,19 @@ public class CMakeParser extends LookaheadParser {
                                           final IssueBuilder builder) {
         // if the category is contained in brackets, remove those brackets
         String category = StringUtils.strip(matcher.group("category"), "()");
+        int prefixLength = matcher.group("prefix").length();
         return builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))
                 .setCategory(category)
-                .setMessage(readMessage(lookahead))
+                .setMessage(readMessage(lookahead, prefixLength))
                 .setSeverity(Severity.WARNING_NORMAL)
                 .buildOptional();
     }
 
-    private String readMessage(final LookaheadStream lookahead) {
+    private String readMessage(final LookaheadStream lookahead, final int prefixLength) {
         if (lookahead.hasNext()) {
-            return lookahead.next();
+            return lookahead.next().substring(prefixLength).trim();
         }
         return "";
     }
 }
-

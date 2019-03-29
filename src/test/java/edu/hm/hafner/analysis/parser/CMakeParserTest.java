@@ -22,13 +22,13 @@ class CMakeParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("")
                 .hasLineStart(0)
-                .hasMessage("[step1]   Manually-specified variables were not used by the project")
+                .hasMessage("Manually-specified variables were not used by the project")
                 .hasFileName("-");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("")
                 .hasLineStart(0)
-                .hasMessage("[step2]   The build directory is a subdirectory of the source directory.")
+                .hasMessage("The build directory is a subdirectory of the source directory.")
                 .hasFileName("CMakeLists.txt");
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
