@@ -749,7 +749,7 @@ public class Report implements Iterable<Issue>, Serializable {
             Collection<Predicate<Issue>> filters = new ArrayList<>();
             for (String pattern : patterns) {
                 filters.add(issueToFilter -> Pattern.compile(pattern, Pattern.DOTALL)
-                        .matcher(propertyToFilter.apply(issueToFilter)).matches() == (type == FilterType.INCLUDE));
+                        .matcher(propertyToFilter.apply(issueToFilter)).find() == (type == FilterType.INCLUDE));
             }
 
             if (type == FilterType.INCLUDE) {
