@@ -32,18 +32,21 @@ public class CMakeParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
                                           final IssueBuilder builder) {
-        String message = "";
-        if (lookahead.hasNext()) {
-            message = lookahead.next();
-        }
         // if the category is contained in brackets, remove those brackets
         String category = StringUtils.strip(matcher.group("category"), "()");
         return builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))
                 .setCategory(category)
-                .setMessage(message)
+                .setMessage(readMessage(lookahead))
                 .setSeverity(Severity.WARNING_NORMAL)
                 .buildOptional();
+    }
+
+    private String readMessage(final LookaheadStream lookahead) {
+        if (lookahead.hasNext()) {
+            return lookahead.next();
+        }
+        return "";
     }
 }
 
