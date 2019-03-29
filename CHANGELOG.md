@@ -5,9 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.0.0...master)
+
 ### Fixed
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333): 
 MsBuild Parser: Treat errors as errors and not warning (high).
+
+### Changed
+- Filters now work on a substring of the property, you don't need to create a regular
+expression that matches the whole property value anymore. 
 
 ## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
 
