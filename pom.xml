@@ -440,6 +440,18 @@
             <revapi.semver.ignore>
               <enabled>true</enabled>
             </revapi.semver.ignore>
+            <revapi.ignore>
+              <item>
+                <code>java.field.enumConstantOrderChanged</code>
+                <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
+                <justification>Nobody should rely on these constants.</justification>
+              </item>
+              <item>
+                <code>java.field.addedStaticField</code>
+                <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
+                <justification>Nobody should rely on these constants.</justification>
+              </item>
+            </revapi.ignore>
           </analysisConfiguration>
         </configuration>
         <executions>
