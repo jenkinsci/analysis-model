@@ -18,3 +18,5 @@ CMake Deprecation Warning at legacy.cmake:23 (message):
 
 CMake Warning at unlikely.cmake:357 nonexistingcategory:
   strange things can happen
+
+CMake Warning at unlikely.cmake:362 (message):

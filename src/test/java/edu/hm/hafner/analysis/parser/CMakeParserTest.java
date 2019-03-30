@@ -17,7 +17,7 @@ class CMakeParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(7);
+        softly.assertThat(report).hasSize(8);
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("")
@@ -59,6 +59,12 @@ class CMakeParserTest extends AbstractParserTest {
                 .hasCategory("nonexistingcategory")
                 .hasLineStart(357)
                 .hasMessage("strange things can happen")
+                .hasFileName("unlikely.cmake");
+        softly.assertThat(report.get(7))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("message")
+                .hasLineStart(362)
+                .hasMessage("")
                 .hasFileName("unlikely.cmake");
     }
 
