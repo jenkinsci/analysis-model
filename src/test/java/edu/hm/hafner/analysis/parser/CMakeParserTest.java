@@ -17,7 +17,7 @@ class CMakeParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(6);
+        softly.assertThat(report).hasSize(7);
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("")
@@ -54,6 +54,12 @@ class CMakeParserTest extends AbstractParserTest {
                 .hasLineStart(23)
                 .hasMessage("function foo is deprecated, use bar instead")
                 .hasFileName("legacy.cmake");
+        softly.assertThat(report.get(6))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("nonexistingcategory")
+                .hasLineStart(357)
+                .hasMessage("strange things can happen")
+                .hasFileName("unlikely.cmake");
     }
 
     @Override

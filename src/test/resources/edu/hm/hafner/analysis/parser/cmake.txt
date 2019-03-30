@@ -15,3 +15,6 @@ CMake Error at error.cmake:2 (message):
 
 CMake Deprecation Warning at legacy.cmake:23 (message):
   function foo is deprecated, use bar instead
+
+CMake Warning at unlikely.cmake:357 nonexistingcategory:
+  strange things can happen
