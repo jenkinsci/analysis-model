@@ -464,6 +464,58 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.0.0-M2</version>
+        <dependencies>
+          <dependency>
+            <groupId>de.is24.maven.enforcer.rules</groupId>
+            <artifactId>illegal-transitive-dependency-check</artifactId>
+            <version>1.7.4</version>
+          </dependency>
+          <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>extra-enforcer-rules</artifactId>
+            <version>1.0-beta-9</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <rules>
+<!--            <requireJavaVersion>-->
+<!--              <version>[1.8.0,)</version>-->
+<!--            </requireJavaVersion>-->
+<!--            <banDuplicatePomDependencyVersions/>-->
+<!--            <enforceBytecodeVersion>-->
+<!--              <maxJdkVersion>1.8</maxJdkVersion>-->
+<!--              <ignoreClasses>-->
+<!--                &lt;!&ndash; asm dependency from PMD contains a java9 module-info.class &ndash;&gt;-->
+<!--                <ignoreClass>module-info</ignoreClass>-->
+<!--                &lt;!&ndash; Junit >= 5.3 contains some java9 classes &ndash;&gt;-->
+<!--                <ignoreClass>**/ModuleUtils*</ignoreClass>-->
+<!--                &lt;!&ndash; ArchUnit contains some java9 classes &ndash;&gt;-->
+<!--                <ignoreClass>**/Java9DomainPlugin*</ignoreClass>-->
+<!--                <ignoreClass>com/tngtech/archunit/core/importer/Module*</ignoreClass>-->
+<!--              </ignoreClasses>-->
+<!--            </enforceBytecodeVersion>-->
+<!--            <banCircularDependencies/>-->
+            <banDuplicateClasses/>
+<!--            <dependencyConvergence/>-->
+            <illegalTransitiveDependencyCheck
+                    implementation="de.is24.maven.enforcer.rules.IllegalTransitiveDependencyCheck">
+              <reportOnly>false</reportOnly>
+              <useClassesFromLastBuild>false</useClassesFromLastBuild>
+              <suppressTypesFromJavaRuntime>true</suppressTypesFromJavaRuntime>
+              <listMissingArtifacts>false</listMissingArtifacts>
+            </illegalTransitiveDependencyCheck>
+          </rules>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>display-info</id>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -559,25 +611,6 @@
           <configuration>
             <outputFormats>XML,HTML</outputFormats>
           </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>display-info</id>
-              <configuration>
-                <rules>
-                  <enforceBytecodeVersion>
-                    <ignoreClasses>
-                      <!-- asm dependency from PMD contains a java9 module-info.class -->
-                      <ignoreClass>module-info</ignoreClass>
-                      <ignoreClass>ModuleUtils.class</ignoreClass>
-                    </ignoreClasses>
-                  </enforceBytecodeVersion>
-                </rules>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
