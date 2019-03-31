@@ -19,7 +19,8 @@ public class JavacParser extends RegexpLineParser {
     private static final long serialVersionUID = 7199325311690082782L;
 
     private static final String JAVAC_WARNING_PATTERN
-            = "^(?:\\[\\p{Alnum}*\\]\\s+)?"
+            = "^(?:\\S+\\s)?"                 // optional preceding arbitrary number of characters that are not a
+                                              // whitespace followed by one whitespace. This can be used for timestamps.
             + "(?:(?:\\[(WARNING|ERROR)\\]|w:)\\s+)" // optional [WARNING] or [ERROR] or w:
             + "([^\\[\\(]*):\\s*" +             // group 1: filename
             "[\\[\\(]" +                      // [ or (
