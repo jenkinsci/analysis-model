@@ -7,8 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -45,7 +45,7 @@ public class CMakeParser extends LookaheadParser {
 
     private String readMessage(final LookaheadStream lookahead, final int prefixLength) {
         if (lookahead.hasNext()) {
-            return lookahead.next().substring(prefixLength).trim();
+            return StringUtils.substring(lookahead.next(), prefixLength).trim();
         }
         return "";
     }
