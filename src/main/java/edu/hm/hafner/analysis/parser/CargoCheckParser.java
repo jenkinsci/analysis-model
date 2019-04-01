@@ -17,8 +17,10 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 /**
- * A parser for {@code rustc} compiler messages in the JSON format emitted by {@code cargo check --message-format json}.
- * .
+ * A parser for {@code rustc} compiler messages in the JSON format emitted by {@code cargo check --message-format
+ * json}.
+ *
+ * @author Gary Tierney
  */
 public class CargoCheckParser extends IssueParser {
     private static final long serialVersionUID = 7953467739178377581L;

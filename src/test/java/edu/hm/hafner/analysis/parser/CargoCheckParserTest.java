@@ -8,6 +8,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
  * Tests the class {@link CargoCheckParser}.
+ *
+ * @author Gary Tierney
  */
 class CargoCheckParserTest extends AbstractParserTest {
     CargoCheckParserTest() {
@@ -16,7 +18,7 @@ class CargoCheckParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(1);
+        softly.assertThat(report).hasSize(2);
 
         softly.assertThat(report.get(0))
                 .hasFileName("packages/secspc/src/main.rs")
@@ -26,6 +28,16 @@ class CargoCheckParserTest extends AbstractParserTest {
                 .hasLineStart(14)
                 .hasLineEnd(14)
                 .hasColumnStart(5)
+                .hasColumnEnd(34);
+
+        softly.assertThat(report.get(1))
+                .hasFileName("packages/secspc/src/main.rs")
+                .hasMessage("redundant closure found")
+                .hasCategory("clippy::redundant_closure")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(68)
+                .hasLineEnd(68)
+                .hasColumnStart(14)
                 .hasColumnEnd(34);
     }
 
