@@ -95,19 +95,6 @@ public class CheckStyleParser extends IssueParser {
         return StringUtils.substringAfterLast(source, ".");
     }
 
-    private Optional<Severity> mapPriority(final Error error) {
-        if ("error".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_HIGH);
-        }
-        if ("warning".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_NORMAL);
-        }
-        if ("info".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_LOW);
-        }
-        return Optional.empty();
-    }
-
     /**
      * Returns {@code true} if this warning is valid or {@code false} if the warning can't be processed by the
      * checkstyle plug-in.
