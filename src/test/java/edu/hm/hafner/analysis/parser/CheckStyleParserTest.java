@@ -80,7 +80,7 @@ class CheckStyleParserTest extends AbstractParserTest {
     }
 
     /**
-     * Test parsing a file and checks the correct servity mapping for error
+     * Test parsing a file and checks the correct servity mapping for error.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56214">Issue 56214</a>
      */
@@ -93,22 +93,22 @@ class CheckStyleParserTest extends AbstractParserTest {
     }
 
     /**
-     * Test parsing a file and checks the correct servity mapping for warnings
+     * Test parsing a file and checks the correct servity mapping for warnings.
      */
     @Test
-    void shouldParseWarningToServityWarning_Normal() {
-        //Read file with one error message
+    void shouldParseWarningToServityWarningNormal() {
+        //Read file with one warning issue
         Report report = parseInCheckStyleFolder("all-severites.xml");
 
         assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL);
     }
 
     /**
-     * Test parsing a file and checks the correct servity mapping for infos
+     * Test parsing a file and checks the correct servity mapping for infos.
      */
     @Test
-    void shouldParseInfoToServityWarning_Low() {
-        //Read file with one error message
+    void shouldParseInfoToServityWarningLow() {
+        //Read file with one info issue
         Report report = parseInCheckStyleFolder("all-severites.xml");
 
         assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
