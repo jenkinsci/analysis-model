@@ -71,8 +71,8 @@ public class CheckStyleParser extends IssueParser {
             if (isValidWarning(file)) {
                 for (Error error : file.getErrors()) {
                     IssueBuilder builder = new IssueBuilder();
-                    mapPriority(error).ifPresent(builder::setSeverity);
 
+                    builder.setSeverity(Severity.guessFromString(error.getSeverity()));
                     String source = error.getSource();
                     builder.setType(getType(source));
                     builder.setCategory(getCategory(source));
