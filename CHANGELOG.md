@@ -15,9 +15,12 @@ Added a parser for JSON output from Cargo.
 ### Fixed
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333): 
 MsBuild Parser: Treat errors as errors and not warning (high).
-- [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737)
+- [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737),
 [PR#136](https://github.com/jenkinsci/analysis-model/pull/136)
 Javac parser: Add the ability to parse warnings with preceding timestamps.
+- [JENKINS-56214](https://issues.jenkins-ci.org/browse/JENKINS-56214),
+[PR#142](https://github.com/jenkinsci/analysis-model/pull/142)
+ChackStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
 
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
