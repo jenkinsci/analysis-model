@@ -86,9 +86,8 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseErrorToServityError() {
-        //Read file with one error message
-        Report report = parseInCheckStyleFolder("all-severites.xml");
 
+        Report report = parseInCheckStyleFolder("all-severites.xml");
         assertThat(report.get(0)).hasSeverity(Severity.ERROR);
     }
 
@@ -97,9 +96,8 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseWarningToServityWarningNormal() {
-        //Read file with one warning issue
-        Report report = parseInCheckStyleFolder("all-severites.xml");
 
+        Report report = parseInCheckStyleFolder("all-severites.xml");
         assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL);
     }
 
@@ -108,9 +106,8 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseInfoToServityWarningLow() {
-        //Read file with one info issue
-        Report report = parseInCheckStyleFolder("all-severites.xml");
 
+        Report report = parseInCheckStyleFolder("all-severites.xml");
         assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
     }
 

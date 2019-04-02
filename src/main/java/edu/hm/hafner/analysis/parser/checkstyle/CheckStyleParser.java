@@ -72,7 +72,7 @@ public class CheckStyleParser extends IssueParser {
                 for (Error error : file.getErrors()) {
                     IssueBuilder builder = new IssueBuilder();
 
-                    builder.setSeverity(Severity.guessFromString(error.getSeverity()));
+                    builder.guessSeverity(error.getSeverity());
                     String source = error.getSource();
                     builder.setType(getType(source));
                     builder.setCategory(getCategory(source));
