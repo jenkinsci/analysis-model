@@ -1,0 +1,12 @@
+Normal warning:
+[WARNING] /my/path/to/workspace/src/main/java/my/package/TemporalJsonSeqFiling.java:[86,76] Test1
+
+Valid warning strings with timestamps:
+08:52:34.395 [WARNING] /my/path/to/workspace/src/main/java/my/package/TemporalJsonSeqFiling.java:[86,76] Test2
+08:52:34 [WARNING] /my/path/to/workspace/src/main/java/my/package/TemporalJsonSeqFiling.java:[86,76] Test3
+08:52 [WARNING] /my/path/to/workspace/src/main/java/my/package/TemporalJsonSeqFiling.java:[86,76] Test4
+
+Invalid warning strings:
+ 08:52:34 [WARNING] /my/path/to/workspace/src/main/java/my/package/TemporalJsonSeqFiling.java:[86,76] Test5
+08:52:34[WARNING] /my/path/to/workspace/src/main/java/my/package/TemporalJsonSeqFiling.java:[86,76] Test6
+08:52:34 additional [WARNING] /my/path/to/workspace/src/main/java/my/package/TemporalJsonSeqFiling.java:[86,76] Test7
