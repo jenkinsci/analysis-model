@@ -471,7 +471,7 @@
           <dependency>
             <groupId>de.is24.maven.enforcer.rules</groupId>
             <artifactId>illegal-transitive-dependency-check</artifactId>
-            <version>1.7.4</version>
+            <version>1.8-SNAPSHOT</version>
           </dependency>
           <dependency>
             <groupId>org.codehaus.mojo</groupId>
@@ -498,14 +498,13 @@
 <!--              </ignoreClasses>-->
 <!--            </enforceBytecodeVersion>-->
 <!--            <banCircularDependencies/>-->
-            <banDuplicateClasses/>
 <!--            <dependencyConvergence/>-->
             <illegalTransitiveDependencyCheck
                     implementation="de.is24.maven.enforcer.rules.IllegalTransitiveDependencyCheck">
               <reportOnly>false</reportOnly>
               <useClassesFromLastBuild>false</useClassesFromLastBuild>
               <suppressTypesFromJavaRuntime>true</suppressTypesFromJavaRuntime>
-              <listMissingArtifacts>false</listMissingArtifacts>
+              <listMissingArtifacts>true</listMissingArtifacts>
             </illegalTransitiveDependencyCheck>
           </rules>
         </configuration>
