@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.PathUtil;
+import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 import static edu.hm.hafner.util.IntegerParser.*;
@@ -28,6 +30,9 @@ import static edu.hm.hafner.util.IntegerParser.*;
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
 public class IssueBuilder {
+
+    private static TreeStringBuilder treeStringBuilder = new TreeStringBuilder();
+
     private int lineStart = 0;
     private int lineEnd = 0;
     private int columnStart = 0;
@@ -224,11 +229,32 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+        Issue issue = new Issue(treeStringOfFileName(fileName), lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
                 packageName, moduleName, severity, message, description, origin, reference, fingerprint,
                 additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
+    }
+
+    protected static TreeString treeStringOfFileName(@Nullable final String fileName) {
+        return treeStringBuilder.intern(normalizeFileName(fileName));
+    }
+
+    private static String normalizeFileName(@Nullable final String platformFileName) {
+        return defaultString(StringUtils.replace(
+                StringUtils.strip(platformFileName), "\\", "/"));
+    }
+
+    /**
+     * Creates a default String representation for undefined input parameters.
+     *
+     * @param string
+     *         the string to check
+     *
+     * @return the valid string or a default string if the specified string is not valid
+     */
+    private static String defaultString(@Nullable final String string) {
+        return StringUtils.defaultIfEmpty(string, Issue.UNDEFINED).intern();
     }
 
     /**

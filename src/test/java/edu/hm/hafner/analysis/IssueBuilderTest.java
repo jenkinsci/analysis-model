@@ -19,9 +19,9 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * @author Marcel Binder
  */
 class IssueBuilderTest {
-    private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, new LineRangeList(),
+    private static final Issue DEFAULT_ISSUE = new Issue(UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
             null, null, null, null, null, null, null, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
+    private static final Issue FILLED_ISSUE = new Issue(IssueBuilder.treeStringOfFileName(FILE_NAME), LINE_START, LINE_END, COLUMN_START, COLUMN_END,
             LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";

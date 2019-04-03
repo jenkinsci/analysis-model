@@ -25,7 +25,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 @SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
-    private static final String UNDEFINED = "-";
+    protected static final String UNDEFINED = "-";
 
     /**
      * Returns the value of the property with the specified name for a given issue instance.
@@ -191,7 +191,7 @@ public class Issue implements Serializable {
      *         the other issue to copy the properties from
      */
     protected Issue(final Issue copy) {
-        this(copy.getFileName(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(),
+        this(copy.fileName, copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(),
                 copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
                 copy.getSeverity(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
                 copy.getFingerprint(), copy.getAdditionalProperties(), copy.getId());
@@ -237,7 +237,7 @@ public class Issue implements Serializable {
      *         additional properties from the statical analysis tool
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue(@Nullable final String fileName,
+    protected Issue(final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @Nullable final LineRangeList lineRanges,
             @Nullable final String category, @Nullable final String type,
@@ -292,7 +292,7 @@ public class Issue implements Serializable {
      *         the ID of this issue
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue(@Nullable final String fileName, final int lineStart, final int lineEnd, final int columnStart,
+    protected Issue(final TreeString fileName, final int lineStart, final int lineEnd, final int columnStart,
             final int columnEnd, @Nullable final LineRangeList lineRanges, @Nullable final String category,
             @Nullable final String type, @Nullable final String packageName,
             @Nullable final String moduleName, @Nullable final Severity severity,
@@ -302,7 +302,7 @@ public class Issue implements Serializable {
             final UUID id) {
         TreeStringBuilder builder = new TreeStringBuilder();
 
-        this.fileName = builder.intern(normalizeFileName(fileName));
+        this.fileName = fileName;
 
         int providedLineStart = defaultInteger(lineStart);
         int providedLineEnd = defaultInteger(lineEnd) == 0 ? providedLineStart : defaultInteger(lineEnd);
@@ -464,8 +464,8 @@ public class Issue implements Serializable {
      * @param fileName
      *         the file name to set
      */
-    public void setFileName(@Nullable final String fileName) {
-        this.fileName = TreeString.valueOf(normalizeFileName(fileName));
+    public void setFileName(final TreeString fileName) {
+        this.fileName = fileName;
     }
 
     /**
