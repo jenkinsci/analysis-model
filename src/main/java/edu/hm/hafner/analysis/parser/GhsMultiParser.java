@@ -7,25 +7,26 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.RegexpLineParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpDocumentParser;
 
 /**
  * A parser for the GHS Multi compiler warnings.
  *
  * @author Joseph Boulos
  */
-public class GhsMultiParser extends RegexpDocumentParser {
+public class GhsMultiParser extends RegexpLineParser {
     private static final long serialVersionUID = 8149238560432255036L;
 
     private static final String GHS_MULTI_WARNING_PATTERN =
-            "(?:\\.|[A-Z]:)(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)\\s*\\^";
+            //"(?:\\.|[A-Z]:)(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)\\s*\\^";
+            "(?:\\.|[A-Z]:)(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):";
 
     /**
      * Creates a new instance of {@link GhsMultiParser}.
      */
     public GhsMultiParser() {
-        super(GHS_MULTI_WARNING_PATTERN, true);
+        super(GHS_MULTI_WARNING_PATTERN);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class GhsMultiParser extends RegexpDocumentParser {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(4))
-                .setMessage(matcher.group(5))
+                .setMessage("TODO: Gather all lines untill ^ Symbol")
                 .setSeverity(mapPriority(type))
                 .buildOptional();
     }
