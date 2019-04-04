@@ -69,6 +69,12 @@ public final class TreeString implements Serializable {
         return middle;
     }
 
+    @VisibleForTesting
+    @Nullable
+    TreeString getParent() {
+        return parent;
+    }
+
     /**
      * How many nodes do we have from the root to this node (including 'this' itself?). Thus depth of the root node is
      * 1.
@@ -82,24 +88,20 @@ public final class TreeString implements Serializable {
     }
 
     @Override
-    public boolean equals(final Object rhs) {
-        if (rhs == null) {
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return rhs.getClass() == TreeString.class
-                && ((TreeString) rhs).getLabel().equals(getLabel());
+        TreeString that = (TreeString) o;
+        return toString().equals(that.toString());
     }
 
     @Override
     public int hashCode() {
-        int h = parent == null ? 0 : parent.hashCode();
-
-        for (char character : label) {
-            h = 31 * h + character;
-        }
-
-        assert toString().hashCode() == h;
-        return h;
+        return toString().hashCode();
     }
 
     /**
