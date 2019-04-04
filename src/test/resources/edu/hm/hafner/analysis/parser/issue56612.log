@@ -1,0 +1,246 @@
+ [403/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/MeshFromRasterDialog.cpp.o
+ [404/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VisPrefsDialog.cpp.o
+ In file included from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18:0,
+                  from ../Applications/DataExplorer/VtkVis/VisPrefsDialog.cpp:21:
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h: In member function 'void Ui_VisualizationWidgetBase::setupUi(QWidget*)':
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:263:59: warning: 'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]
+          vtkWidget = new QVTKWidget(VisualizationWidgetBase);
+                                                            ^
+ In file included from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkObject.h:46:0,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkRenderWindowInteractor.h:49,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKInteractor.h:32,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:39,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:23,
+                  from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18,
+                  from ../Applications/DataExplorer/VtkVis/VisPrefsDialog.cpp:21:
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:82:14: note: declared here
+    VTK_LEGACY(QVTKWidget(QWidget *parent = nullptr, Qt::WindowFlags f = 0));
+               ^
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkSetGet.h:883:30: note: in definition of macro 'VTK_LEGACY'
+  #  define VTK_LEGACY(method) method __attribute__((deprecated))
+                               ^~~~~~
+ [405/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeFilter.cpp.o
+ [406/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VisualizationWidget.cpp.o
+ In file included from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18:0,
+                  from ../Applications/DataExplorer/VtkVis/VisualizationWidget.cpp:19:
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h: In member function 'void Ui_VisualizationWidgetBase::setupUi(QWidget*)':
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:263:59: warning: 'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]
+          vtkWidget = new QVTKWidget(VisualizationWidgetBase);
+                                                            ^
+ In file included from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkObject.h:46:0,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkRenderWindowInteractor.h:49,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKInteractor.h:32,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:39,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:23,
+                  from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18,
+                  from ../Applications/DataExplorer/VtkVis/VisualizationWidget.cpp:19:
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:82:14: note: declared here
+    VTK_LEGACY(QVTKWidget(QWidget *parent = nullptr, Qt::WindowFlags f = 0));
+               ^
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkSetGet.h:883:30: note: in definition of macro 'VTK_LEGACY'
+  #  define VTK_LEGACY(method) method __attribute__((deprecated))
+                               ^~~~~~
+ [407/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkAlgorithmProperties.cpp.o
+ [408/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkAlgorithmPropertyLineEdit.cpp.o
+ [409/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkAlgorithmPropertyCheckbox.cpp.o
+ [410/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkAddFilterDialog.cpp.o
+ [411/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkAppendArrayFilter.cpp.o
+ [412/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkBGImageSource.cpp.o
+ [413/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkColorByHeightFilter.cpp.o
+ [414/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkAlgorithmPropertyVectorEdit.cpp.o
+ [415/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeColorByHeightFilter.cpp.o
+ [416/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeContourFilter.cpp.o
+ [417/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeColormapToImageFilter.cpp.o
+ [418/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkImageDataToPointCloudFilter.cpp.o
+ [419/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeImageToCylindersFilter.cpp.o
+ [420/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeElementSelectionFilter.cpp.o
+ [421/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeGeoObjectFilter.cpp.o
+ [422/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeImageToPointCloudFilter.cpp.o
+ [423/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeLineToTubeFilter.cpp.o
+ [424/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeImageToSurfacePointsFilter.cpp.o
+ [425/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeNodeSelectionFilter.cpp.o
+ [426/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkConsoleOutputWindow.cpp.o
+ [427/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeThresholdFilter.cpp.o
+ [428/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositePointToGlyphFilter.cpp.o
+ [429/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCompositeTextureOnSurfaceFilter.cpp.o
+ [430/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkCustomInteractorStyle.cpp.o
+ [431/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkPickCallback.cpp.o
+ [432/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkFilterFactory.cpp.o
+ [433/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkImageDataToSurfacePointsFilter.cpp.o
+ [434/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkGeoImageSource.cpp.o
+ [435/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkPolylinesSource.cpp.o
+ [436/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkPointsSource.cpp.o
+ [437/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkSurfacesSource.cpp.o
+ [438/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkStationSource.cpp.o
+ [439/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkVisPipelineItem.cpp.o
+ [440/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkVisHelper.cpp.o
+ [441/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkVisImageItem.cpp.o
+ [442/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkTextureOnSurfaceFilter.cpp.o
+ [443/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkVisPointSetItem.cpp.o
+ [444/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkVisPipeline.cpp.o
+ [445/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkVisPipelineView.cpp.o
+ [446/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkVisTabWidget.cpp.o
+ [447/891] Building CXX object MeshGeoToolsLib/CMakeFiles/MeshGeoToolsLib.dir/HeuristicSearchLength.cpp.o
+ [448/891] Building CXX object Applications/DataExplorer/VtkVis/CMakeFiles/VtkVis.dir/VtkVis_autogen/mocs_compilation.cpp.o
+ In file included from Applications/DataExplorer/VtkVis/VtkVis_autogen/EWIEGA46WW/../../../../../../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18:0,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/EWIEGA46WW/moc_VisualizationWidget.cpp:9,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/mocs_compilation.cpp:5:
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h: In member function 'void Ui_VisualizationWidgetBase::setupUi(QWidget*)':
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:263:59: warning: 'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]
+          vtkWidget = new QVTKWidget(VisualizationWidgetBase);
+                                                            ^
+ In file included from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkObject.h:46:0,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkAlgorithm.h:36,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkAbstractMapper.h:32,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkAbstractMapper3D.h:36,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkMapper.h:51,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkDataSetMapper.h:31,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/EWIEGA46WW/../../../../../../Applications/DataExplorer/VtkVis/QVtkDataSetMapper.h:18,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/EWIEGA46WW/moc_QVtkDataSetMapper.cpp:9,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/mocs_compilation.cpp:3:
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:82:14: note: declared here
+    VTK_LEGACY(QVTKWidget(QWidget *parent = nullptr, Qt::WindowFlags f = 0));
+               ^
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkSetGet.h:883:30: note: in definition of macro 'VTK_LEGACY'
+  #  define VTK_LEGACY(method) method __attribute__((deprecated))
+                               ^~~~~~
+ [449/891] Linking CXX static library lib/libVtkVis.a
+ [450/891] Building CXX object MeshGeoToolsLib/CMakeFiles/MeshGeoToolsLib.dir/IdentifySubdomainMesh.cpp.o
+ [451/891] Building CXX object MeshGeoToolsLib/CMakeFiles/MeshGeoToolsLib.dir/MeshNodeSearcher.cpp.o
+ [452/891] Building CXX object MeshGeoToolsLib/CMakeFiles/MeshGeoToolsLib.dir/MeshNodesAlongPolyline.cpp.o
+ [453/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/NamedFunction.cpp.o
+ [454/891] Building CXX object MeshGeoToolsLib/CMakeFiles/MeshGeoToolsLib.dir/MeshNodesAlongSurface.cpp.o
+ [455/891] Building CXX object MeshGeoToolsLib/CMakeFiles/MeshGeoToolsLib.dir/MeshNodesOnPoint.cpp.o
+ [456/891] Linking CXX shared library lib/libMeshGeoToolsLib.so
+ [457/891] Linking CXX executable bin/constructMeshesFromGeometry
+ [458/891] Linking CXX executable bin/identifySubdomains
+ [459/891] Linking CXX executable bin/computeSurfaceNodeIDsInPolygonalRegion
+ [460/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/NamedFunctionCaller.cpp.o
+ [461/891] Linking CXX executable bin/CreateBoundaryConditionsAlongPolylines
+ [462/891] Linking CXX executable bin/appendLinesAlongPolyline
+ [463/891] Linking CXX executable bin/MapGeometryToMeshSurface
+ [464/891] Automatic MOC and UIC for target QtDataView
+ [465/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/DOF/LocalToGlobalIndexMap.cpp.o
+ [466/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/DOF/MeshComponentMap.cpp.o
+ [467/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/ColorTableModel.cpp.o
+ [468/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/AddLayerToMeshDialog.cpp.o
+ [469/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/ColorTableView.cpp.o
+ [470/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/DOF/ComputeSparsityPattern.cpp.o
+ [471/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MeshQualitySelectionDialog.cpp.o
+ [472/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/CondFromRasterDialog.cpp.o
+ [473/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/DataExplorerSettingsDialog.cpp.o
+ [474/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MergeGeometriesDialog.cpp.o
+ [475/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/CreateStructuredGridDialog.cpp.o
+ [476/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/ElementTreeView.cpp.o
+ [477/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/DirectConditionGenerator.cpp.o
+ [478/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/FemConditionModel.cpp.o
+ [479/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/FemConditionView.cpp.o
+ [480/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/ElementTreeModel.cpp.o
+ [481/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/GeoTabWidget.cpp.o
+ [482/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/GEOModels.cpp.o
+ [483/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/GeoOnMeshMappingDialog.cpp.o
+ [484/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/GeoTreeModel.cpp.o
+ [485/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/LicenseDialog.cpp.o
+ [486/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/GeoTreeView.cpp.o
+ [487/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/GMSHPrefsDialog.cpp.o
+ [488/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/LinearEditDialog.cpp.o
+ [489/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/LineEditDialog.cpp.o
+ [490/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MeshAnalysisDialog.cpp.o
+ [491/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MeshMapping2DDialog.cpp.o
+ [492/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MeshValueEditDialog.cpp.o
+ [493/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/ModellingTabWidget.cpp.o
+ [494/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MeshElementRemovalDialog.cpp.o
+ [495/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/ProcessModel.cpp.o
+ [496/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MshItem.cpp.o
+ [497/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/ModelTreeItem.cpp.o
+ [498/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MeshLayerEditDialog.cpp.o
+ [499/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MshModel.cpp.o
+ [500/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MshTabWidget.cpp.o
+ [501/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/MshView.cpp.o
+ [502/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/StationTabWidget.cpp.o
+ [503/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/StationTreeModel.cpp.o
+ [504/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/ProcessView.cpp.o
+ [505/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/SelectMeshDialog.cpp.o
+ [506/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/SetNameDialog.cpp.o
+ [507/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/SaveMeshDialog.cpp.o
+ [508/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/SHPImportDialog.cpp.o
+ [509/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/SurfaceExtractionDialog.cpp.o
+ [510/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/StationTreeView.cpp.o
+ [511/891] Building CXX object Tests/CMakeFiles/testrunner.dir/MathLib/TestWeightedPoint.cpp.o
+ [512/891] Building CXX object Tests/CMakeFiles/testrunner.dir/MathLib/TestVector3.cpp.o
+ [513/891] Building CXX object Applications/DataExplorer/DataView/CMakeFiles/QtDataView.dir/QtDataView_autogen/mocs_compilation.cpp.o
+ [514/891] Linking CXX static library lib/libQtDataView.a
+ [515/891] Automatic MOC and UIC for target DataExplorer
+ [516/891] Automatic RCC for Img/icons.qrc
+ [517/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/DOF/GlobalMatrixProviders.cpp.o
+ [518/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/DOF/DOFTableUtil.cpp.o
+ [519/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/DOF/SimpleMatrixVectorProvider.cpp.o
+ [520/891] Building CXX object Applications/DataExplorer/CMakeFiles/DataExplorer.dir/DataExplorer_autogen/FNMWHKTN7I/qrc_icons.cpp.o
+ [521/891] Building CXX object Applications/DataExplorer/CMakeFiles/DataExplorer.dir/DataExplorer_autogen/mocs_compilation.cpp.o
+ In file included from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18:0,
+                  from Applications/DataExplorer/DataExplorer_autogen/include/ui_mainwindow.h:29,
+                  from Applications/DataExplorer/DataExplorer_autogen/EWIEGA46WW/../../../../../Applications/DataExplorer/mainwindow.h:18,
+                  from Applications/DataExplorer/DataExplorer_autogen/EWIEGA46WW/moc_mainwindow.cpp:9,
+                  from Applications/DataExplorer/DataExplorer_autogen/mocs_compilation.cpp:2:
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h: In member function 'void Ui_VisualizationWidgetBase::setupUi(QWidget*)':
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:263:59: warning: 'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]
+          vtkWidget = new QVTKWidget(VisualizationWidgetBase);
+                                                            ^
+ In file included from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkObject.h:46:0,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkRenderWindowInteractor.h:49,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKInteractor.h:32,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:39,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:23,
+                  from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18,
+                  from Applications/DataExplorer/DataExplorer_autogen/include/ui_mainwindow.h:29,
+                  from Applications/DataExplorer/DataExplorer_autogen/EWIEGA46WW/../../../../../Applications/DataExplorer/mainwindow.h:18,
+                  from Applications/DataExplorer/DataExplorer_autogen/EWIEGA46WW/moc_mainwindow.cpp:9,
+                  from Applications/DataExplorer/DataExplorer_autogen/mocs_compilation.cpp:2:
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:82:3: note: declared here
+    VTK_LEGACY(QVTKWidget(QWidget *parent = nullptr, Qt::WindowFlags f = 0));
+    ^
+ [522/891] Building CXX object Applications/DataExplorer/CMakeFiles/DataExplorer.dir/main.cpp.o
+ In file included from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18:0,
+                  from Applications/DataExplorer/DataExplorer_autogen/include/ui_mainwindow.h:29,
+                  from ../Applications/DataExplorer/mainwindow.h:18,
+                  from ../Applications/DataExplorer/main.cpp:1:
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h: In member function 'void Ui_VisualizationWidgetBase::setupUi(QWidget*)':
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:263:59: warning: 'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]
+          vtkWidget = new QVTKWidget(VisualizationWidgetBase);
+                                                            ^
+ In file included from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkObject.h:46:0,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkRenderWindowInteractor.h:49,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKInteractor.h:32,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:39,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:23,
+                  from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18,
+                  from Applications/DataExplorer/DataExplorer_autogen/include/ui_mainwindow.h:29,
+                  from ../Applications/DataExplorer/mainwindow.h:18,
+                  from ../Applications/DataExplorer/main.cpp:1:
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:82:3: note: declared here
+    VTK_LEGACY(QVTKWidget(QWidget *parent = nullptr, Qt::WindowFlags f = 0));
+    ^
+ [523/891] Building CXX object Applications/DataExplorer/CMakeFiles/DataExplorer.dir/mainwindow.cpp.o
+ In file included from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18:0,
+                  from Applications/DataExplorer/DataExplorer_autogen/include/ui_mainwindow.h:29,
+                  from ../Applications/DataExplorer/mainwindow.h:18,
+                  from ../Applications/DataExplorer/mainwindow.cpp:15:
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h: In member function 'void Ui_VisualizationWidgetBase::setupUi(QWidget*)':
+ Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:263:59: warning: 'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]
+          vtkWidget = new QVTKWidget(VisualizationWidgetBase);
+                                                            ^
+ In file included from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkObject.h:46:0,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/vtkRenderWindowInteractor.h:49,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKInteractor.h:32,
+                  from /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:39,
+                  from Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h:23,
+                  from ../Applications/DataExplorer/VtkVis/VisualizationWidget.h:18,
+                  from Applications/DataExplorer/DataExplorer_autogen/include/ui_mainwindow.h:29,
+                  from ../Applications/DataExplorer/mainwindow.h:18,
+                  from ../Applications/DataExplorer/mainwindow.cpp:15:
+ /opt/conan/.conan/data/VTK/8.1.1/bilke/stable/package/501bba9f38b895628bb07f88e3186b20bb8405fa/include/vtk-8.1/QVTKWidget.h:82:3: note: declared here
+    VTK_LEGACY(QVTKWidget(QWidget *parent = nullptr, Qt::WindowFlags f = 0));
+    ^
+ [524/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/Fem/ShapeFunction/ShapeStaticConsts.cpp.o
+ [525/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/Fem/CoordinatesMapping/NaturalNodeCoordinates.cpp.o
+ [526/891] Building CXX object NumLib/CMakeFiles/NumLib.dir/TimeStepping/CreateTimeStepper.cpp.o

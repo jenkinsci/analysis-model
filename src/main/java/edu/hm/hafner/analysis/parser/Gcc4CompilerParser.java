@@ -46,7 +46,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
         }
 
         while (lookahead.hasNext() && isMessageContinuation(lookahead)) {
-            message.append("\n");
+            message.append('\n');
             message.append(lookahead.next());
         }
 
@@ -58,6 +58,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
                 .buildOptional();
     }
 
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     private boolean isMessageContinuation(final LookaheadStream lookahead) {
         String peek = lookahead.peekNext();
         if (peek.length() < 3) {
@@ -72,7 +73,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
         if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
             return false;
         }
-        return !(StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make"));
+        return !StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make");
     }
 }
 

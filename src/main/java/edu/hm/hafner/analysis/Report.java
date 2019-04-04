@@ -30,6 +30,7 @@ import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
+
 import static java.util.stream.Collectors.*;
 
 /**
@@ -747,8 +748,8 @@ public class Report implements Iterable<Issue>, Serializable {
 
             Collection<Predicate<Issue>> filters = new ArrayList<>();
             for (String pattern : patterns) {
-                filters.add(issueToFilter -> Pattern.compile(pattern)
-                        .matcher(propertyToFilter.apply(issueToFilter)).matches() == (type == FilterType.INCLUDE));
+                filters.add(issueToFilter -> Pattern.compile(pattern, Pattern.DOTALL)
+                        .matcher(propertyToFilter.apply(issueToFilter)).find() == (type == FilterType.INCLUDE));
             }
 
             if (type == FilterType.INCLUDE) {
@@ -1045,7 +1046,7 @@ public class Report implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setIncludeMessageFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getMessage, FilterType.INCLUDE);
+            addMessageFilter(pattern, FilterType.INCLUDE);
             return this;
         }
 
@@ -1070,8 +1071,13 @@ public class Report implements Iterable<Issue>, Serializable {
          * @return this.
          */
         public IssueFilterBuilder setExcludeMessageFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getMessage, FilterType.EXCLUDE);
+            addMessageFilter(pattern, FilterType.EXCLUDE);
             return this;
+        }
+
+        private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
+            addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
+                    filterType);
         }
 
         /**

@@ -30,6 +30,10 @@ class SeverityTest {
         assertThat(Severity.guessFromString("")).isEqualTo(Severity.WARNING_LOW);
         assertThat(Severity.guessFromString("critical thing")).isEqualTo(Severity.ERROR);
         assertThat(Severity.guessFromString("severe problem")).isEqualTo(Severity.ERROR);
+
+        assertThat(Severity.guessFromString("note")).isEqualTo(Severity.WARNING_LOW);
+        assertThat(Severity.guessFromString("NOTE")).isEqualTo(Severity.WARNING_LOW);
+        assertThat(Severity.guessFromString("[NOTE]")).isEqualTo(Severity.WARNING_LOW);
     }
 
     @Test @SuppressWarnings("PMD.PositionLiteralsFirstInCaseInsensitiveComparisons")

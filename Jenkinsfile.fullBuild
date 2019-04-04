@@ -14,7 +14,7 @@ node {
 
     stage ('Analysis') {
         withMaven(maven: 'mvn-default', mavenLocalRepo: '/var/data/m2repository', mavenOpts: '-Xmx768m -Xms512m') {
-            sh "mvn -V -U -e verify"
+            sh "mvn -V -U -e verify -Dmaven.test.failure.ignore"
         }
 
         junit testResults: '**/target/*-reports/TEST-*.xml'
@@ -27,7 +27,7 @@ node {
 
     stage ('Coverage') {
         withMaven(maven: 'mvn-default', mavenLocalRepo: '/var/data/m2repository', mavenOpts: '-Xmx768m -Xms512m') {
-            sh "mvn -V -U -e jacoco:prepare-agent test jacoco:report -Djenkins.test.timeout=240"
+            sh "mvn -V -U -e jacoco:prepare-agent test jacoco:report -Djenkins.test.timeout=240 -Dmaven.test.failure.ignore"
         }
         publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
     }

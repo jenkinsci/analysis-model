@@ -25,8 +25,8 @@ public abstract class LookaheadParser extends IssueParser {
     private static final String ENTERING_DIRECTORY = "Entering directory";
     private static final Pattern MAKE_PATH
             = Pattern.compile(".*make(?:\\[\\d+])?: " + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
-    private static final String NINJA_PREFIX = "-- Build files have";
-    private static final Pattern NINJA_PATH = Pattern.compile(NINJA_PREFIX + " been written to: (?<dir>.*)");
+    private static final String CMAKE_PREFIX = "-- Build files have";
+    private static final Pattern CMAKE_PATH = Pattern.compile(CMAKE_PREFIX + " been written to: (?<dir>.*)");
 
     private final Pattern pattern;
 
@@ -61,16 +61,10 @@ public abstract class LookaheadParser extends IssueParser {
             while (lookahead.hasNext()) {
                 String line = preProcessContent(lookahead.next());
                 if (line.contains(ENTERING_DIRECTORY)) {
-                    Matcher makeLineMatcher = MAKE_PATH.matcher(line);
-                    if (makeLineMatcher.matches()) {
-                        builder.setDirectory(makeLineMatcher.group("dir"));
-                    }
+                    extractAndStoreDirectory(builder, line, MAKE_PATH);
                 }
-                else if (line.contains(NINJA_PREFIX)) {
-                    Matcher ninja = NINJA_PATH.matcher(line);
-                    if (ninja.matches()) {
-                        builder.setDirectory(ninja.group("dir"));
-                    }
+                else if (line.contains(CMAKE_PREFIX)) {
+                    extractAndStoreDirectory(builder, line, CMAKE_PATH);
                 }
                 else if (isLineInteresting(line)) {
                     Matcher matcher = pattern.matcher(line);
@@ -85,6 +79,13 @@ public abstract class LookaheadParser extends IssueParser {
         }
 
         return postProcess(report);
+    }
+
+    private void extractAndStoreDirectory(final IssueBuilder builder, final String line, final Pattern makePath) {
+        Matcher makeLineMatcher = makePath.matcher(line);
+        if (makeLineMatcher.matches()) {
+            builder.setDirectory(makeLineMatcher.group("dir"));
+        }
     }
 
     /**

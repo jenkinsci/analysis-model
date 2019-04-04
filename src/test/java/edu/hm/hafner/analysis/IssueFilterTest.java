@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
+
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
@@ -40,10 +41,79 @@ class IssueFilterTest {
             .build();
 
     @Test
+    void shouldUseFindRatherThanMatch() {
+        Predicate<? super Issue> predicate = new IssueFilterBuilder().setIncludeMessageFilter("something").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setLineStart(1).setMessage("something").build());
+        report.add(new IssueBuilder().setLineStart(2).setMessage(" something").build());
+        report.add(new IssueBuilder().setLineStart(3).setMessage("something ").build());
+        report.add(new IssueBuilder().setLineStart(4).setMessage(" something ").build());
+        report.add(new IssueBuilder().setLineStart(5).setMessage("Before something After").build());
+        report.add(new IssueBuilder().setLineStart(6).setMessage("Before something").build());
+        report.add(new IssueBuilder().setLineStart(7).setMessage("something After").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(7);
+    }
+
+    @Test
+    void shouldMatchMultiLinesInMessage() {
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setMessage("something").build());
+        report.add(new IssueBuilder().setMessage("something\nelse").build());
+        report.add(new IssueBuilder().setMessage("else\nsomething").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(0);
+    }
+
+    /**
+     * Verifies that the message filter reads the description and the message.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56526">Issue 56526</a>
+     */
+    @Test
+    void shouldMatchMultiLinesInDescription() {
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setDescription("something").build());
+        report.add(new IssueBuilder().setDescription("something\nelse").build());
+        report.add(new IssueBuilder().setDescription("else\nsomething").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(0);
+    }
+
+    /**
+     * Verifies that the message filter reads the description and the message.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56526">Issue 56526</a>
+     */
+    @Test
+    void shouldMatchMessageOrDescriptionInIncludeFilter() {
+        Predicate<? super Issue> predicate
+                = new IssueFilterBuilder().setIncludeMessageFilter(".*something.*").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setDescription("something").setMessage("else").build());
+        report.add(new IssueBuilder().setDescription("else").setMessage("something").build());
+        report.add(new IssueBuilder().setDescription("else").setMessage("else").build());
+        report.add(new IssueBuilder().setDescription("something").setMessage("something").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(3);
+    }
+
+    @Test
     void shouldNothingChangeWhenNoFilterIsAdded() {
         Predicate<? super Issue> filter = new IssueFilterBuilder().build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
-
     }
 
     @Test

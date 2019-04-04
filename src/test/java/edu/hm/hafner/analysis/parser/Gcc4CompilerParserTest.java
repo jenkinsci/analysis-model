@@ -1,12 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
@@ -22,9 +24,6 @@ import static org.assertj.core.api.Assumptions.*;
  * @author Ullrich Hafner
  */
 class Gcc4CompilerParserTest extends AbstractParserTest {
-    private static final String WARNING_CATEGORY = "Warning";
-    private static final String ERROR_CATEGORY = "Error";
-
     Gcc4CompilerParserTest() {
         super("gcc4.txt");
     }
@@ -108,14 +107,16 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(6)
                 .hasLineEnd(6)
-                .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
+                .hasMessage(
+                        "in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
                 .hasFileName("warnings.cc")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineStart(33)
                 .hasLineEnd(33)
-                .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
+                .hasMessage(
+                        "#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
                 .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -210,7 +211,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(6)
                     .hasLineEnd(6)
-                    .hasMessage("in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
+                    .hasMessage(
+                            "in call to 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]'")
                     .hasFileName("/dir1/dir2/warnings.cc");
 
             softly.assertThat(iterator.next())
@@ -233,7 +235,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(33)
                     .hasLineEnd(33)
-                    .hasMessage("#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
+                    .hasMessage(
+                            "#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
                     .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h");
         });
     }
@@ -253,7 +256,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(188);
 
         assertThat(warnings.get(0))
-                .hasFileName("/var/lib/jenkins/workspace/daos-stack-org_daos_PR-13-centos7/_build.external/pmix/src/util/keyval/keyval_lex.c");
+                .hasFileName(
+                        "/var/lib/jenkins/workspace/daos-stack-org_daos_PR-13-centos7/_build.external/pmix/src/util/keyval/keyval_lex.c");
     }
 
     /**
@@ -444,6 +448,31 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
+     * Detects several multi line messages.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56612">Issue 56612</a>
+     */
+    @Test
+    void issue56612() {
+        Report warnings = parse("issue56612.log");
+
+        assertThat(warnings).hasSize(6);
+
+        assertThat(warnings.get(0))
+                .hasFileName("Applications/DataExplorer/VtkVis/VtkVis_autogen/include/ui_VisualizationWidgetBase.h")
+                .hasLineStart(263);
+        assertThat(warnings.get(0).getMessage())
+                .startsWith(
+                        "'QVTKWidget::QVTKWidget(QWidget*, Qt::WindowFlags)' is deprecated [-Wdeprecated-declarations]\n");
+
+        Predicate<Issue> predicate = new IssueFilterBuilder()
+                .setExcludeMessageFilter(".*QVTKWidget.*", ".*tmpnam.*")
+                .setExcludeFileNameFilter(".*qrc_icons\\.cpp.*").build();
+        Report filtered = warnings.filter(predicate);
+        assertThat(filtered).hasSize(0);
+    }
+
+    /**
      * Detect make paths using different types of apostrophe's.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55221">Issue 55221</a>
@@ -458,53 +487,65 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(204)
                     .hasColumnStart(26)
-                    .hasMessage("‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]\n"
-                            + "ParamNumeric<unsigned> SectorDLCAL;\n"
-                            + "^~~~~~~~~~~")
-                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
+                    .hasMessage(
+                            "‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]\n"
+                                    + "ParamNumeric<unsigned> SectorDLCAL;\n"
+                                    + "^~~~~~~~~~~")
+                    .hasFileName(
+                            "/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
                     .hasCategory("reorder")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(warnings.get(1))
                     .hasLineStart(179)
                     .hasColumnStart(32)
-                    .hasMessage("‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]\n"
-                            + "ParamNumeric<unsigned> UseDSPBuilderFFT;\n"
-                            + "^~~~~~~~~~~~~~~~")
-                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
+                    .hasMessage(
+                            "‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]\n"
+                                    + "ParamNumeric<unsigned> UseDSPBuilderFFT;\n"
+                                    + "^~~~~~~~~~~~~~~~")
+                    .hasFileName(
+                            "/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
                     .hasCategory("reorder")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(warnings.get(2))
                     .hasLineStart(168)
                     .hasColumnStart(21)
-                    .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]\n             GetUInt((uint32_t&)result);\n                     ^~~~~~~~~~~~~~~~~")
-                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
+                    .hasMessage(
+                            "dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]\n             GetUInt((uint32_t&)result);\n                     ^~~~~~~~~~~~~~~~~")
+                    .hasFileName(
+                            "/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
                     .hasCategory("strict-aliasing")
                     .hasSeverity(Severity.WARNING_NORMAL);
             softly.assertThat(warnings.get(3))
                     .hasLineStart(168)
                     .hasColumnStart(21)
-                    .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]")
-                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
+                    .hasMessage(
+                            "dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]")
+                    .hasFileName(
+                            "/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
                     .hasCategory("strict-aliasing")
                     .hasSeverity(Severity.WARNING_NORMAL);
             softly.assertThat(warnings.get(4))
                     .hasLineStart(168)
                     .hasColumnStart(21)
-                    .hasMessage("dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]\n"
-                            + "In file included from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/steps.h:4:0,\n"
-                            + "                 from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/csl.h:4,\n"
-                            + "                 from vfft_fft_core_VFFT1_CModel.h:2,\n"
-                            + "                 from vfft_fft_core_VFFT1_CModel.cpp:2:")
-                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
+                    .hasMessage(
+                            "dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]\n"
+                                    + "In file included from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/steps.h:4:0,\n"
+                                    + "                 from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/csl.h:4,\n"
+                                    + "                 from vfft_fft_core_VFFT1_CModel.h:2,\n"
+                                    + "                 from vfft_fft_core_VFFT1_CModel.cpp:2:")
+                    .hasFileName(
+                            "/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
                     .hasCategory("strict-aliasing")
                     .hasSeverity(Severity.WARNING_NORMAL);
             softly.assertThat(warnings.get(5))
                     .hasLineStart(105)
                     .hasColumnStart(39)
-                    .hasMessage("returning reference to temporary [-Wreturn-local-addr]\n   return P::Execute(std::forward<T>(v));")
-                    .hasFileName("/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h")
+                    .hasMessage(
+                            "returning reference to temporary [-Wreturn-local-addr]\n   return P::Execute(std::forward<T>(v));")
+                    .hasFileName(
+                            "/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h")
                     .hasCategory("return-local-addr")
                     .hasSeverity(Severity.WARNING_NORMAL);
         });

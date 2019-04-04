@@ -1,7 +1,6 @@
 package edu.hm.hafner.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +66,7 @@ public class XmlElementUtil {
      */
     public static List<Element> nodeListToList(@Nullable final NodeList nodeList) {
         if (nodeList == null) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         int length = nodeList.getLength();
         List<Element> elements = new ArrayList<>(length);

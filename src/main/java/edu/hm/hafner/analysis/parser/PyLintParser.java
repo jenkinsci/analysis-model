@@ -43,19 +43,18 @@ public class PyLintParser extends RegexpLineParser {
         builder.setCategory(mapCategory(category));
         builder.setType(StringUtils.firstNonBlank(matcher.group("symbol"), matcher.group("type"), UNKNOWN_TYPE));
 
-        final String moduleName = matcher.group("module");
-        if (moduleName != null) {
+        String moduleName = matcher.group("module");
+        if (moduleName == null) {
+            builder.setPackageName("-").setModuleName("-");
+        }
+        else {
             if (moduleName.contains(".")) {
-                builder.setPackageName(moduleName.substring(0, moduleName.lastIndexOf(".")));
+                builder.setPackageName(moduleName.substring(0, moduleName.lastIndexOf('.')));
             }
             else {
                 builder.setPackageName("-");
             }
             builder.setModuleName(moduleName);
-        }
-        else {
-            builder.setPackageName("-")
-                .setModuleName("-");
         }
 
         return builder.setFileName(matcher.group("path"))

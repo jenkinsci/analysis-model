@@ -10,7 +10,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
@@ -336,7 +335,7 @@ public class Issue implements Serializable {
         this.packageName = builder.intern(defaultString(packageName));
         this.moduleName = defaultString(moduleName);
 
-        this.severity = ObjectUtils.defaultIfNull(severity, Severity.WARNING_NORMAL);
+        this.severity = severity == null ? Severity.WARNING_NORMAL : severity;
         this.message = builder.intern(StringUtils.stripToEmpty(message));
         this.description = builder.intern(StringUtils.stripToEmpty(description));
 
@@ -551,7 +550,7 @@ public class Issue implements Serializable {
      *
      * @return the last line
      */
-    // FIXME: actually we need a list of locations since a warning may involve several files
+    // TODO: actually we need a list of locations since a warning may involve several files
     public LineRangeList getLineRanges() {
         return new LineRangeList(lineRanges);
     }

@@ -4,7 +4,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...master)
+## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.0.0...master)
+
+### Added
+- [PR#132](https://github.com/jenkinsci/analysis-model/pull/132): 
+Added a parser for CMake warnings.
+- [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):
+Added a parser for JSON output from Cargo.
+
+### Fixed
+- [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333): 
+MsBuild Parser: Treat errors as errors and not warning (high).
+- [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737),
+[PR#136](https://github.com/jenkinsci/analysis-model/pull/136)
+Javac parser: Add the ability to parse warnings with preceding timestamps.
+- [JENKINS-56214](https://issues.jenkins-ci.org/browse/JENKINS-56214),
+[PR#142](https://github.com/jenkinsci/analysis-model/pull/142)
+ChackStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
+
+### Changed
+- Filters now work on a substring of the property, you don't need to create a regular
+expression that matches the whole property value anymore. 
+
+## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
+
+### Fixed
+- [JENKINS-56612](https://issues.jenkins-ci.org/browse/JENKINS-56612): 
+Fixed filtering of multiline messages.
+- [JENKINS-55345](https://issues.jenkins-ci.org/browse/JENKINS-55345): 
+DocFX Parser: Ignore Info messages and do not treat them as warnings.
+- [JENKINS-42823](https://issues.jenkins-ci.org/browse/JENKINS-42823): 
+MsBuild Parser: Fix false positive with parser.
+- [JENKINS-56526](https://issues.jenkins-ci.org/browse/JENKINS-56526): 
+Filters: let the message filter scan for texts in message **and** description.
+
+### Removed
+- \[API\]: Deprecated and unused classes `DoxygenParser` and `DotNetAssembly` have been removed.
+
+## [3.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.2...analysis-model-3.0.0) - 2019-3-15
 
 ### Added
 - Gcc4: Show multi-line warnings messages. Map all errors to severity error. 
@@ -12,6 +49,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR#100](https://github.com/jenkinsci/analysis-model/pull/100): Add package and module support for Pylint.
 
 ### Fixed
+- [JENKINS-56393](https://issues.jenkins-ci.org/browse/JENKINS-56393),
+[PR#117](https://github.com/jenkinsci/analysis-model/pull/117): Improved RfLintParser - Set category and type.
+- [JENKINS-56394](https://issues.jenkins-ci.org/browse/JENKINS-56394),
+[PR#117](https://github.com/jenkinsci/analysis-model/pull/117): Improved RfLintParser - add directory as the package name.
 - [JENKINS-55805](https://issues.jenkins-ci.org/browse/JENKINS-55805): 
 JavaDoc Parser: Improved performance (skip overly long lines).
 - [JENKINS-54506](https://issues.jenkins-ci.org/browse/JENKINS-54506):
@@ -32,7 +73,8 @@ Fixed absolute paths if Ninja build system is used.
 - [PR#104](https://github.com/jenkinsci/analysis-model/pull/104): Pylint: Add types, make categories types and categories, categories.
 
 ### Changed
-- [API]: GccParser uses new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+- \[API\]: `Gcc4CompilerParser` uses new base class 
+[LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
 
 ## [2.1.2](https://github.com/jenkinsci/analysis-model/compare/analysis-model-2.1.1...analysis-model-2.1.2) - 2019-2-10
@@ -87,7 +129,7 @@ Taglist Parser: Convert class name into a file name and a package.
 
 ### Added
 - Added support for [ErrorProne](http://errorprone.info) in maven builds. Parser now reports description with link to external documentation.
-- [API]: Added new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+- \[API\]: Added new base class [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line
 - [JENKINS-55442](https://issues.jenkins-ci.org/browse/JENKINS-55442), 
 [PR#78](https://github.com/jenkinsci/analysis-model/pull/78): Added include/exclude filters for issue messages. 
@@ -95,7 +137,7 @@ that provides a lookahead of the next report line
 ### Changed
 - Improved maven console parser: use the maven goal that logs a warning as issue type. Ignore all warnings
 from the maven-compiler-plugin since these are already picked up by the Java parser.
-- [API]: Replaced `CheckForNull` annotations with `Nullable` in order to enable [NullAway](https://github.com/uber/NullAway) checker in build
+- \[API\]: Replaced `CheckForNull` annotations with `Nullable` in order to enable [NullAway](https://github.com/uber/NullAway) checker in build
 
 ### Fixed
 - [PR#74](https://github.com/jenkinsci/analysis-model/pull/74): IntelParser: Check for project number in regex.
