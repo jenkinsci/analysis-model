@@ -80,8 +80,8 @@ public class FileReaderFactory extends ReaderFactory {
     private Charset detectCharset(final InputStream inputStream) throws IOException {
         Charset result = null;
 
-        try {
-            XMLStreamReader xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(new InputStreamReader(inputStream));
+        try (Reader reader = new InputStreamReader(inputStream)) {
+            XMLStreamReader xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(reader);
             String encodingTitle = xmlStreamReader.getCharacterEncodingScheme();
             if (encodingTitle != null) {
                 result = Charset.forName(encodingTitle);
@@ -90,7 +90,6 @@ public class FileReaderFactory extends ReaderFactory {
         catch (XMLStreamException e) {
             // Charset couldn't be detected
         }
-        inputStream.close();
 
         return result;
     }
