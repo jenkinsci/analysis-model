@@ -39,9 +39,9 @@ public class GhsMultiParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(3));
-        StringBuilder messageBuilder = new StringBuilder(matcher.group(5));
-        messageBuilder.append("\n");
+        StringBuilder messageBuilder = new StringBuilder(matcher.group(5)).append("\n");
 
+        // Go through all following lines appending the message until a line with only the ^ Symbol is found
         boolean messageEndFound = false;
         while (!messageEndFound && lookahead.hasNext()) {
             String messageLine = lookahead.next();
@@ -53,6 +53,7 @@ public class GhsMultiParser extends LookaheadParser {
                 messageBuilder.append(messageLine).append("\n");
             }
         }
+
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(4))
