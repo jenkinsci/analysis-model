@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333): 
 MsBuild Parser: Treat errors as errors and not warning (high).
+- [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647): 
+MsBuild Parser: Update regular expression to detect logging prefixes.
 
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular

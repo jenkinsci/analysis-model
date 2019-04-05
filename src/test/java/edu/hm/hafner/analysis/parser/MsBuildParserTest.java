@@ -706,7 +706,7 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Update regular expresion to detect logging prefixes like 17:4>.
+     * Update regular expression to detect logging prefixes like <pre>17:4></pre>.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-48647">Issue 48647</a>
      */
