@@ -1,0 +1,43 @@
+<issues>
+    <issue>
+        <fileName>File 1</fileName>
+        <lineStart>1</lineStart>
+        <lineEnd>2</lineEnd>
+        <columnStart>3</columnStart>
+        <columnEnd>4</columnEnd>
+        <lineRanges/>
+        <category>Category 1</category>
+        <type>Type 1</type>
+        <severity>info</severity>
+        <message>Message 1</message>
+        <description>Description 1</description>
+        <packageName>Package 1</packageName>
+        <moduleName>Module 1</moduleName>
+        <origin>Origin 1</origin>
+        <reference>Reference 1</reference>
+        <fingerprint>Fingerprint 1</fingerprint>
+        <additionalProperties>Property 1, Property 2</additionalProperties>
+    </issue>
+    <issue>
+        <fileName>File 2</fileName>
+        <lineStart>21</lineStart>
+        <lineEnd>22</lineEnd>
+        <columnStart>23</columnStart>
+        <columnEnd>24</columnEnd>
+        <lineRanges/>
+        <category>Category 2</category>
+        <type>Type 2</type>
+        <severity>error</severity>
+        <message>Message 2</message>
+        <description>Description 2</description>
+        <packageName>Package 2</packageName>
+        <moduleName>Module 2</moduleName>
+        <origin>Origin 2</origin>
+        <reference>Reference 2</reference>
+        <fingerprint>Fingerprint 2</fingerprint>
+        <additionalProperties>Property 21, Property 22</additionalProperties>
+    </issue>
+    <issue>
+
+    </issue>
+</issues>
