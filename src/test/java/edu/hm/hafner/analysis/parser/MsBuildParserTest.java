@@ -714,8 +714,8 @@ class MsBuildParserTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
-                .hasSize(6)
-                .hasSeverities(2, 0, 3, 1);
+                .hasSize(8)
+                .hasSeverities(4, 0, 3, 1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("Src/Parser/CSharp/cs.ATG")
@@ -789,6 +789,30 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasLineEnd(5)
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
+
+        softly.assertThat(report.get(6))
+                .hasFileName("x/msbuild/normal/abc.h")
+                .hasCategory("X3004")
+                .hasSeverity(Severity.ERROR)
+                .hasMessage("undeclared identifier")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(29)
+                .hasLineEnd(29)
+                .hasColumnStart(53)
+                .hasColumnEnd(53);
+
+        softly.assertThat(report.get(7))
+                .hasFileName("x/msbuild/no/category/abc.h")
+                .hasCategory("")
+                .hasSeverity(Severity.ERROR)
+                .hasMessage("use of undeclared identifier")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(334)
+                .hasLineEnd(334)
+                .hasColumnStart(3)
+                .hasColumnEnd(3);
     }
 
     @Override

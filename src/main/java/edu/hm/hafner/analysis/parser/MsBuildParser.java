@@ -22,7 +22,7 @@ public class MsBuildParser extends RegexpLineParser {
     private static final String MS_BUILD_WARNING_PATTERN
             = "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])|"
             + ANT_TASK + "(?:(?:\\s*\\d+>)?(?:(?:(?:(.*)\\((\\d*)(?:,(\\d+))?.*\\)|.*LINK)\\s*:|"
-            + "(.*):)\\s*([A-z-_]*\\s?(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*([A-Za-z0-9\\-_]+)"
+            + "(.*):)\\s*([A-z-_]*\\s?(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*([A-Za-z0-9\\-_]+)?"
             + "\\s*:\\s(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*(.*?)(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
             + "|(.*)\\s*:.*error\\s*(LNK[0-9]+):\\s*(.*)))$";
 
@@ -63,7 +63,7 @@ public class MsBuildParser extends RegexpLineParser {
         }
 
         String category = matcher.group(9);
-        if ("Expected".matches(category)) {
+        if (category != null && "Expected".matches(category)) {
             return Optional.empty();
         }
         return builder.setLineStart(matcher.group(5))
@@ -84,6 +84,7 @@ public class MsBuildParser extends RegexpLineParser {
      */
     private String determineFileName(final Matcher matcher) {
         String fileName;
+
         if (StringUtils.isNotBlank(matcher.group(3))) {
             fileName = matcher.group(3);
         }

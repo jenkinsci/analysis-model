@@ -13,6 +13,8 @@ Added a parser for CMake warnings.
 Added a parser for JSON output from Cargo.
 
 ### Fixed
+- [JENKINS-38685](https://issues.jenkins-ci.org/browse/JENKINS-38685)
+MsBuild parser: Allow MSBuild errors without category.
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333): 
 MsBuild Parser: Treat errors as errors and not warning (high).
 - [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737),
