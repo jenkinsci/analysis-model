@@ -6,15 +6,18 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpDocumentParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the YUI Compressor warnings.
  */
-public class YuiCompressorParser extends RegexpDocumentParser {
+public class YuiCompressorParser extends LookaheadParser {
     private static final long serialVersionUID = -4807932429496693096L;
-    private static final String YUI_COMPRESSOR_WARNING_PATTERN = "\\[WARNING\\] (.*)\\r?\\n^(.*)$";
+    private static final String YUI_COMPRESSOR_WARNING_PATTERN = "\\[WARNING\\] (.*)";
 
     private static final Pattern UNUSED_SYMBOL_PATTERN = Pattern
             .compile("The symbol [^ ]+ is declared but is apparently never used.*");
@@ -31,17 +34,25 @@ public class YuiCompressorParser extends RegexpDocumentParser {
      * Creates a new instance of {@code YuiCompressorParser}.
      */
     public YuiCompressorParser() {
-        super(YUI_COMPRESSOR_WARNING_PATTERN, true);
+        super(YUI_COMPRESSOR_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String messageHeader = matcher.group(1);
-        CategoryAndPriority categoryAndPriority = getCategoryAndPriority(messageHeader);
-        String messageDetails = matcher.group(2);
-        String message = messageHeader + " [" + messageDetails + "]";
-        return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
-                             .setMessage(message).setSeverity(categoryAndPriority.getPriority()).buildOptional();
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
+        if(lookahead.hasNext()){
+            String messageHeader = matcher.group(1);
+            String messageDetails = lookahead.next();
+
+            CategoryAndPriority categoryAndPriority = getCategoryAndPriority(messageHeader);
+
+            String message = messageHeader + " [" + messageDetails + "]";
+
+            return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
+                    .setMessage(message).setSeverity(categoryAndPriority.getPriority()).buildOptional();
+
+        } else{
+            throw new ParsingException("Issue has no message details line!");
+        }
     }
 
     @SuppressWarnings("npathcomplexity")
