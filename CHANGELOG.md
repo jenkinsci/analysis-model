@@ -21,6 +21,8 @@ Javac parser: Add the ability to parse warnings with preceding timestamps.
 - [JENKINS-56214](https://issues.jenkins-ci.org/browse/JENKINS-56214),
 [PR#142](https://github.com/jenkinsci/analysis-model/pull/142)
 ChackStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
+- [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647): 
+MsBuild Parser: Update regular expression to detect logging prefixes.
 
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
