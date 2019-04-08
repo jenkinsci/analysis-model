@@ -1,13 +1,23 @@
 package edu.hm.hafner.analysis.parser.xmlparser;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
+import javax.xml.xpath.XPathExpressionException;
+
+import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.assertj.Assertions;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests the class {@link XmlParser}.
@@ -16,13 +26,16 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  */
 public class XmlParserTest extends AbstractParserTest {
 
-    private static final String ISSUES_FILE = "xmlDefaultParser.xml";
+    private static final String ISSUES_DEFAULT_FILE = "xmlParserDefault.xml";
+    private static final String ISSUES_CUSTOM_FILE = "xmlParserCustom.xml";
+    private static final String ISSUES_EXCEPTION_FILE = "xmlParserException.xml";
+    private static final String CUSTOM_PATH = "/errorList/customIssue";
 
     /**
      * Creates a new instance of {@link XmlParserTest}.
      */
     public XmlParserTest() {
-        super(ISSUES_FILE);
+        super(ISSUES_DEFAULT_FILE);
     }
 
     @Override
@@ -90,7 +103,49 @@ public class XmlParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected IssueParser createParser() {
+    protected XmlParser createParser() {
         return new XmlParser();
     }
+
+    @Test
+    void shouldParseWithCustomPathAndMapper() {
+        XmlParser parser = new XmlParser(CUSTOM_PATH, new CustomXmlMapper());
+        Report report = parser.parse(createReaderFactory(ISSUES_CUSTOM_FILE));
+        Iterator<Issue> iterator = report.iterator();
+        assertSoftly(softly -> {
+            softly.assertThat(report)
+                    .hasSize(1);
+            softly.assertThat(iterator.next())
+                    .hasFileName("File 1")
+                    .hasLineStart(1)
+                    .hasLineEnd(2)
+                    .hasColumnStart(3)
+                    .hasColumnEnd(4)
+                    .hasCategory("Category 1")
+                    .hasType("Type 1")
+                    .hasSeverity(Severity.WARNING_LOW)
+                    .hasMessage("Message 1")
+                    .hasDescription("Description 1")
+                    .hasPackageName("Package 1")
+                    .hasModuleName("Module 1")
+                    .hasOrigin("Origin 1")
+                    .hasReference("Reference 1")
+                    .hasFingerprint("Fingerprint 1")
+                    .hasAdditionalProperties("Property 1, Property 2");
+        });
+
+    }
+
+    @Test
+    void shouldThrowParserException() {
+        XmlParser parser = new XmlParser();
+        SoftAssertions softly = new SoftAssertions();
+        Assertions.assertThatThrownBy(() -> parser.parse(createReaderFactory(ISSUES_EXCEPTION_FILE)))
+                .isInstanceOf(ParsingException.class);
+
+
+
+    }
+
+
 }

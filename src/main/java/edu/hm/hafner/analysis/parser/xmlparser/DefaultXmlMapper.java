@@ -6,8 +6,6 @@ import java.util.HashMap;
  *
  * This class tells the xml parser which xml-tag (value) contains the value for a specified issue property (key).
  *
- * Is a Mapper which maps properties by issue property name.
- *
  * @author Raphael Furch
  */
 public class DefaultXmlMapper extends HashMap<String, String> {

@@ -18,7 +18,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.XmlElementUtil;
 
 /**
- * A parser for the sbt scala compiler warnings. You should use -feature and -deprecation compiler opts.
+ * A general parser for XML-Files.
  *
  * @author Raphael Furch
  */
@@ -34,83 +34,92 @@ public class XmlParser extends IssueParser {
     /**
      * Identifier for line start.
      */
-    public static final String LINE_START = "lineStart";
+    static final String LINE_START = "lineStart";
 
     /**
      * Identifier for line end.
      */
-    public static final String LINE_END = "lineEnd";
+    static final String LINE_END = "lineEnd";
 
     /**
      * Identifier for column start.
      */
-    public static final String COLUMN_START = "columnStart";
+    static final String COLUMN_START = "columnStart";
 
     /**
      * Identifier for column end.
      */
-    public static final String COLUMN_END = "columnEnd";
+    static final String COLUMN_END = "columnEnd";
 
     /**
      * Identifier for category.
      */
-    public static final String CATEGORY = "category";
+    static final String CATEGORY = "category";
 
     /**
      * Identifier for type.
      */
-    public static final String TYPE = "type";
+    static final String TYPE = "type";
 
     /**
      * Identifier for severity.
      */
-    public static final String SEVERITY = "severity";
+    static final String SEVERITY = "severity";
 
     /**
      * Identifier for message.
      */
-    public static final String MESSAGE = "message";
+    static final String MESSAGE = "message";
 
     /**
      * Identifier for description.
      */
-    public static final String DESCRIPTION = "description";
+    static final String DESCRIPTION = "description";
 
     /**
      * Identifier for package name.
      */
-    public static final String PACKAGE_NAME = "packageName";
+    static final String PACKAGE_NAME = "packageName";
 
     /**
      * Identifier for module name.
      */
-    public static final String MODULE_NAME = "moduleName";
+    static final String MODULE_NAME = "moduleName";
 
     /**
      * Identifier for origin.
      */
-    public static final String ORIGIN = "origin";
+    static final String ORIGIN = "origin";
 
     /**
      * Identifier for reference.
      */
-    public static final String REFERENCE = "reference";
+    static final String REFERENCE = "reference";
 
     /**
      * Identifier for fingerprint.
      */
-    public static final String FINGERPRINT = "fingerprint";
+    static final String FINGERPRINT = "fingerprint";
 
     /**
      * Identifier for additional properties.
      */
-    public static final String ADDITIONAL_PROPERTIES = "additionalProperties";
+    static final String ADDITIONAL_PROPERTIES = "additionalProperties";
 
-
+    /**
+     * Map between XML-Tags and Issue-Properties.
+     */
     private final Map<String, String> propertyMapper;
 
+    /**
+     * Path to the issues within the XML-File.
+     */
     private final String xmlIssueRoot;
-    private static final String DEFAULT_ROOT = "/issues";
+
+    /**
+     * Default path to the issues within the XML-File.
+     */
+    private static final String DEFAULT_ROOT_PATH = "/issues/issue";
 
     /**
      * Create a new ReportParser object.
@@ -126,17 +135,12 @@ public class XmlParser extends IssueParser {
      * Create a new ReportParser object.
      */
     public XmlParser() {
-        this(DEFAULT_ROOT, new DefaultXmlMapper());
+        this(DEFAULT_ROOT_PATH, new DefaultXmlMapper());
     }
 
 
     @Override
-    public boolean accepts(final ReaderFactory readerFactory) {
-        return isXmlFile(readerFactory);
-    }
-
-    @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parse(final ReaderFactory readerFactory) {
         try {
             Document doc = readerFactory.readDocument();
 
@@ -146,7 +150,8 @@ public class XmlParser extends IssueParser {
             IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
-            NodeList issues = (NodeList)path.evaluate(xmlIssueRoot + "/issue", doc, XPathConstants.NODESET);
+            NodeList issues = (NodeList)path.evaluate(xmlIssueRoot, doc, XPathConstants.NODESET);
+            // Read all issues.
             for (Element issue : XmlElementUtil.nodeListToList(issues)) {
                 issueBuilder
                         .setFileName(notNullableRead(path, FILE_NAME, issue))
@@ -171,7 +176,7 @@ public class XmlParser extends IssueParser {
             }
             return report;
         }
-        catch (XPathExpressionException e) {
+        catch (ParsingException | XPathExpressionException e) {
             throw new ParsingException(e);
         }
     }
