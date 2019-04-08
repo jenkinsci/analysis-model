@@ -38,8 +38,9 @@ public class YuiCompressorParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
-        if(lookahead.hasNext()){
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
+        if (lookahead.hasNext()) {
             String messageHeader = matcher.group(1);
             String messageDetails = lookahead.next();
 
@@ -50,7 +51,8 @@ public class YuiCompressorParser extends LookaheadParser {
             return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
                     .setMessage(message).setSeverity(categoryAndPriority.getPriority()).buildOptional();
 
-        } else{
+        }
+        else {
             throw new ParsingException("Issue has no message details line!");
         }
     }
