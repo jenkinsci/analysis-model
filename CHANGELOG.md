@@ -24,6 +24,9 @@ ChackStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
 - [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647): 
 MsBuild Parser: Update regular expression to detect logging prefixes.
 
+- [JENKINS-52477](https://issues.jenkins-ci.org/browse/JENKINS-52477):
+FileReaderFactory: Detect charset from XML-header when not specified. 
+
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
 expression that matches the whole property value anymore. 
