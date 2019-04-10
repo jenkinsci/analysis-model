@@ -19,7 +19,7 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  *
  * @author Raphael Furch
  */
-public class XmlParserTest extends AbstractParserTest {
+class XmlParserTest extends AbstractParserTest {
 
     private static final String ISSUES_DEFAULT_FILE = "xmlParserDefault.xml";
     private static final String ISSUES_CUSTOM_FILE = "xmlParserCustom.xml";
@@ -134,7 +134,6 @@ public class XmlParserTest extends AbstractParserTest {
     @Test
     void shouldThrowParserException() {
         XmlParser parser = new XmlParser();
-        SoftAssertions softly = new SoftAssertions();
         Assertions.assertThatThrownBy(() -> parser.parse(createReaderFactory(ISSUES_EXCEPTION_FILE)))
                 .isInstanceOf(ParsingException.class);
 
