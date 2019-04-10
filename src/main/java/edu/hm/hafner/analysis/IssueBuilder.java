@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
+import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 import static edu.hm.hafner.util.IntegerParser.*;
@@ -31,7 +32,7 @@ import static edu.hm.hafner.util.IntegerParser.*;
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
 public class IssueBuilder {
 
-    private static TreeStringBuilder treeStringBuilder = new TreeStringBuilder();
+    private TreeStringBuilder treeStringBuilder = new TreeStringBuilder();
 
     private int lineStart = 0;
     private int lineEnd = 0;
@@ -236,7 +237,8 @@ public class IssueBuilder {
         return issue;
     }
 
-    protected static TreeString treeStringOfFileName(@Nullable final String fileName) {
+    @VisibleForTesting
+    TreeString treeStringOfFileName(@Nullable final String fileName) {
         return treeStringBuilder.intern(normalizeFileName(fileName));
     }
 

@@ -21,11 +21,10 @@ import static java.util.Collections.*;
  */
 class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
-    private static final TreeStringBuilder treeStringBuilder = new TreeStringBuilder();
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
     static final String FILE_NAME = "C:/users/tester/file-name";
-    static final TreeString FILE_NAME_TS = treeStringBuilder.intern(FILE_NAME);
-    private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+    static final TreeString FILE_NAME_TS = TREE_STRING_BUILDER.intern(FILE_NAME);
 
     static final int LINE_START = 1;
     static final int LINE_END = 2;
@@ -42,7 +41,7 @@ class IssueTest extends SerializableTest<Issue> {
     static final String DESCRIPTION_NOT_STRIPPED = "    description  ";
     static final String EMPTY = "";
     static final String UNDEFINED = "-";
-    static final TreeString UNDEFINED_TS = treeStringBuilder.intern(UNDEFINED);
+    static final TreeString UNDEFINED_TS = TREE_STRING_BUILDER.intern(UNDEFINED);
     static final String FINGERPRINT = "fingerprint";
     static final String ORIGIN = "origin";
     static final String REFERENCE = "reference";
@@ -165,7 +164,7 @@ class IssueTest extends SerializableTest<Issue> {
         issue.setModuleName(moduleName);
         String packageName = "new-package";
         issue.setPackageName(packageName);
-        TreeString fileName = treeStringBuilder.intern("new-file");
+        TreeString fileName = TREE_STRING_BUILDER.intern("new-file");
         issue.setFileName(fileName);
         String fingerprint = "new-fingerprint";
         issue.setFingerprint(fingerprint);
@@ -277,22 +276,6 @@ class IssueTest extends SerializableTest<Issue> {
                     .contains(MESSAGE);
         });
     }
-
-    /*
-    Actually not needed at this test-class anymore, due to moving logic to IssueBuilder
-
-    @Test
-    void testFileNameBackslashConversion() {
-        Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
-                ADDITIONAL_PROPERTIES);
-
-        assertThat(issue).hasFileName(FILE_NAME);
-        
-        issue.setFileName(FILE_NAME_WITH_BACKSLASHES);
-        assertThat(issue).hasFileName(FILE_NAME);
-    }
-    */
 
     @Test
     void testMessageDescriptionStripped() {

@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
+import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
@@ -25,7 +26,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 @SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
-    protected static final String UNDEFINED = "-";
+    static final String UNDEFINED = "-";
 
     /**
      * Returns the value of the property with the specified name for a given issue instance.
@@ -191,7 +192,8 @@ public class Issue implements Serializable {
      *         the other issue to copy the properties from
      */
     protected Issue(final Issue copy) {
-        this(copy.fileName, copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(),
+        this(copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(),
+                copy.getColumnEnd(),
                 copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
                 copy.getSeverity(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
                 copy.getFingerprint(), copy.getAdditionalProperties(), copy.getId());
@@ -423,6 +425,17 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns the tree-string containing the name of the file that contains this issue. Typically this file name is the
+     * absolute name.
+     *
+     * @return the cached tree-string containing the name of the file that contains this issue
+     */
+    @VisibleForTesting
+    TreeString getFileNameTreeString() {
+        return fileName;
+    }
+
+    /**
      * Returns the folder that contains the affected file of this issue.
      *
      * @return the folder of the file that contains this issue
@@ -441,7 +454,7 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the base name of the file that contains this issue (i.e. the file name without the full path). 
+     * Returns the base name of the file that contains this issue (i.e. the file name without the full path).
      *
      * @return the base name of the file that contains this issue
      */
@@ -517,6 +530,16 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns the tree-string containing the detailed message for this issue.
+     *
+     * @return the message
+     */
+    @VisibleForTesting
+    TreeString getMessageTreeString() {
+        return message;
+    }
+
+    /**
      * Returns an additional description for this issue. Static analysis tools might provide some additional information
      * about this issue. This description may contain valid HTML.
      *
@@ -524,6 +547,17 @@ public class Issue implements Serializable {
      */
     public String getDescription() {
         return description.toString();
+    }
+
+    /**
+     * Returns the tree-string containing an additional description for this issue. Static analysis tools might provide some additional information
+     * about this issue. This description may contain valid HTML.
+     *
+     * @return the description
+     */
+    @VisibleForTesting
+    TreeString getDescriptionTreeString() {
+        return description;
     }
 
     /**
@@ -580,6 +614,16 @@ public class Issue implements Serializable {
      */
     public String getPackageName() {
         return packageName.toString();
+    }
+
+    /**
+     * Returns the name of the package or name space (or similar concept) that contains this issue as a tree-string.
+     *
+     * @return the package name
+     */
+    @VisibleForTesting
+    TreeString getPackageNameTreeString() {
+        return packageName;
     }
 
     /**
