@@ -16,7 +16,8 @@ import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
- * be set to their default value. <p>Example:</p>
+ * be set to their default value.
+ * <p>Example:</p>
  * <blockquote><pre>
  * Issue issue = new IssueBuilder()
  *                      .setFileName("affected.file")
@@ -30,9 +31,7 @@ import static edu.hm.hafner.util.IntegerParser.*;
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
 public class IssueBuilder {
-
     private TreeStringBuilder treeStringBuilder = new TreeStringBuilder();
-
     private int lineStart = 0;
     private int lineEnd = 0;
     private int columnStart = 0;
@@ -230,8 +229,9 @@ public class IssueBuilder {
      */
     public Issue build() {
         Issue issue = new Issue(treeStringOfFileName(fileName), lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, treeStringOfPackageName(packageName), moduleName, severity, message,
-                description, origin, reference, fingerprint, additionalProperties, id);
+                category, type, treeStringOfPackageName(packageName), moduleName, severity,
+                stripToEmptyTreeString(message), stripToEmptyTreeString(description), origin, reference, fingerprint,
+                additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }
@@ -239,6 +239,11 @@ public class IssueBuilder {
     @VisibleForTesting
     TreeString treeStringOfFileName(@Nullable final String fileName) {
         return treeStringBuilder.intern(normalizeFileName(fileName));
+    }
+
+    @VisibleForTesting
+    TreeString stripToEmptyTreeString(final String string) {
+        return treeStringBuilder.intern(StringUtils.stripToEmpty(string));
     }
 
     @VisibleForTesting

@@ -23,9 +23,11 @@ class IssueBuilderTest {
     private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
     private static final IssueBuilder ISSUE_BUILDER = new IssueBuilder();
     private static final Issue DEFAULT_ISSUE = new Issue(UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
-            null, null, UNDEFINED_TS, null, null, null, null, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(ISSUE_BUILDER.treeStringOfFileName(FILE_NAME), LINE_START, LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, ISSUE_BUILDER.treeStringOfPackageName(PACKAGE_NAME), MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
+            null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY_TS, null, null, null, null);
+    private static final Issue FILLED_ISSUE = new Issue(ISSUE_BUILDER.treeStringOfFileName(FILE_NAME), LINE_START,
+            LINE_END, COLUMN_START, COLUMN_END,
+            LINE_RANGES, CATEGORY, TYPE, ISSUE_BUILDER.treeStringOfPackageName(PACKAGE_NAME), MODULE_NAME, SEVERITY,
+            ISSUE_BUILDER.stripToEmptyTreeString(MESSAGE), ISSUE_BUILDER.stripToEmptyTreeString(DESCRIPTION), ORIGIN, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
 
@@ -285,6 +287,17 @@ class IssueBuilderTest {
         Issue issue = builder.setDescription("description").build();
         Issue anotherIssue = builder.setDescription("description").build();
 
+        assertThat(issue.getDescriptionTreeString()).isSameAs(anotherIssue.getDescriptionTreeString());
+    }
+
+    @Test
+    void testMessageDescriptionStripped() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setMessage("    message  ").setDescription("    description  ").build();
+        Issue anotherIssue = builder.setMessage("message").setDescription("description").build();
+
+        assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
         assertThat(issue.getDescriptionTreeString()).isSameAs(anotherIssue.getDescriptionTreeString());
     }
 }

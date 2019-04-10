@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.TreeString;
-import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
@@ -193,10 +192,10 @@ public class Issue implements Serializable {
      */
     protected Issue(final Issue copy) {
         this(copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(),
-                copy.getColumnEnd(),
-                copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageNameTreeString(), copy.getModuleName(),
-                copy.getSeverity(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
-                copy.getFingerprint(), copy.getAdditionalProperties(), copy.getId());
+                copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
+                copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
+                copy.getDescriptionTreeString(), copy.getOrigin(), copy.getReference(), copy.getFingerprint(),
+                copy.getAdditionalProperties(), copy.getId());
     }
 
     /**
@@ -245,7 +244,7 @@ public class Issue implements Serializable {
             @Nullable final String category, @Nullable final String type,
             final TreeString packageName, @Nullable final String moduleName,
             @Nullable final Severity severity,
-            @Nullable final String message, @Nullable final String description,
+            final TreeString message, final TreeString description,
             @Nullable final String origin, @Nullable final String reference,
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties) {
         this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName, moduleName,
@@ -298,11 +297,10 @@ public class Issue implements Serializable {
             final int columnEnd, @Nullable final LineRangeList lineRanges, @Nullable final String category,
             @Nullable final String type, final TreeString packageName,
             @Nullable final String moduleName, @Nullable final Severity severity,
-            @Nullable final String message, @Nullable final String description,
+            final TreeString message, final TreeString description,
             @Nullable final String origin, @Nullable final String reference,
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties,
             final UUID id) {
-        TreeStringBuilder builder = new TreeStringBuilder();
 
         this.fileName = fileName;
 
@@ -334,13 +332,12 @@ public class Issue implements Serializable {
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
 
-        //this.packageName = builder.intern(defaultString(packageName));
         this.packageName = packageName;
         this.moduleName = defaultString(moduleName);
 
         this.severity = severity == null ? Severity.WARNING_NORMAL : severity;
-        this.message = builder.intern(StringUtils.stripToEmpty(message));
-        this.description = builder.intern(StringUtils.stripToEmpty(description));
+        this.message = message;
+        this.description = description;
 
         this.origin = stripToEmpty(origin);
         this.reference = stripToEmpty(reference);
@@ -551,8 +548,8 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the tree-string containing an additional description for this issue. Static analysis tools might provide some additional information
-     * about this issue. This description may contain valid HTML.
+     * Returns the tree-string containing an additional description for this issue. Static analysis tools might provide
+     * some additional information about this issue. This description may contain valid HTML.
      *
      * @return the description
      */
@@ -618,7 +615,8 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the name of the package or name space (or similar concept) that contains this issue as a tree-string.
+     * Returns the tree-string containing the name of the package or name space (or similar concept) that contains this
+     * issue.
      *
      * @return the package name
      */
