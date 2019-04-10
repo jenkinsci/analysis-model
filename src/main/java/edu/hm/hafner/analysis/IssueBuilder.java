@@ -237,8 +237,8 @@ public class IssueBuilder {
     }
 
     @VisibleForTesting
-    TreeString treeStringOfFileName(@Nullable final String fileName) {
-        return treeStringBuilder.intern(normalizeFileName(fileName));
+    TreeString treeStringOfFileName(@Nullable final String str) {
+        return treeStringBuilder.intern(normalizeFileName(str));
     }
 
     @VisibleForTesting
@@ -247,8 +247,8 @@ public class IssueBuilder {
     }
 
     @VisibleForTesting
-    TreeString treeStringOfPackageName(@Nullable final String packageName) {
-        return treeStringBuilder.intern(defaultString(packageName));
+    TreeString treeStringOfPackageName(@Nullable final String str) {
+        return treeStringBuilder.intern(defaultString(str));
     }
 
     private static String normalizeFileName(@Nullable final String platformFileName) {
