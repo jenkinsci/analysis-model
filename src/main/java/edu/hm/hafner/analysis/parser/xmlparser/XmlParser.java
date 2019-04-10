@@ -111,10 +111,18 @@ public class XmlParser extends IssueParser {
      */
     private final Map<String, String> propertyMapper;
 
+
+    private Map<String, String> getPropertyMapper() {
+        return propertyMapper;
+    }
     /**
      * Path to the issues within the XML-File.
      */
     private final String xmlIssueRoot;
+    private String getXmlIssueRoot() {
+        return xmlIssueRoot;
+    }
+
 
     /**
      * Default path to the issues within the XML-File.
@@ -150,7 +158,7 @@ public class XmlParser extends IssueParser {
             IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
-            NodeList issues = (NodeList)path.evaluate(xmlIssueRoot, doc, XPathConstants.NODESET);
+            NodeList issues = (NodeList)path.evaluate(getXmlIssueRoot(), doc, XPathConstants.NODESET);
             // Read all issues.
             for (Element issue : XmlElementUtil.nodeListToList(issues)) {
                 issueBuilder
@@ -190,7 +198,7 @@ public class XmlParser extends IssueParser {
      * @throws XPathExpressionException error.
      */
     private String notNullableRead(final XPath path, final String value, final Element issue) throws XPathExpressionException {
-        String readValue = path.evaluate(propertyMapper.get(value), issue);
+        String readValue = path.evaluate(getPropertyMapper().get(value), issue);
         return readValue != null && !"".equals(readValue) ? readValue : "-";
     }
 

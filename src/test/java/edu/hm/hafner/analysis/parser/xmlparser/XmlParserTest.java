@@ -1,16 +1,11 @@
 package edu.hm.hafner.analysis.parser.xmlparser;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-
-import javax.xml.xpath.XPathExpressionException;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -34,7 +29,7 @@ public class XmlParserTest extends AbstractParserTest {
     /**
      * Creates a new instance of {@link XmlParserTest}.
      */
-    public XmlParserTest() {
+    XmlParserTest() {
         super(ISSUES_DEFAULT_FILE);
     }
 
