@@ -36,8 +36,6 @@ public abstract class SonarQubeParser extends IssueParser {
     /** issue.message attribute. */
     private static final String ISSUE_MESSAGE = "message";
     /** issue.line attribute. */
-    private static final String ISSUE_LINE = "line";
-    /** issue.line attribute. */
     private static final String ISSUE_SEVERITY = "severity";
     /** issue.type attribute. */
     private static final String ISSUE_TYPE = "type";
@@ -144,6 +142,7 @@ public abstract class SonarQubeParser extends IssueParser {
         return new IssueBuilder()
                 .setFileName(parseFilename(issue))
                 .setLineStart(parseStart(issue))
+                .setLineEnd(parseEnd(issue))
                 .setType(parseType(issue))
                 .setCategory(CATEGORY_SONAR_QUBE)
                 .setMessage(parseMessage(issue))
@@ -198,9 +197,17 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the start.
      */
-    private int parseStart(final JSONObject issue) {
-        return issue.optInt(ISSUE_LINE, -1);
-    }
+    protected abstract int parseStart(JSONObject issue);
+
+    /**
+     * Default parse for end.
+     *
+     * @param issue
+     *         the object to parse.
+     *
+     * @return the end.
+     */
+    protected abstract int parseEnd(JSONObject issue);
 
     /**
      * Default parse for type.
