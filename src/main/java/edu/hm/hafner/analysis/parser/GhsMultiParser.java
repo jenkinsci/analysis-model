@@ -20,12 +20,14 @@ import edu.hm.hafner.util.LookaheadStream;
 public class GhsMultiParser extends LookaheadParser {
     private static final long serialVersionUID = 8149238560432255036L;
 
-    // Regex Pattern to match start of Warning / Error
-    // Groups are used to identify FileName, StartLine, Type, Category, Start of message
+    /**
+     *  Regex Pattern to match start of Warning / Error.
+     *  Groups are used to identify FileName, StartLine, Type, Category, Start of message.
+     */
     private static final String GHS_MULTI_WARNING_PATTERN =
             "(?:\\.|[A-Z]:)(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)";
 
-    // Regex Pattern to match the ending of the Warning / Error Message
+    /** Regex Pattern to match the ending of the Warning / Error Message. */
     private static final Pattern MESSAGE_END_PATTERN = Pattern.compile("\\s*\\^");
 
 
@@ -41,7 +43,7 @@ public class GhsMultiParser extends LookaheadParser {
         String type = StringUtils.capitalize(matcher.group(3));
         StringBuilder messageBuilder = new StringBuilder(matcher.group(5)).append("\n");
 
-        // Go through all following lines appending the message until a line with only the ^ Symbol is found
+        // Go through all following lines appending the message until a line with only the ^ Symbol is found.
         boolean messageEndFound = false;
         while (!messageEndFound && lookahead.hasNext()) {
             String messageLine = lookahead.next();
