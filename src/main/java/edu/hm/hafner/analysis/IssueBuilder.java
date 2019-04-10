@@ -16,8 +16,7 @@ import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
- * be set to their default value.
- * <p>Example:</p>
+ * be set to their default value. <p>Example:</p>
  * <blockquote><pre>
  * Issue issue = new IssueBuilder()
  *                      .setFileName("affected.file")
@@ -230,9 +229,9 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue = new Issue(treeStringOfFileName(fileName), lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, severity, message, description, origin, reference, fingerprint,
-                additionalProperties, id);
+        Issue issue = new Issue(treeStringOfFileName(fileName), lineStart, lineEnd, columnStart, columnEnd, lineRanges,
+                category, type, treeStringOfPackageName(packageName), moduleName, severity, message,
+                description, origin, reference, fingerprint, additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }
@@ -240,6 +239,11 @@ public class IssueBuilder {
     @VisibleForTesting
     TreeString treeStringOfFileName(@Nullable final String fileName) {
         return treeStringBuilder.intern(normalizeFileName(fileName));
+    }
+
+    @VisibleForTesting
+    TreeString treeStringOfPackageName(@Nullable final String packageName) {
+        return treeStringBuilder.intern(defaultString(packageName));
     }
 
     private static String normalizeFileName(@Nullable final String platformFileName) {

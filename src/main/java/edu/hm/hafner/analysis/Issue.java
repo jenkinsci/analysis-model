@@ -194,7 +194,7 @@ public class Issue implements Serializable {
     protected Issue(final Issue copy) {
         this(copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(),
                 copy.getColumnEnd(),
-                copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
+                copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageNameTreeString(), copy.getModuleName(),
                 copy.getSeverity(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
                 copy.getFingerprint(), copy.getAdditionalProperties(), copy.getId());
     }
@@ -243,7 +243,7 @@ public class Issue implements Serializable {
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @Nullable final LineRangeList lineRanges,
             @Nullable final String category, @Nullable final String type,
-            @Nullable final String packageName, @Nullable final String moduleName,
+            final TreeString packageName, @Nullable final String moduleName,
             @Nullable final Severity severity,
             @Nullable final String message, @Nullable final String description,
             @Nullable final String origin, @Nullable final String reference,
@@ -296,7 +296,7 @@ public class Issue implements Serializable {
     @SuppressWarnings("ParameterNumber")
     protected Issue(final TreeString fileName, final int lineStart, final int lineEnd, final int columnStart,
             final int columnEnd, @Nullable final LineRangeList lineRanges, @Nullable final String category,
-            @Nullable final String type, @Nullable final String packageName,
+            @Nullable final String type, final TreeString packageName,
             @Nullable final String moduleName, @Nullable final Severity severity,
             @Nullable final String message, @Nullable final String description,
             @Nullable final String origin, @Nullable final String reference,
@@ -334,7 +334,8 @@ public class Issue implements Serializable {
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
 
-        this.packageName = builder.intern(defaultString(packageName));
+        //this.packageName = builder.intern(defaultString(packageName));
+        this.packageName = packageName;
         this.moduleName = defaultString(moduleName);
 
         this.severity = severity == null ? Severity.WARNING_NORMAL : severity;

@@ -33,6 +33,7 @@ class IssueTest extends SerializableTest<Issue> {
     static final String CATEGORY = "category";
     static final String TYPE = "type";
     static final String PACKAGE_NAME = "package-name";
+    static final TreeString PACKAGE_NAME_TS = TREE_STRING_BUILDER.intern(PACKAGE_NAME);
     static final String MODULE_NAME = "module-name";
     static final Severity SEVERITY = Severity.WARNING_HIGH;
     static final String MESSAGE = "message";
@@ -90,7 +91,7 @@ class IssueTest extends SerializableTest<Issue> {
     protected Issue createIssue(final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @Nullable final String category, @Nullable final String type,
-            @Nullable final String packageName, @Nullable final String moduleName,
+            final TreeString packageName, @Nullable final String moduleName,
             @Nullable final Severity priority, @Nullable final String message,
             @Nullable final String description, @Nullable final String origin,
             @Nullable final String reference, @Nullable final String fingerprint,
@@ -103,7 +104,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
         Issue issue = new Issue(FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
                 MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
@@ -184,7 +185,7 @@ class IssueTest extends SerializableTest<Issue> {
     @SuppressWarnings("NullAway")
     void testDefaultIssueNullStringsNegativeIntegers() {
         Issue issue = createIssue(UNDEFINED_TS, 0, 0, 0, 0,
-                null, null, null, null,
+                null, null, UNDEFINED_TS, null,
                 SEVERITY, null, null, null, null, null, null);
 
         assertIsDefaultIssue(issue);
@@ -193,7 +194,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void testDefaultIssueEmptyStringsNegativeIntegers() {
         Issue issue = createIssue(UNDEFINED_TS, -1, -1, -1, -1,
-                EMPTY, EMPTY, EMPTY, EMPTY, SEVERITY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+                EMPTY, EMPTY, UNDEFINED_TS, EMPTY, SEVERITY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
 
         assertIsDefaultIssue(issue);
     }
@@ -223,7 +224,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
         Issue issue = createIssue(FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE,
-                PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+                PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
         assertSoftly(softly -> {
@@ -238,7 +239,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void testNullPriorityDefaultsToNormal() {
         Issue issue = createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE,
-                PACKAGE_NAME, MODULE_NAME, null, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+                PACKAGE_NAME_TS, MODULE_NAME, null, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
         assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
@@ -258,7 +259,7 @@ class IssueTest extends SerializableTest<Issue> {
      * @return a correctly filled issue
      */
     protected Issue createFilledIssue() {
-        return createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME,
+        return createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME_TS,
                 MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
     }
 
@@ -280,7 +281,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void testMessageDescriptionStripped() {
         Issue issue = createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
                 REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
 
         assertSoftly(softly -> {
