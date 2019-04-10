@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line instead of using multi line parsing.
 
-## [4.2.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.1.0...analysis-model-4.2.0) - 2019-3-8
+## [5.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.1.0...analysis-model-5.0.0) - 2019-3-8
 
 ### Added
 - [PR#132](https://github.com/jenkinsci/analysis-model/pull/132): 
