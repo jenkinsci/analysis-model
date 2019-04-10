@@ -87,12 +87,12 @@ public class GnuFortranParser extends LookaheadParser {
         lookahead.next(); // Consume the empty line.
 
         // Check for two non empty lines now, one for the offending line one for a numbered indicator.
-        if (!lookahead.hasNext() || !NON_EMPTY_LINE_PATTERN.matcher(lookahead.peekNext()).matches()) {
+        if (!(lookahead.hasNext() && NON_EMPTY_LINE_PATTERN.matcher(lookahead.peekNext()).matches())) {
             return Optional.empty();
         }
         lookahead.next(); // Consume after match.
 
-        if (!lookahead.hasNext() || !NON_EMPTY_LINE_PATTERN.matcher(lookahead.peekNext()).matches()) {
+        if (!(lookahead.hasNext() && NON_EMPTY_LINE_PATTERN.matcher(lookahead.peekNext()).matches())) {
             return Optional.empty();
         }
         lookahead.next(); // Consume after match.

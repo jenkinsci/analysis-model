@@ -147,4 +147,15 @@ class GnuFortranParserTest extends AbstractParserTest {
                     .hasColumnStart(8);
         });
     }
+
+    /**
+     * Test some inputs which are not valid error messages.
+     * For these no issue should be created.
+     */
+    @Test
+    void testInvalidParser() {
+        Report warnings = parse("GnuFortranInvalid.txt");
+
+        assertThat(warnings).hasSize(0);
+    }
 }
