@@ -11,6 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.commons.io.input.BOMInputStream;
 
 import com.google.errorprone.annotations.MustBeClosed;
@@ -25,6 +29,8 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 public class FileReaderFactory extends ReaderFactory {
     private final Path file;
     private final String fileName;
+    private Charset charset;
+    private boolean charsetUndetected;
 
     /**
      * Creates a new factory to read the specified file with a given charset.
@@ -36,14 +42,29 @@ public class FileReaderFactory extends ReaderFactory {
      */
     public FileReaderFactory(final Path file, final @Nullable Charset charset) {
         super(charset);
-        
+
+        this.charset = charset;
+        charsetUndetected = charset == null;
         this.file = file;
         fileName = file.toAbsolutePath().toString().replace('\\', '/');
+    }
+
+    /**
+     * Creates a new factory to read the specified file. The charset will be detected from xml header.
+     *
+     * @param file
+     *         the file to open
+     */
+    public FileReaderFactory(final Path file) {
+        this(file, null);
     }
 
     @Override @MustBeClosed
     public Reader create() {
         try {
+            if (isCharsetUndetected()) {
+                setCharset(detectCharset(Files.newInputStream(file)));
+            }
             InputStream inputStream = Files.newInputStream(file);
 
             return new InputStreamReader(new BOMInputStream(inputStream), getCharset());
@@ -56,6 +77,23 @@ public class FileReaderFactory extends ReaderFactory {
         }
     }
 
+    private Charset detectCharset(final InputStream inputStream) throws IOException {
+        Charset result = null;
+
+        try (Reader reader = new InputStreamReader(inputStream)) {
+            XMLStreamReader xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(reader);
+            String encodingTitle = xmlStreamReader.getCharacterEncodingScheme();
+            if (encodingTitle != null) {
+                result = Charset.forName(encodingTitle);
+            }
+        }
+        catch (XMLStreamException e) {
+            // Charset couldn't be detected
+        }
+
+        return result;
+    }
+
     /**
      * Returns the absolute path of the resource. The file name uses UNIX path separators.
      *
@@ -64,5 +102,18 @@ public class FileReaderFactory extends ReaderFactory {
     @Override
     public String getFileName() {
         return fileName;
+    }
+
+    @Override
+    public Charset getCharset() {
+        return charset == null ? super.getCharset() : charset;
+    }
+
+    private void setCharset(final Charset charset) {
+        this.charset = charset;
+    }
+
+    private boolean isCharsetUndetected() {
+        return charsetUndetected;
     }
 }

@@ -65,6 +65,21 @@ class JavacParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parses a log with 3 valid and 3 invalid timestamp preceding warnings.
+     * This test is related to issue https://issues.jenkins-ci.org/browse/JENKINS-56737
+     */
+    @Test
+    void shouldParseTimestamps() {
+        Report warnings = parse("javac-timestamps.txt");
+
+        assertThat(warnings).hasSize(4);
+        assertThat(warnings.get(0)).hasMessage("Test1");
+        assertThat(warnings.get(1)).hasMessage("Test2");
+        assertThat(warnings.get(2)).hasMessage("Test3");
+        assertThat(warnings.get(3)).hasMessage("Test4");
+    }
+
+    /**
      * Parses a warning log with two false positives.
      *
      * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>

@@ -5,9 +5,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.0.0...master)
+
+### Added
+- [PR#132](https://github.com/jenkinsci/analysis-model/pull/132): 
+Added a parser for CMake warnings.
+- [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):
+Added a parser for JSON output from Cargo.
+
 ### Fixed
-- [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333): 
+- [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333),
+[PR#129](https://github.com/jenkinsci/analysis-model/pull/129): 
 MsBuild Parser: Treat errors as errors and not warning (high).
+- [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737),
+[PR#136](https://github.com/jenkinsci/analysis-model/pull/136)
+Javac parser: Add the ability to parse warnings with preceding timestamps.
+- [JENKINS-56214](https://issues.jenkins-ci.org/browse/JENKINS-56214),
+[PR#142](https://github.com/jenkinsci/analysis-model/pull/142)
+ChackStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
+- [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647),
+[PR#145](https://github.com/jenkinsci/analysis-model/pull/145): 
+MsBuild Parser: Update regular expression to detect logging prefixes.
+- [JENKINS-52477](https://issues.jenkins-ci.org/browse/JENKINS-52477),
+[PR#146](https://github.com/jenkinsci/analysis-model/pull/146):
+FileReaderFactory: Detect charset from XML-header when not specified. 
+
+### Changed
+- Filters now work on a substring of the property, you don't need to create a regular
+expression that matches the whole property value anymore. 
 
 ## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
 
@@ -18,6 +42,8 @@ Fixed filtering of multiline messages.
 DocFX Parser: Ignore Info messages and do not treat them as warnings.
 - [JENKINS-42823](https://issues.jenkins-ci.org/browse/JENKINS-42823): 
 MsBuild Parser: Fix false positive with parser.
+- [JENKINS-56526](https://issues.jenkins-ci.org/browse/JENKINS-56526): 
+Filters: let the message filter scan for texts in message **and** description.
 
 ### Removed
 - \[API\]: Deprecated and unused classes `DoxygenParser` and `DotNetAssembly` have been removed.

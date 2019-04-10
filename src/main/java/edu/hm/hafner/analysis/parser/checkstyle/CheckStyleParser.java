@@ -71,8 +71,8 @@ public class CheckStyleParser extends IssueParser {
             if (isValidWarning(file)) {
                 for (Error error : file.getErrors()) {
                     IssueBuilder builder = new IssueBuilder();
-                    mapPriority(error).ifPresent(builder::setSeverity);
 
+                    builder.guessSeverity(error.getSeverity());
                     String source = error.getSource();
                     builder.setType(getType(source));
                     builder.setCategory(getCategory(source));
@@ -93,19 +93,6 @@ public class CheckStyleParser extends IssueParser {
 
     private String getType(@Nullable final String source) {
         return StringUtils.substringAfterLast(source, ".");
-    }
-
-    private Optional<Severity> mapPriority(final Error error) {
-        if ("error".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_HIGH);
-        }
-        if ("warning".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_NORMAL);
-        }
-        if ("info".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_LOW);
-        }
-        return Optional.empty();
     }
 
     /**
