@@ -1,11 +1,12 @@
 package edu.hm.hafner.analysis;
 
-import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
+
+import edu.hm.hafner.util.ResourceTest;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
@@ -14,49 +15,58 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  *
  * @author Michael Schmid
  */
-class FileReaderFactoryTest {
+class FileReaderFactoryTest extends ResourceTest {
+    @Test
+    void shouldNotAccessInternet() {
+        FileReaderFactory factory = createFactory("eclipse-withinfo.xml", StandardCharsets.UTF_8);
+        Document document = factory.readDocument();
+
+        assertThat(document).isNotNull();
+    }
+
     @Test
     void useDefinedEncodingUtf8() {
-        FileReaderFactory sut = new FileReaderFactory(
-                new File("src/test/resources/edu/hm/hafner/analysis/encoded-with-UTF8.xml").toPath(),
-                StandardCharsets.UTF_8);
-        assertEncoding(sut, StandardCharsets.UTF_8);
+        FileReaderFactory factory = createFactory("encoded-with-UTF8.xml", StandardCharsets.UTF_8);
+
+        assertEncoding(factory, StandardCharsets.UTF_8);
     }
 
     @Test
     void detectEncodingOfUtf8XmlFile() {
-        FileReaderFactory sut = new FileReaderFactory(
-                new File("src/test/resources/edu/hm/hafner/analysis/encoded-with-UTF8.xml").toPath());
-        assertEncoding(sut, StandardCharsets.UTF_8);
+        FileReaderFactory factory = createFactory("encoded-with-UTF8.xml");
+        assertEncoding(factory, StandardCharsets.UTF_8);
     }
 
     @Test
     void useDefinedEncodingIso88591() {
-        FileReaderFactory sut = new FileReaderFactory(
-                new File("src/test/resources/edu/hm/hafner/analysis/encoded-with-ISO8859-1.xml").toPath(),
-                StandardCharsets.ISO_8859_1);
-        assertEncoding(sut, StandardCharsets.ISO_8859_1);
+        FileReaderFactory factory = createFactory("encoded-with-ISO8859-1.xml", StandardCharsets.ISO_8859_1);
+        assertEncoding(factory, StandardCharsets.ISO_8859_1);
     }
 
     @Test
     void detectEncodingOfIso88591XmlFile() {
-        FileReaderFactory sut = new FileReaderFactory(
-                new File("src/test/resources/edu/hm/hafner/analysis/encoded-with-ISO8859-1.xml").toPath());
-        assertEncoding(sut, StandardCharsets.ISO_8859_1);
+        FileReaderFactory factory = createFactory("encoded-with-ISO8859-1.xml");
+        assertEncoding(factory, StandardCharsets.ISO_8859_1);
     }
 
     @Test
     void detectEncodingWithoutEncodingXmlFile() {
-        FileReaderFactory sut = new FileReaderFactory(
-                new File("src/test/resources/edu/hm/hafner/analysis/encoded-without-encoding.xml").toPath());
-        assertEncoding(sut, StandardCharsets.UTF_8);
+        FileReaderFactory factory = createFactory("encoded-without-encoding.xml");
+        assertEncoding(factory, StandardCharsets.UTF_8);
     }
 
-    private void assertEncoding(final FileReaderFactory sut, final Charset charset) {
-        Document document = sut.readDocument();
-        assertThat(sut.getCharset()).isEqualTo(charset);
+    private void assertEncoding(final FileReaderFactory factory, final Charset charset) {
+        Document document = factory.readDocument();
+        assertThat(factory.getCharset()).isEqualTo(charset);
         assertThat(document.getElementsByTagName("text").item(0).getChildNodes().item(0).getNodeValue())
                 .isEqualTo("aä");
     }
 
+    private FileReaderFactory createFactory(final String fileName) {
+        return new FileReaderFactory(getResourceAsFile(fileName));
+    }
+
+    private FileReaderFactory createFactory(final String fileName, final Charset charset) {
+        return new FileReaderFactory(getResourceAsFile(fileName), charset);
+    }
 }
