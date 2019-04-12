@@ -11,8 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Added a parser for CMake warnings.
 - [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):
 Added a parser for JSON output from Cargo.
-- [PR#155](https://github.com/jenkinsci/analysis-model/pull/155):
-Added textRange to SonarQubeParser.
 
 ### Fixed
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333),
@@ -23,13 +21,16 @@ MsBuild Parser: Treat errors as errors and not warning (high).
 Javac parser: Add the ability to parse warnings with preceding timestamps.
 - [JENKINS-56214](https://issues.jenkins-ci.org/browse/JENKINS-56214),
 [PR#142](https://github.com/jenkinsci/analysis-model/pull/142)
-ChackStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
+CheckStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
 - [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647),
 [PR#145](https://github.com/jenkinsci/analysis-model/pull/145): 
 MsBuild Parser: Update regular expression to detect logging prefixes.
 - [JENKINS-52477](https://issues.jenkins-ci.org/browse/JENKINS-52477),
 [PR#146](https://github.com/jenkinsci/analysis-model/pull/146):
 FileReaderFactory: Detect charset from XML-header when not specified. 
+- [JENKINS-52462](https://issues.jenkins-ci.org/browse/JENKINS-52462),
+[PR#155](https://github.com/jenkinsci/analysis-model/pull/155):
+SonarQubeParser: Use `textRange` when computing affected source code line.
 
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
