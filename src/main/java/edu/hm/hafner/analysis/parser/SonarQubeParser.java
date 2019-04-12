@@ -106,7 +106,7 @@ public abstract class SonarQubeParser extends IssueParser {
             if (object instanceof JSONObject) {
                 JSONObject issue = (JSONObject) object;
                 if (filterIssue(issue)) {
-                    report.add(createIssueFormJsonObject(issue));
+                    report.add(createIssueFromJsonObject(issue));
                 }
             }
         }
@@ -138,7 +138,7 @@ public abstract class SonarQubeParser extends IssueParser {
         return true; // Parse all issues by default
     }
 
-    private Issue createIssueFormJsonObject(final JSONObject issue) {
+    private Issue createIssueFromJsonObject(final JSONObject issue) {
         return new IssueBuilder()
                 .setFileName(parseFilename(issue))
                 .setLineStart(parseStart(issue))
