@@ -16,6 +16,9 @@ Added a parser for JSON output from Cargo.
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333),
 [PR#129](https://github.com/jenkinsci/analysis-model/pull/129): 
 MsBuild Parser: Treat errors as errors and not warning (high).
+- [JENKINS-56450](https://issues.jenkins-ci.org/browse/JENKINS-56450): 
+[PR#158](https://github.com/jenkinsci/analysis-model/pull/158): 
+MSBuild Parser: Fix error when compiling with /MP.
 - [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737),
 [PR#136](https://github.com/jenkinsci/analysis-model/pull/136)
 Javac parser: Add the ability to parse warnings with preceding timestamps.
