@@ -24,7 +24,7 @@ class SonarQubeIssuesParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(32);
+        softly.assertThat(report).hasSize(32).hasDuplicatesSize(0);
         softly.assertThat(report.get(0))
                 .hasFileName("src/com/tsystems/sbs/jenkinslib/SbsBuild.groovy")
                 .hasLineStart(631)
