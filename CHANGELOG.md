@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Added a parser for CMake warnings.
 - [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):
 Added a parser for JSON output from Cargo.
+- [PR#155](https://github.com/jenkinsci/analysis-model/pull/155):
+Added textRange to SonarQubeParser.
 
 ### Fixed
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333),
