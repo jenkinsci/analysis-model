@@ -745,8 +745,8 @@ class MsBuildParserTest extends AbstractParserTest {
         assertSoftly(softly -> {
             Iterator<Issue> iterator = report.iterator();
             softly.assertThat(report)
-                .hasSize(1)
-                .hasSeverities(0, 0, 1, 0);
+                .hasSize(2)
+                .hasSeverities(0, 0, 2, 0);
             softly.assertThat(iterator.next())
                 .hasFileName("C:/Jenkins/workspace/windows-kicad-msvc-tom/build/release/cpu/amd64/label/msvc/src/include/footprint_info.h")
                 .hasCategory("C4251")
@@ -756,6 +756,15 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasPackageName("-")
                 .hasLineStart(320)
                 .hasLineEnd(320);
+            softly.assertThat(iterator.next())
+                .hasFileName("C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/include/memory")
+                .hasCategory("C4244")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("'argument': conversion from '_Ty' to 'int', possible loss of data")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(1801)
+                .hasLineEnd(1801);
         });
     }
 
