@@ -14,24 +14,57 @@ import static org.assertj.core.api.Assertions.*;
  * @author Kohsuke Kawaguchi
  */
 class TreeStringBuilderTest {
+    @SuppressWarnings("ConstantConditions")
     @Test
     void shouldCreateSimpleTreeStringsWithBuilder() {
         TreeStringBuilder builder = new TreeStringBuilder();
-        assertThat(builder.intern("foo")).hasToString("foo");
+        TreeString foo = builder.intern("foo");
+        assertThat(foo).hasToString("foo");
+        assertThat(foo.getLabel()).isEqualTo("foo");
 
         TreeString treeString = builder.intern("foo/bar/zot");
         assertThat(treeString).hasToString("foo/bar/zot");
-        assertThat(builder.intern(treeString)).hasToString("foo/bar/zot");
+        assertThat(treeString.getLabel()).isEqualTo("/bar/zot");
+        assertThat(treeString.getParent()).isSameAs(foo);
+
+        TreeString interned = builder.intern(treeString);
+        assertThat(interned).hasToString("foo/bar/zot");
+        assertThat(interned.getLabel()).isEqualTo("/bar/zot");
+
+        assertThat(treeString).isSameAs(interned);
 
         assertThat(builder.intern("")).hasToString("");
 
-        assertThat(builder.intern("foo/bar/xxx")).hasToString("foo/bar/xxx");
-        // middle node
+        TreeString otherMiddleChild = builder.intern("foo/bar/xxx");
+        assertThat(otherMiddleChild).hasToString("foo/bar/xxx");
+        assertThat(otherMiddleChild.getLabel()).isEqualTo("xxx");
+
+        assertThat(otherMiddleChild.getParent()).isSameAs(treeString.getParent());
+        assertThat(otherMiddleChild.getParent().getParent()).isSameAs(foo);
+
+        // middle node changed label but not toString
+        assertThat(treeString.getLabel()).isEqualTo("zot");
         assertThat(treeString).hasToString("foo/bar/zot");
 
-        // Utility methods:
         assertThat(builder.intern("").isBlank()).isTrue();
         assertThat(TreeString.valueOf("foo/bar/zot")).hasToString("foo/bar/zot");
+    }
+
+    @Test
+    void shouldProvideProperEqualsAndHashCode() {
+        TreeStringBuilder builder = new TreeStringBuilder();
+
+        TreeString foo = builder.intern("foo");
+        TreeString bar = builder.intern("foo/bar");
+        TreeString zot = builder.intern("foo/bar/zot");
+
+        assertThat(new TreeStringBuilder().intern("foo")).isEqualTo(foo);
+        assertThat(new TreeStringBuilder().intern("foo/bar")).isEqualTo(bar);
+        assertThat(new TreeStringBuilder().intern("foo/bar/zot")).isEqualTo(zot);
+
+        assertThat(new TreeStringBuilder().intern("foo")).hasSameHashCodeAs(foo);
+        assertThat(new TreeStringBuilder().intern("foo/bar")).hasSameHashCodeAs(bar);
+        assertThat(new TreeStringBuilder().intern("foo/bar/zot")).hasSameHashCodeAs(zot);
     }
 
     /**

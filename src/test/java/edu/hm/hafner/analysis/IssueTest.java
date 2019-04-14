@@ -21,11 +21,10 @@ import static java.util.Collections.*;
  */
 class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
-    private static final TreeStringBuilder treeStringBuilder = new TreeStringBuilder();
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
     static final String FILE_NAME = "C:/users/tester/file-name";
-    static final TreeString FILE_NAME_TS = treeStringBuilder.intern(FILE_NAME);
-    private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+    static final TreeString FILE_NAME_TS = TREE_STRING_BUILDER.intern(FILE_NAME);
 
     static final int LINE_START = 1;
     static final int LINE_END = 2;
@@ -34,15 +33,17 @@ class IssueTest extends SerializableTest<Issue> {
     static final String CATEGORY = "category";
     static final String TYPE = "type";
     static final String PACKAGE_NAME = "package-name";
+    static final TreeString PACKAGE_NAME_TS = TREE_STRING_BUILDER.intern(PACKAGE_NAME);
     static final String MODULE_NAME = "module-name";
     static final Severity SEVERITY = Severity.WARNING_HIGH;
     static final String MESSAGE = "message";
-    static final String MESSAGE_NOT_STRIPPED = "    message  ";
+    static final TreeString MESSAGE_TS = TREE_STRING_BUILDER.intern(MESSAGE);
     static final String DESCRIPTION = "description";
-    static final String DESCRIPTION_NOT_STRIPPED = "    description  ";
+    static final TreeString DESCRIPTION_TS = TREE_STRING_BUILDER.intern(DESCRIPTION);
     static final String EMPTY = "";
+    static final TreeString EMPTY_TS = TREE_STRING_BUILDER.intern(EMPTY);
     static final String UNDEFINED = "-";
-    static final TreeString UNDEFINED_TS = treeStringBuilder.intern(UNDEFINED);
+    static final TreeString UNDEFINED_TS = TREE_STRING_BUILDER.intern(UNDEFINED);
     static final String FINGERPRINT = "fingerprint";
     static final String ORIGIN = "origin";
     static final String REFERENCE = "reference";
@@ -91,9 +92,9 @@ class IssueTest extends SerializableTest<Issue> {
     protected Issue createIssue(final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @Nullable final String category, @Nullable final String type,
-            @Nullable final String packageName, @Nullable final String moduleName,
-            @Nullable final Severity priority, @Nullable final String message,
-            @Nullable final String description, @Nullable final String origin,
+            final TreeString packageName, @Nullable final String moduleName,
+            @Nullable final Severity priority, final TreeString message,
+            final TreeString description, @Nullable final String origin,
             @Nullable final String reference, @Nullable final String fingerprint,
             final String additionalProperties) {
         return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type, packageName,
@@ -104,8 +105,8 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
         Issue issue = new Issue(FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY,
-                MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION_TS, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
     }
@@ -165,7 +166,7 @@ class IssueTest extends SerializableTest<Issue> {
         issue.setModuleName(moduleName);
         String packageName = "new-package";
         issue.setPackageName(packageName);
-        TreeString fileName = treeStringBuilder.intern("new-file");
+        TreeString fileName = TREE_STRING_BUILDER.intern("new-file");
         issue.setFileName(fileName);
         String fingerprint = "new-fingerprint";
         issue.setFingerprint(fingerprint);
@@ -185,8 +186,8 @@ class IssueTest extends SerializableTest<Issue> {
     @SuppressWarnings("NullAway")
     void testDefaultIssueNullStringsNegativeIntegers() {
         Issue issue = createIssue(UNDEFINED_TS, 0, 0, 0, 0,
-                null, null, null, null,
-                SEVERITY, null, null, null, null, null, null);
+                null, null, UNDEFINED_TS, null,
+                SEVERITY, EMPTY_TS, EMPTY_TS, null, null, null, null);
 
         assertIsDefaultIssue(issue);
     }
@@ -194,7 +195,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void testDefaultIssueEmptyStringsNegativeIntegers() {
         Issue issue = createIssue(UNDEFINED_TS, -1, -1, -1, -1,
-                EMPTY, EMPTY, EMPTY, EMPTY, SEVERITY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+                EMPTY, EMPTY, UNDEFINED_TS, EMPTY, SEVERITY, EMPTY_TS, EMPTY_TS, EMPTY, EMPTY, EMPTY, EMPTY);
 
         assertIsDefaultIssue(issue);
     }
@@ -224,7 +225,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
         Issue issue = createIssue(FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE,
-                PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+                PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION_TS, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
         assertSoftly(softly -> {
@@ -239,7 +240,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void testNullPriorityDefaultsToNormal() {
         Issue issue = createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE,
-                PACKAGE_NAME, MODULE_NAME, null, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+                PACKAGE_NAME_TS, MODULE_NAME, null, MESSAGE_TS, DESCRIPTION_TS, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
         assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
@@ -259,8 +260,8 @@ class IssueTest extends SerializableTest<Issue> {
      * @return a correctly filled issue
      */
     protected Issue createFilledIssue() {
-        return createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME,
-                MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
+        return createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME_TS,
+                MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION_TS, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
     }
 
     @Test
@@ -275,35 +276,6 @@ class IssueTest extends SerializableTest<Issue> {
                     .contains(CATEGORY)
                     .contains(TYPE)
                     .contains(MESSAGE);
-        });
-    }
-
-    /*
-    Actually not needed at this test-class anymore, due to moving logic to IssueBuilder
-
-    @Test
-    void testFileNameBackslashConversion() {
-        Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
-                ADDITIONAL_PROPERTIES);
-
-        assertThat(issue).hasFileName(FILE_NAME);
-        
-        issue.setFileName(FILE_NAME_WITH_BACKSLASHES);
-        assertThat(issue).hasFileName(FILE_NAME);
-    }
-    */
-
-    @Test
-    void testMessageDescriptionStripped() {
-        Issue issue = createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
-                REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
-
-        assertSoftly(softly -> {
-            softly.assertThat(issue)
-                    .hasMessage(MESSAGE)
-                    .hasDescription(DESCRIPTION);
         });
     }
 

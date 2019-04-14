@@ -705,6 +705,32 @@ class MsBuildParserTest extends AbstractParserTest {
         });
     }
 
+    /**
+     * Update regular expression to detect logging prefixes like <pre>17:4></pre>.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-48647">Issue 48647</a>
+     */
+    @Test
+    void issue48647() {
+        Report warnings = parse("issue48647.txt");
+
+        assertThat(warnings)
+                .hasSize(1)
+                .hasSeverities(0, 0, 1, 0);
+
+        assertSoftly(softly -> softly.assertThat(warnings.get(0))
+                .hasFileName("Filters/FilterBuilder.cs")
+                .hasCategory("CS0168")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("There is maybe a mistake.")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(229)
+                .hasLineEnd(229)
+                .hasColumnStart(34)
+                .hasColumnEnd(34));
+    }
+
     private ReaderFactory createIssue2383File() {
         return createReaderFactory("file.txt", IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
                 + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
