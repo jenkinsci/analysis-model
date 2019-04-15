@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
@@ -19,10 +20,15 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * @author Marcel Binder
  */
 class IssueBuilderTest {
-    private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, new LineRangeList(),
-            null, null, null, null, null, null, null, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
+    private static final String FILE_NAME = "C:/users/tester/file-name";
+    private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+    private static final IssueBuilder ISSUE_BUILDER = new IssueBuilder();
+    private static final Issue DEFAULT_ISSUE = new Issue(UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
+            null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null);
+    private static final Issue FILLED_ISSUE = new Issue(TreeString.valueOf(FILE_NAME), LINE_START,
+            LINE_END, COLUMN_START, COLUMN_END,
+            LINE_RANGES, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
+            TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
 
@@ -234,5 +240,55 @@ class IssueBuilderTest {
 
         builder.setId(id);
         assertThat(builder.build()).hasId(id);
+    }
+
+    @Test
+    void testFileNameBackslashConversion() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setFileName(FILE_NAME_WITH_BACKSLASHES).build();
+
+        assertThat(issue).hasFileName(FILE_NAME);
+    }
+
+    @Test
+    void shouldCacheFileName() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setFileName("fileName").build();
+        Issue anotherIssue = builder.setFileName("fileName").build();
+
+        assertThat(issue.getFileNameTreeString()).isSameAs(anotherIssue.getFileNameTreeString());
+    }
+
+    @Test
+    void shouldCachePackageName() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setPackageName("packageName").build();
+        Issue anotherIssue = builder.setFileName("packageName").build();
+
+        assertThat(issue.getPackageNameTreeString()).isSameAs(anotherIssue.getPackageNameTreeString());
+    }
+
+    @Test
+    void shouldCacheMessage() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setMessage("message").build();
+        Issue anotherIssue = builder.setMessage("message").build();
+
+        assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+    }
+
+    @Test
+    void testMessageDescriptionStripped() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setMessage("    message  ").setDescription("    description  ").build();
+        Issue anotherIssue = builder.setMessage("message").setDescription("description").build();
+
+        assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+        assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
     }
 }
