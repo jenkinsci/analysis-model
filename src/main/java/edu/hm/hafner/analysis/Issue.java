@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.TreeString;
-import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
@@ -430,7 +429,6 @@ public class Issue implements Serializable {
      *
      * @return the cached tree-string containing the name of the file that contains this issue
      */
-    @VisibleForTesting
     TreeString getFileNameTreeString() {
         return fileName;
     }
@@ -534,7 +532,6 @@ public class Issue implements Serializable {
      *
      * @return the message
      */
-    @VisibleForTesting
     TreeString getMessageTreeString() {
         return message;
     }
@@ -611,7 +608,6 @@ public class Issue implements Serializable {
      *
      * @return the package name
      */
-    @VisibleForTesting
     TreeString getPackageNameTreeString() {
         return packageName;
     }
