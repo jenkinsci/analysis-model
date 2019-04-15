@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
-import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 import static edu.hm.hafner.util.IntegerParser.*;
@@ -31,15 +30,26 @@ import static edu.hm.hafner.util.IntegerParser.*;
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
 public class IssueBuilder {
-    private TreeStringBuilder treeStringBuilder = new TreeStringBuilder();
+    private static final String EMPTY = StringUtils.EMPTY;
+    private static final String UNDEFINED = "-";
+    private static final TreeString UNDEFINED_TREE_STRING = TreeString.valueOf(UNDEFINED);
+    private static final TreeString EMPTY_TREE_STRING = TreeString.valueOf(StringUtils.EMPTY);
+
+    private TreeStringBuilder fileNameBuilder = new TreeStringBuilder();
+    private TreeStringBuilder packageNameBuilder = new TreeStringBuilder();
+    private TreeStringBuilder messageBuilder = new TreeStringBuilder();
+
     private int lineStart = 0;
     private int lineEnd = 0;
     private int columnStart = 0;
     private int columnEnd = 0;
+
     @Nullable
     private LineRangeList lineRanges;
-    @Nullable
-    private String fileName;
+
+    private TreeString fileName = UNDEFINED_TREE_STRING;
+    private TreeString packageName = UNDEFINED_TREE_STRING;
+
     @Nullable
     private String directory;
     @Nullable
@@ -48,12 +58,10 @@ public class IssueBuilder {
     private String type;
     @Nullable
     private Severity severity;
-    @Nullable
-    private String message;
-    @Nullable
-    private String description;
-    @Nullable
-    private String packageName;
+
+    private TreeString message = EMPTY_TREE_STRING;
+    private String description = EMPTY;
+
     @Nullable
     private String moduleName;
     @Nullable
@@ -84,10 +92,11 @@ public class IssueBuilder {
 
     public IssueBuilder setFileName(@Nullable final String fileName) {
         if (StringUtils.isEmpty(fileName)) {
-            this.fileName = StringUtils.EMPTY;
+            this.fileName = UNDEFINED_TREE_STRING;
         }
         else {
-            this.fileName = new PathUtil().createAbsolutePath(directory, fileName);
+            this.fileName = fileNameBuilder.intern(normalizeFileName(
+                    new PathUtil().createAbsolutePath(directory, fileName)));
         }
 
         return this;
@@ -149,7 +158,12 @@ public class IssueBuilder {
     }
 
     public IssueBuilder setPackageName(@Nullable final String packageName) {
-        this.packageName = packageName;
+        if (StringUtils.isBlank(packageName)) {
+            this.packageName = UNDEFINED_TREE_STRING;
+        }
+        else {
+            this.packageName = packageNameBuilder.intern(packageName);
+        }
         return this;
     }
 
@@ -174,17 +188,22 @@ public class IssueBuilder {
     }
 
     public IssueBuilder guessSeverity(@Nullable final String severityString) {
-        this.severity = Severity.guessFromString(severityString);
+        severity = Severity.guessFromString(severityString);
         return this;
     }
 
     public IssueBuilder setMessage(@Nullable final String message) {
-        this.message = message;
+        if (StringUtils.isBlank(message)) {
+            this.message = EMPTY_TREE_STRING;
+        }
+        else {
+            this.message = messageBuilder.intern(StringUtils.stripToEmpty(message));
+        }
         return this;
     }
 
     public IssueBuilder setDescription(@Nullable final String description) {
-        this.description = description;
+        this.description = StringUtils.stripToEmpty(description);
         return this;
     }
 
@@ -202,7 +221,7 @@ public class IssueBuilder {
      * @return the initialized builder
      */
     public IssueBuilder copy(final Issue copy) {
-        fileName = copy.getFileName();
+        fileName = copy.getFileNameTreeString();
         lineStart = copy.getLineStart();
         lineEnd = copy.getLineEnd();
         columnStart = copy.getColumnStart();
@@ -211,9 +230,9 @@ public class IssueBuilder {
         category = copy.getCategory();
         type = copy.getType();
         severity = copy.getSeverity();
-        message = copy.getMessage();
+        message = copy.getMessageTreeString();
         description = copy.getDescription();
-        packageName = copy.getPackageName();
+        packageName = copy.getPackageNameTreeString();
         moduleName = copy.getModuleName();
         origin = copy.getOrigin();
         reference = copy.getReference();
@@ -228,27 +247,12 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue = new Issue(treeStringOfFileName(fileName), lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, treeStringOfPackageName(packageName), moduleName, severity,
-                stripToEmptyTreeString(message), stripToEmptyTreeString(description), origin, reference, fingerprint,
+        Issue issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
+                category, type, packageName, moduleName, severity,
+                message, description, origin, reference, fingerprint,
                 additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
-    }
-
-    @VisibleForTesting
-    TreeString treeStringOfFileName(@Nullable final String str) {
-        return treeStringBuilder.intern(normalizeFileName(str));
-    }
-
-    @VisibleForTesting
-    TreeString stripToEmptyTreeString(final String string) {
-        return treeStringBuilder.intern(StringUtils.stripToEmpty(string));
-    }
-
-    @VisibleForTesting
-    TreeString treeStringOfPackageName(@Nullable final String str) {
-        return treeStringBuilder.intern(defaultString(str));
     }
 
     private static String normalizeFileName(@Nullable final String platformFileName) {
@@ -265,7 +269,7 @@ public class IssueBuilder {
      * @return the valid string or a default string if the specified string is not valid
      */
     private static String defaultString(@Nullable final String string) {
-        return StringUtils.defaultIfEmpty(string, Issue.UNDEFINED).intern();
+        return StringUtils.defaultIfEmpty(string, UNDEFINED).intern();
     }
 
     /**

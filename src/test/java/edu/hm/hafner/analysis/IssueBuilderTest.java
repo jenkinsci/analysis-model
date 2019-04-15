@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
@@ -23,11 +24,11 @@ class IssueBuilderTest {
     private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
     private static final IssueBuilder ISSUE_BUILDER = new IssueBuilder();
     private static final Issue DEFAULT_ISSUE = new Issue(UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
-            null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY_TS, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(ISSUE_BUILDER.treeStringOfFileName(FILE_NAME), LINE_START,
+            null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null);
+    private static final Issue FILLED_ISSUE = new Issue(TreeString.valueOf(FILE_NAME), LINE_START,
             LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, ISSUE_BUILDER.treeStringOfPackageName(PACKAGE_NAME), MODULE_NAME, SEVERITY,
-            ISSUE_BUILDER.stripToEmptyTreeString(MESSAGE), ISSUE_BUILDER.stripToEmptyTreeString(DESCRIPTION), ORIGIN, REFERENCE,
+            LINE_RANGES, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
+            TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
 
@@ -281,16 +282,6 @@ class IssueBuilderTest {
     }
 
     @Test
-    void shouldCacheDescription() {
-        IssueBuilder builder = new IssueBuilder();
-
-        Issue issue = builder.setDescription("description").build();
-        Issue anotherIssue = builder.setDescription("description").build();
-
-        assertThat(issue.getDescriptionTreeString()).isSameAs(anotherIssue.getDescriptionTreeString());
-    }
-
-    @Test
     void testMessageDescriptionStripped() {
         IssueBuilder builder = new IssueBuilder();
 
@@ -298,6 +289,6 @@ class IssueBuilderTest {
         Issue anotherIssue = builder.setMessage("message").setDescription("description").build();
 
         assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
-        assertThat(issue.getDescriptionTreeString()).isSameAs(anotherIssue.getDescriptionTreeString());
+        assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
     }
 }

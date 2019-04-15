@@ -25,6 +25,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 @SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
+
     static final String UNDEFINED = "-";
 
     /**
@@ -159,27 +160,28 @@ public class Issue implements Serializable {
     private String type;     // almost final
 
     private final Severity severity;
-    private final TreeString message;
+
     private final int lineStart;            // fixed
     private final int lineEnd;              // fixed
     private final int columnStart;          // fixed
-
     private final int columnEnd;            // fixed
 
     private final LineRangeList lineRanges; // fixed
 
     private final UUID id;                  // fixed
 
-    private final TreeString description;   // fixed
     @Nullable
     private final Serializable additionalProperties;  // fixed
+
     private String reference;       // mutable, not part of equals
     private String origin;          // mutable
+
     private String moduleName;      // mutable
-
     private TreeString packageName; // mutable
-
     private TreeString fileName;    // mutable
+
+    private final TreeString message;   // fixed
+    private final String description;   // fixed
 
     private String fingerprint;     // mutable, not part of equals
 
@@ -194,7 +196,7 @@ public class Issue implements Serializable {
         this(copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(),
                 copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
                 copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
-                copy.getDescriptionTreeString(), copy.getOrigin(), copy.getReference(), copy.getFingerprint(),
+                copy.getDescription(), copy.getOrigin(), copy.getReference(), copy.getFingerprint(),
                 copy.getAdditionalProperties(), copy.getId());
     }
 
@@ -244,7 +246,7 @@ public class Issue implements Serializable {
             @Nullable final String category, @Nullable final String type,
             final TreeString packageName, @Nullable final String moduleName,
             @Nullable final Severity severity,
-            final TreeString message, final TreeString description,
+            final TreeString message, final String description,
             @Nullable final String origin, @Nullable final String reference,
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties) {
         this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName, moduleName,
@@ -297,7 +299,7 @@ public class Issue implements Serializable {
             final int columnEnd, @Nullable final LineRangeList lineRanges, @Nullable final String category,
             @Nullable final String type, final TreeString packageName,
             @Nullable final String moduleName, @Nullable final Severity severity,
-            final TreeString message, final TreeString description,
+            final TreeString message, final String description,
             @Nullable final String origin, @Nullable final String reference,
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties,
             final UUID id) {
@@ -337,7 +339,7 @@ public class Issue implements Serializable {
 
         this.severity = severity == null ? Severity.WARNING_NORMAL : severity;
         this.message = message;
-        this.description = description;
+        this.description = description.intern();
 
         this.origin = stripToEmpty(origin);
         this.reference = stripToEmpty(reference);
@@ -544,17 +546,6 @@ public class Issue implements Serializable {
      * @return the description
      */
     public String getDescription() {
-        return description.toString();
-    }
-
-    /**
-     * Returns the tree-string containing an additional description for this issue. Static analysis tools might provide
-     * some additional information about this issue. This description may contain valid HTML.
-     *
-     * @return the description
-     */
-    @VisibleForTesting
-    TreeString getDescriptionTreeString() {
         return description;
     }
 
