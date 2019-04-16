@@ -6,13 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.0.0...master)
 
-### Changed
-- \[API\]: `YuiCompressorParser` uses new base class 
-[LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
-that provides a lookahead of the next report line instead of using multi line parsing.
-
-## [5.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.1.0...analysis-model-5.0.0) - 2019-3-8
-
 ### Added
 - [PR#132](https://github.com/jenkinsci/analysis-model/pull/132): 
 Added a parser for CMake warnings.
@@ -24,6 +17,9 @@ MsBuild Parser: Treat errors as errors and not warning (high).
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
 expression that matches the whole property value anymore. 
+- \[API\]: `YuiCompressorParser` uses new base class 
+[LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+that provides a lookahead of the next report line instead of using multi line parsing.
 
 ## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
 
