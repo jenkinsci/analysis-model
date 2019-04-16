@@ -6,3 +6,6 @@ replace(variable,replacement);}var  ---> replacement <--- =globalStoredVars[name
 
 [WARNING] Using 'eval' is not recommended. Moreover, using 'eval' reduces the level of compression!
 function(condition,label){if( ---> eval <--- (condition)){this.doGotolabel(label
+
+[WARNING] The function myFunction has already been declared in the same scope...
+
