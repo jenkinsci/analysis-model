@@ -37,7 +37,13 @@ SonarQubeParser: Use `textRange` when computing affected source code line.
 
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
-expression that matches the whole property value anymore. 
+expression that matches the whole property value anymore.
+- [JENKINS-56700](https://issues.jenkins-ci.org/browse/JENKINS-56700),
+[PR#153](https://github.com/jenkinsci/analysis-model/pull/153):
+GhsMultiParser: Now uses LookaheadParser instead of depricated super class.
+- [JENKINS-56701](https://issues.jenkins-ci.org/browse/JENKINS-56701),
+[PR#153](https://github.com/jenkinsci/analysis-model/pull/153):
+GnuFortranParser: Now uses LookaheadParser instead of depricated super class. 
 
 ## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
 
