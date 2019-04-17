@@ -18,18 +18,24 @@ MsBuild parser: Allow MSBuild errors without category.
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333),
 [PR#129](https://github.com/jenkinsci/analysis-model/pull/129): 
 MsBuild Parser: Treat errors as errors and not warning (high).
+- [JENKINS-56450](https://issues.jenkins-ci.org/browse/JENKINS-56450): 
+[PR#158](https://github.com/jenkinsci/analysis-model/pull/158): 
+MSBuild Parser: Fix error when compiling with /MP.
+- [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647),
+[PR#145](https://github.com/jenkinsci/analysis-model/pull/145): 
+MsBuild Parser: Update regular expression to detect logging prefixes.
 - [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737),
 [PR#136](https://github.com/jenkinsci/analysis-model/pull/136)
 Javac parser: Add the ability to parse warnings with preceding timestamps.
 - [JENKINS-56214](https://issues.jenkins-ci.org/browse/JENKINS-56214),
 [PR#142](https://github.com/jenkinsci/analysis-model/pull/142)
-ChackStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
-- [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647),
-[PR#145](https://github.com/jenkinsci/analysis-model/pull/145): 
-MsBuild Parser: Update regular expression to detect logging prefixes.
+CheckStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
 - [JENKINS-52477](https://issues.jenkins-ci.org/browse/JENKINS-52477),
 [PR#146](https://github.com/jenkinsci/analysis-model/pull/146):
 FileReaderFactory: Detect charset from XML-header when not specified. 
+- [JENKINS-52462](https://issues.jenkins-ci.org/browse/JENKINS-52462),
+[PR#155](https://github.com/jenkinsci/analysis-model/pull/155):
+SonarQubeParser: Use `textRange` when computing affected source code line.
 
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
