@@ -66,7 +66,8 @@ class JavacParserTest extends AbstractParserTest {
 
     /**
      * Parses a log with 3 valid and 3 invalid timestamp preceding warnings.
-     * This test is related to issue https://issues.jenkins-ci.org/browse/JENKINS-56737
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56737">JENKINS-56737</a>
      */
     @Test
     void shouldParseTimestamps() {
