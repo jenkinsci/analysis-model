@@ -63,7 +63,7 @@ public class MsBuildParser extends RegexpLineParser {
         }
 
         String category = matcher.group(9);
-        if (category != null && "Expected".matches(category)) {
+        if ("Expected".equals(category)) {
             return Optional.empty();
         }
         return builder.setLineStart(matcher.group(5))
