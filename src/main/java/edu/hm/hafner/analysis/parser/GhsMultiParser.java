@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,7 +27,7 @@ public class GhsMultiParser extends LookaheadParser {
             "(?:\\.|[A-Z]:)(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)";
 
     /** Regex Pattern to match the ending of the Warning / Error Message. */
-    private static final Pattern MESSAGE_END_PATTERN = Pattern.compile("\\s*\\^");
+    private static final String MESSAGE_END_REGEX = "\\s*\\^";
 
 
     /**
@@ -41,27 +40,31 @@ public class GhsMultiParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(3));
-        StringBuilder messageBuilder = new StringBuilder(matcher.group(5)).append("\n");
+        String messageStart = matcher.group(5);
 
-        // Go through all following lines appending the message until a line with only the ^ Symbol is found.
-        boolean messageEndFound = false;
-        while (!messageEndFound && lookahead.hasNext()) {
-            String messageLine = lookahead.next();
-            Matcher messageEndMatcher = MESSAGE_END_PATTERN.matcher(messageLine);
-            if (messageEndMatcher.matches()) {
-                messageEndFound = true;
-            }
-            else {
-                messageBuilder.append(messageLine).append("\n");
-            }
-        }
+        String message = extractMessage(messageStart, lookahead);
 
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(4))
-                .setMessage(messageBuilder.toString())
+                .setMessage(message)
                 .setSeverity(Severity.guessFromString(type))
                 .buildOptional();
+    }
+
+    /**
+     * Go through all following lines appending the message until a line with only the ^ Symbol is found.
+     * @param lookahead lines used for message creation
+     * @return concatenated message string
+     */
+    private String extractMessage(final String messageStart, final LookaheadStream lookahead) {
+        StringBuilder messageBuilder = new StringBuilder(messageStart).append("\n");
+
+        while (!lookahead.hasNext(MESSAGE_END_REGEX) && lookahead.hasNext()) {
+            messageBuilder.append(lookahead.next()).append("\n");
+        }
+
+        return messageBuilder.toString();
     }
 }
 

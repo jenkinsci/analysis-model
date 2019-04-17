@@ -7,9 +7,7 @@ import java.util.regex.Pattern;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpDocumentParser;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -26,15 +24,17 @@ public class GnuFortranParser extends LookaheadParser {
      * gcc/fortran/error.c at r204295. By inspection of the GCC release branches this regex should be compatible with
      * GCC 4.2 and newer.
      */
-    private static final String MESSAGE_START_PATTERN = "(?s)^(.+\\.[^:]+):(\\d+)(?:\\.(\\d+)(?:-(\\d+))?)?:";
+    private static final String MESSAGE_START_REGEX = "(?s)^(.+\\.[^:]+):(\\d+)(?:\\.(\\d+)(?:-(\\d+))?)?:";
     // file:file followed by Optional coulm and range followed by a colon.
 
-    /** Optional part of the category. */
-    private static final Pattern LINE_PATTERN = Pattern.compile(" at \\(\\d\\)");
     /** Include lines between message start and end. */
-    private static final Pattern INCLUDE_LINE_PATTERN = Pattern.compile("(?: {4}Included at .+)");
+    private static final String INCLUDE_LINE_REGEX = "(?: {4}Included at .+)";
     /** Simple regex to match any non empty lines which are required before the message end. */
-    private static final Pattern NON_EMPTY_LINE_PATTERN = Pattern.compile(".+");
+    private static final String NON_EMPTY_LINE_REGEX = ".+";
+    /** Simple regex to match any lines which are completely empty. */
+    private static final String EMPTY_LINE_REGEX = "^$";
+    /** Optional part of the category. */
+    private static final Pattern MESSAGE_TRIM_PATTERN = Pattern.compile(" at \\(\\d\\)");
     /** Regex to match the category and the actual error message itself. */
     private static final Pattern ERROR_MESSAGE_PATTERN = Pattern.compile("(Warning|Error|Fatal Error|Internal Error at \\(1\\)):\\s?(.*)");
 
@@ -42,7 +42,7 @@ public class GnuFortranParser extends LookaheadParser {
      * Creates a new instance of {@link GnuFortranParser}.
      */
     public GnuFortranParser() {
-        super(MESSAGE_START_PATTERN);
+        super(MESSAGE_START_REGEX);
     }
 
     /**
@@ -62,37 +62,27 @@ public class GnuFortranParser extends LookaheadParser {
         // Gather location of the error.
         String fileName = matcher.group(1);
         String lineStart = matcher.group(2);
-        String columStart = matcher.group(3);
-        String columEnd = matcher.group(4);
+        String columnStart = matcher.group(3);
+        String columnEnd = matcher.group(4);
 
-        if (!lookahead.hasNext()) {
-            // This does not match the whole message, return without issue.
-            return Optional.empty();
-        }
-        String currentLine = lookahead.peekNext();
-
-        // Match any number of include lines.
-        while (INCLUDE_LINE_PATTERN.matcher(currentLine).matches()) {
-            lookahead.next(); // Only consume line if it matched.
-            if (!lookahead.hasNext()) {
-                return Optional.empty();
-            }
-            currentLine = lookahead.peekNext();
+        // Match all include lines
+        while (lookahead.hasNext(INCLUDE_LINE_REGEX)) {
+            lookahead.next();
         }
 
         // Optional include lines are followed by one empty line.
-        if (!currentLine.isEmpty()) {
+        if (!lookahead.hasNext(EMPTY_LINE_REGEX)) {
             return Optional.empty();
         }
         lookahead.next(); // Consume the empty line.
 
         // Check for two non empty lines now, one for the offending line one for a numbered indicator.
-        if (!(lookahead.hasNext() && NON_EMPTY_LINE_PATTERN.matcher(lookahead.peekNext()).matches())) {
+        if (!lookahead.hasNext(NON_EMPTY_LINE_REGEX)) {
             return Optional.empty();
         }
         lookahead.next(); // Consume after match.
 
-        if (!(lookahead.hasNext() && NON_EMPTY_LINE_PATTERN.matcher(lookahead.peekNext()).matches())) {
+        if (!lookahead.hasNext(NON_EMPTY_LINE_REGEX)) {
             return Optional.empty();
         }
         lookahead.next(); // Consume after match.
@@ -101,26 +91,28 @@ public class GnuFortranParser extends LookaheadParser {
             // Missing error message line.
             return Optional.empty();
         }
-        String errrorMessageLine = lookahead.peekNext();
-        Matcher messageMatcher = ERROR_MESSAGE_PATTERN.matcher(errrorMessageLine);
+
+        String errorMessageLine = lookahead.peekNext();
+        Matcher messageMatcher = ERROR_MESSAGE_PATTERN.matcher(errorMessageLine);
         if (!messageMatcher.matches()) {
             // Invalid message line.
             return Optional.empty();
         }
         lookahead.next();
 
+
         // Get the category (warning, error, ...) and message and trim location references.
-        String category = LINE_PATTERN.matcher(messageMatcher.group(1)).replaceAll("");
-        String message = LINE_PATTERN.matcher(messageMatcher.group(2)).replaceAll("");
+        String category = MESSAGE_TRIM_PATTERN.matcher(messageMatcher.group(1)).replaceAll("");
+        String message = MESSAGE_TRIM_PATTERN.matcher(messageMatcher.group(2)).replaceAll("");
 
         // If the message was not directly in the previous line, interpret the last line of the matched text as message.
         if (message.isEmpty() && lookahead.hasNext()) {
-            message = LINE_PATTERN.matcher(lookahead.next()).replaceAll("");
+            message = MESSAGE_TRIM_PATTERN.matcher(lookahead.next()).replaceAll("");
         }
 
         return builder.setFileName(fileName)
-                .setColumnStart(columStart)
-                .setColumnEnd(columEnd)
+                .setColumnStart(columnStart)
+                .setColumnEnd(columnEnd)
                 .setLineStart(lineStart)
                 .setCategory(category)
                 .setMessage(message)
