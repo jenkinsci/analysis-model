@@ -17,6 +17,7 @@ import static j2html.TagCreator.*;
  */
 class MavenConsoleParserTest extends AbstractParserTest {
     private static final String XREF_LINK_DISABLED = "Unable to locate Source XRef to link to - DISABLED";
+    private static final String MAVEN_LOG = "maven-goals.log";
 
     /**
      * Creates a new instance of {@link MavenConsoleParserTest}.
@@ -27,24 +28,27 @@ class MavenConsoleParserTest extends AbstractParserTest {
 
     @Test
     void shouldAssignTypesFromGoals() {
-        Report warnings = parse("maven-goals.log");
+        Report warnings = parse(MAVEN_LOG);
 
         assertThat(warnings).hasSize(3);
 
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_LOW)
                 .hasLineStart(44).hasLineEnd(47)
+                .hasFileName(MAVEN_LOG)
                 .hasType("maven-pmd-plugin:pmd");
         assertThatDescriptionIs(warnings, 0,
                 XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED);
 
         assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_LOW)
                 .hasLineStart(50).hasLineEnd(53)
+                .hasFileName(MAVEN_LOG)
                 .hasType("maven-pmd-plugin:cpd");
         assertThatDescriptionIs(warnings, 1,
                 XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED);
 
         assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_LOW)
                 .hasLineStart(56).hasLineEnd(56)
+                .hasFileName(MAVEN_LOG)
                 .hasType("maven-checkstyle-plugin:checkstyle");
         assertThatDescriptionIs(warnings, 2, XREF_LINK_DISABLED);
     }

@@ -91,15 +91,19 @@ public class IssueBuilder {
     }
 
     public IssueBuilder setFileName(@Nullable final String fileName) {
-        if (StringUtils.isEmpty(fileName)) {
-            this.fileName = UNDEFINED_TREE_STRING;
-        }
-        else {
-            this.fileName = fileNameBuilder.intern(normalizeFileName(
-                    new PathUtil().createAbsolutePath(directory, fileName)));
-        }
+        this.fileName = internFileName(fileName);
 
         return this;
+    }
+
+    public TreeString internFileName(@Nullable final String unsafeFileName) {
+        if (StringUtils.isEmpty(unsafeFileName)) {
+            return UNDEFINED_TREE_STRING;
+        }
+        else {
+            return fileNameBuilder.intern(normalizeFileName(
+                    new PathUtil().createAbsolutePath(directory, unsafeFileName)));
+        }
     }
 
     public IssueBuilder setDirectory(@Nullable final String directory) {

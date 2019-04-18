@@ -106,6 +106,7 @@ public class MavenConsoleParser extends LookaheadParser {
         return builder.setDescription(pre().with(code().withText(message.toString())).render())
                 .setType(goal)
                 .setLineEnd(lookahead.getLine())
+                .setFileName(getFileName())
                 .buildOptional();
     }
 }

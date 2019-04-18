@@ -5,6 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -29,6 +31,7 @@ public abstract class LookaheadParser extends IssueParser {
     private static final Pattern CMAKE_PATH = Pattern.compile(CMAKE_PREFIX + " been written to: (?<dir>.*)");
 
     private final Pattern pattern;
+    private String fileName = StringUtils.EMPTY;
 
     /**
      * Creates a new instance of {@link LookaheadParser}.
@@ -44,6 +47,8 @@ public abstract class LookaheadParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+        fileName = readerFactory.getFileName();
+
         Report report = new Report();
         try (Stream<String> lines = readerFactory.readStream()) {
             LookaheadStream lookahead = new LookaheadStream(lines);
@@ -69,6 +74,10 @@ public abstract class LookaheadParser extends IssueParser {
         }
 
         return postProcess(report);
+    }
+
+    protected String getFileName() {
+        return fileName;
     }
 
     private void extractAndStoreDirectory(final IssueBuilder builder, final String line, final Pattern makePath) {
