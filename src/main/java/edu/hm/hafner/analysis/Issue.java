@@ -618,8 +618,8 @@ public class Issue implements Serializable {
      * @param packageName
      *         the name of the package
      */
-    public void setPackageName(@Nullable final String packageName) {
-        this.packageName = TreeString.valueOf(StringUtils.stripToEmpty(packageName));
+    void setPackageName(final TreeString packageName) {
+        this.packageName = packageName;
     }
 
     /**

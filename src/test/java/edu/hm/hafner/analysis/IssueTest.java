@@ -164,7 +164,7 @@ class IssueTest extends SerializableTest<Issue> {
         String moduleName = "new-module";
         issue.setModuleName(moduleName);
         String packageName = "new-package";
-        issue.setPackageName(packageName);
+        issue.setPackageName(TREE_STRING_BUILDER.intern(packageName));
         TreeString fileName = TREE_STRING_BUILDER.intern("new-file");
         issue.setFileName(fileName);
         String fingerprint = "new-fingerprint";

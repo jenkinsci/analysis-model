@@ -50,13 +50,14 @@ public class PackageNameResolver {
         
             return;
         }
-        
+
         Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
                 .collect(Collectors.toMap(identity(), findPackage(charset)));
 
+        IssueBuilder builder = new IssueBuilder();
         report.stream().forEach(issue -> {
             if (!issue.hasPackageName()) {
-                issue.setPackageName(packagesOfFiles.get(issue.getFileName()));
+                issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getFileName())));
             }
         });
         report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());

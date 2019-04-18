@@ -158,13 +158,18 @@ public class IssueBuilder {
     }
 
     public IssueBuilder setPackageName(@Nullable final String packageName) {
-        if (StringUtils.isBlank(packageName)) {
-            this.packageName = UNDEFINED_TREE_STRING;
+        this.packageName = internPackageName(packageName);
+
+        return this;
+    }
+
+    TreeString internPackageName(@Nullable final String unsafePackageName) {
+        if (StringUtils.isBlank(unsafePackageName)) {
+            return UNDEFINED_TREE_STRING;
         }
         else {
-            this.packageName = packageNameBuilder.intern(packageName);
+            return packageNameBuilder.intern(unsafePackageName);
         }
-        return this;
     }
 
     public IssueBuilder setModuleName(@Nullable final String moduleName) {
