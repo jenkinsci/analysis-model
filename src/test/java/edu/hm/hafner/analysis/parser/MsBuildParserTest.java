@@ -1,11 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -705,6 +707,67 @@ class MsBuildParserTest extends AbstractParserTest {
         });
     }
 
+    /**
+     * Update regular expression to detect logging prefixes like <pre>17:4></pre>.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-48647">Issue 48647</a>
+     */
+    @Test
+    void issue48647() {
+        Report warnings = parse("issue48647.txt");
+
+        assertThat(warnings)
+                .hasSize(1)
+                .hasSeverities(0, 0, 1, 0);
+
+        assertSoftly(softly -> softly.assertThat(warnings.get(0))
+                .hasFileName("Filters/FilterBuilder.cs")
+                .hasCategory("CS0168")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("There is maybe a mistake.")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(229)
+                .hasLineEnd(229)
+                .hasColumnStart(34)
+                .hasColumnEnd(34));
+    }
+
+    /**
+     * MSBuildParser should support messages when compiling with /MP.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-56450">Issue 56450</a>
+     */
+    @Test
+    void issue56450() {
+        Report report = parse("issue56450.txt");
+
+        assertSoftly(softly -> {
+            Iterator<Issue> iterator = report.iterator();
+            softly.assertThat(report)
+                .hasSize(2)
+                .hasSeverities(0, 0, 2, 0);
+            softly.assertThat(iterator.next())
+                .hasFileName("C:/Jenkins/workspace/windows-kicad-msvc-tom/build/release/cpu/amd64/label/msvc/src/include/footprint_info.h")
+                .hasCategory("C4251")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("'FOOTPRINT_ASYNC_LOADER::m_last_table': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'FOOTPRINT_ASYNC_LOADER' (compiling source file C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\pcbnew\\footprint_libraries_utils.cpp)C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\include\\geometry/seg.h(263): warning C4244: 'initializing': conversion from 'double' to 'SEG::ecoord', possible loss of data (compiling source file C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\pcbnew\\hotkeys_footprint_editor.cpp)")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(320)
+                .hasLineEnd(320);
+            softly.assertThat(iterator.next())
+                .hasFileName("C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/include/memory")
+                .hasCategory("C4244")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("'argument': conversion from '_Ty' to 'int', possible loss of data")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(1801)
+                .hasLineEnd(1801);
+        });
+    }
+
     private ReaderFactory createIssue2383File() {
         return createReaderFactory("file.txt", IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
                 + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
@@ -714,8 +777,8 @@ class MsBuildParserTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
-                .hasSize(6)
-                .hasSeverities(2, 0, 3, 1);
+                .hasSize(8)
+                .hasSeverities(4, 0, 3, 1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("Src/Parser/CSharp/cs.ATG")
@@ -789,6 +852,28 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasLineEnd(5)
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
+
+        softly.assertThat(report.get(6))
+                .hasFileName("x/msbuild/normal/abc.h")
+                .hasCategory("X3004")
+                .hasSeverity(Severity.ERROR)
+                .hasMessage("undeclared identifier")
+                .hasPackageName("-")
+                .hasLineStart(29)
+                .hasLineEnd(29)
+                .hasColumnStart(53)
+                .hasColumnEnd(53);
+
+        softly.assertThat(report.get(7))
+                .hasFileName("x/msbuild/no/category/abc.h")
+                .hasCategory("")
+                .hasSeverity(Severity.ERROR)
+                .hasMessage("use of undeclared identifier")
+                .hasPackageName("-")
+                .hasLineStart(334)
+                .hasLineEnd(334)
+                .hasColumnStart(3)
+                .hasColumnEnd(3);
     }
 
     @Override

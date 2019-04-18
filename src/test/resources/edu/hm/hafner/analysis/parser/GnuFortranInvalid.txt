@@ -1,0 +1,28 @@
+
+
+C:/aaaa.f:318:
+    Included at inc1.inc:4:
+    Included at foo.f90:4:
+
+      IF( XABS.NE.ZERO ) THEN
+
+Warning: Inequality comparison for REAL(8) at (1)
+
+
+C:/bbbb.f:318:
+    Included at inc1.inc:4:
+
+
+          1
+Warning: Inequality comparison for REAL(8) at (1)
+
+
+C:/cccc.f:318:
+    Included at inc1.inc:4:
+    Included at foo.f90:4:
+
+      IF( XABS.NE.ZERO ) THEN
+          1
+Bla: Inequality comparison for REAL(8) at (1)
+
+C:/dddd.f:318:

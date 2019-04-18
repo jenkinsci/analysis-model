@@ -9,10 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [PR#132](https://github.com/jenkinsci/analysis-model/pull/132): 
 Added a parser for CMake warnings.
+- [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):
+Added a parser for JSON output from Cargo.
 
 ### Fixed
-- [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333): 
+- [JENKINS-38685](https://issues.jenkins-ci.org/browse/JENKINS-38685)
+MsBuild parser: Allow MSBuild errors without category.
+- [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333),
+[PR#129](https://github.com/jenkinsci/analysis-model/pull/129): 
 MsBuild Parser: Treat errors as errors and not warning (high).
+- [JENKINS-56450](https://issues.jenkins-ci.org/browse/JENKINS-56450): 
+[PR#158](https://github.com/jenkinsci/analysis-model/pull/158): 
+MSBuild Parser: Fix error when compiling with /MP.
+- [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647),
+[PR#145](https://github.com/jenkinsci/analysis-model/pull/145): 
+MsBuild Parser: Update regular expression to detect logging prefixes.
+- [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737),
+[PR#136](https://github.com/jenkinsci/analysis-model/pull/136)
+Javac parser: Add the ability to parse warnings with preceding timestamps.
+- [JENKINS-56214](https://issues.jenkins-ci.org/browse/JENKINS-56214),
+[PR#142](https://github.com/jenkinsci/analysis-model/pull/142)
+CheckStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
+- [JENKINS-52477](https://issues.jenkins-ci.org/browse/JENKINS-52477),
+[PR#146](https://github.com/jenkinsci/analysis-model/pull/146):
+FileReaderFactory: Detect charset from XML-header when not specified. 
+- [JENKINS-52462](https://issues.jenkins-ci.org/browse/JENKINS-52462),
+[PR#155](https://github.com/jenkinsci/analysis-model/pull/155):
+SonarQubeParser: Use `textRange` when computing affected source code line.
 
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
@@ -20,6 +43,12 @@ expression that matches the whole property value anymore.
 - \[API\]: `YuiCompressorParser` uses new base class 
 [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line instead of using multi line parsing.
+- [JENKINS-56700](https://issues.jenkins-ci.org/browse/JENKINS-56700),
+[PR#153](https://github.com/jenkinsci/analysis-model/pull/153):
+GhsMultiParser: Now uses LookaheadParser instead of deprecated super class.
+- [JENKINS-56701](https://issues.jenkins-ci.org/browse/JENKINS-56701),
+[PR#153](https://github.com/jenkinsci/analysis-model/pull/153):
+GnuFortranParser: Now uses LookaheadParser instead of deprecated super class. 
 
 ## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
 
@@ -180,6 +209,8 @@ First public release.
 ### Security
 - One 
 - Two 
+
+
 
 
 -->

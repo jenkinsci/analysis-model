@@ -35,7 +35,7 @@ class CheckStyleParserTest extends AbstractParserTest {
                 .hasLineStart(22)
                 .hasCategory("Design")
                 .hasType("DesignForExtensionCheck")
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasMessage("Die Methode 'detectPackageName' ist nicht fr Vererbung entworfen - muss abstract, final oder leer sein.");
     }
 
@@ -77,6 +77,38 @@ class CheckStyleParserTest extends AbstractParserTest {
         Report report = parseInCheckStyleFolder("scalastyle-output.xml");
 
         assertThat(report).hasSize(2);
+    }
+
+    /**
+     * Test parsing a file and checks the correct servity mapping for error.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56214">Issue 56214</a>
+     */
+    @Test
+    void shouldParseErrorToServityError() {
+
+        Report report = parseInCheckStyleFolder("all-severites.xml");
+        assertThat(report.get(0)).hasSeverity(Severity.ERROR);
+    }
+
+    /**
+     * Test parsing a file and checks the correct servity mapping for warnings.
+     */
+    @Test
+    void shouldParseWarningToServityWarningNormal() {
+
+        Report report = parseInCheckStyleFolder("all-severites.xml");
+        assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    /**
+     * Test parsing a file and checks the correct servity mapping for infos.
+     */
+    @Test
+    void shouldParseInfoToServityWarningLow() {
+
+        Report report = parseInCheckStyleFolder("all-severites.xml");
+        assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
     }
 
     private Report parseInCheckStyleFolder(final String fileName) {
