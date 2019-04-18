@@ -40,7 +40,10 @@ SonarQubeParser: Use `textRange` when computing affected source code line.
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
 expression that matches the whole property value anymore. 
-- \[API\]: `YuiCompressorParser` uses new base class 
+
+### Changed API
+
+- `YuiCompressorParser` uses new base class 
 [LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 that provides a lookahead of the next report line instead of using multi line parsing.
 - [JENKINS-56700](https://issues.jenkins-ci.org/browse/JENKINS-56700),
