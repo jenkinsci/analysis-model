@@ -38,7 +38,7 @@ class GnuFortranParserTest extends AbstractParserTest {
                 .hasFileName("C:/zlaror.f");
 
         softly.assertThat(iterator.next())
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasCategory("Fatal Error")
                 .hasLineStart(7)
                 .hasLineEnd(7)
@@ -47,7 +47,7 @@ class GnuFortranParserTest extends AbstractParserTest {
                 .hasColumnStart(10);
 
         softly.assertThat(iterator.next())
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasCategory("Error")
                 .hasLineStart(81)
                 .hasLineEnd(81)
@@ -56,7 +56,7 @@ class GnuFortranParserTest extends AbstractParserTest {
                 .hasColumnStart(24);
 
         softly.assertThat(iterator.next())
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasCategory("Internal Error")
                 .hasLineStart(5)
                 .hasLineEnd(5)
@@ -96,7 +96,7 @@ class GnuFortranParserTest extends AbstractParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasCategory("Error")
                     .hasLineStart(81)
                     .hasLineEnd(81)
@@ -117,7 +117,7 @@ class GnuFortranParserTest extends AbstractParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasCategory("Fatal Error")
                     .hasLineStart(7)
                     .hasLineEnd(7)
@@ -138,7 +138,7 @@ class GnuFortranParserTest extends AbstractParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasCategory("Internal Error")
                     .hasLineStart(5)
                     .hasLineEnd(5)
@@ -146,5 +146,16 @@ class GnuFortranParserTest extends AbstractParserTest {
                     .hasFileName("linear_algebra_mod.f90")
                     .hasColumnStart(8);
         });
+    }
+
+    /**
+     * Test some inputs which are not valid error messages.
+     * For these no issue should be created.
+     */
+    @Test
+    void testInvalidParser() {
+        Report warnings = parse("GnuFortranInvalid.txt");
+
+        assertThat(warnings).hasSize(0);
     }
 }

@@ -1,4 +1,9 @@
 Compiling TestCase_0101.cpp because TestCase_0101.o does not exist
+".\maindir\tests\TestCase_0101.cpp", line 2: error #5:
+    cannot open source input file "file.h": No such file or directory
+    #include <file.h>
+              ^
+
 ".\maindir\tests\TestCase_0101.cpp", line 37: warning #546-D: 
           transfer of control bypasses initialization of:
             variable "CF_TRY_FLAG" (declared at line 42)
