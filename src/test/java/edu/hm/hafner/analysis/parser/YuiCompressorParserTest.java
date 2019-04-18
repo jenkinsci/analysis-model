@@ -22,7 +22,7 @@ class YuiCompressorParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(3);
+        softly.assertThat(report).hasSize(4);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -46,7 +46,16 @@ class YuiCompressorParserTest extends AbstractParserTest {
                 .hasLineStart(0)
                 .hasLineEnd(0)
                 .hasMessage("Using 'eval' is not recommended. Moreover, using 'eval' reduces the level of compression!"
-                                + " [function(condition,label){if( ---> eval <--- (condition)){this.doGotolabel(label]")
+                        + " [function(condition,label){if( ---> eval <--- (condition)){this.doGotolabel(label]")
+                .hasFileName("unknown.file");
+        //Warning with only one line
+        softly.assertThat(report.get(3))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasCategory("Duplicate function")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("The function myFunction has already been declared in the same scope..."
+                        + " []")
                 .hasFileName("unknown.file");
     }
 }
