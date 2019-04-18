@@ -647,7 +647,7 @@ public class Issue implements Serializable {
      * @param moduleName
      *         the module name to set
      */
-    public void setModuleName(@Nullable final String moduleName) {
+    void setModuleName(@Nullable final String moduleName) {
         this.moduleName = stripToEmpty(moduleName);
     }
 
@@ -724,7 +724,7 @@ public class Issue implements Serializable {
      *
      * @see #getFingerprint()
      */
-    public void setFingerprint(@Nullable final String fingerprint) {
+    void setFingerprint(@Nullable final String fingerprint) {
         this.fingerprint = StringUtils.stripToEmpty(fingerprint);
     }
 
