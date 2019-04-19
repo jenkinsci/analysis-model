@@ -21,7 +21,6 @@ import org.xml.sax.SAXException;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static org.apache.xerces.impl.Constants.*;
@@ -34,30 +33,22 @@ import static org.apache.xerces.impl.Constants.*;
 public abstract class ReaderFactory {
     private static final Function<String, String> IDENTITY = Function.identity();
 
-    @Nullable
-    private final Charset charset;
     private final Function<String, String> lineMapper;
 
     /**
-     * Creates a new factory to read a resource with a given charset.
-     *
-     * @param charset
-     *         the charset to use when reading the file
+     * Creates a new factory to read a resource.
      */
-    public ReaderFactory(final @Nullable Charset charset) {
-        this(charset, IDENTITY);
+    public ReaderFactory() {
+        this(IDENTITY);
     }
 
     /**
      * Creates a new factory to read a resource with a given charset.
      *
-     * @param charset
-     *         the charset to use when reading the file
      * @param lineMapper
      *         provides a mapper to transform each of the resource lines
      */
-    public ReaderFactory(final @Nullable Charset charset, final Function<String, String> lineMapper) {
-        this.charset = charset;
+    public ReaderFactory(final Function<String, String> lineMapper) {
         this.lineMapper = lineMapper;
     }
 
@@ -183,10 +174,7 @@ public abstract class ReaderFactory {
      * @return the character set
      */
     public Charset getCharset() {
-        if (charset == null) {
-            return StandardCharsets.UTF_8;
-        }
-        return charset;
+        return StandardCharsets.UTF_8;
     }
 }
 

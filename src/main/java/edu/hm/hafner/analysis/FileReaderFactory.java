@@ -10,12 +10,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.apache.commons.io.input.BOMInputStream;
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
@@ -29,8 +29,9 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 public class FileReaderFactory extends ReaderFactory {
     private final Path file;
     private final String fileName;
+    @Nullable
     private Charset charset;
-    private boolean charsetUndetected;
+    private boolean isCharsetUndetected;
 
     /**
      * Creates a new factory to read the specified file with a given charset.
@@ -38,14 +39,14 @@ public class FileReaderFactory extends ReaderFactory {
      * @param file
      *         the file to open
      * @param charset
-     *         the charset to use when reading the file
+     *         the charset to use when reading the file (or {@code null} if the charset should be detected)
      */
     public FileReaderFactory(final Path file, final @Nullable Charset charset) {
-        super(charset);
+        super();
 
-        this.charset = charset;
-        charsetUndetected = charset == null;
         this.file = file;
+        this.charset = charset;
+        isCharsetUndetected = charset == null;
         fileName = file.toAbsolutePath().toString().replace('\\', '/');
     }
 
@@ -62,8 +63,8 @@ public class FileReaderFactory extends ReaderFactory {
     @Override @MustBeClosed
     public Reader create() {
         try {
-            if (isCharsetUndetected()) {
-                setCharset(detectCharset(Files.newInputStream(file)));
+            if (isCharsetUndetected) {
+                charset = detectCharset(Files.newInputStream(file));
             }
             InputStream inputStream = Files.newInputStream(file);
 
@@ -78,20 +79,18 @@ public class FileReaderFactory extends ReaderFactory {
     }
 
     private Charset detectCharset(final InputStream inputStream) throws IOException {
-        Charset result = null;
-
         try (Reader reader = new InputStreamReader(inputStream)) {
             XMLStreamReader xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(reader);
             String encodingTitle = xmlStreamReader.getCharacterEncodingScheme();
             if (encodingTitle != null) {
-                result = Charset.forName(encodingTitle);
+                return Charset.forName(encodingTitle);
             }
         }
         catch (XMLStreamException e) {
             // Charset couldn't be detected
         }
 
-        return result;
+        return null;
     }
 
     /**
@@ -106,14 +105,6 @@ public class FileReaderFactory extends ReaderFactory {
 
     @Override
     public Charset getCharset() {
-        return charset == null ? super.getCharset() : charset;
-    }
-
-    private void setCharset(final Charset charset) {
-        this.charset = charset;
-    }
-
-    private boolean isCharsetUndetected() {
-        return charsetUndetected;
+        return ObjectUtils.defaultIfNull(charset, super.getCharset());
     }
 }

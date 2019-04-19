@@ -16,9 +16,12 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * @author Michael Schmid
  */
 class FileReaderFactoryTest extends ResourceTest {
+
+    private static final Charset UTF_8 = StandardCharsets.UTF_8;
+
     @Test
     void shouldNotAccessInternet() {
-        FileReaderFactory factory = createFactory("eclipse-withinfo.xml", StandardCharsets.UTF_8);
+        FileReaderFactory factory = createFactory("eclipse-withinfo.xml", UTF_8);
         Document document = factory.readDocument();
 
         assertThat(document).isNotNull();
@@ -26,15 +29,15 @@ class FileReaderFactoryTest extends ResourceTest {
 
     @Test
     void useDefinedEncodingUtf8() {
-        FileReaderFactory factory = createFactory("encoded-with-UTF8.xml", StandardCharsets.UTF_8);
+        FileReaderFactory factory = createFactory("encoded-with-UTF8.xml", UTF_8);
 
-        assertEncoding(factory, StandardCharsets.UTF_8);
+        assertEncoding(factory, UTF_8);
     }
 
     @Test
     void detectEncodingOfUtf8XmlFile() {
         FileReaderFactory factory = createFactory("encoded-with-UTF8.xml");
-        assertEncoding(factory, StandardCharsets.UTF_8);
+        assertEncoding(factory, UTF_8);
     }
 
     @Test
@@ -52,7 +55,14 @@ class FileReaderFactoryTest extends ResourceTest {
     @Test
     void detectEncodingWithoutEncodingXmlFile() {
         FileReaderFactory factory = createFactory("encoded-without-encoding.xml");
-        assertEncoding(factory, StandardCharsets.UTF_8);
+        assertEncoding(factory, UTF_8);
+    }
+
+    @Test
+    void detectEncodingOfTextFile() {
+        FileReaderFactory factory = createFactory("context.txt");
+        factory.readString();
+        assertThat(factory.getCharset()).isEqualTo(UTF_8);
     }
 
     private void assertEncoding(final FileReaderFactory factory, final Charset charset) {
