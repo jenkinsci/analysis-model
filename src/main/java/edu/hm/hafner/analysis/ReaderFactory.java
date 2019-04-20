@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -33,22 +32,29 @@ import static org.apache.xerces.impl.Constants.*;
 public abstract class ReaderFactory {
     private static final Function<String, String> IDENTITY = Function.identity();
 
+    private final Charset charset;
     private final Function<String, String> lineMapper;
 
     /**
-     * Creates a new factory to read a resource.
+     * Creates a new factory to read a resource with a given charset.
+     *
+     * @param charset
+     *         the charset to use when reading the file
      */
-    public ReaderFactory() {
-        this(IDENTITY);
+    public ReaderFactory(final Charset charset) {
+        this(charset, IDENTITY);
     }
 
     /**
      * Creates a new factory to read a resource with a given charset.
      *
+     * @param charset
+     *         the charset to use when reading the file
      * @param lineMapper
      *         provides a mapper to transform each of the resource lines
      */
-    public ReaderFactory(final Function<String, String> lineMapper) {
+    public ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
+        this.charset = charset;
         this.lineMapper = lineMapper;
     }
 
@@ -174,7 +180,7 @@ public abstract class ReaderFactory {
      * @return the character set
      */
     public Charset getCharset() {
-        return StandardCharsets.UTF_8;
+        return charset;
     }
 }
 
