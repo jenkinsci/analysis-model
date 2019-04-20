@@ -22,7 +22,7 @@ public class NagFortranParser extends LookaheadParser {
     private static final long serialVersionUID = 2072414911276743946L;
 
     private static final String NAGFOR_MSG_PATTERN = "^(Info|Warning|Questionable|Extension|Obsolescent|Deleted "
-            + "feature used|Error|Runtime Error|Fatal Error|Panic): (.+\\.[^,:\\n]+)(, line (\\d+))?: (.+($\\s+detected"
+            + "feature used|Error|Runtime Error|Fatal Error|Panic): (.+\\.[^,:\\n]+)(, line (\\d+))?: (.+(\\s+detected"
             + " at .+)?)";
 
     /**
@@ -49,19 +49,20 @@ public class NagFortranParser extends LookaheadParser {
             final IssueBuilder builder)
             throws ParsingException {
 
-        if (lookahead.hasNext()) {
+            StringBuilder messageBuilder = new StringBuilder(matcher.group(5));
             String category = matcher.group(1);
+
+            while (lookahead.hasNext("\\s+ .+")) {
+                messageBuilder.append("\n");
+                messageBuilder.append(lookahead.next());
+            }
 
             return builder.setFileName(matcher.group(2))
                     .setLineStart(getLineNumber(matcher))
                     .setCategory(category)
-                    .setMessage(matcher.group(5))
+                    .setMessage(messageBuilder.toString())
                     .setSeverity(mapPriority(category))
                     .buildOptional();
-        }
-        else {
-            throw new ParsingException("Bla bla");
-        }
     }
 
     private Severity mapPriority(final String category) {

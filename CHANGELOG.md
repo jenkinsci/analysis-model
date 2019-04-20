@@ -22,6 +22,8 @@ Javac parser: Add the ability to parse warnings with preceding timestamps.
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
 expression that matches the whole property value anymore. 
+- [JENKINS-56698](https://issues.jenkins-ci.org/browse/JENKINS-56698) 
+`NagFortranParse` now uses `LookaheadParser` 
 
 ## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
 
