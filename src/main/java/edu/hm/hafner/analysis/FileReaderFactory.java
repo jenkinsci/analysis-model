@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -78,8 +79,9 @@ public class FileReaderFactory extends ReaderFactory {
         }
     }
 
+    @Nullable
     private Charset detectCharset(final InputStream inputStream) throws IOException {
-        try (Reader reader = new InputStreamReader(inputStream)) {
+        try (Reader reader = new InputStreamReader(inputStream, StandardCharsets.US_ASCII)) {
             XMLStreamReader xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(reader);
             String encodingTitle = xmlStreamReader.getCharacterEncodingScheme();
             if (encodingTitle != null) {
