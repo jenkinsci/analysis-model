@@ -13,6 +13,8 @@ Added a parser for CMake warnings.
 Added a parser for JSON output from Cargo.
 
 ### Fixed
+- [PR#118](https://github.com/jenkinsci/analysis-model/pull/118):
+Fixed parsing of log files that contain ANSI color codes (or escape sequences in general).
 - [JENKINS-38685](https://issues.jenkins-ci.org/browse/JENKINS-38685)
 MsBuild parser: Allow MSBuild errors without category.
 - [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333),
