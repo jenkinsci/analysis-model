@@ -1,14 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -22,6 +19,33 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 class MsBuildParserTest extends AbstractParserTest {
     MsBuildParserTest() {
         super("msbuild.txt");
+    }
+
+    /**
+     * Parses a file with ANSI colors.
+     *
+     * @see <a href="https://github.com/jenkinsci/analysis-model/pull/118">PR #118</a>
+     */
+    @Test
+    void shouldRemoveAnsiColors() {
+        Report warnings = parse("MSBuildANSIColor.txt");
+
+        assertThat(warnings)
+                .hasSize(1)
+                .hasSeverities(0, 0, 1, 0);
+
+        assertSoftly(softly -> softly.assertThat(warnings.get(0))
+                .hasFileName("C:/j/6aa722/src/CodeRunner/GenericCodeRunner/CompositeCode.cs")
+                .hasCategory("CS1591")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("Missing XML comment for publicly visible type or member 'CompositeCode.this[int]'")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(137)
+                .hasLineEnd(137)
+                .hasColumnStart(32)
+                .hasColumnEnd(32));
+
     }
 
     /**
@@ -674,7 +698,7 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void shouldDetectKeywordsInRegexCaseInsensitive() {
-        Report warnings = createParser().parse(createIssue2383File());
+        Report warnings = parse("issue2383.txt");
 
         assertThat(warnings)
                 .hasSize(2)
@@ -766,12 +790,6 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasLineStart(1801)
                 .hasLineEnd(1801);
         });
-    }
-
-    private ReaderFactory createIssue2383File() {
-        return createReaderFactory("file.txt", IOUtils.toInputStream("Src\\Parser\\CSharp\\cs.ATG (2242,17):  Warning"
-                + " CS0168: The variable 'type' is declared but never used\r\nC:\\Src\\Parser\\CSharp\\file.cs"
-                + " (10): Error XXX: An error occurred", StandardCharsets.UTF_8));
     }
 
     @Override

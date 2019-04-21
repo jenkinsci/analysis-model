@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Categories;
-import edu.hm.hafner.analysis.ReaderFactory;
+import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -16,7 +16,6 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 /**
  * Tests the class {@link AntJavacParser}.
@@ -194,11 +193,9 @@ class AntJavacParserTest extends AbstractParserTest {
     @Test
     void parseJapaneseWarnings() throws UnsupportedEncodingException {
         // force to use windows-31j - the default encoding on Windows Japanese.
-        InputStreamReader is = new InputStreamReader(
-                AntJavacParserTest.class.getResourceAsStream("ant-javac-japanese.txt"), "windows-31j");
-        ReaderFactory readerFactory = createReaderFactory();
-        when(readerFactory.create()).thenReturn(is);
-        Report warnings = createParser().parse(readerFactory);
+        Report warnings = createParser().parse(
+                new FileReaderFactory(getResourceAsFile("ant-javac-japanese.txt"),
+                        Charset.forName("windows-31j")));
 
         assertThat(warnings).hasSize(1);
     }

@@ -7,6 +7,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.InvalidPathException;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
@@ -14,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.input.ReaderInputStream;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -35,6 +37,11 @@ public abstract class ReaderFactory {
     private final Charset charset;
     private final Function<String, String> lineMapper;
 
+    private static final Pattern ANSI_COLOR_CODES
+            = Pattern.compile("\u001B\\[[;\\d]*[ -/]*[@-~]");
+    private static final Function<String, String> REMOVE_COLOR_CODES
+            = string -> ANSI_COLOR_CODES.matcher(string).replaceAll(StringUtils.EMPTY);
+
     /**
      * Creates a new factory to read a resource with a given charset.
      *
@@ -55,7 +62,7 @@ public abstract class ReaderFactory {
      */
     public ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
-        this.lineMapper = lineMapper;
+        this.lineMapper = lineMapper.compose(REMOVE_COLOR_CODES);
     }
 
     /**

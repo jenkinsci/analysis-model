@@ -1,0 +1,47 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--------------------< [0;36medu.hm.hafner:analysis-model[0;1m >--------------------[m
+[[1;34mINFO[m] [1mBuilding Static Analysis Model and Parsers 5.0.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.1.0:clean[m [1m(default-clean)[m @ [36manalysis-model[0;1m ---[m
+[[1;34mINFO[m] Deleting /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/target
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.1.0:resources[m [1m(default-resources)[m @ [36manalysis-model[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Copying 6 resources
+[[1;34mINFO[m] skip non existing resourceDirectory /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.8.0:compile[m [1m(default-compile)[m @ [36manalysis-model[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module!
+[[1;34mINFO[m] Compiling 174 source files to /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/target/classes
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/DrMemoryParser.java:[12,30] edu.hm.hafner.analysis.RegexpDocumentParser in edu.hm.hafner.analysis has been deprecated
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/NagFortranParser.java:[11,30] edu.hm.hafner.analysis.RegexpDocumentParser in edu.hm.hafner.analysis has been deprecated
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/Report.java:[83,44] [ConstructorLeaksThis] Constructors should not pass the 'this' reference out in method invocations, since the object may not be fully constructed.
+    (see https://errorprone.info/bugpattern/ConstructorLeaksThis)
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/Report.java:[101,44] [ConstructorLeaksThis] Constructors should not pass the 'this' reference out in method invocations, since the object may not be fully constructed.
+    (see https://errorprone.info/bugpattern/ConstructorLeaksThis)
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/Report.java:[768,33] [NoFunctionalReturnType] Instead of returning a functional type, return the actual type that the returned function would return and use lambdas at use site.
+    (see https://errorprone.info/bugpattern/NoFunctionalReturnType)
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/IssueBuilder.java:[86,74] [NullAway] passing @Nullable parameter 'fileName' where @NonNull is required
+    (see http://t.uber.com/nullaway )
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/FilteredLog.java:[112,107] [FormatStringAnnotation] Format strings must be compile time constants or parameters annotated @FormatString: s
+    (see https://errorprone.info/bugpattern/FormatStringAnnotation)
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/DrMemoryParser.java:[22,37] edu.hm.hafner.analysis.RegexpDocumentParser in edu.hm.hafner.analysis has been deprecated
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/DrMemoryParser.java:[74,42] [BooleanParameter] Use parameter comments to document ambiguous literals
+    (see https://errorprone.info/bugpattern/BooleanParameter)
+  Did you mean 'super(DR_MEMORY_WARNING_PATTERN, /* useMultiLine= */false);'?
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/PackageNameResolver.java:[65,38] [NoFunctionalReturnType] Instead of returning a functional type, return the actual type that the returned function would return and use lambdas at use site.
+    (see https://errorprone.info/bugpattern/NoFunctionalReturnType)
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/util/PathUtil.java:[94,36] [NullAway] passing @Nullable parameter 'directory' where @NonNull is required
+    (see http://t.uber.com/nullaway )
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/NagFortranParser.java:[18,39] edu.hm.hafner.analysis.RegexpDocumentParser in edu.hm.hafner.analysis has been deprecated
+[[1;33mWARNING[m] /Users/hafner/Development/git/warnings-ng-plugin-devenv/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/NagFortranParser.java:[29,35] [BooleanParameter] Use parameter comments to document ambiguous literals
+    (see https://errorprone.info/bugpattern/BooleanParameter)
+  Did you mean 'super(NAGFOR_MSG_PATTERN, /* useMultiLine= */true);'?
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  6.572 s
+[[1;34mINFO[m] Finished at: 2019-04-22T00:29:30+02:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

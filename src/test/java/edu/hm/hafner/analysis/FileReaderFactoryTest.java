@@ -16,7 +16,6 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * @author Michael Schmid
  */
 class FileReaderFactoryTest extends ResourceTest {
-
     private static final Charset UTF_8 = StandardCharsets.UTF_8;
 
     @Test

@@ -54,6 +54,18 @@ class JavacParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parses a file with ANSI colors.
+     *
+     * @see <a href="https://github.com/jenkinsci/analysis-model/pull/118">PR #118</a>
+     */
+    @Test
+    void shouldParseAnsiColorCodedLog() {
+        Report report = parse("maven-ansi.txt");
+
+        assertThat(report).hasSize(13);
+    }
+
+    /**
      * Parses a warning log with 4 compile errors.
      */
     @Test

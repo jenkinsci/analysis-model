@@ -1,19 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.StringReader;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static org.mockito.Mockito.*;
 
 /**
  * Tests the class {@link XlcLinkerParser}.
@@ -137,13 +135,11 @@ class XlcLinkerParserTest extends AbstractParserTest {
     }
 
     private Report parseString(final String log) {
-        ReaderFactory readerFactory = createReaderFactory();
-        when(readerFactory.create()).thenAnswer(invocation -> new StringReader(log));
-        Report warnings = createParser().parse(readerFactory);
+        Report report = parseStringContent(log);
 
-        assertThat(warnings).hasSize(1);
+        assertThat(report).hasSize(1);
 
-        return warnings;
+        return report;
     }
 }
 
