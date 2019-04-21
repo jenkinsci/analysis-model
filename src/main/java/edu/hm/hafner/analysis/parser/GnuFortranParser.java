@@ -18,7 +18,6 @@ import edu.hm.hafner.util.LookaheadStream;
 public class GnuFortranParser extends LookaheadParser {
     private static final long serialVersionUID = 0L;
 
-
     /**
      * The gfortran regex string that follows has been reverse engineered from the show_locus function in
      * gcc/fortran/error.c at r204295. By inspection of the GCC release branches this regex should be compatible with
@@ -60,10 +59,6 @@ public class GnuFortranParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         // Gather location of the error.
-        String fileName = matcher.group(1);
-        String lineStart = matcher.group(2);
-        String columnStart = matcher.group(3);
-        String columnEnd = matcher.group(4);
 
         // Match all include lines
         while (lookahead.hasNext(INCLUDE_LINE_REGEX)) {
@@ -110,10 +105,10 @@ public class GnuFortranParser extends LookaheadParser {
             message = MESSAGE_TRIM_PATTERN.matcher(lookahead.next()).replaceAll("");
         }
 
-        return builder.setFileName(fileName)
-                .setColumnStart(columnStart)
-                .setColumnEnd(columnEnd)
-                .setLineStart(lineStart)
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(matcher.group(2))
+                .setColumnStart(matcher.group(3))
+                .setColumnEnd(matcher.group(4))
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(Severity.guessFromString(category))

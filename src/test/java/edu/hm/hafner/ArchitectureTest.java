@@ -1,5 +1,6 @@
 package edu.hm.hafner;
 
+import java.util.Arrays;
 import javax.xml.parsers.SAXParser;
 
 import org.apache.commons.digester3.Digester;
@@ -74,7 +75,8 @@ class ArchitectureTest {
 
         TargetIsForbiddenClass(final String... classes) {
             super("forbidden class");
-            this.classes = classes;
+
+            this.classes = Arrays.copyOf(classes, classes.length);
         }
 
         @Override
