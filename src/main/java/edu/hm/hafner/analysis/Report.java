@@ -1075,11 +1075,6 @@ public class Report implements Iterable<Issue>, Serializable {
             return this;
         }
 
-        private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
-            addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
-                    filterType);
-        }
-
         /**
          * Add a new filter to exclude issues with matching issue message.
          *
@@ -1090,6 +1085,11 @@ public class Report implements Iterable<Issue>, Serializable {
          */
         public IssueFilterBuilder setExcludeMessageFilter(final String... pattern) {
             return setExcludeMessageFilter(Arrays.asList(pattern));
+        }
+
+        private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
+            addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
+                    filterType);
         }
         //</editor-fold>
     }

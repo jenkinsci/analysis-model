@@ -16,7 +16,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.apache.commons.io.input.BOMInputStream;
-import org.apache.commons.lang3.ObjectUtils;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
@@ -32,7 +31,7 @@ public class FileReaderFactory extends ReaderFactory {
     private final String fileName;
     @Nullable
     private Charset charset;
-    private boolean isCharsetUndetected;
+    private final boolean isCharsetUndetected;
 
     /**
      * Creates a new factory to read the specified file with a given charset.
@@ -107,6 +106,9 @@ public class FileReaderFactory extends ReaderFactory {
 
     @Override
     public Charset getCharset() {
-        return ObjectUtils.defaultIfNull(charset, super.getCharset());
+        if (charset == null) {
+            return super.getCharset();
+        }
+        return charset;
     }
 }

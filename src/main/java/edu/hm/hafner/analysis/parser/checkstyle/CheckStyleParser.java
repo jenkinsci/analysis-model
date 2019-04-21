@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Optional;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +13,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
-import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**

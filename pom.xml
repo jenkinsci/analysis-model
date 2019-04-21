@@ -270,7 +270,7 @@
             <arg>-Xep:MethodCanBeStatic:OFF</arg>
             <arg>-Xep:WildcardImport:OFF</arg>
             <arg>-Xep:ThrowsUncheckedException:OFF</arg>
-            <arg>-Xep:NullableDereference:OFF</arg> // Exception
+            <arg>-Xep:NullableDereference:OFF</arg> <!-- Exception -->
           </compilerArgs>
           <compilerId>javac-with-errorprone</compilerId>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
