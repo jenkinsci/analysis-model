@@ -137,6 +137,12 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
       <version>${commons.text.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-lang3</artifactId>
+          <groupId>org.apache.commons</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.collections</groupId>
@@ -221,6 +227,12 @@
       <artifactId>archunit-junit5-engine</artifactId>
       <version>${archunit.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit-platform-engine</artifactId>
+          <groupId>org.junit.platform</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
   </dependencies>
