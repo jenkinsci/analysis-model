@@ -3,14 +3,12 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpDocumentParser;
+import edu.hm.hafner.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -32,37 +30,24 @@ public class NagFortranParser extends LookaheadParser {
         super(NAGFOR_MSG_PATTERN);
     }
 
-    @Deprecated
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String category = matcher.group(1);
-
-        return builder.setFileName(matcher.group(2))
-                .setLineStart(getLineNumber(matcher))
-                .setCategory(category)
-                .setMessage(matcher.group(5))
-                .setSeverity(mapPriority(category))
-                .buildOptional();
-    }
-
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder)
             throws ParsingException {
 
-            StringBuilder messageBuilder = new StringBuilder(matcher.group(5));
-            String category = matcher.group(1);
+        StringBuilder messageBuilder = new StringBuilder(matcher.group(5));
 
-            while (lookahead.hasNext("\\s+ .+")) {
-                messageBuilder.append("\n");
-                messageBuilder.append(lookahead.next());
-            }
+        while (lookahead.hasNext("\\s+ .+")) {
+            messageBuilder.append("\n");
+            messageBuilder.append(lookahead.next());
+        }
 
-            return builder.setFileName(matcher.group(2))
-                    .setLineStart(getLineNumber(matcher))
-                    .setCategory(category)
-                    .setMessage(messageBuilder.toString())
-                    .setSeverity(mapPriority(category))
-                    .buildOptional();
+        return builder.setFileName(matcher.group(2))
+                .setLineStart(IntegerParser.parseInt(matcher.group(4)))
+                .setCategory(matcher.group(1))
+                .setMessage(messageBuilder.toString())
+                .setSeverity(mapPriority(matcher.group(1)))
+                .buildOptional();
     }
 
     private Severity mapPriority(final String category) {
@@ -77,16 +62,5 @@ public class NagFortranParser extends LookaheadParser {
             default:
                 return Severity.WARNING_NORMAL;
         }
-    }
-
-    private int getLineNumber(final Matcher matcher) {
-        int lineNumber;
-        if (StringUtils.isEmpty(matcher.group(4))) {
-            lineNumber = 0;
-        }
-        else {
-            lineNumber = Integer.parseInt(matcher.group(4));
-        }
-        return lineNumber;
     }
 }
