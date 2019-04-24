@@ -9,8 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpDocumentParser;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.util.IntegerParser.*;
 
@@ -19,22 +21,28 @@ import static edu.hm.hafner.util.IntegerParser.*;
  *
  * @author Wade Penson
  */
-public class DrMemoryParser extends RegexpDocumentParser {
+public class DrMemoryParser extends LookaheadParser {
     private static final long serialVersionUID = 7195239138601238590L;
 
     /**
-     * Regex pattern for Dr. Memory errors and warnings. <p> The pattern first tries to capture the header of the error
-     * message with the stack trace. If there happens to be no stack trace for some reason, only the header with any
-     * optional notes will be captured. This is reflected by the ( | ). <p> The body can consist of a stack trace and a
-     * notes section. Both the stack trace and notes can consist of multiple lines. A line in the stack trace starts
-     * with "#" and a proceeding number and the lines in the notes section start with "Note: ". The first part of
-     * pattern will match the the lines that start with "#" until it can't find a line that starts with "#". If the next
-     * line starts with "Note: ", it will match the rest of the lines until there are two consecutive newlines (which
-     * indicates that the end of the error has been reached). <p> Note: Groups can have trailing whitespace.
+     * Regex pattern for Dr. Memory errors and warnings.
+     *
+     * <p>
+     * The pattern first tries to capture the header of the error message with the stack trace. If there happens to be
+     * no stack trace for some reason, only the header with any optional notes will be captured. This is reflected by
+     * the ( | ).
+     * </p>
+     * <p>
+     * The body can consist of a stack trace and a notes section. Both the stack trace and notes can consist of multiple
+     * lines. A line in the stack trace starts with "#" and a proceeding number and the lines in the notes section start
+     * with "Note: ". The first part of pattern will match the the lines that start with "#" until it can't find a line
+     * that starts with "#". If the next line starts with "Note: ", it will match the rest of the lines until there are
+     * two consecutive newlines (which indicates that the end of the error has been reached).
+     * </p>
+     *
+     * <p> Note: Groups can have trailing whitespace.</p>
      */
-    private static final String DR_MEMORY_WARNING_PATTERN = "(?:Error #\\d+: ([\\s\\S]+?)\\r?\\n(# \\d+ "
-            + "[\\s\\S]*?\\r?\\n)(?=[^#])(Note: [\\s\\S]*?\\r?\\n\\r?\\n)?|"
-            + "Error #\\d+: ([\\s\\S]+?)\\r?\\n\\r?\\n)";
+    private static final String DR_MEMORY_WARNING_PATTERN = "Error #\\d+: (.*)";
 
     /**
      * The index of the regexp group capturing the header of the error or warning from the first part of the regex ( | )
@@ -71,54 +79,36 @@ public class DrMemoryParser extends RegexpDocumentParser {
      * Creates a new instance of {@link DrMemoryParser}.
      */
     public DrMemoryParser() {
-        super(DR_MEMORY_WARNING_PATTERN, false);
+        super(DR_MEMORY_WARNING_PATTERN);
     }
 
     @SuppressWarnings("all")
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        StringBuilder messageBuilder = new StringBuilder();
-        String filePath = "Nil";
-        int lineNumber = 0;
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder)
+            throws ParsingException {
+        String header = matcher.group(1);
 
-        // Store this for later use when finding the category.
-        String header = "";
+        StringBuilder messageBuilder = new StringBuilder(header);
 
-        if (matcher.group(SECOND_HEADER_GROUP) == null) {
-            String tempHeader = matcher.group(FIRST_HEADER_GROUP);
-
-            if (tempHeader != null) {
-                header = tempHeader.trim();
-                messageBuilder.append(header);
-            }
-
-            String stackTrace = matcher.group(STACK_TRACE_GROUP);
-
-            if (stackTrace != null) {
-                stackTrace = stackTrace.trim();
-                SourceCodeLocation location = findOriginatingErrLocation(stackTrace);
-                filePath = location.getFilePath();
-                lineNumber = location.getLineNumber();
-
-                messageBuilder.append("\n");
-                messageBuilder.append(stackTrace);
-            }
-
-            String notes = matcher.group(NOTES_GROUP);
-
-            if (notes != null) {
-                notes = notes.trim();
-                messageBuilder.append("\n");
-                messageBuilder.append(notes);
-            }
+        while (lookahead.hasNext("Elapsed time")) {
+            messageBuilder.append("<br>");
+            messageBuilder.append(lookahead.next());
         }
-        else {
-            String tempHeader = matcher.group(SECOND_HEADER_GROUP);
 
-            if (tempHeader != null) {
-                header = tempHeader.trim();
-                messageBuilder.append(header);
-            }
+        StringBuilder stacktraceBuilder = new StringBuilder();
+        while (lookahead.hasNext("^#.*")) {
+            String stackTrace = lookahead.next();
+            stacktraceBuilder.append(stackTrace);
+            stacktraceBuilder.append("<br>");
+
+            messageBuilder.append("<br>");
+            messageBuilder.append(stackTrace);
+        }
+
+        while (lookahead.hasNext("^Note:")) {
+            messageBuilder.append("<br>");
+            messageBuilder.append(lookahead.next());
         }
 
         String message;
@@ -168,8 +158,9 @@ public class DrMemoryParser extends RegexpDocumentParser {
             }
         }
 
-        return builder.setFileName(filePath)
-                .setLineStart(lineNumber)
+        findOriginatingErrLocation(stacktraceBuilder.toString(), builder);
+
+        return builder
                 .setCategory(category)
                 .setMessage(message)
                 .setSeverity(priority)
@@ -183,49 +174,26 @@ public class DrMemoryParser extends RegexpDocumentParser {
      *
      * @param stackTrace
      *         the stack trace in the correct order
-     *
-     * @return A SourceCodeLocation of where the error originated.
+     * @param builder
+     *         the issue builder
      */
     @SuppressWarnings("all")
-    private SourceCodeLocation findOriginatingErrLocation(final String stackTrace) {
-        String errFilePath = "Unknown"; // Path where the error originates from
-        int lineNumber = 0; // Line number where the error originates from
-
-        for (String line : stackTrace.split("\\r?\\n", -1)) {
+    private void findOriginatingErrLocation(final String stackTrace, final IssueBuilder builder) {
+        builder.setFileName("-");
+        builder.setLineStart(0);
+        for (String line : stackTrace.split("<br>", -1)) {
             Matcher pathMatcher = FILE_PATH_PATTERN.matcher(line);
 
             if (pathMatcher.find()) {
-                errFilePath = pathMatcher.group(FILE_PATH_GROUP);
-                lineNumber = parseInt(pathMatcher.group(LINE_NUMBER_GROUP));
+                String path = pathMatcher.group(FILE_PATH_GROUP);
+                builder.setFileName(path);
+                builder.setLineStart(parseInt(pathMatcher.group(LINE_NUMBER_GROUP)));
 
-                Matcher jenkinsPathMatcher = JENKINS_PATH_PATTERN.matcher(errFilePath);
+                Matcher jenkinsPathMatcher = JENKINS_PATH_PATTERN.matcher(path);
                 if (jenkinsPathMatcher.find()) {
-                    return new SourceCodeLocation(errFilePath, lineNumber);
+                    return;
                 }
             }
-        }
-
-        return new SourceCodeLocation(errFilePath, lineNumber);
-    }
-
-    /**
-     * Class that stores a file path and a line number pair.
-     */
-    private static final class SourceCodeLocation {
-        private final String filePath;
-        private final int lineNumber;
-
-        SourceCodeLocation(final String filePath, final int lineNumber) {
-            this.filePath = filePath;
-            this.lineNumber = lineNumber;
-        }
-
-        public String getFilePath() {
-            return filePath;
-        }
-
-        public int getLineNumber() {
-            return lineNumber;
         }
     }
 }
