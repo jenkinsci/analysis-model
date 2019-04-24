@@ -23,57 +23,15 @@ import static edu.hm.hafner.util.IntegerParser.*;
  */
 public class DrMemoryParser extends LookaheadParser {
     private static final long serialVersionUID = 7195239138601238590L;
-
-    /**
-     * Regex pattern for Dr. Memory errors and warnings.
-     *
-     * <p>
-     * The pattern first tries to capture the header of the error message with the stack trace. If there happens to be
-     * no stack trace for some reason, only the header with any optional notes will be captured. This is reflected by
-     * the ( | ).
-     * </p>
-     * <p>
-     * The body can consist of a stack trace and a notes section. Both the stack trace and notes can consist of multiple
-     * lines. A line in the stack trace starts with "#" and a proceeding number and the lines in the notes section start
-     * with "Note: ". The first part of pattern will match the the lines that start with "#" until it can't find a line
-     * that starts with "#". If the next line starts with "Note: ", it will match the rest of the lines until there are
-     * two consecutive newlines (which indicates that the end of the error has been reached).
-     * </p>
-     *
-     * <p> Note: Groups can have trailing whitespace.</p>
-     */
     private static final String DR_MEMORY_WARNING_PATTERN = "Error #\\d+: (.*)";
 
-    /**
-     * The index of the regexp group capturing the header of the error or warning from the first part of the regex ( | )
-     * statement.
-     */
-    private static final int FIRST_HEADER_GROUP = 1;
-
-    /** The index of the regexp group capturing the stack trace of the error or warning. */
-    private static final int STACK_TRACE_GROUP = 2;
-
-    /** The index of the regexp group capturing the notes of the error or warning. */
-    private static final int NOTES_GROUP = 3;
-
-    /**
-     * The index of the regexp group capturing the header of the error or warning from the second part of the regex ( |
-     * ) statement.
-     */
-    private static final int SECOND_HEADER_GROUP = 4;
-
     /** Regex pattern to extract the file path from a line. */
-    private static final Pattern FILE_PATH_PATTERN = Pattern.compile("#\\s*\\d+.*?\\[(.*\\/?.*):(\\d+)\\]");
-
-    /** The index of the regexp group capturing the file path of a location in the stack trace. */
-    private static final int FILE_PATH_GROUP = 1;
-
-    /** The index of the regexp group capturing the line number of a location in the stack trace. */
-    private static final int LINE_NUMBER_GROUP = 2;
+    private static final Pattern FILE_PATH_PATTERN = Pattern.compile(
+            "#\\s*\\d+.*?\\[(?<file>.*/?.*):(?<line>\\d+)]");
 
     /** Regex pattern to extract the jenkins path from file path. */
     private static final Pattern JENKINS_PATH_PATTERN = Pattern
-            .compile(".*?(\\/jobs\\/.*?\\/workspace\\/|workspace\\/)");
+            .compile(".*?(/jobs/.*?/workspace/|workspace/)");
 
     /**
      * Creates a new instance of {@link DrMemoryParser}.
@@ -82,7 +40,6 @@ public class DrMemoryParser extends LookaheadParser {
         super(DR_MEMORY_WARNING_PATTERN);
     }
 
-    @SuppressWarnings("all")
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder)
@@ -90,7 +47,6 @@ public class DrMemoryParser extends LookaheadParser {
         String header = matcher.group(1);
 
         StringBuilder messageBuilder = new StringBuilder(header);
-
         while (lookahead.hasNext("Elapsed time")) {
             messageBuilder.append("<br>");
             messageBuilder.append(lookahead.next());
@@ -111,60 +67,55 @@ public class DrMemoryParser extends LookaheadParser {
             messageBuilder.append(lookahead.next());
         }
 
-        String message;
+        assignCategoryAndSeverity(builder, header.toLowerCase(Locale.ENGLISH));
+        findOriginatingErrorLocation(stacktraceBuilder.toString(), builder);
 
         if (messageBuilder.length() == 0) {
-            message = "Unknown Dr. Memory Error";
+            messageBuilder.append("Unknown Dr. Memory Error");
         }
-        else {
-            message = messageBuilder.toString().replace("\n", "<br>");
-        }
+        return builder.setMessage(messageBuilder.toString()).buildOptional();
+    }
 
-        header = header.toLowerCase(Locale.ENGLISH);
-
-        String category = "Unknown";
-        Severity priority = Severity.WARNING_HIGH;
+    private void assignCategoryAndSeverity(final IssueBuilder builder, final String header) {
+        builder.setCategory("Unknown");
         if (StringUtils.isNotBlank(header)) {
             if (header.startsWith("unaddressable access")) {
-                category = "Unaddressable Access";
+                builder.setCategory("Unaddressable Access");
+                builder.setSeverity(Severity.WARNING_HIGH);
             }
             else if (header.startsWith("uninitialized read")) {
-                category = "Uninitialized Read";
+                builder.setCategory("Uninitialized Read");
+                builder.setSeverity(Severity.WARNING_HIGH);
             }
             else if (header.startsWith("invalid heap argument")) {
-                category = "Invalid Heap Argument";
+                builder.setCategory("Invalid Heap Argument");
+                builder.setSeverity(Severity.WARNING_HIGH);
             }
             else if (header.startsWith("possible leak")) {
-                category = "Possible Leak";
-                priority = Severity.WARNING_NORMAL;
+                builder.setCategory("Possible Leak");
+                builder.setSeverity(Severity.WARNING_NORMAL);
             }
             else if (header.startsWith("reachable leak")) {
-                category = "Reachable Leak";
+                builder.setCategory("Reachable Leak");
+                builder.setSeverity(Severity.WARNING_HIGH);
             }
             else if (header.startsWith("leak")) {
-                category = "Leak";
+                builder.setCategory("Leak");
+                builder.setSeverity(Severity.WARNING_HIGH);
             }
             else if (header.startsWith("gdi usage error")) {
-                category = "GDI Usage Error";
-                priority = Severity.WARNING_NORMAL;
+                builder.setCategory("GDI Usage Error");
+                builder.setSeverity(Severity.WARNING_NORMAL);
             }
             else if (header.startsWith("handle leak")) {
-                category = "Handle Leak";
-                priority = Severity.WARNING_NORMAL;
+                builder.setCategory("Handle Leak");
+                builder.setSeverity(Severity.WARNING_NORMAL);
             }
             else if (header.startsWith("warning")) {
-                category = "Warning";
-                priority = Severity.WARNING_NORMAL;
+                builder.setCategory("Warning");
+                builder.setSeverity(Severity.WARNING_NORMAL);
             }
         }
-
-        findOriginatingErrLocation(stacktraceBuilder.toString(), builder);
-
-        return builder
-                .setCategory(category)
-                .setMessage(message)
-                .setSeverity(priority)
-                .buildOptional();
     }
 
     /**
@@ -177,17 +128,16 @@ public class DrMemoryParser extends LookaheadParser {
      * @param builder
      *         the issue builder
      */
-    @SuppressWarnings("all")
-    private void findOriginatingErrLocation(final String stackTrace, final IssueBuilder builder) {
+    private void findOriginatingErrorLocation(final String stackTrace, final IssueBuilder builder) {
         builder.setFileName("-");
         builder.setLineStart(0);
         for (String line : stackTrace.split("<br>", -1)) {
             Matcher pathMatcher = FILE_PATH_PATTERN.matcher(line);
 
             if (pathMatcher.find()) {
-                String path = pathMatcher.group(FILE_PATH_GROUP);
+                String path = pathMatcher.group("file");
                 builder.setFileName(path);
-                builder.setLineStart(parseInt(pathMatcher.group(LINE_NUMBER_GROUP)));
+                builder.setLineStart(parseInt(pathMatcher.group("line")));
 
                 Matcher jenkinsPathMatcher = JENKINS_PATH_PATTERN.matcher(path);
                 if (jenkinsPathMatcher.find()) {
