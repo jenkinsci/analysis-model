@@ -44,6 +44,8 @@ SonarQubeParser: Use `textRange` when computing affected source code line.
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
 expression that matches the whole property value anymore. 
+- [JENKINS-56698](https://issues.jenkins-ci.org/browse/JENKINS-56698) 
+`NagFortranParse` now uses `LookaheadParser` 
 
 ### Changed API
 
