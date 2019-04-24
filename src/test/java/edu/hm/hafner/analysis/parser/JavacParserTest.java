@@ -85,11 +85,12 @@ class JavacParserTest extends AbstractParserTest {
     void shouldParseTimestamps() {
         Report warnings = parse("javac-timestamps.txt");
 
-        assertThat(warnings).hasSize(4);
+        assertThat(warnings).hasSize(5);
         assertThat(warnings.get(0)).hasMessage("Test1");
         assertThat(warnings.get(1)).hasMessage("Test2");
         assertThat(warnings.get(2)).hasMessage("Test3");
         assertThat(warnings.get(3)).hasMessage("Test4");
+        assertThat(warnings.get(4)).hasMessage("Test8");
     }
 
     /**
