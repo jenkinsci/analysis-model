@@ -17,6 +17,7 @@ import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.XmlElementUtil;
 
 /**
@@ -103,7 +104,7 @@ public class XmlParser extends IssueParser {
                                 (NodeList) path.evaluate(LINE_RANGES, issue, XPathConstants.NODESET)))
                         .setCategory(path.evaluate(CATEGORY, issue))
                         .setType(path.evaluate(TYPE, issue))
-                        .guessSeverity(path.evaluate(SEVERITY, issue))
+                        .setSeverity(Severity.valueOf(path.evaluate(SEVERITY, issue), Severity.WARNING_NORMAL))
                         .setMessage(path.evaluate(MESSAGE, issue))
                         .setDescription(path.evaluate(DESCRIPTION, issue))
                         .setPackageName(path.evaluate(PACKAGE_NAME, issue))
