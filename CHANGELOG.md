@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.0.0...master)
 
 ### Added
+- [JENKINS-56510](https://issues.jenkins-ci.org/browse/JENKINS-56510),
+[PR#154](https://github.com/jenkinsci/analysis-model/pull/154): 
+Added a generic parser that reads all properties of the internal `Issue` object.
 - [PR#132](https://github.com/jenkinsci/analysis-model/pull/132): 
 Added a parser for CMake warnings.
 - [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):
