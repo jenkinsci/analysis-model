@@ -1,12 +1,16 @@
 package edu.hm.hafner.analysis.assertj;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.assertj.core.api.AbstractAssert;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -17,6 +21,8 @@ import edu.hm.hafner.analysis.Severity;
 @SuppressWarnings({"NonBooleanMethodNameMayNotStartWithQuestion", "PMD.LinguisticNaming"})
 public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
     private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s of:%n <%s>%nto be:%n <%s>%nbut was:%n <%s>.";
+    private static final String EXPECTED_BUT_NOT_CONTAINING =
+            "%nExpecting %s of:%n <%s> %n which has: %n <%s>%nto contain:%n <%s>%nbut elements were not in list:%n <%s>.";
 
     /**
      * Creates a new {@link IssueAssert} to make assertions on actual {@link Issue}.
@@ -351,6 +357,34 @@ public class IssueAssert extends AbstractAssert<IssueAssert, Issue> {
         if (!Objects.equals(actual.getAdditionalProperties(), additionalProperties)) {
             failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "additional properties", actual, additionalProperties,
                     actual.getAdditionalProperties());
+        }
+        return this;
+    }
+
+    /**
+     * Checks whether an Issue has specific line ranges.
+     *
+     * @param lineRanges
+     *          Vararg specifying lineRanges.
+     *
+     * @return this
+     */
+    public IssueAssert containsExactlyLineRanges(final LineRange... lineRanges) {
+        isNotNull();
+        if (!Objects.equals(actual.getLineRanges().size(), lineRanges.length)) {
+            failWithMessage(EXPECTED_BUT_WAS_MESSAGE, "line ranges size", actual, lineRanges.length,
+                    actual.getLineRanges().size());
+        }
+        LineRangeList notContainingList = new LineRangeList();
+        for (LineRange lineRange : lineRanges) {
+            if (!actual.getLineRanges().contains(lineRange)) {
+                notContainingList.add(lineRange);
+            }
+        }
+        if (notContainingList.size() > 0) {
+            failWithMessage(EXPECTED_BUT_NOT_CONTAINING, "line range", actual, actual.getLineRanges(),
+                    Arrays.stream(lineRanges).map(LineRange::toString).collect(Collectors.joining(", ")),
+                    notContainingList.toString());
         }
         return this;
     }
