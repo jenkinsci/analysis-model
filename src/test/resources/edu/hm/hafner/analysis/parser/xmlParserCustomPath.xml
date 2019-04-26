@@ -1,0 +1,64 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<analysisReport>
+    <elements class="linked-hash-set">
+        <issue>
+            <category>category</category>
+            <type>type</type>
+            <severity>HIGH</severity>
+            <message>1</message>
+            <lineStart>1</lineStart>
+            <lineEnd>2</lineEnd>
+            <columnStart>3</columnStart>
+            <columnEnd>4</columnEnd>
+            <lineRanges>
+                <lineRange>
+                    <start>5</start>
+                    <end>6</end>
+                </lineRange>
+            </lineRanges>
+            <id>c3b984a3-7f67-4332-953b-27d3943f232c</id>
+            <description>description</description>
+            <reference>reference</reference>
+            <origin>origin</origin>
+            <moduleName>module-name</moduleName>
+            <packageName>package-name</packageName>
+            <fileName>file-name</fileName>
+            <fingerprint>fingerprint</fingerprint>
+        </issue>
+        <issue>
+            <category>category2</category>
+            <type>type2</type>
+            <severity reference="../../issue/severity"/>
+            <message>2</message>
+            <lineStart>5</lineStart>
+            <lineEnd>6</lineEnd>
+            <columnStart>7</columnStart>
+            <columnEnd>8</columnEnd>
+            <lineRanges>
+                <lineRange>
+                    <start>42</start>
+                    <end>43</end>
+                </lineRange>
+                <lineRange>
+                    <start>44</start>
+                    <end>45</end>
+                </lineRange>
+            </lineRanges>
+            <id>fbf2fee0-292f-4991-bd06-d8c5b13ace93</id>
+            <description>description</description>
+            <reference>reference</reference>
+            <origin>origin</origin>
+            <moduleName>module-name</moduleName>
+            <packageName>package-name</packageName>
+            <fileName>file-name</fileName>
+            <fingerprint>fingerprint</fingerprint>
+        </issue>
+    </elements>
+    <infoMessages>
+        <string>info</string>
+    </infoMessages>
+    <errorMessages>
+        <string>error</string>
+    </errorMessages>
+    <duplicatesSize>0</duplicatesSize>
+</analysisReport>
