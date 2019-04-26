@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 import java.util.Optional;
@@ -62,7 +61,7 @@ public class MentorParser extends LookaheadParser {
                                           final IssueBuilder builder) {
         clearBuilder(builder);
 
-        builder.setSeverity(mapPriority(matcher.group("priority")));
+        builder.guessSeverity(matcher.group("priority"));
 
         String message = matcher.group("message");
         if (message.contains("while parsing file")) {
@@ -139,23 +138,4 @@ public class MentorParser extends LookaheadParser {
         return line.startsWith("# **");
     }
 
-    private Severity mapPriority(final String xilPriority) {
-        Severity severity;
-        switch (xilPriority) {
-            case "Error":
-                severity = Severity.ERROR;
-                break;
-            case "Critical Warning":
-                severity = Severity.WARNING_HIGH;
-                break;
-            case "Warning":
-                severity = Severity.WARNING_NORMAL;
-                break;
-            case "Note":
-            default:
-                severity = Severity.WARNING_LOW;
-                break;
-        }
-        return severity;
-    }
 }
