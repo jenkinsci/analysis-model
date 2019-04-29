@@ -14,6 +14,8 @@ Added a generic parser that reads all properties of the internal `Issue` object.
 Added a parser for CMake warnings.
 - [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):
 Added a parser for JSON output from Cargo.
+- [PR#160](https://github.com/jenkinsci/analysis-model/pull/160):
+Added a parser for MentorGraphcis Modelsim/Questa.
 
 ### Fixed
 - [JENKINS-54736](https://issues.jenkins-ci.org/browse/JENKINS-54736)
