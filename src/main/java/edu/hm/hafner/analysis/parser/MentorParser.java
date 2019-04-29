@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
  */
 public class MentorParser extends LookaheadParser {
 
+    public static final long serialVersionUID = 1L;
+
     /**
      * Matches the beginning of a Modelsim/Questa message "** [priority] : [The remainder of the message]".
      */
@@ -66,18 +68,19 @@ public class MentorParser extends LookaheadParser {
         String message = matcher.group("message");
         if (message.contains("while parsing file")) {
             parseVlogMessage(lookahead, builder, message);
-        } else {
+        }
+        else {
             parseVsimMessage(lookahead, builder, message);
         }
 
         return builder.buildOptional();
     }
 
-    private void parseVlogMessage(LookaheadStream lookahead, IssueBuilder builder, String message) {
+    private void parseVlogMessage(final LookaheadStream lookahead, final IssueBuilder builder, final String message) {
         while (!lookahead.peekNext().startsWith("# ** at ")) {
             lookahead.next();
         }
-
+        String parsedMessage = message;
         // If we can refine the message, the do.
         // Else just return what we got passed.
         Matcher vlog = VLOG_PATTERN.matcher(lookahead.next().substring(5));
@@ -85,15 +88,16 @@ public class MentorParser extends LookaheadParser {
             builder.setFileName(vlog.group("filename"));
             builder.setLineStart(vlog.group("line"));
             builder.setCategory(vlog.group("category"));
-            message = vlog.group("message");
+            parsedMessage = vlog.group("message");
         }
         builder.setDescription("");
-        builder.setMessage(message);
+        builder.setMessage(parsedMessage);
     }
 
-    private void parseVsimMessage(LookaheadStream lookahead, IssueBuilder builder, String message) {
+    private void parseVsimMessage(final LookaheadStream lookahead, final IssueBuilder builder, final String message) {
         builder.setDescription(parseSimTime(lookahead, builder));
 
+        String parsedMessage = message;
         // If we can refine the message, the do.
         // Else just return what we got passed.
         Matcher vsim = VSIM_PATTERN.matcher(message);
@@ -101,12 +105,12 @@ public class MentorParser extends LookaheadParser {
             builder.setCategory(vsim.group("category"));
             builder.setFileName(vsim.group("filename"));
             builder.setLineStart(vsim.group("line"));
-            message = vsim.group("message");
+            parsedMessage = vsim.group("message");
         }
-        builder.setMessage(message);
+        builder.setMessage(parsedMessage);
     }
 
-    private String parseSimTime(LookaheadStream lookahead, IssueBuilder builder) {
+    private String parseSimTime(final LookaheadStream lookahead, final IssueBuilder builder) {
         StringBuilder description = new StringBuilder();
         String timeLine = "";
         while (lookahead.hasNext() && !lookahead.peekNext().contains("# **")) {
@@ -126,7 +130,7 @@ public class MentorParser extends LookaheadParser {
         return description.toString();
     }
 
-    private void clearBuilder(IssueBuilder builder) {
+    private void clearBuilder(final IssueBuilder builder) {
         builder.setModuleName(null);
         builder.setFileName(null);
         builder.setLineStart(null);
@@ -134,7 +138,7 @@ public class MentorParser extends LookaheadParser {
     }
 
     @Override
-    protected boolean isLineInteresting(String line) {
+    protected boolean isLineInteresting(final String line) {
         return line.startsWith("# **");
     }
 
