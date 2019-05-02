@@ -28,6 +28,10 @@ public class EclipseParser extends LookaheadParser {
     static final String ERROR = "ERROR";
     static final String INFO = "INFO";
 
+    static final String CAT_PREFIX = "Javadoc:";
+    static final String CAT_JAVADOC = "Javadoc";
+    static final String CAT_CODE = "Code";
+
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
         return !isXmlFile(readerFactory);
@@ -69,8 +73,28 @@ public class EclipseParser extends LookaheadParser {
         Pattern ant = Pattern.compile("^(?:.*\\[.*\\])?\\s*(.*)");
         Matcher messageMatcher = ant.matcher(message);
         if (messageMatcher.matches()) {
-            builder.setMessage(messageMatcher.group(1));
+            String msg = messageMatcher.group(1);
+            builder.setMessage(msg);
+            extractCatagory(builder, msg);
         }
     }
-}
 
+    /**
+     * Sets the issue's category to {@code Code} or {@code Javadoc}. Unlike
+     * {@link #extractMessage(IssueBuilder, String)}, the {@code message} is assumed to be cleaned-up.
+     * 
+     * @param builder
+     *     IssueBuilder to populate.
+     * @param message
+     *     issue to examine.
+     */
+    static void extractCatagory(final IssueBuilder builder, final String message) {
+        if (message == null || !message.startsWith(CAT_PREFIX)) {
+            builder.setCategory(CAT_CODE);
+        }
+        else {
+            builder.setCategory(CAT_JAVADOC);
+        }
+    }
+
+}

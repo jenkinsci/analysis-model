@@ -16,6 +16,8 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.XmlElementUtil;
 
+import static edu.hm.hafner.analysis.parser.EclipseParser.*;
+
 /**
  * Parser for Eclipse Compiler output in XML format.
  * 
@@ -48,9 +50,13 @@ public class EclipseXMLParser extends IssueParser {
 
                 NodeList problems = (NodeList)xPath.evaluate("problems/problem", source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
+                    String msg = xPath.evaluate("message/@value", problem);
+
                     issueBuilder.guessSeverity(xPath.evaluate("@severity", problem))
                             .setLineStart(xPath.evaluate("@line", problem))
-                            .setMessage(xPath.evaluate("message/@value", problem));
+                            .setMessage(msg);
+
+                    extractCatagory(issueBuilder, msg);
 
                     // Use columns to make issue 'unique', range isn't useful for counting in the physical source.
                     StringBuilder range = new StringBuilder();
@@ -64,7 +70,6 @@ public class EclipseXMLParser extends IssueParser {
                         range.append(colEnd);
                     }
                     issueBuilder.setAdditionalProperties(range.toString());
-
 
                     report.add(issueBuilder.build());
                 }

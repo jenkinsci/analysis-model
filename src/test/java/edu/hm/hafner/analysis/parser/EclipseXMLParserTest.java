@@ -34,7 +34,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
-                .hasMessage("Type mismatch: cannot convert from float to Integer");
+                .hasMessage("Type mismatch: cannot convert from float to Integer")
+                .hasCategory("Code");
 
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.ERROR)
@@ -43,7 +44,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
-                .hasMessage("Dead code");
+                .hasMessage("Dead code")
+                .hasCategory("Code");
 
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -52,7 +54,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
-                .hasMessage("The value of the local variable x is not used");
+                .hasMessage("The value of the local variable x is not used")
+                .hasCategory("Code");
 
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -62,7 +65,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage(
-                        "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally");
+                        "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally")
+                .hasCategory("Code");
 
         softly.assertThat(report.get(4))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -71,7 +75,8 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
-                .hasMessage("Comparing identical expressions");
+                .hasMessage("Comparing identical expressions")
+                .hasCategory("Code");
 
         softly.assertThat(report.get(5))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -80,15 +85,25 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
-                .hasMessage("The allocated object is never used");
+                .hasMessage("The allocated object is never used")
+                .hasCategory("Code");
+    }
+
+    /**
+     * Tests that warnings are categorized as {@code Code} or {@code JavaDoc}.
+     */
+    @Test
+    void javadocCategory() {
+        Report warnings = parse("eclipse-withjavadoc.xml");
+        EclipseSharedChecks.javadocCategory(warnings);
     }
 
     @Test
     void shouldOnlyAcceptXmlFiles() {
         EclipseXMLParser parser = createParser();
-        
+
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isTrue();
-        
+
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.txt"))).isFalse();
     }
 }

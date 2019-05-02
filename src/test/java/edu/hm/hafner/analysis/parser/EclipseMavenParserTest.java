@@ -32,19 +32,22 @@ class EclipseMavenParserTest extends AbstractParserTest {
                 .hasLineStart(369)
                 .hasLineEnd(369)
                 .hasMessage("The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally")
-                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java");
+                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
+                .hasCategory("Code");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(391)
                 .hasLineEnd(391)
                 .hasMessage("The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally")
-                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java");
+                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
+                .hasCategory("Code");
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(56)
                 .hasLineEnd(56)
                 .hasMessage("The value of the field PropertyImporterTest.ERROR_RESPONSE is not used")
-                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java");
+                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java")
+                .hasCategory("Code");
     }
 
     /**
@@ -76,7 +79,8 @@ class EclipseMavenParserTest extends AbstractParserTest {
                     .hasLineStart(13)
                     .hasLineEnd(13)
                     .hasMessage("The method getOldValue() from the type SomeType is deprecated")
-                    .hasFileName("/path/to/job/job-name/module/src/main/java/com/example/Example.java");
+                    .hasFileName("/path/to/job/job-name/module/src/main/java/com/example/Example.java")
+                    .hasCategory("Code");
         });
     }
 
@@ -96,18 +100,30 @@ class EclipseMavenParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(9)
                     .hasMessage("The method isValid(String) from the type X can potentially be declared as static")
-                    .hasFileName("/home/piotr/.../X.java");
+                    .hasFileName("/home/piotr/.../X.java")
+                    .hasCategory("Code");
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(54)
                     .hasMessage("The method as10(String) from the type X can potentially be declared as static")
-                    .hasFileName("/home/piotr/.../X.java");
+                    .hasFileName("/home/piotr/.../X.java")
+                    .hasCategory("Code");
             softly.assertThat(warnings.get(2))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(60)
                     .hasMessage("The method as13(String) from the type X can potentially be declared as static")
-                    .hasFileName("/home/piotr/.../X.java");
+                    .hasFileName("/home/piotr/.../X.java")
+                    .hasCategory("Code");
         });
+    }
+
+    /**
+     * Tests that warnings are categorized as {@code Code} or {@code JavaDoc}.
+     */
+    @Test
+    void javadocCategory() {
+        Report warnings = parse("eclipse-maven-withjavadoc.log");
+        EclipseSharedChecks.javadocCategory(warnings);
     }
 
     @Test
@@ -118,4 +134,3 @@ class EclipseMavenParserTest extends AbstractParserTest {
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isFalse();
     }
 }
-
