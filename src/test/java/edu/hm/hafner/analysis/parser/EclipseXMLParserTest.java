@@ -3,9 +3,12 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
+
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 /**
@@ -35,7 +38,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Type mismatch: cannot convert from float to Integer")
-                .hasCategory("");
+                .hasCategory(EclipseXMLParser.TYPE);
 
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.ERROR)
@@ -45,7 +48,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Dead code")
-                .hasCategory("");
+                .hasCategory(EclipseXMLParser.POTENTIAL_PROGRAMMING_PROBLEM);
 
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -55,7 +58,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The value of the local variable x is not used")
-                .hasCategory("");
+                .hasCategory(EclipseXMLParser.UNNECESSARY_CODE);
 
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -66,7 +69,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage(
                         "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally")
-                .hasCategory("");
+                .hasCategory(EclipseXMLParser.UNNECESSARY_CODE);
 
         softly.assertThat(report.get(4))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -76,7 +79,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Comparing identical expressions")
-                .hasCategory("");
+                .hasCategory(EclipseXMLParser.POTENTIAL_PROGRAMMING_PROBLEM);
 
         softly.assertThat(report.get(5))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -86,7 +89,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The allocated object is never used")
-                .hasCategory("");
+                .hasCategory(EclipseXMLParser.POTENTIAL_PROGRAMMING_PROBLEM);
     }
 
     /**
@@ -95,7 +98,45 @@ class EclipseXMLParserTest extends AbstractParserTest {
     @Test
     void javadocCategory() {
         Report warnings = parse("eclipse-withjavadoc.xml");
-        EclipseSharedChecks.javadocCategory(warnings);
+
+        assertThat(warnings).hasSize(5);
+
+        assertSoftly(softly -> {
+            softly.assertThat(warnings.get(0))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(1)
+                    .hasMessage("A default nullness annotation has not been specified for the package a")
+                    .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
+                    .hasCategory(EclipseXMLParser.POTENTIAL_PROGRAMMING_PROBLEM);
+
+            softly.assertThat(warnings.get(1))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(3)
+                    .hasMessage("Javadoc: Missing comment for public declaration")
+                    .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
+                    .hasCategory(Categories.JAVADOC);
+
+            softly.assertThat(warnings.get(2))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(5)
+                    .hasMessage("Javadoc: Missing comment for public declaration")
+                    .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
+                    .hasCategory(Categories.JAVADOC);
+
+            softly.assertThat(warnings.get(3))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(7)
+                    .hasMessage("Javadoc: Missing comment for public declaration")
+                    .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
+                    .hasCategory(Categories.JAVADOC);
+
+            softly.assertThat(warnings.get(4))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(8)
+                    .hasMessage("The value of the local variable unused is not used")
+                    .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
+                    .hasCategory(EclipseXMLParser.UNNECESSARY_CODE);
+        });
     }
 
     @Test

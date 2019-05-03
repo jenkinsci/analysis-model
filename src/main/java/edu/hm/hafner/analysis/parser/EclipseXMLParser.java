@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -19,14 +20,44 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.XmlElementUtil;
 
-import static edu.hm.hafner.analysis.parser.EclipseParser.*;
-
 /**
  * Parser for Eclipse Compiler output in XML format.
  * 
  * @author Jason Faust
  */
 public class EclipseXMLParser extends IssueParser {
+
+    /** {@value} category. */
+    public static final String COMPLIANCE = "Compliance";
+    /** {@value} category. */
+    public static final String MODULE = "Module";
+    /** {@value} category. */
+    public static final String RESTRICTION = "Restriction";
+    /** {@value} category. */
+    public static final String NLS = "NLS";
+    /** {@value} category. */
+    public static final String UNCHECKED_RAW = "Unchecked Raw";
+    /** {@value} category. */
+    public static final String UNNECESSARY_CODE = "Unnecessary Code";
+    /** {@value} category. */
+    public static final String NAME_SHADOWING_CONFLICT = "Name Shadowing Conflict";
+    /** {@value} category. */
+    public static final String POTENTIAL_PROGRAMMING_PROBLEM = "Potential Programming Problem";
+    /** {@value} category. */
+    public static final String CODE_STYLE = "Code Style";
+    /** {@value} category. */
+    public static final String INTERNAL = "Internal";
+    /** {@value} category. */
+    public static final String MEMBER = "Member";
+    /** {@value} category. */
+    public static final String TYPE = "Type";
+    /** {@value} category. */
+    public static final String IMPORT = "Import";
+    /** {@value} category. */
+    public static final String SYNTAX = "Syntax";
+    /** {@value} category. */
+    public static final String BUILDPATH = "Buildpath";
+
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -56,16 +87,13 @@ public class EclipseXMLParser extends IssueParser {
                 NodeList problems = (NodeList)problemsPath.evaluate(source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
 
-                    String msg = extractMessage(problem);
-
                     issueBuilder.guessSeverity(extractSeverity(problem))
                             .setLineStart(extractLineStart(problem))
-                            .setMessage(msg);
-
-                    extractCatagory(issueBuilder, msg);
-
-                    // Use columns to make issue 'unique', range isn't useful for counting in the physical source.
-                    issueBuilder.setAdditionalProperties(extractColumnRange(problem));
+                            .setMessage(extractMessage(problem))
+                            .setCategory(decodeCategory(extractCategoryId(problem)))
+                            // Use columns to make issue 'unique', range isn't useful for counting in the physical
+                            // source.
+                            .setAdditionalProperties(extractColumnRange(problem));
 
                     report.add(issueBuilder.build());
                 }
@@ -75,6 +103,55 @@ public class EclipseXMLParser extends IssueParser {
         }
         catch (XPathExpressionException e) {
             throw new ParsingException(e);
+        }
+    }
+
+    /**
+     * These categories were taken from the ECJ source code. From March 25th, 2019, Ver. 3.18.
+     * 
+     * @param categoryId
+     *     eclipse generated category id.
+     * @return decoded category, or empty string.
+     * @see https://github.com/eclipse/eclipse.jdt.core/blob/master/org.eclipse.jdt.core/compiler/org/eclipse/jdt/core/compiler/CategorizedProblem.java
+     */
+    private String decodeCategory(String categoryId) {
+        switch (categoryId) {
+            case "10":
+                return BUILDPATH;
+            case "20":
+                return SYNTAX;
+            case "30":
+                return IMPORT;
+            case "40":
+                return TYPE;
+            case "50":
+                return MEMBER;
+            case "60":
+                return INTERNAL;
+            case "70":
+                return Categories.JAVADOC;
+            case "80":
+                return CODE_STYLE;
+            case "90":
+                return POTENTIAL_PROGRAMMING_PROBLEM;
+            case "100":
+                return NAME_SHADOWING_CONFLICT;
+            case "110":
+                return Categories.DEPRECATION;
+            case "120":
+                return UNNECESSARY_CODE;
+            case "130":
+                return UNCHECKED_RAW;
+            case "140":
+                return NLS;
+            case "150":
+                return RESTRICTION;
+            case "160":
+                return MODULE;
+            case "170":
+                return COMPLIANCE;
+            default:
+                return "";
         }
     }
 
@@ -113,4 +190,8 @@ public class EclipseXMLParser extends IssueParser {
         return range.toString();
     }
 
+    private String extractCategoryId(Element problem) {
+        // XPath is "./@categoryID"
+        return problem.getAttribute("categoryID");
+    }
 }
