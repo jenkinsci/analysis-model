@@ -1,7 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
@@ -38,38 +41,31 @@ public class EclipseXMLParser extends IssueParser {
 
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xPath = xPathFactory.newXPath();
+            XPathExpression sourcePath = xPath.compile("/compiler/sources/source[problems]");
+            XPathExpression fileNamePath = xPath.compile("./@path");
+            XPathExpression problemsPath = xPath.compile("problems/problem");
 
             IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
-            NodeList sources = (NodeList)xPath.evaluate("/compiler/sources/source[problems]", doc,
-                    XPathConstants.NODESET);
+            NodeList sources = (NodeList)sourcePath.evaluate(doc, XPathConstants.NODESET);
             for (Element source : XmlElementUtil.nodeListToList(sources)) {
-                String fileName = xPath.evaluate("@path", source);
+                String fileName = fileNamePath.evaluate(source);
                 issueBuilder.setFileName(fileName);
 
-                NodeList problems = (NodeList)xPath.evaluate("problems/problem", source, XPathConstants.NODESET);
+                NodeList problems = (NodeList)problemsPath.evaluate(source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
-                    String msg = xPath.evaluate("message/@value", problem);
 
-                    issueBuilder.guessSeverity(xPath.evaluate("@severity", problem))
-                            .setLineStart(xPath.evaluate("@line", problem))
+                    String msg = extractMessage(problem);
+
+                    issueBuilder.guessSeverity(extractSeverity(problem))
+                            .setLineStart(extractLineStart(problem))
                             .setMessage(msg);
 
                     extractCatagory(issueBuilder, msg);
 
                     // Use columns to make issue 'unique', range isn't useful for counting in the physical source.
-                    StringBuilder range = new StringBuilder();
-                    String colStart = xPath.evaluate("source_context/@sourceStart", problem);
-                    if (colStart != null) {
-                        range.append(colStart);
-                    }
-                    range.append('-');
-                    String colEnd = xPath.evaluate("source_context/@sourceEnd", problem);
-                    if (colEnd != null) {
-                        range.append(colEnd);
-                    }
-                    issueBuilder.setAdditionalProperties(range.toString());
+                    issueBuilder.setAdditionalProperties(extractColumnRange(problem));
 
                     report.add(issueBuilder.build());
                 }
@@ -80,6 +76,41 @@ public class EclipseXMLParser extends IssueParser {
         catch (XPathExpressionException e) {
             throw new ParsingException(e);
         }
+    }
+
+    private String extractMessage(Element problem) {
+        // XPath is "message/@value"
+        return XmlElementUtil.nodeListToList(problem.getChildNodes())
+                .stream()
+                .filter(e -> "message".equals(e.getNodeName()))
+                .findFirst()
+                .map(e -> e.getAttribute("value"))
+                .orElseGet(() -> "");
+    }
+
+    private String extractSeverity(Element problem) {
+        // XPath is "./@severity"
+        return problem.getAttribute("severity");
+    }
+
+    private String extractLineStart(Element problem) {
+        // XPath is "./@line"
+        return problem.getAttribute("line");
+    }
+
+    private String extractColumnRange(Element problem) {
+        // XPath is "source_context/@sourceStart" and "source_context/@sourceEnd"
+        Optional<Element> ctx = XmlElementUtil.nodeListToList(problem.getChildNodes())
+                .stream()
+                .filter(e -> "source_context".equals(e.getNodeName()))
+                .findFirst();
+
+        StringBuilder range = new StringBuilder();
+        ctx.map(e -> e.getAttribute("sourceStart")).ifPresent(range::append);
+        range.append('-');
+        ctx.map(e -> e.getAttribute("sourceEnd")).ifPresent(range::append);
+
+        return range.toString();
     }
 
 }
