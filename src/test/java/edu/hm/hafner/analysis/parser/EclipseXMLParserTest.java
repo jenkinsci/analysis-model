@@ -35,7 +35,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Type mismatch: cannot convert from float to Integer")
-                .hasCategory("Code");
+                .hasCategory("");
 
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.ERROR)
@@ -45,7 +45,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Dead code")
-                .hasCategory("Code");
+                .hasCategory("");
 
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -55,7 +55,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The value of the local variable x is not used")
-                .hasCategory("Code");
+                .hasCategory("");
 
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -66,7 +66,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage(
                         "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally")
-                .hasCategory("Code");
+                .hasCategory("");
 
         softly.assertThat(report.get(4))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -76,7 +76,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Comparing identical expressions")
-                .hasCategory("Code");
+                .hasCategory("");
 
         softly.assertThat(report.get(5))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -86,7 +86,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The allocated object is never used")
-                .hasCategory("Code");
+                .hasCategory("");
     }
 
     /**

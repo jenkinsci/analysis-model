@@ -35,7 +35,7 @@ class EclipseParserTest extends AbstractParserTest {
                 .hasLineEnd(3)
                 .hasMessage("The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
                 .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java")
-                .hasCategory("Code");
+                .hasCategory("");
     }
 
     /**
@@ -55,7 +55,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineStart(82)
                     .hasMessage("Class is a raw type. References to generic type Class<T> should be parameterized")
                     .hasFileName("C:/PCI_Dev/source/pcisvn/CUSTOMER/CUSTOMER_Market/Code/CUSTOMER_Market/src/CUSTOMER/AutomatedProcess/BackOffice/Dataset/CUSTOMERBaseDataset.java")
-                    .hasCategory("Code");
+                    .hasCategory("");
         });
     }
 
@@ -88,7 +88,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineEnd(10)
                     .hasMessage("The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
                     .hasFileName("/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java")
-                    .hasCategory("Code");
+                    .hasCategory("");
         });
     }
 
@@ -109,13 +109,13 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineEnd(90)
                     .hasMessage("Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized")
                     .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
-                    .hasCategory("Code");
+                    .hasCategory("");
             softly.assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage("Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>")
                     .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
-                    .hasCategory("Code");
+                    .hasCategory("");
         });
     }
 
@@ -154,7 +154,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineEnd(8)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("Type mismatch: cannot convert from float to Integer")
-                    .hasCategory("Code");
+                    .hasCategory("");
 
             softly.assertThat(report.get(1))
                     .hasSeverity(Severity.ERROR)
@@ -162,7 +162,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineEnd(16)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("Dead code")
-                    .hasCategory("Code");
+                    .hasCategory("");
 
             softly.assertThat(report.get(2))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -170,7 +170,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineEnd(22)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("The value of the local variable x is not used")
-                    .hasCategory("Code");
+                    .hasCategory("");
 
             softly.assertThat(report.get(3))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -179,7 +179,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage(
                             "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally")
-                    .hasCategory("Code");
+                    .hasCategory("");
 
             softly.assertThat(report.get(4))
                     .hasSeverity(Severity.WARNING_LOW)
@@ -187,7 +187,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineEnd(33)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("Comparing identical expressions")
-                    .hasCategory("Code");
+                    .hasCategory("");
 
             softly.assertThat(report.get(5))
                     .hasSeverity(Severity.WARNING_LOW)
@@ -195,7 +195,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineEnd(35)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("The allocated object is never used")
-                    .hasCategory("Code");
+                    .hasCategory("");
         });
     }
 
