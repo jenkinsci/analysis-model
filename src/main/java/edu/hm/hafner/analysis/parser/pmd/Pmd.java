@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Pmd {
     private final List<File> files = new ArrayList<>();
-    private final List<Error> errors = new ArrayList<>();
+    private final List<PmdError> errors = new ArrayList<>();
 
     /**
      * Adds a new file.
@@ -30,7 +30,7 @@ public class Pmd {
      * @param error
      *         the error to add
      */
-    public void addError(final Error error) {
+    public void addError(final PmdError error) {
         errors.add(error);
     }
 
@@ -48,7 +48,7 @@ public class Pmd {
      *
      * @return all errors
      */
-    public Collection<Error> getErrors() {
+    public Collection<PmdError> getErrors() {
         return Collections.unmodifiableCollection(errors);
     }
 }

@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.pmd;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Java Bean class for an error of the PMD format.
@@ -8,7 +9,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
-public class Error {
+public class PmdError {
     @Nullable
     private String filename;
     @Nullable
@@ -21,6 +22,7 @@ public class Error {
         return filename;
     }
 
+    @SuppressFBWarnings("NM")
     public void setFilename(@Nullable final String filename) {
         this.filename = filename;
     }

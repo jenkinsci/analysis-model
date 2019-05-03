@@ -73,9 +73,9 @@ public class PmdParser extends IssueParser {
         digester.addSetProperties(rootXPath);
 
         String errorXPath = "pmd/error";
-        digester.addObjectCreate(errorXPath, Error.class);
+        digester.addObjectCreate(errorXPath, PmdError.class);
         digester.addSetProperties(errorXPath);
-        digester.addSetNext(errorXPath, "addError", Error.class.getName());
+        digester.addSetNext(errorXPath, "addError", PmdError.class.getName());
         digester.addCallMethod(errorXPath, "setDescription", 0);
 
         try (Reader reader = readerFactory.create()) {
@@ -113,7 +113,7 @@ public class PmdParser extends IssueParser {
 
     private Report convertErrors(final Pmd pmdIssues) {
         Report report = new Report();
-        for (Error error : pmdIssues.getErrors()) {
+        for (PmdError error : pmdIssues.getErrors()) {
             IssueBuilder builder = new IssueBuilder().setSeverity(Severity.ERROR)
                     .setMessage(error.getMsg())
                     .setDescription(error.getDescription())
