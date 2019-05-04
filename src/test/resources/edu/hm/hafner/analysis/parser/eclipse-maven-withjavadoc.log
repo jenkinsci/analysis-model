@@ -1,0 +1,52 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] x                                                                  [pom]
+[INFO] y                                                                  [jar]
+[INFO] 
+[INFO] --------------------------------< x:x >---------------------------------
+[INFO] Building x 0.0.1-SNAPSHOT                                          [1/2]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ x ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-maven) @ x ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-banned-dependencies) @ x ---
+[INFO] 
+[INFO] --------------------------------< x:y >---------------------------------
+[INFO] Building y 0.0.1-SNAPSHOT                                          [2/2]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ y ---
+[INFO] Deleting C:\devenv\workspace\x\y\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-maven) @ y ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-java) @ y ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-banned-dependencies) @ y ---
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ y ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ y ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] C:\devenv\workspace\x\y\src\main\java\a\B.java:[1,8] A default nullness annotation has not been specified for the package a
+[WARNING] C:\devenv\workspace\x\y\src\main\java\a\B.java:[3,13] Javadoc: Missing comment for public declaration
+[WARNING] C:\devenv\workspace\x\y\src\main\java\a\B.java:[5,11] Javadoc: Missing comment for public declaration
+[WARNING] C:\devenv\workspace\x\y\src\main\java\a\B.java:[7,19] Javadoc: Missing comment for public declaration
+[WARNING] C:\devenv\workspace\x\y\src\main\java\a\B.java:[8,4] The value of the local variable unused is not used
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for x 0.0.1-SNAPSHOT:
+[INFO] 
+[INFO] x .................................................. SUCCESS [  1.462 s]
+[INFO] y .................................................. SUCCESS [  2.278 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.258 s
+[INFO] Finished at: 2019-05-02T18:32:57-04:00
+[INFO] ------------------------------------------------------------------------

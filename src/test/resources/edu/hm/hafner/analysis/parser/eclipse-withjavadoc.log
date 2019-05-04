@@ -1,0 +1,30 @@
+# 5/2/19, 6:32:56 PM EDT
+# Eclipse Compiler for Java(TM) v20180905-0317, 3.15.0, Copyright IBM Corp 2000, 2015. All rights reserved.
+Annotation processing got disabled, since it requires a 1.6 compliant JVM
+----------
+1. WARNING in C:\devenv\workspace\x\y\src\main\java\a\B.java (at line 1)
+	package a;
+	        ^
+A default nullness annotation has not been specified for the package a
+----------
+2. WARNING in C:\devenv\workspace\x\y\src\main\java\a\B.java (at line 3)
+	public class B {
+	             ^
+Javadoc: Missing comment for public declaration
+----------
+3. WARNING in C:\devenv\workspace\x\y\src\main\java\a\B.java (at line 5)
+	public int x;
+	           ^
+Javadoc: Missing comment for public declaration
+----------
+4. WARNING in C:\devenv\workspace\x\y\src\main\java\a\B.java (at line 7)
+	public static void main(String[] args) {
+	                   ^^^^^^^^^^^^^^^^^^^
+Javadoc: Missing comment for public declaration
+----------
+5. WARNING in C:\devenv\workspace\x\y\src\main\java\a\B.java (at line 8)
+	int unused;
+	    ^^^^^^
+The value of the local variable unused is not used
+----------
+5 problems (5 warnings)
