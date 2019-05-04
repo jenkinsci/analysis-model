@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
-
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -26,7 +25,6 @@ import edu.hm.hafner.util.XmlElementUtil;
  * @author Jason Faust
  */
 public class EclipseXMLParser extends IssueParser {
-
     static final String COMPLIANCE = "Compliance";
     static final String MODULE = "Module";
     static final String RESTRICTION = "Restriction";
@@ -96,9 +94,9 @@ public class EclipseXMLParser extends IssueParser {
      * @param categoryId
      *     eclipse generated category id.
      * @return decoded category, or empty string.
-     * @see https://github.com/eclipse/eclipse.jdt.core/blob/master/org.eclipse.jdt.core/compiler/org/eclipse/jdt/core/compiler/CategorizedProblem.java
+     * @see <a href="https://github.com/eclipse/eclipse.jdt.core/blob/master/org.eclipse.jdt.core/compiler/org/eclipse/jdt/core/compiler/CategorizedProblem.java">Eclipse Source Code</a>
      */
-    private String decodeCategory(String categoryId) {
+    private String decodeCategory(final String categoryId) {
         switch (categoryId) {
             case "0":
                 return UNSPECIFIED;
@@ -141,22 +139,22 @@ public class EclipseXMLParser extends IssueParser {
         }
     }
 
-    private String extractMessage(Element problem) {
+    private String extractMessage(final Element problem) {
         // XPath is "message/@value"
         return XmlElementUtil.nodeListToList(problem.getChildNodes())
                 .stream()
                 .filter(e -> "message".equals(e.getNodeName()))
                 .findFirst()
                 .map(e -> e.getAttribute("value"))
-                .orElseGet(() -> "");
+                .orElse("");
     }
 
-    private String extractSeverity(Element problem) {
+    private String extractSeverity(final Element problem) {
         // XPath is "./@severity"
         return problem.getAttribute("severity");
     }
 
-    private String extractLineStart(Element problem) {
+    private String extractLineStart(final Element problem) {
         // XPath is "./@line"
         return problem.getAttribute("line");
     }
@@ -164,7 +162,7 @@ public class EclipseXMLParser extends IssueParser {
     /*
      * Use columns to make issue 'unique', range isn't useful for counting in the physical source.
      */
-    private String extractColumnRange(Element problem) {
+    private String extractColumnRange(final Element problem) {
         // XPath is "source_context/@sourceStart" and "source_context/@sourceEnd"
         Optional<Element> ctx = XmlElementUtil.nodeListToList(problem.getChildNodes())
                 .stream()
@@ -179,7 +177,7 @@ public class EclipseXMLParser extends IssueParser {
         return range.toString();
     }
 
-    private String extractCategoryId(Element problem) {
+    private String extractCategoryId(final Element problem) {
         // XPath is "./@categoryID"
         return problem.getAttribute("categoryID");
     }

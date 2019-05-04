@@ -16,6 +16,7 @@ import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * An issue reported by a static analysis tool. Use the provided {@link IssueBuilder builder} to create new instances.
@@ -464,6 +465,7 @@ public class Issue implements Serializable {
      * @param fileName
      *         the file name to set
      */
+    @SuppressFBWarnings("NM")
     public void setFileName(@Nullable final String fileName) {
         this.fileName = TreeString.valueOf(normalizeFileName(fileName));
     }

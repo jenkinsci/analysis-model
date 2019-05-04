@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -29,7 +31,7 @@ public class EclipseParser extends LookaheadParser {
     static final String ERROR = "ERROR";
     static final String INFO = "INFO";
 
-    static final String JAVADOC_PREFIX = "Javadoc:";
+    private static final String JAVADOC_PREFIX = "Javadoc:";
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
@@ -74,12 +76,12 @@ public class EclipseParser extends LookaheadParser {
         if (messageMatcher.matches()) {
             String msg = messageMatcher.group(1);
             builder.setMessage(msg);
-            extractCatagory(builder, msg);
+            extractCategory(builder, msg);
         }
     }
 
     /**
-     * Sets the issue's category to {@code Javadoc} if the message starts with {@value #CAT_PREFIX}, empty string
+     * Sets the issue's category to {@code Javadoc} if the message starts with {@value #JAVADOC_PREFIX}, {@code Other}
      * otherwise. Unlike {@link #extractMessage(IssueBuilder, String)}, the {@code message} is assumed to be cleaned-up.
      * 
      * @param builder
@@ -87,13 +89,12 @@ public class EclipseParser extends LookaheadParser {
      * @param message
      *     issue to examine.
      */
-    static void extractCatagory(final IssueBuilder builder, final String message) {
-        if (message != null && message.startsWith(JAVADOC_PREFIX)) {
+    static void extractCategory(final IssueBuilder builder, final String message) {
+        if (StringUtils.startsWith(message, JAVADOC_PREFIX)) {
             builder.setCategory(Categories.JAVADOC);
         }
         else {
             builder.setCategory(Categories.OTHER);
         }
     }
-
 }

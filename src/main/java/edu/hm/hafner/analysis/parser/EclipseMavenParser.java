@@ -55,7 +55,7 @@ public class EclipseMavenParser extends LookaheadParser {
         String message = matcher.group("message");
         if (StringUtils.isNotBlank(message)) { // single line format
             builder.setMessage(message);
-            extractCatagory(builder, message);
+            extractCategory(builder, message);
         }
         else { // multi line format
             List<String> code = new ArrayList<>();
