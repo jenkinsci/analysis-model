@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
-
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Common assertions for differently formatted Eclipse output, from the same source code.
@@ -13,7 +13,6 @@ import edu.hm.hafner.analysis.Severity;
  * @author Jason Faust
  */
 final class EclipseSharedChecks {
-
     private EclipseSharedChecks() {
         // prevents instantiation
     }
@@ -21,7 +20,7 @@ final class EclipseSharedChecks {
     /**
      * Tests that warnings are categorized as {@code Code} or {@code JavaDoc}.
      */
-    static void javadocCategory(Report warnings) {
+    static void javadocCategory(final Report warnings) {
         assertThat(warnings).hasSize(5);
 
         assertSoftly(softly -> {

@@ -96,6 +96,7 @@ public class EclipseXMLParser extends IssueParser {
      * @return decoded category, or empty string.
      * @see <a href="https://github.com/eclipse/eclipse.jdt.core/blob/master/org.eclipse.jdt.core/compiler/org/eclipse/jdt/core/compiler/CategorizedProblem.java">Eclipse Source Code</a>
      */
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     private String decodeCategory(final String categoryId) {
         switch (categoryId) {
             case "0":

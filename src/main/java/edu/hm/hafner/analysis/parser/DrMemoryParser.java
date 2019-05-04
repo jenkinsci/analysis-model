@@ -78,6 +78,7 @@ public class DrMemoryParser extends LookaheadParser {
         return builder.setMessage(messageBuilder.toString()).buildOptional();
     }
 
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     private void assignCategoryAndSeverity(final IssueBuilder builder, final String header) {
         builder.setCategory("Unknown");
         builder.setSeverity(Severity.WARNING_NORMAL);
