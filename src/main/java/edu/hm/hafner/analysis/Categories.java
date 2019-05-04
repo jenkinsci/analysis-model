@@ -16,6 +16,8 @@ public final class Categories {
     public static final String PROPRIETARY_API = "Proprietary API";
     /** Category for Javadoc warnings. */
     public static final String JAVADOC = "Javadoc";
+    /** Category for Other warnings. */
+    public static final String OTHER = "Other";
 
     /**
      * Classifies the warning message: tries to guess a category from the warning message.

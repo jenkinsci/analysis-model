@@ -92,7 +92,7 @@ public class EclipseParser extends LookaheadParser {
             builder.setCategory(Categories.JAVADOC);
         }
         else {
-            builder.setCategory("");
+            builder.setCategory(Categories.OTHER);
         }
     }
 

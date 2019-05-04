@@ -30,7 +30,7 @@ final class EclipseSharedChecks {
                     .hasLineStart(1)
                     .hasMessage("A default nullness annotation has not been specified for the package a")
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
-                    .hasCategory("");
+                    .hasCategory(Categories.OTHER);
 
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -58,7 +58,7 @@ final class EclipseSharedChecks {
                     .hasLineStart(8)
                     .hasMessage("The value of the local variable unused is not used")
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
-                    .hasCategory("");
+                    .hasCategory(Categories.OTHER);
         });
     }
 

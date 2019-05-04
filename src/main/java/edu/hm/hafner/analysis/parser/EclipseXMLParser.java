@@ -27,36 +27,22 @@ import edu.hm.hafner.util.XmlElementUtil;
  */
 public class EclipseXMLParser extends IssueParser {
 
-    /** {@value} category. */
-    public static final String COMPLIANCE = "Compliance";
-    /** {@value} category. */
-    public static final String MODULE = "Module";
-    /** {@value} category. */
-    public static final String RESTRICTION = "Restriction";
-    /** {@value} category. */
-    public static final String NLS = "NLS";
-    /** {@value} category. */
-    public static final String UNCHECKED_RAW = "Unchecked Raw";
-    /** {@value} category. */
-    public static final String UNNECESSARY_CODE = "Unnecessary Code";
-    /** {@value} category. */
-    public static final String NAME_SHADOWING_CONFLICT = "Name Shadowing Conflict";
-    /** {@value} category. */
-    public static final String POTENTIAL_PROGRAMMING_PROBLEM = "Potential Programming Problem";
-    /** {@value} category. */
-    public static final String CODE_STYLE = "Code Style";
-    /** {@value} category. */
-    public static final String INTERNAL = "Internal";
-    /** {@value} category. */
-    public static final String MEMBER = "Member";
-    /** {@value} category. */
-    public static final String TYPE = "Type";
-    /** {@value} category. */
-    public static final String IMPORT = "Import";
-    /** {@value} category. */
-    public static final String SYNTAX = "Syntax";
-    /** {@value} category. */
-    public static final String BUILDPATH = "Buildpath";
+    static final String COMPLIANCE = "Compliance";
+    static final String MODULE = "Module";
+    static final String RESTRICTION = "Restriction";
+    static final String NLS = "NLS";
+    static final String UNCHECKED_RAW = "Unchecked Raw";
+    static final String UNNECESSARY_CODE = "Unnecessary Code";
+    static final String NAME_SHADOWING_CONFLICT = "Name Shadowing Conflict";
+    static final String POTENTIAL_PROGRAMMING_PROBLEM = "Potential Programming Problem";
+    static final String CODE_STYLE = "Code Style";
+    static final String INTERNAL = "Internal";
+    static final String MEMBER = "Member";
+    static final String TYPE = "Type";
+    static final String IMPORT = "Import";
+    static final String SYNTAX = "Syntax";
+    static final String BUILDPATH = "Buildpath";
+    static final String UNSPECIFIED = "Unspecified";
 
     private static final long serialVersionUID = 1L;
 
@@ -91,8 +77,6 @@ public class EclipseXMLParser extends IssueParser {
                             .setLineStart(extractLineStart(problem))
                             .setMessage(extractMessage(problem))
                             .setCategory(decodeCategory(extractCategoryId(problem)))
-                            // Use columns to make issue 'unique', range isn't useful for counting in the physical
-                            // source.
                             .setAdditionalProperties(extractColumnRange(problem));
 
                     report.add(issueBuilder.build());
@@ -116,6 +100,8 @@ public class EclipseXMLParser extends IssueParser {
      */
     private String decodeCategory(String categoryId) {
         switch (categoryId) {
+            case "0":
+                return UNSPECIFIED;
             case "10":
                 return BUILDPATH;
             case "20":
@@ -151,7 +137,7 @@ public class EclipseXMLParser extends IssueParser {
             case "170":
                 return COMPLIANCE;
             default:
-                return "";
+                return Categories.OTHER;
         }
     }
 
@@ -175,6 +161,9 @@ public class EclipseXMLParser extends IssueParser {
         return problem.getAttribute("line");
     }
 
+    /*
+     * Use columns to make issue 'unique', range isn't useful for counting in the physical source.
+     */
     private String extractColumnRange(Element problem) {
         // XPath is "source_context/@sourceStart" and "source_context/@sourceEnd"
         Optional<Element> ctx = XmlElementUtil.nodeListToList(problem.getChildNodes())
@@ -194,4 +183,5 @@ public class EclipseXMLParser extends IssueParser {
         // XPath is "./@categoryID"
         return problem.getAttribute("categoryID");
     }
+
 }
