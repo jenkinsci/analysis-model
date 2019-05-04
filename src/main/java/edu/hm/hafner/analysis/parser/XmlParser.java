@@ -26,7 +26,6 @@ import edu.hm.hafner.util.XmlElementUtil;
  * @author Raphael Furch
  */
 public class XmlParser extends IssueParser {
-
     private static final long serialVersionUID = -8099458358775144575L;
 
     private static final String ID = "id";
@@ -65,19 +64,21 @@ public class XmlParser extends IssueParser {
     private static final String DEFAULT_ROOT_PATH = "/issue";
 
     /**
-     * Create a new ReportParser object.
+     * Create a new {@link XmlParser} object.
      */
     public XmlParser() {
         this(DEFAULT_ROOT_PATH);
     }
 
     /**
-     * Create a new ReportParser object.
+     * Create a new {@link XmlParser} instance.
      *
      * @param root
      *         path to issues tag.
      */
     public XmlParser(final String root) {
+        super();
+
         xmlIssueRoot = root;
     }
 
@@ -118,7 +119,7 @@ public class XmlParser extends IssueParser {
             }
             return report;
         }
-        catch (ParsingException | XPathExpressionException e) {
+        catch (XPathExpressionException e) {
             throw new ParsingException(e);
         }
     }
@@ -176,6 +177,5 @@ public class XmlParser extends IssueParser {
             return UUID.randomUUID();
         }
     }
-
 }
 

@@ -67,7 +67,9 @@ public class DrMemoryParser extends LookaheadParser {
             messageBuilder.append(lookahead.next());
         }
 
-        assignCategoryAndSeverity(builder, header.toLowerCase(Locale.ENGLISH));
+        if (StringUtils.isNotBlank(header)) {
+            assignCategoryAndSeverity(builder, header.toLowerCase(Locale.ENGLISH));
+        }
         findOriginatingErrorLocation(stacktraceBuilder.toString(), builder);
 
         if (messageBuilder.length() == 0) {
@@ -78,43 +80,39 @@ public class DrMemoryParser extends LookaheadParser {
 
     private void assignCategoryAndSeverity(final IssueBuilder builder, final String header) {
         builder.setCategory("Unknown");
-        if (StringUtils.isNotBlank(header)) {
-            if (header.startsWith("unaddressable access")) {
-                builder.setCategory("Unaddressable Access");
-                builder.setSeverity(Severity.WARNING_HIGH);
-            }
-            else if (header.startsWith("uninitialized read")) {
-                builder.setCategory("Uninitialized Read");
-                builder.setSeverity(Severity.WARNING_HIGH);
-            }
-            else if (header.startsWith("invalid heap argument")) {
-                builder.setCategory("Invalid Heap Argument");
-                builder.setSeverity(Severity.WARNING_HIGH);
-            }
-            else if (header.startsWith("possible leak")) {
-                builder.setCategory("Possible Leak");
-                builder.setSeverity(Severity.WARNING_NORMAL);
-            }
-            else if (header.startsWith("reachable leak")) {
-                builder.setCategory("Reachable Leak");
-                builder.setSeverity(Severity.WARNING_HIGH);
-            }
-            else if (header.startsWith("leak")) {
-                builder.setCategory("Leak");
-                builder.setSeverity(Severity.WARNING_HIGH);
-            }
-            else if (header.startsWith("gdi usage error")) {
-                builder.setCategory("GDI Usage Error");
-                builder.setSeverity(Severity.WARNING_NORMAL);
-            }
-            else if (header.startsWith("handle leak")) {
-                builder.setCategory("Handle Leak");
-                builder.setSeverity(Severity.WARNING_NORMAL);
-            }
-            else if (header.startsWith("warning")) {
-                builder.setCategory("Warning");
-                builder.setSeverity(Severity.WARNING_NORMAL);
-            }
+        builder.setSeverity(Severity.WARNING_NORMAL);
+
+        if (header.startsWith("unaddressable access")) {
+            builder.setCategory("Unaddressable Access");
+            builder.setSeverity(Severity.WARNING_HIGH);
+        }
+        else if (header.startsWith("uninitialized read")) {
+            builder.setCategory("Uninitialized Read");
+            builder.setSeverity(Severity.WARNING_HIGH);
+        }
+        else if (header.startsWith("invalid heap argument")) {
+            builder.setCategory("Invalid Heap Argument");
+            builder.setSeverity(Severity.WARNING_HIGH);
+        }
+        else if (header.startsWith("reachable leak")) {
+            builder.setCategory("Reachable Leak");
+            builder.setSeverity(Severity.WARNING_HIGH);
+        }
+        else if (header.startsWith("leak")) {
+            builder.setCategory("Leak");
+            builder.setSeverity(Severity.WARNING_HIGH);
+        }
+        else if (header.startsWith("possible leak")) {
+            builder.setCategory("Possible Leak");
+        }
+        else if (header.startsWith("gdi usage error")) {
+            builder.setCategory("GDI Usage Error");
+        }
+        else if (header.startsWith("handle leak")) {
+            builder.setCategory("Handle Leak");
+        }
+        else if (header.startsWith("warning")) {
+            builder.setCategory("Warning");
         }
     }
 
