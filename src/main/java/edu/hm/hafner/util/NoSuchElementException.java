@@ -20,7 +20,7 @@ public class NoSuchElementException extends java.util.NoSuchElementException {
      * Constructs a {@code NoSuchElementException}, saving a reference to the error message for later retrieval by the
      * {@link #getMessage()} method.
      *
-     * @param format
+     * @param messageFormat
      *         A format string as described in <a href="../util/Formatter.html#syntax">Format string syntax</a>
      * @param args
      *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
@@ -32,7 +32,7 @@ public class NoSuchElementException extends java.util.NoSuchElementException {
      * @see Formatter
      */
     @FormatMethod
-    public NoSuchElementException(final String format, final Object... args) {
-        super(String.format(format, args));
+    public NoSuchElementException(final String messageFormat, final Object... args) {
+        super(String.format(messageFormat, args));
     }
 }

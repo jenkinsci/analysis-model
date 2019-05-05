@@ -71,10 +71,10 @@ public class FileReaderFactory extends ReaderFactory {
             return new InputStreamReader(new BOMInputStream(inputStream), getCharset());
         }
         catch (FileNotFoundException | InvalidPathException exception) {
-            throw new ParsingException(exception, "Can't find file: " + fileName);
+            throw new ParsingException(exception, "Can't find file '%s'", fileName);
         }
         catch (IOException | UncheckedIOException exception) {
-            throw new ParsingException(exception, "Can't scan file for issues: " + fileName);
+            throw new ParsingException(exception, "Can't parse file '%s'", fileName);
         }
     }
 
