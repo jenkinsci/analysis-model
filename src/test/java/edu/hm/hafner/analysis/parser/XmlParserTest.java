@@ -11,10 +11,10 @@ import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.Assertions;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link XmlParser}.
@@ -22,7 +22,6 @@ import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
  * @author Raphael Furch
  */
 class XmlParserTest extends AbstractParserTest {
-
     private static final String ISSUES_DEFAULT_FILE = "xmlParserDefault.xml";
     private static final String ISSUES_CUSTOM_PATH_FILE = "xmlParserCustomPath.xml";
     private static final String ISSUES_INCOMPATIBLE_VALUE = "xmlParserIncompatibleValues.xml";
@@ -121,15 +120,19 @@ class XmlParserTest extends AbstractParserTest {
 
     @Test
     void shouldThrowParserException() {
-        XmlParser parser = new XmlParser();
-        Assertions.assertThatThrownBy(() -> parser.parse(createReaderFactory(ISSUES_EXCEPTION_FILE)))
+        assertThatThrownBy(() -> createParser().parse(createReaderFactory(ISSUES_EXCEPTION_FILE)))
                 .isInstanceOf(ParsingException.class);
     }
 
     @Test
+    void shouldNotAcceptTextFiles() {
+        assertThat(createParser().accepts(createReaderFactory("gcc.txt"))).isFalse();
+        assertThat(createParser().accepts(createReaderFactory(ISSUES_DEFAULT_FILE))).isTrue();
+    }
+
+    @Test
     void shouldProduceIssuesEvenIfThereAreIncompatibleValues() {
-        XmlParser parser = new XmlParser();
-        Report report = parser.parse(createReaderFactory(ISSUES_INCOMPATIBLE_VALUE));
+        Report report = createParser().parse(createReaderFactory(ISSUES_INCOMPATIBLE_VALUE));
         Iterator<Issue> iterator = report.iterator();
         assertSoftly(softly -> {
             softly.assertThat(report)

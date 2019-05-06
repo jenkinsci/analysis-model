@@ -83,6 +83,11 @@ public class XmlParser extends IssueParser {
     }
 
     @Override
+    public boolean accepts(final ReaderFactory readerFactory) {
+        return readerFactory.getFileName().endsWith(".xml");
+    }
+
+    @Override
     public Report parse(final ReaderFactory readerFactory) {
         try {
             Document doc = readerFactory.readDocument();
