@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 /**
- * Base class for JSON parsers.
+ * Parser for logs in JSON format.
  *
  * @author Jeremie Bresson
  */
