@@ -26,7 +26,7 @@ public class JsonParser extends IssueParser {
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
-        return true;
+        return !readerFactory.getFileName().endsWith(".xml");
     }
 
     @Override
