@@ -1,0 +1,6 @@
+----------
+2548. WARNING in C:\File.java (at line 3)
+	* - javadoc {@link #msd()} words
+	                    ^^^
+Javadoc: The method msd(double[], double) in the type File is not applicable for the arguments ()
+----------

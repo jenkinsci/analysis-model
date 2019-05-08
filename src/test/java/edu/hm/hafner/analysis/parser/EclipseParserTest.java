@@ -139,6 +139,22 @@ class EclipseParserTest extends AbstractParserTest {
         }
     }
 
+    @Test
+    void issue57379() {
+        Report report = parse("issue57379.txt");
+
+        assertThat(report).hasSize(1);
+        assertSoftly(softly -> {
+            softly.assertThat(report.get(0))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(3)
+                    .hasLineEnd(3)
+                    .hasMessage("Javadoc: The method msd(double[], double) in the type File is not applicable for the arguments ()")
+                    .hasFileName("C:/File.java")
+                    .hasCategory(Categories.JAVADOC);
+        });
+    }
+
     /**
      * Test for the info log level for the eclipse compiler.
      */
