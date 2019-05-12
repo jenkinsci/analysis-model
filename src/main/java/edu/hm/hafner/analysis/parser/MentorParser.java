@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.LookaheadParser;
-import edu.hm.hafner.util.LookaheadStream;
-
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * Parser for Mentor Graphics Modelsim/Questa Simulator.
@@ -16,7 +15,6 @@ import java.util.regex.Pattern;
  * @author Derrick Gibelyou
  */
 public class MentorParser extends LookaheadParser {
-
     public static final long serialVersionUID = 1L;
 
     /**
