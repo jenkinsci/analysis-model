@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.0.0...master)
 
+## [5.0.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.0.0...analysis-model-5.0.1) - 2019-5-12
+
 - [JENKINS-57379](https://issues.jenkins-ci.org/browse/JENKINS-57379),
 [PR#171](https://github.com/jenkinsci/analysis-model/pull/171): 
 EclipseParser fails to extract full message when message includes array brackets.
