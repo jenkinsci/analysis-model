@@ -71,7 +71,7 @@ public class EclipseParser extends LookaheadParser {
     }
 
     static void extractMessage(final IssueBuilder builder, final String message) {
-        Pattern ant = Pattern.compile("^(?:.*\\[.*\\])?\\s*(.*)");
+        Pattern ant = Pattern.compile("^(?:.*\\[.+\\])?\\s*(.*)");
         Matcher messageMatcher = ant.matcher(message);
         if (messageMatcher.matches()) {
             String msg = messageMatcher.group(1);
