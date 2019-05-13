@@ -34,13 +34,14 @@ node ('linux') {
 
             junit testResults: '**/target/*-reports/TEST-*.xml'
 
-            recordIssues enabledForFailure: true, tool: mavenConsole(), referenceJobName: 'Plugins/analysis-model/master'
-            recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
-            recordIssues enabledForFailure: true, tool: checkStyle(pattern: 'target/checkstyle-result.xml'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
-            recordIssues enabledForFailure: true, tool: cpd(pattern: 'target/cpd.xml'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
-            recordIssues enabledForFailure: true, tool: pmdParser(pattern: 'target/pmd.xml'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
-            recordIssues enabledForFailure: true, tool: spotBugs(pattern: 'target/spotbugsXml.xml'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
-            recordIssues enabledForFailure: true, tool: taskScanner(includePattern:'**/*.java', excludePattern:'target/**/*', highTags:'FIXME', normalTags:'TODO'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+            recordIssues tool: mavenConsole(), referenceJobName: 'Plugins/analysis-model/master'
+            recordIssues tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+            recordIssues tool: checkStyle(pattern: 'target/checkstyle-result.xml'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+            recordIssues tool: errorProne(), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+            recordIssues tool: cpd(pattern: 'target/cpd.xml'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+            recordIssues tool: pmdParser(pattern: 'target/pmd.xml'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+            recordIssues tool: spotBugs(pattern: 'target/spotbugsXml.xml'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+            recordIssues tool: taskScanner(includePattern:'**/*.java', excludePattern:'target/**/*', highTags:'FIXME', normalTags:'TODO'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
             jacoco()
         }
     }
