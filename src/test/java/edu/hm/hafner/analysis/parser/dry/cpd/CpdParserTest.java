@@ -127,7 +127,7 @@ class CpdParserTest extends AbstractParserTest {
      * Verifies the parser on a report that contains one duplication in two files. The report contains a code fragment
      * in a complex CDATA element.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12516">Issue 12516</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-12516">Issue 12516</a>
      */
     @Test
     void issue12516() {
@@ -155,7 +155,7 @@ class CpdParserTest extends AbstractParserTest {
      * Verifies the parser on a report that contains four duplication (in two files each). The report is using
      * ISO-8859-1 encoding.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-22356">Issue 22356</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-22356">Issue 22356</a>
      */
     @Test
     void issue22356() {

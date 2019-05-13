@@ -8,8 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -105,7 +106,7 @@ class ClangParserTest extends AbstractParserTest {
     /**
      * Parses a file with fatal error message.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-31936">Issue 31936</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-31936">Issue 31936</a>
      */
     @Test
     void issue31936() {
@@ -139,7 +140,7 @@ class ClangParserTest extends AbstractParserTest {
     /**
      * Parses a file with fatal error message.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-36817">Issue 36817</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-36817">Issue 36817</a>
      */
     @Test
     void issue36817() {
@@ -151,7 +152,7 @@ class ClangParserTest extends AbstractParserTest {
     /**
      * Parses a file with fatal error message.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18084">Issue 18084</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-18084">Issue 18084</a>
      */
     @Test
     void issue18084() {
@@ -174,7 +175,7 @@ class ClangParserTest extends AbstractParserTest {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14333">Issue 14333</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-14333">Issue 14333</a>
      */
     @Test
     void issue14333() {

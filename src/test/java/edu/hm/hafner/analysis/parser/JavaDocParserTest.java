@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.time.Duration;
+import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,8 +10,6 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-
-import java.util.Iterator;
 
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
@@ -68,7 +67,7 @@ class JavaDocParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with JavaDoc 1.8 errors.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-37975">Issue 37975</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-37975">Issue 37975</a>
      */
     @Test
     void issue37975() {
@@ -102,7 +101,7 @@ class JavaDocParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with JavaDoc 1.8 warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-32298">Issue 32298</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-32298">Issue 32298</a>
      */
     @Test
     void issue32298() {
@@ -169,7 +168,7 @@ class JavaDocParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 2 JavaDoc warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4576">Issue 4576</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4576">Issue 4576</a>
      */
     @Test
     void issue4576() {
@@ -198,7 +197,7 @@ class JavaDocParserTest extends AbstractParserTest {
     /**
      * Parses a log with Junit message (false positive).
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-8630">Issue 8630</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-8630">Issue 8630</a>
      */
     @Test
     void issue8630() {
@@ -210,7 +209,7 @@ class JavaDocParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with several JavaDoc warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7718">Issue 7718</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-7718">Issue 7718</a>
      */
     @Test
     void issue7718() {
@@ -280,7 +279,7 @@ class JavaDocParserTest extends AbstractParserTest {
     /**
      * Parses a log with Java compiler message (false positive).
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-54506">Issue 54506</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-54506">Issue 54506</a>
      */
     @Test
     void issue54506() {
@@ -292,7 +291,7 @@ class JavaDocParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with a very long line that will take several seconds to parse.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
      */
     @Test
     void issue55805() {

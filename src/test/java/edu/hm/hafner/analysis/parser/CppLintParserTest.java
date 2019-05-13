@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -22,7 +23,7 @@ class CppLintParserTest extends AbstractParserTest {
     /**
      * Parses a file with CPP Lint warnings in the new format.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18290">Issue 18290</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-18290">Issue 18290</a>
      */
     @Test
     void issue18290() {

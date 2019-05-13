@@ -2,15 +2,16 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
  * Tests {@link IdeaInspectionParser } parser class.
@@ -43,7 +44,7 @@ class IdeaInspectionParserTest extends AbstractParserTest {
     /**
     * Parses a warning log with IDEA warnings.
     *
-    * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-56235">Issue 56235</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56235">Issue 56235</a>
     */
     @Test
     void issue56235() {

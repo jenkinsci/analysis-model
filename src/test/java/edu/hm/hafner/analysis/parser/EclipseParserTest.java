@@ -42,7 +42,7 @@ class EclipseParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with previously undetected warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55358">Issue 55358</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55358">Issue 55358</a>
      */
     @Test
     void issue55358() {
@@ -63,7 +63,7 @@ class EclipseParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 15 warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12822">Issue 12822</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-12822">Issue 12822</a>
      */
     @Test
     void issue12822() {
@@ -75,7 +75,7 @@ class EclipseParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with a ClearCase command line that should not be parsed as a warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6427">Issue 6427</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-6427">Issue 6427</a>
      */
     @Test
     void issue6427() {
@@ -96,7 +96,7 @@ class EclipseParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 2 eclipse messages, the affected source text spans one and two lines.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
      */
     @Test
     void issue7077() {
@@ -123,7 +123,7 @@ class EclipseParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with several eclipse messages.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-7077">Issue 7077</a>
      */
     @Test
     void issue7077all() {

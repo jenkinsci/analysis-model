@@ -28,7 +28,7 @@ class AntJavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with a very long line that will take several seconds to parse.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
      */
     @Test
     void issue55805() {
@@ -38,7 +38,7 @@ class AntJavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with two warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-24611">Issue 24611</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-24611">Issue 24611</a>
      */
     @Test
     void testIssue24611() {
@@ -50,7 +50,7 @@ class AntJavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with one warning that refers to a missing class file.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21240">Issue 21240</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-21240">Issue 21240</a>
      */
     @Test
     void issue21240() {
@@ -72,7 +72,7 @@ class AntJavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 2 ANT warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-2133">Issue 2133</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-2133">Issue 2133</a>
      */
     @Test
     void issue2133() {
@@ -104,7 +104,7 @@ class AntJavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 1 warnings that has no associated file.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4098">Issue 4098</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4098">Issue 4098</a>
      */
     @Test
     void issue4098() {
@@ -127,7 +127,7 @@ class AntJavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 20 ANT warnings. 2 of them are duplicate, all are of priority Normal.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-2316">Issue 2316</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-2316">Issue 2316</a>
      */
     @Test
     void issue2316() {

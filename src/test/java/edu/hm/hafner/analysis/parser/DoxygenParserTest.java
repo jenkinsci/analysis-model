@@ -29,7 +29,7 @@ class DoxygenParserTest extends AbstractParserTest {
     /**
      * Verifies that parsing of long files does not fail.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7178">Issue 7178</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-7178">Issue 7178</a>
      * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6882582">JDK Bug 6882582</a>
      */
     @Test
@@ -51,7 +51,7 @@ class DoxygenParserTest extends AbstractParserTest {
     /**
      * Verifies that the path names are correctly mapped.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55840">Issue 55840</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55840">Issue 55840</a>
      */
     @Test
     void issue55840() {
@@ -71,7 +71,7 @@ class DoxygenParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 4 doxygen 1.7.1 messages.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6971">Issue 6971</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-6971">Issue 6971</a>
      */
     @Test
     void issue6971() {

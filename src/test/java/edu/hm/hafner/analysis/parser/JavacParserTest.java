@@ -46,7 +46,7 @@ class JavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with two false positives.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
      */
     @Test
     void issue55805() {
@@ -96,7 +96,7 @@ class JavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with two false positives.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>
      */
     @Test
     void issue14043() {

@@ -8,8 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -31,7 +32,7 @@ class PhpParserTest extends AbstractParserTest {
     /**
      * Verifies that FATAL errors are reported.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-27681">Issue 27681</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-27681">Issue 27681</a>
      */
     @Test
     void issue27681() {

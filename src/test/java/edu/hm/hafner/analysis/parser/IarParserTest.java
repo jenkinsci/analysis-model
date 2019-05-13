@@ -77,7 +77,7 @@ class IarParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with IAR ARM warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55750">Issue 55750</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55750">Issue 55750</a>
      */
     @Test
     void issue55750() {
