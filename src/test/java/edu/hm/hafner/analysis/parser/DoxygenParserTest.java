@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
- * Tests the class {@link DoxygenParser}.
+ * Tests the class {@link Gcc4CompilerParser} using input files of Doxygen.
  */
 class DoxygenParserTest extends AbstractParserTest {
     private static final String NO_FILE_NAME = "<unknown>";
