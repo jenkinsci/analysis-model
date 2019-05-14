@@ -792,6 +792,18 @@ class MsBuildParserTest extends AbstractParserTest {
         });
     }
 
+    /**
+     * Parses a file with false positives if a build project name contains info.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-57365">Issue 57365</a>
+     */
+    @Test
+    void issue57365() {
+        Report warnings = parse("issue57365.txt");
+
+        assertThat(warnings).isEmpty();
+    }
+
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report)
