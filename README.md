@@ -1,7 +1,7 @@
 # Static Analysis Model and Parsers Library
 
 [![Join the chat at https://gitter.im/jenkinsci/warnings-plugin](https://badges.gitter.im/jenkinsci/warnings-plugin.svg)](https://gitter.im/jenkinsci/warnings-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/analysis-model-api.svg)](https://plugins.jenkins.io/nalysis-model-api)
+[![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/analysis-model-api.svg)](https://plugins.jenkins.io/analysis-model-api)
 [![Jenkins Version](https://img.shields.io/badge/Jenkins-2.121.1-green.svg)](https://jenkins.io/download/)
 ![JDK8](https://img.shields.io/badge/jdk-8-yellow.svg)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
