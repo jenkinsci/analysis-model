@@ -40,6 +40,23 @@ class IssueFilterTest {
             .setMessage("Message3")
             .build();
 
+    /**
+     * Verifies that apostrophes can be used in the regular expression.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-57448">Issue 57448</a>
+     */
+    @Test
+    void shouldHandleApostrophe() {
+        Predicate<? super Issue> predicate = new IssueFilterBuilder().setExcludeMessageFilter(
+                "'tools.jar' was not found, kapt may work unreliably").build();
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setMessage("'tools.jar' was not found, kapt may work unreliably").build());
+
+        Report filtered = report.filter(predicate);
+        assertThat(filtered).hasSize(0);
+    }
+
     @Test
     void shouldUseFindRatherThanMatch() {
         Predicate<? super Issue> predicate = new IssueFilterBuilder().setIncludeMessageFilter("something").build();

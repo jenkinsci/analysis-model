@@ -263,7 +263,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parser should make relative paths absolute if cmake/ninja is used.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>
      */
     @Test
     void issue56020() {
@@ -299,7 +299,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a file with one fatal error.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18081">Issue 18081</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-18081">Issue 18081</a>
      */
     @Test
     void issue18081() {
@@ -320,7 +320,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
     void issue9926() {
@@ -339,7 +339,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 1 warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
      */
     @Test
     void issue6563() {
@@ -351,7 +351,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 10 template warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5606">Issue 5606</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5606">Issue 5606</a>
      */
     @Test
     void issue5606() {
@@ -363,7 +363,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with multi line warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5605">Issue 5605</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5605">Issue 5605</a>
      */
     @Test
     void issue5605() {
@@ -375,7 +375,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with multi line warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
      */
     @Test
     void issue5445() {
@@ -387,7 +387,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with autoconf messages. There should be no warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
      */
     @Test
     void issue5870() {

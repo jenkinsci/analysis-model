@@ -8,8 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the class {@link Gcc4LinkerParser}.
@@ -110,7 +111,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with multi line warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
      */
     @Test
     void issue5445() {
@@ -122,7 +123,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with autoconf messages. There should be no warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
      */
     @Test
     void issue5870() {
@@ -134,7 +135,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 1 warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
      */
     @Test
     void issue6563() {

@@ -54,7 +54,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with previously undetected warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
      */
     @Test
     void shouldNotFindAntIssues() {
@@ -66,7 +66,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with previously undetected warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-21377">Issue 21377</a>
      */
     @Test
     void issue21377() {
@@ -88,7 +88,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
     /**
      * Parses an Eclipse warnings report that contains single line warnings only.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55368">Issue 55368</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55368">Issue 55368</a>
      */
     @Test
     void issue55368() {

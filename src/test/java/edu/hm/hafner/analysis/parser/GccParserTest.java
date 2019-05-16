@@ -8,8 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -29,7 +30,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Checks that a false positive is not reported anymore.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-34141">Issue 34141</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-34141">Issue 34141</a>
      */
     @Test
     void issue34141() {
@@ -41,7 +42,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Verifies that the message contains escaped XML characters.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-17309">Issue 17309</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-17309">Issue 17309</a>
      */
     @Test
     void issue17309() {
@@ -63,7 +64,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
     void issue9926() {
@@ -163,7 +164,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 2 new GCC warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3897">Issue 3897</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-3897">Issue 3897</a>
      */
     @Test
     void issue3897and3898() {
@@ -203,7 +204,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 2 GCC warnings, one of them a note.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
     void issue4712() {
@@ -235,7 +236,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with a ClearCase command line that should not be parsed as a warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
     void issue4700() {
@@ -247,7 +248,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with [exec] prefix.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4707</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4707</a>
      */
     @Test
     void issue4707() {
@@ -270,7 +271,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a linker error.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4010">Issue 4010</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4010">Issue 4010</a>
      */
     @Test
     void issue4010() {
@@ -292,7 +293,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 6 new objective C warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4274">Issue 4274</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4274">Issue 4274</a>
      */
     @Test
     void issue4274() {
@@ -340,7 +341,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a file with one warning and matching warning that will be excluded afterwards.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
      */
     @Test
     void issue4260() {

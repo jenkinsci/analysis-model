@@ -51,7 +51,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with false positive message.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-42823">Issue 42823</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-42823">Issue 42823</a>
      */
     @Test
     void issue42823() {
@@ -256,7 +256,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with a google-test failure that should not be shown as a warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-26441">Issue 26441</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-26441">Issue 26441</a>
      */
     @Test
     void issue26441() {
@@ -268,7 +268,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with gcc warnings that should be skipped.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-20544">Issue 20544</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-20544">Issue 20544</a>
      */
     @Test
     void issue20544() {
@@ -280,7 +280,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with  warnings of a Visual Studio analysis.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-20154">Issue 20154</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-20154">Issue 20154</a>
      */
     @Test
     void issue20154() {
@@ -336,7 +336,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with 4 warnings of PCLint tools.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14888">Issue 14888</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-14888">Issue 14888</a>
      */
     @Test
     void issue14888() {
@@ -400,7 +400,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with warnings of the MS Build tools.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-10566">Issue 10566</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-10566">Issue 10566</a>
      */
     @Test
     void issue10566() {
@@ -426,7 +426,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with warnings of the MS Build tools.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
      */
     @Test
     void issue3582() {
@@ -452,7 +452,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with warnings of Stylecop.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-8347">Issue 8347</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-8347">Issue 8347</a>
      */
     @Test
     void issue8347() {
@@ -529,7 +529,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with one warning of the MS Build tools (parallel build).
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
      */
     @Test
     void issue6709() {
@@ -555,7 +555,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with one warning of the MS Build tools that are started by ant.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
     void issue9926() {
@@ -582,7 +582,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with warnings of the MS Build linker.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4932">Issue 4932</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4932">Issue 4932</a>
      */
     @Test
     void issue4932() {
@@ -622,7 +622,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Parses a file with warnings of MS sharepoint.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4731">Issue 4731</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4731">Issue 4731</a>
      */
     @Test
     void issue4731() {
@@ -694,7 +694,7 @@ class MsBuildParserTest extends AbstractParserTest {
      * MSBuildParser should also detect keywords 'Warning' and 'Error', as they are produced by the .NET-2.0 compiler of
      * VS2005.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-2383">Issue 2383</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-2383">Issue 2383</a>
      */
     @Test
     void shouldDetectKeywordsInRegexCaseInsensitive() {
@@ -734,7 +734,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * Update regular expression to detect logging prefixes like <pre>{@code 17:4>}</pre>.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-48647">Issue 48647</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-48647">Issue 48647</a>
      */
     @Test
     void issue48647() {
@@ -760,7 +760,7 @@ class MsBuildParserTest extends AbstractParserTest {
     /**
      * MSBuildParser should support messages when compiling with /MP.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-56450">Issue 56450</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56450">Issue 56450</a>
      */
     @Test
     void issue56450() {
@@ -790,6 +790,18 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasLineStart(1801)
                 .hasLineEnd(1801);
         });
+    }
+
+    /**
+     * Parses a file with false positives if a build project name contains info.
+     *
+     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-57365">Issue 57365</a>
+     */
+    @Test
+    void issue57365() {
+        Report warnings = parse("issue57365.txt");
+
+        assertThat(warnings).isEmpty();
     }
 
     @Override

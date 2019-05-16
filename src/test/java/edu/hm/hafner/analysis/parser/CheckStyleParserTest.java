@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the extraction of CheckStyle analysis results.
@@ -42,7 +43,7 @@ class CheckStyleParserTest extends AbstractParserTest {
     /**
      * Parses a file with one fatal error.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-25511">Issue 25511</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-25511">Issue 25511</a>
      */
     @Test
     void issue25511() {
@@ -57,7 +58,7 @@ class CheckStyleParserTest extends AbstractParserTest {
     /**
      * Tests parsing of file with some warnings that are in the same line but different column.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-19122">Issue 19122</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-19122">Issue 19122</a>
      */
     @Test
     void testColumnPositions() {
@@ -70,7 +71,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      * Tests parsing of a file with Scala style warnings.
      *
      * @see <a href="http://www.scalastyle.org">Scala Style Homepage</a>
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-17287">Issue 17287</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-17287">Issue 17287</a>
      */
     @Test
     void testParsingOfScalaStyleFormat() {

@@ -49,7 +49,7 @@ class FindBugsParserTest {
     /**
      * Parses messages from SpotBugs.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55514">JENKINS-55514</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55514">JENKINS-55514</a>
      */
     @Test
     void shouldAssignCorrectSeverity() {
@@ -65,7 +65,7 @@ class FindBugsParserTest {
     /**
      * Parses messages from SpotBugs.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-46975">JENKINS-46975</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-46975">JENKINS-46975</a>
      */
     @Test
     void issue46975() {
@@ -101,7 +101,7 @@ class FindBugsParserTest {
     /**
      * Parses fb-contrib messages.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-7238">Issue 7238</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-7238">Issue 7238</a>
      */
     @Test
     void issue7238() {
@@ -113,7 +113,7 @@ class FindBugsParserTest {
     /**
      * Parses fb-contrib messages.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12314">Issue 12314</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-12314">Issue 12314</a>
      */
     @Test
     void issue12314() {

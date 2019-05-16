@@ -69,7 +69,7 @@ class PmdParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with errors.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-54736">Issue 54736</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-54736">Issue 54736</a>
      */
     @Test
     void issue54736() {
@@ -121,7 +121,7 @@ class PmdParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 15 warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12801">Issue 12801</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-12801">Issue 12801</a>
      */
     @Test
     void issue12801() {

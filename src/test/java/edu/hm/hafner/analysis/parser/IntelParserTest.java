@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 
 /**
@@ -103,7 +104,7 @@ class IntelParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 3 warnings and 1 error.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5402">Issue 5402</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5402">Issue 5402</a>
      */
     @Test
     void issue5402() {

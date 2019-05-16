@@ -38,7 +38,7 @@ class Flake8AdapterTest extends AbstractParserTest {
     /**
      * Checks whether columns are supported.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-53786">Issue 53786</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-53786">Issue 53786</a>
      */
     @Test
     void shouldParseFileWithColumns() {
