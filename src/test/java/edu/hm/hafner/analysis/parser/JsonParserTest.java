@@ -23,7 +23,7 @@ class JsonParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(3);
+        assertThat(report).hasSize(5);
         Iterator<Issue> iterator = report.iterator();
 
         Issue issue1 = iterator.next();
@@ -61,6 +61,18 @@ class JsonParserTest extends AbstractParserTest {
                 .hasDescription("an \"important\" description")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("an \"important\" message");
+
+        Issue issue4 = iterator.next();
+        softly.assertThat(issue4)
+                .hasFileName("some.properties")
+                .hasLineStart(10)
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        Issue issue5 = iterator.next();
+        softly.assertThat(issue5)
+                .hasFileName("file.xml")
+                .containsExactlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.hasNext()).isFalse();
     }

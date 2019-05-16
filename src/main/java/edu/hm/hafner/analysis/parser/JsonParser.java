@@ -1,9 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
@@ -36,6 +40,8 @@ public class JsonParser extends IssueParser {
             lines.map(line -> line.trim())
                 .filter(line -> !line.isEmpty())
                 .map(line -> parseIssue(line))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .forEach(report::add);
             return report;
         }
@@ -46,9 +52,16 @@ public class JsonParser extends IssueParser {
      * @param line a String containing the Issue serialized into JSON
      * @return an Issue
      */
-    protected Issue parseIssue(final String line) {
-        JSONObject jsonIssue = new JSONObject(line);
-        return convertToIssue(jsonIssue);
+    protected Optional<Issue> parseIssue(final String line) {
+        try {
+            JSONObject jsonIssue = new JSONObject(line);
+            return Optional.of(convertToIssue(jsonIssue));
+        }
+        catch (JSONException e) {
+            Logger.getLogger(JsonParser.class.getName())
+                    .log(Level.INFO, "Could not parse line: " + line, e);
+        }
+        return Optional.empty();
     }
 
     private Issue convertToIssue(JSONObject jsonIssue) {
