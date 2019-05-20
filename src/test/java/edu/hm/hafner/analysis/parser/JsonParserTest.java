@@ -1,22 +1,21 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
-
-import java.util.Iterator;
 import java.util.UUID;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 /**
  * Tests the class {@link JsonParser}.
  */
 class JsonParserTest extends AbstractParserTest {
-
     JsonParserTest() {
         super("json-issues.log");
     }
@@ -24,10 +23,9 @@ class JsonParserTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(5);
-        Iterator<Issue> iterator = report.iterator();
+        assertThat(report.getErrorMessages()).isEmpty();
 
-        Issue issue1 = iterator.next();
-        softly.assertThat(issue1)
+        softly.assertThat(report.get(0))
                 .hasFileName("d/file.txt")
                 .containsExactlyLineRanges(new LineRange(10, 11), new LineRange(20, 21))
                 .hasCategory("c")
@@ -43,8 +41,7 @@ class JsonParserTest extends AbstractParserTest {
                 .hasAdditionalProperties("ap")
                 .hasId(UUID.fromString("823b92b6-98eb-41c4-83ce-b6ec1ed6f98f"));
 
-        Issue issue2 = iterator.next();
-        softly.assertThat(issue2)
+        softly.assertThat(report.get(1))
                 .hasFileName("test.txt")
                 .hasLineStart(10)
                 .hasLineEnd(11)
@@ -54,27 +51,41 @@ class JsonParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.ERROR)
                 .hasMessage("some message");
 
-        Issue issue3 = iterator.next();
-        softly.assertThat(issue3)
+        softly.assertThat(report.get(2))
                 .hasFileName("test.txt")
                 .containsExactlyLineRanges(new LineRange(10, 10), new LineRange(220, 220))
                 .hasDescription("an \"important\" description")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("an \"important\" message");
 
-        Issue issue4 = iterator.next();
-        softly.assertThat(issue4)
+        softly.assertThat(report.get(3))
                 .hasFileName("some.properties")
                 .hasLineStart(10)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        Issue issue5 = iterator.next();
-        softly.assertThat(issue5)
+        softly.assertThat(report.get(4))
                 .hasFileName("file.xml")
                 .containsExactlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
                 .hasSeverity(Severity.WARNING_NORMAL);
+    }
 
-        softly.assertThat(iterator.hasNext()).isFalse();
+    @Test
+    void shouldNotAcceptXmlFiles() {
+        assertThat(createParser().accepts(createReaderFactory("xmlParserDefault.xml"))).isFalse();
+    }
+
+    @Test
+    void shouldReportDuplicateKey() {
+        Report report = parse("json-issues-duplicate.log");
+        assertThat(report).hasSize(0);
+        assertThat(report.getErrorMessages()).contains("Could not parse line: «{\"fileName\":\"invalid1.xml\",\"fileName\":\"invalid2.xml\"}»");
+    }
+
+    @Test
+    void shouldReportLineBreak() {
+        Report report = parse("json-issues-lineBreak.log");
+        assertThat(report).hasSize(0);
+        assertThat(report.getErrorMessages()).contains("Could not parse line: «\"description\":\"an \\\"important\\\" description\"}»");
     }
 
     @Override

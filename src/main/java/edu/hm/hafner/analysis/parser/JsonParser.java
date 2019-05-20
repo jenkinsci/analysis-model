@@ -2,8 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import org.json.JSONArray;
@@ -12,7 +10,6 @@ import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingException;
@@ -25,7 +22,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Jeremie Bresson
  */
-public class JsonParser extends IssueParser {
+public class JsonParser extends IssuePropertiesParser {
     private static final long serialVersionUID = 1349282064371959197L;
 
     @Override
@@ -37,9 +34,9 @@ public class JsonParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (Stream<String> lines = readerFactory.readStream()) {
             Report report = new Report();
-            lines.map(line -> line.trim())
+            lines.map(String::trim)
                 .filter(line -> !line.isEmpty())
-                .map(line -> parseIssue(line))
+                .map(line -> parseIssue(line, report))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(report::add);
@@ -47,101 +44,98 @@ public class JsonParser extends IssueParser {
         }
     }
 
-    /**
-     * Convert a line to an issue.
-     * @param line a String containing the Issue serialized into JSON
-     * @return an Issue
-     */
-    protected Optional<Issue> parseIssue(final String line) {
+    private Optional<Issue> parseIssue(final String line, final Report report) {
         try {
             JSONObject jsonIssue = new JSONObject(line);
-            return Optional.of(convertToIssue(jsonIssue));
+
+            return convertToIssue(jsonIssue);
         }
         catch (JSONException e) {
-            Logger.getLogger(JsonParser.class.getName())
-                    .log(Level.INFO, "Could not parse line: " + line, e);
+            report.logException(e, "Could not parse line: «%s»", line);
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
-    private Issue convertToIssue(JSONObject jsonIssue) {
+    private Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
         IssueBuilder builder = new IssueBuilder();
-        if (jsonIssue.has(Issue.ADDITIONAL_PROPERTIES)) {
-            builder.setAdditionalProperties(jsonIssue.getString(Issue.ADDITIONAL_PROPERTIES));
+        if (jsonIssue.has(ADDITIONAL_PROPERTIES)) {
+            builder.setAdditionalProperties(jsonIssue.getString(ADDITIONAL_PROPERTIES));
         }
-        if (jsonIssue.has(Issue.CATEGORY)) {
-            builder.setCategory(jsonIssue.getString(Issue.CATEGORY));
+        if (jsonIssue.has(CATEGORY)) {
+            builder.setCategory(jsonIssue.getString(CATEGORY));
         }
-        if (jsonIssue.has(Issue.COLUMN_END)) {
-            builder.setColumnEnd(jsonIssue.getInt(Issue.COLUMN_END));
+        if (jsonIssue.has(COLUMN_END)) {
+            builder.setColumnEnd(jsonIssue.getInt(COLUMN_END));
         }
-        if (jsonIssue.has(Issue.COLUMN_START)) {
-            builder.setColumnStart(jsonIssue.getInt(Issue.COLUMN_START));
+        if (jsonIssue.has(COLUMN_START)) {
+            builder.setColumnStart(jsonIssue.getInt(COLUMN_START));
         }
-        if (jsonIssue.has(Issue.DESCRIPTION)) {
-            builder.setDescription(jsonIssue.getString(Issue.DESCRIPTION));
+        if (jsonIssue.has(DESCRIPTION)) {
+            builder.setDescription(jsonIssue.getString(DESCRIPTION));
         }
-        if (jsonIssue.has(Issue.DIRECTORY)) {
-            builder.setDirectory(jsonIssue.getString(Issue.DIRECTORY));
+        if (jsonIssue.has(DIRECTORY)) {
+            builder.setDirectory(jsonIssue.getString(DIRECTORY));
         }
-        if (jsonIssue.has(Issue.FINGERPRINT)) {
-            builder.setFingerprint(jsonIssue.getString(Issue.FINGERPRINT));
+        if (jsonIssue.has(FINGERPRINT)) {
+            builder.setFingerprint(jsonIssue.getString(FINGERPRINT));
         }
-        if (jsonIssue.has(Issue.FILE_NAME)) {
-            builder.setFileName(jsonIssue.getString(Issue.FILE_NAME));
+        if (jsonIssue.has(FILE_NAME)) {
+            builder.setFileName(jsonIssue.getString(FILE_NAME));
         }
-        if (jsonIssue.has(Issue.ID)) {
-            builder.setId(UUID.fromString(jsonIssue.getString(Issue.ID)));
+        if (jsonIssue.has(ID)) {
+            builder.setId(UUID.fromString(jsonIssue.getString(ID)));
         }
-        if (jsonIssue.has(Issue.LINE_END)) {
-            builder.setLineEnd(jsonIssue.getInt(Issue.LINE_END));
+        if (jsonIssue.has(LINE_END)) {
+            builder.setLineEnd(jsonIssue.getInt(LINE_END));
         }
-        if (jsonIssue.has(Issue.LINE_RANGES)) {
-            JSONArray jsonRanges = jsonIssue.getJSONArray(Issue.LINE_RANGES);
+        if (jsonIssue.has(LINE_RANGES)) {
+            JSONArray jsonRanges = jsonIssue.getJSONArray(LINE_RANGES);
             LineRangeList lineRanges = convertToLineRangeList(jsonRanges);
             builder.setLineRanges(lineRanges);
         }
-        if (jsonIssue.has(Issue.LINE_START)) {
-            builder.setLineStart(jsonIssue.getInt(Issue.LINE_START));
+        if (jsonIssue.has(LINE_START)) {
+            builder.setLineStart(jsonIssue.getInt(LINE_START));
         }
-        if (jsonIssue.has(Issue.MESSAGE)) {
-            builder.setMessage(jsonIssue.getString(Issue.MESSAGE));
+        if (jsonIssue.has(MESSAGE)) {
+            builder.setMessage(jsonIssue.getString(MESSAGE));
         }
-        if (jsonIssue.has(Issue.MODULE_NAME)) {
-            builder.setModuleName(jsonIssue.getString(Issue.MODULE_NAME));
+        if (jsonIssue.has(MODULE_NAME)) {
+            builder.setModuleName(jsonIssue.getString(MODULE_NAME));
         }
-        if (jsonIssue.has(Issue.ORIGIN)) {
-            builder.setOrigin(jsonIssue.getString(Issue.ORIGIN));
+        if (jsonIssue.has(ORIGIN)) {
+            builder.setOrigin(jsonIssue.getString(ORIGIN));
         }
-        if (jsonIssue.has(Issue.PACKAGE_NAME)) {
-            builder.setPackageName(jsonIssue.getString(Issue.PACKAGE_NAME));
+        if (jsonIssue.has(PACKAGE_NAME)) {
+            builder.setPackageName(jsonIssue.getString(PACKAGE_NAME));
         }
-        if (jsonIssue.has(Issue.REFERENCE)) {
-            builder.setReference(jsonIssue.getString(Issue.REFERENCE));
+        if (jsonIssue.has(REFERENCE)) {
+            builder.setReference(jsonIssue.getString(REFERENCE));
         }
-        if (jsonIssue.has(Issue.SEVERITY)) {
-            builder.setSeverity(Severity.valueOf(jsonIssue.getString(Issue.SEVERITY)));
+        if (jsonIssue.has(SEVERITY)) {
+            builder.setSeverity(Severity.valueOf(jsonIssue.getString(SEVERITY)));
         }
-        if (jsonIssue.has(Issue.TYPE)) {
-            builder.setType(jsonIssue.getString(Issue.TYPE));
+        if (jsonIssue.has(TYPE)) {
+            builder.setType(jsonIssue.getString(TYPE));
         }
-        return builder.build();
+        return builder.buildOptional();
     }
 
-    private LineRangeList convertToLineRangeList(JSONArray jsonRanges) {
+    private LineRangeList convertToLineRangeList(final JSONArray jsonRanges) {
         LineRangeList lineRanges = new LineRangeList();
         for (int i = 0; i < jsonRanges.length(); i++) {
             JSONObject jsonRange = jsonRanges.getJSONObject(i);
-            if (jsonRange.has(Issue.LINE_RANGE_START)) {
-                if (jsonRange.has(Issue.LINE_RANGE_END)) {
-                    lineRanges.add(new LineRange(jsonRange.getInt(Issue.LINE_RANGE_START), jsonRange.getInt(Issue.LINE_RANGE_END)));
+            if (jsonRange.has(LINE_RANGE_START)) {
+                if (jsonRange.has(LINE_RANGE_END)) {
+                    lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START), jsonRange.getInt(
+                            LINE_RANGE_END)));
                 }
                 else {
-                    lineRanges.add(new LineRange(jsonRange.getInt(Issue.LINE_RANGE_START)));
+                    lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START)));
                 }
             }
-            else if (jsonRange.has(Issue.LINE_RANGE_END)) {
-                lineRanges.add(new LineRange(jsonRange.getInt(Issue.LINE_RANGE_END), jsonRange.getInt(Issue.LINE_RANGE_END)));
+            else if (jsonRange.has(LINE_RANGE_END)) {
+                lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_END), jsonRange.getInt(
+                        LINE_RANGE_END)));
             }
         }
         return lineRanges;

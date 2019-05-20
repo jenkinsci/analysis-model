@@ -28,49 +28,6 @@ public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
     private static final String UNDEFINED = "-";
 
-    /** Key for additionalProperties. */
-    public static final String ADDITIONAL_PROPERTIES = "additionalProperties";
-    /** Key for category. */
-    public static final String CATEGORY = "category";
-    /** Key for columnEnd. */
-    public static final String COLUMN_END = "columnEnd";
-    /** Key for columnStart. */
-    public static final String COLUMN_START = "columnStart";
-    /** Key for description. */
-    public static final String DESCRIPTION = "description";
-    /** Key for directory. */
-    public static final String DIRECTORY = "directory";
-    /** Key for fileName. */
-    public static final String FILE_NAME = "fileName";
-    /** Key for fingerprint. */
-    public static final String FINGERPRINT = "fingerprint";
-    /** Key for id. */
-    public static final String ID = "id";
-    /** Key for lineEnd. */
-    public static final String LINE_END = "lineEnd";
-    /** Key for lineRanges. */
-    public static final String LINE_RANGES = "lineRanges";
-    /** Key for end in lineRange. */
-    public static final String LINE_RANGE_END = "end";
-    /** Key for start in lineRange. */
-    public static final String LINE_RANGE_START = "start";
-    /** Key for lineStart. */
-    public static final String LINE_START = "lineStart";
-    /** Key for message. */
-    public static final String MESSAGE = "message";
-    /** Key for moduleName. */
-    public static final String MODULE_NAME = "moduleName";
-    /** Key for origin. */
-    public static final String ORIGIN = "origin";
-    /** Key for packageName. */
-    public static final String PACKAGE_NAME = "packageName";
-    /** Key for reference. */
-    public static final String REFERENCE = "reference";
-    /** Key for severity. */
-    public static final String SEVERITY = "severity";
-    /** Key for type. */
-    public static final String TYPE = "type";
-
     /**
      * Returns the value of the property with the specified name for a given issue instance.
      *
@@ -821,7 +778,6 @@ public class Issue implements Serializable {
         return fileName.equals(issue.fileName);
     }
 
-    @SuppressWarnings("all")
     @Override
     public int hashCode() {
         int result = category.hashCode();

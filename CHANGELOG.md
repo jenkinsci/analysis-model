@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.0.2...master)
 
+- [JENKINS-57098](https://issues.jenkins-ci.org/browse/JENKINS-56510),
+[PR#168](https://github.com/jenkinsci/analysis-model/pull/168): 
+Added a generic JSON parser that reads all properties of the internal `Issue` object.
+
 ## [5.0.2](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.0.1...analysis-model-5.0.2) - 2019-5-14
 
 ### Fixed
@@ -27,7 +31,7 @@ EclipseParser fails to extract full message when message includes array brackets
 ### Added
 - [JENKINS-56510](https://issues.jenkins-ci.org/browse/JENKINS-56510),
 [PR#154](https://github.com/jenkinsci/analysis-model/pull/154): 
-Added a generic parser that reads all properties of the internal `Issue` object.
+Added a generic XML parser that reads all properties of the internal `Issue` object.
 - [PR#132](https://github.com/jenkinsci/analysis-model/pull/132): 
 Added a parser for CMake warnings.
 - [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):

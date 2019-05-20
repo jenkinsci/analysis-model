@@ -2,9 +2,6 @@
 {"fileName":"test.txt","severity":"ERROR","lineStart":10,"lineEnd":11,"columnStart":110,"columnEnd":120,"message":"some message","description":"some description"}
 
 {"fileName":"test.txt", "lineRanges":[{"start":10}, {"end":220}, {}], "severity":"HIGH", "message":"an \"important\" message", "description":"an \"important\" description"}
-    
+
     {"fileName":"some.properties","severity":"NORMAL", "lineStart":10, "other":value, "additional": "stuff"}
 {"fileName":"file.xml","lineRanges":[{"start":11, "end":12, "other":10, "additional": "stuff"}, {"s":11, "e":12, "start":21, "end":22}]}
-{"fileName":"invalid1.xml","fileName":"invalid2.xml"}
-{"fileName":"file.xml",
- "description":"an \"important\" description"}
