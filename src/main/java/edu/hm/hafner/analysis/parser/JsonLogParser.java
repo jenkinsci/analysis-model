@@ -22,7 +22,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Jeremie Bresson
  */
-public class JsonParser extends IssuePropertiesParser {
+public class JsonLogParser extends IssuePropertiesParser {
     private static final long serialVersionUID = 1349282064371959197L;
 
     @Override

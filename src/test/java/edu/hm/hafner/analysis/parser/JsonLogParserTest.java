@@ -13,10 +13,10 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
- * Tests the class {@link JsonParser}.
+ * Tests the class {@link JsonLogParser}.
  */
-class JsonParserTest extends AbstractParserTest {
-    JsonParserTest() {
+class JsonLogParserTest extends AbstractParserTest {
+    JsonLogParserTest() {
         super("json-issues.log");
     }
 
@@ -89,7 +89,7 @@ class JsonParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected JsonParser createParser() {
-        return new JsonParser();
+    protected JsonLogParser createParser() {
+        return new JsonLogParser();
     }
 }
