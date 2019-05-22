@@ -70,8 +70,9 @@ class JsonLogParserTest extends AbstractParserTest {
     }
 
     @Test
-    void shouldNotAcceptXmlFiles() {
+    void shouldNotAcceptXmlAndJsonFiles() {
         assertThat(createParser().accepts(createReaderFactory("xmlParserDefault.xml"))).isFalse();
+        assertThat(createParser().accepts(createReaderFactory("issues.json"))).isFalse();
     }
 
     @Test
@@ -87,6 +88,14 @@ class JsonLogParserTest extends AbstractParserTest {
         assertThat(report).hasSize(0);
         assertThat(report.getErrorMessages()).contains("Could not parse line: «\"description\":\"an \\\"important\\\" description\"}»");
     }
+    
+    @Test
+    void emptyReport() {
+        JsonLogParser parser = createParser();
+        Report report = parser.parse(createReaderFactory("json-issues-empty.txt"));
+        assertThat(report).hasSize(0);
+    }
+
 
     @Override
     protected JsonLogParser createParser() {
