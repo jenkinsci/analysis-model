@@ -31,7 +31,7 @@ public class JsonLogParser extends JsonBaseParser {
             lines.map(String::trim)
                 .filter(line -> !line.isEmpty())
                 .filter(line -> !line.startsWith("//"))
-                .filter(line -> !line.startsWith("#"))
+                .filter(line -> line.charAt(0) != '#')
                 .map(line -> parseIssue(line, report))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
