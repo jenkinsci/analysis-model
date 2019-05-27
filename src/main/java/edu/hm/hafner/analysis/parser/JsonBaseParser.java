@@ -17,14 +17,18 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Jeremie Bresson
  */
-public abstract class JsonBaseParser extends IssuePropertiesParser {
+abstract class JsonBaseParser extends IssuePropertiesParser {
     private static final long serialVersionUID = -2318844382394973833L;
 
     /**
      * Deserialize an Issue from a JSON object.
-     * @param jsonIssue the issue as JSON object
+     *
+     * @param jsonIssue
+     *         the issue as JSON object
+     *
      * @return issue instance
      */
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     protected Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
         IssueBuilder builder = new IssueBuilder();
         if (jsonIssue.has(ADDITIONAL_PROPERTIES)) {
@@ -95,16 +99,16 @@ public abstract class JsonBaseParser extends IssuePropertiesParser {
             JSONObject jsonRange = jsonRanges.getJSONObject(i);
             if (jsonRange.has(LINE_RANGE_START)) {
                 if (jsonRange.has(LINE_RANGE_END)) {
-                    lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START), jsonRange.getInt(
-                            LINE_RANGE_END)));
+                    lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START),
+                            jsonRange.getInt(LINE_RANGE_END)));
                 }
                 else {
                     lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START)));
                 }
             }
             else if (jsonRange.has(LINE_RANGE_END)) {
-                lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_END), jsonRange.getInt(
-                        LINE_RANGE_END)));
+                lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_END),
+                        jsonRange.getInt(LINE_RANGE_END)));
             }
         }
         return lineRanges;

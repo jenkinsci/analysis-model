@@ -17,7 +17,6 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * Tests the class {@link JsonParser}.
  */
 class JsonParserTest extends AbstractParserTest {
-
     JsonParserTest() {
         super("issues.json");
     }

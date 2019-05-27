@@ -21,7 +21,8 @@ public class JsonLogParser extends JsonBaseParser {
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
-        return !readerFactory.getFileName().endsWith(".xml") && !readerFactory.getFileName().endsWith(".json");
+        String fileName = readerFactory.getFileName();
+        return !fileName.endsWith(".xml") && !fileName.endsWith(".json");
     }
 
     @Override

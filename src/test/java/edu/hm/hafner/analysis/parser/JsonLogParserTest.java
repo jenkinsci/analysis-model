@@ -96,7 +96,6 @@ class JsonLogParserTest extends AbstractParserTest {
         assertThat(report).hasSize(0);
     }
 
-
     @Override
     protected JsonLogParser createParser() {
         return new JsonLogParser();
