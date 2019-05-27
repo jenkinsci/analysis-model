@@ -142,9 +142,7 @@ public class FindBugsParser extends IssueParser {
             SortedBugCollection collection = readXml(input);
 
             Project project = collection.getProject();
-            for (String sourceFolder : sources) {
-                project.addSourceDir(sourceFolder);
-            }
+            project.addSourceDirs(sources);
 
             SourceFinder sourceFinder = new SourceFinder(project);
             if (StringUtils.isNotBlank(project.getProjectName())) {

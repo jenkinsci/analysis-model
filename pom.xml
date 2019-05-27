@@ -59,7 +59,7 @@
     <commons.digester.version>3.2</commons.digester.version>
     <commons.text.version>1.6</commons.text.version>
     <eclipse-collections.version>9.2.0</eclipse-collections.version>
-    <findbugs.parser.library.version>4.0.0</findbugs.parser.library.version>
+    <spotbugs.parser.library.version>6.0.3</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
 
     <!-- Project Test Dependencies Configuration -->
@@ -169,7 +169,7 @@
     <dependency>
       <groupId>org.jvnet.hudson.plugins.findbugs</groupId>
       <artifactId>library</artifactId>
-      <version>${findbugs.parser.library.version}</version>
+      <version>${spotbugs.parser.library.version}</version>
     </dependency>
 
     <!-- SonarQube Parser Dependencies -->
