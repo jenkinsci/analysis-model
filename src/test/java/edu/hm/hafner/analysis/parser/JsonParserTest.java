@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -16,8 +17,9 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  * Tests the class {@link JsonParser}.
  */
 class JsonParserTest extends AbstractParserTest {
+
     JsonParserTest() {
-        super("json-issues.log");
+        super("issues.json");
     }
 
     @Override
@@ -26,41 +28,41 @@ class JsonParserTest extends AbstractParserTest {
         assertThat(report.getErrorMessages()).isEmpty();
 
         softly.assertThat(report.get(0))
-                .hasFileName("d/file.txt")
-                .containsExactlyLineRanges(new LineRange(10, 11), new LineRange(20, 21))
-                .hasCategory("c")
-                .hasDescription("d")
-                .hasType("t")
+                .hasFileName("directory/test-file.txt")
+                .containsExactlyLineRanges(new LineRange(110, 111), new LineRange(120, 121))
+                .hasCategory("category")
+                .hasDescription("description")
+                .hasType("type")
                 .hasSeverity(Severity.WARNING_LOW)
-                .hasMessage("msg")
-                .hasPackageName("pn")
-                .hasModuleName("mdl")
-                .hasOrigin("orgn")
-                .hasReference("ref")
-                .hasFingerprint("fgpt")
-                .hasAdditionalProperties("ap")
-                .hasId(UUID.fromString("823b92b6-98eb-41c4-83ce-b6ec1ed6f98f"));
+                .hasMessage("message")
+                .hasPackageName("packageName")
+                .hasModuleName("moduleName")
+                .hasOrigin("origin")
+                .hasReference("reference")
+                .hasFingerprint("9CED6585900DD3CFB97B914A3CEB0E79")
+                .hasAdditionalProperties("additionalProperties")
+                .hasId(UUID.fromString("e7011244-2dab-4a54-a27b-2d0697f8f813"));
 
         softly.assertThat(report.get(1))
-                .hasFileName("test.txt")
-                .hasLineStart(10)
-                .hasLineEnd(11)
-                .hasColumnStart(110)
-                .hasColumnEnd(120)
+                .hasFileName("test.xml")
+                .hasLineStart(110)
+                .hasLineEnd(111)
+                .hasColumnStart(210)
+                .hasColumnEnd(220)
                 .hasDescription("some description")
                 .hasSeverity(Severity.ERROR)
                 .hasMessage("some message");
 
         softly.assertThat(report.get(2))
                 .hasFileName("test.txt")
-                .containsExactlyLineRanges(new LineRange(10, 10), new LineRange(220, 220))
+                .containsExactlyLineRanges(new LineRange(110, 110), new LineRange(320, 320))
                 .hasDescription("an \"important\" description")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("an \"important\" message");
 
         softly.assertThat(report.get(3))
                 .hasFileName("some.properties")
-                .hasLineStart(10)
+                .hasLineStart(20)
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(4))
@@ -70,22 +72,16 @@ class JsonParserTest extends AbstractParserTest {
     }
 
     @Test
-    void shouldNotAcceptXmlFiles() {
-        assertThat(createParser().accepts(createReaderFactory("xmlParserDefault.xml"))).isFalse();
+    void shouldNotAcceptTextFiles() {
+        assertThat(createParser().accepts(createReaderFactory("gcc.txt"))).isFalse();
     }
 
     @Test
-    void shouldReportDuplicateKey() {
-        Report report = parse("json-issues-duplicate.log");
-        assertThat(report).hasSize(0);
-        assertThat(report.getErrorMessages()).contains("Could not parse line: «{\"fileName\":\"invalid1.xml\",\"fileName\":\"invalid2.xml\"}»");
-    }
-
-    @Test
-    void shouldReportLineBreak() {
-        Report report = parse("json-issues-lineBreak.log");
-        assertThat(report).hasSize(0);
-        assertThat(report.getErrorMessages()).contains("Could not parse line: «\"description\":\"an \\\"important\\\" description\"}»");
+    void shouldThrowParserException() {
+        assertThatThrownBy(() -> createParser().parse(createReaderFactory("issues-invalid.json")))
+                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> createParser().parse(createReaderFactory("issues-broken.json")))
+                .isInstanceOf(ParsingException.class);
     }
 
     @Override

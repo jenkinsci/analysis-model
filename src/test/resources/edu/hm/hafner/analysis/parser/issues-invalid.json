@@ -1,0 +1,33 @@
+{
+    "_class": "io.jenkins.plugins.analysis.core.restapi.ReportApi",
+    "issues": [
+        {
+            "fileName": "test-file.txt",
+            "fileName": "other.txt",
+            "lineRanges": [
+                {
+                    "start": 110,
+                    "end": 111
+                },
+                {
+                    "start": 120,
+                    "end": 121
+                }
+            ],
+            "directory": "directory",
+            "category": "category",
+            "type": "type",
+            "severity": "LOW",
+            "message": "message",
+            "description": "description",
+            "packageName": "packageName",
+            "moduleName": "moduleName",
+            "origin": "origin",
+            "reference": "reference",
+            "fingerprint": "9CED6585900DD3CFB97B914A3CEB0E79",
+            "additionalProperties": "additionalProperties",
+            "id": "e7011244-2dab-4a54-a27b-2d0697f8f813"
+        }
+    ],
+    "size": 5
+}

@@ -1,0 +1,4 @@
+{
+    "_class": "io.jenkins.plugins.analysis.core.restapi.ReportApi",
+    "size": 5
+    "issues":  42,
