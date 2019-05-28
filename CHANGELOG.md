@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - [JENKINS-57098](https://issues.jenkins-ci.org/browse/JENKINS-56510),
-[PR#168](https://github.com/jenkinsci/analysis-model/pull/168),
+[PR#177](https://github.com/jenkinsci/analysis-model/pull/177),
 [PR#168](https://github.com/jenkinsci/analysis-model/pull/168): 
 Added a generic JSON parser that reads all properties of the internal `Issue` object.
 
