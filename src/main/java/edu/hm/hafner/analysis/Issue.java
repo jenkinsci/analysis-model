@@ -790,7 +790,7 @@ public class Issue implements Serializable {
         result = 31 * result + columnEnd;
         result = 31 * result + lineRanges.hashCode();
         result = 31 * result + description.hashCode();
-        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        result = 31 * result + (additionalProperties == null ? 0 : additionalProperties.hashCode());
         result = 31 * result + origin.hashCode();
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();

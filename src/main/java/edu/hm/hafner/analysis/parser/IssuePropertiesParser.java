@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.IssueParser;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.AbstractClassWithoutAnyMethod")
 abstract class IssuePropertiesParser extends IssueParser {
     private static final long serialVersionUID = -7627882904619620908L;
 
