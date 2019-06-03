@@ -4,7 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.0...master)
+## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.1...master)
+
+## [5.1.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.0...analysis-model-5.1.1) - 2019-6-3
+
+### Fixed
+
+- Apply additional custom line mappers before removing ANSI color codes. 
+Fixes problems if the log contains color codes and Jenkins console notes.
 
 ## [5.1.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.0.2...analysis-model-5.1.0) - 2019-5-27
 

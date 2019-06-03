@@ -62,7 +62,7 @@ public abstract class ReaderFactory {
      */
     public ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
-        this.lineMapper = lineMapper.compose(REMOVE_COLOR_CODES);
+        this.lineMapper = REMOVE_COLOR_CODES.compose(lineMapper);
     }
 
     /**

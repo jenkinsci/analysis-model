@@ -1,10 +1,16 @@
 package edu.hm.hafner.analysis;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
+
+import com.google.errorprone.annotations.MustBeClosed;
 
 import edu.hm.hafner.util.ResourceTest;
 
@@ -17,6 +23,21 @@ import static edu.hm.hafner.analysis.assertj.Assertions.*;
  */
 class FileReaderFactoryTest extends ResourceTest {
     private static final Charset UTF_8 = StandardCharsets.UTF_8;
+
+    @Test
+    void shouldRemoveColorCodesAfterAllLineMappers() {
+        ConsoleLogReaderFactory factory = new ConsoleLogReaderFactory(
+                getResourceAsFile("ath-colored.log"));
+
+        assertThat(factory.readString()).isEqualTo("[WARNING]\n"
+                + "[WARNING] Some problems were encountered while building the effective model for edu.hm.hafner.irrelevant.groupId:random-artifactId:jar:1.0\n"
+                + "[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-compiler-plugin is missing. @ line 13, column 15\n"
+                + "[WARNING] \n"
+                + "[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.\n"
+                + "[WARNING] \n"
+                + "[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.\n"
+                + "[WARNING] ");
+    }
 
     @Test
     void shouldNotAccessInternet() {
@@ -77,5 +98,49 @@ class FileReaderFactoryTest extends ResourceTest {
 
     private FileReaderFactory createFactory(final String fileName, final Charset charset) {
         return new FileReaderFactory(getResourceAsFile(fileName), charset);
+    }
+
+    /** Removes Jenkins Console Log notes. */
+    static class ConsoleLogReaderFactory extends ReaderFactory {
+        private final Path log;
+
+        ConsoleLogReaderFactory(final Path log) {
+            super(StandardCharsets.UTF_8, ConsoleLogReaderFactory::removeNotes);
+            this.log = log;
+        }
+
+        private static final String PREAMBLE_STR = "\u001B[8mha:";
+        private static final String POSTAMBLE_STR = "\u001B[0m";
+
+        private static String removeNotes(final String wholeLine) {
+            String line = wholeLine;
+            while (true) {
+                int start = line.indexOf(PREAMBLE_STR);
+                if (start < 0) {
+                    return line;
+                }
+                int end = line.indexOf(POSTAMBLE_STR, start);
+                if (end < 0) {
+                    return line;
+                }
+                line = line.substring(0, start) + line.substring(end + POSTAMBLE_STR.length());
+            }
+        }
+
+        @Override
+        public String getFileName() {
+            return "-";
+        }
+
+        @Override
+        @MustBeClosed
+        public Reader create() {
+            try {
+                return Files.newBufferedReader(log);
+            }
+            catch (IOException e) {
+                throw new ParsingException(e);
+            }
+        }
     }
 }
