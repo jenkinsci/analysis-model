@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.1...master)
 
+### Added
+
+- [JENKINS-57098](https://issues.jenkins-ci.org/browse/JENKINS-55051):
+Added DScanner parser
+
 ## [5.1.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.0...analysis-model-5.1.1) - 2019-6-3
 
 ### Fixed
