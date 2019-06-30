@@ -18,7 +18,6 @@ import org.apache.commons.io.input.BOMInputStream;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -226,7 +225,7 @@ public abstract class ResourceTest {
      * Returns the {@link Path} of the specified resource. The file name  must be relative to the test class.
      *
      * @param fileName
-     *         the file to read (relative this {@link AbstractParserTest} class
+     *         the file to read (relative this {@link ResourceTest} class
      *
      * @return an {@link BOMInputStream input stream} using character set UTF-8
      * @see #getTestResourceClass()
