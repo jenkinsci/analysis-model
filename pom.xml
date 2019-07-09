@@ -65,7 +65,7 @@
     <!-- Project Test Dependencies Configuration -->
     <junit.version>5.4.2</junit.version>
     <junit-platform-launcher.version>1.4.2</junit-platform-launcher.version>
-    <mockito.version>2.28.2</mockito.version>
+    <mockito.version>3.0.0</mockito.version>
     <assertj.version>3.12.2</assertj.version>
     <archunit.version>0.10.2</archunit.version>
     <violations-lib.version>1.94</violations-lib.version>
