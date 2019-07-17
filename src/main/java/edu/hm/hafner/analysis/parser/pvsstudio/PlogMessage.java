@@ -23,6 +23,7 @@ import edu.hm.hafner.analysis.ParsingException;
  *
  * @author PVS-Studio Team
  */
+@SuppressWarnings("PMD")
 public class PlogMessage {
     private String file = "";
     private int lineNumber = 0;
@@ -59,7 +60,6 @@ public class PlogMessage {
      * @param report - file report
      * @return list plog messages
      */
-    @SuppressWarnings("PMD")
     public static List<PlogMessage> getMessagesFromReport(final File report) {
         List<PlogMessage> plogMessages = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
