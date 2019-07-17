@@ -51,8 +51,14 @@ public class PlogMessage {
         return errorCode;
     }
 
-    public String getLevel() { return level; }
+    public String getLevel() {
+        return level;
+    }
 
+    /**
+     * @return list plog messages
+     */
+    @SuppressWarnings("PMD")
     public static List<PlogMessage> getMessagesFromReport(final File report) {
         List<PlogMessage> plogMessages = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -103,7 +109,7 @@ public class PlogMessage {
                         msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();
                     }
 
-                    if (msg.errorCode.isEmpty() || (msg.errorCode.charAt(0) != 'V')) {
+                    if (msg.errorCode.isEmpty() || msg.errorCode.charAt(0) != 'V') {
                         ++failWarningsCount;
                         continue;
                     }

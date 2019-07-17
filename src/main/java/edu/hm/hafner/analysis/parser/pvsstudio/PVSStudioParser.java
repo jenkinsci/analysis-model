@@ -21,22 +21,17 @@ import edu.hm.hafner.analysis.Severity;
 public class PVSStudioParser extends IssueParser {
     private static final long serialVersionUID = -7777775729854832128L;
 
-    private static Severity getSeverity(final String level)
-    {
-        if ("1".equals(level))
-        {
+    private static Severity getSeverity(final String level) {
+        if ("1".equals(level)) {
             return Severity.WARNING_HIGH;
         }
-        else if ("2".equals(level))
-        {
+        else if ("2".equals(level)) {
             return Severity.WARNING_NORMAL;
         }
-        else if ("3".equals(level))
-        {
+        else if ("3".equals(level)) {
             return Severity.WARNING_LOW;
         }
-        else
-        {
+        else {
             return Severity.ERROR;
         }
     }
