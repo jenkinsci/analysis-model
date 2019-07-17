@@ -102,7 +102,7 @@ public enum AnalyzerType {
     /**
      * Get analayzer by error code.
      * @param errorCodeStr
-     * @return type analyzer
+     * @return
      */
 
     @SuppressWarnings("PMD")

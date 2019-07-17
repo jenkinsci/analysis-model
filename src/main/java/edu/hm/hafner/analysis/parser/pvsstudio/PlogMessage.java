@@ -57,10 +57,11 @@ public class PlogMessage {
 
     /**
      * Get messages from report file.
+     * @param report
      * @return list plog messages
      */
 
-    @SuppressWarnings({"PMD", "NCSS"})
+    @SuppressWarnings("PMD")
     public static List<PlogMessage> getMessagesFromReport(final File report) {
         List<PlogMessage> plogMessages = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
