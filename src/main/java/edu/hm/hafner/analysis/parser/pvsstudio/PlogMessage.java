@@ -56,8 +56,8 @@ public class PlogMessage {
     }
 
     /**
-     * Get messages from report file
-     * @return list plog messages.
+     * Get messages from report file.
+     * @return list plog messages
      */
 
     @SuppressWarnings({"PMD", "NCSS"})
