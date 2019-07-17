@@ -6,10 +6,10 @@ package edu.hm.hafner.analysis.parser.pvsstudio;
  * @author PVS-Studio Team
  */
 public enum AnalyzerType {
-    General,
-    Optimization,
-    CustomerSpecific,
-    Viva64,
+    GENERAL,
+    OPTIMIZATION,
+    CUSTOMER_SPECIFIC,
+    VIVA_64,
     MISRA,
     UNKNOWN;
 
@@ -39,10 +39,12 @@ public enum AnalyzerType {
 
     // errorCode is Vnnn
     // from DataTableConsts.cs
-    public static AnalyzerType GetAnalyzerType(String errorCodeStr)
+    public static AnalyzerType getAnalyzerType(final String errorCodeStr)
     {
         if (errorCodeStr == null ||  errorCodeStr.length() <= 1)
+        {
             return AnalyzerType.UNKNOWN;
+        }
 
         try {
             String sub = errorCodeStr.substring(1);
@@ -51,23 +53,23 @@ public enum AnalyzerType {
 
             if (errorCode >= VIVA64_CCPP_ERRORCODE_BEGIN && errorCode <= VIVA64_CCPP_ERRORCODE_END)
             {
-                return AnalyzerType.Viva64;
+                return AnalyzerType.VIVA_64;
             }
             else if (errorCode >= GENERAL_CCPP_LOW_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_LOW_ERRORCODE_END)
             {
-                return AnalyzerType.General;
+                return AnalyzerType.GENERAL;
             }
             else if (errorCode >= OPTIMIZATION_CCPP_ERRORCODE_BEGIN && errorCode <= OPTIMIZATION_CCPP_ERRORCODE_END)
             {
-                return AnalyzerType.Optimization;
+                return AnalyzerType.OPTIMIZATION;
             }
             else if (errorCode >= GENERAL_CCPP_HIGH_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_HIGH_ERRORCODE_END)
             {
-                return AnalyzerType.General;
+                return AnalyzerType.GENERAL;
             }
             else if (errorCode >= CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN && errorCode <= CUSTOMERSPECIFIC_CCPP_ERRORCODE_END)
             {
-                return AnalyzerType.CustomerSpecific;
+                return AnalyzerType.CUSTOMER_SPECIFIC;
             }
             else if (errorCode >= MISRA_CCPP_ERRORCODE_BEGIN && errorCode <= MISRA_CCPP_ERRORCODE_END)
             {
@@ -75,18 +77,17 @@ public enum AnalyzerType {
             }
             else if (errorCode >= GENERAL_CS_ERRORCODE_BEGIN && errorCode <= GENERAL_CS_ERRORCODE_END)
             {
-                return AnalyzerType.General;
+                return AnalyzerType.GENERAL;
             }
             else if (errorCode >= GENERAL_JAVA_ERRORCODE_BEGIN && errorCode <= GENERAL_JAVA_ERRORCODE_END)
             {
-                return AnalyzerType.General;
+                return AnalyzerType.GENERAL;
             }
         }
         catch (Exception ex)
         {
-            if (errorCodeStr.equalsIgnoreCase("External"))
-            {
-                return AnalyzerType.General;
+            if ("External".equalsIgnoreCase(errorCodeStr)) {
+                return AnalyzerType.GENERAL;
             }
         }
 

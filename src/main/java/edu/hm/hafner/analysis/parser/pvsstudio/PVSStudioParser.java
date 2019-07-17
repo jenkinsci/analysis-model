@@ -21,30 +21,38 @@ import edu.hm.hafner.analysis.Severity;
 public class PVSStudioParser extends IssueParser {
     private static final long serialVersionUID = -7777775729854832128L;
 
-    private static Severity getSeverity(String level)
+    private static Severity getSeverity(final String level)
     {
-        if (level.equals("1"))
+        if ("1".equals(level))
+        {
             return Severity.WARNING_HIGH;
-        else if (level.equals("2"))
+        }
+        else if ("2".equals(level))
+        {
             return Severity.WARNING_NORMAL;
-        else if (level.equals("3"))
+        }
+        else if ("3".equals(level))
+        {
             return Severity.WARNING_LOW;
+        }
         else
+        {
             return Severity.ERROR;
+        }
     }
 
-    private String getAnalyzerMessage(String errorCode)
+    private String getAnalyzerMessage(final String errorCode)
     {
-        AnalyzerType analyzerType = AnalyzerType.GetAnalyzerType(errorCode);
+        AnalyzerType analyzerType = AnalyzerType.getAnalyzerType(errorCode);
 
-        switch(analyzerType){
-            case General:
-                return "General Analysis";
-            case Optimization:
-                return "Micro-Optimization";
-            case CustomerSpecific:
+        switch(analyzerType) {
+            case GENERAL:
+                return "GENERAL Analysis";
+            case OPTIMIZATION:
+                return "Micro-OPTIMIZATION";
+            case CUSTOMER_SPECIFIC:
                 return "Specific Requests";
-            case Viva64:
+            case VIVA_64:
                 return "64-bit";
             case MISRA:
                 return "Misra";
@@ -56,22 +64,21 @@ public class PVSStudioParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
 
-        List<PlogMessage> result = PlogMessage.GetMessagesFromReport(
+        List<PlogMessage> result = PlogMessage.getMessagesFromReport(
                 new File(readerFactory.getFileName()));
 
         Report report = new Report();
 
-        for(PlogMessage pMessage : result)
-        {
+        for (PlogMessage pMessage : result) {
             IssueBuilder builder = new IssueBuilder();
-            builder.setFileName(pMessage.file);
+            builder.setFileName(pMessage.getFilePath());
 
-            builder.setSeverity(getSeverity(pMessage.level));
-            builder.setMessage(pMessage.message);
-            builder.setCategory(pMessage.errorCode);
-            builder.setType(getAnalyzerMessage(pMessage.errorCode));
+            builder.setSeverity(getSeverity(pMessage.getLevel()));
+            builder.setMessage(pMessage.toString());
+            builder.setCategory(pMessage.getType());
+            builder.setType(getAnalyzerMessage(pMessage.getType()));
 
-            builder.setLineStart(pMessage.lineNumber);
+            builder.setLineStart(pMessage.getLine());
 
             report.add(builder.build());
         }
