@@ -41,8 +41,7 @@ public class PVSStudioParser extends IssueParser {
         }
     }
 
-    private String getAnalyzerMessage(final String errorCode)
-    {
+    private String getAnalyzerMessage(final String errorCode) {
         AnalyzerType analyzerType = AnalyzerType.getAnalyzerType(errorCode);
 
         switch(analyzerType) {

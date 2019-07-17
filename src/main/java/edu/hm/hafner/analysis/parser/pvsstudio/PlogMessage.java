@@ -24,7 +24,7 @@ import edu.hm.hafner.analysis.ParsingException;
  * @author PVS-Studio Team
  */
 public class PlogMessage {
-    private String file = "" ;
+    private String file = "";
     private int lineNumber = 0;
     private String errorCode = "";
     private String message = "";
@@ -51,10 +51,9 @@ public class PlogMessage {
         return errorCode;
     }
 
-    public String getLevel() {return level;}
+    public String getLevel() { return level; }
 
     public static List<PlogMessage> getMessagesFromReport(final File report) {
-
         List<PlogMessage> plogMessages = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
@@ -104,7 +103,7 @@ public class PlogMessage {
                         msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();
                     }
 
-                    if (msg.errorCode.isEmpty() || !(msg.errorCode.charAt(0) == 'V')) {
+                    if (msg.errorCode.isEmpty() || (msg.errorCode.charAt(0) != 'V')) {
                         ++failWarningsCount;
                         continue;
                     }
@@ -122,7 +121,8 @@ public class PlogMessage {
                             ++failWarningsCount;
                             continue;
                         }
-                    } catch (NumberFormatException e) {
+                    }
+                    catch (NumberFormatException e) {
 
                         ++failWarningsCount;
                         continue;
@@ -133,9 +133,11 @@ public class PlogMessage {
             }
         }
         catch (ParserConfigurationException e) {
-            throw new ParsingCanceledException(e); }
+            throw new ParsingCanceledException(e);
+        }
         catch (SAXException e) {
-            throw new ParsingException(e); }
+            throw new ParsingException(e);
+        }
         catch (IOException e) {
             throw new ParsingException(e);
         }
