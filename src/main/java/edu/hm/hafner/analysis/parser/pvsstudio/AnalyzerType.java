@@ -100,8 +100,8 @@ public enum AnalyzerType {
     // from DataTableConsts.cs
 
     /**
-     * @param errorCodeStr
      * Get analayzer by error code.
+     * @param errorCodeStr
      */
 
     @SuppressWarnings("PMD")
