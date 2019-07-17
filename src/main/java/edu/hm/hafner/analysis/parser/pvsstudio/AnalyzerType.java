@@ -5,6 +5,7 @@ package edu.hm.hafner.analysis.parser.pvsstudio;
  *
  * @author PVS-Studio Team
  */
+@SuppressWarnings("PMD")
 public enum AnalyzerType {
     GENERAL,
     OPTIMIZATION,
@@ -96,8 +97,10 @@ public enum AnalyzerType {
      */
     public static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
-
-    @SuppressWarnings("PMD")
+    /**
+     * @param errorCodeStr - error code
+     * @return anayzer type
+     */
     public static AnalyzerType getAnalyzerType(final String errorCodeStr) {
         if (errorCodeStr == null ||  errorCodeStr.length() <= 1) {
             return AnalyzerType.UNKNOWN;

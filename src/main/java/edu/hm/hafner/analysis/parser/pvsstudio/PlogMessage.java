@@ -56,7 +56,6 @@ public class PlogMessage {
     }
 
     /**
-     *
      * @param report - file report
      * @return list plog messages
      */
@@ -65,8 +64,7 @@ public class PlogMessage {
         List<PlogMessage> plogMessages = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
-        long failWarningsCount = 0;
-        long falseAlarmCount = 0;
+        long failWarningsCount = 0, falseAlarmCount = 0;
 
         try {
 
