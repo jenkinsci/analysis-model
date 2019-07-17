@@ -55,6 +55,11 @@ public class PlogMessage {
         return level;
     }
 
+    /**
+     *
+     * @param report - file report
+     * @return list plog messages
+     */
     @SuppressWarnings("PMD")
     public static List<PlogMessage> getMessagesFromReport(final File report) {
         List<PlogMessage> plogMessages = new ArrayList<>();
@@ -62,7 +67,7 @@ public class PlogMessage {
 
         long failWarningsCount = 0;
         long falseAlarmCount = 0;
-        
+
         try {
 
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
