@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,11 +24,11 @@ import edu.hm.hafner.analysis.ParsingException;
  * @author PVS-Studio Team
  */
 public class PlogMessage {
-    public String file = "";
-    public int lineNumber = 0;
-    public String errorCode = "";
-    public String message = "";
-    public String level = "";
+    private String file = "" ;
+    private int lineNumber = 0;
+    private String errorCode = "";
+    private String message = "";
+    private String level = "";
 
     public String getHash() {
         return errorCode + message + file + lineNumber;
@@ -50,7 +51,9 @@ public class PlogMessage {
         return errorCode;
     }
 
-    public static List<PlogMessage> GetMessagesFromReport(final File report) {
+    public String getLevel() {return level;}
+
+    public static List<PlogMessage> getMessagesFromReport(final File report) {
 
         List<PlogMessage> plogMessages = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -76,7 +79,7 @@ public class PlogMessage {
                     PlogMessage msg = new PlogMessage();
 
                     NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
-                    if ( nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
+                    if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
                         ++falseAlarmCount;
                         continue;
                     }
@@ -84,8 +87,9 @@ public class PlogMessage {
                     msg.file = "";
                     NodeList nodeFile = eElement.getElementsByTagName("File");
 
-                    if (nodeFile != null && nodeFile.item(0) != null && nodeFile.item(0).getTextContent() != null)
+                    if (nodeFile != null && nodeFile.item(0) != null && nodeFile.item(0).getTextContent() != null) {
                         msg.file = nodeFile.item(0).getTextContent().trim();
+                    }
 
                     if (msg.file.isEmpty()) {
                         ++failWarningsCount;
@@ -96,16 +100,19 @@ public class PlogMessage {
 
                     NodeList nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
 
-                    if (nodeErrorCode != null && nodeErrorCode.item(0) != null && nodeErrorCode.item(0).getTextContent() != null)
+                    if (nodeErrorCode != null && nodeErrorCode.item(0) != null && nodeErrorCode.item(0).getTextContent() != null) {
                         msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();
+                    }
 
-                    if (msg.errorCode.isEmpty() || !msg.errorCode.startsWith("V")) {
+                    if (msg.errorCode.isEmpty() || !(msg.errorCode.charAt(0) == 'V')) {
                         ++failWarningsCount;
                         continue;
                     }
 
-                    msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/" + msg.errorCode.toLowerCase() + "/\">" +
-                            msg.errorCode + "</a> " + eElement.getElementsByTagName("Message").item(0).getTextContent();
+                    msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/"
+                            + msg.errorCode.toLowerCase(Locale.ENGLISH) + "/\">"
+                            + msg.errorCode + "</a> " + eElement.getElementsByTagName("Message").item(0).getTextContent();
+
                     msg.level = eElement.getElementsByTagName("Level").item(0).getTextContent();
 
                     try {
@@ -124,15 +131,16 @@ public class PlogMessage {
                     plogMessages.add(msg);
                 }
             }
-        } catch (ParserConfigurationException e) {
-            throw new ParsingCanceledException(e);
-        } catch (SAXException e) {
-            throw new ParsingException(e);
-        } catch (IOException e) {
+        }
+        catch (ParserConfigurationException e) {
+            throw new ParsingCanceledException(e); }
+        catch (SAXException e) {
+            throw new ParsingException(e); }
+        catch (IOException e) {
             throw new ParsingException(e);
         }
 
-        if ((plogMessages.size() + falseAlarmCount) == 0 && failWarningsCount > 0){
+        if ((plogMessages.size() + falseAlarmCount) == 0 && failWarningsCount > 0) {
             throw new IllegalStateException("No messages were parsed!");
         }
 
