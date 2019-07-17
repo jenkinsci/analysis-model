@@ -55,10 +55,10 @@ public class PlogMessage {
         return level;
     }
 
-    /**
-     * @return list plog messages
-     */
     @SuppressWarnings("PMD")
+    /**
+     * @return list plog messages.
+     */
     public static List<PlogMessage> getMessagesFromReport(final File report) {
         List<PlogMessage> plogMessages = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
