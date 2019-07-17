@@ -96,9 +96,6 @@ public enum AnalyzerType {
      */
     public static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
-    // errorCode is Vnnn
-    // from DataTableConsts.cs
-
     @SuppressWarnings("PMD")
     public static AnalyzerType getAnalyzerType(final String errorCodeStr) {
         if (errorCodeStr == null ||  errorCodeStr.length() <= 1) {

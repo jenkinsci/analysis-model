@@ -62,7 +62,7 @@ public class PlogMessage {
 
         long failWarningsCount = 0;
         long falseAlarmCount = 0;
-
+        
         try {
 
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
