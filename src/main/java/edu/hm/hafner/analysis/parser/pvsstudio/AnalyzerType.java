@@ -99,12 +99,6 @@ public enum AnalyzerType {
     // errorCode is Vnnn
     // from DataTableConsts.cs
 
-    /**
-     * Get analayzer by error code.
-     * @param errorCodeStr
-     * @return
-     */
-
     @SuppressWarnings("PMD")
     public static AnalyzerType getAnalyzerType(final String errorCodeStr) {
         if (errorCodeStr == null ||  errorCodeStr.length() <= 1) {
