@@ -11,6 +11,9 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 import edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser;
 
+/**
+ * Tests the class {@link PVSStudioParser}.
+ */
 class PVSStudioParserTest extends AbstractParserTest {
     private static final String PREFIX = "pvsstudio/";
 
