@@ -56,8 +56,7 @@ public class PlogMessage {
         return level;
     }
 
-    /**
-     * Getting list messages from report
+    /** Getting list messages from report.
      * @param report - file report
      * @return list plog messages
      */
@@ -116,8 +115,7 @@ public class PlogMessage {
                         continue;
                     }
 
-                    msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/"
-                            + msg.errorCode.toLowerCase(Locale.ENGLISH) + "/\">"
+                    msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/" + msg.errorCode.toLowerCase(Locale.ENGLISH) + "/\">"
                             + msg.errorCode + "</a> " + eElement.getElementsByTagName("Message").item(0).getTextContent();
 
                     msg.level = eElement.getElementsByTagName("Level").item(0).getTextContent();
