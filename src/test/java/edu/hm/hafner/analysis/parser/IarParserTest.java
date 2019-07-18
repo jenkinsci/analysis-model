@@ -78,7 +78,7 @@ class IarParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a warning log with IAR ARM warnings.
+     * Parses a warning log with IAR ARM warnings in UTF_16LE.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-58159">Issue 58159</a>
      */
