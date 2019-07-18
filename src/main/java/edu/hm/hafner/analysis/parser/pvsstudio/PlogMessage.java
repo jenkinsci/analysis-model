@@ -90,7 +90,6 @@ public class PlogMessage {
                         continue;
                     }
 
-                    msg.file = "";
                     NodeList nodeFile = eElement.getElementsByTagName("File");
 
                     if (nodeFile != null && nodeFile.item(0) != null && nodeFile.item(0).getTextContent() != null) {
@@ -101,8 +100,6 @@ public class PlogMessage {
                         ++failWarningsCount;
                         continue;
                     }
-
-                    msg.errorCode = "";
 
                     NodeList nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
 
