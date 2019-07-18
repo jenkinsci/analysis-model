@@ -318,7 +318,7 @@
     <Project>ABackup</Project>
     <ShortFile>fxfix.h</ShortFile>
     <Line>24</Line>
-    <FalseAlarm>true</FalseAlarm>
+    <FalseAlarm>false</FalseAlarm>
     <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
     <CodePrev>111</CodePrev>
     <CodeCurrent>71711</CodeCurrent>
@@ -631,32 +631,12 @@
     <FavIcon>false</FavIcon>
     <Level>2</Level>
     <DefaultOrder>14</DefaultOrder>
-    <ErrorCode>V802</ErrorCode>
-    <Message>On 64-bit platform, structure size can be reduced from 24 to 16 bytes by rearranging the fields according to their sizes in decreasing order.</Message>
-    <Project>ABackup</Project>
-    <ShortFile>fxfix.h</ShortFile>
-    <Line>24</Line>
-    <FalseAlarm>true</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
-    <CodePrev>111</CodePrev>
-    <CodeCurrent>71711</CodeCurrent>
-    <CodeNext>64</CodeNext>
-    <TrialMessage>false</TrialMessage>
-    <Analyzer>5</Analyzer>
-    <LineExtension />
-    <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
-  </PVS-Studio_Analysis_Log>
-  <PVS-Studio_Analysis_Log>
-    <FavIcon>false</FavIcon>
-    <Level>2</Level>
-    <DefaultOrder>14</DefaultOrder>
     <ErrorCode>V3056</ErrorCode>
     <Message>Consider reviewing the correctness of 'X' item's usage.</Message>
     <Project>ABackup</Project>
     <ShortFile>fxfix.h</ShortFile>
     <Line>24</Line>
-    <FalseAlarm>true</FalseAlarm>
+    <FalseAlarm>false</FalseAlarm>
     <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
     <CodePrev>111</CodePrev>
     <CodeCurrent>71711</CodeCurrent>
@@ -676,7 +656,7 @@
     <Project>ABackup</Project>
     <ShortFile>fxfix.h</ShortFile>
     <Line>24</Line>
-    <FalseAlarm>true</FalseAlarm>
+    <FalseAlarm>false</FalseAlarm>
     <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
     <CodePrev>111</CodePrev>
     <CodeCurrent>71711</CodeCurrent>
@@ -696,7 +676,7 @@
     <Project>ABackup</Project>
     <ShortFile>fxfix.h</ShortFile>
     <Line>24</Line>
-    <FalseAlarm>true</FalseAlarm>
+    <FalseAlarm>false</FalseAlarm>
     <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
     <CodePrev>111</CodePrev>
     <CodeCurrent>71711</CodeCurrent>
@@ -716,7 +696,7 @@
     <Project>ABackup</Project>
     <ShortFile>fxfix.h</ShortFile>
     <Line>24</Line>
-    <FalseAlarm>true</FalseAlarm>
+    <FalseAlarm>false</FalseAlarm>
     <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
     <CodePrev>111</CodePrev>
     <CodeCurrent>71711</CodeCurrent>
