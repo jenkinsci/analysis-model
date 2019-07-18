@@ -1,8 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.nio.charset.StandardCharsets;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
@@ -72,6 +75,19 @@ class IarParserTest extends AbstractParserTest {
                 .hasLineEnd(861)
                 .hasMessage("function \"FlashErase\" was declared but never referenced")
                 .hasFileName("d:/jenkins/workspace/Nightly/src/flash/flashdrv.c");
+    }
+
+    /**
+     * Parses a warning log with IAR ARM warnings.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-58159">Issue 58159</a>
+     */
+    @Test
+    void issue58159() {
+        Report warnings = createParser().parse(
+                new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16LE));
+
+        assertThat(warnings).hasSize(61);
     }
 
     /**
