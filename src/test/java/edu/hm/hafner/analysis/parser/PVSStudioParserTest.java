@@ -2,6 +2,8 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Locale;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
@@ -11,8 +13,12 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 import edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser;
 
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
 /**
  * Tests the class {@link PVSStudioParser}.
+ *
+ * @author PVS-Studio Team
  */
 class PVSStudioParserTest extends AbstractParserTest {
     private static final String PREFIX = "pvsstudio/";
