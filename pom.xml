@@ -172,7 +172,7 @@
       <version>${spotbugs.parser.library.version}</version>
     </dependency>
 
-    <!-- SonarQube Parser Dependencies -->
+    <!-- JSON Parser Dependencies -->
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
@@ -448,6 +448,7 @@
           </dependency>
         </dependencies>
         <configuration>
+          <checkDependencies>false</checkDependencies>
           <analysisConfiguration>
             <revapi.semver.ignore>
               <enabled>true</enabled>
