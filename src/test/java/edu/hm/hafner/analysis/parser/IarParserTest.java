@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -87,7 +89,8 @@ class IarParserTest extends AbstractParserTest {
         Report warnings = createParser().parse(
                 new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16LE));
 
-        assertThat(warnings).hasDuplicatesSize(4).hasSize(61);
+        String collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
+        assertThat(warnings).as(collect).hasDuplicatesSize(2).hasSize(61);
     }
 
     /**
