@@ -90,7 +90,7 @@ class IarParserTest extends AbstractParserTest {
                 new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16LE));
 
         String collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
-        assertThat(warnings).as(collect).hasDuplicatesSize(2).hasSize(61);
+        assertThat(warnings).as(collect).hasDuplicatesSize(4).hasSize(61);
     }
 
     /**
