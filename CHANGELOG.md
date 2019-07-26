@@ -1,10 +1,12 @@
-# Changelog
-All notable changes to this project will be documented in this file.
+# Changelog (1.0.0 - 5.2.0)
+
+All notable changes of version 1.0.0 - 5.2.0 are documented in this file. All future changes will be automatically 
+logged by release drafter in [GitHub releases](https://github.com/jenkinsci/analysis-model/releases). 
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.1...master)
+## [5.2.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.1...analysis-model-5.2.0) - 2019-7-2
 
 ### Added
 
@@ -247,34 +249,3 @@ from the maven-compiler-plugin since these are already picked up by the Java par
 ## 1.0.0 - 2018-12-20
 
 First public release.
-
-<!---
-## 1.0.0 - year-month-day
-### Added
-- One 
-- Two 
-
-### Changed
-- One 
-- Two 
-
-### Deprecated
-- One 
-- Two 
-
-### Removed
-- One 
-- Two 
-
-### Fixed
-- One 
-- Two 
-
-### Security
-- One 
-- Two 
-
-
-
-
--->
