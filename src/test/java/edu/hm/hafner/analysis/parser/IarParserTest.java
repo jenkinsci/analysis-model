@@ -87,7 +87,7 @@ class IarParserTest extends AbstractParserTest {
         Report warnings = createParser().parse(
                 new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16LE));
 
-        assertThat(warnings).hasSize(61);
+        assertThat(warnings).hasDuplicatesSize(4).hasSize(61);
     }
 
     /**
