@@ -448,7 +448,6 @@
           </dependency>
         </dependencies>
         <configuration>
-          <checkDependencies>false</checkDependencies>
           <analysisConfiguration>
             <revapi.semver.ignore>
               <enabled>true</enabled>
