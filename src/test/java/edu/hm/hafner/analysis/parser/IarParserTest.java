@@ -87,7 +87,7 @@ class IarParserTest extends AbstractParserTest {
     @Test
     void issue58159Utf16() {
         Report warnings = createParser().parse(
-                new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16LE));
+                new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16));
 
         String collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
         assertThat(warnings).as(collect).hasDuplicatesSize(4).hasSize(61);
