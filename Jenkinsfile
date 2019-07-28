@@ -1,10 +1,10 @@
 node ('linux') {
-    timeout(60) {
-        stage ('Checkout') {
+    timeout(200) {
+        stage ('Linux Checkout') {
             checkout scm
         }
 
-        stage ('Build') {
+        stage ('Linux Build') {
             String jdk = '8'
             String jdkTool = "jdk${jdk}"
             List<String> env = [
@@ -32,6 +32,8 @@ node ('linux') {
                 sh command
             }
 
+            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+
             junit testResults: '**/target/*-reports/TEST-*.xml'
 
             recordIssues tool: mavenConsole(), referenceJobName: 'Plugins/analysis-model/master'
@@ -48,12 +50,12 @@ node ('linux') {
 }
 
 node ('windows') {
-    timeout(60) {
-        stage ('Checkout') {
+    timeout(200) {
+        stage ('Windows Checkout') {
             checkout scm
         }
 
-        stage ('Build') {
+        stage ('Windows Build') {
             String jdk = '8'
             String jdkTool = "jdk${jdk}"
             List<String> env = [
