@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser.pvsstudio;
 
-import java.io.File;
-
 import java.util.List;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -21,64 +19,38 @@ import edu.hm.hafner.analysis.Severity;
 public class PVSStudioParser extends IssueParser {
     private static final long serialVersionUID = -7777775729854832128L;
 
-    private static Severity getSeverity(final String level)
-    {
-        if ("1".equals(level))
-        {
+    private static Severity getSeverity(final String level) {
+        if ("1".equals(level)) {
             return Severity.WARNING_HIGH;
         }
-        else if ("2".equals(level))
-        {
+        else if ("2".equals(level)) {
             return Severity.WARNING_NORMAL;
         }
-        else if ("3".equals(level))
-        {
+        else if ("3".equals(level)) {
             return Severity.WARNING_LOW;
         }
-        else
-        {
+        else {
             return Severity.ERROR;
-        }
-    }
-
-    private String getAnalyzerMessage(final String errorCode)
-    {
-        AnalyzerType analyzerType = AnalyzerType.getAnalyzerType(errorCode);
-
-        switch(analyzerType) {
-            case GENERAL:
-                return "GENERAL Analysis";
-            case OPTIMIZATION:
-                return "Micro-OPTIMIZATION";
-            case CUSTOMER_SPECIFIC:
-                return "Specific Requests";
-            case VIVA_64:
-                return "64-bit";
-            case MISRA:
-                return "Misra";
-            default:
-                return "Unknown";
         }
     }
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-
-        List<PlogMessage> result = PlogMessage.getMessagesFromReport(
-                new File(readerFactory.getFileName()));
+        List<PlogMessage> plogMessages = PlogMessage.getMessagesFromReport(readerFactory);
 
         Report report = new Report();
 
-        for (PlogMessage pMessage : result) {
+        for (PlogMessage plogMessage : plogMessages) {
             IssueBuilder builder = new IssueBuilder();
-            builder.setFileName(pMessage.getFilePath());
+            builder.setFileName(plogMessage.getFilePath());
 
-            builder.setSeverity(getSeverity(pMessage.getLevel()));
-            builder.setMessage(pMessage.toString());
-            builder.setCategory(pMessage.getType());
-            builder.setType(getAnalyzerMessage(pMessage.getType()));
+            builder.setSeverity(getSeverity(plogMessage.getLevel()));
+            builder.setMessage(plogMessage.toString());
+            builder.setCategory(plogMessage.getType());
 
-            builder.setLineStart(pMessage.getLine());
+            builder.setType(AnalyzerType.fromErrorCode(plogMessage.getType()).getMessage());
+
+            builder.setLineStart(plogMessage.getLine());
 
             report.add(builder.build());
         }
