@@ -62,7 +62,8 @@ class PlogMessage {
         return !(errorCode.isEmpty() || errorCode.charAt(0) != 'V');
     }
 
-    private static void processNode(final List<PlogMessage> plogMessages, final Node node, Long falseAlarmCount, Long failWarningsCount) {
+    private static void processNode(final List<PlogMessage> plogMessages, final Node node) {
+
         Element eElement = (Element) node;
 
         PlogMessage msg = new PlogMessage();
@@ -113,6 +114,10 @@ class PlogMessage {
         plogMessages.add(msg);
     }
 
+    private static int failWarningsCount = 0;
+
+    private static int falseAlarmCount = 0;
+
     /**
      * Getting list messages from report.
      * @param readerFactory - factory containing report file reader
@@ -121,8 +126,8 @@ class PlogMessage {
     static List<PlogMessage> getMessagesFromReport(final ReaderFactory readerFactory) {
         List<PlogMessage> plogMessages = new ArrayList<>();
 
-        Long failWarningsCount = new Long(0);
-        Long falseAlarmCount = new Long(0);
+/*        long failWarningsCount = 0;
+        long falseAlarmCount = 0;*/
 
         Document plogDoc = readerFactory.readDocument();
 
@@ -130,12 +135,15 @@ class PlogMessage {
 
         NodeList nList = plogDoc.getElementsByTagName("PVS-Studio_Analysis_Log");
 
+        falseAlarmCount = 0;
+        failWarningsCount = 0;
+
         for (int nodeCount = 0; nodeCount < nList.getLength(); nodeCount++) {
             Node nNode = nList.item(nodeCount);
 
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-                processNode(plogMessages, nNode, failWarningsCount, falseAlarmCount);
+                processNode(plogMessages, nNode);
 
                /* Element eElement = (Element) nNode;
 
