@@ -50,7 +50,7 @@ class PlogMessage {
         return level;
     }
 
-    private static boolean skipMessage (final NodeList elements) {
+    private static boolean skipMessage(final NodeList elements) {
         return elements != null && elements.item(0) != null && elements.item(0).getTextContent().equalsIgnoreCase("true");
     }
 
@@ -90,7 +90,7 @@ class PlogMessage {
                 NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
                 //if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
                 if (skipMessage(nodeFalseAlarm)) {
-                   ++falseAlarmCount;
+                    ++falseAlarmCount;
                     continue;
                 }
 
