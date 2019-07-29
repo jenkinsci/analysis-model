@@ -66,8 +66,6 @@ class PlogMessage {
 
         Element eElement = (Element) node;
 
-        PlogMessage msg = new PlogMessage();
-
         NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
         //if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
         if (skipMessage(nodeFalseAlarm)) {
@@ -77,6 +75,8 @@ class PlogMessage {
 
         NodeList nodeFile = eElement.getElementsByTagName("File");
 
+        PlogMessage msg = new PlogMessage();
+        
         if (nodeNotNull(nodeFile)) {
             msg.file = nodeFile.item(0).getTextContent().trim();
         }
