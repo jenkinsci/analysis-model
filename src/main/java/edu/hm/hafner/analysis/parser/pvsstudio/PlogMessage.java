@@ -19,21 +19,6 @@ import edu.hm.hafner.util.IntegerParser;
  * @author PVS-Studio Team
  */
 class PlogMessage {
-
-    private static class NodeProcessor {
-        private static boolean skipMessage(final NodeList elements) {
-            return elements != null && elements.item(0) != null && elements.item(0).getTextContent().equalsIgnoreCase("true");
-        }
-
-        private static boolean nodeNotNull(final NodeList elements) {
-            return elements != null && elements.item(0) != null && elements.item(0).getTextContent() != null;
-        }
-
-        private static boolean errorCodeIsValid(final String errorCode) {
-            return !(errorCode.isEmpty() || errorCode.charAt(0) != 'V');
-        }
-    }
-
     private String file = "";
     private int lineNumber = 0;
     private String errorCode = "";
@@ -65,7 +50,7 @@ class PlogMessage {
         return level;
     }
 
-   /* private static boolean skipMessage(final NodeList elements) {
+    private static boolean skipMessage(final NodeList elements) {
         return elements != null && elements.item(0) != null && elements.item(0).getTextContent().equalsIgnoreCase("true");
     }
 
@@ -75,7 +60,58 @@ class PlogMessage {
 
     private static boolean errorCodeIsValid(final String errorCode) {
         return !(errorCode.isEmpty() || errorCode.charAt(0) != 'V');
-    }*/
+    }
+
+    private static void processNode(final List<PlogMessage> plogMessages, final Node node, Long falseAlarmCount, Long failWarningsCount) {
+        Element eElement = (Element) node;
+
+        PlogMessage msg = new PlogMessage();
+
+        NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
+        //if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
+        if (skipMessage(nodeFalseAlarm)) {
+            ++falseAlarmCount;
+            return;
+        }
+
+        NodeList nodeFile = eElement.getElementsByTagName("File");
+
+        if (nodeNotNull(nodeFile)) {
+            msg.file = nodeFile.item(0).getTextContent().trim();
+        }
+
+        if (msg.file.isEmpty()) {
+            ++failWarningsCount;
+            return;
+        }
+
+        NodeList nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
+
+        //if (nodeErrorCode != null && nodeErrorCode.item(0) != null && nodeErrorCode.item(0).getTextContent() != null) {
+        if (nodeNotNull(nodeErrorCode)) {
+            msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();
+        }
+
+        //if (msg.errorCode.isEmpty() || msg.errorCode.charAt(0) != 'V') {
+        if (!errorCodeIsValid(msg.errorCode)) {
+            ++failWarningsCount;
+            return;
+        }
+
+        msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/" + msg.errorCode.toLowerCase(Locale.ENGLISH) + "/\">"
+                + msg.errorCode + "</a> " + eElement.getElementsByTagName("Message").item(0).getTextContent();
+
+        msg.level = eElement.getElementsByTagName("Level").item(0).getTextContent();
+
+        msg.lineNumber = IntegerParser.parseInt(eElement.getElementsByTagName("Line").item(0).getTextContent());
+        if (msg.lineNumber <= 0) {
+
+            ++failWarningsCount;
+            return;
+        }
+
+        plogMessages.add(msg);
+    }
 
     /**
      * Getting list messages from report.
@@ -85,8 +121,8 @@ class PlogMessage {
     static List<PlogMessage> getMessagesFromReport(final ReaderFactory readerFactory) {
         List<PlogMessage> plogMessages = new ArrayList<>();
 
-        long failWarningsCount = 0;
-        long falseAlarmCount = 0;
+        Long failWarningsCount = new Long(0);
+        Long falseAlarmCount = new Long(0);
 
         Document plogDoc = readerFactory.readDocument();
 
@@ -98,20 +134,23 @@ class PlogMessage {
             Node nNode = nList.item(nodeCount);
 
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
+
+                processNode(plogMessages, nNode, failWarningsCount, falseAlarmCount);
+
+               /* Element eElement = (Element) nNode;
 
                 PlogMessage msg = new PlogMessage();
 
                 NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
                 //if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
-                if (NodeProcessor.skipMessage(nodeFalseAlarm)) {
+                if (skipMessage(nodeFalseAlarm)) {
                     ++falseAlarmCount;
                     continue;
                 }
 
                 NodeList nodeFile = eElement.getElementsByTagName("File");
 
-                if (NodeProcessor.nodeNotNull(nodeFile)) {
+                if (nodeNotNull(nodeFile)) {
                     msg.file = nodeFile.item(0).getTextContent().trim();
                 }
 
@@ -123,12 +162,12 @@ class PlogMessage {
                 NodeList nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
 
                 //if (nodeErrorCode != null && nodeErrorCode.item(0) != null && nodeErrorCode.item(0).getTextContent() != null) {
-                if (NodeProcessor.nodeNotNull(nodeErrorCode)) {
+                if (nodeNotNull(nodeErrorCode)) {
                     msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();
                 }
 
                 //if (msg.errorCode.isEmpty() || msg.errorCode.charAt(0) != 'V') {
-                if (!NodeProcessor.errorCodeIsValid(msg.errorCode)) {
+                if (!errorCodeIsValid(msg.errorCode)) {
                     ++failWarningsCount;
                     continue;
                 }
@@ -145,7 +184,7 @@ class PlogMessage {
                     continue;
                 }
 
-                plogMessages.add(msg);
+                plogMessages.add(msg);*/
             }
         }
 
