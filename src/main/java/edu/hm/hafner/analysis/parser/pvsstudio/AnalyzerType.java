@@ -99,7 +99,7 @@ final class AnalyzerType {
 
     }
 
-    private final static List<AnalysisType> ANALYSIS_TYPES = new ArrayList<>();
+    private static List<AnalysisType> ANALYSIS_TYPES = new ArrayList<>();
     static {
         ANALYSIS_TYPES.add(new Viva64());
         ANALYSIS_TYPES.add(new GENERAL());
@@ -166,15 +166,21 @@ final class AnalyzerType {
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
 
-            if ( errorCode >= GENERAL_CCPP_LOW_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_LOW_ERRORCODE_END
-                    || errorCode >= GENERAL_CCPP_HIGH_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_HIGH_ERRORCODE_END
-                    || errorCode >= GENERAL_CS_ERRORCODE_BEGIN && errorCode <= GENERAL_CS_ERRORCODE_END
-                    || errorCode >= GENERAL_JAVA_ERRORCODE_BEGIN && errorCode <= GENERAL_JAVA_ERRORCODE_END) {
-
+            if (errorCode >= GENERAL_CCPP_LOW_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_LOW_ERRORCODE_END) {
                 return Optional.of(new GENERAL());
             }
-
-            return Optional.empty();
+            else if (errorCode >= GENERAL_CCPP_HIGH_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_HIGH_ERRORCODE_END) {
+                return Optional.of(new GENERAL());
+            }
+            else if (errorCode >= GENERAL_CS_ERRORCODE_BEGIN && errorCode <= GENERAL_CS_ERRORCODE_END) {
+                return Optional.of(new GENERAL());
+            }
+            else if (errorCode >= GENERAL_JAVA_ERRORCODE_BEGIN && errorCode <= GENERAL_JAVA_ERRORCODE_END) {
+                return Optional.of(new GENERAL());
+            }
+            else {
+                return Optional.empty();
+            }
         }
     }
 
