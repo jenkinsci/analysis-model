@@ -50,6 +50,18 @@ class PlogMessage {
         return level;
     }
 
+    private static boolean skipMessage (final NodeList elements) {
+        return elements != null && elements.item(0) != null && elements.item(0).getTextContent().equalsIgnoreCase("true");
+    }
+
+    private static boolean nodeNotNull(final NodeList elements) {
+        return elements != null && elements.item(0) != null && elements.item(0).getTextContent() != null;
+    }
+
+    private static boolean errorCodeIsValid(final String errorCode) {
+        return !(errorCode.isEmpty() || errorCode.charAt(0) != 'V');
+    }
+
     /**
      * Getting list messages from report.
      * @param readerFactory - factory containing report file reader
@@ -76,14 +88,15 @@ class PlogMessage {
                 PlogMessage msg = new PlogMessage();
 
                 NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
-                if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
-                    ++falseAlarmCount;
+                //if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
+                if (skipMessage(nodeFalseAlarm)) {
+                   ++falseAlarmCount;
                     continue;
                 }
 
                 NodeList nodeFile = eElement.getElementsByTagName("File");
 
-                if (nodeFile != null && nodeFile.item(0) != null && nodeFile.item(0).getTextContent() != null) {
+                if (nodeNotNull(nodeFile)) {
                     msg.file = nodeFile.item(0).getTextContent().trim();
                 }
 
@@ -94,11 +107,13 @@ class PlogMessage {
 
                 NodeList nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
 
-                if (nodeErrorCode != null && nodeErrorCode.item(0) != null && nodeErrorCode.item(0).getTextContent() != null) {
+                //if (nodeErrorCode != null && nodeErrorCode.item(0) != null && nodeErrorCode.item(0).getTextContent() != null) {
+                if (nodeNotNull(nodeErrorCode)) {
                     msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();
                 }
 
-                if (msg.errorCode.isEmpty() || msg.errorCode.charAt(0) != 'V') {
+                //if (msg.errorCode.isEmpty() || msg.errorCode.charAt(0) != 'V') {
+                if (!errorCodeIsValid(msg.errorCode)) {
                     ++failWarningsCount;
                     continue;
                 }
