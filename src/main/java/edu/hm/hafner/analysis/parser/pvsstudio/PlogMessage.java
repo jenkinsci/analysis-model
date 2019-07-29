@@ -34,7 +34,7 @@ class PlogMessage {
         return message;
     }
 
-    public String getFilePath() {
+    String getFilePath() {
         return file;
     }
 
@@ -55,7 +55,7 @@ class PlogMessage {
      * @param readerFactory - factory containing report file reader
      * @return list plog messages
      */
-    public static List<PlogMessage> getMessagesFromReport(ReaderFactory readerFactory) {
+    static List<PlogMessage> getMessagesFromReport(final ReaderFactory readerFactory) {
         List<PlogMessage> plogMessages = new ArrayList<>();
 
         long failWarningsCount = 0;

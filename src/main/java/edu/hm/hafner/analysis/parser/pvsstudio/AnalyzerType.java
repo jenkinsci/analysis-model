@@ -1,12 +1,18 @@
 package edu.hm.hafner.analysis.parser.pvsstudio;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import edu.hm.hafner.util.IntegerParser;
 
-class AnalyzerType {
+/**
+ * The AnalyzerType for PVS-Studio static analyzer.
+ *
+ * @author PVS-Studio Team
+ */
+final class AnalyzerType {
     /**
      * Diagnosis of 64-bit errors (Viva64, C++).
      * https://www.viva64.com/en/w/#64CPP
@@ -89,35 +95,43 @@ class AnalyzerType {
      */
     private static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
-    private AnalyzerType() {}
+    private AnalyzerType() {
 
-    private final static ArrayList<AnalysisType> allTypes = new ArrayList<>();
-    static {
-        allTypes.add(new VIVA_64());
-        allTypes.add(new GENERAL());
-        allTypes.add(new OPTIMIZATION());
-        allTypes.add(new CUSTOMER_SPECIFIC());
-        allTypes.add(new MISRA());
     }
+
+    private final static List<AnalysisType> ANALYSIS_TYPES = new ArrayList<>();
+    static {
+        ANALYSIS_TYPES.add(new Viva64());
+        ANALYSIS_TYPES.add(new GENERAL());
+        ANALYSIS_TYPES.add(new OPTIMIZATION());
+        ANALYSIS_TYPES.add(new CustomerSpecific());
+        ANALYSIS_TYPES.add(new MISRA());
+    }
+
     /**
      * errorCodeStr format is Vnnn.
      */
     static AnalysisType fromErrorCode(final String errorCodeStr) {
 
-        if("External".equalsIgnoreCase(errorCodeStr)) {
+        if ("External".equalsIgnoreCase(errorCodeStr)) {
             return new GENERAL();
         }
 
         int errorCode = IntegerParser.parseInt(errorCodeStr.substring(1));
 
-        return allTypes.stream().map(type -> type.create(errorCode)).flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
+        return ANALYSIS_TYPES.stream().map(type -> type.create(errorCode)).flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
                 .findFirst()
                 .orElse(new UNKNOWN());
     }
 
-    static class VIVA_64 implements AnalysisType {
+    /**
+     * Viva64 AnalysisType.
+     */
+    static final class Viva64 implements AnalysisType {
 
-        private VIVA_64() {}
+        private Viva64() {
+
+        }
 
         @Override
         public String getMessage() {
@@ -128,16 +142,21 @@ class AnalyzerType {
         public Optional<AnalysisType> create(final int errorCode) {
 
             if (errorCode >= VIVA64_CCPP_ERRORCODE_BEGIN && errorCode <= VIVA64_CCPP_ERRORCODE_END) {
-                return Optional.of(new VIVA_64());
+                return Optional.of(new Viva64());
             }
 
             return Optional.empty();
         }
     }
 
-    static class GENERAL implements AnalysisType {
+    /**
+     * GENERAL AnalysisType.
+     */
+    static final class GENERAL implements AnalysisType {
 
-        private GENERAL() {}
+        private GENERAL() {
+
+        }
 
         @Override
         public String getMessage() {
@@ -147,10 +166,10 @@ class AnalyzerType {
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
 
-            if ( (errorCode >= GENERAL_CCPP_LOW_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_LOW_ERRORCODE_END)
-                    || (errorCode >= GENERAL_CCPP_HIGH_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_HIGH_ERRORCODE_END)
-                    || (errorCode >= GENERAL_CS_ERRORCODE_BEGIN && errorCode <= GENERAL_CS_ERRORCODE_END)
-                    || (errorCode >= GENERAL_JAVA_ERRORCODE_BEGIN && errorCode <= GENERAL_JAVA_ERRORCODE_END)) {
+            if ( errorCode >= GENERAL_CCPP_LOW_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_LOW_ERRORCODE_END
+                    || errorCode >= GENERAL_CCPP_HIGH_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_HIGH_ERRORCODE_END
+                    || errorCode >= GENERAL_CS_ERRORCODE_BEGIN && errorCode <= GENERAL_CS_ERRORCODE_END
+                    || errorCode >= GENERAL_JAVA_ERRORCODE_BEGIN && errorCode <= GENERAL_JAVA_ERRORCODE_END) {
 
                 return Optional.of(new GENERAL());
             }
@@ -159,9 +178,14 @@ class AnalyzerType {
         }
     }
 
-    static class OPTIMIZATION implements AnalysisType {
+    /**
+     * OPTIMIZATION AnalysisType.
+     */
+    static final class OPTIMIZATION implements AnalysisType {
 
-        private OPTIMIZATION() {}
+        private OPTIMIZATION() {
+
+        }
 
         @Override
         public String getMessage() {
@@ -179,9 +203,14 @@ class AnalyzerType {
         }
     }
 
-    static class CUSTOMER_SPECIFIC implements AnalysisType {
+    /**
+     * CustomerSpecific AnalysisType.
+     */
+    static final class CustomerSpecific implements AnalysisType {
 
-        private CUSTOMER_SPECIFIC() {}
+        private CustomerSpecific() {
+
+        }
 
         @Override
         public String getMessage() {
@@ -192,15 +221,21 @@ class AnalyzerType {
         public Optional<AnalysisType> create(final int errorCode) {
 
             if (errorCode >= CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN && errorCode <= CUSTOMERSPECIFIC_CCPP_ERRORCODE_END) {
-                return Optional.of(new CUSTOMER_SPECIFIC());
+                return Optional.of(new CustomerSpecific());
             }
 
             return Optional.empty();
         }
     }
-    static class MISRA implements AnalysisType {
 
-        private MISRA() {}
+    /**
+     * MISRA AnalysisType.
+     */
+    static final class MISRA implements AnalysisType {
+
+        private MISRA() {
+
+        }
 
         @Override
         public String getMessage() {
@@ -218,9 +253,14 @@ class AnalyzerType {
         }
     }
 
-    static class UNKNOWN implements AnalysisType {
+    /**
+     * Unkonwn AnalysisType.
+     */
+    static final class UNKNOWN implements AnalysisType {
 
-        private UNKNOWN() {}
+        private UNKNOWN() {
+
+        }
 
         @Override
         public String getMessage() {

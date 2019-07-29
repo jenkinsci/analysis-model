@@ -28,7 +28,7 @@ class PVSStudioParserTest extends AbstractParserTest {
         softly.assertThat(report).hasSize(33);
         softly.assertThat(report.getFiles()).hasSize(2);
 
-        softly.assertThat(report).hasSeverities(1,5,24,3);
+        softly.assertThat(report).hasSeverities(1, 5, 24, 3);
 
         softly.assertThat(report.filter(Issue.byType("General Analysis")).getSize()).isEqualTo(7);
         softly.assertThat(report.filter(Issue.byType("Micro-optimization")).getSize()).isEqualTo(1);
