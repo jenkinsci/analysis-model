@@ -53,7 +53,7 @@
     </xs:element>
   </xs:schema>
   <Solution_Path>
-    <SolutionPath>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ABackup.sln</SolutionPath>
+    <SolutionPath>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</SolutionPath>
     <SolutionVersion>10.0</SolutionVersion>
     <PlogVersion>5</PlogVersion>
     <ModificationDate>2019-07-16T12:15:22.9602426Z</ModificationDate>
@@ -68,7 +68,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>42</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>491455435</CodePrev>
     <CodeCurrent>3951257461</CodeCurrent>
     <CodeNext>2875126159</CodeNext>
@@ -76,7 +76,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -88,7 +87,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>42</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>491455435</CodePrev>
     <CodeCurrent>3951257461</CodeCurrent>
     <CodeNext>2875126159</CodeNext>
@@ -96,7 +95,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -108,7 +106,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>49</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>1099782388</CodePrev>
     <CodeCurrent>1845419680</CodeCurrent>
     <CodeNext>1090083060</CodeNext>
@@ -116,7 +114,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -128,7 +125,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>51</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>1090083060</CodePrev>
     <CodeCurrent>3992903310</CodeCurrent>
     <CodeNext>3939630454</CodeNext>
@@ -136,7 +133,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -148,7 +144,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>55</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>3898272159</CodePrev>
     <CodeCurrent>1876187212</CodeCurrent>
     <CodeNext>1466430381</CodeNext>
@@ -156,7 +152,6 @@
     <Analyzer>6</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -168,7 +163,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>56</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>1876187212</CodePrev>
     <CodeCurrent>1466430381</CodeCurrent>
     <CodeNext>3662811178</CodeNext>
@@ -176,7 +171,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -188,7 +182,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>56</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>1876187212</CodePrev>
     <CodeCurrent>1466430381</CodeCurrent>
     <CodeNext>3662811178</CodeNext>
@@ -196,7 +190,6 @@
     <Analyzer>7</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
     <MISRA>MISRA C++ 2-13-3</MISRA>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
@@ -209,7 +202,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>59</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>2010285157</CodePrev>
     <CodeCurrent>1876187212</CodeCurrent>
     <CodeNext>2606117968</CodeNext>
@@ -217,7 +210,6 @@
     <Analyzer>6</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -229,7 +221,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>60</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>1876187212</CodePrev>
     <CodeCurrent>2606117968</CodeCurrent>
     <CodeNext>2098857151</CodeNext>
@@ -237,7 +229,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -249,7 +240,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>60</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>1876187212</CodePrev>
     <CodeCurrent>2606117968</CodeCurrent>
     <CodeNext>2098857151</CodeNext>
@@ -257,7 +248,6 @@
     <Analyzer>7</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
     <MISRA>MISRA C++ 2-13-3</MISRA>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
@@ -270,7 +260,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>61</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>2606117968</CodePrev>
     <CodeCurrent>2098857151</CodeCurrent>
     <CodeNext>2069413890</CodeNext>
@@ -278,7 +268,6 @@
     <Analyzer>7</Analyzer>
     <LineExtension>61,62,62</LineExtension>
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
     <MISRA>MISRA C++ 6-6-5</MISRA>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
@@ -291,7 +280,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>64</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>2020030510</CodePrev>
     <CodeCurrent>1237987129</CodeCurrent>
     <CodeNext>548875641</CodeNext>
@@ -299,7 +288,6 @@
     <Analyzer>7</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
     <MISRA>MISRA C++ 2-13-3</MISRA>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
@@ -312,7 +300,7 @@
     <ShortFile>KitCpp.h</ShortFile>
     <Line>63</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\KitCpp.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>2069413890</CodePrev>
     <CodeCurrent>2020030510</CodeCurrent>
     <CodeNext>1237987129</CodeNext>
@@ -320,7 +308,6 @@
     <Analyzer>6</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\MainDlg.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -331,8 +318,8 @@
     <Project>ABackup</Project>
     <ShortFile>fxfix.h</ShortFile>
     <Line>24</Line>
-    <FalseAlarm>true</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>111</CodePrev>
     <CodeCurrent>71711</CodeCurrent>
     <CodeNext>64</CodeNext>
@@ -340,7 +327,6 @@
     <Analyzer>5</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -352,7 +338,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>30</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>76033</CodePrev>
     <CodeCurrent>133213</CodeCurrent>
     <CodeNext>153801</CodeNext>
@@ -360,7 +346,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -372,7 +357,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>44</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>609121</CodePrev>
     <CodeCurrent>721394933</CodeCurrent>
     <CodeNext>166885</CodeNext>
@@ -380,7 +365,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -392,7 +376,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>44</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>609121</CodePrev>
     <CodeCurrent>721394933</CodeCurrent>
     <CodeNext>166885</CodeNext>
@@ -400,7 +384,6 @@
     <Analyzer>7</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-676</CWECode>
     <MISRA>MISRA C++ 18-4-1</MISRA>
   </PVS-Studio_Analysis_Log>
@@ -414,7 +397,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>45</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>721394933</CodePrev>
     <CodeCurrent>166885</CodeCurrent>
     <CodeNext>350588524</CodeNext>
@@ -422,7 +405,6 @@
     <Analyzer>4</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-570</CWECode>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
@@ -435,7 +417,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>59</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>609121</CodePrev>
     <CodeCurrent>721394933</CodeCurrent>
     <CodeNext>166885</CodeNext>
@@ -443,7 +425,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -455,7 +436,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>59</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>609121</CodePrev>
     <CodeCurrent>721394933</CodeCurrent>
     <CodeNext>166885</CodeNext>
@@ -463,7 +444,6 @@
     <Analyzer>7</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-676</CWECode>
     <MISRA>MISRA C++ 18-4-1</MISRA>
   </PVS-Studio_Analysis_Log>
@@ -477,7 +457,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>60</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>721394933</CodePrev>
     <CodeCurrent>166885</CodeCurrent>
     <CodeNext>350588524</CodeNext>
@@ -485,7 +465,6 @@
     <Analyzer>4</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-570</CWECode>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
@@ -498,7 +477,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>75</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>125</CodePrev>
     <CodeCurrent>721394933</CodeCurrent>
     <CodeNext>166885</CodeNext>
@@ -506,7 +485,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -518,7 +496,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>75</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>125</CodePrev>
     <CodeCurrent>721394933</CodeCurrent>
     <CodeNext>166885</CodeNext>
@@ -526,7 +504,6 @@
     <Analyzer>7</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-676</CWECode>
     <MISRA>MISRA C++ 18-4-1</MISRA>
   </PVS-Studio_Analysis_Log>
@@ -540,7 +517,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>76</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>721394933</CodePrev>
     <CodeCurrent>166885</CodeCurrent>
     <CodeNext>350588524</CodeNext>
@@ -548,7 +525,6 @@
     <Analyzer>4</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-570</CWECode>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
@@ -561,7 +537,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>90</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>2125897</CodePrev>
     <CodeCurrent>800686840</CodeCurrent>
     <CodeNext>721394933</CodeNext>
@@ -569,7 +545,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -581,7 +556,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>91</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>800686840</CodePrev>
     <CodeCurrent>721394933</CodeCurrent>
     <CodeNext>166885</CodeNext>
@@ -589,7 +564,6 @@
     <Analyzer>1</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
     <FavIcon>false</FavIcon>
@@ -601,7 +575,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>91</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>800686840</CodePrev>
     <CodeCurrent>721394933</CodeCurrent>
     <CodeNext>166885</CodeNext>
@@ -609,7 +583,6 @@
     <Analyzer>7</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-676</CWECode>
     <MISRA>MISRA C++ 18-4-1</MISRA>
   </PVS-Studio_Analysis_Log>
@@ -623,7 +596,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>92</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>721394933</CodePrev>
     <CodeCurrent>166885</CodeCurrent>
     <CodeNext>350588524</CodeNext>
@@ -631,7 +604,6 @@
     <Analyzer>4</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-570</CWECode>
   </PVS-Studio_Analysis_Log>
   <PVS-Studio_Analysis_Log>
@@ -644,7 +616,7 @@
     <ShortFile>fxfix.h</ShortFile>
     <Line>101</Line>
     <FalseAlarm>false</FalseAlarm>
-    <File>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\Lib\CppLib\fxfix.h</File>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
     <CodePrev>3221225475</CodePrev>
     <CodeCurrent>279005</CodeCurrent>
     <CodeNext>125</CodeNext>
@@ -652,9 +624,187 @@
     <Analyzer>7</Analyzer>
     <LineExtension />
     <Retired>false</Retired>
-    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
     <CWECode>CWE-676</CWECode>
     <MISRA>MISRA C++ 18-4-1</MISRA>
   </PVS-Studio_Analysis_Log>
-  
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>V3056</ErrorCode>
+    <Message>Consider reviewing the correctness of 'X' item's usage.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>V6043</ErrorCode>
+    <Message>Consider inspecting the 'for' operator. Initial and final values of the iterator are the same.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>V1019</ErrorCode>
+    <Message>Compound assignment expression is used inside condition.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>Vtest1019</ErrorCode>
+    <Message>Compound assignment expression is used inside condition.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>V1019</ErrorCode>
+    <Message>Compound assignment expression is used inside condition.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File></File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode></ErrorCode>
+    <Message>Compound assignment expression is used inside condition.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+	<File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>T1019</ErrorCode>
+    <Message>Compound assignment expression is used inside condition.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+	<File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+   <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>T1019</ErrorCode>
+    <Message>Compound assignment expression is used inside condition.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>-7</Line>
+    <FalseAlarm>false</FalseAlarm>
+	<File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>T1019</ErrorCode>
+    <Message>Compound assignment expression is used inside condition.</Message>
+    <Project>ABackup</Project>
+    <ShortFile>fxfix.h</ShortFile>
+    <Line>t24</Line>
+    <FalseAlarm>false</FalseAlarm>
+	<File>D:\SVN_VIVA64\SonarQube\sonar-pvs-studio\out\test\resources\TestReport.plog</File>
+    <CodePrev>111</CodePrev>
+    <CodeCurrent>71711</CodeCurrent>
+    <CodeNext>64</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DelTemp.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Info.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ErrorHdl.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoCopy.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\GetDir.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\ArcProps.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\DoArchiv.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Common.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Main.cpp*C:\Users\Komarov\IdeaProjects\warnings-ng-plugin\work\workspace\fgh\ABackup\ABackup\Options.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
 </NewDataSet>
