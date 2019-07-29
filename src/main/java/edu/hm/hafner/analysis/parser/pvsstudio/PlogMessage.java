@@ -76,7 +76,7 @@ class PlogMessage {
         NodeList nodeFile = eElement.getElementsByTagName("File");
 
         PlogMessage msg = new PlogMessage();
-        
+
         if (nodeNotNull(nodeFile)) {
             msg.file = nodeFile.item(0).getTextContent().trim();
         }
