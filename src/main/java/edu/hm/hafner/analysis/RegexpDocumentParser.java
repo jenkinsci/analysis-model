@@ -17,7 +17,7 @@ public abstract class RegexpDocumentParser extends RegexpParser {
      * @param pattern
      *         pattern of compiler warnings
      * @param useMultiLine
-     *         Enables multi line mode. In multi line mode the expressions <tt>^</tt> and <tt>$</tt> match just after or
+     *         Enables multi line mode. In multi line mode the expressions {@code ^ } and {@code $ } match just after or
      *         just before, respectively, a line terminator or the end of the input sequence. By default these
      *         expressions only match at the beginning and the end of the
      */

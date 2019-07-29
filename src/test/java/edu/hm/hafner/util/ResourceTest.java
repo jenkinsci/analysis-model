@@ -46,12 +46,12 @@ public abstract class ResourceTest {
      * Before delegation, an absolute resource name is constructed from the given resource name using this algorithm:
      * </p>
      * <ul>
-     *     <li> If the {@code name} begins with a {@code '/'} (<tt>'&#92;u002f'</tt>), then the absolute name of the
+     *     <li> If the {@code name} begins with a {@code '/'} ({@code '&#92;u002f' }), then the absolute name of the
      * resource is the portion of the {@code name} following the {@code '/'}.</li>
      *     <li> Otherwise, the absolute name is of the following form:
      *     <blockquote> {@code modified_package_name/name} </blockquote>
      *     <p> Where the {@code modified_package_name} is the package name of this object with {@code '/'}
-     *     substituted for {@code '.'} (<tt>'&#92;u002e'</tt>).</li>
+     *     substituted for {@code '.'} ({@code '&#92;u002e' }).</li>
      *  </ul>
      *
      * @param fileName
@@ -77,12 +77,12 @@ public abstract class ResourceTest {
      * Before delegation, an absolute resource name is constructed from the given resource name using this algorithm:
      * </p>
      * <ul>
-     *     <li> If the {@code name} begins with a {@code '/'} (<tt>'&#92;u002f'</tt>), then the absolute name of the
+     *     <li> If the {@code name} begins with a {@code '/'} ({@code '&#92;u002f' }), then the absolute name of the
      * resource is the portion of the {@code name} following the {@code '/'}.</li>
      *     <li> Otherwise, the absolute name is of the following form:
      *     <blockquote> {@code modified_package_name/name} </blockquote>
      *     <p> Where the {@code modified_package_name} is the package name of this object with {@code '/'}
-     *     substituted for {@code '.'} (<tt>'&#92;u002e'</tt>).</li>
+     *     substituted for {@code '.'} ({@code '&#92;u002e' }).</li>
      *  </ul>
      *
      * @param path
