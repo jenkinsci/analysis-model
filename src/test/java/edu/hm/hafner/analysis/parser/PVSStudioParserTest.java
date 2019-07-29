@@ -11,7 +11,12 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
 import edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser;
 
-public class PVSStudioParserTest extends AbstractParserTest {
+/**
+ * Tests the class {@link PVSStudioParser}.
+ *
+ * @author PVS-Studio Team
+ */
+class PVSStudioParserTest extends AbstractParserTest {
     private static final String PREFIX = "pvsstudio/";
 
     PVSStudioParserTest() {
@@ -20,20 +25,17 @@ public class PVSStudioParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(28);
+        softly.assertThat(report).hasSize(33);
         softly.assertThat(report.getFiles()).hasSize(2);
 
-        softly.assertThat(report.stream().map(Issue::getSeverity).filter(s -> s == Severity.ERROR).count()).isEqualTo(1);
-        softly.assertThat(report.stream().map(Issue::getSeverity).filter(s -> s == Severity.WARNING_HIGH).count()).isEqualTo(5);
-        softly.assertThat(report.stream().map(Issue::getSeverity).filter(s -> s == Severity.WARNING_NORMAL).count()).isEqualTo(19);
-        softly.assertThat(report.stream().map(Issue::getSeverity).filter(s -> s == Severity.WARNING_LOW).count()).isEqualTo(3);
+        softly.assertThat(report).hasSeverities(1,5,24,3);
 
-        softly.assertThat(report.stream().map(Issue::getType).filter("GENERAL Analysis"::equals).count()).isEqualTo(4);
-        softly.assertThat(report.stream().map(Issue::getType).filter("Micro-OPTIMIZATION"::equals).count()).isEqualTo(0);
-        softly.assertThat(report.stream().map(Issue::getType).filter("Specific Requests"::equals).count()).isEqualTo(3);
-        softly.assertThat(report.stream().map(Issue::getType).filter("64-bit"::equals).count()).isEqualTo(11);
-        softly.assertThat(report.stream().map(Issue::getType).filter("Misra"::equals).count()).isEqualTo(9);
-        softly.assertThat(report.stream().map(Issue::getType).filter("Unknown"::equals).count()).isEqualTo(1);
+        softly.assertThat(report.filter(Issue.byType("General Analysis")).getSize()).isEqualTo(7);
+        softly.assertThat(report.filter(Issue.byType("Micro-optimization")).getSize()).isEqualTo(1);
+        softly.assertThat(report.filter(Issue.byType("Specific Requests")).getSize()).isEqualTo(3);
+        softly.assertThat(report.filter(Issue.byType("64-bit")).getSize()).isEqualTo(11);
+        softly.assertThat(report.filter(Issue.byType("MISRA")).getSize()).isEqualTo(9);
+        softly.assertThat(report.filter(Issue.byType("Unknown")).getSize()).isEqualTo(2);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.ERROR)
