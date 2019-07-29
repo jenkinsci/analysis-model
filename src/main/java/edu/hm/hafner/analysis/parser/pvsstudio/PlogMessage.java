@@ -67,7 +67,6 @@ class PlogMessage {
         Element eElement = (Element) node;
 
         NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
-        //if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
         if (skipMessage(nodeFalseAlarm)) {
             ++falseAlarmCount;
             return;
@@ -88,12 +87,10 @@ class PlogMessage {
 
         NodeList nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
 
-        //if (nodeErrorCode != null && nodeErrorCode.item(0) != null && nodeErrorCode.item(0).getTextContent() != null) {
         if (nodeNotNull(nodeErrorCode)) {
             msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();
         }
 
-        //if (msg.errorCode.isEmpty() || msg.errorCode.charAt(0) != 'V') {
         if (!errorCodeIsValid(msg.errorCode)) {
             ++failWarningsCount;
             return;
@@ -126,9 +123,6 @@ class PlogMessage {
     static List<PlogMessage> getMessagesFromReport(final ReaderFactory readerFactory) {
         List<PlogMessage> plogMessages = new ArrayList<>();
 
-/*        long failWarningsCount = 0;
-        long falseAlarmCount = 0;*/
-
         Document plogDoc = readerFactory.readDocument();
 
         plogDoc.getDocumentElement().normalize();
@@ -144,55 +138,6 @@ class PlogMessage {
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
                 processNode(plogMessages, nNode);
-
-               /* Element eElement = (Element) nNode;
-
-                PlogMessage msg = new PlogMessage();
-
-                NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
-                //if (nodeFalseAlarm != null && nodeFalseAlarm.item(0) != null && nodeFalseAlarm.item(0).getTextContent().equalsIgnoreCase("true")) {
-                if (skipMessage(nodeFalseAlarm)) {
-                    ++falseAlarmCount;
-                    continue;
-                }
-
-                NodeList nodeFile = eElement.getElementsByTagName("File");
-
-                if (nodeNotNull(nodeFile)) {
-                    msg.file = nodeFile.item(0).getTextContent().trim();
-                }
-
-                if (msg.file.isEmpty()) {
-                    ++failWarningsCount;
-                    continue;
-                }
-
-                NodeList nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
-
-                //if (nodeErrorCode != null && nodeErrorCode.item(0) != null && nodeErrorCode.item(0).getTextContent() != null) {
-                if (nodeNotNull(nodeErrorCode)) {
-                    msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();
-                }
-
-                //if (msg.errorCode.isEmpty() || msg.errorCode.charAt(0) != 'V') {
-                if (!errorCodeIsValid(msg.errorCode)) {
-                    ++failWarningsCount;
-                    continue;
-                }
-
-                msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/" + msg.errorCode.toLowerCase(Locale.ENGLISH) + "/\">"
-                        + msg.errorCode + "</a> " + eElement.getElementsByTagName("Message").item(0).getTextContent();
-
-                msg.level = eElement.getElementsByTagName("Level").item(0).getTextContent();
-
-                msg.lineNumber = IntegerParser.parseInt(eElement.getElementsByTagName("Line").item(0).getTextContent());
-                if (msg.lineNumber <= 0) {
-
-                    ++failWarningsCount;
-                    continue;
-                }
-
-                plogMessages.add(msg);*/
             }
         }
 

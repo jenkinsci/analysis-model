@@ -275,7 +275,7 @@ final class AnalyzerType {
 
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
-            return Optional.of(new UNKNOWN());
+            return Optional.empty();
         }
     }
 }
