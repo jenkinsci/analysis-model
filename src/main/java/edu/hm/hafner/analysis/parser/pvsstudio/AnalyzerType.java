@@ -99,13 +99,13 @@ final class AnalyzerType {
 
     }
 
-    private static List<AnalysisType> ANALYSIS_TYPES = new ArrayList<>();
+    private static List<AnalysisType> analysisTypes = new ArrayList<>();
     static {
-        ANALYSIS_TYPES.add(new Viva64());
-        ANALYSIS_TYPES.add(new GENERAL());
-        ANALYSIS_TYPES.add(new OPTIMIZATION());
-        ANALYSIS_TYPES.add(new CustomerSpecific());
-        ANALYSIS_TYPES.add(new MISRA());
+        analysisTypes.add(new Viva64());
+        analysisTypes.add(new GENERAL());
+        analysisTypes.add(new OPTIMIZATION());
+        analysisTypes.add(new CustomerSpecific());
+        analysisTypes.add(new MISRA());
     }
 
     /**
@@ -119,7 +119,7 @@ final class AnalyzerType {
 
         int errorCode = IntegerParser.parseInt(errorCodeStr.substring(1));
 
-        return ANALYSIS_TYPES.stream().map(type -> type.create(errorCode)).flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
+        return analysisTypes.stream().map(type -> type.create(errorCode)).flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
                 .findFirst()
                 .orElse(new UNKNOWN());
     }
