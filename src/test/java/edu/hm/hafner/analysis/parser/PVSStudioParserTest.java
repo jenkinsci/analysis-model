@@ -42,13 +42,13 @@ class PVSStudioParserTest extends AbstractParserTest {
                 .hasCategory("V002")
                 .hasLineStart(42)
                 .hasMessage(getFormedMessage("V002", "Some diagnostic messages may contain incorrect line number."))
-                .hasFileName("D:/SVN_VIVA64/SonarQube/sonar-pvs-studio/out/test/resources/TestReport.plog");
+                .hasFileName("D:/PartPath/PartPath/out/test/resources/TestReport.plog");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("V106")
                 .hasLineStart(42)
                 .hasMessage(getFormedMessage("V106", "Implicit type conversion third argument '(lstrlenA(Source) + 1)' of function 'memmove' to memsize type."))
-                .hasFileName("D:/SVN_VIVA64/SonarQube/sonar-pvs-studio/out/test/resources/TestReport.plog");
+                .hasFileName("D:/PartPath/PartPath/out/test/resources/TestReport.plog");
     }
 
     private String getFormedMessage(final String type, final String messageFromFile) {
