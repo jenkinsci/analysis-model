@@ -67,7 +67,7 @@
     <junit-platform-launcher.version>1.5.1</junit-platform-launcher.version>
     <mockito.version>3.0.0</mockito.version>
     <assertj.version>3.13.1</assertj.version>
-    <archunit.version>0.10.2</archunit.version>
+    <archunit.version>0.11.0</archunit.version>
     <violations-lib.version>1.94</violations-lib.version>
     <json.version>20180813</json.version>
 
