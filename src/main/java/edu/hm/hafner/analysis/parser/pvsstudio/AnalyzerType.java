@@ -12,7 +12,7 @@ import edu.hm.hafner.util.IntegerParser;
  *
  * @author PVS-Studio Team
  */
-final class AnalyzerType {
+public final class AnalyzerType {
     /**
      * Diagnosis of 64-bit errors (Viva64, C++).
      * https://www.viva64.com/en/w/#64CPP
@@ -95,6 +95,13 @@ final class AnalyzerType {
      */
     private static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
+    public static final String VIVA_64_MESSAGE = "64-bit";
+    public static final String GENERAL_MESSAGE = "General Analysis";
+    public static final String OPTIMIZATION_MESSAGE = "Micro-optimization";
+    public static final String CUSTOMER_SPECIFIC_MESSAGE = "Specific Requests";
+    public static final String MISRA_MESSAGE = "MISRA";
+    public static final String UNKNOWN_MESSAGE = "Unknown";
+
     private AnalyzerType() {
 
     }
@@ -135,7 +142,7 @@ final class AnalyzerType {
 
         @Override
         public String getMessage() {
-            return "64-bit";
+            return VIVA_64_MESSAGE;
         }
 
         @Override
@@ -160,7 +167,7 @@ final class AnalyzerType {
 
         @Override
         public String getMessage() {
-            return "General Analysis";
+            return GENERAL_MESSAGE;
         }
 
         @Override
@@ -195,7 +202,7 @@ final class AnalyzerType {
 
         @Override
         public String getMessage() {
-            return "Micro-optimization";
+            return OPTIMIZATION_MESSAGE;
         }
 
         @Override
@@ -220,7 +227,7 @@ final class AnalyzerType {
 
         @Override
         public String getMessage() {
-            return "Specific Requests";
+            return CUSTOMER_SPECIFIC_MESSAGE;
         }
 
         @Override
@@ -245,7 +252,7 @@ final class AnalyzerType {
 
         @Override
         public String getMessage() {
-            return "MISRA";
+            return MISRA_MESSAGE;
         }
 
         @Override
@@ -270,7 +277,7 @@ final class AnalyzerType {
 
         @Override
         public String getMessage() {
-            return "Unknown";
+            return UNKNOWN_MESSAGE;
         }
 
         @Override
