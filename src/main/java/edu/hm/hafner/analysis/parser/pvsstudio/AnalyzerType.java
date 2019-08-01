@@ -95,11 +95,29 @@ public final class AnalyzerType {
      */
     private static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
+    /**
+     * Viva64 Issue Type.
+     */
     public static final String VIVA_64_MESSAGE = "64-bit";
+    /**
+     * General Issue Type.
+     */
     public static final String GENERAL_MESSAGE = "General Analysis";
+    /**
+     * Micro-optimization Issue Type.
+     */
     public static final String OPTIMIZATION_MESSAGE = "Micro-optimization";
+    /**
+     * Specific Requests Issue Type.
+     */
     public static final String CUSTOMER_SPECIFIC_MESSAGE = "Specific Requests";
+    /**
+     * MISRA Issue Type.
+     */
     public static final String MISRA_MESSAGE = "MISRA";
+    /**
+     * Unknown Issue Type.
+     */
     public static final String UNKNOWN_MESSAGE = "Unknown";
 
     private AnalyzerType() {
