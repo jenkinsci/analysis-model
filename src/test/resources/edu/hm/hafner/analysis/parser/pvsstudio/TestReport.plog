@@ -855,7 +855,7 @@
           <Message>Compound assignment expression is used inside condition.</Message>
           <Project>ABackup</Project>
           <ShortFile>fxfix.h</ShortFile>
-          <Line>-15</Line>
+          <Line>-14</Line>
           <FalseAlarm>true</FalseAlarm>
           <File>D:\Test\Test\out\test\resources\TestReport.plog</File>
           <CodePrev>111</CodePrev>
