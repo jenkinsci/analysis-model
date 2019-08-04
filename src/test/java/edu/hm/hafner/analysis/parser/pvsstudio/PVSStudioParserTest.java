@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser;
+package edu.hm.hafner.analysis.parser.pvsstudio;
 
 import java.util.Locale;
 
@@ -9,19 +9,14 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
-import edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType;
-import edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser;
-
 /**
  * Tests the class {@link PVSStudioParser}.
  *
  * @author PVS-Studio Team
  */
 class PVSStudioParserTest extends AbstractParserTest {
-    private static final String PREFIX = "pvsstudio/";
-
     PVSStudioParserTest() {
-        super(PREFIX + "TestReport.plog");
+        super("TestReport.plog");
     }
 
     @Override
@@ -30,8 +25,6 @@ class PVSStudioParserTest extends AbstractParserTest {
         softly.assertThat(report.getFiles()).hasSize(1);
 
         softly.assertThat(report).hasSeverities(1, 5, 24, 3);
-
-
 
         softly.assertThat(report.filter(Issue.byType(AnalyzerType.GENERAL_MESSAGE)).getSize()).isEqualTo(7);
         softly.assertThat(report.filter(Issue.byType(AnalyzerType.OPTIMIZATION_MESSAGE)).getSize()).isEqualTo(1);

@@ -6,10 +6,12 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.util.IntegerParser;
 
@@ -19,11 +21,11 @@ import edu.hm.hafner.util.IntegerParser;
  * @author PVS-Studio Team
  */
 class PlogMessage {
-    private String file = "";
+    private String file = StringUtils.EMPTY;
     private int lineNumber = 0;
-    private String errorCode = "";
-    private String message = "";
-    private String level = "";
+    private String errorCode = StringUtils.EMPTY;
+    private String message = StringUtils.EMPTY;
+    private String level = StringUtils.EMPTY;
 
     public String getHash() {
         return errorCode + message + file + lineNumber;
@@ -51,7 +53,8 @@ class PlogMessage {
     }
 
     private static boolean skipMessage(final NodeList elements) {
-        return elements != null && elements.item(0) != null && elements.item(0).getTextContent().equalsIgnoreCase("true");
+        return elements != null && elements.item(0) != null
+                && elements.item(0).getTextContent().equalsIgnoreCase("true");
     }
 
     private static boolean nodeNotNull(final NodeList elements) {
@@ -63,7 +66,6 @@ class PlogMessage {
     }
 
     private static void processNode(final List<PlogMessage> plogMessages, final Node node) {
-
         Element eElement = (Element) node;
 
         NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
@@ -96,14 +98,15 @@ class PlogMessage {
             return;
         }
 
-        msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/" + msg.errorCode.toLowerCase(Locale.ENGLISH) + "/\">"
-                + msg.errorCode + "</a> " + eElement.getElementsByTagName("Message").item(0).getTextContent();
+        msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/"
+                + msg.errorCode.toLowerCase(Locale.ENGLISH) + "/\">"
+                + msg.errorCode + "</a> "
+                + eElement.getElementsByTagName("Message").item(0).getTextContent();
 
         msg.level = eElement.getElementsByTagName("Level").item(0).getTextContent();
 
         msg.lineNumber = IntegerParser.parseInt(eElement.getElementsByTagName("Line").item(0).getTextContent());
         if (msg.lineNumber <= 0) {
-
             ++failWarningsCount;
             return;
         }
@@ -112,19 +115,18 @@ class PlogMessage {
     }
 
     private static int failWarningsCount = 0;
-
     private static int falseAlarmCount = 0;
 
     /**
      * Getting list messages from report.
-     * @param readerFactory - factory containing report file reader
+     *
+     * @param readerFactory
+     *         factory containing report file reader
+     *
      * @return list plog messages
      */
     static List<PlogMessage> getMessagesFromReport(final ReaderFactory readerFactory) {
-        List<PlogMessage> plogMessages = new ArrayList<>();
-
         Document plogDoc = readerFactory.readDocument();
-
         plogDoc.getDocumentElement().normalize();
 
         NodeList nList = plogDoc.getElementsByTagName("PVS-Studio_Analysis_Log");
@@ -132,11 +134,11 @@ class PlogMessage {
         falseAlarmCount = 0;
         failWarningsCount = 0;
 
+        List<PlogMessage> plogMessages = new ArrayList<>();
         for (int nodeCount = 0; nodeCount < nList.getLength(); nodeCount++) {
             Node nNode = nList.item(nodeCount);
 
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
                 processNode(plogMessages, nNode);
             }
         }

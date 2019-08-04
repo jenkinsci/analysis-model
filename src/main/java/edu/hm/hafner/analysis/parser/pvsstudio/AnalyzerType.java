@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser.pvsstudio;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -12,7 +11,7 @@ import edu.hm.hafner.util.IntegerParser;
  *
  * @author PVS-Studio Team
  */
-public final class AnalyzerType {
+final class AnalyzerType {
     /**
      * Diagnosis of 64-bit errors (Viva64, C++).
      * https://www.viva64.com/en/w/#64CPP
@@ -33,7 +32,6 @@ public final class AnalyzerType {
      * https://www.viva64.com/en/w/#GeneralAnalysisCPP
      */
     private static final int GENERAL_CCPP_LOW_ERRORCODE_END = 799;
-
     /**
      * Diagnosis of micro-optimizations (C++).
      * https://www.viva64.com/en/w/#MicroOptimizationsCPP
@@ -95,56 +93,31 @@ public final class AnalyzerType {
      */
     private static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
-    /**
-     * Viva64 Issue Type.
-     */
-    public static final String VIVA_64_MESSAGE = "64-bit";
-    /**
-     * General Issue Type.
-     */
-    public static final String GENERAL_MESSAGE = "General Analysis";
-    /**
-     * Micro-optimization Issue Type.
-     */
-    public static final String OPTIMIZATION_MESSAGE = "Micro-optimization";
-    /**
-     * Specific Requests Issue Type.
-     */
-    public static final String CUSTOMER_SPECIFIC_MESSAGE = "Specific Requests";
-    /**
-     * MISRA Issue Type.
-     */
-    public static final String MISRA_MESSAGE = "MISRA";
-    /**
-     * Unknown Issue Type.
-     */
-    public static final String UNKNOWN_MESSAGE = "Unknown";
+    static final String VIVA_64_MESSAGE = "64-bit";
+    static final String GENERAL_MESSAGE = "General Analysis";
+    static final String OPTIMIZATION_MESSAGE = "Micro-optimization";
+    static final String CUSTOMER_SPECIFIC_MESSAGE = "Specific Requests";
+    static final String MISRA_MESSAGE = "MISRA";
+    static final String UNKNOWN_MESSAGE = "Unknown";
 
     private AnalyzerType() {
-
+        // prevents instantiation
     }
 
-    private static List<AnalysisType> analysisTypes = new ArrayList<>();
-    static {
-        analysisTypes.add(new Viva64());
-        analysisTypes.add(new GENERAL());
-        analysisTypes.add(new OPTIMIZATION());
-        analysisTypes.add(new CustomerSpecific());
-        analysisTypes.add(new MISRA());
-    }
+    private static AnalysisType[] analysisTypes = {new Viva64(), new GENERAL(),
+            new OPTIMIZATION(), new CustomerSpecific(), new MISRA()};
 
-    /**
-     * errorCodeStr format is Vnnn.
-     */
     static AnalysisType fromErrorCode(final String errorCodeStr) {
-
         if ("External".equalsIgnoreCase(errorCodeStr)) {
             return new GENERAL();
         }
 
+        // errorCodeStr format is Vnnn.
         int errorCode = IntegerParser.parseInt(errorCodeStr.substring(1));
 
-        return analysisTypes.stream().map(type -> type.create(errorCode)).flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
+        return Arrays.stream(analysisTypes)
+                .map(type -> type.create(errorCode))
+                .flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
                 .findFirst()
                 .orElse(new UNKNOWN());
     }
@@ -153,9 +126,8 @@ public final class AnalyzerType {
      * Viva64 AnalysisType.
      */
     static final class Viva64 implements AnalysisType {
-
         private Viva64() {
-
+            // prevents instantiation
         }
 
         @Override
@@ -165,7 +137,6 @@ public final class AnalyzerType {
 
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
-
             if (errorCode >= VIVA64_CCPP_ERRORCODE_BEGIN && errorCode <= VIVA64_CCPP_ERRORCODE_END) {
                 return Optional.of(new Viva64());
             }
@@ -178,9 +149,8 @@ public final class AnalyzerType {
      * GENERAL AnalysisType.
      */
     static final class GENERAL implements AnalysisType {
-
         private GENERAL() {
-
+            // prevents instantiation
         }
 
         @Override
@@ -190,7 +160,6 @@ public final class AnalyzerType {
 
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
-
             if (errorCode >= GENERAL_CCPP_LOW_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_LOW_ERRORCODE_END) {
                 return Optional.of(new GENERAL());
             }
@@ -213,9 +182,8 @@ public final class AnalyzerType {
      * OPTIMIZATION AnalysisType.
      */
     static final class OPTIMIZATION implements AnalysisType {
-
         private OPTIMIZATION() {
-
+            // prevents instantiation
         }
 
         @Override
@@ -225,7 +193,6 @@ public final class AnalyzerType {
 
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
-
             if (errorCode >= OPTIMIZATION_CCPP_ERRORCODE_BEGIN && errorCode <= OPTIMIZATION_CCPP_ERRORCODE_END) {
                 return Optional.of(new OPTIMIZATION());
             }
@@ -238,9 +205,8 @@ public final class AnalyzerType {
      * CustomerSpecific AnalysisType.
      */
     static final class CustomerSpecific implements AnalysisType {
-
         private CustomerSpecific() {
-
+            // prevents instantiation
         }
 
         @Override
@@ -250,7 +216,6 @@ public final class AnalyzerType {
 
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
-
             if (errorCode >= CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN && errorCode <= CUSTOMERSPECIFIC_CCPP_ERRORCODE_END) {
                 return Optional.of(new CustomerSpecific());
             }
@@ -263,9 +228,8 @@ public final class AnalyzerType {
      * MISRA AnalysisType.
      */
     static final class MISRA implements AnalysisType {
-
         private MISRA() {
-
+            // prevents instantiation
         }
 
         @Override
@@ -275,7 +239,6 @@ public final class AnalyzerType {
 
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
-
             if (errorCode >= MISRA_CCPP_ERRORCODE_BEGIN && errorCode <= MISRA_CCPP_ERRORCODE_END) {
                 return Optional.of(new MISRA());
             }
@@ -288,9 +251,8 @@ public final class AnalyzerType {
      * Unkonwn AnalysisType.
      */
     static final class UNKNOWN implements AnalysisType {
-
         private UNKNOWN() {
-
+            // prevents instantiation
         }
 
         @Override
@@ -302,5 +264,11 @@ public final class AnalyzerType {
         public Optional<AnalysisType> create(final int errorCode) {
             return Optional.empty();
         }
+    }
+
+    interface AnalysisType {
+        String getMessage();
+
+        Optional<AnalysisType> create(int errorCodeStr);
     }
 }
