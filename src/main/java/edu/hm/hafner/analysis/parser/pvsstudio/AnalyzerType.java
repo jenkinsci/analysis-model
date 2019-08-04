@@ -104,7 +104,7 @@ final class AnalyzerType {
         // prevents instantiation
     }
 
-    private static AnalysisType[] analysisTypes = {new Viva64(), new GENERAL(),
+    private static final AnalysisType[] ANALYSIS_TYPES = {new Viva64(), new GENERAL(),
             new OPTIMIZATION(), new CustomerSpecific(), new MISRA()};
 
     static AnalysisType fromErrorCode(final String errorCodeStr) {
@@ -115,7 +115,7 @@ final class AnalyzerType {
         // errorCodeStr format is Vnnn.
         int errorCode = IntegerParser.parseInt(errorCodeStr.substring(1));
 
-        return Arrays.stream(analysisTypes)
+        return Arrays.stream(ANALYSIS_TYPES)
                 .map(type -> type.create(errorCode))
                 .flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
                 .findFirst()
@@ -126,10 +126,6 @@ final class AnalyzerType {
      * Viva64 AnalysisType.
      */
     static final class Viva64 implements AnalysisType {
-        private Viva64() {
-            // prevents instantiation
-        }
-
         @Override
         public String getMessage() {
             return VIVA_64_MESSAGE;
@@ -149,10 +145,6 @@ final class AnalyzerType {
      * GENERAL AnalysisType.
      */
     static final class GENERAL implements AnalysisType {
-        private GENERAL() {
-            // prevents instantiation
-        }
-
         @Override
         public String getMessage() {
             return GENERAL_MESSAGE;
@@ -182,10 +174,6 @@ final class AnalyzerType {
      * OPTIMIZATION AnalysisType.
      */
     static final class OPTIMIZATION implements AnalysisType {
-        private OPTIMIZATION() {
-            // prevents instantiation
-        }
-
         @Override
         public String getMessage() {
             return OPTIMIZATION_MESSAGE;
@@ -205,10 +193,6 @@ final class AnalyzerType {
      * CustomerSpecific AnalysisType.
      */
     static final class CustomerSpecific implements AnalysisType {
-        private CustomerSpecific() {
-            // prevents instantiation
-        }
-
         @Override
         public String getMessage() {
             return CUSTOMER_SPECIFIC_MESSAGE;
@@ -228,10 +212,6 @@ final class AnalyzerType {
      * MISRA AnalysisType.
      */
     static final class MISRA implements AnalysisType {
-        private MISRA() {
-            // prevents instantiation
-        }
-
         @Override
         public String getMessage() {
             return MISRA_MESSAGE;
@@ -251,10 +231,6 @@ final class AnalyzerType {
      * Unkonwn AnalysisType.
      */
     static final class UNKNOWN implements AnalysisType {
-        private UNKNOWN() {
-            // prevents instantiation
-        }
-
         @Override
         public String getMessage() {
             return UNKNOWN_MESSAGE;
