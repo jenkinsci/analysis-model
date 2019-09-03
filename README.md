@@ -5,7 +5,6 @@
 [![Jenkins Version](https://img.shields.io/badge/Jenkins-2.138.4-green.svg?label=min.%20Jenkins)](https://jenkins.io/download/)
 ![JDK8](https://img.shields.io/badge/jdk-8-yellow.svg?label=min.%20JDK)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/jenkinsci/analysis-model.svg)](https://github.com/jenkinsci/analysis-model/pulls)
 
 This 'analysis-model' project is a library to read static analysis reports into a Java object model. 
 Currently it is used only by [Jenkins' warnings next generation plug-in](https://github.com/jenkinsci/warnings-ng-plugin). 
@@ -24,3 +23,4 @@ All source code is licensed under the MIT license.
 [![Travis](https://img.shields.io/travis/jenkinsci/analysis-model/master.svg?logo=travis&label=travis%20build&logoColor=white)](https://travis-ci.org/jenkinsci/analysis-model)
 [![Codacy](https://api.codacy.com/project/badge/Grade/1b96405c72db49eeb0d67486f77f8f75)](https://app.codacy.com/app/uhafner/analysis-model?utm_source=github.com&utm_medium=referral&utm_content=jenkinsci/analysis-model&utm_campaign=Badge_Grade_Dashboard)
 [![Codecov](https://img.shields.io/codecov/c/github/jenkinsci/analysis-model.svg)](https://codecov.io/gh/jenkinsci/analysis-model)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/jenkinsci/analysis-model.svg)](https://github.com/jenkinsci/analysis-model/pulls)
