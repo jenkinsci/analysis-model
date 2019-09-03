@@ -455,7 +455,6 @@
           </dependency>
         </dependencies>
         <configuration>
-          <skip>true</skip> <!-- FIXME: revert after release of 6.0.1 -->
           <analysisConfiguration>
             <revapi.semver.ignore>
               <enabled>true</enabled>
