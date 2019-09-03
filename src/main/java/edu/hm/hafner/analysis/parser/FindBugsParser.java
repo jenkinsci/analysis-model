@@ -139,12 +139,23 @@ public class FindBugsParser extends IssueParser {
             final IssueBuilder builder, final Map<String, String> hashToMessageMapping,
             final Map<String, String> categories) {
         try (Reader input = readerFactory.create()) {
-            SortedBugCollection collection = readXml(input);
+            SortedBugCollection bugs = readXml(input);
 
-            Project project = collection.getProject();
-            project.addSourceDirs(sources);
+            try (Project project = bugs.getProject()) {
+                return convertBugsToIssues(sources, builder, hashToMessageMapping, categories, bugs, project);
+            }
+        }
+        catch (DocumentException | IOException exception) {
+            throw new ParsingException(exception);
+        }
+    }
 
-            SourceFinder sourceFinder = new SourceFinder(project);
+    private Report convertBugsToIssues(final Collection<String> sources, final IssueBuilder builder,
+            final Map<String, String> hashToMessageMapping, final Map<String, String> categories,
+            final SortedBugCollection collection, final Project project) {
+        project.addSourceDirs(sources);
+
+        try (SourceFinder sourceFinder = new SourceFinder(project)) {
             if (StringUtils.isNotBlank(project.getProjectName())) {
                 builder.setModuleName(project.getProjectName());
             }
@@ -170,15 +181,12 @@ public class FindBugsParser extends IssueParser {
                         .setFileName(findSourceFile(project, sourceFinder, sourceLine))
                         .setPackageName(warning.getPrimaryClass().getPackageName())
                         .setFingerprint(warning.getInstanceHash());
-                setAffectedLines(warning, builder, new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
+                setAffectedLines(warning, builder,
+                        new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
 
                 report.add(builder.build());
             }
-
             return report;
-        }
-        catch (DocumentException | IOException exception) {
-            throw new ParsingException(exception);
         }
     }
 

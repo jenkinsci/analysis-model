@@ -72,11 +72,12 @@ class LookaheadStreamTest extends ResourceTest {
     @Test
     @SuppressWarnings("unchecked")
     void shouldCloseStream() {
-        Stream<String> lines = mock(Stream.class);
-        LookaheadStream stream = new LookaheadStream(lines);
+        try (Stream<String> lines = mock(Stream.class)) {
+            try (LookaheadStream stream = new LookaheadStream(lines)) {
+                assertThat(stream.getLine()).isZero();
+            }
 
-        stream.close();
-
-        verify(lines).close();
+            verify(lines).close(); // lines will be closed by stream
+        }
     }
 }
