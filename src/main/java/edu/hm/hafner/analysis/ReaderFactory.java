@@ -88,7 +88,7 @@ public abstract class ReaderFactory {
      *         if the file could not be read
      */
     @MustBeClosed
-    @SuppressWarnings("MustBeClosedChecker")
+    @SuppressWarnings({"MustBeClosedChecker", "PMD.CloseResource"})
     @SuppressFBWarnings("OS_OPEN_STREAM")
     public Stream<String> readStream() {
         try {

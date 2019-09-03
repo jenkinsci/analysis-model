@@ -552,7 +552,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.get(2)).isSameAs(NORMAL_2);
     }
     
-    @Test @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
+    @Test @SuppressFBWarnings("RV")
     void shouldThrowExceptionOnWrongIndex() {
         Report report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
