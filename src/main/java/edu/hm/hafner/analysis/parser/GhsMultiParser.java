@@ -24,7 +24,7 @@ public class GhsMultiParser extends LookaheadParser {
      *  Groups are used to identify FileName, StartLine, Type, Category, Start of message.
      */
     private static final String GHS_MULTI_WARNING_PATTERN =
-            "(?:\\.|[A-Z]:)(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)";
+            "\"(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)";
 
     /** Regex Pattern to match the ending of the Warning / Error Message. */
     private static final String MESSAGE_END_REGEX = "\\s*\\^";
@@ -65,6 +65,11 @@ public class GhsMultiParser extends LookaheadParser {
         }
 
         return messageBuilder.toString();
+    }
+
+    @Override
+    protected boolean isLineInteresting(final String line) {
+        return line.contains("warning") || line.contains("error");
     }
 }
 
