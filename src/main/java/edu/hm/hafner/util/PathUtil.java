@@ -104,7 +104,15 @@ public class PathUtil {
         return makeUnixPath(normalized == null ? fileName : normalized);
     }
 
-    private boolean isAbsolute(final String fileName) {
+    /**
+     * Returns whether the specified file name is an absolute path.
+     *
+     * @param fileName
+     *         the file name to test
+     *
+     * @return {@code true} if this path is an absolute path, {@code false} if a relative path
+     */
+    public boolean isAbsolute(final String fileName) {
         return FilenameUtils.getPrefixLength(fileName) > 0;
     }
 }
