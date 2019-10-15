@@ -17,6 +17,10 @@
 # ** while parsing file included at src/grizzly_top.sv(9)
 # ** at src/io/ps.v(71): (vlog-2623) Undefined variable: fifo_full.
 
+# ** Error (suppressible): ** while parsing file included at src/tb_arbiter.sv(2)
+# ** while parsing file included at src/arbiter.sv(5)
+# ** at src/mux.sv(24): (vlog-7033) Variable 'sel' driven in a combinational block, may not be driven by any other process. See src/mux.sv(26).
+
 # ** Warning: (vsim-8233) /tmp/jenkins/workspace/tb_ps_pl.v(146): Index xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx into array dimension [0:999] is out of bounds.
 #    Time: 0 ps  Iteration: 1  Instance: /grizzly_elaboration_test/u_tb_grizzly_all/uut/ps/ps_comm
 # ** Warning: (vsim-3533) [FOFIW] - Failed to open file "C:/pl2ps_dma.txt" for writing.

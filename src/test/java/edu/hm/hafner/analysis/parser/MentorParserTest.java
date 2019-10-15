@@ -22,7 +22,7 @@ class MentorParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(13);
+        softly.assertThat(report).hasSize(14);
 
         softly.assertThat(report.get(0))
                 .hasLineStart(312)
@@ -60,6 +60,14 @@ class MentorParserTest extends AbstractParserTest {
                 .hasCategory("vlog-2623")
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
+
+        softly.assertThat(report.get(7))
+                .hasLineStart(24)
+                .hasFileName("src/mux.sv")
+                .hasMessage("Variable 'sel' driven in a combinational block, may not be driven by any other process. See src/mux.sv(26).")
+                .hasCategory("vlog-7033")
+                .hasModuleName("-")
+                .hasSeverity(Severity.ERROR);
 
     }
 }
