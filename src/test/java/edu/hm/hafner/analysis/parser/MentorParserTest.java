@@ -22,7 +22,7 @@ class MentorParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(16);
+        softly.assertThat(report).hasSize(18);
 
         softly.assertThat(report.get(0))
                 .hasLineStart(312)
@@ -85,5 +85,12 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
+        softly.assertThat(report.get(10))
+                .hasLineStart(0)
+                .hasFileName("-")
+                .hasMessage("Recognized 1 FSM in module \"fsm_tb(verilog)\".")
+                .hasCategory("vlog-143")
+                .hasModuleName("-")
+                .hasSeverity(Severity.WARNING_LOW);
     }
 }

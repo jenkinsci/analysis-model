@@ -32,12 +32,17 @@ public class MentorParser extends LookaheadParser {
 
     /**
      * The first capture group matches the filename and line number.
-     * The second capture group matches the warning type such as "vlog-###" or "vsim-###".
-     * The third group matches the rest of the message.
      */
-    private static final Pattern VLOG_PATTERN = Pattern.compile(
-            "(?<filename>\\S*)\\((?<line>\\d+)\\): \\((?<category>v\\w+-\\d+)\\) (?<message>.*)");
-    
+    private static final Pattern VLOG_FILE_PATTERN = Pattern.compile(
+            "(?<filename>\\S*)\\((?<line>\\d+)\\):");
+
+    /**
+     * The first capture group matches the warning type such as "vlog-###" or "vsim-###".
+     * The second group matches the rest of the message.
+     */
+    private static final Pattern VLOG_TYPE_PATTERN = Pattern.compile(
+            "\\((?<category>v\\w+-\\d+)\\) (?<message>.*)");
+
     /**
      * The first capture group matches the timestamp for the message on the previous line.
      * The iteration is ignored.
@@ -62,6 +67,7 @@ public class MentorParser extends LookaheadParser {
         clearBuilder(builder);
 
         builder.guessSeverity(matcher.group("priority"));
+        builder.setCategory("-");
 
         String message = matcher.group("message");
         if (message.contains("while parsing file")) {
@@ -84,12 +90,17 @@ public class MentorParser extends LookaheadParser {
 
     private void parseVlogMessage(final IssueBuilder builder, final String message) {
         String parsedMessage = message;
+        builder.setCategory("vlog");
         // If we can refine the message, the do.
         // Else just return what we got passed.
-        Matcher vlog = VLOG_PATTERN.matcher(message);
-        if (vlog.matches()) {
+        Matcher vlog;
+        vlog = VLOG_FILE_PATTERN.matcher(message);
+        if (vlog.find()) {
             builder.setFileName(vlog.group("filename"));
             builder.setLineStart(vlog.group("line"));
+        }
+        vlog = VLOG_TYPE_PATTERN.matcher(message);
+        if (vlog.find()) {
             builder.setCategory(vlog.group("category"));
             parsedMessage = vlog.group("message");
         }
