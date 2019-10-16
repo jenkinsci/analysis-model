@@ -126,7 +126,9 @@ public class MentorParser extends LookaheadParser {
     private String parseSimTime(final LookaheadStream lookahead, final IssueBuilder builder) {
         StringBuilder description = new StringBuilder();
         String timeLine = "";
-        while (lookahead.hasNext() && !lookahead.peekNext().contains("# **")) {
+        while (lookahead.hasNext() &&
+                lookahead.peekNext().startsWith("#") &&
+                !lookahead.peekNext().startsWith("# **")) {
             timeLine = lookahead.next();
             if (timeLine.startsWith("#    Time:")) {
                 break;
