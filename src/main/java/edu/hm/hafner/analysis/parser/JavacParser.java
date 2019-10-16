@@ -5,8 +5,10 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
@@ -15,8 +17,10 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Ullrich Hafner
  */
-public class JavacParser extends RegexpLineParser {
+public class JavacParser extends LookaheadParser {
     private static final long serialVersionUID = 7199325311690082782L;
+
+    private static final String ERRORPRONE_URL_PATTERN = "\\s+\\(see https?://errorprone\\S+\\s*\\)";
 
     private static final String JAVAC_WARNING_PATTERN
             = "^(?:\\S+\\s+)?"                // optional preceding arbitrary number of characters that are not a
@@ -44,7 +48,12 @@ public class JavacParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) throws ParsingException {        
+        if (lookahead.hasNext(ERRORPRONE_URL_PATTERN)) {
+            return Optional.empty();
+        }
+
         String type = matcher.group(1);
         if ("ERROR".equals(type)) {
             builder.setSeverity(Severity.ERROR);
