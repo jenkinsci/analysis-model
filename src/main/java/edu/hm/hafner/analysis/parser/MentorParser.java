@@ -70,17 +70,19 @@ public class MentorParser extends LookaheadParser {
 
         String message = matcher.group("message");
         if (message.contains("while parsing file")) {
-            parseLongVlogMessage(lookahead, builder, message);
-        } else if (message.contains("vlog-")) {
+            parseLongVlogMessage(lookahead, builder);
+        }
+        else if (message.contains("vlog-")) {
             parseVlogMessage(builder, message);
-        } else {
+        }
+        else {
             parseVsimMessage(lookahead, builder, message);
         }
 
         return builder.buildOptional();
     }
 
-    private void parseLongVlogMessage(final LookaheadStream lookahead, final IssueBuilder builder, final String message) {
+    private void parseLongVlogMessage(final LookaheadStream lookahead, final IssueBuilder builder) {
         while (!lookahead.peekNext().startsWith("# ** at ")) {
             lookahead.next();
         }
@@ -126,9 +128,9 @@ public class MentorParser extends LookaheadParser {
     private String parseSimTime(final LookaheadStream lookahead, final IssueBuilder builder) {
         StringBuilder description = new StringBuilder();
         String timeLine = "";
-        while (lookahead.hasNext() &&
-                lookahead.peekNext().startsWith("#") &&
-                !lookahead.peekNext().startsWith("# **")) {
+        while (lookahead.hasNext()
+                && lookahead.peekNext().startsWith("# ")
+                && !lookahead.peekNext().startsWith("# **")) {
             timeLine = lookahead.next();
             if (timeLine.startsWith("#    Time:")) {
                 break;
