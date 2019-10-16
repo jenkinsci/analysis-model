@@ -36,7 +36,7 @@ public class MentorParser extends LookaheadParser {
      * The third group matches the rest of the message.
      */
     private static final Pattern VLOG_PATTERN = Pattern.compile(
-            "at (?<filename>\\S*)\\((?<line>\\d+)\\): \\((?<category>v\\w+-\\d+)\\) (?<message>.*)");
+            "(?<filename>\\S*)\\((?<line>\\d+)\\): \\((?<category>v\\w+-\\d+)\\) (?<message>.*)");
     
     /**
      * The first capture group matches the timestamp for the message on the previous line.
@@ -65,23 +65,28 @@ public class MentorParser extends LookaheadParser {
 
         String message = matcher.group("message");
         if (message.contains("while parsing file")) {
-            parseVlogMessage(lookahead, builder, message);
-        }
-        else {
+            parseLongVlogMessage(lookahead, builder, message);
+        } else if (message.contains("vlog-")) {
+            parseVlogMessage(builder, message);
+        } else {
             parseVsimMessage(lookahead, builder, message);
         }
 
         return builder.buildOptional();
     }
 
-    private void parseVlogMessage(final LookaheadStream lookahead, final IssueBuilder builder, final String message) {
+    private void parseLongVlogMessage(final LookaheadStream lookahead, final IssueBuilder builder, final String message) {
         while (!lookahead.peekNext().startsWith("# ** at ")) {
             lookahead.next();
         }
+        parseVlogMessage(builder, lookahead.next().substring(8));
+    }
+
+    private void parseVlogMessage(final IssueBuilder builder, final String message) {
         String parsedMessage = message;
         // If we can refine the message, the do.
         // Else just return what we got passed.
-        Matcher vlog = VLOG_PATTERN.matcher(lookahead.next().substring(5));
+        Matcher vlog = VLOG_PATTERN.matcher(message);
         if (vlog.matches()) {
             builder.setFileName(vlog.group("filename"));
             builder.setLineStart(vlog.group("line"));

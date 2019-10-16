@@ -21,6 +21,15 @@
 # ** while parsing file included at src/arbiter.sv(5)
 # ** at src/mux.sv(24): (vlog-7033) Variable 'sel' driven in a combinational block, may not be driven by any other process. See src/mux.sv(26).
 
+# ** Warning: ** while parsing file included at sim/src/tb_top.sv(13)
+# ** while parsing file included at src/top.sv(10)
+# ** while parsing file included at src/module.sv(15)
+# ** while parsing file included at src/submodule.sv(6)
+# ** while parsing file included at src/data_path.sv(8)
+# ** at src/data.sv(19): (vlog-13314) Defaulting port 'ctl' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+
+# ** Warning: sim/src/ipcores/glbl.v(2): (vlog-2605) empty port name in port list.
+
 # ** Warning: (vsim-8233) /tmp/jenkins/workspace/tb_ps_pl.v(146): Index xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx into array dimension [0:999] is out of bounds.
 #    Time: 0 ps  Iteration: 1  Instance: /grizzly_elaboration_test/u_tb_grizzly_all/uut/ps/ps_comm
 # ** Warning: (vsim-3533) [FOFIW] - Failed to open file "C:/pl2ps_dma.txt" for writing.

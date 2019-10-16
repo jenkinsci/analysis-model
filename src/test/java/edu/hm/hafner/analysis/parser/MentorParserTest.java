@@ -22,7 +22,7 @@ class MentorParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(14);
+        softly.assertThat(report).hasSize(16);
 
         softly.assertThat(report.get(0))
                 .hasLineStart(312)
@@ -68,6 +68,22 @@ class MentorParserTest extends AbstractParserTest {
                 .hasCategory("vlog-7033")
                 .hasModuleName("-")
                 .hasSeverity(Severity.ERROR);
+
+        softly.assertThat(report.get(8))
+                .hasLineStart(19)
+                .hasFileName("src/data.sv")
+                .hasMessage("Defaulting port 'ctl' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.")
+                .hasCategory("vlog-13314")
+                .hasModuleName("-")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        softly.assertThat(report.get(9))
+                .hasLineStart(2)
+                .hasFileName("sim/src/ipcores/glbl.v")
+                .hasMessage("empty port name in port list.")
+                .hasCategory("vlog-2605")
+                .hasModuleName("-")
+                .hasSeverity(Severity.WARNING_NORMAL);
 
     }
 }
