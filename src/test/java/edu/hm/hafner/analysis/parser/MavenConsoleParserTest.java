@@ -157,6 +157,15 @@ class MavenConsoleParserTest extends AbstractParserTest {
                         + "    +-com.&lt;org&gt;:telesign:1.1\n"
                         + "      +-com.google.code.gson:gson:2.2.1</code></pre>");
     }
+    
+    @Test
+    void shouldIdentifyMavenModules() {
+        Report warnings = parse("maven-multimodule.log");
+        
+        assertThat(warnings).hasSize(2);
+        assertThat(warnings.get(0)).hasModuleName("edu.hm.hafner:analysis-model");
+        assertThat(warnings.get(1)).hasModuleName("edu.hm.hafner:some-other-plugin");
+    }
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
