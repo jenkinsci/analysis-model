@@ -67,7 +67,6 @@ public class MentorParser extends LookaheadParser {
         clearBuilder(builder);
 
         builder.guessSeverity(matcher.group("priority"));
-        builder.setCategory("-");
 
         String message = matcher.group("message");
         if (message.contains("while parsing file")) {
@@ -148,7 +147,7 @@ public class MentorParser extends LookaheadParser {
         builder.setModuleName(null);
         builder.setFileName(null);
         builder.setLineStart(null);
-        builder.setCategory(null);
+        builder.setCategory("-");
     }
 
     @Override
