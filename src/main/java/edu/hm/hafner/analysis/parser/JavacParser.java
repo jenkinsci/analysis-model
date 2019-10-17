@@ -20,7 +20,7 @@ import static edu.hm.hafner.analysis.Categories.*;
 public class JavacParser extends LookaheadParser {
     private static final long serialVersionUID = 7199325311690082782L;
 
-    private static final String ERRORPRONE_URL_PATTERN = "\\s+\\(see https?://errorprone\\S+\\s*\\)";
+    private static final String ERRORPRONE_URL_PATTERN = "\\s+\\(see https?://\\S+\\s*\\)";
 
     private static final String JAVAC_WARNING_PATTERN
             = "^(?:\\S+\\s+)?"                // optional preceding arbitrary number of characters that are not a
