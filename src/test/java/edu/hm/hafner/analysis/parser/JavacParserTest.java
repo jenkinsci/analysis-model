@@ -62,7 +62,7 @@ class JavacParserTest extends AbstractParserTest {
     void shouldParseAnsiColorCodedLog() {
         Report report = parse("maven-ansi.txt");
 
-        assertThat(report).hasSize(13);
+        assertThat(report).hasSize(4);
     }
 
     /**
@@ -189,6 +189,19 @@ class JavacParserTest extends AbstractParserTest {
         assertThatWarningIsAtLine(iterator.next(), 47);
         assertThatWarningIsAtLine(iterator.next(), 69);
         assertThatWarningIsAtLine(iterator.next(), 105);
+    }
+
+    @Test
+    void shouldNotIncludeErrorprone() {
+        Report warnings = parse("javac-errorprone.txt");
+        
+        assertThat(warnings).hasSize(2);
+        assertThat(warnings.get(0)).hasSeverity(Severity.ERROR);
+        assertThat(warnings.get(1)).hasSeverity(Severity.ERROR);
+        
+        warnings = parse("errorprone-maven.log");
+        
+        assertThat(warnings).hasSize(0);
     }
 
     /**
