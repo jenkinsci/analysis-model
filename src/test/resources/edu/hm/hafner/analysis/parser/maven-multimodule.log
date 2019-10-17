@@ -1,0 +1,34 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------< edu.hm.hafner:analysis-model >--------------------
+[INFO] Building Static Analysis Model and Parsers 2.0.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ analysis-model ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 125 source files to /Users/hafner/Development/git/analysis-model/target/test-classes
+[INFO]
+[INFO] --- maven-surefire-plugin:2.22.1:test (default-test) @ analysis-model ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] --- maven-checkstyle-plugin:3.0.0:checkstyle (run-checkstyle) @ analysis-model ---
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[INFO]
+[INFO] ------------------< edu.hm.hafner:some-other-plugin >-------------------
+[INFO] Building Some Other Plugin 2.0.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ analysis-model ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 125 source files to /Users/hafner/Development/git/analysis-model/target/test-classes
+[INFO]
+[INFO] --- maven-surefire-plugin:2.22.1:test (default-test) @ analysis-model ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] --- maven-checkstyle-plugin:3.0.0:checkstyle (run-checkstyle) @ analysis-model ---
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[INFO]
