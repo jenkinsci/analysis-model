@@ -6,13 +6,13 @@ import java.util.regex.Pattern;
 
 /**
  * Parses an input stream for compiler warnings or issues from a static analysis tool using the provided regular
- * expression. Normally, this base class should not directly be extended. Rather extend from the base classes {@link
- * RegexpDocumentParser} or {@link RegexpLineParser}.
+ * expression. Normally, this base class should not directly be extended. Rather extend from the base classes
+ * {@link RegexpLineParser} or {@link LookaheadParser}.
  *
  * @author Ullrich Hafner
- * @see RegexpDocumentParser
- * @see RegexpLineParser
+ * @deprecated use RegexpLineParser
  */
+@Deprecated
 public abstract class RegexpParser extends IssueParser {
     private static final long serialVersionUID = -82635675595933170L;
 
