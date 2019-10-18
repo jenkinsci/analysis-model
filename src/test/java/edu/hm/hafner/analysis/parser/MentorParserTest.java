@@ -22,22 +22,24 @@ class MentorParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(16);
-
-        softly.assertThat(report.get(0))
+        int issue = 0;
+        softly.assertThat(report.get(issue++))
                 .hasLineStart(312)
                 .hasMessage("Simulation ran too long.  Should finish in 200us.  Bad AXI handshaking?")
                 .hasFileName("/net/test_tb.sv")
                 .hasModuleName("channel_processor_tb_fir_emulation.u_channel_processor_tb")
                 .hasSeverity(Severity.ERROR);
 
-        softly.assertThat(report.get(1))
+        softly.assertThat(report.get(issue++))
                 .hasMessage("Data structure takes 20152432 bytes of memory")
                 .hasModuleName("/tb_fir_emulation/u_tb")
                 .hasDescription("<br>#          Process time 2.89 seconds<br>#          $stop    : /net/test_tb.sv(313)")
                 .hasSeverity(Severity.WARNING_LOW);
 
-        softly.assertThat(report.get(3))
+        softly.assertThat(report.get(issue++))
+                .hasCategory("vsim-3015");
+
+        softly.assertThat(report.get(issue++))
                 .hasLineStart(26)
                 .hasFileName("/data/tmp/jenkins/workspace/src/comm//ping_pong_control.sv")
                 .hasMessage("No condition is true in the unique/priority if/case statement.")
@@ -45,7 +47,10 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("/tb_g/uut/esa_ping_pong_control")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        softly.assertThat(report.get(5))
+        softly.assertThat(report.get(issue++))
+                .hasCategory("vsim-8234");
+
+        softly.assertThat(report.get(issue++))
                 .hasLineStart(0)
                 .hasFileName("-")
                 .hasMessage("Design is being optimized...")
@@ -53,7 +58,7 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_LOW);
 
-        softly.assertThat(report.get(6))
+        softly.assertThat(report.get(issue++))
                 .hasLineStart(71)
                 .hasFileName("src/io/ps.v")
                 .hasMessage("Undefined variable: fifo_full.")
@@ -61,7 +66,7 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        softly.assertThat(report.get(7))
+        softly.assertThat(report.get(issue++))
                 .hasLineStart(24)
                 .hasFileName("src/mux.sv")
                 .hasMessage("Variable 'sel' driven in a combinational block, may not be driven by any other process. See src/mux.sv(26).")
@@ -69,7 +74,7 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("-")
                 .hasSeverity(Severity.ERROR);
 
-        softly.assertThat(report.get(8))
+        softly.assertThat(report.get(issue++))
                 .hasLineStart(19)
                 .hasFileName("src/data.sv")
                 .hasMessage("Defaulting port 'ctl' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.")
@@ -77,7 +82,7 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        softly.assertThat(report.get(9))
+        softly.assertThat(report.get(issue++))
                 .hasLineStart(2)
                 .hasFileName("sim/src/ipcores/glbl.v")
                 .hasMessage("empty port name in port list.")
@@ -85,18 +90,29 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        softly.assertThat(report.get(10)).hasCategory("vlog-2275");
-        softly.assertThat(report.get(11)).hasCategory("vsim-8233");
-        softly.assertThat(report.get(12)).hasCategory("vsim-3533");
-        softly.assertThat(report.get(13)).hasCategory("vlog-2623");
-        softly.assertThat(report.get(15)).hasCategory("vopt-143");
+        softly.assertThat(report.get(issue++)).hasCategory("vlog-2275");
 
-        softly.assertThat(report.get(15))
+        softly.assertThat(report.get(issue++))
+                .hasLineStart(60)
+                .hasFileName("src/bus.sv")
+                .hasMessage("Variable 'using_mem' driven in an always_ff block, may not be driven by any other process. See src/bus.sv(420).")
+                .hasCategory("vopt-7061")
+                .hasModuleName("-")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        softly.assertThat(report.get(issue++)).hasCategory("vsim-8233");
+        softly.assertThat(report.get(issue++)).hasCategory("vsim-3533");
+        softly.assertThat(report.get(issue++)).hasCategory("vlog-2623");
+        softly.assertThat(report.get(issue++)).hasCategory("vopt-143");
+
+        softly.assertThat(report.get(issue++))
                 .hasLineStart(0)
                 .hasFileName("-")
                 .hasMessage("Recognized 1 FSM in module \"capture_ram(fast__1)\".")
                 .hasCategory("vopt-143")
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_LOW);
+
+        softly.assertThat(report).hasSize(issue);
     }
 }

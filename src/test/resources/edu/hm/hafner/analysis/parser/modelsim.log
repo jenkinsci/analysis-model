@@ -32,6 +32,8 @@
 
 # ** Warning: src/comm/table_tb.sv(7): (vlog-2275) 'table_tb' already exists and will be overwritten.
 
+# ** Warning (downgraded): src/bus.sv(60): (vopt-7061) Variable 'using_mem' driven in an always_ff block, may not be driven by any other process. See src/bus.sv(420).
+
 # ** Warning: (vsim-8233) /tmp/jenkins/workspace/tb_ps_pl.v(146): Index xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx into array dimension [0:999] is out of bounds.
 #    Time: 0 ps  Iteration: 1  Instance: /grizzly_elaboration_test/u_tb_grizzly_all/uut/ps/ps_comm
 # ** Warning: (vsim-3533) [FOFIW] - Failed to open file "C:/pl2ps_dma.txt" for writing.
@@ -39,3 +41,4 @@
 # Start time: 13:45:42 on Mar 11,2019
 # ** Note: (vopt-143) Recognized 1 FSM in module "capture_ram(fast)".
 # ** Note: (vopt-143) Recognized 1 FSM in module "capture_ram(fast__1)".
+

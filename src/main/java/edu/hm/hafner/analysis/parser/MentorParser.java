@@ -72,7 +72,7 @@ public class MentorParser extends LookaheadParser {
         if (message.contains("while parsing file")) {
             parseLongVlogMessage(lookahead, builder);
         }
-        else if (message.contains("vlog-")) {
+        else if (message.contains("vlog-") || message.contains("vopt-")) {
             parseVlogMessage(builder, message);
         }
         else {
