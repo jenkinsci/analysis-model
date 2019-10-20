@@ -42,3 +42,5 @@
 # ** Note: (vopt-143) Recognized 1 FSM in module "capture_ram(fast)".
 # ** Note: (vopt-143) Recognized 1 FSM in module "capture_ram(fast__1)".
 
+** Fatal: (SIGSEGV) Bad pointer access. Closing vsimk.
+** Fatal: vsimk is exiting with code 211.

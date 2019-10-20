@@ -113,6 +113,9 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_LOW);
 
+        softly.assertThat(report.get(issue++)).hasSeverity(Severity.ERROR);
+        softly.assertThat(report.get(issue++)).hasSeverity(Severity.ERROR);
+
         softly.assertThat(report).hasSize(issue);
     }
 }
