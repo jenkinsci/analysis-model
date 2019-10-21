@@ -31,7 +31,8 @@ public class MentorParser extends LookaheadParser {
             "\\((?<category>v\\w+-\\d+)\\)(?: (?<filename>\\S*)\\((?<line>\\d+)\\):)? (?<message>.*)");
 
     /**
-     * The first capture group matches the filename and line number.
+     * The first capture group matches the filename
+     * The second group matches the line number.
      */
     private static final Pattern VLOG_FILE_PATTERN = Pattern.compile(
             "(?<filename>\\S*)\\((?<line>\\d+)\\):");
