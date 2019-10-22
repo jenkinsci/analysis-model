@@ -12,7 +12,7 @@ import edu.hm.hafner.analysis.Severity;
  * Parser for ProtoLint.
  * 
  * @author David Hart
- * @see https://github.com/yoheimuta/protolint
+ * @see <a href="https://github.com/yoheimuta/protolint">https://github.com/yoheimuta/protolint</a>
  */
 public class ProtoLintParser extends RegexpLineParser {
 
