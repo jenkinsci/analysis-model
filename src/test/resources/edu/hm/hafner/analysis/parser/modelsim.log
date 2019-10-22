@@ -17,12 +17,30 @@
 # ** while parsing file included at src/grizzly_top.sv(9)
 # ** at src/io/ps.v(71): (vlog-2623) Undefined variable: fifo_full.
 
+# ** Error (suppressible): ** while parsing file included at src/tb_arbiter.sv(2)
+# ** while parsing file included at src/arbiter.sv(5)
+# ** at src/mux.sv(24): (vlog-7033) Variable 'sel' driven in a combinational block, may not be driven by any other process. See src/mux.sv(26).
+
+# ** Warning: ** while parsing file included at sim/src/tb_top.sv(13)
+# ** while parsing file included at src/top.sv(10)
+# ** while parsing file included at src/module.sv(15)
+# ** while parsing file included at src/submodule.sv(6)
+# ** while parsing file included at src/data_path.sv(8)
+# ** at src/data.sv(19): (vlog-13314) Defaulting port 'ctl' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+
+# ** Warning: sim/src/ipcores/glbl.v(2): (vlog-2605) empty port name in port list.
+
+# ** Warning: src/comm/table_tb.sv(7): (vlog-2275) 'table_tb' already exists and will be overwritten.
+
+# ** Warning (downgraded): src/bus.sv(60): (vopt-7061) Variable 'using_mem' driven in an always_ff block, may not be driven by any other process. See src/bus.sv(420).
+
 # ** Warning: (vsim-8233) /tmp/jenkins/workspace/tb_ps_pl.v(146): Index xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx into array dimension [0:999] is out of bounds.
 #    Time: 0 ps  Iteration: 1  Instance: /grizzly_elaboration_test/u_tb_grizzly_all/uut/ps/ps_comm
 # ** Warning: (vsim-3533) [FOFIW] - Failed to open file "C:/pl2ps_dma.txt" for writing.
 # ** Warning: src/io/ps_registers_io.v(71): (vlog-2623) Undefined variable: fifo_e.
 # Start time: 13:45:42 on Mar 11,2019
-# ** Note: (vsim-3812) Design is being optimized...
 # ** Note: (vopt-143) Recognized 1 FSM in module "capture_ram(fast)".
 # ** Note: (vopt-143) Recognized 1 FSM in module "capture_ram(fast__1)".
-###### prj/2017.2/grizzly.srcs/sim_1/axi_vfifo.v(69647):
+
+** Fatal: (SIGSEGV) Bad pointer access. Closing vsimk.
+** Fatal: vsimk is exiting with code 211.

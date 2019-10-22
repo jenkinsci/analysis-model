@@ -1,13 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Parser for Mentor Graphics Modelsim/Questa Simulator.
@@ -20,7 +20,7 @@ public class MentorParser extends LookaheadParser {
     /**
      * Matches the beginning of a Modelsim/Questa message "** [priority] : [The remainder of the message]".
      */
-    private static final String MSG_REGEX = "\\*\\*\\s+(?<priority>\\w+):\\s+(?<message>.*)";
+    private static final String MSG_REGEX = "\\*\\*\\s+(?<priority>[\\w \\(\\)]+):\\s+(?<message>.*)";
 
     /**
      * The first capture group captures the message type such as "vlog-###" or "vsim-###".
@@ -31,13 +31,19 @@ public class MentorParser extends LookaheadParser {
             "\\((?<category>v\\w+-\\d+)\\)(?: (?<filename>\\S*)\\((?<line>\\d+)\\):)? (?<message>.*)");
 
     /**
-     * The first capture group matches the filename and line number.
-     * The second capture group matches the warning type such as "vlog-###" or "vsim-###".
-     * The third group matches the rest of the message.
+     * The first capture group matches the filename
+     * The second group matches the line number.
      */
-    private static final Pattern VLOG_PATTERN = Pattern.compile(
-            "at (?<filename>\\S*)\\((?<line>\\d+)\\): \\((?<category>v\\w+-\\d+)\\) (?<message>.*)");
-    
+    private static final Pattern VLOG_FILE_PATTERN = Pattern.compile(
+            "(?<filename>\\S*)\\((?<line>\\d+)\\):");
+
+    /**
+     * The first capture group matches the warning type such as "vlog-###" or "vsim-###".
+     * The second group matches the rest of the message.
+     */
+    private static final Pattern VLOG_TYPE_PATTERN = Pattern.compile(
+            "\\((?<category>v\\w+-\\d+)\\) (?<message>.*)");
+
     /**
      * The first capture group matches the timestamp for the message on the previous line.
      * The iteration is ignored.
@@ -65,7 +71,10 @@ public class MentorParser extends LookaheadParser {
 
         String message = matcher.group("message");
         if (message.contains("while parsing file")) {
-            parseVlogMessage(lookahead, builder, message);
+            parseLongVlogMessage(lookahead, builder);
+        }
+        else if (message.contains("vlog-") || message.contains("vopt-")) {
+            parseVlogMessage(builder, message);
         }
         else {
             parseVsimMessage(lookahead, builder, message);
@@ -74,17 +83,26 @@ public class MentorParser extends LookaheadParser {
         return builder.buildOptional();
     }
 
-    private void parseVlogMessage(final LookaheadStream lookahead, final IssueBuilder builder, final String message) {
+    private void parseLongVlogMessage(final LookaheadStream lookahead, final IssueBuilder builder) {
         while (!lookahead.peekNext().startsWith("# ** at ")) {
             lookahead.next();
         }
+        parseVlogMessage(builder, lookahead.next().substring(8));
+    }
+
+    private void parseVlogMessage(final IssueBuilder builder, final String message) {
         String parsedMessage = message;
+        builder.setCategory("vlog");
         // If we can refine the message, the do.
         // Else just return what we got passed.
-        Matcher vlog = VLOG_PATTERN.matcher(lookahead.next().substring(5));
-        if (vlog.matches()) {
+        Matcher vlog;
+        vlog = VLOG_FILE_PATTERN.matcher(message);
+        if (vlog.find()) {
             builder.setFileName(vlog.group("filename"));
             builder.setLineStart(vlog.group("line"));
+        }
+        vlog = VLOG_TYPE_PATTERN.matcher(message);
+        if (vlog.find()) {
             builder.setCategory(vlog.group("category"));
             parsedMessage = vlog.group("message");
         }
@@ -111,7 +129,9 @@ public class MentorParser extends LookaheadParser {
     private String parseSimTime(final LookaheadStream lookahead, final IssueBuilder builder) {
         StringBuilder description = new StringBuilder();
         String timeLine = "";
-        while (lookahead.hasNext() && !lookahead.peekNext().contains("# **")) {
+        while (lookahead.hasNext()
+                && lookahead.peekNext().startsWith("# ")
+                && !lookahead.peekNext().startsWith("# **")) {
             timeLine = lookahead.next();
             if (timeLine.startsWith("#    Time:")) {
                 break;
@@ -132,12 +152,12 @@ public class MentorParser extends LookaheadParser {
         builder.setModuleName(null);
         builder.setFileName(null);
         builder.setLineStart(null);
-        builder.setCategory(null);
+        builder.setCategory("-");
     }
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.startsWith("# **");
+        return line.startsWith("# ** ") || line.startsWith("** ");
     }
 
 }
