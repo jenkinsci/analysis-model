@@ -8,6 +8,11 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
 
+/**
+ * Test class for {@link ProtoLintParser}.
+ * 
+ * @author David Hart
+ */
 class ProtoLintParserTest extends AbstractParserTest {
 
     public ProtoLintParserTest() {
