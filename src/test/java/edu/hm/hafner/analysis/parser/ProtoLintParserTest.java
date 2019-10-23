@@ -1,12 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.assertThat;
-
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
 
 /**
  * Test class for {@link ProtoLintParser}.
@@ -14,8 +14,7 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * @author David Hart
  */
 class ProtoLintParserTest extends AbstractParserTest {
-
-    public ProtoLintParserTest() {
+    ProtoLintParserTest() {
         super("protolint.txt");
     }
 
@@ -27,16 +26,14 @@ class ProtoLintParserTest extends AbstractParserTest {
             .hasSeverity(Severity.WARNING_NORMAL)
             .hasLineStart(25)
             .hasColumnStart(1)
-            .hasMessage(
-                    "The line length is 91, but it must be shorter than 80")
+            .hasMessage("The line length is 91, but it must be shorter than 80")
             .hasFileName("google/ads/googleads/v1/common/ad_asset.proto");
    
         softly.assertThat(report.get(1))
             .hasSeverity(Severity.WARNING_NORMAL)
             .hasLineStart(30)
             .hasColumnStart(1)
-            .hasMessage(
-                    "The line length is 91, but it must be shorter than 80")
+            .hasMessage("The line length is 91, but it must be shorter than 80")
             .hasFileName("google/ads/googleads/v1/common/ad_type_infos.proto");
 
         softly.assertThat(report.get(403))
@@ -51,5 +48,4 @@ class ProtoLintParserTest extends AbstractParserTest {
     public IssueParser createParser() {
         return new ProtoLintParser();
     }
-
 }
