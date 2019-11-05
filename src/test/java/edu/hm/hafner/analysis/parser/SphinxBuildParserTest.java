@@ -1,10 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
 import edu.hm.hafner.analysis.assertj.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertj.Assertions.*;
 
 /**
  * Tests the class {@link SphinxBuildParser}.
@@ -16,6 +19,19 @@ class SphinxBuildParserTest extends AbstractParserTest {
 
     private static final String SPHINX_BUILD_ERROR = "ERROR";
     private static final String SPHINX_BUILD_WARNING = "WARNING";
+
+    /**
+     * Parses a file that contains an optional text between path and line number.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-60033">Issue 60033</a>
+     */
+    @Test
+    void issue60033() {
+        Report warnings = parse("issue60033.txt");
+
+        assertThat(warnings).hasSize(12);
+        assertThat(warnings.getFiles()).containsExactly("C:/path/to/prj/foo/legacy.py");
+    }
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {

@@ -1,0 +1,12 @@
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.fooBase.foo_bar_baz:22: WARNING: py:mod reference target not found: bar.foo.postprocessing
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.fooBase.foo_bar_baz_boo:26: WARNING: py:mod reference target not found: bar.foo.postprocessing
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyFooBar.foo_bar_baz:22: WARNING: py:mod reference target not found: bar.foo.postprocessing
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyFooBar.foo_bar_baz_boo:26: WARNING: py:mod reference target not found: bar.foo.postprocessing
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyFooBar.foo_boo:4: WARNING: py:meth reference target not found: _recompute_if_necessary(output)
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyFooBar.foo_boo:: WARNING: py:class reference target not found: array
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyFooBar.get_foo:: WARNING: py:class reference target not found: array-like
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyFooBar.map_foo_to_bar:: WARNING: py:class reference target not found: array
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyFooBar.map_foo_to_bar:: WARNING: py:class reference target not found: 1d
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyFooBar.map_foo_to_bar:: WARNING: py:class reference target not found: 2d
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyOtherFoo.foo_bar_baz:22: WARNING: py:mod reference target not found: bar.foo.postprocessing
+C:\path\to\prj\foo\legacy.py:docstring of bar.foo.MyOtherFoo.foo_bar_baz_boo:26: WARNING: py:mod reference target not found: bar.foo.postprocessing
