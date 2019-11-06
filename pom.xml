@@ -49,6 +49,7 @@
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <java.version>1.8</java.version>
+    <codingstyle.version>0.2.4</codingstyle.version>
 
     <module.name>${project.groupId}.analysis.model</module.name>
 
@@ -104,7 +105,6 @@
     <!-- Maven Surefire ArgLine -->
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
 
-    <codingstyle.version>0.2.4</codingstyle.version>
   </properties>
 
   <dependencies>
