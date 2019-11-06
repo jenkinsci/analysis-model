@@ -17,7 +17,7 @@ class CheckStyleParserTest extends AbstractParserTest {
     private static final String PREFIX = "checkstyle/";
 
     CheckStyleParserTest() {
-        super(PREFIX + "codacy/checkstyle.xml");
+        super(PREFIX + "checkstyle.xml");
     }
 
     @Override
