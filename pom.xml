@@ -104,6 +104,7 @@
     <!-- Maven Surefire ArgLine -->
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
 
+    <codingstyle.version>0.2.4</codingstyle.version>
   </properties>
 
   <dependencies>
@@ -369,7 +370,7 @@
         <configuration>
           <failOnViolation>false</failOnViolation>
           <rulesets>
-            <ruleset>etc/pmd-configuration.xml</ruleset>
+            <ruleset>pmd-configuration.xml</ruleset>
           </rulesets>
           <targetJdk>${java.version}</targetJdk>
           <includeTests>true</includeTests>
@@ -390,6 +391,11 @@
             <artifactId>pmd-java</artifactId>
             <version>${pmd.version}</version>
           </dependency>
+          <dependency>
+            <groupId>edu.hm.hafner</groupId>
+            <artifactId>codingstyle</artifactId>
+            <version>${codingstyle.version}</version>
+          </dependency>
         </dependencies>
       </plugin>
       <plugin>
@@ -408,7 +414,7 @@
         <configuration>
           <excludes>**/MavenJavaTest.txt.java</excludes>
           <failOnViolation>false</failOnViolation>
-          <configLocation>etc/checkstyle-configuration.xml</configLocation>
+          <configLocation>checkstyle-configuration.xml</configLocation>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
         </configuration>
         <dependencies>
@@ -416,6 +422,11 @@
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
             <version>${checkstyle.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>edu.hm.hafner</groupId>
+            <artifactId>codingstyle</artifactId>
+            <version>${codingstyle.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -439,9 +450,16 @@
           <effort>Max</effort>
           <relaxed>false</relaxed>
           <fork>true</fork>
-          <excludeFilterFile>etc/spotbugs-exclusion-filter.xml</excludeFilterFile>
+          <excludeFilterFile>spotbugs-exclusion-filter.xml</excludeFilterFile>
           <includeTests>true</includeTests>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>edu.hm.hafner</groupId>
+            <artifactId>codingstyle</artifactId>
+            <version>${codingstyle.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.revapi</groupId>
@@ -549,11 +567,6 @@
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>${jacoco-maven-plugin.version}</version>
-          <configuration>
-            <excludes>
-              <exclude>**/FastRegexpLineParser.*</exclude>
-            </excludes>
-          </configuration>
           <executions>
             <execution>
               <goals>
@@ -629,6 +642,11 @@
     <repository>
       <id>repo.jenkins-ci.org</id>
       <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+    <repository>
+      <id>github</id>
+      <name>Apache Maven Packages of Ullrich Hafner's Codingstyle</name>
+      <url>https://maven.pkg.github.com/uhafner/codingstyle</url>
     </repository>
   </repositories>
 
