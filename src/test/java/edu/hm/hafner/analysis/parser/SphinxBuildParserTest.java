@@ -29,13 +29,13 @@ class SphinxBuildParserTest extends AbstractParserTest {
     void issue60033() {
         Report warnings = parse("issue60033.txt");
 
-        assertThat(warnings).hasSize(12);
+        assertThat(warnings).hasSize(7);
         assertThat(warnings.getFiles()).containsExactly("C:/path/to/prj/foo/legacy.py");
     }
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(6);
+        assertThat(report).hasSize(7);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_HIGH)
@@ -80,6 +80,13 @@ class SphinxBuildParserTest extends AbstractParserTest {
                 .hasLineEnd(21)
                 .hasMessage("Unknown target name: \"threadid\".")
                 .hasFileName("/src/be/doc/_sub/_classThread/04_Interface.rst");
+      softly.assertThat(report.get(6))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory(SPHINX_BUILD_WARNING)
+                .hasLineStart(26)
+                .hasLineEnd(26)
+                .hasMessage("py:mod reference target not found: bar.foo.postprocessing")
+                .hasFileName("legacy.py");
     }
 
     @Override
