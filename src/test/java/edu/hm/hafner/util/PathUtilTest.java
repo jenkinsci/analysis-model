@@ -74,6 +74,13 @@ class PathUtilTest extends ResourceTest {
     }
 
     @Test
+    void normalizeDriveLetter() {
+        PathUtil pathUtil = new PathUtil();
+
+        assertThat(pathUtil.getAbsolutePath("c:\\tmp")).isEqualTo("C:/tmp");
+    }
+
+    @Test
     void stayInSymbolicLinks() throws IOException {
         Path current = Paths.get(".");
         Path real = current.toRealPath();
