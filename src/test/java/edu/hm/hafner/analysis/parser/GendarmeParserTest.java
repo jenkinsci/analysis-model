@@ -38,7 +38,7 @@ class GendarmeParserTest extends AbstractParserTest {
                 .hasLineStart(10)
                 .hasLineEnd(10)
                 .hasMessage("This method does not use any instance fields, properties or methods and can be made static.")
-                .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
+                .hasFileName("C:/Dev/src/hudson/Hudson.Domain/Dog.cs")
                 .hasCategory("MethodCanBeMadeStaticRule")
                 .hasSeverity(Severity.WARNING_LOW);
 
@@ -47,7 +47,7 @@ class GendarmeParserTest extends AbstractParserTest {
                 .hasLineEnd(22)
                 .hasMessage(
                         "This method does not use any instance fields, properties or methods and can be made static.")
-                .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
+                .hasFileName("C:/Dev/src/hudson/Hudson.Domain/Dog.cs")
                 .hasCategory("MethodCanBeMadeStaticRule")
                 .hasSeverity(Severity.WARNING_LOW);
     }

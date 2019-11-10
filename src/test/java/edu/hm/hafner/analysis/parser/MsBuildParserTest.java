@@ -144,7 +144,7 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasFileName("c:/solutiondir/projectdir/src/main.cpp")
+                    .hasFileName("C:/solutiondir/projectdir/src/main.cpp")
                     .hasCategory("C4996")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(
@@ -157,7 +157,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnEnd(0);
 
             softly.assertThat(warnings.get(1))
-                    .hasFileName("c:/solutiondir/projectdir/src/main.cpp")
+                    .hasFileName("C:/solutiondir/projectdir/src/main.cpp")
                     .hasCategory("C4996")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(
@@ -306,7 +306,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnEnd(0);
 
             softly.assertThat(warnings.get(1))
-                    .hasFileName("i:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
+                    .hasFileName("I:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -319,7 +319,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnEnd(0);
 
             softly.assertThat(warnings.get(2))
-                    .hasFileName("i:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
+                    .hasFileName("I:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -567,7 +567,7 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertSoftly(softly -> softly.assertThat(warnings.get(0))
                 .hasFileName(
-                        "c:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp")
+                        "C:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp")
                 .hasCategory("C4706")
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasMessage("assignment within conditional expression")
@@ -635,7 +635,7 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertSoftly(softly -> {
             softly.assertThat(warnings.get(0))
-                    .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
+                    .hasFileName("C:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
                     .hasCategory("SPT6")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(
@@ -648,7 +648,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnEnd(0);
 
             softly.assertThat(warnings.get(1))
-                    .hasFileName("c:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
+                    .hasFileName("C:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
                     .hasCategory("SPT6")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(
@@ -662,7 +662,7 @@ class MsBuildParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(2))
                     .hasFileName(
-                            "c:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
+                            "C:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
                     .hasCategory("SPT6")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(
@@ -676,7 +676,7 @@ class MsBuildParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(3))
                     .hasFileName(
-                            "c:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
+                            "C:/playpens/Catalyst/Platform/src/Ptc.Platform.ShowcaseSiteTemplate/Package/Package.package")
                     .hasCategory("SPT6")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(

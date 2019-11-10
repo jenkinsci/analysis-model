@@ -13,8 +13,8 @@ import edu.hm.hafner.analysis.assertj.SoftAssertions;
  * Tests the extraction of Simian's analysis results.
  */
 class SimianParserTest extends AbstractParserTest {
-    private static final String MATRIX_RUN = "c:/java/hudson/matrix/MatrixRun.java";
-    private static final String MAVEN_BUILD = "c:/java/hudson/maven/MavenBuild.java";
+    private static final String MATRIX_RUN = "C:/java/hudson/matrix/MatrixRun.java";
+    private static final String MAVEN_BUILD = "C:/java/hudson/maven/MavenBuild.java";
 
     SimianParserTest() {
         super("onefile.xml");
@@ -101,7 +101,7 @@ class SimianParserTest extends AbstractParserTest {
     }
 
     private String getFileName(final int number) {
-        return String.format("c:/java/foo%d.java", number);
+        return String.format("C:/java/foo%d.java", number);
     }
 
     @Test
