@@ -19,6 +19,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 public class PathUtil {
     private static final String BACK_SLASH = "\\";
     private static final String SLASH = "/";
+    private static final String DRIVE_LETTER_PREFIX = "^[a-z]:/.*"; 
 
     /**
      * Returns the string representation of the specified path. The path will be actually resolved in the file system
@@ -38,7 +39,8 @@ public class PathUtil {
     /**
      * Returns the string representation of the specified path. The path will be actually resolved in the file system
      * and will be returned as fully qualified absolute path. In case of an error, i.e. if the file is not found, the
-     * provided {@code path} will be returned unchanged (but normalized using the UNIX path separator).
+     * provided {@code path} will be returned unchanged (but normalized using the UNIX path separator and upper case
+     * drive letter).
      *
      * @param path
      *         the path to get the absolute path for
@@ -57,7 +59,8 @@ public class PathUtil {
     /**
      * Returns the string representation of the specified path. The path will be actually resolved in the file system
      * and will be returned as fully qualified absolute path. In case of an error, i.e. if the file is not found, the
-     * provided {@code path} will be returned unchanged (but normalized using the UNIX path separator).
+     * provided {@code path} will be returned unchanged (but normalized using the UNIX path separator and upper case
+     * drive letter).
      *
      * @param path
      *         the path to get the absolute path for
@@ -74,7 +77,11 @@ public class PathUtil {
     }
 
     private String makeUnixPath(final String fileName) {
-        return fileName.replace(BACK_SLASH, SLASH);
+        String unixStyle = fileName.replace(BACK_SLASH, SLASH);
+        if (unixStyle.matches(DRIVE_LETTER_PREFIX)) {
+            unixStyle = StringUtils.capitalize(unixStyle);
+        }
+        return unixStyle;
     }
 
     /**

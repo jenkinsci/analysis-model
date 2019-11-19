@@ -6,7 +6,7 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>7.0.2-SNAPSHOT</version>
+  <version>7.0.3-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 

@@ -56,7 +56,7 @@ class IarParserTest extends AbstractParserTest {
                 .hasLineStart(17)
                 .hasLineEnd(17)
                 .hasMessage("cannot open source file \"System/ProcDef_LPC17xx.h\"")
-                .hasFileName("c:/JenkinsJobs/900ZH/Workspace/Product.900ZH/Src/System/AdditionalResources.h");
+                .hasFileName("C:/JenkinsJobs/900ZH/Workspace/Product.900ZH/Src/System/AdditionalResources.h");
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Pe177")
@@ -77,7 +77,7 @@ class IarParserTest extends AbstractParserTest {
                 .hasLineStart(861)
                 .hasLineEnd(861)
                 .hasMessage("function \"FlashErase\" was declared but never referenced")
-                .hasFileName("d:/jenkins/workspace/Nightly/src/flash/flashdrv.c");
+                .hasFileName("D:/jenkins/workspace/Nightly/src/flash/flashdrv.c");
     }
 
     /**
@@ -125,7 +125,7 @@ class IarParserTest extends AbstractParserTest {
                     .hasLineStart(432)
                     .hasLineEnd(432)
                     .hasMessage("expression must be a pointer to a complete object type")
-                    .hasFileName("c:/external/specific/cpp/iar_cxxabi.cpp");
+                    .hasFileName("C:/external/specific/cpp/iar_cxxabi.cpp");
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Pe549")

@@ -56,7 +56,7 @@ class CppLintParserTest extends AbstractParserTest {
                 .hasLineStart(824)
                 .hasLineEnd(824)
                 .hasMessage("Tab found; better to use spaces")
-                .hasFileName("c:/Workspace/Trunk/Project/P1/class.cpp")
+                .hasFileName("C:/Workspace/Trunk/Project/P1/class.cpp")
                 .hasCategory("whitespace/tab")
                 .hasSeverity(Severity.WARNING_LOW);
     }
