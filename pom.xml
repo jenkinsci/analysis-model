@@ -49,7 +49,7 @@
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <codingstyle.version>0.2.5</codingstyle.version>
+    <codingstyle.version>0.2.7</codingstyle.version>
 
     <module.name>${project.groupId}.analysis.model</module.name>
 
@@ -391,6 +391,11 @@
             <artifactId>pmd-java</artifactId>
             <version>${pmd.version}</version>
           </dependency>
+          <dependency>
+            <groupId>edu.hm.hafner</groupId>
+            <artifactId>codingstyle</artifactId>
+            <version>${codingstyle.version}</version>
+          </dependency>
         </dependencies>
       </plugin>
       <plugin>
@@ -418,6 +423,11 @@
             <artifactId>checkstyle</artifactId>
             <version>${checkstyle.version}</version>
           </dependency>
+          <dependency>
+            <groupId>edu.hm.hafner</groupId>
+            <artifactId>codingstyle</artifactId>
+            <version>${codingstyle.version}</version>
+          </dependency>
         </dependencies>
       </plugin>
       <plugin>
@@ -443,6 +453,13 @@
           <excludeFilterFile>spotbugs-exclusion-filter.xml</excludeFilterFile>
           <includeTests>true</includeTests>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>edu.hm.hafner</groupId>
+            <artifactId>codingstyle</artifactId>
+            <version>${codingstyle.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.revapi</groupId>
