@@ -640,9 +640,8 @@
 
   <repositories>
     <repository>
-      <id>github-codingstyle</id>
-      <name>Apache Maven Packages of Ullrich Hafner's Codingstyle</name>
-      <url>https://maven.pkg.github.com/uhafner/codingstyle</url>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
     </repository>
   </repositories>
 
