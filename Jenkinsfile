@@ -177,7 +177,6 @@
     if (publishingIncrementals) {
         infra.maybePublishIncrementals()
     }
-}
 
 boolean hasDockerLabel() {
     env.NODE_LABELS?.contains("docker")
