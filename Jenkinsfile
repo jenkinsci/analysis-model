@@ -151,7 +151,7 @@
                                 } else {
                                     String artifacts
                                     if (isMaven) {
-                                        artifacts = '**/target/*.hpi,**/target/*.jpi'
+                                        artifacts = '**/target/*.hpi,**/target/*.jpi,**/target/*.jar'
                                     } else {
                                         artifacts = '**/build/libs/*.hpi,**/build/libs/*.jpi'
                                     }
