@@ -1,4 +1,6 @@
-    Map params = [:]
+
+    Map params = [spotbugs: [archive: true], checkstyle: [archive: true]]
+
     // Faster build and reduces IO needs
     properties([
         durabilityHint('PERFORMANCE_OPTIMIZED'),
@@ -26,9 +28,7 @@
 
         String stageIdentifier = "${label}-${jdk}${jenkinsVersion ? '-' + jenkinsVersion : ''}"
         boolean first = tasks.size() == 1
-        boolean runFindbugs = first && params?.findbugs?.run
-        boolean runCheckstyle = first && params?.checkstyle?.run
-        boolean archiveFindbugs = first && params?.findbugs?.archive
+        boolean archiveSpotbugs = first && params?.spotbugs?.archive
         boolean archiveCheckstyle = first && params?.checkstyle?.archive
         boolean skipTests = params?.tests?.skip
         boolean reallyUseAci = (useAci && label == 'linux') || forceAci
@@ -86,22 +86,10 @@
                                 if (javaLevel) {
                                     mavenOptions += "-Djava.level=${javaLevel}"
                                 }
-                                if (params?.findbugs?.run || params?.findbugs?.archive) {
-                                    mavenOptions += "-Dfindbugs.failOnError=false"
-                                }
                                 if (skipTests) {
                                     mavenOptions += "-DskipTests"
                                 }
-                                if (params?.checkstyle?.run || params?.checkstyle?.archive) {
-                                    mavenOptions += "-Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false"
-                                }
                                 mavenOptions += "clean install"
-                                if (runFindbugs) {
-                                    mavenOptions += "findbugs:findbugs"
-                                }
-                                if (runCheckstyle) {
-                                    mavenOptions += "checkstyle:checkstyle"
-                                }
                                 infra.runMaven(mavenOptions, jdk, null, null, addToolEnv)
                             } else {
                                 echo "WARNING: Gradle mode for buildPlugin() is deprecated, please use buildPluginWithGradle()"
@@ -129,8 +117,8 @@
                                 junit testReports
                                 // TODO do this in a finally-block so we capture all test results even if one branch aborts early
                             }
-                            if (isMaven && archiveFindbugs) {
-                                recordIssues tool: findBugs(), sourceCodeEncoding: 'UTF-8'
+                            if (isMaven && archiveSpotbugs) {
+                                recordIssues tool: spotBugs(), sourceCodeEncoding: 'UTF-8'
                             }
                             if (isMaven && archiveCheckstyle) {
                                 recordIssues tool: checkStyle(), sourceCodeEncoding: 'UTF-8'
