@@ -1,5 +1,5 @@
 
-    Map params = [spotbugs: [archive: true], checkstyle: [archive: true]]
+    Map params = [:]
 
     // Faster build and reduces IO needs
     properties([
@@ -28,8 +28,6 @@
 
         String stageIdentifier = "${label}-${jdk}${jenkinsVersion ? '-' + jenkinsVersion : ''}"
         boolean first = tasks.size() == 1
-        boolean archiveSpotbugs = first && params?.spotbugs?.archive
-        boolean archiveCheckstyle = first && params?.checkstyle?.archive
         boolean skipTests = params?.tests?.skip
         boolean reallyUseAci = (useAci && label == 'linux') || forceAci
         boolean addToolEnv = !reallyUseAci
@@ -120,15 +118,19 @@
                             if (failFast && currentBuild.result == 'UNSTABLE') {
                                 error 'There were test failures; halting early'
                             }
-                            if (isMaven && archiveSpotbugs) {
-                                recordIssues tool: spotBugs(), sourceCodeEncoding: 'UTF-8'
-                            }
-                            if (isMaven && archiveCheckstyle) {
-                                recordIssues tool: checkStyle(), sourceCodeEncoding: 'UTF-8'
-                            }
+
+                            recordIssues enabledForFailure: true, tool: mavenConsole()
+                            recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8'
+                            recordIssues tools: [spotBugs(), checkStyle(), pmd()], sourceCodeEncoding: 'UTF-8'
+                            recordIssues enabledForFailure: true, tool: taskScanner(
+                                    includePattern:'**/*.java',
+                                    excludePattern:'target/**',
+                                    highTags:'FIXME',
+                                    normalTags:'TODO'), sourceCodeEncoding: 'UTF-8'
                             if (failFast && currentBuild.result == 'UNSTABLE') {
                                 error 'There were static analysis warnings; halting early'
                             }
+
                             if (doArchiveArtifacts) {
                                 if (incrementals) {
                                     String changelist = readFile(changelistF)
