@@ -117,6 +117,9 @@
                                 junit testReports
                                 // TODO do this in a finally-block so we capture all test results even if one branch aborts early
                             }
+                            if (failFast && currentBuild.result == 'UNSTABLE') {
+                                error 'There were test failures; halting early'
+                            }
                             if (isMaven && archiveSpotbugs) {
                                 recordIssues tool: spotBugs(), sourceCodeEncoding: 'UTF-8'
                             }
@@ -124,7 +127,7 @@
                                 recordIssues tool: checkStyle(), sourceCodeEncoding: 'UTF-8'
                             }
                             if (failFast && currentBuild.result == 'UNSTABLE') {
-                                error 'There were test failures; halting early'
+                                error 'There were static analysis warnings; halting early'
                             }
                             if (doArchiveArtifacts) {
                                 if (incrementals) {
