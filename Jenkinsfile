@@ -121,7 +121,7 @@
 
                             recordIssues enabledForFailure: true, tool: mavenConsole()
                             recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8'
-                            recordIssues tools: [spotBugs(), checkStyle(), pmd()], sourceCodeEncoding: 'UTF-8'
+                            recordIssues tools: [spotBugs(), checkStyle(), pmdParser()], sourceCodeEncoding: 'UTF-8'
                             recordIssues enabledForFailure: true, tool: taskScanner(
                                     includePattern:'**/*.java',
                                     excludePattern:'target/**',
