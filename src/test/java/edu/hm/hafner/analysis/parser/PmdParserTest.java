@@ -135,7 +135,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithSeveralWarnings() {
-        Report report = parseInPmdFolder("pmd.xml");
+        Report report = parseInPmdFolder("pmd-warnings.xml");
 
         assertThat(report).hasSize(669);
     }

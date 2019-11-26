@@ -69,7 +69,7 @@ class FindBugsParserTest {
      */
     @Test
     void issue46975() {
-        Report report = parseFile("spotbugsXml.xml", CONFIDENCE);
+        Report report = parseFile("spotbugs-warnings.xml", CONFIDENCE);
         assertThat(report).hasSize(2);
 
         assertSoftly(softly -> {
