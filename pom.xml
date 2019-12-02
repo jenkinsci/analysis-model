@@ -49,7 +49,7 @@
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <codingstyle.version>0.2.7</codingstyle.version>
+    <codingstyle.version>0.3.0</codingstyle.version>
 
     <module.name>${project.groupId}.analysis.model</module.name>
 
