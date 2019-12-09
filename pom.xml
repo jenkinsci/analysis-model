@@ -6,7 +6,7 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>7.0.3-SNAPSHOT</version>
+  <version>8.0.0-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
@@ -49,7 +49,7 @@
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <codingstyle.version>0.2.7</codingstyle.version>
+    <codingstyle.version>0.3.0</codingstyle.version>
 
     <module.name>${project.groupId}.analysis.model</module.name>
 
@@ -108,6 +108,12 @@
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>edu.hm.hafner</groupId>
+      <artifactId>codingstyle</artifactId>
+      <version>${codingstyle.version}</version>
+    </dependency>
 
     <!-- Project Dependencies -->
     <dependency>
@@ -187,6 +193,13 @@
     </dependency>
 
     <!-- Test Dependencies -->
+    <dependency>
+      <groupId>edu.hm.hafner</groupId>
+      <artifactId>codingstyle</artifactId>
+      <version>${codingstyle.version}</version>
+      <scope>test</scope>
+      <type>test-jar</type>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
