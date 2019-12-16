@@ -494,6 +494,7 @@
           </dependency>
         </dependencies>
         <configuration>
+          <oldVersion>7.0.2</oldVersion>
           <analysisConfiguration>
             <revapi.semver.ignore>
               <enabled>true</enabled>
@@ -642,19 +643,16 @@
   </build>
 
   <profiles>
-   <profile>
-      <id>skip-javadoc-and-analysis-with-tests</id>
-      <activation>
-        <property>
-          <name>skipTests</name>
-          <value>true</value>
-        </property>
-      </activation>
+    <profile>
+      <id>skip</id>
       <properties>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <pmd.skip>true</pmd.skip>
         <spotbugs.skip>true</spotbugs.skip>
         <checkstyle.skip>true</checkstyle.skip>
+        <skipTests>true</skipTests>
+        <skipITs>true</skipITs>
+        <revapi.skip>true</revapi.skip>
       </properties>
     </profile>
   </profiles>
