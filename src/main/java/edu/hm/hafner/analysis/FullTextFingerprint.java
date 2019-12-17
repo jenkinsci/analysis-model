@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.errorprone.annotations.MustBeClosed;
 
 import edu.hm.hafner.util.VisibleForTesting;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Creates a fingerprint of the specified issue using the source code at the affected line. The fingerprint is computed
@@ -29,9 +30,9 @@ public class FullTextFingerprint {
     private static final int LINE_RANGE_BUFFER_SIZE = 1000;
     private static final char[] HEX_CHARACTERS = "0123456789ABCDEF".toCharArray();
 
+    @SuppressWarnings("PMD.AvoidMessageDigestField")
     private final MessageDigest digest;
     private final FileSystem fileSystem;
-
 
     /**
      * Creates a new instance of {@link FullTextFingerprint}.
@@ -41,6 +42,7 @@ public class FullTextFingerprint {
     }
 
     @VisibleForTesting
+    @SuppressFBWarnings(value = "WEAK_MESSAGE_DIGEST_MD5", justification = "The fingerprint is just used to track new warnings")
     FullTextFingerprint(final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         try {
