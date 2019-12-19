@@ -495,6 +495,7 @@
         </dependencies>
         <configuration>
           <oldVersion>7.0.2</oldVersion>
+          <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
           <analysisConfiguration>
             <revapi.semver.ignore>
               <enabled>true</enabled>
