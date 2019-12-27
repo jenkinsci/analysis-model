@@ -1,0 +1,7 @@
+node_modules
+target
+*.iml
+.classpath
+pom.xml.versionsBackup
+.DS_Store
+/src/

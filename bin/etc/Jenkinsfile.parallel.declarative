@@ -1,0 +1,32 @@
+pipeline {
+    agent 'any'
+    tools {
+        maven 'mvn-default'
+        jdk 'jdk-default'
+    }
+    stages {
+        stage ('Build') {
+            parallel {
+                stage('node1') {
+                    agent { label "node1" }
+                    steps {
+                        sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore'
+                    }
+                }
+                stage('node2') {
+                    agent { label "node2" }
+                    steps {
+                        sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore'
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            recordIssues tools: [[tool: java()], 
+                [tool: javaDoc()], 
+                [tool: taskScanner(includePattern:'**/*.java', highTags:'FIXME', normalTags:'TODO')]]
+        }
+    }
+}

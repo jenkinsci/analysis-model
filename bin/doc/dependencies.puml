@@ -1,0 +1,59 @@
+@startuml
+skinparam defaultTextAlignment center
+skinparam component {
+  BackgroundColor<<optional>> beige
+  BackgroundColor<<test>> lightGreen
+  BackgroundColor<<runtime>> lightBlue
+  BackgroundColor<<provided>> lightGray
+}
+component "com.github.spotbugs" as com_github_spotbugs_compile
+component "com.google.code.findbugs" as com_google_code_findbugs_compile
+component "analysis-model" as edu_hm_hafner_compile
+component "com.google.errorprone" as com_google_errorprone_compile
+component "org.apache.commons" as org_apache_commons_compile
+component "commons-io" as commons_io_compile
+component "cglib" as cglib_compile
+component "asm" as asm_compile
+component "commons-beanutils" as commons_beanutils_compile
+component "commons-logging" as commons_logging_compile
+component "org.eclipse.collections" as org_eclipse_collections_compile
+component "se.bjurr.violations" as se_bjurr_violations_compile
+component "org.jvnet.hudson.plugins.findbugs" as org_jvnet_hudson_plugins_findbugs_compile
+component "jaxen" as jaxen_compile
+component "org.json" as org_json_compile
+component "org.junit.jupiter" as org_junit_jupiter_test<<test>>
+component "org.apiguardian" as org_apiguardian_test<<test>>
+component "org.opentest4j" as org_opentest4j_test<<test>>
+component "org.junit.platform" as org_junit_platform_test<<test>>
+component "org.mockito" as org_mockito_test<<test>>
+component "net.bytebuddy" as net_bytebuddy_test<<test>>
+component "org.objenesis" as org_objenesis_test<<test>>
+component "org.assertj" as org_assertj_test<<test>>
+component "com.tngtech.archunit" as com_tngtech_archunit_test<<test>>
+component "org.slf4j" as org_slf4j_test<<test>>
+com_github_spotbugs_compile -[#000000].> com_google_code_findbugs_compile
+edu_hm_hafner_compile -[#000000].> com_github_spotbugs_compile
+edu_hm_hafner_compile -[#000000].> com_google_errorprone_compile
+edu_hm_hafner_compile -[#000000].> org_apache_commons_compile
+edu_hm_hafner_compile -[#000000].> commons_io_compile
+cglib_compile -[#000000].> asm_compile
+org_apache_commons_compile -[#000000].> cglib_compile
+org_apache_commons_compile -[#000000].> commons_beanutils_compile
+org_apache_commons_compile -[#000000].> commons_logging_compile
+edu_hm_hafner_compile -[#000000].> org_eclipse_collections_compile
+edu_hm_hafner_compile -[#000000].> se_bjurr_violations_compile
+edu_hm_hafner_compile -[#000000].> org_jvnet_hudson_plugins_findbugs_compile
+edu_hm_hafner_compile -[#000000].> jaxen_compile
+edu_hm_hafner_compile -[#000000].> org_json_compile
+org_junit_jupiter_test -[#000000].> org_apiguardian_test
+org_junit_jupiter_test -[#000000].> org_opentest4j_test
+org_junit_jupiter_test -[#000000].> org_junit_platform_test
+edu_hm_hafner_compile -[#000000].> org_junit_jupiter_test
+edu_hm_hafner_compile -[#000000].> org_junit_platform_test
+org_mockito_test -[#000000].> net_bytebuddy_test
+org_mockito_test -[#000000].> org_objenesis_test
+edu_hm_hafner_compile -[#000000].> org_mockito_test
+edu_hm_hafner_compile -[#000000].> org_assertj_test
+com_tngtech_archunit_test -[#000000].> org_slf4j_test
+edu_hm_hafner_compile -[#000000].> com_tngtech_archunit_test
+@enduml

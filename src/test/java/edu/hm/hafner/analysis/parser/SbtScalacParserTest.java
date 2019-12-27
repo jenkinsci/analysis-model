@@ -48,6 +48,7 @@ class SbtScalacParserTest extends AbstractParserTest {
                 .hasLineEnd(5)
                 .hasMessage("Invalid literal number")
                 .hasFileName("/home/user/.jenkins/jobs/job/workspace/Main.scala");
+
     }
 
     @Override
