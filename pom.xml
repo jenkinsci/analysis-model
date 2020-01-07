@@ -112,12 +112,6 @@
 
   <dependencies>
 
-    <dependency>
-      <groupId>edu.hm.hafner</groupId>
-      <artifactId>codingstyle</artifactId>
-      <version>${codingstyle.version}</version>
-    </dependency>
-
     <!-- Project Dependencies -->
     <dependency>
       <groupId>org.slf4j</groupId>
