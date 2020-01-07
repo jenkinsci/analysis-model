@@ -46,7 +46,7 @@
   <url>http://www.cs.hm.edu/die_fakultaet/ansprechpartner/professoren/hafner/index.de.html</url>
 
   <properties>
-    <revision>8.0.0</revision>
+    <revision>7.0.3</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
