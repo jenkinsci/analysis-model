@@ -357,7 +357,7 @@
               <includes>
                 <include>**/assertj/*</include>
                 <include>**/util/*Test.*</include>
-                <include>**/Abstract*Test.*</include>
+                <include>**/Abstract*Test*</include>
               </includes>
             </configuration>
           </execution>
