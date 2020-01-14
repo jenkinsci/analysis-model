@@ -67,7 +67,7 @@ We consider all contributions as MIT unless it's explicitly stated otherwise.
 MIT-incompatible code contributions will be rejected.
 Contributions under MIT-compatible licenses may be also rejected if they are not ultimately necessary.
 
-We **Do NOT** require pull request submitters to sign the 
+We do not require pull request submitters to sign the 
 [contributor agreement](https://wiki.jenkins.io/display/JENKINS/Copyright+on+source+code)
 as long as the code is licensed under MIT and merged by one of the contributors with the signed agreement.
 

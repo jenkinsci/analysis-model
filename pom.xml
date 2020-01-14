@@ -6,7 +6,7 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>7.0.6-SNAPSHOT</version>
+  <version>${revision}${changelist}</version>
 
   <packaging>jar</packaging>
 
@@ -46,17 +46,17 @@
   <url>http://www.cs.hm.edu/die_fakultaet/ansprechpartner/professoren/hafner/index.de.html</url>
 
   <properties>
-    <revision>7.0.3</revision>
+    <revision>8.0.0-beta3</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <codingstyle.version>0.3.0</codingstyle.version>
 
     <module.name>${project.groupId}.analysis.model</module.name>
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
+    <codingstyle.version>0.3.2</codingstyle.version>
     <spotbugs.annotations>3.1.12</spotbugs.annotations>
     <commons.lang.version>3.9</commons.lang.version>
     <commons.io.version>2.6</commons.io.version>
@@ -91,8 +91,9 @@
     <maven-pmd-plugin.version>3.12.0</maven-pmd-plugin.version>
     <pmd.version>6.20.0</pmd.version>
     <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
-    <checkstyle.version>8.26</checkstyle.version>
+    <checkstyle.version>8.27</checkstyle.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
+    <findsecbugs-plugin.version>1.10.1</findsecbugs-plugin.version>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <maven-taglist-plugin.version>2.4</maven-taglist-plugin.version>
     <maven-pitest-plugin.version>1.4.10</maven-pitest-plugin.version>
@@ -111,6 +112,12 @@
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>edu.hm.hafner</groupId>
+      <artifactId>codingstyle</artifactId>
+      <version>${codingstyle.version}</version>
+    </dependency>
 
     <!-- Project Dependencies -->
     <dependency>
@@ -462,6 +469,13 @@
           <fork>true</fork>
           <excludeFilterFile>spotbugs-exclusion-filter.xml</excludeFilterFile>
           <includeTests>true</includeTests>
+          <plugins>
+            <plugin>
+              <groupId>com.h3xstream.findsecbugs</groupId>
+              <artifactId>findsecbugs-plugin</artifactId>
+              <version>${findsecbugs-plugin.version}</version>
+            </plugin>
+          </plugins>
         </configuration>
         <dependencies>
           <dependency>
@@ -646,6 +660,9 @@
         <pmd.skip>true</pmd.skip>
         <spotbugs.skip>true</spotbugs.skip>
         <checkstyle.skip>true</checkstyle.skip>
+        <skipTests>true</skipTests>
+        <skipITs>true</skipITs>
+        <revapi.skip>true</revapi.skip>
       </properties>
     </profile>
     <profile>

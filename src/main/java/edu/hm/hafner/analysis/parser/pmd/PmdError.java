@@ -8,7 +8,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings("InstanceVariableMayNotBeInitialized")
+@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "PMD.DataClass"})
 public class PmdError {
     @Nullable
     private String filename;
