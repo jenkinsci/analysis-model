@@ -97,7 +97,7 @@
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <maven-taglist-plugin.version>2.4</maven-taglist-plugin.version>
     <maven-pitest-plugin.version>1.4.11</maven-pitest-plugin.version>
-    <pitest-junit5-plugin.version>0.10</pitest-junit5-plugin.version>
+    <pitest-junit5-plugin.version>0.11</pitest-junit5-plugin.version>
     <maven-error-prone-plugin.version>2.8.5</maven-error-prone-plugin.version>
     <error-prone.version>2.3.3</error-prone.version>
     <nullaway.version>0.3.0</nullaway.version>
