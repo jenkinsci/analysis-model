@@ -9,7 +9,4 @@ public class JUnitAdapter extends AbstractViolationAdapter {
     protected JUnitParser createParser() {
         return new JUnitParser();
     }
-
-
-
 }
