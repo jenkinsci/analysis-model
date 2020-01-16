@@ -47,7 +47,7 @@ class JcReportParserTest extends AbstractParserTest {
         ReaderFactory factory = createReaderFactory("jcreport/testReportProps.xml");
         edu.hm.hafner.analysis.parser.jcreport.Report testReportProps = new JcReportParser().createReport(factory);
 
-        assertThat(testReportProps.getFiles().size()).isEqualTo(1);
+        assertThat(testReportProps.getFiles()).hasSize(1);
 
         File file = testReportProps.getFiles().get(0);
         assertThat(file.getClassname()).isEqualTo("SomeClass");
