@@ -113,7 +113,7 @@ public abstract class ReaderFactory {
                 closeable.close();
             }
             catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new ParsingException(e);
             }
         };
     }

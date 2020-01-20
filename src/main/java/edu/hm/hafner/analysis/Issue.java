@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
@@ -448,14 +449,10 @@ public class Issue implements Serializable {
      */
     public String getBaseName() {
         try {
-            Path baseName = Paths.get(getFileName()).getFileName();
-            if (baseName == null) {
-                return getFileName(); // fallback
-            }
-            return baseName.toString();
+            return FilenameUtils.getName(getFileName());
         }
-        catch (InvalidPathException e) {
-            return getFileName();
+        catch (IllegalArgumentException exception) {
+            return getFileName(); // fallback
         }
     }
 

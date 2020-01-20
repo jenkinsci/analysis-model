@@ -25,6 +25,7 @@ import edu.hm.hafner.util.XmlElementUtil;
  * @author Jason Faust
  */
 public class EclipseXMLParser extends IssueParser {
+    static final String PREVIEW_RELATED = "Preview Related";
     static final String COMPLIANCE = "Compliance";
     static final String MODULE = "Module";
     static final String RESTRICTION = "Restriction";
@@ -89,7 +90,7 @@ public class EclipseXMLParser extends IssueParser {
     }
 
     /**
-     * These categories were taken from the ECJ source code. From March 25th, 2019, Ver. 3.18.
+     * These categories were taken from the ECJ source code. From January 15th, 2020, Ver. 3.20.
      * 
      * @param categoryId
      *     eclipse generated category id.
@@ -135,6 +136,8 @@ public class EclipseXMLParser extends IssueParser {
                 return MODULE;
             case "170":
                 return COMPLIANCE;
+            case "180":
+                return PREVIEW_RELATED;
             default:
                 return Categories.OTHER;
         }

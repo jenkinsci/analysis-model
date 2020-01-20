@@ -80,7 +80,7 @@ class SphinxBuildParserTest extends AbstractParserTest {
                 .hasLineEnd(21)
                 .hasMessage("Unknown target name: \"threadid\".")
                 .hasFileName("/src/be/doc/_sub/_classThread/04_Interface.rst");
-      softly.assertThat(report.get(6))
+        softly.assertThat(report.get(6))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(SPHINX_BUILD_WARNING)
                 .hasLineStart(26)
