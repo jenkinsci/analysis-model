@@ -42,7 +42,9 @@ class JUnitAdapterTest extends AbstractParserTest {
         return new JUnitAdapter();
     }
 
-    /** Verifies that violations can be parsed from JUnit2 */
+    /**
+     * Verifies that violations can be parsed from JUnit2.
+     * */
     @Test
     void shouldParseWithJUnit2(){
         Report report = parse("TEST-org.jenkinsci.plugins.jvctb.perform.JvctbPerformerTest.xml");
