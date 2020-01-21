@@ -46,7 +46,7 @@ class JUnitAdapterTest extends AbstractParserTest {
      * Verifies that violations can be parsed from JUnit2.
      * */
     @Test
-    void shouldParseWithJUnit2(){
+    void shouldParseWithJUnit2() {
         Report report = parse("TEST-org.jenkinsci.plugins.jvctb.perform.JvctbPerformerTest.xml");
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(report.get(0))
