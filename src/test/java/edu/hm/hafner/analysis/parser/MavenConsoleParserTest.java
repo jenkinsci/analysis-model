@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static j2html.TagCreator.*;
 
 /**
@@ -50,7 +50,8 @@ class MavenConsoleParserTest extends AbstractParserTest {
     }
 
     private void assertThatDescriptionIs(final Report warnings, final int index, final String... messages) {
-        assertThat(warnings.get(index).getDescription()).isEqualTo(pre().with(code().withText(String.join("\n", messages))).render());
+        assertThat(warnings.get(index).getDescription()).isEqualTo(
+                pre().with(code().withText(String.join("\n", messages))).render());
     }
 
     @Test
@@ -85,42 +86,43 @@ class MavenConsoleParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
         assertThat(warnings.get(0))
-                .hasDescription("<pre><code>Rule 4: org.apache.maven.plugins.enforcer.RequireUpperBoundDeps failed with message:\n"
-                        + "Failed while enforcing RequireUpperBoundDeps. The error(s) are [\n"
-                        + "Require upper bound dependencies error for org.jenkins-ci:annotation-indexer:1.11 paths to dependency are:\n"
-                        + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
-                        + "  +-org.jenkins-ci.plugins:git:3.9.1\n"
-                        + "    +-org.jenkins-ci:annotation-indexer:1.11\n"
-                        + "and\n"
-                        + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
-                        + "  +-org.jenkins-ci.main:jenkins-core:2.89.1\n"
-                        + "    +-org.jenkins-ci:annotation-indexer:1.12\n"
-                        + "and\n"
-                        + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
-                        + "  +-org.kohsuke:access-modifier-annotation:1.15\n"
-                        + "    +-org.jenkins-ci:annotation-indexer:1.4\n"
-                        + "and\n"
-                        + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
-                        + "  +-org.jenkins-ci.plugins:git:3.9.1\n"
-                        + "    +-com.infradna.tool:bridge-method-annotation:1.17\n"
-                        + "      +-org.jenkins-ci:annotation-indexer:1.4\n"
-                        + "and\n"
-                        + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
-                        + "  +-org.jenkins-ci.main:jenkins-core:2.89.1\n"
-                        + "    +-org.jenkins-ci:bytecode-compatibility-transformer:1.8\n"
-                        + "      +-org.jenkins-ci:annotation-indexer:1.4\n"
-                        + ",\n"
-                        + "Require upper bound dependencies error for commons-net:commons-net:3.5 paths to dependency are:\n"
-                        + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
-                        + "  +-org.jenkins-ci.main:maven-plugin:3.1.2\n"
-                        + "    +-org.apache.maven.wagon:wagon-ftp:3.0.0\n"
-                        + "      +-commons-net:commons-net:3.5\n"
-                        + "and\n"
-                        + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
-                        + "  +-org.jenkins-ci.main:jenkins-test-harness:2.42\n"
-                        + "    +-org.jenkins-ci.main:jenkins-test-harness-htmlunit:2.31-1\n"
-                        + "      +-commons-net:commons-net:3.6\n"
-                        + "]</code></pre>");
+                .hasDescription(
+                        "<pre><code>Rule 4: org.apache.maven.plugins.enforcer.RequireUpperBoundDeps failed with message:\n"
+                                + "Failed while enforcing RequireUpperBoundDeps. The error(s) are [\n"
+                                + "Require upper bound dependencies error for org.jenkins-ci:annotation-indexer:1.11 paths to dependency are:\n"
+                                + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
+                                + "  +-org.jenkins-ci.plugins:git:3.9.1\n"
+                                + "    +-org.jenkins-ci:annotation-indexer:1.11\n"
+                                + "and\n"
+                                + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
+                                + "  +-org.jenkins-ci.main:jenkins-core:2.89.1\n"
+                                + "    +-org.jenkins-ci:annotation-indexer:1.12\n"
+                                + "and\n"
+                                + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
+                                + "  +-org.kohsuke:access-modifier-annotation:1.15\n"
+                                + "    +-org.jenkins-ci:annotation-indexer:1.4\n"
+                                + "and\n"
+                                + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
+                                + "  +-org.jenkins-ci.plugins:git:3.9.1\n"
+                                + "    +-com.infradna.tool:bridge-method-annotation:1.17\n"
+                                + "      +-org.jenkins-ci:annotation-indexer:1.4\n"
+                                + "and\n"
+                                + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
+                                + "  +-org.jenkins-ci.main:jenkins-core:2.89.1\n"
+                                + "    +-org.jenkins-ci:bytecode-compatibility-transformer:1.8\n"
+                                + "      +-org.jenkins-ci:annotation-indexer:1.4\n"
+                                + ",\n"
+                                + "Require upper bound dependencies error for commons-net:commons-net:3.5 paths to dependency are:\n"
+                                + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
+                                + "  +-org.jenkins-ci.main:maven-plugin:3.1.2\n"
+                                + "    +-org.apache.maven.wagon:wagon-ftp:3.0.0\n"
+                                + "      +-commons-net:commons-net:3.5\n"
+                                + "and\n"
+                                + "+-io.jenkins.plugins:warnings-ng:2.2.0-SNAPSHOT\n"
+                                + "  +-org.jenkins-ci.main:jenkins-test-harness:2.42\n"
+                                + "    +-org.jenkins-ci.main:jenkins-test-harness-htmlunit:2.31-1\n"
+                                + "      +-commons-net:commons-net:3.6\n"
+                                + "]</code></pre>");
     }
 
     @Test
@@ -157,11 +159,11 @@ class MavenConsoleParserTest extends AbstractParserTest {
                         + "    +-com.&lt;org&gt;:telesign:1.1\n"
                         + "      +-com.google.code.gson:gson:2.2.1</code></pre>");
     }
-    
+
     @Test
     void shouldIdentifyMavenModules() {
         Report warnings = parse("maven-multimodule.log");
-        
+
         assertThat(warnings).hasSize(2);
         assertThat(warnings.get(0)).hasModuleName("edu.hm.hafner:analysis-model");
         assertThat(warnings.get(1)).hasModuleName("edu.hm.hafner:some-other-plugin");
@@ -169,9 +171,8 @@ class MavenConsoleParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report)
-                .hasSize(5)
-                .hasSeverities(2, 0, 3, 0);
+        softly.assertThat(report).hasSize(5);
+        assertThatReportHasSeverities(report, 2, 0, 3, 0);
     }
 
     @Override

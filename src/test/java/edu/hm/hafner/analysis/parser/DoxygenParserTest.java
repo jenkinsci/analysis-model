@@ -9,9 +9,9 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link Gcc4CompilerParser} using input files of Doxygen.
@@ -39,12 +39,14 @@ class DoxygenParserTest extends AbstractParserTest {
 
         assertThat(report.get(0))
                 .hasLineStart(977)
-                .hasMessage("‘t_day_of_year.boost::CV::constrained_value<boost::CV::simple_exception_policy<short unsigned int, 1u, 366u, boost::gregorian::bad_day_of_year> >::value_’ may be used uninitialized in this function\n"
-                        + "Compiling library/datetimelib/Timezone.cpp\n"
-                        + "Compiling library/datetimelib/TimezoneDB.cpp\n"
-                        + "Creating libdatetimelib.a\n"
-                        + "ar: creating /home/hudson_slave/workspace/RX-kernel-daily_i686-linux-gcc41/trunk/src/arch/i686-linux-gcc41/build/Debug/libdatetimelib.a")
-                .hasFileName("/home/hudson_slave/workspace/RX-kernel-daily_i686-linux-gcc41/trunk/src/3rdparty/boost/exp/boost/date_time/time_facet.hpp")
+                .hasMessage(
+                        "‘t_day_of_year.boost::CV::constrained_value<boost::CV::simple_exception_policy<short unsigned int, 1u, 366u, boost::gregorian::bad_day_of_year> >::value_’ may be used uninitialized in this function\n"
+                                + "Compiling library/datetimelib/Timezone.cpp\n"
+                                + "Compiling library/datetimelib/TimezoneDB.cpp\n"
+                                + "Creating libdatetimelib.a\n"
+                                + "ar: creating /home/hudson_slave/workspace/RX-kernel-daily_i686-linux-gcc41/trunk/src/arch/i686-linux-gcc41/build/Debug/libdatetimelib.a")
+                .hasFileName(
+                        "/home/hudson_slave/workspace/RX-kernel-daily_i686-linux-gcc41/trunk/src/3rdparty/boost/exp/boost/date_time/time_facet.hpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
@@ -84,7 +86,8 @@ class DoxygenParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineEnd(479)
                 .hasLineStart(479)
-                .hasMessage("the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
+                .hasMessage(
+                        "the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -105,7 +108,8 @@ class DoxygenParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineEnd(39)
                 .hasLineStart(39)
-                .hasMessage("Member XmlMemoryEntityMapEntry (typedef) of class XmlMemoryEntityResolver is not documented.")
+                .hasMessage(
+                        "Member XmlMemoryEntityMapEntry (typedef) of class XmlMemoryEntityResolver is not documented.")
                 .hasFileName("P:/Integration/DjRip/djrip/workspace/libraries/xml/XmlMemoryEntityResolver.h")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -122,35 +126,40 @@ class DoxygenParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineEnd(171)
                 .hasLineStart(171)
-                .hasMessage("reached end of file while inside a dot block!\nThe command that should end the block seems to be missing!")
+                .hasMessage(
+                        "reached end of file while inside a dot block!\nThe command that should end the block seems to be missing!")
                 .hasFileName("/home/user/myproject/component/odesolver/CentralDifferenceSolver.cpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(479)
                 .hasLineStart(479)
-                .hasMessage("the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
+                .hasMessage(
+                        "the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(65)
                 .hasLineStart(65)
-                .hasMessage("documented function `sofa::core::componentmodel::behavior::BaseController::BaseController' was not declared or defined.")
+                .hasMessage(
+                        "documented function `sofa::core::componentmodel::behavior::BaseController::BaseController' was not declared or defined.")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseController.cpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(72)
                 .hasLineStart(72)
-                .hasMessage("no matching class member found for\n  void sofa::core::componentmodel::behavior::BaseController::handleEvent(core::objectmodel::Event *event)")
+                .hasMessage(
+                        "no matching class member found for\n  void sofa::core::componentmodel::behavior::BaseController::handleEvent(core::objectmodel::Event *event)")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseController.cpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(699)
                 .hasLineStart(699)
-                .hasMessage("no uniquely matching class member found for\n  template <>\n  const char * sofa::defaulttype::Rigid3dTypes::Name()")
+                .hasMessage(
+                        "no uniquely matching class member found for\n  template <>\n  const char * sofa::defaulttype::Rigid3dTypes::Name()")
                 .hasFileName("/home/user/myproject/defaulttype/RigidTypes.h")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -178,7 +187,8 @@ class DoxygenParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineEnd(227)
                 .hasLineStart(227)
-                .hasMessage("no uniquely matching class member found for\n  template < Real >\n  DualQuat< Real >::Vec sofa::helper::DualQuat< Real >::transform(const typename sofa::defaulttype::Vec< 3, Real > &vec)\nPossible candidates:\n  Vec sofa::helper::DualQuat< Real >::transform(const Vec &vec) at line 73 of file /home/user/myproject/helper/DualQuat.h")
+                .hasMessage(
+                        "no uniquely matching class member found for\n  template < Real >\n  DualQuat< Real >::Vec sofa::helper::DualQuat< Real >::transform(const typename sofa::defaulttype::Vec< 3, Real > &vec)\nPossible candidates:\n  Vec sofa::helper::DualQuat< Real >::transform(const Vec &vec) at line 73 of file /home/user/myproject/helper/DualQuat.h")
                 .hasFileName("/home/user/myproject/helper/DualQuat.inl")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -203,21 +213,24 @@ class DoxygenParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineEnd(172)
                 .hasLineStart(172)
-                .hasMessage("argument 'sv' of command @param is not found in the argument list of sofa::core::componentmodel::behavior::inertiaForce(const SV &, const Vec &, const M &, const Coord &, const Deriv &)")
+                .hasMessage(
+                        "argument 'sv' of command @param is not found in the argument list of sofa::core::componentmodel::behavior::inertiaForce(const SV &, const Vec &, const M &, const Coord &, const Deriv &)")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/Mass.h")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(97)
                 .hasLineStart(97)
-                .hasMessage("The following parameters of sofa::core::componentmodel::behavior::BaseForceField::addMBKdx(double mFactor, double bFactor, double kFactor) are not documented:\n  parameter 'mFactor'\n  parameter 'bFactor'\n  parameter 'kFactor'")
+                .hasMessage(
+                        "The following parameters of sofa::core::componentmodel::behavior::BaseForceField::addMBKdx(double mFactor, double bFactor, double kFactor) are not documented:\n  parameter 'mFactor'\n  parameter 'bFactor'\n  parameter 'kFactor'")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseForceField.h")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(104)
                 .hasLineStart(104)
-                .hasMessage("The following parameters of sofa::core::componentmodel::behavior::BaseLMConstraint::ConstraintGroup::addConstraint(unsigned int i0, SReal c) are not documented:\n  parameter 'i0'")
+                .hasMessage(
+                        "The following parameters of sofa::core::componentmodel::behavior::BaseLMConstraint::ConstraintGroup::addConstraint(unsigned int i0, SReal c) are not documented:\n  parameter 'i0'")
                 .hasFileName("/home/user/myproject/core/componentmodel/behavior/BaseLMConstraint.h")
                 .hasSeverity(Severity.WARNING_NORMAL);
 

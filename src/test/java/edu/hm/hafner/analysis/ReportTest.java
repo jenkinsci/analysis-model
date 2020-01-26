@@ -15,11 +15,11 @@ import java.util.function.Predicate;
 import org.eclipse.collections.impl.block.factory.Predicates;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Arrays.*;
 
 /**
@@ -341,7 +341,15 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.isNotEmpty()).isFalse();
         assertThat(report).hasSize(0);
         assertThat(report.size()).isEqualTo(0);
-        assertThat(report).hasSeverities(0, 0, 0, 0);
+        assertThatReportHasSeverities(report, 0, 0, 0, 0);
+    }
+
+    private void assertThatReportHasSeverities(final Report report, final int expectedSizeError,
+            final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
+        assertThat(report.getSizeOf(Severity.ERROR)).isEqualTo(expectedSizeError);
+        assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expectedSizeHigh);
+        assertThat(report.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expectedSizeNormal);
+        assertThat(report.getSizeOf(Severity.WARNING_LOW)).isEqualTo(expectedSizeLow);
     }
 
     @Test
@@ -394,8 +402,8 @@ class ReportTest extends SerializableTest<Report> {
         assertThatAllIssuesHaveBeenAdded(fromEmpty);
         fromEmpty.addAll(report);
         assertThat(fromEmpty).hasSize(6)
-                .hasDuplicatesSize(6)
-                .hasSeverities(0, 1, 2, 3);
+                .hasDuplicatesSize(6);
+        assertThatReportHasSeverities(report, 0, 1, 2, 3);
 
         Report left = new Report().addAll(HIGH, NORMAL_1, NORMAL_2);
         Report right = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
@@ -417,11 +425,12 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void assertThatAllIssuesHaveBeenAdded(final Report report) {
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report)
                     .hasSize(6)
-                    .hasDuplicatesSize(0)
-                    .hasSeverities(0, 1, 2, 3);
+                    .hasDuplicatesSize(0);
+            assertThatReportHasSeverities(report, 0, 1, 2, 3);
+
             softly.assertThat(report.getFiles())
                     .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat(report.getFiles())
@@ -434,7 +443,7 @@ class ReportTest extends SerializableTest<Report> {
             softly.assertThat(report.getPropertyCount(Issue::getFileName)).containsEntry("file-1", 3);
             softly.assertThat(report.getPropertyCount(Issue::getFileName)).containsEntry("file-2", 2);
             softly.assertThat(report.getPropertyCount(Issue::getFileName)).containsEntry("file-3", 1);
-        });
+        }
     }
 
     @Test
@@ -450,7 +459,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report).hasSize(4).hasDuplicatesSize(2);
 
         assertThat(report.iterator()).toIterable().containsExactly(HIGH, LOW_2_A, NORMAL_1, NORMAL_2);
-        assertThat(report).hasSeverities(0, 1, 2, 1);
+        assertThatReportHasSeverities(report, 0, 1, 2, 1);
         assertThat(report.getFiles()).containsExactly("file-1", "file-2");
     }
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Unit test for {@link IssueFilterBuilder}.

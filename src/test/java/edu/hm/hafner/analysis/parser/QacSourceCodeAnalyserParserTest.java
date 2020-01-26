@@ -2,13 +2,13 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link QacSourceCodeAnalyserParser}.
@@ -34,7 +34,8 @@ class QacSourceCodeAnalyserParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(34)
                 .hasLineEnd(34)
-                .hasMessage("[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.")
+                .hasMessage(
+                        "[I] Source file 'C:/PATH/PATH/PATH/PATH/Test1.c' has comments containing characters which are not members of the basic source character set.")
                 .hasFileName("C:/PATH/PATH/PATH/PATH/Test1.c")
                 .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
@@ -66,7 +67,8 @@ class QacSourceCodeAnalyserParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(75)
                 .hasLineEnd(75)
-                .hasMessage("[L] External identifier matches other identifier(s) (e.g. 'Test') in first 6 characters - program is non-conforming.")
+                .hasMessage(
+                        "[L] External identifier matches other identifier(s) (e.g. 'Test') in first 6 characters - program is non-conforming.")
                 .hasFileName("C:/PATH/PATH/Test5.h")
                 .hasCategory(WARNING_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);

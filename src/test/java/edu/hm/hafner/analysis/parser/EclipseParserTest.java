@@ -7,10 +7,9 @@ import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link EclipseParser}.
@@ -34,7 +33,8 @@ class EclipseParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(3)
                 .hasLineEnd(3)
-                .hasMessage("The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
+                .hasMessage(
+                        "The serializable class AttributeException does not declare a static final serialVersionUID field of type long")
                 .hasFileName("C:/Desenvolvimento/Java/jfg/src/jfg/AttributeException.java")
                 .hasCategory(Categories.OTHER);
     }
@@ -50,14 +50,15 @@ class EclipseParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(27);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(82)
                     .hasMessage("Class is a raw type. References to generic type Class<T> should be parameterized")
-                    .hasFileName("C:/PCI_Dev/source/pcisvn/CUSTOMER/CUSTOMER_Market/Code/CUSTOMER_Market/src/CUSTOMER/AutomatedProcess/BackOffice/Dataset/CUSTOMERBaseDataset.java")
+                    .hasFileName(
+                            "C:/PCI_Dev/source/pcisvn/CUSTOMER/CUSTOMER_Market/Code/CUSTOMER_Market/src/CUSTOMER/AutomatedProcess/BackOffice/Dataset/CUSTOMERBaseDataset.java")
                     .hasCategory(Categories.OTHER);
-        });
+        }
     }
 
     /**
@@ -82,15 +83,17 @@ class EclipseParserTest extends AbstractParserTest {
         Report warnings = parse("issue6427.txt");
 
         assertThat(warnings).hasSize(18);
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(10)
                     .hasLineEnd(10)
-                    .hasMessage("The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
-                    .hasFileName("/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java")
+                    .hasMessage(
+                            "The import com.bombardier.oldinfra.export.dataAccess.InfrastructureDiagramAPI is never used")
+                    .hasFileName(
+                            "/srv/hudson/workspace/Ebitool Trunk/build/plugins/com.bombardier.oldInfra.export.jet/jet2java/org/eclipse/jet/compiled/_jet_infraSoe.java")
                     .hasCategory(Categories.OTHER);
-        });
+        }
     }
 
     /**
@@ -104,20 +107,24 @@ class EclipseParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(2);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(90)
                     .hasLineEnd(90)
-                    .hasMessage("Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized")
-                    .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
+                    .hasMessage(
+                            "Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized")
+                    .hasFileName(
+                            "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
                     .hasCategory(Categories.OTHER);
             softly.assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(90)
                     .hasLineEnd(90)
-                    .hasMessage("Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>")
-                    .hasFileName("/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
+                    .hasMessage(
+                            "Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>")
+                    .hasFileName(
+                            "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
                     .hasCategory(Categories.OTHER);
-        });
+        }
     }
 
     /**
@@ -144,15 +151,16 @@ class EclipseParserTest extends AbstractParserTest {
         Report report = parse("issue57379.txt");
 
         assertThat(report).hasSize(1);
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(3)
                     .hasLineEnd(3)
-                    .hasMessage("Javadoc: The method msd(double[], double) in the type File is not applicable for the arguments ()")
+                    .hasMessage(
+                            "Javadoc: The method msd(double[], double) in the type File is not applicable for the arguments ()")
                     .hasFileName("C:/File.java")
                     .hasCategory(Categories.JAVADOC);
-        });
+        }
     }
 
     /**
@@ -164,7 +172,7 @@ class EclipseParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(6);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(8)
@@ -213,7 +221,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                     .hasMessage("The allocated object is never used")
                     .hasCategory(Categories.OTHER);
-        });
+        }
     }
 
     /**

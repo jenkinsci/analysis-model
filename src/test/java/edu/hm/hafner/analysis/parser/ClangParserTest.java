@@ -8,10 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link ClangParser}.
@@ -97,7 +96,8 @@ class ClangParserTest extends AbstractParserTest {
                 .hasLineEnd(103)
                 .hasColumnStart(55)
                 .hasColumnEnd(55)
-                .hasMessage("passing 'uint8_t [11]' to parameter of type 'const char *' converts between pointers to integer types with different sign")
+                .hasMessage(
+                        "passing 'uint8_t [11]' to parameter of type 'const char *' converts between pointers to integer types with different sign")
                 .hasFileName("t.c")
                 .hasCategory("-Wpointer-sign")
                 .hasSeverity(Severity.WARNING_NORMAL);
@@ -114,7 +114,7 @@ class ClangParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(1211)
                     .hasLineEnd(1211)
                     .hasColumnStart(26)
@@ -123,12 +123,14 @@ class ClangParserTest extends AbstractParserTest {
                     .hasFileName("/Volumes/workspace/MyApp/ViewController.m")
                     .hasCategory("-Wshorten-64-to-32")
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 
     /**
      * Parses a file with test results. There should be no warning.
-     * @see <a href="https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin?focusedCommentId=138447465#comment-138447465">Wiki Report</a>
+     *
+     * @see <a href="https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin?focusedCommentId=138447465#comment-138447465">Wiki
+     *         Report</a>
      */
     @Test
     void shouldNotDetectTestResults() {
@@ -160,7 +162,7 @@ class ClangParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(10)
                     .hasLineEnd(10)
                     .hasColumnStart(10)
@@ -169,7 +171,7 @@ class ClangParserTest extends AbstractParserTest {
                     .hasFileName("./test.h")
                     .hasCategory(DEFAULT_CATEGORY)
                     .hasSeverity(Severity.WARNING_HIGH);
-        });
+        }
     }
 
     /**
@@ -183,7 +185,7 @@ class ClangParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(1518)
                     .hasLineEnd(1518)
                     .hasColumnStart(28)
@@ -192,6 +194,6 @@ class ClangParserTest extends AbstractParserTest {
                     .hasFileName("scanner.cpp")
                     .hasCategory(DEFAULT_CATEGORY)
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 }

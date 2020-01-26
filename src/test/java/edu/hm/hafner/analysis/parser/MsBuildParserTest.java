@@ -8,10 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link MsBuildParser}.
@@ -31,21 +30,23 @@ class MsBuildParserTest extends AbstractParserTest {
         Report warnings = parse("MSBuildANSIColor.txt");
 
         assertThat(warnings)
-                .hasSize(1)
-                .hasSeverities(0, 0, 1, 0);
+                .hasSize(1);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("C:/j/6aa722/src/CodeRunner/GenericCodeRunner/CompositeCode.cs")
-                .hasCategory("CS1591")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("Missing XML comment for publicly visible type or member 'CompositeCode.this[int]'")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(137)
-                .hasLineEnd(137)
-                .hasColumnStart(32)
-                .hasColumnEnd(32));
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("C:/j/6aa722/src/CodeRunner/GenericCodeRunner/CompositeCode.cs")
+                    .hasCategory("CS1591")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Missing XML comment for publicly visible type or member 'CompositeCode.this[int]'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(137)
+                    .hasLineEnd(137)
+                    .hasColumnStart(32)
+                    .hasColumnEnd(32);
+        }
     }
 
     /**
@@ -70,12 +71,14 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("G:/Jenkins-Alserver-Slave/workspace/ninjamgs/Lesson1/bubble.cpp")
-                .hasCategory("C4101")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("'a': unreferenced local variable")
-                .hasLineStart(17));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("G:/Jenkins-Alserver-Slave/workspace/ninjamgs/Lesson1/bubble.cpp")
+                    .hasCategory("C4101")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("'a': unreferenced local variable")
+                    .hasLineStart(17);
+        }
     }
 
     /**
@@ -89,18 +92,24 @@ class MsBuildParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(2);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
-                .hasCategory("C4275")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("non dll-interface class 'transport::RtcpSpec' used as base for dll-interface class 'transport::TransportRTCPInstance' (compiling source file transport\\source\\TransportH265VideoRTPSource.cpp)")
-                .hasLineStart(39));
-        assertSoftly(softly -> softly.assertThat(warnings.get(1))
-                .hasFileName("C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
-                .hasCategory("C4251")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("'transport::TransportRTCPInstance::m_CNAME': class 'transport::SDESItem' needs to have dll-interface to be used by clients of class 'transport::TransportRTCPInstance' (compiling source file transport\\source\\TransportH265VideoRTPSource.cpp)")
-                .hasLineStart(155));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName(
+                            "C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
+                    .hasCategory("C4275")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage(
+                            "non dll-interface class 'transport::RtcpSpec' used as base for dll-interface class 'transport::TransportRTCPInstance' (compiling source file transport\\source\\TransportH265VideoRTPSource.cpp)")
+                    .hasLineStart(39);
+            softly.assertThat(warnings.get(1))
+                    .hasFileName(
+                            "C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
+                    .hasCategory("C4251")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage(
+                            "'transport::TransportRTCPInstance::m_CNAME': class 'transport::SDESItem' needs to have dll-interface to be used by clients of class 'transport::TransportRTCPInstance' (compiling source file transport\\source\\TransportH265VideoRTPSource.cpp)")
+                    .hasLineStart(155);
+        }
     }
 
     /**
@@ -112,21 +121,22 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue38215() {
         Report warnings = parse("issue38215.txt");
 
-        assertThat(warnings)
-                .hasSize(1)
-                .hasSeverities(0, 0, 1, 0);
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("C:/J/workspace/ci_windows/ws/build/rmw/test/test_error_handling.vcxproj")
-                .hasCategory("D9002")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("ignoring unknown option '-std=c++11'")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(0)
-                .hasLineEnd(0)
-                .hasColumnStart(0)
-                .hasColumnEnd(0));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("C:/J/workspace/ci_windows/ws/build/rmw/test/test_error_handling.vcxproj")
+                    .hasCategory("D9002")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("ignoring unknown option '-std=c++11'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
     }
 
     /**
@@ -138,11 +148,10 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue22386() {
         Report warnings = parse("issue22386.txt");
 
-        assertThat(warnings)
-                .hasSize(2)
-                .hasSeverities(0, 0, 2, 0);
+        assertThat(warnings).hasSize(2);
+        assertThatReportHasSeverities(warnings, 0, 0, 2, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/solutiondir/projectdir/src/main.cpp")
                     .hasCategory("C4996")
@@ -168,7 +177,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasLineEnd(99)
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
-        });
+        }
     }
 
     /**
@@ -180,24 +189,25 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue51485() {
         Report warnings = parse("issue51485.txt");
 
-        assertThat(warnings)
-                .hasSize(2)
-                .hasSeverities(0, 0, 2, 0);
+        assertThat(warnings).hasSize(2);
+        assertThatReportHasSeverities(warnings, 0, 0, 2, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("src/search-list.component.scss")
                     .hasCategory("shorthand-values")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`")
+                    .hasMessage(
+                            "Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`")
                     .hasLineStart(41).hasColumnStart(17);
             softly.assertThat(warnings.get(1))
                     .hasFileName("src/search-list.component.scss")
                     .hasCategory("shorthand_values")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`")
+                    .hasMessage(
+                            "Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`")
                     .hasLineStart(42).hasColumnStart(18);
-        });
+        }
     }
 
     /**
@@ -210,11 +220,10 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue27914() {
         Report warnings = parse("issue27914.txt");
 
-        assertThat(warnings)
-                .hasSize(3)
-                .hasSeverities(0, 0, 3, 0);
+        assertThat(warnings).hasSize(3);
+        assertThatReportHasSeverities(warnings, 0, 0, 3, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("E:/workspace/TreeSize release nightly/DelphiLib/Jam.UI.Dialogs.pas")
                     .hasCategory("H2164")
@@ -250,7 +259,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasLineEnd(4524)
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
-        });
+        }
     }
 
     /**
@@ -286,12 +295,10 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue20154() {
         Report warnings = parse("issue20154.txt");
 
-        assertThat(warnings)
-                .hasSize(3)
-                .hasDuplicatesSize(5)
-                .hasSeverities(0, 0, 3, 0);
+        assertThat(warnings).hasSize(3).hasDuplicatesSize(5);
+        assertThatReportHasSeverities(warnings, 0, 0, 3, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasCategory("CA2210")
                     .hasType("Microsoft.Design")
@@ -310,7 +317,8 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
+                    .hasMessage(
+                            "Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(12)
@@ -323,14 +331,15 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
+                    .hasMessage(
+                            "Parameter 'args' of 'Program.Main(string[])' is never used. Remove the parameter or use it in the method body.")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(13)
                     .hasLineEnd(13)
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
-        });
+        }
     }
 
     /**
@@ -342,11 +351,10 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue14888() {
         Report warnings = parse("issue14888.txt");
 
-        assertThat(warnings)
-                .hasSize(4)
-                .hasSeverities(4, 0, 0, 0);
+        assertThat(warnings).hasSize(4);
+        assertThatReportHasSeverities(warnings, 4, 0, 0, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
                     .hasCategory("40")
@@ -394,7 +402,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasLineEnd(975)
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
-        });
+        }
     }
 
     /**
@@ -406,21 +414,22 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue10566() {
         Report warnings = parse("issue10566.txt");
 
-        assertThat(warnings)
-                .hasSize(1)
-                .hasSeverities(1, 0, 0, 0);
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 1, 0, 0, 0);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("..//..//..//xx_Source//file.c")
-                .hasCategory("c1083")
-                .hasSeverity(Severity.ERROR)
-                .hasMessage("cannot open include file: 'Header.h': No such file or directory")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(54)
-                .hasLineEnd(54)
-                .hasColumnStart(0)
-                .hasColumnEnd(0));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("..//..//..//xx_Source//file.c")
+                    .hasCategory("c1083")
+                    .hasSeverity(Severity.ERROR)
+                    .hasMessage("cannot open include file: 'Header.h': No such file or directory")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(54)
+                    .hasLineEnd(54)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
     }
 
     /**
@@ -432,21 +441,22 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue3582() {
         Report warnings = parse("issue3582.txt");
 
-        assertThat(warnings)
-                .hasSize(1)
-                .hasSeverities(1, 0, 0, 0);
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 1, 0, 0, 0);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("TestLib.lib")
-                .hasCategory("LNK1181")
-                .hasSeverity(Severity.ERROR)
-                .hasMessage("cannot open input file 'TestLib.lib'")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(0)
-                .hasLineEnd(0)
-                .hasColumnStart(0)
-                .hasColumnEnd(0));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("TestLib.lib")
+                    .hasCategory("LNK1181")
+                    .hasSeverity(Severity.ERROR)
+                    .hasMessage("cannot open input file 'TestLib.lib'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
     }
 
     /**
@@ -458,11 +468,10 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue8347() {
         Report warnings = parse("issue8347.txt");
 
-        assertThat(warnings)
-                .hasSize(5)
-                .hasSeverities(0, 0, 5, 0);
+        assertThat(warnings).hasSize(5);
+        assertThatReportHasSeverities(warnings, 0, 0, 5, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs")
                     .hasCategory("SA1210")
@@ -523,7 +532,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasLineEnd(70)
                     .hasColumnStart(1)
                     .hasColumnEnd(1);
-        });
+        }
     }
 
     /**
@@ -535,21 +544,22 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue6709() {
         Report warnings = parse("issue6709.txt");
 
-        assertThat(warnings)
-                .hasSize(1)
-                .hasSeverities(0, 0, 1, 0);
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("Rules/TaskRules.cs")
-                .hasCategory("CS0168")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("The variable 'ex' is declared but never used")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(1145)
-                .hasLineEnd(1145)
-                .hasColumnStart(49)
-                .hasColumnEnd(49));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("Rules/TaskRules.cs")
+                    .hasCategory("CS0168")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("The variable 'ex' is declared but never used")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(1145)
+                    .hasLineEnd(1145)
+                    .hasColumnStart(49)
+                    .hasColumnEnd(49);
+        }
     }
 
     /**
@@ -561,22 +571,23 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue9926() {
         Report warnings = parse("issue9926.txt");
 
-        assertThat(warnings)
-                .hasSize(1)
-                .hasSeverities(0, 0, 1, 0);
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName(
-                        "C:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp")
-                .hasCategory("C4706")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("assignment within conditional expression")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(125)
-                .hasLineEnd(125)
-                .hasColumnStart(0)
-                .hasColumnEnd(0));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName(
+                            "C:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp")
+                    .hasCategory("C4706")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("assignment within conditional expression")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(125)
+                    .hasLineEnd(125)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
     }
 
     /**
@@ -588,11 +599,10 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue4932() {
         Report warnings = parse("issue4932.txt");
 
-        assertThat(warnings)
-                .hasSize(2)
-                .hasSeverities(2, 0, 0, 0);
+        assertThat(warnings).hasSize(2);
+        assertThatReportHasSeverities(warnings, 2, 0, 0, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("SynchronisationHeure.obj")
                     .hasCategory("LNK2001")
@@ -616,7 +626,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasLineEnd(0)
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
-        });
+        }
     }
 
     /**
@@ -628,12 +638,10 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue4731() {
         Report warnings = parse("issue4731.txt");
 
-        assertThat(warnings)
-                .hasSize(11)
-                .hasDuplicatesSize(1)
-                .hasSeverities(0, 0, 11, 0);
+        assertThat(warnings).hasSize(11).hasDuplicatesSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 11, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
                     .hasCategory("SPT6")
@@ -687,7 +695,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasLineEnd(0)
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
-        });
+        }
     }
 
     /**
@@ -700,11 +708,10 @@ class MsBuildParserTest extends AbstractParserTest {
     void shouldDetectKeywordsInRegexCaseInsensitive() {
         Report warnings = parse("issue2383.txt");
 
-        assertThat(warnings)
-                .hasSize(2)
-                .hasSeverities(1, 0, 1, 0);
+        assertThat(warnings).hasSize(2);
+        assertThatReportHasSeverities(warnings, 1, 0, 1, 0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("Src/Parser/CSharp/cs.ATG")
                     .hasCategory("CS0168")
@@ -728,7 +735,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasLineEnd(10)
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
-        });
+        }
     }
 
     /**
@@ -740,21 +747,22 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue48647() {
         Report warnings = parse("issue48647.txt");
 
-        assertThat(warnings)
-                .hasSize(1)
-                .hasSeverities(0, 0, 1, 0);
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("Filters/FilterBuilder.cs")
-                .hasCategory("CS0168")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("There is maybe a mistake.")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(229)
-                .hasLineEnd(229)
-                .hasColumnStart(34)
-                .hasColumnEnd(34));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("Filters/FilterBuilder.cs")
+                    .hasCategory("CS0168")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("There is maybe a mistake.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(229)
+                    .hasLineEnd(229)
+                    .hasColumnStart(34)
+                    .hasColumnEnd(34);
+        }
     }
 
     /**
@@ -766,30 +774,32 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue56450() {
         Report report = parse("issue56450.txt");
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             Iterator<Issue> iterator = report.iterator();
-            softly.assertThat(report)
-                .hasSize(2)
-                .hasSeverities(0, 0, 2, 0);
+            softly.assertThat(report).hasSize(2);
+            assertThatReportHasSeverities(report, 0, 0, 2, 0);
             softly.assertThat(iterator.next())
-                .hasFileName("C:/Jenkins/workspace/windows-kicad-msvc-tom/build/release/cpu/amd64/label/msvc/src/include/footprint_info.h")
-                .hasCategory("C4251")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("'FOOTPRINT_ASYNC_LOADER::m_last_table': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'FOOTPRINT_ASYNC_LOADER' (compiling source file C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\pcbnew\\footprint_libraries_utils.cpp)C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\include\\geometry/seg.h(263): warning C4244: 'initializing': conversion from 'double' to 'SEG::ecoord', possible loss of data (compiling source file C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\pcbnew\\hotkeys_footprint_editor.cpp)")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(320)
-                .hasLineEnd(320);
+                    .hasFileName(
+                            "C:/Jenkins/workspace/windows-kicad-msvc-tom/build/release/cpu/amd64/label/msvc/src/include/footprint_info.h")
+                    .hasCategory("C4251")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage(
+                            "'FOOTPRINT_ASYNC_LOADER::m_last_table': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'FOOTPRINT_ASYNC_LOADER' (compiling source file C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\pcbnew\\footprint_libraries_utils.cpp)C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\include\\geometry/seg.h(263): warning C4244: 'initializing': conversion from 'double' to 'SEG::ecoord', possible loss of data (compiling source file C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\pcbnew\\hotkeys_footprint_editor.cpp)")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(320)
+                    .hasLineEnd(320);
             softly.assertThat(iterator.next())
-                .hasFileName("C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/include/memory")
-                .hasCategory("C4244")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("'argument': conversion from '_Ty' to 'int', possible loss of data")
-                .hasDescription("")
-                .hasPackageName("-")
-                .hasLineStart(1801)
-                .hasLineEnd(1801);
-        });
+                    .hasFileName(
+                            "C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/include/memory")
+                    .hasCategory("C4244")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("'argument': conversion from '_Ty' to 'int', possible loss of data")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(1801)
+                    .hasLineEnd(1801);
+        }
     }
 
     /**
@@ -806,9 +816,8 @@ class MsBuildParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report)
-                .hasSize(8)
-                .hasSeverities(4, 0, 3, 1);
+        softly.assertThat(report).hasSize(8);
+        assertThatReportHasSeverities(report, 4, 0, 3, 1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("Src/Parser/CSharp/cs.ATG")

@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Unit test for {@link IssueBuilder}.
@@ -213,13 +213,12 @@ class IssueBuilderTest {
 
         Issue issue = builder.build();
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
-        assertThat(issue.getLineRanges()).hasSize(2);
-        assertThat(issue.getLineRanges()).containsExactly(new LineRange(3, 4), new LineRange(5, 6));
+        assertThat(issue).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
 
         IssueBuilder copy = new IssueBuilder();
         copy.copy(issue);
 
-        assertThat(copy.build().getLineRanges()).containsExactly(new LineRange(3, 4), new LineRange(5, 6));
+        assertThat(copy.build()).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
     }
 
     @Test

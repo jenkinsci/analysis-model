@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -40,10 +39,12 @@ class SonarQubeIssuesParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(106);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasFileName("cart-common-folder/src/main/java/com/example/sonarqube/CloseResource.java")
-                .hasLineStart(0)
-                .hasLineEnd(0));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("cart-common-folder/src/main/java/com/example/sonarqube/CloseResource.java")
+                    .hasLineStart(0)
+                    .hasLineEnd(0);
+        }
     }
 
     @Test

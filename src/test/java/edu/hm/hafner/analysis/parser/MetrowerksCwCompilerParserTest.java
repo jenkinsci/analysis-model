@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link MetrowerksCwCompilerParser}.
@@ -28,7 +28,8 @@ class MetrowerksCwCompilerParserTest extends AbstractParserTest {
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(570)
                 .hasLineEnd(570)
-                .hasMessage("Warning-directive found: EEPROM_QUEUE_BUFFER_SIZE instead of MONITOR_ERROR_DATA_LENGTH is used here. This must be fixed sooner or later")
+                .hasMessage(
+                        "Warning-directive found: EEPROM_QUEUE_BUFFER_SIZE instead of MONITOR_ERROR_DATA_LENGTH is used here. This must be fixed sooner or later")
                 .hasFileName("E:/work/PATH/PATH/PATH/PATH/Test1.c");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)

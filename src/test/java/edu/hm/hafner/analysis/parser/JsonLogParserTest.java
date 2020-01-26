@@ -8,9 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link JsonLogParser}.
@@ -27,7 +27,7 @@ class JsonLogParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasFileName("d/file.txt")
-                .containsExactlyLineRanges(new LineRange(10, 11), new LineRange(20, 21))
+                .hasOnlyLineRanges(new LineRange(10, 11), new LineRange(20, 21))
                 .hasCategory("c")
                 .hasDescription("d")
                 .hasType("t")
@@ -53,7 +53,7 @@ class JsonLogParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(2))
                 .hasFileName("test.txt")
-                .containsExactlyLineRanges(new LineRange(10, 10), new LineRange(220, 220))
+                .hasOnlyLineRanges(new LineRange(10, 10), new LineRange(220, 220))
                 .hasDescription("an \"important\" description")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("an \"important\" message");
@@ -65,7 +65,7 @@ class JsonLogParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(4))
                 .hasFileName("file.xml")
-                .containsExactlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
+                .hasOnlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
@@ -79,16 +79,18 @@ class JsonLogParserTest extends AbstractParserTest {
     void shouldReportDuplicateKey() {
         Report report = parse("json-issues-duplicate.log");
         assertThat(report).hasSize(0);
-        assertThat(report.getErrorMessages()).contains("Could not parse line: «{\"fileName\":\"invalid1.xml\",\"fileName\":\"invalid2.xml\"}»");
+        assertThat(report.getErrorMessages()).contains(
+                "Could not parse line: «{\"fileName\":\"invalid1.xml\",\"fileName\":\"invalid2.xml\"}»");
     }
 
     @Test
     void shouldReportLineBreak() {
         Report report = parse("json-issues-lineBreak.log");
         assertThat(report).hasSize(0);
-        assertThat(report.getErrorMessages()).contains("Could not parse line: «\"description\":\"an \\\"important\\\" description\"}»");
+        assertThat(report.getErrorMessages()).contains(
+                "Could not parse line: «\"description\":\"an \\\"important\\\" description\"}»");
     }
-    
+
     @Test
     void emptyReport() {
         JsonLogParser parser = createParser();

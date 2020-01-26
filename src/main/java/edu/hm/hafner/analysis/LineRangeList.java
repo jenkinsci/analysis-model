@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.StreamSupport;
 
 /**
  * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
@@ -82,6 +83,13 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         return super.addAll(c);
     }
 
+    public final boolean addAll(final Iterable<? extends LineRange> c) {
+        return StreamSupport.stream(c.spliterator(), false)
+                .map(this::add)
+                .reduce(Boolean::logicalOr)
+                .orElse(false);
+    }
+
     /**
      * Makes sure that the buffer has capability to store N bytes.
      */
@@ -98,7 +106,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         if (o instanceof LineRange) {
             LineRange lr = (LineRange) o;
 
-            for (Cursor c = new Cursor(); c.hasNext();) {
+            for (Cursor c = new Cursor(); c.hasNext(); ) {
                 if (c.compare(lr)) {
                     return true;
                 }

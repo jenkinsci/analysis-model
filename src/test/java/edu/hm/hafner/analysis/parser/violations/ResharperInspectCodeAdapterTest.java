@@ -2,13 +2,13 @@ package edu.hm.hafner.analysis.parser.violations;
 
 import java.util.Iterator;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link ResharperInspectCodeAdapter}.
@@ -40,7 +40,8 @@ class ResharperInspectCodeAdapterTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(23)
                 .hasLineEnd(23)
-                .hasMessage("Expression is always true. Redundancies in Code. Expression is always 'true' or always 'false'")
+                .hasMessage(
+                        "Expression is always true. Redundancies in Code. Expression is always 'true' or always 'false'")
                 .hasFileName("ResharperDemo/Program.cs")
                 .hasType("ConditionIsAlwaysTrueOrFalse")
                 .hasSeverity(Severity.WARNING_NORMAL);
