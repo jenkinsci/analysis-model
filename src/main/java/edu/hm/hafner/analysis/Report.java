@@ -687,7 +687,6 @@ public class Report implements Iterable<Issue>, Serializable {
         return !errorMessages.isEmpty();
     }
 
-    @SuppressWarnings("CheckStyle")
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

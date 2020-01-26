@@ -35,9 +35,9 @@ public class IssueBuilder {
     private static final TreeString UNDEFINED_TREE_STRING = TreeString.valueOf(UNDEFINED);
     private static final TreeString EMPTY_TREE_STRING = TreeString.valueOf(StringUtils.EMPTY);
 
-    private TreeStringBuilder fileNameBuilder = new TreeStringBuilder();
-    private TreeStringBuilder packageNameBuilder = new TreeStringBuilder();
-    private TreeStringBuilder messageBuilder = new TreeStringBuilder();
+    private final TreeStringBuilder fileNameBuilder = new TreeStringBuilder();
+    private final TreeStringBuilder packageNameBuilder = new TreeStringBuilder();
+    private final TreeStringBuilder messageBuilder = new TreeStringBuilder();
 
     private int lineStart = 0;
     private int lineEnd = 0;
@@ -96,7 +96,7 @@ public class IssueBuilder {
         return this;
     }
 
-    public TreeString internFileName(@Nullable final String unsafeFileName) {
+    TreeString internFileName(@Nullable final String unsafeFileName) {
         if (StringUtils.isEmpty(unsafeFileName)) {
             return UNDEFINED_TREE_STRING;
         }

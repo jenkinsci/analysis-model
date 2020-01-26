@@ -193,6 +193,7 @@ public class Issue implements Serializable {
      * @param copy
      *         the other issue to copy the properties from
      */
+    @SuppressWarnings("CopyConstructorMissesField")
     protected Issue(final Issue copy) {
         this(copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(),
                 copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
@@ -380,7 +381,7 @@ public class Issue implements Serializable {
      * @return the valid string or a default string if the specified string is not valid
      */
     private int defaultInteger(final int integer) {
-        return integer < 0 ? 0 : integer;
+        return Math.max(integer, 0);
     }
 
     /**
@@ -817,7 +818,7 @@ public class Issue implements Serializable {
         result = 31 * result + columnEnd;
         result = 31 * result + lineRanges.hashCode();
         result = 31 * result + description.hashCode();
-        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        result = 31 * result + (additionalProperties == null ? 0 : additionalProperties.hashCode());
         result = 31 * result + origin.hashCode();
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();

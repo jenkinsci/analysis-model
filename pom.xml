@@ -6,7 +6,7 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>8.0.0-beta6-SNAPSHOT</version>
+  <version>${revision}${changelist}</version>
 
   <packaging>jar</packaging>
 
@@ -46,7 +46,7 @@
   <url>http://www.cs.hm.edu/die_fakultaet/ansprechpartner/professoren/hafner/index.de.html</url>
 
   <properties>
-    <revision>8.0.0-beta3</revision>
+    <revision>8.0.0-beta6</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
