@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -48,7 +49,7 @@ import static java.util.stream.Collectors.*;
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
-    private static final long serialVersionUID = 1L; // release 1.0.0
+    private static final long serialVersionUID = 2L; // release 8.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
@@ -56,6 +57,8 @@ public class Report implements Iterable<Issue>, Serializable {
     private final Set<Issue> elements = new LinkedHashSet<>();
     private final List<String> infoMessages = new ArrayList<>();
     private final List<String> errorMessages = new ArrayList<>();
+
+    private final Set<String> fileNames = new HashSet<>();
 
     private int duplicatesSize = 0;
 
@@ -180,6 +183,26 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Adds the specified file name to the set of file names in this report. The file name identifies the file
+     * that has been processed to obtain all the issues of this report.
+     *
+     * @param fileName
+     *         the report file name to add
+     */
+    public void addFileName(final String fileName) {
+        fileNames.add(fileName);
+    }
+
+    /**
+     * Returns all files that have been processed to obtain all the issues of this report.
+     *
+     * @return the file names
+     */
+    public Set<String> getFileNames() {
+        return fileNames;
+    }
+
+    /**
      * Removes the issue with the specified ID. Note that the number of reported duplicates is not affected by calling
      * this method.
      *
@@ -190,7 +213,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @throws NoSuchElementException
      *         if there is no such issue found
      */
-    public Issue remove(final UUID issueId) {
+    Issue remove(final UUID issueId) {
         for (Issue element : elements) {
             if (element.getId().equals(issueId)) {
                 elements.remove(element);
