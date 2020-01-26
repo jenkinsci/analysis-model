@@ -46,10 +46,14 @@ class AbsolutePathGeneratorTest {
     void shouldReturnFallbackOnError(final String fileName) {
         Report report = createIssuesSingleton(fileName, new IssueBuilder());
 
-        resolvePaths(report, RESOURCE_FOLDER_PATH, f -> false);
+        resolvePaths(report, RESOURCE_FOLDER_PATH);
 
         assertThat(report.iterator()).toIterable().containsExactly(report.get(0));
         assertThatOneFileIsUnresolved(fileName, report);
+    }
+
+    private AbsolutePathGenerator resolvePaths(final Report report, final Path resourceFolderPath) {
+        return resolvePaths(report, resourceFolderPath, f -> false);
     }
 
     private AbsolutePathGenerator resolvePaths(final Report report, final Path workspace,
@@ -64,7 +68,7 @@ class AbsolutePathGeneratorTest {
     void shouldDoNothingIfNoIssuesPresent() {
         Report report = new Report();
 
-        resolvePaths(report, RESOURCE_FOLDER_PATH, f -> false);
+        resolvePaths(report, RESOURCE_FOLDER_PATH);
 
         assertThat(report).hasSize(0);
         assertThat(report.getInfoMessages()).containsExactly(AbsolutePathGenerator.NOTHING_TO_DO);
@@ -90,7 +94,7 @@ class AbsolutePathGeneratorTest {
         assertThat(report).hasSize(5);
         assertThat(report.get(0)).as("Issue with no file name")
                 .hasFileName("-");
-        assertThat(report.get(1)).as("Issue in console log")
+        assertThat(report.get(1)).as("Issue with path name resolution skipped")
                 .hasFileName("skip");
         assertThat(report.get(2)).as("Issue with relative file name")
                 .hasFileName(getAbsolutePath(RELATIVE_FILE));
@@ -119,7 +123,7 @@ class AbsolutePathGeneratorTest {
 
         Report report = createIssuesSingleton(fileName, builder.setOrigin(ID));
 
-        resolvePaths(report, RESOURCE_FOLDER_PATH, f -> false);
+        resolvePaths(report, RESOURCE_FOLDER_PATH);
 
         assertThat(report.get(0).getFileName()).as("Resolving file '%s'", normalize(fileName))
                 .isEqualTo(getAbsolutePath(RELATIVE_FILE));
@@ -136,7 +140,7 @@ class AbsolutePathGeneratorTest {
         String fileName = "child.txt";
         Report report = createIssuesSingleton(fileName, builder.setOrigin(ID));
 
-        AbsolutePathGenerator generator = resolvePaths(report, RESOURCE_FOLDER_PATH, f -> false);
+        AbsolutePathGenerator generator = resolvePaths(report, RESOURCE_FOLDER_PATH);
 
         assertThatOneFileIsUnresolved(fileName, report);
 
@@ -164,7 +168,7 @@ class AbsolutePathGeneratorTest {
         String fileName = "child.txt";
         Report report = createIssuesSingleton(fileName, builder.setOrigin(ID));
 
-        AbsolutePathGenerator generator = resolvePaths(report, RESOURCE_FOLDER_PATH, f -> false);
+        AbsolutePathGenerator generator = resolvePaths(report, RESOURCE_FOLDER_PATH);
 
         assertThatOneFileIsUnresolved(fileName, report);
 
@@ -210,7 +214,7 @@ class AbsolutePathGeneratorTest {
                 .build();
         report.add(issue);
 
-        resolvePaths(report, Paths.get(RESOURCE_FOLDER), f -> false);
+        resolvePaths(report, Paths.get(RESOURCE_FOLDER));
 
         String description = String.format("Resolving file '%s'", normalize(fileName));
         assertThat(report.get(0).getFileName()).as(description)
