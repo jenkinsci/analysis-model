@@ -142,7 +142,6 @@
                                                 allowEmptyArchive: true // in case we forgot to reincrementalify
                                     }
                                     publishingIncrementals = true
-                                    echo "INFO: Activating incrementals"
                                 } else {
                                     String artifacts
                                     if (isMaven) {
@@ -151,7 +150,6 @@
                                         artifacts = '**/build/libs/*.hpi,**/build/libs/*.jpi'
                                     }
                                     archiveArtifacts artifacts: artifacts, fingerprint: true
-                                    echo "INFO: Skipping incrementals"
                                 }
                             } else {
                                 echo "INFO: Skipping archiving of artifacts"
