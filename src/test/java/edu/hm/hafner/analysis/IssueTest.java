@@ -279,31 +279,6 @@ class IssueTest extends SerializableTest<Issue> {
         }
     }
 
-    @Test
-    void testFileNameBackslashConversion() {
-        Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
-                ADDITIONAL_PROPERTIES);
-
-        assertThat(issue).hasFileName(FILE_NAME);
-        
-        issue.setFileName(FILE_NAME_WITH_BACKSLASHES);
-        assertThat(issue).hasFileName(FILE_NAME);
-    }
-
-    @Test
-    void testMessageDescriptionStripped() {
-        Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
-                REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
-
-        try (SoftAssertions softly = new SoftAssertions()) {
-            softly.assertThat(issue)
-                    .hasMessage(MESSAGE)
-                    .hasDescription(DESCRIPTION);
-        }
-    }
-
     @Override
     protected Issue createSerializable() {
         return createFilledIssue();

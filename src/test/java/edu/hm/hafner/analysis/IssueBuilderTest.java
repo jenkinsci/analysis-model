@@ -21,7 +21,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  */
 class IssueBuilderTest {
     private static final String FILE_NAME = "C:/users/tester/file-name";
-    private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+    static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
     private static final Issue DEFAULT_ISSUE = new Issue(UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
             null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(TreeString.valueOf(FILE_NAME), LINE_START,

@@ -20,7 +20,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import edu.hm.hafner.util.PathUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link AbsolutePathGenerator}.

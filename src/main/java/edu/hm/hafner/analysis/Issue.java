@@ -244,7 +244,7 @@ public class Issue implements Serializable {
     @SuppressWarnings("ParameterNumber")
     protected Issue(final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @Nullable final LineRangeList lineRanges,
+            @Nullable final Iterable<? extends LineRange>  lineRanges,
             @Nullable final String category, @Nullable final String type,
             final TreeString packageName, @Nullable final String moduleName,
             @Nullable final Severity severity,
@@ -298,7 +298,7 @@ public class Issue implements Serializable {
      */
     @SuppressWarnings("ParameterNumber")
     protected Issue(final TreeString fileName, final int lineStart, final int lineEnd, final int columnStart,
-            final int columnEnd, @Nullable final LineRangeList lineRanges, @Nullable final String category,
+            final int columnEnd, @Nullable final Iterable<? extends LineRange>  lineRanges, @Nullable final String category,
             @Nullable final String type, final TreeString packageName,
             @Nullable final String moduleName, @Nullable final Severity severity,
             final TreeString message, final String description,
