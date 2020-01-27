@@ -1,17 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.function.Consumer;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link XlcLinkerParser}.
@@ -46,7 +43,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
     void shouldParseAnotherLinkerError() {
         Report report = parseString("ld: 0711-317 ERROR: Undefined symbol: nofun()");
 
-        assertSingleIssue(report, softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("0711-317")
@@ -54,7 +51,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
                     .hasLineEnd(0)
                     .hasMessage("Undefined symbol: nofun()")
                     .hasFileName(FILE_NAME);
-        });
+        }
     }
 
     /**
@@ -64,7 +61,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
     void shouldParseSevereError() {
         Report report = parseString("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
 
-        assertSingleIssue(report, softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("0711-634")
@@ -72,7 +69,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
                     .hasLineEnd(0)
                     .hasMessage("EXEC binder commands nested too deeply.")
                     .hasFileName(FILE_NAME);
-        });
+        }
     }
 
     /**
@@ -82,7 +79,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
     void shouldParseWarning() {
         Report report = parseString("ld: 0706-012 The -9 flag is not recognized.");
 
-        assertSingleIssue(report, softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("0706-012")
@@ -90,7 +87,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
                     .hasLineEnd(0)
                     .hasMessage("The -9 flag is not recognized.")
                     .hasFileName(FILE_NAME);
-        });
+        }
     }
 
     /**
@@ -100,7 +97,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
     void shouldPareAnotherWarning() {
         Report report = parseString("ld: 0711-224 WARNING: Duplicate symbol: dupe");
 
-        assertSingleIssue(report, softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("0711-224")
@@ -108,7 +105,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
                     .hasLineEnd(0)
                     .hasMessage("Duplicate symbol: dupe")
                     .hasFileName(FILE_NAME);
-        });
+        }
     }
 
     /**
@@ -118,7 +115,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
     void shouldParseInformation() {
         Report report = parseString("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");
 
-        assertSingleIssue(report, softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("0711-345")
@@ -126,12 +123,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
                     .hasLineEnd(0)
                     .hasMessage("Use the -bloadmap or -bnoquiet option to obtain more information.")
                     .hasFileName(FILE_NAME);
-        });
-    }
-
-    private void assertSingleIssue(final Report report, final Consumer<SoftAssertions> assertion) {
-        assertThat(report).hasSize(1);
-        assertSoftly(assertion);
+        }
     }
 
     private Report parseString(final String log) {

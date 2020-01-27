@@ -6,10 +6,10 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the extraction of PMD analysis results.
@@ -35,7 +35,7 @@ class PmdParserTest extends AbstractParserTest {
         softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
         softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
 
-        softly.assertThat(report).hasSeverities(0, 1, 2, 1);
+        assertThatReportHasSeverities(report, 0, 1, 2, 1);
 
         softly.assertThat(actionIssues.get(0))
                 .hasMessage("These nested if statements could be combined.")
@@ -75,7 +75,8 @@ class PmdParserTest extends AbstractParserTest {
     void issue54736() {
         Report report = parseInPmdFolder("issue54736.xml");
 
-        assertThat(report).hasSize(4 + 21).hasSeverities(21, 0, 4, 0);
+        assertThat(report).hasSize(4 + 21);
+        assertThatReportHasSeverities(report, 21, 0, 4, 0);
         assertThat(report.get(4)).hasSeverity(Severity.ERROR)
                 .hasFileName(
                         "/Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp")
@@ -173,7 +174,7 @@ class PmdParserTest extends AbstractParserTest {
         assertThat(report).hasSize(expectedSize);
         assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.core.db.plsqlCompletion"))).hasSize(
                 expectedSize);
-        assertThat(report).hasSeverities(0, 0, 4, 0);
+        assertThatReportHasSeverities(report, 0, 0, 4, 0);
     }
 
     private Report parseInPmdFolder(final String fileName) {

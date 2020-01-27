@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**

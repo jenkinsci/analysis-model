@@ -295,7 +295,7 @@ public class Issue implements Serializable {
      */
     @SuppressWarnings("ParameterNumber")
     protected Issue(@Nullable final String fileName, final int lineStart, final int lineEnd, final int columnStart,
-            final int columnEnd, @Nullable final LineRangeList lineRanges, @Nullable final String category,
+            final int columnEnd, @Nullable final Iterable<? extends LineRange> lineRanges, @Nullable final String category,
             @Nullable final String type, @Nullable final String packageName,
             @Nullable final String moduleName, @Nullable final Severity severity,
             @Nullable final String message, @Nullable final String description,
@@ -550,7 +550,7 @@ public class Issue implements Serializable {
      * @return the last line
      */
     // TODO: actually we need a list of locations since a warning may involve several files
-    public LineRangeList getLineRanges() {
+    public Iterable<? extends LineRange> getLineRanges() {
         return new LineRangeList(lineRanges);
     }
 

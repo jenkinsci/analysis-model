@@ -9,9 +9,9 @@ import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link JsonParser}.
@@ -28,7 +28,7 @@ class JsonParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasFileName("directory/test-file.txt")
-                .containsExactlyLineRanges(new LineRange(110, 111), new LineRange(120, 121))
+                .hasOnlyLineRanges(new LineRange(110, 111), new LineRange(120, 121))
                 .hasCategory("category")
                 .hasDescription("description")
                 .hasType("type")
@@ -54,7 +54,7 @@ class JsonParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(2))
                 .hasFileName("test.txt")
-                .containsExactlyLineRanges(new LineRange(110, 110), new LineRange(320, 320))
+                .hasOnlyLineRanges(new LineRange(110, 110), new LineRange(320, 320))
                 .hasDescription("an \"important\" description")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("an \"important\" message");
@@ -66,7 +66,7 @@ class JsonParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(4))
                 .hasFileName("file.xml")
-                .containsExactlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
+                .hasOnlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 

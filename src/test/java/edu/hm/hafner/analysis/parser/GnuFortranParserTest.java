@@ -8,9 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link GnuFortranParser}.
@@ -74,7 +74,7 @@ class GnuFortranParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Warning")
@@ -82,7 +82,7 @@ class GnuFortranParserTest extends AbstractParserTest {
                     .hasLineEnd(318)
                     .hasMessage("Inequality comparison for REAL(8)")
                     .hasFileName("C:/zlaror.f");
-        });
+        }
     }
 
     /**
@@ -94,16 +94,17 @@ class GnuFortranParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasCategory("Error")
                     .hasLineStart(81)
                     .hasLineEnd(81)
-                    .hasMessage("Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'")
+                    .hasMessage(
+                            "Interface mismatch in dummy procedure 'f': Shape mismatch in dimension 1 of argument 'y'")
                     .hasFileName("generic2.f90")
                     .hasColumnStart(24);
-        });
+        }
     }
 
     /**
@@ -115,7 +116,7 @@ class GnuFortranParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasCategory("Fatal Error")
@@ -124,7 +125,7 @@ class GnuFortranParserTest extends AbstractParserTest {
                     .hasMessage("Can't open module file 'ieee_arithmetic.mod' for reading: No such file or directory")
                     .hasFileName("/path/to/file.f90")
                     .hasColumnStart(10);
-        });
+        }
     }
 
     /**
@@ -136,7 +137,7 @@ class GnuFortranParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasCategory("Internal Error")
@@ -145,12 +146,11 @@ class GnuFortranParserTest extends AbstractParserTest {
                     .hasMessage("free_pi_tree(): Unresolved fixup")
                     .hasFileName("linear_algebra_mod.f90")
                     .hasColumnStart(8);
-        });
+        }
     }
 
     /**
-     * Test some inputs which are not valid error messages.
-     * For these no issue should be created.
+     * Test some inputs which are not valid error messages. For these no issue should be created.
      */
     @Test
     void testInvalidParser() {

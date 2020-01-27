@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link Flake8Adapter}.
@@ -57,7 +57,7 @@ class Flake8AdapterTest extends AbstractParserTest {
         Report report = parse("flake8.log");
 
         assertThat(report).hasSize(2);
-        SoftAssertions.assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0)).hasFileName("./src/init.py")
                     .hasLineStart(66)
                     .hasColumnStart(121)
@@ -68,6 +68,6 @@ class Flake8AdapterTest extends AbstractParserTest {
                     .hasColumnStart(58)
                     .hasType("W292")
                     .hasMessage("no newline at end of file");
-        });
+        }
     }
 }

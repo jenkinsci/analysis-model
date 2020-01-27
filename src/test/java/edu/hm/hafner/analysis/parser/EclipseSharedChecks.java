@@ -3,13 +3,13 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Common assertions for differently formatted Eclipse output, from the same source code.
- * 
+ *
  * @author Jason Faust
  */
 final class EclipseSharedChecks {
@@ -23,7 +23,7 @@ final class EclipseSharedChecks {
     static void javadocCategory(final Report warnings) {
         assertThat(warnings).hasSize(5);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(1)
@@ -58,7 +58,6 @@ final class EclipseSharedChecks {
                     .hasMessage("The value of the local variable unused is not used")
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
                     .hasCategory(Categories.OTHER);
-        });
+        }
     }
-
 }

@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link GnatParser}.
@@ -36,7 +36,8 @@ class GnatParserTest extends AbstractParserTest {
                 .hasLineStart(63)
                 .hasLineEnd(63)
                 .hasMessage("variable \"E\" is not referenced")
-                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/iml-interfaces-cfg.adb");
+                .hasFileName(
+                        "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/utilities/iml-interfaces-cfg.adb");
 
         softly.assertThat(iterator.next())
                 .hasSeverity(Severity.WARNING_LOW)
@@ -52,7 +53,8 @@ class GnatParserTest extends AbstractParserTest {
                 .hasLineStart(3)
                 .hasLineEnd(3)
                 .hasMessage("redundant with clause in body")
-                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/generated/ada_delta_constraints.adb");
+                .hasFileName(
+                        "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/generated/ada_delta_constraints.adb");
 
         softly.assertThat(iterator.next())
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -68,7 +70,8 @@ class GnatParserTest extends AbstractParserTest {
                 .hasLineStart(63)
                 .hasLineEnd(63)
                 .hasMessage("\"C\" is not modified, could be declared constant")
-                .hasFileName("/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/graph_algorithms-generic_explorers.adb");
+                .hasFileName(
+                        "/home/bergerbd/.hudson/jobs/Test/workspace/projects/libs/reuse/src/graph_algorithms-generic_explorers.adb");
 
         softly.assertThat(iterator.next())
                 .hasSeverity(Severity.WARNING_LOW)

@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link Pep8Parser}.
@@ -17,8 +17,8 @@ class Pep8ParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report)
-                .hasSize(8).hasSeverities(0, 0, 6, 2);
+        softly.assertThat(report).hasSize(8);
+        assertThatReportHasSeverities(report, 0, 0, 6, 2);
 
         softly.assertThat(report.get(0))
                 .hasFileName("optparse.py")

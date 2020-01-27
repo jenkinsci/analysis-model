@@ -6,9 +6,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link IarCstatParser}.
@@ -42,21 +42,24 @@ class IarCstatParserTest extends AbstractParserTest {
                 .hasCategory("MISRAC2012-Rule-8.4")
                 .hasLineStart(145)
                 .hasLineEnd(145)
-                .hasMessage("Definition of externally-linked `ADC0_IRQHandler()' has no compatible declaration. MISRAC2012-Rule-8.4")
+                .hasMessage(
+                        "Definition of externally-linked `ADC0_IRQHandler()' has no compatible declaration. MISRAC2012-Rule-8.4")
                 .hasFileName("src/main/hal/HalAdcLS.c");
         softly.assertThat(iterator.next())
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("MISRAC2012-Rule-14.3_a")
                 .hasLineStart(131)
                 .hasLineEnd(131)
-                .hasMessage("Conditional expression `0!=PalLog_GetUpdateRate()' is always true. CERT-EXP17-C,MISRAC2012-Rule-14.3")
+                .hasMessage(
+                        "Conditional expression `0!=PalLog_GetUpdateRate()' is always true. CERT-EXP17-C,MISRAC2012-Rule-14.3")
                 .hasFileName("src/main/pal/PalLog.c");
         softly.assertThat(iterator.next())
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("PTR-null-fun-pos")
                 .hasLineStart(15)
                 .hasLineEnd(15)
-                .hasMessage("Function call `f1()' is immediately dereferenced, without checking for NULL. CERT-EXP34-C,CWE-476")
+                .hasMessage(
+                        "Function call `f1()' is immediately dereferenced, without checking for NULL. CERT-EXP34-C,CWE-476")
                 .hasFileName("cstat1.c");
         softly.assertThat(iterator.next())
                 .hasSeverity(Severity.WARNING_LOW)
@@ -70,7 +73,8 @@ class IarCstatParserTest extends AbstractParserTest {
                 .hasCategory("ARR-inv-index")
                 .hasLineStart(16)
                 .hasLineEnd(16)
-                .hasMessage("Array `arr' 1st subscript 20 is out of bounds [0,9]. CERT-ARR33-C,CWE-119,CWE-120,CWE-121,CWE-124,CWE-126,CWE-127,CWE-129,MISRAC++2008-5-0-16,MISRAC2012-Rule-18.1")
+                .hasMessage(
+                        "Array `arr' 1st subscript 20 is out of bounds [0,9]. CERT-ARR33-C,CWE-119,CWE-120,CWE-121,CWE-124,CWE-126,CWE-127,CWE-129,MISRAC++2008-5-0-16,MISRAC2012-Rule-18.1")
                 .hasFileName("cstat2.c");
     }
 }

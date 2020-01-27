@@ -203,7 +203,8 @@ public class IssueBuilder {
         lineEnd = copy.getLineEnd();
         columnStart = copy.getColumnStart();
         columnEnd = copy.getColumnEnd();
-        lineRanges = copy.getLineRanges();
+        lineRanges = new LineRangeList();
+        lineRanges.addAll(copy.getLineRanges());
         category = copy.getCategory();
         type = copy.getType();
         severity = copy.getSeverity();

@@ -11,9 +11,8 @@ import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -59,7 +58,7 @@ class XmlParserTest extends AbstractParserTest {
                 .hasReference("reference")
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
-                .containsExactlyLineRanges(new LineRange(5, 6));
+                .hasOnlyLineRanges(new LineRange(5, 6));
 
     }
 
@@ -73,7 +72,7 @@ class XmlParserTest extends AbstractParserTest {
         XmlParser parser = new XmlParser(CUSTOM_PATH);
         Report report = parser.parse(createReaderFactory(ISSUES_CUSTOM_PATH_FILE));
         Iterator<Issue> iterator = report.iterator();
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report)
                     .hasSize(2);
             softly.assertThat(iterator.next())
@@ -94,7 +93,7 @@ class XmlParserTest extends AbstractParserTest {
                     .hasReference("reference")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
-                    .containsExactlyLineRanges(new LineRange(5, 6));
+                    .hasOnlyLineRanges(new LineRange(5, 6));
 
             softly.assertThat(iterator.next())
                     .hasId(UUID.fromString("fbf2fee0-292f-4991-bd06-d8c5b13ace93"))
@@ -114,8 +113,8 @@ class XmlParserTest extends AbstractParserTest {
                     .hasReference("reference")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
-                    .containsExactlyLineRanges(new LineRange(42, 43), new LineRange(44, 45));
-        });
+                    .hasOnlyLineRanges(new LineRange(42, 43), new LineRange(44, 45));
+        }
     }
 
     @Test
@@ -134,7 +133,7 @@ class XmlParserTest extends AbstractParserTest {
     void shouldProduceIssuesEvenIfThereAreIncompatibleValues() {
         Report report = createParser().parse(createReaderFactory(ISSUES_INCOMPATIBLE_VALUE));
         Iterator<Issue> iterator = report.iterator();
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report)
                     .hasSize(1);
             softly.assertThat(iterator.next())
@@ -154,9 +153,7 @@ class XmlParserTest extends AbstractParserTest {
                     .hasReference("")
                     .hasFingerprint("-")
                     .hasAdditionalProperties("")
-                    .containsExactlyLineRanges(new LineRange(1, 2));
-        });
-
+                    .hasOnlyLineRanges(new LineRange(1, 2));
+        }
     }
-
 }

@@ -6,10 +6,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link EclipseMavenParser}.
@@ -32,22 +31,27 @@ class EclipseMavenParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(369)
                 .hasLineEnd(369)
-                .hasMessage("The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally")
-                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
+                .hasMessage(
+                        "The method compare(List<String>, List<String>) from the type PmModelImporter is never used locally")
+                .hasFileName(
+                        "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
                 .hasCategory(Categories.OTHER);
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(391)
                 .hasLineEnd(391)
-                .hasMessage("The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally")
-                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
+                .hasMessage(
+                        "The method getTableValues(PropertyRestrictionType) from the type PmModelImporter is never used locally")
+                .hasFileName(
+                        "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core/src/com/faktorzehn/pa2msgpm/core/loader/PmModelImporter.java")
                 .hasCategory(Categories.OTHER);
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(56)
                 .hasLineEnd(56)
                 .hasMessage("The value of the field PropertyImporterTest.ERROR_RESPONSE is not used")
-                .hasFileName("/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java")
+                .hasFileName(
+                        "/media/ssd/multi-x-processor/workspace/msgPM_Access/com.faktorzehn.pa2msgpm.core.test/src/com/faktorzehn/pa2msgpm/core/importer/PropertyImporterTest.java")
                 .hasCategory(Categories.OTHER);
     }
 
@@ -74,7 +78,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(13)
@@ -82,7 +86,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
                     .hasMessage("The method getOldValue() from the type SomeType is deprecated")
                     .hasFileName("/path/to/job/job-name/module/src/main/java/com/example/Example.java")
                     .hasCategory(Categories.OTHER);
-        });
+        }
     }
 
     /**
@@ -96,7 +100,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(3);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(9)
@@ -115,7 +119,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
                     .hasMessage("The method as13(String) from the type X can potentially be declared as static")
                     .hasFileName("/home/piotr/.../X.java")
                     .hasCategory(Categories.OTHER);
-        });
+        }
     }
 
     /**

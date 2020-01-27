@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link MentorParserTest}.
@@ -33,7 +33,8 @@ class MentorParserTest extends AbstractParserTest {
         softly.assertThat(report.get(issue++))
                 .hasMessage("Data structure takes 20152432 bytes of memory")
                 .hasModuleName("/tb_fir_emulation/u_tb")
-                .hasDescription("<br>#          Process time 2.89 seconds<br>#          $stop    : /net/test_tb.sv(313)")
+                .hasDescription(
+                        "<br>#          Process time 2.89 seconds<br>#          $stop    : /net/test_tb.sv(313)")
                 .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(report.get(issue++))
@@ -69,7 +70,8 @@ class MentorParserTest extends AbstractParserTest {
         softly.assertThat(report.get(issue++))
                 .hasLineStart(24)
                 .hasFileName("src/mux.sv")
-                .hasMessage("Variable 'sel' driven in a combinational block, may not be driven by any other process. See src/mux.sv(26).")
+                .hasMessage(
+                        "Variable 'sel' driven in a combinational block, may not be driven by any other process. See src/mux.sv(26).")
                 .hasCategory("vlog-7033")
                 .hasModuleName("-")
                 .hasSeverity(Severity.ERROR);
@@ -77,7 +79,8 @@ class MentorParserTest extends AbstractParserTest {
         softly.assertThat(report.get(issue++))
                 .hasLineStart(19)
                 .hasFileName("src/data.sv")
-                .hasMessage("Defaulting port 'ctl' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.")
+                .hasMessage(
+                        "Defaulting port 'ctl' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.")
                 .hasCategory("vlog-13314")
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
@@ -95,7 +98,8 @@ class MentorParserTest extends AbstractParserTest {
         softly.assertThat(report.get(issue++))
                 .hasLineStart(60)
                 .hasFileName("src/bus.sv")
-                .hasMessage("Variable 'using_mem' driven in an always_ff block, may not be driven by any other process. See src/bus.sv(420).")
+                .hasMessage(
+                        "Variable 'using_mem' driven in an always_ff block, may not be driven by any other process. See src/bus.sv(420).")
                 .hasCategory("vopt-7061")
                 .hasModuleName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);

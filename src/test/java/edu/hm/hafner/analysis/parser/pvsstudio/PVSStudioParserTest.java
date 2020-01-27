@@ -7,7 +7,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link PVSStudioParser}.
@@ -24,7 +24,7 @@ class PVSStudioParserTest extends AbstractParserTest {
         softly.assertThat(report).hasSize(33);
         softly.assertThat(report.getFiles()).hasSize(1);
 
-        softly.assertThat(report).hasSeverities(1, 5, 24, 3);
+        assertThatReportHasSeverities(report, 1, 5, 24, 3);
 
         softly.assertThat(report.filter(Issue.byType(AnalyzerType.GENERAL_MESSAGE)).getSize()).isEqualTo(7);
         softly.assertThat(report.filter(Issue.byType(AnalyzerType.OPTIMIZATION_MESSAGE)).getSize()).isEqualTo(1);
@@ -43,12 +43,13 @@ class PVSStudioParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("V106")
                 .hasLineStart(42)
-                .hasMessage(getFormedMessage("V106", "Implicit type conversion third argument '(lstrlenA(Source) + 1)' of function 'memmove' to memsize type."))
+                .hasMessage(getFormedMessage("V106",
+                        "Implicit type conversion third argument '(lstrlenA(Source) + 1)' of function 'memmove' to memsize type."))
                 .hasFileName("D:/PartPath/PartPath/out/test/resources/TestReport.plog");
     }
 
     private String getFormedMessage(final String type, final String messageFromFile) {
-        return  "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/" + type.toLowerCase(Locale.ENGLISH) + "/\">"
+        return "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/" + type.toLowerCase(Locale.ENGLISH) + "/\">"
                 + type + "</a> " + messageFromFile;
     }
 

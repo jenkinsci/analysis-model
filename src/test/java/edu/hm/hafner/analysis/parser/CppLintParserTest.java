@@ -5,10 +5,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link CppLintParser}.
@@ -31,7 +30,7 @@ class CppLintParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(2);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(399)
                     .hasLineEnd(399)
                     .hasMessage("Missing space before {")
@@ -44,14 +43,13 @@ class CppLintParserTest extends AbstractParserTest {
                     .hasFileName("/opt/ros/fuerte/stacks/Mule/Mapping/Local_map/src/LocalCostMap.cpp")
                     .hasCategory("whitespace/tab")
                     .hasSeverity(Severity.WARNING_LOW);
-        });
+        }
     }
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report)
-                .hasSize(1031)
-                .hasSeverities(0, 81, 201, 749);
+        softly.assertThat(report).hasSize(1031);
+        assertThatReportHasSeverities(report, 0, 81, 201, 749);
         softly.assertThat(report.get(0))
                 .hasLineStart(824)
                 .hasLineEnd(824)
@@ -70,7 +68,7 @@ class CppLintParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(1)
                     .hasLineEnd(1)
@@ -78,7 +76,7 @@ class CppLintParserTest extends AbstractParserTest {
                     .hasFileName("/path/to/file.cpp")
                     .hasCategory("runtime/references")
                     .hasSeverity(Severity.WARNING_LOW);
-        });
+        }
     }
 
     @Override

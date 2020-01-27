@@ -10,10 +10,9 @@ import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -38,8 +37,10 @@ class JavacParserTest extends AbstractParserTest {
                 .hasCategory(Categories.DEPRECATION)
                 .hasLineStart(40)
                 .hasLineEnd(40)
-                .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
+                .hasMessage(
+                        "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                .hasFileName(
+                        "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
                 .hasColumnStart(36);
     }
 
@@ -132,15 +133,16 @@ class JavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
                     .hasLineEnd(14)
-                    .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
+                    .hasMessage(
+                            "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
                     .hasFileName("D:/path/to/my/Class.java");
-        });
+        }
     }
 
     /**
@@ -152,7 +154,7 @@ class JavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(2);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.DEPRECATION)
@@ -171,7 +173,7 @@ class JavacParserTest extends AbstractParserTest {
                             "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
                     .hasFileName(
                             "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
-        });
+        }
     }
 
     /**
@@ -194,13 +196,13 @@ class JavacParserTest extends AbstractParserTest {
     @Test
     void shouldNotIncludeErrorprone() {
         Report warnings = parse("javac-errorprone.txt");
-        
+
         assertThat(warnings).hasSize(2);
         assertThat(warnings.get(0)).hasSeverity(Severity.ERROR);
         assertThat(warnings.get(1)).hasSeverity(Severity.ERROR);
-        
+
         warnings = parse("errorprone-maven.log");
-        
+
         assertThat(warnings).hasSize(0);
     }
 
@@ -213,7 +215,7 @@ class JavacParserTest extends AbstractParserTest {
      *         the line number of the warning
      */
     private void assertThatWarningIsAtLine(final Issue annotation, final int lineNumber) {
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(annotation)
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.PROPRIETARY_API)
@@ -223,7 +225,7 @@ class JavacParserTest extends AbstractParserTest {
                             "com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release")
                     .hasFileName(
                             "/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
-        });
+        }
     }
 }
 
