@@ -3,14 +3,14 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link CodeNarcAdapter}.
  *
  * @author Ullrich Hafner
  */
-class CodeNarcAdapterTest extends AbstractParserTest  {
+class CodeNarcAdapterTest extends AbstractParserTest {
     CodeNarcAdapterTest() {
         super("codeNarc.xml");
     }

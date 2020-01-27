@@ -8,10 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link GccParser}.
@@ -50,7 +49,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(4)
                     .hasLineEnd(4)
@@ -58,7 +57,7 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("foo.cc")
                     .hasCategory(GCC_ERROR)
                     .hasSeverity(Severity.WARNING_HIGH);
-        });
+        }
     }
 
     /**
@@ -72,7 +71,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(52)
                     .hasLineEnd(52)
@@ -81,7 +80,7 @@ class GccParserTest extends AbstractParserTest {
 
                     .hasCategory(GCC_WARNING)
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 
     /**
@@ -89,7 +88,6 @@ class GccParserTest extends AbstractParserTest {
      */
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-
 
         softly.assertThat(report).hasSize(8);
 
@@ -160,7 +158,6 @@ class GccParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
-
     /**
      * Parses a warning log with 2 new GCC warnings.
      *
@@ -174,7 +171,7 @@ class GccParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(12)
                     .hasLineEnd(12)
@@ -198,7 +195,7 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("/dir1/dir2/file.cpp")
                     .hasCategory(GccParser.GCC_ERROR)
                     .hasSeverity(Severity.WARNING_HIGH);
-        });
+        }
     }
 
     /**
@@ -214,7 +211,7 @@ class GccParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(352)
                     .hasLineEnd(352)
@@ -230,7 +227,7 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("main/mep.cpp")
                     .hasCategory("GCC note")
                     .hasSeverity(Severity.WARNING_LOW);
-        });
+        }
     }
 
     /**
@@ -256,7 +253,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(11).hasDuplicatesSize(11);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(1128)
                     .hasLineEnd(1128)
@@ -265,7 +262,7 @@ class GccParserTest extends AbstractParserTest {
                             "/Users/rthomson/hudson/jobs/Bryce7-MacWarnings/workspace/bryce7/src/Bryce/Plugins/3DSExport/3DSExport.cpp")
                     .hasCategory(GCC_WARNING)
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 
     /**
@@ -279,7 +276,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -287,7 +284,7 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("MyLib")
                     .hasCategory(GccParser.LINKER_ERROR)
                     .hasSeverity(Severity.WARNING_HIGH);
-        });
+        }
     }
 
     /**
@@ -303,7 +300,7 @@ class GccParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(638)
                     .hasLineEnd(638)
@@ -335,7 +332,7 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("file1.m")
                     .hasCategory(GCC_WARNING)
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 
     /**
@@ -349,7 +346,6 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
     }
-
 
     @Override
     protected GccParser createParser() {

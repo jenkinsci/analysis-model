@@ -11,10 +11,9 @@ import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -58,7 +57,7 @@ class AntJavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(0)
@@ -66,7 +65,7 @@ class AntJavacParserTest extends AbstractParserTest {
                     .hasMessage(
                             "Cannot find annotation method 'xxx()' in type 'yyyy': class file for fully.qualified.ClassName not found")
                     .hasFileName("aaa.class");
-        });
+        }
     }
 
     /**
@@ -80,7 +79,7 @@ class AntJavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(2);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(DEFAULT_CATEGORY)
@@ -98,7 +97,7 @@ class AntJavacParserTest extends AbstractParserTest {
                     .hasFileName(
                             "/home/hudson/hudson/data/jobs/Mockito/workspace/trunk/test/org/mockitousage/stubbing/StubbingWithThrowablesTest.java");
             softly.assertAll();
-        });
+        }
     }
 
     /**
@@ -112,7 +111,7 @@ class AntJavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Path")
@@ -121,7 +120,7 @@ class AntJavacParserTest extends AbstractParserTest {
                     .hasMessage(
                             "bad path element \"C:\\...\\.hudson\\jobs\\...\\log4j.jar\": no such file or directory")
                     .hasFileName("C:/.../.hudson/jobs/.../log4j.jar");
-        });
+        }
     }
 
     /**
@@ -135,8 +134,7 @@ class AntJavacParserTest extends AbstractParserTest {
 
         assertThat(warnings)
                 .hasSize(18)
-                .hasDuplicatesSize(2)
-                .hasSeverities(0, 0, 18, 0);
+                .hasDuplicatesSize(2).hasOnlySeverities(Severity.WARNING_NORMAL);
     }
 
     /**
@@ -158,7 +156,7 @@ class AntJavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(225)
@@ -166,7 +164,7 @@ class AntJavacParserTest extends AbstractParserTest {
                     .hasMessage(
                             "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
                     .hasFileName("D:/path/to/my/Class.java");
-        });
+        }
     }
 
     @Test
@@ -175,12 +173,12 @@ class AntJavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasSeverity(Severity.ERROR)
                     .hasLineStart(59)
                     .hasMessage("';' expected")
                     .hasFileName("/var/lib/jenkins/workspace/webhooks/src/main/java/File.java");
-        });
+        }
     }
 
     /**
@@ -209,7 +207,8 @@ class AntJavacParserTest extends AbstractParserTest {
                 .hasLineStart(28)
                 .hasLineEnd(28)
                 .hasMessage("begrussen() in ths.types.IGruss has been deprecated")
-                .hasFileName("C:/Users/tiliven/.hudson/jobs/Hello THS Trunk - compile/workspace/HelloTHSTest/src/ths/Hallo.java");
+                .hasFileName(
+                        "C:/Users/tiliven/.hudson/jobs/Hello THS Trunk - compile/workspace/HelloTHSTest/src/ths/Hallo.java");
     }
 
     @Override

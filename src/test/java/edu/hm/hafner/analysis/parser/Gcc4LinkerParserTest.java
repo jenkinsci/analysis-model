@@ -8,9 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link Gcc4LinkerParser}.
@@ -88,7 +88,8 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(0)
                 .hasLineEnd(0)
-                .hasMessage("errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o")
+                .hasMessage(
+                        "errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o")
                 .hasFileName(FILE_NAME)
                 .hasSeverity(Severity.WARNING_HIGH);
 

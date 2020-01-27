@@ -9,10 +9,10 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the extraction of Resharper DupFinder analysis results.

@@ -90,9 +90,9 @@
     <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <maven-pmd-plugin.version>3.12.0</maven-pmd-plugin.version>
-    <pmd.version>6.20.0</pmd.version>
+    <pmd.version>6.21.0</pmd.version>
     <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
-    <checkstyle.version>8.28</checkstyle.version>
+    <checkstyle.version>8.29</checkstyle.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
     <findsecbugs-plugin.version>1.10.1</findsecbugs-plugin.version>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
@@ -107,6 +107,7 @@
     <revapi-maven-plugin.version>0.11.2</revapi-maven-plugin.version>
     <revapi-java.version>0.20.0</revapi-java.version>
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+    <assertj-assertions-generator-maven-plugin.version>2.2.0</assertj-assertions-generator-maven-plugin.version>
 
     <!-- Maven Surefire ArgLine -->
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
@@ -276,6 +277,36 @@
     </resources>
 
     <plugins>
+      <plugin>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+        <version>${assertj-assertions-generator-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-assertions</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <excludes>
+            <exclude>.*SecureDigester</exclude>
+          </excludes>
+          <packages>
+            <package>edu.hm.hafner.analysis</package>
+          </packages>
+          <cleanTargetDir>true</cleanTargetDir>
+          <hierarchical>false</hierarchical>
+          <generateBddAssertions>false</generateBddAssertions>
+          <generateJUnitSoftAssertions>false</generateJUnitSoftAssertions>
+          <entryPointClassPackage>edu.hm.hafner.analysis.assertions</entryPointClassPackage>
+          <templates>
+            <templatesDirectory>${project.basedir}/etc/templates/</templatesDirectory>
+            <assertionsEntryPointClass>assertions_entry_point_class_template.txt</assertionsEntryPointClass>
+            <softEntryPointAssertionClass>soft_assertions_entry_point_class_template.txt</softEntryPointAssertionClass>
+          </templates>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>

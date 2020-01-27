@@ -15,11 +15,11 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import static org.mockito.Mockito.*;
 
@@ -37,7 +37,8 @@ class FindBugsParserTest {
 
     private Report parseFile(final String fileName, final PriorityProperty priorityProperty) {
         ReaderFactory readerFactory = mock(ReaderFactory.class);
-        when(readerFactory.create()).thenAnswer(mock -> new InputStreamReader(read(PREFIX + fileName), StandardCharsets.UTF_8));
+        when(readerFactory.create()).thenAnswer(
+                mock -> new InputStreamReader(read(PREFIX + fileName), StandardCharsets.UTF_8));
         return new FindBugsParser(priorityProperty).parse(readerFactory,
                 Collections.emptyList(), new IssueBuilder());
     }
@@ -53,13 +54,23 @@ class FindBugsParserTest {
      */
     @Test
     void shouldAssignCorrectSeverity() {
-        assertThat(parseFile("findbugs-severities.xml", CONFIDENCE))
-                .hasSize(12)
-                .hasSeverities(0, 1, 11, 0);
+        Report confidenceReport = parseFile("findbugs-severities.xml", CONFIDENCE);
+        assertThat(confidenceReport).hasSize(12);
+        assertThatReportHasSeverities(confidenceReport,
+                0, 1, 11, 0);
 
-        assertThat(parseFile("findbugs-severities.xml", RANK))
-                .hasSize(12)
-                .hasSeverities(0, 0, 0, 12);
+        Report rankReport = parseFile("findbugs-severities.xml", RANK);
+        assertThat(rankReport).hasSize(12);
+        assertThatReportHasSeverities(rankReport,
+                0, 0, 0, 12);
+    }
+
+    private void assertThatReportHasSeverities(final Report report, final int expectedSizeError,
+            final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
+        assertThat(report.getSizeOf(Severity.ERROR)).isEqualTo(expectedSizeError);
+        assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expectedSizeHigh);
+        assertThat(report.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expectedSizeNormal);
+        assertThat(report.getSizeOf(Severity.WARNING_LOW)).isEqualTo(expectedSizeLow);
     }
 
     /**
@@ -72,7 +83,7 @@ class FindBugsParserTest {
         Report report = parseFile("spotbugsXml.xml", CONFIDENCE);
         assertThat(report).hasSize(2);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasFileName("edu/hm/hafner/analysis/IssuesTest.java")
                     .hasCategory("STYLE")
@@ -95,7 +106,7 @@ class FindBugsParserTest {
                     .hasLineStart(289)
                     .hasLineEnd(289)
                     .hasFingerprint("cc577f74735570f875f75b479484fecf");
-        });
+        }
     }
 
     /**
@@ -107,7 +118,8 @@ class FindBugsParserTest {
     void issue7238() {
         Report report = parseFile("issue7238.xml", CONFIDENCE);
 
-        assertThat(report).hasSize(1808).hasDuplicatesSize(12); // 12 issues are skipped (same attributes, but different instance hash)
+        assertThat(report).hasSize(1808)
+                .hasDuplicatesSize(12); // 12 issues are skipped (same attributes, but different instance hash)
     }
 
     /**
@@ -120,7 +132,7 @@ class FindBugsParserTest {
         Report report = parseFile("issue12314.xml", CONFIDENCE);
         assertThat(report).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasFileName("com/sedsystems/core/valid/Transformers.java")
                     .hasPackageName("com.sedsystems.core.valid")
@@ -128,7 +140,7 @@ class FindBugsParserTest {
                     .hasModuleName("issue12314.xml")
                     .hasLineStart(60)
                     .hasLineEnd(60);
-        });
+        }
     }
 
     /**
@@ -156,8 +168,10 @@ class FindBugsParserTest {
     @Test
     void testFileWithMultipleLinesAndRanges() {
         scanNativeFile(FINDBUGS_NATIVE_XML, FINDBUGS_NATIVE_XML,
-                Severity.WARNING_NORMAL, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
-                4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0, CONFIDENCE);
+                Severity.WARNING_NORMAL, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309,
+                1309,
+                4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0,
+                CONFIDENCE);
         scanNativeFile(FINDBUGS_NATIVE_XML, FINDBUGS_NATIVE_XML,
                 Severity.WARNING_LOW, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
                 4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0, RANK);
@@ -226,7 +240,7 @@ class FindBugsParserTest {
         Issue first = report.filter(Issue.byFileName(fileName1)).get(0);
         Issue second = report.filter(Issue.byFileName(fileName2)).get(0);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(first)
                     .hasFileName(fileName1)
                     .hasPackageName(packageName1)
@@ -243,7 +257,6 @@ class FindBugsParserTest {
                     .hasLineStart(start2)
                     .hasLineEnd(end2);
             softly.assertThat(second.getLineRanges()).hasSize(ranges2);
-        });
+        }
     }
-
 }

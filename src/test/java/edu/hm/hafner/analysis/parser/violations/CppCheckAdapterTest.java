@@ -7,9 +7,9 @@ import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link CppCheckAdapter}.
@@ -39,14 +39,15 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasLineStart(498)
                 .hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(report.get(2))
-                .hasMessage("The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. "
-                        + "Be careful. Especially when there are inner loops. Here is an example where cppcheck will "
-                        + "write that the scope for 'i' can be reduced:&#xa;void f(int x)&#xa;{&#xa;    int i = 0;&#xa;    "
-                        + "if (x) {&#xa;        // it's safe to move 'int i = 0' here&#xa;        "
-                        + "for (int n = 0; n < 10; ++n) {&#xa;            "
-                        + "// it is possible but not safe to move 'int i = 0' here&#xa;            "
-                        + "do_something(&i);&#xa;        }&#xa;    }&#xa;}&#xa;"
-                        + "When you see this message it is always safe to reduce the variable scope 1 level.")
+                .hasMessage(
+                        "The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. "
+                                + "Be careful. Especially when there are inner loops. Here is an example where cppcheck will "
+                                + "write that the scope for 'i' can be reduced:&#xa;void f(int x)&#xa;{&#xa;    int i = 0;&#xa;    "
+                                + "if (x) {&#xa;        // it's safe to move 'int i = 0' here&#xa;        "
+                                + "for (int n = 0; n < 10; ++n) {&#xa;            "
+                                + "// it is possible but not safe to move 'int i = 0' here&#xa;            "
+                                + "do_something(&i);&#xa;        }&#xa;    }&#xa;}&#xa;"
+                                + "When you see this message it is always safe to reduce the variable scope 1 level.")
                 .hasFileName("api_storage.c")
                 .hasType("variableScope")
                 .hasLineStart(104)
@@ -96,7 +97,6 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasType("redundantAssignment");
         assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(53)));
     }
-
 
     @Override
     protected CppCheckAdapter createParser() {

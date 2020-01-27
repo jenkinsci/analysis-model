@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link LineRangeList}.

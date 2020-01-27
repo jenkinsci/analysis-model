@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
 
 /**

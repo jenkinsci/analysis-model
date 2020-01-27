@@ -8,9 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link PyLintParser}.
@@ -259,7 +259,7 @@ class PylintParserTest extends AbstractParserTest {
         assertThat(report).hasSize(9);
 
         Iterator<Issue> iterator = report.iterator();
-        SoftAssertions.assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(3)
                     .hasLineEnd(3)
@@ -358,7 +358,7 @@ class PylintParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasModuleName("-")
                     .hasPackageName("-");
-        });
+        }
     }
 
     @Override

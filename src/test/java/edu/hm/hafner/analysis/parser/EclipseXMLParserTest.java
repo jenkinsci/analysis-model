@@ -6,14 +6,13 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.assertSoftly;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests for {@link TaglistParser}.
- * 
+ *
  * @author Jason Faust
  */
 class EclipseXMLParserTest extends AbstractParserTest {
@@ -101,7 +100,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(5);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(1)
@@ -136,7 +135,7 @@ class EclipseXMLParserTest extends AbstractParserTest {
                     .hasMessage("The value of the local variable unused is not used")
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
                     .hasCategory(EclipseXMLParser.UNNECESSARY_CODE);
-        });
+        }
     }
 
     @Test

@@ -11,10 +11,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link IarParser}.
@@ -42,14 +41,16 @@ class IarParserTest extends AbstractParserTest {
                 .hasLineStart(3767)
                 .hasLineEnd(3767)
                 .hasMessage("enumerated type mixed with another type")
-                .hasFileName("D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
+                .hasFileName(
+                        "D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Pe188")
                 .hasLineStart(3918)
                 .hasLineEnd(3918)
                 .hasMessage("enumerated type mixed with another type")
-                .hasFileName("D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
+                .hasFileName(
+                        "D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Pe1696")
@@ -69,7 +70,8 @@ class IarParserTest extends AbstractParserTest {
                 .hasCategory("Pe1696")
                 .hasLineStart(0)
                 .hasLineEnd(0)
-                .hasMessage("cannot open source file \"c:\\JenkinsJobs\\900ZH\\Workspace\\Lib\\Drivers\\_Obsolete\\Uart\\UartInterface.c\"")
+                .hasMessage(
+                        "cannot open source file \"c:\\JenkinsJobs\\900ZH\\Workspace\\Lib\\Drivers\\_Obsolete\\Uart\\UartInterface.c\"")
                 .hasFileName("-");
         softly.assertThat(report.get(5))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -85,7 +87,8 @@ class IarParserTest extends AbstractParserTest {
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-58159">Issue 58159</a>
      */
-    @Test @Disabled("See JENKINS-58159 - Windows does not find all warnings - is the report file corrupt?")
+    @Test
+    @Disabled("See JENKINS-58159 - Windows does not find all warnings - is the report file corrupt?")
     void issue58159Utf16() {
         Report warnings = createParser().parse(
                 new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16LE));
@@ -118,7 +121,7 @@ class IarParserTest extends AbstractParserTest {
         Report warnings = parse("issue55750.txt");
         assertThat(warnings).hasSize(4);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Pe852")
@@ -147,6 +150,6 @@ class IarParserTest extends AbstractParserTest {
                     .hasLineEnd(633)
                     .hasMessage("expected a \")\"")
                     .hasFileName("source/dal/InterMcu/InterMcuTransport.cpp");
-        });
+        }
     }
 }

@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link ErrorProneParser}.
@@ -24,14 +24,16 @@ class ErrorProneParserTest extends AbstractParserTest {
         assertThat(report).hasSize(9);
 
         softly.assertThat(report.get(0))
-                .hasFileName("/Users/hafner/Development/git/analysis-model/src/main/java/edu/hm/hafner/analysis/IssueBuilder.java")
+                .hasFileName(
+                        "/Users/hafner/Development/git/analysis-model/src/main/java/edu/hm/hafner/analysis/IssueBuilder.java")
                 .hasLineStart(86)
                 .hasColumnStart(74)
                 .hasType("NullAway")
                 .hasMessage("passing @Nullable parameter 'fileName' where @NonNull is required")
                 .hasDescription("<p><a href=\"http://t.uber.com/nullaway\">See ErrorProne documentation.</a></p>");
         softly.assertThat(report.get(2))
-                .hasFileName("/Users/hafner/Development/git/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/DrMemoryParser.java")
+                .hasFileName(
+                        "/Users/hafner/Development/git/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/DrMemoryParser.java")
                 .hasLineStart(193)
                 .hasColumnStart(44)
                 .hasType("StringSplitter")
@@ -49,12 +51,14 @@ class ErrorProneParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
         assertThat(report.get(0))
-                .hasFileName("/Users/hafner/Development/jenkins/workspace/Model - Freestyle - New/src/main/java/edu/hm/hafner/analysis/parser/RobocopyParser.java")
+                .hasFileName(
+                        "/Users/hafner/Development/jenkins/workspace/Model - Freestyle - New/src/main/java/edu/hm/hafner/analysis/parser/RobocopyParser.java")
                 .hasLineStart(29)
                 .hasColumnStart(45)
                 .hasType("StringSplitter")
                 .hasMessage("String.split(String) has surprising behavior")
-                .hasDescription("Did you mean: <pre><code>String file = matcher.group(4).split(&quot;\\\\s{11}&quot;, -1)[0];</code></pre><p><a href=\"http://errorprone.info/bugpattern/StringSplitter\">See ErrorProne documentation.</a></p>");
+                .hasDescription(
+                        "Did you mean: <pre><code>String file = matcher.group(4).split(&quot;\\\\s{11}&quot;, -1)[0];</code></pre><p><a href=\"http://errorprone.info/bugpattern/StringSplitter\">See ErrorProne documentation.</a></p>");
     }
 
     @Override

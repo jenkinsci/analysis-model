@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link P4Parser}.
@@ -15,9 +15,8 @@ class P4ParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report)
-                .hasSize(4)
-                .hasSeverities(0, 0, 2, 2);
+        softly.assertThat(report).hasSize(4);
+        assertThatReportHasSeverities(report, 0, 0, 2, 2);
 
         softly.assertThat(report.get(0))
                 .hasFileName("//eng/Tools/Hudson/instances/PCFARM08/.owner")

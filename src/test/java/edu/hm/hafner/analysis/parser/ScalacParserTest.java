@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link ScalacParser}.
@@ -21,8 +21,8 @@ class ScalacParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(3);
 
-        softly.assertThat(report)
-                .hasSize(3).hasSeverities(0, 1, 2, 0);
+        softly.assertThat(report).hasSize(3);
+        assertThatReportHasSeverities(report, 0, 1, 2, 0);
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(SCALAC_CATEGORY_WARNING)

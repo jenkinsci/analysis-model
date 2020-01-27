@@ -571,7 +571,7 @@ public class Issue implements Serializable {
      * @return the last line
      */
     // TODO: actually we need a list of locations since a warning may involve several files
-    public LineRangeList getLineRanges() {
+    public Iterable<? extends LineRange> getLineRanges() {
         return new LineRangeList(lineRanges);
     }
 

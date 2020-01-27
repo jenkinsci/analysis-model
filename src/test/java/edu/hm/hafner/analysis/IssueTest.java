@@ -6,13 +6,13 @@ import java.util.UUID;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
 
 /**
@@ -119,7 +119,7 @@ class IssueTest extends SerializableTest<Issue> {
     void shouldSetAllPropertiesInConstructor() {
         Issue issue = createFilledIssue();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue)
                     .hasFileName(FILE_NAME)
@@ -140,9 +140,9 @@ class IssueTest extends SerializableTest<Issue> {
             softly.assertThat(issue.hasPackageName()).isTrue();
             softly.assertThat(issue.hasFileName()).isTrue();
             softly.assertThat(issue.hasModuleName()).isTrue();
-        });
+        }
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(Issue.getPropertyValueAsString(issue, "fileName"))
                     .isEqualTo(issue.getFileName());
             softly.assertThat(Issue.getPropertyValueAsString(issue, "category"))
@@ -151,7 +151,7 @@ class IssueTest extends SerializableTest<Issue> {
                     .isEqualTo(String.valueOf(issue.getLineStart()));
             softly.assertThat(Issue.getPropertyValueAsString(issue, "severity"))
                     .isEqualTo(issue.getSeverity().toString());
-        });
+        }
     }
 
     @Test
@@ -171,7 +171,7 @@ class IssueTest extends SerializableTest<Issue> {
         String fingerprint = "new-fingerprint";
         issue.setFingerprint(fingerprint);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasOrigin(origin)
                     .hasReference(reference)
@@ -179,7 +179,7 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasPackageName(packageName)
                     .hasFileName(fileName.toString())
                     .hasFingerprint(fingerprint);
-        });
+        }
     }
 
     @Test
@@ -201,7 +201,7 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     private void assertIsDefaultIssue(final Issue issue) {
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue)
                     .hasFileName(UNDEFINED)
@@ -219,7 +219,7 @@ class IssueTest extends SerializableTest<Issue> {
             softly.assertThat(issue.hasPackageName()).isFalse();
             softly.assertThat(issue.hasFileName()).isFalse();
             softly.assertThat(issue.hasModuleName()).isFalse();
-        });
+        }
     }
 
     @Test
@@ -228,13 +228,13 @@ class IssueTest extends SerializableTest<Issue> {
                 PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasLineStart(LINE_START)
                     .hasLineEnd(LINE_START)
                     .hasColumnStart(COLUMN_START)
                     .hasColumnEnd(COLUMN_START);
-        });
+        }
     }
 
     @Test
@@ -268,7 +268,7 @@ class IssueTest extends SerializableTest<Issue> {
     void testToString() {
         Issue issue = createFilledIssue();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue.toString())
                     .contains(FILE_NAME)
                     .contains(Integer.toString(LINE_START))
@@ -276,7 +276,32 @@ class IssueTest extends SerializableTest<Issue> {
                     .contains(CATEGORY)
                     .contains(TYPE)
                     .contains(MESSAGE);
-        });
+        }
+    }
+
+    @Test
+    void testFileNameBackslashConversion() {
+        Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
+                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+                ADDITIONAL_PROPERTIES);
+
+        assertThat(issue).hasFileName(FILE_NAME);
+        
+        issue.setFileName(FILE_NAME_WITH_BACKSLASHES);
+        assertThat(issue).hasFileName(FILE_NAME);
+    }
+
+    @Test
+    void testMessageDescriptionStripped() {
+        Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
+                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
+                REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasMessage(MESSAGE)
+                    .hasDescription(DESCRIPTION);
+        }
     }
 
     @Override
