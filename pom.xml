@@ -289,12 +289,13 @@
           </execution>
         </executions>
         <configuration>
-          <excludes>
-            <exclude>.*SecureDigester</exclude>
-          </excludes>
           <packages>
             <package>edu.hm.hafner.analysis</package>
           </packages>
+          <excludes>
+            <exclude>.*SecureDigester</exclude>
+            <exclude>edu.hm.hafner.analysis.parser.*</exclude>
+          </excludes>
           <cleanTargetDir>true</cleanTargetDir>
           <hierarchical>false</hierarchical>
           <generateBddAssertions>false</generateBddAssertions>
@@ -396,7 +397,7 @@
             </goals>
             <configuration>
               <includes>
-                <include>**/assertions/*</include>
+                <include>**/*Assert*</include>
                 <include>**/util/*Test.*</include>
                 <include>**/Abstract*Test*</include>
               </includes>
