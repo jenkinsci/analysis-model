@@ -396,7 +396,7 @@
             </goals>
             <configuration>
               <includes>
-                <include>**/assertj/*</include>
+                <include>**/assertions/*</include>
                 <include>**/util/*Test.*</include>
                 <include>**/Abstract*Test*</include>
               </includes>
