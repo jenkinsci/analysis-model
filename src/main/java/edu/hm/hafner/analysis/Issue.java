@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.TreeString;
-import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -27,7 +26,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
-    private static final String UNDEFINED = "-";
+
+    static final String UNDEFINED = "-";
 
     /**
      * Returns the value of the property with the specified name for a given issue instance.
@@ -161,27 +161,28 @@ public class Issue implements Serializable {
     private String type;     // almost final
 
     private final Severity severity;
-    private final TreeString message;
+
     private final int lineStart;            // fixed
     private final int lineEnd;              // fixed
     private final int columnStart;          // fixed
-
     private final int columnEnd;            // fixed
 
     private final LineRangeList lineRanges; // fixed
 
     private final UUID id;                  // fixed
 
-    private final TreeString description;   // fixed
     @Nullable
     private final Serializable additionalProperties;  // fixed
+
     private String reference;       // mutable, not part of equals
     private String origin;          // mutable
+
     private String moduleName;      // mutable
-
     private TreeString packageName; // mutable
-
     private TreeString fileName;    // mutable
+
+    private final TreeString message;   // fixed
+    private final String description;   // fixed
 
     private String fingerprint;     // mutable, not part of equals
 
@@ -192,11 +193,13 @@ public class Issue implements Serializable {
      * @param copy
      *         the other issue to copy the properties from
      */
+    @SuppressWarnings("CopyConstructorMissesField")
     protected Issue(final Issue copy) {
-        this(copy.getFileName(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(), copy.getColumnEnd(),
-                copy.getLineRanges(), copy.getCategory(), copy.getType(), copy.getPackageName(), copy.getModuleName(),
-                copy.getSeverity(), copy.getMessage(), copy.getDescription(), copy.getOrigin(), copy.getReference(),
-                copy.getFingerprint(), copy.getAdditionalProperties(), copy.getId());
+        this(copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(),
+                copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
+                copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
+                copy.getDescription(), copy.getOrigin(), copy.getReference(), copy.getFingerprint(),
+                copy.getAdditionalProperties(), copy.getId());
     }
 
     /**
@@ -239,13 +242,13 @@ public class Issue implements Serializable {
      *         additional properties from the statical analysis tool
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue(@Nullable final String fileName,
+    protected Issue(final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @Nullable final LineRangeList lineRanges,
+            @Nullable final Iterable<? extends LineRange>  lineRanges,
             @Nullable final String category, @Nullable final String type,
-            @Nullable final String packageName, @Nullable final String moduleName,
+            final TreeString packageName, @Nullable final String moduleName,
             @Nullable final Severity severity,
-            @Nullable final String message, @Nullable final String description,
+            final TreeString message, final String description,
             @Nullable final String origin, @Nullable final String reference,
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties) {
         this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName, moduleName,
@@ -294,17 +297,16 @@ public class Issue implements Serializable {
      *         the ID of this issue
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue(@Nullable final String fileName, final int lineStart, final int lineEnd, final int columnStart,
-            final int columnEnd, @Nullable final Iterable<? extends LineRange> lineRanges, @Nullable final String category,
-            @Nullable final String type, @Nullable final String packageName,
+    protected Issue(final TreeString fileName, final int lineStart, final int lineEnd, final int columnStart,
+            final int columnEnd, @Nullable final Iterable<? extends LineRange>  lineRanges, @Nullable final String category,
+            @Nullable final String type, final TreeString packageName,
             @Nullable final String moduleName, @Nullable final Severity severity,
-            @Nullable final String message, @Nullable final String description,
+            final TreeString message, final String description,
             @Nullable final String origin, @Nullable final String reference,
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties,
             final UUID id) {
-        TreeStringBuilder builder = new TreeStringBuilder();
 
-        this.fileName = builder.intern(normalizeFileName(fileName));
+        this.fileName = fileName;
 
         int providedLineStart = defaultInteger(lineStart);
         int providedLineEnd = defaultInteger(lineEnd) == 0 ? providedLineStart : defaultInteger(lineEnd);
@@ -334,12 +336,12 @@ public class Issue implements Serializable {
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
 
-        this.packageName = builder.intern(defaultString(packageName));
+        this.packageName = packageName;
         this.moduleName = defaultString(moduleName);
 
         this.severity = severity == null ? Severity.WARNING_NORMAL : severity;
-        this.message = builder.intern(StringUtils.stripToEmpty(message));
-        this.description = builder.intern(StringUtils.stripToEmpty(description));
+        this.message = message;
+        this.description = description.intern();
 
         this.origin = stripToEmpty(origin);
         this.reference = stripToEmpty(reference);
@@ -379,7 +381,7 @@ public class Issue implements Serializable {
      * @return the valid string or a default string if the specified string is not valid
      */
     private int defaultInteger(final int integer) {
-        return integer < 0 ? 0 : integer;
+        return Math.max(integer, 0);
     }
 
     /**
@@ -425,6 +427,16 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns the tree-string containing the name of the file that contains this issue. Typically this file name is the
+     * absolute name.
+     *
+     * @return the cached tree-string containing the name of the file that contains this issue
+     */
+    TreeString getFileNameTreeString() {
+        return fileName;
+    }
+
+    /**
      * Returns the folder that contains the affected file of this issue.
      *
      * @return the folder of the file that contains this issue
@@ -443,7 +455,7 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the base name of the file that contains this issue (i.e. the file name without the full path). 
+     * Returns the base name of the file that contains this issue (i.e. the file name without the full path).
      *
      * @return the base name of the file that contains this issue
      */
@@ -463,8 +475,8 @@ public class Issue implements Serializable {
      *         the file name to set
      */
     @SuppressFBWarnings("NM")
-    public void setFileName(@Nullable final String fileName) {
-        this.fileName = TreeString.valueOf(normalizeFileName(fileName));
+    public void setFileName(final TreeString fileName) {
+        this.fileName = fileName;
     }
 
     /**
@@ -516,13 +528,22 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns the tree-string containing the detailed message for this issue.
+     *
+     * @return the message
+     */
+    TreeString getMessageTreeString() {
+        return message;
+    }
+
+    /**
      * Returns an additional description for this issue. Static analysis tools might provide some additional information
      * about this issue. This description may contain valid HTML.
      *
      * @return the description
      */
     public String getDescription() {
-        return description.toString();
+        return description;
     }
 
     /**
@@ -582,13 +603,23 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns the tree-string containing the name of the package or name space (or similar concept) that contains this
+     * issue.
+     *
+     * @return the package name
+     */
+    TreeString getPackageNameTreeString() {
+        return packageName;
+    }
+
+    /**
      * Sets the name of the package or name space (or similar concept) that contains this issue.
      *
      * @param packageName
      *         the name of the package
      */
-    public void setPackageName(@Nullable final String packageName) {
-        this.packageName = TreeString.valueOf(StringUtils.stripToEmpty(packageName));
+    void setPackageName(final TreeString packageName) {
+        this.packageName = packageName;
     }
 
     /**
@@ -616,7 +647,7 @@ public class Issue implements Serializable {
      * @param moduleName
      *         the module name to set
      */
-    public void setModuleName(@Nullable final String moduleName) {
+    void setModuleName(@Nullable final String moduleName) {
         this.moduleName = stripToEmpty(moduleName);
     }
 
@@ -693,7 +724,7 @@ public class Issue implements Serializable {
      *
      * @see #getFingerprint()
      */
-    public void setFingerprint(@Nullable final String fingerprint) {
+    void setFingerprint(@Nullable final String fingerprint) {
         this.fingerprint = StringUtils.stripToEmpty(fingerprint);
     }
 
