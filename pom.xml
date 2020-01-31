@@ -112,6 +112,7 @@
     <!-- Maven Surefire ArgLine -->
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
 
+    <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
   </properties>
 
   <dependencies>
@@ -660,6 +661,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven-enforcer-plugin.version}</version>
           <executions>
             <execution>
               <id>display-info</id>
@@ -676,6 +678,19 @@
               </configuration>
             </execution>
           </executions>
+        </plugin>
+        <plugin> <!-- not gated by Incrementals profiles, since we want the incrementalify goal to be available from the start -->
+          <groupId>io.jenkins.tools.incrementals</groupId>
+          <artifactId>incrementals-maven-plugin</artifactId>
+          <version>1.1</version>
+          <configuration>
+            <includes>
+              <include>org.jenkins-ci.*</include>
+              <include>io.jenkins.*</include>
+            </includes>
+            <generateBackupPoms>false</generateBackupPoms>
+            <updateNonincremental>false</updateNonincremental>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -750,6 +765,7 @@
           </plugin>
           <plugin>
             <artifactId>maven-enforcer-plugin</artifactId>
+            <version>${maven-enforcer-plugin.version}</version>
             <executions>
               <execution>
                 <id>display-info</id>
