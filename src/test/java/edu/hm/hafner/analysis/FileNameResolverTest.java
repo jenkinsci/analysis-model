@@ -121,10 +121,6 @@ class FileNameResolverTest {
         assertThat(report.getErrorMessages()).isEmpty();
     }
 
-    private String getAbsolutePath(final String fileName) {
-        return new PathUtil().getAbsolutePath(RESOURCE_FOLDER_PATH.resolve(fileName));
-    }
-
     @ParameterizedTest(name = "[{index}] Relative file name = {0}")
     @ValueSource(strings = {"../analysis/relative.txt", "./relative.txt", "../../hafner/analysis/relative.txt"})
     @DisplayName("Should normalize different relative paths to the same file (file name is relative)")
