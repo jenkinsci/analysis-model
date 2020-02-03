@@ -54,10 +54,10 @@ class FileNameResolverTest {
         return resolvePaths(report, resourceFolderPath, f -> false);
     }
 
-    private FileNameResolver resolvePaths(final Report report, final Path workspace,
+    private FileNameResolver resolvePaths(final Report report, final Path resourceFolderPath,
             final Predicate<String> skipFileNamePredicate) {
         FileNameResolver absolutePathGenerator = new FileNameResolver();
-        absolutePathGenerator.run(report, workspace.toString(), skipFileNamePredicate);
+        absolutePathGenerator.run(report, resourceFolderPath.toString(), skipFileNamePredicate);
         return absolutePathGenerator;
     }
 

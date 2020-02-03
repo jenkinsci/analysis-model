@@ -24,8 +24,11 @@ class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
     private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
-    static final String FILE_NAME = "C:/users/tester/file-name";
+    private static final String BASE_NAME = "file.txt";
+    static final String FILE_NAME = "some/relative/path/to/"
+            + BASE_NAME;
     static final TreeString FILE_NAME_TS = TREE_STRING_BUILDER.intern(FILE_NAME);
+    static final String PATH_NAME = "/path/to/affected/files";
 
     static final int LINE_START = 1;
     static final int LINE_END = 2;
@@ -53,6 +56,8 @@ class IssueTest extends SerializableTest<Issue> {
     /**
      * Creates a new subject under test (i.e. a sub-type of {@link Issue}) using the specified properties.
      *
+     * @param pathName
+     *         the path that contains the affected file
      * @param fileName
      *         the name of the file that contains this issue
      * @param lineStart
@@ -89,7 +94,7 @@ class IssueTest extends SerializableTest<Issue> {
      * @return the subject under test
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue createIssue(final TreeString fileName,
+    protected Issue createIssue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @Nullable final String category, @Nullable final String type,
             final TreeString packageName, @Nullable final String moduleName,
@@ -97,14 +102,30 @@ class IssueTest extends SerializableTest<Issue> {
             final String description, @Nullable final String origin,
             @Nullable final String reference, @Nullable final String fingerprint,
             final String additionalProperties) {
-        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type, packageName,
+        return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type,
+                packageName,
                 moduleName, priority, message, description, origin, reference, fingerprint, additionalProperties,
                 UUID.randomUUID());
     }
 
     @Test
+    void shouldSplitFileNameElements() {
+        Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasFileName(FILE_NAME)
+                    .hasPath(PATH_NAME)
+                    .hasAbsolutePath(PATH_NAME + "/" + FILE_NAME)
+                    .hasBaseName(BASE_NAME);
+        }
+    }
+
+    @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
-        Issue issue = new Issue(FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+        Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
                 MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
@@ -185,7 +206,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     @SuppressWarnings("NullAway")
     void testDefaultIssueNullStringsNegativeIntegers() {
-        Issue issue = createIssue(UNDEFINED_TS, 0, 0, 0, 0,
+        Issue issue = createIssue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0,
                 null, null, UNDEFINED_TS, null,
                 SEVERITY, EMPTY_TS, EMPTY, null, null, null, null);
 
@@ -194,7 +215,7 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void testDefaultIssueEmptyStringsNegativeIntegers() {
-        Issue issue = createIssue(UNDEFINED_TS, -1, -1, -1, -1,
+        Issue issue = createIssue(PATH_NAME, UNDEFINED_TS, -1, -1, -1, -1,
                 EMPTY, EMPTY, UNDEFINED_TS, EMPTY, SEVERITY, EMPTY_TS, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
 
         assertIsDefaultIssue(issue);
@@ -224,7 +245,7 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
-        Issue issue = createIssue(FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE,
+        Issue issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE,
                 PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
@@ -239,7 +260,8 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void testNullPriorityDefaultsToNormal() {
-        Issue issue = createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE,
+        Issue issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
+                TYPE,
                 PACKAGE_NAME_TS, MODULE_NAME, null, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
@@ -260,7 +282,8 @@ class IssueTest extends SerializableTest<Issue> {
      * @return a correctly filled issue
      */
     protected Issue createFilledIssue() {
-        return createIssue(FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME_TS,
+        return createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE,
+                PACKAGE_NAME_TS,
                 MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
     }
 
@@ -288,7 +311,8 @@ class IssueTest extends SerializableTest<Issue> {
      * Verifies that saved serialized format (from a previous release) still can be resolved with the current
      * implementation of {@link Issue}.
      */
-    @Test @Disabled("FIXME: fix and enable after all serialization changes are done")
+    @Test
+    @Disabled("FIXME: fix and enable after all serialization changes are done")
     void shouldReadIssueFromOldSerialization() {
         byte[] restored = readAllBytes(SERIALIZATION_NAME);
 

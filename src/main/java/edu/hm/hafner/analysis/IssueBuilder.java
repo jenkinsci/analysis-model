@@ -47,6 +47,8 @@ public class IssueBuilder {
     @Nullable
     private LineRangeList lineRanges;
 
+    @Nullable
+    private String pathName;
     private TreeString fileName = UNDEFINED_TREE_STRING;
     private TreeString packageName = UNDEFINED_TREE_STRING;
 
@@ -257,7 +259,7 @@ public class IssueBuilder {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue = new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
+        Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
                 category, type, packageName, moduleName, severity,
                 message, description, origin, reference, fingerprint,
                 additionalProperties, id);
