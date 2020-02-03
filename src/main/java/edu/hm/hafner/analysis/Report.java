@@ -451,6 +451,15 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns the absolute paths of the affected files for all issues.
+     *
+     * @return the affected files
+     */
+    public Set<String> getAbsolutePaths() {
+        return getProperties(Issue::getAbsolutePath);
+    }
+
+    /**
      * Returns the affected files for all issues.
      *
      * @return the affected files
