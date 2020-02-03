@@ -518,11 +518,15 @@ public class Issue implements Serializable {
     /**
      * Sets the name of the file that contains this issue.
      *
+     * @param pathName
+     *         the path that contains the affected file
      * @param fileName
      *         the file name to set
      */
+    @SuppressWarnings("checkstyle:HiddenField")
     @SuppressFBWarnings("NM")
-    public void setFileName(final TreeString fileName) {
+    void setFileName(final String pathName, final TreeString fileName) {
+        this.pathName = defaultString(pathName);
         this.fileName = fileName;
     }
 
@@ -877,5 +881,4 @@ public class Issue implements Serializable {
     public String toString() {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
-
 }

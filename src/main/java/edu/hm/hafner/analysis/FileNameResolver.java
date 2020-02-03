@@ -19,12 +19,12 @@ public class FileNameResolver {
     private static final PathUtil PATH_UTIL = new PathUtil();
 
     /**
-     * Resolves absolute paths of the affected files of the specified set of issues.
+     * Resolves the file names of the affected files of the specified set of issues.
      *
      * @param report
      *         the issues to resolve the paths
      * @param sourceDirectoryPrefix
-     *         absolute source path to search for the affected files
+     *         absolute source path that should be used as parent folder to search for files
      * @param skipFileNamePredicate
      *         skip specific files based on the file name
      */
@@ -51,7 +51,7 @@ public class FileNameResolver {
         IssueBuilder builder = new IssueBuilder();
         report.stream()
                 .filter(issue -> pathMapping.containsKey(issue.getFileName()))
-                .forEach(issue -> issue.setFileName(builder.internFileName(pathMapping.get(issue.getFileName()))));
+                .forEach(issue -> issue.setFileName(sourceDirectoryPrefix, builder.internFileName(pathMapping.get(issue.getFileName()))));
 
         report.logInfo("-> resolved paths in source directory (%d changed, %d unchanged)",
                 pathMapping.size(), filesToProcess.size() - pathMapping.size());

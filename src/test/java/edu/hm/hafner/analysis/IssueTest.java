@@ -122,6 +122,21 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasBaseName(BASE_NAME);
         }
 
+        TreeString newName = TreeString.valueOf("new.txt");
+        issue.setFileName("/new", newName);
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasFileName("new.txt")
+                    .hasPath("/new")
+                    .hasAbsolutePath("/new/new.txt")
+                    .hasBaseName("new.txt");
+        }
+
+        Issue other = new Issue(PATH_NAME, newName, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+        assertThat(issue).as("Equals should not consider pathName in computation").isEqualTo(other);
+
         Issue emptyPath = new Issue("", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
                 MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
@@ -133,7 +148,6 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasAbsolutePath(FILE_NAME)
                     .hasBaseName(BASE_NAME);
         }
-
     }
 
     @Test
@@ -201,7 +215,8 @@ class IssueTest extends SerializableTest<Issue> {
         String packageName = "new-package";
         issue.setPackageName(TREE_STRING_BUILDER.intern(packageName));
         TreeString fileName = TREE_STRING_BUILDER.intern("new-file");
-        issue.setFileName(fileName);
+        String pathName = "new-path";
+        issue.setFileName(pathName, fileName);
         String fingerprint = "new-fingerprint";
         issue.setFingerprint(fingerprint);
 
@@ -212,6 +227,8 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasModuleName(moduleName)
                     .hasPackageName(packageName)
                     .hasFileName(fileName.toString())
+                    .hasPath(pathName)
+                    .hasAbsolutePath(pathName + "/" + fileName)
                     .hasFingerprint(fingerprint);
         }
     }

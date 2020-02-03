@@ -41,22 +41,23 @@ public class FingerprintGenerator {
 
     private int computeFingerprint(final Issue issue, final FullTextFingerprint algorithm, final Charset charset,
             final FilteredLog log) {
+        String absolutePath = issue.getAbsolutePath();
         try {
             if (issue.hasFileName()) {
-                String digest = algorithm.compute(issue.getFileName(), issue.getLineStart(), charset);
+                String digest = algorithm.compute(absolutePath, issue.getLineStart(), charset);
                 issue.setFingerprint(digest);
                 return 1;
             }
         }
         catch (FileNotFoundException exception) {
-            log.logError("- '%s' file not found", issue.getFileName());
+            log.logError("- '%s' file not found", absolutePath);
         }
         catch (IOException | InvalidPathException | UncheckedIOException exception) {
             if (exception.getCause() instanceof MalformedInputException) {
-                log.logError("- '%s', provided encoding '%s' seems to be wrong", issue.getFileName(), charset);
+                log.logError("- '%s', provided encoding '%s' seems to be wrong", absolutePath, charset);
             }
             else {
-                log.logError("- '%s', IO exception has been thrown: %s", issue.getFileName(), exception);
+                log.logError("- '%s', IO exception has been thrown: %s", absolutePath, exception);
             }
         }
         issue.setFingerprint(createDefaultFingerprint(issue));
