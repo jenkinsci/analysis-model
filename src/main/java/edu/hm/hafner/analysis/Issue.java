@@ -198,7 +198,7 @@ public class Issue implements Serializable {
      *         the other issue to copy the properties from
      */
     @SuppressWarnings("CopyConstructorMissesField")
-    protected Issue(final Issue copy) {
+    Issue(final Issue copy) {
         this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
                 copy.getColumnStart(),
                 copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
@@ -249,7 +249,7 @@ public class Issue implements Serializable {
      *         additional properties from the statical analysis tool
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue(final String pathName, final TreeString fileName,
+    Issue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @Nullable final Iterable<? extends LineRange> lineRanges,
             @Nullable final String category, @Nullable final String type,
@@ -307,7 +307,7 @@ public class Issue implements Serializable {
      *         the ID of this issue
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue(final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
+    Issue(@Nullable final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
             final int columnStart,
             final int columnEnd, @Nullable final Iterable<? extends LineRange> lineRanges,
             @Nullable final String category,
@@ -318,7 +318,7 @@ public class Issue implements Serializable {
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties,
             final UUID id) {
 
-        this.pathName = pathName;
+        this.pathName = defaultString(pathName);
         this.fileName = fileName;
 
         int providedLineStart = defaultInteger(lineStart);
@@ -376,7 +376,12 @@ public class Issue implements Serializable {
         moduleName = moduleName.intern();
         origin = origin.intern();
         reference = reference.intern();
-        pathName = pathName.intern();
+        if (pathName == null) { // new in version 8.0.0
+            pathName = UNDEFINED;
+        }
+        else {
+            pathName = pathName.intern();
+        }
 
         return this;
     }
@@ -491,12 +496,18 @@ public class Issue implements Serializable {
      * @return the base name of the file that contains this issue
      */
     public String getAbsolutePath() {
-        return PATH_UTIL.createAbsolutePath(pathName, getFileName());
+        if (UNDEFINED.equals(pathName)) {
+            return getFileName();
+        }
+        else {
+            return PATH_UTIL.createAbsolutePath(pathName, getFileName());
+        }
     }
 
     /**
      * Returns the path of the affected file. Note that this path is not the parent folder of the affected file. This
-     * path is the folder that contains all of the affected files of a {@link Report}.
+     * path is the folder that contains all of the affected files of a {@link Report}. If this path is not defined, then
+     * the default value {@link #UNDEFINED} is returned.
      *
      * @return the base name of the file that contains this issue
      */

@@ -121,6 +121,19 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasAbsolutePath(PATH_NAME + "/" + FILE_NAME)
                     .hasBaseName(BASE_NAME);
         }
+
+        Issue emptyPath = new Issue("", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(emptyPath)
+                    .hasFileName(FILE_NAME)
+                    .hasPath(UNDEFINED)
+                    .hasAbsolutePath(FILE_NAME)
+                    .hasBaseName(BASE_NAME);
+        }
+
     }
 
     @Test
@@ -206,7 +219,7 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     @SuppressWarnings("NullAway")
     void testDefaultIssueNullStringsNegativeIntegers() {
-        Issue issue = createIssue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0,
+        Issue issue = createIssue(null, UNDEFINED_TS, 0, 0, 0, 0,
                 null, null, UNDEFINED_TS, null,
                 SEVERITY, EMPTY_TS, EMPTY, null, null, null, null);
 
@@ -215,7 +228,7 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void testDefaultIssueEmptyStringsNegativeIntegers() {
-        Issue issue = createIssue(PATH_NAME, UNDEFINED_TS, -1, -1, -1, -1,
+        Issue issue = createIssue(EMPTY, UNDEFINED_TS, -1, -1, -1, -1,
                 EMPTY, EMPTY, UNDEFINED_TS, EMPTY, SEVERITY, EMPTY_TS, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
 
         assertIsDefaultIssue(issue);
