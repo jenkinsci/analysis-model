@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import edu.hm.hafner.util.PathUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
@@ -50,15 +51,13 @@ class FileNameResolverTest {
         assertThatOneFileIsUnresolved(report);
     }
 
-    private FileNameResolver resolvePaths(final Report report, final Path resourceFolderPath) {
-        return resolvePaths(report, resourceFolderPath, f -> false);
+    private void resolvePaths(final Report report, final Path resourceFolderPath) {
+        resolvePaths(report, resourceFolderPath, f -> false);
     }
 
-    private FileNameResolver resolvePaths(final Report report, final Path resourceFolderPath,
+    private void resolvePaths(final Report report, final Path resourceFolderPath,
             final Predicate<String> skipFileNamePredicate) {
-        FileNameResolver absolutePathGenerator = new FileNameResolver();
-        absolutePathGenerator.run(report, resourceFolderPath.toString(), skipFileNamePredicate);
-        return absolutePathGenerator;
+        new FileNameResolver().run(report, resourceFolderPath.toString(), skipFileNamePredicate);
     }
 
     @Test
@@ -70,6 +69,48 @@ class FileNameResolverTest {
 
         assertThat(report).hasSize(0);
         assertThat(report.getInfoMessages()).containsExactly(FileNameResolver.NOTHING_TO_DO);
+    }
+
+    @Test
+    @DisplayName("Should set path if the relative file name exists")
+    void shouldSetPath() {
+        Report report = new Report();
+
+        IssueBuilder builder = new IssueBuilder();
+
+        report.add(builder.setFileName(RELATIVE_FILE).build());
+
+        resolvePaths(report, RESOURCE_FOLDER_PATH);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
+
+        assertThat(report.getInfoMessages()).hasSize(1);
+        assertThat(report.getInfoMessages().get(0)).as("Files: "
+                + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
+                .contains("1 found", "0 not found");
+        assertThat(report.getErrorMessages()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Should not set path if the relative file name doe not exist")
+    void shouldNotSetPath() {
+        Report report = new Report();
+
+        IssueBuilder builder = new IssueBuilder();
+
+        report.add(builder.setFileName("not here").build());
+
+        resolvePaths(report, RESOURCE_FOLDER_PATH);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0)).hasFileName("not here").hasPath(UNDEFINED);
+
+        assertThat(report.getInfoMessages()).hasSize(1);
+        assertThat(report.getInfoMessages().get(0)).as("Files: "
+                + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
+                .contains("0 found", "1 not found");
+        assertThat(report.getErrorMessages()).isEmpty();
     }
 
     @Test
@@ -117,7 +158,7 @@ class FileNameResolverTest {
         assertThat(report.getInfoMessages()).hasSize(1);
         assertThat(report.getInfoMessages().get(0)).as("Files: "
                 + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
-                .contains("2 changed", "3 unchanged");
+                .contains("3 found", "2 not found");
         assertThat(report.getErrorMessages()).isEmpty();
     }
 
@@ -156,7 +197,7 @@ class FileNameResolverTest {
         assertThat(report.get(0).getFileName()).as(description).isEqualTo(RELATIVE_FILE);
         assertThat(report.getErrorMessages()).as(description).isEmpty();
         assertThat(report.getInfoMessages()).as(description).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).as(description).contains("1 changed");
+        assertThat(report.getInfoMessages().get(0)).as(description).contains("1 found");
     }
 
     @Test
@@ -178,12 +219,12 @@ class FileNameResolverTest {
         assertThat(report.get(0).getFileName()).isEqualTo("child.txt");
         assertThat(report.getErrorMessages()).isEmpty();
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).contains("1 unchanged");
+        assertThat(report.getInfoMessages().get(0)).contains("1 found");
     }
 
     private void assertThatOneFileIsUnresolved(final Report report) {
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).contains("1 unchanged");
+        assertThat(report.getInfoMessages().get(0)).contains("1 not found");
     }
 
     private static String getResourcePath() {

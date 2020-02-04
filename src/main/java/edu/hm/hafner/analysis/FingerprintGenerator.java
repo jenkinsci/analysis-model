@@ -35,7 +35,7 @@ public class FingerprintGenerator {
                 sum += computeFingerprint(issue, algorithm, charset, log);
             }
         }
-        report.logInfo("-> created fingerprints for %d issues", sum);
+        report.logInfo("-> created fingerprints for %d issues (skipped %d issues)", sum, report.size() - sum);
         log.logSummary();
     }
 
