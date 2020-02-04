@@ -318,7 +318,7 @@ public class Issue implements Serializable {
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties,
             final UUID id) {
 
-        this.pathName = defaultString(pathName);
+        this.pathName = normalizeFileName(pathName);
         this.fileName = fileName;
 
         int providedLineStart = defaultInteger(lineStart);
@@ -387,8 +387,10 @@ public class Issue implements Serializable {
     }
 
     private String normalizeFileName(@Nullable final String platformFileName) {
-        return defaultString(StringUtils.replace(
-                StringUtils.strip(platformFileName), "\\", "/"));
+        if (UNDEFINED.equals(platformFileName) || StringUtils.isBlank(platformFileName)) {
+            return UNDEFINED;
+        }
+        return PATH_UTIL.getAbsolutePath(platformFileName);
     }
 
     /**
@@ -463,6 +465,7 @@ public class Issue implements Serializable {
      *
      * @return the folder of the file that contains this issue
      */
+    // FIXME: Replace with PathUtil
     public String getFolder() {
         try {
             Path folder = Paths.get(getFileName()).getParent();
@@ -526,7 +529,7 @@ public class Issue implements Serializable {
     @SuppressWarnings("checkstyle:HiddenField")
     @SuppressFBWarnings("NM")
     void setFileName(final String pathName, final TreeString fileName) {
-        this.pathName = defaultString(pathName);
+        this.pathName = normalizeFileName(pathName);
         this.fileName = fileName;
     }
 

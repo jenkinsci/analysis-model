@@ -52,6 +52,7 @@ class IssueTest extends SerializableTest<Issue> {
     static final String REFERENCE = "reference";
     static final String ADDITIONAL_PROPERTIES = "additional";
     static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRange(5, 6)));
+    private static final String WINDOWS_PATH = "C:/Windows";
 
     /**
      * Creates a new subject under test (i.e. a sub-type of {@link Issue}) using the specified properties.
@@ -148,6 +149,24 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasAbsolutePath(FILE_NAME)
                     .hasBaseName(BASE_NAME);
         }
+    }
+
+    @Test
+    void shouldConvertWindowsNames() {
+        Issue issue = new Issue("C:\\Windows", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasFileName(FILE_NAME)
+                    .hasPath(WINDOWS_PATH)
+                    .hasAbsolutePath(WINDOWS_PATH + "/" + FILE_NAME)
+                    .hasBaseName(BASE_NAME);
+        }
+
+        issue.setFileName("c:\\Another\\Path", FILE_NAME_TS);
+        assertThat(issue).hasPath("C:/Another/Path");
     }
 
     @Test
