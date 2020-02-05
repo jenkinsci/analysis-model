@@ -74,7 +74,7 @@
     <mockito.version>3.2.4</mockito.version>
     <assertj.version>3.15.0</assertj.version>
     <archunit.version>0.13.1</archunit.version>
-    <violations-lib.version>1.109</violations-lib.version>
+    <violations-lib.version>1.110</violations-lib.version>
     <json.version>20190722</json.version>
 
     <!-- Maven Plug-ins Configuration -->
