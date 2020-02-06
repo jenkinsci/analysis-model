@@ -18,6 +18,7 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.XmlElementUtil;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A general parser for XML-Files.
@@ -73,6 +74,7 @@ public class XmlParser extends IssuePropertiesParser {
             Document doc = readerFactory.readDocument();
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath path = xPathFactory.newXPath();
+            @SuppressFBWarnings("XPATH_INJECTION")
             NodeList issues = (NodeList) path.evaluate(getXmlIssueRoot(), doc, XPathConstants.NODESET);
 
             IssueBuilder issueBuilder = new IssueBuilder();

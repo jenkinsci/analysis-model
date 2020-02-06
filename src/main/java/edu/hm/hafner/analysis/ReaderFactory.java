@@ -5,19 +5,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.nio.file.InvalidPathException;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.SAXParser;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.google.errorprone.annotations.MustBeClosed;
@@ -133,8 +127,8 @@ public abstract class ReaderFactory {
         try (Stream<String> lines = readStream()) {
             return lines.collect(Collectors.joining("\n"));
         }
-        catch (UncheckedIOException e) {
-            throw new ParsingException(e);
+        catch (UncheckedIOException exception) {
+            throw new ParsingException(exception);
         }
     }
 
@@ -148,11 +142,10 @@ public abstract class ReaderFactory {
     public Document readDocument() {
         try (Reader reader = create()) {
             SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
-            DocumentBuilder docBuilder = parserFactory.createDocumentBuilder();
-            return docBuilder.parse(new InputSource(new ReaderInputStream(reader, getCharset())));
+            return parserFactory.readDocument(reader, charset);
         }
-        catch (SAXException | IOException | InvalidPathException e) {
-            throw new ParsingException(e);
+        catch (IOException exception) {
+            throw new ParsingException(exception);
         }
     }
 
@@ -165,14 +158,21 @@ public abstract class ReaderFactory {
         return charset;
     }
 
+    /**
+     * Parses the whole file with the specified SAX {@link DefaultHandler}.
+     *
+     * @param handler
+     *         the SAX handler to parse the file
+     *
+     * @throws ParsingException
+     *         if the file could not be parsed
+     */
     public void parse(final DefaultHandler handler) {
         try (Reader reader = create()) {
-            SAXParser parser = new SecureXmlParserFactory().createSaxParser();
-
-            parser.parse(new InputSource(new ReaderInputStream(reader, getCharset())), handler);
+            new SecureXmlParserFactory().parse(reader, getCharset(), handler);
         }
-        catch (IOException | SAXException e) {
-            throw new ParsingException(e);
+        catch (IOException exception) {
+            throw new ParsingException(exception);
         }
     }
 }

@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis;
 
+import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,7 +13,11 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.io.input.ReaderInputStream;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import static org.apache.xerces.impl.Constants.*;
 
@@ -119,18 +125,6 @@ public class SecureXmlParserFactory {
     }
 
     /**
-     * Creates a new instance of a {@link XMLInputFactory} that does not resolve external entities.
-     *
-     * @return a new instance of a {@link XMLInputFactory}
-     */
-    public XMLInputFactory createXmlInputFactory() {
-        XMLInputFactory factory = XMLInputFactory.newInstance();
-        factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-        factory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
-        return factory;
-    }
-
-    /**
      * Creates a new instance of a {@link XMLStreamReader} that does not resolve external entities.
      *
      * @param reader
@@ -140,10 +134,63 @@ public class SecureXmlParserFactory {
      */
     public XMLStreamReader createXmlStreamReader(final Reader reader) {
         try {
-            return createXmlInputFactory().createXMLStreamReader(reader);
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+            factory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
+            return factory.createXMLStreamReader(reader);
         }
         catch (XMLStreamException exception) {
             throw new IllegalArgumentException("Can't create instance of XMLStreamReader", exception);
         }
+    }
+
+    /**
+     * Creates a {@link SAXParser} that does not resolve external entities and parses the provided content with the
+     * given SAX {@link DefaultHandler}.
+     *
+     * @param reader
+     *         the content that should be parsed
+     * @param charset
+     *         the charset to use when reading the content
+     * @param handler
+     *         the SAX handler to parse the file
+     *
+     * @throws ParsingException
+     *         if the file could not be parsed
+     */
+    public void parse(final Reader reader, final Charset charset, final DefaultHandler handler) {
+        try {
+            SAXParser parser = createSaxParser();
+            parser.parse(createInputSource(reader, charset), handler);
+        }
+        catch (SAXException | IOException exception) {
+            throw new ParsingException(exception);
+        }
+    }
+
+    /**
+     * Parses the provided content into a {@link Document}.
+     *
+     * @param reader
+     *         the content that should be parsed
+     * @param charset
+     *         the charset to use when reading the content
+     *
+     * @return the file content as document
+     * @throws ParsingException
+     *         if the file could not be parsed
+     */
+    public Document readDocument(final Reader reader, final Charset charset) {
+        try {
+            DocumentBuilder docBuilder = createDocumentBuilder();
+            return docBuilder.parse(createInputSource(reader, charset));
+        }
+        catch (SAXException | IOException exception) {
+            throw new ParsingException(exception);
+        }
+    }
+
+    private InputSource createInputSource(final Reader reader, final Charset charset) {
+        return new InputSource(new ReaderInputStream(reader, charset));
     }
 }

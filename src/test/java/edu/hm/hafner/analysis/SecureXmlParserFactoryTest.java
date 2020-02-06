@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.io.StringReader;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -28,6 +30,6 @@ class SecureXmlParserFactoryTest {
     void shouldCreateXmlInputFactory() {
         SecureXmlParserFactory factory = new SecureXmlParserFactory();
 
-        assertThat(factory.createXmlInputFactory()).isNotNull();
+        assertThat(factory.createXmlStreamReader(new StringReader("<xml />"))).isNotNull();
     }
 }
