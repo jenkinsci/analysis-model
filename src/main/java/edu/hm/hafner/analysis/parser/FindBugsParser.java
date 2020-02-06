@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +43,6 @@ import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 @SuppressWarnings("ClassFanOutComplexity")
 public class FindBugsParser extends IssueParser {
     private static final long serialVersionUID = 8306319007761954027L;
-    private static final String ORG_XML_SAX_DRIVER = "org.xml.sax.driver";
 
     /**
      * FindBugs 2 and 3 classifies issues using the bug rank and priority (now renamed confidence). Bugs are given a
@@ -269,13 +266,6 @@ public class FindBugsParser extends IssueParser {
             return sourceFile.getFullFileName();
         }
         catch (IOException ignored) {
-            if (isFirstError) {
-                isFirstError = false;
-                Logger.getLogger(getClass().getName()).log(Level.WARNING,
-                        "Can't resolve absolute file name for file " + sourceLine.getSourceFile()
-                        + ", dir list = "
-                        + project.getSourceDirList());
-            }
             return sourceLine.getPackageName().replace(DOT, SLASH) + SLASH + sourceLine.getSourceFile();
         }
     }
@@ -369,6 +359,5 @@ public class FindBugsParser extends IssueParser {
         public void setCategory(final String category) {
             this.category = category;
         }
-
     }
 }
