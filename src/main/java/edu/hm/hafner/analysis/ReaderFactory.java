@@ -142,7 +142,7 @@ public abstract class ReaderFactory {
     public Document readDocument() {
         try (Reader reader = create()) {
             SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
-            return parserFactory.readDocument(reader, charset);
+            return parserFactory.readDocument(reader, getCharset());
         }
         catch (IOException exception) {
             throw new ParsingException(exception);
