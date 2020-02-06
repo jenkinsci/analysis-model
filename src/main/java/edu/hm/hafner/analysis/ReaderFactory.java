@@ -11,12 +11,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.SAXParser;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
@@ -161,6 +163,17 @@ public abstract class ReaderFactory {
      */
     public Charset getCharset() {
         return charset;
+    }
+
+    public void parse(final DefaultHandler handler) {
+        try (Reader reader = create()) {
+            SAXParser parser = new SecureXmlParserFactory().createSaxParser();
+
+            parser.parse(new InputSource(new ReaderInputStream(reader, getCharset())), handler);
+        }
+        catch (IOException | SAXException e) {
+            throw new ParsingException(e);
+        }
     }
 }
 
