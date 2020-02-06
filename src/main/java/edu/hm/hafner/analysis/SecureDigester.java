@@ -7,8 +7,6 @@ import org.xml.sax.InputSource;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import static org.apache.xerces.impl.Constants.*;
-
 /**
  * A secure {@link Digester} implementation that does not resolve external entities.
  *
@@ -18,23 +16,17 @@ public final class SecureDigester extends Digester {
     /**
      * Creates a new {@link Digester} instance that does not resolve external entities.
      *
-     * @param classWithClassLoader the class to get the class loader from
+     * @param classWithClassLoader
+     *         the class to get the class loader from
      */
     public SecureDigester(final Class<?> classWithClassLoader) {
         super();
 
         setClassLoader(classWithClassLoader.getClassLoader());
 
-        SAXParserFactory factory = getFactory();
-        setFeature(factory, XERCES_FEATURE_PREFIX, CREATE_ENTITY_REF_NODES_FEATURE, false);
-        setFeature(factory, XERCES_FEATURE_PREFIX, LOAD_DTD_GRAMMAR_FEATURE, false);
-        setFeature(factory, XERCES_FEATURE_PREFIX, LOAD_EXTERNAL_DTD_FEATURE, false);
-        setFeature(factory, SAX_FEATURE_PREFIX, DISALLOW_DOCTYPE_DECL_FEATURE, true);
-        setFeature(factory, SAX_FEATURE_PREFIX, EXTERNAL_GENERAL_ENTITIES_FEATURE, false);
-        setFeature(factory, SAX_FEATURE_PREFIX, EXTERNAL_PARAMETER_ENTITIES_FEATURE, false);
-        setFeature(factory, SAX_FEATURE_PREFIX, RESOLVE_DTD_URIS_FEATURE, false);
-        setFeature(factory, SAX_FEATURE_PREFIX, USE_ENTITY_RESOLVER2_FEATURE, false);
-        factory.setXIncludeAware(false);
+        SAXParserFactory factory = getFactory(); // Since there is no way to set the factory we need to modify the existing one
+        SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
+        parserFactory.configureSaxParserFacory(factory);
         setValidating(false);
         setEntityResolver((publicId, systemId) -> new InputSource());
     }

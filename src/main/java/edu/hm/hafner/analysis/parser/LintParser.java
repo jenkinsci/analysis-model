@@ -1,10 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.Reader;
+import javax.xml.parsers.SAXParser;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.xml.sax.InputSource;
@@ -14,6 +12,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.SecureXmlParserFactory;
 
 /**
  * Parser for Lint.
@@ -26,8 +25,7 @@ public class LintParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (Reader reader = readerFactory.create()) {
-            SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-            SAXParser parser = parserFactory.newSAXParser();
+            SAXParser parser = new SecureXmlParserFactory().createSaxParser();
 
             Report report = new Report();
             parser.parse(new InputSource(new ReaderInputStream(reader, readerFactory.getCharset())),
@@ -35,7 +33,7 @@ public class LintParser extends IssueParser {
 
             return report;
         }
-        catch (IOException | ParserConfigurationException | SAXException e) {
+        catch (IOException | SAXException e) {
             throw new ParsingException(e);
         }
     }

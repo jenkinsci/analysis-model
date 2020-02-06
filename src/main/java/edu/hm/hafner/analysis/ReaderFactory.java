@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.StringUtils;
@@ -23,8 +21,6 @@ import org.xml.sax.SAXException;
 import com.google.errorprone.annotations.MustBeClosed;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import static org.apache.xerces.impl.Constants.*;
 
 /**
  * Provides several useful helper methods to read the contents of a resource that is given by a {@link Reader}.
@@ -149,35 +145,12 @@ public abstract class ReaderFactory {
      */
     public Document readDocument() {
         try (Reader reader = create()) {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            setFeature(factory, SAX_FEATURE_PREFIX, DISALLOW_DOCTYPE_DECL_FEATURE, true);
-            setFeature(factory, SAX_FEATURE_PREFIX, EXTERNAL_GENERAL_ENTITIES_FEATURE, false);
-            setFeature(factory, SAX_FEATURE_PREFIX, EXTERNAL_PARAMETER_ENTITIES_FEATURE, false);
-            setFeature(factory, SAX_FEATURE_PREFIX, RESOLVE_DTD_URIS_FEATURE, false);
-            setFeature(factory, SAX_FEATURE_PREFIX, USE_ENTITY_RESOLVER2_FEATURE, false);
-            setFeature(factory, XERCES_FEATURE_PREFIX, CREATE_ENTITY_REF_NODES_FEATURE, false);
-            setFeature(factory, XERCES_FEATURE_PREFIX, LOAD_DTD_GRAMMAR_FEATURE, false);
-            setFeature(factory, XERCES_FEATURE_PREFIX, LOAD_EXTERNAL_DTD_FEATURE, false);
-            factory.setXIncludeAware(false);
-            factory.setExpandEntityReferences(false);
-
-            DocumentBuilder docBuilder = factory.newDocumentBuilder();
+            SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
+            DocumentBuilder docBuilder = parserFactory.createDocumentBuilder();
             return docBuilder.parse(new InputSource(new ReaderInputStream(reader, getCharset())));
         }
-        catch (SAXException | IOException | InvalidPathException | ParserConfigurationException e) {
+        catch (SAXException | IOException | InvalidPathException e) {
             throw new ParsingException(e);
-        }
-    }
-
-    @SuppressFBWarnings
-    @SuppressWarnings("illegalcatch")
-    private void setFeature(final DocumentBuilderFactory factory, final String prefix, final String feature,
-            final boolean value) {
-        try {
-            factory.setFeature(prefix + feature, value);
-        }
-        catch (Exception ignored) {
-            // ignore and continue
         }
     }
 
