@@ -2,9 +2,6 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -182,7 +179,8 @@ public class Issue implements Serializable {
 
     private String moduleName;      // mutable
     private TreeString packageName; // mutable
-    private String pathName;        // mutable, not part of equals
+    @Nullable
+    private String pathName;        // mutable, not part of equals, @since 8.0.0
     private TreeString fileName;    // mutable
 
     private final TreeString message;   // fixed
@@ -465,17 +463,12 @@ public class Issue implements Serializable {
      *
      * @return the folder of the file that contains this issue
      */
-    // FIXME: Replace with PathUtil
     public String getFolder() {
         try {
-            Path folder = Paths.get(getFileName()).getParent();
-            if (folder == null) {
-                return UNDEFINED; // fallback
-            }
-            return normalizeFileName(folder.toString());
+            return normalizeFileName(FilenameUtils.getFullPath(getFileName()));
         }
-        catch (InvalidPathException e) {
-            return UNDEFINED;
+        catch (IllegalArgumentException ignore) {
+            return UNDEFINED; // fallback
         }
     }
 
@@ -488,7 +481,7 @@ public class Issue implements Serializable {
         try {
             return FilenameUtils.getName(getFileName());
         }
-        catch (IllegalArgumentException exception) {
+        catch (IllegalArgumentException ignore) {
             return getFileName(); // fallback
         }
     }

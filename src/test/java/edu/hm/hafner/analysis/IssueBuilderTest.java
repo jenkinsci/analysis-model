@@ -19,6 +19,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Marcel Binder
  */
+@SuppressFBWarnings("DMI")
 class IssueBuilderTest {
     private static final String FILE_NAME = "C:/users/tester/file-name";
     static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";

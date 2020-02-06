@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -47,7 +45,7 @@ public class FileNameResolver {
                 .collect(Collectors.toMap(fileName -> fileName,
                         fileName -> makeRelative(sourceDirectoryPrefix, fileName)))
                 .entrySet().parallelStream()
-                .filter(entry -> exists(sourceDirectoryPrefix, entry.getValue()))
+                .filter(entry -> PATH_UTIL.exists(entry.getValue(), sourceDirectoryPrefix))
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
         IssueBuilder builder = new IssueBuilder();
@@ -57,16 +55,6 @@ public class FileNameResolver {
 
         report.logInfo("-> resolved paths in source directory (%d found, %d not found)",
                 pathMapping.size(), filesToProcess.size() - pathMapping.size());
-    }
-
-    // FIXME: Use method of codingstyle once released
-    private boolean exists(final String path, final String fileName) {
-        try {
-            return Files.exists(Paths.get(PATH_UTIL.createAbsolutePath(path, fileName)));
-        }
-        catch (IllegalArgumentException ignore) {
-            return false;
-        }
     }
 
     private String makeRelative(final String sourceDirectoryPrefix, final String fileName) {

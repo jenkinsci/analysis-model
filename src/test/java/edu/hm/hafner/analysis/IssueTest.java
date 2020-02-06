@@ -11,6 +11,7 @@ import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
@@ -20,13 +21,13 @@ import static java.util.Collections.*;
  *
  * @author Marcel Binder
  */
+@SuppressFBWarnings("DMI")
 class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
     private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
     private static final String BASE_NAME = "file.txt";
-    static final String FILE_NAME = "some/relative/path/to/"
-            + BASE_NAME;
+    static final String FILE_NAME = "some/relative/path/to/" + BASE_NAME;
     static final TreeString FILE_NAME_TS = TREE_STRING_BUILDER.intern(FILE_NAME);
     static final String PATH_NAME = "/path/to/affected/files";
 
