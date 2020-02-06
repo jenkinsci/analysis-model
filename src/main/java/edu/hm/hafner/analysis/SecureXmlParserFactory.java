@@ -19,6 +19,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import static org.apache.xerces.impl.Constants.*;
 
 /**
@@ -31,7 +33,7 @@ import static org.apache.xerces.impl.Constants.*;
  */
 public class SecureXmlParserFactory {
     private static final String[] ENABLED_PROPERTIES = {
-//            XERCES_FEATURE_PREFIX + DISALLOW_DOCTYPE_DECL_FEATURE,   - If this feature is activated we cannot parse any XML elements with DOCTYPE anymore
+//            XERCES_FEATURE_PREFIX + DISALLOW_DOCTYPE_DECL_FEATURE,   - If this feature is activated we cannot parse any XML documents that use a DOCTYPE anymore
             XMLConstants.FEATURE_SECURE_PROCESSING
     };
     private static final String[] DISABLED_PROPERTIES = {
@@ -87,7 +89,7 @@ public class SecureXmlParserFactory {
     public SAXParser createSaxParser() {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            configureSaxParserFacory(factory);
+            configureSaxParserFactory(factory);
 
             return factory.newSAXParser();
         }
@@ -102,7 +104,7 @@ public class SecureXmlParserFactory {
      * @param factory
      *         the facotry to configure
      */
-    public void configureSaxParserFacory(final SAXParserFactory factory) {
+    public void configureSaxParserFactory(final SAXParserFactory factory) {
         factory.setValidating(false);
         factory.setXIncludeAware(false);
 
@@ -160,6 +162,7 @@ public class SecureXmlParserFactory {
      */
     public void parse(final Reader reader, final Charset charset, final DefaultHandler handler) {
         try {
+            @SuppressFBWarnings(value = "XXE_SAXPARSER", justification = "The parser is secured in the called method")
             SAXParser parser = createSaxParser();
             parser.parse(createInputSource(reader, charset), handler);
         }
@@ -183,7 +186,9 @@ public class SecureXmlParserFactory {
     public Document readDocument(final Reader reader, final Charset charset) {
         try {
             DocumentBuilder docBuilder = createDocumentBuilder();
-            return docBuilder.parse(createInputSource(reader, charset));
+            @SuppressFBWarnings(value = "XXE_DOCUMENT", justification = "The parser is secured in the called method")
+            Document document = docBuilder.parse(createInputSource(reader, charset));
+            return document;
         }
         catch (SAXException | IOException exception) {
             throw new ParsingException(exception);

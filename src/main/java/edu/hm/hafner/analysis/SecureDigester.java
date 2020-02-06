@@ -26,7 +26,7 @@ public final class SecureDigester extends Digester {
 
         SAXParserFactory factory = getFactory(); // Since there is no way to set the factory we need to modify the existing one
         SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
-        parserFactory.configureSaxParserFacory(factory);
+        parserFactory.configureSaxParserFactory(factory);
         setValidating(false);
         setEntityResolver((publicId, systemId) -> new InputSource());
     }
