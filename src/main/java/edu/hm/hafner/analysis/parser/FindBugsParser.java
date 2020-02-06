@@ -1,11 +1,7 @@
 package edu.hm.hafner.analysis.parser; // NOPMD
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,7 +32,6 @@ import edu.umd.cs.findbugs.Project;
 import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
 import edu.umd.cs.findbugs.annotations.Nullable;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
 
@@ -241,7 +236,6 @@ public class FindBugsParser extends IssueParser {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(FindBugsParser.class.getClassLoader());
-            logSaxProperties();
             SortedBugCollection collection = new SortedBugCollection();
             collection.readXML(file);
             return collection;
@@ -249,53 +243,6 @@ public class FindBugsParser extends IssueParser {
         finally {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
-    }
-
-    @SuppressWarnings("illegalcatch")
-    @SuppressFBWarnings("DE_MIGHT_IGNORE")
-    private void logSaxProperties() {
-        String saxProperty = System.getProperty(ORG_XML_SAX_DRIVER);
-        if (saxProperty == null) {
-            try {
-                ClassLoader cl = Thread.currentThread().getContextClassLoader();
-                String service = "META-INF/services/" + ORG_XML_SAX_DRIVER;
-                InputStream in;
-                if (cl == null) {
-                    // No Context ClassLoader, try the current ClassLoader
-                    in = Object.class.getResourceAsStream(service);
-                }
-                else {
-                    in = FindBugsParser.class.getResourceAsStream(service);
-
-                    // If no provider found then try the current ClassLoader
-                    if (in == null) {
-                        in = Object.class.getResourceAsStream(service);
-                    }
-                }
-
-                if (in != null) {
-                    try (BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(in, StandardCharsets.UTF_8))) {
-                        Logger.getLogger(FindBugsParser.class.getName())
-                                .log(Level.WARNING,
-                                        "Service META-INF/services/org.xml.sax.driver has been set but should be empty: "
-                                                + reader.readLine());
-                        return;
-                    }
-                }
-            }
-            catch (RuntimeException | IOException ignore) {
-                // ignore
-            }
-        }
-        else {
-            Logger.getLogger(FindBugsParser.class.getName()).log(
-                    Level.WARNING,
-                    "System property org.xml.sax.driver has been set but should be empty: " + saxProperty);
-            return;
-        }
-        Logger.getLogger(FindBugsParser.class.getName())
-                .log(Level.FINE, "Default SAX parser will be used to parse FindBugs/SpotBugs file.");
     }
 
     private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,
@@ -323,12 +270,11 @@ public class FindBugsParser extends IssueParser {
         }
         catch (IOException ignored) {
             if (isFirstError) {
-                StringBuilder builder = new StringBuilder("Can't resolve absolute file name for file ");
-                builder.append(sourceLine.getSourceFile());
-                builder.append(", dir list = ");
-                builder.append(project.getSourceDirList());
                 isFirstError = false;
-                Logger.getLogger(getClass().getName()).log(Level.WARNING, builder.toString());
+                Logger.getLogger(getClass().getName()).log(Level.WARNING,
+                        "Can't resolve absolute file name for file " + sourceLine.getSourceFile()
+                        + ", dir list = "
+                        + project.getSourceDirList());
             }
             return sourceLine.getPackageName().replace(DOT, SLASH) + SLASH + sourceLine.getSourceFile();
         }
