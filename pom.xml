@@ -73,7 +73,7 @@
     <junit-platform-launcher.version>1.6.0</junit-platform-launcher.version>
     <mockito.version>3.2.4</mockito.version>
     <assertj.version>3.15.0</assertj.version>
-    <archunit.version>0.13.0</archunit.version>
+    <archunit.version>0.13.1</archunit.version>
     <violations-lib.version>1.109</violations-lib.version>
     <json.version>20190722</json.version>
 
@@ -89,7 +89,7 @@
     <maven-buildhelper-plugin.version>3.0.0</maven-buildhelper-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-    <maven-pmd-plugin.version>3.12.0</maven-pmd-plugin.version>
+    <maven-pmd-plugin.version>3.13.0</maven-pmd-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
     <pmd.version>6.21.0</pmd.version>
     <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
@@ -764,7 +764,6 @@
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
             <version>${maven-enforcer-plugin.version}</version>
             <executions>
