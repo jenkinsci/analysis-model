@@ -3,11 +3,13 @@ package edu.hm.hafner.analysis;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -47,6 +49,9 @@ class IssueBuilderTest {
         builder.setFileName(RELATIVE_FILE);
         assertThat(builder.build()).hasFileName("/tmp/" + RELATIVE_FILE);
         assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
+
+        assertThat(FilenameUtils.getPath(builder.build().getFileName())).isEqualTo("/tmp");
+        assertThat(new PathUtil().getAbsolutePath(builder.build().getFileName())).isEqualTo("/tmp");
         assertThat(builder.build().getFolder()).isEqualTo("/tmp");
 
         builder.setFileName("/tmp/absolute.txt");

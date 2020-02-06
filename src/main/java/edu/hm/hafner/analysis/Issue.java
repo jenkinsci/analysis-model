@@ -465,7 +465,7 @@ public class Issue implements Serializable {
      */
     public String getFolder() {
         try {
-            return normalizeFileName(FilenameUtils.getFullPath(getFileName()));
+            return normalizeFileName(FilenameUtils.getPath(getFileName()));
         }
         catch (IllegalArgumentException ignore) {
             return UNDEFINED; // fallback
