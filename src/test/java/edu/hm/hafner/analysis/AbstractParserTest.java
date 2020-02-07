@@ -74,7 +74,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      *
      * @return the issues in the default file
      */
-    protected Report parseDefaultFile() {
+    protected Report    parseDefaultFile() {
         return createParser().parse(getDefaultFileFactory());
     }
 

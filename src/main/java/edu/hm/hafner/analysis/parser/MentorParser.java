@@ -1,13 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
-
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Parser for Mentor Graphics Modelsim/Questa Simulator.
@@ -52,7 +52,7 @@ public class MentorParser extends LookaheadParser {
      * The next capture groups capture the File name and Line number.
      */
     private static final Pattern TIME_FILE_PATTERN = Pattern.compile(
-            "# {4}Time: (?<simtime>\\d* \\ws)(?: {2}Iteration: \\d+)? {2}\\w*: (?<module>.\\S*)(?: File: (?<filename>\\S+)(?: Line: (?<line>\\d+))?)?.*");
+            "# {4}Time: (?<simtime>\\d* \\ws)(?: {2}Iteration: \\d+)? {2}\\w*: (?<module>.\\S*)(?: File: (?<filename>\\S+))?(?: Line: (?<line>\\d+))?.*");
 
     
     /**

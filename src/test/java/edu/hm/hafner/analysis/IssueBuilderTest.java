@@ -19,12 +19,13 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Marcel Binder
  */
+@SuppressFBWarnings("DMI")
 class IssueBuilderTest {
     private static final String FILE_NAME = "C:/users/tester/file-name";
     static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
-    private static final Issue DEFAULT_ISSUE = new Issue(UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
+    private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
             null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(TreeString.valueOf(FILE_NAME), LINE_START,
+    private static final Issue FILLED_ISSUE = new Issue(PATH_NAME, TreeString.valueOf(FILE_NAME), LINE_START,
             LINE_END, COLUMN_START, COLUMN_END,
             LINE_RANGES, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
             TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, REFERENCE,
@@ -46,7 +47,7 @@ class IssueBuilderTest {
         builder.setFileName(RELATIVE_FILE);
         assertThat(builder.build()).hasFileName("/tmp/" + RELATIVE_FILE);
         assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
-        assertThat(builder.build().getFolder()).isEqualTo("/tmp");
+        assertThat(builder.build().getFolder()).isEqualTo("tmp");
 
         builder.setFileName("/tmp/absolute.txt");
         assertThat(builder.build()).hasFileName("/tmp/absolute.txt");

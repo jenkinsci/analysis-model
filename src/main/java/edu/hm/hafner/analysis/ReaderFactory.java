@@ -5,26 +5,18 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.nio.file.InvalidPathException;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import static org.apache.xerces.impl.Constants.*;
 
 /**
  * Provides several useful helper methods to read the contents of a resource that is given by a {@link Reader}.
@@ -135,8 +127,8 @@ public abstract class ReaderFactory {
         try (Stream<String> lines = readStream()) {
             return lines.collect(Collectors.joining("\n"));
         }
-        catch (UncheckedIOException e) {
-            throw new ParsingException(e);
+        catch (UncheckedIOException exception) {
+            throw new ParsingException(exception);
         }
     }
 
@@ -149,35 +141,11 @@ public abstract class ReaderFactory {
      */
     public Document readDocument() {
         try (Reader reader = create()) {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            setFeature(factory, SAX_FEATURE_PREFIX, DISALLOW_DOCTYPE_DECL_FEATURE, true);
-            setFeature(factory, SAX_FEATURE_PREFIX, EXTERNAL_GENERAL_ENTITIES_FEATURE, false);
-            setFeature(factory, SAX_FEATURE_PREFIX, EXTERNAL_PARAMETER_ENTITIES_FEATURE, false);
-            setFeature(factory, SAX_FEATURE_PREFIX, RESOLVE_DTD_URIS_FEATURE, false);
-            setFeature(factory, SAX_FEATURE_PREFIX, USE_ENTITY_RESOLVER2_FEATURE, false);
-            setFeature(factory, XERCES_FEATURE_PREFIX, CREATE_ENTITY_REF_NODES_FEATURE, false);
-            setFeature(factory, XERCES_FEATURE_PREFIX, LOAD_DTD_GRAMMAR_FEATURE, false);
-            setFeature(factory, XERCES_FEATURE_PREFIX, LOAD_EXTERNAL_DTD_FEATURE, false);
-            factory.setXIncludeAware(false);
-            factory.setExpandEntityReferences(false);
-
-            DocumentBuilder docBuilder = factory.newDocumentBuilder();
-            return docBuilder.parse(new InputSource(new ReaderInputStream(reader, getCharset())));
+            SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
+            return parserFactory.readDocument(reader, getCharset());
         }
-        catch (SAXException | IOException | InvalidPathException | ParserConfigurationException e) {
-            throw new ParsingException(e);
-        }
-    }
-
-    @SuppressFBWarnings
-    @SuppressWarnings("illegalcatch")
-    private void setFeature(final DocumentBuilderFactory factory, final String prefix, final String feature,
-            final boolean value) {
-        try {
-            factory.setFeature(prefix + feature, value);
-        }
-        catch (Exception ignored) {
-            // ignore and continue
+        catch (IOException exception) {
+            throw new ParsingException(exception);
         }
     }
 
@@ -188,6 +156,24 @@ public abstract class ReaderFactory {
      */
     public Charset getCharset() {
         return charset;
+    }
+
+    /**
+     * Parses the whole file with the specified SAX {@link DefaultHandler}.
+     *
+     * @param handler
+     *         the SAX handler to parse the file
+     *
+     * @throws ParsingException
+     *         if the file could not be parsed
+     */
+    public void parse(final DefaultHandler handler) {
+        try (Reader reader = create()) {
+            new SecureXmlParserFactory().parse(reader, getCharset(), handler);
+        }
+        catch (IOException exception) {
+            throw new ParsingException(exception);
+        }
     }
 }
 

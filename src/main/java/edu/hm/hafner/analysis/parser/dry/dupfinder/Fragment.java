@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Java Bean class for a Reshaper DupFinder fragment.
@@ -33,6 +34,7 @@ public class Fragment {
      *
      * @param fileName the value to set
      */
+    @SuppressFBWarnings("NM")
     public void setFileName(final String fileName) {
         this.fileName = fileName;
     }

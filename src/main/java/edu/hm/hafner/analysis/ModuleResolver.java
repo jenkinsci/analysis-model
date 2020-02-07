@@ -28,7 +28,7 @@ public class ModuleResolver {
             return;
         }
 
-        issuesWithoutModule.forEach(issue -> issue.setModuleName(detector.guessModuleName(issue.getFileName())));
+        issuesWithoutModule.forEach(issue -> issue.setModuleName(detector.guessModuleName(issue.getAbsolutePath())));
         report.logInfo("-> resolved module names for %d issues", issuesWithoutModule.size());
     }
 }

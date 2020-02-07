@@ -42,7 +42,7 @@ public class PackageNameResolver {
     public void run(final Report report, final Charset charset) {
         Set<String> filesWithoutPackageName = report.stream()
                 .filter(issue -> !issue.hasPackageName())
-                .map(Issue::getFileName)
+                .map(Issue::getAbsolutePath)
                 .collect(Collectors.toSet());
         
         if (filesWithoutPackageName.isEmpty()) {
@@ -57,7 +57,7 @@ public class PackageNameResolver {
         IssueBuilder builder = new IssueBuilder();
         report.stream().forEach(issue -> {
             if (!issue.hasPackageName()) {
-                issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getFileName())));
+                issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getAbsolutePath())));
             }
         });
         report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());

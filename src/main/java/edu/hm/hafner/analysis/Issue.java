@@ -2,9 +2,6 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -14,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -26,6 +24,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
+
+    private static final PathUtil PATH_UTIL = new PathUtil();
 
     static final String UNDEFINED = "-";
 
@@ -179,6 +179,8 @@ public class Issue implements Serializable {
 
     private String moduleName;      // mutable
     private TreeString packageName; // mutable
+    @Nullable
+    private String pathName;        // mutable, not part of equals, @since 8.0.0
     private TreeString fileName;    // mutable
 
     private final TreeString message;   // fixed
@@ -194,8 +196,9 @@ public class Issue implements Serializable {
      *         the other issue to copy the properties from
      */
     @SuppressWarnings("CopyConstructorMissesField")
-    protected Issue(final Issue copy) {
-        this(copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(), copy.getColumnStart(),
+    Issue(final Issue copy) {
+        this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
+                copy.getColumnStart(),
                 copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
                 copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
                 copy.getDescription(), copy.getOrigin(), copy.getReference(), copy.getFingerprint(),
@@ -206,6 +209,8 @@ public class Issue implements Serializable {
      * Creates a new instance of {@link Issue} using the specified properties. The new issue will get a new generated
      * ID.
      *
+     * @param pathName
+     *         the path that contains the affected file
      * @param fileName
      *         the name of the file that contains this issue
      * @param lineStart
@@ -242,16 +247,17 @@ public class Issue implements Serializable {
      *         additional properties from the statical analysis tool
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue(final TreeString fileName,
+    Issue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @Nullable final Iterable<? extends LineRange>  lineRanges,
+            @Nullable final Iterable<? extends LineRange> lineRanges,
             @Nullable final String category, @Nullable final String type,
             final TreeString packageName, @Nullable final String moduleName,
             @Nullable final Severity severity,
             final TreeString message, final String description,
             @Nullable final String origin, @Nullable final String reference,
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties) {
-        this(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName, moduleName,
+        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName,
+                moduleName,
                 severity, message, description, origin, reference, fingerprint, additionalProperties,
                 UUID.randomUUID());
     }
@@ -259,6 +265,8 @@ public class Issue implements Serializable {
     /**
      * Creates a new instance of {@link Issue} using the specified properties.
      *
+     * @param pathName
+     *         the path that contains the affected file
      * @param fileName
      *         the name of the file that contains this issue
      * @param lineStart
@@ -297,8 +305,10 @@ public class Issue implements Serializable {
      *         the ID of this issue
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue(final TreeString fileName, final int lineStart, final int lineEnd, final int columnStart,
-            final int columnEnd, @Nullable final Iterable<? extends LineRange>  lineRanges, @Nullable final String category,
+    Issue(@Nullable final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
+            final int columnStart,
+            final int columnEnd, @Nullable final Iterable<? extends LineRange> lineRanges,
+            @Nullable final String category,
             @Nullable final String type, final TreeString packageName,
             @Nullable final String moduleName, @Nullable final Severity severity,
             final TreeString message, final String description,
@@ -306,6 +316,7 @@ public class Issue implements Serializable {
             @Nullable final String fingerprint, @Nullable final Serializable additionalProperties,
             final UUID id) {
 
+        this.pathName = normalizeFileName(pathName);
         this.fileName = fileName;
 
         int providedLineStart = defaultInteger(lineStart);
@@ -363,13 +374,21 @@ public class Issue implements Serializable {
         moduleName = moduleName.intern();
         origin = origin.intern();
         reference = reference.intern();
+        if (pathName == null) { // new in version 8.0.0
+            pathName = UNDEFINED;
+        }
+        else {
+            pathName = pathName.intern();
+        }
 
         return this;
     }
 
     private String normalizeFileName(@Nullable final String platformFileName) {
-        return defaultString(StringUtils.replace(
-                StringUtils.strip(platformFileName), "\\", "/"));
+        if (UNDEFINED.equals(platformFileName) || StringUtils.isBlank(platformFileName)) {
+            return UNDEFINED;
+        }
+        return PATH_UTIL.getAbsolutePath(platformFileName);
     }
 
     /**
@@ -418,17 +437,19 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the name of the file that contains this issue. Typically this file name is the absolute name.
+     * Returns the name of the affected file. This file name is a path relative to the path of the affected files
+     * (returned by {@link #getPath()}).
      *
      * @return the name of the file that contains this issue
+     * @see #getPath()
      */
     public String getFileName() {
         return fileName.toString();
     }
 
     /**
-     * Returns the tree-string containing the name of the file that contains this issue. Typically this file name is the
-     * absolute name.
+     * Returns the tree-string containing the name of the affected file. This file name is a path relative to the path
+     * of the affected files (returned by {@link #getPath()}).
      *
      * @return the cached tree-string containing the name of the file that contains this issue
      */
@@ -437,20 +458,21 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the folder that contains the affected file of this issue.
+     * Returns the folder that contains the affected file of this issue. Note that this path is not an absolute path, it
+     * is relative to the path of the affected files (returned by {@link #getPath()}).
      *
      * @return the folder of the file that contains this issue
      */
     public String getFolder() {
         try {
-            Path folder = Paths.get(getFileName()).getParent();
-            if (folder == null) {
-                return UNDEFINED; // fallback
+            String folder = FilenameUtils.getPath(getFileName());
+            if (StringUtils.isBlank(folder)) {
+                return UNDEFINED;
             }
-            return normalizeFileName(folder.toString());
+            return PATH_UTIL.getRelativePath(folder);
         }
-        catch (InvalidPathException e) {
-            return UNDEFINED;
+        catch (IllegalArgumentException ignore) {
+            return UNDEFINED; // fallback
         }
     }
 
@@ -463,19 +485,48 @@ public class Issue implements Serializable {
         try {
             return FilenameUtils.getName(getFileName());
         }
-        catch (IllegalArgumentException exception) {
+        catch (IllegalArgumentException ignore) {
             return getFileName(); // fallback
         }
     }
 
     /**
+     * Returns the absolute path of the affected file.
+     *
+     * @return the base name of the file that contains this issue
+     */
+    public String getAbsolutePath() {
+        if (UNDEFINED.equals(pathName)) {
+            return getFileName();
+        }
+        else {
+            return PATH_UTIL.createAbsolutePath(pathName, getFileName());
+        }
+    }
+
+    /**
+     * Returns the path of the affected file. Note that this path is not the parent folder of the affected file. This
+     * path is the folder that contains all of the affected files of a {@link Report}. If this path is not defined, then
+     * the default value {@link #UNDEFINED} is returned.
+     *
+     * @return the base name of the file that contains this issue
+     */
+    public String getPath() {
+        return pathName;
+    }
+
+    /**
      * Sets the name of the file that contains this issue.
      *
+     * @param pathName
+     *         the path that contains the affected file
      * @param fileName
      *         the file name to set
      */
+    @SuppressWarnings("checkstyle:HiddenField")
     @SuppressFBWarnings("NM")
-    public void setFileName(final TreeString fileName) {
+    void setFileName(final String pathName, final TreeString fileName) {
+        this.pathName = normalizeFileName(pathName);
         this.fileName = fileName;
     }
 
@@ -830,5 +881,4 @@ public class Issue implements Serializable {
     public String toString() {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
-
 }
