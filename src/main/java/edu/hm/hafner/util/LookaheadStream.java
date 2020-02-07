@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 public class LookaheadStream implements AutoCloseable {
     private final Stream<String> stream;
     private final Iterator<String> lineIterator;
+    private final String fileName;
 
     private boolean isLookaheadFilled = false;
     private String lookaheadLine = StringUtils.EMPTY;
@@ -28,8 +29,25 @@ public class LookaheadStream implements AutoCloseable {
      *         the lines to wrap
      */
     public LookaheadStream(final Stream<String> stream) {
+        this(stream, StringUtils.EMPTY);
+    }
+
+    /**
+     * Wraps the specified stream of lines into a {@link LookaheadStream}.
+     *
+     * @param stream
+     *         the lines to wrap
+     * @param fileName
+     *         the file name of the stream
+     */
+    public LookaheadStream(final Stream<String> stream, final String fileName) {
         this.stream = stream;
         lineIterator = stream.iterator();
+        this.fileName = fileName;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     @Override
