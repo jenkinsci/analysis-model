@@ -57,7 +57,7 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.version>0.3.3</codingstyle.version>
+    <codingstyle.version>0.4.1</codingstyle.version>
     <spotbugs.annotations>3.1.12</spotbugs.annotations>
     <commons.lang.version>3.9</commons.lang.version>
     <commons.io.version>2.6</commons.io.version>
