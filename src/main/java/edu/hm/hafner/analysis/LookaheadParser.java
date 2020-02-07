@@ -47,14 +47,14 @@ public abstract class LookaheadParser extends IssueParser {
         Report report = new Report();
         try (Stream<String> lines = readerFactory.readStream()) {
             try (LookaheadStream lookahead = new LookaheadStream(lines, readerFactory.getFileName())) {
-                parse(report, lookahead, readerFactory.getFileName());
+                parse(report, lookahead);
             }
         }
 
         return postProcess(report);
     }
 
-    private void parse(final Report report, final LookaheadStream lookahead, final String fileName) {
+    private void parse(final Report report, final LookaheadStream lookahead) {
         IssueBuilder builder = new IssueBuilder();
         while (lookahead.hasNext()) {
             String line = lookahead.next();
