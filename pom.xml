@@ -57,7 +57,9 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.version>0.4.2</codingstyle.version>
+    <codingstyle.version>0.4.4</codingstyle.version>
+    <codingstyle.config.version>${codingstyle.version}</codingstyle.config.version>
+    <codingstyle.library.version>${codingstyle.version}</codingstyle.library.version>
     <spotbugs.annotations>3.1.12</spotbugs.annotations>
     <commons.lang.version>3.9</commons.lang.version>
     <commons.io.version>2.6</commons.io.version>
@@ -120,7 +122,7 @@
     <dependency>
       <groupId>edu.hm.hafner</groupId>
       <artifactId>codingstyle</artifactId>
-      <version>${codingstyle.version}</version>
+      <version>${codingstyle.library.version}</version>
     </dependency>
 
     <!-- Project Dependencies -->
@@ -204,7 +206,7 @@
     <dependency>
       <groupId>edu.hm.hafner</groupId>
       <artifactId>codingstyle</artifactId>
-      <version>${codingstyle.version}</version>
+      <version>${codingstyle.library.version}</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
@@ -447,7 +449,8 @@
           <dependency>
             <groupId>edu.hm.hafner</groupId>
             <artifactId>codingstyle</artifactId>
-            <version>${codingstyle.version}</version>
+            <version>${codingstyle.config.version}</version>
+            <classifier>config</classifier>
           </dependency>
         </dependencies>
       </plugin>
@@ -479,7 +482,8 @@
           <dependency>
             <groupId>edu.hm.hafner</groupId>
             <artifactId>codingstyle</artifactId>
-            <version>${codingstyle.version}</version>
+            <version>${codingstyle.config.version}</version>
+            <classifier>config</classifier>
           </dependency>
         </dependencies>
       </plugin>
@@ -517,7 +521,8 @@
           <dependency>
             <groupId>edu.hm.hafner</groupId>
             <artifactId>codingstyle</artifactId>
-            <version>${codingstyle.version}</version>
+            <version>${codingstyle.config.version}</version>
+            <classifier>config</classifier>
           </dependency>
         </dependencies>
       </plugin>
