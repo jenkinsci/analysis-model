@@ -39,25 +39,40 @@ class IssueBuilderTest {
 
         builder.setFileName(RELATIVE_FILE);
 
-        assertThat(builder.build()).hasFileName(RELATIVE_FILE);
-        assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
-        assertThat(builder.build().getFolder()).isEqualTo(UNDEFINED);
+        assertThat(builder.build())
+                .hasFileName(RELATIVE_FILE)
+                .hasBaseName(RELATIVE_FILE)
+                .hasFolder(UNDEFINED)
+                .hasPath(UNDEFINED);
 
         builder.setDirectory("/tmp");
         builder.setFileName(RELATIVE_FILE);
-        assertThat(builder.build()).hasFileName("/tmp/" + RELATIVE_FILE);
-        assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
-        assertThat(builder.build().getFolder()).isEqualTo("tmp");
+
+        assertThat(builder.build())
+                .hasFileName("/tmp/" + RELATIVE_FILE)
+                .hasBaseName(RELATIVE_FILE)
+                .hasFolder("tmp");
 
         builder.setFileName("/tmp/absolute.txt");
         assertThat(builder.build()).hasFileName("/tmp/absolute.txt");
+
         builder.setFileName("C:\\tmp\\absolute.txt");
         assertThat(builder.build()).hasFileName("C:/tmp/absolute.txt");
 
         builder.setFileName(null);
-        assertThat(builder.build()).hasFileName("-");
-        assertThat(builder.build()).hasBaseName("-");
-        assertThat(builder.build().getFolder()).isEqualTo(UNDEFINED);
+        assertThat(builder.build())
+                .hasFileName(UNDEFINED)
+                .hasBaseName(UNDEFINED)
+                .hasFolder(UNDEFINED);
+
+        builder.setPathName("/path/to/source");
+        builder.setDirectory("");
+        builder.setFileName(RELATIVE_FILE);
+        assertThat(builder.build())
+                .hasFileName(RELATIVE_FILE)
+                .hasBaseName(RELATIVE_FILE)
+                .hasFolder(UNDEFINED)
+                .hasPath("/path/to/source");
     }
 
     @ParameterizedTest(name = "{index} => Full Path: {0} - Expected Base Name: file.txt")

@@ -113,6 +113,11 @@ public class IssueBuilder {
         return this;
     }
 
+    public IssueBuilder setPathName(@Nullable final String pathName) {
+        this.pathName = pathName;
+        return this;
+    }
+
     public IssueBuilder setLineStart(final int lineStart) {
         this.lineStart = lineStart;
         return this;
