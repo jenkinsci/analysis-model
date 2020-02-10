@@ -13,7 +13,7 @@ import static edu.hm.hafner.analysis.PackageDetectors.*;
  */
 class JavaPackageDetector extends AbstractPackageDetector {
     private static final Pattern PACKAGE_PATTERN = Pattern.compile(
-            "^\\s*package\\s*([a-zA-Z]+[.\\w]*)\\s*;.*");
+            "^\\s*package\\s*([a-z]+[.\\w]*)\\s*;.*");
 
     JavaPackageDetector() {
         this(new FileSystem());
