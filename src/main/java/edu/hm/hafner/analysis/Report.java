@@ -842,6 +842,7 @@ public class Report implements Iterable<Issue>, Serializable {
          *
          * @return a IssueFilter which has all added filter as filter criteria.
          */
+        @SuppressWarnings("NoFunctionalReturnType")
         public Predicate<Issue> build() {
             return includeFilters.stream().reduce(Predicate::or).orElse(issue -> true)
                     .and(excludeFilters.stream().reduce(Predicate::and).orElse(issue -> true));
