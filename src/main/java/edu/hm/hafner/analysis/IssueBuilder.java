@@ -108,6 +108,11 @@ public class IssueBuilder {
      * Sets the fingerprint for this issue. Used to decide if two issues are equal even if the equals method returns
      * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
      * analyzing the content of the affected file.
+     *
+     * @param fingerprint
+     *         the fingerprint to set
+     *
+     * @return this
      */
     public IssueBuilder setFingerprint(@Nullable final String fingerprint) {
         this.fingerprint = fingerprint;
