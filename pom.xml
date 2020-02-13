@@ -430,9 +430,9 @@
           <targetJdk>${java.version}</targetJdk>
           <includeTests>true</includeTests>
           <minimumTokens>50</minimumTokens>
-          <excludes>
-            <exclude>**/InjectedTest.java</exclude>
-          </excludes>
+          <excludeRoots>
+            <excludeRoot>target/generated-test-sources/assertj-assertions</excludeRoot>
+          </excludeRoots>
           <minimumTokens>50</minimumTokens>
         </configuration>
         <dependencies>
@@ -468,7 +468,7 @@
           </execution>
         </executions>
         <configuration>
-          <excludes>**/MavenJavaTest.txt.java</excludes>
+          <excludes>**/*Assert*.java,**/MavenJavaTest.txt.java</excludes>
           <failOnViolation>false</failOnViolation>
           <configLocation>checkstyle-configuration.xml</configLocation>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
