@@ -130,7 +130,7 @@ public class IssueBuilder {
     }
 
     TreeString internFileName(@Nullable final String unsafeFileName) {
-        if (StringUtils.isEmpty(unsafeFileName)) {
+        if (unsafeFileName == null || StringUtils.isEmpty(unsafeFileName)) {
             return UNDEFINED_TREE_STRING;
         }
         else {
@@ -319,7 +319,7 @@ public class IssueBuilder {
     }
 
     TreeString internPackageName(@Nullable final String unsafePackageName) {
-        if (StringUtils.isBlank(unsafePackageName)) {
+        if (unsafePackageName == null || StringUtils.isBlank(unsafePackageName)) {
             return UNDEFINED_TREE_STRING;
         }
         else {
