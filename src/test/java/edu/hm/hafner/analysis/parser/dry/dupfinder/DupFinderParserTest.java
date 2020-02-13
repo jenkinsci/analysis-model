@@ -68,7 +68,7 @@ class DupFinderParserTest extends AbstractParserTest {
                 .hasFileName(REPORTER)
                 .hasSeverity(Severity.WARNING_LOW);
 
-        assertThat(publisher.getAdditionalProperties()).isEqualTo(reporter.getAdditionalProperties());
+        assertThat(publisher.getAdditionalProperties()).isNotNull().isEqualTo(reporter.getAdditionalProperties());
     }
 
     /**

@@ -83,6 +83,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @see #copyIssuesAndProperties(Report, Report)
      */
+    @SuppressWarnings("ConstructorLeaksThis")
     public Report(final Report... reports) {
         Ensure.that(reports).isNotEmpty("No reports given.");
 
@@ -101,6 +102,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @see #copyIssuesAndProperties(Report, Report)
      */
+    @SuppressWarnings("ConstructorLeaksThis")
     public Report(final Collection<Report> reports) {
         Ensure.that(reports).isNotEmpty("No reports given.");
 

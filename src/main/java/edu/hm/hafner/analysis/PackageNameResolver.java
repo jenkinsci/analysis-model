@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import edu.hm.hafner.util.VisibleForTesting;
@@ -52,7 +51,8 @@ public class PackageNameResolver {
         }
 
         Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
-                .collect(Collectors.toMap(identity(), findPackage(charset)));
+                .collect(Collectors.toMap(identity(),
+                        fileName -> packageDetectors.detectPackageName(fileName, charset)));
 
         IssueBuilder builder = new IssueBuilder();
         report.stream().forEach(issue -> {
@@ -61,9 +61,5 @@ public class PackageNameResolver {
             }
         });
         report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());
-    }
-
-    private Function<String, String> findPackage(final Charset charset) {
-        return fileName -> packageDetectors.detectPackageName(fileName, charset);
     }
 }
