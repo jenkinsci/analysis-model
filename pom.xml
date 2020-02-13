@@ -330,7 +330,7 @@
             <arg>-Xlint:all</arg>
             <arg>-XepAllDisabledChecksAsWarnings</arg>
             <arg>-XepIgnoreUnknownCheckNames</arg>
-            <arg>--XepDisableWarningsInGeneratedCode</arg>
+            <arg>-XepDisableWarningsInGeneratedCode</arg>
             <arg>-XepAllErrorsAsWarnings</arg>
             <!-- NullAway configuration -->
             <arg>-Xep:NullAway:WARN</arg>
