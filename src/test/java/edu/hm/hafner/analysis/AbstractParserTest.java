@@ -56,9 +56,9 @@ public abstract class AbstractParserTest extends ResourceTest {
     @Test
     void shouldParseAllIssues() {
         Report report = parseDefaultFile();
-        SoftAssertions softAssertions = new SoftAssertions();
-        assertThatIssuesArePresent(report, softAssertions);
-        softAssertions.assertAll();
+        try (SoftAssertions softAssertions = new SoftAssertions()) {
+            assertThatIssuesArePresent(report, softAssertions);
+        }
     }
 
     protected void assertThatReportHasSeverities(final Report report, final int expectedSizeError,

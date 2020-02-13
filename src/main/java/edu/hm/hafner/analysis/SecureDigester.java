@@ -5,8 +5,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.digester3.Digester;
 import org.xml.sax.InputSource;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * A secure {@link Digester} implementation that does not resolve external entities.
  *
@@ -29,17 +27,5 @@ public final class SecureDigester extends Digester {
         parserFactory.configureSaxParserFactory(factory);
         setValidating(false);
         setEntityResolver((publicId, systemId) -> new InputSource());
-    }
-
-    @SuppressFBWarnings
-    @SuppressWarnings("illegalcatch")
-    private void setFeature(final SAXParserFactory factory, final String prefix, final String feature,
-            final boolean value) {
-        try {
-            factory.setFeature(prefix + feature, value);
-        }
-        catch (Exception ignored) {
-            // ignore and continue
-        }
     }
 }

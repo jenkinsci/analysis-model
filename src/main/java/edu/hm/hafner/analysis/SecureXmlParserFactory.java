@@ -160,11 +160,10 @@ public class SecureXmlParserFactory {
      * @throws ParsingException
      *         if the file could not be parsed
      */
+    @SuppressFBWarnings(value = "XXE_SAXPARSER", justification = "The parser is secured in the called method")
     public void parse(final Reader reader, final Charset charset, final DefaultHandler handler) {
         try {
-            @SuppressFBWarnings(value = "XXE_SAXPARSER", justification = "The parser is secured in the called method")
-            SAXParser parser = createSaxParser();
-            parser.parse(createInputSource(reader, charset), handler);
+            createSaxParser().parse(createInputSource(reader, charset), handler);
         }
         catch (SAXException | IOException exception) {
             throw new ParsingException(exception);
@@ -183,12 +182,10 @@ public class SecureXmlParserFactory {
      * @throws ParsingException
      *         if the file could not be parsed
      */
+    @SuppressFBWarnings(value = "XXE_DOCUMENT", justification = "The parser is secured in the called method")
     public Document readDocument(final Reader reader, final Charset charset) {
         try {
-            DocumentBuilder docBuilder = createDocumentBuilder();
-            @SuppressFBWarnings(value = "XXE_DOCUMENT", justification = "The parser is secured in the called method")
-            Document document = docBuilder.parse(createInputSource(reader, charset));
-            return document;
+            return createDocumentBuilder().parse(createInputSource(reader, charset));
         }
         catch (SAXException | IOException exception) {
             throw new ParsingException(exception);

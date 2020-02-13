@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.analysis; // NOPMD
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static java.util.stream.Collectors.*;
 
@@ -191,6 +192,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @return this
      */
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
     protected Object readResolve() {
         if (namesByOrigin == null) {
             namesByOrigin = new HashMap<>();

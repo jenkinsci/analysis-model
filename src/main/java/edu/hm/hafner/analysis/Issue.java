@@ -179,7 +179,6 @@ public class Issue implements Serializable {
 
     private String moduleName;      // mutable
     private TreeString packageName; // mutable
-    @Nullable
     private String pathName;        // mutable, not part of equals, @since 8.0.0
     private TreeString fileName;    // mutable
 
@@ -368,6 +367,7 @@ public class Issue implements Serializable {
      *
      * @return this
      */
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
     protected Object readResolve() {
         category = category.intern();
         type = type.intern();

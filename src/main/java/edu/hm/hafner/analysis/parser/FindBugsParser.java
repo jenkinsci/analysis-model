@@ -67,8 +67,6 @@ public class FindBugsParser extends IssueParser {
     /** Determines whether to use the rank when evaluation the priority. */
     private final PriorityProperty priorityProperty;
 
-    private boolean isFirstError = true;
-
     /**
      * Creates a new instance of {@link FindBugsParser}.
      *
@@ -170,7 +168,7 @@ public class FindBugsParser extends IssueParser {
                         .setType(type)
                         .setLineStart(sourceLine.getStartLine())
                         .setLineEnd(sourceLine.getEndLine())
-                        .setFileName(findSourceFile(project, sourceFinder, sourceLine))
+                        .setFileName(findSourceFile(sourceFinder, sourceLine))
                         .setPackageName(warning.getPrimaryClass().getPackageName())
                         .setFingerprint(warning.getInstanceHash());
                 setAffectedLines(warning, builder,
@@ -259,8 +257,7 @@ public class FindBugsParser extends IssueParser {
         builder.setLineRanges(lineRanges);
     }
 
-    private String findSourceFile(final Project project, final SourceFinder sourceFinder,
-            final SourceLineAnnotation sourceLine) {
+    private String findSourceFile(final SourceFinder sourceFinder, final SourceLineAnnotation sourceLine) {
         try {
             SourceFile sourceFile = sourceFinder.findSourceFile(sourceLine);
             return sourceFile.getFullFileName();

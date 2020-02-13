@@ -78,42 +78,41 @@ class DoxygenParserTest extends AbstractParserTest {
     @Test
     void issue6971() {
         Report warnings = parse("issue6971.txt");
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(warnings).hasSize(4);
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings).hasSize(4);
 
-        Iterator<? extends Issue> iterator = warnings.iterator();
+            Iterator<? extends Issue> iterator = warnings.iterator();
 
-        softly.assertThat(iterator.next())
-                .hasLineEnd(479)
-                .hasLineStart(479)
-                .hasMessage(
-                        "the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
-                .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
-                .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(iterator.next())
+                    .hasLineEnd(479)
+                    .hasLineStart(479)
+                    .hasMessage(
+                            "the name `lcp_lexicolemke.c' supplied as the second argument in the \\file statement is not an input file")
+                    .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
+                    .hasSeverity(Severity.WARNING_NORMAL);
 
-        softly.assertThat(iterator.next())
-                .hasLineEnd(19)
-                .hasLineStart(19)
-                .hasMessage("Unexpected character `\"'")
-                .hasFileName("/home/user/myproject/helper/SimpleTimer.h")
-                .hasSeverity(Severity.ERROR);
+            softly.assertThat(iterator.next())
+                    .hasLineEnd(19)
+                    .hasLineStart(19)
+                    .hasMessage("Unexpected character `\"'")
+                    .hasFileName("/home/user/myproject/helper/SimpleTimer.h")
+                    .hasSeverity(Severity.ERROR);
 
-        softly.assertThat(iterator.next())
-                .hasLineEnd(357)
-                .hasLineStart(357)
-                .hasMessage("Member getInternalParser() (function) of class XmlParser is not documented.")
-                .hasFileName(".../XmlParser.h")
-                .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(iterator.next())
+                    .hasLineEnd(357)
+                    .hasLineStart(357)
+                    .hasMessage("Member getInternalParser() (function) of class XmlParser is not documented.")
+                    .hasFileName(".../XmlParser.h")
+                    .hasSeverity(Severity.WARNING_NORMAL);
 
-        softly.assertThat(iterator.next())
-                .hasLineEnd(39)
-                .hasLineStart(39)
-                .hasMessage(
-                        "Member XmlMemoryEntityMapEntry (typedef) of class XmlMemoryEntityResolver is not documented.")
-                .hasFileName("P:/Integration/DjRip/djrip/workspace/libraries/xml/XmlMemoryEntityResolver.h")
-                .hasSeverity(Severity.WARNING_NORMAL);
-
-        softly.assertAll();
+            softly.assertThat(iterator.next())
+                    .hasLineEnd(39)
+                    .hasLineStart(39)
+                    .hasMessage(
+                            "Member XmlMemoryEntityMapEntry (typedef) of class XmlMemoryEntityResolver is not documented.")
+                    .hasFileName("P:/Integration/DjRip/djrip/workspace/libraries/xml/XmlMemoryEntityResolver.h")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
     }
 
     @SuppressWarnings("methodlength")
