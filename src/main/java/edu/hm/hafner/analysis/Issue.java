@@ -385,7 +385,7 @@ public class Issue implements Serializable {
     }
 
     private String normalizeFileName(@Nullable final String platformFileName) {
-        if (UNDEFINED.equals(platformFileName) || StringUtils.isBlank(platformFileName)) {
+        if (platformFileName == null || UNDEFINED.equals(platformFileName) || StringUtils.isBlank(platformFileName)) {
             return UNDEFINED;
         }
         return PATH_UTIL.getAbsolutePath(platformFileName);
