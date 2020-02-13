@@ -121,8 +121,10 @@
 
                             if (first) {
                                 recordIssues enabledForFailure: true, tool: mavenConsole()
-                                recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8'
-                                recordIssues tools: [spotBugs(), checkStyle(), pmdParser()], sourceCodeEncoding: 'UTF-8'
+                                recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', filters:[excludeFile('.*Assert.java')]
+                                recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml'),
+                                        checkStyle(pattern: 'target/checkstyle-result.xml'),
+                                        pmdParser(pattern: 'target/pmd.xml')], sourceCodeEncoding: 'UTF-8'
                                 recordIssues enabledForFailure: true, tool: taskScanner(
                                         includePattern:'**/*.java',
                                         excludePattern:'target/**',
