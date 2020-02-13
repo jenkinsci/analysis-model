@@ -56,6 +56,49 @@ class ReportTest extends SerializableTest<Report> {
             .setFileName("file-3")
             .setSeverity(Severity.WARNING_LOW)
             .build();
+    private static final String NO_NAME = "";
+
+    @Test
+    void shouldProvideOriginMappings() {
+        Report report = new Report();
+
+        assertThat(report.getNameOfOrigin("id")).isEqualTo(NO_NAME);
+
+        report.setNameOfOrigin("id", "name");
+        assertThat(report.getNameOfOrigin("id")).isEqualTo("name");
+
+        report.setNameOfOrigin("second", "another name");
+        assertThat(report.getNameOfOrigin("id")).isEqualTo("name");
+        assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
+
+        report.setNameOfOrigin("id", "changed");
+        assertThat(report.getNameOfOrigin("id")).isEqualTo("changed");
+        assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
+    }
+
+    @Test
+    void shouldMergeOriginMappings() {
+        Report first = new Report();
+
+        first.setNameOfOrigin("first", "first name");
+        assertThat(first.getNameOfOrigin("first")).isEqualTo("first name");
+
+        Report second = new Report();
+
+        second.setNameOfOrigin("second", "second name");
+        assertThat(second.getNameOfOrigin("second")).isEqualTo("second name");
+
+        assertThat(first.getNameOfOrigin("second")).isEqualTo(NO_NAME);
+        assertThat(second.getNameOfOrigin("first")).isEqualTo(NO_NAME);
+
+        first.addAll(second);
+        assertThat(first.getNameOfOrigin("first")).isEqualTo("first name");
+        assertThat(first.getNameOfOrigin("second")).isEqualTo("second name");
+
+        Report third = first.copyEmptyInstance();
+        assertThat(third.getNameOfOrigin("first")).isEqualTo("first name");
+        assertThat(third.getNameOfOrigin("second")).isEqualTo("second name");
+    }
 
     @Test
     void shouldStoreFileNames() {
@@ -709,6 +752,8 @@ class ReportTest extends SerializableTest<Report> {
         byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
+
+        // FIXME: we need at least a test for the XML part
     }
 
     /** Verifies that equals checks all properties. */

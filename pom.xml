@@ -47,7 +47,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>8.0.0-beta9</revision>
+    <revision>8.0.0-beta10</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>

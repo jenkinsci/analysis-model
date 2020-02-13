@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -21,6 +22,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
@@ -59,6 +61,7 @@ public class Report implements Iterable<Issue>, Serializable {
     private final List<String> errorMessages = new ArrayList<>();
 
     private final Set<String> fileNames = new HashSet<>();
+    private Map<String, String> namesByOrigin = new HashMap<>();
 
     private int duplicatesSize = 0;
 
@@ -183,8 +186,22 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Adds the specified file name to the set of file names in this report. The file name identifies the file
-     * that has been processed to obtain all the issues of this report.
+     * Called after de-serialization to improve the memory usage and to initialize fields that have been introduced
+     * after the first release.
+     *
+     * @return this
+     */
+    protected Object readResolve() {
+        if (namesByOrigin == null) {
+            namesByOrigin = new HashMap<>();
+        }
+
+        return this;
+    }
+
+    /**
+     * Adds the specified file name to the set of file names in this report. The file name identifies the file that has
+     * been processed to obtain all the issues of this report.
      *
      * @param fileName
      *         the report file name to add
@@ -623,6 +640,7 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.duplicatesSize += source.duplicatesSize;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
+        destination.namesByOrigin.putAll(source.namesByOrigin);
     }
 
     /**
@@ -749,6 +767,30 @@ public class Report implements Iterable<Issue>, Serializable {
         result = 31 * result + errorMessages.hashCode();
         result = 31 * result + duplicatesSize;
         return result;
+    }
+
+    /**
+     * Returns a human readable name for the specified {@code origin} of this report.
+     *
+     * @param origin
+     *         the origin to get the human readable name for
+     *
+     * @return the name, or an empty string ifg noi such name has been set
+     */
+    public String getNameOfOrigin(final String origin) {
+        return namesByOrigin.getOrDefault(origin, StringUtils.EMPTY);
+    }
+
+    /**
+     * Provides a human readable name for the specified {@code origin} of this report.
+     *
+     * @param origin
+     *         the origin to define a name for
+     * @param name
+     *         the human readable name
+     */
+    public void setNameOfOrigin(final String origin, final String name) {
+        namesByOrigin.put(origin, name);
     }
 
     /**
