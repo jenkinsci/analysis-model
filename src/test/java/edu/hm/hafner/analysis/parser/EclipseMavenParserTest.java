@@ -128,7 +128,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
     @Test
     void javadocCategory() {
         Report warnings = parse("eclipse-maven-withjavadoc.log");
-        EclipseSharedChecks.javadocCategory(warnings);
+        EclipseSharedChecks.verifyCategory(warnings);
     }
 
     @Test

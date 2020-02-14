@@ -38,6 +38,9 @@ class FileNameResolverTest {
 
     /**
      * Ensures that illegal file names are processed without problems. Afterwards, the path name should be unchanged.
+     *
+     * @param fileName
+     *         the file name to check
      */
     @ParameterizedTest(name = "[{index}] Illegal filename = {0}")
     @ValueSource(strings = {"/does/not/exist", "!<>$&/&(", "\0 Null-Byte", "C:/!<>$&/&( \0", "/!<>$&/&( \0"})

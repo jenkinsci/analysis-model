@@ -18,9 +18,12 @@ final class EclipseSharedChecks {
     }
 
     /**
-     * Tests that warnings are categorized as {@code Code} or {@code JavaDoc}.
+     * Verifies that warnings are categorized as {@code Code} or {@code JavaDoc}.
+     *
+     * @param warnings
+     *         the warnings to check
      */
-    static void javadocCategory(final Report warnings) {
+    static void verifyCategory(final Report warnings) {
         assertThat(warnings).hasSize(5);
 
         try (SoftAssertions softly = new SoftAssertions()) {

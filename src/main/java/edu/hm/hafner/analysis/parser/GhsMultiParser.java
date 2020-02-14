@@ -20,15 +20,14 @@ public class GhsMultiParser extends LookaheadParser {
     private static final long serialVersionUID = 8149238560432255036L;
 
     /**
-     *  Regex Pattern to match start of Warning / Error.
-     *  Groups are used to identify FileName, StartLine, Type, Category, Start of message.
+     * Regex Pattern to match start of Warning / Error. Groups are used to identify FileName, StartLine, Type, Category,
+     * Start of message.
      */
     private static final String GHS_MULTI_WARNING_PATTERN =
             "\"(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)";
 
     /** Regex Pattern to match the ending of the Warning / Error Message. */
     private static final String MESSAGE_END_REGEX = "\\s*\\^";
-
 
     /**
      * Creates a new instance of {@link GhsMultiParser}.
@@ -38,7 +37,8 @@ public class GhsMultiParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String type = StringUtils.capitalize(matcher.group(3));
         String messageStart = matcher.group(5);
 
@@ -54,7 +54,12 @@ public class GhsMultiParser extends LookaheadParser {
 
     /**
      * Go through all following lines appending the message until a line with only the ^ Symbol is found.
-     * @param lookahead lines used for message creation
+     *
+     * @param messageStart
+     *         start of the message
+     * @param lookahead
+     *         lines used for message creation
+     *
      * @return concatenated message string
      */
     private String extractMessage(final String messageStart, final LookaheadStream lookahead) {

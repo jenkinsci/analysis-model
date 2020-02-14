@@ -230,7 +230,7 @@ class EclipseParserTest extends AbstractParserTest {
     @Test
     void javadocCategory() {
         Report warnings = parse("eclipse-withjavadoc.log");
-        EclipseSharedChecks.javadocCategory(warnings);
+        EclipseSharedChecks.verifyCategory(warnings);
     }
 
     @Test

@@ -819,6 +819,8 @@ public class Report implements Iterable<Issue>, Serializable {
          *         filter patterns.
          * @param propertyToFilter
          *         Function to get a string from Issue for patterns
+         * @param type
+         *         type of the filter
          */
         private void addNewFilter(final Collection<String> patterns, final Function<Issue, String> propertyToFilter,
                 final FilterType type) {

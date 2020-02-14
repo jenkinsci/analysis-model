@@ -84,20 +84,20 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     }
 
     /**
-     * Appends all of the elements in the specified collection to the end of
-     * this list, in the order that they are returned by the specified
-     * collection's iterator (optional operation).  The behavior of this
-     * operation is undefined if the specified collection is modified while
-     * the operation is in progress.  (Note that this will occur if the
-     * specified collection is this list, and it's nonempty.)
+     * Appends all of the elements in the specified collection to the end of this list, in the order that they are
+     * returned by the specified collection's iterator (optional operation).  The behavior of this operation is
+     * undefined if the specified collection is modified while the operation is in progress.  (Note that this will occur
+     * if the specified collection is this list, and it's nonempty.)
      *
-     * @param ranges collection containing elements to be added to this list
+     * @param ranges
+     *         collection containing elements to be added to this list
+     *
      * @return <tt>true</tt> if this list changed as a result of the call
-     * @throws NullPointerException if the specified collection contains one
-     *         or more null elements and this list does not permit null
+     * @throws NullPointerException
+     *         if the specified collection contains one or more null elements and this list does not permit null
      *         elements, or if the specified collection is null
-     * @throws IllegalArgumentException if some property of an element of the
-     *         specified collection prevents it from being added to this list
+     * @throws IllegalArgumentException
+     *         if some property of an element of the specified collection prevents it from being added to this list
      * @see #add(Object)
      */
     public final boolean addAll(final Iterable<? extends LineRange> ranges) {
@@ -109,6 +109,9 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
     /**
      * Makes sure that the buffer has capability to store N bytes.
+     *
+     * @param n
+     *         capacity
      */
     private void ensure(final int n) {
         if (data.length < n) {
@@ -222,6 +225,8 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
         /**
          * Reads the {@link LineRange} object the cursor is pointing at.
+         *
+         * @return the current element
          */
         @Override
         public LineRange next() {
@@ -259,6 +264,8 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
         /**
          * Reads the current variable-length encoded int value under the cursor, and moves the cursor ahead.
+         *
+         * @return the current value
          */
         private int read() {
             if (len <= position) {
@@ -290,15 +297,25 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
         /**
          * Reads the current value at the cursor and compares it.
+         *
+         * @param other
+         *         the line range to compare with
+         *
+         * @return {@code true} if the read value is equal to the specified range
          */
-        public boolean compare(final LineRange lr) {
+        public boolean compare(final LineRange other) {
             int s = read();
             int d = read();
-            return lr.getStart() == s && lr.getEnd() == s + d;
+            return other.getStart() == s && other.getEnd() == s + d;
         }
 
         /**
          * Skips forward and gets the pointer to N-th element.
+         *
+         * @param n
+         *         number of elements to skip
+         *
+         * @return this cursor
          */
         private Cursor skip(final int n) {
             int i = n;
@@ -311,6 +328,8 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
         /**
          * Counts the # of elements from the current cursor position to the end.
+         *
+         * @return number of elements
          */
         private int count() {
             int n = 0;
@@ -349,14 +368,19 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
         /**
          * Rewrites the value at the current cursor position.
+         *
+         * @param other
+         *         the line range to rewrite
+         *
+         * @return the changed line range
          */
-        public LineRange rewrite(final LineRange v) {
+        public LineRange rewrite(final LineRange other) {
             Cursor c = copy();
             LineRange old = c.next();
             int oldSize = c.position - position;
-            int newSize = sizeOf(v);
+            int newSize = sizeOf(other);
             adjust(newSize - oldSize);
-            write(v);
+            write(other);
             return old;
         }
 
@@ -377,6 +401,8 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
 
         /**
          * Removes the current value at the cursor position.
+         *
+         * @return the deleted element
          */
         public LineRange delete() {
             Cursor c = copy();
@@ -390,7 +416,12 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         }
 
         /**
-         * Computes the number of bytes that the value 'i' would occupy in its encoded form.
+         * Computes the number of bytes that the value 'index' would occupy in its encoded form.
+         *
+         * @param index
+         *         the index to check
+         *
+         * @return the number of bytes
          */
         private int sizeOf(final int index) {
             int i = index;
