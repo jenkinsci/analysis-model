@@ -59,7 +59,7 @@
     <!-- Project Dependencies Configuration -->
     <codingstyle.version>0.4.4</codingstyle.version>
     <codingstyle.config.version>0.4.5</codingstyle.config.version>
-    <codingstyle.library.version>${codingstyle.version}</codingstyle.library.version>
+    <codingstyle.library.version>0.4.5</codingstyle.library.version>
     <spotbugs.annotations>3.1.12</spotbugs.annotations>
     <commons.lang.version>3.9</commons.lang.version>
     <commons.io.version>2.6</commons.io.version>
