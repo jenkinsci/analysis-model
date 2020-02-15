@@ -370,6 +370,7 @@
         <configuration>
           <source>${java.version}</source>
           <additionalOptions>-Xdoclint:all</additionalOptions>
+          <quiet>true</quiet>
         </configuration>
         <executions>
           <execution>
@@ -823,7 +824,9 @@
         <plugins>
           <!-- Copied from jenkins-release: -->
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
+            <version>${maven-source-plugin.version}</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
