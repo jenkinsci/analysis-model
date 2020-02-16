@@ -4,6 +4,13 @@
 
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>edu.hm.hafner</groupId>
+    <artifactId>codingstyle-pom</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
   <version>${revision}${changelist}</version>
@@ -57,10 +64,7 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.version>0.4.5</codingstyle.version>
-    <codingstyle.config.version>${codingstyle.version}</codingstyle.config.version>
-    <codingstyle.library.version>${codingstyle.version}</codingstyle.library.version>
-    <spotbugs.annotations>3.1.12</spotbugs.annotations>
+    <codingstyle.library.version>0.4.5</codingstyle.library.version>
     <commons.lang.version>3.9</commons.lang.version>
     <commons.io.version>2.6</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
@@ -69,51 +73,13 @@
     <spotbugs.parser.library.version>6.0.3</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j-nop.version>1.7.30</slf4j-nop.version>
-
-    <!-- Project Test Dependencies Configuration -->
-    <junit.version>5.6.0</junit.version>
-    <junit-platform-launcher.version>1.6.0</junit-platform-launcher.version>
-    <mockito.version>3.2.4</mockito.version>
-    <assertj.version>3.15.0</assertj.version>
-    <archunit.version>0.13.1</archunit.version>
     <violations-lib.version>1.110</violations-lib.version>
     <json.version>20190722</json.version>
 
     <!-- Maven Plug-ins Configuration -->
-    <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
-    <maven-site-plugin.version>3.8.2</maven-site-plugin.version>
-    <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
-    <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-    <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
-    <maven-buildhelper-plugin.version>3.0.0</maven-buildhelper-plugin.version>
-    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
-    <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-    <maven-pmd-plugin.version>3.13.0</maven-pmd-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
-    <pmd.version>6.21.0</pmd.version>
-    <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
-    <checkstyle.version>8.29</checkstyle.version>
-    <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
-    <findsecbugs-plugin.version>1.10.1</findsecbugs-plugin.version>
-    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-    <maven-taglist-plugin.version>2.4</maven-taglist-plugin.version>
-    <maven-pitest-plugin.version>1.4.11</maven-pitest-plugin.version>
-    <pitest-junit5-plugin.version>0.12</pitest-junit5-plugin.version>
-    <maven-error-prone-plugin.version>2.8.5</maven-error-prone-plugin.version>
-    <error-prone.version>2.3.4</error-prone.version>
-    <nullaway.version>0.3.0</nullaway.version>
-    <maven-depgraph-plugin.version>3.3.0</maven-depgraph-plugin.version>
-    <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
-    <revapi-maven-plugin.version>0.11.2</revapi-maven-plugin.version>
-    <revapi-java.version>0.20.0</revapi-java.version>
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <assertj-assertions-generator-maven-plugin.version>2.2.0</assertj-assertions-generator-maven-plugin.version>
-
-    <!-- Maven Surefire ArgLine -->
-    <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
 
   </properties>
 
@@ -126,21 +92,6 @@
     </dependency>
 
     <!-- Project Dependencies -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-nop</artifactId>
-      <version>${slf4j-nop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.spotbugs</groupId>
-      <artifactId>spotbugs-annotations</artifactId>
-      <version>${spotbugs.annotations}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.errorprone</groupId>
-      <artifactId>error_prone_annotations</artifactId>
-      <version>${error-prone.version}</version>
-    </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
@@ -210,60 +161,6 @@
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
-      <version>${junit-platform-launcher.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>${mockito.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>${assertj.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.tngtech.archunit</groupId>
-      <artifactId>archunit-junit5-api</artifactId>
-      <version>${archunit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.tngtech.archunit</groupId>
-      <artifactId>archunit-junit5-engine</artifactId>
-      <version>${archunit.version}</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>junit-platform-engine</artifactId>
-          <groupId>org.junit.platform</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
 
   </dependencies>
 
@@ -312,85 +209,11 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-          <testSource>${java.version}</testSource>
-          <testTarget>${java.version}</testTarget>
-          <annotationProcessorPaths>
-            <path>
-              <groupId>com.uber.nullaway</groupId>
-              <artifactId>nullaway</artifactId>
-              <version>${nullaway.version}</version>
-            </path>
-          </annotationProcessorPaths>
-          <compilerArgs>
-            <arg>-Xlint:all</arg>
-            <arg>-XepAllDisabledChecksAsWarnings</arg>
-            <arg>-XepIgnoreUnknownCheckNames</arg>
-            <arg>-XepDisableWarningsInGeneratedCode</arg>
-            <arg>-XepAllErrorsAsWarnings</arg>
-            <!-- NullAway configuration -->
-            <arg>-Xep:NullAway:WARN</arg>
-            <arg>-XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner</arg>
-            <!-- Disabled Rules -->
-            <arg>-Xep:PreferJavaTimeOverload:OFF</arg>
-            <arg>-Xep:EqualsGetClass:OFF</arg>
-            <arg>-Xep:AndroidJdkLibsChecker:OFF</arg>
-            <arg>-Xep:Java7ApiChecker:OFF</arg>
-            <arg>-Xep:Var:OFF</arg>
-            <arg>-Xep:PrivateConstructorForUtilityClass:OFF</arg>
-            <arg>-Xep:MethodCanBeStatic:OFF</arg>
-            <arg>-Xep:WildcardImport:OFF</arg>
-            <arg>-Xep:ThrowsUncheckedException:OFF</arg>
-            <arg>-Xep:NullableDereference:OFF</arg> <!-- Exception -->
-          </compilerArgs>
-          <compilerId>javac-with-errorprone</compilerId>
-          <forceJavacCompilerUse>true</forceJavacCompilerUse>
-          <showWarnings>true</showWarnings>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-compiler-javac-errorprone</artifactId>
-            <version>${maven-error-prone-plugin.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>com.google.errorprone</groupId>
-            <artifactId>error_prone_core</artifactId>
-            <version>${error-prone.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin.version}</version>
-        <configuration>
-          <source>${java.version}</source>
-          <additionalOptions>-Xdoclint:all</additionalOptions>
-          <quiet>true</quiet>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven-jar-plugin.version}</version>
         <configuration>
           <archive>
             <manifestEntries>
-              <Built-By>Ullrich Hafner</Built-By>
-              <Url>${project.scm.url}</Url>
-              <Jenkins-ClassFilter-Whitelisted>true</Jenkins-ClassFilter-Whitelisted>
               <Automatic-Module-Name>${module.name}</Automatic-Module-Name>
             </manifestEntries>
           </archive>
@@ -411,134 +234,8 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>${maven-pmd-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>run-pmd</id>
-            <goals>
-              <goal>pmd</goal>
-              <goal>cpd</goal>
-            </goals>
-            <phase>verify</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <failOnViolation>false</failOnViolation>
-          <rulesets>
-            <ruleset>pmd-configuration.xml</ruleset>
-          </rulesets>
-          <targetJdk>${java.version}</targetJdk>
-          <includeTests>true</includeTests>
-          <minimumTokens>50</minimumTokens>
-          <excludeRoots>
-            <excludeRoot>target/generated-test-sources/assertj-assertions</excludeRoot>
-          </excludeRoots>
-          <minimumTokens>50</minimumTokens>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>net.sourceforge.pmd</groupId>
-            <artifactId>pmd-core</artifactId>
-            <version>${pmd.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>net.sourceforge.pmd</groupId>
-            <artifactId>pmd-java</artifactId>
-            <version>${pmd.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>edu.hm.hafner</groupId>
-            <artifactId>codingstyle</artifactId>
-            <version>${codingstyle.config.version}</version>
-            <classifier>config</classifier>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${maven-checkstyle-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>run-checkstyle</id>
-            <goals>
-              <goal>checkstyle</goal>
-            </goals>
-            <phase>verify</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <excludes>**/*Assert*.java,**/MavenJavaTest.txt.java</excludes>
-          <failOnViolation>false</failOnViolation>
-          <configLocation>checkstyle-configuration.xml</configLocation>
-          <includeTestSourceDirectory>true</includeTestSourceDirectory>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>${checkstyle.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>edu.hm.hafner</groupId>
-            <artifactId>codingstyle</artifactId>
-            <version>${codingstyle.config.version}</version>
-            <classifier>config</classifier>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${spotbugs-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>run-spotbugs</id>
-            <goals>
-              <goal>spotbugs</goal>
-            </goals>
-            <phase>verify</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <failOnError>false</failOnError>
-          <xmlOutput>true</xmlOutput>
-          <threshold>Low</threshold>
-          <effort>Max</effort>
-          <relaxed>false</relaxed>
-          <fork>true</fork>
-          <excludeFilterFile>spotbugs-exclusion-filter.xml</excludeFilterFile>
-          <includeTests>true</includeTests>
-          <plugins>
-            <plugin>
-              <groupId>com.h3xstream.findsecbugs</groupId>
-              <artifactId>findsecbugs-plugin</artifactId>
-              <version>${findsecbugs-plugin.version}</version>
-            </plugin>
-          </plugins>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>edu.hm.hafner</groupId>
-            <artifactId>codingstyle</artifactId>
-            <version>${codingstyle.config.version}</version>
-            <classifier>config</classifier>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
-        <version>${revapi-maven-plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.revapi</groupId>
-            <artifactId>revapi-java</artifactId>
-            <version>${revapi-java.version}</version>
-          </dependency>
-        </dependencies>
         <configuration>
           <oldVersion>7.0.5</oldVersion>
           <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
@@ -565,163 +262,11 @@
             </revapi.ignore>
           </analysisConfiguration>
         </configuration>
-        <executions>
-          <execution>
-            <id>run-revapi</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>verify</phase>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.tngtech.archunit</groupId>
-              <artifactId>archunit-junit5-engine</artifactId>
-              <version>${archunit.version}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>${maven-resources-plugin.version}</version>
-          <configuration>
-            <encoding>${source.encoding}</encoding>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>${maven-clean-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>${maven-install-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>${maven-site-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${maven-deploy-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>com.github.ferstl</groupId>
-          <artifactId>depgraph-maven-plugin</artifactId>
-          <version>${maven-depgraph-plugin.version}</version>
-          <configuration>
-            <graphFormat>puml</graphFormat>
-            <showVersions>true</showVersions>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>versions-maven-plugin</artifactId>
-          <version>${versions-maven-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>report</id>
-              <phase>prepare-package</phase>
-              <goals>
-                <goal>report</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.pitest</groupId>
-          <artifactId>pitest-maven</artifactId>
-          <version>${maven-pitest-plugin.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.pitest</groupId>
-              <artifactId>pitest-junit5-plugin</artifactId>
-              <version>${pitest-junit5-plugin.version}</version>
-            </dependency>
-          </dependencies>
-          <configuration>
-            <outputFormats>XML,HTML</outputFormats>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>${maven-enforcer-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>display-info</id>
-              <configuration>
-                <rules>
-                  <enforceBytecodeVersion>
-                    <ignoreClasses>
-                      <!-- asm dependency from PMD contains a java9 module-info.class -->
-                      <ignoreClass>module-info</ignoreClass>
-                      <ignoreClass>ModuleUtils.class</ignoreClass>
-                    </ignoreClasses>
-                  </enforceBytecodeVersion>
-                </rules>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin> <!-- not gated by Incrementals profiles, since we want the incrementalify goal to be available from the start -->
-          <groupId>io.jenkins.tools.incrementals</groupId>
-          <artifactId>incrementals-maven-plugin</artifactId>
-          <version>1.1</version>
-          <configuration>
-            <includes>
-              <include>org.jenkins-ci.*</include>
-              <include>io.jenkins.*</include>
-            </includes>
-            <generateBackupPoms>false</generateBackupPoms>
-            <updateNonincremental>false</updateNonincremental>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
 
   <profiles>
-    <profile>
-      <id>skip-javadoc-and-analysis-with-tests</id>
-      <activation>
-        <property>
-          <name>skipTests</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <properties>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-        <pmd.skip>true</pmd.skip>
-        <spotbugs.skip>true</spotbugs.skip>
-        <checkstyle.skip>true</checkstyle.skip>
-        <skipTests>true</skipTests>
-        <skipITs>true</skipITs>
-        <revapi.skip>true</revapi.skip>
-      </properties>
-    </profile>
     <profile>
       <!-- JEP-305 -->
       <id>consume-incrementals</id>
@@ -887,18 +432,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <profile>
-      <id>skip</id>
-      <properties>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-        <pmd.skip>true</pmd.skip>
-        <spotbugs.skip>true</spotbugs.skip>
-        <checkstyle.skip>true</checkstyle.skip>
-        <skipTests>true</skipTests>
-        <skipITs>true</skipITs>
-        <revapi.skip>true</revapi.skip>
-      </properties>
     </profile>
   </profiles>
 
