@@ -139,6 +139,12 @@
       <version>${j2html.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.puppycrawl.tools</groupId>
+      <artifactId>checkstyle</artifactId>
+      <version>${checkstyle.version}</version>
+    </dependency>
+
     <!-- FindBugs Parser Dependencies -->
     <dependency>
       <groupId>org.jvnet.hudson.plugins.findbugs</groupId>

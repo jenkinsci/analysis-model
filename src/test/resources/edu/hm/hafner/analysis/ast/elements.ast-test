@@ -1,0 +1,81 @@
+package hudson.plugins.analysis.ast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.puppycrawl.tools.checkstyle.api.DetailAST;
+
+/**
+ * Creates the abstract syntax tree for the surrounding AST elements. It takes a specific number of lines before and
+ * after the actual warning.
+ *
+ * @author Christian Möstl
+ */
+public class SurroundingElementsAst extends Ast {
+    /** Number of lines before and after current line to consider. */
+    private static final int LINES_LOOK_AHEAD = 3;
+
+    private final int surroundingLines;
+
+    /**
+     * Creates a new instance of {@link SurroundingElementsAst}. Uses the predefined number of lines ({@link
+     * #LINES_LOOK_AHEAD} as look ahead.
+     *
+     */
+    public SurroundingElementsAst(final String fileName, final int lineNumber) {
+        this(fileName, lineNumber, LINES_LOOK_AHEAD);
+    }
+
+    private List<DetailAST> elementsBefore(final DetailAST start) {
+        return calcEnvironment(start, true);
+    }
+
+    private List<DetailAST> elementsAfter(final DetailAST start) {
+        return calcEnvironment(start, false);
+    }
+
+    private List<DetailAST> calcEnvironment(final DetailAST start, final boolean before) {
+        int startLine = start.getLineNo();
+        int nextLine;
+        int counter = 0;
+        DetailAST completeAst = getRoot();
+
+        List<DetailAST> environment = new ArrayList<DetailAST>();
+
+        int limit;
+        if (before) {
+            limit = startLine;
+        }
+        else {
+            limit = getLastLineNumber() - startLine + 1;
+        }
+        for (int i = 1; i < limit; i++) {
+            if (counter < surroundingLines) {
+                if (before) {
+                    nextLine = startLine - i;
+                }
+                else {
+                    nextLine = startLine + i;
+                }
+                clearElementsInSameLine();
+                runThroughAST(completeAst, nextLine);
+                if (!getElementsInSameLine().isEmpty()) {
+                    counter++;
+                    environment.addAll(getElementsInSameLine());
+                    clearElementsInSameLine();
+                }
+            }
+            else {
+                break;
+            }
+        }
+
+        return environment;
+    }
+
+    private static class Nested {
+        private void nested() {
+            System.out.println("Hello, I'm a nested class");
+        }
+    }
+}
