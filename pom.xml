@@ -94,7 +94,7 @@
     <maven-pmd-plugin.version>3.13.0</maven-pmd-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
     <pmd.version>6.21.0</pmd.version>
-    <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
+    <maven-checkstyle-plugin.version>3.1.1</maven-checkstyle-plugin.version>
     <checkstyle.version>8.29</checkstyle.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
     <findsecbugs-plugin.version>1.10.1</findsecbugs-plugin.version>
