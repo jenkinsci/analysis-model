@@ -11,7 +11,7 @@ public class ZptLintAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = -6204265426578715957L;
 
     @Override
-    protected ZPTLintParser createParser() {
+    ZPTLintParser createParser() {
         return new ZPTLintParser();
     }
 }

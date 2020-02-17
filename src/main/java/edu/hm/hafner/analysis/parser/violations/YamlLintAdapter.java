@@ -11,7 +11,7 @@ public class YamlLintAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 1233385439193697120L;
 
     @Override
-    protected YAMLlintParser createParser() {
+    YAMLlintParser createParser() {
         return new YAMLlintParser();
     }
 }

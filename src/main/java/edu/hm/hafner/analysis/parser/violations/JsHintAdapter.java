@@ -11,7 +11,7 @@ public class JsHintAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 2981825338893917845L;
 
     @Override
-    protected JSLintParser createParser() {
+    JSLintParser createParser() {
         return new JSLintParser();
     }
 }

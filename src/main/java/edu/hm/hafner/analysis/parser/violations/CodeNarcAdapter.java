@@ -11,7 +11,7 @@ public class CodeNarcAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = -5699747899173867285L;
 
     @Override
-    protected CodeNarcParser createParser() {
+    CodeNarcParser createParser() {
         return new CodeNarcParser();
     }
 }

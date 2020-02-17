@@ -43,7 +43,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return the {@link ViolationsParser} instance
      */
-    protected abstract ViolationsParser createParser();
+    abstract ViolationsParser createParser();
 
     /**
      * Converts the list of violations to a corresponding report of issues.
@@ -53,7 +53,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return the report
      */
-    protected Report convertToReport(final List<Violation> violations) {
+    Report convertToReport(final List<Violation> violations) {
         Report report = new Report();
         for (Violation violation : violations) {
             if (isValid(violation)) {
@@ -72,7 +72,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return {@code true} if the violation is valid, {@code false} otherwise
      */
-    protected boolean isValid(final Violation violation) {
+    boolean isValid(final Violation violation) {
         return true;
     }
 
@@ -84,7 +84,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return corresponding {@link Issue}
      */
-    protected Issue convertToIssue(final Violation violation) {
+    Issue convertToIssue(final Violation violation) {
         IssueBuilder builder = createIssueBuilder(violation);
         extractAdditionalProperties(builder, violation);
 
@@ -99,7 +99,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return corresponding {@link IssueBuilder} instance
      */
-    protected IssueBuilder createIssueBuilder(final Violation violation) {
+    IssueBuilder createIssueBuilder(final Violation violation) {
         IssueBuilder builder = new IssueBuilder();
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
                 .setFileName(violation.getFile())
@@ -121,7 +121,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @param violation
      *         the violation instance
      */
-    protected void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
+    void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
         // default implementation is empty
     }
 
@@ -137,7 +137,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @return the {@link Severity}
      */
     @SuppressWarnings("unused")
-    protected Severity convertSeverity(final SEVERITY severity, final Violation violation) {
+    Severity convertSeverity(final SEVERITY severity, final Violation violation) {
         if (severity == SEVERITY.ERROR) {
             return Severity.WARNING_HIGH;
         }

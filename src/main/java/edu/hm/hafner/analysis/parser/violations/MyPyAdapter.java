@@ -11,7 +11,7 @@ public class MyPyAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = -6091072858896474363L;
 
     @Override
-    protected MyPyParser createParser() {
+    MyPyParser createParser() {
         return new MyPyParser();
     }
 }
