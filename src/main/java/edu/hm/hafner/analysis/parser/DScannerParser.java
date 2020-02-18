@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
+
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
@@ -19,7 +20,7 @@ public class DScannerParser extends JsonParser {
     private static final String COLUMN = "column";
 
     @Override
-    protected Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
+    Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
         IssueBuilder builder = new IssueBuilder();
         if (jsonIssue.has(KEY)) {
             String key = jsonIssue.getString(KEY);

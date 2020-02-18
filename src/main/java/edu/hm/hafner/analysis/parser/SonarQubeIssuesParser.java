@@ -17,17 +17,17 @@ public class SonarQubeIssuesParser extends SonarQubeParser {
     private static final String ISSUE_LINE = "line";
 
     @Override
-    protected boolean accepts(final JSONObject object) {
+    boolean accepts(final JSONObject object) {
         return object.has("total");
     }
 
     @Override
-    protected String getModulePath(final JSONObject component, final JSONObject issue) {
+    String getModulePath(final JSONObject component, final JSONObject issue) {
         return parseModulePath(issue, ISSUE_SUB_PROJECT);
     }
 
     @Override
-    protected int parseStart(final JSONObject issue) {
+    int parseStart(final JSONObject issue) {
         if (issue.has(ISSUE_TEXT_RANGE)) {
             return issue.optJSONObject(ISSUE_TEXT_RANGE).optInt(ISSUE_TEXT_RANGE_START_LINE);
         }
@@ -35,7 +35,7 @@ public class SonarQubeIssuesParser extends SonarQubeParser {
     }
 
     @Override
-    protected int parseEnd(final JSONObject issue) {
+    int parseEnd(final JSONObject issue) {
         if (issue.has(ISSUE_TEXT_RANGE)) {
             return issue.optJSONObject(ISSUE_TEXT_RANGE).optInt(ISSUE_TEXT_RANGE_END_LINE);
         }

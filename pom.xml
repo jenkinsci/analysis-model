@@ -237,7 +237,7 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
-          <oldVersion>7.0.5</oldVersion>
+          <oldVersion></oldVersion>
           <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
           <analysisConfiguration>
             <revapi.semver.ignore>
@@ -261,6 +261,7 @@
               </item>
             </revapi.ignore>
           </analysisConfiguration>
+          <skip>false</skip>
         </configuration>
       </plugin>
     </plugins>

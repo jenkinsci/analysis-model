@@ -81,7 +81,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return {@code true} if this parser accepts this object as valid input, {@code false} otherwise
      */
-    protected abstract boolean accepts(JSONObject object);
+    abstract boolean accepts(JSONObject object);
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
@@ -134,7 +134,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return {@code true} if the issue is to be parsed and added, otherwise {@code false}
      */
-    public boolean filterIssue(final JSONObject issue) {
+    boolean filterIssue(final JSONObject issue) {
         return true; // Parse all issues by default
     }
 
@@ -187,7 +187,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the module path
      */
-    protected abstract String getModulePath(JSONObject component, JSONObject issue);
+    abstract String getModulePath(JSONObject component, JSONObject issue);
 
     /**
      * Default parse for start.
@@ -197,7 +197,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the start.
      */
-    protected abstract int parseStart(JSONObject issue);
+    abstract int parseStart(JSONObject issue);
 
     /**
      * Default parse for end.
@@ -207,7 +207,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the end.
      */
-    protected abstract int parseEnd(JSONObject issue);
+    abstract int parseEnd(JSONObject issue);
 
     /**
      * Default parse for type.
@@ -258,7 +258,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the module path.
      */
-    protected String parseModulePath(final JSONObject moduleKeyObject, final String componentKey) {
+    String parseModulePath(final JSONObject moduleKeyObject, final String componentKey) {
         String modulePath = "";
         if (moduleKeyObject.has(componentKey)) {
             String moduleKey = moduleKeyObject.getString(componentKey);

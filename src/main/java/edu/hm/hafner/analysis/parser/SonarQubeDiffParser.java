@@ -16,27 +16,27 @@ public class SonarQubeDiffParser extends SonarQubeParser {
     private static final String ISSUE_END_LINE = "endLine";
 
     @Override
-    protected boolean accepts(final JSONObject object) {
+    boolean accepts(final JSONObject object) {
         return !object.has("total");
     }
 
     @Override
-    public boolean filterIssue(final JSONObject issue) {
+    boolean filterIssue(final JSONObject issue) {
         return issue.optBoolean(ISSUE_IS_NEW, false);
     }
 
     @Override
-    protected String getModulePath(final JSONObject component, final JSONObject issue) {
+    String getModulePath(final JSONObject component, final JSONObject issue) {
         return parseModulePath(component, COMPONENT_MODULE_KEY);
     }
 
     @Override
-    protected int parseStart(final JSONObject issue) {
+    int parseStart(final JSONObject issue) {
         return issue.optInt(ISSUE_START_LINE);
     }
 
     @Override
-    protected int parseEnd(final JSONObject issue) {
+    int parseEnd(final JSONObject issue) {
         return issue.optInt(ISSUE_END_LINE);
     }
 }

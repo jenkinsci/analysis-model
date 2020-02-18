@@ -29,7 +29,7 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
      * @return issue instance
      */
     @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
-    protected Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
+    Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
         IssueBuilder builder = new IssueBuilder();
         if (jsonIssue.has(ADDITIONAL_PROPERTIES)) {
             builder.setAdditionalProperties(jsonIssue.getString(ADDITIONAL_PROPERTIES));
