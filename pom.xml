@@ -201,6 +201,7 @@
           <generateBddAssertions>false</generateBddAssertions>
           <generateJUnitSoftAssertions>false</generateJUnitSoftAssertions>
           <entryPointClassPackage>edu.hm.hafner.analysis.assertions</entryPointClassPackage>
+          <quiet>true</quiet>
           <templates>
             <templatesDirectory>${project.basedir}/etc/templates/</templatesDirectory>
             <assertionsEntryPointClass>assertions_entry_point_class_template.txt</assertionsEntryPointClass>
@@ -237,7 +238,7 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
-          <oldVersion></oldVersion>
+          <oldVersion>7.0.5</oldVersion>
           <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
           <analysisConfiguration>
             <revapi.semver.ignore>
