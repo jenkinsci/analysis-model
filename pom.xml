@@ -8,12 +8,12 @@
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
     <version>1.0.1</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>${revision}${changelist}</version>
+  <version>8.0.0-beta15</version>
 
   <packaging>jar</packaging>
 
@@ -27,7 +27,7 @@
     <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}.git</developerConnection>
     <url>https://github.com/jenkinsci/${project.artifactId}</url>
-    <tag>${scmTag}</tag>
+    <tag>analysis-model-8.0.0-beta15</tag>
   </scm>
 
   <licenses>
