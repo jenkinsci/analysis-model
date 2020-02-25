@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -59,6 +60,7 @@
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <java.version>1.8</java.version>
+    <incrementals-plugin.version>1.1</incrementals-plugin.version>
 
     <module.name>${project.groupId}.analysis.model</module.name>
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
@@ -178,6 +180,19 @@
 
     <plugins>
       <plugin>
+        <groupId>io.jenkins.tools.incrementals</groupId>
+        <artifactId>incrementals-maven-plugin</artifactId>
+        <version>${incrementals-plugin.version}</version>
+        <configuration>
+          <includes>
+            <include>org.jenkins-ci.*</include>
+            <include>io.jenkins.*</include>
+          </includes>
+          <generateBackupPoms>false</generateBackupPoms>
+          <updateNonincremental>false</updateNonincremental>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
         <version>${assertj-assertions-generator-maven-plugin.version}</version>
@@ -263,8 +278,8 @@
             </revapi.ignore>
           </analysisConfiguration>
           <skip>false</skip>
-          </configuration>
-        </plugin>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
