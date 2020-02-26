@@ -1,12 +1,10 @@
-package edu.hm.hafner.analysis.parser.dry;
+package edu.hm.hafner.analysis;
 
 import java.io.IOException;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.util.SerializableTest;
 
 import static org.assertj.core.api.Assertions.*;
