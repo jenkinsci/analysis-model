@@ -183,7 +183,7 @@ public class Issue implements Serializable {
     private TreeString fileName;    // mutable
 
     private final TreeString message;   // fixed
-    private final String description;   // fixed
+    private String description;   // fixed
 
     private String fingerprint;     // mutable, not part of equals
 
@@ -379,6 +379,12 @@ public class Issue implements Serializable {
         }
         else {
             pathName = pathName.intern();
+        }
+        if (description == null) { // String in version 8.0.0
+            description = UNDEFINED;
+        }
+        else {
+            description = description.intern();
         }
 
         return this;
