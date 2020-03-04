@@ -74,7 +74,7 @@
     <spotbugs.parser.library.version>6.0.3</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j-nop.version>1.7.30</slf4j-nop.version>
-    <violations-lib.version>1.110</violations-lib.version>
+    <violations-lib.version>1.112</violations-lib.version>
     <json.version>20190722</json.version>
 
     <!-- Maven Plug-ins Configuration -->
