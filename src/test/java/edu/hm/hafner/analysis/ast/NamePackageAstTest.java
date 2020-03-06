@@ -21,7 +21,7 @@ class NamePackageAstTest extends AbstractAstTest {
     void testNamePackageAst() {
         String expectedResult = "PACKAGE_DEF ANNOTATIONS DOT DOT IDENT IDENT IDENT SEMI ";
 
-        Ast ast = new NamePackageAst(createJavaSourceTemporaryFile("PackageName_Newline.java"), 7);
+        Ast ast = new NamePackageAst(read("PackageName_Newline.java"), 7);
 
         assertThatAstIs(ast, expectedResult);
     }

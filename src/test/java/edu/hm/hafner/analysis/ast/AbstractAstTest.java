@@ -174,7 +174,7 @@ public abstract class AbstractAstTest {
             + WHOLE_METHOD + NESTED + LINE105_RCURLY;
 
     Ast createAst(final int lineNumber) {
-        String fileName = createJavaSourceTemporaryFile("elements.ast-test");
+        String fileName = read("elements.ast-test");
 
         return createAst(fileName, lineNumber);
     }
@@ -195,7 +195,7 @@ public abstract class AbstractAstTest {
         assertThat(ast.chosenAreaAsString(' ')).isEqualTo(expectedResult);
     }
 
-    String createJavaSourceTemporaryFile(final String fileName) {
+    String read(final String fileName) {
         File warnings = createCopyInTemp(fileName);
         return warnings.getAbsolutePath();
     }

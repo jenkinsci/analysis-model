@@ -14,6 +14,8 @@ class ClassAstTest extends AbstractAstTest {
         return new ClassAst(fileName, lineNumber);
     }
 
+    // TODO: Currently, imports and package will select nothing
+
     @Test
     void shouldPickNestedClass() {
         Ast ast = createAstFromClassWithNestedClass(2);
@@ -30,7 +32,7 @@ class ClassAstTest extends AbstractAstTest {
     }
 
     private Ast createAstFromClassWithNestedClass(final int lineNumber) {
-        return createAst(createJavaSourceTemporaryFile("class.ast-test"), lineNumber);
+        return createAst(read("class.ast-test"), lineNumber);
     }
 
     @Test

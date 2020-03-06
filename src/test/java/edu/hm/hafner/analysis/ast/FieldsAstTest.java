@@ -20,13 +20,14 @@ class FieldsAstTest extends AbstractAstTest {
                 + "VARIABLE_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_INT IDENT ASSIGN EXPR NUM_INT SEMI "
                 + "VARIABLE_DEF MODIFIERS LITERAL_PRIVATE FINAL TYPE IDENT IDENT SEMI ";
 
-        Ast ast = new FieldsAst(createJavaSourceTemporaryFile("ExplicitInitialization_Newline.java"), 17);
-
-        assertThatAstIs(ast, expectedResult);
+        assertThatAstIs(new FieldsAst(read("ExplicitInitialization_Newline.java"), 11), expectedResult);
+        assertThatAstIs(new FieldsAst(read("ExplicitInitialization_Newline.java"), 17), expectedResult);
+        assertThatAstIs(new FieldsAst(read("ExplicitInitialization_Newline.java"), 23), expectedResult);
     }
 
     @Test
     void shouldFindEverything() {
+        // TODO: actually selecting any line in elements before the constructor should select the field
         verifyAstAtLine(16, LINE18_FIELD);
     }
 }
