@@ -26,8 +26,8 @@ public class MethodAst extends Ast {
 
     @Override
     public List<DetailAST> chooseArea() {
-        List<DetailAST> chosenArea = new ArrayList<>(getElementsInSameLine());
         DetailAST methodStart = findMethodStart();
+        List<DetailAST> chosenArea = new ArrayList<>();
         chosenArea.add(methodStart);
         chosenArea.addAll(calcAllChildren(methodStart.getFirstChild()));
         return chosenArea;

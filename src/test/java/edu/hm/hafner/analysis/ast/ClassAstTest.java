@@ -60,7 +60,8 @@ class ClassAstTest extends AbstractAstTest {
         assertThatAstIs(createAst(42), WHOLE_CLASS);
         assertThatAstIs(createAst(44), WHOLE_CLASS);
         assertThatAstIs(createAst(72), WHOLE_CLASS);
-        assertThatAstIs(createAst(72), WHOLE_CLASS);
+        assertThatAstIs(createAst(73), WHOLE_CLASS);
+        assertThatAstIs(createAst(74), WHOLE_CLASS);
     }
 
     /**
@@ -70,5 +71,14 @@ class ClassAstTest extends AbstractAstTest {
     void shouldHandleJavaDocLines() {
         assertThatAstIs(createAst(20), WHOLE_CLASS);
         assertThatAstIs(createAst(21), WHOLE_CLASS);
+    }
+
+    @Test
+    void shouldHandleNestedClass() {
+        assertThatAstIs(createAst(76), NESTED);
+        assertThatAstIs(createAst(77), NESTED);
+        assertThatAstIs(createAst(78), NESTED);
+        assertThatAstIs(createAst(79), NESTED);
+        assertThatAstIs(createAst(80), NESTED);
     }
 }

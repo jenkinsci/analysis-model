@@ -13,24 +13,17 @@ class MethodAstTest extends AbstractAstTest {
         return new MethodAst(fileName, lineNumber);
     }
 
-    /**
-     * Verifies the AST contains the elements of the whole method and the affected line.
-     */
     @Test
     void shouldPickWholeMethod() {
-        assertThatAstIs(createAst(37), LINE67_METHOD + WHOLE_METHOD);
-        assertThatAstIs(createAst(38), LINE68_VAR + WHOLE_METHOD);
-        assertThatAstIs(createAst(61), LINE91_CALL + WHOLE_METHOD);
-        assertThatAstIs(createAst(73), LINE103_RETURN + WHOLE_METHOD);
+        for (int line = 37; line < 74; line++) {
+            assertThatAstIs(createAst(line), WHOLE_METHOD);
+        }
     }
 
-    /**
-     * Verifies the AST contains the elements of the whole method.
-     */
     @Test
-    void shouldHandleBlankLines() {
-        assertThatAstIs(createAst(42), WHOLE_METHOD);
-        assertThatAstIs(createAst(44), WHOLE_METHOD);
-        assertThatAstIs(createAst(72), WHOLE_METHOD);
+    void shouldPickSimpleMethod() {
+        for (int line = 29; line < 31; line++) {
+            assertThatAstIs(createAst(line), LINE29_METHOD + LINE30_RETURN + LINE31_RCURLY);
+        }
     }
 }
