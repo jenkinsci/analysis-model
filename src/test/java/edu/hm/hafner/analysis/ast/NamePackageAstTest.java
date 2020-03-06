@@ -28,7 +28,7 @@ class NamePackageAstTest extends AbstractAstTest {
 
     @Test
     void shouldFindWholeFileRegardlessOfLine() {
-        assertThatAstIs(createAst(16), LINE1_PACKAGE);
+        verifyAstAtLine(16, LINE1_PACKAGE);
     }
 
 }

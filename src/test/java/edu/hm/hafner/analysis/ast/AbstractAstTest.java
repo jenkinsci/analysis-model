@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
 
-import static org.assertj.core.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Base class for all {@link Ast} tests.
@@ -149,7 +149,12 @@ public abstract class AbstractAstTest {
     static final String LINE103_RETURN = "LITERAL_RETURN EXPR IDENT SEMI ";
     static final String LINE104_RCURLY = "RCURLY ";
     static final String LINE105_RCURLY = "RCURLY ";
-    static final String NESTED = "CLASS_DEF MODIFIERS LITERAL_PRIVATE LITERAL_STATIC LITERAL_CLASS IDENT OBJBLOCK LCURLY METHOD_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_VOID IDENT LPAREN PARAMETERS RPAREN SLIST EXPR METHOD_CALL DOT DOT IDENT IDENT IDENT ELIST EXPR STRING_LITERAL RPAREN SEMI RCURLY RCURLY ";
+    static final String LINE76_NESTED = "CLASS_DEF MODIFIERS LITERAL_PRIVATE LITERAL_STATIC LITERAL_CLASS IDENT OBJBLOCK LCURLY ";
+    static final String LINE77_METHOD = "METHOD_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_VOID IDENT LPAREN PARAMETERS RPAREN SLIST ";
+    static final String LINE78_METHOD_CALL =  "EXPR METHOD_CALL DOT DOT IDENT IDENT IDENT ELIST EXPR STRING_LITERAL RPAREN SEMI ";
+    static final String LINE79_NESTED_METHOD_RCURLY =  "RCURLY ";
+    static final String LINE80_NESTED_CLASS_RCURLY =  "RCURLY ";
+    static final String NESTED = LINE76_NESTED + LINE77_METHOD + LINE78_METHOD_CALL + LINE79_NESTED_METHOD_RCURLY + LINE80_NESTED_CLASS_RCURLY;
 
     static final String WHOLE_METHOD = LINE67_METHOD + LINE68_VAR + LINE69_VAR
             + LINE70_VAR + LINE71_VAR + LINE73_VAR + LINE75_VAR + LINE76_IF + LINE77_ASSIGN + LINE78_RCURLY
@@ -184,7 +189,7 @@ public abstract class AbstractAstTest {
      *
      * @return the created {@link Ast}
      */
-    protected abstract Ast createAst(String fileName, int lineNumber);
+    abstract Ast createAst(String fileName, int lineNumber);
 
     void assertThatAstIs(final Ast ast, final String expectedResult) {
         assertThat(ast.chosenAreaAsString(' ')).isEqualTo(expectedResult);
@@ -210,5 +215,9 @@ public abstract class AbstractAstTest {
         catch (IOException cause) {
             throw new IllegalArgumentException(cause);
         }
+    }
+
+    protected void verifyAstAtLine(final int line, final String expectedAst) {
+        assertThat(createAst(line).chosenAreaAsString(' ')).as("AST at starting line %d", line).isEqualTo(expectedAst);
     }
 }

@@ -18,10 +18,10 @@ class MethodOrClassAstTest extends AbstractAstTest {
      */
     @Test
     void shouldPickWholeMethod() {
-        assertThatAstIs(createAst(37), LINE67_METHOD + WHOLE_METHOD);
-        assertThatAstIs(createAst(38), LINE68_VAR + WHOLE_METHOD);
-        assertThatAstIs(createAst(61), LINE91_CALL + WHOLE_METHOD);
-        assertThatAstIs(createAst(73), LINE103_RETURN + WHOLE_METHOD);
+        verifyAstAtLine(37, WHOLE_METHOD);
+        verifyAstAtLine(38, WHOLE_METHOD);
+        verifyAstAtLine(61, WHOLE_METHOD);
+        verifyAstAtLine(73, WHOLE_METHOD);
     }
 
     /**
@@ -29,12 +29,12 @@ class MethodOrClassAstTest extends AbstractAstTest {
      */
     @Test
     void shouldHandleBlankLines() {
-        assertThatAstIs(createAst(36), WHOLE_METHOD);
-        assertThatAstIs(createAst(42), WHOLE_METHOD);
-        assertThatAstIs(createAst(44), WHOLE_METHOD);
-        assertThatAstIs(createAst(72), WHOLE_METHOD);
+        verifyAstAtLine(36, WHOLE_METHOD);
+        verifyAstAtLine(42, WHOLE_METHOD);
+        verifyAstAtLine(44, WHOLE_METHOD);
+        verifyAstAtLine(72, WHOLE_METHOD);
 
-        assertThatAstIs(createAst(17), WHOLE_CLASS);
+        verifyAstAtLine(17, WHOLE_CLASS);
     }
 
     /**
@@ -42,7 +42,7 @@ class MethodOrClassAstTest extends AbstractAstTest {
      */
     @Test
     void shouldPickWholeClass() {
-        assertThatAstIs(createAst(14), LINE14_CLASS + WHOLE_CLASS);
-        assertThatAstIs(createAst(16), LINE16_FIELD + WHOLE_CLASS);
+        verifyAstAtLine(14, WHOLE_CLASS);
+        verifyAstAtLine(16, WHOLE_CLASS);
     }
 }

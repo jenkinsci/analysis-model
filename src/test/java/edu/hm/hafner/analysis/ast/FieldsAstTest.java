@@ -27,6 +27,6 @@ class FieldsAstTest extends AbstractAstTest {
 
     @Test
     void shouldFindEverything() {
-        assertThatAstIs(createAst(16), LINE18_FIELD);
+        verifyAstAtLine(16, LINE18_FIELD);
     }
 }

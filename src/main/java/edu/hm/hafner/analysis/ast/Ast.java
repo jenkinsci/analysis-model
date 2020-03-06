@@ -59,6 +59,11 @@ public abstract class Ast {
         calcConstants(root);
     }
 
+    @Override
+    public String toString() {
+        return chosenAreaAsString(' ');
+    }
+
     /**
      * Returns the primary line number of the warning.
      *

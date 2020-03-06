@@ -20,12 +20,16 @@ class SurroundingElementsAstTest extends AbstractAstTest {
      */
     @Test
     void shouldPickExactly3LinesBeforeAndAfter() {
-        assertThatAstIs(createAst(40), LINE70_VAR + LINE69_VAR + LINE68_VAR + LINE67_METHOD + LINE71_VAR + LINE73_VAR + LINE75_VAR);
-        assertThatAstIs(createAst(41), LINE71_VAR + LINE70_VAR + LINE69_VAR + LINE68_VAR + LINE73_VAR + LINE75_VAR + LINE76_IF);
-        assertThatAstIs(createAst(43), LINE73_VAR + LINE71_VAR + LINE70_VAR + LINE69_VAR + LINE75_VAR + LINE76_IF + LINE77_ASSIGN);
-        assertThatAstIs(createAst(45), LINE75_VAR + LINE73_VAR + LINE71_VAR + LINE70_VAR + LINE76_IF + LINE77_ASSIGN + LINE78_RCURLY);
+        verifyAstAtLine(40,
+                LINE70_VAR + LINE69_VAR + LINE68_VAR + LINE67_METHOD + LINE71_VAR + LINE73_VAR + LINE75_VAR);
+        verifyAstAtLine(41, LINE71_VAR + LINE70_VAR + LINE69_VAR + LINE68_VAR + LINE73_VAR + LINE75_VAR + LINE76_IF);
+        verifyAstAtLine(43,
+                LINE73_VAR + LINE71_VAR + LINE70_VAR + LINE69_VAR + LINE75_VAR + LINE76_IF + LINE77_ASSIGN);
+        verifyAstAtLine(45,
+                LINE75_VAR + LINE73_VAR + LINE71_VAR + LINE70_VAR + LINE76_IF + LINE77_ASSIGN + LINE78_RCURLY);
 
-        assertThatAstIs(createAst(70), LINE100_RCURLY + LINE99_BREAK + LINE98_ELSE + LINE97_RCURLY + LINE101_RCURLY + LINE103_RETURN + LINE104_RCURLY);
+        verifyAstAtLine(70,
+                LINE100_RCURLY + LINE99_BREAK + LINE98_ELSE + LINE97_RCURLY + LINE101_RCURLY + LINE103_RETURN + LINE104_RCURLY);
     }
 
     /**
@@ -34,8 +38,8 @@ class SurroundingElementsAstTest extends AbstractAstTest {
      */
     @Test
     void shouldHandleBlankLines() {
-        assertThatAstIs(createAst(42), LINE71_VAR + LINE70_VAR + LINE69_VAR + LINE73_VAR + LINE75_VAR + LINE76_IF);
-        assertThatAstIs(createAst(44), LINE73_VAR + LINE71_VAR + LINE70_VAR + LINE75_VAR + LINE76_IF + LINE77_ASSIGN);
+        verifyAstAtLine(42, LINE71_VAR + LINE70_VAR + LINE69_VAR + LINE73_VAR + LINE75_VAR + LINE76_IF);
+        verifyAstAtLine(44, LINE73_VAR + LINE71_VAR + LINE70_VAR + LINE75_VAR + LINE76_IF + LINE77_ASSIGN);
     }
 
     // TODO: define what to do at the beginning or end of a method

@@ -25,8 +25,8 @@ class FileAstTest extends AbstractAstTest {
 
     @Test
     void shouldFindWholeFileRegardlessOfLine() {
-        assertThatAstIs(createAst(16), WHOLE_FILE);
+        verifyAstAtLine(16, WHOLE_FILE);
 
-        assertThatAstIs(createAst(77), WHOLE_FILE);
+        verifyAstAtLine(77, WHOLE_FILE);
     }
 }

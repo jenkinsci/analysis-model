@@ -9,21 +9,34 @@ import org.junit.jupiter.api.Test;
  * @author Ullrich Hafner
  */
 class MethodAstTest extends AbstractAstTest {
-    protected MethodAst createAst(final String fileName, final int lineNumber) {
+    MethodAst createAst(final String fileName, final int lineNumber) {
         return new MethodAst(fileName, lineNumber);
     }
 
     @Test
-    void shouldPickWholeMethod() {
-        for (int line = 37; line < 74; line++) {
-            assertThatAstIs(createAst(line), WHOLE_METHOD);
+    void shouldPickConstructor() {
+        for (int line = 25; line < 27; line++) {
+            verifyAstAtLine(line, LINE25_CTOR + LINE26_SUPER + LINE27_RCURLY);
         }
     }
 
     @Test
-    void shouldPickSimpleMethod() {
+    void shouldPickWholeMethod() {
         for (int line = 29; line < 31; line++) {
-            assertThatAstIs(createAst(line), LINE29_METHOD + LINE30_RETURN + LINE31_RCURLY);
+            verifyAstAtLine(line, LINE29_METHOD + LINE30_RETURN + LINE31_RCURLY);
+        }
+        for (int line = 32; line < 35; line++) {
+            verifyAstAtLine(line, LINE33_METHOD + LINE34_RETURN + LINE35_RCURLY);
+        }
+        for (int line = 37; line < 74; line++) {
+            verifyAstAtLine(line, WHOLE_METHOD);
+        }
+    }
+
+    @Test
+    void shouldPickNestedMethod() {
+        for (int line = 77; line < 79; line++) {
+            verifyAstAtLine(line, LINE77_METHOD + LINE78_METHOD_CALL + LINE79_NESTED_METHOD_RCURLY);
         }
     }
 }

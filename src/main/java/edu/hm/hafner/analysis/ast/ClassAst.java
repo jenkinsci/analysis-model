@@ -32,7 +32,7 @@ public class ClassAst extends Ast {
     @Override
     public List<DetailAST> chooseArea() {
         List<DetailAST> line = getElementsNearAffectedLine();
-        List<DetailAST> chosenArea = new ArrayList<>(getElementsInSameLine());
+        List<DetailAST> chosenArea = new ArrayList<>();
         DetailAST classAst = getRootOfClass(line.get(0));
         if (classAst != null) {
             chosenArea.add(classAst);
