@@ -46,7 +46,6 @@ public class FieldsAst extends Ast {
             DetailAST objBlock = getObjBlockAsParent(elementsInSameLine.get(0));
             getInstanceVariables(objBlock.getFirstChild());
 
-            chosenArea.add(objBlock);
             for (DetailAST instanceVariable : instanceVariables) {
                 clear();
                 if (!isConstant(instanceVariable)) {
