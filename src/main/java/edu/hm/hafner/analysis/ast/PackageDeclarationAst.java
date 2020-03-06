@@ -10,16 +10,16 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
  *
  * @author Christian Möstl
  */
-public class NamePackageAst extends Ast {
+public class PackageDeclarationAst extends Ast {
     /**
-     * Creates a new instance of {@link NamePackageAst}.
+     * Creates a new instance of {@link PackageDeclarationAst}.
      *
      * @param fileName
      *         the name of the Java file
      * @param lineNumber
      *         the line number that contains the warning
      */
-    public NamePackageAst(final String fileName, final int lineNumber) {
+    public PackageDeclarationAst(final String fileName, final int lineNumber) {
         super(fileName, lineNumber);
     }
 

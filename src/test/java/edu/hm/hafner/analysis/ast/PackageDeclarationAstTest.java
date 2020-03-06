@@ -3,15 +3,15 @@ package edu.hm.hafner.analysis.ast;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests the class {@link NamePackageAst}.
+ * Tests the class {@link PackageDeclarationAst}.
  *
  * @author Christian Möstl
  * @author Ullrich Hafner
  */
-class NamePackageAstTest extends AbstractAstTest {
+class PackageDeclarationAstTest extends AbstractAstTest {
     @Override
     protected Ast createAst(final String fileName, final int lineNumber) {
-        return new NamePackageAst(fileName, lineNumber);
+        return new PackageDeclarationAst(fileName, lineNumber);
     }
 
     /**
@@ -21,14 +21,15 @@ class NamePackageAstTest extends AbstractAstTest {
     void testNamePackageAst() {
         String expectedResult = "PACKAGE_DEF ANNOTATIONS DOT DOT IDENT IDENT IDENT SEMI ";
 
-        Ast ast = new NamePackageAst(read("PackageName_Newline.java"), 7);
+        Ast ast = new PackageDeclarationAst(read("PackageName_Newline.java"), 7);
 
         assertThatAstIs(ast, expectedResult);
     }
 
     @Test
-    void shouldFindWholeFileRegardlessOfLine() {
-        verifyAstAtLine(16, LINE1_PACKAGE);
+    void shouldFindPackage() {
+        for (int line = 1; line < 89; line++) {
+            verifyAstAtLine(line, LINE1_PACKAGE);
+        }
     }
-
 }
