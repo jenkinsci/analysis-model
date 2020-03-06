@@ -94,6 +94,10 @@ public abstract class AbstractAstTest {
 //            LITERAL_RETURN EXPR IDENT SEMI
 //        RCURLY
 
+    static final String LINE1_PACKAGE = "PACKAGE_DEF ANNOTATIONS DOT DOT DOT IDENT IDENT IDENT IDENT SEMI ";
+    static final String LINE3_IMPORT = "IMPORT DOT DOT IDENT IDENT IDENT SEMI ";
+    static final String LINE4_IMPORT = "IMPORT DOT DOT IDENT IDENT IDENT SEMI ";
+    static final String LINE6_IMPORT = "IMPORT DOT DOT DOT DOT DOT IDENT IDENT IDENT IDENT IDENT IDENT SEMI ";
     static final String LINE14_CLASS = "CLASS_DEF MODIFIERS LITERAL_PUBLIC LITERAL_CLASS IDENT EXTENDS_CLAUSE IDENT OBJBLOCK LCURLY ";
     static final String LINE16_FIELD = "VARIABLE_DEF MODIFIERS LITERAL_PRIVATE LITERAL_STATIC FINAL TYPE LITERAL_INT IDENT ASSIGN EXPR NUM_INT SEMI ";
     static final String LINE18_FIELD = "VARIABLE_DEF MODIFIERS LITERAL_PRIVATE FINAL TYPE LITERAL_INT IDENT SEMI ";
@@ -145,6 +149,7 @@ public abstract class AbstractAstTest {
     static final String LINE103_RETURN = "LITERAL_RETURN EXPR IDENT SEMI ";
     static final String LINE104_RCURLY = "RCURLY ";
     static final String LINE105_RCURLY = "RCURLY ";
+    static final String NESTED = "CLASS_DEF MODIFIERS LITERAL_PRIVATE LITERAL_STATIC LITERAL_CLASS IDENT OBJBLOCK LCURLY METHOD_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_VOID IDENT LPAREN PARAMETERS RPAREN SLIST EXPR METHOD_CALL DOT DOT IDENT IDENT IDENT ELIST EXPR STRING_LITERAL RPAREN SEMI RCURLY RCURLY ";
 
     static final String WHOLE_METHOD = LINE67_METHOD + LINE68_VAR + LINE69_VAR
             + LINE70_VAR + LINE71_VAR + LINE73_VAR + LINE75_VAR + LINE76_IF + LINE77_ASSIGN + LINE78_RCURLY
@@ -158,6 +163,10 @@ public abstract class AbstractAstTest {
             + LINE25_CTOR + LINE26_SUPER + LINE27_RCURLY + LINE29_METHOD
             + LINE30_RETURN + LINE31_RCURLY + LINE33_METHOD + LINE34_RETURN + LINE35_RCURLY
             + WHOLE_METHOD + LINE105_RCURLY;
+    static final String WHOLE_FILE = LINE1_PACKAGE + LINE3_IMPORT + LINE4_IMPORT + LINE6_IMPORT + LINE14_CLASS + LINE16_FIELD + LINE18_FIELD
+            + LINE25_CTOR + LINE26_SUPER + LINE27_RCURLY + LINE29_METHOD
+            + LINE30_RETURN + LINE31_RCURLY + LINE33_METHOD + LINE34_RETURN + LINE35_RCURLY
+            + WHOLE_METHOD + NESTED + LINE105_RCURLY;
 
     Ast createAst(final int lineNumber) {
         String fileName = createJavaSourceTemporaryFile("elements.ast-test");
@@ -178,10 +187,7 @@ public abstract class AbstractAstTest {
     protected abstract Ast createAst(String fileName, int lineNumber);
 
     void assertThatAstIs(final Ast ast, final String expectedResult) {
-        String realResult = ast.chosenAreaAsString(' ');
-
-        assertThat(expectedResult).isNotNull();
-        assertThat(expectedResult).isEqualTo(realResult);
+        assertThat(ast.chosenAreaAsString(' ')).isEqualTo(expectedResult);
     }
 
     String createJavaSourceTemporaryFile(final String fileName) {

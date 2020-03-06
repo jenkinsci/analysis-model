@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
  * @author Christian Möstl
  * @author Ullrich Hafner
  */
-// FIXME: update test using the base class methods and resources
 class NamePackageAstTest extends AbstractAstTest {
     @Override
     protected Ast createAst(final String fileName, final int lineNumber) {
@@ -26,4 +25,10 @@ class NamePackageAstTest extends AbstractAstTest {
 
         assertThatAstIs(ast, expectedResult);
     }
+
+    @Test
+    void shouldFindWholeFileRegardlessOfLine() {
+        assertThatAstIs(createAst(16), LINE1_PACKAGE);
+    }
+
 }
