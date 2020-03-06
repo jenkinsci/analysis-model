@@ -218,6 +218,6 @@ public abstract class AbstractAstTest {
     }
 
     protected void verifyAstAtLine(final int line, final String expectedAst) {
-        assertThat(createAst(line).chosenAreaAsString(' ')).as("AST at starting line %d", line).isEqualTo(expectedAst);
+        assertThat(createAst(line)).as("AST at starting line %d", line).hasToString(expectedAst);
     }
 }

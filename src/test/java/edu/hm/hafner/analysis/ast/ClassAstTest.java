@@ -14,9 +14,6 @@ class ClassAstTest extends AbstractAstTest {
         return new ClassAst(fileName, lineNumber);
     }
 
-    /**
-     * Verifies the AST contains the elements of the nested class only.
-     */
     @Test
     void shouldPickNestedClass() {
         Ast ast = createAstFromClassWithNestedClass(2);
@@ -26,9 +23,6 @@ class ClassAstTest extends AbstractAstTest {
                 + "RCURLY ");
     }
 
-    /**
-     * Verifies the AST does not contain the elements of the nested class.
-     */
     @Test
     void shouldNotContainNestedClass() {
         Ast ast = createAstFromClassWithNestedClass(1);
@@ -41,17 +35,17 @@ class ClassAstTest extends AbstractAstTest {
 
     @Test
     void shouldPickWholeClass() {
-        for (int line = 14; line < 74; line++) {
-            verifyAstAtLine(37, WHOLE_CLASS);
+        for (int line = 7; line < 75; line++) {
+            verifyAstAtLine(line, WHOLE_CLASS);
         }
+        verifyAstAtLine(81, WHOLE_CLASS);
+        verifyAstAtLine(82, WHOLE_CLASS);
     }
 
     @Test
     void shouldHandleNestedClass() {
-        verifyAstAtLine(76, NESTED);
-        verifyAstAtLine(77, NESTED);
-        verifyAstAtLine(78, NESTED);
-        verifyAstAtLine(79, NESTED);
-        verifyAstAtLine(80, NESTED);
+        for (int line = 76; line < 80; line++) {
+            verifyAstAtLine(line, NESTED);
+        }
     }
 }
