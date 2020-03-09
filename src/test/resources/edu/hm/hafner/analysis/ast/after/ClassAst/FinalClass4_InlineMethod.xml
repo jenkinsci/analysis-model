@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.6">
+<file name="C:\Users\Chris\git\analysis-runner\src\main\java\edu\hm\hafner\FinalClass4_InlineMethod.java">
+<error line="8" severity="warning" message="Die Klasse FinalClass4_InlineMethod sollte als final deklariert sein, da alle ihre Konstruktoren private sind." source="com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck"/>
+</file>
+</checkstyle>
