@@ -79,7 +79,7 @@
 
     <!-- Maven Plug-ins Configuration -->
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
-    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+    <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
     <assertj-assertions-generator-maven-plugin.version>2.2.0</assertj-assertions-generator-maven-plugin.version>
 
   </properties>
