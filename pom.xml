@@ -77,11 +77,6 @@
     <violations-lib.version>1.112</violations-lib.version>
     <json.version>20190722</json.version>
 
-    <!-- Maven Plug-ins Configuration -->
-    <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
-    <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
-    <assertj-assertions-generator-maven-plugin.version>2.2.0</assertj-assertions-generator-maven-plugin.version>
-
   </properties>
 
   <dependencies>
@@ -195,13 +190,6 @@
         <groupId>org.assertj</groupId>
         <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
         <version>${assertj-assertions-generator-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate-assertions</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
           <packages>
             <package>edu.hm.hafner.analysis</package>
@@ -210,17 +198,7 @@
             <exclude>.*SecureDigester</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
           </excludes>
-          <cleanTargetDir>true</cleanTargetDir>
-          <hierarchical>false</hierarchical>
-          <generateBddAssertions>false</generateBddAssertions>
-          <generateJUnitSoftAssertions>false</generateJUnitSoftAssertions>
           <entryPointClassPackage>edu.hm.hafner.analysis.assertions</entryPointClassPackage>
-          <quiet>true</quiet>
-          <templates>
-            <templatesDirectory>${project.basedir}/etc/templates/</templatesDirectory>
-            <assertionsEntryPointClass>assertions_entry_point_class_template.txt</assertionsEntryPointClass>
-            <softEntryPointAssertionClass>soft_assertions_entry_point_class_template.txt</softEntryPointAssertionClass>
-          </templates>
         </configuration>
       </plugin>
       <plugin>
@@ -252,18 +230,8 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
-          <oldVersion>7.0.5</oldVersion>
-          <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
           <analysisConfiguration>
-            <revapi.semver.ignore>
-              <enabled>true</enabled>
-            </revapi.semver.ignore>
             <revapi.ignore>
-              <item>
-                <code>java.class.nonFinalClassInheritsFromNewClass</code>
-                <classQualifiedName>edu.hm.hafner.analysis.parser.XmlParser</classQualifiedName>
-                <justification>Internal baseclass upgrade</justification>
-              </item>
               <item>
                 <code>java.field.enumConstantOrderChanged</code>
                 <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
@@ -276,7 +244,6 @@
               </item>
             </revapi.ignore>
           </analysisConfiguration>
-          <skip>false</skip>
         </configuration>
       </plugin>
       <plugin>
@@ -410,7 +377,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
-            <version>${maven-dependency-plugin.version}</version>
             <executions>
               <execution>
                 <?m2e execute onConfiguration,onIncremental?>
