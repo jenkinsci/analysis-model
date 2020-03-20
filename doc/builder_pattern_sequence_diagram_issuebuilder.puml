@@ -1,0 +1,27 @@
+@startuml
+
+title IssueBuilder usage in JavacParser
+
+activate JavacParser
+activate IssueBuilder
+
+[-> JavacParser: createIssue(...)
+note left of JavacParser
+    read issue
+    from stream
+end note
+JavacParser -> IssueBuilder: setFileName(...)
+
+JavacParser -> IssueBuilder: setColumnStart(...)
+JavacParser -> IssueBuilder: setCategory(...)
+JavacParser -> IssueBuilder: setMessage(...)
+|||
+JavacParser -> IssueBuilder: buildOptional()
+
+IssueBuilder -> Issue: new Issue(...)
+activate Issue
+Issue --> IssueBuilder
+
+IssueBuilder --> JavacParser
+[<-- JavacParser
+@enduml
