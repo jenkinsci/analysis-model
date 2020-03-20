@@ -1,0 +1,157 @@
+@startuml
+title IssueBuilder and IssueFilterBuilder
+skinparam classAttributeIconSize 0
+
+Issue "0..*" <-- "1" IssueBuilder : builds <
+JavacParser --> IssueBuilder : uses >
+Report "0..*" o-- "1" Issue : contains >
+Report <-- IssueFilterBuilder : builds filter for <
+
+class Issue {
+    ~ Issue(Issue)
+    ~ Issue(pathName, fileName, lineStart, ...)
+    ..
+    + getId()
+    + getFileName()
+    + getFileNameTreeString()
+    + getFolder()
+    + getBaseName()
+    + getAbsolutePath()
+    + getPath()
+    + getCategory()
+    + getType()
+    + getSeverity()
+    + getMessage()
+    + getMessageTreeString()
+    + getDescription()
+    + getLineStart()
+    + getLineEnd()
+    + getLineRanges()
+    + getColumnStart()
+    + getColumnEnd()
+    + getPackageName()
+    + getPackageNameTreeString()
+    + getAdditionalProperties()
+    + getModuleName()
+    + getOrigin()
+    + getReference()
+    + getFingerprint()
+    + hasPackageName()
+    + hasFingerprint()
+    + hasModuleName()
+    + hasFileName()
+    ..
+    ~ setFileName()
+    ~ setPackageName()
+    ~ setModuleName()
+    ~ setOrigin()
+    ~ setReference()
+    ~ setFingerprint()
+    ..
+    - category
+    - type
+    - severity
+    - lineStart
+    - lineEnd
+    - columnStart
+    - columnEnd
+    - lineRanges
+    - id
+    - additionalProperties
+    - reference
+    - origin
+    - moduleName
+    - packageName
+    - pathName
+    - fileName
+    - message
+    - description
+    - fingerprint
+}
+
+class IssueBuilder {
+    + IssueBuilder()
+    + IssueBuilder copy(Issue)
+    ..
+    + IssueBuilder setId()
+    + IssueBuilder setAdditionalProperties()
+    + IssueBuilder setFingerprint()
+    + IssueBuilder setFileName()
+    + IssueBuilder setDirectory()
+    + IssueBuilder setPathName()
+    + IssueBuilder setLineStart()
+    + IssueBuilder setLineStart()
+    + IssueBuilder setLineEnd()
+    + IssueBuilder setLineEnd()
+    + IssueBuilder setColumnStart()
+    + IssueBuilder setColumnStart()
+    + IssueBuilder setColumnEnd()
+    + IssueBuilder setColumnEnd()
+    + IssueBuilder setCategory()
+    + IssueBuilder setType()
+    + IssueBuilder setPackageName()
+    + IssueBuilder setModuleName()
+    + IssueBuilder setOrigin()
+    + IssueBuilder setReference()
+    + IssueBuilder setSeverity()
+    + IssueBuilder setMessage()
+    + IssueBuilder setDescription()
+    + IssueBuilder setLineRanges()
+    ..
+    + Issue build()
+    + Optional<Issue> buildOptional()
+    ..
+    - lineStart
+    - lineEnd
+    - columnStart
+    - columnEnd
+    - lineRanges
+    - pathName
+    - fileName
+    - packageName
+    - directory
+    - category
+    - type
+    - severity
+    - message
+    - description
+    - moduleName
+    - origin
+    - reference
+    - fingerprint
+    - additionalProperties
+    - id
+}
+
+class JavacParser {
+    + JavacParser()
+    # boolean isLineInteresting()
+    # Optional<Issue> CreateIssue(Matcher, LookaheadStream, IssueBuilder)
+
+}
+
+class Report {
+    - Set<Issue> elements
+    + Report filter(Predicate<Issue>)
+    + Report add(Issue)
+}
+
+class IssueFilterBuilder {
+    - void addNewFilter(Collection<String>, Function<Issue, String>, FilterType)
+    + Predicate<Issue> build()
+    + IssueFilterBuilder setIncludeFileNameFilter(Collection<String>)
+    + IssueFilterBuilder setIncludeModuleNameFilter(Collection<String>)
+    + IssueFilterBuilder setIncludePackageNameFilter(Collection<String>)
+    + IssueFilterBuilder setIncludeCategoryFilter(Collection<String>)
+    + IssueFilterBuilder setIncludeTypeFilter(Collection<String>)
+    + IssueFilterBuilder setIncludeMessageFilter(Collection<String>)
+    + IssueFilterBuilder setExcludeFileNameFilter(Collection<String>)
+    + IssueFilterBuilder setExcludeModuleNameFilter(Collection<String>)
+    + IssueFilterBuilder setExcludePackageNameFilter(Collection<String>)
+    + IssueFilterBuilder setExcludeCategoryFilter(Collection<String>)
+    + IssueFilterBuilder setExcludeTypeFilter(Collection<String>)
+    + IssueFilterBuilder setExcludeMessageFilter(Collection<String>)
+    - Collection<Predicate<Issue>> includeFilters
+    - Collection<Predicate<Issue>> excludeFilters
+}
+@enduml
