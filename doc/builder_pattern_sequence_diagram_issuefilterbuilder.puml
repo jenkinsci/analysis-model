@@ -1,0 +1,14 @@
+@startuml
+
+title IssueFilterBuilder usage
+
+activate IssueFilterTest
+IssueFilterTest -> IssueFilterBuilder: new IssueFilter()
+activate IssueFilterBuilder
+IssueFilterTest -> IssueFilterBuilder: setExcludeMessageFilter(...)
+IssueFilterTest -> IssueFilterBuilder: setIncludeFileNameFilter(...)
+IssueFilterTest -> IssueFilterBuilder: ...
+IssueFilterTest -> IssueFilterBuilder: build()
+return Predicate<Issue>
+
+@enduml
