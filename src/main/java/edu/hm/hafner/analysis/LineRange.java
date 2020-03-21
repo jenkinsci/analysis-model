@@ -5,8 +5,11 @@ import java.io.Serializable;
 /**
  * A line range in a source file is defined by its first and last line.
  *
+ *Use the provided {@link LineRangeBuilder builder} to create new instances.
+ *
  * @author Ullrich Hafner
  */
+
 public class LineRange implements Serializable {
     private static final long serialVersionUID = -4124143085672930110L;
 

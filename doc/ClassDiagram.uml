@@ -3,396 +3,64 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="644.0155924479163" y="478.0">edu.hm.hafner.analysis.ParsingException</node>
-    <node x="2175.2795712425605" y="3480.0">edu.hm.hafner.analysis.DuplicationGroup</node>
-    <node x="991.875" y="4866.0">edu.hm.hafner.analysis.IssueParser</node>
-    <node x="2148.5416666666665" y="832.0">edu.hm.hafner.analysis.Issue</node>
-    <node x="1312.875" y="4902.5">edu.hm.hafner.analysis.ParsingCanceledException</node>
-    <node x="4551.158449590774" y="0.0">edu.hm.hafner.analysis.Categories</node>
-    <node x="375.5572591145833" y="5510.5">edu.hm.hafner.analysis.ModuleResolver</node>
-    <node x="2513.5416666666665" y="4782.0">edu.hm.hafner.analysis.FullTextFingerprint</node>
-    <node x="2072.7083333333335" y="4770.0">edu.hm.hafner.analysis.FilteredLog</node>
-    <node x="2031.1180803571433" y="5760.0">edu.hm.hafner.analysis.RegexpLineParser</node>
-    <node x="3782.1584495907737" y="1696.0">edu.hm.hafner.analysis.CSharpNamespaceDetector</node>
-    <node x="1548.875" y="4770.0">edu.hm.hafner.analysis.IssueDifference</node>
-    <node x="3179.59892578125" y="274.0">edu.hm.hafner.analysis.LineRangeList</node>
-    <node x="0.0" y="4554.0">edu.hm.hafner.analysis.ModuleDetector</node>
-    <node x="3524.09892578125" y="4890.0">edu.hm.hafner.analysis.PackageNameResolver</node>
-    <node x="3775.5010044642863" y="3552.0">edu.hm.hafner.analysis.PackageDetectors</node>
-    <node x="2181.8416666666667" y="298.0">edu.hm.hafner.analysis.Severity</node>
-    <node x="725.375" y="3420.0">edu.hm.hafner.analysis.ReaderFactory</node>
-    <node x="534.375" y="4818.0">edu.hm.hafner.analysis.FileReaderFactory</node>
-    <node x="2151.4583333333335" y="5486.5">edu.hm.hafner.analysis.FingerprintGenerator</node>
-    <node x="3135.8179687499996" y="2880.0">edu.hm.hafner.analysis.IssueBuilder</node>
-    <node x="4154.158449590774" y="1696.0">edu.hm.hafner.analysis.JavaPackageDetector</node>
-    <node x="2573.2672619047617" y="0.0">edu.hm.hafner.analysis.LineRange</node>
-    <node x="3611.4322591145833" y="442.0">edu.hm.hafner.analysis.AbstractPackageDetector</node>
-    <node x="1156.4530924479163" y="5366.0">edu.hm.hafner.analysis.LookaheadParser</node>
-    <node x="513.375" y="1624.0">edu.hm.hafner.analysis.SecureXmlParserFactory</node>
-    <node x="1679.2795712425602" y="2784.0">edu.hm.hafner.analysis.Report</node>
-    <node x="158.5" y="3589.5">edu.hm.hafner.analysis.SecureDigester</node>
-    <node x="2952.5416666666665" y="4854.0">edu.hm.hafner.analysis.FileNameResolver</node>
+    <node x="0.0" y="2703.0">edu.hm.hafner.analysis.ParsingException</node>
+    <node x="448.0" y="2410.0">edu.hm.hafner.analysis.DuplicationGroup</node>
+    <node x="1559.5" y="0.0">edu.hm.hafner.analysis.IssueParser</node>
+    <node x="0.0" y="0.0">edu.hm.hafner.analysis.Issue</node>
+    <node x="1049.0" y="2703.0">edu.hm.hafner.analysis.ParsingCanceledException</node>
+    <node x="1004.0" y="2410.0">edu.hm.hafner.analysis.Categories</node>
+    <node x="721.0" y="2703.0">edu.hm.hafner.analysis.ModuleResolver</node>
+    <node x="2544.0" y="1877.0">edu.hm.hafner.analysis.FullTextFingerprint</node>
+    <node x="1364.0" y="1877.0">edu.hm.hafner.analysis.FilteredLog</node>
+    <node x="1432.0" y="572.0">edu.hm.hafner.analysis.RegexpLineParser</node>
+    <node x="1775.0" y="2079.0">edu.hm.hafner.analysis.CSharpNamespaceDetector</node>
+    <node x="881.0" y="1877.0">edu.hm.hafner.analysis.IssueDifference</node>
+    <node x="0.0" y="1877.0">edu.hm.hafner.analysis.LineRangeList</node>
+    <node x="2010.0" y="0.0">edu.hm.hafner.analysis.ModuleDetector</node>
+    <node x="374.0" y="2703.0">edu.hm.hafner.analysis.PackageNameResolver</node>
+    <node x="1886.0" y="2410.0">edu.hm.hafner.analysis.PackageDetectors</node>
+    <node x="431.0" y="1877.0">edu.hm.hafner.analysis.Severity</node>
+    <node x="2518.0" y="0.0">edu.hm.hafner.analysis.ReaderFactory</node>
+    <node x="2566.5" y="418.0">edu.hm.hafner.analysis.FileReaderFactory</node>
+    <node x="2278.0" y="2410.0">edu.hm.hafner.analysis.FingerprintGenerator</node>
+    <node x="997.0" y="0.0">edu.hm.hafner.analysis.IssueBuilder</node>
+    <node x="2147.0" y="2079.0">edu.hm.hafner.analysis.JavaPackageDetector</node>
+    <node x="750.0" y="2410.0">edu.hm.hafner.analysis.LineRange</node>
+    <node x="1941.5" y="1877.0">edu.hm.hafner.analysis.AbstractPackageDetector</node>
+    <node x="1432.0" y="178.0">edu.hm.hafner.analysis.LookaheadParser</node>
+    <node x="0.0" y="2410.0">edu.hm.hafner.analysis.SecureXmlParserFactory</node>
+    <node x="476.0" y="0.0">edu.hm.hafner.analysis.Report</node>
+    <node x="1310.0" y="2703.0">edu.hm.hafner.analysis.SecureDigester</node>
+    <node x="1400.0" y="2410.0">edu.hm.hafner.analysis.FileNameResolver</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="edu.hm.hafner.analysis.PackageNameResolver" target="edu.hm.hafner.analysis.IssueBuilder">
-      <point x="-75.5" y="-40.0" />
-      <point x="3599.59892578125" y="4454.0" />
-      <point x="3442.246540178571" y="4454.0" />
-      <point x="111.42857142857156" y="724.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.IssueParser" target="edu.hm.hafner.analysis.Report">
-      <point x="92.66666666666674" y="-64.0" />
-      <point x="1223.5416666666667" y="4494.0" />
-      <point x="1699.1129045758935" y="4494.0" />
-      <point x="-218.16666666666674" y="820.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FilteredLog" target="edu.hm.hafner.analysis.Report">
-      <point x="91.5" y="-160.0" />
-      <point x="2347.2083333333335" y="4494.0" />
-      <point x="2016.4462379092267" y="4494.0" />
-      <point x="99.16666666666652" y="820.0" />
-    </edge>
     <edge source="edu.hm.hafner.analysis.LookaheadParser" target="edu.hm.hafner.analysis.IssueParser">
-      <point x="-166.5625" y="-172.0" />
-      <point x="1256.3905924479163" y="5326.0" />
-      <point x="1130.875" y="5326.0" />
+      <point x="0.0" y="-172.0" />
       <point x="0.0" y="64.0" />
     </edge>
-    <edge source="edu.hm.hafner.analysis.Issue" target="edu.hm.hafner.analysis.LineRange">
-      <point x="-172.4000000000001" y="-916.0" />
-      <point x="2191.6416666666664" y="802.0" />
-      <point x="2171.3416666666667" y="802.0" />
-      <point x="2171.3416666666667" y="249.0" />
-      <point x="2625.5172619047617" y="249.0" />
-      <point x="-52.25" y="112.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FileReaderFactory" target="edu.hm.hafner.analysis.SecureXmlParserFactory">
-      <point x="-37.25" y="-112.0" />
-      <point x="646.125" y="4534.0" />
-      <point x="714.875" y="4534.0" />
-      <point x="0.0" y="124.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.LookaheadParser" target="edu.hm.hafner.analysis.Issue">
-      <point x="-99.9375" y="-172.0" />
-      <point x="1323.0155924479163" y="5336.0" />
-      <point x="1280.375" y="5336.0" />
-      <point x="1280.375" y="2724.0" />
-      <point x="2202.4166666666665" y="2724.0" />
-      <point x="-161.625" y="916.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.ModuleResolver" target="edu.hm.hafner.analysis.ModuleDetector">
-      <point x="-94.33333333333348" y="-27.5" />
-      <point x="422.7239257812498" y="5346.0" />
-      <point x="231.5" y="5346.0" />
-      <point x="0.0" y="376.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.JavaPackageDetector" target="edu.hm.hafner.analysis.PackageDetectors">
-      <point x="88.0" y="52.0" />
-      <point x="4418.158449590774" y="2764.0" />
-      <point x="4097.715290178572" y="2764.0" />
-      <point x="148.71428571428532" y="-52.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.LookaheadParser" target="edu.hm.hafner.analysis.ParsingCanceledException">
-      <point x="33.3125" y="-172.0" />
-      <point x="1456.2655924479163" y="5346.0" />
-      <point x="1420.875" y="5346.0" />
-      <point x="0.0" y="27.5" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.CSharpNamespaceDetector" target="edu.hm.hafner.analysis.PackageDetectors">
-      <point x="88.0" y="52.0" />
-      <point x="4046.1584495907737" y="2744.0" />
-      <point x="3998.5724330357148" y="2744.0" />
-      <point x="49.57142857142844" y="-52.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.Issue" target="edu.hm.hafner.analysis.Severity">
-      <point x="-86.19999999999982" y="-916.0" />
-      <point x="2277.8416666666667" y="812.0" />
-      <point x="2303.3416666666667" y="812.0" />
-      <point x="-81.0" y="220.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.PackageNameResolver" target="edu.hm.hafner.analysis.PackageDetectors">
-      <point x="75.5" y="-40.0" />
-      <point x="3750.59892578125" y="4524.0" />
-      <point x="3862.2510044642863" y="4524.0" />
-      <point x="-86.75" y="52.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.IssueParser" target="edu.hm.hafner.analysis.ReaderFactory">
-      <point x="-92.66666666666674" y="-64.0" />
-      <point x="1038.2083333333333" y="4534.0" />
-      <point x="1071.0" y="4534.0" />
-      <point x="148.125" y="184.0" />
-    </edge>
     <edge source="edu.hm.hafner.analysis.RegexpLineParser" target="edu.hm.hafner.analysis.LookaheadParser">
-      <point x="-66.625" y="-100.0" />
-      <point x="2230.9930803571433" y="5730.0" />
-      <point x="1556.2030924479163" y="5730.0" />
-      <point x="133.25" y="172.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FileNameResolver" target="edu.hm.hafner.analysis.IssueBuilder">
-      <point x="147.0" y="-76.0" />
-      <point x="3320.0416666666665" y="4534.0" />
-      <point x="3330.8179687499996" y="4534.0" />
-      <point x="0.0" y="724.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.PackageDetectors" target="edu.hm.hafner.analysis.CSharpNamespaceDetector">
-      <point x="0.0" y="-52.0" />
-      <point x="3949.0010044642863" y="2684.0" />
-      <point x="3870.1584495907737" y="2684.0" />
-      <point x="-88.0" y="52.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FingerprintGenerator" target="edu.hm.hafner.analysis.FilteredLog">
-      <point x="-216.4000000000001" y="-51.5" />
-      <point x="2205.5583333333334" y="5346.0" />
-      <point x="2164.2083333333335" y="5346.0" />
-      <point x="-91.5" y="160.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.IssueBuilder" target="edu.hm.hafner.analysis.Severity">
-      <point x="0.0" y="-724.0" />
-      <point x="3330.8179687499996" y="2764.0" />
-      <point x="3361.59892578125" y="2764.0" />
-      <point x="3361.59892578125" y="782.0" />
-      <point x="2546.3416666666667" y="782.0" />
-      <point x="162.0" y="220.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.DuplicationGroup" target="edu.hm.hafner.analysis.Issue">
-      <point x="-64.25" y="-124.0" />
-      <point x="2239.5295712425605" y="2764.0" />
-      <point x="2346.083333333333" y="2764.0" />
-      <point x="-17.958333333333485" y="916.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FileReaderFactory" target="edu.hm.hafner.analysis.ParsingException">
-      <point x="-111.75" y="-112.0" />
-      <point x="571.625" y="4534.0" />
-      <point x="502.875" y="4534.0" />
-      <point x="502.875" y="812.0" />
-      <point x="685.1405924479163" y="812.0" />
-      <point x="-123.375" y="40.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.ModuleResolver" target="edu.hm.hafner.analysis.Issue">
-      <point x="0.0" y="-27.5" />
-      <point x="517.0572591145833" y="5346.0" />
-      <point x="473.5" y="5346.0" />
-      <point x="473.5" y="2714.0" />
-      <point x="2166.5" y="2714.0" />
-      <point x="-197.54166666666652" y="916.0" />
+      <point x="0.0" y="-100.0" />
+      <point x="0.0" y="172.0" />
     </edge>
     <edge source="edu.hm.hafner.analysis.CSharpNamespaceDetector" target="edu.hm.hafner.analysis.AbstractPackageDetector">
-      <point x="-88.0" y="-52.0" />
-      <point x="3870.1584495907737" y="812.0" />
-      <point x="3806.9322591145833" y="812.0" />
-      <point x="0.0" y="76.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FingerprintGenerator" target="edu.hm.hafner.analysis.FullTextFingerprint">
-      <point x="216.4000000000001" y="-51.5" />
-      <point x="2638.3583333333336" y="5346.0" />
-      <point x="2722.5416666666665" y="5346.0" />
-      <point x="0.0" y="148.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.LookaheadParser" target="edu.hm.hafner.analysis.ReaderFactory">
-      <point x="-233.1875" y="-172.0" />
-      <point x="1189.7655924479163" y="5336.0" />
-      <point x="972.25" y="5336.0" />
-      <point x="49.375" y="184.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.RegexpLineParser" target="edu.hm.hafner.analysis.IssueBuilder">
-      <point x="199.875" y="-100.0" />
-      <point x="2497.4930803571433" y="5740.0" />
-      <point x="3513.59892578125" y="5740.0" />
-      <point x="3513.59892578125" y="4534.0" />
-      <point x="3386.5322544642854" y="4534.0" />
-      <point x="55.71428571428578" y="724.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.ModuleResolver" target="edu.hm.hafner.analysis.Report">
-      <point x="94.33333333333348" y="-27.5" />
-      <point x="611.3905924479168" y="5346.0" />
-      <point x="1291.375" y="5346.0" />
-      <point x="1291.375" y="4504.0" />
-      <point x="1738.7795712425602" y="4504.0" />
-      <point x="-178.5" y="820.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.LookaheadParser" target="edu.hm.hafner.analysis.Report">
-      <point x="-33.3125" y="-172.0" />
-      <point x="1389.6405924479163" y="5326.0" />
-      <point x="1302.375" y="5326.0" />
-      <point x="1302.375" y="4514.0" />
-      <point x="1778.446237909227" y="4514.0" />
-      <point x="-138.83333333333326" y="820.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.Report" target="edu.hm.hafner.analysis.Severity">
-      <point x="-158.66666666666652" y="-820.0" />
-      <point x="1758.6129045758937" y="2704.0" />
-      <point x="1818.875" y="2704.0" />
-      <point x="1818.875" y="812.0" />
-      <point x="2222.3416666666667" y="812.0" />
-      <point x="-162.0" y="220.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.SecureXmlParserFactory" target="edu.hm.hafner.analysis.ParsingException">
-      <point x="0.0" y="-124.0" />
-      <point x="714.875" y="812.0" />
-      <point x="767.3905924479163" y="812.0" />
-      <point x="-41.125" y="40.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.Report" target="edu.hm.hafner.analysis.Issue">
-      <point x="0.0" y="-820.0" />
-      <point x="1917.2795712425602" y="2744.0" />
-      <point x="2274.25" y="2744.0" />
-      <point x="-89.79166666666652" y="916.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.Issue" target="edu.hm.hafner.analysis.LineRangeList">
-      <point x="172.4000000000001" y="-916.0" />
-      <point x="2536.4416666666666" y="812.0" />
-      <point x="3295.39892578125" y="812.0" />
-      <point x="-77.19999999999982" y="244.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.ModuleDetector" target="edu.hm.hafner.analysis.SecureDigester">
-      <point x="115.75" y="-376.0" />
-      <point x="347.25" y="4534.0" />
-      <point x="268.0" y="4534.0" />
-      <point x="36.5" y="14.5" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.ReaderFactory" target="edu.hm.hafner.analysis.ParsingException">
-      <point x="131.66666666666652" y="-184.0" />
-      <point x="1054.5416666666665" y="2704.0" />
-      <point x="1051.2033854166673" y="2704.0" />
-      <point x="1051.2033854166673" y="812.0" />
-      <point x="849.6405924479163" y="812.0" />
-      <point x="41.125" y="40.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FileNameResolver" target="edu.hm.hafner.analysis.Report">
-      <point x="-147.0" y="-76.0" />
-      <point x="3026.0416666666665" y="4474.0" />
-      <point x="2095.7795712425595" y="4474.0" />
-      <point x="178.49999999999955" y="820.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FingerprintGenerator" target="edu.hm.hafner.analysis.Issue">
-      <point x="108.20000000000005" y="-51.5" />
-      <point x="2530.1583333333333" y="5346.0" />
-      <point x="2503.0416666666665" y="5346.0" />
-      <point x="2503.0416666666665" y="2764.0" />
-      <point x="2417.9166666666665" y="2764.0" />
-      <point x="53.875" y="916.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.IssueParser" target="edu.hm.hafner.analysis.ParsingException">
-      <point x="0.0" y="-64.0" />
-      <point x="1130.875" y="802.0" />
-      <point x="931.8905924479163" y="802.0" />
-      <point x="123.375" y="40.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.LineRangeList" target="edu.hm.hafner.analysis.LineRange">
-      <point x="0.0" y="-244.0" />
-      <point x="3372.59892578125" y="249.0" />
-      <point x="2730.0172619047617" y="249.0" />
-      <point x="52.25" y="112.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.PackageNameResolver" target="edu.hm.hafner.analysis.Issue">
-      <point x="25.166666666666515" y="-40.0" />
-      <point x="3700.2655924479163" y="2724.0" />
-      <point x="2561.583333333333" y="2724.0" />
-      <point x="197.54166666666652" y="916.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.FingerprintGenerator" target="edu.hm.hafner.analysis.Report">
-      <point x="0.0" y="-51.5" />
-      <point x="2421.9583333333335" y="5346.0" />
-      <point x="2449.2083333333335" y="5346.0" />
-      <point x="2449.2083333333335" y="4484.0" />
-      <point x="2056.1129045758935" y="4484.0" />
-      <point x="138.83333333333303" y="820.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.PackageDetectors" target="edu.hm.hafner.analysis.AbstractPackageDetector">
-      <point x="-148.71428571428532" y="-52.0" />
-      <point x="3800.286718750001" y="2714.0" />
-      <point x="3662.896544828869" y="2714.0" />
-      <point x="3662.896544828869" y="812.0" />
-      <point x="3639.360830543155" y="812.0" />
-      <point x="-167.57142857142844" y="76.0" />
+      <point x="0.0" y="-52.0" />
+      <point x="1951.0" y="2054.0" />
+      <point x="2039.25" y="2054.0" />
+      <point x="-97.75" y="76.0" />
     </edge>
     <edge source="edu.hm.hafner.analysis.JavaPackageDetector" target="edu.hm.hafner.analysis.AbstractPackageDetector">
-      <point x="-88.0" y="-52.0" />
-      <point x="4242.158449590774" y="792.0" />
-      <point x="3918.6465448288686" y="792.0" />
-      <point x="111.71428571428532" y="76.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.IssueBuilder" target="edu.hm.hafner.analysis.Issue">
-      <point x="-111.42857142857156" y="-724.0" />
-      <point x="3219.389397321428" y="2734.0" />
-      <point x="2525.6666666666665" y="2734.0" />
-      <point x="161.625" y="916.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.PackageNameResolver" target="edu.hm.hafner.analysis.Report">
-      <point x="-125.83333333333348" y="-40.0" />
-      <point x="3549.2655924479163" y="4464.0" />
-      <point x="2135.4462379092265" y="4464.0" />
-      <point x="218.16666666666652" y="820.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.LookaheadParser" target="edu.hm.hafner.analysis.IssueBuilder">
-      <point x="233.1875" y="-172.0" />
-      <point x="1656.1405924479163" y="5346.0" />
-      <point x="2062.2083333333335" y="5346.0" />
-      <point x="2062.2083333333335" y="4524.0" />
-      <point x="3219.389397321428" y="4524.0" />
-      <point x="-111.42857142857156" y="724.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.IssueDifference" target="edu.hm.hafner.analysis.Issue">
-      <point x="-164.25" y="-160.0" />
-      <point x="1603.625" y="2734.0" />
-      <point x="2238.333333333333" y="2734.0" />
-      <point x="-125.70833333333348" y="916.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.RegexpLineParser" target="edu.hm.hafner.analysis.Issue">
-      <point x="66.625" y="-100.0" />
-      <point x="2364.2430803571433" y="5730.0" />
-      <point x="2942.0416666666665" y="5730.0" />
-      <point x="2942.0416666666665" y="2754.0" />
-      <point x="2453.833333333333" y="2754.0" />
-      <point x="89.79166666666652" y="916.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.PackageDetectors" target="edu.hm.hafner.analysis.JavaPackageDetector">
-      <point x="99.14285714285688" y="-52.0" />
-      <point x="4048.143861607143" y="2754.0" />
-      <point x="4242.158449590774" y="2754.0" />
-      <point x="-88.0" y="52.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.SecureDigester" target="edu.hm.hafner.analysis.SecureXmlParserFactory">
-      <point x="-36.5" y="-14.5" />
-      <point x="195.0" y="2694.0" />
-      <point x="553.675" y="2694.0" />
-      <point x="-161.20000000000005" y="124.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.AbstractPackageDetector" target="edu.hm.hafner.analysis.PackageDetectors">
-      <point x="-55.85714285714312" y="76.0" />
-      <point x="3751.07511625744" y="812.0" />
-      <point x="3684.896544828869" y="812.0" />
-      <point x="3684.896544828869" y="2694.0" />
-      <point x="3899.429575892858" y="2694.0" />
-      <point x="-49.57142857142844" y="-52.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.IssueBuilder" target="edu.hm.hafner.analysis.LineRangeList">
-      <point x="55.71428571428578" y="-724.0" />
-      <point x="3386.5322544642854" y="2764.0" />
-      <point x="3372.59892578125" y="2764.0" />
-      <point x="0.0" y="244.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.ReaderFactory" target="edu.hm.hafner.analysis.SecureXmlParserFactory">
-      <point x="0.0" y="-184.0" />
-      <point x="922.875" y="2704.0" />
-      <point x="876.075" y="2704.0" />
-      <point x="161.20000000000005" y="124.0" />
+      <point x="0.0" y="-52.0" />
+      <point x="2323.0" y="2054.0" />
+      <point x="2234.75" y="2054.0" />
+      <point x="97.75" y="76.0" />
     </edge>
     <edge source="edu.hm.hafner.analysis.FileReaderFactory" target="edu.hm.hafner.analysis.ReaderFactory">
-      <point x="37.25" y="-112.0" />
-      <point x="720.625" y="4534.0" />
-      <point x="774.75" y="4534.0" />
-      <point x="-148.125" y="184.0" />
-    </edge>
-    <edge source="edu.hm.hafner.analysis.IssueDifference" target="edu.hm.hafner.analysis.Report">
-      <point x="54.75" y="-160.0" />
-      <point x="1822.625" y="4534.0" />
-      <point x="1857.7795712425602" y="4534.0" />
-      <point x="-59.5" y="820.0" />
+      <point x="0.0" y="-112.0" />
+      <point x="0.0" y="184.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.2000000000000002" x="4224.454545454544" y="472.9999999999998" />
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="1450.3472222222222" y="371.25" />
   <SelectedNodes>
     <node>edu.hm.hafner.analysis.Categories</node>
   </SelectedNodes>
