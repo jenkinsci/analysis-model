@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
-
 /**
  * Computes old, new, and fixed issues based on the reports of two consecutive static analysis runs for the same
  * software artifact.
