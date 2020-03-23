@@ -79,8 +79,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
 
     private LineRange createLineRange(final int start) {
         return new LineRangeBuilder()
-                .setStart(start)
-                .setEnd(start)
+                .setLine(start)
                 .build();
     }
     /** Verifies that the parser finds multiple locations (line ranges) for a given warning with the same error ID. */

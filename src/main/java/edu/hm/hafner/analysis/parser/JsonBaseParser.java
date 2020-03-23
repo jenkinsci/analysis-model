@@ -108,16 +108,14 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
                 }
                 else {
                     lineRanges.add(new LineRangeBuilder()
-                            .setStart(jsonRange.getInt(LINE_RANGE_START))
-                            .setEnd(jsonRange.getInt(LINE_RANGE_START))
+                            .setLine(jsonRange.getInt(LINE_RANGE_START))
                             .build()
                     );
                 }
             }
             else if (jsonRange.has(LINE_RANGE_END)) {
                 lineRanges.add(new LineRangeBuilder()
-                        .setStart(jsonRange.getInt(LINE_RANGE_END))
-                        .setEnd(jsonRange.getInt(LINE_RANGE_END))
+                        .setLine(jsonRange.getInt(LINE_RANGE_END))
                         .build());
             }
         }

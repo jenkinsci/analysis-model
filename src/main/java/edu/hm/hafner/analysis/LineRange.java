@@ -50,6 +50,20 @@ public class LineRange implements Serializable {
         }
 
         /**
+         * Sets the start and end of this Line.
+         *
+         * @param line
+         *         the start/end of character
+         *
+         * @return this
+         */
+        public LineRangeBuilder setLine(final int line) {
+            this.start = line;
+            this.end = line;
+            return this;
+        }
+
+        /**
          * Creates a new {@link LineRange} based on the specified properties.
          *
          * @return the created lineRange
@@ -57,6 +71,16 @@ public class LineRange implements Serializable {
         public LineRange build() {
             return new LineRange(start, end);
         }
+    }
+
+    /**
+     * Creates a new instance of {@link LineRange}.
+     *
+     * @param line
+     *            the single line of this range
+     */
+    public LineRange(final int line) {
+        this(line, line);
     }
 
     /**

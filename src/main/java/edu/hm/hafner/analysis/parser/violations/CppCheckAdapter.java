@@ -39,8 +39,7 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
             for (int i = 1; i < group.size(); i++) {
                 Violation violation = group.get(i);
                 lineRanges.add(new LineRangeBuilder()
-                        .setStart(violation.getStartLine())
-                        .setEnd(violation.getStartLine())
+                        .setLine(violation.getStartLine())
                         .build()
                 );
             }
