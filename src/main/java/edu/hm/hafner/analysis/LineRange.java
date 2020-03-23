@@ -14,20 +14,56 @@ public class LineRange implements Serializable {
     private final int end;
 
     /**
-     * Creates a new instance of {@link LineRange}.
+     * Creates new {@link LineRange lineRange} using the builder pattern. All properties that have not been set in the builder will
+     * be set to their default value.
      *
-     * @param line
-     *            the single line of this range
+     * @author Simon Symhoven
      */
-    public LineRange(final int line) {
-        this(line, line);
+    public static class LineRangeBuilder {
+        private int start;
+        private int end;
+
+        /**
+         * Sets the start of this Line.
+         *
+         * @param start
+         *         the first character
+         *
+         * @return this
+         */
+        public LineRangeBuilder setStart(final int start) {
+            this.start = start;
+            return this;
+        }
+
+        /**
+         * Sets the end of this Line.
+         *
+         * @param end
+         *         the last character
+         *
+         * @return this
+         */
+        public LineRangeBuilder setEnd(final int end) {
+            this.end = end;
+            return this;
+        }
+
+        /**
+         * Creates a new {@link LineRange} based on the specified properties.
+         *
+         * @return the created lineRange
+         */
+        public LineRange build() {
+            return new LineRange(start, end);
+        }
     }
 
     /**
      * Creates a new instance of {@link LineRange}.
      *
      * @param start
-     *            start of the range
+     *             start of the range
      * @param end
      *            end of the range
      */

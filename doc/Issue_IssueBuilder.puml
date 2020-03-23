@@ -1,0 +1,26 @@
+@startuml
+
+interface Serializable <<interface>>
+
+Serializable <|.. Issue : <<implements>>
+IssueBuilder ..> Issue : <<create>>
+IssueBuilder --|> Testcase
+
+class Issue {
+     {field} some instance variables
+     {method} some getters
+}
+
+class IssueBuilder {
+    - {field} some instance variables
+    - {static} {field} some instance variables
+    + build()
+    + {method} some setters
+}
+
+class Testcase {
+    builder : IssueBuilder
+}
+
+
+@enduml

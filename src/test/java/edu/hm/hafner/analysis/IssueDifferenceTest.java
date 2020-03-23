@@ -2,6 +2,8 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
+
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
 
@@ -177,9 +179,16 @@ class IssueDifferenceTest {
                 .setMessage(message)
                 .setDescription("description")
                 .setOrigin("origin")
-                .setLineRanges(new LineRangeList(singletonList(new LineRange(5, 6))))
+                .setLineRanges(new LineRangeList(singletonList(createLineRange(5, 6))))
                 .setFingerprint(fingerprint)
                 .setReference(REFERENCE_BUILD);
         return builder.build();
+    }
+
+    private LineRange createLineRange(final int start, final int end) {
+        return new LineRangeBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .build();
     }
 }

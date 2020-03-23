@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -58,8 +59,15 @@ class XmlParserTest extends AbstractParserTest {
                 .hasReference("reference")
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
-                .hasOnlyLineRanges(new LineRange(5, 6));
+                .hasOnlyLineRanges(createLineRange(5, 6));
 
+    }
+
+    private LineRange createLineRange(final int start, final int end) {
+        return new LineRangeBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .build();
     }
 
     @Override
@@ -93,7 +101,7 @@ class XmlParserTest extends AbstractParserTest {
                     .hasReference("reference")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
-                    .hasOnlyLineRanges(new LineRange(5, 6));
+                    .hasOnlyLineRanges(createLineRange(5, 6));
 
             softly.assertThat(iterator.next())
                     .hasId(UUID.fromString("fbf2fee0-292f-4991-bd06-d8c5b13ace93"))
@@ -113,7 +121,7 @@ class XmlParserTest extends AbstractParserTest {
                     .hasReference("reference")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
-                    .hasOnlyLineRanges(new LineRange(42, 43), new LineRange(44, 45));
+                    .hasOnlyLineRanges(createLineRange(42, 43), createLineRange(44, 45));
         }
     }
 
@@ -153,7 +161,7 @@ class XmlParserTest extends AbstractParserTest {
                     .hasReference("")
                     .hasFingerprint("-")
                     .hasAdditionalProperties("")
-                    .hasOnlyLineRanges(new LineRange(1, 2));
+                    .hasOnlyLineRanges(createLineRange(1, 2));
         }
     }
 }

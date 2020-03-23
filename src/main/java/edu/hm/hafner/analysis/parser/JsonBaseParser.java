@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Severity;
 
@@ -99,16 +100,25 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
             JSONObject jsonRange = jsonRanges.getJSONObject(i);
             if (jsonRange.has(LINE_RANGE_START)) {
                 if (jsonRange.has(LINE_RANGE_END)) {
-                    lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START),
-                            jsonRange.getInt(LINE_RANGE_END)));
+                    lineRanges.add(new LineRangeBuilder()
+                            .setStart(jsonRange.getInt(LINE_RANGE_START))
+                            .setEnd(jsonRange.getInt(LINE_RANGE_END))
+                            .build()
+                    );
                 }
                 else {
-                    lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START)));
+                    lineRanges.add(new LineRangeBuilder()
+                            .setStart(jsonRange.getInt(LINE_RANGE_START))
+                            .setEnd(jsonRange.getInt(LINE_RANGE_START))
+                            .build()
+                    );
                 }
             }
             else if (jsonRange.has(LINE_RANGE_END)) {
-                lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_END),
-                        jsonRange.getInt(LINE_RANGE_END)));
+                lineRanges.add(new LineRangeBuilder()
+                        .setStart(jsonRange.getInt(LINE_RANGE_END))
+                        .setEnd(jsonRange.getInt(LINE_RANGE_END))
+                        .build());
             }
         }
         return lineRanges;

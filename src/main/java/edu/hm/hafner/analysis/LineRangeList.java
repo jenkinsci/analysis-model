@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.StreamSupport;
 
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
+
 /**
  * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
  * <p>
@@ -232,7 +234,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         public LineRange next() {
             int s = read();
             int d = read();
-            return new LineRange(s, s + d);
+            return new LineRangeBuilder().setStart(s).setEnd(s + d).build();
         }
 
         @Override

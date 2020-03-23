@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
@@ -52,7 +53,7 @@ class IssueTest extends SerializableTest<Issue> {
     static final String ORIGIN = "origin";
     static final String REFERENCE = "reference";
     static final String ADDITIONAL_PROPERTIES = "additional";
-    static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRange(5, 6)));
+    static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(createLineRange(5, 6)));
     private static final String WINDOWS_PATH = "C:/Windows";
 
     /**
@@ -109,6 +110,14 @@ class IssueTest extends SerializableTest<Issue> {
                 moduleName, priority, message, description, origin, reference, fingerprint, additionalProperties,
                 UUID.randomUUID());
     }
+
+    private static LineRange createLineRange(final int start, final int end) {
+        return new LineRangeBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .build();
+    }
+
 
     @Test
     void shouldSplitFileNameElements() {

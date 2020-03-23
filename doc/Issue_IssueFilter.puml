@@ -1,0 +1,38 @@
+@startuml
+
+interface Serializable <<interface>>
+
+Serializable <|.. Issue : <<implements>>
+IssueFilter ..> Issue : <<create>>
+Testcase --> IssueFilterBuilder
+IssueFilterBuilder --+ Report : <<inner class>>
+IssueFilterBuilder --> IssueFilter
+class Issue {
+     {field} some instance variables
+     {method} some getters
+}
+
+class IssueFilter {
+     - {field} some instance variables
+     - {static} {field} some instance variables
+     + build()
+     + {method} some setters
+ }
+
+ class Report {
+     - {field} some instance variables
+     - {static} {field} some instance variables
+     + {method} some setters
+     + {method} some getters
+ }
+
+class IssueFilterBuilder {
+    build: IssueFilter
+}
+
+class Testcase {
+    builder : IssueFilterBuilder
+}
+
+
+@enduml

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -28,7 +29,7 @@ class JsonParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasFileName("directory/test-file.txt")
-                .hasOnlyLineRanges(new LineRange(110, 111), new LineRange(120, 121))
+                .hasOnlyLineRanges(createLineRange(110, 111), createLineRange(120, 121))
                 .hasCategory("category")
                 .hasDescription("description")
                 .hasType("type")
@@ -54,7 +55,7 @@ class JsonParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(2))
                 .hasFileName("test.txt")
-                .hasOnlyLineRanges(new LineRange(110, 110), new LineRange(320, 320))
+                .hasOnlyLineRanges(createLineRange(110, 110), createLineRange(320, 320))
                 .hasDescription("an \"important\" description")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("an \"important\" message");
@@ -66,8 +67,15 @@ class JsonParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(4))
                 .hasFileName("file.xml")
-                .hasOnlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
+                .hasOnlyLineRanges(createLineRange(11, 12), createLineRange(21, 22))
                 .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    private LineRange createLineRange(final int start, final int end) {
+        return new LineRangeBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .build();
     }
 
     @Test

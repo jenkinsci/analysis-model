@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
@@ -172,7 +173,11 @@ public class FindBugsParser extends IssueParser {
                         .setPackageName(warning.getPrimaryClass().getPackageName())
                         .setFingerprint(warning.getInstanceHash());
                 setAffectedLines(warning, builder,
-                        new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
+                        new LineRangeBuilder()
+                                .setStart(sourceLine.getStartLine())
+                                .setEnd(sourceLine.getEndLine())
+                                .build()
+                );
 
                 report.add(builder.build());
             }
@@ -248,7 +253,10 @@ public class FindBugsParser extends IssueParser {
             BugAnnotation bugAnnotation = annotationIterator.next();
             if (bugAnnotation instanceof SourceLineAnnotation) {
                 SourceLineAnnotation annotation = (SourceLineAnnotation) bugAnnotation;
-                LineRange lineRange = new LineRange(annotation.getStartLine(), annotation.getEndLine());
+                LineRange lineRange = new LineRangeBuilder()
+                        .setStart(annotation.getStartLine())
+                        .setEnd(annotation.getEndLine())
+                        .build();
                 if (!lineRanges.contains(lineRange) && !primary.equals(lineRange)) {
                     lineRanges.add(lineRange);
                 }

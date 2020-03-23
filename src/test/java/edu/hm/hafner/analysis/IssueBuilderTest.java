@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -228,18 +229,25 @@ class IssueBuilderTest {
 
         builder.setLineStart(1).setLineEnd(2);
         LineRangeList lineRanges = new LineRangeList();
-        lineRanges.add(new LineRange(3, 4));
-        lineRanges.add(new LineRange(5, 6));
+        lineRanges.add(createLineRange(3, 4));
+        lineRanges.add(createLineRange(5, 6));
         builder.setLineRanges(lineRanges);
 
         Issue issue = builder.build();
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
-        assertThat(issue).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
+        assertThat(issue).hasOnlyLineRanges(createLineRange(3, 4), createLineRange(5, 6));
 
         IssueBuilder copy = new IssueBuilder();
         copy.copy(issue);
 
-        assertThat(copy.build()).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
+        assertThat(copy.build()).hasOnlyLineRanges(createLineRange(3, 4), createLineRange(5, 6));
+    }
+
+    private LineRange createLineRange(final int start, final int end) {
+        return new LineRangeBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .build();
     }
 
     @Test

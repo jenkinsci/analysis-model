@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Report;
 
@@ -37,7 +38,11 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
             LineRangeList lineRanges = new LineRangeList();
             for (int i = 1; i < group.size(); i++) {
                 Violation violation = group.get(i);
-                lineRanges.add(new LineRange(violation.getStartLine()));
+                lineRanges.add(new LineRangeBuilder()
+                        .setStart(violation.getStartLine())
+                        .setEnd(violation.getStartLine())
+                        .build()
+                );
             }
             issueBuilder.setLineRanges(lineRanges);
             report.add(issueBuilder.build());

@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LineRange;
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
@@ -136,7 +137,7 @@ public class XmlParser extends IssuePropertiesParser {
                     try {
                         int start = Integer.parseInt(startValue);
                         int end = Integer.parseInt(endValue);
-                        ranges.add(new LineRange(start, end));
+                        ranges.add(createLineRange(start, end));
                     }
                     catch (NumberFormatException e) {
                         // Invalid value in xml.
@@ -146,6 +147,13 @@ public class XmlParser extends IssuePropertiesParser {
             }
         }
         return ranges;
+    }
+
+    private LineRange createLineRange(final int start, final int end) {
+        return new LineRangeBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .build();
     }
 
     /**
