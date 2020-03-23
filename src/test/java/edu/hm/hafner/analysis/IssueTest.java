@@ -371,7 +371,6 @@ class IssueTest extends SerializableTest<Issue> {
      * implementation of {@link Issue}.
      */
     @Test
-    @Disabled("FIXME: fix and enable after all serialization changes are done")
     void shouldReadIssueFromOldSerialization() {
         byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
