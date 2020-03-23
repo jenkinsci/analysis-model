@@ -1,0 +1,7 @@
+@startuml
+title IssueBuilder
+
+IssueBuilderTest --> IssueBuilder : benutzt >
+Issue "0..*" <-- "1" IssueBuilder : baut <
+
+@enduml
