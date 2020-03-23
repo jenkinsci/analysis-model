@@ -1,0 +1,35 @@
+@startuml
+
+actor PmdParser.ConvertErrors
+
+PmdParser.ConvertErrors --> IssueBuilder: new IssueBuilder()
+PmdParser.ConvertErrors <-- IssueBuilder: new IssueBuilder(): 0xf1035ac9d (reference pointing to a IssueBuilder)
+
+PmdParser.ConvertErrors --> IssueBuilder: setSeverity(Severity.ERROR)
+PmdParser.ConvertErrors <-- IssueBuilder: setSeverity(Severity.ERROR): 0xf135ac9d
+
+PmdParser.ConvertErrors --> PmdError: getMsg()
+PmdParser.ConvertErrors <-- PmdError: getMsg(): 0x49d058af (a reference pointing to a String)
+
+PmdParser.ConvertErrors --> IssueBuilder: setMessage(0x49d058af)
+PmdParser.ConvertErrors <-- IssueBuilder: setMessage(0x49d058af): 0xf1035ac9d
+
+PmdParser.ConvertErrors --> PmdError: getDescription()
+PmdParser.ConvertErrors <-- PmdError: getDescription(): 0x49d058b0 (a reference pointing to an other String)
+
+PmdParser.ConvertErrors --> IssueBuilder: setDescription(0x49d058b0)
+PmdParser.ConvertErrors <-- IssueBuilder: setDescription(0x49d058b0): 0xf1035ac9d
+
+PmdParser.ConvertErrors --> PmdError: getFilename()
+PmdParser.ConvertErrors <-- PmdError: getFilename(): 0x49d058b1 (a reference pointing to an other String (filename))
+
+PmdParser.ConvertErrors --> IssueBuilder: setFileName(0x49d058b1)
+PmdParser.ConvertErrors <-- IssueBuilder: setFileName(0x49d058b1): 0xf1035ac9d
+
+
+PmdParser.ConvertErrors --> IssueBuilder: build()
+IssueBuilder --> Issue: new Issue(...)
+IssueBuilder <-- Issue: new Issue(...): 0x5fa5b8c6 (reference pointing to a Issue)
+PmdParser.ConvertErrors <-- IssueBuilder: build(): 0x5fa5b8c6
+
+@enduml

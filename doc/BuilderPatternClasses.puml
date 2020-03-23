@@ -1,0 +1,11 @@
+@startuml
+
+IssueFilterBuilder x--> Issue
+
+IssueFilterBuilder --+ Report
+
+IssueBuilder x--> Issue : <<create>>
+
+Report "1" o--> "many" Issue
+
+@enduml

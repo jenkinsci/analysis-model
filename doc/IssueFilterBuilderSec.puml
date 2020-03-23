@@ -1,0 +1,14 @@
+@startuml
+
+actor IssueFilterTest.shouldMatchMultiLinesInMessage
+
+IssueFilterTest.shouldMatchMultiLinesInMessage --> IssueFilterBuilder: new IssueFileterBuilder()
+IssueFilterTest.shouldMatchMultiLinesInMessage <-- IssueFilterBuilder: new IssueBuilder(): 0x9a35b4fd (reference pointing to a IssueFilterBuilder)
+
+IssueFilterTest.shouldMatchMultiLinesInMessage --> IssueFilterBuilder: setExcludeMessageFilter(".*something.*")
+IssueFilterTest.shouldMatchMultiLinesInMessage <-- IssueFilterBuilder: setExcludeMessageFilter(".*something.*"): 0x9a35b4fd
+
+IssueFilterTest.shouldMatchMultiLinesInMessage --> IssueFilterBuilder: build()
+IssueFilterTest.shouldMatchMultiLinesInMessage <-- IssueFilterBuilder: build(): 0x9a35b4fe (reference pointing to a Predicate<Issue>)
+
+@enduml
