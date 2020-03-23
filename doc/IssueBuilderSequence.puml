@@ -1,0 +1,29 @@
+@startuml
+
+title IssueBuilder Sequenzdiagramm
+
+participant IssueBuilderTest
+
+
+
+create IssueBuilder
+activate IssueBuilderTest
+IssueBuilderTest -> IssueBuilder :  new
+
+IssueBuilderTest -> IssueBuilder :  setMessage("    message  ")
+activate IssueBuilder
+deactivate IssueBuilder
+
+IssueBuilderTest -> IssueBuilder :  setDescription("    description  ")
+activate IssueBuilder
+deactivate IssueBuilder
+
+create Issue
+IssueBuilder -> Issue : new(... , "    message  ", "    description  ", ...)
+Issue --> IssueBuilder : Issue
+IssueBuilder --> IssueBuilderTest : Issue
+destroy IssueBuilder
+
+@enduml
+
+builder.setMessage("    message  ").setDescription("    description  ").build();

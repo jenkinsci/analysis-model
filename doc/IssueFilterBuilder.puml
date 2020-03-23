@@ -1,0 +1,9 @@
+@startuml
+
+title IssueFilterBuilder
+
+Report o-- Issue
+IssueFilterTest o-> Report : baut
+IssueFilterBuilder ..> Report : filtert
+
+@enduml

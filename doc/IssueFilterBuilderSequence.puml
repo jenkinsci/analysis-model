@@ -1,0 +1,13 @@
+@startuml
+
+title IssueFilterBuilder Sequenzdiagramm
+
+activate IssueFilterTest
+IssueFilterTest -> IssueFilterBuilder: new
+activate IssueFilterBuilder
+IssueFilterTest -> IssueFilterBuilder: setExcludeMessageFilter(".*something.*")
+IssueFilterTest -> IssueFilterBuilder: build()
+IssueFilterBuilder --> IssueFilterTest : Predicate<Issue>
+destroy IssueFilterBuilder
+
+@enduml
