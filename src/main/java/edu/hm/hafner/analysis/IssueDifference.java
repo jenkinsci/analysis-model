@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
+
 /**
  * Computes old, new, and fixed issues based on the reports of two consecutive static analysis runs for the same
  * software artifact.
@@ -15,6 +17,66 @@ public class IssueDifference {
     private final Report newIssues;
     private final Report fixedIssues;
     private final Report outstandingIssues;
+
+    /**
+     * Creates new {@link IssueDifference issueDifference} using the builder pattern. All properties that have not been set in the builder will
+     * be set to their default value.
+     *
+     * @author Simon Symhoven
+     */
+    public static class IssueDifferenceBuilder {
+        private Report currentIssues;
+        private String referenceId;
+        private Report referenceIssues;
+
+        /**
+         * Sets the current issue report
+         *
+         * @param currentIssues
+         *         the report with current issues
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setCurrentIssues(final Report currentIssues) {
+            this.currentIssues = currentIssues;
+            return this;
+        }
+
+        /**
+         * Sets the the referenceID of issue report
+         *
+         * @param referenceId
+         *         the referenceID of report
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setReferenceId(final String referenceId) {
+            this.referenceId = referenceId;
+            return this;
+        }
+
+        /**
+         * Sets the references issue report
+         *
+         * @param referenceIssues
+         *         the report with referenced issues
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setReferenceIssues(final Report referenceIssues) {
+            this.referenceIssues = referenceIssues;
+            return this;
+        }
+
+        /**
+         * Creates a new {@link IssueDifference} based on the specified properties.
+         *
+         * @return the created IssueDifference
+         */
+        public IssueDifference build() {
+            return new IssueDifference(currentIssues, referenceId, referenceIssues);
+        }
+    }
 
     /**
      * Creates a new instance of {@link IssueDifference}.
@@ -38,6 +100,8 @@ public class IssueDifference {
 
         newIssues.forEach(issue -> issue.setReference(referenceId));
     }
+
+
 
     private List<UUID> matchIssuesByEquals(final Report currentIssues) {
         List<UUID> removedIds = new ArrayList<>();
