@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.Currency;
+
 import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -32,7 +34,7 @@ class IssueDifferenceTest {
                 createIssue("OUTSTANDING 3", "OUT 3"),
                 createIssue("NEW 1", "NEW 1"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createIssueDifference(currentIssues, referenceIssues);
 
         Report outstanding = issueDifference.getOutstandingIssues();
         assertThat(outstanding).hasSize(3);
@@ -65,7 +67,7 @@ class IssueDifferenceTest {
         Report referenceIssues = new Report().add(createIssue("OLD", "OLD"));
         Report currentIssues = new Report().add(createIssue(currentMessage, currentFingerprint));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createIssueDifference(currentIssues, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getNewIssues()).isEmpty();
@@ -87,7 +89,7 @@ class IssueDifferenceTest {
                 createIssue("OLD 2", "FB"));
         Report currentIssues = new Report();
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createIssueDifference(currentIssues, referenceIssues);
 
         assertThat(issueDifference.getNewIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
@@ -108,7 +110,7 @@ class IssueDifferenceTest {
         Report currentIssues = new Report().addAll(createIssue("NEW 1", "FA"),
                 createIssue("NEW 2", "FB"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createIssueDifference(currentIssues, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
@@ -133,7 +135,7 @@ class IssueDifferenceTest {
                 createIssue("NEW 1", "FP"),
                 createIssue("OLD 1", "FP"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createIssueDifference(currentIssues, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
 
@@ -155,11 +157,35 @@ class IssueDifferenceTest {
                 createIssue("NEW 1", "FP1"),
                 createIssue("NEW 3", "FP2"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createIssueDifference(currentIssues, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).hasSize(1);
         assertThat(issueDifference.getNewIssues()).hasSize(1);
         assertThat(issueDifference.getOutstandingIssues()).hasSize(1);
+    }
+
+    @Test
+    void shouldBombEmptyIssueDifferenceBuilder() {
+        IssueDifferenceBuilder sut = new IssueDifferenceBuilder();
+
+        assertThatThrownBy(()-> {
+            IssueDifference a = sut.build();
+        }).isInstanceOf(IllegalStateException.class);
+
+        sut.setReferenceId(CURRENT_BUILD);
+        assertThatThrownBy(()-> {
+            IssueDifference a = sut.build();
+        }).isInstanceOf(IllegalStateException.class);
+
+        sut.setCurrentIssue(new Report());
+        assertThatThrownBy(()-> {
+            IssueDifference a = sut.build();
+        }).isInstanceOf(IllegalStateException.class);
+
+        sut.setReferenceIssues(new Report());
+        assertThatCode(()-> {
+            IssueDifference a = sut.build();
+        }).doesNotThrowAnyException();
     }
 
     private Issue createIssue(final String message, final String fingerprint) {
@@ -181,5 +207,13 @@ class IssueDifferenceTest {
                 .setFingerprint(fingerprint)
                 .setReference(REFERENCE_BUILD);
         return builder.build();
+    }
+
+    private IssueDifference createIssueDifference(final Report currentIssues, final Report referencedIssues) {
+        return new IssueDifferenceBuilder()
+                .setReferenceIssues(referencedIssues)
+                .setCurrentIssue(currentIssues)
+                .setReferenceId(CURRENT_BUILD)
+                .build();
     }
 }
