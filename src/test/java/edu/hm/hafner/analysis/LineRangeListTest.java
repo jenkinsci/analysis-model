@@ -96,6 +96,25 @@ class LineRangeListTest {
         assertThat(first.contains(new LineRange(0, 1))).isFalse();
     }
 
+    @Test
+    void shouldBombUnfinishedLineRangeBuilder() {
+        LineRangeBuilder sut = new LineRangeBuilder();
+
+        assertThatThrownBy(()-> {
+            LineRange a = sut.build();
+        }).isInstanceOf(IllegalStateException.class);
+
+        sut.setStart(0);
+        assertThatThrownBy(()-> {
+            LineRange a = sut.build();
+        }).isInstanceOf(IllegalStateException.class);
+
+        sut.setEnd(1);
+        assertThatCode(()-> {
+            LineRange a = sut.build();
+        }).doesNotThrowAnyException();
+    }
+
     private LineRangeList createThreeElements() {
         LineRangeList range = new LineRangeList();
         range.add(new LineRange(0, 1));
@@ -103,5 +122,12 @@ class LineRangeListTest {
         range.add(new LineRange(4, 5));
         assertThat(range).containsExactly(new LineRange(0, 1), new LineRange(2, 3), new LineRange(4, 5));
         return range;
+    }
+
+    private LineRange createLineRange(final int start, final int end) {
+        return new LineRangeBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .build();
     }
 }

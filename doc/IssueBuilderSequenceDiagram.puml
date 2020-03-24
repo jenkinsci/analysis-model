@@ -1,0 +1,17 @@
+@startuml
+
+title IssueBuilder and Issue sequence chart
+activate User
+activate IssueBuilder
+User -> IssueBuilder: new IssueBuilder()
+User -> IssueBuilder: setId()
+User -> IssueBuilder: setPathName()
+User -> IssueBuilder: set...()
+User -> IssueBuilder: build()
+
+activate Issue
+IssueBuilder -> Issue: new Issue(Id, Pathname, ...)
+Issue -> IssueBuilder
+
+IssueBuilder -> User
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+
+title IssueFilterBuilder and IssueBuilder class diagram
+
+class IssueBuilder {
+ + Issue build()
+}
+class Issue
+class Report
+class IssueFilterBuilder
+
+Issue "0..*" <-- "1" IssueBuilder : builds <
+Report "0..*" o-- "1" Issue : contains >
+Report <-- IssueFilterBuilder : builds filter for <
+
+
+@enduml
