@@ -1,0 +1,15 @@
+@startuml
+
+SerializableTest -> LineRangeTest: createSerializable()
+LineRangeTest -> SerializableTest: LineRange
+
+SerializableTest -> LineRangeTest: createSerializable()
+LineRangeTest -> SerializableTest: LineRange
+
+SerializableTest -> LineRangeTest: createSerializable()
+LineRangeTest -> SerializableTest: LineRange
+
+SerializableTest -> LineRangeTest: createSerializable()
+LineRangeTest -> SerializableTest: LineRange
+
+@enduml
