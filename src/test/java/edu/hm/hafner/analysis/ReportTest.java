@@ -747,13 +747,11 @@ class ReportTest extends SerializableTest<Report> {
      * Verifies that saved serialized format (from a previous release) still can be resolved with the current
      * implementation of {@link Issue}.
      */
-    @Test @Disabled("FIXME: fix and enable after all serialization changes are done")
+    @Test
     void shouldReadIssueFromOldSerialization() {
         byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
-
-        // FIXME: we need at least a test for the XML part
     }
 
     /** Verifies that equals checks all properties. */
