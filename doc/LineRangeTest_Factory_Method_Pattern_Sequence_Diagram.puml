@@ -1,0 +1,39 @@
+@startuml
+
+actor JUnitTestRunner
+participant SerializableTest
+participant LineRangeTest
+participant "lr1: LineRange" as lr1
+participant "lr2: LineRange" as lr2
+
+activate JUnitTestRunner
+activate SerializableTest
+activate LineRangeTest
+JUnitTestRunner -> SerializableTest : shouldBeSerializable()
+SerializableTest -> LineRangeTest : createSerializable()
+LineRangeTest -> lr1 : new LineRange(...)
+activate lr1
+lr1 --> LineRangeTest
+LineRangeTest --> SerializableTest
+SerializableTest -> SerializableTest : ba = toByteArray(lr1)
+SerializableTest -> SerializableTest : assertThatSerializableCanBeRestoredFrom(ba)
+JUnitTestRunner <-- SerializableTest
+deactivate lr1
+|||
+|||
+JUnitTestRunner-> LineRangeTest : shouldCreateLineRangeWithDefaultRange()
+LineRangeTest -> lr2 : new LineRange(...)
+activate lr2
+lr2 --> LineRangeTest
+LineRangeTest -> lr2 : getStart()
+lr2 --> LineRangeTest : int start
+LineRangeTest -> LineRangeTest : assert start == 5
+LineRangeTest -> lr2 : getEnd()
+lr2 --> LineRangeTest : int end
+LineRangeTest -> LineRangeTest : assert end == 10
+JUnitTestRunner<-- LineRangeTest
+deactivate LineRangeTest
+deactivate lr2
+deactivate SerializableTest
+
+@enduml
