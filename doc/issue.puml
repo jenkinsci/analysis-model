@@ -1,0 +1,62 @@
+@startuml
+hide attributes
+hide methods
+show IssueBuilder methods
+
+class IssueBuilder{
+    +setId()
+    +setAdditionalProperties()
+    +setFingerprint()
+    +setFileName()
+}
+
+class JavacParser{
+}
+
+JavacParser o----> IssueBuilder
+IssueBuilder .> Issue
+@enduml
+
+
+@startuml
+create JavacParser order 1
+create IssueBuilder order 2
+
+JavacParser -> IssueBuilder: new
+JavacParser -> IssueBuilder: setSeverity
+JavacParser -> IssueBuilder: setFileName
+JavacParser -> IssueBuilder: setLineStart
+JavacParser -> IssueBuilder: setColumnStart
+JavacParser -> IssueBuilder: setCategory
+JavacParser -> IssueBuilder: setMessage
+JavacParser -> IssueBuilder: buildOptional
+JavacParser -> IssueBuilder: createIssue
+
+create Issue order 3
+IssueBuilder -> Issue: new (build?)
+@enduml
+
+@startuml
+create IssueFilterTest order 1
+
+create IssueFilterBuilder order 2
+IssueFilterTest -> IssueFilterBuilder : new
+
+create Report order 3
+IssueFilterTest -> Report : new
+
+IssueFilterTest -> IssueFilterBuilder : setExcludeFileNameFilter
+IssueFilterTest -> IssueFilterBuilder : build
+IssueFilterBuilder -> IssueFilterTest : predicate
+IssueFilterTest -> Report : filter
+@enduml
+
+@startuml
+hide attributes
+hide methods
+show IssueFilterBuilder methods
+
+
+IssueFilterTest o----> IssueFilterBuilder
+IssueFilterTest o- Report
+@enduml
