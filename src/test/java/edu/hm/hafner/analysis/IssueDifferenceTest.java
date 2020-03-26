@@ -183,8 +183,6 @@ class IssueDifferenceTest {
         return builder.build();
     }
 
-
-
     @Test
     void shouldCreateIssueDifferenceWithBuilder() {
         Report referenceIssues = new Report().addAll(
@@ -200,11 +198,11 @@ class IssueDifferenceTest {
                 createIssue("OUTSTANDING 3", "OUT 3"),
                 createIssue("NEW 1", "NEW 1"));
 
-
         IssueDifferenceBuilder issueDifferenceBuilder = new IssueDifferenceBuilder();
-        issueDifferenceBuilder.setCurrentIssues(currentIssues).setReferenceIssues(referenceIssues).setReferenceID(CURRENT_BUILD);
+        issueDifferenceBuilder.setCurrentIssues(currentIssues)
+                .setReferenceIssues(referenceIssues)
+                .setReferenceID(CURRENT_BUILD);
         IssueDifference issueDifference = issueDifferenceBuilder.build();
-
 
         Report outstanding = issueDifference.getOutstandingIssues();
         assertThat(outstanding).hasSize(3);
@@ -221,10 +219,9 @@ class IssueDifferenceTest {
         assertThat(issueDifference.getNewIssues().get(0)).hasMessage("NEW 1").hasReference("2");
     }
 
-
     @Test
     void builderTest_1() {
-            Report referenceIssues = new Report().addAll(
+        Report referenceIssues = new Report().addAll(
                 createIssue("NEW 1", "FP1"),
                 createIssue("NEW 2", "FP1"));
         Report currentIssues = new Report().addAll(
@@ -233,12 +230,12 @@ class IssueDifferenceTest {
 
         IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
         IssueDifferenceBuilder issueDifferenceBuilder = new IssueDifferenceBuilder();
-        issueDifferenceBuilder.setReferenceID(CURRENT_BUILD).setReferenceIssues(referenceIssues).setCurrentIssues(currentIssues);
+        issueDifferenceBuilder.setReferenceID(CURRENT_BUILD)
+                .setReferenceIssues(referenceIssues)
+                .setCurrentIssues(currentIssues);
 
         assertThat(issueDifferenceBuilder.build().equals(issueDifference));
     }
-
-
 
     @Test
     void builderTest_2() {
@@ -249,16 +246,47 @@ class IssueDifferenceTest {
                 createIssue("NEW 1", "FP1"),
                 createIssue("NEW 3", "FP2"));
 
-
-
         IssueDifferenceBuilder issueDifferenceBuilder = new IssueDifferenceBuilder();
-        issueDifferenceBuilder.setReferenceID(CURRENT_BUILD).setReferenceIssues(referenceIssues).setCurrentIssues(currentIssues);
+        issueDifferenceBuilder.setReferenceID(CURRENT_BUILD)
+                .setReferenceIssues(referenceIssues)
+                .setCurrentIssues(currentIssues);
 
         IssueDifference issueDifference = issueDifferenceBuilder.build();
-        IssueDifference issueDifferenceNoBuilder = new IssueDifference(currentIssues,CURRENT_BUILD,referenceIssues);
+        IssueDifference issueDifferenceNoBuilder = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getNewIssues().equals(issueDifferenceNoBuilder.getNewIssues()));
         assertThat(issueDifference.getFixedIssues().equals(issueDifferenceNoBuilder.getFixedIssues()));
         assertThat(issueDifference.getOutstandingIssues().equals(issueDifferenceNoBuilder.getOutstandingIssues()));
     }
+
+    @Test
+    void builderTest_3() {
+        Report referenceIssues = new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1"));
+        Report currentIssues = new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 3", "FP2"));
+
+        IssueDifferenceBuilder issueDifferenceBuilder = new IssueDifferenceBuilder();
+        issueDifferenceBuilder.setReferenceID(CURRENT_BUILD)
+                .setReferenceIssues(referenceIssues)
+                .setCurrentIssues(currentIssues);
+
+        IssueDifference issueDifference = issueDifferenceBuilder.build();
+        IssueDifference issueDifferenceNoBuilder = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+
+        assertThat(issueDifference.getNewIssues().equals(issueDifferenceNoBuilder.getNewIssues()));
+        assertThat(issueDifference.getFixedIssues().equals(issueDifferenceNoBuilder.getFixedIssues()));
+        assertThat(issueDifference.getOutstandingIssues().equals(issueDifferenceNoBuilder.getOutstandingIssues()));
+
+
+        IssueDifference issueDifference2 = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+
+        assertThat(issueDifference2.getFixedIssues()).hasSize(1);
+        assertThat(issueDifference2.getNewIssues()).hasSize(1);
+        assertThat(issueDifference2.getOutstandingIssues()).hasSize(1);
+    }
+
+
 }

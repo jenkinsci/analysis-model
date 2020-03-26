@@ -45,13 +45,16 @@ public class IssueDifferenceBuilder {
         return this;
     }
 
+
     /**
      * Creates a new {@link IssueDifference} based on the specified properties.
      *
      * @return the created IssueDifference
      */
     public IssueDifference build() {
+
         return new IssueDifference(currentIssues, referenceID, referenceIssues);
+
     }
 
 }
