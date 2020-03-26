@@ -2,6 +2,8 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.IssueDifference.IssueDifferenceBuilder;
+
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
 
@@ -13,6 +15,43 @@ import static java.util.Collections.*;
 class IssueDifferenceTest {
     private static final String REFERENCE_BUILD = "100";
     private static final String CURRENT_BUILD = "2";
+
+    void shouldCreateIssueDifferenceSelfWritten() {
+        Report referenceIssues = new Report().addAll(
+                createIssue("OUTSTANDING 1", "OUT 1"),
+                createIssue("OUTSTANDING 2", "OUT 2"),
+                createIssue("OUTSTANDING 3", "OUT 3"),
+                createIssue("TO FIX 1", "FIX 1"),
+                createIssue("TO FIX 2", "FIX 2"));
+
+        Report currentIssues = new Report().addAll(
+                createIssue("UPD OUTSTANDING 1", "OUT 1"),
+                createIssue("OUTSTANDING 2", "UPD OUT 2"),
+                createIssue("OUTSTANDING 3", "OUT 3"),
+                createIssue("NEW 1", "NEW 1"));
+
+        //IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = new IssueDifferenceBuilder().setReferenceIssues(referenceIssues)
+                .setReferenceId(CURRENT_BUILD)
+                .setCurrentIssues(currentIssues)
+                .build();
+
+        Report outstanding = issueDifference.getOutstandingIssues();
+        assertThat(outstanding).hasSize(3);
+        assertThat(outstanding.get(0)).hasMessage("OUTSTANDING 2").hasReference(REFERENCE_BUILD);
+        assertThat(outstanding.get(1)).hasMessage("OUTSTANDING 3").hasReference(REFERENCE_BUILD);
+        assertThat(outstanding.get(2)).hasMessage("UPD OUTSTANDING 1").hasReference(REFERENCE_BUILD);
+
+        Report fixed = issueDifference.getFixedIssues();
+        assertThat(fixed).hasSize(2);
+        assertThat(fixed.get(0)).hasMessage("TO FIX 1").hasReference(REFERENCE_BUILD);
+        assertThat(fixed.get(1)).hasMessage("TO FIX 2").hasReference(REFERENCE_BUILD);
+
+        assertThat(issueDifference.getNewIssues()).hasSize(1);
+        assertThat(issueDifference.getNewIssues().get(0)).hasMessage("NEW 1").hasReference("2");
+    }
+
+    // ---------------------------------------------------------------------
 
     /**
      * Verifies that issue difference report is created correctly.

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 /**
  * Computes old, new, and fixed issues based on the reports of two consecutive static analysis runs for the same
  * software artifact.
@@ -120,6 +122,76 @@ public class IssueDifference {
      */
     public Report getFixedIssues() {
         return fixedIssues;
+    }
+
+    /**
+     * Creates new {@link IssueDifference issues} using the builder pattern.
+     *
+     * <p>Example:</p>
+     * <blockquote><pre>
+     * Issue IssueDifference = new IssueDifferenceBuilder()
+     *                      .setCurrentIssues("Report current")
+     *                      .setReferenceId(2)
+     *                      .setReferenceIssues("Report other")
+     *                      .build()
+     * </pre></blockquote>
+     *
+     * @author S. A. D.
+     */
+    public static class IssueDifferenceBuilder {
+
+        private Report currentIssues;
+        private String referenceId;
+        private Report referenceIssues;
+
+        /**
+         * Sets the currentIssue.
+         *
+         * @param currentIssues
+         *         the issues of the current report
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setCurrentIssues(final Report currentIssues) {
+            this.currentIssues = currentIssues;
+            return this;
+        }
+
+        /**
+         * Sets the referenceId.
+         *
+         * @param referenceId
+         *         ID identifying the reference report
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setReferenceId(final String referenceId) {
+            this.referenceId = referenceId;
+            return this;
+        }
+
+        /**
+         * Sets the ReferenceIssues.
+         *
+         * @param referenceIssues
+         *         the issues of a previous report (reference)
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setReferenceIssues(final Report referenceIssues) {
+            this.referenceIssues = referenceIssues;
+            return this;
+        }
+
+        /**
+         * Builds a IssueDifference.
+         *
+         * @return IssueDifference
+         */
+        public IssueDifference build() {
+            return new IssueDifference(currentIssues, referenceId, referenceIssues);
+        }
+
     }
 }
 

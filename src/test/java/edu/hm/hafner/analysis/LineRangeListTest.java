@@ -1,6 +1,9 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.junit.jupiter.api.Test;
+
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,6 +15,40 @@ import static org.assertj.core.api.Assertions.*;
 @SuppressWarnings({"PMD", "all"})
 //CHECKSTYLE:OFF
 class LineRangeListTest {
+
+    @Test
+    void simpleSelfwrittenTest() {
+        LineRangeList list = new LineRangeList();
+        LineRange range = new LineRangeBuilder().setLine(1350).build();
+        list.add(range);
+        assertThat(list).containsExactly(range);
+    }
+
+    @Test
+    void ShouldStoreBigValuesSelfWritten() {
+        LineRangeList list = new LineRangeList();
+        LineRange range = new LineRangeBuilder().setStart(1350).setEnd(Integer.MAX_VALUE).build();
+        list.add(range);
+        assertThat(list).containsExactly(range);
+    }
+
+    @Test
+    void shouldStoreRangeWithOneLinesSelfWritten() {
+        LineRangeList list = new LineRangeList();
+        LineRange range = new LineRangeBuilder().setStart(0).setEnd(0).build();
+        list.add(range);
+        assertThat(list).containsExactly(range);
+    }
+
+    void shouldStoreRangeWithTwoLinesSelfWritten() {
+        LineRangeList list = new LineRangeList();
+        LineRange range = new LineRangeBuilder().setStart(128).setEnd(129).build();
+        list.add(range);
+        assertThat(list).containsExactly(range);
+    }
+
+    //-------------------------------------------------------------------------------------------
+
     @Test
     void shouldStoreBigValues() {
         LineRangeList list = new LineRangeList();
