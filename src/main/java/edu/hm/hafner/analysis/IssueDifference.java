@@ -16,6 +16,7 @@ public class IssueDifference {
     private final Report fixedIssues;
     private final Report outstandingIssues;
 
+
     /**
      * Creates a new instance of {@link IssueDifference}.
      *
