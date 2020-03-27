@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 /**
  * Unit tests for {@link ArrayList}.
  */
-public class ArrayListTest extends ListTest {
+class ArrayListTest extends ListTest {
     @Override
     protected List<Integer> create(final int numberOfInitialElements) {
         return Stream.iterate(0, n -> n + 1)
