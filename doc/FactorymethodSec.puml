@@ -1,0 +1,13 @@
+@startuml
+
+actor SerializableTest_LineRange_actor
+SerializableTest_LineRange_actor --> LineRangeTest : createSerializable()
+
+LineRangeTest --> LineRangeBuilder: new LineRangeBuilder()
+LineRangeTest <-- LineRangeBuilder: new LineRangeBuilder(): LineRangeBuilder
+LineRangeTest --> LineRangeBuilder: build()
+LineRangeTest <-- LineRangeBuilder: build(): LineRange
+
+SerializableTest_LineRange_actor <-- LineRangeTest : createSerializable(): LineRange
+
+@enduml

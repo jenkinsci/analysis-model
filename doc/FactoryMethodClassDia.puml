@@ -1,0 +1,11 @@
+@startuml
+
+Serializable <|... LineRange
+LineRangeTest x-> LineRange
+SerializableTest_LineRange_ <|--- LineRangeTest
+
+LineRangeTest : # createSerializable(): LineRange
+SerializableTest_LineRange_  : # createSerializable(): LineRange {abstract}
+SerializableTest_LineRange_ : ~ shouldBeSerializable(): void
+
+@enduml
