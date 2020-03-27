@@ -6,9 +6,23 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public abstract class ListTest {
+abstract class ListTest {
 
     abstract List<Integer> create(int numberOfInitialElements);
+
+    @Test
+    public void testCreateNumberOfInitialElementsSmallerZeroBooms(){
+        // arrange
+        IllegalArgumentException exception = null;
+        // act
+        try {
+            create(-1);
+        }catch (IllegalArgumentException ex){
+            exception = ex;
+        }
+        // assert
+        assertNotNull(exception);
+    }
 
     @Test
     public void testIsEmptyOfEmptyList(){

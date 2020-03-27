@@ -3,7 +3,8 @@ package edu.hm.ahager.listtest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayListTest extends ListTest {
+class ArrayListTest extends ListTest {
+
     @Override
     List<Integer> create(final int numberOfInitialElements) {
         if(numberOfInitialElements < 0) {
