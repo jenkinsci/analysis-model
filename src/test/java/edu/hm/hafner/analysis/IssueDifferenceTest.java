@@ -287,6 +287,29 @@ class IssueDifferenceTest {
         assertThat(issueDifference2.getNewIssues()).hasSize(1);
         assertThat(issueDifference2.getOutstandingIssues()).hasSize(1);
     }
+    @Test
+    void builderTestNoNull() {
+
+
+        IssueDifferenceBuilder issueDifferenceBuilder = new IssueDifferenceBuilder();
+        Report referenceIssues = new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1"));
+        Report currentIssues = new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 3", "FP2"));
+
+        assertThatThrownBy(()-> {
+        IssueDifference issueDifference = issueDifferenceBuilder.build();}).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(()-> {
+            issueDifferenceBuilder.setReferenceID(CURRENT_BUILD);
+            IssueDifference issueDifference = issueDifferenceBuilder.build();}).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(()-> {
+            issueDifferenceBuilder.setReferenceID(CURRENT_BUILD).setCurrentIssues(currentIssues);
+            IssueDifference issueDifference = issueDifferenceBuilder.build();}).isInstanceOf(NullPointerException.class);
+
+
+    }
 
 
 }

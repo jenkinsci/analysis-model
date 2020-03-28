@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -52,6 +53,9 @@ public class IssueDifferenceBuilder {
      * @return the created IssueDifference
      */
     public IssueDifference build() {
+        Objects.requireNonNull(currentIssues);
+        Objects.requireNonNull(referenceID);
+        Objects.requireNonNull(referenceIssues);
 
         return new IssueDifference(currentIssues, referenceID, referenceIssues);
 
