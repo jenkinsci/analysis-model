@@ -1,0 +1,29 @@
+@startuml
+
+title Serializable and LineRange class diagram
+
+interface Serializable {
+}
+abstract class SerializableTest<<T extends Serializable>> {
+     # shouldBeSerializable(): void
+}
+class LineRangeTest{
+  # createSerializable()
+}
+class LineRange {
+ + getEnd():int
+ + getStart():int
+ + equals():bool
+ + hashCode():int
+ + toString():string
+}
+
+LineRange --|> Serializable
+SerializableTest <|-- LineRangeTest
+LineRange ..> LineRangeTest
+
+
+
+
+
+@enduml
