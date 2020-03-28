@@ -1,0 +1,13 @@
+@startuml
+
+title LineRangeTest Klassendiagramm
+
+abstract class SerializableTest
+class LineRangeTest
+interface Serializable
+
+SerializableTest <|-- LineRangeTest : <<extends>>
+LineRange <.. LineRangeTest : << tests >>
+Serializable <|.. LineRange : <<implements>>
+
+@enduml
