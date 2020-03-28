@@ -13,6 +13,6 @@
  activate Issue
  IssueBuilder -> Issue: new Issue(Id, Fingerprint, FileName, ...)
  Issue -> IssueBuilder
-
  IssueBuilder -> User
+
  @enduml
