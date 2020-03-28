@@ -5,11 +5,13 @@ import java.util.List;
 
 public class ArrayListTest extends ListTest {
 
-    private final int randomNumber = (int) Math.random();
-    public final int NUMBER_OF_INTEGERS = randomNumber < 1_000? randomNumber : 1_000;
 
     @Override
     List<Integer> create(int numberOfInitialElements) {
-        return new ArrayList<>(NUMBER_OF_INTEGERS);
+        List list = new ArrayList();
+        for (int element = 0; element < numberOfInitialElements; element++) {
+            list.add((int) Math.random());
+        }
+        return list;
     }
 }
