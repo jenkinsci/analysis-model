@@ -1,0 +1,13 @@
+@startuml
+
+title LineRangeTest Sequenzdiagramm
+
+participant LineRangeTest
+participant LineRange
+
+activate LineRangeTest
+activate LineRange
+LineRangeTest -> LineRange : new
+LineRange -> LineRangeTest : LineRange
+
+@enduml

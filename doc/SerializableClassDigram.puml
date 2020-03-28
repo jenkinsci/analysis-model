@@ -9,5 +9,6 @@ interface Serializable
 SerializableTest <|-- LineRangeTest : <<extends>>
 LineRange <.. LineRangeTest : << tests >>
 Serializable <|.. LineRange : <<implements>>
+Serializable <.. SerializableTest : <<creates>>
 
 @enduml
