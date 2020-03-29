@@ -5,9 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ArrayListTest extends ListTest {
+/**
+ * Tests the class {@link ArrayList}.
+ *
+ * @author budelmann
+ */
+
+class ArrayListTest extends ListTest {
     @Override
-    List<Integer> create(final int numberOfInitialElements) {
-        return new ArrayList<>(Stream.iterate(0, i -> i+1).limit(numberOfInitialElements).collect(Collectors.toCollection(ArrayList::new)));
+    protected List<Integer> create(final int numberOfInitialElements) {
+        return Stream.iterate(0, i -> i+1).limit(numberOfInitialElements).collect(Collectors.toCollection(ArrayList::new));
     }
 }

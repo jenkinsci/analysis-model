@@ -4,9 +4,21 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
-public abstract class ListTest {
+/**
+ * Abstract Test Pattern for List Implementations.
+ *
+ * @author budelmann
+ */
+abstract class ListTest {
 
-    abstract List<Integer> create(int numberOfInitialElements);
+    /**
+     * Creates a concrete List in a subclass.
+     *
+     * @param numberOfInitialElements
+     *          The number of Initial Elements for the List.
+     * @return a new List with Integer.
+     */
+    protected abstract List<Integer> create(int numberOfInitialElements);
 
     @Test
     public void checkIfEmptyAndSize() {

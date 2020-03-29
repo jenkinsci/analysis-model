@@ -10,7 +10,7 @@ import edu.hm.hafner.util.SerializableTest;
  *
  * @author budelmann
  */
-public class LineRangeTest extends SerializableTest<LineRange> {
+class LineRangeTest extends SerializableTest<LineRange> {
     @Override
     protected LineRange createSerializable() {
         return new LineRange(1, 2);
