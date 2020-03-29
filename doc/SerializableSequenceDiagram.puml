@@ -4,10 +4,16 @@ title LineRangeTest Sequenzdiagramm
 
 participant LineRangeTest
 participant LineRange
+participant SerializableTest
 
 activate LineRangeTest
 activate LineRange
 LineRangeTest -> LineRange : new
 LineRange -> LineRangeTest : LineRange
-
+LineRangeTest -> SerializableTest : createSerializable() : LineRange
+activate SerializableTest
+SerializableTest -> SerializableTest : shouldBeSerializable
+SerializableTest -> LineRangeTest
+deactivate SerializableTest
+LineRangeTest -> LineRangeTest : shouldBeTheSameInstance()
 @enduml
