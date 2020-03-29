@@ -445,7 +445,7 @@ public class IssueBuilder {
     }
 
     /**
-     * Initializes this builder with an exact copy of aal properties of the specified issue.
+     * Initializes this builder with an exact copy of all properties of the specified issue.
      *
      * @param copy
      *         the issue to copy the properties from
