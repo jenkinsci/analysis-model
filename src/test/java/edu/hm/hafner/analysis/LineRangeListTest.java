@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import javax.sound.sampled.Line;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -12,6 +14,29 @@ import static org.assertj.core.api.Assertions.*;
 @SuppressWarnings({"PMD", "all"})
 //CHECKSTYLE:OFF
 class LineRangeListTest {
+    @Test
+    void shouldStoreBigValuesWithBuilder() {
+        LineRangeList list = new LineRangeList();
+        LineRange range = new LineRange.LineRangeBuilder()
+                .setStartLine(1350)
+                .setEndLine(Integer.MAX_VALUE).build();
+        list.add(range);
+        assertThat(list).containsExactly(range);
+    }
+    @Test
+    void shouldStoreRangeWithOneLinesWithBuilder() {
+        LineRangeList list = new LineRangeList();
+        LineRange range = new LineRange.LineRangeBuilder().setStartLine(0).build();
+        list.add(range);
+        assertThat(list).containsExactly(range);
+    }
+    @Test
+    void shouldThrowWhenStartLineIsNotSet() {
+        assertThatThrownBy(() -> {
+            new LineRange.LineRangeBuilder().setEndLine(Integer.MAX_VALUE).build();
+        }).isInstanceOf(IllegalStateException.class);
+
+    }
     @Test
     void shouldStoreBigValues() {
         LineRangeList list = new LineRangeList();

@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -120,6 +121,68 @@ public class IssueDifference {
      */
     public Report getFixedIssues() {
         return fixedIssues;
+    }
+
+    /**
+     * Builder for the IssueDifference Class.
+     *
+     * @author Colin Mikolajczak
+     */
+    public static class IssueDifferenceBuilder {
+        private Report newIssues;
+        private Report fixedIssues;
+        private String referenceId;
+
+        /**
+         * Sets the currentIssues.
+         *
+         * @param currentIssues
+         *         the issues of the currentReport
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setNewIssues(final Report currentIssues) {
+            this.newIssues = currentIssues;
+            return this;
+        }
+
+        /**
+         * Sets the Reference issues.
+         *
+         * @param referenceIssues
+         *         the issues of the reference report
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setReferenceIssues(final Report referenceIssues) {
+            this.fixedIssues = referenceIssues;
+            return this;
+        }
+
+        /**
+         * Sets the reference ID.
+         *
+         * @param referenceId
+         *         ID identifying the the reference report
+         *
+         * @return this
+         */
+        public IssueDifferenceBuilder setReferenceId(final String referenceId) {
+            this.referenceId = referenceId;
+            return this;
+        }
+
+        /**
+         * Building the defined IssueDifference.
+         *
+         * @return the created IssueDifference
+         * @throws NullPointerException
+         *         when one of the essential fields is not set
+         */
+        public IssueDifference build() {
+            return new IssueDifference(Objects.requireNonNull(this.newIssues), Objects.requireNonNull(this.referenceId),
+                    Objects.requireNonNull(this.fixedIssues));
+        }
     }
 }
 

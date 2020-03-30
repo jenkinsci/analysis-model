@@ -17,7 +17,7 @@ public class LineRange implements Serializable {
      * Creates a new instance of {@link LineRange}.
      *
      * @param line
-     *            the single line of this range
+     *         the single line of this range
      */
     public LineRange(final int line) {
         this(line, line);
@@ -27,9 +27,9 @@ public class LineRange implements Serializable {
      * Creates a new instance of {@link LineRange}.
      *
      * @param start
-     *            start of the range
+     *         start of the range
      * @param end
-     *            end of the range
+     *         end of the range
      */
     public LineRange(final int start, final int end) {
         if (start <= 0) {
@@ -91,6 +91,66 @@ public class LineRange implements Serializable {
     @Override
     public String toString() {
         return String.format("[%d-%d]", start, end);
+    }
+
+    /**
+     * Builder for the LineRange Class.
+     *
+     * @author Colin Mikolajczak
+     */
+    public static class LineRangeBuilder {
+        private int startLine;
+        private int endLine;
+        private boolean endSet = false;
+        private boolean ready = false;
+
+        /**
+         * Sets the start line of LineRange.
+         *
+         * @param start
+         *         start line of LineRange
+         *
+         * @return this
+         */
+        public LineRangeBuilder setStartLine(final int start) {
+            this.startLine = start;
+            ready = true;
+            return this;
+        }
+
+        /**
+         * Sets the end line of LineRange.
+         *
+         * @param end
+         *         end line of LineRange
+         *
+         * @return this
+         */
+        public LineRangeBuilder setEndLine(final int end) {
+            this.endLine = end;
+            this.endSet = true;
+            return this;
+        }
+
+        /**
+         * Builds the defined LineRange.
+         *
+         * @return Defined LineRange object
+         * @throws IllegalStateException
+         *         when start line is not set
+         */
+        public LineRange build() {
+            if (ready) {
+                if (!endSet) {
+                    endLine = startLine;
+                }
+                return new LineRange(startLine, endLine);
+            }
+            else {
+                throw new IllegalStateException("Start Line has to be set");
+            }
+
+        }
     }
 }
 
