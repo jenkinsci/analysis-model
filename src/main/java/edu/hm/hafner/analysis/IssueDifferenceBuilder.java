@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 /**
  * Creates a new {@link IssueDifference} using the Builder Pattern.
  *
@@ -7,8 +9,11 @@ package edu.hm.hafner.analysis;
  */
 public class IssueDifferenceBuilder {
 
+    @Nullable
     private Report newIssues = null;
+    @Nullable
     private Report fixedIssue = null;
+    @Nullable
     private String referenceId = null;
 
     /**

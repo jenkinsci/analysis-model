@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import javax.sound.sampled.Line;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Creates a new {@link LineRange} using the Builder Pattern.
@@ -8,7 +8,10 @@ import javax.sound.sampled.Line;
  * @author Bastian Kersting
  */
 public class LineRangeBuilder {
+
+    @Nullable
     private Integer start = null;
+    @Nullable
     private Integer end = null;
 
     /**

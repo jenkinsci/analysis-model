@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 /**
  * Konkreter ListTest für ArrayList.
  */
-public class ArrayListTest extends ListTest {
+class ArrayListTest extends ListTest {
 
     @Override
     List<Integer> create(final int numberOfInitialElements) {

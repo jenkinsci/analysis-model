@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Abstrakte Testklasse ListTest mit Containertyp Integer.
  */
-public abstract class ListTest {
+abstract class ListTest {
     abstract List<Integer> create(int numberOfInitialElements);
 
     @Test
