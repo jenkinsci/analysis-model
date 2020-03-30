@@ -1,14 +1,10 @@
 package edu.hm.hafner.analysis;
 
 import java.util.List;
-import java.util.Random;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import edu.hm.hafner.analysis.assertions.Assertions;
-
-import sun.jvm.hotspot.utilities.Assert;
 
 /**
  * abstract class for list tests, e.g. {@link ArrayListTest}.
@@ -18,7 +14,6 @@ import sun.jvm.hotspot.utilities.Assert;
 
 abstract class ListTest {
     abstract List<Integer> create(int numberOfInitialElements);
-    private Random r = new Random();
 
     @Test
     @DisplayName("list should be empty")
@@ -52,7 +47,7 @@ abstract class ListTest {
         int lastElem = list.get(list.size() - 1);
         System.out.println("Last element: " + lastElem);
 
-        list.add(r.nextInt());
+        list.add((int) Math.round(Math.random()));
         System.out.println("add new element to list.");
 
         int lastElemAfterAdding = list.get(list.size() - 1);

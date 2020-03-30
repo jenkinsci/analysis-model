@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import edu.hm.hafner.analysis.LineRange.LineRangeBuilder;
 import edu.hm.hafner.util.SerializableTest;
 
 /**
@@ -7,9 +8,9 @@ import edu.hm.hafner.util.SerializableTest;
  *
  * @author Simon Symhoven
  */
-public class LineRangeTest extends SerializableTest<LineRange> {
+class LineRangeTest extends SerializableTest<LineRange> {
     @Override
     protected LineRange createSerializable() {
-        return null;
+        return new LineRangeBuilder().build();
     }
 }
