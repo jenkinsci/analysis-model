@@ -44,19 +44,11 @@ abstract class ListTest {
     void addElement() {
         List<Integer> list = this.create(5);
 
-        int lastElem = list.get(list.size() - 1);
-        System.out.println("Last element: " + lastElem);
-
         list.add((int) Math.round(Math.random()));
         System.out.println("add new element to list.");
 
-        int lastElemAfterAdding = list.get(list.size() - 1);
-        System.out.println("Last element after adding one: " + lastElem);
-
         Assertions.assertThat(list).isNotEmpty().size().isEqualTo(6);
         System.out.println("Size should be 6");
-        Assertions.assertThat(lastElem == lastElemAfterAdding).isFalse();
-        System.out.println("last element after adding one should be another one as before.");
     }
 
     @Test
