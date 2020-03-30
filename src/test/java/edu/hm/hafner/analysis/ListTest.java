@@ -8,7 +8,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 /**
  * Abstract class for list test factory.
  */
-public abstract class ListTest {
+abstract class ListTest {
 
     abstract List<Integer> create(int numberOfInitialElements);
 

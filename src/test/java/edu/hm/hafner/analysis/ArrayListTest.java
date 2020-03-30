@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Implementation for the ArrayList of the ListTest class.
  */
-public class ArrayListTest extends ListTest {
+class ArrayListTest extends ListTest {
     @Override
     List<Integer> create(final int numberOfInitialElements) {
         List<Integer> list = new ArrayList<>();
