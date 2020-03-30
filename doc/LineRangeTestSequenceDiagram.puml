@@ -1,0 +1,17 @@
+@startuml
+activate User
+activate LineRangeTest
+
+User -> LineRangeTest : start Test1
+
+activate SerializableTest
+LineRangeTest -> SerializableTest : start Test1
+SerializableTest -> LineRangeTest : createSerializable()
+
+activate LineRange
+LineRangeTest -> LineRange : new LineRange()
+LineRangeTest -> SerializableTest : return instance of LineRange
+
+SerializableTest -> LineRangeTest : Test result
+LineRangeTest -> User : Test result
+@enduml

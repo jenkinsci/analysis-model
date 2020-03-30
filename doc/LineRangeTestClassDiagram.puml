@@ -1,0 +1,30 @@
+@startuml
+
+interface Serializable
+
+abstract class SerializableTest<LineRange> {
++ createSerializable() : LineRange
++ Test1() : void
++ Test2() : void
+...
+}
+
+class LineRangeTest {
++ createSerializable() : LineRange
+}
+
+class LineRange {
+- start : int
+- end : int
++ getStart() : int
++ getEnd() : int
+}
+
+Serializable <|-.- SerializableTest : <<implements>
+Serializable <|-.- LineRange : <<implements>
+
+SerializableTest <|-- LineRangeTest : <<extends>>
+
+LineRange <-.- LineRangeTest : <<instantiate>>
+
+@enduml
