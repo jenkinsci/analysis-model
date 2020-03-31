@@ -17,7 +17,10 @@ import static org.mockito.Mockito.*;
 
 /**
  * Tests printing of reports using the {@link Report#print(Report.IssuePrinter)} method.
+ *
+ * @author Ullrich Hafner
  */
+// TODO: Move implementation to ReportTest
 class ReportPrinterTest extends ResourceTest {
     @BeforeAll
     static void beforeAll() {
