@@ -1,0 +1,12 @@
+@startuml
+
+class SerializableTest<LineRange>
+class LineRange
+interface Serializable
+class LineRangeTest
+
+Serializable *-- LineRange : implements
+SerializableTest <|-- LineRangeTest : extends
+LineRangeTest --> Serializable : uses
+
+@enduml

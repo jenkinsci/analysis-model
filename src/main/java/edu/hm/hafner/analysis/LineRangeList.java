@@ -92,7 +92,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
      * @param ranges
      *         collection containing elements to be added to this list
      *
-     * @return <tt>true</tt> if this list changed as a result of the call
+     * @return true if this list changed as a result of the call
      * @throws NullPointerException
      *         if the specified collection contains one or more null elements and this list does not permit null
      *         elements, or if the specified collection is null

@@ -1,0 +1,16 @@
+@startuml
+
+
+LineRange -> Serializable : implementiert
+
+SerializableTest -> LineRangeeTest : createSerializable()
+
+LineRangeeTest -> Serializable : createSerializable()
+
+Serializable -> LineRange : new LineRange()
+
+LineRange -> Serializable : LineRange-Objekt
+
+Serializable -> LineRangeeTest : serialisierbares LineRange-Objekt
+
+@enduml
