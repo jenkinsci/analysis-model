@@ -71,7 +71,7 @@
     <commons.digester.version>3.2</commons.digester.version>
     <commons.text.version>1.8</commons.text.version>
     <eclipse-collections.version>9.2.0</eclipse-collections.version>
-    <spotbugs.parser.library.version>6.0.3</spotbugs.parser.library.version>
+    <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j-nop.version>1.7.30</slf4j-nop.version>
     <violations-lib.version>1.112</violations-lib.version>
