@@ -120,16 +120,16 @@
                             }
 
                             if (first) {
-                                recordIssues enabledForFailure: true, tool: mavenConsole()
-                                recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', filters:[excludeFile('.*Assert.java')]
+                                recordIssues enabledForFailure: true, tool: mavenConsole(), referenceJobName: 'Plugins/analysis-model/master'
+                                recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', filters:[excludeFile('.*Assert.java')], referenceJobName: 'Plugins/analysis-model/master'
                                 recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml'),
                                         checkStyle(pattern: 'target/checkstyle-result.xml'),
-                                        pmdParser(pattern: 'target/pmd.xml')], sourceCodeEncoding: 'UTF-8'
+                                        pmdParser(pattern: 'target/pmd.xml')], sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
                                 recordIssues enabledForFailure: true, tool: taskScanner(
                                         includePattern:'**/*.java',
                                         excludePattern:'target/**',
                                         highTags:'FIXME',
-                                        normalTags:'TODO'), sourceCodeEncoding: 'UTF-8'
+                                        normalTags:'TODO'), sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
                                 if (failFast && currentBuild.result == 'UNSTABLE') {
                                     error 'There were static analysis warnings; halting early'
                                 }
