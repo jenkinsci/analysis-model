@@ -26,7 +26,7 @@ public abstract class RegexpLineParser extends LookaheadParser {
      * Creates a new instance of {@link RegexpLineParser}.
      *
      * @param pattern
-     *         pattern of compiler warnings.
+     *         pattern of compiler warnings
      */
     protected RegexpLineParser(final String pattern) {
         super(pattern);

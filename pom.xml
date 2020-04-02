@@ -71,12 +71,13 @@
     <commons.digester.version>3.2</commons.digester.version>
     <commons.text.version>1.8</commons.text.version>
     <eclipse-collections.version>9.2.0</eclipse-collections.version>
-    <spotbugs.parser.library.version>6.0.3</spotbugs.parser.library.version>
+    <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
-    <slf4j-nop.version>1.7.30</slf4j-nop.version>
+    <slf4j.version>1.7.30</slf4j.version>
     <violations-lib.version>1.112</violations-lib.version>
     <json.version>20190722</json.version>
 
+    <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
   </properties>
 
   <dependencies>
@@ -156,6 +157,24 @@
       <version>${codingstyle.library.version}</version>
       <scope>test</scope>
       <type>test-jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
