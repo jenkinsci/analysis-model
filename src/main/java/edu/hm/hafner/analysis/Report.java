@@ -19,6 +19,8 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -27,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
+import org.slf4j.LoggerFactory;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -840,10 +843,103 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Builds a combined filter based on several include and exclude filters.
+     * Using the Adapter Pattern to log issues to Java Util Logging.
      *
-     * @author Raphael Furch
+     * @author budelmann
      */
+    public static class JULAdapter implements IssuePrinter {
+
+        /** The Logger instance. */
+        private final Logger logger;
+
+        /**
+         * Creates a new Printer that logs to Java Util Logging.
+         */
+        public JULAdapter() {
+            this(Logger.getLogger("edu.hm.hafner.analysis.JULAdapter"));
+        }
+
+        @VisibleForTesting
+        JULAdapter(final Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            logger.log(fromSeverityToLevel(issue.getSeverity()), issue.toString());
+        }
+
+        /**
+         * Lookup Method for getting the JDK Level from the Issue severity.
+         *
+         * @param severity
+         *         the issue severity
+         *
+         * @return the JDK Level
+         */
+        private Level fromSeverityToLevel(final Severity severity) {
+            final Level level;
+
+            if (severity.equals(Severity.ERROR)) {
+                level = Level.SEVERE;
+            }
+            else if(severity.equals(Severity.WARNING_HIGH)) {
+                level = Level.WARNING;
+            }
+            else if (severity.equals(Severity.WARNING_NORMAL)) {
+                level = Level.INFO;
+            }
+            else {
+                level = Level.FINE;
+            }
+            return level;
+        }
+    }
+
+    /**
+     * Using the Adapter Pattern to log issues to Simple Logging Facade for Java(SLF4J).
+     *
+     * @author budelmann
+     */
+    public static class SLF4JAdapter implements IssuePrinter {
+
+        /** The logger instance. */
+        private final org.slf4j.Logger logger;
+
+        /**
+         * Creates a new Printer that logs to Simple Logging Facade for Java(SLF4J).
+         */
+        public SLF4JAdapter() {
+            this(LoggerFactory.getLogger(SLF4JAdapter.class));
+        }
+
+        @VisibleForTesting
+        SLF4JAdapter(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if (issue.getSeverity().equals(Severity.ERROR)) {
+                logger.error(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
+                logger.warn(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+                logger.info(issue.toString());
+            }
+            else {
+                logger.trace(issue.toString());
+            }
+        }
+    }
+
+            /**
+             * Builds a combined filter based on several include and exclude filters.
+             *
+             * @author Raphael Furch
+             */
     public static class IssueFilterBuilder {
         private final Collection<Predicate<Issue>> includeFilters = new ArrayList<>();
         private final Collection<Predicate<Issue>> excludeFilters = new ArrayList<>();
