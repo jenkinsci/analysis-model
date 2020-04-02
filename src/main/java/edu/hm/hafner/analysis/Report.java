@@ -19,6 +19,8 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -836,6 +838,95 @@ public class Report implements Iterable<Issue>, Serializable {
         @Override
         public void print(final Issue issue) {
             printStream.println(issue.toString());
+        }
+    }
+
+    /**
+     * Using the Adapter Pattern to log issues to Java Util Logging.
+     *
+     * @author budelmann
+     */
+    public static class JULAdapter implements IssuePrinter {
+
+        /** The Logger instance. */
+        private final Logger logger;
+
+        /**
+         * Creates a new Printer that logs to Java Util Logging.
+         *
+         * @param logger
+         *         the logger instance
+         */
+        public JULAdapter(final Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            logger.log(fromSeverityToLevel(issue.getSeverity()), issue.toString());
+        }
+
+        /**
+         * Lookup Method for getting the JDK Level from the Issue severity.
+         *
+         * @param severity
+         *         the issue severity
+         *
+         * @return the JDK Level
+         */
+        private Level fromSeverityToLevel(final Severity severity) {
+            final Level level;
+
+            if (severity.equals(Severity.ERROR)) {
+                level = Level.SEVERE;
+            }
+            else if(severity.equals(Severity.WARNING_HIGH)) {
+                level = Level.WARNING;
+            }
+            else if (severity.equals(Severity.WARNING_NORMAL)) {
+                level = Level.INFO;
+            }
+            else {
+                level = Level.FINE;
+            }
+            return level;
+        }
+    }
+
+    /**
+     * Using the Adapter Pattern to log issues to Simple Logging Facade for Java(SLF4J).
+     *
+     * @author budelmann
+     */
+    public static class SLF4JAdapter implements IssuePrinter {
+
+        /** The logger instance. */
+        private final org.slf4j.Logger logger;
+
+        /**
+         * Creates a new Printer that logs to Simple Logging Facade for Java(SLF4J).
+         *
+         * @param logger
+         *         the logger instance
+         */
+        public SLF4JAdapter(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if (issue.getSeverity().equals(Severity.ERROR)) {
+                logger.error(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
+                logger.warn(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+                logger.info(issue.toString());
+            }
+            else {
+                logger.trace(issue.toString());
+            }
         }
     }
 

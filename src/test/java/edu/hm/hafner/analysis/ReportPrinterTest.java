@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.analysis.Report.JULAdapter;
+import edu.hm.hafner.analysis.Report.SLF4JAdapter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
@@ -144,8 +146,6 @@ class ReportPrinterTest extends ResourceTest {
         verify(logger, never()).info(anyString());
     }
 
-
-
     /* Java Util Logging Tests */
     @Test
     void shouldLogOneErrorJUL() {
@@ -238,8 +238,6 @@ class ReportPrinterTest extends ResourceTest {
         verify(logger, never()).log(eq(Level.INFO), anyString());
         verify(logger, never()).log(eq(Level.WARNING), anyString());
     }
-
-
 
     private Report readCheckStyleReport() {
         Report report = new CheckStyleParser().parse(read("parser/checkstyle/all-severities.xml"));
