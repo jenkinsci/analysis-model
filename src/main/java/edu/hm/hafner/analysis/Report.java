@@ -879,7 +879,49 @@ public class Report implements Iterable<Issue>, Serializable {
             }
 
             throw new UnsupportedOperationException(
+                    String.format("Cannot log issue with severity %s", severity.getName()));
+        }
+    }
+
+    /**
+     * Prints issues to a {@link org.slf4j.Logger}.
+     */
+    public static class Slf4jPrinter implements IssuePrinter {
+
+        private final org.slf4j.Logger logger;
+
+        /**
+         * Creates a new {@link Slf4jPrinter} that prints to a new logger.
+         */
+        public Slf4jPrinter() {
+            this(org.slf4j.LoggerFactory.getLogger(Report.class));
+        }
+
+        @VisibleForTesting
+        Slf4jPrinter(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            final String log = issue.toString();
+            final Severity severity = issue.getSeverity();
+            if (severity == Severity.ERROR) {
+                logger.error(log);
+            }
+            else if (severity == Severity.WARNING_HIGH) {
+                logger.warn(log);
+            }
+            else if (severity == Severity.WARNING_NORMAL) {
+                logger.info(log);
+            }
+            else if (severity == Severity.WARNING_LOW) {
+                logger.trace(log);
+            }
+            else {
+                throw new UnsupportedOperationException(
                         String.format("Cannot log issue with severity %s", severity.getName()));
+            }
         }
     }
 
