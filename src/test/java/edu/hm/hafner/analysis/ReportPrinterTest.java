@@ -2,12 +2,15 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.analysis.Report.JavaUtilLoggingPrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
@@ -49,6 +52,49 @@ class ReportPrinterTest extends ResourceTest {
 
         for (Issue issue : report) {
             verify(printStream).println(issue.toString());
+        }
+    }
+
+    @Test
+    void shouldPrintIssuesUsingJavaUtilLoggingPrinterWithSeverityError() {
+        checkJavaUtilLoggingPrinting(Severity.ERROR, Level.SEVERE);
+    }
+
+    @Test
+    void shouldPrintIssuesUsingJavaUtilLoggingPrinterWithSeverityWarningHigh() {
+        checkJavaUtilLoggingPrinting(Severity.WARNING_HIGH, Level.WARNING);
+    }
+
+    @Test
+    void shouldPrintIssuesUsingJavaUtilLoggingPrinterWithSeverityWarningNormal() {
+        checkJavaUtilLoggingPrinting(Severity.WARNING_NORMAL, Level.INFO);
+    }
+
+    @Test
+    void shouldPrintIssuesUsingJavaUtilLoggingPrinterWithSeverityWarningLow() {
+        checkJavaUtilLoggingPrinting(Severity.WARNING_LOW, Level.FINE);
+    }
+
+    @Test
+    void throwsUsingJavaUtilLoggingPrinterWithNewSeverity() {
+        Severity newSeverity = new Severity("NotExisting");
+        Report report = new Report().add(new IssueBuilder().setSeverity(newSeverity).build());
+
+        Logger logger = mock(Logger.class);
+
+        assertThatThrownBy(() -> {
+            report.print(new JavaUtilLoggingPrinter(logger));
+        }).isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    private void checkJavaUtilLoggingPrinting(final Severity severity, final Level expectedLevel) {
+        Report report = readCheckStyleReport().filter(issue -> issue.getSeverity() == severity);
+
+        Logger logger = mock(Logger.class);
+        report.print(new JavaUtilLoggingPrinter(logger));
+
+        for (Issue issue : report) {
+            verify(logger).log(expectedLevel, issue.toString());
         }
     }
 
