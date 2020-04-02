@@ -11,6 +11,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.JavaUtilLoggingPrinter;
+import edu.hm.hafner.analysis.Report.Slf4jPrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
@@ -25,6 +26,9 @@ import static org.mockito.Mockito.*;
  */
 // TODO: Move implementation to ReportTest
 class ReportPrinterTest extends ResourceTest {
+
+    private static final Severity NEW_SEVERITY = new Severity("NewSeverityNotExisting");
+
     @BeforeAll
     static void beforeAll() {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
@@ -77,13 +81,43 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void throwsUsingJavaUtilLoggingPrinterWithNewSeverity() {
-        Severity newSeverity = new Severity("NotExisting");
-        Report report = new Report().add(new IssueBuilder().setSeverity(newSeverity).build());
+        Report report = new Report().add(new IssueBuilder().setSeverity(NEW_SEVERITY).build());
 
         Logger logger = mock(Logger.class);
 
         assertThatThrownBy(() -> {
             report.print(new JavaUtilLoggingPrinter(logger));
+        }).isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
+    void shouldPrintIssuesUsingSlf4jPrinterWithSeverityError() {
+        checkSlf4jPrinting(Severity.ERROR);
+    }
+
+    @Test
+    void shouldPrintIssuesUsingSlf4jPrinterWithSeverityWarningHigh() {
+        checkSlf4jPrinting(Severity.WARNING_HIGH);
+    }
+
+    @Test
+    void shouldPrintIssuesUsingSlf4jPrinterWithSeverityWarningNormal() {
+        checkSlf4jPrinting(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldPrintIssuesUsingSlf4jPrinterWithSeverityWarningLow() {
+        checkSlf4jPrinting(Severity.WARNING_LOW);
+    }
+
+    @Test
+    void throwsUsingSlf4jPrinterWithNewSeverity() {
+        Report report = new Report().add(new IssueBuilder().setSeverity(NEW_SEVERITY).build());
+
+        org.slf4j.Logger logger = mock(org.slf4j.Logger.class);
+
+        assertThatThrownBy(() -> {
+            report.print(new Slf4jPrinter(logger));
         }).isInstanceOf(UnsupportedOperationException.class);
     }
 
@@ -95,6 +129,36 @@ class ReportPrinterTest extends ResourceTest {
 
         for (Issue issue : report) {
             verify(logger).log(expectedLevel, issue.toString());
+        }
+    }
+
+    private void checkSlf4jPrinting(final Severity severity) {
+        Report report = readCheckStyleReport().filter(issue -> issue.getSeverity() == severity);
+
+        org.slf4j.Logger logger = mock(org.slf4j.Logger.class);
+        report.print(new Slf4jPrinter(logger));
+
+        for (Issue issue : report) {
+            verifySlf4jLoggerCall(logger, severity, issue.toString());
+        }
+    }
+
+    private void verifySlf4jLoggerCall(final org.slf4j.Logger mock, final Severity severity,
+            final String expectedMessage) {
+        if (severity == Severity.ERROR) {
+            verify(mock).error(expectedMessage);
+        }
+        else if (severity == Severity.WARNING_HIGH) {
+            verify(mock).warn(expectedMessage);
+        }
+        else if (severity == Severity.WARNING_NORMAL) {
+            verify(mock).info(expectedMessage);
+        }
+        else if (severity == Severity.WARNING_LOW) {
+            verify(mock).trace(expectedMessage);
+        }
+        else {
+            fail("Severity not supported!");
         }
     }
 
