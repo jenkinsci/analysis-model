@@ -19,6 +19,8 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -836,6 +838,48 @@ public class Report implements Iterable<Issue>, Serializable {
         @Override
         public void print(final Issue issue) {
             printStream.println(issue.toString());
+        }
+    }
+
+    /**
+     * Prints issues to a {@link Logger}.
+     */
+    public static class JavaUtilLoggingPrinter implements IssuePrinter {
+        private final Logger logger;
+
+        /**
+         * Creates a new printer that prints to a new/existing {@link Logger} with the current package name.
+         */
+        public JavaUtilLoggingPrinter() {
+            this(Logger.getLogger(Report.class.getPackage().getName()));
+        }
+
+        @VisibleForTesting
+        JavaUtilLoggingPrinter(final Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            logger.log(levelForIssueSeverity(issue.getSeverity()), issue.toString());
+        }
+
+        private Level levelForIssueSeverity(final Severity severity) {
+            if (severity == Severity.ERROR) {
+                return Level.SEVERE;
+            }
+            else if (severity == Severity.WARNING_HIGH) {
+                return Level.WARNING;
+            }
+            else if (severity == Severity.WARNING_NORMAL) {
+                return Level.INFO;
+            }
+            else if (severity == Severity.WARNING_LOW) {
+                return Level.FINE;
+            }
+
+            throw new UnsupportedOperationException(
+                        String.format("Cannot log issue with severity %s", severity.getName()));
         }
     }
 
