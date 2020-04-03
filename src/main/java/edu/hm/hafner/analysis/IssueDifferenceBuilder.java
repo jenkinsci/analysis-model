@@ -62,16 +62,4 @@ public class IssueDifferenceBuilder {
         }
         return new IssueDifference(newIssues, referenceId, fixedIssue);
     }
-
-    public Report getNewIssues() {
-        return newIssues;
-    }
-
-    public Report getFixedIssue() {
-        return fixedIssue;
-    }
-
-    public String getReferenceId() {
-        return referenceId;
-    }
 }

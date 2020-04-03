@@ -49,12 +49,4 @@ public class LineRangeBuilder {
         }
         return new LineRange(start, end);
     }
-
-    public int getStart() {
-        return start;
-    }
-
-    public int getEnd() {
-        return end;
-    }
 }
