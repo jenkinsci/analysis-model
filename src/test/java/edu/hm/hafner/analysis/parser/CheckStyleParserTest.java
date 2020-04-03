@@ -15,6 +15,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  */
 class CheckStyleParserTest extends AbstractParserTest {
     private static final String PREFIX = "checkstyle/";
+    private static final String REPORT_WITH_ALL_SEVERITES = "all-severities.xml";
 
     CheckStyleParserTest() {
         super(PREFIX + "checkstyle.xml");
@@ -82,34 +83,31 @@ class CheckStyleParserTest extends AbstractParserTest {
     }
 
     /**
-     * Test parsing a file and checks the correct servity mapping for error.
+     * Test parsing a file and checks the correct Severity mapping for error.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56214">Issue 56214</a>
      */
     @Test
-    void shouldParseErrorToServityError() {
-
-        Report report = parseInCheckStyleFolder("all-severites.xml");
+    void shouldParseErrorToSeverityError() {
+        Report report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
         assertThat(report.get(0)).hasSeverity(Severity.ERROR);
     }
 
     /**
-     * Test parsing a file and checks the correct servity mapping for warnings.
+     * Test parsing a file and checks the correct Severity mapping for warnings.
      */
     @Test
-    void shouldParseWarningToServityWarningNormal() {
-
-        Report report = parseInCheckStyleFolder("all-severites.xml");
+    void shouldParseWarningToSeverityWarningNormal() {
+        Report report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
         assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL);
     }
 
     /**
-     * Test parsing a file and checks the correct servity mapping for infos.
+     * Test parsing a file and checks the correct Severity mapping for infos.
      */
     @Test
-    void shouldParseInfoToServityWarningLow() {
-
-        Report report = parseInCheckStyleFolder("all-severites.xml");
+    void shouldParseInfoToSeverityWarningLow() {
+        Report report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
         assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
     }
 
