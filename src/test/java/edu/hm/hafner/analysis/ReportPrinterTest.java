@@ -75,7 +75,6 @@ class ReportPrinterTest extends ResourceTest {
         Logger logger = mock(LoggerFactory.getLogger(SLF4JPrinter.class).getClass());
         report.print(new SLF4JPrinter(logger));
 
-        assertThat(report).hasSize(1);
         report.forEach(issue -> {
             verify(logger).error(issue.toString());
             verify(logger,  never()).warn(issue.toString());
@@ -90,7 +89,6 @@ class ReportPrinterTest extends ResourceTest {
         Logger logger = mock(LoggerFactory.getLogger(SLF4JPrinter.class).getClass());
         report.print(new SLF4JPrinter(logger));
 
-        assertThat(report).hasSize(1);
         report.forEach(issue -> {
             verify(logger, never()).error(issue.toString());
             verify(logger).warn(issue.toString());
@@ -105,7 +103,6 @@ class ReportPrinterTest extends ResourceTest {
         Logger logger = mock(LoggerFactory.getLogger(SLF4JPrinter.class).getClass());
         report.print(new SLF4JPrinter(logger));
 
-        assertThat(report).hasSize(1);
         report.forEach(issue -> {
             verify(logger, never()).error(issue.toString());
             verify(logger,  never()).warn(issue.toString());
@@ -120,7 +117,6 @@ class ReportPrinterTest extends ResourceTest {
         Logger logger = mock(LoggerFactory.getLogger(SLF4JPrinter.class).getClass());
         report.print(new SLF4JPrinter(logger));
 
-        assertThat(report).hasSize(1);
         report.forEach(issue -> {
             verify(logger, never()).error(issue.toString());
             verify(logger,  never()).warn(issue.toString());
@@ -135,7 +131,6 @@ class ReportPrinterTest extends ResourceTest {
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter").getClass());
         report.print(new JavaUtilPrinter(logger));
 
-        assertThat(report).hasSize(1);
         report.forEach(issue -> {
             verify(logger).log(Level.SEVERE, issue.toString());
             verify(logger,  never()).log(Level.WARNING, issue.toString());
@@ -150,7 +145,6 @@ class ReportPrinterTest extends ResourceTest {
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter").getClass());
         report.print(new JavaUtilPrinter(logger));
 
-        assertThat(report).hasSize(1);
         report.forEach(issue -> {
             verify(logger, never()).log(Level.SEVERE, issue.toString());
             verify(logger).log(Level.WARNING, issue.toString());
@@ -165,7 +159,6 @@ class ReportPrinterTest extends ResourceTest {
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter").getClass());
         report.print(new JavaUtilPrinter(logger));
 
-        assertThat(report).hasSize(1);
         report.forEach(issue -> {
             verify(logger, never()).log(Level.SEVERE, issue.toString());
             verify(logger,  never()).log(Level.WARNING, issue.toString());
@@ -180,7 +173,6 @@ class ReportPrinterTest extends ResourceTest {
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter").getClass());
         report.print(new JavaUtilPrinter(logger));
 
-        assertThat(report).hasSize(1);
         report.forEach(issue -> {
             verify(logger, never()).log(Level.SEVERE, issue.toString());
             verify(logger,  never()).log(Level.WARNING, issue.toString());
@@ -190,8 +182,10 @@ class ReportPrinterTest extends ResourceTest {
     }
 
     private Report generateReport(final Severity severity) {
-        return new Report()
-                .add(new IssueBuilder().setSeverity(severity).setMessage(severity.toString()).build());
+        Report report = new Report();
+        report.add(new IssueBuilder().setSeverity(severity).setMessage(severity.toString()).build());
+        assertThat(report).hasSize(1);
+        return report;
     }
 
 }
