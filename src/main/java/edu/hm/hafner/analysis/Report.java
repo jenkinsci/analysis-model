@@ -824,14 +824,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @author Simon Symhoven
      */
     public static class JavaUtilPrinter implements IssuePrinter {
-        private final Logger logger;
-
-        /**
-         * Creates a new instance of {@link JavaUtilPrinter}, which logs to java util logging.
-         */
-        public JavaUtilPrinter() {
-            this.logger = Logger.getLogger("edu.hm.hafner.analysis.JavaUtilLogger");
-        }
+        private static Logger logger = Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter");
 
         /**
          * Creates a new instance of {@link JavaUtilPrinter} with specified mock logger,
@@ -876,14 +869,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @author Simon Symhoven
      */
     public static class SLF4JPrinter implements IssuePrinter {
-        private final org.slf4j.Logger logger;
-
-        /**
-         * Creates a new instance of {@link SLF4JPrinter}, which logs to SLF4J logging.
-         */
-        public SLF4JPrinter() {
-            this.logger = LoggerFactory.getLogger(SLF4JPrinter.class);
-        }
+        private static org.slf4j.Logger logger = LoggerFactory.getLogger(SLF4JPrinter.class);
 
         /**
          * Creates a new instance of {@link SLF4JPrinter} with specified mock logger,
