@@ -935,11 +935,11 @@ public class Report implements Iterable<Issue>, Serializable {
         }
     }
 
-            /**
-             * Builds a combined filter based on several include and exclude filters.
-             *
-             * @author Raphael Furch
-             */
+    /**
+     * Builds a combined filter based on several include and exclude filters.
+     *
+     * @author Raphael Furch
+     */
     public static class IssueFilterBuilder {
         private final Collection<Predicate<Issue>> includeFilters = new ArrayList<>();
         private final Collection<Predicate<Issue>> excludeFilters = new ArrayList<>();
