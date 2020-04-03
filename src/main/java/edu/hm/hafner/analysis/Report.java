@@ -19,6 +19,8 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -27,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
+import org.slf4j.LoggerFactory;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -813,6 +816,97 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public interface IssuePrinter {
         void print(Issue issue);
+    }
+
+    /**
+     * Prints issues to the java util logging.
+     *
+     * @author Simon Symhoven
+     */
+    public static class JavaUtilPrinter implements IssuePrinter {
+        private final Logger logger;
+
+        /**
+         * Creates a new instance of {@link JavaUtilPrinter}, which logs to java util logging.
+         */
+        public JavaUtilPrinter() {
+            this.logger = Logger.getLogger("edu.hm.hafner.analysis.JavaUtilLogger");
+        }
+
+        /**
+         * Creates a new instance of {@link JavaUtilPrinter} with specified mock logger,
+         * which logs to java util logging.
+         * @param logger mock logger instance
+         */
+        @VisibleForTesting
+        JavaUtilPrinter(final Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            logger.log(getLevel(issue.getSeverity()), issue.toString());
+        }
+
+        /**
+         * maps {@link Issue} severity to {@link Level}
+         *
+         * @param severity the issue severity
+         *
+         * @return JDK Level
+         */
+        private Level getLevel(final Severity severity) {
+            if (Severity.ERROR.equals(severity)) {
+                return Level.SEVERE;
+            }
+            else if (Severity.WARNING_HIGH.equals(severity)) {
+                return Level.WARNING;
+            }
+            else if (Severity.WARNING_NORMAL.equals(severity)) {
+                return Level.INFO;
+            } else {
+                return Level.FINE;
+            }
+        }
+    }
+
+    /**
+     * Prints issues to the SLF4J logging.
+     *
+     * @author Simon Symhoven
+     */
+    public static class SLF4JPrinter implements IssuePrinter {
+        private final org.slf4j.Logger logger;
+
+        /**
+         * Creates a new instance of {@link SLF4JPrinter}, which logs to SLF4J logging.
+         */
+        public SLF4JPrinter() {
+            this.logger = LoggerFactory.getLogger(SLF4JPrinter.class);
+        }
+
+        /**
+         * Creates a new instance of {@link SLF4JPrinter} with specified mock logger,
+         * which logs to SLF4J logging.
+         * @param logger mock logger instance
+         */
+        @VisibleForTesting
+        SLF4JPrinter(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if (issue.getSeverity().equals(Severity.ERROR)) {
+                logger.error(issue.toString());
+            } else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
+                logger.warn(issue.toString());
+            } else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+                logger.info(issue.toString());
+            } else {
+                logger.trace(issue.toString());
+            }
+        }
     }
 
     /**

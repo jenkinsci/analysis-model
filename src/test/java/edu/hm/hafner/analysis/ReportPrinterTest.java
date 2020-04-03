@@ -2,12 +2,17 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.analysis.Report.JavaUtilPrinter;
+import edu.hm.hafner.analysis.Report.SLF4JPrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
@@ -63,4 +68,130 @@ class ReportPrinterTest extends ResourceTest {
     private ReaderFactory read(final String fileName) {
         return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
     }
+
+    @Test
+    void logErrorSLF4J() {
+        Report report = generateReport(Severity.ERROR);
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JPrinter.class).getClass());
+        report.print(new SLF4JPrinter(logger));
+
+        assertThat(report).hasSize(1);
+        report.forEach(issue -> {
+            verify(logger).error(issue.toString());
+            verify(logger,  never()).warn(issue.toString());
+            verify(logger,  never()).info(issue.toString());
+            verify(logger,  never()).trace(issue.toString());
+        });
+    }
+
+    @Test
+    void logWarningHighSLF4J() {
+        Report report = generateReport(Severity.WARNING_HIGH);
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JPrinter.class).getClass());
+        report.print(new SLF4JPrinter(logger));
+
+        assertThat(report).hasSize(1);
+        report.forEach(issue -> {
+            verify(logger, never()).error(issue.toString());
+            verify(logger).warn(issue.toString());
+            verify(logger,  never()).info(issue.toString());
+            verify(logger,  never()).trace(issue.toString());
+        });
+    }
+
+    @Test
+    void logWarningNormalSLF4J() {
+        Report report = generateReport(Severity.WARNING_NORMAL);
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JPrinter.class).getClass());
+        report.print(new SLF4JPrinter(logger));
+
+        assertThat(report).hasSize(1);
+        report.forEach(issue -> {
+            verify(logger, never()).error(issue.toString());
+            verify(logger,  never()).warn(issue.toString());
+            verify(logger).info(issue.toString());
+            verify(logger,  never()).trace(issue.toString());
+        });
+    }
+
+    @Test
+    void logWarningLowSLF4J() {
+        Report report = generateReport(Severity.WARNING_LOW);
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JPrinter.class).getClass());
+        report.print(new SLF4JPrinter(logger));
+
+        assertThat(report).hasSize(1);
+        report.forEach(issue -> {
+            verify(logger, never()).error(issue.toString());
+            verify(logger,  never()).warn(issue.toString());
+            verify(logger,  never()).info(issue.toString());
+            verify(logger).trace(issue.toString());
+        });
+    }
+
+    @Test
+    void logErrorJavaUtil() {
+        Report report = generateReport(Severity.ERROR);
+        java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter").getClass());
+        report.print(new JavaUtilPrinter(logger));
+
+        assertThat(report).hasSize(1);
+        report.forEach(issue -> {
+            verify(logger).log(Level.SEVERE, issue.toString());
+            verify(logger,  never()).log(Level.WARNING, issue.toString());
+            verify(logger, never()).log(Level.INFO, issue.toString());
+            verify(logger, never()).log(Level.FINE, issue.toString());
+        });
+    }
+
+    @Test
+    void logWarningJavaUtil() {
+        Report report = generateReport(Severity.WARNING_HIGH);
+        java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter").getClass());
+        report.print(new JavaUtilPrinter(logger));
+
+        assertThat(report).hasSize(1);
+        report.forEach(issue -> {
+            verify(logger, never()).log(Level.SEVERE, issue.toString());
+            verify(logger).log(Level.WARNING, issue.toString());
+            verify(logger, never()).log(Level.INFO, issue.toString());
+            verify(logger, never()).log(Level.FINE, issue.toString());
+        });
+    }
+
+    @Test
+    void logWarningNormalJavaUtil() {
+        Report report = generateReport(Severity.WARNING_NORMAL);
+        java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter").getClass());
+        report.print(new JavaUtilPrinter(logger));
+
+        assertThat(report).hasSize(1);
+        report.forEach(issue -> {
+            verify(logger, never()).log(Level.SEVERE, issue.toString());
+            verify(logger,  never()).log(Level.WARNING, issue.toString());
+            verify(logger).log(Level.INFO, issue.toString());
+            verify(logger, never()).log(Level.FINE, issue.toString());
+        });
+    }
+
+    @Test
+    void logWarningLowJavaUtil() {
+        Report report = generateReport(Severity.WARNING_LOW);
+        java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilPrinter").getClass());
+        report.print(new JavaUtilPrinter(logger));
+
+        assertThat(report).hasSize(1);
+        report.forEach(issue -> {
+            verify(logger, never()).log(Level.SEVERE, issue.toString());
+            verify(logger,  never()).log(Level.WARNING, issue.toString());
+            verify(logger,  never()).log(Level.INFO, issue.toString());
+            verify(logger).log(Level.FINE, issue.toString());
+        });
+    }
+
+    private Report generateReport(final Severity severity) {
+        return new Report()
+                .add(new IssueBuilder().setSeverity(severity).setMessage(severity.toString()).build());
+    }
+
 }
