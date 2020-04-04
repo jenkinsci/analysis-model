@@ -58,6 +58,7 @@ class ReportPrinterTest extends ResourceTest {
     }
 
     /* Simple Logging Facade for Java Tests */
+
     @Test
     void shouldLogOneErrorSLF4J() {
         Report report = new Report();

@@ -855,10 +855,6 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Creates a new Printer that logs to Java Util Logging.
          */
-        public JULAdapter() {
-            this(Logger.getLogger("edu.hm.hafner.analysis.JULAdapter"));
-        }
-
         @VisibleForTesting
         JULAdapter(final Logger logger) {
             this.logger = logger;
@@ -909,10 +905,6 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Creates a new Printer that logs to Simple Logging Facade for Java(SLF4J).
          */
-        public SLF4JAdapter() {
-            this(LoggerFactory.getLogger(SLF4JAdapter.class));
-        }
-
         @VisibleForTesting
         SLF4JAdapter(final org.slf4j.Logger logger) {
             this.logger = logger;
