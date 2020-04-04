@@ -850,13 +850,13 @@ public class Report implements Iterable<Issue>, Serializable {
 
     public static class JavaUtilLogginAdaptor implements IssuePrinter {
 
-        private final Logger logger;
+        private  Logger logger;
 
         /**
          * Creates a new printer that prints in the Java Util Logging style.
          */
-        public JavaUtilLogginAdaptor() {
-            this.logger = Logger.getLogger(JavaUtilLogginAdaptor.class.getName());
+        public JavaUtilLogginAdaptor(final Logger logger) {
+            this.logger = logger;
         }
 
         @Override
@@ -888,8 +888,8 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Creates a new printer that prints in the Simple Logging Facade for Java style.
          */
-        public SLF4JAdaptor() {
-            this.logger = LoggerFactory.getLogger(SLF4JAdaptor.class.getName());
+        public SLF4JAdaptor(final org.slf4j.Logger logger) {
+            this.logger = logger;
         }
 
         @Override
