@@ -421,78 +421,6 @@ public class Report implements Iterable<Issue>, Serializable {
 
 
     /**
-     * Prints issues to Java Util Logging output.
-     *
-     * @author Elena Lilova, elena.lilova@gmx.de
-     */
-
-    public static class JavaUtilLogginAdaptor implements IssuePrinter {
-
-        private final Logger logger;
-
-        /**
-         * Creates a new printer that prints in the Java Util Logging style.
-         */
-        public JavaUtilLogginAdaptor(final Logger logger) {
-            this.logger = logger;
-        }
-
-        @Override
-        public void print(final Issue issue) {
-            if (issue.getSeverity().equals(Severity.ERROR)) {
-                logger.log(Level.SEVERE, issue.toString());
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
-                logger.log(Level.WARNING, issue.toString());
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
-                logger.log(Level.INFO, issue.toString());
-            }
-            else {
-                logger.log(Level.FINE, issue.toString());
-            }
-        }
-    }
-
-
-    /**
-     * Prints issues to Simple Logging Facade for Java output.
-     *
-     * @author Elena Lilova, elena.lilova@gmx.de
-     */
-    public  static class SLF4JAdaptor implements IssuePrinter {
-
-        private final org.slf4j.Logger logger;
-
-        /**
-         * Creates a new printer that prints in the Simple Logging Facade for Java style.
-         */
-        public SLF4JAdaptor(final org.slf4j.Logger logger) {
-            this.logger = logger;
-        }
-
-        @Override
-        public void print(final Issue issue) {
-            if (issue.getSeverity().equals(Severity.ERROR)) {
-                logger.error(issue.toString());
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
-                logger.warn(issue.toString());
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
-                logger.info(issue.toString());
-            }
-            else {
-                logger.trace(issue.toString());
-            }
-
-        }
-
-    }
-
-
-
-    /**
      * Returns the affected modules for all issues.
      *
      * @return the affected modules
@@ -1290,4 +1218,82 @@ public class Report implements Iterable<Issue>, Serializable {
         }
         //</editor-fold>
     }
+
+
+
+    /**
+     * Prints issues to Java Util Logging output.
+     *
+     * @author Elena Lilova, elena.lilova@gmx.de
+     */
+
+    public static class JavaUtilLogginAdaptor implements IssuePrinter {
+
+        private final Logger logger;
+
+        /**
+         * Creates a new instance of {@link JavaUtilLogginAdaptor}.
+         * @param logger mock logger instance
+         */
+        public JavaUtilLogginAdaptor(final Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            Level level = Level.ALL;
+            if (issue.getSeverity().equals(Severity.ERROR)) {
+                level = Level.SEVERE;
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
+                level = Level.WARNING;
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+                level = Level.INFO;
+            }
+            else {
+                level = Level.FINE;
+            }
+            logger.log(level, issue.toString());
+        }
+    }
+
+
+    /**
+     * Prints issues to Simple Logging Facade for Java output.
+     *
+     * @author Elena Lilova, elena.lilova@gmx.de
+     */
+    public  static class SLF4JAdaptor implements IssuePrinter {
+
+        private final org.slf4j.Logger logger;
+
+        /**
+         * Creates a new instance of {@link SLF4JAdaptor}.
+         * @param logger mock logger instance
+         */
+        public SLF4JAdaptor(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if (issue.getSeverity().equals(Severity.ERROR)) {
+                logger.error(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
+                logger.warn(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+                logger.info(issue.toString());
+            }
+            else {
+                logger.trace(issue.toString());
+            }
+
+        }
+
+    }
+
+
 }
