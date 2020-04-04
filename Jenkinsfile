@@ -125,7 +125,7 @@
                                 recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml'),
                                         checkStyle(pattern: 'target/checkstyle-result.xml'),
                                         pmdParser(pattern: 'target/pmd.xml',
-                                        cpd('target/cpd.xml))], sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+                                        cpd('target/cpd.xml'))], sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
                                 recordIssues enabledForFailure: true, tool: taskScanner(
                                         includePattern:'**/*.java',
                                         excludePattern:'target/**',
