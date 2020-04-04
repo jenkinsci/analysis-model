@@ -861,13 +861,13 @@ public class Report implements Iterable<Issue>, Serializable {
 
         @Override
         public void print(final Issue issue) {
-            if (issue.equals("ERROR")) {
+            if (issue.getSeverity().equals(Severity.ERROR)) {
                 logger.log(Level.SEVERE, issue.toString());
             }
-            else if (issue.equals("WARNING_HIGH")) {
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
                 logger.log(Level.WARNING, issue.toString());
             }
-            else if (issue.equals("WARNING_NORMAL")) {
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
                 logger.log(Level.INFO, issue.toString());
             }
             else {
@@ -894,13 +894,13 @@ public class Report implements Iterable<Issue>, Serializable {
 
         @Override
         public void print(final Issue issue) {
-            if (issue.equals("ERROR")) {
+            if (issue.getSeverity().equals(Severity.ERROR)) {
                 logger.error(issue.toString());
             }
-            else if (issue.equals("WARNING_HIGH")) {
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
                 logger.warn(issue.toString());
             }
-            else if (issue.equals("WARNING_NORMAL")) {
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
                 logger.info(issue.toString());
             }
             else {
