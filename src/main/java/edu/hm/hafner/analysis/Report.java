@@ -420,9 +420,6 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
 
-
-
-
     /**
      * Prints issues to Java Util Logging output.
      *
@@ -457,12 +454,13 @@ public class Report implements Iterable<Issue>, Serializable {
         }
     }
 
+
     /**
      * Prints issues to Simple Logging Facade for Java output.
      *
      * @author Elena Lilova, elena.lilova@gmx.de
      */
-    public static class SLF4JAdaptor implements IssuePrinter {
+    public  static class SLF4JAdaptor implements IssuePrinter {
 
         private final org.slf4j.Logger logger;
 
@@ -491,9 +489,6 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
     }
-
-
-
 
 
 
