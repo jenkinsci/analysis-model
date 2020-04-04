@@ -22,52 +22,33 @@ abstract class ListTest {
     }
 
     @Test
-    @DisplayName("get element of list should be not null")
+    @DisplayName("get random element between 0-4 should be not null")
     void getElementShouldBeNotNull() {
-        Assertions.assertThat(this.create(5).get(1)).isNotNull();
+        Assertions.assertThat(this.create(5).get((int)(Math.random() * 4))).isNotNull();
     }
 
     @Test
     @DisplayName("get element of list should be null (IndexOutOfBounds)")
     void getElementOutOfIndex() {
-        try {
-            Assertions.assertThat(this.create(5).get(6)).isNull();
-        }
-        catch (IndexOutOfBoundsException e) {
-            System.out.println("IndexOutOfBoundException catched - Test successfull: " + e.getMessage());
-            Assertions.assertThat(true).isTrue();
-        }
+        Assertions.assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> this.create(5).get(6));
     }
 
     @Test
     @DisplayName("add element should increase size of 1")
     void addElement() {
         List<Integer> list = this.create(5);
-
         list.add((int) Math.round(Math.random()));
-        System.out.println("add new element to list.");
-
-        Assertions.assertThat(list).isNotEmpty().size().isEqualTo(6);
-        System.out.println("Size should be 6");
+        Assertions.assertThat(list).isNotEmpty().hasSize(6);
     }
 
     @Test
     @DisplayName("remove element should decrease size of 1")
     void removeElement() {
         List<Integer> list = this.create(5);
-
         int lastElem = list.get(list.size() - 1);
-        System.out.println("Last element: " + lastElem);
-
         list.remove(list.size() - 2);
-        System.out.println("Remove fourth element of list.");
-
         int lastElemAfterRemove = list.get(list.size() - 1);
-        System.out.println("Last element after removing one: " + lastElem);
-
-        Assertions.assertThat(list).isNotEmpty().size().isEqualTo(4);
-        System.out.println("Size should be 4");
+        Assertions.assertThat(list).isNotEmpty().hasSize(4);
         Assertions.assertThat(lastElem == lastElemAfterRemove).isTrue();
-        System.out.println("Both elements should be the same");
     }
 }

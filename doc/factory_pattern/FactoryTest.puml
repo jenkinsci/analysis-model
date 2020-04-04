@@ -1,6 +1,7 @@
 @startuml
-LineRangeTest -> SerializableTest: createSerializable()
-SerializableTest -> LineRange: new LineRange()
+SerializableTest -->LineRangeTest: createSerializable()
+create LineRange
+LineRangeTest -> LineRange: new LineRange()
 LineRange -> SerializableTest: return instanceof LineRange
 SerializableTest --> SerializableTest : LineRange to byteArray
 SerializableTest --> SerializableTest : byteArray to LineRange

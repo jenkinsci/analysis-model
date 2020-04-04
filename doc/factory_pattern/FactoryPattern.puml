@@ -6,7 +6,7 @@ class LineRange
 interface Serializable <<interface>>
 
 LineRangeTest --|> SerializableTest
-LineRange --> Serializable : <<implements>>
+LineRange ..|> Serializable
 SerializableTest ..> LineRange : <<bind>>T::LineRange
 
 
