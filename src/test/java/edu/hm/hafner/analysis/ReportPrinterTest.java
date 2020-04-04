@@ -17,6 +17,9 @@ import edu.hm.hafner.util.ResourceTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Tests printing of reports using the {@link Report#print(Report.IssuePrinter)} method.
@@ -63,9 +66,9 @@ class ReportPrinterTest extends ResourceTest {
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilLogginAdaptor").getClass());
         report.print(new JavaUtilLogginAdaptor(logger));
         verify(logger).log(Level.WARNING, issue.toString());
-        verify(logger,never()).log(Level.FINE,issue.toString());
-        verify(logger,never()).log(Level.INFO,issue.toString());
-        verify(logger,never()).log(Level.FINEST,issue.toString());
+        verify(logger, never()).log(Level.FINE, issue.toString());
+        verify(logger, never()).log(Level.INFO, issue.toString());
+        verify(logger, never()).log(Level.FINEST, issue.toString());
     }
 
     @Test
@@ -76,9 +79,9 @@ class ReportPrinterTest extends ResourceTest {
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilLogginAdaptor").getClass());
         report.print(new JavaUtilLogginAdaptor(logger));
         verify(logger).log(Level.SEVERE, issue.toString());
-        verify(logger,never()).log(Level.FINE,issue.toString());
-        verify(logger,never()).log(Level.INFO,issue.toString());
-        verify(logger,never()).log(Level.WARNING,issue.toString());
+        verify(logger, never()).log(Level.FINE, issue.toString());
+        verify(logger, never()).log(Level.INFO, issue.toString());
+        verify(logger, never()).log(Level.WARNING, issue.toString());
     }
     @Test
     void testWarningNormalLogJavaUtilLogginAdaptor() {
@@ -88,9 +91,9 @@ class ReportPrinterTest extends ResourceTest {
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilLogginAdaptor").getClass());
         report.print(new JavaUtilLogginAdaptor(logger));
         verify(logger).log(Level.INFO, issue.toString());
-        verify(logger,never()).log(Level.FINE,issue.toString());
-        verify(logger,never()).log(Level.SEVERE,issue.toString());
-        verify(logger,never()).log(Level.WARNING,issue.toString());
+        verify(logger, never()).log(Level.FINE, issue.toString());
+        verify(logger, never()).log(Level.SEVERE, issue.toString());
+        verify(logger, never()).log(Level.WARNING, issue.toString());
     }
     @Test
     void testWarningLowLogJavaUtilLogginAdaptor() {
@@ -100,9 +103,9 @@ class ReportPrinterTest extends ResourceTest {
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JavaUtilLogginAdaptor").getClass());
         report.print(new JavaUtilLogginAdaptor(logger));
         verify(logger).log(Level.FINE, issue.toString());
-        verify(logger,never()).log(Level.INFO,issue.toString());
-        verify(logger,never()).log(Level.SEVERE,issue.toString());
-        verify(logger,never()).log(Level.WARNING,issue.toString());
+        verify(logger, never()).log(Level.INFO, issue.toString());
+        verify(logger, never()).log(Level.SEVERE, issue.toString());
+        verify(logger, never()).log(Level.WARNING, issue.toString());
     }
 
     @Test
@@ -110,12 +113,12 @@ class ReportPrinterTest extends ResourceTest {
         Report report = new Report();
         Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Warning with high importance").build();
         report.add(issue);
-        org.slf4j.Logger logger = mock(org.slf4j.LoggerFactory.getLogger("edu.hm.hafner.analysis.SLF4JAdaptor").getClass());
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdaptor.class).getClass());
         report.print(new SLF4JAdaptor(logger));
         verify(logger).warn(issue.toString());
-        verify(logger,never()).error(issue.toString());
-        verify(logger,never()).info(issue.toString());
-        verify(logger,never()).trace(issue.toString());
+        verify(logger, never()).error(issue.toString());
+        verify(logger, never()).info(issue.toString());
+        verify(logger, never()).trace(issue.toString());
 
     }
     @Test
@@ -123,36 +126,36 @@ class ReportPrinterTest extends ResourceTest {
         Report report = new Report();
         Issue issue = new IssueBuilder().setSeverity(Severity.ERROR).setMessage("Error. Immediate verification is necessary!").build();
         report.add(issue);
-        org.slf4j.Logger logger = mock(org.slf4j.LoggerFactory.getLogger("edu.hm.hafner.analysis.SLF4JAdaptor").getClass());
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdaptor.class).getClass());
         report.print(new SLF4JAdaptor(logger));
         verify(logger).error(issue.toString());
-        verify(logger,never()).warn(issue.toString());
-        verify(logger,never()).info(issue.toString());
-        verify(logger,never()).trace(issue.toString());
+        verify(logger, never()).warn(issue.toString());
+        verify(logger, never()).info(issue.toString());
+        verify(logger, never()).trace(issue.toString());
     }
     @Test
     void testWarningNormalLogginSLF4JAdaptor() {
         Report report = new Report();
         Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_NORMAL).setMessage("Warning with very low importance, with informative purpose.").build();
         report.add(issue);
-        org.slf4j.Logger logger = mock(org.slf4j.LoggerFactory.getLogger("edu.hm.hafner.analysis.SLF4JAdaptor").getClass());
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdaptor.class).getClass());
         report.print(new SLF4JAdaptor(logger));
         verify(logger).info(issue.toString());
-        verify(logger,never()).warn(issue.toString());
-        verify(logger,never()).error(issue.toString());
-        verify(logger,never()).trace(issue.toString());
+        verify(logger, never()).warn(issue.toString());
+        verify(logger, never()).error(issue.toString());
+        verify(logger, never()).trace(issue.toString());
     }
     @Test
     void testWarningLowLogginSLF4JAdaptor() {
         Report report = new Report();
         Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_LOW).setMessage("Everything is fine!").build();
         report.add(issue);
-        org.slf4j.Logger logger = mock(org.slf4j.LoggerFactory.getLogger("edu.hm.hafner.analysis.SLF4JAdaptor").getClass());
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdaptor.class).getClass());
         report.print(new SLF4JAdaptor(logger));
         verify(logger).trace(issue.toString());
-        verify(logger,never()).warn(issue.toString());
-        verify(logger,never()).error(issue.toString());
-        verify(logger,never()).info(issue.toString());
+        verify(logger, never()).warn(issue.toString());
+        verify(logger, never()).error(issue.toString());
+        verify(logger, never()).info(issue.toString());
     }
 
 
