@@ -6,6 +6,9 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
+import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
@@ -27,6 +30,8 @@ public class EclipseParser extends LookaheadParser {
     static final String WARNING = "WARNING";
     static final String ERROR = "ERROR";
     static final String INFO = "INFO";
+
+    private static final String JAVADOC_PREFIX = "Javadoc:";
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
@@ -66,11 +71,30 @@ public class EclipseParser extends LookaheadParser {
     }
 
     static void extractMessage(final IssueBuilder builder, final String message) {
-        Pattern ant = Pattern.compile("^(?:.*\\[.*\\])?\\s*(.*)");
+        Pattern ant = Pattern.compile("^(?:.*\\[.+\\])?\\s*(.*)");
         Matcher messageMatcher = ant.matcher(message);
         if (messageMatcher.matches()) {
-            builder.setMessage(messageMatcher.group(1));
+            String msg = messageMatcher.group(1);
+            builder.setMessage(msg);
+            extractCategory(builder, msg);
+        }
+    }
+
+    /**
+     * Sets the issue's category to {@code Javadoc} if the message starts with {@value #JAVADOC_PREFIX}, {@code Other}
+     * otherwise. Unlike {@link #extractMessage(IssueBuilder, String)}, the {@code message} is assumed to be cleaned-up.
+     * 
+     * @param builder
+     *     IssueBuilder to populate.
+     * @param message
+     *     issue to examine.
+     */
+    static void extractCategory(final IssueBuilder builder, final String message) {
+        if (StringUtils.startsWith(message, JAVADOC_PREFIX)) {
+            builder.setCategory(Categories.JAVADOC);
+        }
+        else {
+            builder.setCategory(Categories.OTHER);
         }
     }
 }
-

@@ -13,12 +13,12 @@ public class DocFxAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 2162266195669804761L;
 
     @Override
-    protected DocFXParser createParser() {
+    DocFXParser createParser() {
         return new DocFXParser();
     }
 
     @Override
-    protected boolean isValid(final Violation violation) {
+    boolean isValid(final Violation violation) {
         SEVERITY severity = violation.getSeverity();
         return severity != SEVERITY.INFO;
     }

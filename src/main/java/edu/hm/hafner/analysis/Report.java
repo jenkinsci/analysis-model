@@ -1,10 +1,13 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.analysis; // NOPMD
 
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -16,13 +19,17 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
+import org.slf4j.LoggerFactory;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -30,6 +37,7 @@ import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static java.util.stream.Collectors.*;
 
@@ -48,7 +56,7 @@ import static java.util.stream.Collectors.*;
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
-    private static final long serialVersionUID = 1L; // release 1.0.0
+    private static final long serialVersionUID = 2L; // release 8.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
@@ -56,6 +64,9 @@ public class Report implements Iterable<Issue>, Serializable {
     private final Set<Issue> elements = new LinkedHashSet<>();
     private final List<String> infoMessages = new ArrayList<>();
     private final List<String> errorMessages = new ArrayList<>();
+
+    private final Set<String> fileNames = new HashSet<>();
+    private Map<String, String> namesByOrigin = new HashMap<>();
 
     private int duplicatesSize = 0;
 
@@ -76,6 +87,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @see #copyIssuesAndProperties(Report, Report)
      */
+    @SuppressWarnings("ConstructorLeaksThis")
     public Report(final Report... reports) {
         Ensure.that(reports).isNotEmpty("No reports given.");
 
@@ -94,6 +106,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @see #copyIssuesAndProperties(Report, Report)
      */
+    @SuppressWarnings("ConstructorLeaksThis")
     public Report(final Collection<Report> reports) {
         Ensure.that(reports).isNotEmpty("No reports given.");
 
@@ -180,6 +193,41 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Called after de-serialization to improve the memory usage and to initialize fields that have been introduced
+     * after the first release.
+     *
+     * @return this
+     */
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
+    protected Object readResolve() {
+        if (namesByOrigin == null) {
+            namesByOrigin = new HashMap<>();
+        }
+
+        return this;
+    }
+
+    /**
+     * Adds the specified file name to the set of file names in this report. The file name identifies the file that has
+     * been processed to obtain all the issues of this report.
+     *
+     * @param fileName
+     *         the report file name to add
+     */
+    public void addFileName(final String fileName) {
+        fileNames.add(fileName);
+    }
+
+    /**
+     * Returns all files that have been processed to obtain all the issues of this report.
+     *
+     * @return the file names
+     */
+    public Set<String> getFileNames() {
+        return fileNames;
+    }
+
+    /**
      * Removes the issue with the specified ID. Note that the number of reported duplicates is not affected by calling
      * this method.
      *
@@ -190,7 +238,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @throws NoSuchElementException
      *         if there is no such issue found
      */
-    public Issue remove(final UUID issueId) {
+    Issue remove(final UUID issueId) {
         for (Issue element : elements) {
             if (element.getId().equals(issueId)) {
                 elements.remove(element);
@@ -363,6 +411,16 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Prints all issues of the report.
+     *
+     * @param issuePrinter
+     *         prints a summary of an {@link Issue}
+     */
+    public void print(final IssuePrinter issuePrinter) {
+        forEach(issuePrinter::print);
+    }
+
+    /**
      * Returns the affected modules for all issues.
      *
      * @return the affected modules
@@ -425,6 +483,15 @@ public class Report implements Iterable<Issue>, Serializable {
         packages.remove(DEFAULT_ID);
 
         return hasProperty(getFolders()) && packages.isEmpty();
+    }
+
+    /**
+     * Returns the absolute paths of the affected files for all issues.
+     *
+     * @return the affected files
+     */
+    public Set<String> getAbsolutePaths() {
+        return getProperties(Issue::getAbsolutePath);
     }
 
     /**
@@ -591,6 +658,7 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.duplicatesSize += source.duplicatesSize;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
+        destination.namesByOrigin.putAll(source.namesByOrigin);
     }
 
     /**
@@ -687,7 +755,6 @@ public class Report implements Iterable<Issue>, Serializable {
         return !errorMessages.isEmpty();
     }
 
-    @SuppressWarnings("CheckStyle")
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -721,6 +788,132 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns a human readable name for the specified {@code origin} of this report.
+     *
+     * @param origin
+     *         the origin to get the human readable name for
+     *
+     * @return the name, or an empty string ifg noi such name has been set
+     */
+    public String getNameOfOrigin(final String origin) {
+        return namesByOrigin.getOrDefault(origin, StringUtils.EMPTY);
+    }
+
+    /**
+     * Provides a human readable name for the specified {@code origin} of this report.
+     *
+     * @param origin
+     *         the origin to define a name for
+     * @param name
+     *         the human readable name
+     */
+    public void setNameOfOrigin(final String origin, final String name) {
+        namesByOrigin.put(origin, name);
+    }
+
+    /**
+     * Prints a summary of an {@link Issue}.
+     */
+    public interface IssuePrinter {
+        void print(Issue issue);
+    }
+
+    /**
+     * Prints issues to the "standard" output stream.
+     */
+    public static class StandardOutputPrinter implements IssuePrinter {
+        private final PrintStream printStream;
+
+        /**
+         * Creates a new printer that prints to the "standard" output stream.
+         */
+        public StandardOutputPrinter() {
+            this(System.out);
+        }
+
+        @VisibleForTesting
+        StandardOutputPrinter(final PrintStream printStream) {
+            this.printStream = printStream;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            printStream.println(issue.toString());
+        }
+    }
+
+    /**
+     * Prints issues to Java Util Logging output.
+     *
+     * @author Elena Lilova, elena.lilova@gmx.de
+     */
+
+    public static class JavaUtilLogginAdaptor implements IssuePrinter {
+
+        private final Logger logger;
+
+        /**
+         * Creates a new printer that prints in the Java Util Logging style.
+         */
+        public JavaUtilLogginAdaptor() {
+            this.logger = Logger.getLogger(JavaUtilLogginAdaptor.class.getName());
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if (issue.equals("ERROR")) {
+                logger.log(Level.SEVERE, issue.toString());
+            }
+            else if (issue.equals("WARNING_HIGH")) {
+                logger.log(Level.WARNING, issue.toString());
+            }
+            else if (issue.equals("WARNING_NORMAL")) {
+                logger.log(Level.INFO, issue.toString());
+            }
+            else {
+                logger.log(Level.FINE, issue.toString());
+            }
+        }
+    }
+
+    /**
+     * Prints issues to Simple Logging Facade for Java output.
+     *
+     * @author Elena Lilova, elena.lilova@gmx.de
+     */
+    public static class SLF4JAdaptor implements IssuePrinter {
+
+        org.slf4j.Logger logger;
+
+        /**
+         * Creates a new printer that prints in the Simple Logging Facade for Java style.
+         */
+        public SLF4JAdaptor() {
+            this.logger = LoggerFactory.getLogger(SLF4JAdaptor.class.getName());
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if (issue.equals("ERROR")) {
+                logger.error(issue.toString());
+            }
+            else if (issue.equals("WARNING_HIGH")) {
+                logger.warn(issue.toString());
+            }
+            else if (issue.equals("WARNING_NORMAL")) {
+                logger.info(issue.toString());
+            }
+            else {
+                logger.trace(issue.toString());
+            }
+
+        }
+
+    }
+
+
+
+    /**
      * Builds a combined filter based on several include and exclude filters.
      *
      * @author Raphael Furch
@@ -742,6 +935,8 @@ public class Report implements Iterable<Issue>, Serializable {
          *         filter patterns.
          * @param propertyToFilter
          *         Function to get a string from Issue for patterns
+         * @param type
+         *         type of the filter
          */
         private void addNewFilter(final Collection<String> patterns, final Function<Issue, String> propertyToFilter,
                 final FilterType type) {
@@ -765,6 +960,7 @@ public class Report implements Iterable<Issue>, Serializable {
          *
          * @return a IssueFilter which has all added filter as filter criteria.
          */
+        @SuppressWarnings("NoFunctionalReturnType")
         public Predicate<Issue> build() {
             return includeFilters.stream().reduce(Predicate::or).orElse(issue -> true)
                     .and(excludeFilters.stream().reduce(Predicate::and).orElse(issue -> true));
@@ -1075,11 +1271,6 @@ public class Report implements Iterable<Issue>, Serializable {
             return this;
         }
 
-        private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
-            addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
-                    filterType);
-        }
-
         /**
          * Add a new filter to exclude issues with matching issue message.
          *
@@ -1090,6 +1281,11 @@ public class Report implements Iterable<Issue>, Serializable {
          */
         public IssueFilterBuilder setExcludeMessageFilter(final String... pattern) {
             return setExcludeMessageFilter(Arrays.asList(pattern));
+        }
+
+        private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
+            addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
+                    filterType);
         }
         //</editor-fold>
     }

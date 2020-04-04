@@ -12,7 +12,7 @@ public class ResharperInspectCodeAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = -7285232072855215797L;
 
     @Override
-    protected ViolationsParser createParser() {
+    ViolationsParser createParser() {
         return new ResharperParser();
     }
 }

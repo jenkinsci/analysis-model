@@ -10,10 +10,9 @@ import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -38,19 +37,33 @@ class JavacParserTest extends AbstractParserTest {
                 .hasCategory(Categories.DEPRECATION)
                 .hasLineStart(40)
                 .hasLineEnd(40)
-                .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
+                .hasMessage(
+                        "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                .hasFileName(
+                        "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
                 .hasColumnStart(36);
     }
 
     /**
      * Parses a warning log with two false positives.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
      */
     @Test
     void issue55805() {
         assertTimeoutPreemptively(Duration.ofSeconds(5), () -> parse("issue55805.txt"));
+    }
+
+    /**
+     * Parses a file with ANSI colors.
+     *
+     * @see <a href="https://github.com/jenkinsci/analysis-model/pull/118">PR #118</a>
+     */
+    @Test
+    void shouldParseAnsiColorCodedLog() {
+        Report report = parse("maven-ansi.txt");
+
+        assertThat(report).hasSize(4);
     }
 
     /**
@@ -65,9 +78,26 @@ class JavacParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parses a log with 3 valid and 3 invalid timestamp preceding warnings.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56737">JENKINS-56737</a>
+     */
+    @Test
+    void shouldParseTimestamps() {
+        Report warnings = parse("javac-timestamps.txt");
+
+        assertThat(warnings).hasSize(5);
+        assertThat(warnings.get(0)).hasMessage("Test1");
+        assertThat(warnings.get(1)).hasMessage("Test2");
+        assertThat(warnings.get(2)).hasMessage("Test3");
+        assertThat(warnings.get(3)).hasMessage("Test4");
+        assertThat(warnings.get(4)).hasMessage("Test8");
+    }
+
+    /**
      * Parses a warning log with two false positives.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-14043">Issue 14043</a>
      */
     @Test
     void issue14043() {
@@ -103,15 +133,16 @@ class JavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
                     .hasLineEnd(14)
-                    .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
+                    .hasMessage(
+                            "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
                     .hasFileName("D:/path/to/my/Class.java");
-        });
+        }
     }
 
     /**
@@ -123,7 +154,7 @@ class JavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(2);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.DEPRECATION)
@@ -142,7 +173,7 @@ class JavacParserTest extends AbstractParserTest {
                             "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
                     .hasFileName(
                             "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
-        });
+        }
     }
 
     /**
@@ -162,6 +193,19 @@ class JavacParserTest extends AbstractParserTest {
         assertThatWarningIsAtLine(iterator.next(), 105);
     }
 
+    @Test
+    void shouldNotIncludeErrorprone() {
+        Report warnings = parse("javac-errorprone.txt");
+
+        assertThat(warnings).hasSize(2);
+        assertThat(warnings.get(0)).hasSeverity(Severity.ERROR);
+        assertThat(warnings.get(1)).hasSeverity(Severity.ERROR);
+
+        warnings = parse("errorprone-maven.log");
+
+        assertThat(warnings).hasSize(0);
+    }
+
     /**
      * Verifies the annotation content.
      *
@@ -171,7 +215,7 @@ class JavacParserTest extends AbstractParserTest {
      *         the line number of the warning
      */
     private void assertThatWarningIsAtLine(final Issue annotation, final int lineNumber) {
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(annotation)
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.PROPRIETARY_API)
@@ -181,7 +225,7 @@ class JavacParserTest extends AbstractParserTest {
                             "com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release")
                     .hasFileName(
                             "/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
-        });
+        }
     }
 }
 

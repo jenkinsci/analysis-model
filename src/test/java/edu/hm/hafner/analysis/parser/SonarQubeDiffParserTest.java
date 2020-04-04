@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -39,11 +39,11 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(8);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("cart-appclient-folder/src/main/java/javaeetutorial/cart/client/CartClient.java")
                     .hasLineStart(16);
-        });
+        }
     }
 
     @Test
@@ -52,9 +52,8 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
 
         assertThat(parser.accepts(createReaderFactory("sonarqube-differential.json"))).isTrue();
         assertThat(parser.accepts(createReaderFactory("sonarqube-api.json"))).isFalse();
-
     }
-    
+
     @Override
     protected SonarQubeParser createParser() {
         return new SonarQubeDiffParser();

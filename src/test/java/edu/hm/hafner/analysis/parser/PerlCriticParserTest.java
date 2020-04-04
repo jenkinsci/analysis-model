@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.Report;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the Perl::Critic Parser.
@@ -38,7 +38,7 @@ class PerlCriticParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("33 of PBP")
@@ -65,7 +65,7 @@ class PerlCriticParserTest extends AbstractParserTest {
                     .hasMessage("Backtick operator used")
                     .hasFileName("perl/ch1/hello")
                     .hasColumnStart(10);
-        });
+        }
     }
 
     /**
@@ -78,7 +78,7 @@ class PerlCriticParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("Don't use whitespace at the end of lines")
@@ -105,7 +105,7 @@ class PerlCriticParserTest extends AbstractParserTest {
                     .hasMessage("Bareword file handle opened")
                     .hasFileName("-")
                     .hasColumnStart(1);
-        });
+        }
     }
 
     /**

@@ -11,7 +11,7 @@ public class KlocWorkAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 5676554459268768313L;
 
     @Override
-    protected KlocworkParser createParser() {
+    KlocworkParser createParser() {
         return new KlocworkParser();
     }
 }

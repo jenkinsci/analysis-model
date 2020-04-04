@@ -2,7 +2,7 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link LineRangeList}.
@@ -103,5 +103,57 @@ class LineRangeListTest {
         range.add(new LineRange(4, 5));
         assertThat(range).containsExactly(new LineRange(0, 1), new LineRange(2, 3), new LineRange(4, 5));
         return range;
+    }
+
+    @Test
+    void shouldStoreRangeWithTwoLinesBuilder() {
+        LineRangeList list = new LineRangeList();
+        LineRangeBuilder rangeBuilder = new LineRangeBuilder();
+        LineRange range = rangeBuilder.setEnd(129).setStart(128).build();
+        list.add(range);
+        assertThat(list).containsExactly(range);
+    }
+    @Test
+    void builderTest_1() {
+        LineRangeBuilder rangeBuilder = new LineRangeBuilder();
+        LineRange range = rangeBuilder.setEnd(129).setStart(120).build();
+        assertThat(range.getEnd()).isEqualTo(129);
+        assertThat(range.getStart()).isEqualTo(120);
+    }
+    @Test
+    void builderTest_2() {
+        LineRangeBuilder rangeBuilder = new LineRangeBuilder();
+        LineRange range = rangeBuilder.setEnd(2).setStart(1).build();
+        assertThat(range.getEnd()).isEqualTo(2);
+        assertThat(range.getStart()).isEqualTo(1);
+    }
+    @Test
+    void builderTest_3() {
+        LineRangeBuilder rangeBuilder = new LineRangeBuilder();
+        LineRange range = rangeBuilder.setEnd(5).setStart(0).build();
+        assertThat(range.getEnd()).isEqualTo(0);
+        assertThat(range.getStart()).isEqualTo(0);
+    }
+    @Test
+    void builderTest_4() {
+        LineRangeBuilder rangeBuilder = new LineRangeBuilder();
+        LineRange range = rangeBuilder.setEnd(5).setStart(-3).build();
+        assertThat(range.getEnd()).isEqualTo(0);
+        assertThat(range.getStart()).isEqualTo(0);
+    }
+    @Test
+    void builderTest_5() {
+        LineRangeBuilder rangeBuilder = new LineRangeBuilder();
+        LineRange range = rangeBuilder.setEnd(1).setStart(4).build();
+        assertThat(range.getEnd()).isEqualTo(4);
+        assertThat(range.getStart()).isEqualTo(1);
+    }
+
+    @Test
+    void builderTest_6() {
+        LineRangeBuilder rangeBuilder = new LineRangeBuilder();
+        rangeBuilder.setStart(3).setEnd(10);
+        LineRange range = new LineRange(3,10);
+        assertThat(rangeBuilder.build().equals(range));
     }
 }

@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 public class SphinxBuildParser extends RegexpLineParser {
     private static final long serialVersionUID = 1483050615340274588L;
 
-    private static final String SPHINX_BUILD_WARNING_PATTERN = "^(.*):(\\d+|None|): (.*?): (.*)";
+    private static final String SPHINX_BUILD_WARNING_PATTERN = "^([a-zA-Z]:\\\\.*?|/.*?|[^\\/].*?):(?:.* of .*:)?(\\d+|None|): (ERROR|WARNING): (.*)";
 
     /**
      * Creates a new instance of {@link SphinxBuildParser}.

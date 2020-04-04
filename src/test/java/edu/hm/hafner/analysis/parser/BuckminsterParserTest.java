@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link BuckminsterParser}.
@@ -24,19 +24,22 @@ class BuckminsterParserTest extends AbstractParserTest {
                 .hasLineStart(43)
                 .hasLineEnd(43)
                 .hasMessage("ArrayList is a raw type. References to generic type ArrayList<E> should be parameterized")
-                .hasFileName("/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp/src/org/eclipse/buckminster/tutorial/mailapp/NavigationView.java");
+                .hasFileName(
+                        "/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp/src/org/eclipse/buckminster/tutorial/mailapp/NavigationView.java");
         softly.assertThat(report.get(1)).hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory(CATEGORY)
                 .hasLineStart(57)
                 .hasLineEnd(57)
-                .hasMessage("Type safety: The method toArray(Object[]) belongs to the raw type ArrayList. References to generic type ArrayList<E> should be parameterized")
+                .hasMessage(
+                        "Type safety: The method toArray(Object[]) belongs to the raw type ArrayList. References to generic type ArrayList<E> should be parameterized")
                 .hasFileName(
                         "/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp/src/org/eclipse/buckminster/tutorial/mailapp/NavigationView.java");
         softly.assertThat(report.get(2)).hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(CATEGORY)
                 .hasLineStart(0)
                 .hasLineEnd(0)
-                .hasMessage("Build path specifies execution environment J2SE-1.5. There are no JREs installed in the workspace that are strictly compatible with this environment.")
+                .hasMessage(
+                        "Build path specifies execution environment J2SE-1.5. There are no JREs installed in the workspace that are strictly compatible with this environment.")
                 .hasFileName("/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp");
     }
 

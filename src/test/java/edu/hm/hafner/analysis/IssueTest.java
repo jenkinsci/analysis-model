@@ -3,13 +3,17 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.SerializableTest;
+import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
 
 /**
@@ -17,11 +21,15 @@ import static java.util.Collections.*;
  *
  * @author Marcel Binder
  */
+@SuppressFBWarnings("DMI")
 class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
-    static final String FILE_NAME = "C:/users/tester/file-name";
-    private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+    private static final String BASE_NAME = "file.txt";
+    static final String FILE_NAME = "some/relative/path/to/" + BASE_NAME;
+    static final TreeString FILE_NAME_TS = TREE_STRING_BUILDER.intern(FILE_NAME);
+    static final String PATH_NAME = "/path/to/affected/files";
 
     static final int LINE_START = 1;
     static final int LINE_END = 2;
@@ -30,23 +38,28 @@ class IssueTest extends SerializableTest<Issue> {
     static final String CATEGORY = "category";
     static final String TYPE = "type";
     static final String PACKAGE_NAME = "package-name";
+    static final TreeString PACKAGE_NAME_TS = TREE_STRING_BUILDER.intern(PACKAGE_NAME);
     static final String MODULE_NAME = "module-name";
     static final Severity SEVERITY = Severity.WARNING_HIGH;
     static final String MESSAGE = "message";
-    static final String MESSAGE_NOT_STRIPPED = "    message  ";
+    static final TreeString MESSAGE_TS = TREE_STRING_BUILDER.intern(MESSAGE);
     static final String DESCRIPTION = "description";
-    static final String DESCRIPTION_NOT_STRIPPED = "    description  ";
     static final String EMPTY = "";
+    static final TreeString EMPTY_TS = TREE_STRING_BUILDER.intern(EMPTY);
     static final String UNDEFINED = "-";
+    static final TreeString UNDEFINED_TS = TREE_STRING_BUILDER.intern(UNDEFINED);
     static final String FINGERPRINT = "fingerprint";
     static final String ORIGIN = "origin";
     static final String REFERENCE = "reference";
     static final String ADDITIONAL_PROPERTIES = "additional";
     static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRange(5, 6)));
+    private static final String WINDOWS_PATH = "C:/Windows";
 
     /**
      * Creates a new subject under test (i.e. a sub-type of {@link Issue}) using the specified properties.
      *
+     * @param pathName
+     *         the path that contains the affected file
      * @param fileName
      *         the name of the file that contains this issue
      * @param lineStart
@@ -83,24 +96,85 @@ class IssueTest extends SerializableTest<Issue> {
      * @return the subject under test
      */
     @SuppressWarnings("ParameterNumber")
-    protected Issue createIssue(@Nullable final String fileName,
+    protected Issue createIssue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @Nullable final String category, @Nullable final String type,
-            @Nullable final String packageName, @Nullable final String moduleName,
-            @Nullable final Severity priority, @Nullable final String message,
-            @Nullable final String description, @Nullable final String origin,
+            final TreeString packageName, @Nullable final String moduleName,
+            @Nullable final Severity priority, final TreeString message,
+            final String description, @Nullable final String origin,
             @Nullable final String reference, @Nullable final String fingerprint,
             final String additionalProperties) {
-        return new Issue(fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type, packageName,
+        return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type,
+                packageName,
                 moduleName, priority, message, description, origin, reference, fingerprint, additionalProperties,
                 UUID.randomUUID());
     }
 
     @Test
+    void shouldSplitFileNameElements() {
+        Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasFileName(FILE_NAME)
+                    .hasPath(PATH_NAME)
+                    .hasAbsolutePath(PATH_NAME + "/" + FILE_NAME)
+                    .hasBaseName(BASE_NAME);
+        }
+
+        TreeString newName = TreeString.valueOf("new.txt");
+        issue.setFileName("/new", newName);
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasFileName("new.txt")
+                    .hasPath("/new")
+                    .hasAbsolutePath("/new/new.txt")
+                    .hasBaseName("new.txt");
+        }
+
+        Issue other = new Issue(PATH_NAME, newName, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+        assertThat(issue).as("Equals should not consider pathName in computation").isEqualTo(other);
+
+        Issue emptyPath = new Issue("", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(emptyPath)
+                    .hasFileName(FILE_NAME)
+                    .hasPath(UNDEFINED)
+                    .hasAbsolutePath(FILE_NAME)
+                    .hasBaseName(BASE_NAME);
+        }
+    }
+
+    @Test
+    void shouldConvertWindowsNames() {
+        Issue issue = new Issue("C:\\Windows", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasFileName(FILE_NAME)
+                    .hasPath(WINDOWS_PATH)
+                    .hasAbsolutePath(WINDOWS_PATH + "/" + FILE_NAME)
+                    .hasBaseName(BASE_NAME);
+        }
+
+        issue.setFileName("c:\\Another\\Path", FILE_NAME_TS);
+        assertThat(issue).hasPath("C:/Another/Path");
+    }
+
+    @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
-        Issue issue = new Issue(FILE_NAME, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY,
-                MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+        Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
+                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
     }
@@ -113,7 +187,7 @@ class IssueTest extends SerializableTest<Issue> {
     void shouldSetAllPropertiesInConstructor() {
         Issue issue = createFilledIssue();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue)
                     .hasFileName(FILE_NAME)
@@ -134,9 +208,9 @@ class IssueTest extends SerializableTest<Issue> {
             softly.assertThat(issue.hasPackageName()).isTrue();
             softly.assertThat(issue.hasFileName()).isTrue();
             softly.assertThat(issue.hasModuleName()).isTrue();
-        });
+        }
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(Issue.getPropertyValueAsString(issue, "fileName"))
                     .isEqualTo(issue.getFileName());
             softly.assertThat(Issue.getPropertyValueAsString(issue, "category"))
@@ -145,7 +219,7 @@ class IssueTest extends SerializableTest<Issue> {
                     .isEqualTo(String.valueOf(issue.getLineStart()));
             softly.assertThat(Issue.getPropertyValueAsString(issue, "severity"))
                     .isEqualTo(issue.getSeverity().toString());
-        });
+        }
     }
 
     @Test
@@ -159,43 +233,46 @@ class IssueTest extends SerializableTest<Issue> {
         String moduleName = "new-module";
         issue.setModuleName(moduleName);
         String packageName = "new-package";
-        issue.setPackageName(packageName);
-        String fileName = "new-file";
-        issue.setFileName(fileName);
+        issue.setPackageName(TREE_STRING_BUILDER.intern(packageName));
+        TreeString fileName = TREE_STRING_BUILDER.intern("new-file");
+        String pathName = "new-path";
+        issue.setFileName(pathName, fileName);
         String fingerprint = "new-fingerprint";
         issue.setFingerprint(fingerprint);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasOrigin(origin)
                     .hasReference(reference)
                     .hasModuleName(moduleName)
                     .hasPackageName(packageName)
-                    .hasFileName(fileName)
+                    .hasFileName(fileName.toString())
+                    .hasPath(pathName)
+                    .hasAbsolutePath(pathName + "/" + fileName)
                     .hasFingerprint(fingerprint);
-        });
+        }
     }
 
     @Test
     @SuppressWarnings("NullAway")
     void testDefaultIssueNullStringsNegativeIntegers() {
-        Issue issue = createIssue(null, 0, 0, 0, 0,
-                null, null, null, null,
-                SEVERITY, null, null, null, null, null, null);
+        Issue issue = createIssue(null, UNDEFINED_TS, 0, 0, 0, 0,
+                null, null, UNDEFINED_TS, null,
+                SEVERITY, EMPTY_TS, EMPTY, null, null, null, null);
 
         assertIsDefaultIssue(issue);
     }
 
     @Test
     void testDefaultIssueEmptyStringsNegativeIntegers() {
-        Issue issue = createIssue(EMPTY, -1, -1, -1, -1,
-                EMPTY, EMPTY, EMPTY, EMPTY, SEVERITY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+        Issue issue = createIssue(EMPTY, UNDEFINED_TS, -1, -1, -1, -1,
+                EMPTY, EMPTY, UNDEFINED_TS, EMPTY, SEVERITY, EMPTY_TS, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
 
         assertIsDefaultIssue(issue);
     }
 
     private void assertIsDefaultIssue(final Issue issue) {
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue)
                     .hasFileName(UNDEFINED)
@@ -213,28 +290,29 @@ class IssueTest extends SerializableTest<Issue> {
             softly.assertThat(issue.hasPackageName()).isFalse();
             softly.assertThat(issue.hasFileName()).isFalse();
             softly.assertThat(issue.hasModuleName()).isFalse();
-        });
+        }
     }
 
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
-        Issue issue = createIssue(FILE_NAME, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE,
-                PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+        Issue issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE,
+                PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasLineStart(LINE_START)
                     .hasLineEnd(LINE_START)
                     .hasColumnStart(COLUMN_START)
                     .hasColumnEnd(COLUMN_START);
-        });
+        }
     }
 
     @Test
     void testNullPriorityDefaultsToNormal() {
-        Issue issue = createIssue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE,
-                PACKAGE_NAME, MODULE_NAME, null, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
+        Issue issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
+                TYPE,
+                PACKAGE_NAME_TS, MODULE_NAME, null, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
                 ADDITIONAL_PROPERTIES);
 
         assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
@@ -254,15 +332,16 @@ class IssueTest extends SerializableTest<Issue> {
      * @return a correctly filled issue
      */
     protected Issue createFilledIssue() {
-        return createIssue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE, PACKAGE_NAME,
-                MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
+        return createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE,
+                PACKAGE_NAME_TS,
+                MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
     }
 
     @Test
     void testToString() {
         Issue issue = createFilledIssue();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue.toString())
                     .contains(FILE_NAME)
                     .contains(Integer.toString(LINE_START))
@@ -270,32 +349,7 @@ class IssueTest extends SerializableTest<Issue> {
                     .contains(CATEGORY)
                     .contains(TYPE)
                     .contains(MESSAGE);
-        });
-    }
-
-    @Test
-    void testFileNameBackslashConversion() {
-        Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
-                ADDITIONAL_PROPERTIES);
-
-        assertThat(issue).hasFileName(FILE_NAME);
-        
-        issue.setFileName(FILE_NAME_WITH_BACKSLASHES);
-        assertThat(issue).hasFileName(FILE_NAME);
-    }
-
-    @Test
-    void testMessageDescriptionStripped() {
-        Issue issue = createIssue(FILE_NAME_WITH_BACKSLASHES, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE_NOT_STRIPPED, DESCRIPTION_NOT_STRIPPED, ORIGIN,
-                REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
-
-        assertSoftly(softly -> {
-            softly.assertThat(issue)
-                    .hasMessage(MESSAGE)
-                    .hasDescription(DESCRIPTION);
-        });
+        }
     }
 
     @Override

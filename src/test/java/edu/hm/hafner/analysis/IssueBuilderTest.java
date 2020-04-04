@@ -8,21 +8,27 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Unit test for {@link IssueBuilder}.
  *
  * @author Marcel Binder
  */
+@SuppressFBWarnings("DMI")
 class IssueBuilderTest {
-    private static final Issue DEFAULT_ISSUE = new Issue(null, 0, 0, 0, 0, new LineRangeList(),
-            null, null, null, null, null, null, null, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, PACKAGE_NAME, MODULE_NAME, SEVERITY, MESSAGE, DESCRIPTION, ORIGIN, REFERENCE,
+    private static final String FILE_NAME = "C:/users/tester/file-name";
+    static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+    private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
+            null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null);
+    private static final Issue FILLED_ISSUE = new Issue(PATH_NAME, TreeString.valueOf(FILE_NAME), LINE_START,
+            LINE_END, COLUMN_START, COLUMN_END,
+            LINE_RANGES, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
+            TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
 
@@ -33,25 +39,40 @@ class IssueBuilderTest {
 
         builder.setFileName(RELATIVE_FILE);
 
-        assertThat(builder.build()).hasFileName(RELATIVE_FILE);
-        assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
-        assertThat(builder.build().getFolder()).isEqualTo(UNDEFINED);
+        assertThat(builder.build())
+                .hasFileName(RELATIVE_FILE)
+                .hasBaseName(RELATIVE_FILE)
+                .hasFolder(UNDEFINED)
+                .hasPath(UNDEFINED);
 
         builder.setDirectory("/tmp");
         builder.setFileName(RELATIVE_FILE);
-        assertThat(builder.build()).hasFileName("/tmp/" + RELATIVE_FILE);
-        assertThat(builder.build()).hasBaseName(RELATIVE_FILE);
-        assertThat(builder.build().getFolder()).isEqualTo("/tmp");
+
+        assertThat(builder.build())
+                .hasFileName("/tmp/" + RELATIVE_FILE)
+                .hasBaseName(RELATIVE_FILE)
+                .hasFolder("tmp");
 
         builder.setFileName("/tmp/absolute.txt");
         assertThat(builder.build()).hasFileName("/tmp/absolute.txt");
+
         builder.setFileName("C:\\tmp\\absolute.txt");
         assertThat(builder.build()).hasFileName("C:/tmp/absolute.txt");
 
         builder.setFileName(null);
-        assertThat(builder.build()).hasFileName("-");
-        assertThat(builder.build()).hasBaseName("-");
-        assertThat(builder.build().getFolder()).isEqualTo(UNDEFINED);
+        assertThat(builder.build())
+                .hasFileName(UNDEFINED)
+                .hasBaseName(UNDEFINED)
+                .hasFolder(UNDEFINED);
+
+        builder.setPathName("/path/to/source");
+        builder.setDirectory("");
+        builder.setFileName(RELATIVE_FILE);
+        assertThat(builder.build())
+                .hasFileName(RELATIVE_FILE)
+                .hasBaseName(RELATIVE_FILE)
+                .hasFolder(UNDEFINED)
+                .hasPath("/path/to/source");
     }
 
     @ParameterizedTest(name = "{index} => Full Path: {0} - Expected Base Name: file.txt")
@@ -213,13 +234,12 @@ class IssueBuilderTest {
 
         Issue issue = builder.build();
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
-        assertThat(issue.getLineRanges()).hasSize(2);
-        assertThat(issue.getLineRanges()).containsExactly(new LineRange(3, 4), new LineRange(5, 6));
+        assertThat(issue).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
 
         IssueBuilder copy = new IssueBuilder();
         copy.copy(issue);
 
-        assertThat(copy.build().getLineRanges()).containsExactly(new LineRange(3, 4), new LineRange(5, 6));
+        assertThat(copy.build()).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
     }
 
     @Test
@@ -234,5 +254,55 @@ class IssueBuilderTest {
 
         builder.setId(id);
         assertThat(builder.build()).hasId(id);
+    }
+
+    @Test
+    void testFileNameBackslashConversion() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setFileName(FILE_NAME_WITH_BACKSLASHES).build();
+
+        assertThat(issue).hasFileName(FILE_NAME);
+    }
+
+    @Test
+    void shouldCacheFileName() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setFileName("fileName").build();
+        Issue anotherIssue = builder.setFileName("fileName").build();
+
+        assertThat(issue.getFileNameTreeString()).isSameAs(anotherIssue.getFileNameTreeString());
+    }
+
+    @Test
+    void shouldCachePackageName() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setPackageName("packageName").build();
+        Issue anotherIssue = builder.setFileName("packageName").build();
+
+        assertThat(issue.getPackageNameTreeString()).isSameAs(anotherIssue.getPackageNameTreeString());
+    }
+
+    @Test
+    void shouldCacheMessage() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setMessage("message").build();
+        Issue anotherIssue = builder.setMessage("message").build();
+
+        assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+    }
+
+    @Test
+    void testMessageDescriptionStripped() {
+        IssueBuilder builder = new IssueBuilder();
+
+        Issue issue = builder.setMessage("    message  ").setDescription("    description  ").build();
+        Issue anotherIssue = builder.setMessage("message").setDescription("description").build();
+
+        assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+        assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
     }
 }

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,14 +22,14 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 2244442395053328008L;
 
     @Override
-    protected CPPCheckParser createParser() {
+    CPPCheckParser createParser() {
         return new CPPCheckParser();
     }
 
     @Override
-    protected Report convertToReport(final List<Violation> violations) {
-        final Map<String, List<Violation>> violationsPerGroup =
-                violations.stream().collect(Collectors.groupingBy(Violation::getGroup));
+    Report convertToReport(final List<Violation> violations) {
+        Map<String, List<Violation>> violationsPerGroup =
+                new LinkedHashSet<>(violations).stream().collect(Collectors.groupingBy(Violation::getGroup));
 
         Report report = new Report();
         for (List<Violation> group : violationsPerGroup.values()) {

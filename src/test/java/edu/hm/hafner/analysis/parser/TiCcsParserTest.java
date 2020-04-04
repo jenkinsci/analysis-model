@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link TiCcsParser}.
@@ -55,7 +55,7 @@ class TiCcsParserTest extends AbstractParserTest {
                 .hasLineStart(2578)
                 .hasLineEnd(2578)
                 .hasMessage("variable")
-                .hasFileName("c:/DOCUME~1/JLINNE~1/LOCALS~1/Temp/0360811");
+                .hasFileName("C:/DOCUME~1/JLINNE~1/LOCALS~1/Temp/0360811");
         softly.assertThat(report.get(5))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasLineStart(11)

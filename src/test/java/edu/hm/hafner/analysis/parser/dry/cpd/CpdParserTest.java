@@ -5,13 +5,13 @@ import java.io.Serializable;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import edu.hm.hafner.analysis.parser.dry.DuplicationGroup;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the extraction of PMD's CPD analysis results.
@@ -127,7 +127,7 @@ class CpdParserTest extends AbstractParserTest {
      * Verifies the parser on a report that contains one duplication in two files. The report contains a code fragment
      * in a complex CDATA element.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-12516">Issue 12516</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-12516">Issue 12516</a>
      */
     @Test
     void issue12516() {
@@ -155,7 +155,7 @@ class CpdParserTest extends AbstractParserTest {
      * Verifies the parser on a report that contains four duplication (in two files each). The report is using
      * ISO-8859-1 encoding.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-22356">Issue 22356</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-22356">Issue 22356</a>
      */
     @Test
     void issue22356() {

@@ -1,0 +1,2 @@
+// This is a test LOG, on each line an issue serialized in JSON format
+// {"fileName":"comment.txt","severity":"ERROR","lineStart":10,"description":"some comment"} 

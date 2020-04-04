@@ -1,10 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link SphinxBuildParser}.
@@ -17,9 +20,22 @@ class SphinxBuildParserTest extends AbstractParserTest {
     private static final String SPHINX_BUILD_ERROR = "ERROR";
     private static final String SPHINX_BUILD_WARNING = "WARNING";
 
+    /**
+     * Parses a file that contains an optional text between path and line number.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-60033">Issue 60033</a>
+     */
+    @Test
+    void issue60033() {
+        Report warnings = parse("issue60033.txt");
+
+        assertThat(warnings).hasSize(7);
+        assertThat(warnings.getFiles()).containsExactly("C:/path/to/prj/foo/legacy.py");
+    }
+
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(6);
+        assertThat(report).hasSize(7);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_HIGH)
@@ -64,6 +80,13 @@ class SphinxBuildParserTest extends AbstractParserTest {
                 .hasLineEnd(21)
                 .hasMessage("Unknown target name: \"threadid\".")
                 .hasFileName("/src/be/doc/_sub/_classThread/04_Interface.rst");
+        softly.assertThat(report.get(6))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory(SPHINX_BUILD_WARNING)
+                .hasLineStart(26)
+                .hasLineEnd(26)
+                .hasMessage("py:mod reference target not found: bar.foo.postprocessing")
+                .hasFileName("legacy.py");
     }
 
     @Override

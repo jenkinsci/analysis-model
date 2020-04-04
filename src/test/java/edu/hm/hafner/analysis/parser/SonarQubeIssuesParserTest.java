@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -23,10 +23,11 @@ class SonarQubeIssuesParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(31);
+        softly.assertThat(report).hasSize(32).hasDuplicatesSize(0);
         softly.assertThat(report.get(0))
                 .hasFileName("src/com/tsystems/sbs/jenkinslib/SbsBuild.groovy")
-                .hasLineStart(631);
+                .hasLineStart(631)
+                .hasLineEnd(631);
     }
 
     /**
@@ -38,11 +39,12 @@ class SonarQubeIssuesParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(106);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("cart-common-folder/src/main/java/com/example/sonarqube/CloseResource.java")
-                    .hasLineStart(0);
-        });
+                    .hasLineStart(0)
+                    .hasLineEnd(0);
+        }
     }
 
     @Test

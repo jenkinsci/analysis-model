@@ -8,9 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link PhpParser}.
@@ -23,7 +23,6 @@ class PhpParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "PHP Warning";
     private static final String NOTICE_CATEGORY = "PHP Notice";
 
-
     PhpParserTest() {
         super("php.txt");
     }
@@ -31,7 +30,7 @@ class PhpParserTest extends AbstractParserTest {
     /**
      * Verifies that FATAL errors are reported.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-27681">Issue 27681</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-27681">Issue 27681</a>
      */
     @Test
     void issue27681() {
@@ -39,16 +38,15 @@ class PhpParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(FATAL_ERROR_CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
-                    .hasMessage(
-                            "SOAP-ERROR: Parsing WSDL: Couldn't load from '...' : failed to load external entity \"...\"")
+                    .hasMessage("SOAP-ERROR: Parsing WSDL: Couldn't load from '...' : failed to load external entity \"...\"")
                     .hasFileName("-");
-        });
+        }
     }
 
     @Override
@@ -62,7 +60,7 @@ class PhpParserTest extends AbstractParserTest {
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(25)
                 .hasLineEnd(25)
-                .hasMessage("include_once(): Failed opening \'RegexpLineParser.php\' for inclusion (include_path=\'.:/usr/share/pear\') in PhpParser.php on line 25")
+                .hasMessage("include_once(): Failed opening 'RegexpLineParser.php' for inclusion (include_path='.:/usr/share/pear') in PhpParser.php on line 25")
                 .hasFileName("PhpParser.php");
 
         softly.assertThat(iterator.next())
@@ -98,11 +96,6 @@ class PhpParserTest extends AbstractParserTest {
                 .hasFileName("Category.php");
     }
 
-    /**
-     * Creates the parser.
-     *
-     * @return the warnings parser
-     */
     @Override
     protected PhpParser createParser() {
         return new PhpParser();

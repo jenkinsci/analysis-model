@@ -1,12 +1,13 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import org.junit.jupiter.api.Test;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link DocFxAdapter}.
@@ -49,7 +50,7 @@ class DocFxAdapterTest extends AbstractParserTest {
     /**
      * Parses a warning log with DocFX info messages.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55345">Issue 55345</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55345">Issue 55345</a>
      */
     @Test
     void issue55750() {

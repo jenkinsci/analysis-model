@@ -36,8 +36,6 @@ public abstract class SonarQubeParser extends IssueParser {
     /** issue.message attribute. */
     private static final String ISSUE_MESSAGE = "message";
     /** issue.line attribute. */
-    private static final String ISSUE_LINE = "line";
-    /** issue.line attribute. */
     private static final String ISSUE_SEVERITY = "severity";
     /** issue.type attribute. */
     private static final String ISSUE_TYPE = "type";
@@ -83,7 +81,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return {@code true} if this parser accepts this object as valid input, {@code false} otherwise
      */
-    protected abstract boolean accepts(JSONObject object);
+    abstract boolean accepts(JSONObject object);
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
@@ -108,7 +106,7 @@ public abstract class SonarQubeParser extends IssueParser {
             if (object instanceof JSONObject) {
                 JSONObject issue = (JSONObject) object;
                 if (filterIssue(issue)) {
-                    report.add(createIssueFormJsonObject(issue));
+                    report.add(createIssueFromJsonObject(issue));
                 }
             }
         }
@@ -136,14 +134,15 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return {@code true} if the issue is to be parsed and added, otherwise {@code false}
      */
-    public boolean filterIssue(final JSONObject issue) {
+    boolean filterIssue(final JSONObject issue) {
         return true; // Parse all issues by default
     }
 
-    private Issue createIssueFormJsonObject(final JSONObject issue) {
+    private Issue createIssueFromJsonObject(final JSONObject issue) {
         return new IssueBuilder()
                 .setFileName(parseFilename(issue))
                 .setLineStart(parseStart(issue))
+                .setLineEnd(parseEnd(issue))
                 .setType(parseType(issue))
                 .setCategory(CATEGORY_SONAR_QUBE)
                 .setMessage(parseMessage(issue))
@@ -188,7 +187,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the module path
      */
-    protected abstract String getModulePath(JSONObject component, JSONObject issue);
+    abstract String getModulePath(JSONObject component, JSONObject issue);
 
     /**
      * Default parse for start.
@@ -198,9 +197,17 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the start.
      */
-    private int parseStart(final JSONObject issue) {
-        return issue.optInt(ISSUE_LINE, -1);
-    }
+    abstract int parseStart(JSONObject issue);
+
+    /**
+     * Default parse for end.
+     *
+     * @param issue
+     *         the object to parse.
+     *
+     * @return the end.
+     */
+    abstract int parseEnd(JSONObject issue);
 
     /**
      * Default parse for type.
@@ -251,7 +258,7 @@ public abstract class SonarQubeParser extends IssueParser {
      *
      * @return the module path.
      */
-    protected String parseModulePath(final JSONObject moduleKeyObject, final String componentKey) {
+    String parseModulePath(final JSONObject moduleKeyObject, final String componentKey) {
         String modulePath = "";
         if (moduleKeyObject.has(componentKey)) {
             String moduleKey = moduleKeyObject.getString(componentKey);

@@ -1,14 +1,19 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link IarParser}.
@@ -36,21 +41,23 @@ class IarParserTest extends AbstractParserTest {
                 .hasLineStart(3767)
                 .hasLineEnd(3767)
                 .hasMessage("enumerated type mixed with another type")
-                .hasFileName("D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
+                .hasFileName(
+                        "D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Pe188")
                 .hasLineStart(3918)
                 .hasLineEnd(3918)
                 .hasMessage("enumerated type mixed with another type")
-                .hasFileName("D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
+                .hasFileName(
+                        "D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Pe1696")
                 .hasLineStart(17)
                 .hasLineEnd(17)
                 .hasMessage("cannot open source file \"System/ProcDef_LPC17xx.h\"")
-                .hasFileName("c:/JenkinsJobs/900ZH/Workspace/Product.900ZH/Src/System/AdditionalResources.h");
+                .hasFileName("C:/JenkinsJobs/900ZH/Workspace/Product.900ZH/Src/System/AdditionalResources.h");
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Pe177")
@@ -63,7 +70,8 @@ class IarParserTest extends AbstractParserTest {
                 .hasCategory("Pe1696")
                 .hasLineStart(0)
                 .hasLineEnd(0)
-                .hasMessage("cannot open source file \"c:\\JenkinsJobs\\900ZH\\Workspace\\Lib\\Drivers\\_Obsolete\\Uart\\UartInterface.c\"")
+                .hasMessage(
+                        "cannot open source file \"c:\\JenkinsJobs\\900ZH\\Workspace\\Lib\\Drivers\\_Obsolete\\Uart\\UartInterface.c\"")
                 .hasFileName("-");
         softly.assertThat(report.get(5))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -71,27 +79,56 @@ class IarParserTest extends AbstractParserTest {
                 .hasLineStart(861)
                 .hasLineEnd(861)
                 .hasMessage("function \"FlashErase\" was declared but never referenced")
-                .hasFileName("d:/jenkins/workspace/Nightly/src/flash/flashdrv.c");
+                .hasFileName("D:/jenkins/workspace/Nightly/src/flash/flashdrv.c");
+    }
+
+    /**
+     * Parses a warning log with IAR ARM warnings in UTF_16LE.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-58159">Issue 58159</a>
+     */
+    @Test
+    @Disabled("See JENKINS-58159 - Windows does not find all warnings - is the report file corrupt?")
+    void issue58159Utf16() {
+        Report warnings = createParser().parse(
+                new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16LE));
+
+        String collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
+        assertThat(warnings).as(collect).hasDuplicatesSize(4).hasSize(61);
+    }
+
+    /**
+     * Parses a warning log with IAR ARM warnings in UTF_16LE.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-58159">Issue 58159</a>
+     */
+    @Test
+    void issue58159Utf8() {
+        Report warnings = createParser().parse(
+                new FileReaderFactory(getResourceAsFile("issue58159-2.txt")));
+
+        String collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
+        assertThat(warnings).as(collect).hasDuplicatesSize(4).hasSize(61);
     }
 
     /**
      * Parses a warning log with IAR ARM warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-55750">Issue 55750</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55750">Issue 55750</a>
      */
     @Test
     void issue55750() {
         Report warnings = parse("issue55750.txt");
         assertThat(warnings).hasSize(4);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Pe852")
                     .hasLineStart(432)
                     .hasLineEnd(432)
                     .hasMessage("expression must be a pointer to a complete object type")
-                    .hasFileName("c:/external/specific/cpp/iar_cxxabi.cpp");
+                    .hasFileName("C:/external/specific/cpp/iar_cxxabi.cpp");
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Pe549")
@@ -113,6 +150,6 @@ class IarParserTest extends AbstractParserTest {
                     .hasLineEnd(633)
                     .hasMessage("expected a \")\"")
                     .hasFileName("source/dal/InterMcu/InterMcuTransport.cpp");
-        });
+        }
     }
 }

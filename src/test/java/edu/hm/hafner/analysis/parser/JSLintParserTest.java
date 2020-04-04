@@ -2,13 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link LintParser}.
@@ -25,7 +24,7 @@ class JSLintParserTest extends AbstractParserTest {
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-19127">Issue 19127</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-19127">Issue 19127</a>
      */
     @Test
     void issue19127() {
@@ -33,7 +32,7 @@ class JSLintParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(197);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
 
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
@@ -44,7 +43,7 @@ class JSLintParserTest extends AbstractParserTest {
                     .hasFileName("C:/DVR/lint_Mobile-Localization_ws/evWebService/WebClientApi/api-v1.js")
                     .hasColumnStart(5);
 
-        });
+        }
 
     }
 

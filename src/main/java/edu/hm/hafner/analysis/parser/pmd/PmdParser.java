@@ -29,6 +29,12 @@ public class PmdParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+        Report issues = parseIssues(readerFactory);
+        issues.addAll(parseErrors(readerFactory));
+        return issues;
+    }
+
+    private Report parseIssues(final ReaderFactory readerFactory) {
         SecureDigester digester = new SecureDigester(PmdParser.class);
 
         String rootXPath = "pmd";
@@ -52,14 +58,40 @@ public class PmdParser extends IssueParser {
                 throw new ParsingException("Input stream is not a PMD file.");
             }
 
-            return convert(pmd);
+            return convertIssues(pmd);
         }
         catch (IOException | SAXException exception) {
             throw new ParsingException(exception);
         }
     }
 
-    private Report convert(final Pmd pmdIssues) {
+    private Report parseErrors(final ReaderFactory readerFactory) {
+        SecureDigester digester = new SecureDigester(PmdParser.class);
+
+        String rootXPath = "pmd";
+        digester.addObjectCreate(rootXPath, Pmd.class);
+        digester.addSetProperties(rootXPath);
+
+        String errorXPath = "pmd/error";
+        digester.addObjectCreate(errorXPath, PmdError.class);
+        digester.addSetProperties(errorXPath);
+        digester.addSetNext(errorXPath, "addError", PmdError.class.getName());
+        digester.addCallMethod(errorXPath, "setDescription", 0);
+
+        try (Reader reader = readerFactory.create()) {
+            Pmd pmd = digester.parse(reader);
+            if (pmd == null) {
+                throw new ParsingException("Input stream is not a PMD file.");
+            }
+
+            return convertErrors(pmd);
+        }
+        catch (IOException | SAXException exception) {
+            throw new ParsingException(exception);
+        }
+    }
+
+    private Report convertIssues(final Pmd pmdIssues) {
         Report report = new Report();
         for (File file : pmdIssues.getFiles()) {
             for (Violation warning : file.getViolations()) {
@@ -75,6 +107,18 @@ public class PmdParser extends IssueParser {
                         .setColumnEnd(warning.getEndcolumn());
                 report.add(builder.build());
             }
+        }
+        return report;
+    }
+
+    private Report convertErrors(final Pmd pmdIssues) {
+        Report report = new Report();
+        for (PmdError error : pmdIssues.getErrors()) {
+            IssueBuilder builder = new IssueBuilder().setSeverity(Severity.ERROR)
+                    .setMessage(error.getMsg())
+                    .setDescription(error.getDescription())
+                    .setFileName(error.getFilename());
+            report.add(builder.build());
         }
         return report;
     }

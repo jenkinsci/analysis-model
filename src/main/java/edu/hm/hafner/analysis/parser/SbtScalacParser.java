@@ -16,7 +16,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
 public class SbtScalacParser extends RegexpLineParser {
     private static final long serialVersionUID = -4233964844965517977L;
 
-    private static final String SBT_WARNING_PATTERN = "^(\\[warn\\]|\\[error\\])\\s*(.*?):(\\d+)(?::\\d+)?:\\s*(.*)$";
+    private static final String SBT_WARNING_PATTERN = "^(\\[warn\\]|\\[error\\](?!\\s+Total\\stime:))\\s*(.*?):(\\d+)(?::\\d+)?:\\s*(.*)$"; 
 
     /**
      * Creates a new instance of {@link SbtScalacParser}.

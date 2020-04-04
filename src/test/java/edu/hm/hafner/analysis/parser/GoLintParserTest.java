@@ -3,8 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link GoLintParser}.
@@ -69,7 +70,8 @@ class GoLintParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(18)
                 .hasLineEnd(18)
-                .hasMessage("should omit type net.Error from declaration of var timeoutErrImplementsNetError; it will be inferred from the right-hand side")
+                .hasMessage(
+                        "should omit type net.Error from declaration of var timeoutErrImplementsNetError; it will be inferred from the right-hand side")
                 .hasFileName("conn_test.go");
     }
 }

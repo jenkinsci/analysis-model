@@ -28,50 +28,54 @@ public class AjcParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
         try (Stream<String> lines = reader.readStream()) {
-            Report warnings = new Report();
-
-            States state = States.START;
-
-            IssueBuilder builder = new IssueBuilder();
-
-            Iterator<String> lineIterator = lines.iterator();
-            while (lineIterator.hasNext()) {
-                String line = lineIterator.next();
-                // clean up any ESC characters (e.g. terminal colors)
-                line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
-
-                switch (state) {
-                    case START:
-                        if (line.startsWith("[INFO] Showing AJC message detail for messages of types")) {
-                            state = States.PARSING;
-                        }
-                        break;
-                    case PARSING:
-                        if (line.startsWith(WARNING_TAG)) {
-                            line = line.substring(WARNING_TAG.length());
-                            state = States.WAITING_FOR_END;
-
-                            fillMessageAndCategory(builder, line);
-                        }
-                        break;
-                    case WAITING_FOR_END:
-                        if (line.startsWith("\t")) {
-                            fillFileName(builder, line);
-                        }
-                        else if ("".equals(line)) {
-                            state = States.PARSING;
-
-                            warnings.add(builder.build());
-                        }
-                        break;
-                }
-            }
-
-            return warnings;
+            return parse(lines);
         }
         catch (UncheckedIOException e) {
             throw new ParsingException(e);
         }
+    }
+
+    private Report parse(final Stream<String> lines) {
+        Report warnings = new Report();
+
+        States state = States.START;
+
+        IssueBuilder builder = new IssueBuilder();
+
+        Iterator<String> lineIterator = lines.iterator();
+        while (lineIterator.hasNext()) {
+            String line = lineIterator.next();
+            // clean up any ESC characters (e.g. terminal colors)
+            line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
+
+            switch (state) {
+                case START:
+                    if (line.startsWith("[INFO] Showing AJC message detail for messages of types")) {
+                        state = States.PARSING;
+                    }
+                    break;
+                case PARSING:
+                    if (line.startsWith(WARNING_TAG)) {
+                        line = line.substring(WARNING_TAG.length());
+                        state = States.WAITING_FOR_END;
+
+                        fillMessageAndCategory(builder, line);
+                    }
+                    break;
+                case WAITING_FOR_END:
+                    if (line.startsWith("\t")) {
+                        fillFileName(builder, line);
+                    }
+                    else if ("".equals(line)) {
+                        state = States.PARSING;
+
+                        warnings.add(builder.build());
+                    }
+                    break;
+            }
+        }
+
+        return warnings;
     }
 
     private void fillFileName(final IssueBuilder builder, final String line) {

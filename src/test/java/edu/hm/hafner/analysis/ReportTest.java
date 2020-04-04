@@ -13,13 +13,14 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.collections.impl.block.factory.Predicates;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Arrays.*;
 
 /**
@@ -55,6 +56,64 @@ class ReportTest extends SerializableTest<Report> {
             .setFileName("file-3")
             .setSeverity(Severity.WARNING_LOW)
             .build();
+    private static final String NO_NAME = "";
+
+    @Test
+    void shouldProvideOriginMappings() {
+        Report report = new Report();
+
+        assertThat(report.getNameOfOrigin("id")).isEqualTo(NO_NAME);
+
+        report.setNameOfOrigin("id", "name");
+        assertThat(report.getNameOfOrigin("id")).isEqualTo("name");
+
+        report.setNameOfOrigin("second", "another name");
+        assertThat(report.getNameOfOrigin("id")).isEqualTo("name");
+        assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
+
+        report.setNameOfOrigin("id", "changed");
+        assertThat(report.getNameOfOrigin("id")).isEqualTo("changed");
+        assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
+    }
+
+    @Test
+    void shouldMergeOriginMappings() {
+        Report first = new Report();
+
+        first.setNameOfOrigin("first", "first name");
+        assertThat(first.getNameOfOrigin("first")).isEqualTo("first name");
+
+        Report second = new Report();
+
+        second.setNameOfOrigin("second", "second name");
+        assertThat(second.getNameOfOrigin("second")).isEqualTo("second name");
+
+        assertThat(first.getNameOfOrigin("second")).isEqualTo(NO_NAME);
+        assertThat(second.getNameOfOrigin("first")).isEqualTo(NO_NAME);
+
+        first.addAll(second);
+        assertThat(first.getNameOfOrigin("first")).isEqualTo("first name");
+        assertThat(first.getNameOfOrigin("second")).isEqualTo("second name");
+
+        Report third = first.copyEmptyInstance();
+        assertThat(third.getNameOfOrigin("first")).isEqualTo("first name");
+        assertThat(third.getNameOfOrigin("second")).isEqualTo("second name");
+    }
+
+    @Test
+    void shouldStoreFileNames() {
+        Report report = new Report();
+
+        assertThat(report.getFileNames()).isEmpty();
+
+        report.addFileName("one");
+
+        report.addFileName("one");
+        assertThat(report.getFileNames()).containsExactly("one");
+
+        report.addFileName("two");
+        assertThat(report.getFileNames()).containsExactlyInAnyOrder("one", "two");
+    }
 
     @Test
     void shouldVerifyExistenceOfProperties() {
@@ -341,7 +400,15 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.isNotEmpty()).isFalse();
         assertThat(report).hasSize(0);
         assertThat(report.size()).isEqualTo(0);
-        assertThat(report).hasSeverities(0, 0, 0, 0);
+        assertThatReportHasSeverities(report, 0, 0, 0, 0);
+    }
+
+    private void assertThatReportHasSeverities(final Report report, final int expectedSizeError,
+            final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
+        assertThat(report.getSizeOf(Severity.ERROR)).isEqualTo(expectedSizeError);
+        assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expectedSizeHigh);
+        assertThat(report.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expectedSizeNormal);
+        assertThat(report.getSizeOf(Severity.WARNING_LOW)).isEqualTo(expectedSizeLow);
     }
 
     @Test
@@ -394,8 +461,8 @@ class ReportTest extends SerializableTest<Report> {
         assertThatAllIssuesHaveBeenAdded(fromEmpty);
         fromEmpty.addAll(report);
         assertThat(fromEmpty).hasSize(6)
-                .hasDuplicatesSize(6)
-                .hasSeverities(0, 1, 2, 3);
+                .hasDuplicatesSize(6);
+        assertThatReportHasSeverities(report, 0, 1, 2, 3);
 
         Report left = new Report().addAll(HIGH, NORMAL_1, NORMAL_2);
         Report right = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
@@ -417,11 +484,12 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void assertThatAllIssuesHaveBeenAdded(final Report report) {
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report)
                     .hasSize(6)
-                    .hasDuplicatesSize(0)
-                    .hasSeverities(0, 1, 2, 3);
+                    .hasDuplicatesSize(0);
+            assertThatReportHasSeverities(report, 0, 1, 2, 3);
+
             softly.assertThat(report.getFiles())
                     .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat(report.getFiles())
@@ -434,7 +502,7 @@ class ReportTest extends SerializableTest<Report> {
             softly.assertThat(report.getPropertyCount(Issue::getFileName)).containsEntry("file-1", 3);
             softly.assertThat(report.getPropertyCount(Issue::getFileName)).containsEntry("file-2", 2);
             softly.assertThat(report.getPropertyCount(Issue::getFileName)).containsEntry("file-3", 1);
-        });
+        }
     }
 
     @Test
@@ -450,7 +518,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report).hasSize(4).hasDuplicatesSize(2);
 
         assertThat(report.iterator()).toIterable().containsExactly(HIGH, LOW_2_A, NORMAL_1, NORMAL_2);
-        assertThat(report).hasSeverities(0, 1, 2, 1);
+        assertThatReportHasSeverities(report, 0, 1, 2, 1);
         assertThat(report.getFiles()).containsExactly("file-1", "file-2");
     }
 
@@ -552,7 +620,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.get(2)).isSameAs(NORMAL_2);
     }
     
-    @Test
+    @Test @SuppressFBWarnings("RV")
     void shouldThrowExceptionOnWrongIndex() {
         Report report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));

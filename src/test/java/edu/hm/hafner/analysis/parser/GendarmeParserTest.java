@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
 
 /**
@@ -37,8 +37,9 @@ class GendarmeParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(10)
                 .hasLineEnd(10)
-                .hasMessage("This method does not use any instance fields, properties or methods and can be made static.")
-                .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
+                .hasMessage(
+                        "This method does not use any instance fields, properties or methods and can be made static.")
+                .hasFileName("C:/Dev/src/hudson/Hudson.Domain/Dog.cs")
                 .hasCategory("MethodCanBeMadeStaticRule")
                 .hasSeverity(Severity.WARNING_LOW);
 
@@ -47,7 +48,7 @@ class GendarmeParserTest extends AbstractParserTest {
                 .hasLineEnd(22)
                 .hasMessage(
                         "This method does not use any instance fields, properties or methods and can be made static.")
-                .hasFileName("c:/Dev/src/hudson/Hudson.Domain/Dog.cs")
+                .hasFileName("C:/Dev/src/hudson/Hudson.Domain/Dog.cs")
                 .hasCategory("MethodCanBeMadeStaticRule")
                 .hasSeverity(Severity.WARNING_LOW);
     }

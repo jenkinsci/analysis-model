@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Optional;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +13,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
-import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
@@ -71,8 +69,8 @@ public class CheckStyleParser extends IssueParser {
             if (isValidWarning(file)) {
                 for (Error error : file.getErrors()) {
                     IssueBuilder builder = new IssueBuilder();
-                    mapPriority(error).ifPresent(builder::setSeverity);
 
+                    builder.guessSeverity(error.getSeverity());
                     String source = error.getSource();
                     builder.setType(getType(source));
                     builder.setCategory(getCategory(source));
@@ -93,19 +91,6 @@ public class CheckStyleParser extends IssueParser {
 
     private String getType(@Nullable final String source) {
         return StringUtils.substringAfterLast(source, ".");
-    }
-
-    private Optional<Severity> mapPriority(final Error error) {
-        if ("error".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_HIGH);
-        }
-        if ("warning".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_NORMAL);
-        }
-        if ("info".equalsIgnoreCase(error.getSeverity())) {
-            return Optional.of(Severity.WARNING_LOW);
-        }
-        return Optional.empty();
     }
 
     /**

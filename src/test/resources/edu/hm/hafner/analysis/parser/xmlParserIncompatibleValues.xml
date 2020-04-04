@@ -1,0 +1,39 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<issue>
+        <category></category>
+        <type></type>
+        <severity>text</severity>
+        <message></message>
+        <lineStart>text</lineStart>
+        <lineEnd>text</lineEnd>
+        <columnStart>text</columnStart>
+        <columnEnd>text</columnEnd>
+        <lineRanges>
+                <lineRange>
+                        <start>5</start>
+                </lineRange>
+                <lineRange>
+                        <end>5</end>
+                </lineRange>
+                <lineRange>
+                        <start></start>
+                        <end></end>
+                </lineRange>
+                <lineRange>
+                        <start>text</start>
+                        <end>text</end>
+                </lineRange>
+                <lineRange>
+                        <start>1</start>
+                        <end>2</end>
+                </lineRange>
+        </lineRanges>
+        <id>text</id>
+        <description></description>
+        <reference></reference>
+        <origin></origin>
+        <moduleName></moduleName>
+        <packageName></packageName>
+        <fileName></fileName>
+        <fingerprint></fingerprint>
+</issue>

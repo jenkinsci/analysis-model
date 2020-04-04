@@ -3,21 +3,19 @@ package edu.hm.hafner.analysis;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
+import java.io.Reader;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.ResourceTest;
 
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Base class for tests of {@link IssueParser} instances.
@@ -58,7 +56,17 @@ public abstract class AbstractParserTest extends ResourceTest {
     @Test
     void shouldParseAllIssues() {
         Report report = parseDefaultFile();
-        assertSoftly(softly -> assertThatIssuesArePresent(report, softly));
+        try (SoftAssertions softAssertions = new SoftAssertions()) {
+            assertThatIssuesArePresent(report, softAssertions);
+        }
+    }
+
+    protected void assertThatReportHasSeverities(final Report report, final int expectedSizeError,
+            final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
+        assertThat(report.getSizeOf(Severity.ERROR)).isEqualTo(expectedSizeError);
+        assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expectedSizeHigh);
+        assertThat(report.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expectedSizeNormal);
+        assertThat(report.getSizeOf(Severity.WARNING_LOW)).isEqualTo(expectedSizeLow);
     }
 
     /**
@@ -99,6 +107,18 @@ public abstract class AbstractParserTest extends ResourceTest {
     }
 
     /**
+     * Parses the specified string content and returns the found issues.
+     *
+     * @param content
+     *         the log file given as String
+     *
+     * @return the found issues
+     */
+    protected Report parseStringContent(final String content) {
+        return createParser().parse(new StringReaderFactory(content));
+    }
+
+    /**
      * Verifies that the provided default file has been parsed correctly. I.e., a concrete test case needs to verify
      * that the number of issues is correct and that each issue contains the correct properties.
      *
@@ -122,52 +142,40 @@ public abstract class AbstractParserTest extends ResourceTest {
      *
      * @return default file with issues
      */
-    protected ReaderFactory getDefaultFileFactory() {
+    ReaderFactory getDefaultFileFactory() {
         return createReaderFactory(fileWithIssuesName);
     }
 
     /**
-     * Returns a factory that opens the specified {@link InputStream} on every invocation.
+     * Returns a factory that opens the specified {@link File} on every invocation.
      *
      * @param fileName
-     *         the file name of the resource to parse
-     * @param inputStream
-     *         the input stream to open
-     *
-     * @return default file with issues
-     */
-    protected static ReaderFactory createReaderFactory(final String fileName, final InputStream inputStream) {
-        ReaderFactory readerFactory = createReaderFactory();
-        when(readerFactory.getFileName()).thenReturn(fileName);
-        when(readerFactory.create()).thenAnswer(
-                invocation -> new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-
-        return readerFactory;
-    }
-
-    /**
-     * Returns a factory that uses real method calls for most methods.
-     *
-     * @return default file with issues
-     */
-    protected static ReaderFactory createReaderFactory() {
-        ReaderFactory readerFactory = mock(ReaderFactory.class);
-        when(readerFactory.readDocument()).thenCallRealMethod();
-        when(readerFactory.readString()).thenCallRealMethod();
-        when(readerFactory.readStream()).thenCallRealMethod();
-        when(readerFactory.getCharset()).thenReturn(StandardCharsets.UTF_8);
-        return readerFactory;
-    }
-
-    /**
-     * Returns a factory that opens the specified file on every invocation.
-     *
-     * @param fileName
-     *         the file to open
+     *         the file to read
      *
      * @return default file with issues
      */
     protected ReaderFactory createReaderFactory(final String fileName) {
-        return createReaderFactory(fileName, asInputStream(fileName));
+        return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
+    }
+
+    /** A reader factory that provides the String content. */
+    private static class StringReaderFactory extends ReaderFactory {
+        private final String content;
+
+        StringReaderFactory(final String content) {
+            super(StandardCharsets.UTF_8);
+
+            this.content = content;
+        }
+
+        @Override
+        public String getFileName() {
+            return "String";
+        }
+
+        @Override
+        public Reader create() {
+            return new StringReader(content);
+        }
     }
 }

@@ -26,7 +26,7 @@ public class EclipseMavenParser extends LookaheadParser {
     private static final long serialVersionUID = 425883472788422955L;
 
     private static final String ECLIPSE_FIRST_LINE_REGEXP =
-            "\\s*\\[(?<severity>WARNING|ERROR|INFO)\\]\\s*(?<file>.*):\\[(?<line>\\d+)(?:,\\d+)?\\](?<message>.*)";
+            "\\s*\\[(?<severity>WARNING|ERROR|INFO)\\]\\s*(?<file>.*):\\[(?<line>\\d+)(?:,\\d+)?\\]\\s*(?<message>.*)";
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
@@ -55,6 +55,7 @@ public class EclipseMavenParser extends LookaheadParser {
         String message = matcher.group("message");
         if (StringUtils.isNotBlank(message)) { // single line format
             builder.setMessage(message);
+            extractCategory(builder, message);
         }
         else { // multi line format
             List<String> code = new ArrayList<>();

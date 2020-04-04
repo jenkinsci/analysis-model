@@ -109,7 +109,7 @@ public class FilteredLog {
 
         if (lines < maxLines) {
             delegate.logError(format, args);
-            Arrays.stream(ExceptionUtils.getRootCauseStackTrace(exception)).forEach(s -> delegate.logError(s));
+            Arrays.stream(ExceptionUtils.getRootCauseStackTrace(exception)).forEach(s -> delegate.logError("%s", s));
         }
         lines++;
     }

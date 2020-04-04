@@ -1,0 +1,585 @@
+
+     IAR Command Line Build Utility V8.2.2.5792
+     Copyright 2002-2018 IAR Systems AB.
+
+Building configuration: SIM145 - Debug
+Updating build tree...
+
+0  file(s) deleted.
+Updating build tree...
+os_cpu_a.asm
+startup_efr32mg12p.s
+AcmpForHAL.cpp
+AcmpForHALWithBsp.cpp
+Action.cpp
+Acmp.cpp
+AcmpForHALWithPrs.cpp
+AcmpListener.cpp
+Actuator.cpp
+Adc.cpp
+ActuatorSerialNumber.cpp
+ActionDynamicObject.cpp
+AdcChannel.cpp
+AdcCurrentSensor.cpp
+AdcChannelWithSingle.cpp
+AdcCurrentSensorForSingle.cpp
+AdcForHAL.cpp
+AdcListener.cpp
+AdcImpl.cpp
+AdcForHALWithSingle.cpp
+AdcVoltageSensor.cpp
+AllegroA4955.cpp
+AngleParameter.cpp
+AngleProtectionStrategyStep.cpp
+AngleStrengthStep.cpp
+AngularOverTemporaryLimitDetectorListener.cpp
+AngularPositionSensorListener.cpp
+AngularPositionSensorForMotorBasedOnActuator.cpp
+AngularPositionSensor.cpp
+AngularSpeedStep.cpp
+AngularOverTemporaryLimitDetector.cpp
+ApplicationCpu.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Application\ApplicationCpu.c(121) : Warning[Pe177]: variable "loc_result" was declared but never referenced
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Application\ApplicationCpu.c(158) : Warning[Pe177]: variable "loc_GpioProfile" was declared but never referenced
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Application\ApplicationCpu.c(313) : Warning[Pa183]: #warning directive: " /!\ WDG is disabled "
+AppSignature.c
+ArchiveForGas.cpp
+Archive.cpp
+ArchiverConsole.cpp
+Archiver.cpp
+ArchivingArea.c
+ArchivingObjectArea.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\DataManagement\ObjectArchiver\ObjectArchiver\ArchivingArea\ArchivingObjectArea.c(541) : Warning[Pe177]: function "ArchivingObjectArea_PRV_CompareData" was declared but never referenced
+AssertEMLIB.cpp
+Asynchronizer.cpp
+AsynchronizerByMessageBox.cpp
+ArrayOf160Char.cpp
+AsynchronousObject.cpp
+ApplicationMain.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Application\Main\ApplicationMain.cpp(146) : Warning[Pe069]: integer conversion resulted in truncation
+B2FM_EMS_RAZ.cpp
+B2FM_BadFlashAndRAM.cpp
+B2FM_Explicit_IOFrame.cpp
+B2FM_Explicit_IOFrame_OEM.cpp
+B2FM_Prog_7s_DPC.cpp
+B2FM_WarmResetMovement.cpp
+B2FM_WarmResetUnvalidEndLimit.cpp
+BackupAndObjectStorageCommon.c
+BatteryParameters.cpp
+Battery.cpp
+BatteryListener.cpp
+Buffer.cpp
+BaseTypeParameter.cpp
+ByMotherboard.cpp
+ByDomesticEquipment1D.cpp
+ByDoublePowerCutDE1DConsole.cpp
+ByRemoteDE1DConsole.cpp
+ByRemoteDE1DControlCenterPanel.cpp
+ByRemoteDE1DPanel.cpp
+ByRemoteDE1DControlCenterConsole.cpp
+Charger.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\PowerSupply\Battery\Charger.cpp(61) : Warning[Pe940]: missing return statement at end of non-void function "Charger::GUARD_NeedToCharge"
+Charger_liion.cpp
+Charger_NiMh.cpp
+Choregrapher.cpp
+Charger_Nicd.cpp
+CommercialSpeed.cpp
+Calibrator.cpp
+ComplexMotion.cpp
+Configurable.cpp
+ComplexMotionExecuter.cpp
+Configurator.cpp
+ChoregrapherByDomesticEquipment1D.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\Equipment\DomesticEquipment1D\System\DomesticEquipment1D\ChoregrapherByDomesticEquipment1D.cpp(244) : Warning[Pa183]: #warning directive: "HIGH SPEED is not match real speed, please put real speed instead"
+ConfiguratorTypes.cpp
+ConfiguratorParameter.cpp
+ConfiguratorParameterListener.cpp
+CurrentSensor.cpp
+CPU_PowerDriver.cpp
+CurrentSensorListener.cpp
+CurrentSensorWithSingle.cpp
+DataBase.c
+CurrentSensorImpl.cpp
+CurrentStatus.cpp
+DCIntensityAnalyzerListener.cpp
+DCIntensityAnalyzer.cpp
+DCDC_LDO_Peripheral.cpp
+DCPowerRange.cpp
+DcMotorParameters.cpp
+DCPowerSource.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\PowerSupply\PowerSource\DCPowerSource.cpp(78) : Warning[Pe940]: missing return statement at end of non-void function "DCPowerSource::GetActualVoltage"
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\PowerSupply\PowerSource\DCPowerSource.cpp(86) : Warning[Pe940]: missing return statement at end of non-void function "DCPowerSource::GetMaxVoltage"
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\PowerSupply\PowerSource\DCPowerSource.cpp(94) : Warning[Pe940]: missing return statement at end of non-void function "DCPowerSource::GetMinVoltage"
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\PowerSupply\PowerSource\DCPowerSource.cpp(102) : Warning[Pe940]: missing return statement at end of non-void function "DCPowerSource::GetActualIntensity"
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\PowerSupply\PowerSource\DCPowerSource.cpp(110) : Warning[Pe940]: missing return statement at end of non-void function "DCPowerSource::GetMaxIntensity"
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\PowerSupply\PowerSource\DCPowerSource.cpp(118) : Warning[Pe940]: missing return statement at end of non-void function "DCPowerSource::GetMinIntensity"
+DCPowerSourceListener.cpp
+DCPowerSourceParameters.cpp
+DCVoltageAnalyzerListener.cpp
+DcMotorForAllegroA4955.cpp
+DCVoltageAnalyzer.cpp
+DE1DConsoleInterface.cpp
+DE1DConsole.cpp
+DE1DControlCenterConsoleListener.cpp
+DE1DConsoleListener.cpp
+DE1DControlCenterListener.cpp
+DE1DControlCenter.cpp
+DistanceStrengthStep.cpp
+DistanceProtectionStrategyStep.cpp
+DomesticEquipment1DListener.cpp
+DoublePowerCutDE1DConsoleListener.cpp
+DE1DControlCenterInterface.cpp
+DoublePowerCutDE1DConsole.cpp
+DoublePowerCutDetector.cpp
+DoublePowerCutDetector_NRZ.cpp
+DoublePowerCutDetectorListener.cpp
+DoublePowerCutManager.cpp
+DomesticEquipment1D.cpp
+DoublePowerCutDetector_RZ.cpp
+DynamicAsynchronousObject.cpp
+ElectricRotaryMotorListener.cpp
+em_adc.c
+DrivingLoadDetector.cpp
+ElectricRotaryMotor.cpp
+em_acmp.c
+em_assert.c
+em_aes.c
+em_core.c
+em_burtc.c
+em_cmu.c
+em_cryotimer.c
+em_dac.c
+em_dbg.c
+em_ebi.c
+em_dma.c
+em_crypto.c
+em_gpcrc.c
+em_gpio.c
+em_i2c.c
+em_emu.c
+em_int.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\BSP\SOURCE\emlib\inc\em_int.h(49) : Warning[Pa183]: #warning directive: "The INT module is deprecated and marked for removal in a later release. Please use the new CORE module instead. See \"Porting from em_int\" in the CORE documentation for instructions."
+em_idac.c
+em_lcd.c
+em_letimer.c
+em_ldma.c
+em_leuart.c
+em_lesense.c
+em_mpu.c
+em_msc.c
+em_opamp.c
+em_pcnt.c
+em_prs.c
+em_rtc.c
+em_rtcc.c
+em_rmu.c
+em_system.c
+em_timer.c
+em_vcmp.c
+em_vdac.c
+em_usart.c
+em_wdog.c
+EmbeddedTestsInterface.cpp
+EmbeddedTests.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Application\Classes\Sim145EmbeddedTests\EmbeddedTests\EmbeddedTests.cpp(637) : Warning[Pe940]: missing return statement at end of non-void function "EmbeddedTests::CheckAllInactiveAndTerminateTestMode"
+EndLimitsParameters.cpp
+EUSART.c
+FeedBackChoreography.cpp
+FeedbackName.cpp
+EndLimitAvoidanceRS.cpp
+EMSDateCodeOfMnfr.cpp
+FinalSlatTouchSensorListener.cpp
+FinalSlatTouchSensor.cpp
+FinalSlatTouchSensorBasedOnPosition.cpp
+FlashDriver.c
+GasFactoryConsoleListener.cpp
+FunctionningZone.cpp
+GearBox.cpp
+GasFactoryConsole.cpp
+GME41Frame.cpp
+GME41Message.cpp
+GME41ProtocolL2.cpp
+GME41ProtocolL5.cpp
+GME41DE1DConsole.cpp
+GME41ProtocolL6.cpp
+GasFactory.cpp
+HAL_SFY_Adc.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(367) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(400) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(548) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(607) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(709) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(808) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(874) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(942) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(1000) : Warning[Pe069]: integer conversion resulted in truncation
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Adc\HAL_SFY_Adc.c(1779) : Warning[Pe069]: integer conversion resulted in truncation
+GoToPositionRS.cpp
+HAL_SFY_Core.c
+HAL_SFY_Bsp.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\BSP\SOURCE\emlib\inc\em_int.h(49) : Warning[Pa183]: #warning directive: "The INT module is deprecated and marked for removal in a later release. Please use the new CORE module instead. See \"Porting from em_int\" in the CORE documentation for instructions."
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Bsp\HAL_SFY_Bsp.c(243) : Warning[Pe223]: function "OSAL_SFY_Core_InterruptEntry" declared implicitly
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Bsp\HAL_SFY_Bsp.c(243) : Warning[Pe223]: function "Application_UserSystickStaticCallBack" declared implicitly
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Bsp\HAL_SFY_Bsp.c(243) : Warning[Pe223]: function "OSAL_SFY_Core_InterruptExit" declared implicitly
+HAL_SFY_Dac.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Dac\HAL_SFY_Dac.c(2210) : Warning[Pe177]: variable "loc_u8ElementIndex" was declared but never referenced
+HAL_SFY_Gpio.c
+HAL_SFY_Clock.c
+HAL_SFY_AnalogCompare.c
+HAL_SFY_Module.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Module\HAL_SFY_Module.c(277) : Warning[Pe223]: function "OSAL_SFY_Core_InterruptEntry" declared implicitly
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\Module\HAL_SFY_Module.c(297) : Warning[Pe223]: function "OSAL_SFY_Core_InterruptExit" declared implicitly
+HAL_SFY_Internal_StorageMemory.c
+HAL_SFY_Hw_InterruptVectors.c
+HAL_SFY_QuadDecoder.c
+HAL_SFY_Spi.c
+HAL_SFY_Types.c
+HAL_SFY_Uart.c
+HAL_SFY_StorageMemory.c
+HwTimer.cpp
+HAL_SFY_Timer.c
+IndustrialSmartMovementRS.cpp
+HAL_SFY_Watchdog.c
+IFmotionExecuterFactory.cpp
+IndustrialTestCallable.cpp
+IndustrialTestCallableBadCmd.cpp
+IndustrialTestCallableDecodeError.cpp
+IndustrialTestCallableListener.cpp
+IndustrialTestCallableFactory.cpp
+IndustrialTestCmdFreeRun1.cpp
+IndustrialTestCmdFreeRun2.cpp
+IndustrialTestCmdGetMtrCurrentInReq.cpp
+IndustrialTestCmdGetThermReq.cpp
+IndustrialTestCmdGetSignalPeriod.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Application\Classes\Sim145EmbeddedTests\Sim145EmbeddedTests\IndustrialTestCmdGetSignalPeriod.cpp(26) : Warning[Pa181]: incompatible redefinition of macro "BYTE_MASK" (declared <SRCREF line=19 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\IDE\IAR_ARM\..\..\SOURCE\Application\Classes\Sim145EmbeddedTests\GME41Protocol\GME41ProtocolL6.hpp">at line 19 of "D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\IDE\IAR_ARM\..\..\SOURCE\Application\Classes\Sim145EmbeddedTests\GME41Protocol\GME41ProtocolL6.hpp"</SRCREF>)
+IndustrialTestCmdGetPLineReq.cpp
+IndustrialTestCmdPosition.cpp
+IndustrialTestCmdReadNodeAddressReq.cpp
+IndustrialTestCmdReadTstParamReq.cpp
+IndustrialTestCmdGetVoltReq.cpp
+IndustrialTestCmdReadCalRFReq.cpp
+IndustrialTestCmdRFReceivedRequest.cpp
+IndustrialTestCmdReadTstParamReqForTstParam.cpp
+IndustrialTestCmdRFTXCarrierReq.cpp
+IndustrialTestCmdSetExtPeriphPowerMode.cpp
+IndustrialTestCmdSetGpioOutputPin.cpp
+IndustrialTestCmdSetMtrSpeed.cpp
+IndustrialTestCmdSignReq.cpp
+IndustrialTestCmdWriteNodeAddressReq.cpp
+IndustrialTestCmdStop.cpp
+IndustrialTestCmdWriteTstParamReq.cpp
+IndustrialTestCmdWriteCalRFReq.cpp
+InputArchive.cpp
+IndustrialTestCmdWriteTstParamReqForTstParam.cpp
+IndustrialTestsDE1DConsoleInterface.cpp
+IoSAdapterForActuator.cpp
+IntercomDC.cpp
+IndustrialTestCmdWriteVersionReq.cpp
+IntermediatePositionsParameter.cpp
+IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\PrivateAdapterUtils.h(115) : Warning[Pe177]: variable "loc_pu8Buffer" was declared but never referenced
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp(155) : Warning[Pe550]: variable "loc_u8WinkId" was set but never used
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp(141) : Warning[Pe546]: transfer of control bypasses initialization of:
+            variable "sAppBuffer" (declared <SRCREF line=152 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp">at line 152</SRCREF>)
+            variable "u8ByteArray" (declared <SRCREF line=153 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp">at line 153</SRCREF>)
+            variable "u8ArraySize" (declared <SRCREF line=154 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp">at line 154</SRCREF>)
+            variable "loc_u8WinkId" (declared <SRCREF line=155 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp">at line 155</SRCREF>)
+            variable "loc_u8WinkActivationStatus" (declared <SRCREF line=156 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp">at line 156</SRCREF>)
+            variable "loc_u8WinkDuration" (declared <SRCREF line=157 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp">at line 157</SRCREF>)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByDoublePowerCutDE1DConsole.cpp(229) : Warning[Pa118]: mixing boolean and non-boolean types in a comparison results in the boolean being promoted
+IoSAdapterForActuatorByIndustrialTestConsole.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByIndustrialTestConsole.cpp(144) : Warning[Pe177]: variable "loc_u8TimeIndex" was declared but never referenced
+IoSAdapterForActuatorByDomesticEquipment1D.cpp
+IoSAdapterForActuatorByRemoteDE1DControlCenterPanel.cpp
+IoSAdapterForActuatorByRemoteDE1DConsole.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\PrivateAdapterUtils.h(115) : Warning[Pe177]: variable "loc_pu8Buffer" was declared but never referenced
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp(116) : Warning[Pe550]: variable "loc_u8WinkId" was set but never used
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp(105) : Warning[Pe546]: transfer of control bypasses initialization of:
+            variable "sAppBuffer" (declared <SRCREF line=113 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp">at line 113</SRCREF>)
+            variable "u8ByteArray" (declared <SRCREF line=114 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp">at line 114</SRCREF>)
+            variable "u8ArraySize" (declared <SRCREF line=115 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp">at line 115</SRCREF>)
+            variable "loc_u8WinkId" (declared <SRCREF line=116 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp">at line 116</SRCREF>)
+            variable "loc_u8WinkActivationStatus" (declared <SRCREF line=117 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp">at line 117</SRCREF>)
+            variable "loc_u8WinkDuration" (declared <SRCREF line=118 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp">at line 118</SRCREF>)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DConsole.cpp(363) : Warning[Pa118]: mixing boolean and non-boolean types in a comparison results in the boolean being promoted
+IoSAdapterForActuatorByRemoteDE1DPanel.cpp
+IoSAdapterForActuatorByRemoteDE1DControlCenterConsole.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\IoSAdapterForActuatorByRemoteDE1DControlCenterConsole.cpp(63) : Warning[Pa183]: #warning directive: only override existing in IoSimplified: duplicated Adapter in IoSStack
+IoSAdapterForSensorByDetector.cpp
+IoSAdapterForSensorBySensor.cpp
+IoSStackListener.cpp
+IoSAdapterForSensorByEnvironmentalDE1DConsole.cpp
+IoStackOsInterface.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(81) : Warning[Pa181]: incompatible redefinition of macro "CONST_ARG" (declared <SRCREF line=51 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\IDE\IAR_ARM\..\..\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\TypesDefinition\OldTypesDefinition\SFY_Types.h">at line 51 of "D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\IDE\IAR_ARM\..\..\SOURCE\Platform\Common\HAL\HAL_SFY_EFR32MG\Abstraction_Layer\SOURCE\TypesDefinition\OldTypesDefinition\SFY_Types.h"</SRCREF>)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(120) : Warning[Pe301]: typedef name has already been declared (with same type)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(125) : Warning[Pe301]: typedef name has already been declared (with same type)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(129) : Warning[Pe301]: typedef name has already been declared (with same type)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(134) : Warning[Pe301]: typedef name has already been declared (with same type)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(138) : Warning[Pe301]: typedef name has already been declared (with same type)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(141) : Warning[Pe301]: typedef name has already been declared (with same type)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(150) : Warning[Pe301]: typedef name has already been declared (with same type)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(155) : Warning[Pe301]: typedef name has already been declared (with same type)
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\ioStack\ioStack\Classes\ioStackCommon\io_Types.h(163) : Warning[Pe301]: typedef name has already been declared (with same type)
+IoSStackControlInterface.cpp
+ITimerFactory.cpp
+LastEventOfLastStop.cpp
+Liion.cpp
+IoSStack.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\IoSProtocol\IoSStack.cpp(1332) : Warning[Pe177]: variable "loc_bIsObjectExists" was declared but never referenced
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\Media\IoSProtocol\IoSStack.cpp(1449) : Warning[Pe940]: missing return statement at end of non-void function "IoSStack::LowPowerWanted"
+LinearPositionSensorListener.cpp
+LinearPositionSensor.cpp
+LinearPositionSensorBasedOnTranslater.cpp
+LinearSpeedStep.cpp
+MechanicalActuator.cpp
+LongMechanicalFeedBack.cpp
+LowBatteryFeedBackChoreography.cpp
+MechanicalMotion.cpp
+MechanicalFeedBack.cpp
+MotherParameter.cpp
+Motherboard.cpp
+MotherboardByIoS.cpp
+Motion.cpp
+MotionExecuterListener.cpp
+Motor.cpp
+MotionExecuterFactoryForRs.cpp
+Movable.cpp
+MotionExecuter.cpp
+main.cpp
+MotorIdentificationNameCommercialName.cpp
+NbChargeExtPS.cpp
+NbNominalInit.cpp
+NbDPC.cpp
+NbResetBrownOut.cpp
+MoveRS.cpp
+NbOfStorageMode.cpp
+NbResetExtPin.cpp
+NbResetCRC.cpp
+NbResetSystem.cpp
+NbResetOthers.cpp
+NbResetTotal.cpp
+NbResetWarm.cpp
+NbSwitchBatteryStateLowToCritical.cpp
+NbShutdown.cpp
+NbResetWatchdog.cpp
+NbSwitchBatteryStateOkToLow.cpp
+NominalTorque.cpp
+NiCd.cpp
+NiMh.cpp
+ObjectArchiverConfig.c
+ObjectArchiver.c
+ObstacleDetector.cpp
+ObstacleDetectorListener.cpp
+ObstacleDestressRS.cpp
+ObjectStorageArea.c
+OEM_CodeNb.cpp
+ODSArrayParameter.cpp
+ObstacleUpReleaseRS.cpp
+OEM_OFNb.cpp
+OEMAccessCode.cpp
+OEMBattery.cpp
+OEMClientModel.cpp
+OEMCustomerProdDate.cpp
+OEMFreeWord.cpp
+OEMName.cpp
+OEMProdSite.cpp
+OEMSolarPanel.cpp
+OEMResetRegistry.cpp
+OpenworkSlatCurtainListener.cpp
+OEMWorkstationNb.cpp
+OperatingSystemResources.c
+os_core.c
+OpenworkSlatCurtain.cpp
+OperatingZone.cpp
+os_flag.c
+os_cpu_c.c
+os_q.c
+os_time.c
+os_sem.c
+os_tmr.c
+os_task.c
+OSAL_SFY_Core.c
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Platform\Common\OSAL\OSAL_uCOS-II\Abstraction_Layer\Core\OSAL_SFY_Core.c(271) : Warning[Pe186]: pointless comparison of unsigned integer with zero
+OSAL_SFY_EventGroup.c
+OSAL_SFY_EXT_Core.c
+OSAL_SFY_EXT_EventTimer.c
+OSAL_SFY_InternalCore.c
+OSAL_SFY_Mailbox.c
+OSAL_SFY_EXT_MsgBox.c
+OSAL_SFY_ModuleService.c
+OSAL_SFY_MsgQueue.c
+OSAL_SFY_Semaphore.c
+OSAL_SFY_Statistic.c
+OSAL_SFY_Timer.c
+OSAL_SFY_Task.c
+OutputArchive.cpp
+OutputSizeArchive.cpp
+OsalTimerFactory.cpp
+OsalTimer.cpp
+OverStrengthDetectionAlgorithm.cpp
+OverStrengthDetectionAlgorithmForRsDcMotor.cpp
+OverStrengthDetectionDownAlgorithmForRsDcMotor.cpp
+OverStrengthDetector.cpp
+OverStrengthDetectorListener.cpp
+OverStrengthDetectionUpAlgorithmForRsDcMotor.cpp
+OverStrengthDetectorManagerInterface.cpp
+OverTemperatureDetectorListener.cpp
+OverTemperatureDetector.cpp
+OverStrengthDetectorManager.cpp
+PairedProductAddress.cpp
+ParametersRegistry.cpp
+PartNumber.cpp
+PersistentObject.cpp
+Peripheral.cpp
+PeripheralListener.cpp
+OverStrengthDetectorForRsDcMotor.cpp
+PositionTranslation.cpp
+PlatformResources.c
+PositionTranslationExecuter.cpp
+PowerRange.cpp
+PowerSaverForActuator.cpp
+PowerSaverForActuatorListener.cpp
+PowerSaverForActuatorByMotherboard.cpp
+PowerSupplyListener.cpp
+PowerSourceListener.cpp
+PowerSupply.cpp
+PowerSource.cpp
+PowerSupplyMin.cpp
+PowerSupplyMaxRMS.cpp
+PowerSupplySource.cpp
+PwmMotorDriverListener.cpp
+ProductionDate.cpp
+PwmMotorDriver.cpp
+QuadDecoderDriver.cpp
+QT40_Diag.c
+QuadDecoderDriverListener.cpp
+PrivateCommandsAdapter.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PAL\ioSimplifiedDomesticEquipment1D\SOURCE\PrivateCommandsAdapter.cpp(59) : Warning[Pe550]: variable "loc_u8TimeIndex" was set but never used
+RamPool.c
+RandomGenerator.c
+Query.c
+RealTimeOperationListener.cpp
+Relay.cpp
+RechargeableBattery.cpp
+RelayForHAL.cpp
+QuadDecoderForHAL.cpp
+RemoteDE1DConsoleAddress.cpp
+RemoteDE1DConsoleAddressForIo.cpp
+RemoteDE1DControlCenterPanel.cpp
+RemoteDE1DControlCenterPanelListener.cpp
+RemoteDE1DControlCenterConsoleWithTimeout.cpp
+RemoteDE1DConsole.cpp
+RemoteDE1DPanelListener.cpp
+ResetListener.cpp
+RemoteDE1DControlCenterConsole.cpp
+RemoteDE1DPanel.cpp
+Reset.cpp
+RingBuffer.cpp
+ResetParam.cpp
+Roller.cpp
+ResetRegistry.cpp
+Rollable.cpp
+RollerMoverListener.cpp
+RollerShutterListener.cpp
+RotaryActuator.cpp
+RotaryActuatorListener.cpp
+RollerMover.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\RollerMover\Base\RollerMover.cpp(170) : Warning[Pa089]: enumerated type mixed with another enumerated type
+RollerShutter.cpp
+RotaryEncoderForQuadDecoderDriver.cpp
+RotationDirectionParameter.cpp
+RSOdsParameters.cpp
+RSLinearSpeedSensor.cpp
+RSMotorParameters.cpp
+RollTube.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\PhysicalParameters\INCLUDE\PhysicalParameter\PhysicalParameter.h(145) : Warning[Pa093]: implicit conversion from floating point to integer
+          detected during instantiation of "inline TPhysicalParameterClass PhysicalParameter<TPhysicalParameterClass, TeUnitsType, TValueType>::operator*(Type const &) const [with TPhysicalParameterClass=Distance, TeUnitsType=DistanceUnits::TeUnits, TValueType=TS16, Type=TF32]" <SRCREF line=1160 file="D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\RollTube\Base\RollTube.cpp">at line 1160 of "D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\RollTube\Base\RollTube.cpp"</SRCREF>
+SequentialComplexMotion.cpp
+SFY_Utilities.c
+SerialMedia.cpp
+SequentialMotionExecuter.cpp
+Sim145AuxiliaryPowerInput.cpp
+ShortMechanicalFeedBack.cpp
+SFUNotifier.cpp
+Sim145HwTimerFactory.cpp
+Sim145LiionBattery.cpp
+SIM145GME41DE1DConsole.cpp
+Sim145LiionCharger.cpp
+Sim145MainPowerInput.cpp
+Sim145NiMhBattery.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Application\Classes\Sim145PowerSource\Sim145NiMhBattery.cpp(82) : Warning[Pe940]: missing return statement at end of non-void function "Sim145NiMhBattery::EstimateStateOfCharge"
+Sim145Motherboard.cpp
+Sim145NiMhCharger.cpp
+Sim145PermanentPowerSource.cpp
+Sim145RSMotorParameters.cpp
+Sim145IndustrialTestCallableFactory.cpp
+Sim145SolarPanel.cpp
+Sim145TstParams.cpp
+Sim145SystemResetRegistry.cpp
+SimpleMotion.cpp
+Sim145SystemRegistry.cpp
+SOFOPUconfig.c
+SimpleMotionExecuter.cpp
+Sim145PowerSupply.cpp
+SlowMechanicalFeedBack.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\Motion\SimpleMotion\PauseMotion.h(26) : Warning[Pe368]: class "PauseMotion" defines no constructor to initialize the following:
+            reference member "PauseMotion::m_oDuration"
+SolarPanel.cpp
+SolarPanelCurrentIC_Peripheral.cpp
+SpecialMechanicalFeedBack.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\Motion\SimpleMotion\PauseMotion.h(26) : Warning[Pe368]: class "PauseMotion" defines no constructor to initialize the following:
+            reference member "PauseMotion::m_oDuration"
+SpecificMechanicalFeedBack.cpp
+D:\Jenkins_SIMU\workspace\SIM145_SIM145_BuildMulti_trunk\CODE\SOURCE\Common\Modules\GAS\Motion\SimpleMotion\PauseMotion.h(26) : Warning[Pe368]: class "PauseMotion" defines no constructor to initialize the following:
+            reference member "PauseMotion::m_oDuration"
+StatusOfIntermediatePosition.cpp
+StopRS.cpp
+StrengthTranslation.cpp
+StrongLockRS.cpp
+system_efr32mg12p.c
+StrengthTranslationExecuter.cpp
+SystemReset.cpp
+SystemResetRegistry.cpp
+SystemRegistry.cpp
+TimerListener.cpp
+TemporaryRemoteDE1DConsole.cpp
+Timer.cpp
+TimerSoftFactory.cpp
+TorqueStep.cpp
+TimeTranslation.cpp
+TimeTranslationExecuter.cpp
+TranslaterListener.cpp
+Task_Application.cpp
+Translater.cpp
+Translation.cpp
+TranslationStopExecuter.cpp
+TranslationStop.cpp
+TranslationExecuter.cpp
+TstParamCalRF.cpp
+TstParamEmsTestsFlags.cpp
+TravelZoneState.cpp
+TstParamDateCode.cpp
+TstParamManufOrder.cpp
+TstParamPlantCode.cpp
+TstParamRadioTestSignature.cpp
+TstParamVddMeasure.cpp
+TstParamVersion.cpp
+TypeOfSettingForEndLimits.cpp
+UartForHAL.cpp
+VisualPictogram.cpp
+UserDoublePowerCutDE1DConsole.cpp
+VoltageSensor.cpp
+VoltageSensorListener.cpp
+WithSingleInterface.cpp
+UserRemoteDE1DConsole.cpp
+ZoneWidthManager.cpp
+Linking
+Warning[Lt009]: Inconsistent wchar_t size
+            ChallMacUtils.o(IoStackLibForGas.a) has wchar_t size 16 bits
+            Acmp.o and 924 other objects, some of them in PhysicalParameterProfile.a and 417 other libraries have wchar_t size 32 bits
+Warning[Li026]: the module "ChallMacUtils.o(IoStackLibForGas.a)" (and 0 other modules) do not contain information to support Virtual Function Elimination
+c_3Nm.out
+Converting
+
+Total number of errors: 0
+Total number of warnings: 65

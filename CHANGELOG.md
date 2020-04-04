@@ -1,18 +1,120 @@
-# Changelog
-All notable changes to this project will be documented in this file.
+# Changelog (1.0.0 - 5.2.0)
+
+All notable changes of version 1.0.0 - 5.2.0 are documented in this file. All future changes will be automatically 
+logged by release drafter in [GitHub releases](https://github.com/jenkinsci/analysis-model/releases). 
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.0.0...master)
+## [5.2.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.1...analysis-model-5.2.0) - 2019-7-2
+
+### Added
+
+- [JENKINS-57098](https://issues.jenkins-ci.org/browse/JENKINS-55051):
+Added DScanner parser
+
+## [5.1.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.1.0...analysis-model-5.1.1) - 2019-6-3
 
 ### Fixed
-- [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333): 
+
+- Apply additional custom line mappers before removing ANSI color codes. 
+Fixes problems if the log contains color codes and Jenkins console notes.
+
+## [5.1.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.0.2...analysis-model-5.1.0) - 2019-5-27
+
+### Added
+
+- [JENKINS-57098](https://issues.jenkins-ci.org/browse/JENKINS-57098),
+[PR#177](https://github.com/jenkinsci/analysis-model/pull/177),
+[PR#168](https://github.com/jenkinsci/analysis-model/pull/168): 
+Added a generic JSON parser that reads all properties of the internal `Issue` object.
+
+### Changed internal API
+
+- Use SpotBugs library to read FindBugs and SpotBugs files. Hide ASM and BCEL libraries that are used by Jen
+
+## [5.0.2](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.0.1...analysis-model-5.0.2) - 2019-5-14
+
+### Fixed
+- [JENKINS-57365](https://issues.jenkins-ci.org/browse/JENKINS-57365),
+[PR#174](https://github.com/jenkinsci/analysis-model/pull/174): 
+Fixes false positives for MsBuild if e.g. a build project name contains the string info/note/warning.
+
+## [5.0.1](https://github.com/jenkinsci/analysis-model/compare/analysis-model-5.0.0...analysis-model-5.0.1) - 2019-5-12
+
+### Fixed
+- [JENKINS-57379](https://issues.jenkins-ci.org/browse/JENKINS-57379),
+[PR#171](https://github.com/jenkinsci/analysis-model/pull/171): 
+EclipseParser fails to extract full message when message includes array brackets.
+
+## [5.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-4.0.0...analysis-model-5.0.0) - 2019-5-7
+
+### Fixed
+
+### Added
+- [JENKINS-56510](https://issues.jenkins-ci.org/browse/JENKINS-56510),
+[PR#154](https://github.com/jenkinsci/analysis-model/pull/154): 
+Added a generic XML parser that reads all properties of the internal `Issue` object.
+- [PR#132](https://github.com/jenkinsci/analysis-model/pull/132): 
+Added a parser for CMake warnings.
+- [PR#137](https://github.com/jenkinsci/analysis-model/pull/137):
+Added a parser for JSON output from Cargo.
+- [PR#160](https://github.com/jenkinsci/analysis-model/pull/160):
+Added a parser for MentorGraphcis Modelsim/Questa.
+
+### Fixed
+- [JENKINS-54736](https://issues.jenkins-ci.org/browse/JENKINS-54736)
+PMD parser: Added support for errors.
+- [PR#118](https://github.com/jenkinsci/analysis-model/pull/118):
+Fixed parsing of log files that contain ANSI color codes (or escape sequences in general).
+- [JENKINS-38685](https://issues.jenkins-ci.org/browse/JENKINS-38685)
+MsBuild parser: Allow MSBuild errors without category.
+- [JENKINS-56333](https://issues.jenkins-ci.org/browse/JENKINS-56333),
+[PR#129](https://github.com/jenkinsci/analysis-model/pull/129): 
 MsBuild Parser: Treat errors as errors and not warning (high).
+- [JENKINS-56450](https://issues.jenkins-ci.org/browse/JENKINS-56450): 
+[PR#158](https://github.com/jenkinsci/analysis-model/pull/158): 
+MSBuild Parser: Fix error when compiling with /MP.
+- [JENKINS-48647](https://issues.jenkins-ci.org/browse/JENKINS-48647),
+[PR#145](https://github.com/jenkinsci/analysis-model/pull/145): 
+MsBuild Parser: Update regular expression to detect logging prefixes.
+- [JENKINS-56737](https://issues.jenkins-ci.org/browse/JENKINS-56737),
+[PR#136](https://github.com/jenkinsci/analysis-model/pull/136)
+Javac parser: Add the ability to parse warnings with preceding timestamps.
+- [JENKINS-56214](https://issues.jenkins-ci.org/browse/JENKINS-56214),
+[PR#142](https://github.com/jenkinsci/analysis-model/pull/142)
+CheckStyle parser: Map errors to severity ERROR (rather than WARNING_HIGH)
+- [JENKINS-52477](https://issues.jenkins-ci.org/browse/JENKINS-52477),
+[PR#146](https://github.com/jenkinsci/analysis-model/pull/146):
+FileReaderFactory: Detect charset from XML-header when not specified. 
+- [JENKINS-52462](https://issues.jenkins-ci.org/browse/JENKINS-52462),
+[PR#155](https://github.com/jenkinsci/analysis-model/pull/155):
+SonarQubeParser: Use `textRange` when computing affected source code line.
 
 ### Changed
 - Filters now work on a substring of the property, you don't need to create a regular
 expression that matches the whole property value anymore. 
+
+### Changed API
+
+- [JENKINS-56698](https://issues.jenkins-ci.org/browse/JENKINS-56698),
+[PR#156](https://github.com/jenkinsci/analysis-model/pull/156) 
+`NagFortranParser`: now uses uses new base class 
+[LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+- [JENKINS-56702](https://issues.jenkins-ci.org/browse/JENKINS-56702),
+  [PR#150](https://github.com/jenkinsci/analysis-model/pull/150) `YuiCompressorParser`: now uses new base class 
+[LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+that provides a lookahead of the next report line instead of using multi line parsing.
+- [JENKINS-56700](https://issues.jenkins-ci.org/browse/JENKINS-56700),
+[PR#153](https://github.com/jenkinsci/analysis-model/pull/153):
+`GhsMultiParser`: now uses new base class 
+[LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+- [JENKINS-56701](https://issues.jenkins-ci.org/browse/JENKINS-56701),
+[PR#153](https://github.com/jenkinsci/analysis-model/pull/153):
+`GnuFortranParser`: now uses new base class 
+[LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
+- `DrMemoryParser`: now uses new base class 
+[LookaheadParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/LookaheadParser.java) 
 
 ## [4.0.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-3.0.0...analysis-model-4.0.0) - 2019-3-20
 
@@ -147,32 +249,3 @@ from the maven-compiler-plugin since these are already picked up by the Java par
 ## 1.0.0 - 2018-12-20
 
 First public release.
-
-<!---
-## 1.0.0 - year-month-day
-### Added
-- One 
-- Two 
-
-### Changed
-- One 
-- Two 
-
-### Deprecated
-- One 
-- Two 
-
-### Removed
-- One 
-- Two 
-
-### Fixed
-- One 
-- Two 
-
-### Security
-- One 
-- Two 
-
-
--->

@@ -11,7 +11,7 @@ public class PyDocStyleAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 1119003057153007718L;
 
     @Override
-    protected PyDocStyleParser createParser() {
+    PyDocStyleParser createParser() {
         return new PyDocStyleParser();
     }
 }

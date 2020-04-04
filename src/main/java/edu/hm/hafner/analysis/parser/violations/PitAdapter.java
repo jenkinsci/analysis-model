@@ -19,17 +19,17 @@ public class PitAdapter extends AbstractViolationAdapter {
     private static final String DETECTED = "detected";
 
     @Override
-    protected PiTestParser createParser() {
+    PiTestParser createParser() {
         return new PiTestParser();
     }
 
     @Override
-    protected boolean isValid(final Violation violation) {
+    boolean isValid(final Violation violation) {
         return "false".equals(getSpecifics(violation, DETECTED));
     }
 
     @Override
-    protected Severity convertSeverity(final SEVERITY severity, final Violation violation) {
+    Severity convertSeverity(final SEVERITY severity, final Violation violation) {
         return "SURVIVED".equals(getSpecifics(violation, STATUS)) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
     }
 
@@ -39,7 +39,7 @@ public class PitAdapter extends AbstractViolationAdapter {
     }
 
     @Override
-    protected void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
+    void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
         builder.setCategory(getSpecifics(violation, STATUS));
     }
 }

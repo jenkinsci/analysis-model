@@ -8,6 +8,9 @@
 *.md text
 *.txt text
 
+# PMD configuration file for Eclipse wants to be LF
+.pmd text eol=lf
+
 # Denote all files that are truly binary and should not be modified.
 *.gif binary
 *.png binary

@@ -5,23 +5,17 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.InvalidPathException;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.io.input.ReaderInputStream;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -32,9 +26,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public abstract class ReaderFactory {
     private static final Function<String, String> IDENTITY = Function.identity();
 
-    @Nullable
     private final Charset charset;
     private final Function<String, String> lineMapper;
+
+    private static final Pattern ANSI_COLOR_CODES
+            = Pattern.compile("\u001B\\[[;\\d]*[ -/]*[@-~]");
+    private static final Function<String, String> REMOVE_COLOR_CODES
+            = string -> ANSI_COLOR_CODES.matcher(string).replaceAll(StringUtils.EMPTY);
 
     /**
      * Creates a new factory to read a resource with a given charset.
@@ -42,7 +40,7 @@ public abstract class ReaderFactory {
      * @param charset
      *         the charset to use when reading the file
      */
-    public ReaderFactory(final @Nullable Charset charset) {
+    public ReaderFactory(final Charset charset) {
         this(charset, IDENTITY);
     }
 
@@ -54,9 +52,9 @@ public abstract class ReaderFactory {
      * @param lineMapper
      *         provides a mapper to transform each of the resource lines
      */
-    public ReaderFactory(final @Nullable Charset charset, final Function<String, String> lineMapper) {
+    public ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
-        this.lineMapper = lineMapper;
+        this.lineMapper = REMOVE_COLOR_CODES.compose(lineMapper);
     }
 
     /**
@@ -82,7 +80,7 @@ public abstract class ReaderFactory {
      *         if the file could not be read
      */
     @MustBeClosed
-    @SuppressWarnings("MustBeClosedChecker")
+    @SuppressWarnings({"MustBeClosedChecker", "PMD.CloseResource"})
     @SuppressFBWarnings("OS_OPEN_STREAM")
     public Stream<String> readStream() {
         try {
@@ -107,7 +105,7 @@ public abstract class ReaderFactory {
                 closeable.close();
             }
             catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new ParsingException(e);
             }
         };
     }
@@ -129,8 +127,8 @@ public abstract class ReaderFactory {
         try (Stream<String> lines = readStream()) {
             return lines.collect(Collectors.joining("\n"));
         }
-        catch (UncheckedIOException e) {
-            throw new ParsingException(e);
+        catch (UncheckedIOException exception) {
+            throw new ParsingException(exception);
         }
     }
 
@@ -143,26 +141,11 @@ public abstract class ReaderFactory {
      */
     public Document readDocument() {
         try (Reader reader = create()) {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            disableFeature(factory, "external-general-entities");
-            disableFeature(factory, "external-parameter-entities");
-            disableFeature(factory, "load-external-dtd");
-            DocumentBuilder docBuilder = factory.newDocumentBuilder();
-            return docBuilder.parse(new InputSource(new ReaderInputStream(reader, getCharset())));
+            SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
+            return parserFactory.readDocument(reader, getCharset());
         }
-        catch (SAXException | IOException | InvalidPathException | ParserConfigurationException e) {
-            throw new ParsingException(e);
-        }
-    }
-
-    @SuppressFBWarnings
-    @SuppressWarnings("illegalcatch")
-    private void disableFeature(final DocumentBuilderFactory factory, final String feature) {
-        try {
-            factory.setFeature("http://xml.org/sax/features/" + feature, false);
-        }
-        catch (Exception ignored) {
-            // ignore and continue
+        catch (IOException exception) {
+            throw new ParsingException(exception);
         }
     }
 
@@ -172,10 +155,25 @@ public abstract class ReaderFactory {
      * @return the character set
      */
     public Charset getCharset() {
-        if (charset == null) {
-            return StandardCharsets.UTF_8;
-        }
         return charset;
+    }
+
+    /**
+     * Parses the whole file with the specified SAX {@link DefaultHandler}.
+     *
+     * @param handler
+     *         the SAX handler to parse the file
+     *
+     * @throws ParsingException
+     *         if the file could not be parsed
+     */
+    public void parse(final DefaultHandler handler) {
+        try (Reader reader = create()) {
+            new SecureXmlParserFactory().parse(reader, getCharset(), handler);
+        }
+        catch (IOException exception) {
+            throw new ParsingException(exception);
+        }
     }
 }
 

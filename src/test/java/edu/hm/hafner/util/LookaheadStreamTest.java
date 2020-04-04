@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -72,11 +72,12 @@ class LookaheadStreamTest extends ResourceTest {
     @Test
     @SuppressWarnings("unchecked")
     void shouldCloseStream() {
-        Stream<String> lines = mock(Stream.class);
-        LookaheadStream stream = new LookaheadStream(lines);
+        try (Stream<String> lines = mock(Stream.class)) {
+            try (LookaheadStream stream = new LookaheadStream(lines)) {
+                assertThat(stream.getLine()).isZero();
+            }
 
-        stream.close();
-
-        verify(lines).close();
+            verify(lines).close(); // lines will be closed by stream
+        }
     }
 }

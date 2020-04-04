@@ -8,12 +8,12 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.jcreport.File;
 import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the {@link JcReportParser}.
@@ -47,7 +47,7 @@ class JcReportParserTest extends AbstractParserTest {
         ReaderFactory factory = createReaderFactory("jcreport/testReportProps.xml");
         edu.hm.hafner.analysis.parser.jcreport.Report testReportProps = new JcReportParser().createReport(factory);
 
-        assertThat(testReportProps.getFiles().size()).isEqualTo(1);
+        assertThat(testReportProps.getFiles()).hasSize(1);
 
         File file = testReportProps.getFiles().get(0);
         assertThat(file.getClassname()).isEqualTo("SomeClass");
@@ -71,7 +71,8 @@ class JcReportParserTest extends AbstractParserTest {
      * Test the SAXException when file is corrupted. When a SAXException is triggered a new IOException is thrown. This
      * explains the expected = IOException.class.
      *
-     * @throws ParsingCanceledException -> thrown by jcrp.parse();
+     * @throws ParsingCanceledException
+     *         -> thrown by jcrp.parse();
      */
     @Test
     void testSAXEception() throws ParsingCanceledException {

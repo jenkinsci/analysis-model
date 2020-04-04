@@ -10,10 +10,9 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.assertj.core.api.Assumptions.*;
 
 /**
@@ -147,7 +146,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     @Test
     void shouldAssignAbsolutePath() {
         Report report = parse("gnuMakeGcc.txt");
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             Iterator<Issue> iterator = report.iterator();
             softly.assertThat(report).hasSize(12);
             softly.assertThat(iterator.next())
@@ -238,7 +237,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasMessage(
                             "#warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated.")
                     .hasFileName("/usr/include/c++/4.3/backward/backward_warning.h");
-        });
+        }
     }
 
     /** Should not report warnings already detected by {@link Gcc4LinkerParser}. */
@@ -263,7 +262,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parser should make relative paths absolute if cmake/ninja is used.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>
      */
     @Test
     void issue56020() {
@@ -271,35 +270,39 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         assertThat(makefileReport).hasSize(1);
 
-        assertSoftly(softly -> softly.assertThat(makefileReport.get(0))
-                .hasLineStart(1)
-                .hasColumnStart(26)
-                .hasMessage("unused variable ‘a’ [-Wunused-variable]\n"
-                        + " void doSomething() { int a; }\n"
-                        + "                          ^")
-                .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
-                .hasCategory("unused-variable")
-                .hasSeverity(Severity.WARNING_NORMAL));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(makefileReport.get(0))
+                    .hasLineStart(1)
+                    .hasColumnStart(26)
+                    .hasMessage("unused variable ‘a’ [-Wunused-variable]\n"
+                            + " void doSomething() { int a; }\n"
+                            + "                          ^")
+                    .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
+                    .hasCategory("unused-variable")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
 
         Report ninjaReport = parse("issue56020.ninja.log");
 
         assertThat(ninjaReport).hasSize(1);
 
-        assertSoftly(softly -> softly.assertThat(ninjaReport.get(0))
-                .hasLineStart(1)
-                .hasColumnStart(26)
-                .hasMessage("unused variable ‘a’ [-Wunused-variable]\n"
-                        + " void doSomething() { int a; }\n"
-                        + "                          ^")
-                .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
-                .hasCategory("unused-variable")
-                .hasSeverity(Severity.WARNING_NORMAL));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(ninjaReport.get(0))
+                    .hasLineStart(1)
+                    .hasColumnStart(26)
+                    .hasMessage("unused variable ‘a’ [-Wunused-variable]\n"
+                            + " void doSomething() { int a; }\n"
+                            + "                          ^")
+                    .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
+                    .hasCategory("unused-variable")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
     }
 
     /**
      * Parses a file with one fatal error.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-18081">Issue 18081</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-18081">Issue 18081</a>
      */
     @Test
     void issue18081() {
@@ -307,20 +310,22 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasLineStart(10)
-                .hasLineEnd(10)
-                .hasMessage("'test.h' file not found\n"
-                        + "#include \"test.h\"\n"
-                        + "         ^")
-                .hasFileName("./test.h")
-                .hasSeverity(Severity.ERROR));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(10)
+                    .hasLineEnd(10)
+                    .hasMessage("'test.h' file not found\n"
+                            + "#include \"test.h\"\n"
+                            + "         ^")
+                    .hasFileName("./test.h")
+                    .hasSeverity(Severity.ERROR);
+        }
     }
 
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
     void issue9926() {
@@ -328,18 +333,20 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> softly.assertThat(warnings.get(0))
-                .hasLineStart(52)
-                .hasLineEnd(52)
-                .hasMessage("large integer implicitly truncated to unsigned type")
-                .hasFileName("src/test_simple_sgs_message.cxx")
-                .hasSeverity(Severity.WARNING_NORMAL));
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(52)
+                    .hasLineEnd(52)
+                    .hasMessage("large integer implicitly truncated to unsigned type")
+                    .hasFileName("src/test_simple_sgs_message.cxx")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
     }
 
     /**
      * Parses a warning log with 1 warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-6563">Issue 6563</a>
      */
     @Test
     void issue6563() {
@@ -351,7 +358,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 10 template warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5606">Issue 5606</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5606">Issue 5606</a>
      */
     @Test
     void issue5606() {
@@ -363,7 +370,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with multi line warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5605">Issue 5605</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5605">Issue 5605</a>
      */
     @Test
     void issue5605() {
@@ -375,7 +382,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with multi line warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5445">Issue 5445</a>
      */
     @Test
     void issue5445() {
@@ -387,7 +394,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with autoconf messages. There should be no warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5870">Issue 5870</a>
      */
     @Test
     void issue5870() {
@@ -411,7 +418,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(4)
                     .hasLineEnd(4)
@@ -444,7 +451,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasFileName("gcc4warning.c")
                     .hasCategory("return-type")
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 
     /**
@@ -483,7 +490,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(6).hasDuplicatesSize(2);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(204)
                     .hasColumnStart(26)
@@ -548,7 +555,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                             "/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/post_steps.h")
                     .hasCategory("return-local-addr")
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 }
 

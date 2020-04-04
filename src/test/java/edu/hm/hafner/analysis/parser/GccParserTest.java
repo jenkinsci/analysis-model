@@ -8,9 +8,9 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link GccParser}.
@@ -29,7 +29,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Checks that a false positive is not reported anymore.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-34141">Issue 34141</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-34141">Issue 34141</a>
      */
     @Test
     void issue34141() {
@@ -41,7 +41,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Verifies that the message contains escaped XML characters.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-17309">Issue 17309</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-17309">Issue 17309</a>
      */
     @Test
     void issue17309() {
@@ -49,7 +49,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(4)
                     .hasLineEnd(4)
@@ -57,13 +57,13 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("foo.cc")
                     .hasCategory(GCC_ERROR)
                     .hasSeverity(Severity.WARNING_HIGH);
-        });
+        }
     }
 
     /**
      * Parses a file with one warning that are started by ant.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-9926">Issue 9926</a>
      */
     @Test
     void issue9926() {
@@ -71,7 +71,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(52)
                     .hasLineEnd(52)
@@ -80,7 +80,7 @@ class GccParserTest extends AbstractParserTest {
 
                     .hasCategory(GCC_WARNING)
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 
     /**
@@ -88,7 +88,6 @@ class GccParserTest extends AbstractParserTest {
      */
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-
 
         softly.assertThat(report).hasSize(8);
 
@@ -159,11 +158,10 @@ class GccParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
-
     /**
      * Parses a warning log with 2 new GCC warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-3897">Issue 3897</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-3897">Issue 3897</a>
      */
     @Test
     void issue3897and3898() {
@@ -173,7 +171,7 @@ class GccParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(12)
                     .hasLineEnd(12)
@@ -197,13 +195,13 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("/dir1/dir2/file.cpp")
                     .hasCategory(GccParser.GCC_ERROR)
                     .hasSeverity(Severity.WARNING_HIGH);
-        });
+        }
     }
 
     /**
      * Parses a warning log with 2 GCC warnings, one of them a note.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
     void issue4712() {
@@ -213,7 +211,7 @@ class GccParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(352)
                     .hasLineEnd(352)
@@ -229,13 +227,13 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("main/mep.cpp")
                     .hasCategory("GCC note")
                     .hasSeverity(Severity.WARNING_LOW);
-        });
+        }
     }
 
     /**
      * Parses a warning log with a ClearCase command line that should not be parsed as a warning.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4712</a>
      */
     @Test
     void issue4700() {
@@ -247,7 +245,7 @@ class GccParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with [exec] prefix.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4707</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4712">Issue 4707</a>
      */
     @Test
     void issue4707() {
@@ -255,7 +253,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(11).hasDuplicatesSize(11);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(1128)
                     .hasLineEnd(1128)
@@ -264,13 +262,13 @@ class GccParserTest extends AbstractParserTest {
                             "/Users/rthomson/hudson/jobs/Bryce7-MacWarnings/workspace/bryce7/src/Bryce/Plugins/3DSExport/3DSExport.cpp")
                     .hasCategory(GCC_WARNING)
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 
     /**
      * Parses a linker error.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4010">Issue 4010</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4010">Issue 4010</a>
      */
     @Test
     void issue4010() {
@@ -278,7 +276,7 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -286,13 +284,13 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("MyLib")
                     .hasCategory(GccParser.LINKER_ERROR)
                     .hasSeverity(Severity.WARNING_HIGH);
-        });
+        }
     }
 
     /**
      * Parses a warning log with 6 new objective C warnings.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4274">Issue 4274</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4274">Issue 4274</a>
      */
     @Test
     void issue4274() {
@@ -302,7 +300,7 @@ class GccParserTest extends AbstractParserTest {
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(638)
                     .hasLineEnd(638)
@@ -334,13 +332,13 @@ class GccParserTest extends AbstractParserTest {
                     .hasFileName("file1.m")
                     .hasCategory(GCC_WARNING)
                     .hasSeverity(Severity.WARNING_NORMAL);
-        });
+        }
     }
 
     /**
      * Parses a file with one warning and matching warning that will be excluded afterwards.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
      */
     @Test
     void issue4260() {
@@ -348,7 +346,6 @@ class GccParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
     }
-
 
     @Override
     protected GccParser createParser() {

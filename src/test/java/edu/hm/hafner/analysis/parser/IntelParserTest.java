@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.analysis.assertj.IssuesAssert.*;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
-import static edu.hm.hafner.analysis.assertj.SoftAssertions.*;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link IntelParserTest}.
@@ -64,7 +64,8 @@ class IntelParserTest extends AbstractParserTest {
                 .hasCategory("Warning #6843")
                 .hasLineStart(1)
                 .hasLineEnd(1)
-                .hasMessage("A dummy argument with an explicit INTENT(OUT) declaration is not given an explicit value.   [X]")
+                .hasMessage(
+                        "A dummy argument with an explicit INTENT(OUT) declaration is not given an explicit value.   [X]")
                 .hasFileName("/path/to/file1.f90");
 
         softly.assertThat(report.get(5))
@@ -72,7 +73,8 @@ class IntelParserTest extends AbstractParserTest {
                 .hasCategory("Remark #8577")
                 .hasLineStart(806)
                 .hasLineEnd(806)
-                .hasMessage("The scale factor (k) and number of fractional digits (d) do not have the allowed combination of either -d < k <= 0 or 0 < k < d+2. Expect asterisks as output.")
+                .hasMessage(
+                        "The scale factor (k) and number of fractional digits (d) do not have the allowed combination of either -d < k <= 0 or 0 < k < d+2. Expect asterisks as output.")
                 .hasFileName("/path/to/file2.f");
 
         softly.assertThat(report.get(6))
@@ -103,7 +105,7 @@ class IntelParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 3 warnings and 1 error.
      *
-     * @see <a href="http://issues.jenkins-ci.org/browse/JENKINS-5402">Issue 5402</a>
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-5402">Issue 5402</a>
      */
     @Test
     void issue5402() {
@@ -111,7 +113,7 @@ class IntelParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(4);
 
-        assertSoftly(softly -> {
+        try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Warning #177")
@@ -147,7 +149,7 @@ class IntelParserTest extends AbstractParserTest {
                             "function \"fopen\" (declared at line 237 of \"C:\\Program Files\\Microsoft Visual Studio 9.0\\VC\\INCLUDE\\stdio.h\") was declared \"deprecated (\"This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.\") \"")
                     .hasFileName(
                             "D:/hudson/workspace/continuous-snext-main-Win32/trunk/src/engine/AllocationProfiler.cpp");
-        });
+        }
     }
 }
 

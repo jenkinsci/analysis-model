@@ -1,0 +1,40 @@
+tag-template: analysis-model-$NEXT_PATCH_VERSION
+name-template: Analysis Model $NEXT_PATCH_VERSION 🎁
+
+template: |
+  $CHANGES
+
+# Emoji reference: https://gitmoji.carloscuesta.me/
+categories:
+  - title: 💥 Removed
+    label: removed
+  - title: ⚠️ Deprecated
+    label: deprecated
+  - title: 🚀 New features
+    labels:
+      - enhancement
+      - feature
+  - title: ✨ Improvements
+    labels:
+      - enhancement
+      - feature
+  - title: 🐛 Bug Fixes
+    labels:
+      - bug
+      - fix
+      - bugfix
+      - regression
+  - title: 📝 Documentation updates
+    label: documentation
+  - title: 📦 Dependency updates
+    label: dependencies
+  - title: 🔧 Internal changes
+    label: internal
+  - title: 🚦 Tests
+    labels:
+      - test
+      - tests
+
+replacers:
+  - search: '/\[*JENKINS-(\d+)\]*\s*-*\s*/g'
+    replace: '[JENKINS-$1](https://issues.jenkins-ci.org/browse/JENKINS-$1) - '

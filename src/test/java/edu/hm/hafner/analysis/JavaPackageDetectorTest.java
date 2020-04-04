@@ -3,12 +3,14 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import edu.hm.hafner.util.ResourceTest;
+
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -28,6 +30,16 @@ class JavaPackageDetectorTest extends ResourceTest {
             assertThat(new JavaPackageDetector().detectPackageName(stream, StandardCharsets.UTF_8))
                     .isEqualTo(expectedPackage);
         }
+    }
+
+    @Test
+    void shouldSkipPackagesThatDoNotStartWithLowerCase() {
+        JavaPackageDetector detector = new JavaPackageDetector();
+
+        String[] packages = {"package EDU.hm.hafner.analysis;",
+                "package 0123.hm.hafner.analysis;"};
+
+        assertThat(detector.detectPackageName(Arrays.stream(packages))).isEqualTo("-");
     }
 
     @Test

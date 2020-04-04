@@ -1,19 +1,13 @@
 package edu.hm.hafner.analysis.parser; // NOPMD
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +30,6 @@ import edu.umd.cs.findbugs.Project;
 import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
 import edu.umd.cs.findbugs.annotations.Nullable;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
 
@@ -50,7 +43,6 @@ import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 @SuppressWarnings("ClassFanOutComplexity")
 public class FindBugsParser extends IssueParser {
     private static final long serialVersionUID = 8306319007761954027L;
-    private static final String ORG_XML_SAX_DRIVER = "org.xml.sax.driver";
 
     /**
      * FindBugs 2 and 3 classifies issues using the bug rank and priority (now renamed confidence). Bugs are given a
@@ -74,8 +66,6 @@ public class FindBugsParser extends IssueParser {
 
     /** Determines whether to use the rank when evaluation the priority. */
     private final PriorityProperty priorityProperty;
-
-    private boolean isFirstError = true;
 
     /**
      * Creates a new instance of {@link FindBugsParser}.
@@ -139,14 +129,23 @@ public class FindBugsParser extends IssueParser {
             final IssueBuilder builder, final Map<String, String> hashToMessageMapping,
             final Map<String, String> categories) {
         try (Reader input = readerFactory.create()) {
-            SortedBugCollection collection = readXml(input);
+            SortedBugCollection bugs = readXml(input);
 
-            Project project = collection.getProject();
-            for (String sourceFolder : sources) {
-                project.addSourceDir(sourceFolder);
+            try (Project project = bugs.getProject()) {
+                return convertBugsToIssues(sources, builder, hashToMessageMapping, categories, bugs, project);
             }
+        }
+        catch (DocumentException | IOException exception) {
+            throw new ParsingException(exception);
+        }
+    }
 
-            SourceFinder sourceFinder = new SourceFinder(project);
+    private Report convertBugsToIssues(final Collection<String> sources, final IssueBuilder builder,
+            final Map<String, String> hashToMessageMapping, final Map<String, String> categories,
+            final SortedBugCollection collection, final Project project) {
+        project.addSourceDirs(sources);
+
+        try (SourceFinder sourceFinder = new SourceFinder(project)) {
             if (StringUtils.isNotBlank(project.getProjectName())) {
                 builder.setModuleName(project.getProjectName());
             }
@@ -169,18 +168,15 @@ public class FindBugsParser extends IssueParser {
                         .setType(type)
                         .setLineStart(sourceLine.getStartLine())
                         .setLineEnd(sourceLine.getEndLine())
-                        .setFileName(findSourceFile(project, sourceFinder, sourceLine))
+                        .setFileName(findSourceFile(sourceFinder, sourceLine))
                         .setPackageName(warning.getPrimaryClass().getPackageName())
                         .setFingerprint(warning.getInstanceHash());
-                setAffectedLines(warning, builder, new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
+                setAffectedLines(warning, builder,
+                        new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
 
                 report.add(builder.build());
             }
-
             return report;
-        }
-        catch (DocumentException | IOException exception) {
-            throw new ParsingException(exception);
         }
     }
 
@@ -235,7 +231,6 @@ public class FindBugsParser extends IssueParser {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(FindBugsParser.class.getClassLoader());
-            logSaxProperties();
             SortedBugCollection collection = new SortedBugCollection();
             collection.readXML(file);
             return collection;
@@ -243,53 +238,6 @@ public class FindBugsParser extends IssueParser {
         finally {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
-    }
-
-    @SuppressWarnings("illegalcatch")
-    @SuppressFBWarnings("DE_MIGHT_IGNORE")
-    private void logSaxProperties() {
-        String saxProperty = System.getProperty(ORG_XML_SAX_DRIVER);
-        if (saxProperty == null) {
-            try {
-                ClassLoader cl = Thread.currentThread().getContextClassLoader();
-                String service = "META-INF/services/" + ORG_XML_SAX_DRIVER;
-                InputStream in;
-                if (cl == null) {
-                    // No Context ClassLoader, try the current ClassLoader
-                    in = Object.class.getResourceAsStream(service);
-                }
-                else {
-                    in = FindBugsParser.class.getResourceAsStream(service);
-
-                    // If no provider found then try the current ClassLoader
-                    if (in == null) {
-                        in = Object.class.getResourceAsStream(service);
-                    }
-                }
-
-                if (in != null) {
-                    try (BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(in, StandardCharsets.UTF_8))) {
-                        Logger.getLogger(FindBugsParser.class.getName())
-                                .log(Level.WARNING,
-                                        "Service META-INF/services/org.xml.sax.driver has been set but should be empty: "
-                                                + reader.readLine());
-                        return;
-                    }
-                }
-            }
-            catch (RuntimeException | IOException ignore) {
-                // ignore
-            }
-        }
-        else {
-            Logger.getLogger(FindBugsParser.class.getName()).log(
-                    Level.WARNING,
-                    "System property org.xml.sax.driver has been set but should be empty: " + saxProperty);
-            return;
-        }
-        Logger.getLogger(FindBugsParser.class.getName())
-                .log(Level.FINE, "Default SAX parser will be used to parse FindBugs/SpotBugs file.");
     }
 
     private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,
@@ -309,21 +257,12 @@ public class FindBugsParser extends IssueParser {
         builder.setLineRanges(lineRanges);
     }
 
-    private String findSourceFile(final Project project, final SourceFinder sourceFinder,
-            final SourceLineAnnotation sourceLine) {
+    private String findSourceFile(final SourceFinder sourceFinder, final SourceLineAnnotation sourceLine) {
         try {
             SourceFile sourceFile = sourceFinder.findSourceFile(sourceLine);
             return sourceFile.getFullFileName();
         }
         catch (IOException ignored) {
-            if (isFirstError) {
-                StringBuilder builder = new StringBuilder("Can't resolve absolute file name for file ");
-                builder.append(sourceLine.getSourceFile());
-                builder.append(", dir list = ");
-                builder.append(project.getSourceDirList());
-                isFirstError = false;
-                Logger.getLogger(getClass().getName()).log(Level.WARNING, builder.toString());
-            }
             return sourceLine.getPackageName().replace(DOT, SLASH) + SLASH + sourceLine.getSourceFile();
         }
     }
@@ -417,6 +356,5 @@ public class FindBugsParser extends IssueParser {
         public void setCategory(final String category) {
             this.category = category;
         }
-
     }
 }

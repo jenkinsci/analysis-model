@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import edu.hm.hafner.util.VisibleForTesting;
@@ -42,7 +41,7 @@ public class PackageNameResolver {
     public void run(final Report report, final Charset charset) {
         Set<String> filesWithoutPackageName = report.stream()
                 .filter(issue -> !issue.hasPackageName())
-                .map(Issue::getFileName)
+                .map(Issue::getAbsolutePath)
                 .collect(Collectors.toSet());
         
         if (filesWithoutPackageName.isEmpty()) {
@@ -50,19 +49,17 @@ public class PackageNameResolver {
         
             return;
         }
-        
-        Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
-                .collect(Collectors.toMap(identity(), findPackage(charset)));
 
+        Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
+                .collect(Collectors.toMap(identity(),
+                        fileName -> packageDetectors.detectPackageName(fileName, charset)));
+
+        IssueBuilder builder = new IssueBuilder();
         report.stream().forEach(issue -> {
             if (!issue.hasPackageName()) {
-                issue.setPackageName(packagesOfFiles.get(issue.getFileName()));
+                issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getAbsolutePath())));
             }
         });
         report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());
-    }
-
-    private Function<String, String> findPackage(final Charset charset) {
-        return fileName -> packageDetectors.detectPackageName(fileName, charset);
     }
 }

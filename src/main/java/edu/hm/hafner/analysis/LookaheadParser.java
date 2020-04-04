@@ -46,29 +46,34 @@ public abstract class LookaheadParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         Report report = new Report();
         try (Stream<String> lines = readerFactory.readStream()) {
-            LookaheadStream lookahead = new LookaheadStream(lines);
-            IssueBuilder builder = new IssueBuilder();
-            while (lookahead.hasNext()) {
-                String line = lookahead.next();
-                if (line.contains(ENTERING_DIRECTORY)) {
-                    extractAndStoreDirectory(builder, line, MAKE_PATH);
-                }
-                else if (line.contains(CMAKE_PREFIX)) {
-                    extractAndStoreDirectory(builder, line, CMAKE_PATH);
-                }
-                else if (isLineInteresting(line)) {
-                    Matcher matcher = pattern.matcher(line);
-                    if (matcher.find()) {
-                        createIssue(matcher, lookahead, builder).ifPresent(report::add);
-                    }
-                }
-                if (Thread.interrupted()) {
-                    throw new ParsingCanceledException();
-                }
+            try (LookaheadStream lookahead = new LookaheadStream(lines, readerFactory.getFileName())) {
+                parse(report, lookahead);
             }
         }
 
         return postProcess(report);
+    }
+
+    private void parse(final Report report, final LookaheadStream lookahead) {
+        IssueBuilder builder = new IssueBuilder();
+        while (lookahead.hasNext()) {
+            String line = lookahead.next();
+            if (line.contains(ENTERING_DIRECTORY)) {
+                extractAndStoreDirectory(builder, line, MAKE_PATH);
+            }
+            else if (line.contains(CMAKE_PREFIX)) {
+                extractAndStoreDirectory(builder, line, CMAKE_PATH);
+            }
+            else if (isLineInteresting(line)) {
+                Matcher matcher = pattern.matcher(line);
+                if (matcher.find()) {
+                    createIssue(matcher, lookahead, builder).ifPresent(report::add);
+                }
+            }
+            if (Thread.interrupted()) {
+                throw new ParsingCanceledException();
+            }
+        }
     }
 
     private void extractAndStoreDirectory(final IssueBuilder builder, final String line, final Pattern makePath) {

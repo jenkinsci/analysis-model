@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.assertj.SoftAssertions;
+import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
  * Tests the class {@link CadenceIncisiveParser}.
@@ -26,7 +26,8 @@ class CadenceIncisiveParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasLineStart(0)
-                .hasMessage("Resolved design unit 'dummyram' at 'u_dummyrams' to 'dummysoc.dummyram:v' through a global search of all libraries.")
+                .hasMessage(
+                        "Resolved design unit 'dummyram' at 'u_dummyrams' to 'dummysoc.dummyram:v' through a global search of all libraries.")
                 .hasFileName("-")
                 .hasCategory("Warning (ncelab): CUSRCH")
                 .hasSeverity(Severity.WARNING_LOW);

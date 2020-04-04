@@ -11,7 +11,7 @@ public class XmlLintAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = -4191378552617352099L;
 
     @Override
-    protected XMLLintParser createParser() {
+    XMLLintParser createParser() {
         return new XMLLintParser();
     }
 }

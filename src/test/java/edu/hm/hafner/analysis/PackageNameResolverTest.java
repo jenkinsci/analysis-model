@@ -7,7 +7,8 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
-import static edu.hm.hafner.analysis.assertj.Assertions.*;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
