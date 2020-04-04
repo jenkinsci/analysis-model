@@ -124,8 +124,8 @@
                                 recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', filters:[excludeFile('.*Assert.java')], referenceJobName: 'Plugins/analysis-model/master'
                                 recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml'),
                                         checkStyle(pattern: 'target/checkstyle-result.xml'),
-                                        pmdParser(pattern: 'target/pmd.xml',
-                                        cpd('target/cpd.xml'))], sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
+                                        pmdParser(pattern: 'target/pmd.xml'),
+                                        cpd(pattern: 'target/cpd.xml')], sourceCodeEncoding: 'UTF-8', referenceJobName: 'Plugins/analysis-model/master'
                                 recordIssues enabledForFailure: true, tool: taskScanner(
                                         includePattern:'**/*.java',
                                         excludePattern:'target/**',
