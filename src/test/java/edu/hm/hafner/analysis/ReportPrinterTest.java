@@ -110,7 +110,7 @@ class ReportPrinterTest extends ResourceTest {
     @Test
     void testWarningLogginSLF4JAdaptor() {
         Report report = new Report();
-        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Warning with high importance").build();
         report.add((issue));
         org.slf4j.Logger logger = mock(LoggerFactory.getLogger(SLF4JAdaptor.class).getClass());
         report.print(new SLF4JAdaptor(logger));
@@ -123,7 +123,7 @@ class ReportPrinterTest extends ResourceTest {
     @Test
     void testErrorLogginSLF4JAdaptor() {
         Report report = new Report();
-        Issue issue = new IssueBuilder().setSeverity(Severity.ERROR).setMessage("Severity High warning").build();
+        Issue issue = new IssueBuilder().setSeverity(Severity.ERROR).setMessage("Error. Immediate verification is necessary!").build();
         report.add((issue));
         org.slf4j.Logger logger = mock(LoggerFactory.getLogger(SLF4JAdaptor.class).getClass());
         report.print(new SLF4JAdaptor(logger));
@@ -135,7 +135,7 @@ class ReportPrinterTest extends ResourceTest {
     @Test
     void testWarningNormalLogginSLF4JAdaptor() {
         Report report = new Report();
-        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_NORMAL).setMessage("Severity High warning").build();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_NORMAL).setMessage("Warning with very low importance, with informative purpose.").build();
         report.add((issue));
         org.slf4j.Logger logger = mock(LoggerFactory.getLogger(SLF4JAdaptor.class).getClass());
         report.print(new SLF4JAdaptor(logger));
@@ -147,7 +147,7 @@ class ReportPrinterTest extends ResourceTest {
     @Test
     void testWarningLowLogginSLF4JAdaptor() {
         Report report = new Report();
-        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_LOW).setMessage("Severity High warning").build();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_LOW).setMessage("Everything is fine!").build();
         report.add((issue));
         org.slf4j.Logger logger = mock(LoggerFactory.getLogger(SLF4JAdaptor.class).getClass());
         report.print(new SLF4JAdaptor(logger));
