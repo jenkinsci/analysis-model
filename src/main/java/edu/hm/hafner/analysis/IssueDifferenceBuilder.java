@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Creates new {@link IssueDifference} using the builder pattern.
