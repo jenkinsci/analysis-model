@@ -29,7 +29,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
-import org.slf4j.LoggerFactory;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -38,6 +37,7 @@ import edu.hm.hafner.util.NoSuchElementException;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 
 import static java.util.stream.Collectors.*;
 
@@ -841,77 +841,6 @@ public class Report implements Iterable<Issue>, Serializable {
             printStream.println(issue.toString());
         }
     }
-
-    /**
-     * Prints issues to Java Util Logging output.
-     *
-     * @author Elena Lilova, elena.lilova@gmx.de
-     */
-
-    public static class JavaUtilLogginAdaptor implements IssuePrinter {
-
-        private final Logger logger;
-
-        /**
-         * Creates a new printer that prints in the Java Util Logging style.
-         */
-        public JavaUtilLogginAdaptor(final Logger logger) {
-            this.logger = logger;
-        }
-
-        @Override
-        public void print(final Issue issue) {
-            if (issue.getSeverity().equals(Severity.ERROR)) {
-                logger.log(Level.SEVERE, issue.toString());
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
-                logger.log(Level.WARNING, issue.toString());
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
-                logger.log(Level.INFO, issue.toString());
-            }
-            else {
-                logger.log(Level.FINE, issue.toString());
-            }
-        }
-    }
-
-    /**
-     * Prints issues to Simple Logging Facade for Java output.
-     *
-     * @author Elena Lilova, elena.lilova@gmx.de
-     */
-    public static class SLF4JAdaptor implements IssuePrinter {
-
-       private final org.slf4j.Logger logger;
-
-        /**
-         * Creates a new printer that prints in the Simple Logging Facade for Java style.
-         */
-        public SLF4JAdaptor(final org.slf4j.Logger logger) {
-            this.logger = logger;
-        }
-
-        @Override
-        public void print(final Issue issue) {
-            if (issue.getSeverity().equals(Severity.ERROR)) {
-                logger.error(issue.toString());
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
-                logger.warn(issue.toString());
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
-                logger.info(issue.toString());
-            }
-            else {
-                logger.trace(issue.toString());
-            }
-
-        }
-
-    }
-
-
 
     /**
      * Builds a combined filter based on several include and exclude filters.

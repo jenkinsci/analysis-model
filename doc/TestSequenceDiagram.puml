@@ -1,0 +1,13 @@
+@startuml
+
+ title Serializable and LineRange Test sequence chart
+ activate User
+ activate LineRangeTest
+ User -> LineRangeTest: run LineRangeTest
+
+
+ activate SerializableTest
+ LineRangeTest -> SerializableTest: run shouldBeSerializable()
+
+ SerializableTest -> User: Tests passed
+ @enduml

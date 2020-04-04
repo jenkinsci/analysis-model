@@ -154,6 +154,6 @@ class LineRangeListTest {
         LineRangeBuilder rangeBuilder = new LineRangeBuilder();
         rangeBuilder.setStart(3).setEnd(10);
         LineRange range = new LineRange(3,10);
-        assertThat(rangeBuilder.build().equals(range));
+        assertThat(rangeBuilder.build()).isEqualTo(range);
     }
 }

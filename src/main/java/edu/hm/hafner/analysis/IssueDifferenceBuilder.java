@@ -1,6 +1,9 @@
 package edu.hm.hafner.analysis;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Abgabe_2
 /**
  * Creates new {@link IssueDifference} using the builder pattern.
  *
@@ -43,13 +46,16 @@ public class IssueDifferenceBuilder {
         return this;
     }
 
+
     /**
      * Creates a new {@link IssueDifference} based on the specified properties.
      *
      * @return the created IssueDifference
      */
     public IssueDifference build() {
+
         return new IssueDifference(currentIssues, referenceID, referenceIssues);
+
     }
 
 }

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="target">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/target/analysis-model-8.0.2-SNAPSHOT-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/analysis-model-8.0.2-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/analysis-model-8.0.2-SNAPSHOT-tests.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/findsecbugs-plugin-1.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/analysis-model-8.0.2-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

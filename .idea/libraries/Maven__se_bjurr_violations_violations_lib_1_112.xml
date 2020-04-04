@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: se.bjurr.violations:violations-lib:1.112">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/se/bjurr/violations/violations-lib/1.112/violations-lib-1.112.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/se/bjurr/violations/violations-lib/1.112/violations-lib-1.112-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/se/bjurr/violations/violations-lib/1.112/violations-lib-1.112-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

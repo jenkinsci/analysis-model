@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="error-prone" />
+    <annotationProcessing>
+      <profile name="Annotation profile for Static Analysis Model and Parsers" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/com/uber/nullaway/nullaway/0.7.5/nullaway-0.7.5.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/guava/guava/22.0/guava-22.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotations/2.0.18/error_prone_annotations-2.0.18.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/1.1/j2objc-annotations-1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/codehaus/mojo/animal-sniffer-annotations/1.14/animal-sniffer-annotations-1.14.jar" />
+          <entry name="$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_test_helpers/2.3.3/error_prone_test_helpers-2.3.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotation/2.3.3/error_prone_annotation-2.3.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_check_api/2.3.3/error_prone_check_api-2.3.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/checkerframework/dataflow/2.5.3/dataflow-2.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/checkerframework/checker-qual/2.5.5/checker-qual-2.5.5.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/checkerframework/javacutil/2.5.3/javacutil-2.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/javac/9+181-r4173-1/javac-9+181-r4173-1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/googlecode/java-diff-utils/diffutils/1.3.0/diffutils-1.3.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/kevinstern/software-and-algorithms/1.0/software-and-algorithms-1.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/googlejavaformat/google-java-format/1.4/google-java-format-1.4.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/javac-shaded/9-dev-r4023-3/javac-shaded-9-dev-r4023-3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-library/1.3/hamcrest-library-1.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/truth/truth/0.36/truth-0.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/jimfs/jimfs/1.1/jimfs-1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/testing/compile/compile-testing/0.15/compile-testing-0.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/truth/extensions/truth-java8-extension/0.37/truth-java8-extension-0.37.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/auto/value/auto-value/1.5.3/auto-value-1.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/auto/auto-common/0.9/auto-common-0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/jetbrains/annotations/13.0/annotations-13.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.0.2/junit-jupiter-api-5.0.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.0.0/opentest4j-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.0.2/junit-platform-commons-1.0.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/checkerframework/checker-compat-qual/2.5.5/checker-compat-qual-2.5.5.jar" />
+          <entry name="$MAVEN_REPOSITORY$/NullAway/test-java-lib/unspecified/test-java-lib-unspecified.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/facebook/infer/annotation/infer-annotation/0.11.0/infer-annotation-0.11.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/reactivex/rxjava2/rxjava/2.1.2/rxjava-2.1.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/reactivestreams/reactive-streams/1.0.0/reactive-streams-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/commons-lang/commons-lang/2.6/commons-lang-2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.8.1/commons-lang3-3.8.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/NullAway/test-library-models/unspecified/test-library-models-unspecified.jar" />
+        </processorPath>
+        <module name="analysis-model" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="analysis-model" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="ErrorProneCompilerSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="analysis-model" options="-Xlint:all -XepAllDisabledChecksAsWarnings -XepIgnoreUnknownCheckNames -XepDisableWarningsInGeneratedCode -XepAllErrorsAsWarnings -Xep:NullAway:WARN -XepOpt:NullAway:AnnotatedPackages=edu.hm.hafner -Xep:PreferJavaTimeOverload:OFF -Xep:EqualsGetClass:OFF -Xep:AndroidJdkLibsChecker:OFF -Xep:Java7ApiChecker:OFF -Xep:Var:OFF -Xep:PrivateConstructorForUtilityClass:OFF -Xep:MethodCanBeStatic:OFF -Xep:WildcardImport:OFF -Xep:ThrowsUncheckedException:OFF -Xep:NullableDereference:OFF" />
+    </option>
+  </component>
+</project>
