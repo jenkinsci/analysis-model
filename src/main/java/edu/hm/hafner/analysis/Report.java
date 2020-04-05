@@ -17,8 +17,11 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -813,6 +816,108 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public interface IssuePrinter {
         void print(Issue issue);
+    }
+
+    /**
+     * Offers an adapter to print an Issue to the build in logger from Java. (Java Util Logging)
+     *
+     * @author Hager, A.
+     */
+    public static class JULAdapter implements IssuePrinter {
+
+        private final java.util.logging.Logger logger;
+
+        /**
+         * Ctor for a new Java build in logger.
+         *
+         * @param logger the adaptee of this adapter
+         */
+        public JULAdapter(final java.util.logging.Logger logger) {
+            if (logger == null) {
+                throw new IllegalArgumentException("The issue should not be null.");
+            }
+
+            this.logger = logger;
+        }
+
+        /**
+         * The operation that should be Adapted
+         *
+         * @param issue The issue that should be printed
+         */
+        @Override
+        public void print(final Issue issue) {
+            if (issue == null) {
+                throw new IllegalArgumentException("The issue should not be null.");
+            }
+
+            this.logger.log(getLevel(issue.getSeverity()), issue.toString());
+        }
+
+        private Level getLevel(final Severity severity) {
+            final Level level;
+            if (Severity.ERROR.equals(severity)) {
+                level = Level.SEVERE;
+            } else if (Severity.WARNING_HIGH.equals(severity)) {
+                level = Level.WARNING;
+            } else if (Severity.WARNING_NORMAL.equals(severity)) {
+                level = Level.INFO;
+            } else {
+                level = Level.FINE;
+            }
+            return level;
+        }
+    }
+
+    /**
+     * Offers an adapter to print an Issue to the SLF4J Logger.
+     *
+     * @author Hager, A.
+     */
+    public static class SLF4JAdapter implements IssuePrinter {
+
+        private final org.slf4j.Logger logger;
+
+        /**
+         * Ctor for SLF4J logger.
+         *
+         * @param logger the adaptee of this adapter
+         */
+        public SLF4JAdapter(final org.slf4j.Logger logger) {
+            if (logger == null) {
+                throw new IllegalArgumentException("The issue should not be null.");
+            }
+
+            this.logger = logger;
+        }
+
+        /**
+         * The operation that should be Adapted
+         *
+         * @param issue The issue that should be printed
+         */
+        @Override
+        public void print(final Issue issue) {
+            if (issue == null) {
+                throw new IllegalArgumentException("The issue should not be null.");
+            }
+
+            getLogger(issue.getSeverity()).accept(issue.toString());
+        }
+
+        private Consumer<String> getLogger(final Severity severity) {
+            final Consumer<String> logger;
+            if (Severity.ERROR.equals(severity)) {
+                logger = this.logger::error;
+            } else if (Severity.WARNING_HIGH.equals(severity)) {
+                logger = this.logger::warn;
+            } else if (Severity.WARNING_NORMAL.equals(severity)) {
+                logger = this.logger::info;
+            } else {
+                logger = this.logger::trace;
+            }
+            return logger;
+        }
     }
 
     /**
