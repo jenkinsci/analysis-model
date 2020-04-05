@@ -19,6 +19,8 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -836,6 +838,87 @@ public class Report implements Iterable<Issue>, Serializable {
         @Override
         public void print(final Issue issue) {
             printStream.println(issue.toString());
+        }
+    }
+
+    /**
+     *  Prints issues via the java library logger.
+     * @author Colin Mikolajczak
+     */
+    public static class JavaLoggerAdapter implements  IssuePrinter {
+        private final Logger logger;
+        private final Map<Severity, Level> severityLevelMap = new HashMap<>();
+
+        /**
+         * creates a LoggerPrinter using the java util library.
+         *
+         * @param logger logger, which is used for the actual logging.
+         */
+        @VisibleForTesting
+        public JavaLoggerAdapter(final Logger logger) {
+            this.logger = logger;
+            severityLevelMap.put(Severity.WARNING_NORMAL, Level.INFO);
+            severityLevelMap.put(Severity.WARNING_HIGH, Level.WARNING);
+            severityLevelMap.put(Severity.WARNING_LOW, Level.FINE);
+            severityLevelMap.put(Severity.ERROR, Level.SEVERE);
+        }
+
+        /**
+         * Logs an issue with corresponding level.
+         * @param issue Issue, which needs to be logged.
+         */
+        @Override
+        public void print(final Issue issue) {
+            logger.log(severityToLevelConverter(issue), issue.toString());
+        }
+
+        /**
+         * Converts issue-severity to logging level.
+         * @param issue of which it's severity has to be converted
+         * @return the corresponding level
+         */
+        private Level severityToLevelConverter(final Issue issue) {
+            return severityLevelMap.get(issue.getSeverity());
+        }
+    }
+
+    /**
+     * Prints issues via the SLF4J Logger.
+     * @author Colin Mikolajczak
+     */
+    public static class SLF4JAdapter implements  IssuePrinter {
+        private final org.slf4j.Logger logger;
+        private final Map<Severity, Runnable> severityLevelMap = new HashMap<>();
+
+        /**
+         * creates a LoggerPrinter using the SLFJ4 library.
+         *
+         * @param logger logger, which is used for the actual logging.
+         */
+        @VisibleForTesting
+        public SLF4JAdapter(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        /**
+         * Logs an issue with corresponding method.
+         * @param issue Issue, which needs to be logged.
+         */
+        @Override
+        public void print(final Issue issue) {
+            prepMap(issue);
+            severityLevelMap.get(issue.getSeverity()).run();
+        }
+
+        /**
+         * Preps the map, which stores the different actions for different severities.
+         * @param issue of which it's severity has to be stored.
+         */
+        private void prepMap(final Issue issue) {
+            severityLevelMap.put(Severity.WARNING_NORMAL, () -> logger.info(issue.toString()));
+            severityLevelMap.put(Severity.WARNING_HIGH, () -> logger.warn(issue.toString()));
+            severityLevelMap.put(Severity.WARNING_LOW, () -> logger.trace(issue.toString()));
+            severityLevelMap.put(Severity.ERROR, () -> logger.error(issue.toString()));
         }
     }
 
