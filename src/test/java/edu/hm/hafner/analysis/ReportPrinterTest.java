@@ -3,20 +3,19 @@ package edu.hm.hafner.analysis;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.analysis.Report.JavaLoggerAdapter;
 import edu.hm.hafner.analysis.Report.SLF4JAdapter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
-import edu.hm.hafner.analysis.Report.JavaLoggerAdapter;
-import edu.hm.hafner.analysis.Report.SLF4JAdapter;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -60,7 +59,7 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogErrorSLF4J() {
-        org.slf4j.Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
         Report report = new Report()
                 .add(new IssueBuilder().setMessage("Error found").setSeverity(Severity.ERROR).build());
         report.print(new SLF4JAdapter(logger));
@@ -75,7 +74,7 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogWarningLowSLF4J() {
-        org.slf4j.Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
         Report report = new Report()
                 .add(new IssueBuilder().setMessage("Warning low found").setSeverity(Severity.WARNING_LOW).build());
         report.print(new SLF4JAdapter(logger));
@@ -90,7 +89,7 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogWarningHighSLF4J() {
-        org.slf4j.Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
         Report report = new Report()
                 .add(new IssueBuilder().setMessage("Warning high found").setSeverity(Severity.WARNING_HIGH).build());
         report.print(new SLF4JAdapter(logger));
@@ -105,7 +104,7 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogInfoSLF4J() {
-        org.slf4j.Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
+        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
         Report report = new Report()
                 .add(new IssueBuilder().setMessage("Warning normal found").setSeverity(Severity.WARNING_NORMAL).build());
         report.print(new SLF4JAdapter(logger));
