@@ -894,7 +894,7 @@ public class Report implements Iterable<Issue>, Serializable {
             if (logger == null) {
                 throw new IllegalArgumentException("Logger can't be null");
             }
-            this.logger = logger;
+            this.logger = org.slf4j.LoggerFactory.getLogger(logger.getClass());
         }
 
         @Override
