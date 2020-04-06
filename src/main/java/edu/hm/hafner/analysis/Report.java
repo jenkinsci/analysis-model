@@ -886,15 +886,14 @@ public class Report implements Iterable<Issue>, Serializable {
 
         /**
          * Creates a new SLF4J Adapter.
-         *
-         * @param logger
-         *         the {@link org.slf4j.Logger} that should be used.
          */
-        public SLF4JAdapter(final org.slf4j.Logger logger) {
-            if (logger == null) {
-                throw new IllegalArgumentException("Logger can't be null");
-            }
-            this.logger = org.slf4j.LoggerFactory.getLogger(logger.getClass());
+        public SLF4JAdapter() {
+            this.logger = org.slf4j.LoggerFactory.getLogger(Report.class);
+        }
+
+        @VisibleForTesting
+        SLF4JAdapter(org.slf4j.Logger logger) {
+            this.logger = logger;
         }
 
         @Override

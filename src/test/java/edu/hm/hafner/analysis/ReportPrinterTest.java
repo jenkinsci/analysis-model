@@ -63,10 +63,6 @@ class ReportPrinterTest extends ResourceTest {
         assertThatThrownBy(() -> {
             JULoggingAdapter adapter = new JULoggingAdapter(null);
         }).isInstanceOf(IllegalArgumentException.class);
-
-        assertThatThrownBy(() -> {
-            SLF4JAdapter adapter = new SLF4JAdapter(null);
-        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
