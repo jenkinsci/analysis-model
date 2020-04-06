@@ -19,6 +19,8 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -813,6 +815,109 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public interface IssuePrinter {
         void print(Issue issue);
+    }
+
+    /**
+     * An Adapter to the java.util.logging package.
+     *
+     * @author Bastian Kersting
+     */
+    public static class JULoggingAdapter implements IssuePrinter {
+
+        private Logger logger;
+
+        /**
+         * Creates a new JULoggingAdapter.
+         *
+         * @param logger
+         *         the java.util.logging.Logger that should be used.
+         */
+        public JULoggingAdapter(final Logger logger) {
+            if (logger == null) {
+                throw new IllegalArgumentException("Logger can't be null");
+            }
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if (issue == null) {
+                throw new IllegalArgumentException("Issue cannot be null");
+            }
+            logger.log(getLevel(issue.getSeverity()), issue.toString());
+        }
+
+        /**
+         * Converts the {@link Severity} to a {@link Level}.
+         *
+         * @param severity
+         *         the severity.
+         *
+         * @return the corresponding Logging level.
+         */
+        public Level getLevel(final Severity severity) {
+            if (severity == null) {
+                throw new IllegalArgumentException("Severity can't be null");
+            }
+            if (Severity.ERROR.equals(severity)) {
+                return Level.SEVERE;
+            }
+            else if (Severity.WARNING_HIGH.equals(severity)) {
+                return Level.WARNING;
+            }
+            else if (Severity.WARNING_NORMAL.equals(severity)) {
+                return Level.INFO;
+            }
+            else if (Severity.WARNING_LOW.equals(severity)) {
+                return Level.FINE;
+            }
+            throw new IllegalArgumentException("Can't log with Serverity: " + severity.toString());
+        }
+    }
+
+    /**
+     * An Adapter to the SL4J library.
+     *
+     * @author Bastian Kersting
+     */
+    public static class SLF4JAdapter implements IssuePrinter {
+
+        private org.slf4j.Logger logger;
+
+        /**
+         * Creates a new SLF4J Adapter.
+         *
+         * @param logger
+         *         the {@link org.slf4j.Logger} that should be used.
+         */
+        public SLF4JAdapter(final org.slf4j.Logger logger) {
+            if (logger == null) {
+                throw new IllegalArgumentException("Logger can't be null");
+            }
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if (issue == null) {
+                throw new IllegalArgumentException("Issue can't be null");
+            }
+            if (Severity.ERROR.equals(issue.getSeverity())) {
+                logger.error(issue.toString());
+            }
+            else if (Severity.WARNING_HIGH.equals(issue.getSeverity())) {
+                logger.warn(issue.toString());
+            }
+            else if (Severity.WARNING_NORMAL.equals(issue.getSeverity())) {
+                logger.info(issue.toString());
+            }
+            else if (Severity.WARNING_LOW.equals(issue.getSeverity())) {
+                logger.trace(issue.toString());
+            }
+            else {
+                throw new IllegalArgumentException("Can't log with Serverity: " + issue.getSeverity().toString());
+            }
+        }
     }
 
     /**
