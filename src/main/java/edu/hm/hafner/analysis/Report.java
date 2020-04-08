@@ -891,18 +891,12 @@ public class Report implements Iterable<Issue>, Serializable {
         private final Map<Severity, Runnable> severityLevelMap = new HashMap<>();
 
         /**
-         * Constructor for actual using of the logger.
-         */
-        public SLF4JAdapter() {
-            this.logger = org.slf4j.LoggerFactory.getLogger(Report.class);
-        }
-        /**
          * creates a LoggerPrinter using the SLFJ4 library.
          *
          * @param logger to use for testing
          */
         @VisibleForTesting
-        SLF4JAdapter(org.slf4j.Logger logger) {
+        SLF4JAdapter(final org.slf4j.Logger logger) {
             this.logger = logger;
         }
 
