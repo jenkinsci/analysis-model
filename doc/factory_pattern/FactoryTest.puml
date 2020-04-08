@@ -1,0 +1,9 @@
+@startuml
+SerializableTest -->LineRangeTest: createSerializable()
+create LineRange
+LineRangeTest -> LineRange: new LineRange()
+LineRange -> SerializableTest: return instanceof LineRange
+SerializableTest --> SerializableTest : LineRange to byteArray
+SerializableTest --> SerializableTest : byteArray to LineRange
+SerializableTest -> LineRangeTest : return result
+@enduml
