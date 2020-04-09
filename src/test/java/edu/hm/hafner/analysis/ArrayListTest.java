@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -139,5 +140,34 @@ class ArrayListTest extends ListTest {
             Assertions.assertThat(list).hasSize(1);
         }
 
+        @Test
+        void collectionNullSafeListConstructor1() {
+            List<Integer> list = new ArrayList<>();
+
+            Collection a = Collections.checkedCollection(
+                    Collections.synchronizedList(
+                            NullSafeCollections.nullSafeList(list)), Integer.class);
+
+            Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> a.add(null));
+        }
+
+        @Test
+        void collectionNullSafeListConstructor2() {
+            Collection a = Collections.checkedCollection(
+                    Collections.synchronizedList(
+                            NullSafeCollections.nullSafeList()), Integer.class);
+
+            Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> a.add(null));
+        }
+
+        @Test
+        void collectionNullSafeListConstructor3() {
+            Collection c = new ArrayList();
+            Collection a = Collections.checkedCollection(
+                    Collections.synchronizedList(
+                            NullSafeCollections.nullSafeList(c)), Integer.class);
+
+            Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> a.add(null));
+        }
     }
 }
