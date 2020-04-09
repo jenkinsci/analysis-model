@@ -124,5 +124,20 @@ class ArrayListTest extends ListTest {
             Assertions.assertThat(list.get(2)).isEqualTo(1);
         }
 
+        @Test
+        void addNullShouldThrowNullPointer2() {
+            List<Integer> list = new NullSafeList2();
+            Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> list.add(null));
+        }
+
+
+        @Test
+        void addIntegerShouldThrowNothing2() {
+            List<Integer> list = new NullSafeList2();
+            Assertions.assertThatCode(() -> list.add(4))
+                    .doesNotThrowAnyException();
+            Assertions.assertThat(list).hasSize(1);
+        }
+
     }
 }
