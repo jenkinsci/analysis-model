@@ -5,9 +5,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * base decorator for {@link List}
+ *
+ * @author Sinon Symhoven
+ */
 public class BaseListDecorator implements List {
+    /**
+     * wrapper list
+     */
     private List list;
 
+    /**
+     * Standard constructor for {@link BaseListDecorator}
+     * @param list
+     *              amy object which implements the interface {@link List}
+     */
     BaseListDecorator(final List list) {
         this.list = list;
     }
