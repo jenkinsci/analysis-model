@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -902,10 +901,10 @@ public class Report implements Iterable<Issue>, Serializable {
                 throw new IllegalArgumentException("The issue should not be null.");
             }
 
-            getLogger(issue.getSeverity()).accept(issue.toString());
+            log(issue.getSeverity(), issue.toString());
         }
 
-        private Consumer<String> getLogger(final Severity severity) {
+        private void log(final Severity severity, final String message) {
             final Consumer<String> logger;
             if (Severity.ERROR.equals(severity)) {
                 logger = this.logger::error;
@@ -916,7 +915,7 @@ public class Report implements Iterable<Issue>, Serializable {
             } else {
                 logger = this.logger::trace;
             }
-            return logger;
+            logger.accept(message);
         }
     }
 

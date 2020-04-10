@@ -23,9 +23,8 @@ import java.util.stream.Stream;
  *
  * I cannot see any advantage of this solution
  * (I think I took the last advantages by setting the NullSafeList to
- * implement the interface List\<T\>).
+ * implement the interface List).
  *
- * @param <T>
  */
 public class NullSafeSuperList<T> extends ArrayList<T> {
     private static final long serialVersionUID = -4587333826140264772L;

@@ -57,6 +57,12 @@ public class NullSafeList<T> implements List<T> {
     }
 
     @Override
+    public void add(final int index, final T element) {
+        checkElemForNull(element, "The element to add should not be null.");
+        nullSafeList.add(index, element);
+    }
+
+    @Override
     public boolean remove(final Object that) {
         return nullSafeList.remove(that);
     }
@@ -125,12 +131,6 @@ public class NullSafeList<T> implements List<T> {
     public T set(final int index, final T element) {
         checkElemForNull(element, "The element to add should not be null.");
         return nullSafeList.set(index, element);
-    }
-
-    @Override
-    public void add(final int index, final T element) {
-        checkElemForNull(element, "The element to add should not be null.");
-        nullSafeList.add(index, element);
     }
 
     @Override
