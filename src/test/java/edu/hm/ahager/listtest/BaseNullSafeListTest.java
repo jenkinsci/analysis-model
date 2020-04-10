@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 
-
 abstract class BaseNullSafeListTest extends ListTest {
 
     public void addNullTest() {
