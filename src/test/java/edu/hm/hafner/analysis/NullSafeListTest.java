@@ -200,7 +200,7 @@ public class NullSafeListTest {
         list.add(4);
         list.add(3);
         Collection collection = Collections.checkedCollection(
-                Collections.synchronizedList(NullSafeCollection.nullSafeListWithInitialCapacity(10)), Integer.class);
+                Collections.synchronizedList(NullSafeCollection.nullSafeList(10)), Integer.class);
 
         // act, assert
         Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> collection.addAll(null));
@@ -214,7 +214,7 @@ public class NullSafeListTest {
         list.add(4);
         list.add(3);
         Collection collection = Collections.checkedCollection(
-                Collections.synchronizedList(NullSafeCollection.nullSafeEmptyList()), Integer.class);
+                Collections.synchronizedList(NullSafeCollection.nullSafeList()), Integer.class);
 
         // act, assert
         Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> collection.addAll(null));

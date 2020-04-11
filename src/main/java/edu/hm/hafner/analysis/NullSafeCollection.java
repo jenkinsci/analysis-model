@@ -26,7 +26,7 @@ import edu.hm.hafner.analysis.parser.NullSafeList;
      * @param <E> Collection
      * @return {@link NullSafeList}
      */
-     static <E> List<E> nullSafeListWithInitialCapacity(int initialCapacity) {
+     static <E> List<E> nullSafeList(int initialCapacity) {
        return new NullSafeList<>(new ArrayList<>(initialCapacity));
     }
 
@@ -35,7 +35,7 @@ import edu.hm.hafner.analysis.parser.NullSafeList;
      * @param <E> Collection
      * @return {@link NullSafeList}
      */
-     static <E> List<E> nullSafeEmptyList() {
+     static <E> List<E> nullSafeList() {
       return new NullSafeList<>(new ArrayList<>());
     }
 }
