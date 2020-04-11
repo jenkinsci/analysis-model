@@ -1,10 +1,15 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
+
 import edu.hm.hafner.analysis.parser.NullSafeList;
+
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -16,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 public class NullSafeListTest {
 
     @Test
-    public void shouldThrowNullPointerException() {
+    public void testShouldThrowNullPointerException() {
         // arange
         List<Integer> list = new NullSafeList<>(new ArrayList<>());
         // act, assert
@@ -24,7 +29,7 @@ public class NullSafeListTest {
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionAddOnIndex() {
+    public void testShouldThrowNullPointerExceptionAddOnIndex() {
         // arange
         List<Integer> list = new NullSafeList<>(new ArrayList<>());
         // act
@@ -35,7 +40,7 @@ public class NullSafeListTest {
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionAddCollectionOnIndex() {
+    public void testShouldThrowNullPointerExceptionAddCollectionOnIndex() {
         // arange
         List<Integer> list = new NullSafeList<>(new ArrayList<>());
         List<Integer> collection = new ArrayList<>();
@@ -51,7 +56,7 @@ public class NullSafeListTest {
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionAddCollection() {
+    public void testShouldThrowNullPointerExceptionAddCollection() {
         // arange
         List<Integer> list = new NullSafeList<>(new ArrayList<>());
         List<Integer> collection = new ArrayList<>();
@@ -126,14 +131,14 @@ public class NullSafeListTest {
         List<Integer> collection = new ArrayList<>();
         // act
         list.add(22);
-        list.add( 23);
+        list.add(23);
         list.add(24);
-        list.add( 25);
+        list.add(25);
         collection.add(99);
         collection.add(98);
         collection.add(97);
         collection.add(96);
-        list.addAll(1,collection);
+        list.addAll(1, collection);
         // assert
         assertThat(list.size()).isEqualTo(8);
         assertThat(list.get(0)).isEqualTo(22);
@@ -145,6 +150,7 @@ public class NullSafeListTest {
         assertThat(list.get(6)).isEqualTo(24);
         assertThat(list.get(7)).isEqualTo(25);
     }
+
     @Test
     public void testAddCollection() {
         // arange
@@ -152,9 +158,9 @@ public class NullSafeListTest {
         List<Integer> collection = new ArrayList<>();
         // act
         list.add(22);
-        list.add( 23);
+        list.add(23);
         list.add(24);
-        list.add( 25);
+        list.add(25);
         collection.add(99);
         collection.add(98);
         collection.add(97);
@@ -170,6 +176,49 @@ public class NullSafeListTest {
         assertThat(list.get(5)).isEqualTo(98);
         assertThat(list.get(6)).isEqualTo(97);
         assertThat(list.get(7)).isEqualTo(96);
+    }
+
+    @Test
+    public void testNullSafeCollectionList() {
+        // arange
+        List<Integer> list = new ArrayList<>();
+        //act
+        list.add(4);
+        list.add(3);
+        Collection collection = Collections.checkedCollection(
+                Collections.synchronizedList(NullSafeCollection.nullSafeList(list)), Integer.class);
+
+        // act, assert
+        Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> collection.addAll(null));
+
+    }
+    @Test
+    public void testNullSafeCollectionInitialCapacity() {
+        // arange
+        List<Integer> list = new ArrayList<>();
+        //act
+        list.add(4);
+        list.add(3);
+        Collection collection = Collections.checkedCollection(
+                Collections.synchronizedList(NullSafeCollection.nullSafeListWithInitialCapacity(10)), Integer.class);
+
+        // act, assert
+        Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> collection.addAll(null));
+
+    }
+    @Test
+    public void testNullSafeCollectionEmptyList() {
+        // arange
+        List<Integer> list = new ArrayList<>();
+        //act
+        list.add(4);
+        list.add(3);
+        Collection collection = Collections.checkedCollection(
+                Collections.synchronizedList(NullSafeCollection.nullSafeEmptyList()), Integer.class);
+
+        // act, assert
+        Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> collection.addAll(null));
+
     }
 }
 

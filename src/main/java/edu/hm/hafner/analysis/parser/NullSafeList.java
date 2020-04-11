@@ -13,7 +13,7 @@ import java.util.Objects;
 public class NullSafeList<E> extends ListDecorator {
 
     /**
-     * Constructor for Null Safe List
+     * Constructor for Null Safe List.
      * @param list
      */
     public NullSafeList(List<E> list) {

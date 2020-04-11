@@ -1,9 +1,14 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import edu.hm.hafner.analysis.parser.NullSafeList;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,7 +17,6 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Elena Lilova
  */
-
 
 public class NullSafeArrayListTest {
     @Test
@@ -33,6 +37,7 @@ public class NullSafeArrayListTest {
         // act, assert
         Assertions.assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> list.add(0, null));
     }
+
     @Test
     public void shouldThrowNullPointerExceptionAddCollectionOnIndex() {
         // arange
@@ -125,14 +130,14 @@ public class NullSafeArrayListTest {
         List<Integer> collection = new ArrayList<>();
         // act
         list.add(22);
-        list.add( 23);
+        list.add(23);
         list.add(24);
-        list.add( 25);
+        list.add(25);
         collection.add(99);
         collection.add(98);
         collection.add(97);
         collection.add(96);
-        list.addAll(1,collection);
+        list.addAll(1, collection);
         // assert
         assertThat(list.size()).isEqualTo(8);
         assertThat(list.get(0)).isEqualTo(22);
@@ -144,6 +149,7 @@ public class NullSafeArrayListTest {
         assertThat(list.get(6)).isEqualTo(24);
         assertThat(list.get(7)).isEqualTo(25);
     }
+
     @Test
     public void testAddCollection() {
         // arange
@@ -151,9 +157,9 @@ public class NullSafeArrayListTest {
         List<Integer> collection = new ArrayList<>();
         // act
         list.add(22);
-        list.add( 23);
+        list.add(23);
         list.add(24);
-        list.add( 25);
+        list.add(25);
         collection.add(99);
         collection.add(98);
         collection.add(97);
@@ -171,5 +177,22 @@ public class NullSafeArrayListTest {
         assertThat(list.get(7)).isEqualTo(96);
     }
 
+    @Test
+    public void testNullSafeCollection() {
+        // arange
+
+        List<Integer> list = new ArrayList<>();
+        // act
+        list.add(99);
+        list.add(98);
+        list.add(97);
+        list.add(96);
+
+        List<Integer> safe = new NullSafeList<>(list);
+        // assert
+        Collection<Integer> collection = Collections.checkedCollection(NullSafeCollection.nullSafeList(list), Integer.class);
+        System.out.println("type is" + collection);
+
+    }
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Decorator for {@link List}
+ * Decorator for {@link List}.
  * @author Elena Lilova
  */
 
@@ -17,7 +17,7 @@ public class ListDecorator implements List {
     private List list;
 
     /**
-     * Constructor for {@link ListDecorator}
+     * Constructor for {@link ListDecorator}.
      * @param list
      */
     public ListDecorator(List list) {
@@ -86,7 +86,7 @@ public class ListDecorator implements List {
 
     @Override
     public void add(final int i, final Object o) {
-        list.add(i,o);
+        list.add(i, o);
 
     }
 
@@ -117,7 +117,7 @@ public class ListDecorator implements List {
 
     @Override
     public List subList(final int i, final int i1) {
-        return list.subList(i,i1);
+        return list.subList(i, i1);
     }
 
     @Override
