@@ -58,7 +58,7 @@ import static java.util.stream.Collectors.*;
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
-    private static final long serialVersionUID = 2L; // release 8.0.0
+    private static final long serialVersionUID = 3L; // release 8.0.
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
