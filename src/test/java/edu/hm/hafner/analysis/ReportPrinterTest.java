@@ -59,29 +59,6 @@ class ReportPrinterTest extends ResourceTest {
 
     /* Simple Logging Facade for Java Tests */
 
-    private Report createReport(final IssuePrinter printer, final Severity severity) {
-
-        final String mess;
-
-        if (severity.equals(Severity.ERROR)) {
-            mess = "Severity Error";
-        }
-        else if (severity.equals(Severity.WARNING_HIGH)) {
-            mess = "Severity Warning High";
-        }
-        else if (severity.equals(Severity.WARNING_NORMAL)) {
-            mess = "Severity Warning Normal";
-        }
-        else {
-            mess = "Severity Warning Low";
-        }
-
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(severity).setMessage(mess).build());
-        report.print(printer);
-        return report;
-    }
-
     @Test
     void shouldLogOneErrorSLF4J() {
         Logger logger = mock(Logger.class);
@@ -161,12 +138,9 @@ class ReportPrinterTest extends ResourceTest {
     /* Java Util Logging Tests */
     @Test
     void shouldLogOneErrorJUL() {
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(Severity.ERROR).setMessage("Error").build());
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JULAdapter").getClass());
-        report.print(new JULAdapter(logger));
 
-        for(Issue issue : report) {
+        for(Issue issue : createReport(new JULAdapter(logger), Severity.ERROR)) {
             verify(logger).log(Level.SEVERE, issue.toString());
             verify(logger, never()).log(Level.WARNING, issue.toString());
             verify(logger, never()).log(Level.INFO, issue.toString());
@@ -177,12 +151,9 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogOneWarningHighJUL() {
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity Warning High").build());
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JULAdapter").getClass());
-        report.print(new JULAdapter(logger));
 
-        for(Issue issue : report) {
+        for(Issue issue : createReport(new JULAdapter(logger), Severity.WARNING_HIGH)) {
             verify(logger).log(Level.WARNING, issue.toString());
             verify(logger, never()).log(Level.SEVERE, issue.toString());
             verify(logger, never()).log(Level.INFO, issue.toString());
@@ -193,12 +164,9 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogOneWarningNormalJUL() {
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(Severity.WARNING_NORMAL).setMessage("Severity Warning Normal").build());
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JULAdapter").getClass());
-        report.print(new JULAdapter(logger));
 
-        for(Issue issue : report) {
+        for(Issue issue : createReport(new JULAdapter(logger), Severity.WARNING_NORMAL)) {
             verify(logger).log(Level.INFO, issue.toString());
             verify(logger, never()).log(Level.WARNING, issue.toString());
             verify(logger, never()).log(Level.SEVERE, issue.toString());
@@ -209,12 +177,9 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogOneWarningLowJUL() {
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(Severity.WARNING_LOW).setMessage("Severity Warning Low").build());
         java.util.logging.Logger logger = mock(java.util.logging.Logger.getLogger("edu.hm.hafner.analysis.JULAdapter").getClass());
-        report.print(new JULAdapter(logger));
 
-        for(Issue issue : report) {
+        for(Issue issue : createReport(new JULAdapter(logger), Severity.WARNING_LOW)) {
             verify(logger).log(Level.FINE, issue.toString());
             verify(logger, never()).log(Level.WARNING, issue.toString());
             verify(logger, never()).log(Level.INFO, issue.toString());
@@ -261,5 +226,28 @@ class ReportPrinterTest extends ResourceTest {
 
     private ReaderFactory read(final String fileName) {
         return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
+    }
+
+    private Report createReport(final IssuePrinter printer, final Severity severity) {
+
+        final String mess;
+
+        if (severity.equals(Severity.ERROR)) {
+            mess = "Severity Error";
+        }
+        else if (severity.equals(Severity.WARNING_HIGH)) {
+            mess = "Severity Warning High";
+        }
+        else if (severity.equals(Severity.WARNING_NORMAL)) {
+            mess = "Severity Warning Normal";
+        }
+        else {
+            mess = "Severity Warning Low";
+        }
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setSeverity(severity).setMessage(mess).build());
+        report.print(printer);
+        return report;
     }
 }
