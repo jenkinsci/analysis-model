@@ -8,8 +8,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
-import edu.hm.hafner.analysis.parser.NullSafeList;
-
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -18,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
  * @author Elena Lilova
  */
 
-public class NullSafeListTest {
+ class NullSafeListTest {
 
     @Test
     public void testShouldThrowNullPointerException() {

@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser;
+package edu.hm.hafner.analysis;
 
 import java.util.Collection;
 import java.util.Iterator;

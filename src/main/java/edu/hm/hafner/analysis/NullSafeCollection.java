@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import edu.hm.hafner.analysis.parser.NullSafeList;
-
 /**
  * Collection Factory for NullSafeList.
  * @author Elena Lilova
