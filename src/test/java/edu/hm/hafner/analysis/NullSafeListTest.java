@@ -1,16 +1,16 @@
 package edu.hm.hafner.analysis;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
-public class NullSafeListTest extends ListTest{
-    @Override
-    protected List<Integer> create(final int numberOfInitialElements) {
-        return null;
-    }
+public abstract class NullSafeListTest extends ListTest{
 
     @Test
     void addSeperateValues() {
@@ -76,4 +76,21 @@ public class NullSafeListTest extends ListTest{
         assertThatThrownBy(() -> sut.addAll(-1, Arrays.asList(1, null))).isExactlyInstanceOf(NullPointerException.class);
     }
 
+    public static class NullSafeDecoratorTest extends NullSafeListTest {
+        @Override
+        protected List<Integer> create(final int numberOfInitialElements) {
+            return new NullSafeList<>(new ArrayList<>(Stream.iterate(0, t -> t+1).limit(numberOfInitialElements).collect(
+                    Collectors.toList())));
+        }
+    }
+
+    public static class NullSafeInheritanceTest extends NullSafeListTest {
+        @Override
+        protected List<Integer> create(final int numberOfInitialElements) {
+            List<Integer> list = new NullSafeListInheritance<>();
+            list.addAll(Stream.iterate(0, t -> t+1).limit(numberOfInitialElements).collect(
+                    Collectors.toList()));
+            return list;
+        }
+    }
 }

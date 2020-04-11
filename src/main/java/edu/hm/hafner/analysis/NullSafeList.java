@@ -11,10 +11,30 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+/**
+ * Implementierung einer Null-Safe List mit Decorator Pattern.
+ *
+ * Vorteil:
+ * - weniger Abhaengigkeit von der Implentierung
+ *
+ * Nachteil:
+ * - ueberfluessiger Code dadurch dass alle Methoden implentiert werden muessen, sei es auch nur um direkt weiter zu leiten.
+ *
+ * @param <T>
+ *     Typparameter
+ *
+ * @author budelman
+ */
 public class NullSafeList<T> implements List<T>{
 
     private final List<T> list;
 
+    /**
+     * Erstellt eine neue Null Safe List.
+     *
+     * @param list
+     *         Das delegate Objekt.
+     */
     public NullSafeList(final List<T> list) {
         checkForNull(list);
         this.list = list;
@@ -148,6 +168,12 @@ public class NullSafeList<T> implements List<T>{
         list.forEach(consumer);
     }
 
+    /**
+     * Ueberprueft eine Collection auf Null-Werte.
+     *
+     * @param collection
+     *         Werte, welche in die Liste eingefuegt werden sollen.
+     */
     private void checkForNull(final Collection<? extends T> collection) {
         for(T element : collection) {
             if (element == null) {
