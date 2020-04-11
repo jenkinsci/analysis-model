@@ -59,14 +59,34 @@ class ReportPrinterTest extends ResourceTest {
 
     /* Simple Logging Facade for Java Tests */
 
+    private Report createReport(final IssuePrinter printer, final Severity severity) {
+
+        final String mess;
+
+        if (severity.equals(Severity.ERROR)) {
+            mess = "Severity Error";
+        }
+        else if (severity.equals(Severity.WARNING_HIGH)) {
+            mess = "Severity Warning High";
+        }
+        else if (severity.equals(Severity.WARNING_NORMAL)) {
+            mess = "Severity Warning Normal";
+        }
+        else {
+            mess = "Severity Warning Low";
+        }
+
+        Report report = new Report();
+        report.add(new IssueBuilder().setSeverity(severity).setMessage(mess).build());
+        report.print(printer);
+        return report;
+    }
+
     @Test
     void shouldLogOneErrorSLF4J() {
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(Severity.ERROR).setMessage("Severity Error").build());
-        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
-        report.print(new SLF4JAdapter(logger));
+        Logger logger = mock(Logger.class);
 
-        for(Issue issue : report) {
+        for(Issue issue : createReport(new SLF4JAdapter(logger), Severity.ERROR)) {
             verify(logger).error(issue.toString());
             verify(logger, never()).trace(issue.toString());
             verify(logger, never()).info(issue.toString());
@@ -76,12 +96,9 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogOneWarningHighSLF4J() {
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity Warning High").build());
-        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
-        report.print(new SLF4JAdapter(logger));
+        Logger logger = mock(Logger.class);
 
-        for(Issue issue : report) {
+        for(Issue issue : createReport(new SLF4JAdapter(logger), Severity.WARNING_HIGH)) {
             verify(logger).warn(issue.toString());
             verify(logger, never()).error(issue.toString());
             verify(logger, never()).info(issue.toString());
@@ -91,12 +108,9 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogOneWarningNormalSF4J() {
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(Severity.WARNING_NORMAL).setMessage("Severity Warning Normal").build());
-        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
-        report.print(new SLF4JAdapter(logger));
+        Logger logger = mock(Logger.class);
 
-        for(Issue issue : report) {
+        for(Issue issue : createReport(new SLF4JAdapter(logger), Severity.WARNING_NORMAL)) {
             verify(logger).info(issue.toString());
             verify(logger, never()).error(issue.toString());
             verify(logger, never()).trace(issue.toString());
@@ -106,12 +120,9 @@ class ReportPrinterTest extends ResourceTest {
 
     @Test
     void shouldLogOneWarningLowSLF4J() {
-        Report report = new Report();
-        report.add(new IssueBuilder().setSeverity(Severity.WARNING_LOW).setMessage("Severity Warning Low").build());
-        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
-        report.print(new SLF4JAdapter(logger));
+        Logger logger = mock(Logger.class);
 
-        for(Issue issue : report) {
+        for(Issue issue : createReport(new SLF4JAdapter(logger), Severity.WARNING_LOW)) {
             verify(logger).trace(issue.toString());
             verify(logger, never()).error(issue.toString());
             verify(logger, never()).info(issue.toString());
@@ -122,7 +133,7 @@ class ReportPrinterTest extends ResourceTest {
     @Test
     void shouldLogAllIssuesSLF4J() {
         Report report = readCheckStyleReport();
-        Logger logger = mock(LoggerFactory.getLogger(SLF4JAdapter.class).getClass());
+        Logger logger = mock(Logger.class);
         report.print(new SLF4JAdapter(logger));
 
         verify(logger).error(anyString());
