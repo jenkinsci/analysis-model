@@ -12,6 +12,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.eclipse.collections.impl.block.factory.Predicates;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -752,6 +753,13 @@ class ReportTest extends SerializableTest<Report> {
         byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
+    }
+    
+    @Test
+    void shouldSerializeAndDesieralize() {
+        Report testReport = createSerializable();
+        Report copy = (Report) SerializationUtils.clone(testReport);
+        assert testReport.toString().contentEquals(copy.toString());
     }
 
     /** Verifies that equals checks all properties. */

@@ -1,5 +1,8 @@
 package edu.hm.hafner.analysis; // NOPMD
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,6 +35,8 @@ import com.google.errorprone.annotations.FormatMethod;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
+import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -53,7 +58,7 @@ import static java.util.stream.Collectors.*;
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
-    private static final long serialVersionUID = 2L; // release 8.0.0
+    private static final long serialVersionUID = 3L; // release 8.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
@@ -782,6 +787,128 @@ public class Report implements Iterable<Issue>, Serializable {
         result = 31 * result + errorMessages.hashCode();
         result = 31 * result + duplicatesSize;
         return result;
+    }
+    
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        Iterator<Issue> issuesIterator = iterator();
+        while(issuesIterator.hasNext()) {
+            Issue issue = issuesIterator.next();
+            /* Writing properties from Issue constructor
+             * Properties which use TreeStrings are written as strings during serialization. */
+            oos.writeUTF(issue.getPath());
+            oos.writeUTF(issue.getFileName());
+            oos.writeInt(issue.getLineStart());
+            oos.writeInt(issue.getLineEnd());
+            oos.writeInt(issue.getColumnStart());
+            oos.writeInt(issue.getColumnEnd());
+            oos.writeObject((LineRangeList) issue.getLineRanges());
+            oos.writeUTF(issue.getCategory());
+            oos.writeUTF(issue.getType());
+            oos.writeUTF(issue.getPackageName());
+            oos.writeUTF(issue.getModuleName());
+            oos.writeObject(issue.getSeverity());
+            oos.writeUTF(issue.getMessage());
+            oos.writeUTF(issue.getDescription());
+            oos.writeUTF(issue.getOrigin());
+            oos.writeUTF(issue.getReference());
+            oos.writeUTF(issue.getFingerprint());
+            oos.writeObject(issue.getAdditionalProperties());
+            oos.writeObject(issue.getId());
+            
+            /*System.out.println(issue.getPath());
+            System.out.println(issue.getFileName());
+            System.out.println(issue.getLineStart());
+            System.out.println(issue.getLineEnd());
+            System.out.println(issue.getColumnStart());
+            System.out.println(issue.getColumnEnd());
+            System.out.println((LineRangeList) issue.getLineRanges());
+            System.out.println(issue.getCategory());
+            System.out.println(issue.getType());
+            System.out.println(issue.getPackageName());
+            System.out.println(issue.getModuleName());
+            System.out.println(issue.getSeverity());
+            System.out.println(issue.getMessage());
+            System.out.println(issue.getDescription());
+            System.out.println(issue.getOrigin());
+            System.out.println(issue.getReference());
+            System.out.println(issue.getFingerprint());
+            System.out.println(issue.getAdditionalProperties());
+            System.out.println(issue.getId());*/
+        }
+        oos.close();
+    }
+    
+    private synchronized void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        
+        TreeStringBuilder tsb = new TreeStringBuilder();
+        while(ois.available() > 0) {
+            
+            final TreeString pathTreeString = tsb.intern(ois.readUTF());
+            final TreeString fileNameTreeString = tsb.intern(ois.readUTF());
+            final Integer lineStart = ois.readInt();
+            final Integer lineEnd = ois.readInt();
+            final Integer columnStart = ois.readInt();
+            final Integer columnEnd = ois.readInt();
+            final LineRangeList lineRanges = (LineRangeList) ois.readObject();
+            final TreeString categoryTreeString = tsb.intern(ois.readUTF());
+            final TreeString typeTreeString = tsb.intern(ois.readUTF());
+            final TreeString packageNameTreeString = tsb.intern(ois.readUTF());
+            final TreeString moduleNameTreeString = tsb.intern(ois.readUTF());
+            final Severity severity = (Severity) ois.readObject();
+            final TreeString messageTreeString = tsb.intern(ois.readUTF());
+            final TreeString descriptionTreeString = tsb.intern(ois.readUTF());
+            final TreeString originTreeString = tsb.intern(ois.readUTF());
+            final TreeString referenceTreeString = tsb.intern(ois.readUTF());
+            final TreeString fingerprintTreeString = tsb.intern(ois.readUTF());
+            final Serializable additionalProperties = (Serializable) ois.readObject();
+            final UUID id = (UUID) ois.readObject();
+            
+            tsb.dedup();
+            /*
+            System.out.println("path: " + pathTreeString);
+            System.out.println("file: " + fileNameTreeString);
+            System.out.println("line start: " + lineStart);
+            System.out.println("line end: "+ lineEnd);
+            System.out.println("column start: "+ columnStart);
+            System.out.println("column end: " + columnEnd);
+            System.out.println("line ranges: "+ lineRanges);
+            System.out.println("category: "+categoryTreeString);
+            System.out.println("type: "+ typeTreeString);
+            System.out.println("package: "+ packageNameTreeString);
+            System.out.println("module: "+ moduleNameTreeString);
+            System.out.println("severity: "+ severity);
+            System.out.println("message: "+ messageTreeString);
+            System.out.println("description: "+descriptionTreeString);
+            System.out.println("origin: " + originTreeString);
+            System.out.println("reference: "+ referenceTreeString);
+            System.out.println("fingerprint: "+ fingerprintTreeString);
+            System.out.println("additional: "+ additionalProperties);
+            System.out.println("id: "+ id);*/
+            
+            add(
+                    new Issue(
+                        pathTreeString.toString(), 
+                        fileNameTreeString,
+                        lineStart,
+                        lineEnd,
+                        columnStart,
+                        columnEnd,
+                        lineRanges,
+                        categoryTreeString.toString(),
+                        typeTreeString.toString(),
+                        packageNameTreeString,
+                        moduleNameTreeString.toString(),
+                        severity,
+                        messageTreeString,
+                        descriptionTreeString.toString(),
+                        originTreeString.toString(),
+                        referenceTreeString.toString(),
+                        fingerprintTreeString.toString(),
+                        additionalProperties,
+                        id
+                    )
+            );
+        }
     }
 
     /**
