@@ -13,7 +13,9 @@ public class NullSafeCollections <T> {
         return new NullSafeList<>(list);
     }
 
-    public static <T> List<T> nullSafeList(Collection<? extends T> collection) {
-        
+    public static <T> List<T> nullSafeList(List<T> list, Collection<? extends T> collection) {
+        NullSafeList<T> nullSafeList = new NullSafeList<>(list);
+        list.addAll(collection);
+        return nullSafeList;
     }
 }
