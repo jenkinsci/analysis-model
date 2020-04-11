@@ -1,6 +1,12 @@
 package edu.hm.hafner.analysis;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -756,10 +762,18 @@ class ReportTest extends SerializableTest<Report> {
     }
     
     @Test
-    void shouldSerializeAndDesieralize() {
-        Report testReport = createSerializable();
-        Report copy = (Report) SerializationUtils.clone(testReport);
-        assert testReport.toString().contentEquals(copy.toString());
+    void shouldSerializeAndDesieralize() throws IOException, ClassNotFoundException {
+        Report report = createSerializable();
+        File file = new File("serialize_deserialize_issues.txt");
+        file.createNewFile();
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serialize_deserialize_issues.txt"));
+        oos.writeObject(report);
+        oos.close();
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serialize_deserialize_issues.txt"));
+        Report deserializedReport = (Report) ois.readObject();
+        ois.close();
+        file.delete();
+        assert deserializedReport.toString().contentEquals(report.toString());
     }
 
     /** Verifies that equals checks all properties. */
