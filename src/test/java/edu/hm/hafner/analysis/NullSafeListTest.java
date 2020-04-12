@@ -10,6 +10,11 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * Abstract Test Pattern fuer Null-Safe List Implementierungen.
+ *
+ * @author budelmann
+ */
 public abstract class NullSafeListTest extends ListTest{
 
     @Test
@@ -76,6 +81,12 @@ public abstract class NullSafeListTest extends ListTest{
         assertThatThrownBy(() -> sut.addAll(-1, Arrays.asList(1, null))).isExactlyInstanceOf(NullPointerException.class);
     }
 
+
+    /**
+     * Tests the class {@link NullSafeList}.
+     *
+     * @author budelmann
+     */
     public static class NullSafeDecoratorTest extends NullSafeListTest {
         @Override
         protected List<Integer> create(final int numberOfInitialElements) {
@@ -84,6 +95,12 @@ public abstract class NullSafeListTest extends ListTest{
         }
     }
 
+
+    /**
+     * Tests the class {@link NullSafeListInheritance}.
+     *
+     * @author budelmann
+     */
     public static class NullSafeInheritanceTest extends NullSafeListTest {
         @Override
         protected List<Integer> create(final int numberOfInitialElements) {

@@ -18,12 +18,12 @@ import java.util.stream.Stream;
  * - weniger Abhaengigkeit von der Implentierung
  *
  * Nachteil:
- * - ueberfluessiger Code dadurch dass alle Methoden implentiert werden muessen, sei es auch nur um direkt weiter zu leiten.
+ * - ueberfluessiger Code dadurch dass alle Methoden implentiert werden muessen, sei es auch nur um direkt weiterzuleiten.
  *
  * @param <T>
  *     Typparameter
  *
- * @author budelman
+ * @author budelmann
  */
 public class NullSafeList<T> implements List<T>{
 

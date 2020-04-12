@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,6 +8,8 @@ import java.util.List;
  *
  * @param <T>
  *         Typparameter
+ *
+ * @author budelmann
  */
 public abstract class NullSafeCollections <T>{
 

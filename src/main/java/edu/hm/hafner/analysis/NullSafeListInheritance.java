@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Implementierung einer Null-Sage List mit Vererbung.
@@ -10,9 +11,12 @@ import java.util.Collection;
  * - es muessen nicht alle Methoden neu definiert werden
  *
  * Nachteil:
- * -  Verletzung des Liskovschen Substitutionsprinzip
+ * -  Verletzung des Liskovschen Substitutionsprinzips
  *
  * @param <T>
+ *         Typparameter
+ *
+ * @author budelmann
  */
 public class NullSafeListInheritance <T> extends ArrayList<T> {
 
