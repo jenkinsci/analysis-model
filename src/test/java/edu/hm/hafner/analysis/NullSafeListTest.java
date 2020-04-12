@@ -76,6 +76,7 @@ import static org.assertj.core.api.Assertions.*;
         // act
         int have = list.size();
         assertThat(want).isEqualTo(have);
+        assertThat(list.isEmpty());
         // act
         list.add(3);
         want = 1;
@@ -99,6 +100,8 @@ import static org.assertj.core.api.Assertions.*;
         have = list.size();
         // assert
         assertThat(want).isEqualTo(have);
+        list.clear();
+        assertThat(list.isEmpty());
     }
 
     @Test
@@ -174,6 +177,11 @@ import static org.assertj.core.api.Assertions.*;
         assertThat(list.get(5)).isEqualTo(98);
         assertThat(list.get(6)).isEqualTo(97);
         assertThat(list.get(7)).isEqualTo(96);
+        list.set(0,11);
+        assertThat(list.get(0).equals(11));
+        list.remove((Object) 99);
+        assertThat(!list.contains(99));
+
     }
 
     @Test
