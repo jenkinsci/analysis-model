@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+import static java.util.Objects.*;
+
 /**
  * Implementierung einer Null-Sage List mit Vererbung.
  *
@@ -22,22 +24,19 @@ public class NullSafeListInheritance <T> extends ArrayList<T> {
 
     @Override
     public T set(final int i, final T e) {
-        if(e == null)
-            throw new NullPointerException();
+        requireNonNull(e);
         return super.set(i, e);
     }
 
     @Override
     public boolean add(final T e) {
-        if(e == null)
-            throw new NullPointerException();
+        requireNonNull(e);
         return super.add(e);
     }
 
     @Override
     public void add(final int i, final T e) {
-        if(e == null)
-            throw new NullPointerException();
+        requireNonNull(e);
         super.add(i, e);
     }
 
@@ -61,9 +60,7 @@ public class NullSafeListInheritance <T> extends ArrayList<T> {
      */
     private void checkForNull(final Collection<? extends T> collection) {
         for(T element : collection) {
-            if (element == null) {
-                throw new NullPointerException();
-            }
+            requireNonNull(element);
         }
     }
 }

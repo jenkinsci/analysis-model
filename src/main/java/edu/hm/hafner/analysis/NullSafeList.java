@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -65,8 +66,7 @@ public class NullSafeList<T> implements List<T>{
     }
 
     public boolean add(final T t) {
-        if(t == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(t);
         return list.add(t);
     }
 
@@ -113,14 +113,12 @@ public class NullSafeList<T> implements List<T>{
     }
 
     public T set(final int i, final T t) {
-        if(t == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(t);
         return list.set(i, t);
     }
 
     public void add(final int i, final T t) {
-        if(t == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(t);
         list.add(i, t);
     }
 
@@ -176,9 +174,7 @@ public class NullSafeList<T> implements List<T>{
      */
     private void checkForNull(final Collection<? extends T> collection) {
         for(T element : collection) {
-            if (element == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(element);
         }
     }
 }

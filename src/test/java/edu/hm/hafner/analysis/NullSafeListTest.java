@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -92,6 +93,23 @@ public abstract class NullSafeListTest extends ListTest{
         protected List<Integer> create(final int numberOfInitialElements) {
             return new NullSafeList<>(new ArrayList<>(Stream.iterate(0, t -> t+1).limit(numberOfInitialElements).collect(
                     Collectors.toList())));
+        }
+
+        @Test
+        void FactoryDefaultConstructor() {
+            List<Integer> sut = create(5);
+            Collection<Integer> coll = Collections.checkedCollection(
+                    Collections.synchronizedList(
+                            NullSafeCollections.nullSafeList(sut)), Integer.class);
+            assertThat(coll).hasSize(5);
+
+            Collection<Integer> coll2 = Collections.checkedCollection(
+                    Collections.synchronizedList(
+                            NullSafeCollections.nullSafeList(create(0), Arrays.asList(1,2,3))), Integer.class);
+            assertThat(coll2).containsExactly(1,2,3);
+
+            //TODO: mit inialCapacity
+
         }
     }
 
