@@ -166,6 +166,7 @@ import static org.assertj.core.api.Assertions.*;
         collection.add(98);
         collection.add(97);
         collection.add(96);
+
         list.addAll(collection);
         // assert
         assertThat(list.size()).isEqualTo(8);
@@ -181,6 +182,7 @@ import static org.assertj.core.api.Assertions.*;
         assertThat(list.get(0).equals(11));
         list.remove((Object) 99);
         assertThat(!list.contains(99));
+        assertThat(list.indexOf(96)).isEqualTo(6);
 
     }
 
