@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+
+import net.bytebuddy.dynamic.scaffold.MethodGraph.Linked;
+
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -97,7 +101,7 @@ public abstract class NullSafeListTest extends ListTest{
 
         @Test
         void FactoryDefaultConstructor() {
-            List<Integer> sut = create(5);
+            List<Integer> sut = new LinkedList<>(Arrays.asList(1,2,3,4,5));
             Collection<Integer> coll = Collections.checkedCollection(
                     Collections.synchronizedList(
                             NullSafeCollections.nullSafeList(sut)), Integer.class);
@@ -105,13 +109,13 @@ public abstract class NullSafeListTest extends ListTest{
 
             Collection<Integer> coll2 = Collections.checkedCollection(
                     Collections.synchronizedList(
-                            NullSafeCollections.nullSafeList(create(0), Arrays.asList(1,2,3))), Integer.class);
+                            NullSafeCollections.nullSafeList(new ArrayList<>(), Arrays.asList(1,2,3))), Integer.class);
             assertThat(coll2).containsExactly(1,2,3);
 
             Collection<Integer> coll3 = Collections.checkedCollection(
                     Collections.synchronizedList(
-                            NullSafeCollections.nullSafeList(create(3), 10)), Integer.class);
-            assertThat(coll3).hasSize(3);
+                            NullSafeCollections.nullSafeList(new ArrayList<>(), 10)), Integer.class);
+            assertThat(coll3).isEmpty();
         }
     }
 
