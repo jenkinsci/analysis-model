@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +19,9 @@ public abstract class NullSafeCollections <T>{
     }
 
     public static <T> List<T> nullSafeList(final List<T> list, final int initialCapacity) {
+        if(list instanceof ArrayList<?>) {
+            ((ArrayList<?>) list).ensureCapacity(initialCapacity);
+        }
         return new NullSafeList<>(list);
     }
 

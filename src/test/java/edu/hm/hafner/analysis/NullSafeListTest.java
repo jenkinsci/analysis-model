@@ -108,8 +108,10 @@ public abstract class NullSafeListTest extends ListTest{
                             NullSafeCollections.nullSafeList(create(0), Arrays.asList(1,2,3))), Integer.class);
             assertThat(coll2).containsExactly(1,2,3);
 
-            //TODO: mit inialCapacity
-
+            Collection<Integer> coll3 = Collections.checkedCollection(
+                    Collections.synchronizedList(
+                            NullSafeCollections.nullSafeList(create(3), 10)), Integer.class);
+            assertThat(coll3).hasSize(3);
         }
     }
 
