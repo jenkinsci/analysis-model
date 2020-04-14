@@ -2,12 +2,11 @@ package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 /**
- * Implementierung einer Null-Sage List mit Vererbung.
+ * Implementierung einer Null-Safe List mit Vererbung.
  *
  * Vorteil:
  * - es muessen nicht alle Methoden neu definiert werden
