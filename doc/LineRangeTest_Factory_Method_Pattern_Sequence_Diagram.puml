@@ -11,6 +11,7 @@ activate SerializableTest
 activate LineRangeTest
 JUnitTestRunner -> SerializableTest : shouldBeSerializable()
 SerializableTest -> LineRangeTest : createSerializable()
+create lr1
 LineRangeTest -> lr1 : new LineRange(...)
 activate lr1
 lr1 --> LineRangeTest
