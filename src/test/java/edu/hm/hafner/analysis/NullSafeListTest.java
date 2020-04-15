@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author budelmann
  */
-public abstract class NullSafeListTest extends ListTest{
+abstract class NullSafeListTest extends ListTest{
 
     @Test
     void addSeperateValues() {
@@ -89,7 +89,7 @@ public abstract class NullSafeListTest extends ListTest{
      *
      * @author budelmann
      */
-    public static class NullSafeDecoratorTest extends NullSafeListTest {
+    static class NullSafeDecoratorTest extends NullSafeListTest {
         @Override
         protected List<Integer> create(final int numberOfInitialElements) {
             return new NullSafeList<>(new ArrayList<>(Stream.iterate(0, t -> t+1).limit(numberOfInitialElements).collect(
@@ -122,7 +122,7 @@ public abstract class NullSafeListTest extends ListTest{
      *
      * @author budelmann
      */
-    public static class NullSafeInheritanceTest extends NullSafeListTest {
+    static class NullSafeInheritanceTest extends NullSafeListTest {
         @Override
         protected List<Integer> create(final int numberOfInitialElements) {
             List<Integer> list = new NullSafeListInheritance<>();

@@ -13,7 +13,7 @@ import static java.util.Objects.requireNonNull;
  *
  * Nachteil:
  * -  Verletzung des Liskovschen Substitutionsprinzips
- * -  Festsetzung auf ArrayList, keine dynamische Nutzung anderer List Implementierungen moeglich, kein Programming against Interfaces 
+ * -  Festsetzung auf ArrayList, keine dynamische Nutzung anderer List Implementierungen moeglich, kein Programming against Interfaces
  *
  * @param <T>
  *         Typparameter
