@@ -13,6 +13,7 @@ import static java.util.Objects.requireNonNull;
  *
  * Nachteil:
  * -  Verletzung des Liskovschen Substitutionsprinzips
+ * -  Festsetzung auf ArrayList, keine dynamische Nutzung anderer List Implementierungen moeglich, kein Programming against Interfaces 
  *
  * @param <T>
  *         Typparameter
@@ -20,6 +21,8 @@ import static java.util.Objects.requireNonNull;
  * @author budelmann
  */
 public class NullSafeListInheritance <T> extends ArrayList<T> {
+
+    private static final long serialVersionUID = -3330498997754972315L;
 
     @Override
     public T set(final int i, final T e) {

@@ -10,9 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
-
-import net.bytebuddy.dynamic.scaffold.MethodGraph.Linked;
-
 import static org.assertj.core.api.Assertions.*;
 
 /**
