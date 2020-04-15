@@ -9,10 +9,13 @@ import java.util.Objects;
  * <p>
  * This implementation uses inheritance
  * <p>
- * Vorteile Vererbung: - Nur geänderte Methoden tauchen im Quellcode auf, dadurch übersichtlicher
+ * Vorteile Vererbung:
+ *      - Nur geänderte Methoden tauchen im Quellcode auf, dadurch übersichtlicher
  * <p>
- * Nachteile: - Kopplung an konkreten Type ArrayList - Aufbrechen von Encapsulation (z.B. Methode ruft andere eigene
- * Methode auf, die überschrieben wurde)
+ * Nachteile:
+ *      - Kopplung an konkreten Type ArrayList
+ *      - Aufbrechen von Encapsulation (z.B. Methode ruft andere eigene
+ *        Methode auf, die überschrieben wurde)
  * </p>
  *
  * @param <T>

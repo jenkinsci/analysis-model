@@ -17,9 +17,12 @@ import java.util.stream.Stream;
  * <p>
  * This implementation uses delegation/decorating.
  * <p>
- * Vorteile Delegation/Decorator: - keine Kopplung an konkrete Klassen, nur an Interface - Erhalten der Encapsulation,
- * da nur public Methoden verdendet werden Nachteile: - alle Methoden müssen Delegiert werden, keine Compiler
- * Unterstützung (zumindest bei Java) dadurch bei großen Interfaces wie List viel Boilerplate Code.
+ * Vorteile Delegation/Decorator:
+ *          - keine Kopplung an konkrete Klassen, nur an Interface
+ *          - Erhalten der Encapsulation, da nur public Methoden verdendet werden
+ * Nachteile:
+ *          - alle Methoden müssen Delegiert werden, keine Compiler Unterstützung (zumindest bei Java)
+ *            dadurch bei großen Interfaces wie List viel Boilerplate Code.
  * </p>
  *
  * @param <T>
