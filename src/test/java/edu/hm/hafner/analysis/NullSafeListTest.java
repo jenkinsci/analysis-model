@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Implementation of the ListTest class for the NullSafeList.
  */
-public class NullSafeListTest extends ListTest {
+class NullSafeListTest extends ListTest {
     @Override
     public List<Integer> create(final int numberOfElements) {
         return NullSafeCollections.nullSafeList(Stream.iterate(0, x -> x + 1)

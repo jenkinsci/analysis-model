@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 /**
  * Test class for NullSafeList2.
  */
-public class NullSafeList2Test extends NullSafeListTest {
+class NullSafeList2Test extends NullSafeListTest {
 
     @Override
     public List<Integer> create(final int numberOfElements) {
