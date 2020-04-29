@@ -42,11 +42,13 @@ public class ModuleDetector {
     static final String ANT_PROJECT = "build.xml";
     static final String OSGI_BUNDLE = "META-INF/MANIFEST.MF";
     static final String BUILD_GRADLE = "build.gradle";
+    static final String BUILD_GRADLE_KTS = "build.gradle.kts";
 
     private static final String PATTERN = ALL_DIRECTORIES + MAVEN_POM
             + PLUS + ALL_DIRECTORIES + ANT_PROJECT
             + PLUS + ALL_DIRECTORIES + OSGI_BUNDLE
-            + PLUS + ALL_DIRECTORIES + BUILD_GRADLE;
+            + PLUS + ALL_DIRECTORIES + BUILD_GRADLE
+            + PLUS + ALL_DIRECTORIES + BUILD_GRADLE_KTS;
     static final String PLUGIN_PROPERTIES = "plugin.properties";
     static final String BUNDLE_PROPERTIES = "OSGI-INF/l10n/bundle.properties";
 
@@ -95,7 +97,7 @@ public class ModuleDetector {
             }
         }
         for (String fileName : projects) {
-            if (fileName.endsWith(BUILD_GRADLE)) {
+            if (fileName.endsWith(BUILD_GRADLE) || fileName.endsWith(BUILD_GRADLE_KTS)) {
                 addMapping(mapping, fileName, BUILD_GRADLE, parseGradle(fileName));
             }
         }
