@@ -11,8 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -43,12 +45,16 @@ public class ModuleDetector {
     static final String OSGI_BUNDLE = "META-INF/MANIFEST.MF";
     static final String BUILD_GRADLE = "build.gradle";
     static final String BUILD_GRADLE_KTS = "build.gradle.kts";
+    static final String SETTINGS_GRADLE = "settings.gradle";
+    static final String SETTINGS_GRADLE_KTS = "settings.gradle.kts";
 
     private static final String PATTERN = ALL_DIRECTORIES + MAVEN_POM
             + PLUS + ALL_DIRECTORIES + ANT_PROJECT
             + PLUS + ALL_DIRECTORIES + OSGI_BUNDLE
             + PLUS + ALL_DIRECTORIES + BUILD_GRADLE
-            + PLUS + ALL_DIRECTORIES + BUILD_GRADLE_KTS;
+            + PLUS + ALL_DIRECTORIES + BUILD_GRADLE_KTS
+            + PLUS + ALL_DIRECTORIES + SETTINGS_GRADLE
+            + PLUS + ALL_DIRECTORIES + SETTINGS_GRADLE_KTS;
     static final String PLUGIN_PROPERTIES = "plugin.properties";
     static final String BUNDLE_PROPERTIES = "OSGI-INF/l10n/bundle.properties";
 
@@ -99,6 +105,11 @@ public class ModuleDetector {
         for (String fileName : projects) {
             if (fileName.endsWith(BUILD_GRADLE) || fileName.endsWith(BUILD_GRADLE_KTS)) {
                 addMapping(mapping, fileName, BUILD_GRADLE, parseGradle(fileName));
+            }
+        }
+        for (String fileName : projects) {
+            if (fileName.endsWith(SETTINGS_GRADLE) || fileName.endsWith(SETTINGS_GRADLE_KTS)) {
+                addMapping(mapping, fileName, SETTINGS_GRADLE, parseGradleSettings(fileName));
             }
         }
         for (String fileName : projects) {
@@ -206,6 +217,39 @@ public class ModuleDetector {
             return parent.getFileName().toString();
         }
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * Returns the root project name from the settings.gradle file.
+     *
+     * @param settingsFile
+     *         Gradle settings.gradle file path
+     *
+     * @return the root project override, or an empty string if the name could not be resolved
+     */
+    private String parseGradleSettings(final String settingsFile) {
+        String name = null;
+
+        try (InputStream input = factory.open(settingsFile);
+             Scanner scan = new Scanner(input, "UTF-8")
+        ) {
+            Pattern namePattern = Pattern.compile("\\s*rootProject\\.(name\\s*=|setName[(]?)\\s*['\"](.*?)['\"][)]?");
+            while (scan.hasNextLine()) {
+                String line = scan.findInLine(namePattern);
+
+                if (line != null) {
+                    name = scan.match().group(2);
+                    break;
+                }
+
+                scan.nextLine();
+            }
+        }
+        catch (IOException | InvalidPathException ignored) {
+            // ignore
+        }
+
+        return StringUtils.defaultIfBlank(name, StringUtils.EMPTY);
     }
 
     /**
