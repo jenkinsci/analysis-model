@@ -34,10 +34,14 @@ class ModuleDetectorTest extends ResourceTest {
     private static final String PATH_PREFIX_MAVEN = "path/to/maven/";
     private static final String PATH_PREFIX_OSGI = "path/to/osgi/";
     private static final String PATH_PREFIX_ANT = "path/to/ant/";
+    private static final String PATH_PREFIX_GRADLE = "path/to/gradle/";
 
     private static final String EXPECTED_MAVEN_MODULE = "ADT Business Logic";
     private static final String EXPECTED_ANT_MODULE = "checkstyle";
     private static final String EXPECTED_OSGI_MODULE = "de.faktorlogik.prototyp";
+    private static final String EXPECTED_GRADLE_MODULE_ROOT = "gradle";
+    private static final String EXPECTED_GRADLE_MODULE_A = "a-module";
+    private static final String EXPECTED_GRADLE_MODULE_B = "moduleB";
 
     private InputStream read(final String fileName) {
         return asInputStream(fileName);
@@ -129,6 +133,46 @@ class ModuleDetectorTest extends ResourceTest {
         assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "in/between/something.txt")))
                 .isEqualTo(artifactId);
         assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
+                .isEqualTo(StringUtils.EMPTY);
+    }
+
+    @Test
+    void shouldIdentifyModuleByReadingGradlePath() {
+        FileSystem factory = createFileSystemStub(stub -> {
+            when(stub.find(any(), anyString())).thenReturn(
+                    new String[] {PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE});
+        });
+
+        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_GRADLE + "build/reports/something.txt")))
+                .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT);
+        assertThat(detector.guessModuleName(PREFIX + "build/reports/something.txt"))
+                .isEqualTo(StringUtils.EMPTY);
+    }
+
+    @Test
+    void shouldIdentifyModuleByFindingClosestGradlePath() {
+        FileSystem factory = createFileSystemStub(stub -> {
+            when(stub.find(any(), anyString())).thenReturn(new String[] {
+                    PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE,
+                    PATH_PREFIX_GRADLE + "moduleB/" + ModuleDetector.BUILD_GRADLE,
+                    PATH_PREFIX_GRADLE + "a-module/" + ModuleDetector.BUILD_GRADLE,
+            });
+        });
+
+        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
+
+        assertThat(detector.guessModuleName(
+                gradleWorkspace + "a-module/build/reports/something.txt"))
+                .isEqualTo(EXPECTED_GRADLE_MODULE_A);
+        assertThat(detector.guessModuleName(
+                gradleWorkspace + "moduleB/build/reports/something.txt"))
+                .isEqualTo(EXPECTED_GRADLE_MODULE_B);
+        assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
+                .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT);
+        assertThat(detector.guessModuleName(PREFIX + "build/reports/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
     }
 

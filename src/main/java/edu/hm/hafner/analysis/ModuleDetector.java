@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,10 +41,12 @@ public class ModuleDetector {
     static final String MAVEN_POM = "pom.xml";
     static final String ANT_PROJECT = "build.xml";
     static final String OSGI_BUNDLE = "META-INF/MANIFEST.MF";
+    static final String BUILD_GRADLE = "build.gradle";
 
     private static final String PATTERN = ALL_DIRECTORIES + MAVEN_POM
             + PLUS + ALL_DIRECTORIES + ANT_PROJECT
-            + PLUS + ALL_DIRECTORIES + OSGI_BUNDLE;
+            + PLUS + ALL_DIRECTORIES + OSGI_BUNDLE
+            + PLUS + ALL_DIRECTORIES + BUILD_GRADLE;
     static final String PLUGIN_PROPERTIES = "plugin.properties";
     static final String BUNDLE_PROPERTIES = "OSGI-INF/l10n/bundle.properties";
 
@@ -89,6 +92,11 @@ public class ModuleDetector {
         for (String fileName : projects) {
             if (fileName.endsWith(MAVEN_POM)) {
                 addMapping(mapping, fileName, MAVEN_POM, parsePom(fileName));
+            }
+        }
+        for (String fileName : projects) {
+            if (fileName.endsWith(BUILD_GRADLE)) {
+                addMapping(mapping, fileName, BUILD_GRADLE, parseGradle(fileName));
             }
         }
         for (String fileName : projects) {
@@ -177,6 +185,23 @@ public class ModuleDetector {
         }
         catch (IOException | SAXException | InvalidPathException ignored) {
             // ignore
+        }
+        return StringUtils.EMPTY;
+    }
+
+    /**
+     * Returns the project name estimated from the build.gradle file path.
+     *
+     * @param buildScript
+     *         Gradle build.gradle file path
+     *
+     * @return the project name or an empty string if the name could not be resolved
+     */
+    private String parseGradle(final String buildScript) {
+        Path path = Paths.get(buildScript).normalize();
+        if (path.getNameCount() >= 2) {
+            Path parent = path.getParent();
+            return parent.getFileName().toString();
         }
         return StringUtils.EMPTY;
     }
