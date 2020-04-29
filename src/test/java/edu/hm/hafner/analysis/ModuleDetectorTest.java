@@ -364,7 +364,12 @@ class ModuleDetectorTest extends ResourceTest {
     @Test
     void shouldIgnoreExceptionsDuringParsing() {
         FileSystem fileSystem = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[NO_RESULT]);
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
+                    PATH_PREFIX_ANT + ModuleDetector.ANT_PROJECT,
+                    PATH_PREFIX_MAVEN + ModuleDetector.MAVEN_POM,
+                    PATH_PREFIX_OSGI + ModuleDetector.OSGI_BUNDLE,
+                    PATH_PREFIX_GRADLE + ModuleDetector.SETTINGS_GRADLE
+            });
             when(stub.open(anyString())).thenThrow(new FileNotFoundException("File not found"));
         });
 
@@ -373,6 +378,10 @@ class ModuleDetectorTest extends ResourceTest {
         assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "something.txt")))
                 .isEqualTo(StringUtils.EMPTY);
         assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "something.txt")))
+                .isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "something.txt")))
+                .isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_GRADLE + "build/reports/something.txt")))
                 .isEqualTo(StringUtils.EMPTY);
     }
 
