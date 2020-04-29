@@ -31,9 +31,9 @@ class ModuleDetectorTest extends ResourceTest {
 
     private static final int NO_RESULT = 0;
 
-    private static final String PATH_PREFIX_MAVEN = "path/to/maven";
-    private static final String PATH_PREFIX_OSGI = "path/to/osgi";
-    private static final String PATH_PREFIX_ANT = "path/to/ant";
+    private static final String PATH_PREFIX_MAVEN = "path/to/maven/";
+    private static final String PATH_PREFIX_OSGI = "path/to/osgi/";
+    private static final String PATH_PREFIX_ANT = "path/to/ant/";
 
     private static final String EXPECTED_MAVEN_MODULE = "ADT Business Logic";
     private static final String EXPECTED_ANT_MODULE = "checkstyle";
@@ -52,11 +52,11 @@ class ModuleDetectorTest extends ResourceTest {
         
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "something.txt")))
                 .isEqualTo(EXPECTED_OSGI_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "/in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "in/between/something.txt")))
                 .isEqualTo(EXPECTED_OSGI_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + "/path/to/something.txt"))
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
     }
 
@@ -70,11 +70,11 @@ class ModuleDetectorTest extends ResourceTest {
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
         String expectedName = "de.faktorlogik.prototyp (My Vendor)";
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "something.txt")))
                 .isEqualTo(expectedName);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "/in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "in/between/something.txt")))
                 .isEqualTo(expectedName);
-        assertThat(detector.guessModuleName(PREFIX + "/path/to/something.txt"))
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
     }
 
@@ -89,11 +89,11 @@ class ModuleDetectorTest extends ResourceTest {
         ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
 
         String expectedName = "My Bundle";
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "something.txt")))
                 .isEqualTo(expectedName);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "/in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "in/between/something.txt")))
                 .isEqualTo(expectedName);
-        assertThat(detector.guessModuleName(PREFIX + "/path/to/something.txt"))
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
     }
 
@@ -107,11 +107,11 @@ class ModuleDetectorTest extends ResourceTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "/something.txt"))).isEqualTo(
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "something.txt"))).isEqualTo(
                 EXPECTED_MAVEN_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "/in/between/something.txt"))).isEqualTo(
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "in/between/something.txt"))).isEqualTo(
                 EXPECTED_MAVEN_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + "/path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
 
     @Test
@@ -124,11 +124,11 @@ class ModuleDetectorTest extends ResourceTest {
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
         String artifactId = "com.avaloq.adt.core";
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "something.txt")))
                 .isEqualTo(artifactId);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "/in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "in/between/something.txt")))
                 .isEqualTo(artifactId);
-        assertThat(detector.guessModuleName(PREFIX + "/path/to/something.txt"))
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
     }
 
@@ -140,11 +140,11 @@ class ModuleDetectorTest extends ResourceTest {
         });
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "something.txt")))
                 .isEqualTo(EXPECTED_ANT_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "/in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "in/between/something.txt")))
                 .isEqualTo(EXPECTED_ANT_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + "/path/to/something.txt"))
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
     }
 
@@ -157,9 +157,9 @@ class ModuleDetectorTest extends ResourceTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "something.txt")))
                 .isEqualTo(StringUtils.EMPTY);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "something.txt")))
                 .isEqualTo(StringUtils.EMPTY);
     }
 
@@ -175,9 +175,9 @@ class ModuleDetectorTest extends ResourceTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "something.txt")))
                 .isEqualTo(EXPECTED_ANT_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "something.txt")))
                 .isEqualTo(EXPECTED_MAVEN_MODULE);
     }
 
@@ -216,7 +216,7 @@ class ModuleDetectorTest extends ResourceTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(prefix + "/something.txt")).isEqualTo(EXPECTED_MAVEN_MODULE);
+        assertThat(detector.guessModuleName(prefix + "something.txt")).isEqualTo(EXPECTED_MAVEN_MODULE);
     }
 
     private void verifyOrder(final String prefix, final String ant, final String maven, final String osgi,
@@ -232,7 +232,7 @@ class ModuleDetectorTest extends ResourceTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
 
-        assertThat(detector.guessModuleName(prefix + "/something.txt")).isEqualTo(EXPECTED_OSGI_MODULE);
+        assertThat(detector.guessModuleName(prefix + "something.txt")).isEqualTo(EXPECTED_OSGI_MODULE);
     }
 
     private InputStream createEmptyStream() {
