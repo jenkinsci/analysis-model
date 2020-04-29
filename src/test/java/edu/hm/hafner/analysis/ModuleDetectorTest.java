@@ -329,6 +329,23 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     @Test
+    void shouldIgnoreGradleSettingsWithoutProjectName() {
+        FileSystem factory = createFileSystemStub(stub -> {
+            when(stub.find(any(), anyString())).thenReturn(new String[] {
+                    PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE,
+                    PATH_PREFIX_GRADLE + ModuleDetector.SETTINGS_GRADLE,
+            });
+            when(stub.open(anyString())).thenAnswer(fileName -> read("settings-5.gradle"));
+        });
+
+        String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
+
+        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
+                .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT_BY_PATH);
+    }
+
+    @Test
     void shouldIdentifyModuleByReadingAntProjectFile() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_ANT + ModuleDetector.ANT_PROJECT});
