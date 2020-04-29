@@ -27,6 +27,7 @@ class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
     private static final String MANIFEST_NAME = "MANIFEST-NAME.MF";
     private static final Path ROOT = Paths.get(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
+    private static final Path ROOT_ABSOLUTE = Paths.get(File.pathSeparatorChar == ';' ? "C:\\" : "/");
     private static final String PREFIX = new PathUtil().getAbsolutePath(ROOT) + "/";
 
     private static final int NO_RESULT = 0;
@@ -343,6 +344,19 @@ class ModuleDetectorTest extends ResourceTest {
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT_BY_PATH);
+    }
+
+    @Test
+    void shouldIgnoreGradleFileWithNoParentPath() {
+        FileSystem factory = createFileSystemStub(stub -> {
+            when(stub.find(any(), anyString())).thenReturn(new String[] {
+                    ModuleDetector.BUILD_GRADLE,
+            });
+        });
+
+        ModuleDetector detector = new ModuleDetector(ROOT_ABSOLUTE, factory);
+        assertThat(detector.guessModuleName("build/reports/something.txt"))
+                .isEqualTo(StringUtils.EMPTY);
     }
 
     @Test
