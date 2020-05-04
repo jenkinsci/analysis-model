@@ -105,33 +105,47 @@ public class ModuleDetector {
         Map<String, String> mapping = new HashMap<>();
 
         String[] projects = find(workspace);
+        collectAntProjects(mapping, projects);
+        collectMavenProjects(mapping, projects);
+        collectGradleProjects(mapping, projects);
+        collectOsgiProjects(mapping, projects);
+
+        return mapping;
+    }
+
+    private void collectAntProjects(final Map<String, String> mapping, final String[] projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(ANT_PROJECT)) {
                 addMapping(mapping, fileName, ANT_PROJECT, parseBuildXml(fileName));
             }
         }
+    }
+
+    private void collectMavenProjects(final Map<String, String> mapping, final String[] projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(MAVEN_POM)) {
                 addMapping(mapping, fileName, MAVEN_POM, parsePom(fileName));
             }
         }
+    }
+
+    private void collectGradleProjects(final Map<String, String> mapping, final String[] projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(BUILD_GRADLE) || fileName.endsWith(BUILD_GRADLE_KTS)) {
                 addMapping(mapping, fileName, BUILD_GRADLE, parseGradle(fileName));
             }
-        }
-        for (String fileName : projects) {
-            if (fileName.endsWith(SETTINGS_GRADLE) || fileName.endsWith(SETTINGS_GRADLE_KTS)) {
+            else if (fileName.endsWith(SETTINGS_GRADLE) || fileName.endsWith(SETTINGS_GRADLE_KTS)) {
                 addMapping(mapping, fileName, SETTINGS_GRADLE, parseGradleSettings(fileName));
             }
         }
+    }
+
+    private void collectOsgiProjects(final Map<String, String> mapping, final String[] projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(OSGI_BUNDLE)) {
                 addMapping(mapping, fileName, OSGI_BUNDLE, parseManifest(fileName));
             }
         }
-
-        return mapping;
     }
 
     private void addMapping(final Map<String, String> mapping, final String fileName, final String suffix,
