@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +15,7 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
@@ -57,6 +57,19 @@ public class ModuleDetector {
             + PLUS + ALL_DIRECTORIES + SETTINGS_GRADLE_KTS;
     static final String PLUGIN_PROPERTIES = "plugin.properties";
     static final String BUNDLE_PROPERTIES = "OSGI-INF/l10n/bundle.properties";
+
+    /**
+     * Detects variations of {@code rootProject.setName($string)}, as well as the Groovy setter shorthand
+     * {@code rootProject.name = $string}.
+     *
+     * @implNote This expression does not guarantee matching left/right quotes or parentheses. For example, it will
+     * match {@code 'Name"}, even though that is not valid Groovy or Kotlin syntax. Similarly, in allowing for Groovy's
+     * parentheses-optional syntax for {@code setName $string}, this pattern makes both open and close parentheses
+     * optional, rather than requiring neither or both, so it will parse an open parenthesis without a matching close,
+     * and vice versa.
+     */
+    private static final Pattern RE_GRADLE_SET_PROJECT_NAME =
+            Pattern.compile("^\\s*rootProject\\.(name\\s*=|setName\\(?)\\s*['\"]([^'\"]*)['\"]\\)?");
 
     /** The factory to create input streams with. */
     private final FileSystem factory;
@@ -211,12 +224,9 @@ public class ModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseGradle(final String buildScript) {
-        Path path = Paths.get(buildScript).normalize();
-        if (path.getNameCount() >= 2) {
-            Path parent = path.getParent();
-            return parent.getFileName().toString();
-        }
-        return StringUtils.EMPTY;
+        String basePath = FilenameUtils.getPathNoEndSeparator(buildScript);
+        String parentDirName = FilenameUtils.getName(basePath);
+        return StringUtils.trimToEmpty(parentDirName);
     }
 
     /**
@@ -231,11 +241,10 @@ public class ModuleDetector {
         String name = null;
 
         try (InputStream input = factory.open(settingsFile);
-             Scanner scan = new Scanner(input, "UTF-8")
+                Scanner scan = new Scanner(input, "UTF-8")
         ) {
-            Pattern namePattern = Pattern.compile("\\s*rootProject\\.(name\\s*=|setName[(]?)\\s*['\"](.*?)['\"][)]?");
             while (scan.hasNextLine()) {
-                String line = scan.findInLine(namePattern);
+                String line = scan.findInLine(RE_GRADLE_SET_PROJECT_NAME);
 
                 if (line != null) {
                     name = scan.match().group(2);
