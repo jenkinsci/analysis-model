@@ -812,6 +812,12 @@ public class Report implements Iterable<Issue>, Serializable {
      * Prints a summary of an {@link Issue}.
      */
     public interface IssuePrinter {
+        /**
+         * Prints the specified issue.
+         *
+         * @param issue
+         *         the issue to print
+         */
         void print(Issue issue);
     }
 
