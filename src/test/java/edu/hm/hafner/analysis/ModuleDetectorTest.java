@@ -15,8 +15,10 @@ import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.ResourceTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -29,8 +31,6 @@ class ModuleDetectorTest extends ResourceTest {
     private static final Path ROOT = Paths.get(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
     private static final Path ROOT_ABSOLUTE = Paths.get(File.pathSeparatorChar == ';' ? "C:\\" : "/");
     private static final String PREFIX = new PathUtil().getAbsolutePath(ROOT) + "/";
-
-    private static final int NO_RESULT = 0;
 
     private static final String PATH_PREFIX_MAVEN = "path/to/maven/";
     private static final String PATH_PREFIX_OSGI = "path/to/osgi/";
@@ -140,10 +140,9 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByReadingGradlePath() {
-        FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(
-                    new String[] {PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE});
-        });
+        FileSystem factory = createFileSystemStub(stub ->
+                when(stub.find(any(), anyString())).thenReturn(
+                        new String[] {PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE}));
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
@@ -155,13 +154,12 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByFindingClosestGradlePath() {
-        FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
-                    PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE,
-                    PATH_PREFIX_GRADLE + "moduleB/" + ModuleDetector.BUILD_GRADLE,
-                    PATH_PREFIX_GRADLE + "a-module/" + ModuleDetector.BUILD_GRADLE,
-            });
-        });
+        FileSystem factory = createFileSystemStub(stub ->
+                when(stub.find(any(), anyString())).thenReturn(new String[] {
+                        PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE,
+                        PATH_PREFIX_GRADLE + "moduleB/" + ModuleDetector.BUILD_GRADLE,
+                        PATH_PREFIX_GRADLE + "a-module/" + ModuleDetector.BUILD_GRADLE,
+                }));
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
@@ -180,10 +178,9 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleByReadingGradleKtsPath() {
-        FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(
-                    new String[] {PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE_KTS});
-        });
+        FileSystem factory = createFileSystemStub(stub ->
+                when(stub.find(any(), anyString())).thenReturn(
+                        new String[] {PATH_PREFIX_GRADLE + ModuleDetector.BUILD_GRADLE_KTS}));
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
@@ -266,7 +263,7 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     @Test
-    void shouldEnsureThatGradleSettingsCanParseFormat1() throws IOException {
+    void shouldEnsureThatGradleSettingsCanParseFormat1() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[] {
                     PATH_PREFIX_GRADLE + ModuleDetector.SETTINGS_GRADLE,
@@ -282,7 +279,7 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     @Test
-    void shouldEnsureThatGradleSettingsCanParseFormat2() throws IOException {
+    void shouldEnsureThatGradleSettingsCanParseFormat2() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[] {
                     PATH_PREFIX_GRADLE + ModuleDetector.SETTINGS_GRADLE,
@@ -298,7 +295,7 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     @Test
-    void shouldEnsureThatGradleSettingsCanParseFormat3() throws IOException {
+    void shouldEnsureThatGradleSettingsCanParseFormat3() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[] {
                     PATH_PREFIX_GRADLE + ModuleDetector.SETTINGS_GRADLE,
@@ -314,7 +311,7 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     @Test
-    void shouldEnsureThatGradleSettingsCanParseFormat4() throws IOException {
+    void shouldEnsureThatGradleSettingsCanParseFormat4() {
         FileSystem factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[] {
                     PATH_PREFIX_GRADLE + ModuleDetector.SETTINGS_GRADLE,
@@ -348,11 +345,10 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIgnoreGradleFileWithNoParentPath() {
-        FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
-                    ModuleDetector.BUILD_GRADLE,
-            });
-        });
+        FileSystem factory = createFileSystemStub(stub ->
+                when(stub.find(any(), anyString())).thenReturn(new String[] {
+                        ModuleDetector.BUILD_GRADLE,
+                }));
 
         ModuleDetector detector = new ModuleDetector(ROOT_ABSOLUTE, factory);
         assertThat(detector.guessModuleName("build/reports/something.txt"))

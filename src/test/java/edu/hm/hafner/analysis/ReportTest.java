@@ -29,6 +29,7 @@ import static java.util.Arrays.*;
  * @author Marcel Binder
  * @author Ullrich Hafner
  */
+@SuppressFBWarnings("PMD.GodClass")
 class ReportTest extends SerializableTest<Report> {
     private static final String SERIALIZATION_NAME = "report.ser";
 
