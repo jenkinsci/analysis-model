@@ -113,7 +113,7 @@ public class ModuleDetector {
         return mapping;
     }
 
-    private void collectAntProjects(final Map<String, String> mapping, final String[] projects) {
+    private void collectAntProjects(final Map<String, String> mapping, final String... projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(ANT_PROJECT)) {
                 addMapping(mapping, fileName, ANT_PROJECT, parseBuildXml(fileName));
@@ -121,7 +121,7 @@ public class ModuleDetector {
         }
     }
 
-    private void collectMavenProjects(final Map<String, String> mapping, final String[] projects) {
+    private void collectMavenProjects(final Map<String, String> mapping, final String... projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(MAVEN_POM)) {
                 addMapping(mapping, fileName, MAVEN_POM, parsePom(fileName));
@@ -129,7 +129,7 @@ public class ModuleDetector {
         }
     }
 
-    private void collectGradleProjects(final Map<String, String> mapping, final String[] projects) {
+    private void collectGradleProjects(final Map<String, String> mapping, final String... projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(BUILD_GRADLE) || fileName.endsWith(BUILD_GRADLE_KTS)) {
                 addMapping(mapping, fileName, BUILD_GRADLE, parseGradle(fileName));
@@ -140,7 +140,7 @@ public class ModuleDetector {
         }
     }
 
-    private void collectOsgiProjects(final Map<String, String> mapping, final String[] projects) {
+    private void collectOsgiProjects(final Map<String, String> mapping, final String... projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(OSGI_BUNDLE)) {
                 addMapping(mapping, fileName, OSGI_BUNDLE, parseManifest(fileName));
@@ -255,8 +255,7 @@ public class ModuleDetector {
         String name = null;
 
         try (InputStream input = factory.open(settingsFile);
-                Scanner scan = new Scanner(input, "UTF-8")
-        ) {
+                Scanner scan = new Scanner(input, "UTF-8")) {
             while (scan.hasNextLine()) {
                 String line = scan.findInLine(RE_GRADLE_SET_PROJECT_NAME);
 
