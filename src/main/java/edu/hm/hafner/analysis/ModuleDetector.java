@@ -10,9 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
@@ -40,12 +43,33 @@ public class ModuleDetector {
     static final String MAVEN_POM = "pom.xml";
     static final String ANT_PROJECT = "build.xml";
     static final String OSGI_BUNDLE = "META-INF/MANIFEST.MF";
+    static final String BUILD_GRADLE = "build.gradle";
+    static final String BUILD_GRADLE_KTS = "build.gradle.kts";
+    static final String SETTINGS_GRADLE = "settings.gradle";
+    static final String SETTINGS_GRADLE_KTS = "settings.gradle.kts";
 
     private static final String PATTERN = ALL_DIRECTORIES + MAVEN_POM
             + PLUS + ALL_DIRECTORIES + ANT_PROJECT
-            + PLUS + ALL_DIRECTORIES + OSGI_BUNDLE;
+            + PLUS + ALL_DIRECTORIES + OSGI_BUNDLE
+            + PLUS + ALL_DIRECTORIES + BUILD_GRADLE
+            + PLUS + ALL_DIRECTORIES + BUILD_GRADLE_KTS
+            + PLUS + ALL_DIRECTORIES + SETTINGS_GRADLE
+            + PLUS + ALL_DIRECTORIES + SETTINGS_GRADLE_KTS;
     static final String PLUGIN_PROPERTIES = "plugin.properties";
     static final String BUNDLE_PROPERTIES = "OSGI-INF/l10n/bundle.properties";
+
+    /**
+     * Detects variations of {@code rootProject.setName($string)}, as well as the Groovy setter shorthand
+     * {@code rootProject.name = $string}.
+     *
+     * @implNote This expression does not guarantee matching left/right quotes or parentheses. For example, it will
+     * match {@code 'Name"}, even though that is not valid Groovy or Kotlin syntax. Similarly, in allowing for Groovy's
+     * parentheses-optional syntax for {@code setName $string}, this pattern makes both open and close parentheses
+     * optional, rather than requiring neither or both, so it will parse an open parenthesis without a matching close,
+     * and vice versa.
+     */
+    private static final Pattern RE_GRADLE_SET_PROJECT_NAME =
+            Pattern.compile("^\\s*rootProject\\.(name\\s*=|setName\\(?)\\s*['\"]([^'\"]*)['\"]\\)?");
 
     /** The factory to create input streams with. */
     private final FileSystem factory;
@@ -81,23 +105,47 @@ public class ModuleDetector {
         Map<String, String> mapping = new HashMap<>();
 
         String[] projects = find(workspace);
+        collectAntProjects(mapping, projects);
+        collectMavenProjects(mapping, projects);
+        collectGradleProjects(mapping, projects);
+        collectOsgiProjects(mapping, projects);
+
+        return mapping;
+    }
+
+    private void collectAntProjects(final Map<String, String> mapping, final String[] projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(ANT_PROJECT)) {
                 addMapping(mapping, fileName, ANT_PROJECT, parseBuildXml(fileName));
             }
         }
+    }
+
+    private void collectMavenProjects(final Map<String, String> mapping, final String[] projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(MAVEN_POM)) {
                 addMapping(mapping, fileName, MAVEN_POM, parsePom(fileName));
             }
         }
+    }
+
+    private void collectGradleProjects(final Map<String, String> mapping, final String[] projects) {
+        for (String fileName : projects) {
+            if (fileName.endsWith(BUILD_GRADLE) || fileName.endsWith(BUILD_GRADLE_KTS)) {
+                addMapping(mapping, fileName, BUILD_GRADLE, parseGradle(fileName));
+            }
+            else if (fileName.endsWith(SETTINGS_GRADLE) || fileName.endsWith(SETTINGS_GRADLE_KTS)) {
+                addMapping(mapping, fileName, SETTINGS_GRADLE, parseGradleSettings(fileName));
+            }
+        }
+    }
+
+    private void collectOsgiProjects(final Map<String, String> mapping, final String[] projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(OSGI_BUNDLE)) {
                 addMapping(mapping, fileName, OSGI_BUNDLE, parseManifest(fileName));
             }
         }
-
-        return mapping;
     }
 
     private void addMapping(final Map<String, String> mapping, final String fileName, final String suffix,
@@ -179,6 +227,52 @@ public class ModuleDetector {
             // ignore
         }
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * Returns the project name estimated from the build.gradle file path.
+     *
+     * @param buildScript
+     *         Gradle build.gradle file path
+     *
+     * @return the project name or an empty string if the name could not be resolved
+     */
+    private String parseGradle(final String buildScript) {
+        String basePath = FilenameUtils.getPathNoEndSeparator(buildScript);
+        String parentDirName = FilenameUtils.getName(basePath);
+        return StringUtils.trimToEmpty(parentDirName);
+    }
+
+    /**
+     * Returns the root project name from the settings.gradle file.
+     *
+     * @param settingsFile
+     *         Gradle settings.gradle file path
+     *
+     * @return the root project override, or an empty string if the name could not be resolved
+     */
+    private String parseGradleSettings(final String settingsFile) {
+        String name = null;
+
+        try (InputStream input = factory.open(settingsFile);
+                Scanner scan = new Scanner(input, "UTF-8")
+        ) {
+            while (scan.hasNextLine()) {
+                String line = scan.findInLine(RE_GRADLE_SET_PROJECT_NAME);
+
+                if (line != null) {
+                    name = scan.match().group(2);
+                    break;
+                }
+
+                scan.nextLine();
+            }
+        }
+        catch (IOException | InvalidPathException ignored) {
+            // ignore
+        }
+
+        return StringUtils.defaultIfBlank(name, StringUtils.EMPTY);
     }
 
     /**
