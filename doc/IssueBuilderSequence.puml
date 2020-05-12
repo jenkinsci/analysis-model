@@ -1,0 +1,25 @@
+
+@startuml
+
+title IssueBuilder Sequenzdiagramm
+
+participant IssueBuilderTest
+activate IssueBuilderTest
+
+create IssueBuilder
+IssueBuilderTest -> IssueBuilder : new
+activate IssueBuilder
+
+IssueBuilderTest -> IssueBuilder : setFileName("FileName")
+IssueBuilderTest -> IssueBuilder : setLineStart(0)
+IssueBuilderTest -> IssueBuilder : build()
+
+create Issue
+IssueBuilder -> Issue : new (..., "FileName", 0, ...)
+activate Issue
+
+Issue -> IssueBuilder : Issue
+IssueBuilder -> IssueBuilderTest : Issue
+
+
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+title IssueFilterBuilder
+
+Report o-- Issue
+IssueFilterTest ..> Report : <<creates>>
+Report <..  IssueFilterBuilder : stellt Predicates zum Filtern von Issues zur Verfügung
+
+
+@enduml

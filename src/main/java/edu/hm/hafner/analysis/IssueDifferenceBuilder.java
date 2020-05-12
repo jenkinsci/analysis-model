@@ -1,36 +1,66 @@
 package edu.hm.hafner.analysis;
 
+/**
+ * Builderclass for {@link IssueDifference}.
+ * There are no default properties. One can change the properties by using the Fluent Interface.
+ *
+ * <pre>{@code
+ * IssueDifference issuediff = new IssueDifferenceBuilder()
+ *                      .setCurrentIssues(new Report())
+ *                      .setReferenceId("15218")
+ *                      .setReferenceIssues(new Report())
+ *                      .build();
+ * }</pre>
+ *
+ * @author Daniel Soukup
+ */
+
 public class IssueDifferenceBuilder {
     private Report currentIssues;
     private String referenceId;
     private Report referenceIssues;
 
-    public IssueDifferenceBuilder(final Report currentIssues, final String referenceId, final Report referenceIssues) {
-        this.currentIssues = currentIssues;
-        this.referenceId = referenceId;
-        this.referenceIssues = referenceIssues;
-    }
-
-    public IssueDifferenceBuilder() {
-
-    }
-
+    /**
+     * Sets the Report for the current Issues.
+     *
+     * @param currentIssues
+     *         the Report with the current Issues
+     * @return this
+     */
     public IssueDifferenceBuilder setCurrentIssues(final Report currentIssues) {
         this.currentIssues = currentIssues.copy();
         return this;
     }
 
+    /**
+     * Sets the Report for the reference Issues.
+     *
+     * @param referenceIssues
+     *         the Report with the Issues to compare with the current one
+     * @return this
+     */
     public IssueDifferenceBuilder setReferenceIssues(final Report referenceIssues) {
         this.referenceIssues = referenceIssues.copy();
         return this;
     }
 
+    /**
+     * Sets the identifying number of the IssueDifference.
+     *
+     * @param referenceId
+     *         the identifying number
+     * @return this
+     */
     public IssueDifferenceBuilder setReferenceId(final String referenceId) {
         this.referenceId = referenceId;
         return this;
     }
 
-    public IssueDifference build(){
+    /**
+     * Creates a new {@link IssueDifference} Object based on the defined properties.
+     * @return the created IssueDifference Object
+     */
+    public IssueDifference build() {
         return new IssueDifference(currentIssues, referenceId, referenceIssues);
     }
 }
