@@ -63,7 +63,7 @@ public class IssueDifferenceBuilder {
      * @return the created IssueDifference Object
      */
     public IssueDifference build() {
-        if (currentIssues == null || referenceId == null || referenceIssues == null) {
+        if (currentIssues == null || referenceIssues == null || referenceId == null) {
             throw new IllegalStateException("Unable to build IssueDifference before all properties are defined");
         }
         return new IssueDifference(currentIssues, referenceId, referenceIssues);
