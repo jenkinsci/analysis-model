@@ -2,7 +2,9 @@ package edu.hm.hafner.analysis;
 
 /**
  * Builderclass for {@link IssueDifference}.
- * There are no default properties. One can change the properties by using the Fluent Interface.
+ * There are no default properties. build() throws an IllegalStateException,
+ * if it gets called without all properties beeing assigned before.
+ * One can change the properties by using the Fluent Interface.
  *
  * <pre>{@code
  * IssueDifference issuediff = new IssueDifferenceBuilder()
@@ -61,6 +63,9 @@ public class IssueDifferenceBuilder {
      * @return the created IssueDifference Object
      */
     public IssueDifference build() {
+        if (currentIssues == null || referenceId == null || referenceIssues == null) {
+            throw new IllegalStateException("Unable to build IssueDifference before all properties are defined");
+        }
         return new IssueDifference(currentIssues, referenceId, referenceIssues);
     }
 }
