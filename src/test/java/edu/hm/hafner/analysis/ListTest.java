@@ -1,71 +1,83 @@
 package edu.hm.hafner.analysis;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+/**
+ * Abstract Test Factory for List Implementations.
+ *
+ * @author Daniel Soukup
+ *
+ */
+abstract class ListTest {
 
-public abstract class ListTest {
-
+    /**
+     * Creates the concrete List.
+     * @param numberOfInitalElements
+     *         The size of the list at creation
+     * @return the concrete List
+     */
     public abstract List<Integer> create(int numberOfInitalElements);
 
     @Test
-    void shouldBeEmpty(){
-        List<Integer> SUT = create(0);
+    void shouldBeEmpty() {
+        List<Integer> sut = create(0);
 
-        assertThat(SUT)
-                .isEmpty();
+        assertThat(sut).hasSize(0);
     }
 
     @Test
-    void shouldBeSizeOf5(){
-        List<Integer> SUT = create(0);
+    void shouldBeSizeOf5() {
+        List<Integer> sut = create(0);
 
-        SUT.add(10);
-        SUT.add(10);
-        SUT.add(10);
-        SUT.add(10);
-        SUT.add(10);
+        sut.add(10);
+        sut.add(10);
+        sut.add(10);
+        sut.add(10);
+        sut.add(10);
 
-        assertThat(SUT)
-                .hasSize(5);
+        assertThat(sut).hasSize(5).contains(10);
+    }
+
+    @Test
+    void shouldBeSizeOf8() {
+        List<Integer> sut = create(8);
+
+        assertThat(sut).hasSize(8);
     }
 
 
     @Test
-    void shouldBeEmptyAfterAddingAndRemovingTen(){
-        List<Integer> SUT = create(0);
+    void shouldBeEmptyAfterAddingAndRemovingTen() {
+        List<Integer> sut = create(0);
 
-        SUT.add(10);
-        SUT.remove(0);
+        sut.add(10);
+        sut.remove(0);
 
-        assertThat(SUT)
-                .isEmpty();
+        assertThat(sut).isEmpty();
     }
 
     @Test
-    void shouldContain10(){
-        List<Integer> SUT = create(0);
+    void shouldContain10() {
+        List<Integer> sut = create(0);
 
-        SUT.add(10);
-        SUT.add(10);
-        SUT.remove(0);
+        sut.add(10);
+        sut.add(10);
+        sut.remove(0);
 
-        assertThat(SUT)
-                .contains(10);
+        assertThat(sut).contains(10);
     }
 
     @Test
-    void shouldBe5(){
-        List<Integer> SUT = create(0);
+    void shouldBe5() {
+        List<Integer> sut = create(0);
 
-        SUT.add(10);
-        SUT.add(5);
-        SUT.remove(0);
+        sut.add(10);
+        sut.add(5);
+        sut.remove(0);
 
-        assertThat(SUT.get(0))
-                .isEqualTo(5);
+        assertThat(sut.get(0)).isEqualTo(5);
     }
 
 }

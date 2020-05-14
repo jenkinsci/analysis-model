@@ -1,13 +1,15 @@
 @startuml
 
+title Factory Pattern Klassendiagramm
+
 class LineRange
 class LineRangeTest
 interface Serializable
-abstract class "SerializableTest<LineRange>"
+abstract class SerializableTest
 
-LineRange --|> Serializable
-LineRange <|-- "SerializableTest<LineRange>" : <<createSerializable>>
-"SerializableTest<LineRange>" <|-- LineRangeTest : <<extends>>
-"SerializableTest<LineRange>" --|> Serializable
+SerializableTest <|-- LineRangeTest : <<extends>>
+LineRange ..|> Serializable : <<implements>>
+LineRangeTest ..> LineRange : <<tests>>
+Serializable <|.. SerializableTest : <<creates>>
 
 @enduml

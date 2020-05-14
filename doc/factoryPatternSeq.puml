@@ -1,15 +1,26 @@
 @startuml
 
-SerializableTest -> LineRangeTest: createSerializable()
-LineRangeTest -> SerializableTest: LineRange
+title Factory Pattern Sequenzdiagramm
 
-SerializableTest -> LineRangeTest: createSerializable()
-LineRangeTest -> SerializableTest: LineRange
+participant User
+activate User
 
-SerializableTest -> LineRangeTest: createSerializable()
-LineRangeTest -> SerializableTest: LineRange
+User -> LineRangeTest : start Test
+activate LineRangeTest
 
-SerializableTest -> LineRangeTest: createSerializable()
-LineRangeTest -> SerializableTest: LineRange
+create SerializableTest
+LineRangeTest -> SerializableTest : start Test
+SerializableTest -> LineRangeTest : createSerializable()
+
+create LineRange
+LineRangeTest -> LineRange : new
+activate LineRange
+LineRange --> LineRangeTest : LineRange
+LineRangeTest --> SerializableTest : LineRange
+
+SerializableTest -> LineRangeTest : Result
+LineRangeTest -> User : Result
+
+
 
 @enduml
