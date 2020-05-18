@@ -249,6 +249,7 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
+          <versionFormat>[0-9.]*</versionFormat>
           <analysisConfiguration>
             <revapi.ignore>
               <item>
