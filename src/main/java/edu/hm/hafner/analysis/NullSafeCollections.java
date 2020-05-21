@@ -4,22 +4,54 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class NullSafeCollections<T> {
+/**
+ * Utility class for the creation of null safe collections.
+ *
+ * @author Daniel Soukup
+ */
+public abstract class NullSafeCollections {
 
-	
-	public static <T> List<T> emptyNullSafeList(){
-		return new NullSafeList<>(new ArrayList<>());
-	}
+    /**
+     * Returns a new NullSafeList.
+     *
+     * @param list
+     *         the delegate list
+     * @param <T>
+     *         type of element the list stores
+     * @return the created NullSafeList
+     */
+    public static <T> List<T> nullSafeList(final List<T> list) {
+        return new NullSafeList<>(list);
+    }
 
-	public static <T> List<T> NullSafeList(final int initialCapacity){
-		return new NullSafeList<>(new ArrayList<>(initialCapacity));	
-	}
+    /**
+     * Returns a new empty NullSafeList with given initialCapacity.
+     *
+     * @param initialCapacity
+     *         the initial Capacity of the delegate ArrayList
+     * @param <T>
+     *         type of element the list stores
+     * @return the created NullSafeList
+     */
+    public static <T> List<T> nullSafeList(final int initialCapacity) {
+        return new NullSafeList<>(new ArrayList<>(initialCapacity));
+    }
 
-	public static <T> List<T> copyNullSafeList(final Collection<? extends T> that){
-		final List<T> resultList = emptyNullSafeList();
-		resultList.addAll(that);		
-		return resultList;	
-	}
-
+    /**
+     * Copies a collection into a newly created NullSafeList.
+     *
+     * @param list
+     *         the delegate list
+     * @param that
+     *         the collection the values are copied from
+     * @param <T>
+     *         type of element the list stores
+     * @return the created NullSafeList
+     */
+    public static <T> List<T> nullSafeList(final List<T> list, final Collection<? extends T> that) {
+        NullSafeList<T> resultList = new NullSafeList<>(list);
+        resultList.addAll(that);
+        return resultList;
+    }
 
 }
