@@ -49,11 +49,12 @@ class ReportPrinterTest extends ResourceTest {
     void shouldPrintAllIssuesToPrintStream() {
         Report report = readCheckStyleReport();
 
-        PrintStream printStream = mock(PrintStream.class);
-        report.print(new StandardOutputPrinter(printStream));
+        try (PrintStream printStream = mock(PrintStream.class)) {
+            report.print(new StandardOutputPrinter(printStream));
 
-        for (Issue issue : report) {
-            verify(printStream).println(issue.toString());
+            for (Issue issue : report) {
+                verify(printStream).println(issue.toString());
+            }
         }
     }
 

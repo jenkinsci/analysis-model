@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <relativePath />
   </parent>
 
@@ -54,7 +54,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>8.1.0</revision>
+    <revision>8.1.4</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
@@ -74,7 +74,7 @@
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>1.7.30</slf4j.version>
-    <violations-lib.version>1.113</violations-lib.version>
+    <violations-lib.version>1.116</violations-lib.version>
     <json.version>20190722</json.version>
 
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
@@ -249,6 +249,7 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
+          <versionFormat>[0-9.]*</versionFormat>
           <analysisConfiguration>
             <revapi.ignore>
               <item>
