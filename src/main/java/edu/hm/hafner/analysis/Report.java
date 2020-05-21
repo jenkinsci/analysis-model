@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -842,35 +843,43 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Using the Adapter Pattern to log issues to Java Util Logging.
+     * An adapter to log an {@link Issue} with the Java util logger.
      *
-     * @author soukup
+     * @author Daniel Soukup
      */
     public static class JULAdapter implements IssuePrinter {
 
-        /** The Logger instance. */
         private final Logger logger;
 
         /**
-         * Creates a new Printer that logs to Java Util Logging.
+         * Constructor for a new Printer that logs to Java Util Logging.
+         *
+         * @param logger
+         *         the logging object
          */
         @VisibleForTesting
         JULAdapter(final Logger logger) {
+            Objects.requireNonNull(logger);
             this.logger = logger;
         }
 
+        /**
+         * Prints the Issue to the Logger.
+         * @param issue
+         *         the Issue that needs to be printed
+         */
         @Override
         public void print(final Issue issue) {
-            logger.log(fromSeverityToLevel(issue.getSeverity()), issue.toString());
+            logger.log(severityToLevel(issue.getSeverity()), issue.toString());
         }
 
-        private Level fromSeverityToLevel(final Severity severity) {
+        private Level severityToLevel(final Severity severity) {
             final Level level;
 
             if (severity.equals(Severity.ERROR)) {
                 level = Level.SEVERE;
             }
-            else if(severity.equals(Severity.WARNING_HIGH)) {
+            else if (severity.equals(Severity.WARNING_HIGH)) {
                 level = Level.WARNING;
             }
             else if (severity.equals(Severity.WARNING_NORMAL)) {
@@ -879,28 +888,34 @@ public class Report implements Iterable<Issue>, Serializable {
             else {
                 level = Level.FINE;
             }
+
             return level;
         }
     }
 
     /**
-     * Using the Adapter Pattern to log issues to Simple Logging Facade for Java(SLF4J).
+     * An adapter to log an {@link Issue} with the Simple Logging Facade for Java - SLF4J.
      *
-     * @author soukup
+     * @author Daniel Soukup
      */
     public static class SLF4JAdapter implements IssuePrinter {
 
-        /** The logger instance. */
         private final org.slf4j.Logger logger;
 
         /**
-         * Creates a new Printer that logs to Simple Logging Facade for Java(SLF4J).
+         * Creates a new Printer that logs to the Simple Logging Facade for Java(SLF4J).
          */
         @VisibleForTesting
         SLF4JAdapter(final org.slf4j.Logger logger) {
+            Objects.requireNonNull(logger);
             this.logger = logger;
         }
 
+        /**
+         * Prints the Issue to the Logger.
+         * @param issue
+         *         the Issue that needs to be printed
+         */
         @Override
         public void print(final Issue issue) {
             if (issue.getSeverity().equals(Severity.ERROR)) {
