@@ -50,7 +50,7 @@ import static java.util.stream.Collectors.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass"})
+@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CyclomaticComplexity"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
     private static final long serialVersionUID = 2L; // release 8.0.0
@@ -812,6 +812,12 @@ public class Report implements Iterable<Issue>, Serializable {
      * Prints a summary of an {@link Issue}.
      */
     public interface IssuePrinter {
+        /**
+         * Prints the specified issue.
+         *
+         * @param issue
+         *         the issue to print
+         */
         void print(Issue issue);
     }
 
