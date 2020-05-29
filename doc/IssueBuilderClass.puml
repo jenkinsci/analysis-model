@@ -1,0 +1,18 @@
+@startuml
+
+title LineRangeBuilder
+
+hide circle
+
+
+
+class LineRangeBuilder{}
+
+class LineRangeBuilderTest{}
+
+class LineRange{}
+
+LineRangeBuilderTest "1" -->  "0" LineRangeBuilder : calls
+LineRangeBuilder "1" --> "0"  LineRange : builds
+
+@enduml

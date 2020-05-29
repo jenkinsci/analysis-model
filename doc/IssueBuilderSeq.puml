@@ -1,0 +1,25 @@
+@startuml
+
+title LineRangeBuilder sequence diagramm
+
+
+create LineRangeBuilderTest
+activate LineRangeBuilderTest
+
+create LineRangeBuilder
+LineRangeBuilderTest -> LineRangeBuilder : new
+activate LineRange
+
+LineRangeBuilderTest -> LineRangeBuilder : setStart(int start)
+LineRangeBuilderTest -> LineRangeBuilder : setEnd(int end)
+LineRangeTest -> LineRangeBuilder : build()
+
+create LineRange
+LineRangeBuilder -> LineRange : new (int start, int end)
+activate LineRange
+
+LineRange -> LineRangeBuilder : LineRange
+LineRangeBuilder -> LineRangeBuilderTest : LineRange
+
+
+@enduml
