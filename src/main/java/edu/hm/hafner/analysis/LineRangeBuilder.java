@@ -1,5 +1,8 @@
 package edu.hm.hafner.analysis;
 
+/**
+ * Builder for lineRange.
+ */
 public class LineRangeBuilder {
 
     /**
@@ -29,10 +32,10 @@ public class LineRangeBuilder {
     private int end;
 
     /**
-     * builder for lineRange
+     * builder for lineRange.
      * @return new LineRange object.
      */
     public LineRange build() {
-        return new LineRange(start,end);
+        return new LineRange(start, end);
     }
 }
