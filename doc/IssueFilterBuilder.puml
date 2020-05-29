@@ -1,0 +1,21 @@
+@startuml
+
+title IssueFilterBuilder
+
+title IssueBuilder
+hide circle
+skinparam class{
+    BorderColor black
+}
+
+class IssueFilterTest{}
+class Issue{}
+class IssueFilterBuilder{}
+class Report{}
+
+Report <-- Issue
+IssueFilterTest ...> Report : erstellt
+Report <--  IssueFilterBuilder
+
+
+@enduml

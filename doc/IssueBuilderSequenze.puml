@@ -1,0 +1,35 @@
+@startuml
+
+title IssueBuilder Sequenzdiagramm
+
+hide circle
+skinparam BorderColor black
+skinparam sequence {
+LifeLineBackgroundColor #A9DCDF
+}
+
+activate IssueBuilderTest
+
+create IssueBuilder
+IssueBuilderTest -> IssueBuilder : new
+activate IssueBuilder
+
+
+
+
+IssueBuilderTest -> IssueBuilder : setLineStart(10)
+
+IssueBuilderTest -> IssueBuilder : setFileName("TestName")
+
+IssueBuilderTest -> IssueBuilder : build()
+
+
+create Issue
+IssueBuilder -> Issue : new ("TestName", 10)
+activate Issue
+
+Issue -> IssueBuilder : Issue
+IssueBuilder -> IssueBuilderTest : Issue
+
+
+@enduml

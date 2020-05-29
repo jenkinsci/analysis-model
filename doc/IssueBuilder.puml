@@ -1,0 +1,19 @@
+@startuml
+
+title IssueBuilder
+hide circle
+skinparam class{
+    BorderColor black
+}
+
+class IssueBuilder{}
+
+class IssueBuilderTest{}
+
+class Issue{}
+
+
+Issue "*" <-- "1" IssueBuilder : erstellt
+IssueBuilderTest "1" ->  "*" IssueBuilder : ruft auf >
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+
+title IssueFilterBuilder Sequenzdiagramm
+
+hide circle
+skinparam BorderColor black
+skinparam sequence {
+LifeLineBackgroundColor #A9DCDF
+}
+
+participant IssueFilterTest
+activate IssueFilterTest
+
+create IssueFilterBuilder
+IssueFilterTest -> IssueFilterBuilder : new
+activate IssueFilterBuilder
+
+IssueFilterTest -> IssueFilterBuilder : setIncludeFileNameFilter("Filename")
+IssueFilterTest -> IssueFilterBuilder : setExcludeMessageFilter("Message")
+IssueFilterTest -> IssueFilterBuilder : build()
+IssueFilterBuilder -> IssueFilterTest : Predicate<Issue>
+
+@enduml
