@@ -16,7 +16,7 @@ public class LineRangeBuilder {
 
     /**
      *
-     * Setter for end value.
+     * Setter for end point.
      * @param end point.
      *
      */
