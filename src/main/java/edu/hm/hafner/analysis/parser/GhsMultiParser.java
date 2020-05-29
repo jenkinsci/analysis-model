@@ -24,7 +24,7 @@ public class GhsMultiParser extends LookaheadParser {
      * Start of message.
      */
     private static final String GHS_MULTI_WARNING_PATTERN =
-            "\"(.*)\"\\,\\s*line\\s*(\\d+):\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)";
+            "\"(.*)\"\\,\\s*line\\s*(\\d+)(?:\\s+\\(col\\.\\s*(\\d+)\\))?:\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)";
 
     /** Regex Pattern to match the ending of the Warning / Error Message. */
     private static final String MESSAGE_END_REGEX = "\\s*\\^";
@@ -39,14 +39,24 @@ public class GhsMultiParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = StringUtils.capitalize(matcher.group(3));
-        String messageStart = matcher.group(5);
+        String type = StringUtils.capitalize(matcher.group(4));
+        String messageStart = matcher.group(6);
 
         String message = extractMessage(messageStart, lookahead);
 
+        if (StringUtils.isNotBlank(matcher.group(3))) {
+            return builder.setFileName(matcher.group(1))
+                    .setLineStart(matcher.group(2))
+                    .setColumnStart(matcher.group(3))
+                    .setCategory(matcher.group(5))
+                    .setMessage(message)
+                    .setSeverity(Severity.guessFromString(type))
+                    .buildOptional();
+        }
+
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
-                .setCategory(matcher.group(4))
+                .setCategory(matcher.group(5))
                 .setMessage(message)
                 .setSeverity(Severity.guessFromString(type))
                 .buildOptional();
