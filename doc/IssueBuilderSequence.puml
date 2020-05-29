@@ -1,7 +1,31 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+title IssueBuilder sequence diagramm
+
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam classFontSize 22
+skinparam defaultFontSize 18
+skinparam classFontName Arial
+skinparam arrowColor black
+
+create IssueBuilderTest
+activate IssueBuilderTest
+
+create IssueBuilder
+IssueBuilderTest -> IssueBuilder : new()
+activate IssueBuilder
+
+IssueBuilderTest -> IssueBuilder : setFileName("name")
+IssueBuilderTest -> IssueBuilder : setLineStart(x)
+IssueBuilderTest -> IssueBuilder : build()
+
+create Issue
+IssueBuilder -> Issue : new (..., "fileName", x, ...)
+activate Issue
+
+Issue -> IssueBuilder : Issue
+IssueBuilder -> IssueBuilderTest : Issue
+
+
 @enduml

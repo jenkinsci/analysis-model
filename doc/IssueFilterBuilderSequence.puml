@@ -1,0 +1,25 @@
+@startuml
+
+title IssueFilterBuilder sequence diagram
+
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam classFontSize 22
+skinparam defaultFontSize 18
+skinparam classFontName Arial
+skinparam arrowColor black
+
+create IssueFilterTest
+participant IssueFilterTest
+activate IssueFilterTest
+
+create IssueFilterBuilder
+IssueFilterTest -> IssueFilterBuilder : new()
+activate IssueFilterBuilder
+
+IssueFilterTest -> IssueFilterBuilder : setIncludeFileNameFilter("fileName")
+IssueFilterTest -> IssueFilterBuilder : setExcludeMessageFilter("message")
+IssueFilterTest -> IssueFilterBuilder : build()
+IssueFilterBuilder -> IssueFilterTest : Predicate<Issue>
+
+@enduml
