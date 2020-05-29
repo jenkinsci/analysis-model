@@ -1,0 +1,19 @@
+@startuml
+
+hide circle
+
+class LineRange {}
+class SerializableTest<LineRange> {}
+interface Serializable {}
+class LineRangeTest {}
+
+Serializable <|-- "implements" LineRange
+SerializableTest <|-- "extends" LineRangeTest
+
+Serializable -> SerializableTest
+SerializableTest "1" -> "1" LineRangeTest
+LineRangeTest "1" -> "*" LineRange
+
+
+
+@enduml
