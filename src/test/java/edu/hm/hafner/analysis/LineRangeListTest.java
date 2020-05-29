@@ -15,7 +15,12 @@ class LineRangeListTest {
     @Test
     void shouldStoreBigValues() {
         LineRangeList list = new LineRangeList();
-        LineRange range = new LineRange(1350, Integer.MAX_VALUE);
+
+        LineRangeBuilder builder = new LineRangeBuilder();
+        builder.setStart(0);
+        builder.setEnd(Integer.MAX_VALUE);
+        LineRange range = builder.build();
+
         list.add(range);
         assertThat(list).containsExactly(range);
     }
@@ -23,7 +28,12 @@ class LineRangeListTest {
     @Test
     void shouldStoreRangeWithOneLines() {
         LineRangeList list = new LineRangeList();
-        LineRange range = new LineRange(0, 0);
+
+        LineRangeBuilder builder = new LineRangeBuilder();
+        builder.setStart(0);
+        builder.setEnd(0);
+        LineRange range = builder.build();
+
         list.add(range);
         assertThat(list).containsExactly(range);
     }
@@ -31,7 +41,12 @@ class LineRangeListTest {
     @Test
     void shouldStoreRangeWithTwoLines() {
         LineRangeList list = new LineRangeList();
-        LineRange range = new LineRange(128, 129);
+
+        LineRangeBuilder builder = new LineRangeBuilder();
+        builder.setStart(128);
+        builder.setEnd(129);
+        LineRange range = builder.build();
+
         list.add(range);
         assertThat(list).containsExactly(range);
     }
@@ -39,12 +54,20 @@ class LineRangeListTest {
     @Test
     void shouldSupportSetOperations() {
         LineRangeList list = new LineRangeList();
-        LineRange range = new LineRange(1, 2);
+
+        LineRangeBuilder builder = new LineRangeBuilder();
+        builder.setStart(1);
+        builder.setEnd(2);
+
+        LineRange range = builder.build();
         list.add(range);
 
         assertThat(list.get(0)).isEqualTo(range);
         assertThat(list.get(0)).isNotSameAs(range);
         assertThat(list).hasSize(1);
+
+        builder.setStart(3);
+        builder.setEnd(4);
 
         LineRange other = new LineRange(3, 4);
         assertThat(list.set(0, other)).isEqualTo(range);
@@ -56,12 +79,19 @@ class LineRangeListTest {
         assertThat(list).hasSize(0);
     }
 
+
+
     /** Tests the internal buffer resize operation. */
     @Test
     void shouldResizeCorrectly() {
         LineRangeList list = new LineRangeList();
+
+        LineRangeBuilder builder = new LineRangeBuilder();
+
         for (int i = 0; i < 100; i++) {
-            list.add(new LineRange(i * 2, i * 2 + 1));
+            builder.setStart(i * 2);
+            builder.setEnd(i * 2 + 1);
+            list.add(builder.build());
         }
         list.trim();
         assertThat(list).hasSize(100);
@@ -98,9 +128,22 @@ class LineRangeListTest {
 
     private LineRangeList createThreeElements() {
         LineRangeList range = new LineRangeList();
-        range.add(new LineRange(0, 1));
-        range.add(new LineRange(2, 3));
-        range.add(new LineRange(4, 5));
+
+        LineRangeBuilder builder = new LineRangeBuilder();
+        builder.setEnd(1);
+        builder.setStart(0);
+
+        range.add(builder.build());
+
+        builder.setEnd(3);
+        builder.setStart(2);
+        range.add(builder.build());
+
+        builder.setStart(4);
+        builder.setEnd(5);
+
+        range.add(builder.build());
+
         assertThat(range).containsExactly(new LineRange(0, 1), new LineRange(2, 3), new LineRange(4, 5));
         return range;
     }

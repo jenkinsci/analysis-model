@@ -1,0 +1,27 @@
+@startuml
+
+title IssueBuilder sequence diagramm
+
+
+create IssueDifferenceBuilder
+activate IssueDifferenceBuilder
+
+create IssueDifferenceBuilder
+IssueDifferenceBuilderTest -> IssueDifferenceBuilder : new
+
+
+IssueDifferenceBuilderTest -> IssueDifferenceBuilder : setCurrentIssue(Report)
+IssueDifferenceBuilderTest -> IssueDifferenceBuilder : setReferenceID(x)
+IssueDifferenceBuilderTest -> IssueDifferenceBuilder : setReferenceIssue(Report)
+
+IssueDifferenceBuilderTest -> IssueDifferenceBuilder : build()
+
+create IssueDifference
+IssueDifferenceBuilder -> IssueDifference : new (Report, x, Report)
+IssueDifference -> IssueDifferenceBuilder : IssueDifference
+activate IssueDifferenceBuilderTest
+
+IssueDifferenceBuilder -> IssueDifferenceBuilderTest : IssueDifference
+
+
+@enduml

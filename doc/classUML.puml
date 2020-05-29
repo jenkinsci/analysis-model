@@ -1,0 +1,18 @@
+@startuml
+
+title IssueDifferenceBuilder
+
+hide circle
+
+
+
+class IssueDifferenceBuilder{}
+
+class IssueDifferenceBuilder{}
+
+class IssueDifference{}
+
+IssueDifferenceBuilderTest "1" -->  "*" IssueDifferenceBuilder : calls
+IssueDifferenceBuilder "1" --> "*"  IssueDifference : builds
+
+@enduml
