@@ -1,0 +1,26 @@
+@startuml
+
+title sequenz Chart
+
+create LineRange
+activate LineRange
+
+create LineRangeTest
+activate LineRangeTest
+
+
+create Serializable
+activate Serializable
+
+create SerializableTestLineRange
+activate SerializableTestLineRange
+
+
+LineRangeTest -> SerializableTestLineRange : \t \t \t \tcreateSerializable
+SerializableTestLineRange -> Serializable : new Serializable<LineRange>()
+
+Serializable -> LineRange : new Serializable() of LineRange
+LineRangeTest -> LineRange : new LineRange() (tests)
+
+
+@enduml

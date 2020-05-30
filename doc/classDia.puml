@@ -1,0 +1,22 @@
+@startuml
+
+title dependency of LineRangeTest
+
+hide circle
+
+class SerializableTest {}
+
+class LineRangeTest {}
+
+class SerializableTest {}
+
+class LineRange {}
+
+class Serializable {}
+
+Serializable <- SerializableTest
+SerializableTest <|-- LineRangeTest
+Serializable "1" -> "*" LineRange
+
+LineRangeTest "1" -> "*" LineRange
+@enduml
