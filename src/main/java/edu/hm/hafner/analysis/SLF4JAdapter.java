@@ -1,5 +1,33 @@
 package edu.hm.hafner.analysis;
 
-public class SLF4JAdapter {
+import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.util.VisibleForTesting;
 
+public class SLF4JAdapter implements IssuePrinter {
+    private static org.slf4j.Logger logger;
+
+    @VisibleForTesting
+    SLF4JAdapter(final org.slf4j.Logger logr){
+        this.logger = logr;
+    }
+
+    @Override
+    public void print(final Issue issue) {
+        Severity severity = issue.getSeverity();
+        if (Severity.ERROR.equals(severity)) {
+            logger.error(issue.toString());
+        }
+        else if (Severity.WARNING_HIGH.equals(severity)) {
+            logger.warn(issue.toString());
+        }
+        else if (Severity.WARNING_NORMAL.equals(severity)) {
+            logger.info(issue.toString());
+        }
+        else {
+            logger.trace(issue.toString());
+        }
+    }
 }
+
+
+

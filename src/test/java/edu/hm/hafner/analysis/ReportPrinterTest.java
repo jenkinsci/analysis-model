@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -64,4 +65,35 @@ class ReportPrinterTest extends ResourceTest {
     private ReaderFactory read(final String fileName) {
         return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
     }
+
+    @Test
+    void JavaUtilError(){
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.ERROR).setMessage("Severity Error").build();
+        report.add(issue);
+        IssuePrinter issuePrinter = mock(JavaUtilLoggingAdapter.class);
+    }
+
+    @Test
+    void JavaUtilWarning_High(){
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity Error").build();
+        IssuePrinter issuePrinter = mock(JavaUtilLoggingAdapter.class);
+        issuePrinter.print(issue);
+    }
+
+    @Test
+    void JavaUtilWarning_Normal(){
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_NORMAL).setMessage("Severity Error").build();
+        IssuePrinter issuePrinter = mock(JavaUtilLoggingAdapter.class);
+        issuePrinter.print(issue);
+    }
+
+    @Test
+    void JavaUtilWarning_Lock(){
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_LOW).setMessage("Severity Error").build();
+        IssuePrinter issuePrinter = mock(JavaUtilLoggingAdapter.class);
+        issuePrinter.print(issue);
+    }
+
+
 }
