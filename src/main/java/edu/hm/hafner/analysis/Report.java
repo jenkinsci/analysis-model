@@ -13,12 +13,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -27,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
+import org.slf4j.Logger;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -819,6 +822,98 @@ public class Report implements Iterable<Issue>, Serializable {
          *         the issue to print
          */
         void print(Issue issue);
+    }
+    /**
+     * LoggingAdapter for printing Issues.
+     * @author DJCoding
+     */
+    static class JULAdapter implements IssuePrinter {
+
+        /**
+         * logger object.
+         */
+        private final java.util.logging.Logger logr;
+
+        /**
+         * Creates a new Adapter with a logger.
+         * @param logger the given logger.
+         */
+        @VisibleForTesting
+        JULAdapter(final java.util.logging.Logger logger) {
+            Objects.requireNonNull(logger);
+            this.logr = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            severityToLevel(issue);
+        }
+
+        /**
+         * Extract the {@link Issue} Severity and converts to a {@link Level}.
+         * @param issue the given issue.
+         */
+        private void severityToLevel(final Issue issue) {
+            final Severity severity = issue.getSeverity();
+            Level level = null;
+            if (severity.equals(Severity.ERROR)) {
+                level = Level.SEVERE;
+            }
+            else if (severity.equals(Severity.WARNING_HIGH)) {
+                level = Level.WARNING;
+            }
+            else if (severity.equals(Severity.WARNING_NORMAL)) {
+                level = Level.INFO;
+            }
+            else if (severity.equals(Severity.WARNING_LOW)) {
+                level = Level.FINE;
+            }
+            if (level == null) {
+                throw new IllegalArgumentException();
+            }
+            logr.log(level, issue.toString());
+        }
+    }
+
+
+    static class SLF4JAdapter implements IssuePrinter {
+
+        private final org.slf4j.Logger log;
+
+        SLF4JAdapter(final org.slf4j.Logger logr) {
+            Objects.requireNonNull(logr);
+            this.log = logr;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            logIssue(issue);
+        }
+
+        /**
+         * The given {@link Logger} logs the {@link Issue}.
+         * @param issue the issue.
+         */
+        private void logIssue(final Issue issue) {
+            Severity severity = issue.getSeverity();
+            if (severity.equals(Severity.ERROR)) {
+                log.error(issue.toString());
+                return;
+            }
+            else if (severity.equals(Severity.WARNING_HIGH)) {
+                log.warn(issue.toString());
+                return;
+            }
+            else if (severity.equals(Severity.WARNING_LOW)) {
+                log.trace(issue.toString());
+                return;
+            }
+            else if (severity.equals(Severity.WARNING_NORMAL)) {
+                log.info(issue.toString());
+                return;
+            }
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
