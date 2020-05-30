@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
  */
 public abstract class ListTest {
     /**
-     *
+     * Creates a list with a chosen number of initial elements.
      * @param numberOfInitialElements
      *                              represents the number of Elements the list is initialized
      * @return new List with numberOfInitialElements elements.

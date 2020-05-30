@@ -10,7 +10,6 @@ skinparam classFontName Arial
 skinparam arrowColor black
 
 create IssueFilterTest
-participant IssueFilterTest
 activate IssueFilterTest
 
 create IssueFilterBuilder

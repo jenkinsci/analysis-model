@@ -33,11 +33,11 @@ public class IssueDifferenceBuilder {
 
     /**
      * Setter for the reference ID.
-     * @param referenceID
+     * @param referenceId
      *                  of the issue
      */
-    public IssueDifferenceBuilder setReferenceId(final String referenceID) {
-        this.referenceId = referenceID;
+    public IssueDifferenceBuilder setReferenceId(final String referenceId) {
+        this.referenceId = referenceId;
         return this;
     }
 
