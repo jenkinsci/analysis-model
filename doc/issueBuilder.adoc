@@ -1,0 +1,8 @@
+@startuml
+Issue "*" <-- "1" IssueBuilder : builds
+Serializable <|-- Issue : implements
+IssueBuilder "1" <- "*" IssueBuilderTest: creates
+class Issue{
+
+}
+@enduml

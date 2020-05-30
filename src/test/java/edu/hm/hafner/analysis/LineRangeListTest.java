@@ -95,6 +95,60 @@ class LineRangeListTest {
         assertThat(first.contains(new LineRange(2, 3))).isTrue();
         assertThat(first.contains(new LineRange(0, 1))).isFalse();
     }
+    @Test
+    void lineRangeBuilder(){
+        LineRange lineRange =new LineRangeBuilder()
+                .setStart(2)
+                .setEnd(4)
+                .build();
+        LineRange lineRange1=new LineRangeBuilder()
+                .setStart(2)
+                .setEnd(4)
+                .build();
+        assertThat(lineRange.equals(lineRange1));
+    }
+    @Test
+    void lineRangeBuilderEquals(){
+        LineRangeBuilder lineRange =new LineRangeBuilder()
+                .setStart(2)
+                .setEnd(4);
+        LineRangeBuilder lineRange1 =new LineRangeBuilder()
+                .setStart(2)
+                .setEnd(4);
+
+        assertThat(lineRange.equals(lineRange1));
+    }
+    @Test
+    void lineRangeBuilderNotEquals(){
+        LineRangeBuilder lineRange =new LineRangeBuilder()
+                .setStart(3)
+                .setEnd(4);
+        LineRangeBuilder lineRange1 =new LineRangeBuilder()
+                .setStart(2)
+                .setEnd(4);
+
+        assertThat(!lineRange.equals(lineRange1));
+    }
+    @Test
+    void lineRangeBuilderEqualsSame(){
+        LineRangeBuilder lineRange =new LineRangeBuilder()
+                .setStart(3)
+                .setEnd(4);
+        LineRangeBuilder lineRange1 =new LineRangeBuilder()
+                .setStart(2)
+                .setEnd(4);
+
+        assertThat(lineRange.equals(lineRange));
+    }
+    @Test
+    void lineRangeBuilderNotEqualsNull(){
+        LineRangeBuilder lineRange =new LineRangeBuilder()
+                .setStart(3)
+                .setEnd(4);
+
+
+        assertThat(lineRange.equals(null));
+    }
 
     private LineRangeList createThreeElements() {
         LineRangeList range = new LineRangeList();

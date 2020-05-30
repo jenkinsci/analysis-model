@@ -162,6 +162,123 @@ class IssueDifferenceTest {
         assertThat(issueDifference.getOutstandingIssues()).hasSize(1);
     }
 
+    @Test
+    void issueDifferenceBuilder() {
+
+        IssueDifference issueDifference = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .build();
+        assertThat(issueDifference.getNewIssues().equals(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1"))));
+        assertThat(issueDifference.getFixedIssues().equals(new Report().addAll(
+                createIssue("NEW 1", "FP"),
+                createIssue("OLD 1", "FP"))));
+    }
+
+    @Test
+    void issueDifferenceBuilderEquals() {
+        IssueDiffrenceBuilder issueDifference = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("2");
+        IssueDiffrenceBuilder issueDifference2 = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("2");
+        assertThat(issueDifference.equals(issueDifference2));
+    }
+    @Test
+    void issueDifferenceBuilderEqualsSame() {
+        IssueDiffrenceBuilder issueDifference = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("2");
+        assertThat(issueDifference.equals(issueDifference));
+    }
+    @Test
+    void issueDifferenceBuilderNotEqualsNull() {
+        IssueDiffrenceBuilder issueDifference = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("2");
+
+        assertThat(!issueDifference.equals(null));
+    }
+
+    @Test
+    void issueDifferenceBuilderNotEqualsCurrentIssue() {
+        IssueDiffrenceBuilder issueDifference = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 3", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("2");
+        IssueDiffrenceBuilder issueDifference2 = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("2");
+        assertThat(!issueDifference.equals(issueDifference2));
+    }
+
+    @Test
+    void issueDifferenceBuilderNotEqualsReferenceIssue() {
+        IssueDiffrenceBuilder issueDifference = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 3", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 2", "FP")))
+                .setReferenceId("2");
+        IssueDiffrenceBuilder issueDifference2 = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("2");
+        assertThat(!issueDifference.equals(issueDifference2));
+    }
+
+    @Test
+    void issueDifferenceBuilderNotEqualsReferenceId() {
+        IssueDiffrenceBuilder issueDifference = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 3", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("3");
+        IssueDiffrenceBuilder issueDifference2 = new IssueDiffrenceBuilder().setCurrentIssues(new Report().addAll(
+                createIssue("NEW 1", "FP1"),
+                createIssue("NEW 2", "FP1")))
+                .setReferenceIssues(new Report().addAll(
+                        createIssue("NEW 1", "FP"),
+                        createIssue("OLD 1", "FP")))
+                .setReferenceId("2");
+        assertThat(!issueDifference.equals(issueDifference2));
+    }
+
     private Issue createIssue(final String message, final String fingerprint) {
         IssueBuilder builder = new IssueBuilder();
         builder.setFileName("file-name")

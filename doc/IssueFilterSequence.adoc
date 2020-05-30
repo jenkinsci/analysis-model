@@ -1,0 +1,13 @@
+@startuml
+IssueFilterTest -> IssueBuilder: new
+IssueFilterTest -> IssueBuilder: setLineStart(2)
+IssueFilterTest -> IssueBuilder: setFileName("test")
+IssueFilterTest -> IssueBuilder: setLineEnd(4)
+IssueFilterTest -> IssueBuilder: build()
+
+IssueBuilder -> Issue: new("test",2,4)
+Issue->IssueBuilder: Issue@1
+IssueBuilder ->IssueFilterTest: Issue@1
+IssueFilterTest -> Report: new(Reports...reports)
+
+@enduml

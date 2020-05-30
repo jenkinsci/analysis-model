@@ -1,0 +1,8 @@
+@startuml
+Issue <-- IssueBuilder : builds
+Serializable <|-- Report : implements
+Iterable <|-- Report : implements
+Issue <-- Iterable : contains
+IssueBuilder <-- IssueFilterTest : creates
+Report <-- IssueFilterTest : creates
+@enduml
