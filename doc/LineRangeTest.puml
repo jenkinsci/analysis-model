@@ -1,0 +1,24 @@
+@startuml
+
+title LineRangeTest
+
+hide circle
+skinparam classAttributeIconSize 0
+skinparam classFontSize 24
+skinparam defaultFontSize 20
+skinparam classFontName Arial
+skinparam arrowColor black
+skinparam monochrome true
+
+class SerializableTest {}
+class LineRangeTest {}
+class SerializableTest {}
+class LineRange {}
+class Serializable {}
+
+SerializableTest --> Serializable
+LineRangeTest --|> SerializableTest
+Serializable "1"  --> "*" LineRange
+LineRangeTest "1" --> "*" LineRange
+
+@enduml

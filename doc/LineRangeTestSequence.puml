@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam classFontSize 22
+skinparam defaultFontSize 18
+skinparam classFontName Arial
+skinparam arrowColor black
+
+title LineRangeTest Sequence Diagram
+
+create LineRange
+activate LineRange
+
+create LineRangeTest
+activate LineRangeTest
+
+
+create Serializable
+activate Serializable
+
+create SerializableTestLineRange
+activate SerializableTestLineRange
+
+
+LineRangeTest -> SerializableTestLineRange : \t \t \t new Serializable
+SerializableTestLineRange -> Serializable :  new Serializable<LineRange>()
+
+Serializable -> LineRange : \t \t \t \t  new Serializable of LineRange
+LineRangeTest -> LineRange : new LineRange()
+@enduml
