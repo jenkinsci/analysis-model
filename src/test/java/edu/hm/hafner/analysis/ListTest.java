@@ -11,14 +11,14 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Viet Phuoc Ho (v.ho@hm.edu)
  */
-public abstract class ListTest {
+abstract class ListTest {
     /**
      * Creates a list with a chosen number of initial elements.
      * @param numberOfInitialElements
      *                              represents the number of Elements the list is initialized
      * @return new List with numberOfInitialElements elements.
      */
-    abstract List<Integer> create(int numberOfInitialElements);
+    public abstract List<Integer> create(int numberOfInitialElements);
 
     @Test
     public void isEmpty() {

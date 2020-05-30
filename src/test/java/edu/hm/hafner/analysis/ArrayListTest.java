@@ -8,9 +8,9 @@ import java.util.List;
  *
  * @author Viet Phuoc Ho (v.ho@hm.edu)
  */
-public class ArrayListTest extends ListTest{
+class ArrayListTest extends ListTest{
     @Override
-    List<Integer> create(final int numberOfInitialElements) {
+    public List<Integer> create(final int numberOfInitialElements) {
         List<Integer> list = new ArrayList<>();
         for(int i = 0; i < numberOfInitialElements; i++){
             list.add(0);
