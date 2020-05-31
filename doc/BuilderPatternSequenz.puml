@@ -1,0 +1,12 @@
+@startuml
+title LineRangeBuilder
+
+LineRangeListTest --> LineRangeBuilder : new LineRangeBuilder
+LineRangeListTest --> LineRangeBuilder : setStart
+LineRangeListTest --> LineRangeBuilder : setEnd
+LineRangeListTest --> LineRangeBuilder : build
+LineRangeBuilder -->  LineRange : new LineRange
+
+LineRange -> LineRangeBuilder : LineRange
+LineRangeBuilder -> LineRangeListTest : LineRange
+@enduml
