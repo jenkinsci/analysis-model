@@ -7,7 +7,7 @@ import java.util.List;
  * Testklasse zur Ueberpruefung der ArrayList API.
  * @author Michael Schober
  */
-public class ArrayListTest extends ListTest {
+class ArrayListTest extends ListTest {
 
     @Override
     List<Integer> create(final int numberOfInitialElements) {
