@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 /**
- * Testklasse zur Ueberpruefing der Listen API
+ * Testklasse zur Ueberpruefung der Listen API.
  * @author Michael Schober
  */
 public abstract class ListTest {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Testklasse zur Ueberpruefing der ArrayList API
+ * Testklasse zur Ueberpruefung der ArrayList API.
  * @author Michael Schober
  */
 public class ArrayListTest extends ListTest {

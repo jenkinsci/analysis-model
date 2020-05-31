@@ -1,0 +1,9 @@
+@startuml
+title FactoryPattern
+
+LineRangeTest <- Serialzabletest : createSerializable
+LineRangeTest -> LineRangeBuilder : build
+LineRangeBuilder --> LineRangeTest : LineRange
+
+
+@enduml
