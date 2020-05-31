@@ -1,0 +1,25 @@
+@startuml
+
+title LineRangeBuilder
+
+class LineRangeBuilder{
+ -start : int
+ -end : int
+ +LineRangeBuilder setStart()
+ +LineRangeBuilder setEnd()
+ +LineRange build()
+}
+
+class LineRangeListTest{}
+
+class LineRange{
+ -start : int
+ -end : int
+ -serialVersionUID : long
+}
+
+
+LineRangeListTest --> LineRangeBuilder : uses
+LineRangeBuilder --> LineRange : builds
+
+@enduml
