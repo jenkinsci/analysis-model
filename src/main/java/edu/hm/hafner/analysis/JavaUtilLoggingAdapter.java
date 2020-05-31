@@ -6,7 +6,13 @@ import java.util.logging.Logger;
 import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.util.VisibleForTesting;
 
+/**
+ * Ein Adapter fur den Java Util Logger.
+ * @author Michael Schober
+ */
 public class JavaUtilLoggingAdapter implements IssuePrinter {
+
+    /** ein java util logger */
     private static Logger logr;
 
     @VisibleForTesting

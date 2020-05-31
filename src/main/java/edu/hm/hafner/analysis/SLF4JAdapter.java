@@ -3,7 +3,13 @@ package edu.hm.hafner.analysis;
 import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.util.VisibleForTesting;
 
+/**
+ * Ein Adapter fuer den SLF4J Logger.
+ * @author Michael Schober
+ */
 public class SLF4JAdapter implements IssuePrinter {
+
+    /** ein slf4j logger */
     private static org.slf4j.Logger logger;
 
     @VisibleForTesting
