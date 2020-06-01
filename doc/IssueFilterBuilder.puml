@@ -1,0 +1,11 @@
+@startuml
+
+class IssueFilterBuilder {
+    -includeFilters: Collection<Predicate<Issue>>
+    -excludeFilters: Collection<Predicate<Issue>>
+    --
+    < public methods to add to collection fields >
+    +build(): Predicate<Issue>
+}
+
+@enduml

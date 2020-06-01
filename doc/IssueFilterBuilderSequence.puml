@@ -1,0 +1,17 @@
+@startuml
+actor "Calling Code" as c
+actor IssueFilterBuilder as b
+
+c -> b: new IssueFilterBuilder()
+c -> b: setIncludeFileNameFilter(...)
+b -> b: addNewFilter(...)
+note left: here a <i>Predicate<Issue></i> is implicitly created
+c -> b: setIncludeTypeFilter(...)
+b -> b: addNewFilter(...)
+note left: each time <i>addNewFilter</i> is called
+... more method calls ...
+c -> b: build()
+note right: combine all predicates
+b -> c: Predicate<Issue>
+
+@enduml

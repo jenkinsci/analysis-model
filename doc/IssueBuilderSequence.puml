@@ -1,0 +1,15 @@
+@startuml
+actor "Calling Code" as c
+actor IssueBuilder as ib
+actor Issue as i
+
+c -> ib: new IssueBuilder()
+c -> ib: setId(...)
+c -> ib: setLineStart(...)
+c -> ib: setLineEnd(...)
+... more method calls ...
+c -> ib: build()
+ib -> i: new Issue(...)
+i -> ib: Issue
+ib -> c: Issue
+@enduml

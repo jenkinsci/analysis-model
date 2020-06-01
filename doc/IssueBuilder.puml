@@ -1,0 +1,16 @@
+@startuml
+
+class Issue {
+    <many private members>
+----
+    <many methods>
+}
+
+class IssueBuilder {
+    <the same private members as Issue>
+    --
+    <one public Setter for each private member, returning this>
+    +build(): Issue
+    +buildOptional(): Issue
+}
+@enduml
