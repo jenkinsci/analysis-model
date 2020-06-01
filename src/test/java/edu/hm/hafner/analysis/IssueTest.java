@@ -52,7 +52,7 @@ class IssueTest extends SerializableTest<Issue> {
     static final String ORIGIN = "origin";
     static final String REFERENCE = "reference";
     static final String ADDITIONAL_PROPERTIES = "additional";
-    static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRange(5, 6)));
+    static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRangeBuilder().withLineRange(5, 6).build()));
     private static final String WINDOWS_PATH = "C:/Windows";
 
     /**

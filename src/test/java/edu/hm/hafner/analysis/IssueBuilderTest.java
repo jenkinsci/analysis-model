@@ -228,18 +228,22 @@ class IssueBuilderTest {
 
         builder.setLineStart(1).setLineEnd(2);
         LineRangeList lineRanges = new LineRangeList();
-        lineRanges.add(new LineRange(3, 4));
-        lineRanges.add(new LineRange(5, 6));
+        lineRanges.add(new LineRangeBuilder().withLineRange(3, 4).build());
+        lineRanges.add(new LineRangeBuilder().withLineRange(5, 6).build());
         builder.setLineRanges(lineRanges);
 
         Issue issue = builder.build();
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
-        assertThat(issue).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
+        assertThat(issue).hasOnlyLineRanges(
+                new LineRangeBuilder().withLineRange(3, 4).build(),
+                new LineRangeBuilder().withLineRange(5, 6).build());
 
         IssueBuilder copy = new IssueBuilder();
         copy.copy(issue);
 
-        assertThat(copy.build()).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
+        assertThat(copy.build()).hasOnlyLineRanges(
+                new LineRangeBuilder().withLineRange(3, 4).build(),
+                new LineRangeBuilder().withLineRange(5, 6).build());
     }
 
     @Test

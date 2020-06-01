@@ -232,7 +232,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
         public LineRange next() {
             int s = read();
             int d = read();
-            return new LineRange(s, s + d);
+            return new LineRangeBuilder().withLineRange(s, s + d).build();
         }
 
         @Override
