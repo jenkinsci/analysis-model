@@ -19,14 +19,18 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import org.slf4j.Logger.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
+import org.slf4j.LoggerFactory;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -1214,5 +1218,76 @@ public class Report implements Iterable<Issue>, Serializable {
                     filterType);
         }
         //</editor-fold>
+
     }
+
+
+    /**
+     * An adapter Java Util Logger.
+     * @author Alexander Diekhof
+     */
+    public static class JavaUtilLoggingAdapter implements IssuePrinter {
+
+        private Logger logger;
+
+        public JavaUtilLoggingAdapter(final Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+
+            Severity s = issue.getSeverity();
+
+            if (s == Severity.ERROR) {
+                logger.log(Level.SEVERE, issue.toString());
+            }
+            if (s == Severity.WARNING_HIGH) {
+                logger.log(Level.WARNING, issue.toString());
+            }
+            if (s == Severity.WARNING_NORMAL) {
+                logger.log(Level.INFO, issue.toString());
+            }
+            if (s == Severity.WARNING_LOW) {
+                logger.log(Level.FINE, issue.toString());
+            }
+
+        }
+    }
+
+
+
+    /**
+     * An adapter for the SLF4J Logger.
+     * @author Alexander Diekhof
+     */
+    public static class SLF4Adapter implements IssuePrinter {
+
+        private org.slf4j.Logger logger;
+
+        SLF4Adapter(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+
+            final Severity s = issue.getSeverity();
+
+            if (s == Severity.ERROR) {
+                logger.error(issue.toString());
+            }
+            if (s == Severity.WARNING_HIGH) {
+                logger.warn(issue.toString());
+            }
+            if (s == Severity.WARNING_NORMAL) {
+                logger.info(issue.toString());
+            }
+            if (s == Severity.WARNING_LOW) {
+                logger.trace(issue.toString());
+            }
+        }
+
+    }
+
 }

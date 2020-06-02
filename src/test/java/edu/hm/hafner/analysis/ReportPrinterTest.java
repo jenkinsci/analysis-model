@@ -2,12 +2,17 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.analysis.Report.JavaUtilLoggingAdapter;
+import edu.hm.hafner.analysis.Report.SLF4Adapter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
@@ -51,6 +56,99 @@ class ReportPrinterTest extends ResourceTest {
             verify(printStream).println(issue.toString());
         }
     }
+
+    @Test
+    void shouldLogLowWarningJavaUtilLogger() {
+
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_LOW).setMessage("JavaUtilLogger WARNING_LOW").build();
+        report.add(issue);
+        java.util.logging.Logger logger = mock(Logger.getLogger("edu.hm.hafner.analysis.Report.JavaUtilLoggingAdapter").getClass());
+        report.print(new JavaUtilLoggingAdapter(logger));
+        verify(logger).log(Level.FINE, issue.toString());
+    }
+
+    @Test
+    void shouldLogNormalWarningJavaUtilLogger() {
+
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_NORMAL).setMessage("JavaUtilLogger WARNING_LOW").build();
+        report.add(issue);
+        java.util.logging.Logger logger = mock(Logger.getLogger("edu.hm.hafner.analysis.Report.JavaUtilLoggingAdapter").getClass());
+        report.print(new JavaUtilLoggingAdapter(logger));
+        verify(logger).log(Level.INFO, issue.toString());
+    }
+
+    @Test
+    void shouldLogHighWarningJavaUtilLogger() {
+
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("JavaUtilLogger WARNING_HIGH").build();
+        report.add(issue);
+        java.util.logging.Logger logger = mock(Logger.getLogger("edu.hm.hafner.analysis.Report.JavaUtilLoggingAdapter").getClass());
+        report.print(new JavaUtilLoggingAdapter(logger));
+        verify(logger).log(Level.WARNING, issue.toString());
+    }
+
+    @Test
+    void shouldLogErrorJavaUtilLogger() {
+
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.ERROR).setMessage("JavaUtilLogger ERROR").build();
+        report.add(issue);
+        java.util.logging.Logger logger = mock(Logger.getLogger("edu.hm.hafner.analysis.Report.JavaUtilLoggingAdapter").getClass());
+        report.print(new JavaUtilLoggingAdapter(logger));
+        verify(logger).log(Level.SEVERE, issue.toString());
+    }
+
+
+    @Test
+    void shouldLogLowWarningSLF4JLogger() {
+
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_LOW).setMessage("SLF4J ERROR").build();
+        report.add(issue);
+        org.slf4j.Logger logger = mock(LoggerFactory.getLogger("slf4j").getClass());
+        report.print(new SLF4Adapter(logger));
+        verify(logger).trace(issue.toString());
+    }
+
+
+    @Test
+    void shouldLogNormalWarningSLF4JLogger() {
+
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_NORMAL).setMessage("SLF4J ERROR").build();
+        report.add(issue);
+        org.slf4j.Logger logger = mock(LoggerFactory.getLogger("slf4j").getClass());
+        report.print(new SLF4Adapter(logger));
+        verify(logger).info(issue.toString());
+    }
+
+    @Test
+    void shouldLogHighWarningSLF4JLogger() {
+
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("SLF4J WARNING_HIGH").build();
+        report.add(issue);
+        org.slf4j.Logger logger = mock(LoggerFactory.getLogger("slf4j").getClass());
+        report.print(new SLF4Adapter(logger));
+        verify(logger).warn(issue.toString());
+    }
+
+
+    @Test
+    void shouldLogErrorSLF4JLogger() {
+
+        Report report = new Report();
+        Issue issue = new IssueBuilder().setSeverity(Severity.ERROR).setMessage("SLF4J ERROR").build();
+        report.add(issue);
+        org.slf4j.Logger logger = mock(LoggerFactory.getLogger("slf4j").getClass());
+        report.print(new SLF4Adapter(logger));
+        verify(logger).error(issue.toString());
+    }
+
+
 
     private Report readCheckStyleReport() {
         Report report = new CheckStyleParser().parse(read("parser/checkstyle/all-severities.xml"));
