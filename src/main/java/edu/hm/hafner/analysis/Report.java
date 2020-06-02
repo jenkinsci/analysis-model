@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis; // NOPMD
 
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,11 +22,15 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import java.util.logging.*;
+
+import org.slf4j.Logger.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
+import org.slf4j.LoggerFactory;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -404,6 +409,16 @@ public class Report implements Iterable<Issue>, Serializable {
     @Override
     public String toString() {
         return String.format("%d issues", size());
+    }
+
+    /**
+     * Prints all issues of the report.
+     *
+     * @param issuePrinter
+     *         prints a summary of an {@link Issue}
+     */
+    public void print(final IssuePrinter issuePrinter) {
+        forEach(issuePrinter::print);
     }
 
     /**
@@ -798,6 +813,37 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Prints a summary of an {@link Issue}.
+     */
+    public interface IssuePrinter {
+        void print(Issue issue);
+    }
+
+    /**
+     * Prints issues to the "standard" output stream.
+     */
+    public static class StandardOutputPrinter implements IssuePrinter {
+        private final PrintStream printStream;
+
+        /**
+         * Creates a new printer that prints to the "standard" output stream.
+         */
+        public StandardOutputPrinter() {
+            this(System.out);
+        }
+
+        @VisibleForTesting
+        StandardOutputPrinter(final PrintStream printStream) {
+            this.printStream = printStream;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            printStream.println(issue.toString());
+        }
+    }
+
+    /**
      * Builds a combined filter based on several include and exclude filters.
      *
      * @author Raphael Furch
@@ -1171,6 +1217,64 @@ public class Report implements Iterable<Issue>, Serializable {
             addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
                     filterType);
         }
-        //</editor-fold>
     }
+
+    public static class JavaUtilLoggingAdapter implements IssuePrinter {
+
+        private Logger logger;
+
+        public JavaUtilLoggingAdapter(final Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+
+            Severity s = issue.getSeverity();
+
+            if (s == Severity.ERROR) {
+                logger.log(Level.SEVERE, issue.toString());
+            }
+            if (s == Severity.WARNING_HIGH) {
+                logger.log(Level.WARNING, issue.toString());
+            }
+            if (s == Severity.WARNING_NORMAL) {
+                logger.log(Level.INFO, issue.toString());
+            }
+            if (s == Severity.WARNING_LOW) {
+                logger.log(Level.FINE, issue.toString());
+            }
+
+        }
+    }
+
+    public static class SLF4Adapter implements IssuePrinter {
+
+        private org.slf4j.Logger logger = LoggerFactory.getLogger(SLF4Adapter.class);
+
+        SLF4Adapter(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+
+            final Severity s = issue.getSeverity();
+
+            if (s == Severity.ERROR) {
+                logger.error(issue.toString());
+            }
+            if (s == Severity.WARNING_HIGH) {
+                logger.warn(issue.toString());
+            }
+            if (s == Severity.WARNING_NORMAL) {
+                logger.info(issue.toString());
+            }
+            if (s == Severity.WARNING_LOW) {
+                logger.trace(issue.toString());
+            }
+        }
+
+    }
+
 }
