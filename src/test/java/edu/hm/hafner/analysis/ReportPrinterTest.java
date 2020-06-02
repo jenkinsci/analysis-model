@@ -13,6 +13,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.JavaUtilLoggingAdapter;
 import edu.hm.hafner.analysis.Report.SLF4Adapter;
+
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
@@ -135,16 +136,12 @@ class ReportPrinterTest extends ResourceTest {
         }
     }
 
-    @Test
-    void shouldPrintAllIssuesToPrintStream() {
-        Report report = readCheckStyleReport();
-
-        PrintStream printStream = mock(PrintStream.class);
-        report.print(new StandardOutputPrinter(printStream));
-
-        for (Issue issue : report) {
-            verify(printStream).println(issue.toString());
-        }
+    private Report readCheckStyleReport() {
+        Report report = new CheckStyleParser().parse(read("parser/checkstyle/all-severities.xml"));
+        report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build());
+        assertThat(report).hasSize(4);
+        assertThat(report.getSeverities()).hasSize(4);
+        return report;
     }
 
     private ReaderFactory read(final String fileName) {
