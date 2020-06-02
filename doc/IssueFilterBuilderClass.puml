@@ -1,0 +1,14 @@
+@startuml
+
+title IssueFilterBuilder
+
+class Predicate {}
+class IssueFilterBuilder {}
+class IssueFilterTest {}
+class Report {}
+
+Predicate <-- IssueFilterBuilder : baut
+IssueFilterBuilder <-- IssueFilterTest : erzeugt
+Report <-- IssueFilterTest : enthält
+
+@enduml
