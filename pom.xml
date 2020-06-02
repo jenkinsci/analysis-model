@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>1.0.4</version>
+    <version>1.1.1</version>
     <relativePath />
   </parent>
 
@@ -54,7 +54,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>8.1.0</revision>
+    <revision>8.1.4</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
@@ -65,18 +65,19 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.library.version>1.0.2</codingstyle.library.version>
-    <commons.lang.version>3.9</commons.lang.version>
+    <codingstyle.library.version>1.1.0</codingstyle.library.version>
+    <commons.lang.version>3.10</commons.lang.version>
     <commons.io.version>2.6</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
     <commons.text.version>1.8</commons.text.version>
     <eclipse-collections.version>9.2.0</eclipse-collections.version>
-    <spotbugs.parser.library.version>6.0.3</spotbugs.parser.library.version>
+    <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
-    <slf4j-nop.version>1.7.30</slf4j-nop.version>
-    <violations-lib.version>1.112</violations-lib.version>
-    <json.version>20190722</json.version>
+    <slf4j.version>1.7.30</slf4j.version>
+    <violations-lib.version>1.116</violations-lib.version>
+    <json.version>20200518</json.version>
 
+    <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
   </properties>
 
   <dependencies>
@@ -158,6 +159,24 @@
       <type>test-jar</type>
     </dependency>
 
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -230,6 +249,7 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
+          <versionFormat>[0-9.]*</versionFormat>
           <analysisConfiguration>
             <revapi.ignore>
               <item>
@@ -265,7 +285,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>flatten-maven-plugin</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2</version>
             <configuration>
               <updatePomFile>true</updatePomFile>
             </configuration>

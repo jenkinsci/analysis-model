@@ -21,7 +21,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "NoFunctionalReturnType"})
+@SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     private static final long serialVersionUID = 1L; // release 1.0.0
 

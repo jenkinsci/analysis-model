@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis; // NOPMD
 
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +50,7 @@ import static java.util.stream.Collectors.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass"})
+@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CyclomaticComplexity"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
     private static final long serialVersionUID = 2L; // release 8.0.0
@@ -404,6 +405,16 @@ public class Report implements Iterable<Issue>, Serializable {
     @Override
     public String toString() {
         return String.format("%d issues", size());
+    }
+
+    /**
+     * Prints all issues of the report.
+     *
+     * @param issuePrinter
+     *         prints a summary of an {@link Issue}
+     */
+    public void print(final IssuePrinter issuePrinter) {
+        forEach(issuePrinter::print);
     }
 
     /**
@@ -795,6 +806,43 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public void setNameOfOrigin(final String origin, final String name) {
         namesByOrigin.put(origin, name);
+    }
+
+    /**
+     * Prints a summary of an {@link Issue}.
+     */
+    public interface IssuePrinter {
+        /**
+         * Prints the specified issue.
+         *
+         * @param issue
+         *         the issue to print
+         */
+        void print(Issue issue);
+    }
+
+    /**
+     * Prints issues to the "standard" output stream.
+     */
+    public static class StandardOutputPrinter implements IssuePrinter {
+        private final PrintStream printStream;
+
+        /**
+         * Creates a new printer that prints to the "standard" output stream.
+         */
+        public StandardOutputPrinter() {
+            this(System.out);
+        }
+
+        @VisibleForTesting
+        StandardOutputPrinter(final PrintStream printStream) {
+            this.printStream = printStream;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            printStream.println(issue.toString());
+        }
     }
 
     /**
