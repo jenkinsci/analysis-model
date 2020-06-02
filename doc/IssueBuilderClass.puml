@@ -1,0 +1,9 @@
+@startuml
+title IssueBuilder
+
+class Issue {}
+class IssueBuilder {}
+
+Issue "*" <-- "1" IssueBuilder : erzeugt
+
+@enduml

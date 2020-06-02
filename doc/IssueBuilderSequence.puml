@@ -1,0 +1,19 @@
+@startuml
+
+title IssueBuilder
+
+activate Parser
+Parser -> IssueBuilder: new IssueBuilder()
+
+activate IssueBuilder
+Parser -> IssueBuilder: setFileName()
+Parser -> IssueBuilder: setSeverity()
+Parser -> IssueBuilder: set...()
+Parser -> IssueBuilder: build()
+
+IssueBuilder -> Issue: new Issue(Filename, Severity, ...)
+activate Issue
+Issue --> IssueBuilder: Issue
+
+IssueBuilder --> Parser: Issue
+@enduml
