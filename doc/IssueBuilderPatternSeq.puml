@@ -1,0 +1,39 @@
+@startuml
+
+title Factory Pattern Sequenzdiagramm
+
+
+hide circle
+skinparam BorderColor black
+skinparam sequence {
+LifeLineBackgroundColor #A9DCDF
+}
+
+participant User
+activate User
+
+
+
+User -> LineRangeTest : start Test
+activate LineRangeTest
+
+
+
+create SerializableTest
+LineRangeTest -> SerializableTest : start Test
+SerializableTest -> LineRangeTest : createSerializable()
+
+
+
+create LineRange
+LineRangeTest -> LineRange : new
+activate LineRange
+LineRange --> LineRangeTest : LineRange
+LineRangeTest --> SerializableTest : LineRange
+
+SerializableTest -> LineRangeTest : Result
+LineRangeTest -> User : Result
+
+
+
+@enduml

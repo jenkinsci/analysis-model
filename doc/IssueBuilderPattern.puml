@@ -1,0 +1,22 @@
+@startuml
+
+title IssueBuilder
+hide circle
+skinparam class{
+    BorderColor black
+}
+
+class LineRange{
+}
+class LineRangeTest{
+}
+interface Serializable
+abstract class SerializableTest
+
+
+LineRange ..|> Serializable : implements
+LineRangeTest ..> LineRange : testet
+SerializableTest <|-- LineRangeTest : extends
+Serializable <|.. SerializableTest : creates
+
+@enduml
