@@ -13,12 +13,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -843,6 +846,123 @@ public class Report implements Iterable<Issue>, Serializable {
         public void print(final Issue issue) {
             printStream.println(issue.toString());
         }
+    }
+
+
+
+    /**
+     * Adabpter to output Issue for Logger
+     *
+     * @author Maier Lenhard
+     */
+
+    public static class JULAdapter implements IssuePrinter{
+        /**
+         * A new Logger log object.
+         */
+        private final Logger log;
+
+        /**
+         *A constructor that creates a new adapter;
+         *
+         ** @param log given from caller
+         */
+        @VisibleForTesting
+        JULAdapter(final Logger log){
+            Objects.requireNonNull(log);
+            this.log = log;
+        }
+
+        /**
+         *A function to print log.
+         *
+         ** @param issue given from caller
+         */
+        @Override
+        public void print(final Issue issue){
+            servertiyToLevel(issue);
+        }
+
+        private void servertiyToLevel(final Issue issue){
+            final Severity serverity = issue.getSeverity();
+            final Level level;
+            if(serverity.equals(Severity.ERROR)){
+                level = Level.SEVERE;
+            }
+            else if(serverity.equals(Severity.WARNING_HIGH)){
+                level = Level.WARNING;
+            }
+            else if(serverity.equals(Severity.WARNING_NORMAL)){
+                level = Level.INFO;
+            }
+            else if(serverity.equals(Severity.WARNING_LOW)){
+                level = Level.FINE;
+            }
+            else{
+                level = Level.FINE;
+            }
+            log.log(level, issue.toString());
+        }
+
+
+        }
+
+    /**
+     * Adabpter to output Issue for Logger
+     *
+     * @author Maier Lenhard
+     */
+    public static class SLF4JAdapter implements IssuePrinter{
+        private final org.slf4j.Logger log;
+
+
+        /**
+         *A constructor that creates a new adapter.
+         *
+         ** @param log given from caller
+         */
+        SLF4JAdapter(final org.slf4j.Logger log){
+            Objects.requireNonNull(log);
+            this.log = log;
+        }
+
+        /**
+         *A function to print log.
+         *
+         ** @param issue given from caller
+         */
+        @Override
+        public void print(final Issue issue){
+            getIssue(issue);
+        }
+
+        private void getIssue(final Issue issue){
+            Severity severity = issue.getSeverity();
+            if(issue.getSeverity().equals(Severity.ERROR)){
+                log.error(issue.toString());
+                return;
+            }
+            else if(severity.equals(Severity.WARNING_NORMAL)){
+                log.info(issue.toString());
+                return;
+            }
+            else if(severity.equals(Severity.WARNING_LOW)){
+                log.trace(issue.toString());
+                return;
+            }
+            else if(severity.equals((Severity.WARNING_HIGH))){
+                log.warn(issue.toString());
+                return;
+            }
+            else{
+                throw new IllegalArgumentException();
+            }
+        }
+
+
+
+
+
     }
 
     /**
