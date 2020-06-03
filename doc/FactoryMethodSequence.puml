@@ -1,0 +1,15 @@
+@startuml
+actor LineRangeTest
+actor "SerializableTest<LineRange>" as STest
+actor LineRange
+
+[-> LineRangeTest++: TestFramework calls\n shouldBeSerializable()
+LineRangeTest -> STest++: Implementation
+STest -> LineRangeTest++: calls createSerializable()
+LineRangeTest -> LineRange++: new LineRange(...)
+return
+return
+return
+
+LineRangeTest ->[--
+@enduml

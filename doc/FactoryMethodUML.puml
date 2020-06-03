@@ -1,0 +1,21 @@
+@startuml
+
+abstract class "SerializableTest<E>" {
+    +shouldBeSerializable()
+
+    #E createSerializable()
+}
+
+class LineRangeTest{
+    #LineRange createSerializable()
+}
+
+"SerializableTest<E>" <|-- LineRangeTest
+
+interface Serializable
+class LineRange
+
+Serializable <|-- LineRange
+LineRangeTest -> LineRange
+"SerializableTest<E>" -> Serializable
+@enduml
