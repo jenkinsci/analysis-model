@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
