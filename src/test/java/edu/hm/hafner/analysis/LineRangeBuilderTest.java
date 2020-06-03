@@ -33,6 +33,26 @@ class LineRangeBuilderTest {
     }
 
     @Test
+    void shouldHaveSameValueWhenLine() {
+        LineRange sut = new LineRangeBuilder()
+                .setLine(LINE)
+                .build();
+
+        assertThat(sut.getStart()).isEqualTo(LINE);
+        assertThat(sut.getEnd()).isEqualTo(LINE);
+    }
+
+    @Test
+    void shouldHaveSameValueWhenLineRange() {
+        LineRange sut = new LineRangeBuilder()
+                .setLineRange(START, END)
+                .build();
+
+        assertThat(sut.getStart()).isEqualTo(START);
+        assertThat(sut.getEnd()).isEqualTo(END);
+    }
+
+    @Test
     void shouldHaveZeroWhenStartNegative() {
         LineRange sut = new LineRangeBuilder()
                 .setLineRange(NEGATIVE, END)

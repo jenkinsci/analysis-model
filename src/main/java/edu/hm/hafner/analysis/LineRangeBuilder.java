@@ -27,7 +27,7 @@ public class LineRangeBuilder {
      * @return this
      */
     public LineRangeBuilder setLine(final int line) {
-        if (start <= 0) {
+        if (line <= 0) {
             this.start = 0;
             this.end = 0;
         }
