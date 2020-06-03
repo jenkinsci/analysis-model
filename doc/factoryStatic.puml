@@ -1,0 +1,10 @@
+@startuml
+
+interface Serializable
+abstract class "SerializableTest<LineRange>"
+LineRangeTest --|> "SerializableTest<LineRange>" : extends
+"SerializableTest<LineRange>" --|> Serializable
+"SerializableTest<LineRange>" --|> LineRange: creates
+LineRange --|>Serializable
+
+@enduml
