@@ -1,0 +1,14 @@
+@startuml
+
+title IssueFilterBuilder
+
+class IssueFilterBuilder {}
+class IssueFilterTest {}
+class Report {}
+
+Report o-- Issue
+Report <..  IssueFilterBuilder : stellt Filterfunktionen zur verfügung
+IssueFilterTest ..> Report : creates
+Serializable <|-- Report : implements
+
+@enduml

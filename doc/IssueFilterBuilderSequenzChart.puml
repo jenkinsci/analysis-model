@@ -1,0 +1,25 @@
+@startuml
+
+title IssueFilterBuilder Sequenz chart
+activate IssueFilterTest
+activate IssueFilterBuilder
+IssueFilterTest -> IssueFilterBuilder : new IssueFilterBuilder()
+IssueFilterTest -> IssueFilterBuilder : setIncludeMessageFilter(String)
+IssueFilterTest -> IssueFilterBuilder : setExcludeMessageFilter(String)
+IssueFilterTest -> IssueFilterBuilder : setIncludeFileNameFilter(String...)
+IssueFilterTest -> IssueFilterBuilder : setExcludeFileNameFilter(String...)
+IssueFilterTest -> IssueFilterBuilder : setIncludePackageNameFIlter(String...)
+IssueFilterTest -> IssueFilterBuilder : setExcludePackageNameFilter(String...)
+IssueFilterTest -> IssueFilterBuilder : setIncludeModuleNameFilter(String...)
+IssueFilterTest -> IssueFilterBuilder : setExcludeModuleNameFilter(String...)
+IssueFilterTest -> IssueFilterBuilder : setIncludeCategoryFilter(String...)
+IssueFilterTest -> IssueFilterBuilder : setExcludeCategoryFilter(String...)
+IssueFilterTest -> IssueFilterBuilder : setIncludeTypeFilter(String...)
+IssueFilterTest -> IssueFilterBuilder : setExlcudeTypeFilter(String...)
+
+
+IssueFilterTest -> IssueFilterBuilder : build()
+
+IssueFilterBuilder -> IssueFilterTest : predicate<Issue>
+
+@enduml
