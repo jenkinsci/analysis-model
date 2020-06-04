@@ -1,0 +1,79 @@
+@startuml
+
+actor User
+
+== Initialisation ==
+
+User -> IssueBuilder : new()
+activate IssueBuilder
+User <-- IssueBuilder : builder instance
+deactivate IssueBuilder
+
+== Building ==
+
+User -> IssueBuilder : setId(UUID)
+activate IssueBuilder
+User <-- IssueBuilder : builder instance
+deactivate IssueBuilder
+
+User -> IssueBuilder : setFileName(String)
+activate IssueBuilder
+User <-- IssueBuilder : builder instance
+deactivate IssueBuilder
+
+User -> IssueBuilder : setLineStart(int)
+activate IssueBuilder
+User <-- IssueBuilder : builder instance
+deactivate IssueBuilder
+
+User -> IssueBuilder : setLineEnd(int)
+activate IssueBuilder
+User <-- IssueBuilder : builder instance
+deactivate IssueBuilder
+
+== Creating ==
+
+User -> IssueBuilder : build()
+activate IssueBuilder
+IssueBuilder -> Issue : new(Args...)
+deactivate IssueBuilder
+activate Issue
+IssueBuilder <-- Issue : issue instance
+deactivate Issue
+activate IssueBuilder
+User <-- IssueBuilder : issue instance
+deactivate IssueBuilder
+
+== Initialisation ==
+
+User -> IssueFilterBuilder : new()
+activate IssueFilterBuilder
+User <-- IssueFilterBuilder : builder instance
+deactivate IssueFilterBuilder
+
+== Building ==
+
+User -> IssueFilterBuilder : setIncludeFileNameFilter(Strings...)
+activate IssueFilterBuilder
+User <-- IssueFilterBuilder : builder instance
+deactivate IssueFilterBuilder
+
+User -> IssueFilterBuilder : setExcludeFileNameFilter(Strings...)
+activate IssueFilterBuilder
+User <-- IssueFilterBuilder : builder instance
+deactivate IssueFilterBuilder
+
+== Creating ==
+
+User -> IssueFilterBuilder : build()
+activate IssueFilterBuilder
+IssueFilterBuilder -> Predicate : new(Args...)
+deactivate IssueFilterBuilder
+activate Predicate
+IssueFilterBuilder <-- Predicate : predicate instance
+deactivate Predicate
+activate IssueFilterBuilder
+User <-- IssueFilterBuilder : predicate instance
+deactivate IssueFilterBuilder
+
+@enduml
