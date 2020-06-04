@@ -1,0 +1,15 @@
+@startuml
+
+class IssueBuilder {
+    build()
+}
+
+class IssueFilterBuilder {
+    build()
+}
+
+IssueBuilder ..> Issue : creates
+IssueFilterBuilder ..> Report : creates filter for
+Report ..> Issue : contains
+
+@enduml
