@@ -1,0 +1,21 @@
+@startuml
+
+title IssueBuilder
+
+class Issue {
+}
+
+class IssueBuilder {
+}
+
+class IssueFilterBuilder {
+}
+
+class Report {
+}
+
+Issue <.. IssueBuilder : creats
+Report <.. IssueFilterBuilder : creats
+Issue <. Report : contains
+
+@enduml
