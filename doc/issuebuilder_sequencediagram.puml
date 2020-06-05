@@ -1,0 +1,44 @@
+@startuml
+
+title IssueBuilder Sequenz Diagram
+
+
+
+
+activate User
+create IssueBuilder
+User -> IssueBuilder : new()
+
+
+User -> IssueBuilder : setFileName()
+activate IssueBuilder
+deactivate IssueBuilder
+
+User -> IssueBuilder : setLineStart()
+activate IssueBuilder
+deactivate IssueBuilder
+
+User -> IssueBuilder : setLineEnd()
+activate IssueBuilder
+deactivate IssueBuilder
+
+User -> IssueBuilder : setColumnStart()
+activate IssueBuilder
+deactivate IssueBuilder
+
+User -> IssueBuilder : setColumnEnd()
+activate IssueBuilder
+deactivate IssueBuilder
+
+User -> IssueBuilder : build()
+activate IssueBuilder
+
+create Issue
+IssueBuilder -> Issue : new()
+
+IssueBuilder <-- Issue : issue instance
+
+User <-- IssueBuilder : issue instance
+deactivate IssueBuilder
+
+@enduml

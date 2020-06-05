@@ -1,0 +1,35 @@
+@startuml
+
+title IssueFilterBuilder Sequenz Diagram
+
+activate User
+create IssueFilterBuilder
+User -> IssueFilterBuilder : new()
+
+User -> IssueFilterBuilder : setIncludeFileNameFilter()
+activate IssueFilterBuilder
+deactivate IssueFilterBuilder
+
+User -> IssueFilterBuilder : setExcludeFileNameFilter()
+activate IssueFilterBuilder
+deactivate IssueFilterBuilder
+
+User -> IssueFilterBuilder : setExcludePackageNameFilter()
+activate IssueFilterBuilder
+deactivate IssueFilterBuilder
+
+User -> IssueFilterBuilder : setIncludeModuleNameFilter()
+activate IssueFilterBuilder
+deactivate IssueFilterBuilder
+
+User -> IssueFilterBuilder : build()
+activate IssueFilterBuilder
+create Predicate
+IssueFilterBuilder -> Predicate : new()
+
+IssueFilterBuilder <-- Predicate : predicate instance
+User <-- IssueFilterBuilder : predicate instance
+deactivate IssueFilterBuilder
+deactivate User
+
+@enduml
