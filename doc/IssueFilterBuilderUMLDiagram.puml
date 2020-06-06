@@ -1,0 +1,12 @@
+@startuml
+title IssueFilerBuilder UML Diagram
+
+class Issue
+class IssueBuilder
+class IssueBuilderTest
+
+
+IssueBuilderTest --> IssueBuilder : uses
+Issue <-- IssueBuilder : builds
+
+@enduml
