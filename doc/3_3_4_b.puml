@@ -1,0 +1,16 @@
+@startuml
+
+activate IssueFilterTest
+'shouldHandleApostrophe
+activate IssueFilterBuilder
+
+IssueFilterTest -> IssueFilterBuilder: new IssueFilterBuilder()
+IssueFilterTest <-- IssueFilterBuilder:  IssueFilterBuilder
+
+IssueFilterTest -> IssueFilterBuilder: setExcludeMessageFilter(String)
+IssueFilterTest <-- IssueFilterBuilder:  IssueFilterBuilder
+
+IssueFilterTest -> IssueFilterBuilder: build()
+return Predicate<Issue>
+
+@enduml

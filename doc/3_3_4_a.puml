@@ -1,0 +1,16 @@
+@startuml
+
+activate FingerprintGeneratorTest
+' shouldSkipFingerprintingIfEncodingIsWrong
+activate IssueBuilder
+
+FingerprintGeneratorTest -> IssueBuilder: new IssueBuilder()
+FingerprintGeneratorTest <-- IssueBuilder:  IssueBuilder
+
+FingerprintGeneratorTest -> IssueBuilder: setFileName(String)
+FingerprintGeneratorTest <-- IssueBuilder:  IssueBuilder
+
+FingerprintGeneratorTest -> IssueBuilder: build()
+return Issue
+
+@enduml
