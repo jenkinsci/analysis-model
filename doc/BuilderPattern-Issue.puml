@@ -1,0 +1,63 @@
+@startuml
+
+class Issue {
+    - category: String
+    - type: String
+    - severity: final Severity
+    - lineStart: final int
+    - lineEnd: final int
+    - columnStart: final int
+    - columnEnd: final int
+    - lineRanges: final LineRangeList
+    - id: final UUID
+    - reference: final String
+    - origin: final String
+    - moduleName: final String
+    - packageName: final TreeString
+    - pathName: final String
+    - fileName: final TreeString
+    - message: final TreeString
+    - description: String
+    - fingerprint: String
+}
+
+class IssueBuilder {
+    + setId(id: final UUID): IssueBuilder
+    + setAdditionalProperties(additionalProperties: final Serializable): IssueBuilder
+    + setFingerprint(fingerprint: final String): IssueBuilder
+    + setFileName(fileName: final String): IssueBuilder
+    + set Directory(directory: final String): IssueBuilder
+    + setPathName(pathName: final String): IssueBuilder
+    + setLineStart(lineStart: int): IssueBuilder
+    + setLineStart(lineStart: final String): IssueBuilder
+    + setLineEnd(lineEnd: int): IssueBuilder
+    + setLineEnd(lineEnd: final String): IssueBuilder
+    + setColumnStart(columnStart: int): IssueBuilder
+    + setColumnStart(columnStart: final String): IssueBuilder
+    + setColumnEnd(columnEnd: int): IssueBuilder
+    + setColumnEnd(columnEnd: final String): IssueBuilder
+    + setCategory(category: final String): IssueBuilder
+    + setType(type: final String): IssueBuilder
+    + setPackageName(packageName: final String): IssueBuilder
+    + setModuleName(moduleName: final String): IssueBuilder
+    + setOrigin(origin: final String): IssueBuilder
+    + setReference(reference: final String): IssueBuilder
+    + setSeverity(severity: final Severity): IssueBuilder
+    + guessSeverity(severityString: final String): IssueBuilder
+    + setMessage(message: final String): IssueBuilder
+    + setDescription(description: final String): IssueBuilder
+    + setLineRanges(lineRanges: LineRangeList): IssueBuilder
+    + copy(copy: final Issue): IssueBuilder
+    + build(): Issue
+}
+
+class JavacParser {
+    # createIssue(matcher: final Matcher, lookahead: final LookaheadStream,
+            builder: final IssueBuilder): Optional<Issue>
+}
+
+IssueBuilder --> Issue
+JavacParser --> Issue
+JavacParser -up-> IssueBuilder
+
+@enduml

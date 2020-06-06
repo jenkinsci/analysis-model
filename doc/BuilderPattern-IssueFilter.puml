@@ -1,0 +1,40 @@
+@startuml
+
+class Report {
+
+}
+
+class IssueFilterBuilder {
+    + setIncludeFileNameFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setIncludeFileNameFilter(pattern: final String...): IssueFilterBuilder
+    + setExcludeFileNameFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setExcludeFileNameFilter(pattern: final String...): IssueFilterBuilder
+    + setIncludePackageNameFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setIncludePackageNameFilter(pattern: final String...): IssueFilterBuilder
+    + setExcludePackageNameFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setExcludePackageNameFilter(pattern: final String...): IssueFilterBuilder
+    + setIncludeModuleNameFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setIncludeModuleNameFilter(pattern: final String...): IssueFilterBuilder
+    + setExcludeModuleNameFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setExcludeModuleNameFilter(pattern: final String...): IssueFilterBuilder
+    + setIncludeCategoryFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setIncludeCategoryFilter(pattern: final String...): IssueFilterBuilder
+    + setExcludeCategoryFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setExcludeCategoryFilter(pattern: final String...): IssueFilterBuilder
+    + setIncludeTypeFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setIncludeTypeFilter(pattern: final String...): IssueFilterBuilder
+    + setExcludeTypeFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setExcludeTypeFilter(pattern: final String...): IssueFilterBuilder
+    + setIncludeMessageFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setIncludeMessageFilter(pattern: final String...): IssueFilterBuilder
+    + setExcludeMessageFilter(pattern: final Collection<String>): IssueFilterBuilder
+    + setExcludeMessageFilter(pattern: final String...): IssueFilterBuilder
+    + addMessageFilter(pattern: final Collection<String>, filterType: final FilterType): void
+    + build(): Predicate<Issue>
+}
+
+IssueFilterBuilder --+ Report
+Report -right-o Issue
+IssueFilterBuilder --> Issue
+
+@enduml
