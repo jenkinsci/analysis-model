@@ -1,0 +1,14 @@
+@startuml
+participant IssueFilerTest as test
+participant IssueFilterBuilder as ifb
+
+test -> ifb: new IssueFilterBuilder()
+
+test -> ifb: setIncludeFileName(...)
+
+... possibly more set...() calls...
+
+test -> ifb: build()
+ifb -> test: Predicate<Issue>
+
+@enduml

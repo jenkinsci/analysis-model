@@ -1,12 +1,13 @@
 @startuml
 title IssueBuilder UML Diagram
 
-class IssueFilterBuilder
-class IssueFilterTest
-class Report
+class Issue
+class IssueBuilder
+class IssueBuilderTest
 
-Report <-- Issue : contains
-Report <-- IssueFilterBuilder : builds filters for Issues
-IssueFilterTest --> IssueFilterBuilder :uses
+
+IssueBuilderTest --> IssueBuilder : uses
+Issue <-- IssueBuilder : builds
 
 @enduml
+

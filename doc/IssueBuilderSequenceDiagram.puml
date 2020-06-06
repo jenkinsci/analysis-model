@@ -1,0 +1,17 @@
+@startuml
+participant IssueBuilderTest as test
+participant IssueBuilder as ib
+participant Issue as issue
+
+test -> ib: new IssueBuilder()
+test -> ib: setDirectory(...)
+test -> ib: setFileName(...)
+test -> ib: setLineEnd(...)
+
+... possibly more set...() calls...
+
+test -> ib: build()
+ib -> issue: new Issue(...)
+issue -> ib: Issue
+ib -> test: Issue
+@enduml
