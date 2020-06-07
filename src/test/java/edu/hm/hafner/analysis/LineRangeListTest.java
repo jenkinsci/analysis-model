@@ -91,7 +91,7 @@ class LineRangeListTest {
     void shouldProvideContains() {
         LineRangeList last = createThreeElements();
         last.remove(new LineRangeBuilder().setStart(4).setEnd(5).build());
-        assertThat(last).containsExactly(new LineRangeBuilder().setStart(1).setEnd(0).build(), new LineRangeBuilder().setStart(2).setEnd(3).build());
+        assertThat(last).containsExactly(new LineRangeBuilder().setStart(0).setEnd(1).build(), new LineRangeBuilder().setStart(2).setEnd(3).build());
 
         LineRangeList middle = createThreeElements();
         middle.remove(new LineRangeBuilder().setStart(2).setEnd(3).build());
