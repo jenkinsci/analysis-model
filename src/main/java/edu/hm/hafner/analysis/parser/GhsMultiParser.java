@@ -23,8 +23,9 @@ public class GhsMultiParser extends LookaheadParser {
      * Regex Pattern to match start of Warning / Error. Groups are used to identify FileName, StartLine, Type, Category,
      * Start of message.
      */
-    private static final String GHS_MULTI_WARNING_PATTERN =
-            "\"(.*)\"\\,\\s*line\\s*(\\d+)(?:\\s+\\(col\\.\\s*(\\d+)\\))?:\\s*(warning|error)\\s*([^:]+):\\s*(?m)([^\\^]*)";
+    private static final String GHS_MULTI_WARNING_PATTERN = "\"(?<file>.*)\"\\,\\s*line\\s*"
+            + "(?<line>\\d+)(?:\\s+\\(col\\.\\s*(?<column>\\d+)\\))?:\\s*"
+            + "(?<severity>warning|error)\\s*(?<category>[^:]+):\\s*(?m)(?<message>[^\\^]*)";
 
     /** Regex Pattern to match the ending of the Warning / Error Message. */
     private static final String MESSAGE_END_REGEX = "\\s*\\^";
@@ -39,27 +40,22 @@ public class GhsMultiParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = StringUtils.capitalize(matcher.group(4));
-        String messageStart = matcher.group(6);
+        String type = StringUtils.capitalize(matcher.group("severity"));
+        String messageStart = matcher.group("message");
 
         String message = extractMessage(messageStart, lookahead);
 
-        if (StringUtils.isNotBlank(matcher.group(3))) {
-            return builder.setFileName(matcher.group(1))
-                    .setLineStart(matcher.group(2))
-                    .setColumnStart(matcher.group(3))
-                    .setCategory(matcher.group(5))
-                    .setMessage(message)
-                    .setSeverity(Severity.guessFromString(type))
-                    .buildOptional();
+        builder.setFileName(matcher.group("file"))
+                .setLineStart(matcher.group("line"))
+                .setCategory(matcher.group("category"))
+                .setMessage(message)
+                .setSeverity(Severity.guessFromString(type));
+
+        if (StringUtils.isNotBlank(matcher.group("column"))) {
+            builder.setColumnStart(matcher.group("column"));
         }
 
-        return builder.setFileName(matcher.group(1))
-                .setLineStart(matcher.group(2))
-                .setCategory(matcher.group(5))
-                .setMessage(message)
-                .setSeverity(Severity.guessFromString(type))
-                .buildOptional();
+        return builder.buildOptional();
     }
 
     /**
