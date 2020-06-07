@@ -1,0 +1,69 @@
+@startuml
+
+entity XmlParser
+entity IssueBuilder
+entity Issue
+
+XmlParser -> IssueBuilder **: new IssueBuilder()
+
+XmlParser -> IssueBuilder ++: setId()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setFileName()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setLineStart()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setLineEnd()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setColumnStart()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++:setColumnEnd()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setLineRanges()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setCategory()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setType()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setSeverity
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setMessage()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setDescription()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setPackageName()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setModuleName()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setOrigin()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setReference()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setFingerprint()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: setAdditionalProperties()
+return IssueBuilder
+
+XmlParser -> IssueBuilder ++: build()
+IssueBuilder -> Issue **: new Issue()
+Issue --> IssueBuilder
+return Issue
+
+
+@enduml
