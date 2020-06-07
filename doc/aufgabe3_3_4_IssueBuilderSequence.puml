@@ -1,0 +1,29 @@
+@startuml
+
+activate IssueFilterTest
+
+IssueFilterTest -> IssueBuilder: new IssueBuilder()
+activate IssueBuilder
+IssueFilterTest <-- IssueBuilder:  IssueBuilder
+
+IssueFilterTest -> IssueBuilder: setFileName("FileName1")
+IssueFilterTest <-- IssueBuilder:  IssueBuilder
+
+IssueFilterTest -> IssueBuilder: setPackageName("PackageName1")
+IssueFilterTest <-- IssueBuilder:  IssueBuilder
+
+IssueFilterTest -> IssueBuilder: setModuleName("ModuleName1")
+IssueFilterTest <-- IssueBuilder:  IssueBuilder
+
+IssueFilterTest -> IssueBuilder: setCategory("CategoryName1")
+IssueFilterTest <-- IssueBuilder:  IssueBuilder
+
+IssueFilterTest -> IssueBuilder: setType("Type1")
+IssueFilterTest <-- IssueBuilder:  IssueBuilder
+
+IssueFilterTest -> IssueBuilder: setMessage(Message1")
+IssueFilterTest <-- IssueBuilder:  IssueBuilder
+
+IssueFilterTest -> IssueBuilder: build()
+return Issue
+@enduml

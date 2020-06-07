@@ -1,0 +1,14 @@
+@startuml
+
+activate IssueFilterTest
+
+IssueFilterTest -> IssueFilterBuilder: new IssueFilterBuilder()
+activate IssueFilterBuilder
+IssueFilterTest <-- IssueFilterBuilder: IssueFilterBuilder
+
+IssueFilterTest -> IssueFilterBuilder: setExcludeMessageName("'tools.jar' was not found, kapt may work unreliably")
+IssueFilterTest <-- IssueFilterBuilder: IssueFilterBuilder
+
+IssueFilterTest -> IssueFilterBuilder: build()
+return Predicate<Issue>
+@enduml

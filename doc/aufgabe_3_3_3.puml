@@ -1,0 +1,261 @@
+@startuml
+
+class Issue {
+ {static} -long serialVersionUID
+ {static} -PathUtil PATH_UTIL
+ {static} ~String UNDEFINED
+ -String category
+ -String type
+ -Severity severity
+ -int lineStart
+ -int lineEnd
+ -int columnStart
+ -int columnEnd
+ -LineRangeList lineRanges
+ -UUID id
+ -Serializable additionalProperties
+ -String reference
+ -String origin
+ -String moduleName
+ -TreeString packageName
+ -String pathName
+ -TreeString fileName
+ -TreeString message
+ -String description
+ -String fingerprint
+
+ <<constructor>> Issue(Issue)
+ <<constructor>> Issue(String, TreeString, int, int, int, int, Iterable<? extends LineRange>, String, String, TreeString, String, Severity, TreeString, String, String, String, String, Serializable)
+ <<constructor>> Issue(String, TreeString, int, int, int, int, Iterable<? extends LineRange>, String, String, TreeString, String, Severity, TreeString, String, String, String, String, Serializable, UUID)
+
+ {static} +String getPropertyValueAsString(Issue, String)
+ {static} +Function<Issue, String> getPropertyValueGetter(String)
+ {static} +Predicate<Issue> byPackageName(String)
+ {static} +Predicate<Issue> byModuleName(String)
+ {static} +Predicate<Issue> byFileName(String)
+ {static} +Predicate<Issue> byFolder(String)
+ {static} +Predicate<Issue> bySeverity(Severity)
+ {static} +Predicate<Issue> byCategory(String)
+ {static} +Predicate<Issue> byOrigin(String)
+ {static} +Predicate<Issue> byType(String)
+ #Object readResolve()
+ -String normalizeFileName(String)
+ -int defaultInteger(int)
+ -String defaultString(String)
+ -String stripToEmpty(String)
+ +UUID getId()
+ +String getFileName()
+ ~TreeString getFileNameTreeString()
+ +String getFolder()
+ +String getBaseName()
+ +String getAbsolutePath()
+ +String getPath()
+ ~void setFileName(String, TreeString)
+ +boolean hasFileName()
+ +String getCategory()
+ +String getType()
+ +Severity getSeverity()
+ +String getMessage()
+ ~TreeString getMessageTreeString()
+ +String getDescription()
+ +int getLineStart()
+ +int getLineEnd()
+ +Iterable<? extends LineRange> getLineRanges()
+ +int getColumnStart()
+ +int getColumnEnd()
+ +String getPackageName()
+ ~TreeString getPackageNameTreeString()
+ ~void setPackageName(TreeString)
+ +boolean hasPackageName()
+ +String getModuleName()
+ ~void setModuleName(String)
+ +boolean hasModuleName()
+ +String getOrigin()
+ +void setOrigin(String)
+ +String getReference()
+ +void setReference(String)
+ +String getFingerprint()
+ ~void setFingerprint(String)
+ +boolean hasFingerprint()
+ +Serializable getAdditionalProperties()
+ +boolean equals(Object)
+ +int hashCode()
+ +String toString()
+}
+
+class IssueBuilder {
+ {static} -String EMPTY
+ {static} -String UNDEFINED
+ {static} -TreeString UNDEFINED_TREE_STRING
+ {static} -TreeString EMPTY_TREE_STRING
+ -TreeStringBuilder fileNameBuilder
+ -TreeStringBuilder packageNameBuilder
+ -TreeStringBuilder messageBuilder
+ -int lineStart
+ -int lineEnd
+ -int columnStart
+ -int columnEnd
+ -LineRangeList lineRanges
+ -String pathName
+ -TreeString fileName
+ -TreeString packageName
+ -String directory
+ -String category
+ -String type
+ -Severity severity
+ -TreeString message
+ -String description
+ -String moduleName
+ -String origin
+ -String reference
+ -String fingerprint
+ -Serializable additionalProperties
+ -UUID id
+
+ +IssueBuilder setId(UUID)
+ +IssueBuilder setAdditionalProperties(Serializable)
+ +IssueBuilder setFingerprint(String)
+ +IssueBuilder setFileName(String)
+ +IssueBuilder setDirectory(String)
+ +IssueBuilder setPathName(String)
+ +IssueBuilder setLineStart(int)
+ +IssueBuilder setLineStart(String)
+ +IssueBuilder setLineEnd(int)
+ +IssueBuilder setLineEnd(String)
+ +IssueBuilder setColumnStart(int)
+ +IssueBuilder setColumnStart(String)
+ +IssueBuilder setColumnEnd(int)
+ +IssueBuilder setColumnEnd(String)
+ +IssueBuilder setCategory(String)
+ +IssueBuilder setType(String)
+ +IssueBuilder setPackageName(String)
+ +IssueBuilder setModuleName(String)
+ +IssueBuilder setOrigin(String)
+ +IssueBuilder setReference(String)
+ +IssueBuilder setSeverity(Severity)
+ +IssueBuilder setMessage(String)
+ +IssueBuilder setDescription(String)
+ +IssueBuilder setLineRanges(LineRangeList)
+ +IssueBuilder guessSeverity(String)
+ ~TreeString internPackageName(String)
+ ~TreeString internFileName(String)
+ {static} -String normalizeFileName(String)
+ {static} -String defaultString(String)
+ +IssueBuilder copy(Issue)
+ +Issue build()
+ +Optional<Issue> buildOptional()
+}
+
+class Report {
+ {static} -long serialVersionUID
+ {static} ~String DEFAULT_ID
+ -Set<Issue> elements
+ -List<String> infoMessages
+ -List<String> errorMessages
+ -Set<String> fileNames
+ -Map<String, String> namesByOrigin
+ -int duplicatesSize
+
+ <<constructor>> Report()
+ <<constructor>> Report(Report...)
+ <<constructor>> Report(Collection<Report>)
+
+ +Report add(Issue)
+ +Report addAll(Issue, Issue...)
+ +Report addAll(Collection<? extends Issue>)
+ +Report addAll(Report...)
+ #Object readResolve()
+ +void addFileName(String)
+ +Set<String> getFileNames()
+ ~Issue remove(UUID)
+ +Issue findById(UUID)
+ +Set<Issue> findByProperty(Predicate<? super Issue>)
+ +Report filter(Predicate<? super Issue>)
+ -Stream<Issue> filterElements(Predicate<? super Issue>)
+ +Iterator<Issue> iterator()
+ +Stream<Issue> stream()
+ +int size()
+ +boolean isEmpty()
+ +boolean isNotEmpty()
+ +int getSize()
+ +int getDuplicatesSize()
+ +int getSizeOf(String)
+ +int getSizeOf(Severity)
+ +Issue get(int)
+ +String toString()
+ +Set<String> getModules()
+ +boolean hasModules()
+ -boolean hasProperty(Set<String>)
+ -boolean hasMeaningfulValues(Set<String>)
+ +Set<String> getPackages()
+ +boolean hasPackages()
+ +Set<String> getFolders()
+ +boolean hasFolders()
+ +Set<String> getAbsolutePaths()
+ +Set<String> getFiles()
+ +boolean hasFiles()
+ +Set<String> getCategories()
+ +boolean hasCategories()
+ +Set<String> getTypes()
+ +boolean hasTypes()
+ +Set<String> getTools()
+ +boolean hasTools()
+ +Set<Severity> getSeverities()
+ +boolean hasSeverities()
+ +Set<T> getProperties(Function<? super Issue, T>)
+ +Map<T, Integer> getPropertyCount(Function<? super Issue, T>)
+ +Map<String, Report> groupByProperty(String)
+ +Report copy()
+ -void copyIssuesAndProperties(Report, Report)
+ -void copyProperties(Report, Report)
+ +Report copyEmptyInstance()
+ +void logInfo(String, Object...)
+ +void logError(String, Object...)
+ +void logException(Exception, String, Object...)
+ +ImmutableList<String> getInfoMessages()
+ +ImmutableList<String> getErrorMessages()
+ +boolean hasErrors()
+ +boolean equals(Object)
+ +int hashCode()
+ +String getNameOfOrigin(String)
+ +void setNameOfOrigin(String, String)
+}
+
+class IssueFilterBuilder <<static>> {
+ -Collection<Predicate<Issue>> includeFilters
+ -Collection<Predicate<Issue>> excludeFilters
+
+ -void addNewFilter(Collection<String>,Function<Issue,String>,FilterType)
+ +Predicate<Issue> build()
+ +IssueFilterBuilder setIncludeFileNameFilter(Collection<String>)
+ +IssueFilterBuilder setIncludeFileNameFilter(String...)
+ +IssueFilterBuilder setExcludeFileNameFilter(Collection<String>)
+ +IssueFilterBuilder setExcludeFileNameFilter(String...)
+ +IssueFilterBuilder setIncludePackageNameFilter(Collection<String>)
+ +IssueFilterBuilder setIncludePackageNameFilter(String...)
+ +IssueFilterBuilder setExcludePackageNameFilter(Collection<String>)
+ +IssueFilterBuilder setExcludePackageNameFilter(String...)
+ +IssueFilterBuilder setIncludeModuleNameFilter(Collection<String>)
+ +IssueFilterBuilder setIncludeModuleNameFilter(String...)
+ +IssueFilterBuilder setExcludeModuleNameFilter(Collection<String>)
+ +IssueFilterBuilder setExcludeModuleNameFilter(String...)
+ +IssueFilterBuilder setIncludeCategoryFilter(Collection<String>)
+ +IssueFilterBuilder setIncludeCategoryFilter(String...)
+ +IssueFilterBuilder setExcludeCategoryFilter(Collection<String>)
+ +IssueFilterBuilder setExcludeCategoryFilter(String...)
+ +IssueFilterBuilder setIncludeTypeFilter(Collection<String>)
+ +IssueFilterBuilder setIncludeTypeFilter(String...)
+ +IssueFilterBuilder setExcludeTypeFilter(Collection<String>)
+ +IssueFilterBuilder setExcludeTypeFilter(String...)
+ +IssueFilterBuilder setIncludeMessageFilter(Collection<String>)
+ +IssueFilterBuilder setIncludeMessageFilter(String...)
+ +IssueFilterBuilder setExcludeMessageFilter(Collection<String>)
+ +IssueFilterBuilder setExcludeMessageFilter(String...)
+ -void addMessageFilter(Collection<String>,FilterType)
+}
+
+IssueBuilder ..> Issue : erzeugt
+IssueFilterBuilder ..> Report: erzeugt Filter Praedikate zur Filterung von
+
+
+@enduml
