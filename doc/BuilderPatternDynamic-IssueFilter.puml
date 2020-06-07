@@ -1,0 +1,25 @@
+@startuml
+
+entity IssueFilterTest
+entity IssueFilterBuilder
+entity includeFilters
+entity excludeFilters
+
+IssueFilterTest -> IssueFilterBuilder **: new IssueFilterBuilder()
+IssueFilterBuilder -> includeFilters **: "new ArrayList<Predicate<Issue>>()"
+IssueFilterBuilder -> excludeFilters **: "new ArrayList<Predicate<Issue>>()"
+
+IssueFilterTest -> IssueFilterBuilder ++: setExcludeFilters("'tools.jar' was not found, kapt may work unreliably")
+IssueFilterBuilder -> IssueFilterBuilder: setExcludeFilters(Arrays.asList(["'tools.jar' was not found, kapt may work unreliably"]))
+IssueFilterBuilder -> IssueFilterBuilder: addMessageFilter(pattern, FilterType.EXCLUDE)
+IssueFilterBuilder -> IssueFilterBuilder: addNewFilter(pattern, issue ->..., filterType)
+IssueFilterBuilder -> excludeFilters ++: addAll(filters)
+return filters set
+return done
+
+IssueFilterTest -> IssueFilterBuilder ++: build()
+IssueFilterBuilder -> includeFilters: ...reduce()...
+IssueFilterBuilder -> excludeFilters: ...reduce()...
+return "include/exclude Filters"
+
+@enduml

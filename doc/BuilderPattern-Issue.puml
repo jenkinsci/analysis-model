@@ -19,6 +19,16 @@ class Issue {
     - message: final TreeString
     - description: String
     - fingerprint: String
+    ..
+    + Issue(pathName: final String, fileName: final TreeString, lineStart: final int, lineEnd: final int,
+    columnStart: final int, columnEnd: final int,
+    lineRanges: final Iterable<? extends LineRange>,
+    category: final String, type: final String,
+    packageName: final TreeString, moduleName: final String,
+    severity: final Severity,
+    message: final TreeString, description: final String,
+    origin: final String, reference: final String,
+    fingerprint: final String, additionalProperties: final Serializable)
 }
 
 class IssueBuilder {

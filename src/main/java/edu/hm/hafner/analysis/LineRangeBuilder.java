@@ -20,7 +20,7 @@ public class LineRangeBuilder {
         return this;
     }
 
-    public LineRange build(){
+    public LineRange build() {
         return new LineRange(start, end);
     }
 }

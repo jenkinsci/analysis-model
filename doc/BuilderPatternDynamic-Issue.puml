@@ -62,8 +62,8 @@ return IssueBuilder
 
 XmlParser -> IssueBuilder ++: build()
 IssueBuilder -> Issue **: new Issue()
-Issue --> IssueBuilder
+activate Issue
 return Issue
-
+return Issue
 
 @enduml

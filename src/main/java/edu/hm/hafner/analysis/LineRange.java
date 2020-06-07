@@ -19,7 +19,7 @@ public class LineRange implements Serializable {
      * @param line
      *            the single line of this range
      */
-    LineRange(final int line) {
+    public LineRange(final int line) {
         this(line, line);
     }
 
@@ -31,7 +31,7 @@ public class LineRange implements Serializable {
      * @param end
      *            end of the range
      */
-    LineRange(final int start, final int end) {
+    public LineRange(final int start, final int end) {
         if (start <= 0) {
             this.start = 0;
             this.end = 0;

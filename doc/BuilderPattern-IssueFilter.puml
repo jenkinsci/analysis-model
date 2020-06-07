@@ -33,8 +33,11 @@ class IssueFilterBuilder {
     + build(): Predicate<Issue>
 }
 
+class "Predicate<Issue>"
+
 IssueFilterBuilder --+ Report
 Report -right-o Issue
 IssueFilterBuilder --> Issue
+IssueFilterBuilder --> "Predicate<Issue>"
 
 @enduml
