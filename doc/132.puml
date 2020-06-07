@@ -1,0 +1,19 @@
+@startuml
+
+class LineRangeTest {
+    # createSerializable(): LineRange
+}
+abstract class SerializableTest{
+}
+
+class LineRange {
+}
+
+interface Serializable {
+}
+
+LineRange ..|> Serializable
+LineRangeTest --* LineRange
+LineRangeTest -|> SerializableTest
+
+@enduml

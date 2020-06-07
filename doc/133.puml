@@ -1,0 +1,30 @@
+@startuml
+
+actor JUnit
+participant SerializableTest
+participant LineRangeTest
+participant LineRange
+
+activate JUnit
+activate SerializableTest
+activate LineRangeTest
+
+JUnit -> SerializableTest : shouldBeSerializable()
+SerializableTest -> LineRangeTest : lineRange = createSerializable()
+
+LineRangeTest -> LineRange : new LineRange(int,int)
+activate LineRange
+|||
+LineRangeTest <-- LineRange
+
+SerializableTest <-- LineRangeTest
+SerializableTest -> SerializableTest : bytes = toByteArray(lineRange)
+SerializableTest -> SerializableTest : assertThatSerializableCanBeRestoredFrom(bytes)
+JUnit <-- SerializableTest
+
+deactivate LineRange
+deactivate LineRangeTest
+deactivate SerializableTest
+deactivate JUnit
+
+@enduml
