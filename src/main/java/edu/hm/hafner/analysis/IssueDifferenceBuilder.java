@@ -1,9 +1,13 @@
 package edu.hm.hafner.analysis;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 public class IssueDifferenceBuilder {
 
+    @Nullable
     private Report currentIssues;
-    private String referenceId;
+    private String referenceId = "";
+    @Nullable
     private Report referenceIssues;
 
     public IssueDifferenceBuilder setCurrentIssues(final Report currentIssues) {
