@@ -92,5 +92,34 @@ public class LineRange implements Serializable {
     public String toString() {
         return String.format("[%d-%d]", start, end);
     }
+
+
+    static class LineRangeBuilder {
+        private int start;
+        private int end;
+
+        public LineRangeBuilder() {
+        }
+
+        public LineRangeBuilder withStart(int start){
+            this.start = start;
+            return this;
+        }
+
+        public LineRangeBuilder withEnd(int end){
+            this.end = end;
+            return this;
+        }
+
+        public LineRangeBuilder withLine(int line){
+            start = line;
+            end = line;
+            return this;
+        }
+
+        public LineRange build(){
+            return new LineRange(start, end);
+        }
+    }
 }
 

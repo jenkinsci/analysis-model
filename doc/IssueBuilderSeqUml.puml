@@ -1,0 +1,38 @@
+@startuml
+activate shouldGetBaseName
+shouldGetBaseName -> IssueBuilder: new
+activate IssueBuilder
+deactivate IssueBuilder
+shouldGetBaseName -> IssueBuilder: filename = "file.txt"
+activate IssueBuilder
+deactivate IssueBuilder
+shouldGetBaseName -> IssueBuilder: other properties: set to default value
+activate IssueBuilder
+deactivate IssueBuilder
+shouldGetBaseName -> IssueBuilder: build
+activate IssueBuilder
+IssueBuilder -> Issue **: new("file.txt, 'default properties'")
+activate Issue
+deactivate Issue
+return Issue
+
+destroy IssueBuilder
+@enduml
+
+@startuml
+activate IssueBuilderTest
+IssueBuilderTest -> IssueBuilder: new
+activate IssueBuilder
+deactivate IssueBuilder
+IssueBuilderTest -> IssueBuilder: filename = "file.txt"
+activate IssueBuilder
+deactivate IssueBuilder
+IssueBuilderTest -> IssueBuilder: other properties: set to default value
+activate IssueBuilder
+IssueBuilder -> Issue **: new("file.txt")
+activate Issue
+deactivate Issue
+return Issue
+
+destroy IssueBuilder
+@enduml

@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -120,6 +121,51 @@ public class IssueDifference {
      */
     public Report getFixedIssues() {
         return fixedIssues;
+    }
+
+
+    static class IssueDifferenceBuilder {
+        private Report newIssues;
+        String referencedId;
+        private Report outstandingIssues;
+
+        public IssueDifferenceBuilder() {}
+
+        // Getter
+        private Report getNewIssues() {
+            return newIssues;
+        }
+
+        private String getReferenceId() {
+            return referencedId;
+        }
+
+        private Report getOutstandingIssues() {
+            return outstandingIssues;
+        }
+
+        // Setter
+        public IssueDifferenceBuilder setNewIssues(final Report newIssues) {
+            this.newIssues = newIssues;
+            return this;
+        }
+
+        public IssueDifferenceBuilder setReferencedId(final String referencedId) {
+            this.referencedId = referencedId;
+            return this;
+        }
+
+        public IssueDifferenceBuilder setOutstandingIssues(final Report outstandingIssues) {
+            this.outstandingIssues = outstandingIssues;
+            return  this;
+        }
+
+        public IssueDifference build(){
+            Objects.requireNonNull(getNewIssues(), "new issues not allowed to be null");
+            Objects.requireNonNull(getReferenceId(), "new referenced ID not allowed to be null");
+            Objects.requireNonNull(getOutstandingIssues(), "outstanding issues not allowed to be null");
+            return new IssueDifference(getNewIssues(), getReferenceId(), getOutstandingIssues());
+        }
     }
 }
 

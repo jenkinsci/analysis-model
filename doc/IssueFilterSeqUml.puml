@@ -1,0 +1,62 @@
+@startuml
+'todo: issueFilderBuilder statt IssueFilterBuilder (ebenso bei anderen Objekten?!) da das konkrete objekt gemeint ist?!
+'Filterbuilder erzeugt ein neues Predicate, das spaeter der Report verwendet
+activate shouldMatchMultiLinesInDescription
+shouldMatchMultiLinesInDescription -> IssueFilterBuilder: new
+activate IssueFilterBuilder
+deactivate IssueFilterBuilder
+
+shouldMatchMultiLinesInDescription -> IssueFilterBuilder: ExcludeMessageFilter = ".*something.*"
+activate IssueFilterBuilder
+deactivate IssueFilterBuilder
+
+shouldMatchMultiLinesInDescription -> IssueFilterBuilder: build
+activate IssueFilterBuilder
+IssueFilterBuilder -> Predicate **: new("file.txt")
+activate Predicate
+deactivate Predicate
+return Predicate
+deactivate Predicate
+destroy IssueFilterBuilder
+
+'report wird erstellt
+shouldMatchMultiLinesInDescription -> report **: new
+'activate Report
+'deactivate Report
+shouldMatchMultiLinesInDescription -> issueBuilder1 **: new
+'activate issueBuilder1
+'deactivate issueBuilder1
+shouldMatchMultiLinesInDescription -> issueBuilder1: Description = "something"
+activate issueBuilder1
+deactivate issueBuilder1
+shouldMatchMultiLinesInDescription -> issueBuilder1: build
+activate issueBuilder1
+issueBuilder1 -> issue1 **: new Issue
+'activate issue1
+'deactivate issue1
+return issue1
+destroy issueBuilder1
+
+shouldMatchMultiLinesInDescription -> report: add: Issue = issue1
+activate report
+deactivate report
+note over report: 2 weitere IssueBuilder, die 2 weitere Issues erzeugen. Diese werden dem Report ebenso hinzugefügt
+'...2 weitere IssueBuilder, die 2 weitere Issues erzeugen. Diese werden dem Report ebenso hinzugefügt...
+
+Predicate --> report: Predicate zum filtern übergeben
+activate Predicate
+activate issue1
+report -> reportFiltered **: new Report: filter = predicate
+activate reportFiltered
+deactivate Predicate
+deactivate issue1
+deactivate reportFiltered
+note over report: test ob richtig gefiltert wird
+
+'... test ob richtig gefiltert wird ...
+'destroy shouldMatchMultiLinesInDescription
+'destroy Predicate
+'destroy report
+'destroy issue1
+'destroy reportFiltered
+@enduml

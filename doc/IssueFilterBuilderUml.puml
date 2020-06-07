@@ -1,0 +1,11 @@
+@startuml
+title
+<u>(Expression??) Builder</u>
+<size:16>IssueFilterBuilder</size>
+end title
+IssueFilterTest o-- IssueFilterBuilder
+note top of IssueFilterTest : Director
+note top of IssueFilterBuilder: konkreter Builder
+IssueFilterBuilder ..|> Predicate
+note top  of Predicate : Produkt
+@enduml

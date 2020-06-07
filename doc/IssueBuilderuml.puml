@@ -1,0 +1,11 @@
+@startuml
+title
+<u>Construct Builder Patter</u>
+<size:16>IssueBuilder</size>
+end title
+IssueBuilderTest o-- IssueBuilder :builder
+note top of IssueBuilder : Konkreter Builder
+note top of IssueBuilderTest : Director
+IssueBuilder ..|> Issue
+note top  of Issue : Produkt
+@enduml
