@@ -1,0 +1,66 @@
+@startuml
+
+
+
+interface Serializable
+class IssueBuilder
+class Issue
+
+class AjcParser
+class CargoCheckParser
+class ClangAnalyzerPlistParser
+class EclipseXMLParser
+class FindBugsParser
+class IdeaInspectionParser
+class JSLintXmlSaxParser
+class RfLintParser
+class SonaryQubeParser
+class StyleCopParser
+class TaglistParser
+class XmlParser
+class CcmParser
+class CheckStyleParser
+class CpdParser
+class DupFinderParser
+class SimianParser
+class GendarmeParser
+class JcReportParser
+class PmdParser
+class PVSStudioParser
+class AbstractViolationAdapter
+class CppCheckAdapter
+
+
+
+IssueBuilder -> Issue
+Issue ..> Serializable
+
+AjcParser -> IssueBuilder
+CargoCheckParser -> IssueBuilder
+ClangAnalyzerPlistParser -> IssueBuilder
+EclipseXMLParser -> IssueBuilder
+FindBugsParser -> IssueBuilder
+IdeaInspectionParser -> IssueBuilder
+JSLintXmlSaxParser -> IssueBuilder
+RfLintParser -> IssueBuilder
+SonaryQubeParser -> IssueBuilder
+StyleCopParser -> IssueBuilder
+TaglistParser -> IssueBuilder
+XmlParser -> IssueBuilder
+CcmParser -> IssueBuilder
+CheckStyleParser -> IssueBuilder
+CpdParser -> IssueBuilder
+DupFinderParser -> IssueBuilder
+SimianParser -> IssueBuilder
+GendarmeParser -> IssueBuilder
+JcReportParser -> IssueBuilder
+PmdParser -> IssueBuilder
+PVSStudioParser -> IssueBuilder
+AbstractViolationAdapter -> IssueBuilder
+CppCheckAdapter -> IssueBuilder
+
+
+
+
+
+@enduml

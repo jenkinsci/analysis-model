@@ -1,0 +1,14 @@
+@startuml
+
+class Report
+interface "Iterable<Issue>"
+interface Serializable
+class IssueFilterBuilder
+interface "Predicate<Issue>"
+
+Report ..> "Iterable<Issue>"
+Report ..> Serializable
+Report -> IssueFilterBuilder
+IssueFilterBuilder -> "Predicate<Issue>"
+
+@enduml

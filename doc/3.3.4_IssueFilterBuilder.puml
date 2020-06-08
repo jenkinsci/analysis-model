@@ -1,0 +1,6 @@
+@startuml
+Issue -> Report: saved in
+Report -> IssueFilterBuilder: calls
+IssueFilterBuilder -> "Predicate<Issue>": build()
+
+@enduml

@@ -10,41 +10,20 @@ import java.io.Serializable;
 public class LineRange implements Serializable {
     private static final long serialVersionUID = -4124143085672930110L;
 
-    private final int start;
-    private final int end;
+    private int start;
+    private int end;
+
 
     /**
-     * Creates a new instance of {@link LineRange}.
-     *
-     * @param line
-     *            the single line of this range
+     * Creates a new instance of LineRange with {@link LineRangeBuilder}
      */
-    public LineRange(final int line) {
-        this(line, line);
+
+    public LineRange (int start, int end) {
+        this.start = start;
+        this.end = end;
     }
 
-    /**
-     * Creates a new instance of {@link LineRange}.
-     *
-     * @param start
-     *            start of the range
-     * @param end
-     *            end of the range
-     */
-    public LineRange(final int start, final int end) {
-        if (start <= 0) {
-            this.start = 0;
-            this.end = 0;
-        }
-        else if (start < end) {
-            this.start = start;
-            this.end = end;
-        }
-        else {
-            this.start = end;
-            this.end = start;
-        }
-    }
+
 
     /**
      * Returns the first line of this range.

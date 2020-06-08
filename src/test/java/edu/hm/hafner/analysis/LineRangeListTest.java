@@ -96,6 +96,51 @@ class LineRangeListTest {
         assertThat(first.contains(new LineRange(0, 1))).isFalse();
     }
 
+    @Test
+    void lineStartAndEndEqual() {
+        LineRange LineRange = new LineRangeBuilder()
+                .lineStartAndEndEqual(5)
+                .build();
+        assertThat(LineRange.getStart()).isEqualTo(10);
+        assertThat(LineRange.getEnd()).isEqualTo(10);
+    }
+
+    @Test
+    void lineStartAndEndDifferent() {
+        LineRange LineRange = new LineRangeBuilder()
+                .lineStartAndEndDifferent(12,20)
+                .build();
+        assertThat(LineRange.getStart()).isEqualTo(20);
+        assertThat(LineRange.getEnd()).isEqualTo(32);
+    }
+
+    @Test
+    void lineStartAndEndNull() {
+        LineRange LineRange = new LineRangeBuilder()
+                .lineStartAndEndDifferent(0,0)
+                .build();
+        assertThat(LineRange.getStart()).isEqualTo(0);
+        assertThat(LineRange.getEnd()).isEqualTo(0);
+    }
+
+    @Test
+    void lineStartNull() {
+        LineRange LineRange = new LineRangeBuilder()
+                .lineStartAndEndDifferent(0,20)
+                .build();
+        assertThat(LineRange.getStart()).isEqualTo(0);
+        assertThat(LineRange.getEnd()).isEqualTo(0);
+    }
+
+    @Test
+    void lineStartNegative() {
+        LineRange LineRange = new LineRangeBuilder()
+                .lineStartAndEndDifferent(-1,20)
+                .build();
+        assertThat(LineRange.getStart()).isEqualTo(0);
+        assertThat(LineRange.getEnd()).isEqualTo(0);
+    }
+
     private LineRangeList createThreeElements() {
         LineRangeList range = new LineRangeList();
         range.add(new LineRange(0, 1));

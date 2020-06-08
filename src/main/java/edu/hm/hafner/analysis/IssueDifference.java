@@ -19,20 +19,19 @@ public class IssueDifference {
     /**
      * Creates a new instance of {@link IssueDifference}.
      *
-     * @param currentIssues
-     *         the issues of the current report
+     * @param builder
+     *         builder for IssueDifference
      * @param referenceId
      *         ID identifying the reference report
-     * @param referenceIssues
-     *         the issues of a previous report (reference)
+
      */
-    public IssueDifference(final Report currentIssues, final String referenceId, final Report referenceIssues) {
-        newIssues = currentIssues.copy();
-        fixedIssues = referenceIssues.copy();
+    public IssueDifference(final IssueDifferenceBuilder builder, final String referenceId) {
+        newIssues = builder.newIssues;
+        fixedIssues = builder.fixedIssues;
         outstandingIssues = new Report();
 
-        List<UUID> removed = matchIssuesByEquals(currentIssues);
-        Report secondPass = currentIssues.copy();
+        List<UUID> removed = matchIssuesByEquals(builder.currentIssues);
+        Report secondPass = builder.currentIssues.copy();
         removed.forEach(secondPass::remove);
         matchIssuesByFingerprint(secondPass);
 

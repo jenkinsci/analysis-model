@@ -1,0 +1,7 @@
+@startuml
+
+Parser  -> IssueBuilder: calls build()
+IssueBuilder -> Issue: creates
+Issue --> Parser: gives back
+
+@enduml
