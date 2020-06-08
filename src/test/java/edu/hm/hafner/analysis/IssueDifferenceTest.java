@@ -14,11 +14,20 @@ class IssueDifferenceTest {
     private static final String REFERENCE_BUILD = "100";
     private static final String CURRENT_BUILD = "2";
 
+    private IssueDifference createNewIssueDifference(final Report currentIssues,final String refrenceId, final Report refrenceIssues){
+        return new IssueDifferenceBuilder()
+                .setCurrentIssues(currentIssues)
+                .setRefrenceId(refrenceId)
+                .setRefrenceIssues(refrenceIssues)
+                .build();
+    }
+
     /**
      * Verifies that issue difference report is created correctly.
      */
     @Test
     void shouldCreateIssueDifference() {
+
         Report referenceIssues = new Report().addAll(
                 createIssue("OUTSTANDING 1", "OUT 1"),
                 createIssue("OUTSTANDING 2", "OUT 2"),
@@ -32,7 +41,7 @@ class IssueDifferenceTest {
                 createIssue("OUTSTANDING 3", "OUT 3"),
                 createIssue("NEW 1", "NEW 1"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createNewIssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         Report outstanding = issueDifference.getOutstandingIssues();
         assertThat(outstanding).hasSize(3);
@@ -65,7 +74,7 @@ class IssueDifferenceTest {
         Report referenceIssues = new Report().add(createIssue("OLD", "OLD"));
         Report currentIssues = new Report().add(createIssue(currentMessage, currentFingerprint));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createNewIssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getNewIssues()).isEmpty();
@@ -87,7 +96,7 @@ class IssueDifferenceTest {
                 createIssue("OLD 2", "FB"));
         Report currentIssues = new Report();
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createNewIssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getNewIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
@@ -108,7 +117,7 @@ class IssueDifferenceTest {
         Report currentIssues = new Report().addAll(createIssue("NEW 1", "FA"),
                 createIssue("NEW 2", "FB"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createNewIssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
@@ -133,7 +142,7 @@ class IssueDifferenceTest {
                 createIssue("NEW 1", "FP"),
                 createIssue("OLD 1", "FP"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createNewIssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
 
@@ -155,7 +164,7 @@ class IssueDifferenceTest {
                 createIssue("NEW 1", "FP1"),
                 createIssue("NEW 3", "FP2"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        IssueDifference issueDifference = createNewIssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).hasSize(1);
         assertThat(issueDifference.getNewIssues()).hasSize(1);

@@ -1,0 +1,11 @@
+@startuml
+title IssueBuilderClassDiag
+
+class Issue
+class IssueBuilder
+class IssueBuilderTest
+
+Issue <.. IssueBuilder
+IssueBuilderTest ..> IssueBuilder
+
+@enduml

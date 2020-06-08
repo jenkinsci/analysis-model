@@ -1,0 +1,19 @@
+@startuml
+
+title IssueFilterBuilderSeqDiag
+
+activate IssueFilterTest
+
+create IssueFilterBuilder
+IssueFilterTest -> IssueFilterBuilder :new()
+activate IssueFilterBuilder
+
+IssueFilterTest -> IssueFilterBuilder : setIncludeMessageFilter(..)
+IssueFilterTest -> IssueFilterBuilder : setExcludeMessageFilter(..)
+IssueFilterTest -> IssueFilterBuilder : setIncludeFileNameFilter(..)
+IssueFilterTest -> IssueFilterBuilder : setExcludeFileNameFilter(..)
+...
+IssueFilterTest -> IssueFilterBuilder : build()
+IssueFilterBuilder -> IssueFilterTest : predicate<Issue>
+
+@enduml

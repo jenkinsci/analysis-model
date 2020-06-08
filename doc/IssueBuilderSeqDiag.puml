@@ -1,0 +1,26 @@
+@startuml
+
+title IssueBuilderSeqDiag
+
+activate IssueBuilderTest
+
+create IssueBuilder
+IssueBuilderTest -> IssueBuilder :new()
+activate IssueBuilder
+
+IssueBuilderTest -> IssueBuilder : new IssueBuilder()
+IssueBuilderTest -> IssueBuilder : setDirectory()
+IssueBuilderTest -> IssueBuilder : setName("file name")
+IssueBuilderTest -> IssueBuilder : setLineStart()
+IssueBuilderTest -> IssueBuilder : setLineEnd()
+...
+IssueBuilderTest -> IssueBuilder : build()
+
+create Issue
+IssueBuilder -> Issue : new(...)
+activate Issue
+
+Issue --> IssueBuilder : Issue
+IssueBuilder --> IssueBuilderTest : Issue
+
+@enduml

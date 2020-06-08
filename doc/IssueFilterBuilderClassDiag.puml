@@ -1,0 +1,13 @@
+@startuml
+title IssueFilterBuilderClassDiag
+
+class Report
+class Issue
+class IssueFilterBuilder
+class IssueFilterTest
+
+Report o-- Issue
+Report <.. IssueFilterBuilder
+IssueFilterTest ..>Report
+
+@enduml
