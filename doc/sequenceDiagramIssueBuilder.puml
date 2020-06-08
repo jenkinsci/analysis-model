@@ -1,0 +1,28 @@
+@startuml
+
+title Sequenzdiagramm für IssueBuilder
+
+actor ":Nutzer" as N
+
+create ":IssueBuilder" as IB
+N -> IB: new IssueBuilder();
+
+N -> IB ++ : .setID(...);
+return return this
+|||
+N -> IB ++ : .setDirectory(...);
+return return this
+N -> IB ++ : ...(...);
+return return this
+|||
+
+N -> IB ++ : .build();
+
+create ":Issue" as I
+IB -> I: new Issue(...);
+return Rückgabe der Referenz auf das Issue Objekt
+
+N -> I ++ : ...
+return ...
+
+@enduml

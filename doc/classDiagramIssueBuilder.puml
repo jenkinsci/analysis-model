@@ -1,0 +1,18 @@
+@startuml
+
+title Klassendiagramm für IssueBuilder
+
+skinparam arrowColor black
+skinparam classFontName Arial
+skinparam classAttributeIconSize 0
+skinparam titleFontSize 20
+skinparam defaultFontSize 16
+
+hide circle
+
+class Issue
+class IssueBuilder
+
+Issue "0..*" <-- "1" IssueBuilder
+
+@enduml

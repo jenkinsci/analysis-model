@@ -1,0 +1,25 @@
+@startuml
+
+title Sequenzdiagramm für IssueFilterBuilder
+
+actor ":Nutzer" as N
+
+create ":IssueFilterBuilder" as IFB
+N -> IFB: new Report.IssueFilterBuilder();
+
+N -> IFB ++ : .addNewFilter(...);
+return
+|||
+N -> IFB ++ : .setIncludePackageNameFilter(...);
+return return this
+|||
+N -> IFB ++ : .setExcludeFileNameFilter(...);
+return return this
+N -> IFB ++ : ...(...);
+return return this
+|||
+
+N -> IFB ++ : .build();
+return Rückgabe eines Predicate<Issue>
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+
+title Klassendiagramm für IssueFilterBuilder
+
+skinparam arrowColor black
+skinparam classFontName Arial
+skinparam classAttributeIconSize 0
+skinparam titleFontSize 20
+skinparam defaultFontSize 16
+
+hide circle
+
+class Issue
+class Report
+class Report.IssueFilterBuilder <<static>> {
+   +build(): Predicate<Issue>
+}
+
+Issue <-- Report.IssueFilterBuilder
+
+note "Keine Beziehung zwischen Report\nund IssueFilterBuilder" as N1
+
+@enduml
