@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import edu.hm.hafner.util.VisibleForTesting;
+
 import static edu.hm.hafner.analysis.PackageDetectors.*;
 
 /**
@@ -19,6 +21,7 @@ class JavaPackageDetector extends AbstractPackageDetector {
         this(new FileSystem());
     }
 
+    @VisibleForTesting
     JavaPackageDetector(final FileSystem fileSystem) {
         super(fileSystem);
     }
