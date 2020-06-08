@@ -45,8 +45,8 @@ public abstract class ListTest {
         assertThat(list.contains(first)).isTrue();
         assertThat(list.contains(second)).isTrue();
 
-        Integer firstRemoved = list.remove(1);
-        Integer secondRemoved = list.remove(0);
+        Integer firstRemoved = list.remove(0);
+        Integer secondRemoved = list.remove(1);
 
         assertThat(list.contains(first)).isFalse();
         assertThat(list.contains(second)).isFalse();
