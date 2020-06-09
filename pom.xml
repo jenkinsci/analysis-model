@@ -13,7 +13,7 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>$8.2-SNAPSHOT</version>
+  <version>${revision}${changelist}</version>
 
   <packaging>jar</packaging>
 
