@@ -15,7 +15,7 @@ public abstract class ListTest {
     abstract List<Integer> create(int numberOfInitialElements);
 
     @Test
-    public void checkIsEmpty(){
+    void checkIsEmpty(){
         List list = create(0);
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(list).isEmpty();
@@ -23,7 +23,7 @@ public abstract class ListTest {
     }
 
     @Test
-    public void checkAddSize(){
+    void checkAddSize(){
         List list = create(3);
         list.add(1);
         list.add(2);
@@ -34,7 +34,7 @@ public abstract class ListTest {
     }
 
     @Test
-    public void checkRemoveSize(){
+    void checkRemoveSize(){
         List list = create(3);
         list.add(1);
         list.add(2);
@@ -46,7 +46,7 @@ public abstract class ListTest {
     }
 
     @Test
-    public void checkGet(){
+    void checkGet(){
         List list = create(3);
         list.add(1);
         list.add(2);
