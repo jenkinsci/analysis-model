@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
-import static org.assertj.core.api.Assertions.*;
 
 /**
  * Unit Tests of the class {@link IssueDifference}.
