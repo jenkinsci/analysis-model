@@ -12,12 +12,12 @@ public class LineRangeBuilder {
     /** Ende der LineRange. */
     private int end;
 
-    public LineRangeBuilder setStart(final int start) {
+    LineRangeBuilder setStart(final int start) {
         this.start = start;
         return this;
     }
 
-    public LineRangeBuilder setEnd(final int end) {
+    LineRangeBuilder setEnd(final int end) {
         this.end = end;
         return this;
     }
@@ -26,7 +26,7 @@ public class LineRangeBuilder {
      * Eine neue LineRange.
      * @return LineRange
      */
-    public LineRange build() {
+    LineRange build() {
         return new LineRange(start, end);
     }
 }
