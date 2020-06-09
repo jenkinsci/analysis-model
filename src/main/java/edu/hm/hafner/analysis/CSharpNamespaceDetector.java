@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import edu.hm.hafner.util.VisibleForTesting;
+
 import static edu.hm.hafner.analysis.PackageDetectors.*;
 
 /**
@@ -18,6 +20,7 @@ class CSharpNamespaceDetector extends AbstractPackageDetector {
         this(new FileSystem());
     }
 
+    @VisibleForTesting
     CSharpNamespaceDetector(final FileSystem fileSystem) {
         super(fileSystem);
     }
