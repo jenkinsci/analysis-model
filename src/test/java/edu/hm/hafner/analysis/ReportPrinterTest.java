@@ -2,12 +2,15 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.analysis.Report.JavaUtilLoggingPrinter;
+import edu.hm.hafner.analysis.Report.Slf4jLoggingPrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
@@ -37,6 +40,46 @@ class ReportPrinterTest extends ResourceTest {
 
         for (Issue issue : report) {
             verify(printer).print(issue);
+        }
+    }
+
+    @Test
+    void shouldPrintAllIssuesToSlf4jLogger() {
+        Report report = readCheckStyleReport();
+
+        org.slf4j.Logger logger = mock(org.slf4j.Logger.class);
+        report.print(new Slf4jLoggingPrinter(logger));
+
+        for(Issue issue : report) {
+            if (issue.getSeverity() == Severity.ERROR) {
+                verify(logger).error(issue.toString());
+            } else if (issue.getSeverity() == Severity.WARNING_HIGH) {
+                verify(logger).warn(issue.toString());
+            } else if (issue.getSeverity() == Severity.WARNING_LOW) {
+                verify(logger).info(issue.toString());
+            } else {
+                verify(logger).trace(issue.toString());
+            }
+        }
+    }
+
+    @Test
+    void shouldPrintAllIssuesToJavaUtilLogger() {
+        Report report = readCheckStyleReport();
+
+        java.util.logging.Logger logger = mock(java.util.logging.Logger.class);
+        report.print(new JavaUtilLoggingPrinter(logger));
+
+        for(Issue issue : report) {
+            if (issue.getSeverity() == Severity.ERROR) {
+                verify(logger).log(Level.SEVERE, issue.toString());
+            } else if (issue.getSeverity() == Severity.WARNING_HIGH) {
+                verify(logger).log(Level.WARNING, issue.toString());
+            } else if (issue.getSeverity() == Severity.WARNING_LOW) {
+                verify(logger).log(Level.INFO, issue.toString());
+            } else {
+                verify(logger).log(Level.FINE, issue.toString());
+            }
         }
     }
 

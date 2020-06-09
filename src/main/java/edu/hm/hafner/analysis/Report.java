@@ -19,6 +19,7 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -27,6 +28,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -842,6 +845,60 @@ public class Report implements Iterable<Issue>, Serializable {
         @Override
         public void print(final Issue issue) {
             printStream.println(issue.toString());
+        }
+    }
+
+    public static class JavaUtilLoggingPrinter implements IssuePrinter {
+        private final java.util.logging.Logger logger;
+
+        public JavaUtilLoggingPrinter() {
+            this(java.util.logging.Logger.getLogger(JavaUtilLoggingPrinter.class.getName()));
+        }
+
+        public JavaUtilLoggingPrinter(final java.util.logging.Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            final Severity severity = issue.getSeverity();
+
+            if(severity.equals(Severity.ERROR)) {
+                logger.log(Level.SEVERE, issue.toString());
+            } else if (severity.equals(Severity.WARNING_HIGH)) {
+                logger.log(Level.WARNING, issue.toString());
+            } else if (severity.equals(Severity.WARNING_LOW)) {
+                logger.log(Level.INFO, issue.toString());
+            } else {
+                logger.log(Level.FINE, issue.toString());
+            }
+        }
+    }
+
+    public static class Slf4jLoggingPrinter implements IssuePrinter {
+        private final org.slf4j.Logger logger;
+
+        public Slf4jLoggingPrinter() {
+            this(LoggerFactory.getLogger(Slf4jLoggingPrinter.class));
+        }
+
+        public Slf4jLoggingPrinter(final Logger logger) {
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            final Severity severity = issue.getSeverity();
+
+            if(severity.equals(Severity.ERROR)) {
+                logger.error(issue.toString());
+            } else if (severity.equals(Severity.WARNING_HIGH)) {
+                logger.warn(issue.toString());
+            } else if (severity.equals(Severity.WARNING_LOW)) {
+                logger.info(issue.toString());
+            } else {
+                logger.trace(issue.toString());
+            }
         }
     }
 
