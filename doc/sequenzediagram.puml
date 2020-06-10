@@ -1,0 +1,28 @@
+@startuml
+actor TestFramework
+participant LineRangeTest
+participant "SerializableTest<LineRange>" as SerializableTest
+participant LineRange
+
+activate TestFramework
+TestFramework -> LineRangeTest : start tests
+
+activate LineRangeTest
+LineRangeTest -> SerializableTest : super()
+
+activate SerializableTest
+SerializableTest -> LineRangeTest : createSerializable()
+LineRangeTest -> LineRange : new LineRange(0)
+
+activate LineRange
+LineRange -> LineRangeTest : LineRange Object
+
+LineRangeTest -> SerializableTest : shouldBeSerializable()
+SerializableTest --> LineRangeTest
+deactivate SerializableTest
+
+LineRangeTest --> TestFramework
+
+deactivate LineRange
+deactivate LineRangeTest
+@enduml
