@@ -1,0 +1,26 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class LineRangeTest {
+#createSerializable(): LineRange
+}
+class SerializableTest<LineRange> {
+{abstract} #createSerializable(): LineRange
+}
+class LineRange {
+- int start
+- int end
++ LineRange(int, int): LineRange
++ LineRange(int): LineRange
++ getStart(): int
++ getEnd(): int
++ equals(Object): boolean
++ hashCode(): int
++ toString(): String
+}
+
+LineRangeTest --|> SerializableTest
+LineRange --|> Serializable
+LineRangeTest -> LineRange : erzeugt
+
+@enduml
