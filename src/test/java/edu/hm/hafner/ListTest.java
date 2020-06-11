@@ -160,14 +160,6 @@ public abstract class ListTest {
                 .isInstanceOf(IndexOutOfBoundsException.class);
     }
 
-
-
-
-
-
-
-
-
     // combinations
 
     // isEmpty and size
@@ -205,6 +197,4 @@ public abstract class ListTest {
         assertThat(sut.isEmpty()).isFalse();
         assertThat(sut.get(0)).isEqualTo(ONE);
     }
-
-
 }
