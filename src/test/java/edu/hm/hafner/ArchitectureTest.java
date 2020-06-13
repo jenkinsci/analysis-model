@@ -31,8 +31,8 @@ class ArchitectureTest {
                     .orShould().callConstructor(Digester.class, XMLReader.class)
                     .orShould().callMethod(DigesterLoader.class, "newDigester");
 
-    @ArchTest
-    static final ArchRule NO_PUBLIC_TEST_CLASSES = ArchitectureRules.NO_PUBLIC_TEST_CLASSES;
+//    @ArchTest
+//    static final ArchRule NO_PUBLIC_TEST_CLASSES = ArchitectureRules.NO_PUBLIC_TEST_CLASSES;
 
     @ArchTest
     static final ArchRule NO_TEST_API_CALLED = ArchitectureRules.NO_TEST_API_CALLED;
