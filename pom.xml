@@ -66,6 +66,7 @@
 
     <!-- Project Dependencies Configuration -->
     <codingstyle.library.version>1.1.0</codingstyle.library.version>
+    <jmh.version>1.19</jmh.version>
     <commons.lang.version>3.10</commons.lang.version>
     <commons.io.version>2.7</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
@@ -158,6 +159,17 @@
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-core</artifactId>
+      <version>${jmh.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-generator-annprocess</artifactId>
+      <version>${jmh.version}</version>
+    </dependency>
+
 
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -215,6 +227,7 @@
           </packages>
           <excludes>
             <exclude>.*SecureDigester</exclude>
+            <exclude>edu.hm.hafner.analysis.benchmark.*</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
           </excludes>
           <entryPointClassPackage>edu.hm.hafner.analysis.assertions</entryPointClassPackage>
@@ -272,6 +285,19 @@
         <extensions>false</extensions>
         <configuration>
           <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.openjdk.jmh</groupId>
+              <artifactId>jmh-generator-annprocess</artifactId>
+              <version>${jmh.version}</version>
+            </path>
+          </annotationProcessorPaths>
         </configuration>
       </plugin>
     </plugins>

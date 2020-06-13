@@ -26,7 +26,7 @@ public class PackageNameResolver {
     }
 
     @VisibleForTesting
-    PackageNameResolver(final FileSystem fileSystem) {
+    public PackageNameResolver(final FileSystem fileSystem) {
         packageDetectors = new PackageDetectors(fileSystem);
     }
 

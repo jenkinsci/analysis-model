@@ -18,7 +18,7 @@ import edu.hm.hafner.util.VisibleForTesting;
  *
  * @author Ullrich Hafner
  */
-class PackageDetectors {
+public class PackageDetectors {
     /** If no package could be assigned this value is used as package name. */
     static final String UNDEFINED_PACKAGE = "-";
 
@@ -53,9 +53,9 @@ class PackageDetectors {
      * Facade for file system operations. May be replaced by stubs in test cases.
      */
     @VisibleForTesting
-    static class FileSystem {
+    public static class FileSystem {
         @MustBeClosed
-        InputStream openFile(final String fileName) throws IOException, InvalidPathException {
+        public InputStream openFile(final String fileName) throws IOException, InvalidPathException {
             return Files.newInputStream(Paths.get(fileName));
         }
     }
