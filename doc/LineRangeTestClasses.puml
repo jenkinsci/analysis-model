@@ -1,0 +1,30 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class LineRangeTest {
+    # LineRange createSerializable()
+}
+
+class SerializableTest<<LineRange>> {
+    {abstract}# LineRange createSerializable()
+    ~void shouldBeSerializable()
+}
+
+class Serializable {
+
+}
+
+class LineRange {
+
+}
+
+LineRangeTest --|> SerializableTest
+
+LineRangeTest ..> LineRange
+SerializableTest ..> LineRange
+
+LineRange --|> Serializable
+SerializableTest ..> Serializable
+
+@enduml
