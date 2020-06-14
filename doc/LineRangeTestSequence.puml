@@ -1,0 +1,17 @@
+@startuml
+
+actor JUnit
+
+JUnit -> SerializableTest: void shouldBeSerializable()
+
+SerializableTest -> LineRangeTest: LineRange createSerializable()
+
+LineRangeTest --> SerializableTest: LineRange instance
+
+SerializableTest -> Assertions: assertThat(...)
+
+Assertions --> SerializableTest
+
+SerializableTest --> JUnit
+
+@enduml
