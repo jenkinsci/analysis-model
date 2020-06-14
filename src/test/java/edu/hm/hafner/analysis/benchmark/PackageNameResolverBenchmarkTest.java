@@ -4,7 +4,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.profile.StackProfiler;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -34,7 +39,6 @@ public class PackageNameResolverBenchmarkTest {
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
 
         resolver.run(report, StandardCharsets.UTF_8);
-
     }
 
     private FileSystem createFileSystemStub() throws IOException {
@@ -46,5 +50,15 @@ public class PackageNameResolverBenchmarkTest {
 
     private Report createIssues() {
         return new Report();
+    }
+
+    @Test
+    public void benchmark() throws Exception {
+        Options opt = new OptionsBuilder()
+                .include(this.getClass().getName() + ".*")
+                .addProfiler(StackProfiler.class)
+                .build();
+
+        new Runner(opt).run();
     }
 }

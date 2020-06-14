@@ -163,11 +163,13 @@
       <groupId>org.openjdk.jmh</groupId>
       <artifactId>jmh-core</artifactId>
       <version>${jmh.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.openjdk.jmh</groupId>
       <artifactId>jmh-generator-annprocess</artifactId>
       <version>${jmh.version}</version>
+      <scope>test</scope>
     </dependency>
 
 
@@ -204,6 +206,15 @@
     </resources>
 
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <compilerArgs combine.children="append">
+            <arg>-XepExcludedPaths:.*/generated-test-sources/.*</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>io.jenkins.tools.incrementals</groupId>
         <artifactId>incrementals-maven-plugin</artifactId>
