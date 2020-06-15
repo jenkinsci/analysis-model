@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.profile.StackProfiler;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
@@ -28,6 +31,8 @@ public class FingerprintGeneratorBenchmarkTest {
      * Benchmarking the {@link FingerprintGenerator} with one Issue.
      */
     @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(value = 1, warmups = 1)
     public void benchmarkingOneIssue() {
         FingerprintGenerator generator = new FingerprintGenerator();
 
@@ -41,6 +46,8 @@ public class FingerprintGeneratorBenchmarkTest {
      * Benchmarking the {@link FingerprintGenerator} with multiple Issues.
      */
     @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(value = 1, warmups = 1)
     public void benchmarkingMultipleIssues() {
         FingerprintGenerator generator = new FingerprintGenerator();
 

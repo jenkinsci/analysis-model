@@ -6,6 +6,9 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.profile.StackProfiler;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
@@ -23,21 +26,20 @@ public class PackageNameResolverBenchmarkTest {
 
     private static final String FILE_NO_PACKAGE = "one.java";
     private static final String FILE_WITH_PACKAGE = "two.java";
-    private static final Issue ISSUE_WITHOUT_PACKAGE = new IssueBuilder().setFileName(FILE_NO_PACKAGE).build();
-    private static final Issue ISSUE_WITH_PACKAGE = new IssueBuilder().setFileName(FILE_WITH_PACKAGE)
-            .setPackageName("existing")
-            .build();
-
 
 
     @Benchmark
-    public void init() throws IOException {
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(value = 1, warmups = 1)
+    public void benchmark1000IssuesTest() throws IOException {
         Report report = createIssues();
-        report.add(ISSUE_WITHOUT_PACKAGE);
-        report.add(ISSUE_WITH_PACKAGE);
+        for(int i = 0; i < 1000; i++){
+            report.add(new IssueBuilder().setFileName(FILE_WITH_PACKAGE + i)
+                    .setPackageName("existing")
+                    .build());
+        }
 
         PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
-
         resolver.run(report, StandardCharsets.UTF_8);
     }
 
