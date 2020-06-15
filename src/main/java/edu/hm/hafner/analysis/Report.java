@@ -13,12 +13,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -842,6 +845,121 @@ public class Report implements Iterable<Issue>, Serializable {
         @Override
         public void print(final Issue issue) {
             printStream.println(issue.toString());
+        }
+    }
+
+    /**
+     * An adapter to print {@code Issue Issues} with Java Util Logging.
+     */
+    public static class JulAdapter implements  IssuePrinter {
+
+        /**
+         * Logger of the class java.util.logging.logger.
+         */
+        private final Logger utilLogger;
+
+        /**
+         * Constructor for JulAdapter.
+         *
+         * @param logger the logger to use
+         *
+         * @throws NullPointerException
+         *          if logger is null
+         */
+        @VisibleForTesting
+        JulAdapter(final Logger logger) {
+            Objects.requireNonNull(logger);
+            this.utilLogger = logger;
+        }
+
+        /**
+         * Print the issue with the Java Util Logger.
+         *
+         * @param issue the issue to print
+         *
+         * @throws IllegalArgumentException
+         *          if the severity of the issue is not
+         *          ERROR, WARNING_HIGH, WARNING_NORMAL OR WARNING_LOW
+         */
+        @Override
+        public void print(final Issue issue) {
+            utilLogger.log(severityToLevel(issue.getSeverity()), issue.toString());
+        }
+
+        private Level severityToLevel(final Severity pSeverity) {
+            if (pSeverity.equals(Severity.ERROR)) {
+                return Level.SEVERE;
+            }
+            else if (pSeverity.equals(Severity.WARNING_HIGH)) {
+                return Level.WARNING;
+            }
+            else if (pSeverity.equals(Severity.WARNING_NORMAL)) {
+                return Level.INFO;
+            }
+            else if (pSeverity.equals(Severity.WARNING_LOW)) {
+                return Level.FINE;
+            }
+            else {
+                throw new IllegalArgumentException("Severity must be "
+                        + "ERROR, WARNING_HIGH, WARNING_NORMAL OR WARNING_LOW!");
+            }
+        }
+    }
+
+    /**
+     * An adapter to print {@code Issue Issues} with Simple Logging Facade for Java.
+     */
+    public static class Slf4jAdapter implements  IssuePrinter {
+
+        /**
+         * Logger of the class java.util.logging.logger.
+         */
+        private final org.slf4j.Logger slf4jLogger;
+
+        /**
+         * Constructor for Slf4jAdapter.
+         *
+         * @param logger the logger to use
+         *
+         * @throws NullPointerException
+         *          if logger is null
+         */
+        @VisibleForTesting
+        Slf4jAdapter(final org.slf4j.Logger logger) {
+            Objects.requireNonNull(logger);
+            this.slf4jLogger = logger;
+        }
+
+        /**
+         * Print the issue with the Simple Logging Facade for Java.
+         *
+         * @param issue the issue to print
+         *
+         * @throws IllegalArgumentException
+         *          if the severity of the issue is not
+         *          ERROR, WARNING_HIGH, WARNING_NORMAL OR WARNING_LOW
+         */
+        @Override
+        public void print(final Issue issue) {
+            final Severity severity = issue.getSeverity();
+            final String issueAsString = issue.toString();
+
+            if (severity.equals(Severity.ERROR)) {
+                slf4jLogger.error(issueAsString);
+            }
+            else if (severity.equals(Severity.WARNING_HIGH)) {
+                slf4jLogger.warn(issueAsString);
+            }
+            else if (severity.equals(Severity.WARNING_NORMAL)) {
+                slf4jLogger.info(issueAsString);
+            }
+            else if (severity.equals(Severity.WARNING_LOW)) {
+                slf4jLogger.trace(issueAsString);
+            }
+            else {
+                throw new IllegalArgumentException("Severity must be "
+                        + "ERROR, WARNING_HIGH, WARNING_NORMAL OR WARNING_LOW!");
+            }
         }
     }
 
