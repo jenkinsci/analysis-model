@@ -19,6 +19,7 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -842,6 +843,57 @@ public class Report implements Iterable<Issue>, Serializable {
         @Override
         public void print(final Issue issue) {
             printStream.println(issue.toString());
+        }
+    }
+
+    /**
+     * Prints issues using the JavaUtilLogging library.
+     */
+    public static class JavaLoggingOutputPrinter implements IssuePrinter {
+        private final java.util.logging.Logger logger;
+        private final Map<Severity, Level> severityLogLevelMap = new HashMap<>();
+
+        public JavaLoggingOutputPrinter() {this(java.util.logging.Logger.getLogger(Issue.class.getName()));}
+
+        @VisibleForTesting
+        public JavaLoggingOutputPrinter(final java.util.logging.Logger logger) {
+            this.logger = logger;
+            severityLogLevelMap.put(Severity.ERROR, Level.SEVERE);
+            severityLogLevelMap.put(Severity.WARNING_HIGH, Level.WARNING);
+            severityLogLevelMap.put(Severity.WARNING_NORMAL, Level.INFO);
+            severityLogLevelMap.put(Severity.WARNING_LOW, Level.FINE);
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            logger.log(severityLogLevelMap.get(issue.getSeverity()), issue.getMessage());
+        }
+    }
+
+    /**
+     * Prints issues using SLF4J
+     */
+    public static class SLF4JOutputPrinter implements IssuePrinter {
+        private final Map<Severity, Log> severityLogLevelMap = new HashMap<>();
+
+        @FunctionalInterface
+        private interface Log {
+            void log(String msg);
+        }
+
+        public SLF4JOutputPrinter() {this(org.slf4j.LoggerFactory.getLogger(Issue.class.getName()));}
+
+        @VisibleForTesting
+        public SLF4JOutputPrinter(final org.slf4j.Logger logger) {
+            severityLogLevelMap.put(Severity.ERROR, logger::error);
+            severityLogLevelMap.put(Severity.WARNING_HIGH, logger::warn);
+            severityLogLevelMap.put(Severity.WARNING_NORMAL, logger::info);
+            severityLogLevelMap.put(Severity.WARNING_LOW, logger::trace);
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            severityLogLevelMap.get(issue.getSeverity()).log(issue.getMessage());
         }
     }
 
