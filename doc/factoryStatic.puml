@@ -3,7 +3,7 @@
 interface Serializable
 abstract class "SerializableTest<LineRange>"
 LineRangeTest --|> "SerializableTest<LineRange>" : extends
-"SerializableTest<LineRange>" --|> Serializable
+"SerializableTest<LineRange>" --|> Serializable :extends
 "SerializableTest<LineRange>" --|> LineRange: creates
 LineRange --|>Serializable
 
