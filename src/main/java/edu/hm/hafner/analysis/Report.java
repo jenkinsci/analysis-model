@@ -19,6 +19,8 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -820,6 +822,63 @@ public class Report implements Iterable<Issue>, Serializable {
          */
         void print(Issue issue);
     }
+
+    public static class JavaUtilLogAdapter implements IssuePrinter{
+
+        private final Logger logger;
+
+        @VisibleForTesting
+        JavaUtilLogAdapter(final Logger logger){
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            logger.log(getLevel(issue.getSeverity()), issue.toString());
+        }
+
+        private Level getLevel(Severity severity){
+            if(severity.equals(Severity.ERROR))
+                return Level.SEVERE;
+            else if(severity.equals(Severity.WARNING_HIGH))
+                return Level.WARNING;
+            else if(severity.equals(Severity.WARNING_NORMAL))
+                return Level.INFO;
+            else if(severity.equals(Severity.WARNING_LOW))
+                return Level.FINE;
+            else
+                throw new IllegalArgumentException("Unsupported Severity Level");
+        }
+    }
+
+    public static class SLF4JAdapter implements IssuePrinter {
+
+        private final org.slf4j.Logger logger;
+
+        @VisibleForTesting
+        SLF4JAdapter(final org.slf4j.Logger logger){
+            this.logger = logger;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            Severity severity = issue.getSeverity();
+            String issueString = issue.toString();
+
+            if (severity.equals(Severity.ERROR))
+                logger.error(issueString);
+            else if(severity.equals(Severity.WARNING_HIGH))
+                logger.warn(issueString);
+            else if(severity.equals(Severity.WARNING_NORMAL))
+                logger.info(issueString);
+            else if(severity.equals(Severity.WARNING_LOW))
+                logger.trace(issueString);
+            else
+                throw new IllegalArgumentException("Unsupported Severity");
+        }
+    }
+
+
 
     /**
      * Prints issues to the "standard" output stream.

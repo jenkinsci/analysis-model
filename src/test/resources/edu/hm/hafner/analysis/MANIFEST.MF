@@ -37,3 +37,4 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.6.0",
  de.faktorlogik.core;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Import-Package: org.slf4j
