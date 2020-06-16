@@ -23,7 +23,6 @@ abstract class ListTest {
     @Test
     public void isEmpty() {
         List<Integer> list = create(0);
-
         assertThat(list.isEmpty());
 
         list.add(5);
@@ -51,7 +50,9 @@ abstract class ListTest {
 
         list.remove(5);
 
-        assertThat(!list.contains(99));
+        boolean contains = !(list.contains(99));
+
+        assertThat(contains);
     }
 
     @Test
