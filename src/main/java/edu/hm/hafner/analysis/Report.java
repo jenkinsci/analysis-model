@@ -13,12 +13,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -1220,5 +1223,82 @@ public class Report implements Iterable<Issue>, Serializable {
                     filterType);
         }
         //</editor-fold>
+    }
+    /**
+     * Adapter for logging issues using Java Util Logging.
+     *
+     * @author Viet Phuoc Ho (v.ho@hm.edu)
+     */
+    public static class JULAdapter implements IssuePrinter{
+        private final Logger log;
+
+        /**
+         * Contructor for printer that logs to JUL.
+         *
+         * @param log
+         *           Logger object
+         * @throws NullPointerException
+         *           if log is null
+         */
+        @VisibleForTesting
+        JULAdapter(final Logger log){
+            Objects.requireNonNull(log);
+            this.log = log;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            log.log(issueSevToJDKLevel(issue.getSeverity()), issue.toString());
+        }
+
+        /**
+         * Takes Severity of an Issue and converts it to a Level
+         * @param sev
+         *         severity of the issue
+         * @return level of the issue
+         * @throws NullPointerException if sev is null
+         */
+        private Level issueSevToJDKLevel(final Severity sev){
+            Objects.requireNonNull(sev);
+            Level level = Level.FINE;
+
+            if(sev.equals(Severity.ERROR)) level = Level.SEVERE;
+            if(sev.equals(Severity.WARNING_HIGH)) level = Level.WARNING;
+            if(sev.equals(Severity.WARNING_NORMAL)) level = Level.INFO;
+
+            return level;
+        }
+    }
+
+    /**
+     * Adapter for logging issues using the Simple Logging Facade for Java(SLF4J).
+     *
+     * @author Viet Phuoc Ho (v.ho@hm.edu)
+     */
+    public static class SLF4JAdapter implements IssuePrinter{
+        private final org.slf4j.Logger log;
+
+        /**
+         * Contructor for printer that logs to the Simple Logging Facade for Java(SLF4J).
+         *
+         * @param log
+         *           Logger object
+         * @throws NullPointerException
+         *           if log is null
+         */
+        @VisibleForTesting
+        SLF4JAdapter(final org.slf4j.Logger log){
+            Objects.requireNonNull(log);
+            this.log = log;
+        }
+
+        @Override
+        public void print(final Issue issue) {
+            if(issue.getSeverity().equals(Severity.ERROR)) log.error(issue.toString());
+            else if(issue.getSeverity().equals(Severity.WARNING_HIGH)) log.warn(issue.toString());
+            else if(issue.getSeverity().equals(Severity.WARNING_NORMAL)) log.info(issue.toString());
+            else if(issue.getSeverity().equals(Severity.WARNING_HIGH)) log.warn(issue.toString());
+            else log.trace(issue.toString());
+        }
     }
 }
