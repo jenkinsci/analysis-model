@@ -1,0 +1,17 @@
+@startuml
+
+TestFramework -> LineRangeTest ++: shouldBeSerializable()
+LineRangeTest -> LineRangeTest ++: createSerializable()
+LineRangeTest -> LineRange **: new LineRange(1, 5)
+return serializableInstance
+
+LineRangeTest -> LineRangeTest ++: toByteArray(serializableInstance)
+return bytes
+
+LineRangeTest -> LineRangeTest: assertThatSerializableCanBeRestoredFrom(bytes)
+
+return
+
+
+
+@enduml
