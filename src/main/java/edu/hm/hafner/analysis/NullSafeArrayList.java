@@ -9,6 +9,10 @@ public class NullSafeArrayList<T> extends ArrayList<T> {
         super(i);
     }
 
+    public NullSafeArrayList(){
+        super();
+    }
+
     @Override
     public T set(final int i, final T t) {
         if(t == null)

@@ -72,14 +72,26 @@ public abstract class ListTest {
         assertThat(list.contains(second)).isTrue();
 
         Integer firstRemoved = list.remove(1);
-        assertThat(list.contains(1)).isFalse();
+        assertThat(list.contains(2)).isFalse();
+        assertThat(list.contains(second)).isFalse();
         Integer secondRemoved = list.remove(0);
 
         assertThat(list.contains(first)).isFalse();
         assertThat(list.contains(second)).isFalse();
 
-        assertThat(firstRemoved).isEqualTo(first);
-        assertThat(secondRemoved).isEqualTo(second);
+        assertThat(firstRemoved).isEqualTo(second);
+        assertThat(secondRemoved).isEqualTo(first);
     }
+
+
+   @Test
+   void testFoo(){
+       List<Integer> list = create(0);
+       Integer first = new Integer(1);
+       list.add(first);
+       assertThat(list.contains(first)).isTrue();
+       list.remove(0);
+       assertThat(list.contains(1)).isFalse();
+   }
 
 }
