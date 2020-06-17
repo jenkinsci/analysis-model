@@ -1,0 +1,6 @@
+Vorteil Decorator: Funktioniert fuer alle konkreten Implementierungen des List Interfaces
+Nachteil Decorator: Es muessen alle Methoden "dekoriert" werden auch wenn man nichts veraendern moechte
+
+Vorteil Vererbung: Nur die Methoden die sich tatsaechlich anderst verhalten sollen muessen ueberschrieben werden
+Nachteil Vererbung: Moechte man beispielsweise eine NullSafeLinkedList haben so muss man eine weitere
+    Klasse erstellen und von der Linked List erben.
