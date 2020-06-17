@@ -1,0 +1,15 @@
+@startuml
+
+interface Serializable
+class LineRange
+
+abstract class SerializableTest<LineRange>
+class LineRangeTest
+
+LineRange --|> Serializable
+LineRangeTest --|> SerializableTest
+
+SerializableTest --> Serializable
+LineRangeTest --> LineRange
+
+@enduml
