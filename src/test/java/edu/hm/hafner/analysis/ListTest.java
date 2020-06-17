@@ -34,6 +34,32 @@ public abstract class ListTest {
     }
 
     @Test
+    void testAddNullToEmptyList(){
+        List<Integer> list = create(0);
+
+        assertThat(list).isEmpty();
+        assertThat(list).hasSize(0);
+
+        assertThatThrownBy( ()-> list.add(null))
+                .isInstanceOf(NullPointerException.class);
+
+    }
+
+    @Test
+    void testAddNull(){
+        List<Integer> list = create(0);
+
+        list.add(1);
+        list.add(new Integer(2));
+        assertThat(list.contains(1)).isTrue();
+        assertThat(list.contains(2)).isTrue();
+
+        assertThatThrownBy( ()-> list.add(null))
+                .isInstanceOf(NullPointerException.class);
+
+    }
+
+    @Test
     void testContainsCorrectElements(){
         List<Integer> list = create(0);
         Integer first = new Integer(1);
