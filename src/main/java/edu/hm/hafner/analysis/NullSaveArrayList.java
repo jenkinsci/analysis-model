@@ -11,6 +11,12 @@ public class NullSaveArrayList<E> extends ArrayList<E> {
         super();
     }
 
+    /**
+     * Creates a new instance of NullSaveArrayList.
+     *
+     * @param liste
+     *      a List
+     */
     public NullSaveArrayList(final List<E> liste){
         super(liste);
         if(liste.contains(null)){
@@ -18,6 +24,13 @@ public class NullSaveArrayList<E> extends ArrayList<E> {
         }
     }
 
+    /**
+     * Creates a new instance of NullSaveArrayList.
+     *
+     * @param intCap
+     *      the capacity
+     *
+     */
     public NullSaveArrayList(final int intCap){
         super(intCap);
     }

@@ -12,13 +12,28 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+
+
 public class NullSaveList<E> implements List<E> {
     private final List<E> candidate;
 
+
+    /**
+     * Creates a new instance of NullSaveList.
+     */
     public NullSaveList(){
         candidate = new ArrayList<>();
     }
 
+
+    /**
+     * Creates a new instance of NullSaveList.
+     *
+     * @param input
+     *      a List
+     *
+     *
+     */
     public NullSaveList(final List<E> input){
         if(input.contains(null)){
             throw new NullPointerException();
