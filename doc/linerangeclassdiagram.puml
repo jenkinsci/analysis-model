@@ -1,0 +1,32 @@
+@startuml
+
+class LineRangeTest {
+    # createSerializable(): LineRange
+    # createFilledLineRange(): LineRange
+}
+
+abstract class SerializableTest<LineRange> {
+    # createSerializable(): LineRange
+}
+
+class LineRange {
+    - final int start;
+    - final int end;
+    --
+    + LineRange(int)
+    + LineRange(int, int)
+    ..simple getter..
+    + getStart(): int
+    + getEnd(): int
+}
+
+
+
+interface Serializable {
+}
+
+LineRangeTest -|> SerializableTest
+LineRangeTest --|> LineRange
+LineRange -|> Serializable
+
+@enduml
