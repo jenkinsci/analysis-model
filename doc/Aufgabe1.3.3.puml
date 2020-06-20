@@ -1,0 +1,8 @@
+@startuml
+
+Actor -> LineRangeTest : createSerializable
+LineRangeTest -> LineRange **: <<create>>
+
+return
+
+@enduml 
