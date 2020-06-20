@@ -2,15 +2,16 @@ package edu.hm.hafner.analysis;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import edu.hm.hafner.util.ResourceTest;
 
+import static java.nio.charset.StandardCharsets.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -27,19 +28,17 @@ class JavaPackageDetectorTest extends ResourceTest {
             "ActionBinding.cs, -"})
     void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
         try (InputStream stream = asInputStream(fileName)) {
-            assertThat(new JavaPackageDetector().detectPackageName(stream, StandardCharsets.UTF_8))
+            assertThat(new JavaPackageDetector().detectPackageName(stream, UTF_8))
                     .isEqualTo(expectedPackage);
         }
     }
 
-    @Test
-    void shouldSkipPackagesThatDoNotStartWithLowerCase() {
+    @ParameterizedTest(name = "{index} => Invalid package name: {0}")
+    @ValueSource(strings = {"package EDU.hm.hafner.analysis;", "package 0123.hm.hafner.analysis;"})
+    void shouldSkipPackagesThatDoNotStartWithLowerCase(final String name) throws IOException {
         JavaPackageDetector detector = new JavaPackageDetector();
 
-        String[] packages = {"package EDU.hm.hafner.analysis;",
-                "package 0123.hm.hafner.analysis;"};
-
-        assertThat(detector.detectPackageName(Arrays.stream(packages))).isEqualTo("-");
+        assertThat(detector.detectPackageName(IOUtils.toInputStream(name, UTF_8), UTF_8)).isEqualTo("-");
     }
 
     @Test
