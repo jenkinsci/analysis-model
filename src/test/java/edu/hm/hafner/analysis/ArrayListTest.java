@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class ArrayListTest extends ListTest{
+class ArrayListTest extends ListTest{
     @Override
     List<Integer> create(final int numberOfInitialElements) {
         List<Integer> sut = new ArrayList<>();
