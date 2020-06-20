@@ -1,0 +1,1877 @@
+@startuml
+
+title __ANALYSIS-MODEL's Class Diagram__\n
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      abstract class edu.hm.hafner.analysis.AbstractPackageDetector {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.CSharpNamespaceDetector {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.Categories {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.DuplicationGroup {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.FileNameResolver {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.FileReaderFactory {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.FilteredLog {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.FingerprintGenerator {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.FullTextFingerprint {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.Issue {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.IssueBuilder {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.IssueDifference {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      abstract class edu.hm.hafner.analysis.IssueParser {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.JavaPackageDetector {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.LineRange {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.LineRangeList {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      abstract class edu.hm.hafner.analysis.LookaheadParser {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.ModuleDetector {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.ModuleResolver {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.PackageDetectors {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.PackageNameResolver {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.ParsingCanceledException {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.ParsingException {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      abstract class edu.hm.hafner.analysis.ReaderFactory {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      abstract class edu.hm.hafner.analysis.RegexpLineParser {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.Report {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.SecureDigester {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.SecureXmlParserFactory {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      class edu.hm.hafner.analysis.Severity {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.AcuCobolParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.AjcParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.AnsibleLintParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.AntJavacParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.Armcc5CompilerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ArmccCompilerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.BuckminsterParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CMakeParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CadenceIncisiveParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CargoCheckParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ClangAnalyzerPlistParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ClangParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ClangTidyParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CodeAnalysisParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CoolfluxChessccParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CppLintParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.DScannerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.DiabCParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.DrMemoryParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.EclipseMavenParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.EclipseParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.EclipseXMLParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ErlcParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ErrorProneParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.FindBugsParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.FlexSdkParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.Gcc4CompilerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.Gcc4LinkerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GccParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GhsMultiParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GnatParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GnuFortranParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GoLintParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GoVetParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GradleErrorProneParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.IarCstatParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.IarParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.IdeaInspectionParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.IntelParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.InvalidsParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        abstract class edu.hm.hafner.analysis.parser.IssuePropertiesParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JSLintXmlSaxParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JavaDocParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JavacParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        abstract class edu.hm.hafner.analysis.parser.JsonBaseParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JsonLogParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JsonParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.LintParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MavenConsoleParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MentorParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MsBuildParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.NagFortranParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.P4Parser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.Pep8Parser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PerlCriticParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PhpParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PreFastParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ProtoLintParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PuppetLintParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PyLintParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.QacSourceCodeAnalyserParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.RfLintParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.RobocopyParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.RuboCopParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SbtScalacParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ScalacParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SonarQubeDiffParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SonarQubeIssuesParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        abstract class edu.hm.hafner.analysis.parser.SonarQubeParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SphinxBuildParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.StyleCopParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SunCParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.TaglistParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.TaskingVxCompilerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.TiCcsParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.TnsdlParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.XlcCompilerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.XlcLinkerParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.XmlParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.YuiCompressorParser {
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace ccm {
+          class edu.hm.hafner.analysis.parser.ccm.Ccm {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace ccm {
+          class edu.hm.hafner.analysis.parser.ccm.CcmParser {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace ccm {
+          class edu.hm.hafner.analysis.parser.ccm.Metric {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace checkstyle {
+          class edu.hm.hafner.analysis.parser.checkstyle.CheckStyle {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace checkstyle {
+          class edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace checkstyle {
+          class edu.hm.hafner.analysis.parser.checkstyle.Error {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace checkstyle {
+          class edu.hm.hafner.analysis.parser.checkstyle.File {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          abstract class edu.hm.hafner.analysis.parser.dry.AbstractDryParser {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace cpd {
+            class edu.hm.hafner.analysis.parser.dry.cpd.CpdParser {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace cpd {
+            class edu.hm.hafner.analysis.parser.dry.cpd.Duplication {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace cpd {
+            class edu.hm.hafner.analysis.parser.dry.cpd.SourceFile {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace dupfinder {
+            class edu.hm.hafner.analysis.parser.dry.dupfinder.DupFinderParser {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace dupfinder {
+            class edu.hm.hafner.analysis.parser.dry.dupfinder.Duplicate {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace dupfinder {
+            class edu.hm.hafner.analysis.parser.dry.dupfinder.Fragment {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace dupfinder {
+            class edu.hm.hafner.analysis.parser.dry.dupfinder.Range {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace simian {
+            class edu.hm.hafner.analysis.parser.dry.simian.Block {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace simian {
+            class edu.hm.hafner.analysis.parser.dry.simian.Set {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace dry {
+          namespace simian {
+            class edu.hm.hafner.analysis.parser.dry.simian.SimianParser {
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace fxcop {
+          class edu.hm.hafner.analysis.parser.fxcop.FxCopParser {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace fxcop {
+          class edu.hm.hafner.analysis.parser.fxcop.FxCopRule {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace fxcop {
+          class edu.hm.hafner.analysis.parser.fxcop.FxCopRuleSet {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace gendarme {
+          class edu.hm.hafner.analysis.parser.gendarme.GendarmeParser {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace gendarme {
+          class edu.hm.hafner.analysis.parser.gendarme.GendarmeRule {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace gendarme {
+          enum GendarmeRuleType {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace jcreport {
+          class edu.hm.hafner.analysis.parser.jcreport.File {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace jcreport {
+          class edu.hm.hafner.analysis.parser.jcreport.Item {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace jcreport {
+          class edu.hm.hafner.analysis.parser.jcreport.JcReportParser {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace jcreport {
+          class edu.hm.hafner.analysis.parser.jcreport.Report {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pmd {
+          class edu.hm.hafner.analysis.parser.pmd.File {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pmd {
+          class edu.hm.hafner.analysis.parser.pmd.Pmd {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pmd {
+          class edu.hm.hafner.analysis.parser.pmd.PmdError {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pmd {
+          class edu.hm.hafner.analysis.parser.pmd.PmdParser {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pmd {
+          class edu.hm.hafner.analysis.parser.pmd.Violation {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.PlogMessage {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          abstract class edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.AndroidLintParserAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.CodeNarcAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.CppCheckAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.DocFxAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.Flake8Adapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.JUnitAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.JsHintAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.KlocWorkAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.MyPyAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.PitAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.PyDocStyleAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.ResharperInspectCodeAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.XmlLintAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.YamlLintAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace violations {
+          class edu.hm.hafner.analysis.parser.violations.ZptLintAdapter {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace util {
+      class edu.hm.hafner.util.IntegerParser {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace util {
+      class edu.hm.hafner.util.LookaheadStream {
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace util {
+      class edu.hm.hafner.util.XmlElementUtil {
+      }
+    }
+  }
+  
+
+  edu.hm.hafner.analysis.AbstractPackageDetector o-- edu.hm.hafner.analysis.PackageDetectors.FileSystem : fileSystem
+  edu.hm.hafner.analysis.CSharpNamespaceDetector -up-|> edu.hm.hafner.analysis.AbstractPackageDetector
+  edu.hm.hafner.analysis.DuplicationGroup .up.|> java.io.Serializable
+  edu.hm.hafner.analysis.FileReaderFactory -up-|> edu.hm.hafner.analysis.ReaderFactory
+  edu.hm.hafner.analysis.FilteredLog o-- edu.hm.hafner.analysis.Report : delegate
+  edu.hm.hafner.analysis.FullTextFingerprint o-- edu.hm.hafner.analysis.FullTextFingerprint.FileSystem : fileSystem
+  edu.hm.hafner.analysis.Issue .up.|> java.io.Serializable
+  edu.hm.hafner.analysis.Issue o-- edu.hm.hafner.analysis.LineRangeList : lineRanges
+  edu.hm.hafner.analysis.Issue o-- edu.hm.hafner.analysis.Severity : severity
+  edu.hm.hafner.analysis.IssueBuilder o-- edu.hm.hafner.analysis.LineRangeList : lineRanges
+  edu.hm.hafner.analysis.IssueBuilder o-- edu.hm.hafner.analysis.Severity : severity
+  edu.hm.hafner.analysis.IssueDifference o-- edu.hm.hafner.analysis.Report : fixedIssues
+  edu.hm.hafner.analysis.IssueDifference o-- edu.hm.hafner.analysis.Report : newIssues
+  edu.hm.hafner.analysis.IssueDifference o-- edu.hm.hafner.analysis.Report : outstandingIssues
+  edu.hm.hafner.analysis.IssueParser .up.|> java.io.Serializable
+  edu.hm.hafner.analysis.JavaPackageDetector -up-|> edu.hm.hafner.analysis.AbstractPackageDetector
+  edu.hm.hafner.analysis.LineRange .up.|> java.io.Serializable
+  edu.hm.hafner.analysis.LineRangeList .up.|> java.io.Serializable
+  edu.hm.hafner.analysis.LineRangeList -up-|> java.util.AbstractList
+  edu.hm.hafner.analysis.LookaheadParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.ModuleDetector o-- edu.hm.hafner.analysis.ModuleDetector.FileSystem : factory
+  edu.hm.hafner.analysis.PackageNameResolver o-- edu.hm.hafner.analysis.PackageDetectors : packageDetectors
+  edu.hm.hafner.analysis.RegexpLineParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.RegexpLineParser o-- edu.hm.hafner.util.LookaheadStream : temporaryLookahead
+  edu.hm.hafner.analysis.Report .up.|> java.io.Serializable
+  edu.hm.hafner.analysis.Report .up.|> java.lang.Iterable
+  edu.hm.hafner.analysis.SecureDigester -up-|> org.apache.commons.digester3.Digester
+  edu.hm.hafner.analysis.Severity .up.|> java.io.Serializable
+  edu.hm.hafner.analysis.parser.AcuCobolParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.AjcParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.AnsibleLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.AntJavacParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.Armcc5CompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ArmccCompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.BuckminsterParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CMakeParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.CadenceIncisiveParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CargoCheckParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.ClangAnalyzerPlistParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.ClangParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ClangTidyParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CodeAnalysisParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CoolfluxChessccParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CppLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.DScannerParser -up-|> edu.hm.hafner.analysis.parser.JsonParser
+  edu.hm.hafner.analysis.parser.DiabCParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.DrMemoryParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.EclipseMavenParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.EclipseParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.EclipseXMLParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.ErlcParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ErrorProneParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.FindBugsParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.FindBugsParser o-- edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty : priorityProperty
+  edu.hm.hafner.analysis.parser.FlexSdkParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.Gcc4CompilerParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.Gcc4LinkerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GccParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GhsMultiParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.GnatParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GnuFortranParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.GoLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GoVetParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GradleErrorProneParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.IarCstatParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.IarParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.IdeaInspectionParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.IntelParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.InvalidsParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.IssuePropertiesParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.JSLintXmlSaxParser -up-|> org.xml.sax.helpers.DefaultHandler
+  edu.hm.hafner.analysis.parser.JSLintXmlSaxParser o-- edu.hm.hafner.analysis.Report : report
+  edu.hm.hafner.analysis.parser.JavaDocParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.JavacParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.JsonBaseParser -up-|> edu.hm.hafner.analysis.parser.IssuePropertiesParser
+  edu.hm.hafner.analysis.parser.JsonLogParser -up-|> edu.hm.hafner.analysis.parser.JsonBaseParser
+  edu.hm.hafner.analysis.parser.JsonParser -up-|> edu.hm.hafner.analysis.parser.JsonBaseParser
+  edu.hm.hafner.analysis.parser.LintParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.MavenConsoleParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.MentorParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.MsBuildParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.NagFortranParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.P4Parser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.Pep8Parser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PerlCriticParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PhpParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PreFastParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ProtoLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PuppetLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PyLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.QacSourceCodeAnalyserParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.RfLintParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.RobocopyParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.RuboCopParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.SbtScalacParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ScalacParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.SonarQubeDiffParser -up-|> edu.hm.hafner.analysis.parser.SonarQubeParser
+  edu.hm.hafner.analysis.parser.SonarQubeIssuesParser -up-|> edu.hm.hafner.analysis.parser.SonarQubeParser
+  edu.hm.hafner.analysis.parser.SonarQubeParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.SphinxBuildParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.StyleCopParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.SunCParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.TaglistParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.TaskingVxCompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.TiCcsParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.TnsdlParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.XlcCompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.XlcLinkerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.XmlParser -up-|> edu.hm.hafner.analysis.parser.IssuePropertiesParser
+  edu.hm.hafner.analysis.parser.YuiCompressorParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.ccm.CcmParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.dry.AbstractDryParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.dry.cpd.CpdParser -up-|> edu.hm.hafner.analysis.parser.dry.AbstractDryParser
+  edu.hm.hafner.analysis.parser.dry.dupfinder.DupFinderParser -up-|> edu.hm.hafner.analysis.parser.dry.AbstractDryParser
+  edu.hm.hafner.analysis.parser.dry.dupfinder.Fragment o-- edu.hm.hafner.analysis.parser.dry.dupfinder.Range : lineRange
+  edu.hm.hafner.analysis.parser.dry.dupfinder.Fragment o-- edu.hm.hafner.analysis.parser.dry.dupfinder.Range : offsetRange
+  edu.hm.hafner.analysis.parser.dry.simian.SimianParser -up-|> edu.hm.hafner.analysis.parser.dry.AbstractDryParser
+  edu.hm.hafner.analysis.parser.fxcop.FxCopParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.gendarme.GendarmeParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.gendarme.GendarmeRule o-- edu.hm.hafner.analysis.parser.gendarme.GendarmeRuleType : type
+  edu.hm.hafner.analysis.parser.jcreport.JcReportParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.pmd.PmdParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.violations.AndroidLintParserAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.CodeNarcAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.CppCheckAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.DocFxAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.Flake8Adapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.JUnitAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.JsHintAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.KlocWorkAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.MyPyAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.PitAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.PyDocStyleAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.ResharperInspectCodeAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.XmlLintAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.YamlLintAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.analysis.parser.violations.ZptLintAdapter -up-|> edu.hm.hafner.analysis.parser.violations.AbstractViolationAdapter
+  edu.hm.hafner.util.LookaheadStream .up.|> java.lang.AutoCloseable
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

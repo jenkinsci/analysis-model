@@ -1,0 +1,208 @@
+@startuml
+
+title __PVSSTUDIO's Class Diagram__\n
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType {
+              {static} ~ CUSTOMER_SPECIFIC_MESSAGE : String
+              {static} ~ GENERAL_MESSAGE : String
+              {static} ~ MISRA_MESSAGE : String
+              {static} ~ OPTIMIZATION_MESSAGE : String
+              {static} ~ UNKNOWN_MESSAGE : String
+              {static} ~ VIVA_64_MESSAGE : String
+              {static} - ANALYSIS_TYPES : AnalysisType[]
+              {static} - CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN : int
+              {static} - CUSTOMERSPECIFIC_CCPP_ERRORCODE_END : int
+              {static} - GENERAL_CCPP_HIGH_ERRORCODE_BEGIN : int
+              {static} - GENERAL_CCPP_HIGH_ERRORCODE_END : int
+              {static} - GENERAL_CCPP_LOW_ERRORCODE_BEGIN : int
+              {static} - GENERAL_CCPP_LOW_ERRORCODE_END : int
+              {static} - GENERAL_CS_ERRORCODE_BEGIN : int
+              {static} - GENERAL_CS_ERRORCODE_END : int
+              {static} - GENERAL_JAVA_ERRORCODE_BEGIN : int
+              {static} - GENERAL_JAVA_ERRORCODE_END : int
+              {static} - MISRA_CCPP_ERRORCODE_BEGIN : int
+              {static} - MISRA_CCPP_ERRORCODE_END : int
+              {static} - OPTIMIZATION_CCPP_ERRORCODE_BEGIN : int
+              {static} - OPTIMIZATION_CCPP_ERRORCODE_END : int
+              {static} - VIVA64_CCPP_ERRORCODE_BEGIN : int
+              {static} - VIVA64_CCPP_ERRORCODE_END : int
+              {static} ~ fromErrorCode()
+              - AnalyzerType()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          interface edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.AnalysisType {
+              {abstract} + create()
+              {abstract} + getMessage()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.CustomerSpecific {
+              + create()
+              + getMessage()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.GENERAL {
+              + create()
+              + getMessage()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.MISRA {
+              + create()
+              + getMessage()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.OPTIMIZATION {
+              + create()
+              + getMessage()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.UNKNOWN {
+              + create()
+              + getMessage()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.Viva64 {
+              + create()
+              + getMessage()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser {
+              {static} - serialVersionUID : long
+              + parse()
+              {static} - getSeverity()
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        namespace pvsstudio {
+          class edu.hm.hafner.analysis.parser.pvsstudio.PlogMessage {
+              - errorCode : String
+              {static} - failWarningsCount : int
+              {static} - falseAlarmCount : int
+              - file : String
+              - level : String
+              - lineNumber : int
+              - message : String
+              + getHash()
+              + getLevel()
+              + getLine()
+              + getType()
+              + toString()
+              ~ getFilePath()
+              {static} ~ getMessagesFromReport()
+              {static} - errorCodeIsValid()
+              {static} - nodeNotNull()
+              {static} - processNode()
+              {static} - skipMessage()
+          }
+        }
+      }
+    }
+  }
+  
+
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType +-down- edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.AnalysisType
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType +-down- edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.CustomerSpecific
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType +-down- edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.GENERAL
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType +-down- edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.MISRA
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType +-down- edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.OPTIMIZATION
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType +-down- edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.UNKNOWN
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType +-down- edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.Viva64
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.CustomerSpecific .up.|> edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.AnalysisType
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.GENERAL .up.|> edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.AnalysisType
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.MISRA .up.|> edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.AnalysisType
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.OPTIMIZATION .up.|> edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.AnalysisType
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.UNKNOWN .up.|> edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.AnalysisType
+  edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.Viva64 .up.|> edu.hm.hafner.analysis.parser.pvsstudio.AnalyzerType.AnalysisType
+  edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser -up-|> edu.hm.hafner.analysis.IssueParser
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

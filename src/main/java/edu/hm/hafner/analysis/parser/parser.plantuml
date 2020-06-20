@@ -1,0 +1,1686 @@
+@startuml
+
+title __PARSER's Class Diagram__\n
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.AcuCobolParser {
+            {static} - ACU_COBOL_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + AcuCobolParser()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.AjcParser {
+            {static} ~ ADVICE : String
+            {static} - ESCAPE_CHARACTERS : Pattern
+            {static} - WARNING_TAG : String
+            {static} - serialVersionUID : long
+            + parse()
+            - fillFileName()
+            - fillMessageAndCategory()
+            - parse()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        enum States {
+          PARSING
+          START
+          WAITING_FOR_END
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.AnsibleLintParser {
+            {static} - ANSIBLE_LINT_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + AnsibleLintParser()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.AntJavacParser {
+            {static} - ANT_JAVAC_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + AntJavacParser()
+            # createIssue()
+            # isLineInteresting()
+            - mapSeverity()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.Armcc5CompilerParser {
+            {static} - ARMCC5_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + Armcc5CompilerParser()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ArmccCompilerParser {
+            {static} - ARMCC_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + ArmccCompilerParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.BuckminsterParser {
+            {static} - BUCKMINSTER_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + BuckminsterParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CMakeParser {
+            {static} - CMAKE_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + CMakeParser()
+            # createIssue()
+            - readMessage()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CadenceIncisiveParser {
+            {static} - CADENCE_MESSAGE_PATTERN : String
+            {static} - SLASH : String
+            {static} - serialVersionUID : long
+            + CadenceIncisiveParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CargoCheckParser {
+            {static} - ANALYSIS_MESSAGE_REASON : String
+            {static} - MESSAGE : String
+            {static} - MESSAGE_CODE : String
+            {static} - MESSAGE_CODE_CATEGORY : String
+            {static} - MESSAGE_LEVEL : String
+            {static} - MESSAGE_RENDERED : String
+            {static} - MESSAGE_SPANS : String
+            {static} - MESSAGE_SPAN_COLUMN_END : String
+            {static} - MESSAGE_SPAN_COLUMN_START : String
+            {static} - MESSAGE_SPAN_FILE_NAME : String
+            {static} - MESSAGE_SPAN_IS_PRIMARY : String
+            {static} - MESSAGE_SPAN_LINE_END : String
+            {static} - MESSAGE_SPAN_LINE_START : String
+            {static} - REASON : String
+            {static} - serialVersionUID : long
+            + parse()
+            - extractIssue()
+            - parseDetails()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CargoCheckParser.CompilerMessageDetails {
+            - columnEnd : int
+            - columnStart : int
+            - fileName : String
+            - lineEnd : int
+            - lineStart : int
+            ~ CompilerMessageDetails()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ClangAnalyzerPlistParser {
+            {static} ~ ID : String
+            {static} - serialVersionUID : long
+            + accepts()
+            + parse()
+            {static} - compileDiagLocationPath()
+            {static} - compileDiagStrPath()
+            {static} - extractField()
+            {static} - extractIntField()
+            {static} - getFileName()
+            {static} - getFilesList()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ClangParser {
+            {static} - CLANG_WARNING_PATTERN : String
+            {static} - IGNORE_FORMAT : Pattern
+            {static} - serialVersionUID : long
+            + ClangParser()
+            # createIssue()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ClangTidyParser {
+            {static} - CLANG_TIDY_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + ClangTidyParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CodeAnalysisParser {
+            {static} - WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + CodeAnalysisParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CoolfluxChessccParser {
+            {static} - CHESSCC_PATTERN : String
+            {static} - serialVersionUID : long
+            + CoolfluxChessccParser()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.CppLintParser {
+            {static} - PATTERN : String
+            {static} - SEVERITY_HIGH_LIMIT : int
+            {static} - SEVERITY_NORMAL_LIMIT : int
+            {static} - serialVersionUID : long
+            + CppLintParser()
+            # createIssue()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.DScannerParser {
+            {static} - COLUMN : String
+            {static} - KEY : String
+            {static} - LINE : String
+            {static} - serialVersionUID : long
+            ~ convertToIssue()
+            - getSeverityByKey()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.DiabCParser {
+            {static} - DIAB_CPP_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + DiabCParser()
+            # createIssue()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.DrMemoryParser {
+            {static} - DR_MEMORY_WARNING_PATTERN : String
+            {static} - FILE_PATH_PATTERN : Pattern
+            {static} - JENKINS_PATH_PATTERN : Pattern
+            {static} - serialVersionUID : long
+            + DrMemoryParser()
+            # createIssue()
+            - assignCategoryAndSeverity()
+            - findOriginatingErrorLocation()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.EclipseMavenParser {
+            {static} - ECLIPSE_FIRST_LINE_REGEXP : String
+            {static} - serialVersionUID : long
+            + EclipseMavenParser()
+            + accepts()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.EclipseParser {
+            {static} ~ ERROR : String
+            {static} ~ INFO : String
+            {static} ~ WARNING : String
+            {static} - ECLIPSE_FIRST_LINE_REGEXP : String
+            {static} - JAVADOC_PREFIX : String
+            {static} - serialVersionUID : long
+            + EclipseParser()
+            + accepts()
+            # createIssue()
+            # isLineInteresting()
+            {static} ~ extractCategory()
+            {static} ~ extractMessage()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.EclipseXMLParser {
+            {static} ~ BUILDPATH : String
+            {static} ~ CODE_STYLE : String
+            {static} ~ COMPLIANCE : String
+            {static} ~ IMPORT : String
+            {static} ~ INTERNAL : String
+            {static} ~ MEMBER : String
+            {static} ~ MODULE : String
+            {static} ~ NAME_SHADOWING_CONFLICT : String
+            {static} ~ NLS : String
+            {static} ~ POTENTIAL_PROGRAMMING_PROBLEM : String
+            {static} ~ PREVIEW_RELATED : String
+            {static} ~ RESTRICTION : String
+            {static} ~ SYNTAX : String
+            {static} ~ TYPE : String
+            {static} ~ UNCHECKED_RAW : String
+            {static} ~ UNNECESSARY_CODE : String
+            {static} ~ UNSPECIFIED : String
+            {static} - serialVersionUID : long
+            + accepts()
+            + parse()
+            - decodeCategory()
+            - extractCategoryId()
+            - extractColumnRange()
+            - extractLineStart()
+            - extractMessage()
+            - extractSeverity()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ErlcParser {
+            {static} - ERLC_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + ErlcParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ErrorProneParser {
+            {static} - FIX_PATTERN : Pattern
+            {static} - URL_PATTERN : Pattern
+            {static} - WARNINGS_PATTERN : String
+            {static} - serialVersionUID : long
+            + ErrorProneParser()
+            # createIssue()
+            {static} ~ createDescription()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.FindBugsParser {
+            {static} - DOT : String
+            {static} - HIGH_PRIORITY_LOWEST_RANK : int
+            {static} - NORMAL_PRIORITY_LOWEST_RANK : int
+            {static} - SLASH : String
+            {static} - serialVersionUID : long
+            + FindBugsParser()
+            + parse()
+            ~ parse()
+            ~ preParse()
+            - convertBugsToIssues()
+            - createMessage()
+            - findSourceFile()
+            - getPriority()
+            - getPriorityByPriority()
+            - getPriorityByRank()
+            - parse()
+            - readXml()
+            - setAffectedLines()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        enum PriorityProperty {
+          CONFIDENCE
+          RANK
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance {
+            - category : String
+            - instanceHash : String
+            - message : String
+            - type : String
+            + getCategory()
+            + getInstanceHash()
+            + getMessage()
+            + getType()
+            + setCategory()
+            + setInstanceHash()
+            + setMessage()
+            + setType()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.FlexSdkParser {
+            {static} - FLEX_SDK_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + FlexSdkParser()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.Gcc4CompilerParser {
+            {static} - CLASS_PATTERN : Pattern
+            {static} - GCC_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + Gcc4CompilerParser()
+            # createIssue()
+            # isLineInteresting()
+            - isMessageContinuation()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.Gcc4LinkerParser {
+            {static} ~ WARNING_CATEGORY : String
+            {static} - LINKER_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + Gcc4LinkerParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GccParser {
+            {static} ~ GCC_ERROR : String
+            {static} ~ LINKER_ERROR : String
+            {static} - GCC_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + GccParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GhsMultiParser {
+            {static} - GHS_MULTI_WARNING_PATTERN : String
+            {static} - MESSAGE_END_REGEX : String
+            {static} - serialVersionUID : long
+            + GhsMultiParser()
+            # createIssue()
+            # isLineInteresting()
+            - extractMessage()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GnatParser {
+            {static} - GNAT_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + GnatParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GnuFortranParser {
+            {static} - EMPTY_LINE_REGEX : String
+            {static} - ERROR_MESSAGE_PATTERN : Pattern
+            {static} - INCLUDE_LINE_REGEX : String
+            {static} - MESSAGE_START_REGEX : String
+            {static} - MESSAGE_TRIM_PATTERN : Pattern
+            {static} - NON_EMPTY_LINE_REGEX : String
+            {static} - serialVersionUID : long
+            + GnuFortranParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GoLintParser {
+            {static} - GOLINT_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + GoLintParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GoVetParser {
+            {static} - GOVET_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + GoVetParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.GradleErrorProneParser {
+            {static} - WARNINGS_PATTERN : String
+            {static} - serialVersionUID : long
+            + GradleErrorProneParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.IarCstatParser {
+            {static} - IAR_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + IarCstatParser()
+            # createIssue()
+            # isLineInteresting()
+            - mapSeverity()
+            - normalizeWhitespaceInMessage()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.IarParser {
+            {static} ~ IAR_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + IarParser()
+            # createIssue()
+            # isLineInteresting()
+            - mapPriority()
+            - normalizeWhitespaceInMessage()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.IdeaInspectionParser {
+            {static} - PATH_PREFIX : String
+            {static} - serialVersionUID : long
+            + parse()
+            - getChildValue()
+            - getPriority()
+            - getValue()
+            - parseProblems()
+            - stripPathPrefix()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.IntelParser {
+            {static} - INTEL_PATTERN : String
+            {static} - serialVersionUID : long
+            + IntelParser()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.InvalidsParser {
+            {static} ~ WARNING_PREFIX : String
+            {static} - INVALIDS_PATTERN : String
+            {static} - serialVersionUID : long
+            + InvalidsParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        abstract class edu.hm.hafner.analysis.parser.IssuePropertiesParser {
+            {static} ~ ADDITIONAL_PROPERTIES : String
+            {static} ~ CATEGORY : String
+            {static} ~ COLUMN_END : String
+            {static} ~ COLUMN_START : String
+            {static} ~ DESCRIPTION : String
+            {static} ~ DIRECTORY : String
+            {static} ~ FILE_NAME : String
+            {static} ~ FINGERPRINT : String
+            {static} ~ ID : String
+            {static} ~ LINE_END : String
+            {static} ~ LINE_RANGES : String
+            {static} ~ LINE_RANGE_END : String
+            {static} ~ LINE_RANGE_START : String
+            {static} ~ LINE_START : String
+            {static} ~ MESSAGE : String
+            {static} ~ MODULE_NAME : String
+            {static} ~ ORIGIN : String
+            {static} ~ PACKAGE_NAME : String
+            {static} ~ REFERENCE : String
+            {static} ~ SEVERITY : String
+            {static} ~ TYPE : String
+            {static} - serialVersionUID : long
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JSLintXmlSaxParser {
+            {static} ~ CATEGORY_FORMATTING : String
+            {static} ~ CATEGORY_PARSING : String
+            {static} ~ CATEGORY_UNDEFINED_VARIABLE : String
+            {static} - ERROR : String
+            {static} - ISSUE : String
+            - fileName : String
+            + JSLintXmlSaxParser()
+            + startElement()
+            - createWarning()
+            - extractFrom()
+            - isLintDerivate()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JavaDocParser {
+            {static} - JAVA_DOC_WARNING_PATTERN : String
+            {static} - TAG_PATTERN : Pattern
+            {static} - serialVersionUID : long
+            + JavaDocParser()
+            # createIssue()
+            # isLineInteresting()
+            - hasErrorPrefixAndErrorInMessage()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JavacParser {
+            {static} - ERRORPRONE_URL_PATTERN : String
+            {static} - JAVAC_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + JavacParser()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        abstract class edu.hm.hafner.analysis.parser.JsonBaseParser {
+            {static} - serialVersionUID : long
+            ~ convertToIssue()
+            - convertToLineRangeList()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JsonLogParser {
+            {static} - serialVersionUID : long
+            + accepts()
+            + parse()
+            - parseIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.JsonParser {
+            {static} - ISSUES : String
+            {static} - serialVersionUID : long
+            + accepts()
+            + parse()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.LintParser {
+            {static} - serialVersionUID : long
+            + parse()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MavenConsoleParser {
+            {static} - ERROR : String
+            {static} - MAVEN_MODULE_START : Pattern
+            {static} - MAVEN_PLUGIN_START : Pattern
+            {static} - PATTERN : String
+            {static} - WARNING : String
+            - goal : String
+            - module : String
+            {static} - serialVersionUID : long
+            + MavenConsoleParser()
+            # createIssue()
+            # isLineInteresting()
+            - isValidGoal()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MentorParser {
+            {static} + serialVersionUID : long
+            {static} - MSG_REGEX : String
+            {static} - TIME_FILE_PATTERN : Pattern
+            {static} - VLOG_FILE_PATTERN : Pattern
+            {static} - VLOG_TYPE_PATTERN : Pattern
+            {static} - VSIM_PATTERN : Pattern
+            + MentorParser()
+            # createIssue()
+            # isLineInteresting()
+            - clearBuilder()
+            - parseLongVlogMessage()
+            - parseSimTime()
+            - parseVlogMessage()
+            - parseVsimMessage()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser {
+            {static} - CW_COMPILER_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + MetrowerksCwCompilerParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser {
+            {static} - CW_LINKER_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + MetrowerksCwLinkerParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.MsBuildParser {
+            {static} - MS_BUILD_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + MsBuildParser()
+            # createIssue()
+            - canResolveRelativeFileName()
+            - determineFileName()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.NagFortranParser {
+            {static} - NAGFOR_MSG_PATTERN : String
+            {static} - serialVersionUID : long
+            + NagFortranParser()
+            # createIssue()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.P4Parser {
+            {static} - ALREADY_OPENED : String
+            {static} - CANT_ADD : String
+            {static} - NOTHING_CHANGED : String
+            {static} - OPENED_FOR_EDIT : String
+            {static} - OR : String
+            {static} - PERFORCE_WARNING_PATTERN : String
+            {static} - WARNING_ADD_OF : String
+            {static} - serialVersionUID : long
+            + P4Parser()
+            # createIssue()
+            # isLineInteresting()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.Pep8Parser {
+            {static} - PEP8_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + Pep8Parser()
+            # createIssue()
+            # isLineInteresting()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PerlCriticParser {
+            {static} - PERLCRITIC_WARNING_PATTERN : String
+            {static} - SEVERITY_LOW_LIMIT : int
+            {static} - SEVERITY_NORMAL_LIMIT : int
+            {static} - serialVersionUID : long
+            + PerlCriticParser()
+            # createIssue()
+            - checkPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PhpParser {
+            {static} - PHP_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + PhpParser()
+            # createIssue()
+            # isLineInteresting()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PreFastParser {
+            {static} - PREFAST_PATTERN_WARNING : String
+            {static} - serialVersionUID : long
+            + PreFastParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ProtoLintParser {
+            {static} - PROTO_LINT_PATTERN : String
+            {static} - serialVersionUID : long
+            + ProtoLintParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PuppetLintParser {
+            {static} - PACKAGE_PATTERN : Pattern
+            {static} - PUPPET_LINT_PATTERN_PACKAGE : String
+            {static} - PUPPET_LINT_PATTERN_WARNING : String
+            {static} - SEPARATOR : String
+            {static} - serialVersionUID : long
+            + PuppetLintParser()
+            # createIssue()
+            - detectModuleName()
+            - mapPriority()
+            - splitFileName()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.PyLintParser {
+            {static} - PYLINT_PATTERN : String
+            {static} - UNKNOWN_CAT : String
+            {static} - UNKNOWN_TYPE : String
+            {static} - serialVersionUID : long
+            + PyLintParser()
+            # createIssue()
+            # isLineInteresting()
+            - mapCategory()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.QacSourceCodeAnalyserParser {
+            {static} - QAC_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + QacSourceCodeAnalyserParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.RfLintParser {
+            {static} - FILE_PATTERN : Pattern
+            {static} - WARNING_PATTERN : Pattern
+            - fileName : String
+            {static} - serialVersionUID : long
+            + parse()
+            - createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        enum RfLintCategory {
+          CUSTOM
+          KEYWORD
+          OTHER
+          SUITE
+          TEST_CASE
+          name
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        enum RfLintRuleName {
+          DUPLICATE_KEYWORD_NAMES
+          DUPLICATE_TEST_NAMES
+          FILE_TOO_LONG
+          INVALID_TABLE
+          LINE_TOO_LONG
+          PERIOD_IN_SUITE_NAME
+          PERIOD_IN_TEST_NAME
+          REQUIRE_KEYWORD_DOCUMENTATION
+          REQUIRE_SUITE_DOCUMENTATION
+          REQUIRE_TEST_DOCUMENTATION
+          TAG_WITH_SPACES
+          TOO_FEW_KEYWORD_STEPS
+          TOO_FEW_TEST_STEPS
+          TOO_MANY_TEST_CASES
+          TOO_MANY_TEST_STEPS
+          TRAILING_BLANK_LINES
+          TRAILING_WHITESPACE
+          UNKNOWN
+          category
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        enum RfLintSeverity {
+          E
+          ERROR
+          I
+          IGNORE
+          W
+          WARNING
+          severityLevel
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.RobocopyParser {
+            {static} - ROBOCOPY_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + RobocopyParser()
+            # createIssue()
+            # isLineInteresting()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.RuboCopParser {
+            {static} - ERROR : String
+            {static} - FATAL : String
+            {static} - RUBOCOP_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + RuboCopParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SbtScalacParser {
+            {static} - SBT_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + SbtScalacParser()
+            # createIssue()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.ScalacParser {
+            {static} - SCALAC_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + ScalacParser()
+            # createIssue()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SonarQubeDiffParser {
+            {static} - COMPONENT_MODULE_KEY : String
+            {static} - ISSUE_END_LINE : String
+            {static} - ISSUE_IS_NEW : String
+            {static} - ISSUE_START_LINE : String
+            {static} - serialVersionUID : long
+            ~ accepts()
+            ~ filterIssue()
+            ~ getModulePath()
+            ~ parseEnd()
+            ~ parseStart()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SonarQubeIssuesParser {
+            {static} - ISSUE_LINE : String
+            {static} - ISSUE_SUB_PROJECT : String
+            {static} - ISSUE_TEXT_RANGE : String
+            {static} - ISSUE_TEXT_RANGE_END_LINE : String
+            {static} - ISSUE_TEXT_RANGE_START_LINE : String
+            {static} - serialVersionUID : long
+            ~ accepts()
+            ~ getModulePath()
+            ~ parseEnd()
+            ~ parseStart()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        abstract class edu.hm.hafner.analysis.parser.SonarQubeParser {
+            {static} - CATEGORY_SONAR_QUBE : String
+            {static} - COMPONENTS : String
+            {static} - COMPONENT_KEY : String
+            {static} - COMPONENT_PATH : String
+            {static} - ISSUES : String
+            {static} - ISSUE_COMPONENT : String
+            {static} - ISSUE_MESSAGE : String
+            {static} - ISSUE_SEVERITY : String
+            {static} - ISSUE_TYPE : String
+            {static} - SEVERITY_BLOCKER : String
+            {static} - SEVERITY_CRITICAL : String
+            {static} - SEVERITY_INFO : String
+            {static} - SEVERITY_MINOR : String
+            - components : JSONArray
+            {static} - serialVersionUID : long
+            + accepts()
+            + parse()
+            {abstract} ~ accepts()
+            ~ filterIssue()
+            {abstract} ~ getModulePath()
+            {abstract} ~ parseEnd()
+            ~ parseModulePath()
+            {abstract} ~ parseStart()
+            - createIssueFromJsonObject()
+            - extractComponents()
+            - extractIssues()
+            - findComponentByKey()
+            - parseFilename()
+            - parseMessage()
+            - parsePriority()
+            - parseType()
+            - severityToPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SphinxBuildParser {
+            {static} - SPHINX_BUILD_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + SphinxBuildParser()
+            # createIssue()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.StyleCopParser {
+            {static} - serialVersionUID : long
+            + parse()
+            - getCategory()
+            - getLineNumber()
+            - getString()
+            - parseViolations()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.SunCParser {
+            {static} - SUN_CPP_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + SunCParser()
+            # createIssue()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.TaglistParser {
+            {static} - serialVersionUID : long
+            + parse()
+            - class2file()
+            - class2package()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.TaskingVxCompilerParser {
+            {static} - TASKING_VX_COMPILER_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + TaskingVxCompilerParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.TiCcsParser {
+            {static} - TI_CCS_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + TiCcsParser()
+            # createIssue()
+            - isOfType()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.TnsdlParser {
+            {static} - TNSDL_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + TnsdlParser()
+            # createIssue()
+            # isLineInteresting()
+            - mapPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.XlcCompilerParser {
+            {static} - PATTERN_WITHOUT_LINE : Pattern
+            {static} - PATTERN_WITH_LINE : Pattern
+            {static} - XLC_WARNING_PATTERN : String
+            {static} - XLC_WARNING_PATTERN_NO_LINE : String
+            {static} - XLC_WARNING_PATTERN_WITH_LINE : String
+            {static} - serialVersionUID : long
+            + XlcCompilerParser()
+            # createIssue()
+            - createIssueWithoutLine()
+            - toPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.XlcLinkerParser {
+            {static} - PATTERN_ERROR_1 : Pattern
+            {static} - PATTERN_ERROR_2 : Pattern
+            {static} - PATTERN_INFO : Pattern
+            {static} - PATTERN_WARNING : Pattern
+            {static} - XLC_LINKER_WARNING_PATTERN : String
+            {static} - XLC_LINKER_WARNING_PATTERN_ERROR_1 : String
+            {static} - XLC_LINKER_WARNING_PATTERN_ERROR_2 : String
+            {static} - XLC_LINKER_WARNING_PATTERN_INFO : String
+            {static} - XLC_LINKER_WARNING_PATTERN_WARNING : String
+            {static} - serialVersionUID : long
+            + XlcLinkerParser()
+            # createIssue()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.XmlParser {
+            {static} - DEFAULT_ROOT_PATH : String
+            {static} - LINE_RANGES_PATH : String
+            {static} - serialVersionUID : long
+            - xmlIssueRoot : String
+            + XmlParser()
+            + XmlParser()
+            + accepts()
+            + parse()
+            - getXmlIssueRoot()
+            - readLineRanges()
+            - uuidTryParse()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        class edu.hm.hafner.analysis.parser.YuiCompressorParser {
+            {static} - INVALID_HINT_PATTERN : Pattern
+            {static} - PRINT_SYMBOL_PATTERN : Pattern
+            {static} - UNKNOWN_HINT_PATTERN : Pattern
+            {static} - UNSUPPORTED_HINT_PATTERN : Pattern
+            {static} - UNUSED_FUNCTION_PATTERN : Pattern
+            {static} - UNUSED_SYMBOL_PATTERN : Pattern
+            {static} - UNUSED_VARIABLE_PATTERN : Pattern
+            {static} - YUI_COMPRESSOR_WARNING_PATTERN : String
+            {static} - serialVersionUID : long
+            + YuiCompressorParser()
+            # createIssue()
+            - getCategoryAndPriority()
+        }
+      }
+    }
+  }
+  
+
+  namespace edu.hm.hafner {
+    namespace analysis {
+      namespace parser {
+        enum CategoryAndPriority {
+          DUPLICATE_FUN
+          DUPLICATE_VAR
+          INVALID_HINT
+          PRINT_SYMBOL
+          UNDECLARED_SYMBOL
+          UNKNOWN
+          UNKNOWN_HINT
+          UNSUPPORTED_HINT
+          UNUSED_SYMBOL
+          USE_EVAL
+          USE_JSCRIPT
+          USE_SINGLE_VAR
+          USE_WITH
+          category
+          priority
+        }
+      }
+    }
+  }
+  
+
+  edu.hm.hafner.analysis.parser.AcuCobolParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.AjcParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.AjcParser +-down- edu.hm.hafner.analysis.parser.AjcParser.States
+  edu.hm.hafner.analysis.parser.AnsibleLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.AntJavacParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.Armcc5CompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ArmccCompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.BuckminsterParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CMakeParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.CadenceIncisiveParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CargoCheckParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.CargoCheckParser +-down- edu.hm.hafner.analysis.parser.CargoCheckParser.CompilerMessageDetails
+  edu.hm.hafner.analysis.parser.ClangAnalyzerPlistParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.ClangParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ClangTidyParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CodeAnalysisParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CoolfluxChessccParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.CppLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.DScannerParser -up-|> edu.hm.hafner.analysis.parser.JsonParser
+  edu.hm.hafner.analysis.parser.DiabCParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.DrMemoryParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.EclipseMavenParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.EclipseParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.EclipseXMLParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.ErlcParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ErrorProneParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.FindBugsParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.FindBugsParser o-- edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty : priorityProperty
+  edu.hm.hafner.analysis.parser.FindBugsParser +-down- edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty
+  edu.hm.hafner.analysis.parser.FindBugsParser +-down- edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance
+  edu.hm.hafner.analysis.parser.FlexSdkParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.Gcc4CompilerParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.Gcc4LinkerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GccParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GhsMultiParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.GnatParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GnuFortranParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.GoLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GoVetParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.GradleErrorProneParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.IarCstatParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.IarParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.IdeaInspectionParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.IntelParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.InvalidsParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.IssuePropertiesParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.JSLintXmlSaxParser -up-|> org.xml.sax.helpers.DefaultHandler
+  edu.hm.hafner.analysis.parser.JSLintXmlSaxParser o-- edu.hm.hafner.analysis.Report : report
+  edu.hm.hafner.analysis.parser.JavaDocParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.JavacParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.JsonBaseParser -up-|> edu.hm.hafner.analysis.parser.IssuePropertiesParser
+  edu.hm.hafner.analysis.parser.JsonLogParser -up-|> edu.hm.hafner.analysis.parser.JsonBaseParser
+  edu.hm.hafner.analysis.parser.JsonParser -up-|> edu.hm.hafner.analysis.parser.JsonBaseParser
+  edu.hm.hafner.analysis.parser.LintParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.MavenConsoleParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.MentorParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.MsBuildParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.NagFortranParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.P4Parser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.Pep8Parser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PerlCriticParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PhpParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PreFastParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ProtoLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PuppetLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.PyLintParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.QacSourceCodeAnalyserParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.RfLintParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.RfLintParser +-down- edu.hm.hafner.analysis.parser.RfLintParser.RfLintCategory
+  edu.hm.hafner.analysis.parser.RfLintParser +-down- edu.hm.hafner.analysis.parser.RfLintParser.RfLintRuleName
+  edu.hm.hafner.analysis.parser.RfLintParser +-down- edu.hm.hafner.analysis.parser.RfLintParser.RfLintSeverity
+  edu.hm.hafner.analysis.parser.RfLintParser.RfLintRuleName o-- edu.hm.hafner.analysis.parser.RfLintParser.RfLintCategory : category
+  edu.hm.hafner.analysis.parser.RfLintParser.RfLintSeverity o-- edu.hm.hafner.analysis.Severity : severityLevel
+  edu.hm.hafner.analysis.parser.RobocopyParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.RuboCopParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.SbtScalacParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.ScalacParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.SonarQubeDiffParser -up-|> edu.hm.hafner.analysis.parser.SonarQubeParser
+  edu.hm.hafner.analysis.parser.SonarQubeIssuesParser -up-|> edu.hm.hafner.analysis.parser.SonarQubeParser
+  edu.hm.hafner.analysis.parser.SonarQubeParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.SphinxBuildParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.StyleCopParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.SunCParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.TaglistParser -up-|> edu.hm.hafner.analysis.IssueParser
+  edu.hm.hafner.analysis.parser.TaskingVxCompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.TiCcsParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.TnsdlParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.XlcCompilerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.XlcLinkerParser -up-|> edu.hm.hafner.analysis.RegexpLineParser
+  edu.hm.hafner.analysis.parser.XmlParser -up-|> edu.hm.hafner.analysis.parser.IssuePropertiesParser
+  edu.hm.hafner.analysis.parser.YuiCompressorParser -up-|> edu.hm.hafner.analysis.LookaheadParser
+  edu.hm.hafner.analysis.parser.YuiCompressorParser +-down- edu.hm.hafner.analysis.parser.YuiCompressorParser.CategoryAndPriority
+  edu.hm.hafner.analysis.parser.YuiCompressorParser.CategoryAndPriority o-- edu.hm.hafner.analysis.Severity : priority
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
