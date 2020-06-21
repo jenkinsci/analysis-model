@@ -1,0 +1,18 @@
+@startuml
+
+note top of Serializable: Product
+interface Serializable
+
+note top of SerializableTest: Creator
+abstract class SerializableTest<LineRange>
+
+note top of LineRangeTest: concrete Creator
+class LineRangeTest
+note top of LineRange: Concrete Product
+class LineRange
+
+SerializableTest <|-- LineRangeTest
+LineRangeTest --> LineRange
+LineRange --|> Serializable
+
+@enduml
