@@ -1,19 +1,12 @@
 @startuml
 
-create LineRange
-activate LineRange
-
-create LineRangeTest
-activate LineRangeTest
-
-create SerializableTest
-activate SerializableTest
-
-create Serializable
-activate Serializable
-
-SerializableTest -> Serializable : new Serializable<LineRange>()
-Serializable -> LineRangeTest : createSerializable()
-LineRangeTest --> LineRange : new LineRange()
+User -> LineRangeTest: shouldBeSerializable()
+LineRangeTest -> SerializableTest: shouldBeSerializable()
+SerializableTest -> LineRangeTest: createSerializable()
+LineRangeTest -> LineRange: new LineRange()<Serializable>
+LineRange --> LineRangeTest: LineRange()<Serializable>
+LineRangeTest --> SerializableTest: createSerializable()
+SerializableTest -> SerializableTest: toByteArray()
+SerializableTest --> User: shouldBeSerializable()
 
 @enduml

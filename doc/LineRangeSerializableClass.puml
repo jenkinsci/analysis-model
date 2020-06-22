@@ -3,17 +3,18 @@
 hide circle
 
 class LineRange {}
-class SerializableTest<LineRange> {}
+class SerializableTest<LineRange> {
+    {abstract} #createSerializable()
+}
 interface Serializable {}
-class LineRangeTest {}
+class LineRangeTest {
+    #createSerializable()
+}
 
-Serializable <|-- "implements" LineRange
-SerializableTest <|-- "extends" LineRangeTest
+Serializable <|-- LineRange
+SerializableTest <|-- LineRangeTest
 
-Serializable -> SerializableTest
-SerializableTest "1" -> "1" LineRangeTest
-LineRangeTest "1" -> "*" LineRange
-
-
+SerializableTest ..> Serializable
+LineRangeTest ..> LineRange
 
 @enduml
