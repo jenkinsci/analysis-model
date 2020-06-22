@@ -1,0 +1,8 @@
+@startuml
+
+LineRangeTest -> "SerializableTest<LineRange>": @Test shouldBeSerializable()
+"SerializableTest<LineRange>" -> LineRange: createSerializable()
+LineRange -> "SerializableTest<LineRange>": return new LineRange(23,75)
+"SerializableTest<LineRange>" -> LineRangeTest: passed/failed test
+
+@enduml
