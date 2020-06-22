@@ -1,0 +1,31 @@
+@startuml
+
+title Klassendiagramm zum Factory Method Pattern
+
+skinparam arrowColor black
+skinparam classFontName Arial
+skinparam classAttributeIconSize 0
+skinparam titleFontSize 20
+skinparam defaultFontSize 16
+
+hide circle
+
+interface Serializable <<interface>>
+abstract class SerializableTest <LineRange> <<abstract>> {
+    {method} {abstract} #createSerializable(): LineRange
+    {method} #assertThatSerializableCanBeRestoredFrom(byte... serializedInstance)
+    {method} #toByteArray(Serializable object): byte[]
+    {method} #createSerializationFile()
+    {method} ~shouldBeSerializable()
+}
+
+class LineRange implements Serializable
+class LineRangeTest extends SerializableTest {
+    {method} #createSerializable(): LineRange
+}
+
+LineRange <-- LineRangeTest: testet
+LineRange <-- SerializableTest: testet über LineRangeTest
+Serializable <-- SerializableTest: testet
+
+@enduml
