@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
