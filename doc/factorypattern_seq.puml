@@ -1,0 +1,16 @@
+@startuml
+participant "SerializableTest shouldBeSerializable()" as SerializableTest
+SerializableTest -> LineRangeTest: createSerializable()
+activate SerializableTest
+activate LineRangeTest
+
+LineRangeTest -> LineRange: new LineRange(10, 50)
+activate LineRange
+return lineRange
+return serializableInstance
+
+SerializableTest -> SerializableTest: toByteArray(serializableInstance) -> returns byte[]
+
+SerializableTest -> SerializableTest: assertThatSerializableCanBeRestoredFrom(bytes) ->
+note right SerializableTest: if there is no Exception =>  over Assertions -> returns "Success or Failure"
+@enduml
