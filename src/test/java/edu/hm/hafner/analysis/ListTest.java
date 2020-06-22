@@ -57,7 +57,7 @@ abstract class ListTest {
     void testContainsFalse() {
         final List<Integer> list = create(0);
         list.add(100);
-        assertTrue(list.contains(0));
+        assertFalse(list.contains(0));
     }
 
 }
