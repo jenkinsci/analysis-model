@@ -1,0 +1,30 @@
+@startuml
+
+title Sequenzdiagramm zum Factory Method Pattern
+
+actor ":Nutzer" as N
+
+create ":LineRangeTest" as LRT
+N -> LRT ++ : run LineRangeTests
+
+LRT -> LRT: run tests
+
+create ":SerializableTest<LineRange>" as ST
+LRT -> ST ++: run SerializableTests for type LineRange
+
+ST -> ST: run tests
+
+ST -> LRT ++: createSerializable();
+
+create ":LineRange" as LR
+LRT -> LR: new LineRange(...)
+
+return Rückgabe der Referenz auf das LineRange Objekt
+
+ST -> ST: continue running tests
+
+return success/failure
+
+return success/failure
+
+@enduml
