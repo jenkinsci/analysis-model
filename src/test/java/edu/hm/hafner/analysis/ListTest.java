@@ -3,8 +3,14 @@ package edu.hm.hafner.analysis;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
+/**
+ * Abstract Tests for the implementation of the interface {@link List}.
+ */
 abstract class ListTest {
 
     abstract List<Integer> create(int numberOfInitialElements);
