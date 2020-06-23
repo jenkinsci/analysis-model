@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * Tests the class {@link ArrayList}.
+ */
 class ArrayListTest extends ListTest {
 
     @Override
