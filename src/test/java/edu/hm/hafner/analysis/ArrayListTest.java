@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 /**
  * Tests the class {@link ArrayList}.
+ * @author Johannes Jäger
  */
 class ArrayListTest extends ListTest {
 
