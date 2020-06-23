@@ -8,10 +8,9 @@ import edu.hm.hafner.util.SerializableTest;
 
 /**
  * Tests the class {@link LineRange}.
+ * @author Johannes Jäger
  */
-@SuppressWarnings({"PMD", "all"})
-//CHECKSTYLE:OFF
-class LineRangeTest extends SerializableTest<LineRange>{
+class LineRangeTest extends SerializableTest<LineRange> {
 
     @Override
     protected LineRange createSerializable() {
