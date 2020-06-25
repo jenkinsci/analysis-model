@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
@@ -95,7 +96,7 @@ class ReportPrinterTest extends ResourceTest {
     @Test
     void simpleLoggingFacadeAdapterPrintTest() {
         Report report = readCheckStyleReport();
-        org.slf4j.Logger logger = mock(org.slf4j.Logger.class);
+        org.slf4j.Logger logger = mock(LoggerFactory.getLogger("slf4j").getClass());
         report.print(new SimpleLoggingFacadeAdapter(logger));
 
         for (Issue issue : report) {
