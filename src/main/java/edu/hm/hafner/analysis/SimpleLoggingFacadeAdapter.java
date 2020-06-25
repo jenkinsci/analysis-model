@@ -28,8 +28,9 @@ public class SimpleLoggingFacadeAdapter implements IssuePrinter {
     public void print(final Issue issue) {
         final Severity severity = issue.getSeverity();
         final String issueString = issue.toString();
-        if(severity.equals(Severity.ERROR))
+        if (severity.equals(Severity.ERROR)) {
             logger.error(issueString);
+        }
         else if (severity.equals(Severity.WARNING_HIGH)) {
             logger.warn(issueString);
         }

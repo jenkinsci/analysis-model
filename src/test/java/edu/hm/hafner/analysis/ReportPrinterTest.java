@@ -2,6 +2,10 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,6 +15,8 @@ import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
+
+import sun.rmi.runtime.Log;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -63,5 +69,48 @@ class ReportPrinterTest extends ResourceTest {
 
     private ReaderFactory read(final String fileName) {
         return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
+    }
+
+    @Test
+    void javaUtilLoggingAdapterPrintTest() {
+        Report report = readCheckStyleReport();
+        Logger logger = mock(Logger.class);
+        report.print(new JavaUtilLoggingAdapter(logger));
+
+        for (Issue issue : report) {
+            if (issue.getSeverity().equals(Severity.ERROR)) {
+                verify(logger).log(Level.SEVERE, issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_LOW)) {
+                verify(logger).log(Level.FINE, issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+                verify(logger).log(Level.INFO, issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
+                verify(logger).log(Level.WARNING, issue.toString());
+            }
+        }
+    }
+    @Test
+    void simpleLoggingFacadeAdapterPrintTest() {
+        Report report = readCheckStyleReport();
+        org.slf4j.Logger logger = mock(org.slf4j.Logger.class);
+        report.print(new SimpleLoggingFacadeAdapter(logger));
+
+        for (Issue issue : report) {
+            if (issue.getSeverity().equals(Severity.ERROR)) {
+                verify(logger).error(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_LOW)) {
+                verify(logger).trace(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+                verify(logger).info(issue.toString());
+            }
+            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
+                verify(logger).warn(issue.toString());
+            }
+        }
     }
 }
