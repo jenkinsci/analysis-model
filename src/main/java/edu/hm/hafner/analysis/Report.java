@@ -828,7 +828,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
         /**
          * Constructor for a JavaUtilLoggingAdapter.
-         * @param logger
+         * @param logger JavaUtilLogger
          */
         public JavaUtilLoggingAdapter(final Logger logger) {
             this.logger = logger;
@@ -836,7 +836,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
         /**
          * Logs the Issue.
-         * @param issue
+         * @param issue given Issue
          */
         @Override
         public void print(final Issue issue) {
@@ -853,6 +853,41 @@ public class Report implements Iterable<Issue>, Serializable {
             }
             else if (Severity.WARNING_LOW.equals(severity)) {
                 logger.log(Level.FINE, issue.toString());
+            }
+
+        }
+    }
+
+    public static class SLF4JAdapter implements IssuePrinter    {
+        private final org.slf4j.Logger logger;
+
+        /**
+         * Constructor for a SLF4JAdapter.
+         * @param logger SLF4J logger
+         */
+        public SLF4JAdapter(final org.slf4j.Logger logger) {
+            this.logger = logger;
+        }
+
+        /**
+         * Logs the Issue.
+         * @param issue given Issue
+         */
+        @Override
+        public void print(final Issue issue) {
+            final Severity severity = issue.getSeverity();
+
+            if (Severity.ERROR.equals(severity)) {
+                logger.error(issue.toString());
+            }
+            else if (Severity.WARNING_HIGH.equals(severity)) {
+                logger.warn(issue.toString());
+            }
+            else if (Severity.WARNING_NORMAL.equals(severity)) {
+                logger.info(issue.toString());
+            }
+            else if (Severity.WARNING_LOW.equals(severity)) {
+                logger.trace(issue.toString());
             }
 
         }
