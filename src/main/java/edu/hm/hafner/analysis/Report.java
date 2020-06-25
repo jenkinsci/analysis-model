@@ -19,6 +19,8 @@ import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -819,6 +821,41 @@ public class Report implements Iterable<Issue>, Serializable {
          *         the issue to print
          */
         void print(Issue issue);
+    }
+
+    public static class JavaUtilLoggingAdapter implements IssuePrinter {
+        private final Logger logger;
+
+        /**
+         * Constructor for a JavaUtilLoggingAdapter.
+         * @param logger
+         */
+        public JavaUtilLoggingAdapter(final Logger logger) {
+            this.logger = logger;
+        }
+
+        /**
+         * Logs the Issue.
+         * @param issue
+         */
+        @Override
+        public void print(final Issue issue) {
+            final Severity severity = issue.getSeverity();
+
+            if (Severity.ERROR.equals(severity)) {
+                logger.log(Level.SEVERE, issue.toString());
+            }
+            else if (Severity.WARNING_HIGH.equals(severity)) {
+                logger.log(Level.WARNING, issue.toString());
+            }
+            else if (Severity.WARNING_NORMAL.equals(severity)) {
+                logger.log(Level.INFO, issue.toString());
+            }
+            else if (Severity.WARNING_LOW.equals(severity)) {
+                logger.log(Level.FINE, issue.toString());
+            }
+
+        }
     }
 
     /**
