@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -21,7 +22,8 @@ public class NullSafeList<T> implements List<T> {
     }
 
     private void checkForNull(final Collection<? extends T> c){
-        c.forEach(e -> {if(e == null){throw new NullPointerException();}});
+        if(c.parallelStream().anyMatch(e -> e==null))
+            throw new NullPointerException("Null in Collection");
     }
 
     @Override
@@ -37,17 +39,20 @@ public class NullSafeList<T> implements List<T> {
     }
 
     @Override
-    public boolean add(@NonNull final T t) {
+    public boolean add(final T t) {
+        Objects.requireNonNull(t);
         return list.add(t);
     }
 
     @Override
-    public T set(final int index, @NonNull final T element) {
+    public T set(final int index, final T element) {
+        Objects.requireNonNull(element);
         return list.set(index, element);
     }
 
     @Override
-    public void add(final int index, @NonNull final T element) {
+    public void add(final int index, final T element) {
+        Objects.requireNonNull(element);
         list.add(index, element);
     }
 
