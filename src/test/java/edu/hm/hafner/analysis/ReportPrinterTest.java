@@ -11,6 +11,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.JavaUtilLoggingAdapter;
+import edu.hm.hafner.analysis.Report.SLF4JAdapter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
@@ -62,6 +63,30 @@ class ReportPrinterTest extends ResourceTest {
             }
             else if (Severity.WARNING_LOW.equals(severity)) {
                 verify(logger).log(Level.FINE, issue.toString());
+            }
+        }
+    }
+
+    @Test
+    void shouldPrintAllIssuesToSLF4JAdapter() {
+        Report report = readCheckStyleReport();
+        org.slf4j.Logger logger = mock(org.slf4j.Logger.class);
+        report.print(new SLF4JAdapter(logger));
+
+        for (Issue issue : report) {
+            Severity severity = issue.getSeverity();
+
+            if (Severity.ERROR.equals(severity)) {
+                verify(logger).error(issue.toString());
+            }
+            else if (Severity.WARNING_HIGH.equals(severity)) {
+                verify(logger).warn(issue.toString());
+            }
+            else if (Severity.WARNING_NORMAL.equals(severity)) {
+                verify(logger).info(issue.toString());
+            }
+            else if (Severity.WARNING_LOW.equals(severity)) {
+                verify(logger).trace(issue.toString());
             }
         }
     }
