@@ -8,7 +8,7 @@ import edu.hm.hafner.util.VisibleForTesting;
  */
 public class SimpleLoggingFacadeAdapter implements IssuePrinter {
     /**
-     * The Logger of JavaUtil.
+     * The Logger of org.slf4j.Logger.
      */
 
     private final org.slf4j.Logger logger;
