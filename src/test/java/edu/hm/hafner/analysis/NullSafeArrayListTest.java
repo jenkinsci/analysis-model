@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class NullSafeArrayListTest extends NullSafeListTest {
+class NullSafeArrayListTest extends NullSafeListTest {
     List<Integer> sut = new NullSafeArrayList<>();
 
     @Override
