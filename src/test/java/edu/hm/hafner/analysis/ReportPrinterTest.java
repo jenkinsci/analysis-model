@@ -95,7 +95,6 @@ class ReportPrinterTest extends ResourceTest {
     }
     @Test
     void simpleLoggingFacadeAdapterPrintTest() {
-        beforeAll();
         Report report = readCheckStyleReport();
         org.slf4j.Logger logger = mock(LoggerFactory.getLogger("slf4j").getClass());
         report.print(new SimpleLoggingFacadeAdapter(logger));
