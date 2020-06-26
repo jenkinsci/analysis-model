@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,8 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
+import edu.hm.hafner.analysis.Report.JavaUtilLoggingPrinter;
+import edu.hm.hafner.analysis.Report.SLF4JPrinter;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.ResourceTest;
 
@@ -50,6 +53,37 @@ class ReportPrinterTest extends ResourceTest {
             for (Issue issue : report) {
                 verify(printStream).println(issue.toString());
             }
+        }
+    }
+
+    @Test
+    void shouldLogAllIssuesUtilLogger() {
+        Report report = readCheckStyleReport();
+
+        Logger logger = mock(Logger.class);
+        report.print(new JavaUtilLoggingPrinter(logger));
+        for (Issue issue : report) {
+            verify(logger).log(JavaUtilLoggingPrinter.fromSeverity(issue.getSeverity()), issue.toString());
+        }
+    }
+
+    @Test
+    void shouldLogAllIssuesSLF4J() {
+        Report report = readCheckStyleReport();
+
+        org.slf4j.Logger logger = mock(org.slf4j.Logger.class);
+        report.print(new SLF4JPrinter(logger));
+        for (Issue issue : report) {
+            Severity severity = issue.getSeverity();
+
+            if (severity.equals(Severity.ERROR))
+                verify(logger).error(issue.toString());
+            else if (severity.equals(Severity.WARNING_HIGH))
+                verify(logger).warn(issue.toString());
+            else if (severity.equals(Severity.WARNING_NORMAL))
+                verify(logger).info(issue.toString());
+            else
+                verify(logger).trace(issue.toString());
         }
     }
 

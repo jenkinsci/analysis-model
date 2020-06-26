@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.*;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -848,10 +849,21 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     public static class JavaUtilLoggingPrinter implements IssuePrinter {
+        @VisibleForTesting
+        static Level fromSeverity(final Severity severity) {
+            if (severity.equals(Severity.ERROR))
+                return  Level.SEVERE;
+            if (severity.equals(Severity.WARNING_HIGH))
+                return Level.WARNING;
+            if (severity.equals(Severity.WARNING_NORMAL))
+                return Level.INFO;
+            return Level.FINE;
+        }
+
         private final Logger logger;
 
         public JavaUtilLoggingPrinter() {
-            this(Logger.getLogger("edu.hm.hafner.analysis.report"));
+            this(Logger.getLogger("edu.hm.hafner.analysis.issue"));
         }
 
         @VisibleForTesting
@@ -864,23 +876,24 @@ public class Report implements Iterable<Issue>, Serializable {
             Level level = fromSeverity(issue.getSeverity());
             logger.log(level, issue.toString());
         }
-
-        private Level fromSeverity(final Severity severity){
-            if (severity.equals(Severity.ERROR))
-                return  Level.SEVERE;
-            if (severity.equals(Severity.WARNING_HIGH))
-                return Level.WARNING;
-            if (severity.equals(Severity.WARNING_NORMAL))
-                return Level.INFO;
-            return Level.FINE;
-        }
     }
 
     public static class SLF4JPrinter implements IssuePrinter {
+        @VisibleForTesting
+        static Consumer<String> fromSeverity(final Severity sev, final org.slf4j.Logger log) {
+            if (sev.equals(Severity.ERROR))
+                return  log::error;
+            if (sev.equals(Severity.WARNING_HIGH))
+                return  log::warn;
+            if (sev.equals(Severity.WARNING_NORMAL))
+                return  log::info;
+            return  log::trace;
+        }
+
         private final org.slf4j.Logger logger;
 
         public SLF4JPrinter() {
-            this(LoggerFactory.getLogger(Report.class));
+            this(LoggerFactory.getLogger(Issue.class));
         }
 
         @VisibleForTesting
@@ -892,18 +905,7 @@ public class Report implements Iterable<Issue>, Serializable {
         public void print(final Issue issue) {
             Severity severity = issue.getSeverity();
 
-            if (severity.equals(Severity.ERROR)) {
-                logger.error(issue.toString());
-            }
-            else if (severity.equals(Severity.WARNING_HIGH)) {
-                logger.warn(issue.toString());
-            }
-            else if (severity.equals(Severity.WARNING_NORMAL)) {
-                logger.info(issue.toString());
-            }
-            else {
-                logger.trace(issue.toString());
-            }
+            fromSeverity(severity, logger).accept(issue.toString());
         }
     }
 
