@@ -13,16 +13,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -31,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
-import org.slf4j.LoggerFactory;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -849,84 +844,6 @@ public class Report implements Iterable<Issue>, Serializable {
             printStream.println(issue.toString());
         }
     }
-
-    /**
-     * IssuePrint Adapter for JavaUtilLoggingPrinter.
-     * @author Fabian Diener
-     */
-    public static class JavaUtilLoggingPrinter implements IssuePrinter {
-
-        /**
-         * a Util Logger.
-         */
-        private final Logger utilLogger;
-
-        /**
-         * a Map for translating Severties into Levels.
-         */
-        private final Map<Severity, Level> severityLevelMap = new HashMap<>();
-
-        /**
-         * Constructor for a JavaUtilLoggingPrinter.
-         * @param utilLogger
-         */
-        @VisibleForTesting
-        public JavaUtilLoggingPrinter(final Logger utilLogger) {
-            this.utilLogger = utilLogger;
-            severityLevelMap.put(Severity.ERROR, Level.SEVERE);
-            severityLevelMap.put(Severity.WARNING_HIGH, Level.WARNING);
-            severityLevelMap.put(Severity.WARNING_NORMAL, Level.INFO);
-            severityLevelMap.put(Severity.WARNING_LOW, Level.FINE);
-        }
-
-        @Override
-        public void print(final Issue issue) {
-            Severity severity = issue.getSeverity();
-            Level level = Optional.ofNullable(severityLevelMap.get(severity))
-                    .orElseThrow(() -> new IllegalArgumentException("issue must contain a valid severity"));
-            utilLogger.log(level, issue.toString());
-        }
-    }
-
-    /**
-     * IssuePrint Adapter for SLF4J.
-     * @author Fabian Diener
-     */
-    public static class SimpleLoggingFacadeForJavaPrinter implements IssuePrinter{
-
-        /**
-         * A Map for translating Severity into a Consumer Function.
-         */
-        private final Map<Severity, Consumer<String>> severityFunctionMap = new HashMap<>();
-
-        /**
-         * Default Constructor for a SLF4JPrinter.
-         */
-        SimpleLoggingFacadeForJavaPrinter() {
-            this(LoggerFactory.getLogger(Issue.class));
-        }
-
-        /**
-         * Constructor for a SLF4JPrinter.
-         * @param logger
-         */
-        @VisibleForTesting
-        public SimpleLoggingFacadeForJavaPrinter(final org.slf4j.Logger logger) {
-            severityFunctionMap.put(Severity.ERROR, logger::error);
-            severityFunctionMap.put(Severity.WARNING_HIGH, logger::warn);
-            severityFunctionMap.put(Severity.WARNING_NORMAL, logger::info);
-            severityFunctionMap.put(Severity.WARNING_LOW, logger::trace);
-        }
-
-        @Override
-        public void print(final Issue issue) {
-            Severity severity = issue.getSeverity();
-            Consumer<String> consumer = Optional.ofNullable(severityFunctionMap.get(severity))
-                    .orElseThrow(() -> new IllegalArgumentException("Issue must contain a valid severity"));
-            consumer.accept(issue.getMessage());
-        }
-    }
-
 
     /**
      * Builds a combined filter based on several include and exclude filters.
