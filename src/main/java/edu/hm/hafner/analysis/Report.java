@@ -851,7 +851,7 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * IssuePrint Adapter for Java Util Logging.
+     * IssuePrint Adapter for JavaUtilLoggingPrinter.
      * @author Fabian Diener
      */
     public static class JavaUtilLoggingPrinter implements IssuePrinter {

@@ -83,6 +83,7 @@ class ReportPrinterTest extends ResourceTest {
             }
         }
     }
+
     @Test
     void shouldPrintAllIssuesToSLF4JPrinter() {
         Report report = readCheckStyleReport();
