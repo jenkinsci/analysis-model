@@ -870,7 +870,7 @@ public class Report implements Iterable<Issue>, Serializable {
          * @param utilLogger
          */
         @VisibleForTesting
-        public JavaUtilLoggingPrinter(final Logger utilLogger) {
+        JavaUtilLoggingPrinter(final Logger utilLogger) {
             this.utilLogger = utilLogger;
             severityLevelMap.put(Severity.ERROR, Level.SEVERE);
             severityLevelMap.put(Severity.WARNING_HIGH, Level.WARNING);
@@ -910,7 +910,7 @@ public class Report implements Iterable<Issue>, Serializable {
          * @param logger
          */
         @VisibleForTesting
-        public SimpleLoggingFacadeForJavaPrinter(final org.slf4j.Logger logger) {
+        SimpleLoggingFacadeForJavaPrinter(final org.slf4j.Logger logger) {
             severityFunctionMap.put(Severity.ERROR, logger::error);
             severityFunctionMap.put(Severity.WARNING_HIGH, logger::warn);
             severityFunctionMap.put(Severity.WARNING_NORMAL, logger::info);
