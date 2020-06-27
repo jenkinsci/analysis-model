@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.*;
  * @author Fabian Diener
  */
 
-public abstract class ListTest {
+abstract class ListTest {
 
     abstract List<Integer> create(int numberOfInitialElements);
 
