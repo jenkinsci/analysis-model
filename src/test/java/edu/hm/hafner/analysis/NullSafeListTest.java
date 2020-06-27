@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
-public class NullSafeListTest extends ListTest{
+class NullSafeListTest extends ListTest{
     @Override
     List<Integer> create(final int numberOfInitialElements) {
         List<Integer> sut = new NullSafeList<>();
