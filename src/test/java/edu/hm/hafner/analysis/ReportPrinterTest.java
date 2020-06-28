@@ -2,6 +2,10 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -51,6 +55,92 @@ class ReportPrinterTest extends ResourceTest {
                 verify(printStream).println(issue.toString());
             }
         }
+    }
+
+    @Test
+    void testJavaUtilLoggingAdapterPrintsAllNormalIssues() {
+        // arrange
+        final Report report = readCheckStyleReport();
+        final Logger javaUtilLogger = mock(Logger.class);
+        final JavaUtilLoggingAdapter adapter = new JavaUtilLoggingAdapter(javaUtilLogger);
+        final Map<Severity, Level> severityToLevel = new HashMap<>();
+
+        severityToLevel.put(Severity.ERROR, Level.SEVERE);
+        severityToLevel.put(Severity.WARNING_HIGH, Level.WARNING);
+        severityToLevel.put(Severity.WARNING_NORMAL, Level.INFO);
+        severityToLevel.put(Severity.WARNING_LOW, Level.FINE);
+
+        // act
+        report.print(adapter);
+
+        // assert
+        for (Issue eachIssue : report) {
+            verify(javaUtilLogger).log(severityToLevel.get(eachIssue.getSeverity()), eachIssue.getMessage());
+        }
+    }
+
+    @Test
+    void testJavaUtilLoggingAdapterPrintsUnsupportedSeverityBombs() {
+        // arrange
+        final Report report = readCheckStyleReport();
+        report.add(new IssueBuilder().setSeverity(Severity.valueOf("SEVERE_SEVERE"))
+                .setMessage("TOO SEVERE! SYSTEM FAILURE!")
+                .build());
+
+        final Logger javaUtilLogger = mock(Logger.class);
+        final JavaUtilLoggingAdapter adapter = new JavaUtilLoggingAdapter(javaUtilLogger);
+
+        // act and assert
+        assertThatIllegalArgumentException().as("Check if the JavaUtilLoggingAdapter throws an IllegalArgumentException"
+                + " when given an issue with an unsupported severity.")
+                .isThrownBy(() -> report.print(adapter));
+    }
+
+    @Test
+    void testSimpleLoggingFacadeAdapterPrintsAllNormalIssues() {
+        // arrange
+        final Report report = readCheckStyleReport();
+        final org.slf4j.Logger loggingFacadeLogger = mock(org.slf4j.Logger.class);
+        final SimpleLoggingFacadeAdapter adapter = new SimpleLoggingFacadeAdapter(loggingFacadeLogger);
+
+        // act
+        report.print(adapter);
+
+        // assert
+        for (Issue eachIssue : report) {
+            final Severity severity = eachIssue.getSeverity();
+            final String issueMessage = eachIssue.getMessage();
+
+            if (Severity.ERROR.equals(severity)) {
+                verify(loggingFacadeLogger).error(issueMessage);
+            }
+            else if (Severity.WARNING_HIGH.equals(severity)) {
+                verify(loggingFacadeLogger).warn(issueMessage);
+            }
+            else if (Severity.WARNING_NORMAL.equals(severity)) {
+                verify(loggingFacadeLogger).info(issueMessage);
+            }
+            else {
+                verify(loggingFacadeLogger).trace(issueMessage);
+            }
+        }
+    }
+
+    @Test
+    void testSimpleLoggingFacadeAdapterPrintsUnsupportedSeverityBombs() {
+        // arrange
+        final Report report = readCheckStyleReport();
+        report.add(new IssueBuilder().setSeverity(Severity.valueOf("SEVERE_SEVERE"))
+                .setMessage("TOO SEVERE! SYSTEM FAILURE!")
+                .build());
+
+        final org.slf4j.Logger loggingFacadeLogger = mock(org.slf4j.Logger.class);
+        final SimpleLoggingFacadeAdapter adapter = new SimpleLoggingFacadeAdapter(loggingFacadeLogger);
+
+        // act and assert
+        assertThatIllegalArgumentException().as("Check if the SimpleLoggingFacadeAdapter throws an IllegalArgumentException"
+                + " when given an issue with an unsupported severity.")
+                .isThrownBy(() -> report.print(adapter));
     }
 
     private Report readCheckStyleReport() {
