@@ -2,6 +2,8 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,7 @@ import static org.mockito.Mockito.*;
  */
 // TODO: Move implementation to ReportTest
 class ReportPrinterTest extends ResourceTest {
+
     @BeforeAll
     static void beforeAll() {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
@@ -52,6 +55,45 @@ class ReportPrinterTest extends ResourceTest {
             }
         }
     }
+
+    @Test
+    void shouldPrintAllIssuesByJavaUtilLogger(){
+        Report report = readCheckStyleReport();
+        java.util.logging.Logger printer = mock(java.util.logging.Logger.class);
+        report.print(new JavaUtilLogger(printer));
+        for (Issue issue : report) {
+            final String logMessageOfIssue = issue.toString();
+            if(issue.getSeverity().equals(Severity.WARNING_LOW))
+                verify(printer).log(Level.FINE, logMessageOfIssue);
+            else if(issue.getSeverity().equals(Severity.WARNING_NORMAL))
+                verify(printer).log(Level.INFO, logMessageOfIssue);
+            else if(issue.getSeverity().equals(Severity.WARNING_HIGH))
+                verify(printer).log(Level.WARNING, logMessageOfIssue);
+            else if(issue.getSeverity().equals(Severity.ERROR))
+                verify(printer).log(Level.SEVERE, logMessageOfIssue);
+//                verify(printer).log(Level.SEVERE, logMessageOfIssue + " hallo"); -> Test failed => wird richtig getestet
+        }
+    }
+
+    // todo: mit warn() anstatt atWarn() würde test gehen. jedoch soll man ja atWarn() benutzen.
+    @Test
+    void shouldPrintAllIssuesBySLF4JLogger(){
+        Report report = readCheckStyleReport();
+        org.slf4j.Logger printer = mock(org.slf4j.Logger.class);
+        // todo: atError() funktioniert leider nur ohne mock().
+        report.print(new SLF4JLogger("Report.class"));
+        // Test, ob geht ews mict mock() geht am bsp info() (da in SLF4JLogger nur info anstelle von atInfo()
+        for (Issue issue : report) {
+            if(issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+                Report infoReport = new Report();
+                infoReport.add(issue);
+                infoReport.print(new SLF4JLogger(printer));
+                verify(printer).info(issue.toString());
+            }
+        }
+
+    }
+
 
     private Report readCheckStyleReport() {
         Report report = new CheckStyleParser().parse(read("parser/checkstyle/all-severities.xml"));

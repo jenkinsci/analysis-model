@@ -13,7 +13,8 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>${revision}${changelist}</version>
+  <version>8.4-SNAPSHOT</version>
+  <!--  <version>${revision}${changelist}</version>-->
 
   <packaging>jar</packaging>
 
@@ -74,11 +75,14 @@
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>1.7.30</slf4j.version>
+    <property name="org.slf4j.simpleLogger.defaultLogLevel" value="error"/>
+    <property>-Dorg.slf4j.simpleLogger.defaultLogLevel=ERROR</property>
     <violations-lib.version>1.117</violations-lib.version>
     <json.version>20200518</json.version>
 
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
   </properties>
+
 
   <dependencies>
 
@@ -163,21 +167,28 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>2.0.0-alpha1</version>
-<!--      <version>${slf4j.version}</version>-->
+      <!--      <version>${slf4j.version}</version>-->
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jul-to-slf4j</artifactId>
-      <version>${slf4j.version}</version>
+<!--      <version>${slf4j.version}</version>-->
+      <version>2.0.0-alpha1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>${slf4j.version}</version>
+      <version>2.0.0-alpha1</version>
+      <!--      <version>${slf4j.version}</version>-->
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.0-alpha1</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>

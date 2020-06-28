@@ -4,12 +4,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.util.VisibleForTesting;
 
 public class JavaUtilLogger implements IssuePrinter {
     private final Logger logger;
 
     public JavaUtilLogger(String filename) {
-        this.logger = Logger.getLogger(filename);
+        this(Logger.getLogger(filename));
+//        this.logger = Logger.getLogger(filename);
+    }
+
+    @VisibleForTesting
+    public JavaUtilLogger(Logger logger){
+        this.logger = logger;
     }
 
     // todo: sieht auch etwas nach template method pattern aus => könnte man IssueReport zur abstrakten Klasse AbstractIssueReport machen. Die template-method wäre print(issue) und als abstract-methods logNormal, logHigh, ...
