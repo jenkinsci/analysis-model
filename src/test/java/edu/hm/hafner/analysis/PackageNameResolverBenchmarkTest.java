@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.benchmark;
+package edu.hm.hafner.analysis;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

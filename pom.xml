@@ -213,6 +213,10 @@
           <compilerArgs combine.children="append">
             <arg>-XepExcludedPaths:.*/generated-test-sources/.*</arg>
           </compilerArgs>
+          <excludes>
+            <exclude>edu.hm.hafner.analysis.PackageNameResolverBenchmarkTest*</exclude>
+            <exclude>edu.hm.hafner.analysis.FingerprintGeneratorBenchmarkTest*</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
@@ -238,8 +242,8 @@
           </packages>
           <excludes>
             <exclude>.*SecureDigester</exclude>
-            <exclude>edu.hm.hafner.analysis.benchmark.*</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
+            <exclude>edu.hm.hafner.analysis.PackageDetectors.*</exclude>
           </excludes>
           <entryPointClassPackage>edu.hm.hafner.analysis.assertions</entryPointClassPackage>
         </configuration>

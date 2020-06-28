@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.benchmark;
+package edu.hm.hafner.analysis;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +24,7 @@ import edu.hm.hafner.analysis.Report;
  * @author Lion Kosiuk
  */
 public class FingerprintGeneratorBenchmarkTest {
-    private static final String AFFECTED_FILE_NAME = "file.txt";
+    private static final String AFFECTED_FILE_NAME = "fingerprint.txt";
     private static final Charset CHARSET_AFFECTED_FILE = StandardCharsets.UTF_8;
 
     /**
@@ -79,8 +79,8 @@ public class FingerprintGeneratorBenchmarkTest {
         Report report = createIssues();
         IssueBuilder builder = new IssueBuilder();
         builder.setFileName(AFFECTED_FILE_NAME);
-        builder.setLineStart(5);
         for(int i = 0; i < number; i++) {
+            builder.setLineStart((int) (Math.random()*26));
             report.add(builder.setPackageName(Integer.toString(i)).build());
         }
         return report;

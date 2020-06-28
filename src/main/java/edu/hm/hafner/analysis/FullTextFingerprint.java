@@ -43,7 +43,7 @@ public class FullTextFingerprint {
 
     @VisibleForTesting
     @SuppressFBWarnings(value = "WEAK_MESSAGE_DIGEST_MD5", justification = "The fingerprint is just used to track new warnings")
-    public FullTextFingerprint(final FileSystem fileSystem) {
+    FullTextFingerprint(final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         try {
             digest = MessageDigest.getInstance("MD5");
@@ -133,7 +133,7 @@ public class FullTextFingerprint {
      * Facade for file system operations. May be replaced by stubs in test cases.
      */
     @VisibleForTesting
-    public static class FileSystem {
+    static class FileSystem {
         @MustBeClosed
         public Stream<String> readLinesFromFile(final String fileName, final Charset charset)
                 throws IOException, InvalidPathException {
