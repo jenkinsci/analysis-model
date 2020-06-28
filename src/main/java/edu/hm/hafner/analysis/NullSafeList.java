@@ -24,8 +24,8 @@ public class NullSafeList<T> implements List<T> {
     }
 
     @Override
-    public boolean contains(final Object o) {
-        return list.contains(o);
+    public boolean contains(final Object object) {
+        return list.contains(object);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class NullSafeList<T> implements List<T> {
     }
 
     @Override
-    public <T1> T1[] toArray(final T1[] a) {
-        return list.toArray(a);
+    public <T1> T1[] toArray(final T1[] array) {
+        return list.toArray(array);
     }
 
     @Override
@@ -55,36 +55,36 @@ public class NullSafeList<T> implements List<T> {
     }
 
     @Override
-    public boolean containsAll(final Collection<?> c) {
-        return list.contains(c);
+    public boolean containsAll(final Collection<?> collection) {
+        return list.contains(collection);
     }
 
     @Override
-    public boolean addAll(final Collection<? extends T> c) {
-        Objects.requireNonNull(c);
-        if (c.stream().anyMatch(Objects::isNull))   {
+    public boolean addAll(final Collection<? extends T> collection) {
+        Objects.requireNonNull(collection);
+        if (collection.stream().anyMatch(Objects::isNull))   {
             throw new NullPointerException();
         }
-        return list.addAll(c);
+        return list.addAll(collection);
     }
 
     @Override
-    public boolean addAll(final int index, final Collection<? extends T> c) {
-        Objects.requireNonNull(c);
-        if (c.stream().anyMatch(Objects::isNull))   {
+    public boolean addAll(final int index, final Collection<? extends T> collection) {
+        Objects.requireNonNull(collection);
+        if (collection.stream().anyMatch(Objects::isNull))   {
             throw new NullPointerException();
         }
-        return list.addAll(index, c);
+        return list.addAll(index, collection);
     }
 
     @Override
-    public boolean removeAll(final Collection<?> c) {
-        return list.removeAll(c);
+    public boolean removeAll(final Collection<?> collection) {
+        return list.removeAll(collection);
     }
 
     @Override
-    public boolean retainAll(final Collection<?> c) {
-        return list.retainAll(c);
+    public boolean retainAll(final Collection<?> collection) {
+        return list.retainAll(collection);
     }
 
     @Override
@@ -98,15 +98,15 @@ public class NullSafeList<T> implements List<T> {
     }
 
     @Override
-    public T set(final int index, final T element) {
-        Objects.requireNonNull(element);
-        return list.set(index, element);
+    public T set(final int index, final T value) {
+        Objects.requireNonNull(value);
+        return list.set(index, value);
     }
 
     @Override
-    public void add(final int index, final T element) {
-        Objects.requireNonNull(element);
-        list.add(index, element);
+    public void add(final int index, final T value) {
+        Objects.requireNonNull(value);
+        list.add(index, value);
     }
 
     @Override
@@ -115,13 +115,13 @@ public class NullSafeList<T> implements List<T> {
     }
 
     @Override
-    public int indexOf(final Object o) {
-        return list.indexOf(o);
+    public int indexOf(final Object object) {
+        return list.indexOf(object);
     }
 
     @Override
-    public int lastIndexOf(final Object o) {
-        return list.lastIndexOf(o);
+    public int lastIndexOf(final Object object) {
+        return list.lastIndexOf(object);
     }
 
     @Override
