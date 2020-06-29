@@ -5,7 +5,6 @@ import java.util.Objects;
 import org.slf4j.Logger;
 
 import edu.hm.hafner.analysis.Report.IssuePrinter;
-import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * Adapter fuer die Ausgabe von Issues auf einem Logger der Simple Logging Facade fuer Java.
@@ -25,7 +24,6 @@ public class SimpleLoggingFacadeAdapter implements IssuePrinter {
      * @param logger
      *         Ein Logger der Simple Logging Facade fuer Java, der adaptiert wird.
      */
-    @VisibleForTesting
     public SimpleLoggingFacadeAdapter(final Logger logger) {
         this.logger = logger;
     }
