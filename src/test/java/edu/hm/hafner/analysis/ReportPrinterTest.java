@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -49,6 +50,48 @@ class ReportPrinterTest extends ResourceTest {
 
             for (Issue issue : report) {
                 verify(printStream).println(issue.toString());
+            }
+        }
+    }
+
+    @Test
+    void shouldPrintAllIssuesToJavaUtilLogger() {
+        Report report = readCheckStyleReport();
+
+        final java.util.logging.Logger logger = mock(java.util.logging.Logger.class);
+        report.print(new JavaUtilLoggingPrinter(logger));
+
+        for (Issue issue : report) {
+            final Severity severity = issue.getSeverity();
+            if (severity.equals(Severity.ERROR)) {
+                verify(logger).log(Level.SEVERE, issue.toString());
+            } else if (severity.equals(Severity.WARNING_HIGH)) {
+                verify(logger).log(Level.WARNING, issue.toString());
+            } else if (severity.equals(Severity.WARNING_NORMAL)) {
+                verify(logger).log(Level.INFO, issue.toString());
+            } else if (severity.equals(Severity.WARNING_LOW)) {
+                verify(logger).log(Level.FINE, issue.toString());
+            }
+        }
+    }
+    
+    @Test
+    void shouldPrintAllIssuesToSLF4JLogger() {
+        Report report = readCheckStyleReport();
+
+        final org.slf4j.Logger logger = mock(org.slf4j.Logger.class);
+        report.print(new SLF4JLoggingPrinter(logger));
+
+        for (Issue issue : report) {
+            final Severity severity = issue.getSeverity();
+            if (severity.equals(Severity.ERROR)) {
+                verify(logger).error(issue.toString());
+            } else if (severity.equals(Severity.WARNING_HIGH)) {
+                verify(logger).warn(issue.toString());
+            } else if (severity.equals(Severity.WARNING_NORMAL)) {
+                verify(logger).info(issue.toString());
+            } else if (severity.equals(Severity.WARNING_LOW)) {
+                verify(logger).trace(issue.toString());
             }
         }
     }
