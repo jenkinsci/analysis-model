@@ -24,6 +24,7 @@ class PackageDetectors {
 
     private final List<AbstractPackageDetector> detectors = new ArrayList<>();
 
+    @VisibleForTesting
     PackageDetectors(final FileSystem fileSystem) {
         detectors.add(new JavaPackageDetector(fileSystem));
         detectors.add(new CSharpNamespaceDetector(fileSystem));
