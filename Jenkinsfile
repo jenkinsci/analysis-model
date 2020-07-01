@@ -121,20 +121,21 @@
 
                             if (first) {
                                 jobName = env.JOB_NAME
-                                referenceJobName = 'Plugins/${jobName}/master'
-                                echo 'Static analysis is using reference job ${referenceJobName}'
+                                referenceJobName = "Plugins/${jobName}/master"
+                                echo "Static analysis is using reference job ${referenceJobName}"
+                                echo "Static analysis is using reference job " + referenceJobName
 
-                                recordIssues enabledForFailure: true, tool: mavenConsole(), referenceJobName: 'Plugins/${JOB_NAME}/master'
-                                recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', filters:[excludeFile('.*Assert.java')], referenceJobName: '${referenceJobName}'
+                                recordIssues enabledForFailure: true, tool: mavenConsole(), referenceJobName: referenceJobName
+                                recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', filters:[excludeFile('.*Assert.java')], referenceJobName: referenceJobName
                                 recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml'),
                                         checkStyle(pattern: 'target/checkstyle-result.xml'),
                                         pmdParser(pattern: 'target/pmd.xml'),
-                                        cpd(pattern: 'target/cpd.xml')], sourceCodeEncoding: 'UTF-8', referenceJobName: '${referenceJobName}'
+                                        cpd(pattern: 'target/cpd.xml')], sourceCodeEncoding: 'UTF-8', referenceJobName: referenceJobName
                                 recordIssues enabledForFailure: true, tool: taskScanner(
                                         includePattern:'**/*.java',
                                         excludePattern:'target/**',
                                         highTags:'FIXME',
-                                        normalTags:'TODO'), sourceCodeEncoding: 'UTF-8', referenceJobName: '${referenceJobName}'
+                                        normalTags:'TODO'), sourceCodeEncoding: 'UTF-8', referenceJobName: referenceJobName
                                 if (failFast && currentBuild.result == 'UNSTABLE') {
                                     error 'There were static analysis warnings; halting early'
                                 }
