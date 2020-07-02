@@ -135,7 +135,7 @@ public class FullTextFingerprint {
     @VisibleForTesting
     static class FileSystem {
         @MustBeClosed
-        Stream<String> readLinesFromFile(final String fileName, final Charset charset)
+        public Stream<String> readLinesFromFile(final String fileName, final Charset charset)
                 throws IOException, InvalidPathException {
             return Files.lines(Paths.get(fileName), charset);
         }

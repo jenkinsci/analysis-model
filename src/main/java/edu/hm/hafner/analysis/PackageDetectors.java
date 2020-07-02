@@ -53,9 +53,9 @@ class PackageDetectors {
      * Facade for file system operations. May be replaced by stubs in test cases.
      */
     @VisibleForTesting
-    static class FileSystem {
+    public static class FileSystem {
         @MustBeClosed
-        InputStream openFile(final String fileName) throws IOException, InvalidPathException {
+        public InputStream openFile(final String fileName) throws IOException, InvalidPathException {
             return Files.newInputStream(Paths.get(fileName));
         }
     }
