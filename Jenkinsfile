@@ -121,9 +121,8 @@
 
                             if (first) {
                                 jobName = env.JOB_NAME
-                                referenceJobName = "Plugins/${jobName}/master"
+                                referenceJobName = "${jobName}/master"
                                 echo "Static analysis is using reference job ${referenceJobName}"
-                                echo "Static analysis is using reference job " + referenceJobName
 
                                 recordIssues enabledForFailure: true, tool: mavenConsole(), referenceJobName: referenceJobName
                                 recordIssues enabledForFailure: true, tools: [java(), javaDoc()], sourceCodeEncoding: 'UTF-8', filters:[excludeFile('.*Assert.java')], referenceJobName: referenceJobName
