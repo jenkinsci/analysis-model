@@ -85,7 +85,7 @@
                                     mavenOptions += "-Djava.level=${javaLevel}"
                                 }
                                 if (skipTests) {
-                                    mavenOptions += "-DskipTests"
+                                    mavenOptions += "-DskipTests -DskipITs"
                                 }
                                 mavenOptions += "clean install"
                                 infra.runMaven(mavenOptions, jdk, null, null, addToolEnv)
@@ -121,7 +121,7 @@
 
                             if (first) {
                                 referenceJobName = env.JOB_NAME.substring(0, env.JOB_NAME.lastIndexOf("/") + 1) + "master"
-                                echo "Recording static analysis results using reference job ${referenceJobName}"
+                                echo "Recording static analysis results on '${stageIdentifier}' using reference job '${referenceJobName}'"
 
                                 recordIssues enabledForFailure: true,
                                         tool: mavenConsole(),
@@ -131,15 +131,15 @@
                                         sourceCodeEncoding: 'UTF-8',
                                         filters:[excludeFile('.*Assert.java')],
                                         referenceJobName: referenceJobName
-                                recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml'),
-                                                     checkStyle(pattern: 'target/checkstyle-result.xml'),
-                                                     pmdParser(pattern: 'target/pmd.xml'),
-                                                     cpd(pattern: 'target/cpd.xml')],
+                                recordIssues tools: [spotBugs(pattern: '**/target/spotbugsXml.xml'),
+                                                     checkStyle(pattern: '**/target/checkstyle-result.xml'),
+                                                     pmdParser(pattern: '**/target/pmd.xml'),
+                                                     cpd(pattern: '**/target/cpd.xml')],
                                         sourceCodeEncoding: 'UTF-8',
                                         referenceJobName: referenceJobName
                                 recordIssues enabledForFailure: true, tool: taskScanner(
                                         includePattern:'**/*.java',
-                                        excludePattern:'target/**',
+                                        excludePattern:'**/target/**',
                                         highTags:'FIXME',
                                         normalTags:'TODO'),
                                         sourceCodeEncoding: 'UTF-8',
