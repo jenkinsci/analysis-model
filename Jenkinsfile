@@ -120,7 +120,7 @@
                             }
 
                             if (first) {
-                                referenceJobName = env.JOB_NAME.substring(0, env.JOB_NAME.lastIndexOf("/")) + "master"
+                                referenceJobName = env.JOB_NAME.substring(0, env.JOB_NAME.lastIndexOf("/") + 1) + "master"
                                 echo "Static analysis is using reference job ${referenceJobName}"
 
                                 recordIssues enabledForFailure: true, tool: mavenConsole(), referenceJobName: referenceJobName
