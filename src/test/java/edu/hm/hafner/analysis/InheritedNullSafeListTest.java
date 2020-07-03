@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class InheritedNullSafeListTest extends NullSafeListTest {
+class InheritedNullSafeListTest extends NullSafeListTest {
 
     @Override
     NullSafeArrayList<Integer> create(final int numberOfInitialElements) {

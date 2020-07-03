@@ -2,10 +2,10 @@ package edu.hm.hafner.analysis;
 
 import edu.hm.hafner.util.SerializableTest;
 
-public class NullSafeListSerializableTest extends SerializableTest<NullSafeList> {
+class NullSafeListSerializableTest extends SerializableTest<NullSafeList<Integer>> {
 
     @Override
-    protected NullSafeList createSerializable() {
-        return new NullSafeList(10);
+    protected NullSafeList<Integer> createSerializable() {
+        return new NullSafeList<Integer>(10);
     }
 }

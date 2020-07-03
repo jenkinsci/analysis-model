@@ -47,19 +47,4 @@ public abstract class NullSafeListTest extends ListTest {
     public void setElementToNullThrows(){
         assertThatThrownBy(() -> create(10).set(FIRST_ELEMENT, null)).isExactlyInstanceOf(NullPointerException.class);
     }
-
-
-    private NullSafeList getEmptyNullSafeList(){
-        return new NullSafeList();
-    }
-
-    private NullSafeList getInitializedNullSafeList(){
-        NullSafeList nullSafeList = new NullSafeList();
-        nullSafeList.add(-10);
-        nullSafeList.add(0);
-        nullSafeList.add(11);
-        nullSafeList.add(Integer.MAX_VALUE);
-        return nullSafeList;
-    }
-
 }
