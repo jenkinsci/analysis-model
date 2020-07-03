@@ -67,13 +67,7 @@ public abstract class ListTest {
     @Test
     void getElementFromEmptyListBombs(){
         List<Integer> emptyList = create(EMPTY);
-//        exception.expect(java.lang.IndexOutOfBoundsException.class); //todo: warum geht das nicht?
-        try {
-            emptyList.get(0);
-            assertThat(false).isTrue();
-        }catch (IndexOutOfBoundsException exception){
-            // success
-        }
+        assertThatThrownBy(() -> emptyList.get(0)).isExactlyInstanceOf(IndexOutOfBoundsException.class);
     }
 
     // add

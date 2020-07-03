@@ -21,6 +21,15 @@ public class NullSafeListTest extends ListTest {
     }
 
     @Test
+    public void newNullSafeListWitchContainsNullThrows(){
+        List list = new ArrayList<Integer>();
+        list.add(5);
+        list.add(null);
+        list.add(11);
+        assertThatThrownBy(() -> new NullSafeList(list)).isExactlyInstanceOf(NullPointerException.class);
+    }
+
+    @Test
     public void addNullElementToEmptyListThrows(){
         assertThatThrownBy(() -> getEmptyNullSafeList().add(null)).isExactlyInstanceOf(NullPointerException.class);
     }
@@ -31,12 +40,26 @@ public class NullSafeListTest extends ListTest {
     }
 
     @Test
+    public void addNullElementAtIndexOneToInitializedListThrows(){
+        assertThatThrownBy(() -> getInitializedNullSafeList().add(1, null)).isExactlyInstanceOf(NullPointerException.class);
+    }
+
+    @Test
     public void addMultipleElementsWithOneNullElementThrows(){
         List list = new ArrayList<Integer>();
         list.add(5);
         list.add(null);
         list.add(11);
         assertThatThrownBy(() -> getEmptyNullSafeList().addAll(list)).isExactlyInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void addMultipleElementsWithNullElementAtIndexTwoThrows(){
+        List list = new ArrayList<Integer>();
+        list.add(5);
+        list.add(null);
+        list.add(11);
+        assertThatThrownBy(() -> getEmptyNullSafeList().addAll(2, list)).isExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test
