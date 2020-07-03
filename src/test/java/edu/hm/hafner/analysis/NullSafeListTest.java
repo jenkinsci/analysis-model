@@ -6,42 +6,23 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class NullSafeListTest extends ListTest {
+public abstract class NullSafeListTest extends ListTest {
 
     private final static int FIRST_ELEMENT = 0;
 
-    @Override
-    List<Integer> create(final int numberOfInitialElements) {
-        List<Integer> list = new ArrayList<>(numberOfInitialElements);
-        // generate some "random" positiv and negative values
-        for (int element = -numberOfInitialElements; element < numberOfInitialElements; element += 2) {
-            list.add(element * (int) (Math.random() * 10));
-        }
-        return list;
-    }
-
-    @Test
-    public void newNullSafeListWitchContainsNullThrows(){
-        List<Integer> list = new ArrayList<>();
-        list.add(5);
-        list.add(null);
-        list.add(11);
-        assertThatThrownBy(() -> new NullSafeList(list)).isExactlyInstanceOf(NullPointerException.class);
-    }
-
     @Test
     public void addNullElementToEmptyListThrows(){
-        assertThatThrownBy(() -> getEmptyNullSafeList().add(null)).isExactlyInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> create(0).add(null)).isExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void addNullElementToInitializedListThrows(){
-        assertThatThrownBy(() -> getInitializedNullSafeList().add(null)).isExactlyInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> create(10).add(null)).isExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void addNullElementAtIndexOneToInitializedListThrows(){
-        assertThatThrownBy(() -> getInitializedNullSafeList().add(1, null)).isExactlyInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> create(10).add(1, null)).isExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -50,7 +31,7 @@ public class NullSafeListTest extends ListTest {
         list.add(5);
         list.add(null);
         list.add(11);
-        assertThatThrownBy(() -> getEmptyNullSafeList().addAll(list)).isExactlyInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> create(0).addAll(list)).isExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -59,12 +40,12 @@ public class NullSafeListTest extends ListTest {
         list.add(5);
         list.add(null);
         list.add(11);
-        assertThatThrownBy(() -> getEmptyNullSafeList().addAll(2, list)).isExactlyInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> create(10).addAll(2, list)).isExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test
     public void setElementToNullThrows(){
-        assertThatThrownBy(() -> getInitializedNullSafeList().set(FIRST_ELEMENT, null)).isExactlyInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> create(10).set(FIRST_ELEMENT, null)).isExactlyInstanceOf(NullPointerException.class);
     }
 
 

@@ -5,13 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 public abstract class ListTest {
-    // todo: besser Empty List usw. als Konstanten
+
     public static final int EMPTY = 0;
     public static final int ONE_ELEMENT = 1;
     public static final int MULTIPLE_ELEMENTS = 17;
-
-//    @Rule
-//    public ExpectedException exception = ExpectedException.none();
 
     abstract List<Integer> create(int numberOfInitialElements);
 
