@@ -191,6 +191,12 @@
       <version>${slf4j.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>edu.hm.hafner</groupId>
+      <artifactId>analysis-model</artifactId>
+      <version>8.1.4-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
 
