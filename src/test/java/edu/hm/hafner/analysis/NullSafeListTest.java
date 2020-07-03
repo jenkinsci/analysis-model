@@ -17,7 +17,6 @@ class NullSafeListTest extends ListTest {
         return sut;
     }
 
-
     @Test
     void shouldHaveAllElements() {
         List<Integer> sut = create(ZERO);
@@ -60,5 +59,21 @@ class NullSafeListTest extends ListTest {
         assertThatThrownBy(() -> create(ZERO)
                 .set(0, null))
                 .isInstanceOf(NullPointerException.class);
+    }
+
+    /**
+     * Tests for the class {@code NullSafeListInheritance}.
+     *
+     * @author mbauerness
+     */
+    static class NullSafeListInheritanceTest extends NullSafeListTest {
+        @Override
+        protected List<Integer> create(final int numberOfInitialElements) {
+            List<Integer> sut = new NullSafeListInheritance();
+            for (int element = 1; element <= numberOfInitialElements; element++) {
+                sut.add(element);
+            }
+            return sut;
+        }
     }
 }
