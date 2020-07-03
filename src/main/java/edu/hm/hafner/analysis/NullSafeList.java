@@ -11,7 +11,14 @@ import java.util.function.UnaryOperator;
 
 /**
  * Class that provides a null safe wrapper for list implementations.
+ * Uses delegation.
  * @param <E> the type of the list's elements
+ *
+ * @author mbauerness
+ *
+ * Pro Delegation: it's not tied to a concrete class but to an interface -> fexible
+ *
+ * Con Delegation: many methods you don't want to change in general (boilerplate code)
  */
 public class NullSafeList<E> implements List<E> {
 
@@ -170,7 +177,6 @@ public class NullSafeList<E> implements List<E> {
     }
 
     // helper methods
-
     private void checkIfListContainsNullElements(final Collection<? extends E> pList) {
         pList.forEach(Objects::requireNonNull);
     }
