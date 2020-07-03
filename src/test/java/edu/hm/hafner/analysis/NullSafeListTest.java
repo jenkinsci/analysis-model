@@ -22,7 +22,7 @@ public class NullSafeListTest extends ListTest {
 
     @Test
     public void newNullSafeListWitchContainsNullThrows(){
-        List list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(null);
         list.add(11);
@@ -46,7 +46,7 @@ public class NullSafeListTest extends ListTest {
 
     @Test
     public void addMultipleElementsWithOneNullElementThrows(){
-        List list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(null);
         list.add(11);
@@ -55,7 +55,7 @@ public class NullSafeListTest extends ListTest {
 
     @Test
     public void addMultipleElementsWithNullElementAtIndexTwoThrows(){
-        List list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(null);
         list.add(11);

@@ -15,11 +15,11 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-public class NullSafeList extends AbstractList<Integer> implements List<Integer>, Serializable {
+public class NullSafeList<T> extends AbstractList<T> implements List<T>, Serializable {
 
-    private List<Integer> nullSafe;
+    private List<T> nullSafe;
 
-    public NullSafeList(Integer number) {
+    public NullSafeList(T number) {
         Objects.requireNonNull(number);
         nullSafe = new ArrayList<>();
         nullSafe.add(number);
@@ -29,7 +29,7 @@ public class NullSafeList extends AbstractList<Integer> implements List<Integer>
         nullSafe = new ArrayList<>();
     }
 
-    public NullSafeList(List<Integer> list) {
+    public NullSafeList(List<T> list) {
         containsNull(list);
         nullSafe = list;
     }
@@ -50,7 +50,7 @@ public class NullSafeList extends AbstractList<Integer> implements List<Integer>
     }
 
     @Override
-    public Iterator<Integer> iterator() {
+    public Iterator<T> iterator() {
         return nullSafe.iterator();
     }
 
@@ -64,9 +64,9 @@ public class NullSafeList extends AbstractList<Integer> implements List<Integer>
         return nullSafe.toArray(a);
     }
 
-    public boolean add(final Integer integer) {
-        Objects.requireNonNull(integer);
-        return nullSafe.add(integer);
+    public boolean add(final T element) {
+        Objects.requireNonNull(element);
+        return nullSafe.add(element);
     }
 
     @Override
@@ -79,13 +79,13 @@ public class NullSafeList extends AbstractList<Integer> implements List<Integer>
     }
 
     @Override
-    public boolean addAll(final Collection<? extends Integer> c) {
+    public boolean addAll(final Collection<? extends T> c) {
         containsNull(c);
         return nullSafe.addAll(c);
     }
 
     @Override
-    public boolean addAll(final int index, final Collection<? extends Integer> c) {
+    public boolean addAll(final int index, final Collection<? extends T> c) {
         containsNull(c);
         return nullSafe.addAll(index, c);
     }
@@ -98,11 +98,11 @@ public class NullSafeList extends AbstractList<Integer> implements List<Integer>
         return nullSafe.retainAll(c); // retainAll wirft npe falls null in c enthalten ist
     }
 
-    public void replaceAll(final UnaryOperator<Integer> operator) {
+    public void replaceAll(final UnaryOperator<T> operator) {
         nullSafe.replaceAll(operator);
     }
 
-    public void sort(final Comparator<? super Integer> c) {
+    public void sort(final Comparator<? super T> c) {
         nullSafe.sort(c);
     }
 
@@ -122,22 +122,22 @@ public class NullSafeList extends AbstractList<Integer> implements List<Integer>
     }
 
     @Override
-    public Integer get(final int index) {
+    public T get(final int index) {
         return nullSafe.get(index);
     }
 
-    public Integer set(final int index, final Integer element) {
+    public T set(final int index, final T element) {
         Objects.requireNonNull(element);
         return nullSafe.set(index, element);
     }
 
-    public void add(final int index, final Integer element) {
+    public void add(final int index, final T element) {
         Objects.requireNonNull(element);
         nullSafe.add(index, element);
     }
 
     @Override
-    public Integer remove(final int index) {
+    public T remove(final int index) {
         return nullSafe.remove(index);
     }
 
@@ -152,44 +152,44 @@ public class NullSafeList extends AbstractList<Integer> implements List<Integer>
     }
 
     @Override
-    public ListIterator<Integer> listIterator() {
+    public ListIterator<T> listIterator() {
         return nullSafe.listIterator();
     }
 
     @Override
-    public ListIterator<Integer> listIterator(final int index) {
+    public ListIterator<T> listIterator(final int index) {
         return nullSafe.listIterator(index);
     }
 
     @Override
-    public List<Integer> subList(final int fromIndex, final int toIndex) {
+    public List<T> subList(final int fromIndex, final int toIndex) {
         return nullSafe.subList(fromIndex, toIndex);
     }
 
     @Override
-    public Spliterator<Integer> spliterator() {
+    public Spliterator<T> spliterator() {
         return nullSafe.spliterator();
     }
 
-    public boolean removeIf(final Predicate<? super Integer> filter) {
+    public boolean removeIf(final Predicate<? super T> filter) {
         return nullSafe.removeIf(filter);
     }
 
     @Override
-    public Stream<Integer> stream() {
+    public Stream<T> stream() {
         return nullSafe.stream();
     }
 
     @Override
-    public Stream<Integer> parallelStream() {
+    public Stream<T> parallelStream() {
         return nullSafe.parallelStream();
     }
 
-    public void forEach(final Consumer<? super Integer> action) {
+    public void forEach(final Consumer<? super T> action) {
         nullSafe.forEach(action);
     }
 
-    private void containsNull(Collection<? extends Integer> collection){
+    private void containsNull(Collection<? extends T> collection){
         collection.stream().peek(Objects::requireNonNull).count();
     }
 }
