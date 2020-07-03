@@ -15,18 +15,25 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+import edu.hm.hafner.util.VisibleForTesting;
+
 public class NullSafeList<T> extends AbstractList<T> implements List<T>, Serializable {
 
     private List<T> nullSafe;
 
+    @VisibleForTesting
     public NullSafeList(T number) {
         Objects.requireNonNull(number);
         nullSafe = new ArrayList<>();
         nullSafe.add(number);
     }
-
+    /* Default List für NullSafeList ist ArrayList */
     public NullSafeList() {
         nullSafe = new ArrayList<>();
+    }
+
+    public NullSafeList(int capacity) {
+        nullSafe = new ArrayList<>(capacity);
     }
 
     public NullSafeList(List<T> list) {
