@@ -7,10 +7,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * Tests for the class {@code NullSafeList}.
+ */
 class NullSafeListTest extends ListTest {
+
+    /**
+     * Creates a new {@code ArrayList} wrapped in a {@code NullSafeList}.
+     * @param numberOfInitialElements
+     *          the amount of elements that should be stored in the list at the beginning
+     * @return
+     *      the NullSafeList as SUT
+     */
     @Override
     protected List<Integer> create(final int numberOfInitialElements) {
-        List<Integer> sut = new NullSafeList(new ArrayList<>());
+        final List<Integer> sut = new NullSafeList(new ArrayList<>());
         for (int element = 1; element <= numberOfInitialElements; element++) {
             sut.add(element);
         }
@@ -19,7 +30,7 @@ class NullSafeListTest extends ListTest {
 
     @Test
     void shouldHaveAllElements() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
         sut.add(1);
         sut.add(2);
 
@@ -67,13 +78,58 @@ class NullSafeListTest extends ListTest {
      * @author mbauerness
      */
     static class NullSafeListInheritanceTest extends NullSafeListTest {
+
+        /**
+         * Creates a new {@code NullSafeListInheritance} which wraps an {@code ArrayList}.
+         * @param numberOfInitialElements
+         *          the amount of elements that should be stored in the list at the beginning
+         * @return
+         *      the NullSafeListInheritance as SUT
+         */
         @Override
         protected List<Integer> create(final int numberOfInitialElements) {
-            List<Integer> sut = new NullSafeListInheritance();
+            final List<Integer> sut = new NullSafeListInheritance();
             for (int element = 1; element <= numberOfInitialElements; element++) {
                 sut.add(element);
             }
             return sut;
+        }
+    }
+
+    static class NullSafeCollectionsTest extends NullSafeListTest {
+        /**
+         * Creates a new {@code NullSafeList} which wraps an {@code ArrayList}.
+         * @param numberOfInitialElements
+         *          the amount of elements that should be stored in the list at the beginning
+         * @return
+         *      the NullSafeList as SUT
+         */
+        @Override
+        protected List<Integer> create(final int numberOfInitialElements) {
+            final List<Integer> sut = NullSafeCollections.nullSafeList(numberOfInitialElements);
+            for (int element = 1; element <= numberOfInitialElements; element++) {
+                sut.add(element);
+            }
+            return sut;
+        }
+
+        @Test
+        void shouldCreateAnEmptyNullsafeArrayList() {
+            final List<Integer> sut = NullSafeCollections.nullSafeList();
+
+            assertThat(sut.isEmpty()).isTrue();
+        }
+
+        @Test
+        void shouldCreateFilledNullsafeArrayList() {
+            final ArrayList<Integer> tmpList = new ArrayList<>();
+            for (int index = 0; index < 3; index++) {
+                tmpList.add(index);
+            }
+            final List<Integer> sut = NullSafeCollections.nullSafeList(tmpList);
+
+            assertThat(sut.size()).isEqualTo(3);
+            assertThat(sut).containsExactly(0, 1, 2);
         }
     }
 }
