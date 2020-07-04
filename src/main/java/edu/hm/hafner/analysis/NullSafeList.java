@@ -17,7 +17,7 @@ import java.util.function.UnaryOperator;
  *
  * @author mbauerness
  *
- * Pro Delegation: it's not tied to a concrete class but to an interface -> flexible
+ * Pro Delegation: it's not tied to a concrete class but to an interface (flexible)
  *
  * Con Delegation: many methods you don't want to change in general must be implemented (boilerplate code)
  */
