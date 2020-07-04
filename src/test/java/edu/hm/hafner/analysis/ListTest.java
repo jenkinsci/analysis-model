@@ -30,40 +30,40 @@ public abstract class ListTest {
     // size()
     @Test
     void shouldHaveSizeZero() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
         assertThat(sut.size()).isZero();
     }
 
     @Test
     void shouldHaveSizeOne() {
-        List<Integer> sut = create(ONE);
+        final List<Integer> sut = create(ONE);
         assertThat(sut.size()).isOne();
     }
 
     // empty
     @Test
     void shouldBeEmpty() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
         assertThat(sut.isEmpty()).isTrue();
     }
 
     @Test
     void shouldNotBeEmpty() {
-        List<Integer> sut = create(ONE);
+        final List<Integer> sut = create(ONE);
         assertThat(sut.isEmpty()).isFalse();
     }
 
     // contains
     @Test
     void shouldNotContainBecauseNoElement() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
         assertThat(sut.contains(ZERO)).isFalse();
     }
 
     // add
     @Test
     void shouldAddOneElementIncreaseSize() {
-        List<Integer> sut = create(ONE);
+        final List<Integer> sut = create(ONE);
         sut.add(ONE);
 
         assertThat(sut.size()).isEqualTo(2);
@@ -72,7 +72,7 @@ public abstract class ListTest {
 
     @Test
     void shouldHaveOneElementAfterAddingToEmptyList() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
         sut.add(ONE);
 
         assertThat(sut.size()).isOne();
@@ -82,7 +82,7 @@ public abstract class ListTest {
     // clear
     @Test
     void shouldBeEmptyAndSizeZeroAfterClear() {
-        List<Integer> sut = create(ONE);
+        final List<Integer> sut = create(ONE);
         sut.clear();
 
         assertThat(sut.isEmpty()).isTrue();
@@ -92,23 +92,23 @@ public abstract class ListTest {
     // equals
     @Test
     void shouldBeEqualBecauseSameObject() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
 
         assertThat(sut.equals(sut)).isTrue();
     }
 
     @Test
     void shouldNotBeEqualBecauseFalseObjecttype() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
 
         assertThat(sut.equals("Test")).isFalse();
     }
 
     @Test
     void shouldNotBeEqualBecauseDifferentElement() {
-        List<Integer> sut1 = create(ZERO);
+        final List<Integer> sut1 = create(ZERO);
         sut1.add(ONE);
-        List<Integer> sut2 = create(ZERO);
+        final List<Integer> sut2 = create(ZERO);
         sut2.add(ZERO);
 
         assertThat(sut1.equals(sut2)).isFalse();
@@ -117,7 +117,7 @@ public abstract class ListTest {
     //get
     @Test
     void shouldGetElementOne() {
-        List<Integer> sut = create(0);
+        final List<Integer> sut = create(0);
         sut.add(ONE);
 
         assertThat(sut.get(0)).isOne();
@@ -133,7 +133,7 @@ public abstract class ListTest {
     // remove
     @Test
     void shouldBeEmptyAfterRemove() {
-        List<Integer> sut = create(ONE);
+        final List<Integer> sut = create(ONE);
         sut.remove(ZERO);
 
         assertThat(sut.isEmpty()).isTrue();
@@ -141,7 +141,7 @@ public abstract class ListTest {
 
     @Test
     void shouldNotBeEmptyAfterRemove() {
-        List<Integer> sut = create(ONE);
+        final List<Integer> sut = create(ONE);
         sut.add(ZERO);
         sut.remove(ZERO);
 
@@ -162,14 +162,14 @@ public abstract class ListTest {
     // isEmpty and size
     @Test
     void shouldBeEmptyAndSizeZero() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
         assertThat(sut.isEmpty()).isTrue();
         assertThat(sut.size()).isZero();
     }
 
     @Test
     void shouldNotBeEmptyAndSizeOne() {
-        List<Integer> sut = create(ONE);
+        final List<Integer> sut = create(ONE);
         assertThat(sut.isEmpty()).isFalse();
         assertThat(sut.size()).isOne();
     }
@@ -177,7 +177,7 @@ public abstract class ListTest {
     // add, get, size and isEmpty
     @Test
     void shouldHaveElementOneAfterAddingToNoEmptyList() {
-        List<Integer> sut = create(ONE);
+        final List<Integer> sut = create(ONE);
         sut.add(ONE);
 
         assertThat(sut.size()).isEqualTo(2);
@@ -187,7 +187,7 @@ public abstract class ListTest {
 
     @Test
     void shouldHaveElementOneAfterAddingToEmptyList() {
-        List<Integer> sut = create(ZERO);
+        final List<Integer> sut = create(ZERO);
         sut.add(ONE);
 
         assertThat(sut.size()).isOne();
