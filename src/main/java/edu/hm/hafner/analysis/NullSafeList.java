@@ -12,13 +12,14 @@ import java.util.function.UnaryOperator;
 /**
  * Class that provides a null safe wrapper for list implementations.
  * Uses delegation.
- * @param <E> the type of the list's elements
+ * @param <E>
+ *           the type of the list's elements
  *
  * @author mbauerness
  *
- * Pro Delegation: it's not tied to a concrete class but to an interface -> fexible
+ * Pro Delegation: it's not tied to a concrete class but to an interface -> flexible
  *
- * Con Delegation: many methods you don't want to change in general (boilerplate code)
+ * Con Delegation: many methods you don't want to change in general must be implemented (boilerplate code)
  */
 public class NullSafeList<E> implements List<E> {
 
@@ -30,7 +31,8 @@ public class NullSafeList<E> implements List<E> {
     /**
      * Constructor for a null safe list.
      *
-     * @param pList the list to wrap
+     * @param pList t
+     *              he list to wrap
      * @throws NullPointerException
      *          if pList or at least one of it's elements is null
      */
