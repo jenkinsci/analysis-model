@@ -1,0 +1,30 @@
+{
+  "vulnerabilities": [
+    {
+      "featurename": "sqlite3",
+      "fixedby": "3.22.0-1ubuntu0.4",
+      "severity": "Medium"
+    },
+    {
+      "Featurename": "libidn2",
+      "severity": "high"
+    },
+    {
+      "namespace": "ubuntu:18.04",
+      "severIty": "Defcon1"
+    },
+    {
+      "featurename": "libgcrypt20",
+      "namespacE": 5,
+      "severity": [ ],
+      "fixedBy": [ ],
+      "link": "http://people.ubuntu.com/~ubuntu-security/cve/CVE-2019-13627"
+    },
+    {
+      "namespace": "ubuntu:18.04",
+      "severity": "Critical",
+      "fixedBy": null
+    },
+    "FOO"
+  ]
+}
