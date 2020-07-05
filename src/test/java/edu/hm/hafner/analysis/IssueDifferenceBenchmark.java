@@ -10,7 +10,7 @@ import org.openjdk.jmh.infra.Blackhole;
 import static java.util.Collections.*;
 
 /**
- * Performance benchmarks for {@link IssueDifference}.
+ * Performance benchmarks for the class {@link IssueDifference}.
  *
  * @author Kevin Richter
  * @author Simon Schönwiese

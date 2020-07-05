@@ -8,9 +8,6 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.infra.Blackhole;
 
 /**
@@ -31,11 +28,8 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
      *         the black hole that will consume the read bytes
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @Fork(value = 1, warmups = 1)
     public void benchmarkingReportSerialization(final Blackhole blackhole) {
-        final byte[] bytes = toByteArray(REPORT);
-        blackhole.consume(bytes);
+        blackhole.consume(toByteArray(REPORT));
     }
 
     /**
@@ -45,11 +39,8 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
      *         the black hole that will consume the created report
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @Fork(value = 1, warmups = 1)
     public void benchmarkingReportDeserialization(final Blackhole blackhole) {
-        Report report = toReport(REPORT_AS_BYTES);
-        blackhole.consume(report);
+        blackhole.consume(toReport(REPORT_AS_BYTES));
     }
 
     private static Report createReportWith(final int number) {

@@ -4,10 +4,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Level;
-import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -27,8 +24,6 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
      *         a {@link BenchmarkState} object containing the report
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @Fork(value = 5, warmups = 5)
     public void benchmarkingOneIssue(final BenchmarkState state) {
         FingerprintGenerator generator = new FingerprintGenerator();
 
@@ -42,8 +37,6 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
      *         a {@link BenchmarkState} object containing the report
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @Fork(value = 5, warmups = 5)
     public void benchmarkingMultipleIssues(final BenchmarkState state) {
         FingerprintGenerator generator = new FingerprintGenerator();
 

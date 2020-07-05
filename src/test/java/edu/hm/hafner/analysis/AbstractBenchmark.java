@@ -1,6 +1,9 @@
 package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.profile.StackProfiler;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
@@ -11,6 +14,8 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  *
  * @author Ullrich Hafner
  */
+@BenchmarkMode(Mode.AverageTime)
+@Fork(value = 1, warmups = 3)
 public class AbstractBenchmark {
     /**
      * BenchmarkRunner - runs all benchmark tests in the concrete test class.

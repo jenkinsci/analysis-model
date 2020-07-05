@@ -27,6 +27,8 @@ import edu.hm.hafner.analysis.parser.pmd.PmdParser;
  * @author Kevin Richter
  * @author Simon Schönwiese
  */
+@BenchmarkMode(Mode.AverageTime)
+@Fork(value = 1, warmups = 3)
 public class ParserBenchmark extends AbstractBenchmark {
     /**
      * Benchmarking for parsing an xml file with a {@link CheckStyleParser}.
@@ -37,8 +39,6 @@ public class ParserBenchmark extends AbstractBenchmark {
      *         a {@link Blackhole} to avoid dead code elimination
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @Fork(value = 1, warmups = 1)
     public void benchmarkCheckStyleParser(final BenchmarkState state, final Blackhole blackhole) {
         Report report = new CheckStyleParser().parse(state.getCheckstyleFileReaderFactory());
 
@@ -54,8 +54,6 @@ public class ParserBenchmark extends AbstractBenchmark {
      *         a {@link Blackhole} to avoid dead code elminination
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @Fork(value = 1, warmups = 1)
     public void benchmarkPmdParser(final BenchmarkState state, final Blackhole blackhole) {
         Report report = new PmdParser().parse(state.getPmdFileReaderFactory());
 
