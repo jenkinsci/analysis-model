@@ -34,7 +34,7 @@ public class ParserBenchmark extends AbstractBenchmark {
      * @param state
      *         a {@link BenchmarkState} object containing the FileReaderFactory object
      * @param blackhole
-     *         a {@link Blackhole} to avoid dead code elminination
+     *         a {@link Blackhole} to avoid dead code elimination
      */
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
