@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -9,10 +8,16 @@ import java.util.Objects;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-public class NullSafeList<E> implements List<E> {
+/**
+ * Decorator for {@link List}
+ * This Decorator implements the {@List} interface.
+ *
+ * @author S. A. D.
+ */
+class NullSafeList<E> implements List<E> {
     private final List<E> list;
 
-    public NullSafeList(final List<E> list) {
+    NullSafeList(final List<E> list) {
         checkIfContainsNull(list);
         this.list = list;
     }
@@ -143,8 +148,7 @@ public class NullSafeList<E> implements List<E> {
     }
 
 
-    public void checkIfContainsNull(final Collection<? extends E> c) {
-
+    private void checkIfContainsNull(final Collection<? extends E> c) {
         if (c.stream().anyMatch(Objects::isNull)) {
             throw new NullPointerException();
         }

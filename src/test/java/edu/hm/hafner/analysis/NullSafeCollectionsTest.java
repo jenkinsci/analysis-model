@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,9 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
-class NullSafeCollectionTest {
-
-    private final NullSafeCollection nullSafeCollection = new NullSafeCollection();
+class NullSafeCollectionsTest {
 
     void initLists(final List<Integer> list) {
         list.add(2);
@@ -34,7 +31,7 @@ class NullSafeCollectionTest {
 
         checked = Collections.checkedCollection(
                 Collections.synchronizedList(
-                        NullSafeCollection.nullSafeList(linkedList)), Integer.class);
+                        NullSafeCollections.nullSafeList(linkedList)), Integer.class);
 
         assertThat(checked.contains(null)).isFalse();
     }
@@ -49,15 +46,26 @@ class NullSafeCollectionTest {
 
         checked = Collections.checkedCollection(
                 Collections.synchronizedList(
-                        NullSafeCollection.nullSafeList(arrayList)), Integer.class);
+                        NullSafeCollections.nullSafeList(arrayList)), Integer.class);
 
         assertThat(checked.contains(null)).isFalse();
     }
 
     @Test
-    void aweseomeTest() {
-        List<Integer> list = NullSafeCollection.nullSafeList();
-        assertThat(list).isInstanceOf(NullSafeList.class);
+    void awesomeTest() {
+        List<Integer> list = NullSafeCollections.emptyNullSafeList();
+        assertThat(list)
+                .isInstanceOf(NullSafeList.class)
+                .hasSize(0);
+    }
+
+    @Test
+    void shouldFilterOutNullElements() {
+        List<Integer> list = NullSafeCollections.listOf(1, 2, 3, null);
+        assertThat(list)
+                .isInstanceOf(NullSafeList.class)
+                .hasSize(3)
+                .containsOnly(1, 2, 3);
     }
 
 }

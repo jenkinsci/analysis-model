@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author S. A. D.
  */
-public abstract class ListTest {
+abstract class ListTest {
 
     abstract List<Integer> create(int numberOfInitialElements);
 

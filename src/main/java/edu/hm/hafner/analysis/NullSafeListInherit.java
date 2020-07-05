@@ -5,6 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+
+/**
+ * Decorator for {@link ArrayList}
+ * This Decorator extends {@link ArrayList}.
+ *
+ * @author S. A. D.
+ */
 public class NullSafeListInherit<E> extends ArrayList<E> {
     private static final long serialVersionUID = 3729652377905730737L;
 
@@ -103,6 +110,7 @@ public class NullSafeListInherit<E> extends ArrayList<E> {
      *         collection containing elements to be added to this list
      *
      * @return <tt>true</tt> if this list changed as a result of the call
+     *
      * @throws IndexOutOfBoundsException
      *         {@inheritDoc}
      * @throws NullPointerException
@@ -124,11 +132,10 @@ public class NullSafeListInherit<E> extends ArrayList<E> {
      * @throws NullPointerException
      *         if the specified collection is null
      */
-    public void checkIfContainsNull(final Collection<? extends E> c) {
-        for (E e : c) {
-            if (e == null) {
-                throw new NullPointerException();
-            }
+    private void checkIfContainsNull(final Collection<? extends E> c) {
+        if (c.stream().anyMatch(Objects::isNull)) {
+            throw new NullPointerException();
         }
     }
+
 }
