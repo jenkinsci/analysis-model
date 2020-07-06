@@ -21,6 +21,7 @@ public class NullSafeList <E> implements List<E> {
     private final List<E> list;
 
     public NullSafeList(List<E> list) {
+        list.forEach(Objects::requireNonNull);
         this.list = list;
     }
 
