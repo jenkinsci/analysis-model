@@ -141,7 +141,7 @@
                                                 normalTags:'TODO'),
                                         sourceCodeEncoding: 'UTF-8',
                                         referenceJobName: 'Plugins/analysis-model/master',
-                                        filters:[excludeFile('.*_jmh.*.java')]
+                                        filters:[excludePackage('.*generated')]
                                 if (failFast && currentBuild.result == 'UNSTABLE') {
                                     error 'There were static analysis warnings; halting early'
                                 }
