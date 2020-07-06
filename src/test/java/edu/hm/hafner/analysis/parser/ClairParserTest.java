@@ -30,13 +30,14 @@ class ClairParserTest extends AbstractParserTest {
         softly.assertThat(report).hasSize(112);
         softly.assertThat(report.get(1)).hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(report.get(0))
-                .hasFileName("registry.example.com/project/project-docker-was/develop:10.0.230")
-                .hasCategory("CVE-2020-13630")
-                .hasType("ubuntu:18.04")
                 .hasMessage(
-                    "sqlite3:3.22.0-1ubuntu0.1 ext/fts3/fts3.c in SQLite before 3.32.0 has a use-after-free "
-                        + "in fts3EvalNextRow, related to the snippet feature. Fixed by 3.22.0-1ubuntu0.4 "
-                        + "see http://people.ubuntu.com/~ubuntu-security/cve/CVE-2020-13630");
+                        "sqlite3:3.22.0-1ubuntu0.1 ext/fts3/fts3.c in SQLite before 3.32.0 has a use-after-free "
+                                + "in fts3EvalNextRow, related to the snippet feature. Fixed by 3.22.0-1ubuntu0.4 "
+                                + "see http://people.ubuntu.com/~ubuntu-security/cve/CVE-2020-13630")
+                .hasCategory("CVE-2020-13630")
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasType("ubuntu:18.04")
+                .hasFileName("registry.example.com/project/project-docker-was/develop:10.0.230");
     }
 
     @Override
