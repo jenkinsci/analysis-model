@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -26,14 +27,21 @@ class DockerLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(7);
-        assertThat(report.get(1)).hasFileName("Dockerfile");
-        assertThat(report.get(1)).hasMessage(
-                "Invalid parameters for command. See https://docs.docker.com/engine/reference/builder/");
-        assertThat(report.get(5)).hasMessage(
-                "There is no 'EXPOSE' instruction - Without exposed ports how will the service of the "
+        softly.assertThat(report).hasSize(7);
+        softly.assertThat(report.get(1))
+                .hasMessage(
+                        "Invalid parameters for command. See https://docs.docker.com/engine/reference/builder/")
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasLineStart(39)
+                .hasCategory("")
+                .hasFileName("Dockerfile");
+        softly.assertThat(report.get(4))
+                .hasCategory("maintainer_deprecated");
+        softly.assertThat(report.get(5))
+                .hasMessage(
+                    "There is no 'EXPOSE' instruction - Without exposed ports how will the service of the "
                         + "container be accessed? See https://docs.docker.com/engine/reference/builder/#expose");
-        assertThat(report.get(0)).hasLineStart(37);
+        softly.assertThat(report.get(0)).hasLineStart(37);
     }
 
     @Override
