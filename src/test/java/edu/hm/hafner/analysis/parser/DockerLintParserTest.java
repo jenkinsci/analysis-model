@@ -13,6 +13,11 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
+/**
+ * Tests the class {@link DockerLintParser}.
+ *
+ * @author Andreas Mandel
+ */
 class DockerLintParserTest extends AbstractParserTest {
 
     DockerLintParserTest() {
