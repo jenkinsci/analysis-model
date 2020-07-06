@@ -24,7 +24,17 @@ class HadoLintParserTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(5);
-        assertThat(report.get(1)).hasFileName("Dockerfile");
+        softly.assertThat(report.get(0))
+                .hasSeverity(Severity.WARNING_LOW);
+        softly.assertThat(report.get(1))
+                .hasLineStart(15)
+                .hasCategory("DL3008")
+                .hasMessage("Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`")
+                .hasColumnStart(1)
+                .hasFileName("Dockerfile")
+                .hasSeverity(Severity.WARNING_HIGH);
+        softly.assertThat(report.get(2))
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override
