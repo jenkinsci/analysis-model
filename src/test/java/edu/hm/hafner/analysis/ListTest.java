@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -415,7 +415,7 @@ abstract class ListTest {
         sut.add(10);
         sut.add(2);
 
-        final Collection<Integer> collection = new HashSet<>();
+        final Collection<Integer> collection = new ArrayList<>();
         collection.add(3);
         collection.add(5);
         collection.add(1);
@@ -444,7 +444,7 @@ abstract class ListTest {
         sut.add(10);
         sut.add(2);
 
-        final Collection<Integer> collection = new HashSet<>();
+        final Collection<Integer> collection = new ArrayList<>();
         collection.add(8);
         collection.add(12);
         collection.add(25);
@@ -497,7 +497,7 @@ abstract class ListTest {
         sut.add(34);
         sut.add(1);
 
-        final Collection<Integer> collection = new HashSet<>();
+        final Collection<Integer> collection = new ArrayList<>();
         collection.add(9);
         collection.add(16);
         collection.add(22);
@@ -528,10 +528,10 @@ abstract class ListTest {
         sut.add(34);
         sut.add(50);
 
-        final Collection<Integer> collection = new HashSet<>();
-        collection.add(27);
-        collection.add(16);
+        final Collection<Integer> collection = new ArrayList<>();
         collection.add(22);
+        collection.add(16);
+        collection.add(27);
 
         final int wantSize = 14;
 
@@ -544,7 +544,7 @@ abstract class ListTest {
                 .isNotEmpty();
         Assertions.assertThat(sut)
                 .as("Check if addAll() with index parameter adds a collection to a list with initial elements correctly.")
-                .containsSequence(10, 14, 27, 16, 22, 34, 50);
+                .containsSequence(10, 14, 22, 16, 27, 34, 50);
         Assertions.assertThat(sut)
                 .as("Check if a list with initial elements has the correct size after adding a collection with the addAll() method with index parameter.")
                 .hasSize(wantSize);
@@ -561,7 +561,7 @@ abstract class ListTest {
         final int wantSize = 3;
 
         // act
-        sut.set(2, 10);
+        sut.set(1, 10);
 
         // assert
         Assertions.assertThat(sut)
@@ -675,7 +675,7 @@ abstract class ListTest {
         sut.add(34);
         sut.add(50);
 
-        final Collection<Integer> collection = new HashSet<>();
+        final Collection<Integer> collection = new ArrayList<>();
         collection.add(10);
         collection.add(34);
         collection.add(999);
@@ -703,7 +703,7 @@ abstract class ListTest {
         sut.add(34);
         sut.add(50);
 
-        final Collection<Integer> collection = new HashSet<>();
+        final Collection<Integer> collection = new ArrayList<>();
         collection.add(10);
         collection.add(34);
         collection.add(999);
@@ -731,7 +731,7 @@ abstract class ListTest {
         sut.add(34);
         sut.add(50);
 
-        final Collection<Integer> collection = new HashSet<>();
+        final Collection<Integer> collection = new ArrayList<>();
         collection.add(10);
         collection.add(14);
         collection.add(34);
@@ -759,7 +759,7 @@ abstract class ListTest {
         sut.add(34);
         sut.add(50);
 
-        final Collection<Integer> collection = new HashSet<>();
+        final Collection<Integer> collection = new ArrayList<>();
         collection.add(10);
         collection.add(14);
         collection.add(34);

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -21,11 +22,13 @@ class NullSafeListTest extends ListTest {
             throw new IllegalArgumentException("The number of initial elements may not be negative.");
         }
 
-        for (int index = 0; index < numberOfInitialElements; index++) {
+        final List<Integer> toReturn = new NullSafeList<>(new ArrayList<>());
 
+        for (int index = 0; index < numberOfInitialElements; index++) {
+            toReturn.add(index);
         }
 
-        return null;
+        return toReturn;
     }
 
     @Test
