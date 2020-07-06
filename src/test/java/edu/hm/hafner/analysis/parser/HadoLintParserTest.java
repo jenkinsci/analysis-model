@@ -15,6 +15,11 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * Tests the class {@link HadoLintParser}.
+ *
+ * @author Andreas Mandel
+ */
 class HadoLintParserTest extends AbstractParserTest {
 
     HadoLintParserTest() {
