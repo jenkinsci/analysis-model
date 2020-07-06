@@ -18,7 +18,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 /**
- * A parser for dockerlint json output.
+ * A parser for clair scanner json output.
  * <p>
  * See <a href='https://github.com/arminc/clair-scanner'>clair-scanner</a> for project details.
  *
