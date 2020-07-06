@@ -27,8 +27,6 @@ import edu.hm.hafner.analysis.Severity;
 public class ClairParser extends IssueParser {
     private static final long serialVersionUID = 42L;
 
-    String image;
-
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
         return readerFactory.getFileName().endsWith(".json");
@@ -39,11 +37,11 @@ public class ClairParser extends IssueParser {
         Report report = new Report();
         try (Reader reader = readerFactory.create()) {
             JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
-            image = optStringIgnoreCase(jsonReport,"image");
+            String image = optStringIgnoreCase(jsonReport,"image");
             JSONArray vulnerabilities = optJsonArrayIgnoreCase(jsonReport, "vulnerabilities");
             for (Object vulnerability : vulnerabilities) {
                 if (vulnerability instanceof JSONObject) {
-                    report.add(convertToIssue((JSONObject) vulnerability));
+                    report.add(convertToIssue((JSONObject) vulnerability, image));
                 }
             }
         } catch (IOException | JSONException | ClassCastException e) {
@@ -52,7 +50,7 @@ public class ClairParser extends IssueParser {
         return report;
     }
 
-    private Issue convertToIssue(final JSONObject jsonIssue) {
+    private Issue convertToIssue(final JSONObject jsonIssue, String image) {
         StringBuilder message = new StringBuilder();
         appendIfNotEmpty(jsonIssue, message, "featurename", "");
         appendIfNotEmpty(jsonIssue, message, "featureversion", ":");
