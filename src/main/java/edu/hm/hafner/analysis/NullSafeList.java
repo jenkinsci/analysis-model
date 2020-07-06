@@ -9,10 +9,25 @@ import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.UnaryOperator;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
+/**
+ * An implementation of a List, that doesn't allow null values.
+ * @param <E> the element type of the list
+ * @author Tobias Karius
+ */
 public class NullSafeList<E> implements List<E> {
 
+    /**
+     * The original list.
+     * Set in the constructor
+     */
     private final List<E> list;
 
+    /**
+     * The constructor of the NullSafeList.
+     * @param list the original list
+     */
     public NullSafeList(final List<E> list) {
         this.list = list;
     }
@@ -32,17 +47,17 @@ public class NullSafeList<E> implements List<E> {
         return list.lastIndexOf(o);
     }
 
-    @Override
+    @Override @NonNull
     public ListIterator<E> listIterator() {
         return list.listIterator();
     }
 
-    @Override
+    @Override @NonNull
     public ListIterator<E> listIterator(final int i) {
         return list.listIterator(i);
     }
 
-    @Override
+    @Override @NonNull
     public List<E> subList(final int i, final int i1) {
         return list.subList(i, i1);
     }
@@ -67,18 +82,18 @@ public class NullSafeList<E> implements List<E> {
         return list.contains(o);
     }
 
-    @Override
+    @Override @NonNull
     public Iterator<E> iterator() {
         return list.iterator();
     }
 
-    @Override
+    @Override @NonNull
     public Object[] toArray() {
         return list.toArray();
     }
 
-    @Override
-    public <T> T[] toArray(final T[] ts) {
+    @Override @NonNull
+    public <T> T[] toArray(@NonNull final T[] ts) {
         return list.toArray(ts);
     }
 
@@ -94,29 +109,29 @@ public class NullSafeList<E> implements List<E> {
     }
 
     @Override
-    public boolean containsAll(final Collection<?> collection) {
+    public boolean containsAll(@NonNull final Collection<?> collection) {
         return list.containsAll(collection);
     }
 
     @Override
-    public boolean addAll(final Collection<? extends E> collection) {
+    public boolean addAll(@NonNull final Collection<? extends E> collection) {
         checkObjectsRequireNonNull(collection);
         return list.addAll(collection);
     }
 
     @Override
-    public boolean addAll(final int i, final Collection<? extends E> collection) {
+    public boolean addAll(final int i, @NonNull final Collection<? extends E> collection) {
         checkObjectsRequireNonNull(collection);
         return list.addAll(i, collection);
     }
 
     @Override
-    public boolean removeAll(final Collection<?> collection) {
+    public boolean removeAll(@NonNull final Collection<?> collection) {
         return list.removeAll(collection);
     }
 
     @Override
-    public boolean retainAll(final Collection<?> collection) {
+    public boolean retainAll(@NonNull final Collection<?> collection) {
         return list.retainAll(collection);
     }
 

@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * The Inheritance of the NullSafeList with extending the ArrayList.
+ * @param <E> the element type of the list
+ * @author Tobias Karius
+ */
 public class NullSafeArrayList<E> extends ArrayList<E> {
+
+    private static final long serialVersionUID = -6970452305270898333L;
 
     @Override
     public E set(final int i, final E e) {
