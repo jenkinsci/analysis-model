@@ -10,6 +10,8 @@ import java.util.Arrays;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.infra.Blackhole;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * JMH Benchmarking the serialization and deserialization of the class {@link Report}.
  *
@@ -85,6 +87,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
      *
      * @return report
      */
+    @SuppressFBWarnings("OBJECT_DESERIALIZATION")
     private static Report toReport(final byte[] bytes) {
         ByteArrayInputStream in = new ByteArrayInputStream(bytes);
 
