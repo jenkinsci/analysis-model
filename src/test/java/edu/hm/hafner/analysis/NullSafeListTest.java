@@ -13,6 +13,7 @@ import org.assertj.core.api.Assertions;
  *
  * @author Andreas Kienle, akienle@hm.edu
  * @version Last modified on 06/07/2020
+ * @see edu.hm.hafner.analysis.NullSafeList
  * @see edu.hm.hafner.analysis.ListTest
  */
 class NullSafeListTest extends ListTest {

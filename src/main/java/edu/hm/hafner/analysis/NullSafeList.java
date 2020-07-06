@@ -7,7 +7,7 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * Ein Decorator fuer konkrete Implementierungen des Interfaces List. Erlaubt den Wert null nicht als Element.
+ * Eine Decorator-Klasse fuer konkrete Implementierungen des Interfaces List. Erlaubt den Wert null nicht als Element.
  *
  * @param <E>
  *         Ein Typ.
