@@ -16,7 +16,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  */
 @BenchmarkMode(Mode.AverageTime)
 @Fork(value = 1, warmups = 3)
-public class AbstractBenchmark {
+public abstract class AbstractBenchmark {
     /**
      * BenchmarkRunner - runs all benchmark tests in the concrete test class.
      */

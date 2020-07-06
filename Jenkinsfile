@@ -133,15 +133,15 @@
                                         pmdParser(pattern: 'target/pmd.xml'),
                                         cpd(pattern: 'target/cpd.xml')],
                                         sourceCodeEncoding: 'UTF-8',
-                                        referenceJobName: 'Plugins/analysis-model/master'
+                                        referenceJobName: 'Plugins/analysis-model/master',
+                                        filters:[excludePackage('.*generated')]
                                 recordIssues enabledForFailure: true,
                                         tool: taskScanner(includePattern:'**/*.java',
                                                 excludePattern:'target/**',
                                                 highTags:'FIXME',
                                                 normalTags:'TODO'),
                                         sourceCodeEncoding: 'UTF-8',
-                                        referenceJobName: 'Plugins/analysis-model/master',
-                                        filters:[excludePackage('.*generated')]
+                                        referenceJobName: 'Plugins/analysis-model/master'
                                 if (failFast && currentBuild.result == 'UNSTABLE') {
                                     error 'There were static analysis warnings; halting early'
                                 }
