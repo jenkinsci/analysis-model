@@ -71,7 +71,7 @@ public class ClairParser extends IssueParser {
             final String head) {
         final String text = optStringIgnoreCase(issue, key);
         if (text != null && !text.isEmpty()) {
-            if (message.length() > 0 && !head.equals(":")) {
+            if (message.length() > 0 && !":".equals(head)) {
                 message.append(' ');
             }
             message.append(head).append(text);
