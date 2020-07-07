@@ -16,6 +16,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * A parser for clair scanner json output.
@@ -34,11 +35,11 @@ public class ClairParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Report report = new Report();
+        final Report report = new Report();
         try (Reader reader = readerFactory.create()) {
-            JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
-            String image = optStringIgnoreCase(jsonReport,"image");
-            JSONArray vulnerabilities = optJsonArrayIgnoreCase(jsonReport, "vulnerabilities");
+            final JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
+            final String image = optStringIgnoreCase(jsonReport, "image");
+            final JSONArray vulnerabilities = optJsonArrayIgnoreCase(jsonReport, "vulnerabilities");
             for (Object vulnerability : vulnerabilities) {
                 if (vulnerability instanceof JSONObject) {
                     report.add(convertToIssue((JSONObject) vulnerability, image));
@@ -50,8 +51,8 @@ public class ClairParser extends IssueParser {
         return report;
     }
 
-    private Issue convertToIssue(final JSONObject jsonIssue, String image) {
-        StringBuilder message = new StringBuilder();
+    private Issue convertToIssue(final JSONObject jsonIssue, @Nullable final String image) {
+        final StringBuilder message = new StringBuilder();
         appendIfNotEmpty(jsonIssue, message, "featurename", "");
         appendIfNotEmpty(jsonIssue, message, "featureversion", ":");
         appendIfNotEmpty(jsonIssue, message, "description", "");
@@ -67,16 +68,16 @@ public class ClairParser extends IssueParser {
 
     private void appendIfNotEmpty(final JSONObject issue, final StringBuilder message, final String key,
             final String head) {
-        String text = optStringIgnoreCase(issue, key);
+        final String text = optStringIgnoreCase(issue, key);
         if (text != null && !text.isEmpty()) {
-            if (message.length() > 0 && !head.startsWith(":")) {
+            if (message.length() > 0 && !head.equals(":")) {
                 message.append(' ');
             }
             message.append(head).append(text);
         }
     }
 
-    private Severity toSeverity(final String level) {
+    private Severity toSeverity(@Nullable final String level) {
         switch (String.valueOf(level).toLowerCase(Locale.ENGLISH)) {
             case "defcon1":
                 return Severity.ERROR;
@@ -89,25 +90,34 @@ public class ClairParser extends IssueParser {
         }
     }
 
-    private JSONArray optJsonArrayIgnoreCase(JSONObject json, final String searchKey) {
-        Object result = optIgnoreCase(json, searchKey);
-        return result instanceof JSONArray ? (JSONArray) result : null;
+    private JSONArray optJsonArrayIgnoreCase(final JSONObject json, final String searchKey) {
+        final Object result = optIgnoreCase(json, searchKey);
+        return result instanceof JSONArray ? (JSONArray) result : new JSONArray();
     }
 
-    private String optStringIgnoreCase(JSONObject json, final String searchKey) {
-        Object result = optIgnoreCase(json, searchKey);
+    @Nullable
+    private String optStringIgnoreCase(final JSONObject json, final String searchKey) {
+        final Object result = optIgnoreCase(json, searchKey);
         return result instanceof String ? (String) result : null;
     }
 
-    private Object optIgnoreCase(JSONObject json, final String searchKey) {
+    @Nullable
+    private Object optIgnoreCase(final JSONObject json, final String searchKey) {
         Object result = json.opt(searchKey);
         if (result == null) {
-            for (String key : json.keySet()) {
-                if (key.equalsIgnoreCase(searchKey)) {
-                    result = json.opt(key);
-                    if (result != null) {
-                        break;
-                    }
+            result = searchIgnoreCase(json, searchKey);
+        }
+        return result;
+    }
+
+    @Nullable
+    private Object searchIgnoreCase(final JSONObject json, final String searchKey) {
+        Object result = null;
+        for (String key : json.keySet()) {
+            if (key.equalsIgnoreCase(searchKey)) {
+                result = json.opt(key);
+                if (result != null) {
+                    break;
                 }
             }
         }
