@@ -1,0 +1,21 @@
+[
+  {},
+  {
+    "level": "error"
+  },
+  {
+    "line": 15,
+    "code": "DL3008",
+    "message": "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`",
+    "column": 1,
+    "file": "Dockerfile",
+    "level": "XXXX"
+  },
+  {
+    "line": 15,
+    "code": "DL3015",
+    "message": "Avoid additional packages by specifying `--no-install-recommends`",
+    "column": 1,
+    "file": "Dockerfile"
+  }
+]
