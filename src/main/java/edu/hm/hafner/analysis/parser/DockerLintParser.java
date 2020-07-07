@@ -88,7 +88,8 @@ public class DockerLintParser extends IssueParser {
             for (Object part : (JSONArray) refUrl) {
                 referenceUrl.append(part);
             }
-        } else {
+        } 
+        else {
             referenceUrl.append(refUrl);
         }
         return referenceUrl.toString();
