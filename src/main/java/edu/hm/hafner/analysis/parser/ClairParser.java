@@ -45,7 +45,8 @@ public class ClairParser extends IssueParser {
                     report.add(convertToIssue((JSONObject) vulnerability, image));
                 }
             }
-        } catch (IOException | JSONException | ClassCastException e) {
+        }
+        catch (IOException | JSONException | ClassCastException e) {
             throw new ParsingException(e);
         }
         return report;
