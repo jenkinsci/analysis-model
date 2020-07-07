@@ -11,7 +11,7 @@ import java.util.Objects;
  * @version Last modified on 06/07/2020
  * @see edu.hm.hafner.analysis.NullSafeList
  */
-public class NullSafeCollections {
+public final class NullSafeCollections {
     /**
      * Privater Default-Konstruktor, um eine Instanziierung dieser Klasse zu verhindern.
      */
