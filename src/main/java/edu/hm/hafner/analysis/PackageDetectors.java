@@ -28,6 +28,7 @@ class PackageDetectors {
     PackageDetectors(final FileSystem fileSystem) {
         detectors.add(new JavaPackageDetector(fileSystem));
         detectors.add(new CSharpNamespaceDetector(fileSystem));
+        detectors.add(new KotlinPackageDetector(fileSystem));
     }
 
     /**
@@ -60,4 +61,3 @@ class PackageDetectors {
         }
     }
 }
-

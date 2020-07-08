@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.InvalidPathException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.input.BOMInputStream;
@@ -70,7 +72,20 @@ abstract class AbstractPackageDetector {
      *
      * @return the detected package or namespace name
      */
-    abstract String detectPackageName(Stream<String> lines);
+    String detectPackageName(final Stream<String> lines) {
+        Pattern pattern = getPattern();
+        return lines.map(pattern::matcher)
+                .filter(Matcher::matches)
+                .findFirst()
+                .map(matcher -> matcher.group(1))
+                .orElse(UNDEFINED_PACKAGE).trim();
+    }
+
+    /**
+     * Returns the Pattern for the Package Name in this kind of file.
+     * @return the Pattern.
+     */
+    abstract Pattern getPattern();
 
     /**
      * Returns whether this classifier accepts the specified file for processing.

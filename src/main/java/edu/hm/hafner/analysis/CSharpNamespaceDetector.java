@@ -30,13 +30,8 @@ class CSharpNamespaceDetector extends AbstractPackageDetector {
         return fileName.endsWith(".cs");
     }
 
-    @Override
-    public String detectPackageName(final Stream<String> lines) {
-        return lines.map(NAMESPACE_PATTERN::matcher)
-                .filter(Matcher::matches)
-                .findFirst()
-                .map(matcher -> matcher.group(1))
-                .orElse(UNDEFINED_PACKAGE).trim();
+    Pattern getPattern() {
+        return NAMESPACE_PATTERN;
     }
 }
 
