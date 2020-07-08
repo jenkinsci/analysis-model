@@ -1,0 +1,91 @@
+{
+  "error": {
+    "count": 3,
+    "data": [
+      {
+        "message": "Invalid parameters for command.",
+        "line": 39,
+        "level": "error",
+        "lineContent": "USER ${user}",
+        "reference_url": "https://docs.docker.com/engine/reference/builder/"
+      },
+      {
+        "message": "Required LABEL name/key 'Name' is not defined",
+        "line": -1,
+        "level": "error",
+        "lineContent": "",
+        "reference_url": [
+          "http://docs.projectatomic.io/container-best-practices/#",
+          "_recommended_labels_for_your_project"
+        ]
+      },
+      {
+        "message": "Required LABEL name/key 'Version' is not defined",
+        "line": -1,
+        "level": "error",
+        "lineContent": "",
+        "reference_url": [
+          "http://docs.projectatomic.io/container-best-practices/#",
+          "_recommended_labels_for_your_project"
+        ]
+      }
+    ]
+  },
+  "warn": {
+    "count": 1,
+    "data": [
+      {
+        "label": "no_gem_clean_all",
+        "regex": {},
+        "level": "warn",
+        "message": "gem cleanup all is not used",
+        "description": "the gem cache will remain in this layer making the layer unnecessarily large",
+        "reference_url": [
+          "http://docs.projectatomic.io/container-best-practices/#",
+          "_clear_packaging_caches_and_temporary_package_downloads"
+        ],
+        "lineContent": "RUN apk update",
+        "line": 37
+      }
+    ]
+  },
+  "info": {
+    "count": 2,
+    "data": [
+      {
+        "label": "maintainer_deprecated",
+        "regex": {},
+        "level": "info",
+        "message": "the MAINTAINER command is deprecated",
+        "description": "MAINTAINER is deprecated in favor of using LABEL since Docker v1.13.0",
+        "reference_url": [
+          "https://github.com/docker/cli/blob/master/docs/deprecated.md",
+          "#maintainer-in-dockerfile"
+        ],
+        "lineContent": "MAINTAINER a maintainer",
+        "line": 6
+      },
+      {
+        "instruction": "EXPOSE",
+        "count": 1,
+        "level": "info",
+        "message": "There is no 'EXPOSE' instruction",
+        "description": "Without exposed ports how will the service of the container be accessed?",
+        "reference_url": [
+          "https://docs.docker.com/engine/reference/builder/",
+          "#expose"
+        ]
+      },
+      {
+        "instruction": "EXPOSE",
+        "description": "Without exposed ports how will the service of the container be accessed?"
+      }
+    ]
+  },
+  "foo": {
+    "data": [
+        "dummy"
+      ]
+  },
+  "summary": []
+}
