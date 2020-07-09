@@ -4,8 +4,6 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.util.VisibleForTesting;
 
-import edu.hm.hafner.util.VisibleForTesting;
-
 import static edu.hm.hafner.analysis.PackageDetectors.*;
 
 /**

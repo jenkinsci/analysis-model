@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import edu.hm.hafner.util.VisibleForTesting;
 
@@ -30,6 +28,7 @@ class CSharpNamespaceDetector extends AbstractPackageDetector {
         return fileName.endsWith(".cs");
     }
 
+    @Override
     Pattern getPattern() {
         return NAMESPACE_PATTERN;
     }
