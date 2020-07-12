@@ -1,6 +1,7 @@
 node {
     stage ('Checkout') {
         checkout scm
+        gitForensics newestBuildIfNotFound: true
     }
 
     stage ('Build') {
