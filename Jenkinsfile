@@ -1,5 +1,7 @@
+#!/usr/bin/env groovy
+import org.codehaus.groovy.runtime.DefaultGroovyMethods
 
-    Map params = [:]
+    Map params = [recordCoverage: true]
 
     // Faster build and reduces IO needs
     properties([
@@ -9,9 +11,9 @@
 
     def repo = params.containsKey('repo') ? params.repo : null
     def failFast = params.containsKey('failFast') ? params.failFast : true
+    def recordCoverage = params.containsKey('recordCoverage') ? params.recordCoverage : false
     def timeoutValue = params.containsKey('timeout') ? params.timeout : 60
     def useAci = params.containsKey('useAci') ? params.useAci : false
-    def forceAci = params.containsKey('forceAci') ? params.forceAci : false
     if(timeoutValue > 180) {
       echo "Timeout value requested was $timeoutValue, lowering to 180 to avoid Jenkins project's resource abusive consumption"
       timeoutValue = 180
@@ -52,10 +54,21 @@
                         boolean incrementals // cf. JEP-305
 
                         stage("Checkout (${stageIdentifier})") {
-                            infra.checkout(repo)
+                            infra.checkoutSCM(repo)
                             isMaven = fileExists('pom.xml')
                             incrementals = fileExists('.mvn/extensions.xml') &&
                                     readFile('.mvn/extensions.xml').contains('git-changelist-maven-extension')
+                            if (incrementals) { // Incrementals needs 'git status -s' to be empty at start of job
+                                if (isUnix()) {
+                                    sh(script: 'git clean -xffd > /dev/null 2>&1',
+                                       label:'Clean for incrementals',
+                                       returnStatus: true) // Ignore failure if CLI git is not available
+                                } else {
+                                    bat(script: 'git clean -xffd 1> nul 2>&1',
+                                        label:'Clean for incrementals',
+                                        returnStatus: true) // Ignore failure if CLI git is not available
+                                }
+                            }
                         }
 
                         String changelistF
@@ -69,6 +82,9 @@
                                         '--update-snapshots',
                                         "-Dmaven.repo.local=$m2repo",
                                         '-Dmaven.test.failure.ignore',
+                                        '-Dspotbugs.failOnError=false',
+                                        '-Dcheckstyle.failOnViolation=false',
+                                        '-Dcheckstyle.failsOnError=false'
                                 ]
                                 if (incrementals) { // set changelist and activate produce-incrementals profile
                                     mavenOptions += '-Dset.changelist'
@@ -87,7 +103,19 @@
                                     mavenOptions += "-DskipTests"
                                 }
                                 mavenOptions += "clean install"
-                                infra.runMaven(mavenOptions, jdk, null, null, addToolEnv)
+                                if (!skipTests && first && recordCoverage) {
+                                    mavenOptions += " jacoco:prepare-agent test jacoco:report"
+                                }
+                                try {
+                                    infra.runMaven(mavenOptions, jdk, null, null, addToolEnv)
+                                } finally {
+                                    if (!skipTests) {
+                                        junit('**/target/surefire-reports/**/*.xml,**/target/failsafe-reports/**/*.xml,**/target/invoker-reports/**/*.xml')
+                                        if (first && recordCoverage) {
+                                            publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
+                                        }
+                                    }
+                                }
                             } else {
                                 echo "WARNING: Gradle mode for buildPlugin() is deprecated, please use buildPluginWithGradle()"
                                 List<String> gradleOptions = [
@@ -95,55 +123,98 @@
                                         'cleanTest',
                                         'build',
                                 ]
+                                if (skipTests) {
+                                    gradleOptions += '--exclude-task test'
+                                }
                                 command = "gradlew ${gradleOptions.join(' ')}"
                                 if (isUnix()) {
                                     command = "./" + command
                                 }
-                                infra.runWithJava(command, jdk, null, addToolEnv)
+
+                                try {
+                                    infra.runWithJava(command, jdk, null, addToolEnv)
+                                } finally {
+                                    if (!skipTests) {
+                                        junit('**/build/test-results/**/*.xml')
+                                    }
+                                }
                             }
                         }
 
                         stage("Archive (${stageIdentifier})") {
-                            if (!skipTests) {
-                                String testReports
-                                if (isMaven) {
-                                    testReports = '**/target/surefire-reports/**/*.xml,**/target/failsafe-reports/**/*.xml'
-                                } else {
-                                    testReports = '**/build/test-results/**/*.xml'
-                                }
-                                junit testReports
-                                // TODO do this in a finally-block so we capture all test results even if one branch aborts early
-                            }
                             if (failFast && currentBuild.result == 'UNSTABLE') {
                                 error 'There were test failures; halting early'
                             }
 
                             if (first) {
+                                referenceJobName = env.JOB_NAME.substring(0, env.JOB_NAME.lastIndexOf("/") + 1) + "master"
+                                echo "Recording static analysis results on '${stageIdentifier}' using reference job '${referenceJobName}'"
+
                                 recordIssues enabledForFailure: true,
                                         tool: mavenConsole(),
-                                        referenceJobName: 'Plugins/analysis-model/master'
+                                        trendChartType: 'TOOLS_ONLY',
+                                        referenceJobName: referenceJobName
                                 recordIssues enabledForFailure: true,
                                         tools: [java(), javaDoc()],
+                                        filters: [excludeFile('.*Assert.java')],
                                         sourceCodeEncoding: 'UTF-8',
-                                        filters:[excludeFile('.*Assert.java')],
-                                        referenceJobName: 'Plugins/analysis-model/master'
-                                recordIssues tools: [spotBugs(pattern: 'target/spotbugsXml.xml'),
-                                        checkStyle(pattern: 'target/checkstyle-result.xml'),
-                                        pmdParser(pattern: 'target/pmd.xml'),
-                                        cpd(pattern: 'target/cpd.xml')],
-                                        sourceCodeEncoding: 'UTF-8',
-                                        referenceJobName: 'Plugins/analysis-model/master',
-                                        filters:[excludePackage('.*generated')]
-                                recordIssues enabledForFailure: true,
-                                        tool: taskScanner(includePattern:'**/*.java',
-                                                excludePattern:'target/**',
-                                                highTags:'FIXME',
-                                                normalTags:'TODO'),
-                                        sourceCodeEncoding: 'UTF-8',
-                                        referenceJobName: 'Plugins/analysis-model/master'
-                                if (failFast && currentBuild.result == 'UNSTABLE') {
-                                    error 'There were static analysis warnings; halting early'
+                                        trendChartType: 'TOOLS_ONLY',
+                                        referenceJobName: referenceJobName
+
+                                // Default configuration for SpotBugs can be overwritten using a `spotbugs`, `checkstyle', etc. parameter (map).
+                                // Configuration see: https://github.com/jenkinsci/warnings-ng-plugin/blob/master/doc/Documentation.md#configuration
+                                Map spotbugsArguments = [tool: spotBugs(pattern: '**/target/spotbugsXml.xml,**/target/findbugsXml.xml'),
+                                                         sourceCodeEncoding: 'UTF-8',
+                                                         trendChartType: 'TOOLS_ONLY',
+                                                         referenceJobName: referenceJobName,
+                                                         qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]]
+                                if (params?.spotbugs) {
+                                    spotbugsArguments.putAll(params.spotbugs as Map)
                                 }
+                                recordIssues spotbugsArguments
+
+                                Map checkstyleArguments = [tool: checkStyle(pattern: '**/target/checkstyle-result.xml'),
+                                                           sourceCodeEncoding: 'UTF-8',
+                                                           trendChartType: 'TOOLS_ONLY',
+                                                           qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]],
+                                                           referenceJobName: referenceJobName]
+                                if (params?.checkstyle) {
+                                    checkstyleArguments.putAll(params.checkstyle as Map)
+                                }
+                                recordIssues checkstyleArguments
+
+                                Map pmdArguments = [tool: pmdParser(pattern: '**/target/pmd.xml'),
+                                                    sourceCodeEncoding: 'UTF-8',
+                                                    trendChartType: 'NONE',
+                                                    referenceJobName: referenceJobName]
+                                if (params?.pmd) {
+                                    pmdArguments.putAll(params.pmd as Map)
+                                }
+                                recordIssues pmdArguments
+
+                                Map cpdArguments = [tool: cpd(pattern: '**/target/cpd.xml'),
+                                                    sourceCodeEncoding: 'UTF-8',
+                                                    trendChartType: 'NONE',
+                                                    referenceJobName: referenceJobName]
+                                if (params?.cpd) {
+                                    cpdArguments.putAll(params.cpd as Map)
+                                }
+                                recordIssues cpdArguments
+
+                                recordIssues enabledForFailure: true, tool: taskScanner(
+                                        includePattern:'**/*.java',
+                                        excludePattern:'**/target/**',
+                                        highTags:'FIXME',
+                                        normalTags:'TODO'),
+                                        sourceCodeEncoding: 'UTF-8',
+                                        trendChartType: 'NONE',
+                                        referenceJobName: referenceJobName
+                                if (failFast && currentBuild.result == 'UNSTABLE') {
+                                    error 'Static analysis quality gates not passed; halting early'
+                                }
+                            }
+                            else {
+                                echo "Skipping static analysis results for ${stageIdentifier}"
                             }
                             if (doArchiveArtifacts) {
                                 if (incrementals) {
@@ -164,8 +235,6 @@
                                     }
                                     archiveArtifacts artifacts: artifacts, fingerprint: true
                                 }
-                            } else {
-                                echo "INFO: Skipping archiving of artifacts"
                             }
                         }
                     }
@@ -185,9 +254,8 @@
     parallel(tasks)
     if (publishingIncrementals) {
         infra.maybePublishIncrementals()
-    } else {
-        echo "INFO: Skipping publishing of incrementals"
     }
+}
 
 boolean hasDockerLabel() {
     env.NODE_LABELS?.contains("docker")
@@ -208,14 +276,14 @@ List<Map<String, String>> getConfigurations(Map params) {
             error("Configuration field \"platform\" must be specified: $c")
         }
         if (!c.jdk) {
-            error("Configuration filed \"jdk\" must be specified: $c")
+            error("Configuration field \"jdk\" must be specified: $c")
         }
     }
 
     if (explicit) return params.configurations
 
     def platforms = params.containsKey('platforms') ? params.platforms : ['linux', 'windows']
-    def jdkVersions = params.containsKey('jdkVersions') ? params.jdkVersions : [8]
+    def jdkVersions = params.containsKey('jdkVersions') ? params.jdkVersions : ['8']
     def jenkinsVersions = params.containsKey('jenkinsVersions') ? params.jenkinsVersions : [null]
 
     def ret = []
@@ -241,12 +309,16 @@ List<Map<String, String>> getConfigurations(Map params) {
 static List<Map<String, String>> recommendedConfigurations() {
     def recentLTS = "2.164.1"
     def configurations = [
+        // Intentionally test configurations which have detected the most problems
+        // Linux - Java 8 with plugin specified minimum Jenkins version
+        // Windows - Java 8 with recent LTS
+        // Linux - Java 11 with recent LTS
         [ platform: "linux", jdk: "8", jenkins: null ],
-        [ platform: "windows", jdk: "8", jenkins: null ],
-        [ platform: "linux", jdk: "8", jenkins: recentLTS, javaLevel: "8" ],
+        // [ platform: "windows", jdk: "8", jenkins: null ],
+        // [ platform: "linux", jdk: "8", jenkins: recentLTS, javaLevel: "8" ],
         [ platform: "windows", jdk: "8", jenkins: recentLTS, javaLevel: "8" ],
         [ platform: "linux", jdk: "11", jenkins: recentLTS, javaLevel: "8" ],
-        [ platform: "windows", jdk: "11", jenkins: recentLTS, javaLevel: "8" ]
+        // [ platform: "windows", jdk: "11", jenkins: recentLTS, javaLevel: "8" ]
     ]
     return configurations
 }
