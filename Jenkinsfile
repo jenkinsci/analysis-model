@@ -1,22 +1,21 @@
 #!/usr/bin/env groovy
 import org.codehaus.groovy.runtime.DefaultGroovyMethods
 
-    Map params = [recordCoverage: true]
+    Map params = [tests: [withCoverage: true], failFast: false]
 
     // Faster build and reduces IO needs
     properties([
-        durabilityHint('PERFORMANCE_OPTIMIZED'),
-        buildDiscarder(logRotator(numToKeepStr: '5')),
+            durabilityHint('PERFORMANCE_OPTIMIZED'),
+            buildDiscarder(logRotator(numToKeepStr: '5')),
     ])
 
     def repo = params.containsKey('repo') ? params.repo : null
     def failFast = params.containsKey('failFast') ? params.failFast : true
-    def recordCoverage = params.containsKey('recordCoverage') ? params.recordCoverage : false
     def timeoutValue = params.containsKey('timeout') ? params.timeout : 60
     def useAci = params.containsKey('useAci') ? params.useAci : false
     if(timeoutValue > 180) {
-      echo "Timeout value requested was $timeoutValue, lowering to 180 to avoid Jenkins project's resource abusive consumption"
-      timeoutValue = 180
+        echo "Timeout value requested was $timeoutValue, lowering to 180 to avoid Jenkins project's resource abusive consumption"
+        timeoutValue = 180
     }
 
     boolean publishingIncrementals = false
@@ -31,6 +30,7 @@ import org.codehaus.groovy.runtime.DefaultGroovyMethods
         String stageIdentifier = "${label}-${jdk}${jenkinsVersion ? '-' + jenkinsVersion : ''}"
         boolean first = tasks.size() == 1
         boolean skipTests = params?.tests?.skip
+        boolean enableCoverage = params?.tests?.withCoverage
         boolean addToolEnv = !useAci
 
         if(useAci && (label == 'linux' || label == 'windows')) {
@@ -61,12 +61,12 @@ import org.codehaus.groovy.runtime.DefaultGroovyMethods
                             if (incrementals) { // Incrementals needs 'git status -s' to be empty at start of job
                                 if (isUnix()) {
                                     sh(script: 'git clean -xffd > /dev/null 2>&1',
-                                       label:'Clean for incrementals',
-                                       returnStatus: true) // Ignore failure if CLI git is not available
+                                            label:'Clean for incrementals',
+                                            returnStatus: true) // Ignore failure if CLI git is not available
                                 } else {
                                     bat(script: 'git clean -xffd 1> nul 2>&1',
-                                        label:'Clean for incrementals',
-                                        returnStatus: true) // Ignore failure if CLI git is not available
+                                            label:'Clean for incrementals',
+                                            returnStatus: true) // Ignore failure if CLI git is not available
                                 }
                             }
                         }
@@ -103,7 +103,7 @@ import org.codehaus.groovy.runtime.DefaultGroovyMethods
                                     mavenOptions += "-DskipTests"
                                 }
                                 mavenOptions += "clean install"
-                                if (!skipTests && first && recordCoverage) {
+                                if (!skipTests && first && enableCoverage) {
                                     mavenOptions += " jacoco:prepare-agent test jacoco:report"
                                 }
                                 try {
@@ -111,7 +111,7 @@ import org.codehaus.groovy.runtime.DefaultGroovyMethods
                                 } finally {
                                     if (!skipTests) {
                                         junit('**/target/surefire-reports/**/*.xml,**/target/failsafe-reports/**/*.xml,**/target/invoker-reports/**/*.xml')
-                                        if (first && recordCoverage) {
+                                        if (first && enableCoverage) {
                                             publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
                                         }
                                     }
@@ -308,16 +308,16 @@ List<Map<String, String>> getConfigurations(Map params) {
 static List<Map<String, String>> recommendedConfigurations() {
     def recentLTS = "2.164.1"
     def configurations = [
-        // Intentionally test configurations which have detected the most problems
-        // Linux - Java 8 with plugin specified minimum Jenkins version
-        // Windows - Java 8 with recent LTS
-        // Linux - Java 11 with recent LTS
-        [ platform: "linux", jdk: "8", jenkins: null ],
-        // [ platform: "windows", jdk: "8", jenkins: null ],
-        // [ platform: "linux", jdk: "8", jenkins: recentLTS, javaLevel: "8" ],
-        [ platform: "windows", jdk: "8", jenkins: recentLTS, javaLevel: "8" ],
-        [ platform: "linux", jdk: "11", jenkins: recentLTS, javaLevel: "8" ],
-        // [ platform: "windows", jdk: "11", jenkins: recentLTS, javaLevel: "8" ]
+            // Intentionally test configurations which have detected the most problems
+            // Linux - Java 8 with plugin specified minimum Jenkins version
+            // Windows - Java 8 with recent LTS
+            // Linux - Java 11 with recent LTS
+            [ platform: "linux", jdk: "8", jenkins: null ],
+            // [ platform: "windows", jdk: "8", jenkins: null ],
+            // [ platform: "linux", jdk: "8", jenkins: recentLTS, javaLevel: "8" ],
+            [ platform: "windows", jdk: "8", jenkins: recentLTS, javaLevel: "8" ],
+            [ platform: "linux", jdk: "11", jenkins: recentLTS, javaLevel: "8" ],
+            // [ platform: "windows", jdk: "11", jenkins: recentLTS, javaLevel: "8" ]
     ]
     return configurations
 }
