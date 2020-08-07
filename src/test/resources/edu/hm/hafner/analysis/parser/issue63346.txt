@@ -1,0 +1,29 @@
+[2020-08-05T20:06:07.664Z] [INFO] --- maven-jar-plugin:3.2.0:test-jar (maybe-test-jar) @ ldap ---
+[2020-08-05T20:06:08.600Z] [INFO] Skipping packaging of the test-jar
+[2020-08-05T20:06:08.600Z] [INFO] 
+[2020-08-05T20:06:08.600Z] [INFO] --- maven-source-plugin:3.2.1:jar-no-fork (attach-sources) @ ldap ---
+[2020-08-05T20:06:08.600Z] [INFO] Building jar: /home/jenkins/workspace/Plugins_ldap-plugin_PR-48/target/ldap-sources.jar
+[2020-08-05T20:06:08.600Z] [INFO] 
+[2020-08-05T20:06:08.600Z] [INFO] --- maven-source-plugin:3.2.1:test-jar-no-fork (attach-test-sources) @ ldap ---
+[2020-08-05T20:06:08.600Z] [INFO] Skipping source per configuration.
+[2020-08-05T20:06:08.600Z] [INFO] 
+[2020-08-05T20:06:08.600Z] [INFO] --- maven-javadoc-plugin:3.2.0:jar (attach-javadocs) @ ldap ---
+[2020-08-05T20:06:11.887Z] [INFO] No previous run data found, generating javadoc.
+[2020-08-05T20:06:13.796Z] [INFO] 
+[2020-08-05T20:06:13.796Z] 100 warnings
+[2020-08-05T20:06:13.796Z] [WARNING] Javadoc Warnings
+[2020-08-05T20:06:13.796Z] [WARNING] /home/jenkins/workspace/Plugins_ldap-plugin_PR-48/src/main/java/hudson/security/LDAPSecurityRealm.java:480: warning: no @param for server
+[2020-08-05T20:06:13.796Z] [WARNING] public LDAPSecurityRealm(String server, String rootDN, String userSearchBase, String userSearch, String groupSearchBase, String groupSearchFilter, LDAPGroupMembershipStrategy groupMembershipStrategy, String managerDN, Secret managerPasswordSecret, boolean inhibitInferRootDN, boolean disableMailAddressResolver, CacheConfiguration cache, EnvironmentProperty[] environmentProperties, String displayNameAttributeName, String mailAddressAttributeName) {
+[2020-08-05T20:06:13.796Z] [WARNING] ^
+[2020-08-05T20:06:13.796Z] [WARNING] /home/jenkins/workspace/Plugins_ldap-plugin_PR-48/src/main/java/hudson/security/LDAPSecurityRealm.java:480: warning: no @param for rootDN
+[2020-08-05T20:06:13.796Z] [WARNING] public LDAPSecurityRealm(String server, String rootDN, String userSearchBase, String userSearch, String groupSearchBase, String groupSearchFilter, LDAPGroupMembershipStrategy groupMembershipStrategy, String managerDN, Secret managerPasswordSecret, boolean inhibitInferRootDN, boolean disableMailAddressResolver, CacheConfiguration cache, EnvironmentProperty[] environmentProperties, String displayNameAttributeName, String mailAddressAttributeName) {
+[2020-08-05T20:06:13.796Z] [WARNING] ^
+[2020-08-05T20:06:13.796Z] [WARNING] /home/jenkins/workspace/Plugins_ldap-plugin_PR-48/src/main/java/hudson/security/LDAPSecurityRealm.java:480: warning: no @param for userSearchBase
+[2020-08-05T20:06:13.796Z] [WARNING] public LDAPSecurityRealm(String server, String rootDN, String userSearchBase, String userSearch, String groupSearchBase, String groupSearchFilter, LDAPGroupMembershipStrategy groupMembershipStrategy, String managerDN, Secret managerPasswordSecret, boolean inhibitInferRootDN, boolean disableMailAddressResolver, CacheConfiguration cache, EnvironmentProperty[] environmentProperties, String displayNameAttributeName, String mailAddressAttributeName) {
+[2020-08-05T20:06:13.796Z] [WARNING] ^
+[2020-08-05T20:06:13.796Z] [WARNING] /home/jenkins/workspace/Plugins_ldap-plugin_PR-48/src/main/java/hudson/security/LDAPSecurityRealm.java:480: warning: no @param for userSearch
+[2020-08-05T20:06:13.796Z] [WARNING] public LDAPSecurityRealm(String server, String rootDN, String userSearchBase, String userSearch, String groupSearchBase, String groupSearchFilter, LDAPGroupMembershipStrategy groupMembershipStrategy, String managerDN, Secret managerPasswordSecret, boolean inhibitInferRootDN, boolean disableMailAddressResolver, CacheConfiguration cache, EnvironmentProperty[] environmentProperties, String displayNameAttributeName, String mailAddressAttributeName) {
+[2020-08-05T20:06:13.796Z] [WARNING] ^
+[2020-08-05T20:06:13.796Z] [WARNING] /home/jenkins/workspace/Plugins_ldap-plugin_PR-48/src/main/java/hudson/security/LDAPSecurityRealm.java:480: warning: no @param for groupSearchBase
+[2020-08-05T20:06:13.796Z] [WARNING] public LDAPSecurityRealm(String server, String rootDN, String userSearchBase, String userSearch, String groupSearchBase, String groupSearchFilter, LDAPGroupMembershipStrategy groupMembershipStrategy, String managerDN, Secret managerPasswordSecret, boolean inhibitInferRootDN, boolean disableMailAddressResolver, CacheConfiguration cache, EnvironmentProperty[] environmentProperties, String displayNameAttributeName, String mailAddressAttributeName) {
+[2020-08-05T20:06:13.796Z] [WARNING] ^

@@ -45,6 +45,18 @@ class JavacParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parses a warning log with JavaDoc warnings.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-63346">Issue 63346</a>
+     */
+    @Test
+    void issue63346() {
+        Report report = parse("issue63346.txt");
+
+        assertThat(report).isEmpty();
+    }
+
+    /**
      * Parses a warning log with two false positives.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
