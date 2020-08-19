@@ -18,12 +18,12 @@ class MyPyAdapterTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(5);
-        softly.assertThat(report.get(0))
+        softly.assertThat(report.get(3))
                 .hasMessage("\"LogRecord\" has no attribute \"user_uuid\"")
                 .hasFileName("fs/cs/backend/log.py")
                 .hasLineStart(16)
                 .hasSeverity(Severity.WARNING_HIGH);
-        softly.assertThat(report.get(1))
+        softly.assertThat(report.get(2))
                 .hasMessage("\"LogRecord\" has no attribute \"tenant_id\"")
                 .hasFileName("fs/cs/backend/log.py")
                 .hasLineStart(17)

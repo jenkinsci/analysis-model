@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -11,6 +12,7 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
+import se.bjurr.violations.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.ViolationsParser;
@@ -30,7 +32,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
             throws ParsingCanceledException, ParsingException {
         try {
             ViolationsParser parser = createParser();
-            List<Violation> violations = parser.parseReportOutput(readerFactory.readString());
+            Set<Violation> violations = parser.parseReportOutput(readerFactory.readString(), new NullViolationsLogger());
             return convertToReport(violations);
         }
         catch (Exception exception) {
@@ -53,7 +55,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return the report
      */
-    Report convertToReport(final List<Violation> violations) {
+    Report convertToReport(final Set<Violation> violations) {
         Report report = new Report();
         for (Violation violation : violations) {
             if (isValid(violation)) {
@@ -136,7 +138,6 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return the {@link Severity}
      */
-    @SuppressWarnings("unused")
     Severity convertSeverity(final SEVERITY severity, final Violation violation) {
         if (severity == SEVERITY.ERROR) {
             return Severity.WARNING_HIGH;
@@ -145,5 +146,20 @@ public abstract class AbstractViolationAdapter extends IssueParser {
             return Severity.WARNING_NORMAL;
         }
         return Severity.WARNING_LOW;
+    }
+
+    /**
+     * A logger that does nothing.
+     */
+    private static class NullViolationsLogger implements ViolationsLogger {
+        @Override
+        public void log(final Level level, final String s) {
+            // do not log anything
+        }
+
+        @Override
+        public void log(final Level level, final String s, final Throwable throwable) {
+            // do not log anything
+        }
     }
 }

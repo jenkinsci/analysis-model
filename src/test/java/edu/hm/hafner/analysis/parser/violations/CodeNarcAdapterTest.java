@@ -18,7 +18,7 @@ class CodeNarcAdapterTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(11);
-        softly.assertThat(report.get(0))
+        softly.assertThat(report.get(6))
                 .hasMessage("In most cases, exceptions should not be caught and ignored (swallowed).")
                 .hasFileName("foo/bar/Test.groovy")
                 .hasType("EmptyCatchBlock")
