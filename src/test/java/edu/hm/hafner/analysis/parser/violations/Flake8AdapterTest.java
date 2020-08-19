@@ -22,7 +22,7 @@ class Flake8AdapterTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(12);
-        softly.assertThat(report.get(0))
+        softly.assertThat(report.get(3))
                 .hasMessage("'db' imported but unused")
                 .hasFileName("myproject/__init__.py")
                 .hasType("F401")
@@ -45,7 +45,7 @@ class Flake8AdapterTest extends AbstractParserTest {
         Report report = parse("flake8-issue53786");
 
         assertThat(report).hasSize(9);
-        assertThat(report.get(0)).hasFileName("../devopsloft/application.py")
+        assertThat(report.get(8)).hasFileName("../devopsloft/application.py")
                 .hasLineStart(42)
                 .hasColumnStart(1)
                 .hasType("E302")
@@ -59,15 +59,15 @@ class Flake8AdapterTest extends AbstractParserTest {
         assertThat(report).hasSize(2);
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(0)).hasFileName("./src/init.py")
-                    .hasLineStart(66)
-                    .hasColumnStart(121)
-                    .hasType("E501")
-                    .hasMessage("line too long (143 > 120 characters)");
-            softly.assertThat(report.get(1)).hasFileName("./src/init.py")
                     .hasLineStart(254)
                     .hasColumnStart(58)
                     .hasType("W292")
                     .hasMessage("no newline at end of file");
+            softly.assertThat(report.get(1)).hasFileName("./src/init.py")
+                    .hasLineStart(66)
+                    .hasColumnStart(121)
+                    .hasType("E501")
+                    .hasMessage("line too long (143 > 120 characters)");
         }
     }
 }

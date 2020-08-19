@@ -18,7 +18,7 @@ class PyDocStyleAdapterTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(33);
-        softly.assertThat(report.get(0))
+        softly.assertThat(report.get(31))
                 .hasMessage("Missing docstring in public module")
                 .hasFileName("fs/csm/admin_api/ui_api.py")
                 .hasLineStart(1)
