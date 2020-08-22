@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Java Bean class for a file of the Checkstyle format.
@@ -14,7 +14,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 public class File {
     /** Name of the file. */
-    @Nullable
+    @CheckForNull
     private String name;
     /** All errors of this file. */
     private final List<Error> errors = new ArrayList<>();
@@ -44,7 +44,7 @@ public class File {
      *
      * @return the name of this file
      */
-    @Nullable
+    @CheckForNull
     public String getName() {
         return name;
     }
@@ -54,7 +54,7 @@ public class File {
      *
      * @param name the value to set
      */
-    public void setName(final String name) {
+    public void setName(@CheckForNull final String name) {
         this.name = name;
     }
 }

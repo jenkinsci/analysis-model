@@ -16,7 +16,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A parser for clair scanner json output.
@@ -52,7 +52,7 @@ public class ClairParser extends IssueParser {
         return report;
     }
 
-    private Issue convertToIssue(final JSONObject jsonIssue, @Nullable final String image) {
+    private Issue convertToIssue(final JSONObject jsonIssue, @CheckForNull final String image) {
         final StringBuilder message = new StringBuilder();
         appendIfNotEmpty(jsonIssue, message, "featurename", "");
         appendIfNotEmpty(jsonIssue, message, "featureversion", ":");
@@ -78,7 +78,7 @@ public class ClairParser extends IssueParser {
         }
     }
 
-    private Severity toSeverity(@Nullable final String level) {
+    private Severity toSeverity(@CheckForNull final String level) {
         switch (String.valueOf(level).toLowerCase(Locale.ENGLISH)) {
             case "defcon1":
                 return Severity.ERROR;
@@ -96,13 +96,13 @@ public class ClairParser extends IssueParser {
         return result instanceof JSONArray ? (JSONArray) result : new JSONArray();
     }
 
-    @Nullable
+    @CheckForNull
     private String optStringIgnoreCase(final JSONObject json, final String searchKey) {
         final Object result = optIgnoreCase(json, searchKey);
         return result instanceof String ? (String) result : null;
     }
 
-    @Nullable
+    @CheckForNull
     private Object optIgnoreCase(final JSONObject json, final String searchKey) {
         Object result = json.opt(searchKey);
         if (result == null) {
@@ -111,7 +111,7 @@ public class ClairParser extends IssueParser {
         return result;
     }
 
-    @Nullable
+    @CheckForNull
     private Object searchIgnoreCase(final JSONObject json, final String searchKey) {
         Object result = null;
         for (String key : json.keySet()) {

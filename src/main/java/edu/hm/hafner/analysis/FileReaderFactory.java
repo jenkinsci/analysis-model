@@ -17,7 +17,7 @@ import org.apache.commons.io.input.BOMInputStream;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Provides a {@link ReaderFactory} that returns readers for a given file.
@@ -27,7 +27,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 public class FileReaderFactory extends ReaderFactory {
     private final Path file;
     private final String fileName;
-    @Nullable
+    @CheckForNull
     private Charset charset;
     private final boolean isCharsetUndetected;
 
@@ -39,7 +39,7 @@ public class FileReaderFactory extends ReaderFactory {
      * @param charset
      *         the charset to use when reading the file (or {@code null} if the charset should be detected)
      */
-    public FileReaderFactory(final Path file, final @Nullable Charset charset) {
+    public FileReaderFactory(final Path file, final @CheckForNull Charset charset) {
         super(StandardCharsets.UTF_8);
 
         this.file = file;
@@ -76,7 +76,7 @@ public class FileReaderFactory extends ReaderFactory {
         }
     }
 
-    @Nullable
+    @CheckForNull
     private Charset detectCharset(final InputStream inputStream) throws IOException {
         try (Reader reader = new InputStreamReader(inputStream, StandardCharsets.US_ASCII)) {
             XMLStreamReader xmlStreamReader = new SecureXmlParserFactory().createXmlStreamReader(reader);

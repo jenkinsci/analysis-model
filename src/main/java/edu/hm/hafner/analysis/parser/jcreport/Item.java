@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.jcreport;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * This the Item-Class The Java-Bean-Conformity was chosen due to the digesters style of assigning. It represents the
@@ -11,26 +11,26 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 @SuppressWarnings("PMD.DataClass")
 public class Item {
 
-    @Nullable
+    @CheckForNull
     private String column;
-    @Nullable
+    @CheckForNull
     private String findingtype;
-    @Nullable
+    @CheckForNull
     private String line;
-    @Nullable
+    @CheckForNull
     private String message;
-    @Nullable
+    @CheckForNull
     private String origin;
-    @Nullable
+    @CheckForNull
     private String severity;
-    @Nullable
+    @CheckForNull
     private String endcolumn;
 
     /**
      * Although this property is not used. It was decided to keep it available when Jenkins is modified and needs access
      * to this field;
      */
-    @Nullable
+    @CheckForNull
     private String endline;
 
     /**
@@ -38,7 +38,7 @@ public class Item {
      *
      * @return column string
      */
-    @Nullable
+    @CheckForNull
     public String getColumn() {
         return column;
     }
@@ -48,7 +48,7 @@ public class Item {
      *
      * @param column setter
      */
-    public void setColumn(final String column) {
+    public void setColumn(@CheckForNull final String column) {
         this.column = column;
     }
 
@@ -57,7 +57,7 @@ public class Item {
      *
      * @return findingtype getter
      */
-    @Nullable
+    @CheckForNull
     public String getFindingtype() {
         return findingtype;
     }
@@ -67,7 +67,7 @@ public class Item {
      *
      * @param findingtype setter
      */
-    public void setFindingtype(final String findingtype) {
+    public void setFindingtype(@CheckForNull final String findingtype) {
         this.findingtype = findingtype;
     }
 
@@ -76,7 +76,7 @@ public class Item {
      *
      * @return line getter
      */
-    @Nullable
+    @CheckForNull
     public String getLine() {
         return line;
     }
@@ -86,7 +86,7 @@ public class Item {
      *
      * @param line setter
      */
-    public void setLine(final String line) {
+    public void setLine(@CheckForNull final String line) {
         this.line = line;
     }
 
@@ -95,7 +95,7 @@ public class Item {
      *
      * @return message getter
      */
-    @Nullable
+    @CheckForNull
     public String getMessage() {
         return message;
     }
@@ -105,7 +105,7 @@ public class Item {
      *
      * @param message setter
      */
-    public void setMessage(final String message) {
+    public void setMessage(@CheckForNull final String message) {
         this.message = message;
     }
 
@@ -114,7 +114,7 @@ public class Item {
      *
      * @return origin getter
      */
-    @Nullable
+    @CheckForNull
     public String getOrigin() {
         return origin;
     }
@@ -124,7 +124,7 @@ public class Item {
      *
      * @param origin setter
      */
-    public void setOrigin(final String origin) {
+    public void setOrigin(@CheckForNull final String origin) {
         this.origin = origin;
     }
 
@@ -133,7 +133,7 @@ public class Item {
      *
      * @return severity getter
      */
-    @Nullable
+    @CheckForNull
     public String getSeverity() {
         return severity;
     }
@@ -143,7 +143,7 @@ public class Item {
      *
      * @param severity setter
      */
-    public void setSeverity(final String severity) {
+    public void setSeverity(@CheckForNull final String severity) {
         this.severity = severity;
     }
 
@@ -153,7 +153,7 @@ public class Item {
      *
      * @return endline getter
      */
-    @Nullable
+    @CheckForNull
     public String getEndline() {
         return endline;
     }
@@ -164,7 +164,7 @@ public class Item {
      *
      * @param endline setter
      */
-    public void setEndline(final String endline) {
+    public void setEndline(@CheckForNull final String endline) {
         this.endline = endline;
     }
 
@@ -173,7 +173,7 @@ public class Item {
      *
      * @return endcolumn getter
      */
-    @Nullable
+    @CheckForNull
     public String getEndcolumn() {
         return endcolumn;
     }
@@ -183,8 +183,7 @@ public class Item {
      *
      * @param endcolumn setter
      */
-    public void setEndcolumn(final String endcolumn) {
+    public void setEndcolumn(@CheckForNull final String endcolumn) {
         this.endcolumn = endcolumn;
     }
-
 }
