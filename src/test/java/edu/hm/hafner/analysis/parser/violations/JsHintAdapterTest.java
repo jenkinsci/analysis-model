@@ -18,7 +18,7 @@ class JsHintAdapterTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(6);
-        softly.assertThat(report.get(0))
+        softly.assertThat(report.get(2))
                 .hasMessage("Use '===' to compare with 'null'.: if (a == null)")
                 .hasFileName("../../../web/js-file.js")
                 .hasLineStart(4)

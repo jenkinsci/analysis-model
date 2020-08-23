@@ -18,7 +18,7 @@ class YamlLintAdapterTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(4);
-        softly.assertThat(report.get(0))
+        softly.assertThat(report.get(2))
                 .hasMessage("missing starting space in comment")
                 .hasFileName("file.yml")
                 .hasLineStart(6)

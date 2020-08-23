@@ -36,7 +36,8 @@ public class AntJavacParser extends RegexpLineParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         return super.isLineInteresting(line)
-                && (line.contains("warning") || line.contains("error") || line.contains("\u8b66\u544a"));
+                && (line.contains("warning") || line.contains("error") || line.contains("\u8b66\u544a"))
+                && !line.contains("@");
     }
 
     @Override

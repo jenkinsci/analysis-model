@@ -18,7 +18,7 @@ class XmlLintAdapterTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(3);
-        softly.assertThat(report.get(0))
+        softly.assertThat(report.get(2))
                 .hasMessage("Opening and ending tag mismatch: font line 4 and body")
                 .hasFileName("xml/other.xml")
                 .hasLineStart(5)
