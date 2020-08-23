@@ -1,7 +1,7 @@
 /**
  * Simple wrapper step for building a plugin
  */
-    Map params = [:]
+    Map params = [failFast: false]
     // Faster build and reduces IO needs
     properties([
         durabilityHint('PERFORMANCE_OPTIMIZED'),
@@ -108,7 +108,7 @@
                                     if (!skipTests) {
                                         junit('**/target/surefire-reports/**/*.xml,**/target/failsafe-reports/**/*.xml,**/target/invoker-reports/**/*.xml')
                                         if (first) {
-                                            publishCoverage calculateDiffForChangeRequests: true, adapters: [jacocoAdapter('**/target/site/jacoco/jacoco.xml')]
+                                            publishCoverage calculateDiffForChangeRequests: true, adapters: [jacocoAdapter('**/target/site/jacoco/blub.xml')]
                                         }
                                     }
                                 }
