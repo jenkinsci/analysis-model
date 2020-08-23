@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * File-Class. Stores field to create a warning. It represents the File-Tags within the report.xml. The
@@ -14,11 +14,11 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 @SuppressWarnings("PMD.DataClass")
 public class File {
-    @Nullable
+    @CheckForNull
     private String name;
-    @Nullable
+    @CheckForNull
     private String packageName;
-    @Nullable
+    @CheckForNull
     private String srcdir;
     private final List<Item> items = new ArrayList<>();
 
@@ -26,11 +26,11 @@ public class File {
      * These properties are not used to create Warnings. It was decided to keep them available when Jenkins is modified
      * and needs access to these fields;
      */
-    @Nullable
+    @CheckForNull
     private String level;
-    @Nullable
+    @CheckForNull
     private String loc;
-    @Nullable
+    @CheckForNull
     private String classname;
 
     /**
@@ -57,7 +57,7 @@ public class File {
      *
      * @return String className.
      */
-    @Nullable
+    @CheckForNull
     public String getClassname() {
         return classname;
     }
@@ -67,7 +67,7 @@ public class File {
      *
      * @param classname lassNamesetter
      */
-    public void setClassname(final String classname) {
+    public void setClassname(@CheckForNull final String classname) {
         this.classname = classname;
     }
 
@@ -76,7 +76,7 @@ public class File {
      *
      * @return level
      */
-    @Nullable
+    @CheckForNull
     public String getLevel() {
         return level;
     }
@@ -87,7 +87,7 @@ public class File {
      *
      * @param level set level
      */
-    public void setLevel(final String level) {
+    public void setLevel(@CheckForNull final String level) {
         this.level = level;
     }
 
@@ -97,7 +97,7 @@ public class File {
      *
      * @return loc loc
      */
-    @Nullable
+    @CheckForNull
     public String getLoc() {
         return loc;
     }
@@ -107,7 +107,7 @@ public class File {
      *
      * @param loc locsetter
      */
-    public void setLoc(final String loc) {
+    public void setLoc(@CheckForNull final String loc) {
         this.loc = loc;
     }
 
@@ -117,7 +117,7 @@ public class File {
      *
      * @return name name
      */
-    @Nullable
+    @CheckForNull
     public String getName() {
         return name;
     }
@@ -127,7 +127,7 @@ public class File {
      *
      * @param name name
      */
-    public void setName(final String name) {
+    public void setName(@CheckForNull final String name) {
         this.name = name;
     }
 
@@ -137,7 +137,7 @@ public class File {
      *
      * @return packageName packageName.
      */
-    @Nullable
+    @CheckForNull
     public String getPackageName() {
         return packageName;
     }
@@ -147,7 +147,7 @@ public class File {
      *
      * @param packageName packageName Setter
      */
-    public void setPackageName(final String packageName) {
+    public void setPackageName(@CheckForNull final String packageName) {
         this.packageName = packageName;
     }
 
@@ -156,7 +156,7 @@ public class File {
      *
      * @return srcdir srcdir.
      */
-    @Nullable
+    @CheckForNull
     public String getSrcdir() {
         return srcdir;
     }
@@ -166,8 +166,7 @@ public class File {
      *
      * @param srcdir srcdir
      */
-    public void setSrcdir(final String srcdir) {
+    public void setSrcdir(@CheckForNull final String srcdir) {
         this.srcdir = srcdir;
     }
-
 }

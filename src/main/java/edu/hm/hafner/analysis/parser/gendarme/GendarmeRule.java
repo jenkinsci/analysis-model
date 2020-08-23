@@ -2,20 +2,20 @@ package edu.hm.hafner.analysis.parser.gendarme;
 
 import java.net.URL;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 @SuppressWarnings("all")
 public class GendarmeRule {
-    @Nullable
+    @CheckForNull
     private String name;
-    @Nullable
+    @CheckForNull
     private String typeName;
-    @Nullable
+    @CheckForNull
     private GendarmeRuleType type;
-    @Nullable
+    @CheckForNull
     private URL url;
 
-    @Nullable
+    @CheckForNull
     public String getTypeName() {
         return typeName;
     }
@@ -24,7 +24,7 @@ public class GendarmeRule {
         this.typeName = typeName;
     }
 
-    @Nullable
+    @CheckForNull
     public String getName() {
         return name;
     }
@@ -33,7 +33,7 @@ public class GendarmeRule {
         this.name = name;
     }
 
-    @Nullable
+    @CheckForNull
     public GendarmeRuleType getType() {
         return type;
     }
@@ -42,12 +42,12 @@ public class GendarmeRule {
         this.type = type;
     }
 
-    @Nullable
+    @CheckForNull
     public URL getUrl() {
         return url;
     }
 
-    public void setUrl(@Nullable final URL url) {
+    public void setUrl(@CheckForNull final URL url) {
         this.url = url;
     }
 }

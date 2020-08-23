@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.dry.simian;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Java Bean class for a duplicated block of a Simian duplication warning.
@@ -9,7 +9,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 @SuppressWarnings("PMD.DataClass")
 public class Block {
-    @Nullable
+    @CheckForNull
     private String sourceFile;
     private int startLineNumber;
     private int endLineNumber;
@@ -19,7 +19,7 @@ public class Block {
      *
      * @return the file name
      */
-    @Nullable
+    @CheckForNull
     public String getSourceFile() {
         return sourceFile;
     }
@@ -30,7 +30,7 @@ public class Block {
      * @param sourceFile
      *            the value to set
      */
-    public void setSourceFile(final String sourceFile) {
+    public void setSourceFile(@CheckForNull final String sourceFile) {
         this.sourceFile = sourceFile;
     }
 

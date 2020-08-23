@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -171,7 +171,7 @@ public class Issue implements Serializable {
 
     private final UUID id;                  // fixed
 
-    @Nullable
+    @CheckForNull
     private final Serializable additionalProperties;  // fixed
 
     private String reference;       // mutable, not part of equals
@@ -248,13 +248,13 @@ public class Issue implements Serializable {
     @SuppressWarnings("ParameterNumber")
     Issue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @Nullable final Iterable<? extends LineRange> lineRanges,
-            @Nullable final String category, @Nullable final String type,
-            final TreeString packageName, @Nullable final String moduleName,
-            @Nullable final Severity severity,
+            @CheckForNull final Iterable<? extends LineRange> lineRanges,
+            @CheckForNull final String category, @CheckForNull final String type,
+            final TreeString packageName, @CheckForNull final String moduleName,
+            @CheckForNull final Severity severity,
             final TreeString message, final String description,
-            @Nullable final String origin, @Nullable final String reference,
-            @Nullable final String fingerprint, @Nullable final Serializable additionalProperties) {
+            @CheckForNull final String origin, @CheckForNull final String reference,
+            @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties) {
         this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName,
                 moduleName,
                 severity, message, description, origin, reference, fingerprint, additionalProperties,
@@ -304,15 +304,15 @@ public class Issue implements Serializable {
      *         the ID of this issue
      */
     @SuppressWarnings("ParameterNumber")
-    Issue(@Nullable final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
+    Issue(@CheckForNull final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
             final int columnStart,
-            final int columnEnd, @Nullable final Iterable<? extends LineRange> lineRanges,
-            @Nullable final String category,
-            @Nullable final String type, final TreeString packageName,
-            @Nullable final String moduleName, @Nullable final Severity severity,
+            final int columnEnd, @CheckForNull final Iterable<? extends LineRange> lineRanges,
+            @CheckForNull final String category,
+            @CheckForNull final String type, final TreeString packageName,
+            @CheckForNull final String moduleName, @CheckForNull final Severity severity,
             final TreeString message, final String description,
-            @Nullable final String origin, @Nullable final String reference,
-            @Nullable final String fingerprint, @Nullable final Serializable additionalProperties,
+            @CheckForNull final String origin, @CheckForNull final String reference,
+            @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties,
             final UUID id) {
 
         this.pathName = normalizeFileName(pathName);
@@ -390,7 +390,7 @@ public class Issue implements Serializable {
         return this;
     }
 
-    private String normalizeFileName(@Nullable final String platformFileName) {
+    private String normalizeFileName(@CheckForNull final String platformFileName) {
         if (platformFileName == null || UNDEFINED.equals(platformFileName) || StringUtils.isBlank(platformFileName)) {
             return UNDEFINED;
         }
@@ -417,7 +417,7 @@ public class Issue implements Serializable {
      *
      * @return the valid string or a default string if the specified string is not valid
      */
-    private String defaultString(@Nullable final String string) {
+    private String defaultString(@CheckForNull final String string) {
         return StringUtils.defaultIfEmpty(string, UNDEFINED).intern();
     }
 
@@ -429,7 +429,7 @@ public class Issue implements Serializable {
      *
      * @return the stripped string or the empty string if the specified string is {@code null}
      */
-    private String stripToEmpty(@Nullable final String string) {
+    private String stripToEmpty(@CheckForNull final String string) {
         return StringUtils.stripToEmpty(string).intern();
     }
 
@@ -704,7 +704,7 @@ public class Issue implements Serializable {
      * @param moduleName
      *         the module name to set
      */
-    void setModuleName(@Nullable final String moduleName) {
+    void setModuleName(@CheckForNull final String moduleName) {
         this.moduleName = stripToEmpty(moduleName);
     }
 
@@ -754,7 +754,7 @@ public class Issue implements Serializable {
      * @param reference
      *         the reference
      */
-    public void setReference(@Nullable final String reference) {
+    public void setReference(@CheckForNull final String reference) {
         this.reference = stripToEmpty(reference);
     }
 
@@ -781,7 +781,7 @@ public class Issue implements Serializable {
      *
      * @see #getFingerprint()
      */
-    void setFingerprint(@Nullable final String fingerprint) {
+    void setFingerprint(@CheckForNull final String fingerprint) {
         this.fingerprint = StringUtils.stripToEmpty(fingerprint);
     }
 
@@ -800,7 +800,7 @@ public class Issue implements Serializable {
      *
      * @return the additional properties
      */
-    @Nullable
+    @CheckForNull
     public Serializable getAdditionalProperties() {
         return additionalProperties;
     }

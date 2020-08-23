@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.util.LookaheadStream;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Parses a report file line by line for issues using a pre-defined regular expression. If the regular expression
@@ -17,7 +17,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 public abstract class RegexpLineParser extends LookaheadParser {
     private static final long serialVersionUID = 434000822024807289L;
-    @Nullable
+    @CheckForNull
     private LookaheadStream temporaryLookahead;
 
     private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805

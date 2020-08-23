@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import static edu.hm.hafner.util.IntegerParser.*;
 
@@ -44,35 +44,35 @@ public class IssueBuilder {
     private int columnStart = 0;
     private int columnEnd = 0;
 
-    @Nullable
+    @CheckForNull
     private LineRangeList lineRanges;
 
-    @Nullable
+    @CheckForNull
     private String pathName;
     private TreeString fileName = UNDEFINED_TREE_STRING;
     private TreeString packageName = UNDEFINED_TREE_STRING;
 
-    @Nullable
+    @CheckForNull
     private String directory;
-    @Nullable
+    @CheckForNull
     private String category;
-    @Nullable
+    @CheckForNull
     private String type;
-    @Nullable
+    @CheckForNull
     private Severity severity;
 
     private TreeString message = EMPTY_TREE_STRING;
     private String description = EMPTY;
 
-    @Nullable
+    @CheckForNull
     private String moduleName;
-    @Nullable
+    @CheckForNull
     private String origin;
-    @Nullable
+    @CheckForNull
     private String reference;
-    @Nullable
+    @CheckForNull
     private String fingerprint;
-    @Nullable
+    @CheckForNull
     private Serializable additionalProperties;
 
     private UUID id = UUID.randomUUID();
@@ -99,7 +99,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setAdditionalProperties(@Nullable final Serializable additionalProperties) {
+    public IssueBuilder setAdditionalProperties(@CheckForNull final Serializable additionalProperties) {
         this.additionalProperties = additionalProperties;
         return this;
     }
@@ -114,7 +114,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setFingerprint(@Nullable final String fingerprint) {
+    public IssueBuilder setFingerprint(@CheckForNull final String fingerprint) {
         this.fingerprint = fingerprint;
         return this;
     }
@@ -128,13 +128,13 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setFileName(@Nullable final String fileName) {
+    public IssueBuilder setFileName(@CheckForNull final String fileName) {
         this.fileName = internFileName(fileName);
 
         return this;
     }
 
-    TreeString internFileName(@Nullable final String unsafeFileName) {
+    TreeString internFileName(@CheckForNull final String unsafeFileName) {
         if (unsafeFileName == null || StringUtils.isEmpty(unsafeFileName)) {
             return UNDEFINED_TREE_STRING;
         }
@@ -156,7 +156,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setDirectory(@Nullable final String directory) {
+    public IssueBuilder setDirectory(@CheckForNull final String directory) {
         this.directory = directory;
         return this;
     }
@@ -172,7 +172,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setPathName(@Nullable final String pathName) {
+    public IssueBuilder setPathName(@CheckForNull final String pathName) {
         this.pathName = pathName;
         return this;
     }
@@ -198,7 +198,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setLineStart(@Nullable final String lineStart) {
+    public IssueBuilder setLineStart(@CheckForNull final String lineStart) {
         this.lineStart = parseInt(lineStart);
         return this;
     }
@@ -224,7 +224,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setLineEnd(@Nullable final String lineEnd) {
+    public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
         this.lineEnd = parseInt(lineEnd);
         return this;
     }
@@ -250,7 +250,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setColumnStart(@Nullable final String columnStart) {
+    public IssueBuilder setColumnStart(@CheckForNull final String columnStart) {
         this.columnStart = parseInt(columnStart);
         return this;
     }
@@ -276,7 +276,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setColumnEnd(@Nullable final String columnEnd) {
+    public IssueBuilder setColumnEnd(@CheckForNull final String columnEnd) {
         this.columnEnd = parseInt(columnEnd);
         return this;
     }
@@ -290,7 +290,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setCategory(@Nullable final String category) {
+    public IssueBuilder setCategory(@CheckForNull final String category) {
         this.category = category;
         return this;
     }
@@ -304,7 +304,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setType(@Nullable final String type) {
+    public IssueBuilder setType(@CheckForNull final String type) {
         this.type = type;
         return this;
     }
@@ -317,13 +317,13 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setPackageName(@Nullable final String packageName) {
+    public IssueBuilder setPackageName(@CheckForNull final String packageName) {
         this.packageName = internPackageName(packageName);
 
         return this;
     }
 
-    TreeString internPackageName(@Nullable final String unsafePackageName) {
+    TreeString internPackageName(@CheckForNull final String unsafePackageName) {
         if (unsafePackageName == null || StringUtils.isBlank(unsafePackageName)) {
             return UNDEFINED_TREE_STRING;
         }
@@ -340,7 +340,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setModuleName(@Nullable final String moduleName) {
+    public IssueBuilder setModuleName(@CheckForNull final String moduleName) {
         this.moduleName = moduleName;
         return this;
     }
@@ -353,7 +353,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setOrigin(@Nullable final String origin) {
+    public IssueBuilder setOrigin(@CheckForNull final String origin) {
         this.origin = origin;
         return this;
     }
@@ -366,7 +366,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setReference(@Nullable final String reference) {
+    public IssueBuilder setReference(@CheckForNull final String reference) {
         this.reference = reference;
         return this;
     }
@@ -379,7 +379,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setSeverity(@Nullable final Severity severity) {
+    public IssueBuilder setSeverity(@CheckForNull final Severity severity) {
         this.severity = severity;
         return this;
     }
@@ -393,7 +393,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder guessSeverity(@Nullable final String severityString) {
+    public IssueBuilder guessSeverity(@CheckForNull final String severityString) {
         severity = Severity.guessFromString(severityString);
         return this;
     }
@@ -406,7 +406,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setMessage(@Nullable final String message) {
+    public IssueBuilder setMessage(@CheckForNull final String message) {
         if (StringUtils.isBlank(message)) {
             this.message = EMPTY_TREE_STRING;
         }
@@ -425,7 +425,7 @@ public class IssueBuilder {
      *
      * @return this
      */
-    public IssueBuilder setDescription(@Nullable final String description) {
+    public IssueBuilder setDescription(@CheckForNull final String description) {
         this.description = StringUtils.stripToEmpty(description);
         return this;
     }
@@ -488,7 +488,7 @@ public class IssueBuilder {
         return issue;
     }
 
-    private static String normalizeFileName(@Nullable final String platformFileName) {
+    private static String normalizeFileName(@CheckForNull final String platformFileName) {
         return defaultString(StringUtils.replace(
                 StringUtils.strip(platformFileName), "\\", "/"));
     }
@@ -501,7 +501,7 @@ public class IssueBuilder {
      *
      * @return the valid string or a default string if the specified string is not valid
      */
-    private static String defaultString(@Nullable final String string) {
+    private static String defaultString(@CheckForNull final String string) {
         return StringUtils.defaultIfEmpty(string, UNDEFINED).intern();
     }
 

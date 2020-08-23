@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Java Bean class for a CPD duplication.
@@ -19,7 +19,7 @@ public class Duplication {
     /** Number of duplicate tokens. */
     private int tokens;
     /** The duplicated code fragment. */
-    @Nullable
+    @CheckForNull
     private String codeFragment;
 
     /** All files of this duplication. */
@@ -86,7 +86,7 @@ public class Duplication {
      *
      * @return the duplicate code fragment
      */
-    @Nullable
+    @CheckForNull
     public String getCodeFragment() {
         return codeFragment;
     }
@@ -96,7 +96,7 @@ public class Duplication {
      *
      * @param codeFragment the value to set
      */
-    public void setCodeFragment(final String codeFragment) {
+    public void setCodeFragment(@CheckForNull final String codeFragment) {
         this.codeFragment = codeFragment;
     }
 }
