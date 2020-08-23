@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Java Bean class for a violation of the Checkstyle format.
@@ -9,11 +9,11 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 @SuppressWarnings({"all", "JavaLangClash"})
 public class Error {
-    @Nullable
+    @CheckForNull
     private String source;
-    @Nullable
+    @CheckForNull
     private String severity;
-    @Nullable
+    @CheckForNull
     private String message;
     private int line;
     private int column;
@@ -26,7 +26,7 @@ public class Error {
         this.column = column;
     }
 
-    @Nullable
+    @CheckForNull
     public String getSource() {
         return source;
     }
@@ -35,7 +35,7 @@ public class Error {
         this.source = source;
     }
 
-    @Nullable
+    @CheckForNull
     public String getSeverity() {
         return severity;
     }
@@ -44,7 +44,7 @@ public class Error {
         this.severity = severity;
     }
 
-    @Nullable
+    @CheckForNull
     public String getMessage() {
         return message;
     }

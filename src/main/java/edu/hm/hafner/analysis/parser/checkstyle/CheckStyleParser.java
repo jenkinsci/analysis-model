@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A parser for Checkstyle XML files.
@@ -85,11 +85,11 @@ public class CheckStyleParser extends IssueParser {
         return report;
     }
 
-    private String getCategory(@Nullable final String source) {
+    private String getCategory(@CheckForNull final String source) {
         return StringUtils.capitalize(getType(StringUtils.substringBeforeLast(source, ".")));
     }
 
-    private String getType(@Nullable final String source) {
+    private String getType(@CheckForNull final String source) {
         return StringUtils.substringAfterLast(source, ".");
     }
 

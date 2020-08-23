@@ -36,7 +36,7 @@ class SeverityTest {
         assertThat(Severity.guessFromString("[NOTE]")).isEqualTo(Severity.WARNING_LOW);
     }
 
-    @Test @SuppressWarnings("PMD.PositionLiteralsFirstInCaseInsensitiveComparisons")
+    @Test @SuppressWarnings("PMD.LiteralsFirstInComparisons")
     void shouldCreateNewSeverityThatOverridesEqualsAndToString() {
         String name = "severity";
         Severity severity = new Severity(name);

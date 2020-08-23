@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 
 import edu.hm.hafner.util.XmlElementUtil;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Internal set containing rules for FxCop.
@@ -77,7 +77,7 @@ public class FxCopRuleSet {
      *
      * @return the rule; null otherwise
      */
-    @Nullable
+    @CheckForNull
     public FxCopRule getRule(final String category, final String checkId) {
         String key = getRuleKey(category, checkId);
         FxCopRule rule = null;

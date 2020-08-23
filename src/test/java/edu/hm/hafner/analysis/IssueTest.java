@@ -3,14 +3,13 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -98,11 +97,11 @@ class IssueTest extends SerializableTest<Issue> {
     @SuppressWarnings("ParameterNumber")
     protected Issue createIssue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @Nullable final String category, @Nullable final String type,
-            final TreeString packageName, @Nullable final String moduleName,
-            @Nullable final Severity priority, final TreeString message,
-            final String description, @Nullable final String origin,
-            @Nullable final String reference, @Nullable final String fingerprint,
+            @CheckForNull final String category, @CheckForNull final String type,
+            final TreeString packageName, @CheckForNull final String moduleName,
+            @CheckForNull final Severity priority, final TreeString message,
+            final String description, @CheckForNull final String origin,
+            @CheckForNull final String reference, @CheckForNull final String fingerprint,
             final String additionalProperties) {
         return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type,
                 packageName,
