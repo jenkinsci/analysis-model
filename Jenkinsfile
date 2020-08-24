@@ -1,4 +1,4 @@
-@Library('pipeline-library@code-coverage')
+@Library('pipeline-library@code-coverage') _
 
 buildPlugin(failFast: false,
     checkstyle: [qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]],
