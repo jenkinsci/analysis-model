@@ -59,7 +59,7 @@
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <incrementals-plugin.version>1.1</incrementals-plugin.version>
+    <incrementals-plugin.version>1.2</incrementals-plugin.version>
 
     <module.name>${project.groupId}.analysis.model</module.name>
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
