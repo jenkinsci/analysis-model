@@ -846,6 +846,7 @@ public class Report implements Iterable<Issue>, Serializable {
         duplicatesSize = input.readInt();
     }
 
+    @SuppressFBWarnings(value = "OBJECT_DESERIALIZATION")
     private void readIssues(final ObjectInputStream input, final int size) throws IOException, ClassNotFoundException {
         final TreeStringBuilder builder = new TreeStringBuilder();
         for (int i = 0; i < size; i++) {
@@ -1349,7 +1350,7 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
         private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
-            addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
+            addNewFilter(pattern, issue -> String.format("%s%n%s", issue.getMessage(), issue.getDescription()),
                     filterType);
         }
         //</editor-fold>
