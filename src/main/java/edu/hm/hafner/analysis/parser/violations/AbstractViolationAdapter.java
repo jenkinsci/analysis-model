@@ -32,7 +32,8 @@ public abstract class AbstractViolationAdapter extends IssueParser {
             throws ParsingCanceledException, ParsingException {
         try {
             ViolationsParser parser = createParser();
-            Set<Violation> violations = parser.parseReportOutput(readerFactory.readString(), new NullViolationsLogger());
+            Set<Violation> violations = parser.parseReportOutput(readerFactory.readString(),
+                    new NullViolationsLogger());
             return convertToReport(violations);
         }
         catch (Exception exception) {
@@ -62,7 +63,21 @@ public abstract class AbstractViolationAdapter extends IssueParser {
                 report.add(convertToIssue(violation));
             }
         }
+        postProcess(report, violations);
+
         return report;
+    }
+
+    /**
+     * Post processes the report.
+     *
+     * @param report
+     *         the report with all converted and valid issues
+     * @param violations
+     *         the violations that have been converted
+     */
+    void postProcess(final Report report, final Set<Violation> violations) {
+        // empty default implementation
     }
 
     /**

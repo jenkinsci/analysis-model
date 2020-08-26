@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -53,7 +54,7 @@ import static java.util.stream.Collectors.*;
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CyclomaticComplexity"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
-    private static final long serialVersionUID = 2L; // release 8.0.0
+    private static final long serialVersionUID = 3L; // release 8.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
@@ -61,6 +62,7 @@ public class Report implements Iterable<Issue>, Serializable {
     private final Set<Issue> elements = new LinkedHashSet<>();
     private final List<String> infoMessages = new ArrayList<>();
     private final List<String> errorMessages = new ArrayList<>();
+    private Map<String, String> properties = new HashMap<>();
 
     private final Set<String> fileNames = new HashSet<>();
     private Map<String, String> namesByOrigin = new HashMap<>();
@@ -199,6 +201,9 @@ public class Report implements Iterable<Issue>, Serializable {
     protected Object readResolve() {
         if (namesByOrigin == null) {
             namesByOrigin = new HashMap<>();
+        }
+        if (properties == null) {
+            properties = new HashMap<>();
         }
 
         return this;
@@ -656,6 +661,7 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
         destination.namesByOrigin.putAll(source.namesByOrigin);
+        destination.properties.putAll(source.properties);
     }
 
     /**
@@ -806,6 +812,42 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public void setNameOfOrigin(final String origin, final String name) {
         namesByOrigin.put(origin, name);
+    }
+
+    /**
+     * Sets the specified property for this report.
+     *
+     * @param key
+     *         the unique key for this property
+     * @param value
+     *         the value to set
+     */
+    public void setProperty(final String key, final String value) {
+        properties.put(Objects.requireNonNull(key), Objects.requireNonNull(value));
+    }
+
+    /**
+     * Returns the specified property of this report.
+     *
+     * @param key
+     *         the unique key for this property
+     *
+     * @return the value of the specified property, or an empty string if the property has not been set
+     */
+    public String getProperty(final String key) {
+        return properties.getOrDefault(key, StringUtils.EMPTY);
+    }
+
+    /**
+     * Returns whether the specified property of this report has been set.
+     *
+     * @param key
+     *         the unique key for this property
+     *
+     * @return {@code true} if the property has been set, {@code false} otherwise
+     */
+    public boolean hasProperty(final String key) {
+        return properties.containsKey(key);
     }
 
     /**

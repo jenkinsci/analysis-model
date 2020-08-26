@@ -7,6 +7,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static edu.hm.hafner.analysis.parser.violations.JUnitAdapter.*;
+
 /**
  * Tests the class {@link JUnitAdapter}.
  *
@@ -32,7 +35,10 @@ class JUnitAdapterTest extends AbstractParserTest {
         softly.assertThat(report.get(1).getMessage())
                 .startsWith("failTest5")
                 .contains("java.lang.AssertionError");
-
+        softly.assertThat(report.getProperty(TOTAL_TESTS)).isEqualTo("6");
+        softly.assertThat(report.getProperty(PASSED_TESTS)).isEqualTo("4");
+        softly.assertThat(report.getProperty(FAILED_TESTS)).isEqualTo("2");
+        softly.assertThat(report.getProperty(SKIPPED_TESTS)).isEqualTo("0");
     }
 
     @Override
@@ -54,5 +60,18 @@ class JUnitAdapterTest extends AbstractParserTest {
                     .startsWith("testThatAll")
                     .contains("nondada");
         }
+    }
+
+    /**
+     * Verifies that skipped tests will be counted.
+     */
+    @Test
+    void shouldCountSkipped() {
+        Report report = parse("junit-skipped.xml");
+        assertThat(report).isEmpty();
+        assertThat(report.getProperty(TOTAL_TESTS)).isEqualTo("5");
+        assertThat(report.getProperty(SKIPPED_TESTS)).isEqualTo("1");
+        assertThat(report.getProperty(PASSED_TESTS)).isEqualTo("4");
+        assertThat(report.getProperty(FAILED_TESTS)).isEqualTo("0");
     }
 }

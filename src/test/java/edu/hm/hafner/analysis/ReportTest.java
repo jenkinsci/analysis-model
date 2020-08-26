@@ -57,6 +57,8 @@ class ReportTest extends SerializableTest<Report> {
             .setSeverity(Severity.WARNING_LOW)
             .build();
     private static final String NO_NAME = "";
+    private static final String VALUE = "value";
+    private static final String KEY = "key";
 
     @Test
     void shouldProvideOriginMappings() {
@@ -335,6 +337,7 @@ class ReportTest extends SerializableTest<Report> {
         expected.logInfo("Hello");
         expected.logInfo("World!");
         expected.logError("Boom!");
+        expected.setProperty(KEY, VALUE);
 
         Report copy = expected.copy();
         assertThat(copy).isEqualTo(expected);
@@ -350,6 +353,10 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(empty.getErrorMessages()).isEqualTo(expected.getErrorMessages());
         assertThat(empty.getInfoMessages()).isEqualTo(expected.getInfoMessages());
         assertThat(empty.getDuplicatesSize()).isEqualTo(expected.getDuplicatesSize());
+        assertThat(empty.getProperty(KEY)).isEqualTo(VALUE);
+        assertThat(empty.hasProperty(KEY)).isTrue();
+        assertThat(empty.getProperty(VALUE)).isEmpty();
+        assertThat(empty.hasProperty(VALUE)).isFalse();
 
         Report filtered = expected.filter(Predicates.alwaysTrue());
         assertThat(filtered).isEqualTo(expected);
