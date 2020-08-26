@@ -846,7 +846,7 @@ public class Report implements Iterable<Issue>, Serializable {
         duplicatesSize = input.readInt();
     }
 
-    @SuppressFBWarnings(value = "OBJECT_DESERIALIZATION")
+    @SuppressFBWarnings("OBJECT_DESERIALIZATION")
     private void readIssues(final ObjectInputStream input, final int size) throws IOException, ClassNotFoundException {
         final TreeStringBuilder builder = new TreeStringBuilder();
         for (int i = 0; i < size; i++) {
