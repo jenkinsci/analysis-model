@@ -6,19 +6,19 @@ updates:
     interval: daily
   open-pull-requests-limit: 10
   ignore:
-  - dependency-name: net.sourceforge.pmd:pmd-core
-    versions:
-    - ">= 6.18.a"
-    - "< 6.19"
-  - dependency-name: net.sourceforge.pmd:pmd-java
-    versions:
-    - ">= 6.18.a"
-    - "< 6.19"
   - dependency-name: org.eclipse.collections:eclipse-collections
     versions:
     - ">= 10.a"
-    - "< 11"
   - dependency-name: org.eclipse.collections:eclipse-collections-api
     versions:
     - ">= 10.a"
-    - "< 11"
+  - dependency-name: org.jenkins-ci.plugins:jackson2-api
+    versions:
+    - "> 2.11.1"
+  - dependency-name: com.fasterxml.jackson.core:jackson-databind
+    versions:
+    - "> 2.11.1"
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "daily"
