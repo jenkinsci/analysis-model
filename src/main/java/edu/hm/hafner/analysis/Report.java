@@ -1,5 +1,8 @@
 package edu.hm.hafner.analysis; // NOPMD
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,6 +36,8 @@ import com.google.errorprone.annotations.FormatMethod;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
+import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -59,12 +64,12 @@ public class Report implements Iterable<Issue>, Serializable {
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
 
-    private final Set<Issue> elements = new LinkedHashSet<>();
-    private final List<String> infoMessages = new ArrayList<>();
-    private final List<String> errorMessages = new ArrayList<>();
+    private Set<Issue> elements = new LinkedHashSet<>();
+    private List<String> infoMessages = new ArrayList<>();
+    private List<String> errorMessages = new ArrayList<>();
     private Map<String, String> properties = new HashMap<>();
 
-    private final Set<String> fileNames = new HashSet<>();
+    private Set<String> fileNames = new HashSet<>();
     private Map<String, String> namesByOrigin = new HashMap<>();
 
     private int duplicatesSize = 0;
@@ -788,6 +793,92 @@ public class Report implements Iterable<Issue>, Serializable {
         result = 31 * result + errorMessages.hashCode();
         result = 31 * result + duplicatesSize;
         return result;
+    }
+
+    private void writeObject(final ObjectOutputStream output) throws IOException {
+        output.writeInt(elements.size());
+        writeIssues(output);
+
+        output.writeObject(infoMessages);
+        output.writeObject(errorMessages);
+        output.writeObject(fileNames);
+        output.writeObject(properties);
+        output.writeObject(namesByOrigin);
+
+        output.writeInt(duplicatesSize);
+    }
+
+    private void writeIssues(final ObjectOutputStream output) throws IOException {
+        for (Issue issue : elements) {
+            output.writeUTF(issue.getPath());
+            output.writeUTF(issue.getFileName());
+            output.writeInt(issue.getLineStart());
+            output.writeInt(issue.getLineEnd());
+            output.writeInt(issue.getColumnStart());
+            output.writeInt(issue.getColumnEnd());
+            output.writeObject(issue.getLineRanges());
+            output.writeUTF(issue.getCategory());
+            output.writeUTF(issue.getType());
+            output.writeUTF(issue.getPackageName());
+            output.writeUTF(issue.getModuleName());
+            output.writeUTF(issue.getSeverity().getName());
+            output.writeUTF(issue.getMessage());
+            output.writeUTF(issue.getDescription());
+            output.writeUTF(issue.getOrigin());
+            output.writeUTF(issue.getReference());
+            output.writeUTF(issue.getFingerprint());
+            output.writeObject(issue.getAdditionalProperties());
+            output.writeObject(issue.getId());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void readObject(final ObjectInputStream input) throws IOException, ClassNotFoundException {
+        elements = new LinkedHashSet<>();
+        readIssues(input, input.readInt());
+
+        infoMessages = (List<String>) input.readObject();
+        errorMessages = (List<String>) input.readObject();
+        fileNames = (Set<String>) input.readObject();
+        properties = (Map<String, String>) input.readObject();
+        namesByOrigin = (Map<String, String>) input.readObject();
+
+        duplicatesSize = input.readInt();
+    }
+
+    private void readIssues(final ObjectInputStream input, final int size) throws IOException, ClassNotFoundException {
+        final TreeStringBuilder builder = new TreeStringBuilder();
+        for (int i = 0; i < size; i++) {
+            String path = input.readUTF();
+            TreeString fileName = builder.intern(input.readUTF());
+            int lineStart = input.readInt();
+            int lineEnd = input.readInt();
+            int columnStart = input.readInt();
+            int columnEnd = input.readInt();
+            LineRangeList lineRanges = (LineRangeList) input.readObject();
+            String category = input.readUTF();
+            String type = input.readUTF();
+            TreeString packageName = builder.intern(input.readUTF());
+            String moduleName = input.readUTF();
+            Severity severity = Severity.valueOf(input.readUTF());
+            TreeString message = builder.intern(input.readUTF());
+            String description = input.readUTF();
+            String origin = input.readUTF();
+            String reference = input.readUTF();
+            String fingerprint = input.readUTF();
+            Serializable additionalProperties = (Serializable) input.readObject();
+            UUID id = (UUID) input.readObject();
+
+            builder.dedup();
+
+            Issue issue = new Issue(path, fileName,
+                    lineStart, lineEnd, columnStart, columnEnd,
+                    lineRanges, category, type, packageName, moduleName,
+                    severity, message, description,
+                    origin, reference, fingerprint, additionalProperties, id);
+
+            elements.add(issue);
+        }
     }
 
     /**

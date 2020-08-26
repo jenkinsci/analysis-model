@@ -747,7 +747,14 @@ class ReportTest extends SerializableTest<Report> {
 
     @Override
     protected Report createSerializable() {
-        return new Report().addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        Report report = new Report().addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        report.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3); // 6 duplicates
+        report.setProperty(KEY, VALUE);
+        report.logInfo("info1");
+        report.logInfo("info2");
+        report.logError("error1");
+        report.logError("error2");
+        return report;
     }
 
     /**
