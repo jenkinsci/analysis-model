@@ -7,6 +7,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+
 /**
  * Tests the class {@link JUnitAdapter}.
  *
@@ -32,7 +34,6 @@ class JUnitAdapterTest extends AbstractParserTest {
         softly.assertThat(report.get(1).getMessage())
                 .startsWith("failTest5")
                 .contains("java.lang.AssertionError");
-
     }
 
     @Override
@@ -54,5 +55,16 @@ class JUnitAdapterTest extends AbstractParserTest {
                     .startsWith("testThatAll")
                     .contains("nondada");
         }
+    }
+
+    /**
+     * Verifies that report of iOS can be parsed.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-63527">Issue 63527</a>
+     */
+    @Test
+    void issue63527() {
+        Report report = parse("report.junit");
+        assertThat(report).hasSize(1);
     }
 }
