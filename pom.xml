@@ -79,6 +79,8 @@
     <json.version>20200518</json.version>
 
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
+
+    <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -220,6 +222,30 @@
               <version>${jmh.version}</version>
             </path>
           </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${build-helper-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>parse-versions-for-release</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+            <configuration>
+              <propertyPrefix>parsedVersion</propertyPrefix>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+          <developmentVersion>${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.0-SNAPSHOT</developmentVersion>
         </configuration>
       </plugin>
       <plugin>
