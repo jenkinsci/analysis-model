@@ -99,7 +99,7 @@ public class CargoCheckParser extends IssueParser {
 
         JSONObject message = object.getJSONObject(MESSAGE);
 
-        if(message.isNull(MESSAGE_CODE)){
+        if (message.isNull(MESSAGE_CODE)) {
             return Optional.empty();
         }
 
