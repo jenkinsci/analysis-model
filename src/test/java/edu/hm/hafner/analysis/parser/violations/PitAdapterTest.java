@@ -1,9 +1,13 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link PitAdapter}.
@@ -32,6 +36,18 @@ class PitAdapterTest extends AbstractParserTest {
                 .hasType("org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator")
                 .hasLineStart(110)
                 .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    /**
+     * Verifies that no false duplicates are reported by the violations lib.
+     *
+     * <a href="https://github.com/tomasbjerre/violations-lib/issues/98" >Issue 98</a>
+     */
+    @Test
+    void shouldNotSkipDuplicates() {
+        Report report = parse("pit-with-duplicates.xml");
+
+        assertThat(report).hasSize(22);
     }
 
     @Override
