@@ -98,6 +98,11 @@ public class CargoCheckParser extends IssueParser {
         }
 
         JSONObject message = object.getJSONObject(MESSAGE);
+
+        if(message.isNull(MESSAGE_CODE)){
+            return Optional.empty();
+        }
+
         JSONObject code = message.getJSONObject(MESSAGE_CODE);
         String category = code.getString(MESSAGE_CODE_CATEGORY);
         String renderedMessage = message.getString(MESSAGE_RENDERED);
