@@ -18,13 +18,13 @@ updates:
       - dependency-name: com.fasterxml.jackson.core:jackson-databind
         versions:
           - "> 2.11.1"
-      - dep: org.jenkinsci.plugins:pipeline-model-definition
+      - dependency-name: org.jenkinsci.plugins:pipeline-model-definition
         versions:
           - "> 1.2"
-      - dep: org.jenkins-ci.plugins.workflow:workflow-basic-steps
+      - dependency-name: org.jenkins-ci.plugins.workflow:workflow-basic-steps
         versions:
           - "> 2.3"
-      - dep: org.jenkins-ci.plugins.workflow:workflow-durable-task-step
+      - dependency-name: org.jenkins-ci.plugins.workflow:workflow-durable-task-step
         versions:
           - "> 2.9"
 
