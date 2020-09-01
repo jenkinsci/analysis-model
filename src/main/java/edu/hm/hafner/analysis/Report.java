@@ -24,7 +24,6 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -667,9 +666,9 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
         destination.namesByOrigin.putAll(source.namesByOrigin);
-        destination.countersByKey
-                = Stream.concat(destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
+        destination.countersByKey = Stream.concat(
+                destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
     }
 
     /**
