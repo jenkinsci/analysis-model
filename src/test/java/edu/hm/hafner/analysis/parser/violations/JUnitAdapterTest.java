@@ -74,4 +74,15 @@ class JUnitAdapterTest extends AbstractParserTest {
         assertThat(report.getCounter(PASSED_TESTS)).isEqualTo(4);
         assertThat(report.getCounter(FAILED_TESTS)).isEqualTo(0);
     }
+
+    /**
+     * Verifies that report of iOS can be parsed.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-63527">Issue 63527</a>
+     */
+    @Test
+    void issue63527() {
+        Report report = parse("report.junit");
+        assertThat(report).hasSize(1);
+    }
 }

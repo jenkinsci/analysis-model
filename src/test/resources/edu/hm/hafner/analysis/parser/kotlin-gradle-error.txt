@@ -1,0 +1,7 @@
+> Configure project :app
+Configuration 'compile' in project ':app' is deprecated. Use 'implementation' instead.
+registerResGeneratingTask is deprecated, use registerGeneratedFolders(FileCollection)
+registerResGeneratingTask is deprecated, use registerGeneratedFolders(FileCollection)
+registerResGeneratingTask is deprecated, use registerGeneratedFolders(FileCollection)
+app: 'annotationProcessor' dependencies won't be recognized as kapt annotation processors. Please change the configuration name to 'kapt' for these artifacts: 'com.android.databinding:compiler:3.0.1'.
+e: /project/app/src/main/java/ui/Activity.kt: (214, 35): Unresolved reference: feth

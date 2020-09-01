@@ -137,6 +137,16 @@ class JavacParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parses an error log written by Gradle containing 1 Kotlin error.
+     */
+    @Test
+    void kotlinGradleError() {
+        Report errors = parse("kotlin-gradle-error.txt");
+
+        assertThat(errors).hasSize(1);
+    }
+
+    /**
      * Verifies that arrays in deprecated methods are correctly handled.
      */
     @Test
