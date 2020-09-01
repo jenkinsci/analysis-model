@@ -1,31 +1,34 @@
 version: 2
 updates:
-- package-ecosystem: maven
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: org.eclipse.collections:eclipse-collections
-    versions:
-    - ">= 10.a"
-  - dependency-name: org.eclipse.collections:eclipse-collections-api
-    versions:
-    - ">= 10.a"
-  - dependency-name: org.jenkins-ci.plugins:jackson2-api
-    versions:
-    - "> 2.11.1"
-  - dependency-name: com.fasterxml.jackson.core:jackson-databind
-    versions:
-    - "> 2.11.1"
-  - dep: org.jenkinsci.plugins:pipeline-model-definition
-    - "> 1.2"
-  - dep: org.jenkins-ci.plugins.workflow:workflow-basic-steps
-    - "> 2.3"
-  - dep: org.jenkins-ci.plugins.workflow:workflow-durable-task-step
-    - "> 2.9"
+  - package-ecosystem: maven
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: org.eclipse.collections:eclipse-collections
+        versions:
+          - ">= 10.a"
+      - dependency-name: org.eclipse.collections:eclipse-collections-api
+        versions:
+          - ">= 10.a"
+      - dependency-name: org.jenkins-ci.plugins:jackson2-api
+        versions:
+          - "> 2.11.1"
+      - dependency-name: com.fasterxml.jackson.core:jackson-databind
+        versions:
+          - "> 2.11.1"
+      - dep: org.jenkinsci.plugins:pipeline-model-definition
+        versions:
+          - "> 1.2"
+      - dep: org.jenkins-ci.plugins.workflow:workflow-basic-steps
+        versions:
+          - "> 2.3"
+      - dep: org.jenkins-ci.plugins.workflow:workflow-durable-task-step
+        versions:
+          - "> 2.9"
 
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: "daily"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
