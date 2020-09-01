@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <relativePath />
   </parent>
 
@@ -54,7 +54,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>8.4.0</revision>
+    <revision>9.0.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
@@ -80,7 +80,6 @@
 
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
 
-    <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -225,12 +224,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <tagNameFormat>v@{project.version}</tagNameFormat>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>io.jenkins.tools.incrementals</groupId>
         <artifactId>incrementals-maven-plugin</artifactId>
         <version>${incrementals-plugin.version}</version>
@@ -322,11 +315,6 @@
         <configuration>
           <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${build-helper-maven-plugin.version}</version>
       </plugin>
     </plugins>
   </build>

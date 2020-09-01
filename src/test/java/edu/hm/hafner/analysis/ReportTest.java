@@ -57,6 +57,8 @@ class ReportTest extends SerializableTest<Report> {
             .setSeverity(Severity.WARNING_LOW)
             .build();
     private static final String NO_NAME = "";
+    private static final int VALUE = 1234;
+    private static final String KEY = "key";
 
     @Test
     void shouldProvideOriginMappings() {
@@ -335,6 +337,7 @@ class ReportTest extends SerializableTest<Report> {
         expected.logInfo("Hello");
         expected.logInfo("World!");
         expected.logError("Boom!");
+        expected.setCounter(KEY, VALUE);
 
         Report copy = expected.copy();
         assertThat(copy).isEqualTo(expected);
@@ -350,10 +353,36 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(empty.getErrorMessages()).isEqualTo(expected.getErrorMessages());
         assertThat(empty.getInfoMessages()).isEqualTo(expected.getInfoMessages());
         assertThat(empty.getDuplicatesSize()).isEqualTo(expected.getDuplicatesSize());
+        assertThat(empty.getCounter(KEY)).isEqualTo(VALUE);
+        assertThat(empty.hasCounter(KEY)).isTrue();
+        assertThat(empty.getCounter("other")).isZero();
+        assertThat(empty.hasCounter("other")).isFalse();
 
         Report filtered = expected.filter(Predicates.alwaysTrue());
         assertThat(filtered).isEqualTo(expected);
         assertThatAllIssuesHaveBeenAdded(filtered);
+    }
+
+    @Test
+    void shouldSumCountersOnMerge() {
+        Report first = new Report();
+        first.addAll(HIGH, NORMAL_1, NORMAL_2);
+        first.addAll(HIGH, NORMAL_1, NORMAL_2); // 3 duplicates
+        first.setCounter(KEY, 10);
+        first.setCounter("one", 100);
+
+        Report second = new Report();
+        second.addAll(LOW_2_A, LOW_2_B);
+        second.addAll(LOW_2_A, LOW_2_B); // 2 duplicates
+        second.setCounter(KEY, 1);
+        first.setCounter("two", 1000);
+
+        first.addAll(second);
+
+        assertThat(first.getDuplicatesSize()).isEqualTo(3 + 2);
+        assertThat(first.getCounter(KEY)).isEqualTo(10 + 1);
+        assertThat(first.getCounter("one")).isEqualTo(100);
+        assertThat(first.getCounter("two")).isEqualTo(1000);
     }
 
     /** Verifies some additional variants of the {@link Report#addAll(Report[])}. */
@@ -740,7 +769,14 @@ class ReportTest extends SerializableTest<Report> {
 
     @Override
     protected Report createSerializable() {
-        return new Report().addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        Report report = new Report().addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        report.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3); // 6 duplicates
+        report.setCounter(KEY, VALUE);
+        report.logInfo("info1");
+        report.logInfo("info2");
+        report.logError("error1");
+        report.logError("error2");
+        return report;
     }
 
     /**

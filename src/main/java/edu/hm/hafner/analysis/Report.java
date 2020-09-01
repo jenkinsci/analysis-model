@@ -1,5 +1,8 @@
 package edu.hm.hafner.analysis; // NOPMD
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -32,6 +36,8 @@ import com.google.errorprone.annotations.FormatMethod;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
+import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -53,16 +59,17 @@ import static java.util.stream.Collectors.*;
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CyclomaticComplexity"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
-    private static final long serialVersionUID = 2L; // release 8.0.0
+    private static final long serialVersionUID = 3L; // release 8.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
 
-    private final Set<Issue> elements = new LinkedHashSet<>();
-    private final List<String> infoMessages = new ArrayList<>();
-    private final List<String> errorMessages = new ArrayList<>();
+    private Set<Issue> elements = new LinkedHashSet<>();
+    private List<String> infoMessages = new ArrayList<>();
+    private List<String> errorMessages = new ArrayList<>();
+    private Map<String, Integer> countersByKey = new HashMap<>();
 
-    private final Set<String> fileNames = new HashSet<>();
+    private Set<String> fileNames = new HashSet<>();
     private Map<String, String> namesByOrigin = new HashMap<>();
 
     private int duplicatesSize = 0;
@@ -199,6 +206,9 @@ public class Report implements Iterable<Issue>, Serializable {
     protected Object readResolve() {
         if (namesByOrigin == null) {
             namesByOrigin = new HashMap<>();
+        }
+        if (countersByKey == null) {
+            countersByKey = new HashMap<>();
         }
 
         return this;
@@ -656,6 +666,9 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
         destination.namesByOrigin.putAll(source.namesByOrigin);
+        destination.countersByKey = Stream.concat(
+                destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
     }
 
     /**
@@ -784,6 +797,93 @@ public class Report implements Iterable<Issue>, Serializable {
         return result;
     }
 
+    private void writeObject(final ObjectOutputStream output) throws IOException {
+        output.writeInt(elements.size());
+        writeIssues(output);
+
+        output.writeObject(infoMessages);
+        output.writeObject(errorMessages);
+        output.writeObject(fileNames);
+        output.writeObject(countersByKey);
+        output.writeObject(namesByOrigin);
+
+        output.writeInt(duplicatesSize);
+    }
+
+    private void writeIssues(final ObjectOutputStream output) throws IOException {
+        for (Issue issue : elements) {
+            output.writeUTF(issue.getPath());
+            output.writeUTF(issue.getFileName());
+            output.writeInt(issue.getLineStart());
+            output.writeInt(issue.getLineEnd());
+            output.writeInt(issue.getColumnStart());
+            output.writeInt(issue.getColumnEnd());
+            output.writeObject(issue.getLineRanges());
+            output.writeUTF(issue.getCategory());
+            output.writeUTF(issue.getType());
+            output.writeUTF(issue.getPackageName());
+            output.writeUTF(issue.getModuleName());
+            output.writeUTF(issue.getSeverity().getName());
+            output.writeUTF(issue.getMessage());
+            output.writeUTF(issue.getDescription());
+            output.writeUTF(issue.getOrigin());
+            output.writeUTF(issue.getReference());
+            output.writeUTF(issue.getFingerprint());
+            output.writeObject(issue.getAdditionalProperties());
+            output.writeObject(issue.getId());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void readObject(final ObjectInputStream input) throws IOException, ClassNotFoundException {
+        elements = new LinkedHashSet<>();
+        readIssues(input, input.readInt());
+
+        infoMessages = (List<String>) input.readObject();
+        errorMessages = (List<String>) input.readObject();
+        fileNames = (Set<String>) input.readObject();
+        countersByKey = (Map<String, Integer>) input.readObject();
+        namesByOrigin = (Map<String, String>) input.readObject();
+
+        duplicatesSize = input.readInt();
+    }
+
+    @SuppressFBWarnings("OBJECT_DESERIALIZATION")
+    private void readIssues(final ObjectInputStream input, final int size) throws IOException, ClassNotFoundException {
+        final TreeStringBuilder builder = new TreeStringBuilder();
+        for (int i = 0; i < size; i++) {
+            String path = input.readUTF();
+            TreeString fileName = builder.intern(input.readUTF());
+            int lineStart = input.readInt();
+            int lineEnd = input.readInt();
+            int columnStart = input.readInt();
+            int columnEnd = input.readInt();
+            LineRangeList lineRanges = (LineRangeList) input.readObject();
+            String category = input.readUTF();
+            String type = input.readUTF();
+            TreeString packageName = builder.intern(input.readUTF());
+            String moduleName = input.readUTF();
+            Severity severity = Severity.valueOf(input.readUTF());
+            TreeString message = builder.intern(input.readUTF());
+            String description = input.readUTF();
+            String origin = input.readUTF();
+            String reference = input.readUTF();
+            String fingerprint = input.readUTF();
+            Serializable additionalProperties = (Serializable) input.readObject();
+            UUID id = (UUID) input.readObject();
+
+            builder.dedup();
+
+            Issue issue = new Issue(path, fileName,
+                    lineStart, lineEnd, columnStart, columnEnd,
+                    lineRanges, category, type, packageName, moduleName,
+                    severity, message, description,
+                    origin, reference, fingerprint, additionalProperties, id);
+
+            elements.add(issue);
+        }
+    }
+
     /**
      * Returns a human readable name for the specified {@code origin} of this report.
      *
@@ -806,6 +906,42 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public void setNameOfOrigin(final String origin, final String name) {
         namesByOrigin.put(origin, name);
+    }
+
+    /**
+     * Sets the specified custom counter for this report.
+     *
+     * @param key
+     *         the unique key for this counter
+     * @param value
+     *         the value to set
+     */
+    public void setCounter(final String key, final int value) {
+        countersByKey.put(Objects.requireNonNull(key), value);
+    }
+
+    /**
+     * Returns the specified custom counter of this report.
+     *
+     * @param key
+     *         the unique key for this counter
+     *
+     * @return the value of the specified counter, or 0 if the counter has not been set or is undefined
+     */
+    public int getCounter(final String key) {
+        return countersByKey.getOrDefault(key, 0);
+    }
+
+    /**
+     * Returns whether the specified custom counter of this report is defined.
+     *
+     * @param key
+     *         the unique key for this counter
+     *
+     * @return {@code true} if the counter has been set, {@code false} otherwise
+     */
+    public boolean hasCounter(final String key) {
+        return countersByKey.containsKey(key);
     }
 
     /**
@@ -1216,7 +1352,7 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
         private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
-            addNewFilter(pattern, issue -> String.format("%s\n%s", issue.getMessage(), issue.getDescription()),
+            addNewFilter(pattern, issue -> String.format("%s%n%s", issue.getMessage(), issue.getDescription()),
                     filterType);
         }
         //</editor-fold>

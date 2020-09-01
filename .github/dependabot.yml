@@ -18,15 +18,24 @@ updates:
       - dependency-name: com.fasterxml.jackson.core:jackson-databind
         versions:
           - "> 2.11.1"
-      - dep: org.jenkinsci.plugins:pipeline-model-definition
+      - dependency-name: org.jenkinsci.plugins:pipeline-model-definition
         versions:
           - "> 1.2"
-      - dep: org.jenkins-ci.plugins.workflow:workflow-basic-steps
+      - dependency-name: org.jenkins-ci.plugins.workflow:workflow-basic-steps
         versions:
           - "> 2.3"
-      - dep: org.jenkins-ci.plugins.workflow:workflow-durable-task-step
+      - dependency-name: org.jenkins-ci.plugins.workflow:workflow-durable-task-step
         versions:
           - "> 2.9"
+      - dependency-name: org.ow2.asm:asm
+        versions:
+          - "> 5.0.4"
+      - dependency-name: org.apache.maven.plugins:maven-surefire-plugin
+        versions:
+          - "3.0.0-M5"
+      - dependency-name: org.apache.maven.plugins:maven-failsafe-plugin
+        versions:
+          - "3.0.0-M5"
 
   - package-ecosystem: "github-actions"
     directory: "/"

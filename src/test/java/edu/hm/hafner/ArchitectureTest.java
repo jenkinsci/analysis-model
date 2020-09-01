@@ -8,7 +8,6 @@ import org.xml.sax.XMLReader;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaCall;
-import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.core.domain.properties.CanBeAnnotated;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -37,22 +36,22 @@ class ArchitectureTest {
                     .orShould().callMethod(DigesterLoader.class, "newDigester");
 
     @ArchTest
-    static final ArchRule NO_PUBLIC_TEST_CLASSES =
-            noClasses().that().haveSimpleNameEndingWith("Test")
-            .and().haveSimpleNameNotContaining("_jmh")
-            .and().doNotHaveModifier(JavaModifier.ABSTRACT)
-            .should().bePublic();
+    static final ArchRule NO_PUBLIC_TEST_CLASSES = ArchitectureRules.NO_PUBLIC_TEST_CLASSES;
 
     @ArchTest
-    static final ArchRule NO_TEST_API_CALLED =
-            noClasses().that().haveSimpleNameNotEndingWith("Test").and().haveSimpleNameNotContaining("Benchmark")
-            .should().callCodeUnitWhere(new AccessRestrictedToTests());
+    static final ArchRule NO_TEST_API_CALLED = ArchitectureRules.NO_TEST_API_CALLED;
 
     @ArchTest
     static final ArchRule NO_FORBIDDEN_PACKAGE_ACCESSED = ArchitectureRules.NO_FORBIDDEN_PACKAGE_ACCESSED;
 
     @ArchTest
     static final ArchRule NO_FORBIDDEN_CLASSES_CALLED = ArchitectureRules.NO_FORBIDDEN_CLASSES_CALLED;
+
+    @ArchTest
+    static final ArchRule NO_FORBIDDEN_ANNOTATION_USED = ArchitectureRules.NO_FORBIDDEN_ANNOTATION_USED;
+
+    @ArchTest
+    static final ArchRule READ_RESOLVE_SHOULD_BE_PROTECTED = ArchitectureRules.READ_RESOLVE_SHOULD_BE_PROTECTED;
 
     /**
      * Matches if a call from outside the defining class uses a method or constructor annotated with {@link
