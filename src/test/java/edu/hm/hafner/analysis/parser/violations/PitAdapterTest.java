@@ -34,10 +34,10 @@ class PitAdapterTest extends AbstractParserTest {
                 .hasType("VoidMethodCallMutator")
                 .hasLineStart(110)
                 .hasSeverity(Severity.WARNING_HIGH);
-        softly.assertThat(report.getProperty(TOTAL_MUTATIONS)).isEqualTo("3");
-        softly.assertThat(report.getProperty(KILLED_MUTATIONS)).isEqualTo("1");
-        softly.assertThat(report.getProperty(UNCOVERED_MUTATIONS)).isEqualTo("1");
-        softly.assertThat(report.getProperty(SURVIVED_MUTATIONS)).isEqualTo("1");
+        softly.assertThat(report.getCounter(TOTAL_MUTATIONS)).isEqualTo(3);
+        softly.assertThat(report.getCounter(KILLED_MUTATIONS)).isEqualTo(1);
+        softly.assertThat(report.getCounter(UNCOVERED_MUTATIONS)).isEqualTo(1);
+        softly.assertThat(report.getCounter(SURVIVED_MUTATIONS)).isEqualTo(1);
     }
 
     @Override

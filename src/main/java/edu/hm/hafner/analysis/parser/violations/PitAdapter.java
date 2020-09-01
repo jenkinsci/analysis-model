@@ -62,10 +62,10 @@ public class PitAdapter extends AbstractViolationAdapter {
         int noCoverage = issuesByCategory.getOrDefault(NO_COVERAGE, 0);
         int survived = issuesByCategory.getOrDefault(SURVIVED, 0);
 
-        report.setProperty(TOTAL_MUTATIONS, String.valueOf(total));
-        report.setProperty(UNCOVERED_MUTATIONS, String.valueOf(noCoverage));
-        report.setProperty(SURVIVED_MUTATIONS, String.valueOf(survived));
-        report.setProperty(KILLED_MUTATIONS, String.valueOf(total - noCoverage - survived));
+        report.setCounter(TOTAL_MUTATIONS, total);
+        report.setCounter(UNCOVERED_MUTATIONS, noCoverage);
+        report.setCounter(SURVIVED_MUTATIONS, survived);
+        report.setCounter(KILLED_MUTATIONS, total - noCoverage - survived);
     }
 
     @Override

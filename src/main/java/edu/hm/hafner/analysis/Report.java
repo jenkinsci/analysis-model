@@ -24,6 +24,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -67,7 +68,7 @@ public class Report implements Iterable<Issue>, Serializable {
     private Set<Issue> elements = new LinkedHashSet<>();
     private List<String> infoMessages = new ArrayList<>();
     private List<String> errorMessages = new ArrayList<>();
-    private Map<String, String> properties = new HashMap<>();
+    private Map<String, Integer> countersByKey = new HashMap<>();
 
     private Set<String> fileNames = new HashSet<>();
     private Map<String, String> namesByOrigin = new HashMap<>();
@@ -207,8 +208,8 @@ public class Report implements Iterable<Issue>, Serializable {
         if (namesByOrigin == null) {
             namesByOrigin = new HashMap<>();
         }
-        if (properties == null) {
-            properties = new HashMap<>();
+        if (countersByKey == null) {
+            countersByKey = new HashMap<>();
         }
 
         return this;
@@ -666,7 +667,9 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
         destination.namesByOrigin.putAll(source.namesByOrigin);
-        destination.properties.putAll(source.properties);
+        destination.countersByKey
+                = Stream.concat(destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
     }
 
     /**
@@ -802,7 +805,7 @@ public class Report implements Iterable<Issue>, Serializable {
         output.writeObject(infoMessages);
         output.writeObject(errorMessages);
         output.writeObject(fileNames);
-        output.writeObject(properties);
+        output.writeObject(countersByKey);
         output.writeObject(namesByOrigin);
 
         output.writeInt(duplicatesSize);
@@ -840,7 +843,7 @@ public class Report implements Iterable<Issue>, Serializable {
         infoMessages = (List<String>) input.readObject();
         errorMessages = (List<String>) input.readObject();
         fileNames = (Set<String>) input.readObject();
-        properties = (Map<String, String>) input.readObject();
+        countersByKey = (Map<String, Integer>) input.readObject();
         namesByOrigin = (Map<String, String>) input.readObject();
 
         duplicatesSize = input.readInt();
@@ -907,39 +910,39 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Sets the specified property for this report.
+     * Sets the specified custom counter for this report.
      *
      * @param key
-     *         the unique key for this property
+     *         the unique key for this counter
      * @param value
      *         the value to set
      */
-    public void setProperty(final String key, final String value) {
-        properties.put(Objects.requireNonNull(key), Objects.requireNonNull(value));
+    public void setCounter(final String key, final int value) {
+        countersByKey.put(Objects.requireNonNull(key), value);
     }
 
     /**
-     * Returns the specified property of this report.
+     * Returns the specified custom counter of this report.
      *
      * @param key
-     *         the unique key for this property
+     *         the unique key for this counter
      *
-     * @return the value of the specified property, or an empty string if the property has not been set
+     * @return the value of the specified counter, or 0 if the counter has not been set or is undefined
      */
-    public String getProperty(final String key) {
-        return properties.getOrDefault(key, StringUtils.EMPTY);
+    public int getCounter(final String key) {
+        return countersByKey.getOrDefault(key, 0);
     }
 
     /**
-     * Returns whether the specified property of this report has been set.
+     * Returns whether the specified custom counter of this report is defined.
      *
      * @param key
-     *         the unique key for this property
+     *         the unique key for this counter
      *
-     * @return {@code true} if the property has been set, {@code false} otherwise
+     * @return {@code true} if the counter has been set, {@code false} otherwise
      */
-    public boolean hasProperty(final String key) {
-        return properties.containsKey(key);
+    public boolean hasCounter(final String key) {
+        return countersByKey.containsKey(key);
     }
 
     /**

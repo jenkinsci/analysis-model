@@ -32,18 +32,18 @@ public class JUnitAdapter extends AbstractViolationAdapter {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
         Report report = super.parse(readerFactory);
-        long total = count(readerFactory, "<testcase");
-        report.setProperty(TOTAL_TESTS, String.valueOf(total));
-        long skipped = count(readerFactory, "<skipped");
-        report.setProperty(SKIPPED_TESTS, String.valueOf(skipped));
-        report.setProperty(FAILED_TESTS, String.valueOf(report.size()));
-        report.setProperty(PASSED_TESTS, String.valueOf(total - skipped - report.size()));
+        int total = count(readerFactory, "<testcase");
+        report.setCounter(TOTAL_TESTS, total);
+        int skipped = count(readerFactory, "<skipped");
+        report.setCounter(SKIPPED_TESTS, skipped);
+        report.setCounter(FAILED_TESTS, report.size());
+        report.setCounter(PASSED_TESTS, total - skipped - report.size());
         return report;
     }
 
-    private long count(final ReaderFactory readerFactory, final String text) {
-        return readerFactory.readStream()
+    private int count(final ReaderFactory readerFactory, final String text) {
+        return Math.toIntExact(readerFactory.readStream()
                 .filter(line -> line.contains(text))
-                .count();
+                .count());
     }
 }
