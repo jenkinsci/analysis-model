@@ -16,6 +16,13 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
+/**
+ * A parser for Brakeman JSON output.
+ * <p>
+ * See <a href='https://brakemanscanner.org'>Brakeman</a> for project details.
+ *
+ * @author Justin Collins
+ */
 public class BrakemanParser extends IssueParser {
     private static final long serialVersionUID = 1374428573878091300L;
 
@@ -41,22 +48,22 @@ public class BrakemanParser extends IssueParser {
         return report;
     }
 
-    private Issue convertToIssue(JSONObject warning) throws JSONException {
+    private Issue convertToIssue(final JSONObject warning) throws JSONException {
         String fileName = warning.getString("file");
         String category = warning.getString("warning_type");
         Severity severity = getSeverity(warning.getString("confidence"));
         String fingerprint = warning.getString("fingerprint");
-        String warning_type = warning.getString("check_name");
+        String warningType = warning.getString("check_name");
         StringBuilder message = new StringBuilder();
         message.append(warning.getString("message"));
 
-        if(warning.has("code")) {
+        if (warning.has("code")) {
             String code = warning.optString("code", "");
 
-            if(!code.isEmpty()) {
+            if (!code.isEmpty()) {
                 message.
-                    append(": ").
-                    append(warning.getString("code"));
+                        append(": ").
+                        append(warning.getString("code"));
             }
         }
 
@@ -65,7 +72,7 @@ public class BrakemanParser extends IssueParser {
         return new IssueBuilder()
             .setMessage(message.toString())
             .setCategory(category)
-            .setType(warning_type)
+            .setType(warningType)
             .setSeverity(severity)
             .setFileName(fileName)
             .setLineStart(line)
@@ -73,12 +80,14 @@ public class BrakemanParser extends IssueParser {
             .build();
     }
 
-    private Severity getSeverity(String confidence) {
+    private Severity getSeverity(final String confidence) {
         if ("Medium".equalsIgnoreCase(confidence)) {
             return Severity.WARNING_NORMAL;
-        } else if ("High".equalsIgnoreCase(confidence)) {
+        }
+        else if ("High".equalsIgnoreCase(confidence)) {
             return Severity.WARNING_HIGH;
-        } else if ("Weak".equalsIgnoreCase(confidence)) {
+        }
+        else if ("Weak".equalsIgnoreCase(confidence)) {
             return Severity.WARNING_LOW;
         }
         else {
