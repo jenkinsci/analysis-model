@@ -43,9 +43,9 @@ class BrakemanParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(10))
                 .hasMessage(
-                    "Directory traversal vulnerability in " +
-                    "actionpack-page_caching 1.2.0 (CVE-2020-8159). Upgrade " +
-                    "to actionpack-page_caching 1.2.2")
+                    "Directory traversal vulnerability in "
+                    + "actionpack-page_caching 1.2.0 (CVE-2020-8159). Upgrade "
+                    + "to actionpack-page_caching 1.2.2")
                 .hasCategory("Directory Traversal")
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasType("PageCachingCVE")
