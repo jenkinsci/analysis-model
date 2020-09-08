@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -10,13 +10,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 @SuppressWarnings("PMD.DataClass")
 public class Fragment {
-    @Nullable
+    @CheckForNull
     private String fileName;
-    @Nullable
+    @CheckForNull
     private String text;
-    @Nullable
+    @CheckForNull
     private Range lineRange;
-    @Nullable
+    @CheckForNull
     private Range offsetRange;
 
     /**
@@ -24,7 +24,7 @@ public class Fragment {
      *
      * @return the path of this file
      */
-    @Nullable
+    @CheckForNull
     public String getFileName() {
         return fileName;
     }
@@ -35,7 +35,7 @@ public class Fragment {
      * @param fileName the value to set
      */
     @SuppressFBWarnings("NM")
-    public void setFileName(final String fileName) {
+    public void setFileName(@CheckForNull final String fileName) {
         this.fileName = fileName;
     }
 
@@ -44,7 +44,7 @@ public class Fragment {
      *
      * @return the text
      */
-    @Nullable
+    @CheckForNull
     public String getText() {
         return text;
     }
@@ -54,7 +54,7 @@ public class Fragment {
      *
      * @param text the value to set
      */
-    public void setText(final String text) {
+    public void setText(@CheckForNull final String text) {
         this.text = text;
     }
 
@@ -76,7 +76,7 @@ public class Fragment {
      *
      * @param lineRange the value to set
      */
-    public void setLineRange(final Range lineRange) {
+    public void setLineRange(@CheckForNull final Range lineRange) {
         this.lineRange = lineRange;
     }
 
@@ -85,7 +85,7 @@ public class Fragment {
      *
      * @return the offset range
      */
-    @Nullable
+    @CheckForNull
     public Range getOffsetRange() {
         return offsetRange;
     }
@@ -96,7 +96,7 @@ public class Fragment {
      *
      * @param offsetRange the value to set
      */
-    public void setOffsetRange(final Range offsetRange) {
+    public void setOffsetRange(@CheckForNull final Range offsetRange) {
         this.offsetRange = offsetRange;
     }
 }

@@ -29,7 +29,7 @@ import edu.umd.cs.findbugs.BugInstance;
 import edu.umd.cs.findbugs.Project;
 import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
 
@@ -312,16 +312,16 @@ public class FindBugsParser extends IssueParser {
      */
     @SuppressWarnings("all")
     public static class XmlBugInstance {
-        @Nullable
+        @CheckForNull
         private String instanceHash;
-        @Nullable
+        @CheckForNull
         private String message;
-        @Nullable
+        @CheckForNull
         private String type;
-        @Nullable
+        @CheckForNull
         private String category;
 
-        @Nullable
+        @CheckForNull
         public String getInstanceHash() {
             return instanceHash;
         }
@@ -330,7 +330,7 @@ public class FindBugsParser extends IssueParser {
             this.instanceHash = instanceHash;
         }
 
-        @Nullable
+        @CheckForNull
         public String getMessage() {
             return message;
         }
@@ -339,7 +339,7 @@ public class FindBugsParser extends IssueParser {
             this.message = message;
         }
 
-        @Nullable
+        @CheckForNull
         public String getType() {
             return type;
         }
@@ -348,7 +348,7 @@ public class FindBugsParser extends IssueParser {
             this.type = type;
         }
 
-        @Nullable
+        @CheckForNull
         public String getCategory() {
             return category;
         }

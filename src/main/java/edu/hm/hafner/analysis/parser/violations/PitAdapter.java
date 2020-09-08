@@ -1,8 +1,14 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
@@ -15,8 +21,21 @@ import se.bjurr.violations.lib.parsers.PiTestParser;
  */
 public class PitAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = -7811207963029906228L;
+
     private static final String STATUS = "status";
-    private static final String DETECTED = "detected";
+    private static final String SURVIVED = "SURVIVED";
+    private static final String NO_COVERAGE = "NO_COVERAGE";
+    private static final String KILLED = "KILLED";
+    private static final String MUTATORS_PACKAGE = "org.pitest.mutationtest.engine.gregor.mutators.";
+
+    /** Report property key to obtain the total number of mutations. */
+    public static final String TOTAL_MUTATIONS = "totalMutations";
+    /** Report property key to obtain the number of killed mutations. */
+    public static final String KILLED_MUTATIONS = "killedMutations";
+    /** Report property key to obtain the number of killed mutations. */
+    public static final String UNCOVERED_MUTATIONS = "uncoveredMutations";
+    /** Report property key to obtain the number of killed mutations. */
+    public static final String SURVIVED_MUTATIONS = "survivedMutations";
 
     @Override
     PiTestParser createParser() {
@@ -25,21 +44,37 @@ public class PitAdapter extends AbstractViolationAdapter {
 
     @Override
     boolean isValid(final Violation violation) {
-        return "false".equals(getSpecifics(violation, DETECTED));
+        return !KILLED.equals(getMutationStatus(violation));
     }
 
     @Override
     Severity convertSeverity(final SEVERITY severity, final Violation violation) {
-        return "SURVIVED".equals(getSpecifics(violation, STATUS)) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
+        if (SURVIVED.equals(getMutationStatus(violation))) {
+            return Severity.WARNING_NORMAL;
+        }
+        return Severity.WARNING_HIGH; // not covered
     }
 
-    @Nullable
-    private String getSpecifics(final Violation violation, final String key) {
-        return violation.getSpecifics().get(key);
+    @Override
+    void postProcess(final Report report, final Set<Violation> violations) {
+        int total = violations.size();
+        Map<String, Integer> issuesByCategory = report.getPropertyCount(Issue::getCategory);
+        int noCoverage = issuesByCategory.getOrDefault(NO_COVERAGE, 0);
+        int survived = issuesByCategory.getOrDefault(SURVIVED, 0);
+
+        report.setCounter(TOTAL_MUTATIONS, total);
+        report.setCounter(UNCOVERED_MUTATIONS, noCoverage);
+        report.setCounter(SURVIVED_MUTATIONS, survived);
+        report.setCounter(KILLED_MUTATIONS, total - noCoverage - survived);
     }
 
     @Override
     void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
-        builder.setCategory(getSpecifics(violation, STATUS));
+        builder.setCategory(getMutationStatus(violation));
+        builder.setType(StringUtils.removeStart(violation.getRule(), MUTATORS_PACKAGE));
+    }
+
+    private String getMutationStatus(final Violation violation) {
+        return violation.getSpecifics().getOrDefault(PitAdapter.STATUS, KILLED);
     }
 }

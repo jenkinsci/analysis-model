@@ -18,7 +18,7 @@ class ZptLintAdapterTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(2);
-        softly.assertThat(report.get(0))
+        softly.assertThat(report.get(1))
                 .hasMessage("abc def ghe '\" 123")
                 .hasFileName("cpplint.py")
                 .hasLineStart(4796)

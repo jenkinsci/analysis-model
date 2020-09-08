@@ -1,0 +1,5 @@
+package		edu.hm.kersting // Test
+
+ class HelloWorld {
+       fun main() = println("Hello World")
+}

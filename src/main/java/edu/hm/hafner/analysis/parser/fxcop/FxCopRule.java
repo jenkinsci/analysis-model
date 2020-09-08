@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Internal model for a FxCop rule.
@@ -12,11 +12,11 @@ public class FxCopRule {
     private final String typeName;
     private final String category;
     private final String checkId;
-    @Nullable
+    @CheckForNull
     private String name;
-    @Nullable
+    @CheckForNull
     private String url;
-    @Nullable
+    @CheckForNull
     private String description;
 
     public FxCopRule(final String typeName, final String category, final String checkId) {
@@ -25,7 +25,7 @@ public class FxCopRule {
         this.checkId = checkId;
     }
 
-    @Nullable
+    @CheckForNull
     public String getName() {
         return name;
     }
@@ -34,7 +34,7 @@ public class FxCopRule {
         this.name = name;
     }
 
-    @Nullable
+    @CheckForNull
     public String getUrl() {
         return url;
     }
@@ -43,7 +43,7 @@ public class FxCopRule {
         this.url = url;
     }
 
-    @Nullable
+    @CheckForNull
     public String getDescription() {
         return description;
     }

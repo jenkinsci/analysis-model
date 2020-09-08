@@ -118,6 +118,7 @@ public class RfLintParser extends IssueParser {
         TRAILING_WHITESPACE(RfLintCategory.OTHER),
         UNKNOWN(RfLintCategory.CUSTOM);
 
+        private static final boolean CAPITALIZE_FIRST_LETTER = true;
         private final RfLintCategory category;
 
         RfLintRuleName(final RfLintCategory category) {
@@ -138,7 +139,7 @@ public class RfLintParser extends IssueParser {
          */
         public static RfLintRuleName fromName(final String name) {
             for (RfLintRuleName rule : values()) {
-                if (CaseUtils.toCamelCase(rule.name(), true, '_').equals(name)) {
+                if (CaseUtils.toCamelCase(rule.name(), CAPITALIZE_FIRST_LETTER, '_').equals(name)) {
                     return rule;
                 }
             }

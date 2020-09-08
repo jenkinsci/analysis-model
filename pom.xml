@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>1.1.1</version>
+    <version>1.5.0</version>
     <relativePath />
   </parent>
 
@@ -54,30 +54,32 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>8.1.4</revision>
+    <revision>9.0.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <incrementals-plugin.version>1.1</incrementals-plugin.version>
+    <incrementals-plugin.version>1.2</incrementals-plugin.version>
 
     <module.name>${project.groupId}.analysis.model</module.name>
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.library.version>1.1.0</codingstyle.library.version>
-    <commons.lang.version>3.10</commons.lang.version>
+    <codingstyle.library.version>${codingstyle.config.version}</codingstyle.library.version>
+    <jmh.version>1.25.2</jmh.version>
+    <commons.lang.version>3.11</commons.lang.version>
     <commons.io.version>2.7</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
-    <commons.text.version>1.8</commons.text.version>
+    <commons.text.version>1.9</commons.text.version>
     <eclipse-collections.version>9.2.0</eclipse-collections.version>
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>1.7.30</slf4j.version>
-    <violations-lib.version>1.117</violations-lib.version>
+    <violations-lib.version>1.127</violations-lib.version>
     <json.version>20200518</json.version>
 
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
+
   </properties>
 
   <dependencies>
@@ -158,6 +160,19 @@
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-core</artifactId>
+      <version>${jmh.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-generator-annprocess</artifactId>
+      <version>${jmh.version}</version>
+      <scope>test</scope>
+    </dependency>
+
 
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -193,6 +208,22 @@
 
     <plugins>
       <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <compilerArgs combine.children="append">
+            <arg>-XepExcludedPaths:.*/generated-test-sources/.*</arg>
+          </compilerArgs>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.openjdk.jmh</groupId>
+              <artifactId>jmh-generator-annprocess</artifactId>
+              <version>${jmh.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>io.jenkins.tools.incrementals</groupId>
         <artifactId>incrementals-maven-plugin</artifactId>
         <version>${incrementals-plugin.version}</version>
@@ -216,6 +247,7 @@
           <excludes>
             <exclude>.*SecureDigester</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
+            <exclude>edu.hm.hafner.analysis.PackageDetectors.*</exclude>
           </excludes>
           <entryPointClassPackage>edu.hm.hafner.analysis.assertions</entryPointClassPackage>
         </configuration>
@@ -262,6 +294,16 @@
                 <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
                 <justification>Nobody should rely on these constants.</justification>
               </item>
+              <item>
+                <code>java.annotation.removed</code>
+                <annotation>@edu.umd.cs.findbugs.annotations.Nullable</annotation>
+                <justification>Annotation should be save to change.</justification>
+              </item>
+              <item>
+                <code>java.annotation.added</code>
+                <annotation>@edu.umd.cs.findbugs.annotations.CheckForNull</annotation>
+                <justification>Annotation should be save to change.</justification>
+              </item>
             </revapi.ignore>
           </analysisConfiguration>
         </configuration>
@@ -285,7 +327,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>flatten-maven-plugin</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.5</version>
             <configuration>
               <updatePomFile>true</updatePomFile>
             </configuration>
@@ -327,7 +369,7 @@
               <dependency>
                 <groupId>io.jenkins.tools.incrementals</groupId>
                 <artifactId>incrementals-enforcer-rules</artifactId>
-                <version>1.1</version>
+                <version>1.2</version>
               </dependency>
             </dependencies>
           </plugin>
@@ -380,6 +422,25 @@
                 </goals>
               </execution>
             </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>benchmark</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <exclude>**/*Test.java</exclude>
+              </excludes>
+              <includes>
+                <include>**/*Benchmark.java</include>
+              </includes>
+            </configuration>
           </plugin>
         </plugins>
       </build>

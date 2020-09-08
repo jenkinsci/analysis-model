@@ -1,10 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
@@ -80,21 +78,6 @@ class IarParserTest extends AbstractParserTest {
                 .hasLineEnd(861)
                 .hasMessage("function \"FlashErase\" was declared but never referenced")
                 .hasFileName("D:/jenkins/workspace/Nightly/src/flash/flashdrv.c");
-    }
-
-    /**
-     * Parses a warning log with IAR ARM warnings in UTF_16LE.
-     *
-     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-58159">Issue 58159</a>
-     */
-    @Test
-    @Disabled("See JENKINS-58159 - Windows does not find all warnings - is the report file corrupt?")
-    void issue58159Utf16() {
-        Report warnings = createParser().parse(
-                new FileReaderFactory(getResourceAsFile("issue58159.txt"), StandardCharsets.UTF_16LE));
-
-        String collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
-        assertThat(warnings).as(collect).hasDuplicatesSize(4).hasSize(61);
     }
 
     /**

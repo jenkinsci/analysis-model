@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.pmd;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -10,38 +10,38 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "PMD.DataClass"})
 public class PmdError {
-    @Nullable
+    @CheckForNull
     private String filename;
-    @Nullable
+    @CheckForNull
     private String msg;
-    @Nullable
+    @CheckForNull
     private String description;
 
-    @Nullable
+    @CheckForNull
     public String getFilename() {
         return filename;
     }
 
     @SuppressFBWarnings("NM")
-    public void setFilename(@Nullable final String filename) {
+    public void setFilename(@CheckForNull final String filename) {
         this.filename = filename;
     }
 
-    @Nullable
+    @CheckForNull
     public String getMsg() {
         return msg;
     }
 
-    public void setMsg(@Nullable final String msg) {
+    public void setMsg(@CheckForNull final String msg) {
         this.msg = msg;
     }
 
-    @Nullable
+    @CheckForNull
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(@Nullable final String description) {
+    public void setDescription(@CheckForNull final String description) {
         this.description = description;
     }
 }

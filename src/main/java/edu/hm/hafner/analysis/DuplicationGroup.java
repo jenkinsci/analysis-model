@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Links all affected files of a duplicated code fragment. A code duplication could be reported by a code duplication
@@ -24,7 +24,7 @@ public final class DuplicationGroup implements Serializable {
      * @param codeFragment
      *         the copied code fragment
      */
-    public DuplicationGroup(@Nullable final String codeFragment) {
+    public DuplicationGroup(@CheckForNull final String codeFragment) {
         setCodeFragment(codeFragment);
     }
 
@@ -43,7 +43,7 @@ public final class DuplicationGroup implements Serializable {
      *         the copied code fragment
      */
     @SuppressWarnings("InstanceVariableUsedBeforeInitialized")
-    public void setCodeFragment(@Nullable final String codeFragment) {
+    public void setCodeFragment(@CheckForNull final String codeFragment) {
         if (StringUtils.isBlank(this.codeFragment)) {
             this.codeFragment = StringUtils.defaultString(codeFragment);
         }

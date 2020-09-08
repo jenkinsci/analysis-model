@@ -25,7 +25,7 @@ public class JavacParser extends LookaheadParser {
     private static final String JAVAC_WARNING_PATTERN
             = "^(?:\\S+\\s+)?"                // optional preceding arbitrary number of characters that are not a
                                               // whitespace followed by whitespace. This can be used for timestamps.
-            + "(?:(?:\\[(WARNING|ERROR)\\]|w:)\\s+)" // optional [WARNING] or [ERROR] or w:
+            + "(?:(?:\\[(WARNING|ERROR)\\]|w:|e:)\\s+)" // optional [WARNING] or [ERROR] or w: or e:
             + "([^\\[\\(]*):\\s*"             // group 1: filename
             + "[\\[\\(]"                      // [ or (
             + "(\\d+)[.,;]*"                  // group 2: line number
@@ -34,6 +34,9 @@ public class JavacParser extends LookaheadParser {
             + ":?"                            // optional :
             + "(?:\\[(\\w+)\\])?"             // group 4: optional category
             + "\\s*(.*)$";                    // group 5: message
+
+    private static final String SEVERITY_ERROR = "ERROR";
+    private static final String SEVERITY_ERROR_SHORT = "e:";
 
     /**
      * Creates a new instance of {@link JavacParser}.
@@ -44,7 +47,7 @@ public class JavacParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("[") || line.contains("w:");
+        return line.contains("[") || line.contains("w:") || line.contains("e:");
     }
 
     @Override
@@ -55,7 +58,7 @@ public class JavacParser extends LookaheadParser {
         }
 
         String type = matcher.group(1);
-        if ("ERROR".equals(type)) {
+        if (SEVERITY_ERROR.equals(type) || SEVERITY_ERROR_SHORT.equals(type)) {
             builder.setSeverity(Severity.ERROR);
         }
         else {
