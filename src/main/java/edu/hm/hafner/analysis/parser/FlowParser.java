@@ -1,5 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Optional;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -7,11 +16,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import java.io.IOException;
-import java.io.Reader;
 
 /**
  * A parser for Flow warnings.
@@ -21,51 +25,35 @@ import java.io.Reader;
 public class FlowParser extends IssueParser {
     private static final long serialVersionUID = 2379734578953758L;
 
-    /** The flow report is passed or not */
+    /** Determines whether the flow report has been passed or not. */
     private static final String FLOW_PASSED = "passed";
     /** The issues array. */
     private static final String ISSUES = "errors";
-    /** flowVersion attribute. */
-    private static final String FLOW_VERSION = "flowVersion";
 
-    /** issue.message attribute. */
+    private static final String FLOW_VERSION = "flowVersion";
     private static final String ISSUE_MESSAGE = "message";
-    /** issue.level attribute. */
     private static final String ISSUE_LEVEL = "level";
-    /** issue.kind attribute. */
     private static final String ISSUE_KIND = "kind";
 
-    /** message.path attribute. */
     private static final String MESSAGE_PATH = "path";
-    /** message.descr attribute. */
     private static final String MESSAGE_DESCR = "descr";
-    /** message.line attribute. */
     private static final String MESSAGE_LINE_START = "line";
-    /** message.endLine attribute. */
     private static final String MESSAGE_LINE_END = "endLine";
-    /** message.start attribute. */
     private static final String MESSAGE_COLUMN_START = "start";
-    /** message.end attribute. */
     private static final String MESSAGE_COLUMN_END = "end";
 
-    /** level value: error. */
     private static final String LEVEL_ERROR = "error";
-    /** level value: warning. */
     private static final String LEVEL_WARNING = "warning";
-
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
         try (Reader reader = readerFactory.create()) {
-            return accepts((JSONObject) new JSONTokener(reader).nextValue());
+            Object value = new JSONTokener(reader).nextValue();
+            return value instanceof JSONObject && ((JSONObject) value).has(FLOW_VERSION);
         }
-        catch (IOException ignored) {
+        catch (IOException | JSONException ignored) {
             return false;
         }
-    }
-
-    protected boolean accepts(final JSONObject object) {
-        return object.has(FLOW_VERSION);
     }
 
     @Override
@@ -79,20 +67,18 @@ public class FlowParser extends IssueParser {
 
             return new Report();
         }
-        catch (IOException e) {
+        catch (IOException | JSONException e) {
             throw new ParsingException(e);
         }
     }
 
     private Report extractIssues(final JSONArray elements) {
         Report report = new Report();
-        for (Object object: elements) {
+        for (Object object : elements) {
             if (object instanceof JSONObject) {
                 JSONObject issue = (JSONObject) object;
-                JSONObject message = findFirstMessage(issue);
-                if (message != null) {
-                    report.add(createIssueFromJsonObject(issue, message));
-                }
+                findFirstMessage(issue).ifPresent(
+                        jsonObject -> report.add(createIssueFromJsonObject(issue, jsonObject)));
             }
         }
         return report;
@@ -101,17 +87,18 @@ public class FlowParser extends IssueParser {
     /**
      * Find the first message of issue.
      *
-     * @param issue the object to find the message from.
+     * @param issue
+     *         the object to find the message from.
      *
      * @return first message
      */
-    private JSONObject findFirstMessage(final JSONObject issue) {
+    private Optional<JSONObject> findFirstMessage(final JSONObject issue) {
         JSONArray message = issue.optJSONArray(ISSUE_MESSAGE);
         if (message == null) {
-            return null;
+            return Optional.empty();
         }
 
-        return message.optJSONObject(0);
+        return Optional.ofNullable(message.optJSONObject(0));
     }
 
     private Issue createIssueFromJsonObject(final JSONObject issue, final JSONObject message) {
@@ -130,62 +117,65 @@ public class FlowParser extends IssueParser {
     /**
      * Parse function for severity.
      *
-     * @param issue the object to parse.
+     * @param issue
+     *         the object to parse.
      *
      * @return the severity.
      */
     private Severity parseSeverity(final JSONObject issue) {
-        String str = issue.optString(ISSUE_LEVEL, null);
-        Severity severity = Severity.WARNING_NORMAL;
-
-        if (str != null) {
-            if (LEVEL_ERROR.equals(str)) {
-                severity = Severity.ERROR;
-            } else if (LEVEL_WARNING.equals(str)) {
-                severity = Severity.WARNING_NORMAL;
-            }
+        String level = issue.optString(ISSUE_LEVEL);
+        if (LEVEL_ERROR.equals(level)) {
+            return Severity.ERROR;
         }
-        return severity;
+        if (LEVEL_WARNING.equals(level)) {
+            return Severity.WARNING_NORMAL;
+        }
+        return Severity.WARNING_NORMAL;
     }
 
     /**
      * Parse function for type.
      *
-     * @param issue the object to parse.
+     * @param issue
+     *         the object to parse.
      *
      * @return the type.
      */
     private String parseType(final JSONObject issue) {
-        return issue.optString(ISSUE_KIND, "");
+        return issue.optString(ISSUE_KIND);
     }
 
     /**
      * Parse function for filename from message.
      *
-     * @param message the object to parse.
+     * @param message
+     *         the object to parse.
      *
      * @return the filename.
      */
     private String parseFileNameFromMessage(final JSONObject message) {
-        return message.optString(MESSAGE_PATH, "");
+        return message.optString(MESSAGE_PATH);
     }
 
     /**
      * Parse function for message from message.
      *
-     * @param message the object to parse.
+     * @param message
+     *         the object to parse.
      *
      * @return the message.
      */
     private String parseMessageFromMessage(final JSONObject message) {
-        return message.optString(MESSAGE_DESCR, "");
+        return message.optString(MESSAGE_DESCR);
     }
 
     /**
      * Parse function for locations from message.
      *
-     * @param message the object to parse.
-     * @param key the attribute name of location
+     * @param message
+     *         the object to parse.
+     * @param key
+     *         the attribute name of location
      *
      * @return the attribute of location.
      */
