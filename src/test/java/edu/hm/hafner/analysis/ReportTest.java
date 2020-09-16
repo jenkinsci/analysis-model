@@ -790,6 +790,25 @@ class ReportTest extends SerializableTest<Report> {
         assertThatSerializableCanBeRestoredFrom(restored);
     }
 
+    @Test
+    void shouldWriteLongMessages() {
+        Report report = new Report();
+        IssueBuilder builder = new IssueBuilder();
+
+        report.add(builder.setMessage(createLongMessage()).build());
+
+        byte[] bytes = toByteArray(report);
+        Report restored = restore(bytes);
+
+        assertThat(report).isEqualTo(restored);
+    }
+
+    private String createLongMessage() {
+        char[] chars = new char[100_000];
+
+        return new String(chars);
+    }
+
     /** Verifies that equals checks all properties. */
     @Test
     void shouldBeNotEqualsAPropertyChanges() {
