@@ -824,14 +824,19 @@ public class Report implements Iterable<Issue>, Serializable {
             output.writeUTF(issue.getPackageName());
             output.writeUTF(issue.getModuleName());
             output.writeUTF(issue.getSeverity().getName());
-            output.writeUTF(issue.getMessage());
-            output.writeUTF(issue.getDescription());
+            writeLongString(output, issue.getMessage());
+            writeLongString(output, issue.getDescription());
             output.writeUTF(issue.getOrigin());
             output.writeUTF(issue.getReference());
             output.writeUTF(issue.getFingerprint());
             output.writeObject(issue.getAdditionalProperties());
             output.writeObject(issue.getId());
         }
+    }
+
+    private void writeLongString(final ObjectOutputStream output, final String value) throws IOException {
+        output.writeInt(value.length());
+        output.writeChars(value);
     }
 
     @SuppressWarnings("unchecked")
@@ -864,8 +869,8 @@ public class Report implements Iterable<Issue>, Serializable {
             TreeString packageName = builder.intern(input.readUTF());
             String moduleName = input.readUTF();
             Severity severity = Severity.valueOf(input.readUTF());
-            TreeString message = builder.intern(input.readUTF());
-            String description = input.readUTF();
+            TreeString message = builder.intern(readLongString(input));
+            String description = readLongString(input);
             String origin = input.readUTF();
             String reference = input.readUTF();
             String fingerprint = input.readUTF();
@@ -882,6 +887,18 @@ public class Report implements Iterable<Issue>, Serializable {
 
             elements.add(issue);
         }
+    }
+
+    private String readLongString(final ObjectInputStream input) throws IOException {
+        int messageLength = input.readInt();
+        if (messageLength < 0) {
+            throw new IllegalStateException("Can't read requested number of characters " + messageLength);
+        }
+        char[] chars = new char[messageLength];
+        for (int j = 0; j < chars.length; j++) {
+            chars[j] = input.readChar();
+        }
+        return new String(chars);
     }
 
     /**
