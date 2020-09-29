@@ -1,0 +1,8 @@
+Checking 11 files
+x...x.....x
+
+FC001: Use strings in preference to symbols to access node attributes: ./foo/attributes/default.rb:8
+FC002: Avoid string interpolation where not required: ./foo/recipes/default.rb:80
+FC015: Consider converting definition to a Custom Resource: foo/definitions/foo.rb:1
+FC019: Access node attributes in a consistent manner: ./foo/attributes/default.rb:30
+FC064: Ensure issues_url is set in metadata: ./foo/metadata.rb:1
