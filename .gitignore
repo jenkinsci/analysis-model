@@ -4,3 +4,5 @@ target
 .classpath
 pom.xml.versionsBackup
 .DS_Store
+pom.xml.releaseBackup
+release.properties
