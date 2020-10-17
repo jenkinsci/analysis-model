@@ -42,7 +42,6 @@ public abstract class IssueParser implements Serializable {
     public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         Report report = parse(readerFactory);
         report.addFileName(readerFactory.getFileName());
-
         return report;
     }
 
