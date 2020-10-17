@@ -27,6 +27,26 @@ public abstract class IssueParser implements Serializable {
             throws ParsingException, ParsingCanceledException;
 
     /**
+     * Parses the specified file for issues. Invokes the parser using {@link #parse(ReaderFactory)} and sets the file
+     * name of the report.
+     *
+     * @param readerFactory
+     *         provides a reader to the reports
+     *
+     * @return the issues
+     * @throws ParsingException
+     *         Signals that during parsing a non recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         Signals that the parsing has been aborted by the user
+     */
+    public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+        Report report = parse(readerFactory);
+        report.addFileName(readerFactory.getFileName());
+
+        return report;
+    }
+
+    /**
      * Returns whether this parser accepts the specified file as valid input. Parsers may reject a file if it is in the
      * wrong format to avoid exceptions during parsing.
      *

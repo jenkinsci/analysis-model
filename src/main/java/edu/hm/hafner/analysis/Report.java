@@ -666,6 +666,7 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
         destination.namesByOrigin.putAll(source.namesByOrigin);
+        destination.fileNames.addAll(source.fileNames);
         destination.countersByKey = Stream.concat(
                 destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));

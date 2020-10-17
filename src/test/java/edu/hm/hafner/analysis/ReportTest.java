@@ -106,15 +106,19 @@ class ReportTest extends SerializableTest<Report> {
     void shouldStoreFileNames() {
         Report report = new Report();
 
-        assertThat(report.getFileNames()).isEmpty();
+        assertThat(report).hasNoFileNames();
 
         report.addFileName("one");
 
         report.addFileName("one");
-        assertThat(report.getFileNames()).containsExactly("one");
+        assertThat(report).hasFileNames("one");
 
         report.addFileName("two");
-        assertThat(report.getFileNames()).containsExactlyInAnyOrder("one", "two");
+        assertThat(report).hasFileNames("one", "two");
+
+        Report copy = new Report();
+        copy.addAll(report);
+        assertThat(copy).hasFileNames("one", "two");
     }
 
     @Test
