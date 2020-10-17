@@ -26,13 +26,18 @@ class CppCheckAdapterTest extends AbstractParserTest {
         softly.assertThat(report).hasSize(3);
         softly.assertThat(report.get(0))
                 .hasMessage(
-                        "The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. "
-                                + "Be careful. Especially when there are inner loops. Here is an example where cppcheck will "
-                                + "write that the scope for 'i' can be reduced:&#xa;void f(int x)&#xa;{&#xa;    int i = 0;&#xa;    "
-                                + "if (x) {&#xa;        // it's safe to move 'int i = 0' here&#xa;        "
-                                + "for (int n = 0; n < 10; ++n) {&#xa;            "
-                                + "// it is possible but not safe to move 'int i = 0' here&#xa;            "
-                                + "do_something(&i);&#xa;        }&#xa;    }&#xa;}&#xa;"
+                        "The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. Be careful. Especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:\n"
+                                + "void f(int x)\n"
+                                + "{\n"
+                                + "    int i = 0;\n"
+                                + "    if (x) {\n"
+                                + "        // it's safe to move 'int i = 0' here\n"
+                                + "        for (int n = 0; n < 10; ++n) {\n"
+                                + "            // it is possible but not safe to move 'int i = 0' here\n"
+                                + "            do_something(&i);\n"
+                                + "        }\n"
+                                + "    }\n"
+                                + "}\n"
                                 + "When you see this message it is always safe to reduce the variable scope 1 level.")
                 .hasFileName("api.c")
                 .hasType("variableScope")
@@ -40,13 +45,18 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(report.get(2))
                 .hasMessage(
-                        "The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. "
-                                + "Be careful. Especially when there are inner loops. Here is an example where cppcheck will "
-                                + "write that the scope for 'i' can be reduced:&#xa;void f(int x)&#xa;{&#xa;    int i = 0;&#xa;    "
-                                + "if (x) {&#xa;        // it's safe to move 'int i = 0' here&#xa;        "
-                                + "for (int n = 0; n < 10; ++n) {&#xa;            "
-                                + "// it is possible but not safe to move 'int i = 0' here&#xa;            "
-                                + "do_something(&i);&#xa;        }&#xa;    }&#xa;}&#xa;"
+                        "The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. Be careful. Especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:\n"
+                                + "void f(int x)\n"
+                                + "{\n"
+                                + "    int i = 0;\n"
+                                + "    if (x) {\n"
+                                + "        // it's safe to move 'int i = 0' here\n"
+                                + "        for (int n = 0; n < 10; ++n) {\n"
+                                + "            // it is possible but not safe to move 'int i = 0' here\n"
+                                + "            do_something(&i);\n"
+                                + "        }\n"
+                                + "    }\n"
+                                + "}\n"
                                 + "When you see this message it is always safe to reduce the variable scope 1 level.")
                 .hasFileName("api_storage.c")
                 .hasType("variableScope")
