@@ -17,7 +17,7 @@ import static edu.hm.hafner.analysis.parser.violations.JUnitAdapter.*;
  * @author Gyanesha Prajjwal
  */
 class JUnitAdapterTest extends AbstractParserTest {
-    private static final String ASSIGNMENT = "Test-Assignment1Test.xml";
+    private static final String ASSIGNMENT = "assignment1.xml";
 
     JUnitAdapterTest() {
         super("junit.xml");
