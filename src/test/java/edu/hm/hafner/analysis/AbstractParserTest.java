@@ -103,7 +103,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return the found issues
      */
     protected Report parse(final String fileName) {
-        return createParser().parse(createReaderFactory(fileName));
+        return createParser().parseFile(createReaderFactory(fileName));
     }
 
     /**

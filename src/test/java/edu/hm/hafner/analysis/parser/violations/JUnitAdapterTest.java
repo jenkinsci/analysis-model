@@ -6,6 +6,7 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.util.PathUtil;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static edu.hm.hafner.analysis.parser.violations.JUnitAdapter.*;
@@ -16,6 +17,8 @@ import static edu.hm.hafner.analysis.parser.violations.JUnitAdapter.*;
  * @author Gyanesha Prajjwal
  */
 class JUnitAdapterTest extends AbstractParserTest {
+    private static final String ASSIGNMENT = "assignment1.xml";
+
     JUnitAdapterTest() {
         super("junit.xml");
     }
@@ -73,6 +76,20 @@ class JUnitAdapterTest extends AbstractParserTest {
         assertThat(report.getCounter(SKIPPED_TESTS)).isEqualTo(1);
         assertThat(report.getCounter(PASSED_TESTS)).isEqualTo(4);
         assertThat(report.getCounter(FAILED_TESTS)).isEqualTo(0);
+    }
+
+    /**
+     * Verifies that the report file name will be stored.
+     */
+    @Test
+    void shouldStoreReportFileName() {
+        Report report = parse(ASSIGNMENT);
+        assertThat(report).hasSize(1);
+        assertThat(report.getCounter(TOTAL_TESTS)).isEqualTo(1);
+        assertThat(report.getCounter(SKIPPED_TESTS)).isEqualTo(0);
+        assertThat(report.getCounter(PASSED_TESTS)).isEqualTo(0);
+        assertThat(report.getCounter(FAILED_TESTS)).isEqualTo(1);
+        assertThat(report).hasFileNames(new PathUtil().getAbsolutePath(getResourceAsFile(ASSIGNMENT)));
     }
 
     /**
