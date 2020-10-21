@@ -253,6 +253,27 @@ class PylintParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseAbsolutePathsFromWindows() {
+        Report report = parse("pylint-absolute-paths.txt");
+
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0))
+                .hasLineStart(1)
+                .hasMessage("No module named src/test/resources/non_existant.py")
+                .hasFileName("E:/JenkinsMIDEBLD/workspace/r-fix_pylint_warnings_ng_CYC-276/cyclops/archive/archive.py")
+                .hasCategory("Fatal")
+                .hasType("fatal")
+                .hasSeverity(Severity.ERROR);
+        assertThat(report.get(1))
+                .hasLineStart(28)
+                .hasMessage("Invalid name \"seasonCount\" (should match [a-z_][a-z0-9_]{2,30}$)")
+                .hasFileName("E:/JenkinsMIDEBLD/workspace/r-fix_pylint_warnings_ng_CYC-276/cyclops/archive/archive.py")
+                .hasCategory("Convention")
+                .hasType("C0103")
+                .hasSeverity(Severity.WARNING_LOW);
+    }
+
+    @Test
     void shouldParseReportWithoutSymbol() {
         Report report = parse("pyLint.txt");
 

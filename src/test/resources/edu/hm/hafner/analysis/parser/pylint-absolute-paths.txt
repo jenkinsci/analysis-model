@@ -1,0 +1,2 @@
+E:\JenkinsMIDEBLD\workspace\r-fix_pylint_warnings_ng_CYC-276\cyclops\archive\archive.py:1: [F0001(fatal), ] No module named src/test/resources/non_existant.py
+E:\JenkinsMIDEBLD\workspace\r-fix_pylint_warnings_ng_CYC-276\cyclops\archive\archive.py:28: [C0103, Show.__init__] Invalid name "seasonCount" (should match [a-z_][a-z0-9_]{2,30}$)
