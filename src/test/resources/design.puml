@@ -9,7 +9,6 @@ skinparam component {
 [Parsers] <<..analysis.parser..>>
 [Assertions] <<..assertj>>
 [Model] <<..analysis>>
-[Ast] <<..ast>>
 
 [Utilities] <<..util>>
 
@@ -17,7 +16,6 @@ skinparam component {
 [Parsers] --> [Utilities]
 [Parsers] --> [Assertions]
 [Model] --> [Utilities]
-[Model] --> [Ast]
 [Assertions] --> [Model]
 
 @enduml

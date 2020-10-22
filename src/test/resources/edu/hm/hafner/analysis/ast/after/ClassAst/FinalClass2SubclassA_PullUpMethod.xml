@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<checkstyle version="5.6">
-<file name="C:\Users\Chris\git\analysis-runner\src\main\java\edu\hm\hafner\FinalClass2SubclassA_PullUpMethod.java">
-<error line="8" severity="warning" message="Die Klasse FinalClass2SubclassA_PullUpMethod sollte als final deklariert sein, da alle ihre Konstruktoren private sind." source="com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck"/>
-</file>
-</checkstyle>

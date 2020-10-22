@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<checkstyle version="5.6">
-<file name="C:\Users\Chris\git\analysis-runner\src\main\java\edu\hm\hafner\MoreWarningsInClass2_Refactored.java">
-<error line="9" column="21" severity="warning" message="Variable &apos;width&apos; wird explizit mit &apos;0&apos; initialisiert (Defaultwert für ihren Typ)." source="com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck"/>
-<error line="13" column="9" severity="warning" message="Javadoc-Kommentar fehlt." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
-<error line="86" severity="warning" message="Das &apos;for&apos;-Konstrukt muss &apos;{}&apos; benutzen." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="100" column="28" severity="warning" message="Muss mindestens ein Statement beinhalten." source="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck"/>
-</file>
-</checkstyle>

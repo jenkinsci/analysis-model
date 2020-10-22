@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<checkstyle version="5.6">
-<file name="C:\Users\Chris\git\analysis-runner\src\main\java\edu\hm\hafner\PackageDeclaration2Subclass_PushDownMethod.java">
-<error line="1" severity="warning" message="Fehlende Package-Deklaration." source="com.puppycrawl.tools.checkstyle.checks.coding.PackageDeclarationCheck"/>
-</file>
-</checkstyle>
