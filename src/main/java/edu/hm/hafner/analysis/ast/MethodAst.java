@@ -33,7 +33,7 @@ public class MethodAst extends Ast {
         return chosenArea;
     }
 
-    public DetailAST findMethodStart() {
+    private DetailAST findMethodStart() {
         List<DetailAST> elements = getElementsNearAffectedLine();
 
         DetailAST root = null;
