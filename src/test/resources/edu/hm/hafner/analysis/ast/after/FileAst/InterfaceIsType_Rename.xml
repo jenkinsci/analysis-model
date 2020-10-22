@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.6">
+<file name="C:\Users\Chris\git\analysis-runner\src\main\java\edu\hm\hafner\InterfaceIsType_Rename.java">
+<error line="10" severity="warning" message="Interfaces sollten einen Typ beschreiben und darum Methoden beinhalten." source="com.puppycrawl.tools.checkstyle.checks.design.InterfaceIsTypeCheck"/>
+</file>
+</checkstyle>

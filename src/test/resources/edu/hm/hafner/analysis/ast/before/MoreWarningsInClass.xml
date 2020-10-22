@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.6">
+<file name="C:\Users\Chris\git\analysis-runner\src\main\java\edu\hm\hafner\MoreWarningsInClass.java">
+<error line="10" column="21" severity="warning" message="Variable &apos;width&apos; wird explizit mit &apos;0&apos; initialisiert (Defaultwert für ihren Typ)." source="com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck"/>
+<error line="14" column="9" severity="warning" message="Javadoc-Kommentar fehlt." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="47" column="20" severity="warning" message="&apos;DoSth&apos; entspricht nicht dem Muster &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="50" column="26" severity="warning" message="Der Ausdruck kann vereinfacht werden." source="com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck"/>
+<error line="75" severity="warning" message="Das &apos;for&apos;-Konstrukt muss &apos;{}&apos; benutzen." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+</file>
+</checkstyle>

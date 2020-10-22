@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.6">
+<file name="C:\Users\Chris\git\analysis-runner\src\main\java\edu\hm\hafner\ExplicitInitialization2.java">
+<error line="12" column="21" severity="warning" message="Variable &apos;number&apos; wird explizit mit &apos;0&apos; initialisiert (Defaultwert für ihren Typ)." source="com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck"/>
+</file>
+</checkstyle>

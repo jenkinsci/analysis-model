@@ -1,0 +1,7 @@
+public class Bla {
+    private static class Nested {
+        private void nested() {
+            System.out.println("Hello, I'm a nested class");
+        }
+    }
+}
