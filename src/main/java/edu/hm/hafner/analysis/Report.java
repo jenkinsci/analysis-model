@@ -210,6 +210,9 @@ public class Report implements Iterable<Issue>, Serializable {
         if (countersByKey == null) {
             countersByKey = new HashMap<>();
         }
+        if (fileNames == null) {
+            fileNames = new HashSet<>();
+        }
 
         return this;
     }
