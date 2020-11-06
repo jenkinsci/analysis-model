@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.util.stream.Stream;
+
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
@@ -42,8 +44,10 @@ public class JUnitAdapter extends AbstractViolationAdapter {
     }
 
     private int count(final ReaderFactory readerFactory, final String text) {
-        return Math.toIntExact(readerFactory.readStream()
-                .filter(line -> line.contains(text))
-                .count());
+        try (Stream<String> lines = readerFactory.readStream()) {
+            return Math.toIntExact(lines
+                    .filter(line -> line.contains(text))
+                    .count());
+        }
     }
 }
