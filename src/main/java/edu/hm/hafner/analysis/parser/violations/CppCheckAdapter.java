@@ -33,8 +33,9 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
                 new LinkedHashSet<>(violations).stream().collect(Collectors.groupingBy(Violation::getGroup));
 
         Report report = new Report();
+        IssueBuilder builder = new IssueBuilder();
         for (List<Violation> group : violationsPerGroup.values()) {
-            IssueBuilder issueBuilder = createIssueBuilder(group.get(0));
+            IssueBuilder issueBuilder = updateIssueBuilder(group.get(0), builder);
             LineRangeList lineRanges = new LineRangeList();
             for (int i = 1; i < group.size(); i++) {
                 Violation violation = group.get(i);
@@ -43,6 +44,7 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
             issueBuilder.setLineRanges(lineRanges);
             report.add(issueBuilder.build());
         }
+        builder.dedup();
         return report;
     }
 }

@@ -881,8 +881,6 @@ public class Report implements Iterable<Issue>, Serializable {
             Serializable additionalProperties = (Serializable) input.readObject();
             UUID id = (UUID) input.readObject();
 
-            builder.dedup();
-
             Issue issue = new Issue(path, fileName,
                     lineStart, lineEnd, columnStart, columnEnd,
                     lineRanges, category, type, packageName, moduleName,
@@ -891,6 +889,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
             elements.add(issue);
         }
+        builder.dedup();
     }
 
     private String readLongString(final ObjectInputStream input) throws IOException {

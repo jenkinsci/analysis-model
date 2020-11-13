@@ -74,6 +74,7 @@ public abstract class LookaheadParser extends IssueParser {
                 throw new ParsingCanceledException();
             }
         }
+        builder.dedup();
     }
 
     private void extractAndStoreDirectory(final IssueBuilder builder, final String line, final Pattern makePath) {

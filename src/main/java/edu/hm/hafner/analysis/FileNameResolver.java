@@ -52,6 +52,7 @@ public class FileNameResolver {
         report.stream()
                 .filter(issue -> pathMapping.containsKey(issue.getFileName()))
                 .forEach(issue -> issue.setFileName(sourceDirectoryPrefix, builder.internFileName(pathMapping.get(issue.getFileName()))));
+        builder.dedup();
 
         report.logInfo("-> resolved paths in source directory (%d found, %d not found)",
                 pathMapping.size(), filesToProcess.size() - pathMapping.size());

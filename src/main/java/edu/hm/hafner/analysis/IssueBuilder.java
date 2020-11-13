@@ -514,4 +514,13 @@ public class IssueBuilder {
     public Optional<Issue> buildOptional() {
         return Optional.of(build());
     }
+
+    /**
+     * Reduce the memory print of internal string instances.
+     */
+    public void dedup() {
+        fileNameBuilder.dedup();
+        packageNameBuilder.dedup();
+        messageBuilder.dedup();
+    }
 }

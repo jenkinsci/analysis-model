@@ -60,6 +60,7 @@ public class PackageNameResolver {
                 issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getAbsolutePath())));
             }
         });
+        builder.dedup();
         report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());
     }
 }

@@ -57,13 +57,15 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @return the report
      */
     Report convertToReport(final Set<Violation> violations) {
+        IssueBuilder builder = new IssueBuilder();
         Report report = new Report();
         for (Violation violation : violations) {
             if (isValid(violation)) {
-                report.add(convertToIssue(violation));
+                report.add(convertToIssue(violation, builder));
             }
         }
         postProcess(report, violations);
+        builder.dedup();
 
         return report;
     }
@@ -98,11 +100,13 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @param violation
      *         the violation
+     * @param builder
+     *         the issue builder to use
      *
      * @return corresponding {@link Issue}
      */
-    Issue convertToIssue(final Violation violation) {
-        IssueBuilder builder = createIssueBuilder(violation);
+    Issue convertToIssue(final Violation violation, final IssueBuilder builder) {
+        updateIssueBuilder(violation, builder);
         extractAdditionalProperties(builder, violation);
 
         return builder.build();
@@ -114,10 +118,10 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @param violation
      *         the violation
      *
+     * @param builder
      * @return corresponding {@link IssueBuilder} instance
      */
-    IssueBuilder createIssueBuilder(final Violation violation) {
-        IssueBuilder builder = new IssueBuilder();
+    IssueBuilder updateIssueBuilder(final Violation violation, final IssueBuilder builder) {
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
                 .setFileName(violation.getFile())
                 .setMessage(violation.getMessage())
