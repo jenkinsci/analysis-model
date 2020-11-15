@@ -1,18 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Reader;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
@@ -24,34 +16,17 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Andreas Mandel
  */
-public class HadoLintParser extends IssueParser {
-    private static final long serialVersionUID = 42L;
-
+public class HadoLintParser extends JsonIssueParser {
     @Override
-    public boolean accepts(final ReaderFactory readerFactory) {
-        return readerFactory.getFileName().endsWith(".json");
-    }
-
-    @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (Reader reader = readerFactory.create()) {
-            JSONArray jsonReport = (JSONArray) new JSONTokener(reader).nextValue();
-
-            Report report = new Report();
-            for (Object issue : jsonReport) {
-                if (issue instanceof JSONObject) {
-                    report.add(convertToIssue((JSONObject) issue));
-                }
+    protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
+        for (Object issue : jsonReport) {
+            if (issue instanceof JSONObject) {
+                report.add(convertToIssue((JSONObject) issue, issueBuilder));
             }
-            return report;
-        }
-        catch (IOException | JSONException | ClassCastException e) {
-            throw new ParsingException(e);
         }
     }
 
-    Issue convertToIssue(final JSONObject jsonIssue) {
-        IssueBuilder builder = new IssueBuilder();
+    Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
         if (jsonIssue.has("code")) {
             builder.setCategory(jsonIssue.getString("code"));
         }

@@ -28,9 +28,24 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
      *
      * @return issue instance
      */
-    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
     Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
         IssueBuilder builder = new IssueBuilder();
+
+        return convertToIssue(jsonIssue, builder);
+    }
+
+    /**
+     * Deserialize an Issue from a JSON object.
+     *
+     * @param jsonIssue
+     *         the issue as JSON object
+     * @param builder
+     *         the issue builder to use
+     *
+     * @return issue instance
+     */
+    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
+    Optional<Issue> convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
         if (jsonIssue.has(ADDITIONAL_PROPERTIES)) {
             builder.setAdditionalProperties(jsonIssue.getString(ADDITIONAL_PROPERTIES));
         }

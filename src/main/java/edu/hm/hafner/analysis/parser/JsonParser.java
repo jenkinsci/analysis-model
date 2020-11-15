@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
@@ -33,16 +34,18 @@ public class JsonParser extends JsonBaseParser {
         try (Reader reader = readerFactory.create()) {
             JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
+            IssueBuilder builder = new IssueBuilder();
             Report report = new Report();
             if (jsonReport.has(ISSUES)) {
                 JSONArray issues = jsonReport.getJSONArray(ISSUES);
                 StreamSupport.stream(issues.spliterator(), false)
                         .filter(o -> o instanceof JSONObject)
-                        .map(o -> convertToIssue((JSONObject) o))
+                        .map(o -> convertToIssue((JSONObject) o, builder))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .forEach(report::add);
             }
+            builder.dedup();
             return report;
         }
         catch (IOException | JSONException e) {

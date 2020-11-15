@@ -1,18 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Reader;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
@@ -23,32 +16,19 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Justin Collins
  */
-public class BrakemanParser extends IssueParser {
+public class BrakemanParser extends JsonIssueParser {
     private static final long serialVersionUID = 1374428573878091300L;
 
     @Override
-    public boolean accepts(final ReaderFactory readerFactory) {
-        return readerFactory.getFileName().endsWith(".json");
+    protected void parseJsonObject(final Report report, final JSONObject jsonReport,
+            final IssueBuilder issueBuilder) {
+        JSONArray warnings = jsonReport.getJSONArray("warnings");
+        for (Object warning : warnings) {
+            report.add(convertToIssue((JSONObject) warning, issueBuilder));
+        }
     }
 
-    @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        final Report report = new Report();
-        try (Reader reader = readerFactory.create()) {
-            final JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
-
-            final JSONArray warnings = jsonReport.getJSONArray("warnings");
-            for (Object warning : warnings) {
-                report.add(convertToIssue((JSONObject) warning));
-            }
-        }
-        catch (IOException | JSONException | ClassCastException e) {
-            throw new ParsingException(e);
-        }
-        return report;
-    }
-
-    private Issue convertToIssue(final JSONObject warning) throws JSONException {
+    private Issue convertToIssue(final JSONObject warning, final IssueBuilder issueBuilder) throws JSONException {
         String fileName = warning.getString("file");
         String category = warning.getString("warning_type");
         Severity severity = getSeverity(warning.getString("confidence"));
@@ -61,15 +41,13 @@ public class BrakemanParser extends IssueParser {
             String code = warning.optString("code", "");
 
             if (!code.isEmpty()) {
-                message.
-                        append(": ").
-                        append(warning.getString("code"));
+                message.append(": ").append(warning.getString("code"));
             }
         }
 
         int line = warning.optInt("line", 1);
 
-        return new IssueBuilder()
+        return issueBuilder
             .setMessage(message.toString())
             .setCategory(category)
             .setType(warningType)
