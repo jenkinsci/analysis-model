@@ -33,6 +33,14 @@ public abstract class JsonIssueParser extends IssueParser {
 
                 parseJsonObject(report, jsonReport, issueBuilder);
             }
+            else if (parsedValue instanceof JSONArray) {
+                JSONArray jsonReport = (JSONArray) parsedValue;
+
+                parseJsonArray(report, jsonReport, issueBuilder);
+            }
+            else {
+                throw new ParsingException("Cannot process parsed JSON object " + parsedValue);
+            }
             issueBuilder.dedup();
         }
         catch (IOException | JSONException | ClassCastException e) {
