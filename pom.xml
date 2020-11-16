@@ -13,7 +13,7 @@
 
   <groupId>edu.hm.hafner</groupId>
   <artifactId>analysis-model</artifactId>
-  <version>9.3.2</version>
+  <version>${revision}${changelist}</version>
 
   <packaging>jar</packaging>
 
@@ -27,7 +27,7 @@
     <connection>scm:git:git://github.com/jenkinsci/analysis-model.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/analysis-model.git</developerConnection>
     <url>https://github.com/jenkinsci/analysis-model</url>
-    <tag>v9.3.2</tag>
+    <tag>${scmTag}</tag>
   </scm>
 
   <licenses>
@@ -54,7 +54,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>9.3.2</revision>
+    <revision>9.4.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
