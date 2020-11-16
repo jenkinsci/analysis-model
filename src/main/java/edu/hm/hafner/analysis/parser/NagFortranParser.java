@@ -20,7 +20,7 @@ public class NagFortranParser extends LookaheadParser {
     private static final long serialVersionUID = 2072414911276743946L;
 
     private static final String NAGFOR_MSG_PATTERN = "^(Info|Warning|Questionable|Extension|Obsolescent|Deleted "
-            + "feature used|Error|Runtime Error|Fatal Error|Panic): (.+\\.[^,:\\n]+)(, line (\\d+))?: (.+(\\s+detected"
+            + "feature used|Error|Runtime Error|Fatal Error|Panic|Non-standard(Obsolete)|Extension\(NAG\)|Extesion\(F[0-9]+\)): (.+\\.[^,:\\n]+)(, line (\\d+))?: (.+(\\s+detected"
             + " at .+)?)";
 
     /**
