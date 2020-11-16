@@ -20,8 +20,7 @@ public class DScannerParser extends JsonParser {
     private static final String COLUMN = "column";
 
     @Override
-    Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
-        IssueBuilder builder = new IssueBuilder();
+    Optional<Issue> convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
         if (jsonIssue.has(KEY)) {
             String key = jsonIssue.getString(KEY);
             builder.setCategory(key);
