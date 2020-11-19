@@ -70,6 +70,33 @@ class CheckStyleParserTest extends AbstractParserTest {
     }
 
     /**
+     * Verifies that the error types of hadolint checks are correctly extracted.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-60859">Issue 60859</a>
+     */
+    @Test
+    void shouldExtractTypeEvenIfNoDotPresent() {
+        Report report = parseInCheckStyleFolder("issue60859.xml");
+
+        assertThat(report).hasSize(3);
+        assertThat(report.get(0)).hasMessage(
+                "Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`")
+                .hasFileName("Dockerfile")
+                .hasLineStart(13)
+                .hasType("DL3018");
+        assertThat(report.get(1)).hasMessage(
+                "In POSIX sh, set option pipefail is undefined.")
+                .hasFileName("Dockerfile")
+                .hasLineStart(16)
+                .hasType("SC2039");
+        assertThat(report.get(2)).hasMessage(
+                "Set the SHELL option -o pipefail before RUN with a pipe in it. If you are using /bin/sh in an alpine image or if your shell is symlinked to busybox then consider explicitly setting your SHELL to /bin/ash, or disable this check")
+                .hasFileName("Dockerfile")
+                .hasLineStart(16)
+                .hasType("DL4006");
+    }
+
+    /**
      * Tests parsing of a file with Scala style warnings.
      *
      * @see <a href="http://www.scalastyle.org">Scala Style Homepage</a>
