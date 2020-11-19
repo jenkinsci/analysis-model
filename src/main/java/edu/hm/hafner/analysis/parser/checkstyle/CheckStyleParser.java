@@ -90,7 +90,10 @@ public class CheckStyleParser extends IssueParser {
     }
 
     private String getType(@CheckForNull final String source) {
-        return StringUtils.substringAfterLast(source, ".");
+        if (StringUtils.contains(source, '.')) {
+            return StringUtils.substringAfterLast(source, ".");
+        }
+        return source;
     }
 
     /**

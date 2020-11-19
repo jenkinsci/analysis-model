@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<checkstyle version='4.3'>
+  <file name='Dockerfile'>
+    <error line='13' column='1' severity='warning'
+           message='Pin versions in apk add. Instead of &#96;apk add &#60;package&#62;&#96; use &#96;apk add &#60;package&#62;&#61;&#60;version&#62;&#96;'
+           source='DL3018'/>
+    <error line='16' column='1' severity='warning' message='In POSIX sh&#44; set option pipefail is undefined.'
+           source='SC2039'/>
+    <error line='16' column='1' severity='warning'
+           message='Set the SHELL option &#45;o pipefail before RUN with a pipe in it. If you are using /bin/sh in an alpine image or if your shell is symlinked to busybox then consider explicitly setting your SHELL to /bin/ash&#44; or disable this check'
+           source='DL4006'/>
+  </file>
+</checkstyle>
