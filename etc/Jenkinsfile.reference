@@ -6,7 +6,7 @@ node {
     }
 
     stage ('Git mining') {
-        gitForensics()
+        discoverGitReferenceBuild()
         mineRepository()
     }
 
