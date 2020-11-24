@@ -1,0 +1,12 @@
+[
+    {
+      "line_number": 3,
+      "line": "WORKDIR spsp/",
+      "code": "DL3000",
+      "description": "Use absolute WORKDIR.",
+      "message": "",
+      "severity": "Error",
+      "file": "testing/Dockerfile.testing"
+    }
+  ]
+  
