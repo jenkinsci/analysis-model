@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-public class IssueParserTest {
+class IssueParserTest {
     @Test
     void shouldCompareWithoutConsideringCase() {
         assertThat(IssueParser.equalsIgnoreCase("a", "b")).isFalse();
