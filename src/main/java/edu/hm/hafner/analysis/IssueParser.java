@@ -108,7 +108,7 @@ public abstract class IssueParser implements Serializable {
         return StringUtils.equals(normalize(a), normalize(b));
     }
 
-    private static String normalize(final String input) {
+    private static String normalize(@CheckForNull final String input) {
         return StringUtils.defaultString(input).toUpperCase(Locale.ENGLISH);
     }
 }
