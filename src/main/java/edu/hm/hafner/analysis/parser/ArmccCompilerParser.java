@@ -5,9 +5,10 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
-import static edu.hm.hafner.util.IntegerParser.parseInt;
+import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * A parser for armcc compiler warnings.
@@ -32,7 +33,7 @@ public class ArmccCompilerParser extends RegexpLineParser {
         int errorCode = parseInt(matcher.group(4));
         Severity priority;
 
-        if ("error".equalsIgnoreCase(type)) {
+        if (equalsIgnoreCase(type, "error")) {
             priority = Severity.WARNING_HIGH;
         }
         else {

@@ -3,11 +3,12 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for the Sphinx build warnings.
@@ -40,7 +41,7 @@ public class SphinxBuildParser extends RegexpLineParser {
     }
 
     private Severity mapPriority(final String priority) {
-        if ("error".equalsIgnoreCase(priority)) {
+        if (equalsIgnoreCase(priority, "error")) {
             return Severity.WARNING_HIGH;
         }
         else {

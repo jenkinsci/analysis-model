@@ -32,11 +32,11 @@ public class MetrowerksCwCompilerParser extends RegexpLineParser {
         Severity priority;
         String category;
 
-        if ("error".equalsIgnoreCase(matcher.group(3))) {
+        if (equalsIgnoreCase(matcher.group(3), "error")) {
             priority = Severity.WARNING_HIGH;
             category = "ERROR";
         }
-        else if ("information".equalsIgnoreCase(matcher.group(3))) {
+        else if (equalsIgnoreCase(matcher.group(3), "information")) {
             priority = Severity.WARNING_LOW;
             category = "Info";
         }
