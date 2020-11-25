@@ -35,7 +35,7 @@ public class Armcc5CompilerParser extends RegexpLineParser {
         String type = matcher.group(3);
         Severity priority;
 
-        if ("error".equalsIgnoreCase(type)) {
+        if (equalsIgnoreCase(type, "error")) {
             priority = Severity.WARNING_HIGH;
         }
         else {

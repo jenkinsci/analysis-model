@@ -1,7 +1,12 @@
 package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Parses a file and returns the issues reported in this file.
@@ -75,6 +80,36 @@ public abstract class IssueParser implements Serializable {
         catch (ParsingException ignored) {
             return false;
         }
+    }
+
+    /**
+     * <p>Compares two CharSequences, returning {@code true} if they represent
+     * equal sequences of characters, ignoring case.</p>
+     *
+     * <p>{@code null}s are handled without exceptions. Two {@code null}
+     * references are considered equal. The comparison is <strong>case insensitive</strong>.</p>
+     *
+     * <pre>
+     * StringUtils.equalsIgnoreCase(null, null)   = true
+     * StringUtils.equalsIgnoreCase(null, "abc")  = false
+     * StringUtils.equalsIgnoreCase("abc", null)  = false
+     * StringUtils.equalsIgnoreCase("abc", "abc") = true
+     * StringUtils.equalsIgnoreCase("abc", "ABC") = true
+     * </pre>
+     *
+     * @param a
+     *         the first CharSequence, may be {@code null}
+     * @param b
+     *         the second CharSequence, may be {@code null}
+     *
+     * @return {@code true} if the CharSequences are equal (case-insensitive), or both {@code null}
+     */
+    public static boolean equalsIgnoreCase(@CheckForNull final String a, @CheckForNull final String b) {
+        return StringUtils.equals(normalize(a), normalize(b));
+    }
+
+    private static String normalize(final String input) {
+        return StringUtils.defaultString(input).toUpperCase(Locale.ENGLISH);
     }
 }
 

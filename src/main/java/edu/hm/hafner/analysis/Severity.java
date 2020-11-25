@@ -177,7 +177,7 @@ public class Severity implements Serializable {
      * @return {@code true} if this instance has the same name, {@code false} otherwise
      */
     public boolean equalsIgnoreCase(final String severityName) {
-        return getName().equalsIgnoreCase(severityName);
+        return IssueParser.equalsIgnoreCase(getName(), severityName);
     }
 
     @Override

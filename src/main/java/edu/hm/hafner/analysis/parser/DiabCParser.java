@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the Diab C++ compiler warnings.
@@ -37,15 +37,13 @@ public class DiabCParser extends RegexpLineParser {
     }
 
     private Severity mapPriority(final Matcher matcher) {
-        if ("info".equalsIgnoreCase(matcher.group(3))) {
+        if (equalsIgnoreCase(matcher.group(3), "info")) {
             return Severity.WARNING_LOW;
         }
-        else if ("warning".equalsIgnoreCase(matcher.group(3))) {
+        else if (equalsIgnoreCase(matcher.group(3), "warning")) {
             return Severity.WARNING_NORMAL;
         }
-        else {
-            return Severity.WARNING_HIGH;
-        }
+        return Severity.WARNING_HIGH;
     }
 }
 

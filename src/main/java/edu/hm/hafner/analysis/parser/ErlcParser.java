@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the erlc compiler warnings.
@@ -32,7 +32,7 @@ public class ErlcParser extends RegexpLineParser {
         String category;
         String categoryMatch = matcher.group(3);
 
-        if ("warning: ".equalsIgnoreCase(categoryMatch)) {
+        if (equalsIgnoreCase(categoryMatch, "warning: ")) {
             priority = Severity.WARNING_NORMAL;
             category = categoryMatch.substring(0, categoryMatch.length() - 2);
         }
