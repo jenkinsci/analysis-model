@@ -15,6 +15,8 @@ import org.w3c.dom.NodeList;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.util.IntegerParser;
 
+import static edu.hm.hafner.analysis.IssueParser.*;
+
 /**
  * A parser for PVS-Studio Plog/XML files.
  *
@@ -54,7 +56,7 @@ class PlogMessage {
 
     private static boolean skipMessage(final NodeList elements) {
         return elements != null && elements.item(0) != null
-                && elements.item(0).getTextContent().equalsIgnoreCase("true");
+                && equalsIgnoreCase(elements.item(0).getTextContent(), "true");
     }
 
     private static boolean nodeNotNull(final NodeList elements) {

@@ -69,7 +69,7 @@ public class AntJavacParser extends RegexpLineParser {
     }
 
     private Severity mapSeverity(final String type) {
-        return "error".equalsIgnoreCase(type) ? Severity.ERROR : Severity.WARNING_NORMAL;
+        return equalsIgnoreCase(type, "error") ? Severity.ERROR : Severity.WARNING_NORMAL;
     }
 }
 

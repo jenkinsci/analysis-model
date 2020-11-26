@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for Metrowerks Codewarrior 4.x linker warnings.
@@ -33,11 +33,11 @@ public class MetrowerksCwLinkerParser extends RegexpLineParser {
 
         Severity priority;
         String category;
-        if ("error".equalsIgnoreCase(messageCategory)) {
+        if (equalsIgnoreCase(messageCategory, "error")) {
             priority = Severity.WARNING_HIGH;
             category = "ERROR";
         }
-        else if ("information".equalsIgnoreCase(messageCategory)) {
+        else if (equalsIgnoreCase(messageCategory, "information")) {
             priority = Severity.WARNING_LOW;
             category = "Info";
         }

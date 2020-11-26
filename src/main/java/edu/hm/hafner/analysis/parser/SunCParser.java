@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the SUN Studio C++ compiler warnings.
@@ -37,7 +37,7 @@ public class SunCParser extends RegexpLineParser {
     }
 
     private Severity mapPriority(final Matcher matcher) {
-        if ("warning".equalsIgnoreCase(matcher.group(3))) {
+        if (equalsIgnoreCase(matcher.group(3), "warning")) {
             return Severity.WARNING_NORMAL;
         }
         else {

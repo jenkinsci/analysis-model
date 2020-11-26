@@ -3,11 +3,12 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static edu.hm.hafner.analysis.Categories.guessCategory;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for Buckminster compiler warnings.
@@ -28,7 +29,7 @@ public class BuckminsterParser extends RegexpLineParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
-        Severity priority = "Error".equalsIgnoreCase(matcher.group(1)) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
+        Severity priority = equalsIgnoreCase(matcher.group(1), "Error") ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
         return builder.setFileName(matcher.group(2)).setLineStart(matcher.group(4))
                       .setCategory(guessCategory(matcher.group(5))).setMessage(matcher.group(5))
                       .setSeverity(priority).buildOptional();

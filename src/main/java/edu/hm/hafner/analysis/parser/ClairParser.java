@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,16 +78,16 @@ public class ClairParser extends IssueParser {
     }
 
     private Severity toSeverity(@CheckForNull final String level) {
-        switch (String.valueOf(level).toLowerCase(Locale.ENGLISH)) {
-            case "defcon1":
-                return Severity.ERROR;
-            case "critical":
-                return Severity.WARNING_HIGH;
-            case "high":
-                return Severity.WARNING_NORMAL;
-            default:
-                return Severity.WARNING_LOW;
+        if (equalsIgnoreCase(level, "defcon1")) {
+            return Severity.ERROR;
         }
+        else if (equalsIgnoreCase(level, "critical")) {
+            return Severity.WARNING_HIGH;
+        }
+        else if (equalsIgnoreCase(level, "high")) {
+            return Severity.WARNING_NORMAL;
+        }
+        return Severity.WARNING_LOW;
     }
 
     private JSONArray optJsonArrayIgnoreCase(final JSONObject json, final String searchKey) {
@@ -115,7 +114,7 @@ public class ClairParser extends IssueParser {
     private Object searchIgnoreCase(final JSONObject json, final String searchKey) {
         Object result = null;
         for (String key : json.keySet()) {
-            if (key.equalsIgnoreCase(searchKey)) {
+            if (equalsIgnoreCase(searchKey, key)) {
                 result = json.opt(key);
                 if (result != null) {
                     break;

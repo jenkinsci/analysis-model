@@ -7,5 +7,23 @@
     "message": "",
     "severity": "Error",
     "file": "testing/Dockerfile.testing"
+  },
+  {
+    "line_number": 5,
+    "line": "RUN sudo apt-get update && \\",
+    "code": "DL3008",
+    "description": "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`.",
+    "message": "",
+    "severity": "Warning",
+    "file": "testing/Dockerfile.testing"
+  }, 
+  {
+    "line_number": 5,
+    "line": "RUN sudo apt-get update && \\",
+    "code": "DL3009",
+    "description": "Delete the apt-get lists after installing something.",
+    "message": "",
+    "severity": "Info",
+    "file": "testing/Dockerfile.testing"
   }
 ]

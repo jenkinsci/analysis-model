@@ -20,16 +20,14 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Abhishek Dubey
  */
-
 class OTDockerLintParserTest extends AbstractParserTest {
-
     OTDockerLintParserTest() {
         super("ot-docker-linter.json");
     }
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(1);
+        assertThat(report).hasSize(3);
         softly.assertThat(report.get(0))
                 .hasModuleName("WORKDIR spsp/")
                 .hasCategory("DL3000")
@@ -37,6 +35,10 @@ class OTDockerLintParserTest extends AbstractParserTest {
                 .hasLineStart(3)
                 .hasFileName("testing/Dockerfile.testing")
                 .hasSeverity(Severity.ERROR);
+        softly.assertThat(report.get(2))
+                .hasSeverity(Severity.WARNING_LOW);
+        softly.assertThat(report.get(1))
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override
@@ -50,21 +52,6 @@ class OTDockerLintParserTest extends AbstractParserTest {
                 new FileReaderFactory(FileSystems.getDefault().getPath("lint.json")))).isTrue();
         assertThat(new OTDockerLintParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
-    }
-
-    @Test
-    void unusualInput() {
-        Report report = parse("ot-docker-linter-unsual.json");
-        assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasSeverity(Severity.ERROR);
-        assertThat(report.get(0))
-                .hasSeverity(Severity.ERROR)
-                .hasCategory("DL3000");
-        assertThat(report.get(0))
-                .hasFileName("testing/Dockerfile.testing")
-                .hasDescription("Use absolute WORKDIR.")
-                .hasLineStart(3);
     }
 
     @Test

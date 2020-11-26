@@ -23,7 +23,6 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Abhishek Dubey
  */
-
 public class OTDockerLintParser extends IssueParser {
     private static final long serialVersionUID = 42L;
 
@@ -56,7 +55,7 @@ public class OTDockerLintParser extends IssueParser {
             builder.setCategory(jsonIssue.getString("code"));
         }
         if (jsonIssue.has("severity")) {
-            builder.setSeverity(toSeverity(jsonIssue.getString("severity")));
+            builder.setSeverity(Severity.guessFromString(jsonIssue.getString("severity")));
         }
         if (jsonIssue.has("line")) {
             builder.setLineStart(jsonIssue.getInt("line_number"));
@@ -74,20 +73,5 @@ public class OTDockerLintParser extends IssueParser {
             builder.setFileName(jsonIssue.getString("file"));
         }
         return builder.build();
-    }
-
-    private Severity toSeverity(final String level) {
-        switch (level) {
-            case "style":
-                return Severity.WARNING_LOW;
-            case "Info":
-                return Severity.WARNING_NORMAL;
-            case "Warning":
-                return Severity.WARNING_HIGH;
-            case "Error":
-                return Severity.ERROR;
-            default:
-                return Severity.WARNING_LOW;
-        }
     }
 }

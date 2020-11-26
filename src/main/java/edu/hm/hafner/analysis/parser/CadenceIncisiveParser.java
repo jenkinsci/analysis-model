@@ -84,7 +84,7 @@ public class CadenceIncisiveParser extends RegexpLineParser {
             return Optional.empty(); /* Should never happen! */
         }
 
-        if ("E".equalsIgnoreCase(type)) {
+        if (equalsIgnoreCase(type, "E")) {
             priority = Severity.WARNING_HIGH;
             category = "Error (" + tool + "): " + category;
         }
