@@ -19,13 +19,13 @@ import edu.hm.hafner.analysis.Severity;
 
 /**
  * <p>
- * Parser for reports of aquasec trivy container scanner
+ * Parser for reports of aquasec trivy container vulnerability scanner
  * </p>
  * <p>
  * <strong>Usage: </strong>trivy image -f json -o results.json golang:1.12-alpine
  * </p>
  *
- * @author Thomas Fürer <tfuerer.javanet@gmail.com>
+ * @author Thomas Fürer - tfuerer.javanet@gmail.com
  */
 public class TrivyParser extends IssueParser {
 	private static final long serialVersionUID = 1L;
