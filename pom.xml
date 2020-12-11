@@ -10,8 +10,7 @@
     <version>1.6.0</version>
     <relativePath />
   </parent>
-
-  <groupId>edu.hm.hafner</groupId>
+  
   <artifactId>analysis-model</artifactId>
   <version>${revision}${changelist}</version>
 
@@ -87,7 +86,6 @@
     <dependency>
       <groupId>edu.hm.hafner</groupId>
       <artifactId>codingstyle</artifactId>
-      <version>${codingstyle.library.version}</version>
     </dependency>
 
     <!-- Project Dependencies -->
@@ -239,7 +237,6 @@
       <plugin>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
-        <version>${assertj-assertions-generator-maven-plugin.version}</version>
         <configuration>
           <packages>
             <package>edu.hm.hafner.analysis</package>
@@ -516,5 +513,4 @@
       <url>https://repo.jenkins-ci.org/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
-
 </project>
