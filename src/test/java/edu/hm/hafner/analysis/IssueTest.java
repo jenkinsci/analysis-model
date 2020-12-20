@@ -171,12 +171,10 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void shouldExpandPath() {
-        Report report = new Report();
         Issue issue = new IssueBuilder()
                 .setPathName("/jenkins-data/jenkins/workspace/root/trunk/sw/build")
                 .setFileName("../../component/app/_src/file.c")
                 .build();
-        report.add(issue);
 
         assertThat(issue.getAbsolutePath()).isEqualTo("/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
     }
