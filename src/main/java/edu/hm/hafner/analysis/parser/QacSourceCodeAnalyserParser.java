@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
 
 
 /**
@@ -31,7 +31,7 @@ public class QacSourceCodeAnalyserParser extends RegexpLineParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
         Severity priority;
         String category;
-        if ("err".equalsIgnoreCase(matcher.group(4))) {
+        if (equalsIgnoreCase(matcher.group(4), "err")) {
             priority = Severity.WARNING_HIGH;
             category = "ERROR";
         }

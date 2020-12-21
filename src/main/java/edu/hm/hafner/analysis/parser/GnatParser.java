@@ -31,11 +31,11 @@ public class GnatParser extends RegexpLineParser {
         Severity priority;
         String category;
 
-        if ("warning:".equalsIgnoreCase(matcher.group(4))) {
+        if (equalsIgnoreCase(matcher.group(4), "warning:")) {
             priority = Severity.WARNING_NORMAL;
             category = "GNAT warning";
         }
-        else if ("(style)".equalsIgnoreCase(matcher.group(4))) {
+        else if (equalsIgnoreCase(matcher.group(4), "(style)")) {
             priority = Severity.WARNING_LOW;
             category = "GNAT style";
         }

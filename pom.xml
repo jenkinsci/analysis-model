@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>1.5.1</version>
+    <version>1.6.0</version>
     <relativePath />
   </parent>
 
@@ -54,7 +54,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>9.4.0</revision>
+    <revision>9.5.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <source.encoding>UTF-8</source.encoding>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
@@ -66,7 +66,7 @@
 
     <!-- Project Dependencies Configuration -->
     <codingstyle.library.version>1.6.0</codingstyle.library.version>
-    <jmh.version>1.26</jmh.version>
+    <jmh.version>1.27</jmh.version>
     <commons.lang.version>3.11</commons.lang.version>
     <commons.io.version>2.8.0</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
@@ -75,8 +75,8 @@
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>1.7.30</slf4j.version>
-    <violations-lib.version>1.135</violations-lib.version>
-    <json.version>20200518</json.version>
+    <violations-lib.version>1.140</violations-lib.version>
+    <json.version>20201115</json.version>
 
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
 

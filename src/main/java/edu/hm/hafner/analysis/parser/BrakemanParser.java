@@ -59,13 +59,13 @@ public class BrakemanParser extends JsonIssueParser {
     }
 
     private Severity getSeverity(final String confidence) {
-        if ("Medium".equalsIgnoreCase(confidence)) {
+        if (equalsIgnoreCase(confidence, "Medium")) {
             return Severity.WARNING_NORMAL;
         }
-        else if ("High".equalsIgnoreCase(confidence)) {
+        else if (equalsIgnoreCase(confidence, "High")) {
             return Severity.WARNING_HIGH;
         }
-        else if ("Weak".equalsIgnoreCase(confidence)) {
+        else if (equalsIgnoreCase(confidence, "Weak")) {
             return Severity.WARNING_LOW;
         }
         else {

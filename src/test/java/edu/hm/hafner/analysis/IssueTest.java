@@ -170,6 +170,16 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     @Test
+    void shouldExpandPath() {
+        Issue issue = new IssueBuilder()
+                .setPathName("/jenkins-data/jenkins/workspace/root/trunk/sw/build")
+                .setFileName("../../component/app/_src/file.c")
+                .build();
+
+        assertThat(issue.getAbsolutePath()).isEqualTo("/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
+    }
+
+    @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
         Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,

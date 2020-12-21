@@ -46,13 +46,13 @@ public class IarParser extends RegexpLineParser {
 
     private Severity mapPriority(final Matcher matcher) {
         Severity priority;
-        if ("Remark".equalsIgnoreCase(matcher.group(3))) {
+        if (equalsIgnoreCase(matcher.group(3), "Remark")) {
             priority = Severity.WARNING_LOW;
         }
-        else if ("Error".equalsIgnoreCase(matcher.group(3))) {
+        else if (equalsIgnoreCase(matcher.group(3), "Error")) {
             priority = Severity.WARNING_HIGH;
         }
-        else if ("Fatal error".equalsIgnoreCase(matcher.group(3))) {
+        else if (equalsIgnoreCase(matcher.group(3), "Fatal error")) {
             priority = Severity.WARNING_HIGH;
         }
         else {

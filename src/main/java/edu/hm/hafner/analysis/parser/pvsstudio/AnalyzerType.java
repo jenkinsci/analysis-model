@@ -6,6 +6,8 @@ import java.util.stream.Stream;
 
 import edu.hm.hafner.util.IntegerParser;
 
+import static edu.hm.hafner.analysis.IssueParser.*;
+
 /**
  * The AnalyzerType for PVS-Studio static analyzer.
  *
@@ -108,7 +110,7 @@ final class AnalyzerType {
             new OPTIMIZATION(), new CustomerSpecific(), new MISRA()};
 
     static AnalysisType fromErrorCode(final String errorCodeStr) {
-        if ("External".equalsIgnoreCase(errorCodeStr)) {
+        if (equalsIgnoreCase(errorCodeStr, "External")) {
             return new GENERAL();
         }
 

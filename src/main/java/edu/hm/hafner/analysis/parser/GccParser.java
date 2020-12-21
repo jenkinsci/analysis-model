@@ -8,8 +8,8 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the gcc compiler warnings.
@@ -49,13 +49,13 @@ public class GccParser extends RegexpLineParser {
         }
 
         Severity priority;
-        if ("warning".equalsIgnoreCase(matcher.group(3))) {
+        if (equalsIgnoreCase(matcher.group(3), "warning")) {
             priority = Severity.WARNING_NORMAL;
         }
-        else if ("error".equalsIgnoreCase(matcher.group(3))) {
+        else if (equalsIgnoreCase(matcher.group(3), "error")) {
             priority = Severity.WARNING_HIGH;
         }
-        else if ("note".equalsIgnoreCase(matcher.group(3))) {
+        else if (equalsIgnoreCase(matcher.group(3), "note")) {
             priority = Severity.WARNING_LOW;
         }
         else if (StringUtils.isNotBlank(matcher.group(4))) {
