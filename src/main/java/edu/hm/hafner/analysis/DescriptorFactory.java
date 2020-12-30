@@ -97,7 +97,7 @@ public class DescriptorFactory {
      *
      * @return the requested descriptor
      */
-    public Descriptor getDescriptorByName(String name) {
+    public Descriptor getDescriptorByName(final String name) {
         return descriptors.get(name);
     }
 

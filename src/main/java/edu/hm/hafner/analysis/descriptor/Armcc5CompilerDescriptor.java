@@ -3,6 +3,11 @@ package edu.hm.hafner.analysis.descriptor;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.Armcc5CompilerParser;
 
+/**
+ * A Descriptor for the Armcc5Compiler warnings.
+ *
+ * @author Lorenz Munsch
+ */
 public class Armcc5CompilerDescriptor implements Descriptor {
 
     private static final String ID = "Armcc5Compiler";
