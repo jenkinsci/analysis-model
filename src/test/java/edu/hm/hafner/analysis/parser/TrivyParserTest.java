@@ -13,7 +13,7 @@ class TrivyParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(Report report, SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(282);
 
         softly.assertThat(report.get(0))
