@@ -42,9 +42,14 @@ public class TrivyParser extends IssueParser {
         try (Reader reader = readerFactory.create()) {
             final JSONArray jsonReport = (JSONArray)new JSONTokener(reader).nextValue();
 
-            final JSONArray vulnatbilites = ((JSONObject)jsonReport.get(0)).getJSONArray("Vulnerabilities");
-            for (Object vulnatbility : vulnatbilites) {
-                report.add(convertToIssue((JSONObject)vulnatbility));
+            for (int i = 0; i < jsonReport.length(); i++) {
+                final JSONObject component = (JSONObject)jsonReport.get(i);
+                if (!component.isNull("Vulnerabilities")) {
+                    final JSONArray vulnatbilites = component.getJSONArray("Vulnerabilities");
+                    for (Object vulnatbility : vulnatbilites) {
+                        report.add(convertToIssue((JSONObject)vulnatbility));
+                    }
+                }
             }
         }
         catch (IOException e) {
@@ -54,13 +59,13 @@ public class TrivyParser extends IssueParser {
         return report;
     }
 
-    private Issue convertToIssue(final JSONObject vulneratbility) {
-        return new IssueBuilder().setFileName(vulneratbility.getString("PkgName"))
-                .setCategory(vulneratbility.getString("SeveritySource"))
-                .setSeverity(mapSeverity(vulneratbility.getString("Severity")))
-                .setType(vulneratbility.getString("VulnerabilityID"))
-                .setMessage(vulneratbility.optString("Title", "UNKNOWN"))
-                .setDescription(formatDescription(vulneratbility))
+    private Issue convertToIssue(final JSONObject vulnerability) {
+        return new IssueBuilder().setFileName(vulnerability.optString("PkgName", "?"))
+                .setCategory(vulnerability.optString("SeveritySource", "?"))
+                .setSeverity(mapSeverity(vulnerability.optString("Severity", "UNKNOWN")))
+                .setType(vulnerability.optString("VulnerabilityID", "?"))
+                .setMessage(vulnerability.optString("Title", "UNKNOWN"))
+                .setDescription(formatDescription(vulnerability))
                 .build();
     }
 
@@ -80,15 +85,16 @@ public class TrivyParser extends IssueParser {
         }
     }
 
-    private String formatDescription(final JSONObject vulneratbility) {
+    private String formatDescription(final JSONObject vulnerability) {
         return new StringBuilder().append(MessageFormat.format(
                 "<p><div><b>File</b>: {0}</div><div><b>Installed Version:</b> {1}</div><div><b>Fixed Version:</b> {2}</div><div><b>Severity:</b> {3}</div>",
-                vulneratbility.getString("PkgName"), vulneratbility.getString("InstalledVersion"),
-                vulneratbility.getString("FixedVersion"), vulneratbility.getString("Severity")))
+                vulnerability.optString("PkgName", "?"),
+                vulnerability.optString("InstalledVersion", "?"),
+                vulnerability.optString("FixedVersion", "still open"),
+                vulnerability.optString("Severity", "UNKOWN")))
                 .append("<p>")
-                .append(vulneratbility.getString("Description"))
+                .append(vulnerability.optString("Description", ""))
                 .append("</p>")
                 .toString();
     }
-
 }
