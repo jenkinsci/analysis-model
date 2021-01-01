@@ -16,6 +16,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * <p>
@@ -28,6 +29,10 @@ import edu.hm.hafner.analysis.Severity;
  * @author Thomas Fürer - tfuerer.javanet@gmail.com
  */
 public class TrivyParser extends IssueParser {
+    private static final String TRIVY_VULNARBILITY_LEVEL_TAG_CRITICAL = "critcal";
+    private static final String TRIVY_VULNARBILITY_LEVEL_TAG_HIGH = "high";
+    private static final String TRIVY_VULNARBILITY_LEVEL_TAG_MEDIUM = "medium";
+    private static final String TRIVY_VULNARBILITY_LEVEL_TAG_LOW = "low";
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -59,14 +64,15 @@ public class TrivyParser extends IssueParser {
                 .build();
     }
 
+    @SuppressFBWarnings("IMPROPER_UNICODE")
     private Severity mapSeverity(final String string) {
-        if ("low".equalsIgnoreCase(string)) {
+        if (TRIVY_VULNARBILITY_LEVEL_TAG_LOW.equalsIgnoreCase(string)) {
             return Severity.WARNING_LOW;
         }
-        else if ("medium".equalsIgnoreCase(string)) {
+        else if (TRIVY_VULNARBILITY_LEVEL_TAG_MEDIUM.equalsIgnoreCase(string)) {
             return Severity.WARNING_NORMAL;
         }
-        else if ("high".equalsIgnoreCase(string) || "critcal".equalsIgnoreCase(string)) {
+        else if (TRIVY_VULNARBILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string) || TRIVY_VULNARBILITY_LEVEL_TAG_CRITICAL.equalsIgnoreCase(string)) {
             return Severity.WARNING_HIGH;
         }
         else {
