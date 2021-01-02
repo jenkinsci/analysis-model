@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Report;
@@ -126,6 +127,10 @@ class CppCheckAdapterTest extends AbstractParserTest {
         Report report = parse("issue64519.xml");
 
         assertThat(report).hasSize(1);
+        Issue issue = report.get(0);
+
+        assertThat(issue).hasFileName("-")
+                .hasMessage("Cppcheck cannot find all the include files (use --check-config for details). Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project's include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config.");
     }
 
     @Override
