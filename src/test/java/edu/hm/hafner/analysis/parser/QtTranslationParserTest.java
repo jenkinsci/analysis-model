@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -74,7 +75,7 @@ class QtTranslationParserTest extends AbstractParserTest {
     protected void shouldParseAllIssuesSingleLine() {
         String relativeFileName = "qttranslation/shouldParseAllIssuesSingleLine.ts";
         Report report = parse(relativeFileName);
-        String fileName = getResourceAsFile(relativeFileName).toString();
+        String fileName = new FileReaderFactory(getResourceAsFile(relativeFileName)).getFileName();
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(report).hasSize(4);
