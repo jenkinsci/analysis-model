@@ -6,6 +6,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
+/**
+ * Tests the class {@link TrivyParser}.
+ */
 class TrivyParserTest extends AbstractParserTest {
 
     TrivyParserTest() {

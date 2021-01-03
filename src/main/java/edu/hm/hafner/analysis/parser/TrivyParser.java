@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.text.MessageFormat;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -29,6 +30,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Thomas Fürer - tfuerer.javanet@gmail.com
  */
 public class TrivyParser extends IssueParser {
+    private static final String VALUE_NOT_SET = "-";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_CRITICAL = "critcal";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_HIGH = "high";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
@@ -52,7 +54,7 @@ public class TrivyParser extends IssueParser {
                 }
             }
         }
-        catch (IOException e) {
+        catch (IOException | JSONException | ClassCastException e) {
             throw new ParsingException(e);
         }
 
@@ -60,10 +62,10 @@ public class TrivyParser extends IssueParser {
     }
 
     private Issue convertToIssue(final JSONObject vulnerability) {
-        return new IssueBuilder().setFileName(vulnerability.optString("PkgName", "?"))
-                .setCategory(vulnerability.optString("SeveritySource", "?"))
+        return new IssueBuilder().setFileName(vulnerability.optString("PkgName", VALUE_NOT_SET))
+                .setCategory(vulnerability.optString("SeveritySource", VALUE_NOT_SET))
                 .setSeverity(mapSeverity(vulnerability.optString("Severity", "UNKNOWN")))
-                .setType(vulnerability.optString("VulnerabilityID", "?"))
+                .setType(vulnerability.optString("VulnerabilityID", VALUE_NOT_SET))
                 .setMessage(vulnerability.optString("Title", "UNKNOWN"))
                 .setDescription(formatDescription(vulnerability))
                 .build();
@@ -88,8 +90,7 @@ public class TrivyParser extends IssueParser {
     private String formatDescription(final JSONObject vulnerability) {
         return new StringBuilder().append(MessageFormat.format(
                 "<p><div><b>File</b>: {0}</div><div><b>Installed Version:</b> {1}</div><div><b>Fixed Version:</b> {2}</div><div><b>Severity:</b> {3}</div>",
-                vulnerability.optString("PkgName", "?"),
-                vulnerability.optString("InstalledVersion", "?"),
+                vulnerability.optString("PkgName", VALUE_NOT_SET), vulnerability.optString("InstalledVersion", VALUE_NOT_SET),
                 vulnerability.optString("FixedVersion", "still open"),
                 vulnerability.optString("Severity", "UNKOWN")))
                 .append("<p>")
