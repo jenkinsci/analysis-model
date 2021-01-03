@@ -14,7 +14,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Handles the parsing of a translation file from Qt.
@@ -46,8 +45,8 @@ public class QtTranslationSaxParser extends DefaultHandler {
     private Locator documentLocator;
     private final Deque<String> elementTypeStack = new ArrayDeque<>();
     private final Map<String, String> expectedElementTypeParents = new HashMap<>();
-    @Nullable private String contextName;
-    @Nullable private String sourceValue;
+    private String contextName;
+    private String sourceValue;
     private boolean translationTagFound = false;
     private boolean emitIssue = false;
     private int lastColumnNumber;
