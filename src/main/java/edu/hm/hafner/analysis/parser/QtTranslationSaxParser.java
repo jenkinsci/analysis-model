@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Handles the parsing of a translation file from Qt.
@@ -27,15 +28,15 @@ public class QtTranslationSaxParser extends DefaultHandler {
     private static final String TRANSLATION = "translation";
     private static final String TRANSLATION_ATTR_TYPE = "type";
 
-    public static final String TRANSLATION_TYPE_OBSOLETE = "obsolete";
-    public static final String TRANSLATION_TYPE_UNFINISHED = "unfinished";
-    public static final String TRANSLATION_TYPE_VANISHED = "vanished";
+    static final String TRANSLATION_TYPE_OBSOLETE = "obsolete";
+    static final String TRANSLATION_TYPE_UNFINISHED = "unfinished";
+    static final String TRANSLATION_TYPE_VANISHED = "vanished";
 
-    public static final String TRANSLATION_TYPE_OBSOLETE_MESSAGE =
+    static final String TRANSLATION_TYPE_OBSOLETE_MESSAGE =
             "This translation can be removed as the source doesn't exists anymore.";
-    public static final String TRANSLATION_TYPE_UNFINISHED_MESSAGE =
+    static final String TRANSLATION_TYPE_UNFINISHED_MESSAGE =
             "This source string misses a translation.";
-    public static final String TRANSLATION_TYPE_VANISHED_MESSAGE =
+    static final String TRANSLATION_TYPE_VANISHED_MESSAGE =
             "The source string can not be found within the sources. "
             + "Remove this translation if it is not used anymore or improve your call to \"tr()\", "
             + "so \"lupdate\" can find it.";
@@ -45,8 +46,8 @@ public class QtTranslationSaxParser extends DefaultHandler {
     private Locator documentLocator;
     private final Deque<String> elementTypeStack = new ArrayDeque<>();
     private final Map<String, String> expectedElementTypeParents = new HashMap<>();
-    private String contextName;
-    private String sourceValue;
+    @Nullable private String contextName;
+    @Nullable private String sourceValue;
     private boolean translationTagFound = false;
     private boolean emitIssue = false;
     private int lastColumnNumber;

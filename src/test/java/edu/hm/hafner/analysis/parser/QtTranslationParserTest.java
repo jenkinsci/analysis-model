@@ -26,7 +26,7 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        String fileName = getResourceAsFile(getFileWithIssuesName()).toString();
+        String fileName = new FileReaderFactory(getResourceAsFile(getFileWithIssuesName())).getFileName();
 
         softly.assertThat(report).hasSize(4);
 
