@@ -45,8 +45,8 @@ public class QtTranslationSaxParser extends DefaultHandler {
     private Locator documentLocator;
     private final Deque<String> elementTypeStack = new ArrayDeque<>();
     private final Map<String, String> expectedElementTypeParents = new HashMap<>();
-    private String contextName;
-    private String sourceValue;
+    private String contextName = "";
+    private String sourceValue = "";
     private boolean translationTagFound = false;
     private boolean emitIssue = false;
     private int lastColumnNumber;
@@ -85,12 +85,12 @@ public class QtTranslationSaxParser extends DefaultHandler {
 
         elementTypeStack.push(key);
 
-        if (CONTEXT_NAME.equals(key) && contextName != null) {
+        if (CONTEXT_NAME.equals(key) && !contextName.isEmpty()) {
             throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", CONTEXT_NAME, CONTEXT, this.documentLocator
                     .getLineNumber());
         }
 
-        if (SOURCE.equals(key) && sourceValue != null) {
+        if (SOURCE.equals(key) && !sourceValue.isEmpty()) {
             throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", SOURCE, MESSAGE, this.documentLocator
                     .getLineNumber());
         }
@@ -123,7 +123,7 @@ public class QtTranslationSaxParser extends DefaultHandler {
         lastColumnNumber = this.documentLocator.getColumnNumber();
 
         if (CONTEXT.equals(qName)) {
-            contextName = null;
+            contextName = "";
             return;
         }
 
@@ -131,11 +131,11 @@ public class QtTranslationSaxParser extends DefaultHandler {
             return;
         }
 
-        if (StringUtils.isBlank(contextName)) {
+        if (contextName.isEmpty()) {
             throw new ParsingException("Missing or empty element type \"%s\" within element type \"%s\" (Line %d).", CONTEXT_NAME, MESSAGE, this.documentLocator
                     .getLineNumber());
         }
-        if (StringUtils.isBlank(sourceValue)) {
+        if (sourceValue.isEmpty()) {
             throw new ParsingException("Missing or empty element type \"%s\" within element type \"%s\" (Line %d).", SOURCE, MESSAGE, this.documentLocator
                     .getLineNumber());
         }
@@ -153,7 +153,7 @@ public class QtTranslationSaxParser extends DefaultHandler {
         // prepare for next message block
         emitIssue = false;
         translationTagFound = false;
-        sourceValue = null;
+        sourceValue = "";
     }
 
     @Override
