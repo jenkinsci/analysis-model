@@ -45,7 +45,7 @@ public class TrivyParser extends IssueParser {
             for (int i = 0; i < jsonReport.length(); i++) {
                 final JSONObject component = (JSONObject)jsonReport.get(i);
                 if (!component.isNull("Vulnerabilities")) {
-                    final JSONArray vulnatbilites = component.getJSONArray("Vulnerabilities");
+                    final JSONArray vulnerabilities = component.getJSONArray("Vulnerabilities");
                     for (Object vulnatbility : vulnatbilites) {
                         report.add(convertToIssue((JSONObject)vulnatbility));
                     }
