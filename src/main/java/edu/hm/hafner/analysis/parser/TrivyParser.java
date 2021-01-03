@@ -79,7 +79,8 @@ public class TrivyParser extends IssueParser {
         else if (TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM.equalsIgnoreCase(string)) {
             return Severity.WARNING_NORMAL;
         }
-        else if (TRIVY_VULNERABILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string) || TRIVY_VULNERABILITY_LEVEL_TAG_CRITICAL.equalsIgnoreCase(string)) {
+        else if (TRIVY_VULNERABILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string)
+                || TRIVY_VULNERABILITY_LEVEL_TAG_CRITICAL.equalsIgnoreCase(string)) {
             return Severity.WARNING_HIGH;
         }
         else {

@@ -1,10 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link TrivyParser}.
@@ -26,9 +31,14 @@ class TrivyParserTest extends AbstractParserTest {
                 .hasMessage("avahi: Multicast DNS responds to unicast queries outside of local network");
     }
 
+    @Test
+    void brokenInput() {
+        assertThatThrownBy(() -> parse("eclipse.txt"))
+                .isInstanceOf(ParsingException.class);
+    }
+
     @Override
     protected IssueParser createParser() {
         return new TrivyParser();
     }
-
 }
