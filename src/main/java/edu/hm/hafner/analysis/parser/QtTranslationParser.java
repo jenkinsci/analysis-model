@@ -38,6 +38,13 @@ public class QtTranslationParser extends IssueParser {
                     + "Remove this translation if it is not used anymore or improve your call to \"tr()\", "
                     + "so \"lupdate\" can find it.";
 
+    @Override
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+        Report report = new Report();
+        readerFactory.parse(new QtTranslationSaxParser(report, readerFactory.getFileName()));
+        return report;
+    }
+
     /**
      * Handles the parsing of a translation file from Qt.
      */
@@ -72,7 +79,7 @@ public class QtTranslationParser extends IssueParser {
          * @param fileName
          *         path to the translation file
          */
-        public QtTranslationSaxParser(final Report report, final String fileName) {
+        QtTranslationSaxParser(final Report report, final String fileName) {
             super();
 
             expectedElementTypeParents.put(ROOT, null);
@@ -221,12 +228,5 @@ public class QtTranslationParser extends IssueParser {
             }
             builder.setCategory(translationType);
         }
-    }
-
-    @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Report report = new Report();
-        readerFactory.parse(new QtTranslationSaxParser(report, readerFactory.getFileName()));
-        return report;
     }
 }
