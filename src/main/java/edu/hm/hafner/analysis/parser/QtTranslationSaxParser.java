@@ -170,7 +170,7 @@ public class QtTranslationSaxParser extends DefaultHandler {
         }
     }
 
-    private void throwParsingExceptionBecauseOfDuplicatedOccurrence(final boolean shouldThrow, final String element){
+    private void throwParsingExceptionBecauseOfDuplicatedOccurrence(final boolean shouldThrow, final String element) {
         if (shouldThrow) {
             throw new ParsingException(
                     "Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", element,
@@ -179,7 +179,7 @@ public class QtTranslationSaxParser extends DefaultHandler {
         }
     }
 
-    private void throwParsingExceptionBecauseOfMissingElementType(final boolean shouldThrow, final String element){
+    private void throwParsingExceptionBecauseOfMissingElementType(final boolean shouldThrow, final String element) {
         if (shouldThrow) {
             throw new ParsingException(
                     "Missing or empty element type \"%s\" within element type \"%s\" (Line %d).", element,
