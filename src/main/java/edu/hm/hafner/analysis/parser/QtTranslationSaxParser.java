@@ -87,22 +87,13 @@ public class QtTranslationSaxParser extends DefaultHandler {
 
         switch (key) {
             case CONTEXT_NAME:
-                if (!contextName.isEmpty()) {
-                    throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", CONTEXT_NAME, CONTEXT, this.documentLocator
-                            .getLineNumber());
-                }
+                throwParsingExceptionBecauseOfDuplicatedOccurrence(!contextName.isEmpty(), key);
                 break;
             case SOURCE:
-                if (!sourceValue.isEmpty()) {
-                    throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", SOURCE, MESSAGE, this.documentLocator
-                            .getLineNumber());
-                }
+                throwParsingExceptionBecauseOfDuplicatedOccurrence(!sourceValue.isEmpty(), key);
                 break;
             case TRANSLATION:
-                if (translationTagFound) {
-                    throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", TRANSLATION, MESSAGE, this.documentLocator
-                            .getLineNumber());
-                }
+                throwParsingExceptionBecauseOfDuplicatedOccurrence(translationTagFound, key);
                 translationTagFound = true;
 
                 String translationType = atts.getValue(TRANSLATION_ATTR_TYPE);
@@ -136,18 +127,9 @@ public class QtTranslationSaxParser extends DefaultHandler {
             return;
         }
 
-        if (contextName.isEmpty()) {
-            throw new ParsingException("Missing or empty element type \"%s\" within element type \"%s\" (Line %d).", CONTEXT_NAME, MESSAGE, this.documentLocator
-                    .getLineNumber());
-        }
-        if (sourceValue.isEmpty()) {
-            throw new ParsingException("Missing or empty element type \"%s\" within element type \"%s\" (Line %d).", SOURCE, MESSAGE, this.documentLocator
-                    .getLineNumber());
-        }
-        if (!translationTagFound) {
-            throw new ParsingException("Missing element type \"%s\" within element type \"%s\" (Line %d).", TRANSLATION, MESSAGE, this.documentLocator
-                    .getLineNumber());
-        }
+        throwParsingExceptionBecauseOfMissingElementType(contextName.isEmpty(), CONTEXT_NAME);
+        throwParsingExceptionBecauseOfMissingElementType(sourceValue.isEmpty(), SOURCE);
+        throwParsingExceptionBecauseOfMissingElementType(!translationTagFound, TRANSLATION);
 
         if (emitIssue) {
             builder.setLineEnd(this.documentLocator.getLineNumber());
@@ -184,6 +166,24 @@ public class QtTranslationSaxParser extends DefaultHandler {
 
         if (!parent.isEmpty() && !elementTypeStack.getFirst().equals(parent)) {
             throw new ParsingException("Element type \"%s\" expects to be a child element of element type \"%s\" (Line %d).", element, parent, this.documentLocator
+                    .getLineNumber());
+        }
+    }
+
+    private void throwParsingExceptionBecauseOfDuplicatedOccurrence(final boolean shouldThrow, final String element){
+        if (shouldThrow) {
+            throw new ParsingException(
+                    "Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", element,
+                    expectedElementTypeParents.get(element), this.documentLocator
+                    .getLineNumber());
+        }
+    }
+
+    private void throwParsingExceptionBecauseOfMissingElementType(final boolean shouldThrow, final String element){
+        if (shouldThrow) {
+            throw new ParsingException(
+                    "Missing or empty element type \"%s\" within element type \"%s\" (Line %d).", element,
+                    expectedElementTypeParents.get(element), this.documentLocator
                     .getLineNumber());
         }
     }
