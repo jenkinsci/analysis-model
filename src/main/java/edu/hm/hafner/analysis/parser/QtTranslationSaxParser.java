@@ -115,6 +115,8 @@ public class QtTranslationSaxParser extends DefaultHandler {
                 builder.setLineStart(this.documentLocator.getLineNumber());
                 builder.setColumnStart(lastColumnNumber);
                 break;
+            default:
+                break;
         }
 
         lastColumnNumber = this.documentLocator.getColumnNumber();
