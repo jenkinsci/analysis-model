@@ -36,9 +36,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                 .hasLineEnd(20)
                 .hasColumnStart(5)
                 .hasColumnEnd(15)
-                .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_UNFINISHED_MESSAGE)
+                .hasMessage(QtTranslationParser.TRANSLATION_TYPE_UNFINISHED_MESSAGE)
                 .hasFileName(fileName)
-                .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_UNFINISHED);
+                .hasCategory(QtTranslationParser.TRANSLATION_TYPE_UNFINISHED);
 
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -46,9 +46,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                 .hasLineEnd(24)
                 .hasColumnStart(5)
                 .hasColumnEnd(15)
-                .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_VANISHED_MESSAGE)
+                .hasMessage(QtTranslationParser.TRANSLATION_TYPE_VANISHED_MESSAGE)
                 .hasFileName(fileName)
-                .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_VANISHED);
+                .hasCategory(QtTranslationParser.TRANSLATION_TYPE_VANISHED);
 
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -56,9 +56,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                 .hasLineEnd(28)
                 .hasColumnStart(5)
                 .hasColumnEnd(15)
-                .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_OBSOLETE_MESSAGE)
+                .hasMessage(QtTranslationParser.TRANSLATION_TYPE_OBSOLETE_MESSAGE)
                 .hasFileName(fileName)
-                .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_OBSOLETE);
+                .hasCategory(QtTranslationParser.TRANSLATION_TYPE_OBSOLETE);
 
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -66,9 +66,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                 .hasLineEnd(53)
                 .hasColumnStart(5)
                 .hasColumnEnd(15)
-                .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_UNFINISHED_MESSAGE)
+                .hasMessage(QtTranslationParser.TRANSLATION_TYPE_UNFINISHED_MESSAGE)
                 .hasFileName(fileName)
-                .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_UNFINISHED);
+                .hasCategory(QtTranslationParser.TRANSLATION_TYPE_UNFINISHED);
     }
 
     @Test
@@ -86,9 +86,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                     .hasLineEnd(1)
                     .hasColumnStart(338)
                     .hasColumnEnd(423)
-                    .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_UNFINISHED_MESSAGE)
+                    .hasMessage(QtTranslationParser.TRANSLATION_TYPE_UNFINISHED_MESSAGE)
                     .hasFileName(fileName)
-                    .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_UNFINISHED);
+                    .hasCategory(QtTranslationParser.TRANSLATION_TYPE_UNFINISHED);
 
             softly.assertThat(report.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -96,9 +96,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                     .hasLineEnd(1)
                     .hasColumnStart(423)
                     .hasColumnEnd(513)
-                    .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_VANISHED_MESSAGE)
+                    .hasMessage(QtTranslationParser.TRANSLATION_TYPE_VANISHED_MESSAGE)
                     .hasFileName(fileName)
-                    .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_VANISHED);
+                    .hasCategory(QtTranslationParser.TRANSLATION_TYPE_VANISHED);
 
             softly.assertThat(report.get(2))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -106,9 +106,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                     .hasLineEnd(1)
                     .hasColumnStart(513)
                     .hasColumnEnd(611)
-                    .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_OBSOLETE_MESSAGE)
+                    .hasMessage(QtTranslationParser.TRANSLATION_TYPE_OBSOLETE_MESSAGE)
                     .hasFileName(fileName)
-                    .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_OBSOLETE);
+                    .hasCategory(QtTranslationParser.TRANSLATION_TYPE_OBSOLETE);
 
             softly.assertThat(report.get(3))
                     .hasSeverity(Severity.WARNING_LOW)
@@ -116,9 +116,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                     .hasLineEnd(1)
                     .hasColumnStart(996)
                     .hasColumnEnd(1183)
-                    .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_UNFINISHED_MESSAGE)
+                    .hasMessage(QtTranslationParser.TRANSLATION_TYPE_UNFINISHED_MESSAGE)
                     .hasFileName(fileName)
-                    .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_UNFINISHED);
+                    .hasCategory(QtTranslationParser.TRANSLATION_TYPE_UNFINISHED);
         }
     }
 
@@ -179,9 +179,9 @@ class QtTranslationParserTest extends AbstractParserTest {
                     .hasLineEnd(11)
                     .hasColumnStart(5)
                     .hasColumnEnd(15)
-                    .hasMessage(QtTranslationSaxParser.TRANSLATION_TYPE_OBSOLETE_MESSAGE)
+                    .hasMessage(QtTranslationParser.TRANSLATION_TYPE_OBSOLETE_MESSAGE)
                     .hasFileName(fileName)
-                    .hasCategory(QtTranslationSaxParser.TRANSLATION_TYPE_OBSOLETE);
+                    .hasCategory(QtTranslationParser.TRANSLATION_TYPE_OBSOLETE);
         }
     }
 
