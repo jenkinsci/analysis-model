@@ -85,33 +85,36 @@ public class QtTranslationSaxParser extends DefaultHandler {
 
         elementTypeStack.push(key);
 
-        if (CONTEXT_NAME.equals(key) && !contextName.isEmpty()) {
-            throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", CONTEXT_NAME, CONTEXT, this.documentLocator
-                    .getLineNumber());
-        }
+        switch (key) {
+            case CONTEXT_NAME:
+                if (!contextName.isEmpty()) {
+                    throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", CONTEXT_NAME, CONTEXT, this.documentLocator
+                            .getLineNumber());
+                }
+                break;
+            case SOURCE:
+                if (!sourceValue.isEmpty()) {
+                    throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", SOURCE, MESSAGE, this.documentLocator
+                            .getLineNumber());
+                }
+                break;
+            case TRANSLATION:
+                if (translationTagFound) {
+                    throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", TRANSLATION, MESSAGE, this.documentLocator
+                            .getLineNumber());
+                }
+                translationTagFound = true;
 
-        if (SOURCE.equals(key) && !sourceValue.isEmpty()) {
-            throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", SOURCE, MESSAGE, this.documentLocator
-                    .getLineNumber());
-        }
-
-        if (TRANSLATION.equals(key)) {
-            if (translationTagFound) {
-                throw new ParsingException("Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", TRANSLATION, MESSAGE, this.documentLocator
-                        .getLineNumber());
-            }
-            translationTagFound = true;
-
-            String translationType = atts.getValue(TRANSLATION_ATTR_TYPE);
-            if (translationType != null) {
-                applyTranslationType(translationType);
-                emitIssue = true;
-            }
-        }
-
-        if (MESSAGE.equals(key)) {
-            builder.setLineStart(this.documentLocator.getLineNumber());
-            builder.setColumnStart(lastColumnNumber);
+                String translationType = atts.getValue(TRANSLATION_ATTR_TYPE);
+                if (translationType != null) {
+                    applyTranslationType(translationType);
+                    emitIssue = true;
+                }
+                break;
+            case MESSAGE:
+                builder.setLineStart(this.documentLocator.getLineNumber());
+                builder.setColumnStart(lastColumnNumber);
+                break;
         }
 
         lastColumnNumber = this.documentLocator.getColumnNumber();
