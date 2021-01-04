@@ -168,7 +168,7 @@ class QtTranslationParserTest extends AbstractParserTest {
     protected void multilineTranslation() {
         String relativeFileName = "qttranslation/multilineTranslation.ts";
         Report report = parse(relativeFileName);
-        String fileName = getResourceAsFile(relativeFileName).toString();
+        String fileName = new FileReaderFactory(getResourceAsFile(relativeFileName)).getFileName();
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report).hasSize(1);
