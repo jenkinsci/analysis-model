@@ -192,8 +192,8 @@ class QtTranslationParserTest extends AbstractParserTest {
     }
 
     @Test
-    void unknownTranslationState() {
-        assertThatThrownBy(() -> parse("qttranslation/unknownTranslationState.ts"))
+    void unknownTranslationType() {
+        assertThatThrownBy(() -> parse("qttranslation/unknownTranslationType.ts"))
                 .isInstanceOf(ParsingException.class);
     }
 
