@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Handles the parsing of a translation file from Qt.
@@ -40,9 +41,12 @@ public class QtTranslationSaxParser extends DefaultHandler {
             + "Remove this translation if it is not used anymore or improve your call to \"tr()\", "
             + "so \"lupdate\" can find it.";
 
+    // Locator will be initialized within setDocumentLocator which will be called by SAXParser.
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
+    private Locator documentLocator;
+
     private final Report report;
     private final IssueBuilder builder = new IssueBuilder();
-    private Locator documentLocator;
     private final Deque<String> elementTypeStack = new ArrayDeque<>();
     private final Map<String, String> expectedElementTypeParents = new HashMap<>();
     private String contextName = "";
