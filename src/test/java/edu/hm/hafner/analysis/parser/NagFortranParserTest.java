@@ -269,10 +269,110 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
+    /**
+     * Test parsing of a file containing a Non-standard(Obsolete) message output by the NAG Fortran Compiler.
+     */
+    @Test
+    void testNonStandardObsoleteParser() {
+        Report warnings = parse("NagFortranNonStandardObsolete.txt");
+
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("msgs71.f90")
+                    .hasCategory("Non-standard(Obsolete)")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Byte count on numeric data type detected at *@8")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(2)
+                    .hasLineEnd(2)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
+    }
+
+    /**
+     * Test parsing of a file containing a Extension(NAG) message output by the NAG Fortran Compiler.
+     */
+    @Test
+    void testExtensionNAGParser() {
+        Report warnings = parse("NagFortranExtensionNAG.txt");
+
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("msgs71.f90")
+                    .hasCategory("Extension(NAG)")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("FORALL statement detected at 42@<end-of-statement>")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(8)
+                    .hasLineEnd(8)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
+    }
+
+    /**
+     * Test parsing of a file containing a Extension(F2018) message output by the NAG Fortran Compiler.
+     */
+    @Test
+    void testExtensionF2018Parser() {
+        Report warnings = parse("NagFortranExtensionF2018.txt");
+
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("msgs71.f90")
+                    .hasCategory("Extension(F2018)")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("NON_RECURSIVE attribute detected at <end-of-statement>@NON_RECURSIVE")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(5)
+                    .hasLineEnd(5)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
+    }
+
+    /**
+     * Test parsing of a file containing a Extension(F2008) message output by the NAG Fortran Compiler.
+     */
+    @Test
+    void testExtensionF2008Parser() {
+        Report warnings = parse("NagFortranExtensionF2008.txt");
+
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("msgs71.f90")
+                    .hasCategory("Extension(F2008)")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("NUM_IMAGES intrinsic procedure")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(4)
+                    .hasLineEnd(4)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
+    }
+
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(10);
-        assertThatReportHasSeverities(report, 0, 4, 5, 1);
+        softly.assertThat(report).hasSize(14);
+        assertThatReportHasSeverities(report, 0, 4, 9, 1);
 
         softly.assertThat(report.get(0))
                 .hasFileName("C:/file1.inc")
@@ -393,6 +493,54 @@ class NagFortranParserTest extends AbstractParserTest {
                 .hasPackageName("-")
                 .hasLineStart(1)
                 .hasLineEnd(1)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
+
+        softly.assertThat(report.get(10))
+                .hasFileName("msgs71.f90")
+                .hasCategory("Non-standard(Obsolete)")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("Byte count on numeric data type detected at *@8")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(2)
+                .hasLineEnd(2)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
+
+        softly.assertThat(report.get(11))
+                .hasFileName("msgs71.f90")
+                .hasCategory("Extension(NAG)")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("FORALL statement detected at 42@<end-of-statement>")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(8)
+                .hasLineEnd(8)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
+
+        softly.assertThat(report.get(12))
+                .hasFileName("msgs71.f90")
+                .hasCategory("Extension(F2018)")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("NON_RECURSIVE attribute detected at <end-of-statement>@NON_RECURSIVE")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
+
+        softly.assertThat(report.get(13))
+                .hasFileName("msgs71.f90")
+                .hasCategory("Extension(F2008)")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("NUM_IMAGES intrinsic procedure")
+                .hasDescription("")
+                .hasPackageName("-")
+                .hasLineStart(4)
+                .hasLineEnd(4)
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
     }

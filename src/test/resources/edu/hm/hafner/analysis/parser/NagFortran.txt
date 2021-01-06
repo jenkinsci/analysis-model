@@ -10,4 +10,8 @@ Runtime Error: file8.f90, line 7: Reference to undefined POINTER P
 Fatal Error: file9.f90, line 5: SAME_NAME is not a derived type
              detected at ::@N
 Panic: file10.f90, line 1: User requested panic
+Non-standard(Obsolete): msgs71.f90, line 2: Byte count on numeric data type detected at *@8
+Extension(NAG): msgs71.f90, line 8: FORALL statement detected at 42@<end-of-statement>
+Extension(F2018): msgs71.f90, line 5: NON_RECURSIVE attribute detected at <end-of-statement>@NON_RECURSIVE
+Extension(F2008): msgs71.f90, line 4: NUM_IMAGES intrinsic procedure
 [NAG Fortran Compiler - not a message line]
