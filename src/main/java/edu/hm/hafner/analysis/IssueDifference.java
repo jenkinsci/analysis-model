@@ -69,21 +69,21 @@ public class IssueDifference {
         }
     }
 
-    private <Key> void addIssueToMap(HashMap<Key, List<Issue>> map, Key key, Issue issue){
-       List<Issue> issues = map.get(key);
-       if(issues == null){
-           issues = new ArrayList();
-           map.put(key, issues);
-       }
-       issues.add(issue);
+    private <K> void addIssueToMap(HashMap<K, List<Issue>> map, K key, Issue issue) {
+        List<Issue> issues = map.get(key);
+        if (issues == null) {
+            issues = new ArrayList();
+            map.put(key, issues);
+        }
+        issues.add(issue);
     }
 
-    private <Key> void removeIssueFromMap(HashMap<Key, List<Issue>> map, Key key, Issue issue){
-       List<Issue> issues = map.get(key);
-       issues.remove(issue);
-       if(issues.isEmpty()){
-           map.remove(key);
-       }
+    private <K> void removeIssueFromMap(HashMap<K, List<Issue>> map, K key, Issue issue) {
+        List<Issue> issues = map.get(key);
+        issues.remove(issue);
+        if (issues.isEmpty()) {
+            map.remove(key);
+        }
     }
 
     private UUID remove(final Issue current, final Issue oldIssue) {
