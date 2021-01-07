@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,8 +18,8 @@ public class IssueDifference {
     private final Report newIssues;
     private final Report fixedIssues;
     private final Report outstandingIssues;
-    private final HashMap<Integer, List<Issue>> referencesByHash;
-    private final HashMap<String, List<Issue>> referencesByFingerprint;
+    private final Map<Integer, List<Issue>> referencesByHash;
+    private final Map<String, List<Issue>> referencesByFingerprint;
 
     /**
      * Creates a new instance of {@link IssueDifference}.
@@ -69,7 +70,7 @@ public class IssueDifference {
         }
     }
 
-    private <K> void addIssueToMap(HashMap<K, List<Issue>> map, K key, Issue issue) {
+    private <K> void addIssueToMap(final Map<K, List<Issue>> map, final K key, final Issue issue) {
         List<Issue> issues = map.get(key);
         if (issues == null) {
             issues = new ArrayList();
@@ -78,7 +79,7 @@ public class IssueDifference {
         issues.add(issue);
     }
 
-    private <K> void removeIssueFromMap(HashMap<K, List<Issue>> map, K key, Issue issue) {
+    private <K> void removeIssueFromMap(final Map<K, List<Issue>> map, final K key, final Issue issue) {
         List<Issue> issues = map.get(key);
         issues.remove(issue);
         if (issues.isEmpty()) {
