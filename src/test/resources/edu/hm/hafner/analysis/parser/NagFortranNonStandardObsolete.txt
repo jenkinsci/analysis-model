@@ -1,0 +1,3 @@
+nagfor file.f90 > not_a_message_line
+Non-standard(Obsolete): msgs71.f90, line 2: Byte count on numeric data type detected at *@8
+[NAG Fortran Compiler - not a message line]
