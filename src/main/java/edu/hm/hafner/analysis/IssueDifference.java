@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.UUID;
  * @author Ullrich Hafner
  */
 public class IssueDifference {
+    private static final List<Issue> EMPTY = Collections.emptyList();
     private final Report newIssues;
     private final Report fixedIssues;
     private final Report outstandingIssues;
@@ -35,10 +37,10 @@ public class IssueDifference {
         fixedIssues = referenceIssues.copy();
         outstandingIssues = new Report();
 
-        referencesByHash = new HashMap<Integer, List<Issue>>();
-        referencesByFingerprint = new HashMap<String, List<Issue>>();
+        referencesByHash = new HashMap<>();
+        referencesByFingerprint = new HashMap<>();
 
-        for (Issue issue : fixedIssues) {
+        for (Issue issue : referenceIssues) {
             addIssueToMap(referencesByHash, issue.hashCode(), issue);
             addIssueToMap(referencesByFingerprint, issue.getFingerprint(), issue);
         }
@@ -52,7 +54,7 @@ public class IssueDifference {
     }
 
     private List<UUID> matchIssuesByEquals(final Report currentIssues) {
-        List<UUID> removedIds = new ArrayList<UUID>();
+        List<UUID> removedIds = new ArrayList<>();
         for (Issue current : currentIssues) {
             List<Issue> equalIssues = findReferenceByEquals(current);
 
@@ -70,12 +72,7 @@ public class IssueDifference {
     }
 
     private <K> void addIssueToMap(final Map<K, List<Issue>> map, final K key, final Issue issue) {
-        List<Issue> issues = map.get(key);
-        if (issues == null) {
-            issues = new ArrayList<Issue>();
-            map.put(key, issues);
-        }
-        issues.add(issue);
+        map.computeIfAbsent(key, k -> new ArrayList<>()).add(issue);
     }
 
     private <K> void removeIssueFromMap(final Map<K, List<Issue>> map, final K key, final Issue issue) {
@@ -105,23 +102,18 @@ public class IssueDifference {
     }
 
     private Optional<Issue> findReferenceByFingerprint(final Issue current) {
-        List<Issue> references = referencesByFingerprint.get(current.getFingerprint());
-        if (references != null) {
-            return Optional.of(references.get(0));
-        }
-        return Optional.empty();
+        return referencesByFingerprint.getOrDefault(current.getFingerprint(), EMPTY).stream().findAny();
     }
 
     private List<Issue> findReferenceByEquals(final Issue current) {
-        List<Issue> references = referencesByHash.get(current.hashCode());
         List<Issue> equalIssues = new ArrayList<>();
-        if (references != null) {
-            for (Issue reference : references) {
-                if (current.equals(reference)) {
-                    equalIssues.add(reference);
-                }
+
+        for (Issue reference : referencesByHash.getOrDefault(current.hashCode(), EMPTY)) {
+            if (current.equals(reference)) {
+                equalIssues.add(reference);
             }
         }
+
         return equalIssues;
     }
 
