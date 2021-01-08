@@ -14,7 +14,6 @@ import java.util.UUID;
  * @author Ullrich Hafner
  */
 public class IssueDifference {
-
     private final Report newIssues;
     private final Report fixedIssues;
     private final Report outstandingIssues;
@@ -36,8 +35,8 @@ public class IssueDifference {
         fixedIssues = referenceIssues.copy();
         outstandingIssues = new Report();
 
-        referencesByHash = new HashMap();
-        referencesByFingerprint = new HashMap();
+        referencesByHash = new HashMap<Integer, List<Issue>>();
+        referencesByFingerprint = new HashMap<String, List<Issue>>();
 
         for (Issue issue : fixedIssues) {
             addIssueToMap(referencesByHash, issue.hashCode(), issue);
@@ -53,7 +52,7 @@ public class IssueDifference {
     }
 
     private List<UUID> matchIssuesByEquals(final Report currentIssues) {
-        List<UUID> removedIds = new ArrayList<>();
+        List<UUID> removedIds = new ArrayList<UUID>();
         for (Issue current : currentIssues) {
             List<Issue> equalIssues = findReferenceByEquals(current);
 
@@ -73,7 +72,7 @@ public class IssueDifference {
     private <K> void addIssueToMap(final Map<K, List<Issue>> map, final K key, final Issue issue) {
         List<Issue> issues = map.get(key);
         if (issues == null) {
-            issues = new ArrayList();
+            issues = new ArrayList<Issue>();
             map.put(key, issues);
         }
         issues.add(issue);
