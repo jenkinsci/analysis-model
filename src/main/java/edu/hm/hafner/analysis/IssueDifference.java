@@ -1,7 +1,10 @@
 package edu.hm.hafner.analysis;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,9 +15,12 @@ import java.util.UUID;
  * @author Ullrich Hafner
  */
 public class IssueDifference {
+    private static final List<Issue> EMPTY = Collections.emptyList();
     private final Report newIssues;
     private final Report fixedIssues;
     private final Report outstandingIssues;
+    private final Map<Integer, List<Issue>> referencesByHash;
+    private final Map<String, List<Issue>> referencesByFingerprint;
 
     /**
      * Creates a new instance of {@link IssueDifference}.
@@ -30,6 +36,14 @@ public class IssueDifference {
         newIssues = currentIssues.copy();
         fixedIssues = referenceIssues.copy();
         outstandingIssues = new Report();
+
+        referencesByHash = new HashMap<>();
+        referencesByFingerprint = new HashMap<>();
+
+        for (Issue issue : referenceIssues) {
+            addIssueToMap(referencesByHash, issue.hashCode(), issue);
+            addIssueToMap(referencesByFingerprint, issue.getFingerprint(), issue);
+        }
 
         List<UUID> removed = matchIssuesByEquals(currentIssues);
         Report secondPass = currentIssues.copy();
@@ -57,12 +71,26 @@ public class IssueDifference {
         }
     }
 
+    private <K> void addIssueToMap(final Map<K, List<Issue>> map, final K key, final Issue issue) {
+        map.computeIfAbsent(key, k -> new ArrayList<>()).add(issue);
+    }
+
+    private <K> void removeIssueFromMap(final Map<K, List<Issue>> map, final K key, final Issue issue) {
+        List<Issue> issues = map.get(key);
+        issues.remove(issue);
+        if (issues.isEmpty()) {
+            map.remove(key);
+        }
+    }
+
     private UUID remove(final Issue current, final Issue oldIssue) {
         UUID id = current.getId();
         Issue issueWithLatestProperties = newIssues.remove(id);
         issueWithLatestProperties.setReference(oldIssue.getReference());
         outstandingIssues.add(issueWithLatestProperties);
         fixedIssues.remove(oldIssue.getId());
+        removeIssueFromMap(referencesByFingerprint, oldIssue.getFingerprint(), oldIssue);
+        removeIssueFromMap(referencesByHash, oldIssue.hashCode(), oldIssue);
         return id;
     }
 
@@ -74,21 +102,18 @@ public class IssueDifference {
     }
 
     private Optional<Issue> findReferenceByFingerprint(final Issue current) {
-        for (Issue reference : fixedIssues) {
-            if (current.getFingerprint().equals(reference.getFingerprint())) {
-                return Optional.of(reference);
-            }
-        }
-        return Optional.empty();
+        return referencesByFingerprint.getOrDefault(current.getFingerprint(), EMPTY).stream().findAny();
     }
 
     private List<Issue> findReferenceByEquals(final Issue current) {
         List<Issue> equalIssues = new ArrayList<>();
-        for (Issue reference : fixedIssues) {
+
+        for (Issue reference : referencesByHash.getOrDefault(current.hashCode(), EMPTY)) {
             if (current.equals(reference)) {
                 equalIssues.add(reference);
             }
         }
+
         return equalIssues;
     }
 
@@ -122,4 +147,3 @@ public class IssueDifference {
         return fixedIssues;
     }
 }
-
