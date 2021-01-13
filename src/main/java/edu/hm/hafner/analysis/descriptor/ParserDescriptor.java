@@ -1,26 +1,42 @@
 package edu.hm.hafner.analysis.descriptor;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.AcuCobolParser;
 
 /**
- * A Descriptor for the Axivion warnings.
+ * Interface to descripe all descriptors.
  *
  * @author Lorenz Munsch
+ *
  */
-public class AxivionDescriptor implements Descriptor {
+public abstract class ParserDescriptor {
 
-    private static final String ID = "Axivion";
+
+    private final String id;
+    private final  String name;
+    private final  IssueParser issueParser;
 
     /**
      *
-     * Name to identify the warning.
+     * ctor for the abstract Parser Descriptor class.
+     */
+    public ParserDescriptor(final String id, final String name, final IssueParser issueParser) {
+        this.id = id;
+        this.name = name;
+        this.issueParser = issueParser;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    /**
+     *
+     * Name to identify the parser.
      *
      * @return the identification string
      */
-    @Override
     public String getName() {
-        return ID;
+        return name;
     }
 
     /**
@@ -29,9 +45,8 @@ public class AxivionDescriptor implements Descriptor {
      *
      * @return the parser
      */
-    @Override
     public IssueParser createParser() {
-        return new AcuCobolParser();
+        return issueParser;
     }
 
     /**
@@ -40,7 +55,6 @@ public class AxivionDescriptor implements Descriptor {
      *
      * @return the name of the resultfile
      */
-    @Override
     public String getPattern() {
         return "";
     }
@@ -51,8 +65,8 @@ public class AxivionDescriptor implements Descriptor {
      *
      * @return the checker URL or empty String
      */
-    @Override
     public String getUrl() {
         return "";
     }
+
 }

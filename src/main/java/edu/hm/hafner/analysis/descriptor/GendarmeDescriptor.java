@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
 
 /**
@@ -8,54 +7,15 @@ import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
  *
  * @author Lorenz Munsch
  */
-public class GendarmeDescriptor implements Descriptor {
+public class GendarmeDescriptor extends ParserDescriptor {
 
-    private static final String ID = "Gendarme";
-
-    /**
-     *
-     * Name to identify the warning.
-     *
-     * @return the identification string
-     */
-    @Override
-    public String getName() {
-        return ID;
-    }
+    private static final String ID = "gendarme";
+    private static final String NAME = "Gendarme";
 
     /**
-     *
-     * Creates a new Parser.
-     *
-     * @return the parser
+     * ctor for the abstract Parser Descriptor class.
      */
-    @Override
-    public IssueParser createParser() {
-        return new GendarmeParser();
+    public GendarmeDescriptor() {
+        super(ID, NAME, new GendarmeParser());
     }
-
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
-    @Override
-    public String getPattern() {
-        return "";
-    }
-
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
-    @Override
-    public String getUrl() {
-        return "";
-    }
-
-
-
 }

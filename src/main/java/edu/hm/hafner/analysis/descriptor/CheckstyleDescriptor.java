@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 
 /**
@@ -8,30 +7,16 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Lorenz Munsch
  */
-public class CheckstyleDescriptor implements Descriptor {
+public class CheckstyleDescriptor extends ParserDescriptor {
 
-    private static final String ID = "Checkstyle";
-
-    /**
-     *
-     * Name to identify the warning.
-     *
-     * @return the identification string
-     */
-    @Override
-    public String getName() {
-        return ID;
-    }
+    private static final String ID = "checkstyle";
+    private static final String NAME = "Checkstyle";
 
     /**
-     *
-     * Creates a new Parser.
-     *
-     * @return the parser
+     * ctor for the abstract Parser Descriptor class.
      */
-    @Override
-    public IssueParser createParser() {
-        return new CheckStyleParser();
+    public CheckstyleDescriptor() {
+        super(ID, NAME, new CheckStyleParser());
     }
 
     /**

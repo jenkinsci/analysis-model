@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.Armcc5CompilerParser;
 
 /**
@@ -8,52 +7,16 @@ import edu.hm.hafner.analysis.parser.Armcc5CompilerParser;
  *
  * @author Lorenz Munsch
  */
-public class Armcc5CompilerDescriptor implements Descriptor {
+public class Armcc5CompilerDescriptor extends ParserDescriptor {
 
-    private static final String ID = "Armcc5Compiler";
-
-    /**
-     *
-     * Name to identify the warning.
-     *
-     * @return the identification string
-     */
-    @Override
-    public String getName() {
-        return ID;
-    }
+    private static final String ID = "armcc_5_compiler";
+    private static final String NAME = "Armcc5Compiler";
 
     /**
-     *
-     * Creates a new Parser.
-     *
-     * @return the parser
+     * ctor for the abstract Parser Descriptor class.
      */
-    @Override
-    public IssueParser createParser() {
-        return new Armcc5CompilerParser();
-    }
-
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
-    @Override
-    public String getPattern() {
-        return "";
-    }
-
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
-    @Override
-    public String getUrl() {
-        return "";
+    public Armcc5CompilerDescriptor() {
+        super(ID, NAME,  new Armcc5CompilerParser());
     }
 
 }

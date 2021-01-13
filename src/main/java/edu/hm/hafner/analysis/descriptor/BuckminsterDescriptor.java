@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.BuckminsterParser;
 
 /**
@@ -8,51 +7,15 @@ import edu.hm.hafner.analysis.parser.BuckminsterParser;
  *
  * @author Lorenz Munsch
  */
-public class BuckminsterDescriptor implements Descriptor {
+public class BuckminsterDescriptor extends ParserDescriptor {
 
-    private static final String ID = "Buckminster";
-
-    /**
-     *
-     * Name to identify the warning.
-     *
-     * @return the identification string
-     */
-    @Override
-    public String getName() {
-        return ID;
-    }
+    private static final String ID = "buckminster";
+    private static final String NAME = "Buckminster";
 
     /**
-     *
-     * Creates a new Parser.
-     *
-     * @return the parser
+     * ctor for the abstract Parser Descriptor class.
      */
-    @Override
-    public IssueParser createParser() {
-        return new BuckminsterParser();
-    }
-
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
-    @Override
-    public String getPattern() {
-        return "";
-    }
-
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
-    @Override
-    public String getUrl() {
-        return "";
+    public BuckminsterDescriptor() {
+        super(ID, NAME, new BuckminsterParser());
     }
 }

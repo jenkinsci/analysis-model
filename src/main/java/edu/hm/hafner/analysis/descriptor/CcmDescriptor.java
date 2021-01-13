@@ -1,59 +1,21 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
+import edu.hm.hafner.analysis.parser.ccm.CcmParser;
 
 /**
  * A Descriptor for the Ccm warnings.
  *
  * @author Lorenz Munsch
  */
-public class CcmDescriptor implements Descriptor {
+public class CcmDescriptor extends ParserDescriptor {
 
-    private static final String ID = "Ccm";
-
-    /**
-     *
-     * Name to identify the warning.
-     *
-     * @return the identification string
-     */
-    @Override
-    public String getName() {
-        return ID;
-    }
+    private static final String ID = "ccm";
+    private static final String NAME = "Ccm";
 
     /**
-     *
-     * Creates a new Parser.
-     *
-     * @return the parser
+     * ctor for the abstract Parser Descriptor class.
      */
-    @Override
-    public IssueParser createParser() {
-        return new CheckStyleParser();
+    public CcmDescriptor() {
+        super(ID, NAME, new CcmParser());
     }
-
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
-    @Override
-    public String getPattern() {
-        return "";
-    }
-
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
-    @Override
-    public String getUrl() {
-        return "";
-    }
-
 }

@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.violations.AndroidLintParserAdapter;
 
 /**
@@ -9,50 +7,15 @@ import edu.hm.hafner.analysis.parser.violations.AndroidLintParserAdapter;
  *
  * @author Lorenz Munsch
  */
-public class AndroidLintDescriptor implements Descriptor {
+public class AndroidLintDescriptor extends ParserDescriptor {
 
-    private static final String ID = "AndroidLint";
-
-    /**
-     *
-     * Name to identify the warning.
-     *
-     * @return the identification string
-     */
-    @Override
-    public String getName() {
-        return ID;
-    }
+    private static final String ID = "android_lint";
+    private static final String NAME = "AndroidLint";
 
     /**
-     *
-     * Creates a new Parser.
-     *
-     * @return the parser
+     * ctor for the abstract Parser Descriptor class.
      */
-    @Override
-    public IssueParser createParser() {
-        return new AndroidLintParserAdapter();
-    }
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
-    @Override
-    public String getPattern() {
-        return "";
-    }
-
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
-    @Override
-    public String getUrl() {
-        return "";
+    public AndroidLintDescriptor() {
+        super(ID, NAME, new AndroidLintParserAdapter());
     }
 }

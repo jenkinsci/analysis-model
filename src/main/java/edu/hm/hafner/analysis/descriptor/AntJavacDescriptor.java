@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.AntJavacParser;
 
 /**
@@ -8,53 +7,15 @@ import edu.hm.hafner.analysis.parser.AntJavacParser;
  *
  * @author Lorenz Munsch
  */
-public class AntJavacDescriptor implements Descriptor {
+public class AntJavacDescriptor extends ParserDescriptor {
 
-    private static final String ID = "AntJavac";
-
-    /**
-     *
-     * Name to identify the warning.
-     *
-     * @return the identification string
-     */
-    @Override
-    public String getName() {
-        return ID;
-    }
+    private static final String ID = "ant_javac";
+    private static final String NAME = "AntJavac";
 
     /**
-     *
-     * Creates a new Parser.
-     *
-     * @return the parser
+     * ctor for the abstract Parser Descriptor class.
      */
-    @Override
-    public IssueParser createParser() {
-        return new AntJavacParser();
+    public AntJavacDescriptor() {
+        super(ID, NAME, new AntJavacParser());
     }
-
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
-    @Override
-    public String getPattern() {
-        return "";
-    }
-
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
-    @Override
-    public String getUrl() {
-        return "";
-    }
-
-
 }

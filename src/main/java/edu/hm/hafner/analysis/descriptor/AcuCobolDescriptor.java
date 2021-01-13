@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.AcuCobolParser;
 
 /**
@@ -9,51 +7,15 @@ import edu.hm.hafner.analysis.parser.AcuCobolParser;
  *
  * @author Lorenz Munsch
  */
-public class AcuCobolDescriptor implements Descriptor {
+public class AcuCobolDescriptor extends ParserDescriptor {
 
-    private static final String ID = "AcuCobol";
-
-    /**
-     *
-     * Name to identify the warning.
-     *
-     * @return the identification string
-     */
-    @Override
-    public String getName() {
-        return ID;
-    }
+    private static final String ID = "acu_cobol";
+    private static final String NAME = "AcuCobol";
 
     /**
-     *
-     * Creates a new Parser.
-     *
-     * @return the parser
+     * ctor for the abstract Parser Descriptor class.
      */
-    @Override
-    public IssueParser createParser() {
-        return new AcuCobolParser();
-    }
-
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
-    @Override
-    public String getPattern() {
-        return "";
-    }
-
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
-    @Override
-    public String getUrl() {
-        return "";
+    public AcuCobolDescriptor() {
+        super(ID, NAME, new AcuCobolParser());
     }
 }
