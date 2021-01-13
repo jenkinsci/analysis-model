@@ -25,6 +25,11 @@ public abstract class ParserDescriptor {
         this.issueParser = issueParser;
     }
 
+    /**
+     * Get the technical id.
+     *
+     * @return the technical id of the parser
+     */
     public String getId() {
         return id;
     }
