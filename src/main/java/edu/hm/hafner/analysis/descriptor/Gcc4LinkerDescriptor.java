@@ -1,0 +1,22 @@
+package edu.hm.hafner.analysis.descriptor;
+
+import edu.hm.hafner.analysis.parser.Gcc4CompilerParser;
+import edu.hm.hafner.analysis.parser.Gcc4LinkerParser;
+
+/**
+ * A Descriptor for the Gcc 4 Compiler parser.
+ *
+ * @author Lorenz Munsch
+ */
+public class Gcc4LinkerDescriptor extends ParserDescriptor {
+
+    private static final String ID = "gcc_4_linker";
+    private static final String NAME = "Gcc4Linker";
+
+    /**
+     * ctor for the abstract Parser Descriptor class.
+     */
+    public Gcc4LinkerDescriptor() {
+        super(ID, NAME, new Gcc4LinkerParser());
+    }
+}

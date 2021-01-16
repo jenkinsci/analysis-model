@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.descriptor;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.JSLintXmlSaxParser;
 
 /**
  * Interface to descripe all descriptors.
