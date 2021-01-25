@@ -18,7 +18,7 @@ public class RuboCopParser extends RegexpLineParser {
     private static final long serialVersionUID = 7199325311690082783L;
 
     private static final String RUBOCOP_WARNING_PATTERN =
-            "^(?<file>.[^:]+):(?<line>\\d+):(?<column>\\d+): (?<severity>[RCWEF]): (?<category>\\S+): (?<message>.*)$";
+            "^(?<file>.[^:]+):(?<line>\\d+):(?<column>\\d+): (?<severity>[RCWEF]): (\\[Correctable\\] )?(?<category>\\S+): (?<message>.*)$";
     private static final String ERROR = "E";
     private static final String FATAL = "F";
 

@@ -10,5 +10,11 @@ config.ru:1:1: C: Style/FrozenStringLiteralComment: Missing magic comment # froz
 spec/rails_helper.rb:6:7: E: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
 abort("The Rails environment is running in production mode!") if Rails.env.production?
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/tasks/generate_version.rake:21:24: C: [Correctable] Layout/SpaceBeforeBlockBraces: Space missing to the left of {.
+  File.open(fname, 'w'){|f| f.write(version_src) }
+                       ^
+lib/tasks/generate_version.rake:3:5: C: [Corrected] Layout/SpaceBeforeBlockBraces: Space missing to the left of {.
+  File.open(fname, 'w'){|f| f.write(version_src) }
+                       ^
 
 33 files inspected, 2 offenses detected
