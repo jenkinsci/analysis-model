@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.MavenConsoleParser;
  */
 public class MavenConsoleDescriptor extends ParserDescriptor {
 
-    private static final String ID = "maven_console";
-    private static final String NAME = "MavenConsole";
+    private static final String ID = "maven-warnings";
+    private static final String NAME = "Maven";
 
     /**
      * ctor for the abstract Parser Descriptor class.

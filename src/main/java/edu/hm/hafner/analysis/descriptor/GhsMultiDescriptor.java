@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.GhsMultiParser;
  */
 public class GhsMultiDescriptor extends ParserDescriptor {
 
-    private static final String ID = "ghs_multi";
-    private static final String NAME = "GhsMulti";
+    private static final String ID = "ghs-multi";
+    private static final String NAME = "GHS Multi Compiler";
 
     /**
      * ctor for the abstract Parser Descriptor class.

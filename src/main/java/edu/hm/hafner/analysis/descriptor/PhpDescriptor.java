@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.parser.PhpParser;
 public class PhpDescriptor extends ParserDescriptor {
 
     private static final String ID = "php";
-    private static final String NAME = "Php";
+    private static final String NAME = "PHP Runtime";
 
     /**
      * ctor for the abstract Parser Descriptor class.

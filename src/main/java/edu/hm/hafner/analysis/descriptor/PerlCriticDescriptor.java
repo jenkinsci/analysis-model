@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.PerlCriticParser;
  */
 public class PerlCriticDescriptor extends ParserDescriptor {
 
-    private static final String ID = "perl_critic";
-    private static final String NAME = "PerlCritic";
+    private static final String ID = "perl-critic";
+    private static final String NAME = "Perl::Critic";
 
     /**
      * ctor for the abstract Parser Descriptor class.

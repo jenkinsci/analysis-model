@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.IdeaInspectionParser;
  */
 public class IdeaInspectionDescriptor extends ParserDescriptor {
 
-    private static final String ID = "idea_inspection";
-    private static final String NAME = "IdeaInspection";
+    private static final String ID = "idea";
+    private static final String NAME = "IntelliJ IDEA Inspections";
 
     /**
      * ctor for the abstract Parser Descriptor class.

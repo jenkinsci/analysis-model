@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.Gcc4LinkerParser;
  */
 public class Gcc4LinkerDescriptor extends ParserDescriptor {
 
-    private static final String ID = "gcc_4_linker";
+    private static final String ID = "gcc-4-linker";
     private static final String NAME = "Gcc4Linker";
 
     /**

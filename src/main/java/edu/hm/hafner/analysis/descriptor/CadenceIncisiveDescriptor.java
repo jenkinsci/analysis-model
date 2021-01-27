@@ -9,8 +9,8 @@ import edu.hm.hafner.analysis.parser.CadenceIncisiveParser;
  */
 public class CadenceIncisiveDescriptor extends ParserDescriptor {
 
-    private static final String ID = "cadence_incisive";
-    private static final String NAME = "CadenceIncisive";
+    private static final String ID = "cadence";
+    private static final String NAME = "Cadence Incisive";
 
     /**
      * ctor for the abstract Parser Descriptor class.

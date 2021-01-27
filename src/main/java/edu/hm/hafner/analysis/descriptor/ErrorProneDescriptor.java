@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.ErrorProneParser;
  */
 public class ErrorProneDescriptor extends ParserDescriptor {
 
-    private static final String ID = "error_prone";
+    private static final String ID = "error-prone";
     private static final String NAME = "ErrorProne";
 
     /**

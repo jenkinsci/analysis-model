@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.NagFortranParser;
  */
 public class NagFortranDescriptor extends ParserDescriptor {
 
-    private static final String ID = "nag_fortran";
-    private static final String NAME = "NagFortran";
+    private static final String ID = "nag-fortran";
+    private static final String NAME = "NAG Fortran Compiler";
 
     /**
      * ctor for the abstract Parser Descriptor class.

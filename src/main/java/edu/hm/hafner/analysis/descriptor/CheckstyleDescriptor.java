@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 public class CheckstyleDescriptor extends ParserDescriptor {
 
     private static final String ID = "checkstyle";
-    private static final String NAME = "Checkstyle";
+    private static final String NAME = "CheckStyle";
 
     /**
      * ctor for the abstract Parser Descriptor class.

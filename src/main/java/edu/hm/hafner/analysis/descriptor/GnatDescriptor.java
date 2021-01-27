@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.parser.GnatParser;
 public class GnatDescriptor extends ParserDescriptor {
 
     private static final String ID = "gnat";
-    private static final String NAME = "Gnat";
+    private static final String NAME = "Ada Compiler (gnat)";
 
     /**
      * ctor for the abstract Parser Descriptor class.

@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.PuppetLintParser;
  */
 public class PuppetLintDescriptor extends ParserDescriptor {
 
-    private static final String ID = "puppet_lint";
-    private static final String NAME = "PuppetLint";
+    private static final String ID = "puppetlint";
+    private static final String NAME = "Puppet-Lint";
 
     /**
      * ctor for the abstract Parser Descriptor class.

@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.QacSourceCodeAnalyserParser;
  */
 public class QacSourceCodeAnalyserDescriptor extends ParserDescriptor {
 
-    private static final String ID = "qac_source_analyser";
-    private static final String NAME = "QacSourceAnalyser";
+    private static final String ID = "qac";
+    private static final String NAME = "QA-C Sourcecode Analyser";
 
     /**
      * ctor for the abstract Parser Descriptor class.

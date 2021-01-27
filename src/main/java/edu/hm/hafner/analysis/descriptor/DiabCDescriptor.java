@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.DiabCParser;
  */
 public class DiabCDescriptor extends ParserDescriptor {
 
-    private static final String ID = "diab_c";
-    private static final String NAME = "DiabC";
+    private static final String ID = "diabc";
+    private static final String NAME = "Wind River Diab Compiler (C/C++)";
 
     /**
      * ctor for the abstract Parser Descriptor class.

@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.ccm.CcmParser;
 public class CcmDescriptor extends ParserDescriptor {
 
     private static final String ID = "ccm";
-    private static final String NAME = "Ccm";
+    private static final String NAME = "CCM";
 
     /**
      * ctor for the abstract Parser Descriptor class.

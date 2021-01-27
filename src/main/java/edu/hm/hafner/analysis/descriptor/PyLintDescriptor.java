@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.PyLintParser;
  */
 public class PyLintDescriptor extends ParserDescriptor {
 
-    private static final String ID = "py_lint";
-    private static final String NAME = "PyLint";
+    private static final String ID = "pylint";
+    private static final String NAME = "Pylint";
 
     /**
      * ctor for the abstract Parser Descriptor class.

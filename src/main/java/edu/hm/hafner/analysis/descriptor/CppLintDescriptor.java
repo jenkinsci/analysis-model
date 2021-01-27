@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.CppLintParser;
  */
 public class CppLintDescriptor extends ParserDescriptor {
 
-    private static final String ID = "cpp_lint";
+    private static final String ID = "cpplint";
     private static final String NAME = "CppLint";
 
     /**

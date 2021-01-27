@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.parser.ScalacParser;
 public class ScalacDescriptor extends ParserDescriptor {
 
     private static final String ID = "scalac";
-    private static final String NAME = "Scalac";
+    private static final String NAME = "Scala Compiler";
 
     /**
      * ctor for the abstract Parser Descriptor class.

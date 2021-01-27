@@ -9,8 +9,8 @@ import edu.hm.hafner.analysis.parser.AnsibleLintParser;
  */
 public class AnsibleLintDescriptor extends ParserDescriptor {
 
-    private static final String ID = "ansible_lint";
-    private static final String NAME = "AnsibleLint";
+    private static final String ID = "ansiblelint";
+    private static final String NAME = "Ansible Lint";
 
     /**
      * ctor for the abstract Parser Descriptor class.

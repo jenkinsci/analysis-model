@@ -11,8 +11,8 @@ import edu.hm.hafner.analysis.parser.FlexSdkParser;
  */
 public class FlexSdkDescriptor extends ParserDescriptor {
 
-    private static final String ID = "flex_sdk";
-    private static final String NAME = "FlexSdk";
+    private static final String ID = "flex";
+    private static final String NAME = "Flex SDK Compiler";
 
     /**
      * ctor for the abstract Parser Descriptor class.

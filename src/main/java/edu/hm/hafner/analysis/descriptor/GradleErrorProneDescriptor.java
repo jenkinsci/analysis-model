@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.GoVetParser;
  */
 public class GradleErrorProneDescriptor extends ParserDescriptor {
 
-    private static final String ID = "gradle_error_prone";
+    private static final String ID = "gradle-error-prone";
     private static final String NAME = "GradleErrorProne";
 
     /**

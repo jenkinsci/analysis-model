@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.EclipseMavenParser;
  */
 public class EclipseMavenDescriptor extends ParserDescriptor {
 
-    private static final String ID = "eclipse_maven";
-    private static final String NAME = "EclipseMaven";
+    private static final String ID = "eclipse-maven";
+    private static final String NAME = "Eclipse Maven";
 
     /**
      * ctor for the abstract Parser Descriptor class.

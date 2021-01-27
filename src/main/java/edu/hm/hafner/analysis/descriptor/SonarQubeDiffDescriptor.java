@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.SonarQubeDiffParser;
  */
 public class SonarQubeDiffDescriptor extends ParserDescriptor {
 
-    private static final String ID = "sonar_qube_diff";
+    private static final String ID = "sonar_diff";
     private static final String NAME = "SonarQubeDiff";
 
     /**

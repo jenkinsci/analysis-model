@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.StyleCopParser;
  */
 public class StyleCopDescriptor extends ParserDescriptor {
 
-    private static final String ID = "style_cop";
+    private static final String ID = "stylecop";
     private static final String NAME = "StyleCop";
 
     /**

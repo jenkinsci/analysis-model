@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
  */
 public class FindBugsDescriptor extends ParserDescriptor {
 
-    private static final String ID = "find_bugs";
+    private static final String ID = "findbugs";
     private static final String NAME = "FindBugs";
 
     /**

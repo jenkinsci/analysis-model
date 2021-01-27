@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.RfLintParser;
  */
 public class RfLintDescriptor extends ParserDescriptor {
 
-    private static final String ID = "rf_lint";
-    private static final String NAME = "RfLint";
+    private static final String ID = "rflint";
+    private static final String NAME = "Robot Framework Lint";
 
     /**
      * ctor for the abstract Parser Descriptor class.

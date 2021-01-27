@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.parser.EclipseParser;
 public class EclipseDescriptor extends ParserDescriptor {
 
     private static final String ID = "eclipse";
-    private static final String NAME = "Eclipse";
+    private static final String NAME = "Eclipse ECJ";
 
     /**
      * ctor for the abstract Parser Descriptor class.

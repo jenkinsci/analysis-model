@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.SphinxBuildParser;
  */
 public class SphinxBuildDescriptor extends ParserDescriptor {
 
-    private static final String ID = "sphinx_build";
-    private static final String NAME = "SphinxBuild";
+    private static final String ID = "sphinx";
+    private static final String NAME = "Sphinx-build";
 
     /**
      * ctor for the abstract Parser Descriptor class.

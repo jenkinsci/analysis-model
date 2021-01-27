@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.parser.InvalidsParser;
 public class InvalidsDescriptor extends ParserDescriptor {
 
     private static final String ID = "invalids";
-    private static final String NAME = "Invalids";
+    private static final String NAME = "Oracle Invalids";
 
     /**
      * ctor for the abstract Parser Descriptor class.

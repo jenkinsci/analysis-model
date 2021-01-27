@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.EclipseXMLParser;
  */
 public class EclipseXmlDescriptor extends ParserDescriptor {
 
-    private static final String ID = "eclipse_xml";
+    private static final String ID = "eclipse-xml";
     private static final String NAME = "EclipseXml";
 
     /**

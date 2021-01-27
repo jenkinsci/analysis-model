@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.ClangTidyParser;
  */
 public class ClangTidyDescriptor extends ParserDescriptor {
 
-    private static final String ID = "clang_tidy";
-    private static final String NAME = "ClangTidy";
+    private static final String ID = "clang-tidy";
+    private static final String NAME = "Clang-Tidy";
 
     /**
      * ctor for the abstract Parser Descriptor class.

@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.JavacParser;
  */
 public class JavaDocDescriptor extends ParserDescriptor {
 
-    private static final String ID = "java_doc";
+    private static final String ID = "java-doc";
     private static final String NAME = "JavaDoc";
 
     /**

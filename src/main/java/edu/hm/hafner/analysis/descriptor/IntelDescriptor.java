@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.parser.IntelParser;
 public class IntelDescriptor extends ParserDescriptor {
 
     private static final String ID = "intel";
-    private static final String NAME = "Intel";
+    private static final String NAME = "Intel Compiler (C, Fortran)";
 
     /**
      * ctor for the abstract Parser Descriptor class.

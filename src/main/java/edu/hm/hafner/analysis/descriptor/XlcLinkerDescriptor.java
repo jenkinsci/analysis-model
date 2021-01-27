@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.XlcLinkerParser;
  */
 public class XlcLinkerDescriptor extends ParserDescriptor {
 
-    private static final String ID = "xlc_linker";
-    private static final String NAME = "XlcLinker";
+    private static final String ID = "xlc-linker";
+    private static final String NAME = "IBM XLC Linker";
 
     /**
      * ctor for the abstract Parser Descriptor class.

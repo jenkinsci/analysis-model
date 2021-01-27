@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser;
  */
 public class MetrowerksCwLinkerDescriptor extends ParserDescriptor {
 
-    private static final String ID = "metrowerks_cw_linker";
+    private static final String ID = "metrowerks-cw-linker";
     private static final String NAME = "MetrowerksCwLinker";
 
     /**

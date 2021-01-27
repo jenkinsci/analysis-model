@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.GoLintParser;
  */
 public class GoLintDescriptor extends ParserDescriptor {
 
-    private static final String ID = "go_lint";
-    private static final String NAME = "GoLint";
+    private static final String ID = "golint";
+    private static final String NAME = "Go Lint";
 
     /**
      * ctor for the abstract Parser Descriptor class.

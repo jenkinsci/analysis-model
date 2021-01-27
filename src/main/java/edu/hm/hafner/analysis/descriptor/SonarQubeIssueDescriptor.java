@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.SonarQubeIssuesParser;
  */
 public class SonarQubeIssueDescriptor extends ParserDescriptor {
 
-    private static final String ID = "sonar_qube_Issue";
+    private static final String ID = "sonar_Issue";
     private static final String NAME = "SonarQubeIssue";
 
     /**

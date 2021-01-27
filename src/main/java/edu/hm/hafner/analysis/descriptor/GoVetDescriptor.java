@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.GoVetParser;
  */
 public class GoVetDescriptor extends ParserDescriptor {
 
-    private static final String ID = "go_vet";
-    private static final String NAME = "GoVet";
+    private static final String ID = "go-vet";
+    private static final String NAME = "Go Vet";
 
     /**
      * ctor for the abstract Parser Descriptor class.

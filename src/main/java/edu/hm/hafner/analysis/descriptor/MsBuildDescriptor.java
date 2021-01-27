@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.MsBuildParser;
  */
 public class MsBuildDescriptor extends ParserDescriptor {
 
-    private static final String ID = "ms_build";
-    private static final String NAME = "MsBuild";
+    private static final String ID = "msbuild";
+    private static final String NAME = "MSBuild";
 
     /**
      * ctor for the abstract Parser Descriptor class.

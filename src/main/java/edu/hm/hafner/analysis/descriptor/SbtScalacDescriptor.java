@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.SbtScalacParser;
  */
 public class SbtScalacDescriptor extends ParserDescriptor {
 
-    private static final String ID = "sbt_scalac";
+    private static final String ID = "sbt-scalac";
     private static final String NAME = "SbtScalac";
 
     /**

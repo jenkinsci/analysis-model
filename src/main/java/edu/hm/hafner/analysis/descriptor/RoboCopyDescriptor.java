@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.RobocopyParser;
  */
 public class RoboCopyDescriptor extends ParserDescriptor {
 
-    private static final String ID = "robo_copy";
-    private static final String NAME = "RoboCopy";
+    private static final String ID = "robocopy";
+    private static final String NAME = "Robocopy";
 
     /**
      * ctor for the abstract Parser Descriptor class.

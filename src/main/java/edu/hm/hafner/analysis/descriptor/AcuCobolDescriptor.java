@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.parser.AcuCobolParser;
  */
 public class AcuCobolDescriptor extends ParserDescriptor {
 
-    private static final String ID = "acu_cobol";
+    private static final String ID = "acu-cobol";
     private static final String NAME = "AcuCobol";
 
     /**

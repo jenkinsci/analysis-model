@@ -10,8 +10,8 @@ import edu.hm.hafner.analysis.parser.dry.dupfinder.DupFinderParser;
  */
 public class DupfinderDescriptor extends ParserDescriptor {
 
-    private static final String ID = "dup_finder";
-    private static final String NAME = "DupFinder";
+    private static final String ID = "dupfinder";
+    private static final String NAME = "Resharper dupFinder";
 
     /**
      * ctor for the abstract Parser Descriptor class.

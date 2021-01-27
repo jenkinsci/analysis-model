@@ -9,8 +9,8 @@ import edu.hm.hafner.analysis.parser.ArmccCompilerParser;
  */
 public class ArmccCompilerDescriptor extends ParserDescriptor {
 
-    private static final String ID = "armcc_compiler";
-    private static final String NAME = "ArmccCompiler";
+    private static final String ID = "armcc";
+    private static final String NAME = "Armcc Compiler";
 
     /**
      * ctor for the abstract Parser Descriptor class.

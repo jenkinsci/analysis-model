@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.parser.ErlcParser;
 public class ErlcDescriptor extends ParserDescriptor {
 
     private static final String ID = "erlc";
-    private static final String NAME = "Erlc";
+    private static final String NAME = "Erlang Compiler (erlc)";
 
     /**
      * ctor for the abstract Parser Descriptor class.
