@@ -114,4 +114,15 @@ class JUnitAdapterTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
     }
+
+    @Test
+    void shouldParseArchitectureTests() {
+        Report report = parse("TEST-Aufgabe3Test.xml");
+
+        assertThat(report.getCounter(TOTAL_TESTS)).as("Total tests").isEqualTo(3);
+        assertThat(report.getCounter(SKIPPED_TESTS)).as("Skipped tests").isEqualTo(0);
+        assertThat(report.getCounter(FAILED_TESTS)).as("Failed tests").isEqualTo(2);
+        assertThat(report.getCounter(PASSED_TESTS)).as("Passed tests").isEqualTo(1);
+        assertThat(report).hasSize(2);
+    }
 }
