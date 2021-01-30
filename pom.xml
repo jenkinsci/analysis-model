@@ -74,7 +74,7 @@
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>1.7.30</slf4j.version>
-    <violations-lib.version>1.141</violations-lib.version>
+    <violations-lib.version>1.142</violations-lib.version>
     <json.version>20201115</json.version>
 
     <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
