@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.PerlCriticParser;
 import edu.hm.hafner.analysis.parser.PhpParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.PhpParser;
  *
  * @author Lorenz Munsch
  */
-public class PhpDescriptor extends ParserDescriptor {
+class PhpDescriptor extends ParserDescriptor {
 
     private static final String ID = "php";
     private static final String NAME = "PHP Runtime";
@@ -16,7 +15,7 @@ public class PhpDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public PhpDescriptor() {
+    PhpDescriptor() {
         super(ID, NAME, new PhpParser());
     }
 }

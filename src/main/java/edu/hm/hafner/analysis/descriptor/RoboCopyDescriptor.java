@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.RfLintParser;
 import edu.hm.hafner.analysis.parser.RobocopyParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.RobocopyParser;
  *
  * @author Lorenz Munsch
  */
-public class RoboCopyDescriptor extends ParserDescriptor {
+class RoboCopyDescriptor extends ParserDescriptor {
 
     private static final String ID = "robocopy";
     private static final String NAME = "Robocopy";
@@ -16,7 +15,7 @@ public class RoboCopyDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public RoboCopyDescriptor() {
+    RoboCopyDescriptor() {
         super(ID, NAME, new RobocopyParser());
     }
 }

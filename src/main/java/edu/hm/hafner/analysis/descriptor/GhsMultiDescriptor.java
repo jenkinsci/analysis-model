@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.GccParser;
 import edu.hm.hafner.analysis.parser.GhsMultiParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.GhsMultiParser;
  *
  * @author Lorenz Munsch
  */
-public class GhsMultiDescriptor extends ParserDescriptor {
+class GhsMultiDescriptor extends ParserDescriptor {
 
     private static final String ID = "ghs-multi";
     private static final String NAME = "GHS Multi Compiler";
@@ -16,7 +15,7 @@ public class GhsMultiDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public GhsMultiDescriptor() {
+    GhsMultiDescriptor() {
         super(ID, NAME, new GhsMultiParser());
     }
 }

@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.FindBugsParser;
-import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import edu.hm.hafner.analysis.parser.FlexSdkParser;
 
 /**
@@ -9,7 +7,7 @@ import edu.hm.hafner.analysis.parser.FlexSdkParser;
  *
  * @author Lorenz Munsch
  */
-public class FlexSdkDescriptor extends ParserDescriptor {
+class FlexSdkDescriptor extends ParserDescriptor {
 
     private static final String ID = "flex";
     private static final String NAME = "Flex SDK Compiler";
@@ -17,7 +15,7 @@ public class FlexSdkDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public FlexSdkDescriptor() {
+    FlexSdkDescriptor() {
         super(ID, NAME, new FlexSdkParser());
     }
 }

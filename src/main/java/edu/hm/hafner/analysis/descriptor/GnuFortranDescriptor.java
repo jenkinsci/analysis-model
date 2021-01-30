@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.GnatParser;
 import edu.hm.hafner.analysis.parser.GnuFortranParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.GnuFortranParser;
  *
  * @author Lorenz Munsch
  */
-public class GnuFortranDescriptor extends ParserDescriptor {
+class GnuFortranDescriptor extends ParserDescriptor {
 
     private static final String ID = "fortran";
     private static final String NAME = "GNU Fortran Compiler";
@@ -16,7 +15,7 @@ public class GnuFortranDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public GnuFortranDescriptor() {
+    GnuFortranDescriptor() {
         super(ID, NAME, new GnuFortranParser());
     }
 }

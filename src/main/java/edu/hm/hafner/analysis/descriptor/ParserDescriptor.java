@@ -3,12 +3,11 @@ package edu.hm.hafner.analysis.descriptor;
 import edu.hm.hafner.analysis.IssueParser;
 
 /**
- * Interface to descripe all descriptors.
+ * Interface to describe all descriptors.
  *
  * @author Lorenz Munsch
- *
  */
-public abstract class ParserDescriptor {
+class ParserDescriptor {
 
 
     private final String id;
@@ -17,9 +16,14 @@ public abstract class ParserDescriptor {
 
     /**
      *
+     *
      * ctor for the abstract Parser Descriptor class.
+     *
+     * @param id the technical Id
+     * @param name the name of the descriptor
+     * @param issueParser the parser
      */
-    public ParserDescriptor(final String id, final String name, final IssueParser issueParser) {
+    ParserDescriptor(final String id, final String name, final IssueParser issueParser) {
         this.id = id;
         this.name = name;
         this.issueParser = issueParser;

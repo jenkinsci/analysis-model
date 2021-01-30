@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.CoolfluxChessccParser;
 import edu.hm.hafner.analysis.parser.CppLintParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.CppLintParser;
  *
  * @author Lorenz Munsch
  */
-public class CppLintDescriptor extends ParserDescriptor {
+class CppLintDescriptor extends ParserDescriptor {
 
     private static final String ID = "cpplint";
     private static final String NAME = "CppLint";
@@ -16,7 +15,7 @@ public class CppLintDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public CppLintDescriptor() {
+    CppLintDescriptor() {
         super(ID, NAME, new CppLintParser());
     }
 }

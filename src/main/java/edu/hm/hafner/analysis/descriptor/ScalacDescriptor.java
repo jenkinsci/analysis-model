@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.SbtScalacParser;
 import edu.hm.hafner.analysis.parser.ScalacParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.ScalacParser;
  *
  * @author Lorenz Munsch
  */
-public class ScalacDescriptor extends ParserDescriptor {
+class ScalacDescriptor extends ParserDescriptor {
 
     private static final String ID = "scalac";
     private static final String NAME = "Scala Compiler";
@@ -16,7 +15,7 @@ public class ScalacDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public ScalacDescriptor() {
+    ScalacDescriptor() {
         super(ID, NAME, new ScalacParser());
     }
 }

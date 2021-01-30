@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.DiabCParser;
 import edu.hm.hafner.analysis.parser.DrMemoryParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.DrMemoryParser;
  *
  * @author Lorenz Munsch
  */
-public class DrMemoryDescriptor extends ParserDescriptor {
+class DrMemoryDescriptor extends ParserDescriptor {
 
     private static final String ID = "dr-memory";
     private static final String NAME = "Dr. Memory";
@@ -16,7 +15,7 @@ public class DrMemoryDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public DrMemoryDescriptor() {
+    DrMemoryDescriptor() {
         super(ID, NAME, new DrMemoryParser());
     }
 }

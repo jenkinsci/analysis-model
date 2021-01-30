@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.XlcLinkerParser;
 import edu.hm.hafner.analysis.parser.YuiCompressorParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.YuiCompressorParser;
  *
  * @author Lorenz Munsch
  */
-public class YuiCompressorDescriptor extends ParserDescriptor {
+class YuiCompressorDescriptor extends ParserDescriptor {
 
     private static final String ID = "yui";
     private static final String NAME = "YUI Compressor";
@@ -16,7 +15,7 @@ public class YuiCompressorDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public YuiCompressorDescriptor() {
+    YuiCompressorDescriptor() {
         super(ID, NAME, new YuiCompressorParser());
     }
 }

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.ErrorProneParser;
 import edu.hm.hafner.analysis.parser.FindBugsParser;
 import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 
@@ -9,7 +8,7 @@ import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
  *
  * @author Lorenz Munsch
  */
-public class FindBugsDescriptor extends ParserDescriptor {
+class FindBugsDescriptor extends ParserDescriptor {
 
     private static final String ID = "findbugs";
     private static final String NAME = "FindBugs";
@@ -17,7 +16,7 @@ public class FindBugsDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public FindBugsDescriptor() {
+    FindBugsDescriptor() {
         super(ID, NAME, new FindBugsParser(PriorityProperty.RANK));
     }
 }

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.GhsMultiParser;
 import edu.hm.hafner.analysis.parser.GnatParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.GnatParser;
  *
  * @author Lorenz Munsch
  */
-public class GnatDescriptor extends ParserDescriptor {
+class GnatDescriptor extends ParserDescriptor {
 
     private static final String ID = "gnat";
     private static final String NAME = "Ada Compiler (gnat)";
@@ -16,7 +15,7 @@ public class GnatDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public GnatDescriptor() {
+    GnatDescriptor() {
         super(ID, NAME, new GnatParser());
     }
 }

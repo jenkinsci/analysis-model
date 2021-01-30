@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.EclipseXMLParser;
 import edu.hm.hafner.analysis.parser.ErlcParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.ErlcParser;
  *
  * @author Lorenz Munsch
  */
-public class ErlcDescriptor extends ParserDescriptor {
+class ErlcDescriptor extends ParserDescriptor {
 
     private static final String ID = "erlc";
     private static final String NAME = "Erlang Compiler (erlc)";
@@ -16,7 +15,7 @@ public class ErlcDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public ErlcDescriptor() {
+    ErlcDescriptor() {
         super(ID, NAME, new ErlcParser());
     }
 }

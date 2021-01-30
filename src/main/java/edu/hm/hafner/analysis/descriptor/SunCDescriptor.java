@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.StyleCopParser;
 import edu.hm.hafner.analysis.parser.SunCParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.SunCParser;
  *
  * @author Lorenz Munsch
  */
-public class SunCDescriptor extends ParserDescriptor {
+class SunCDescriptor extends ParserDescriptor {
 
     private static final String ID = "sunc";
     private static final String NAME = "SUN C++ Compiler";
@@ -16,7 +15,7 @@ public class SunCDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public SunCDescriptor() {
+    SunCDescriptor() {
         super(ID, NAME, new SunCParser());
     }
 }

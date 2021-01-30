@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.dry.dupfinder.DupFinderParser;
 import edu.hm.hafner.analysis.parser.dry.simian.SimianParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.dry.simian.SimianParser;
  *
  * @author Lorenz Munsch
  */
-public class SimianDescriptor extends ParserDescriptor {
+class SimianDescriptor extends ParserDescriptor {
 
     private static final String ID = "simian";
     private static final String NAME = "Simian";
@@ -16,7 +15,7 @@ public class SimianDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public SimianDescriptor() {
+    SimianDescriptor() {
         super(ID, NAME, new SimianParser());
     }
 }

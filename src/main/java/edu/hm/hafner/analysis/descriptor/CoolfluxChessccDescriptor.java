@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.CodeAnalysisParser;
 import edu.hm.hafner.analysis.parser.CoolfluxChessccParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.CoolfluxChessccParser;
  *
  * @author Lorenz Munsch
  */
-public class CoolfluxChessccDescriptor extends ParserDescriptor {
+class CoolfluxChessccDescriptor extends ParserDescriptor {
 
     private static final String ID = "coolflux";
     private static final String NAME = "Coolflux DSP Compiler";
@@ -16,7 +15,7 @@ public class CoolfluxChessccDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public CoolfluxChessccDescriptor() {
+    CoolfluxChessccDescriptor() {
         super(ID, NAME, new CoolfluxChessccParser());
     }
 }

@@ -7,7 +7,7 @@ import edu.hm.hafner.analysis.parser.AcuCobolParser;
  *
  * @author Lorenz Munsch
  */
-public class AcuCobolDescriptor extends ParserDescriptor {
+class AcuCobolDescriptor extends ParserDescriptor {
 
     private static final String ID = "acu-cobol";
     private static final String NAME = "AcuCobol";
@@ -15,7 +15,7 @@ public class AcuCobolDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public AcuCobolDescriptor() {
+    AcuCobolDescriptor() {
         super(ID, NAME, new AcuCobolParser());
     }
 }

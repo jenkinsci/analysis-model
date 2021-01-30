@@ -7,7 +7,7 @@ import edu.hm.hafner.analysis.parser.BuckminsterParser;
  *
  * @author Lorenz Munsch
  */
-public class BuckminsterDescriptor extends ParserDescriptor {
+class BuckminsterDescriptor extends ParserDescriptor {
 
     private static final String ID = "buckminster";
     private static final String NAME = "Buckminster";
@@ -15,7 +15,7 @@ public class BuckminsterDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public BuckminsterDescriptor() {
+    BuckminsterDescriptor() {
         super(ID, NAME, new BuckminsterParser());
     }
 }

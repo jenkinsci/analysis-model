@@ -7,7 +7,7 @@ import edu.hm.hafner.analysis.parser.AntJavacParser;
  *
  * @author Lorenz Munsch
  */
-public class AntJavacDescriptor extends ParserDescriptor {
+class AntJavacDescriptor extends ParserDescriptor {
 
     private static final String ID = "ant-javac";
     private static final String NAME = "Ant Javac";
@@ -15,7 +15,7 @@ public class AntJavacDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public AntJavacDescriptor() {
+    AntJavacDescriptor() {
         super(ID, NAME, new AntJavacParser());
     }
 }

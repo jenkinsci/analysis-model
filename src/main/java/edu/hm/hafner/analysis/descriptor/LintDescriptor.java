@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.JSLintXmlSaxParser;
 import edu.hm.hafner.analysis.parser.LintParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.LintParser;
  *
  * @author Lorenz Munsch
  */
-public class LintDescriptor extends ParserDescriptor {
+class LintDescriptor extends ParserDescriptor {
 
     private static final String ID = "lint";
     private static final String NAME = "Lint";
@@ -16,7 +15,7 @@ public class LintDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public LintDescriptor() {
+    LintDescriptor() {
         super(ID, NAME, new LintParser());
     }
 }

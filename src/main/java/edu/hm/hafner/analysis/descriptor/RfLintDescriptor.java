@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.QacSourceCodeAnalyserParser;
 import edu.hm.hafner.analysis.parser.RfLintParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.RfLintParser;
  *
  * @author Lorenz Munsch
  */
-public class RfLintDescriptor extends ParserDescriptor {
+class RfLintDescriptor extends ParserDescriptor {
 
     private static final String ID = "rflint";
     private static final String NAME = "Robot Framework Lint";
@@ -16,7 +15,7 @@ public class RfLintDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public RfLintDescriptor() {
+    RfLintDescriptor() {
         super(ID, NAME, new RfLintParser());
     }
 }

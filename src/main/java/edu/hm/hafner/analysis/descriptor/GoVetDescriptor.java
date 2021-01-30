@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.GoLintParser;
 import edu.hm.hafner.analysis.parser.GoVetParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.GoVetParser;
  *
  * @author Lorenz Munsch
  */
-public class GoVetDescriptor extends ParserDescriptor {
+class GoVetDescriptor extends ParserDescriptor {
 
     private static final String ID = "go-vet";
     private static final String NAME = "Go Vet";
@@ -16,7 +15,7 @@ public class GoVetDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public GoVetDescriptor() {
+    GoVetDescriptor() {
         super(ID, NAME, new GoVetParser());
     }
 }

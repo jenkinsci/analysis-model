@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.LintParser;
 import edu.hm.hafner.analysis.parser.MavenConsoleParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.MavenConsoleParser;
  *
  * @author Lorenz Munsch
  */
-public class MavenConsoleDescriptor extends ParserDescriptor {
+class MavenConsoleDescriptor extends ParserDescriptor {
 
     private static final String ID = "maven-warnings";
     private static final String NAME = "Maven";
@@ -16,7 +15,7 @@ public class MavenConsoleDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public MavenConsoleDescriptor() {
+    MavenConsoleDescriptor() {
         super(ID, NAME, new MavenConsoleParser());
     }
 }

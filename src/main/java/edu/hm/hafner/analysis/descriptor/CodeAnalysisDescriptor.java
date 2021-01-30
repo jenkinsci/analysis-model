@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.ClangTidyParser;
 import edu.hm.hafner.analysis.parser.CodeAnalysisParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.CodeAnalysisParser;
  *
  * @author Lorenz Munsch
  */
-public class CodeAnalysisDescriptor extends ParserDescriptor {
+class CodeAnalysisDescriptor extends ParserDescriptor {
 
     private static final String ID = "code-analysis";
     private static final String NAME = "Code Analysis";
@@ -16,7 +15,7 @@ public class CodeAnalysisDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public CodeAnalysisDescriptor() {
+    CodeAnalysisDescriptor() {
         super(ID, NAME, new CodeAnalysisParser());
     }
 }

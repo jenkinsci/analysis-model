@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.TaglistParser;
 import edu.hm.hafner.analysis.parser.TiCcsParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.TiCcsParser;
  *
  * @author Lorenz Munsch
  */
-public class TiCcsDescriptor extends ParserDescriptor {
+class TiCcsDescriptor extends ParserDescriptor {
 
     private static final String ID = "code-composer";
     private static final String NAME = "Texas Instruments Code Composer Studio";
@@ -16,7 +15,7 @@ public class TiCcsDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public TiCcsDescriptor() {
+    TiCcsDescriptor() {
         super(ID, NAME, new TiCcsParser());
     }
 }

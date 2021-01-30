@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.ErrorProneParser;
 import edu.hm.hafner.analysis.parser.IarCstatParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.IarCstatParser;
  *
  * @author Lorenz Munsch
  */
-public class IarCStatDescriptor extends ParserDescriptor {
+class IarCStatDescriptor extends ParserDescriptor {
 
     private static final String ID = "iar-cstat";
     private static final String NAME = "IAR C-STAT";
@@ -16,7 +15,7 @@ public class IarCStatDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public IarCStatDescriptor() {
+    IarCStatDescriptor() {
         super(ID, NAME, new IarCstatParser());
     }
 }

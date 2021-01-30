@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.SphinxBuildParser;
 import edu.hm.hafner.analysis.parser.StyleCopParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.StyleCopParser;
  *
  * @author Lorenz Munsch
  */
-public class StyleCopDescriptor extends ParserDescriptor {
+class StyleCopDescriptor extends ParserDescriptor {
 
     private static final String ID = "stylecop";
     private static final String NAME = "StyleCop";
@@ -16,7 +15,7 @@ public class StyleCopDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public StyleCopDescriptor() {
+    StyleCopDescriptor() {
         super(ID, NAME, new StyleCopParser());
     }
 }

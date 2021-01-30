@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.dry.cpd.CpdParser;
 import edu.hm.hafner.analysis.parser.dry.dupfinder.DupFinderParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.dry.dupfinder.DupFinderParser;
  *
  * @author Lorenz Munsch
  */
-public class DupfinderDescriptor extends ParserDescriptor {
+class DupfinderDescriptor extends ParserDescriptor {
 
     private static final String ID = "dupfinder";
     private static final String NAME = "Resharper dupFinder";
@@ -16,7 +15,7 @@ public class DupfinderDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public DupfinderDescriptor() {
+    DupfinderDescriptor() {
         super(ID, NAME, new DupFinderParser());
     }
 }

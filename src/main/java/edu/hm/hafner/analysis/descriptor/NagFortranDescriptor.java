@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.MsBuildParser;
 import edu.hm.hafner.analysis.parser.NagFortranParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.NagFortranParser;
  *
  * @author Lorenz Munsch
  */
-public class NagFortranDescriptor extends ParserDescriptor {
+class NagFortranDescriptor extends ParserDescriptor {
 
     private static final String ID = "nag-fortran";
     private static final String NAME = "NAG Fortran Compiler";
@@ -16,7 +15,7 @@ public class NagFortranDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public NagFortranDescriptor() {
+    NagFortranDescriptor() {
         super(ID, NAME, new NagFortranParser());
     }
 }

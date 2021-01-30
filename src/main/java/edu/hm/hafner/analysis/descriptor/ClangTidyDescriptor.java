@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.ClangParser;
 import edu.hm.hafner.analysis.parser.ClangTidyParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.ClangTidyParser;
  *
  * @author Lorenz Munsch
  */
-public class ClangTidyDescriptor extends ParserDescriptor {
+class ClangTidyDescriptor extends ParserDescriptor {
 
     private static final String ID = "clang-tidy";
     private static final String NAME = "Clang-Tidy";
@@ -16,7 +15,7 @@ public class ClangTidyDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public ClangTidyDescriptor() {
+    ClangTidyDescriptor() {
         super(ID, NAME, new ClangTidyParser());
     }
 }

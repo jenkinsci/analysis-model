@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.NagFortranParser;
 import edu.hm.hafner.analysis.parser.P4Parser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.P4Parser;
  *
  * @author Lorenz Munsch
  */
-public class P4Descriptor extends ParserDescriptor {
+class P4Descriptor extends ParserDescriptor {
 
     private static final String ID = "p4";
     private static final String NAME = "P4";
@@ -16,7 +15,7 @@ public class P4Descriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public P4Descriptor() {
+    P4Descriptor() {
         super(ID, NAME, new P4Parser());
     }
 }

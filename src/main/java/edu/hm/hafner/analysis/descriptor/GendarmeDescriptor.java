@@ -7,7 +7,7 @@ import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
  *
  * @author Lorenz Munsch
  */
-public class GendarmeDescriptor extends ParserDescriptor {
+class GendarmeDescriptor extends ParserDescriptor {
 
     private static final String ID = "gendarme";
     private static final String NAME = "Gendarme";
@@ -15,7 +15,7 @@ public class GendarmeDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public GendarmeDescriptor() {
+    GendarmeDescriptor() {
         super(ID, NAME, new GendarmeParser());
     }
 }

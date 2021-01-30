@@ -7,7 +7,7 @@ import edu.hm.hafner.analysis.parser.violations.AndroidLintParserAdapter;
  *
  * @author Lorenz Munsch
  */
-public class AndroidLintDescriptor extends ParserDescriptor {
+class AndroidLintDescriptor extends ParserDescriptor {
 
     private static final String ID = "android-lint";
     private static final String NAME = "Android Lint";
@@ -15,7 +15,7 @@ public class AndroidLintDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public AndroidLintDescriptor() {
+    AndroidLintDescriptor() {
         super(ID, NAME, new AndroidLintParserAdapter());
     }
 }

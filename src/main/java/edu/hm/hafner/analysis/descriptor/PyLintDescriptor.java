@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.PuppetLintParser;
 import edu.hm.hafner.analysis.parser.PyLintParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.PyLintParser;
  *
  * @author Lorenz Munsch
  */
-public class PyLintDescriptor extends ParserDescriptor {
+class PyLintDescriptor extends ParserDescriptor {
 
     private static final String ID = "pylint";
     private static final String NAME = "Pylint";
@@ -16,7 +15,7 @@ public class PyLintDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public PyLintDescriptor() {
+    PyLintDescriptor() {
         super(ID, NAME, new PyLintParser());
     }
 }

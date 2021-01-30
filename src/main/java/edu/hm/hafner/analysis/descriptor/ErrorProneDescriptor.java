@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.ErlcParser;
 import edu.hm.hafner.analysis.parser.ErrorProneParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.ErrorProneParser;
  *
  * @author Lorenz Munsch
  */
-public class ErrorProneDescriptor extends ParserDescriptor {
+class ErrorProneDescriptor extends ParserDescriptor {
 
     private static final String ID = "error-prone";
     private static final String NAME = "ErrorProne";
@@ -16,7 +15,7 @@ public class ErrorProneDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public ErrorProneDescriptor() {
+    ErrorProneDescriptor() {
         super(ID, NAME, new ErrorProneParser());
     }
 }

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.PhpParser;
 import edu.hm.hafner.analysis.parser.PreFastParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.PreFastParser;
  *
  * @author Lorenz Munsch
  */
-public class PreFastDescriptor extends ParserDescriptor {
+class PreFastDescriptor extends ParserDescriptor {
 
     private static final String ID = "prefast";
     private static final String NAME = "PREfast";
@@ -16,7 +15,7 @@ public class PreFastDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public PreFastDescriptor() {
+    PreFastDescriptor() {
         super(ID, NAME, new PreFastParser());
     }
 }

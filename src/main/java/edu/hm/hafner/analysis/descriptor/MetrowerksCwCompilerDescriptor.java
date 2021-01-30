@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.MavenConsoleParser;
 import edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser;
  *
  * @author Lorenz Munsch
  */
-public class MetrowerksCwCompilerDescriptor extends ParserDescriptor {
+class MetrowerksCwCompilerDescriptor extends ParserDescriptor {
 
     private static final String ID = "metrowerks";
     private static final String NAME = "Metrowerks CodeWarrior";
@@ -16,7 +15,7 @@ public class MetrowerksCwCompilerDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public MetrowerksCwCompilerDescriptor() {
+    MetrowerksCwCompilerDescriptor() {
         super(ID, NAME, new MetrowerksCwCompilerParser());
     }
 }

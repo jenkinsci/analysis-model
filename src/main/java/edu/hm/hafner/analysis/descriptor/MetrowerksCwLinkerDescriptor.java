@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser;
 import edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser;
  *
  * @author Lorenz Munsch
  */
-public class MetrowerksCwLinkerDescriptor extends ParserDescriptor {
+class MetrowerksCwLinkerDescriptor extends ParserDescriptor {
 
     private static final String ID = "metrowerks-cw-linker";
     private static final String NAME = "MetrowerksCwLinker";
@@ -16,7 +15,7 @@ public class MetrowerksCwLinkerDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public MetrowerksCwLinkerDescriptor() {
+    MetrowerksCwLinkerDescriptor() {
         super(ID, NAME, new MetrowerksCwLinkerParser());
     }
 }

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.IarParser;
 import edu.hm.hafner.analysis.parser.IdeaInspectionParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.IdeaInspectionParser;
  *
  * @author Lorenz Munsch
  */
-public class IdeaInspectionDescriptor extends ParserDescriptor {
+class IdeaInspectionDescriptor extends ParserDescriptor {
 
     private static final String ID = "idea";
     private static final String NAME = "IntelliJ IDEA Inspections";
@@ -16,7 +15,7 @@ public class IdeaInspectionDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public IdeaInspectionDescriptor() {
+    IdeaInspectionDescriptor() {
         super(ID, NAME, new IdeaInspectionParser());
     }
 }

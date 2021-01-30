@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.CppLintParser;
 import edu.hm.hafner.analysis.parser.DiabCParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.DiabCParser;
  *
  * @author Lorenz Munsch
  */
-public class DiabCDescriptor extends ParserDescriptor {
+class DiabCDescriptor extends ParserDescriptor {
 
     private static final String ID = "diabc";
     private static final String NAME = "Wind River Diab Compiler (C/C++)";
@@ -16,7 +15,7 @@ public class DiabCDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public DiabCDescriptor() {
+    DiabCDescriptor() {
         super(ID, NAME, new DiabCParser());
     }
 }

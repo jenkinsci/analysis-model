@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.Gcc4CompilerParser;
 import edu.hm.hafner.analysis.parser.Gcc4LinkerParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.Gcc4LinkerParser;
  *
  * @author Lorenz Munsch
  */
-public class Gcc4LinkerDescriptor extends ParserDescriptor {
+class Gcc4LinkerDescriptor extends ParserDescriptor {
 
     private static final String ID = "gcc-4-linker";
     private static final String NAME = "Gcc4Linker";
@@ -16,7 +15,7 @@ public class Gcc4LinkerDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public Gcc4LinkerDescriptor() {
+    Gcc4LinkerDescriptor() {
         super(ID, NAME, new Gcc4LinkerParser());
     }
 }

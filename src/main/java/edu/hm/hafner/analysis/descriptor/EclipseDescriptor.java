@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.EclipseMavenParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.EclipseParser;
  *
  * @author Lorenz Munsch
  */
-public class EclipseDescriptor extends ParserDescriptor {
+class EclipseDescriptor extends ParserDescriptor {
 
     private static final String ID = "eclipse";
     private static final String NAME = "Eclipse ECJ";
@@ -16,7 +15,7 @@ public class EclipseDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public EclipseDescriptor() {
+    EclipseDescriptor() {
         super(ID, NAME, new EclipseParser());
     }
 }

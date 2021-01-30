@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.InvalidsParser;
 import edu.hm.hafner.analysis.parser.JavacParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.JavacParser;
  *
  * @author Lorenz Munsch
  */
-public class JavacDescriptor extends ParserDescriptor {
+class JavacDescriptor extends ParserDescriptor {
 
     private static final String ID = "javac";
     private static final String NAME = "Javac";
@@ -16,7 +15,7 @@ public class JavacDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public JavacDescriptor() {
+    JavacDescriptor() {
         super(ID, NAME, new JavacParser());
     }
 }

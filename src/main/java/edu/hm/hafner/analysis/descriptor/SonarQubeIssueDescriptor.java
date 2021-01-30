@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.descriptor;
 
-import edu.hm.hafner.analysis.parser.SonarQubeDiffParser;
 import edu.hm.hafner.analysis.parser.SonarQubeIssuesParser;
 
 /**
@@ -8,7 +7,7 @@ import edu.hm.hafner.analysis.parser.SonarQubeIssuesParser;
  *
  * @author Lorenz Munsch
  */
-public class SonarQubeIssueDescriptor extends ParserDescriptor {
+class SonarQubeIssueDescriptor extends ParserDescriptor {
 
     private static final String ID = "sonar_Issue";
     private static final String NAME = "SonarQubeIssue";
@@ -16,7 +15,7 @@ public class SonarQubeIssueDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public SonarQubeIssueDescriptor() {
+    SonarQubeIssueDescriptor() {
         super(ID, NAME, new SonarQubeIssuesParser());
     }
 }
