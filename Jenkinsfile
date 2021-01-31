@@ -146,7 +146,7 @@
                             if (first) {
                                 folders = env.JOB_NAME.split("/")
                                 if (folders.length > 1) {
-                                    discoverGitReferenceBuild(checkoutSCM: folders[1])
+                                    discoverGitReferenceBuild(scm: folders[1])
                                 }
 
                                 echo "Recording static analysis results on '${stageIdentifier}'"
