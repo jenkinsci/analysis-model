@@ -145,8 +145,8 @@
 
                             if (first) {
                                 discoverGitReferenceBuild(checkoutSCM: 'jenkinsci/analysis-model.git')
-                                referenceJobName = env.JOB_NAME.substring(0, env.JOB_NAME.lastIndexOf("/") + 1) + "master"
-                                echo "Recording static analysis results on '${stageIdentifier}' using reference job '${referenceJobName}'"
+
+                                echo "Recording static analysis results on '${stageIdentifier}'"
 
                                 recordIssues enabledForFailure: true,
                                         tool: mavenConsole(),
