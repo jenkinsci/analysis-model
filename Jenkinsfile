@@ -144,10 +144,12 @@
                             }
 
                             if (first) {
-                                gitRepositoryKey = env.JOB_NAME.split("/")[1]
-                                discoverGitReferenceBuild(checkoutSCM: 'jenkinsci/analysis-model.git')
+                                folders = env.JOB_NAME.split("/")
+                                if (folders.length > 1) {
+                                    discoverGitReferenceBuild(checkoutSCM: folders[1])
+                                }
 
-                                echo "Recording static analysis results on '${stageIdentifier}' and Git repo '$gitRepositoryKey'"
+                                echo "Recording static analysis results on '${stageIdentifier}'"
 
                                 recordIssues enabledForFailure: true,
                                         tool: mavenConsole(),
