@@ -144,9 +144,10 @@
                             }
 
                             if (first) {
+                                gitRepositoryKey = env.JOB_NAME.split("/")[1]
                                 discoverGitReferenceBuild(checkoutSCM: 'jenkinsci/analysis-model.git')
 
-                                echo "Recording static analysis results on '${stageIdentifier}'"
+                                echo "Recording static analysis results on '${stageIdentifier}' and Git repo '$gitRepositoryKey'"
 
                                 recordIssues enabledForFailure: true,
                                         tool: mavenConsole(),
