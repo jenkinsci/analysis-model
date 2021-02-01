@@ -7,7 +7,7 @@ import edu.hm.hafner.analysis.IssueParser;
  *
  * @author Lorenz Munsch
  */
-class ParserDescriptor {
+public class ParserDescriptor {
 
 
     private final String id;
@@ -23,7 +23,7 @@ class ParserDescriptor {
      * @param name the name of the descriptor
      * @param issueParser the parser
      */
-    ParserDescriptor(final String id, final String name, final IssueParser issueParser) {
+    public ParserDescriptor(final String id, final String name, final IssueParser issueParser) {
         this.id = id;
         this.name = name;
         this.issueParser = issueParser;
