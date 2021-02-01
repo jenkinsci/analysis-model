@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author Lorenz Munsch
  */
-@SuppressWarnings("checkstyle:ClassDataAbstractionCouplingCheck, ")
+@SuppressWarnings("checkstyle:ClassDataAbstractionCouplingCheck")
 public class DescriptorFactory {
 
     private final ParserDescriptor[] allDescriptors = {
