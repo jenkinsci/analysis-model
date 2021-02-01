@@ -9,10 +9,10 @@ import java.util.Set;
  *
  * @author Lorenz Munsch
  */
-@SuppressWarnings("checkstyle:ClassDataAbstractionCouplingCheck")
+@SuppressWarnings("checkstyle:ClassDataAbstractionCouplingCheck, ")
 public class DescriptorFactory {
 
-    private ParserDescriptor[] allDescriptors = {
+    private final ParserDescriptor[] allDescriptors = {
             new AcuCobolDescriptor(),
             new AjcDescriptor(),
             new AndroidLintDescriptor(),

@@ -15,7 +15,7 @@ class AjcDescriptor extends ParserDescriptor {
     /**
      * ctor for the abstract Parser Descriptor class.
      */
-    public AjcDescriptor() {
+    AjcDescriptor() {
         super(ID, NAME, new AjcParser());
     }
 }
