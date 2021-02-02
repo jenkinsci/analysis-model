@@ -133,6 +133,23 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasMessage("Cppcheck cannot find all the include files (use --check-config for details). Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project's include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config.");
     }
 
+    /**
+     * Verifies that the CppCheck adapter skips duplicate warnings.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-61939">Issue 61939</a>
+     */
+    @Test
+    void shouldSkipDuplicatesJenkins61939() {
+        Report first = parse("cpp-check-1.xml");
+        assertThat(first).hasSize(2);
+        Report second = parse("cpp-check-2.xml");
+        assertThat(second).hasSize(3);
+
+        Report aggregation = new Report();
+        aggregation.addAll(first, second);
+        assertThat(second).hasSize(3);
+    }
+
     @Override
     protected CppCheckAdapter createParser() {
         return new CppCheckAdapter();
