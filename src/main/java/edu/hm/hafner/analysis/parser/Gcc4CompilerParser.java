@@ -30,6 +30,13 @@ public class Gcc4CompilerParser extends LookaheadParser {
         super(GCC_WARNING_PATTERN);
     }
 
+    /**
+     * Creates a new instance of {@link Gcc4CompilerParser} with specified pattern.
+     */
+    public Gcc4CompilerParser(final String pattern) {
+        super(pattern == null || pattern.isEmpty() ? GCC_WARNING_PATTERN : ANT_TASK + pattern );
+    }
+
     @Override
     protected boolean isLineInteresting(final String line) {
         return line.contains("arning") || line.contains("rror");
