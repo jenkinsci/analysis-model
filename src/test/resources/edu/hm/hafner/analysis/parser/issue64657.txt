@@ -1,0 +1,5 @@
+Warning: doxygen no longer ships with the FreeSans font.
+         You may want to clear or change DOT_FONTNAME.
+         Otherwise you run the risk that the wrong font is being used for dot generated graphs.
+Warning: source ../path/to/file is not a readable file or directory... skipping.
+warning: tag INPUT: input source `../../example/inc/example2.h' does not exist
