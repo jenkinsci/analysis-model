@@ -1,5 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
+/**
+ * A parser for Doxygen.
+ *
+ * @author Ladislav Moravek
+ */
 public class DoxygenParser extends Gcc4CompilerParser {
     private static final long serialVersionUID = 8760302999081711502L;
 
