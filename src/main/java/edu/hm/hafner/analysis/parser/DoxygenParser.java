@@ -14,7 +14,7 @@ public class DoxygenParser extends Gcc4CompilerParser {
     /**
      * Creates a new instance of {@link DoxygenParser}.
      */
-    DoxygenParser() {
+    public DoxygenParser() {
         super(DOXYGEN_WARNING_PATTERN);
     }
 
