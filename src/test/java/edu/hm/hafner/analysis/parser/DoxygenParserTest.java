@@ -42,22 +42,19 @@ class DoxygenParserTest extends AbstractParserTest {
                         "doxygen no longer ships with the FreeSans font.\n"
                                 + "         You may want to clear or change DOT_FONTNAME.\n"
                                 + "         Otherwise you run the risk that the wrong font is being used for dot generated graphs.")
-                .hasFileName(
-                        "-")
+                .hasFileName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         assertThat(report.get(1))
                 .hasLineStart(0)
                 .hasMessage("source ../path/to/file is not a readable file or directory... skipping.")
-                .hasFileName(
-                        "-")
+                .hasFileName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         assertThat(report.get(2))
                 .hasLineStart(0)
                 .hasMessage("tag INPUT: input source `../../example/inc/example2.h' does not exist")
-                .hasFileName(
-                        "-")
+                .hasFileName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
