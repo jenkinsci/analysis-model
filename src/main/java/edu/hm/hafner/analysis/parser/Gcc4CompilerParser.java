@@ -34,7 +34,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
      * Creates a new instance of {@link Gcc4CompilerParser} with specified pattern.
      * @param pattern a regex pattern to be used instead of the default one
      */
-    public Gcc4CompilerParser(final String pattern) {
+    Gcc4CompilerParser(final String pattern) {
         super(pattern == null || pattern.isEmpty() ? GCC_WARNING_PATTERN : ANT_TASK + pattern);
     }
 
@@ -84,4 +84,3 @@ public class Gcc4CompilerParser extends LookaheadParser {
         return !StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make");
     }
 }
-
