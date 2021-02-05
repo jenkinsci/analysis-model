@@ -35,7 +35,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
      * @param pattern a regex pattern to be used instead of the default one
      */
     Gcc4CompilerParser(final String pattern) {
-        super(pattern == null || pattern.isEmpty() ? GCC_WARNING_PATTERN : ANT_TASK + pattern);
+        super(pattern);
     }
 
     @Override
