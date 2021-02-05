@@ -30,6 +30,14 @@ public class Gcc4CompilerParser extends LookaheadParser {
         super(GCC_WARNING_PATTERN);
     }
 
+    /**
+     * Creates a new instance of {@link Gcc4CompilerParser} with specified pattern.
+     * @param pattern a regex pattern to be used instead of the default one
+     */
+    Gcc4CompilerParser(final String pattern) {
+        super(pattern);
+    }
+
     @Override
     protected boolean isLineInteresting(final String line) {
         return line.contains("arning") || line.contains("rror");
@@ -76,4 +84,3 @@ public class Gcc4CompilerParser extends LookaheadParser {
         return !StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make");
     }
 }
-
