@@ -4,8 +4,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
@@ -31,7 +29,6 @@ public class ErrorProneParser extends LookaheadParser {
             + "\\[(?<line>\\d+),(?<column>\\d+)\\]\\s+"
             + "\\[(?<type>\\w+)\\]\\s+"
             + "(?<message>.*)";
-    public static final String SEE_ERROR_PRONE_DOCUMENTATION = "See ErrorProne documentation.";
 
     /**
      * Creates a new instance of {@link ErrorProneParser}.
@@ -43,22 +40,15 @@ public class ErrorProneParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) throws ParsingException {
-        String description = createDescription(lookahead);
-        if (description.contains(SEE_ERROR_PRONE_DOCUMENTATION)) {
-            builder.setFileName(matcher.group("file"))
-                    .setLineStart(matcher.group("line"))
-                    .setColumnStart(matcher.group("column"))
-                    .setType(matcher.group("type"))
-                    .setMessage(appendPeriod(matcher))
-                    .guessSeverity(matcher.group("severity"))
-                    .setDescription(description);
-            return builder.buildOptional();
-        }
-        return Optional.empty();
-    }
+        builder.setFileName(matcher.group("file"))
+                .setLineStart(matcher.group("line"))
+                .setColumnStart(matcher.group("column"))
+                .setType(matcher.group("type"))
+                .setMessage(matcher.group("message"))
+                .guessSeverity(matcher.group("severity"))
+                .setDescription(createDescription(lookahead));
 
-    private String appendPeriod(final Matcher matcher) {
-        return StringUtils.appendIfMissing(matcher.group("message"), ".");
+        return builder.buildOptional();
     }
 
     /**
@@ -76,9 +66,10 @@ public class ErrorProneParser extends LookaheadParser {
             String line = lookahead.next();
             Matcher urlMatcher = URL_PATTERN.matcher(line);
             if (urlMatcher.matches()) {
-                url.append(p().with(a()
-                        .withHref(urlMatcher.group("url"))
-                        .withText(SEE_ERROR_PRONE_DOCUMENTATION)).render());
+                url.append(p().with(
+                        a().withHref(urlMatcher.group("url"))
+                                .withText("See ErrorProne documentation."))
+                        .render());
             }
             else {
                 Matcher fixMatcher = FIX_PATTERN.matcher(line);
@@ -86,9 +77,6 @@ public class ErrorProneParser extends LookaheadParser {
                     description.append("Did you mean: ");
                     description.append(pre().with(
                             code().withText(fixMatcher.group("code"))).render());
-                }
-                else {
-                    description.append(line);
                 }
             }
         }
