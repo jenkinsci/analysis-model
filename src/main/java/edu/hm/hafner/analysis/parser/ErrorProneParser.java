@@ -31,7 +31,7 @@ public class ErrorProneParser extends LookaheadParser {
             + "\\[(?<line>\\d+),(?<column>\\d+)\\]\\s+"
             + "\\[(?<type>\\w+)\\]\\s+"
             + "(?<message>.*)";
-    public static final String SEE_ERROR_PRONE_DOCUMENTATION = "See ErrorProne documentation.";
+    private static final String SEE_ERROR_PRONE_DOCUMENTATION = "See ErrorProne documentation.";
 
     /**
      * Creates a new instance of {@link ErrorProneParser}.
