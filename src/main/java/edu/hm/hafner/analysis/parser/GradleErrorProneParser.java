@@ -39,7 +39,7 @@ public class GradleErrorProneParser extends LookaheadParser {
         builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))
                 .setType(matcher.group("type"))
-                .setMessage(matcher.group("message"))
+                .setMessage(appendPeriod(matcher))
                 .guessSeverity(matcher.group("severity"))
                 .setDescription(createDescription(lookahead));
 

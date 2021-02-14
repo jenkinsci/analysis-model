@@ -31,7 +31,7 @@ public class ErrorProneParser extends LookaheadParser {
             + "\\[(?<line>\\d+),(?<column>\\d+)\\]\\s+"
             + "\\[(?<type>\\w+)\\]\\s+"
             + "(?<message>.*)";
-    public static final String SEE_ERROR_PRONE_DOCUMENTATION = "See ErrorProne documentation.";
+    private static final String SEE_ERROR_PRONE_DOCUMENTATION = "See ErrorProne documentation.";
 
     /**
      * Creates a new instance of {@link ErrorProneParser}.
@@ -57,7 +57,7 @@ public class ErrorProneParser extends LookaheadParser {
         return Optional.empty();
     }
 
-    private String appendPeriod(final Matcher matcher) {
+    static String appendPeriod(final Matcher matcher) {
         return StringUtils.appendIfMissing(matcher.group("message"), ".");
     }
 
@@ -72,6 +72,7 @@ public class ErrorProneParser extends LookaheadParser {
     static String createDescription(final LookaheadStream lookahead) {
         StringBuilder description = new StringBuilder();
         StringBuilder url = new StringBuilder();
+        boolean urlFound = false; // skip all text before the URL
         while (lookahead.hasNext("^\\s+.*")) {
             String line = lookahead.next();
             Matcher urlMatcher = URL_PATTERN.matcher(line);
@@ -79,6 +80,7 @@ public class ErrorProneParser extends LookaheadParser {
                 url.append(p().with(a()
                         .withHref(urlMatcher.group("url"))
                         .withText(SEE_ERROR_PRONE_DOCUMENTATION)).render());
+                urlFound = true;
             }
             else {
                 Matcher fixMatcher = FIX_PATTERN.matcher(line);
@@ -87,7 +89,7 @@ public class ErrorProneParser extends LookaheadParser {
                     description.append(pre().with(
                             code().withText(fixMatcher.group("code"))).render());
                 }
-                else {
+                else if (urlFound) {
                     description.append(line);
                 }
             }
@@ -95,5 +97,4 @@ public class ErrorProneParser extends LookaheadParser {
 
         return description.toString() + url.toString();
     }
-
 }
