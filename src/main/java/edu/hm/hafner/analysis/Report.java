@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
@@ -63,6 +62,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
+    public static final boolean SEQUENTIAL = false;
 
     private Set<Issue> elements = new LinkedHashSet<>();
     private List<String> infoMessages = new ArrayList<>();
@@ -319,7 +319,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return a new sequential {@code Stream}
      */
     public Stream<Issue> stream() {
-        return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL), false);
+        return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL), SEQUENTIAL);
     }
 
     /**
@@ -640,7 +640,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
         return issues.entrySet().stream()
                 .collect(toMap(
-                        Entry::getKey,
+                        Map.Entry::getKey,
                         e -> {
                             Report report = new Report();
                             report.addAll(e.getValue());

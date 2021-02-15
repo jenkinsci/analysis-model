@@ -51,9 +51,9 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
         // TODO: Add some meaningful content into the file to fingerprint
         private static final String AFFECTED_FILE_NAME = "fingerprint.txt";
 
-        private Report singleIssueReport;
-        private FullTextFingerprint fingerprint;
-        private Report multipleIssuesReport;
+        private Report singleIssueReport = new Report();
+        private FullTextFingerprint fingerprint = new FullTextFingerprint();
+        private Report multipleIssuesReport = new Report();
 
         public Report getSingleIssueReport() {
             return singleIssueReport;

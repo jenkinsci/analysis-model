@@ -52,7 +52,7 @@ public class PackageNameResolverBenchmark extends AbstractBenchmark {
      */
     @State(Scope.Benchmark)
     public static class BenchmarkState {
-        private Report report;
+        private Report report = new Report();
 
         public Report getReport() {
             return report;

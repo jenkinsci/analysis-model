@@ -26,6 +26,7 @@ import java.util.stream.StreamSupport;
 public class LineRangeList extends AbstractList<LineRange> implements Serializable {
     private static final long serialVersionUID = -1123973098942984623L;
     private static final int DEFAULT_CAPACITY = 16;
+    public static final boolean SEQUENTIAL = false;
 
     /** Encoded bits. */
     private byte[] data;
@@ -92,7 +93,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
      * @param ranges
      *         collection containing elements to be added to this list
      *
-     * @return <tt>true</tt> if this list changed as a result of the call
+     * @return {@code true} if this list changed as a result of the call
      * @throws NullPointerException
      *         if the specified collection contains one or more null elements and this list does not permit null
      *         elements, or if the specified collection is null
@@ -101,7 +102,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
      * @see #add(Object)
      */
     public final boolean addAll(final Iterable<? extends LineRange> ranges) {
-        return StreamSupport.stream(ranges.spliterator(), false)
+        return StreamSupport.stream(ranges.spliterator(), SEQUENTIAL)
                 .map(this::add)
                 .reduce(Boolean::logicalOr)
                 .orElse(false);

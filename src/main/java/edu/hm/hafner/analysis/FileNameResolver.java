@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -46,7 +45,7 @@ public class FileNameResolver {
                         fileName -> makeRelative(sourceDirectoryPrefix, fileName)))
                 .entrySet().parallelStream()
                 .filter(entry -> PATH_UTIL.exists(entry.getValue(), sourceDirectoryPrefix))
-                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         IssueBuilder builder = new IssueBuilder();
         report.stream()

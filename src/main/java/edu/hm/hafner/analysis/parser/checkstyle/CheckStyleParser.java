@@ -85,10 +85,12 @@ public class CheckStyleParser extends IssueParser {
         return report;
     }
 
+    @CheckForNull
     private String getCategory(@CheckForNull final String source) {
         return StringUtils.capitalize(getType(StringUtils.substringBeforeLast(source, ".")));
     }
 
+    @CheckForNull
     private String getType(@CheckForNull final String source) {
         if (StringUtils.contains(source, '.')) {
             return StringUtils.substringAfterLast(source, ".");

@@ -38,8 +38,8 @@ public class IssueDifferenceBenchmark extends AbstractBenchmark {
     public static class BenchmarkState {
         private static final String REFERENCE_BUILD = "100";
 
-        private Report reference;
-        private Report current;
+        private Report reference = new Report();
+        private Report current = new Report();
 
         public Report getReference() {
             return reference;

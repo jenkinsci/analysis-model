@@ -47,7 +47,6 @@ public abstract class ReaderFactory {
     /**
      * Creates a new factory to read a resource with a given charset.
      *
-     * @param charset
      *         the charset to use when reading the file
      * @param lineMapper
      *         provides a mapper to transform each of the resource lines
