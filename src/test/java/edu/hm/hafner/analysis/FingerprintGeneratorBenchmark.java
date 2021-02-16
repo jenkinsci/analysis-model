@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
@@ -54,6 +55,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
         private Report singleIssueReport = new Report();
         private FullTextFingerprint fingerprint = new FullTextFingerprint();
         private Report multipleIssuesReport = new Report();
+        private Random random;
 
         public Report getSingleIssueReport() {
             return singleIssueReport;
@@ -78,6 +80,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
             multipleIssuesReport = createMultipleIssues(10);
 
             fingerprint = new FullTextFingerprint();
+            random = new Random();
         }
 
         private Report createMultipleIssues(final int number) {
@@ -85,7 +88,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
             IssueBuilder builder = new IssueBuilder();
             builder.setFileName(AFFECTED_FILE_NAME);
             for (int i = 0; i < number; i++) {
-                builder.setLineStart((int) (Math.random() * 26));
+                builder.setLineStart((random.nextInt()) * 26);
                 report.add(builder.setPackageName(Integer.toString(i)).build());
             }
             return report;

@@ -32,7 +32,7 @@ public class EclipseParser extends LookaheadParser {
     static final String INFO = "INFO";
 
     private static final String JAVADOC_PREFIX = "Javadoc:";
-    public static final Pattern ANT_PREFIX = Pattern.compile("^(?:.*\\[.+\\])?\\s*(.*)");
+    private static final Pattern ANT_PREFIX = Pattern.compile("^(?:.*\\[.+\\])?\\s*(.*)");
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
