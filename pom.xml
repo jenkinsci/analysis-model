@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -8,7 +9,7 @@
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
     <version>2.0.0</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <artifactId>analysis-model</artifactId>
@@ -277,28 +278,20 @@
         <configuration>
           <versionFormat>[0-9.]*</versionFormat>
           <analysisConfiguration>
-            <revapi.ignore>
-              <item>
-                <code>java.field.enumConstantOrderChanged</code>
-                <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
-                <justification>Nobody should rely on these constants.</justification>
-              </item>
-              <item>
-                <code>java.field.addedStaticField</code>
-                <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
-                <justification>Nobody should rely on these constants.</justification>
-              </item>
-              <item>
-                <code>java.annotation.removed</code>
-                <annotation>@edu.umd.cs.findbugs.annotations.Nullable</annotation>
-                <justification>Annotation should be save to change.</justification>
-              </item>
-              <item>
-                <code>java.annotation.added</code>
-                <annotation>@edu.umd.cs.findbugs.annotations.CheckForNull</annotation>
-                <justification>Annotation should be save to change.</justification>
-              </item>
-            </revapi.ignore>
+            <revapi.semver.ignore>
+              <enabled>true</enabled>
+            </revapi.semver.ignore>
+            <revapi.differences>
+              <justification>SpotBugs annotations are save to change</justification>
+              <criticality>allowed</criticality>
+              <differences>
+                <item>
+                  <regex>true</regex>
+                  <code>java.annotation.added</code>
+                  <annotationType>edu.umd.cs.findbugs.annotations.*</annotationType>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>
