@@ -26,7 +26,7 @@ import java.util.stream.StreamSupport;
 public class LineRangeList extends AbstractList<LineRange> implements Serializable {
     private static final long serialVersionUID = -1123973098942984623L;
     private static final int DEFAULT_CAPACITY = 16;
-    public static final boolean SEQUENTIAL = false;
+    private static final boolean SEQUENTIAL = false;
 
     /** Encoded bits. */
     private byte[] data;

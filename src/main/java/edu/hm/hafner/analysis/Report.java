@@ -62,7 +62,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
-    public static final boolean SEQUENTIAL = false;
+    private static final boolean SEQUENTIAL = false;
 
     private Set<Issue> elements = new LinkedHashSet<>();
     private List<String> infoMessages = new ArrayList<>();

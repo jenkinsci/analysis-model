@@ -22,7 +22,7 @@ import edu.hm.hafner.analysis.Report;
 public class JsonParser extends JsonBaseParser {
     private static final long serialVersionUID = -6494117943149352139L;
     private static final String ISSUES = "issues";
-    public static final boolean SEQUENTIAL = false;
+    private static final boolean SEQUENTIAL = false;
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
