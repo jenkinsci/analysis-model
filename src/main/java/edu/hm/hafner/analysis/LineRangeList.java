@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.stream.StreamSupport;
 
 /**
@@ -217,7 +218,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          */
         private void prev() {
             if (position == 0) {
-                throw new IllegalStateException("Cursor is a the beginning.");
+                throw new NoSuchElementException("Cursor is a the beginning.");
             }
             do {
                 position--;
@@ -270,7 +271,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          */
         private int read() {
             if (len <= position) {
-                throw new IndexOutOfBoundsException("Position " + position + " is >= length " + len);
+                throw new NoSuchElementException("Position " + position + " is >= length " + len);
             }
 
             int i = 0;

@@ -10,6 +10,8 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * JMH Benchmarking of the {@link FingerprintGenerator}.
  *
@@ -83,6 +85,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
             random = new Random();
         }
 
+        @SuppressFBWarnings("PREDICTABLE_RANDOM")
         private Report createMultipleIssues(final int number) {
             Report report = new Report();
             IssueBuilder builder = new IssueBuilder();
