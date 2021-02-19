@@ -66,6 +66,8 @@
 
     <!-- Project Dependencies Configuration -->
     <codingstyle.library.version>2.0.1</codingstyle.library.version>
+    <codingstyle.config.version>2.0.1</codingstyle.config.version>
+
     <jmh.version>1.27</jmh.version>
     <commons.lang.version>3.11</commons.lang.version>
     <commons.io.version>2.8.0</commons.io.version>
