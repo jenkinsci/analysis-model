@@ -268,8 +268,9 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          * Reads the current variable-length encoded int value under the cursor, and moves the cursor ahead.
          *
          * @return the current value
+         * @throws NoSuchElementException if encoded buffer contains no more element
          */
-        private int read() {
+        private int read() throws NoSuchElementException{
             if (len <= position) {
                 throw new NoSuchElementException("Position " + position + " is >= length " + len);
             }
