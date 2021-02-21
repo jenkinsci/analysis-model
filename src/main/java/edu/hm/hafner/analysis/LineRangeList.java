@@ -10,6 +10,8 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.stream.StreamSupport;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
  * <p>
@@ -230,7 +232,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          *
          * @return the current element
          */
-        @Override
+        @Override @SuppressFBWarnings(value = "IT_NO_SUCH_ELEMENT", justification = "thrown in read()")
         public LineRange next() {
             int s = read();
             int d = read();
@@ -270,7 +272,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          * @return the current value
          * @throws NoSuchElementException if encoded buffer contains no more element
          */
-        private int read() throws NoSuchElementException{
+        private int read() throws NoSuchElementException {
             if (len <= position) {
                 throw new NoSuchElementException("Position " + position + " is >= length " + len);
             }
