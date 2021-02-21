@@ -13,7 +13,6 @@ import com.google.errorprone.annotations.FormatMethod;
  * @author Ullrich Hafner
  */
 public class FilteredLog {
-    private static final String SKIPPED_MESSAGE = "  ... skipped logging of %d additional errors ...";
     private static final int DEFAULT_MAX_LINES = 20;
 
     private final Report delegate;
@@ -129,7 +128,7 @@ public class FilteredLog {
      */
     public void logSummary() {
         if (lines > maxLines) {
-            delegate.logError(SKIPPED_MESSAGE, lines - maxLines);
+            delegate.logError("  ... skipped logging of %d additional errors ...", lines - maxLines);
         }
     }
 }

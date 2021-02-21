@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.ResourceTest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -168,7 +169,7 @@ public abstract class AbstractParserTest extends ResourceTest {
             this.content = content;
         }
 
-        @Override
+        @Override @SuppressFBWarnings("NM")
         public String getFileName() {
             return "String";
         }

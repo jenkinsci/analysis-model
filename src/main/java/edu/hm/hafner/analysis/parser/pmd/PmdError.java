@@ -18,6 +18,7 @@ public class PmdError {
     private String description;
 
     @CheckForNull
+    @SuppressFBWarnings("NM")
     public String getFilename() {
         return filename;
     }

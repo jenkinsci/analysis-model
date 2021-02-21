@@ -7,7 +7,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.stream.StreamSupport;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
@@ -26,6 +29,7 @@ import java.util.stream.StreamSupport;
 public class LineRangeList extends AbstractList<LineRange> implements Serializable {
     private static final long serialVersionUID = -1123973098942984623L;
     private static final int DEFAULT_CAPACITY = 16;
+    private static final boolean SEQUENTIAL = false;
 
     /** Encoded bits. */
     private byte[] data;
@@ -92,7 +96,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
      * @param ranges
      *         collection containing elements to be added to this list
      *
-     * @return <tt>true</tt> if this list changed as a result of the call
+     * @return {@code true} if this list changed as a result of the call
      * @throws NullPointerException
      *         if the specified collection contains one or more null elements and this list does not permit null
      *         elements, or if the specified collection is null
@@ -101,7 +105,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
      * @see #add(Object)
      */
     public final boolean addAll(final Iterable<? extends LineRange> ranges) {
-        return StreamSupport.stream(ranges.spliterator(), false)
+        return StreamSupport.stream(ranges.spliterator(), SEQUENTIAL)
                 .map(this::add)
                 .reduce(Boolean::logicalOr)
                 .orElse(false);
@@ -216,7 +220,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          */
         private void prev() {
             if (position == 0) {
-                throw new IllegalStateException("Cursor is a the beginning.");
+                throw new NoSuchElementException("Cursor is a the beginning.");
             }
             do {
                 position--;
@@ -228,7 +232,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          *
          * @return the current element
          */
-        @Override
+        @Override @SuppressFBWarnings(value = "IT_NO_SUCH_ELEMENT", justification = "thrown in read()")
         public LineRange next() {
             int s = read();
             int d = read();
@@ -266,10 +270,11 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
          * Reads the current variable-length encoded int value under the cursor, and moves the cursor ahead.
          *
          * @return the current value
+         * @throws NoSuchElementException if encoded buffer contains no more element
          */
-        private int read() {
+        private int read() throws NoSuchElementException {
             if (len <= position) {
-                throw new IndexOutOfBoundsException("Position " + position + " is >= length " + len);
+                throw new NoSuchElementException("Position " + position + " is >= length " + len);
             }
 
             int i = 0;

@@ -32,6 +32,7 @@ public class EclipseParser extends LookaheadParser {
     static final String INFO = "INFO";
 
     private static final String JAVADOC_PREFIX = "Javadoc:";
+    private static final Pattern ANT_PREFIX = Pattern.compile("^(?:.*\\[.+\\])?\\s*(.*)");
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
@@ -71,8 +72,7 @@ public class EclipseParser extends LookaheadParser {
     }
 
     static void extractMessage(final IssueBuilder builder, final String message) {
-        Pattern ant = Pattern.compile("^(?:.*\\[.+\\])?\\s*(.*)");
-        Matcher messageMatcher = ant.matcher(message);
+        Matcher messageMatcher = ANT_PREFIX.matcher(message);
         if (messageMatcher.matches()) {
             String msg = messageMatcher.group(1);
             builder.setMessage(msg);
@@ -83,7 +83,7 @@ public class EclipseParser extends LookaheadParser {
     /**
      * Sets the issue's category to {@code Javadoc} if the message starts with {@value #JAVADOC_PREFIX}, {@code Other}
      * otherwise. Unlike {@link #extractMessage(IssueBuilder, String)}, the {@code message} is assumed to be cleaned-up.
-     * 
+     *
      * @param builder
      *     IssueBuilder to populate.
      * @param message

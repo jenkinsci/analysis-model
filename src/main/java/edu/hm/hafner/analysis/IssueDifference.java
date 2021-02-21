@@ -75,6 +75,7 @@ public class IssueDifference {
         map.computeIfAbsent(key, k -> new ArrayList<>()).add(issue);
     }
 
+    @SuppressWarnings("NullAway")
     private <K> void removeIssueFromMap(final Map<K, List<Issue>> map, final K key, final Issue issue) {
         List<Issue> issues = map.get(key);
         issues.remove(issue);

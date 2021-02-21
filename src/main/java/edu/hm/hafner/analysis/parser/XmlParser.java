@@ -68,13 +68,12 @@ public class XmlParser extends IssuePropertiesParser {
         return readerFactory.getFileName().endsWith(".xml");
     }
 
-    @Override
+    @Override @SuppressFBWarnings("XPATH_INJECTION")
     public Report parse(final ReaderFactory readerFactory) {
         try {
             Document doc = readerFactory.readDocument();
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath path = xPathFactory.newXPath();
-            @SuppressFBWarnings("XPATH_INJECTION")
             NodeList issues = (NodeList) path.evaluate(getXmlIssueRoot(), doc, XPathConstants.NODESET);
 
             IssueBuilder issueBuilder = new IssueBuilder();

@@ -22,6 +22,7 @@ import edu.hm.hafner.analysis.Report;
 public class JsonParser extends JsonBaseParser {
     private static final long serialVersionUID = -6494117943149352139L;
     private static final String ISSUES = "issues";
+    private static final boolean SEQUENTIAL = false;
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
@@ -36,7 +37,7 @@ public class JsonParser extends JsonBaseParser {
             Report report = new Report();
             if (jsonReport.has(ISSUES)) {
                 JSONArray issues = jsonReport.getJSONArray(ISSUES);
-                StreamSupport.stream(issues.spliterator(), false)
+                StreamSupport.stream(issues.spliterator(), SEQUENTIAL)
                         .filter(o -> o instanceof JSONObject)
                         .map(o -> convertToIssue((JSONObject) o))
                         .filter(Optional::isPresent)

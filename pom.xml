@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>1.6.0</version>
-    <relativePath />
+    <version>2.0.1</version>
+    <relativePath/>
   </parent>
-  
+
   <artifactId>analysis-model</artifactId>
   <version>${revision}${changelist}</version>
 
@@ -64,7 +65,9 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.library.version>1.6.0</codingstyle.library.version>
+    <codingstyle.library.version>2.0.2</codingstyle.library.version>
+    <codingstyle.config.version>2.0.2</codingstyle.config.version>
+
     <jmh.version>1.27</jmh.version>
     <commons.lang.version>3.11</commons.lang.version>
     <commons.io.version>2.8.0</commons.io.version>
@@ -76,8 +79,6 @@
     <slf4j.version>1.7.30</slf4j.version>
     <violations-lib.version>1.142</violations-lib.version>
     <json.version>20201115</json.version>
-
-    <argLine>-Djava.util.logging.config.file=logging.properties</argLine>
 
   </properties>
 
@@ -171,7 +172,6 @@
       <scope>test</scope>
     </dependency>
 
-
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -185,7 +185,7 @@
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
+      <artifactId>slf4j-nop</artifactId>
       <version>${slf4j.version}</version>
       <scope>test</scope>
     </dependency>
@@ -209,10 +209,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
         <configuration>
-          <compilerArgs combine.children="append">
-            <arg>-XepExcludedPaths:.*/generated-test-sources/.*</arg>
-          </compilerArgs>
-          <annotationProcessorPaths>
+          <annotationProcessorPaths combine.children="append">
             <path>
               <groupId>org.openjdk.jmh</groupId>
               <artifactId>jmh-generator-annprocess</artifactId>
@@ -277,33 +274,6 @@
       <plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
-        <configuration>
-          <versionFormat>[0-9.]*</versionFormat>
-          <analysisConfiguration>
-            <revapi.ignore>
-              <item>
-                <code>java.field.enumConstantOrderChanged</code>
-                <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
-                <justification>Nobody should rely on these constants.</justification>
-              </item>
-              <item>
-                <code>java.field.addedStaticField</code>
-                <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
-                <justification>Nobody should rely on these constants.</justification>
-              </item>
-              <item>
-                <code>java.annotation.removed</code>
-                <annotation>@edu.umd.cs.findbugs.annotations.Nullable</annotation>
-                <justification>Annotation should be save to change.</justification>
-              </item>
-              <item>
-                <code>java.annotation.added</code>
-                <annotation>@edu.umd.cs.findbugs.annotations.CheckForNull</annotation>
-                <justification>Annotation should be save to change.</justification>
-              </item>
-            </revapi.ignore>
-          </analysisConfiguration>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
