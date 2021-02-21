@@ -50,10 +50,10 @@ public class IarParser extends RegexpLineParser {
             priority = Severity.WARNING_LOW;
         }
         else if (equalsIgnoreCase(matcher.group(3), "Error")) {
-            priority = Severity.WARNING_HIGH;
+            priority = Severity.ERROR;
         }
         else if (equalsIgnoreCase(matcher.group(3), "Fatal error")) {
-            priority = Severity.WARNING_HIGH;
+            priority = Severity.ERROR;
         }
         else {
             priority = Severity.WARNING_NORMAL;
