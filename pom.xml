@@ -65,7 +65,7 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.library.version>2.0.2</codingstyle.library.version>
+    <codingstyle.library.version>2.0.4</codingstyle.library.version>
     <codingstyle.config.version>2.0.2</codingstyle.config.version>
 
     <jmh.version>1.27</jmh.version>
