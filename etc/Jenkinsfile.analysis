@@ -1,4 +1,4 @@
-node {
+node('java11-agent') {
     stage ('Checkout') {
         checkout scm
     }
