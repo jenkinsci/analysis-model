@@ -9,13 +9,13 @@ skinparam component {
 [Parsers] <<..analysis.parser..>>
 [Assertions] <<..assertj>>
 [Model] <<..analysis>>
-[Descriptors] <<..descriptor>>
+[Registry] <<..registry>>
 
 [Utilities] <<..util>>
 
 [Parsers] --> [Model]
-[Descriptors] --> [Parsers]
-[Descriptors] --> [Model]
+[Registry] --> [Parsers]
+[Registry] --> [Model]
 [Parsers] --> [Utilities]
 [Parsers] --> [Assertions]
 [Model] --> [Utilities]

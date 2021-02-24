@@ -235,6 +235,7 @@
         <configuration>
           <packages>
             <package>edu.hm.hafner.analysis</package>
+            <package>edu.hm.hafner.analysis.registry</package>
           </packages>
           <excludes>
             <exclude>.*SecureDigester</exclude>
