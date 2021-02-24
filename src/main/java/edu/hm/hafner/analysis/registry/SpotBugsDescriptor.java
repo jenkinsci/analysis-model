@@ -4,7 +4,7 @@ import edu.hm.hafner.analysis.parser.FindBugsParser;
 import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 
 /**
- * A Descriptor for the Find Bugs parser.
+ * A Descriptor for the SpotBugs parser.
  *
  * @author Lorenz Munsch
  */
@@ -18,5 +18,10 @@ class SpotBugsDescriptor extends ParserDescriptor {
      */
     SpotBugsDescriptor() {
         super(ID, NAME, new FindBugsParser(PriorityProperty.RANK));
+    }
+
+    @Override
+    public String getPattern() {
+        return "**/spotbugsXml.xml";
     }
 }

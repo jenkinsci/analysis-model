@@ -19,4 +19,9 @@ class FindBugsDescriptor extends ParserDescriptor {
     FindBugsDescriptor() {
         super(ID, NAME, new FindBugsParser(PriorityProperty.RANK));
     }
+
+    @Override
+    public String getPattern() {
+        return "**/findbugsXml.xml";
+    }
 }
