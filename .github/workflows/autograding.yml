@@ -24,8 +24,6 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Compile, Test and Analysis
         run: mvn -V -ntp clean verify -Dmaven.test.failure.ignore=true
-      - name: Mutation Coverage
-        run: mvn -V -ntp org.pitest:pitest-maven:mutationCoverage
       - name: Autograding
         uses: uhafner/autograding-github-action@v1.6.0
         with:
@@ -50,12 +48,5 @@ jobs:
                 "maxScore": 100,
                 "coveredPercentageImpact": 0,
                 "missedPercentageImpact": -1
-              },
-              "pit": {
-                "maxScore": 100,
-                "detectedImpact": 0,
-                "undetectedImpact": -1,
-                "detectedPercentageImpact": 0,
-                "undetectedPercentageImpact": 0
               }
             }
