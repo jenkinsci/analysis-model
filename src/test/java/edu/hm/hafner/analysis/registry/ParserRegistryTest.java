@@ -30,5 +30,6 @@ class ParserRegistryTest {
 
         assertThat(parserRegistry).hasIds(SPOTBUGS, CHECKSTYLE, PMD).hasNames("SpotBugs", "CheckStyle", "PMD");
         assertThat(parserRegistry.get(SPOTBUGS)).hasId(SPOTBUGS).hasName("SpotBugs");
+        assertThat(parserRegistry.getAllDescriptors()).filteredOn(d-> "spotbugs".equals(d.getId())).hasSize(1);
     }
 }
