@@ -8,13 +8,9 @@ import edu.hm.hafner.analysis.parser.fxcop.FxCopParser;
  * @author Lorenz Munsch
  */
 class FxcopDescriptor extends ParserDescriptor {
-
     private static final String ID = "fxcop";
     private static final String NAME = "FxCop";
 
-    /**
-     * ctor for the abstract Parser Descriptor class.
-     */
     FxcopDescriptor() {
         super(ID, NAME, new FxCopParser());
     }

@@ -8,13 +8,9 @@ import edu.hm.hafner.analysis.parser.pmd.PmdParser;
  * @author Lorenz Munsch
  */
 class PmdDescriptor extends ParserDescriptor {
-
     private static final String ID = "pmd";
     private static final String NAME = "PMD";
 
-    /**
-     * ctor for the abstract Parser Descriptor class.
-     */
     PmdDescriptor() {
         super(ID, NAME, new PmdParser());
     }

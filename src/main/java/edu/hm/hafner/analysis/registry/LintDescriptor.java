@@ -8,13 +8,9 @@ import edu.hm.hafner.analysis.parser.LintParser;
  * @author Lorenz Munsch
  */
 class LintDescriptor extends ParserDescriptor {
-
     private static final String ID = "lint";
     private static final String NAME = "Lint";
 
-    /**
-     * ctor for the abstract Parser Descriptor class.
-     */
     LintDescriptor() {
         super(ID, NAME, new LintParser());
     }

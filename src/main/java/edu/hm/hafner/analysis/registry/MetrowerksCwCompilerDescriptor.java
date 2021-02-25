@@ -8,13 +8,9 @@ import edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser;
  * @author Lorenz Munsch
  */
 class MetrowerksCwCompilerDescriptor extends ParserDescriptor {
-
     private static final String ID = "metrowerks";
     private static final String NAME = "Metrowerks CodeWarrior";
 
-    /**
-     * ctor for the abstract Parser Descriptor class.
-     */
     MetrowerksCwCompilerDescriptor() {
         super(ID, NAME, new MetrowerksCwCompilerParser());
     }

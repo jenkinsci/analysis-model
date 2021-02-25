@@ -8,13 +8,9 @@ import edu.hm.hafner.analysis.parser.P4Parser;
  * @author Lorenz Munsch
  */
 class P4Descriptor extends ParserDescriptor {
-
     private static final String ID = "p4";
     private static final String NAME = "P4";
 
-    /**
-     * ctor for the abstract Parser Descriptor class.
-     */
     P4Descriptor() {
         super(ID, NAME, new P4Parser());
     }

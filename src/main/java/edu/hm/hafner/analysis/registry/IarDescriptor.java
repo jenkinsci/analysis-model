@@ -8,13 +8,9 @@ import edu.hm.hafner.analysis.parser.IarParser;
  * @author Lorenz Munsch
  */
 class IarDescriptor extends ParserDescriptor {
-
     private static final String ID = "iar";
     private static final String NAME = "IAR Compiler (C/C++)";
 
-    /**
-     * ctor for the abstract Parser Descriptor class.
-     */
     IarDescriptor() {
         super(ID, NAME, new IarParser());
     }

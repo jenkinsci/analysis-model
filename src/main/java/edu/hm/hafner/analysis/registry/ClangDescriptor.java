@@ -8,13 +8,9 @@ import edu.hm.hafner.analysis.parser.ClangParser;
  * @author Lorenz Munsch
  */
 class ClangDescriptor extends ParserDescriptor {
-
     private static final String ID = "clang";
     private static final String NAME = "Clang";
 
-    /**
-     * ctor for the abstract Parser Descriptor class.
-     */
     ClangDescriptor() {
         super(ID, NAME, new ClangParser());
     }
