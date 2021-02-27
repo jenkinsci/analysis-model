@@ -12,6 +12,11 @@ class GoLintDescriptor extends ParserDescriptor {
     private static final String NAME = "Go Lint";
 
     GoLintDescriptor() {
-        super(ID, NAME, new GoLintParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new GoLintParser();
     }
 }

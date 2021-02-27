@@ -12,6 +12,11 @@ class IarDescriptor extends ParserDescriptor {
     private static final String NAME = "IAR Compiler (C/C++)";
 
     IarDescriptor() {
-        super(ID, NAME, new IarParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new IarParser();
     }
 }

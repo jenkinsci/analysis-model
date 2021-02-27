@@ -12,6 +12,11 @@ class Gcc4LinkerDescriptor extends ParserDescriptor {
     private static final String NAME = "Gcc4Linker";
 
     Gcc4LinkerDescriptor() {
-        super(ID, NAME, new Gcc4LinkerParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new Gcc4LinkerParser();
     }
 }

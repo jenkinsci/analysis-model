@@ -12,6 +12,11 @@ class PerlCriticDescriptor extends ParserDescriptor {
     private static final String NAME = "Perl::Critic";
 
     PerlCriticDescriptor() {
-        super(ID, NAME, new PerlCriticParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new PerlCriticParser();
     }
 }

@@ -12,6 +12,11 @@ class SunCDescriptor extends ParserDescriptor {
     private static final String NAME = "SUN C++ Compiler";
 
     SunCDescriptor() {
-        super(ID, NAME, new SunCParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new SunCParser();
     }
 }

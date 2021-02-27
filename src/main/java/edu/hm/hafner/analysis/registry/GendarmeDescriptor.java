@@ -12,6 +12,11 @@ class GendarmeDescriptor extends ParserDescriptor {
     private static final String NAME = "Gendarme";
 
     GendarmeDescriptor() {
-        super(ID, NAME, new GendarmeParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new GendarmeParser();
     }
 }

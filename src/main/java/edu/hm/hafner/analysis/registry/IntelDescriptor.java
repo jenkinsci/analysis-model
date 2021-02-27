@@ -12,6 +12,11 @@ class IntelDescriptor extends ParserDescriptor {
     private static final String NAME = "Intel Compiler (C, Fortran)";
 
     IntelDescriptor() {
-        super(ID, NAME, new IntelParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new IntelParser();
     }
 }

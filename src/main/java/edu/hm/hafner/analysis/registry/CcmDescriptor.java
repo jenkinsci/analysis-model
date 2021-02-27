@@ -12,6 +12,11 @@ class CcmDescriptor extends ParserDescriptor {
     private static final String NAME = "CCM";
 
     CcmDescriptor() {
-        super(ID, NAME, new CcmParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new CcmParser();
     }
 }

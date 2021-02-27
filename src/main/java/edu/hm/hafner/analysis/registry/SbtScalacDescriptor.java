@@ -12,6 +12,11 @@ class SbtScalacDescriptor extends ParserDescriptor {
     private static final String NAME = "SbtScalac";
 
     SbtScalacDescriptor() {
-        super(ID, NAME, new SbtScalacParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new SbtScalacParser();
     }
 }

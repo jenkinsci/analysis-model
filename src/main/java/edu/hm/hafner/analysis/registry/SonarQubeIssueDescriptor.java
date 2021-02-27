@@ -12,6 +12,11 @@ class SonarQubeIssueDescriptor extends ParserDescriptor {
     private static final String NAME = "SonarQubeIssue";
 
     SonarQubeIssueDescriptor() {
-        super(ID, NAME, new SonarQubeIssuesParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new SonarQubeIssuesParser();
     }
 }

@@ -12,6 +12,11 @@ class QacSourceCodeAnalyserDescriptor extends ParserDescriptor {
     private static final String NAME = "QA-C Sourcecode Analyser";
 
     QacSourceCodeAnalyserDescriptor() {
-        super(ID, NAME, new QacSourceCodeAnalyserParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new QacSourceCodeAnalyserParser();
     }
 }

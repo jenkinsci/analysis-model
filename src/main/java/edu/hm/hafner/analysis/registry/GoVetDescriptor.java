@@ -12,6 +12,11 @@ class GoVetDescriptor extends ParserDescriptor {
     private static final String NAME = "Go Vet";
 
     GoVetDescriptor() {
-        super(ID, NAME, new GoVetParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new GoVetParser();
     }
 }

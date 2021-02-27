@@ -12,6 +12,11 @@ class AndroidLintDescriptor extends ParserDescriptor {
     private static final String NAME = "Android Lint";
 
     AndroidLintDescriptor() {
-        super(ID, NAME, new AndroidLintParserAdapter());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new AndroidLintParserAdapter();
     }
 }

@@ -12,6 +12,11 @@ class ClangTidyDescriptor extends ParserDescriptor {
     private static final String NAME = "Clang-Tidy";
 
     ClangTidyDescriptor() {
-        super(ID, NAME, new ClangTidyParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new ClangTidyParser();
     }
 }

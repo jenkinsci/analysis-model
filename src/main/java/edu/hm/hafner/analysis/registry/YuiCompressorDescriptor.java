@@ -12,6 +12,11 @@ class YuiCompressorDescriptor extends ParserDescriptor {
     private static final String NAME = "YUI Compressor";
 
     YuiCompressorDescriptor() {
-        super(ID, NAME, new YuiCompressorParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new YuiCompressorParser();
     }
 }

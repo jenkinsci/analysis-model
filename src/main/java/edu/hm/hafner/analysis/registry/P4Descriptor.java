@@ -12,6 +12,11 @@ class P4Descriptor extends ParserDescriptor {
     private static final String NAME = "P4";
 
     P4Descriptor() {
-        super(ID, NAME, new P4Parser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new P4Parser();
     }
 }

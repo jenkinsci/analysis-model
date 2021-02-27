@@ -12,6 +12,11 @@ class CpdDescriptor extends ParserDescriptor {
     private static final String NAME = "CPD";
 
     CpdDescriptor() {
-        super(ID, NAME, new CpdParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new CpdParser();
     }
 }

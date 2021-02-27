@@ -12,6 +12,11 @@ class ErlcDescriptor extends ParserDescriptor {
     private static final String NAME = "Erlang Compiler (erlc)";
 
     ErlcDescriptor() {
-        super(ID, NAME, new ErlcParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new ErlcParser();
     }
 }

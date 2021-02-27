@@ -13,7 +13,12 @@ class SpotBugsDescriptor extends ParserDescriptor {
     private static final String NAME = "SpotBugs";
 
     SpotBugsDescriptor() {
-        super(ID, NAME, new FindBugsParser(PriorityProperty.RANK));
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new FindBugsParser(PriorityProperty.RANK))
     }
 
     @Override

@@ -12,6 +12,11 @@ class CadenceIncisiveDescriptor extends ParserDescriptor {
     private static final String NAME = "Cadence Incisive";
 
     CadenceIncisiveDescriptor() {
-        super(ID, NAME, new CadenceIncisiveParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new CadenceIncisiveParser();
     }
 }

@@ -12,6 +12,11 @@ class TnsdlDescriptor extends ParserDescriptor {
     private static final String NAME = "TNSDL Translator";
 
     TnsdlDescriptor() {
-        super(ID, NAME, new TnsdlParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new TnsdlParser();
     }
 }

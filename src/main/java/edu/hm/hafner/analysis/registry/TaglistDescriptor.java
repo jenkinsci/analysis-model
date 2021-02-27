@@ -12,6 +12,11 @@ class TaglistDescriptor extends ParserDescriptor {
     private static final String NAME = "Maven Taglist Plugin";
 
     TaglistDescriptor() {
-        super(ID, NAME, new TaglistParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new TaglistParser();
     }
 }

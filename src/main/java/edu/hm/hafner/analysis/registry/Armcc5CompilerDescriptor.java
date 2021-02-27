@@ -12,7 +12,12 @@ class Armcc5CompilerDescriptor extends ParserDescriptor {
     private static final String NAME = "Armcc5 Compiler";
 
     Armcc5CompilerDescriptor() {
-        super(ID, NAME,  new Armcc5CompilerParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return   new Armcc5CompilerParser())
     }
 
 }

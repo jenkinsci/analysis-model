@@ -12,6 +12,11 @@ class IdeaInspectionDescriptor extends ParserDescriptor {
     private static final String NAME = "IntelliJ IDEA Inspections";
 
     IdeaInspectionDescriptor() {
-        super(ID, NAME, new IdeaInspectionParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new IdeaInspectionParser();
     }
 }

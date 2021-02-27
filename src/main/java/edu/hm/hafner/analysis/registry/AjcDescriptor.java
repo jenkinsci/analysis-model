@@ -12,6 +12,11 @@ class AjcDescriptor extends ParserDescriptor {
     private static final String NAME = "AspectJ";
 
     AjcDescriptor() {
-        super(ID, NAME, new AjcParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new AjcParser();
     }
 }

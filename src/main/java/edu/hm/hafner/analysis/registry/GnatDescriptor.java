@@ -12,6 +12,11 @@ class GnatDescriptor extends ParserDescriptor {
     private static final String NAME = "Ada Compiler (gnat)";
 
     GnatDescriptor() {
-        super(ID, NAME, new GnatParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new GnatParser();
     }
 }

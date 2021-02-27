@@ -12,6 +12,11 @@ class JavacDescriptor extends ParserDescriptor {
     private static final String NAME = "Javac";
 
     JavacDescriptor() {
-        super(ID, NAME, new JavacParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new JavacParser();
     }
 }

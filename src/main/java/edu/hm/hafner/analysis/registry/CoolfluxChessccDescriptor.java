@@ -12,6 +12,11 @@ class CoolfluxChessccDescriptor extends ParserDescriptor {
     private static final String NAME = "Coolflux DSP Compiler";
 
     CoolfluxChessccDescriptor() {
-        super(ID, NAME, new CoolfluxChessccParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new CoolfluxChessccParser();
     }
 }

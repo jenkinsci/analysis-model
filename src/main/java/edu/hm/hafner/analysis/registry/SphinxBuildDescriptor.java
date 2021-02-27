@@ -12,6 +12,11 @@ class SphinxBuildDescriptor extends ParserDescriptor {
     private static final String NAME = "Sphinx-build";
 
     SphinxBuildDescriptor() {
-        super(ID, NAME, new SphinxBuildParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new SphinxBuildParser();
     }
 }

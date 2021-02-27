@@ -12,6 +12,11 @@ class FxcopDescriptor extends ParserDescriptor {
     private static final String NAME = "FxCop";
 
     FxcopDescriptor() {
-        super(ID, NAME, new FxCopParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new FxCopParser();
     }
 }

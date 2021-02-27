@@ -12,6 +12,11 @@ class XlcLinkerDescriptor extends ParserDescriptor {
     private static final String NAME = "IBM XLC Linker";
 
     XlcLinkerDescriptor() {
-        super(ID, NAME, new XlcLinkerParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new XlcLinkerParser();
     }
 }

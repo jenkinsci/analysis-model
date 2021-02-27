@@ -12,6 +12,11 @@ class EclipseMavenDescriptor extends ParserDescriptor {
     private static final String NAME = "Eclipse Maven";
 
     EclipseMavenDescriptor() {
-        super(ID, NAME, new EclipseMavenParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new EclipseMavenParser();
     }
 }

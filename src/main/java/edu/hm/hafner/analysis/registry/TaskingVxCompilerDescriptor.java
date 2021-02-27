@@ -12,6 +12,11 @@ class TaskingVxCompilerDescriptor extends ParserDescriptor {
     private static final String NAME = "TASKING VX Compiler";
 
     TaskingVxCompilerDescriptor() {
-        super(ID, NAME, new TaskingVxCompilerParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new TaskingVxCompilerParser();
     }
 }

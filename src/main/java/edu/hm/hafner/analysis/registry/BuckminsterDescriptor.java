@@ -12,6 +12,11 @@ class BuckminsterDescriptor extends ParserDescriptor {
     private static final String NAME = "Buckminster";
 
     BuckminsterDescriptor() {
-        super(ID, NAME, new BuckminsterParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new BuckminsterParser();
     }
 }

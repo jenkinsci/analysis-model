@@ -12,6 +12,11 @@ class GnuFortranDescriptor extends ParserDescriptor {
     private static final String NAME = "GNU Fortran Compiler";
 
     GnuFortranDescriptor() {
-        super(ID, NAME, new GnuFortranParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new GnuFortranParser();
     }
 }

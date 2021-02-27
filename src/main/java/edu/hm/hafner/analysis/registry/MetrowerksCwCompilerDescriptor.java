@@ -12,6 +12,11 @@ class MetrowerksCwCompilerDescriptor extends ParserDescriptor {
     private static final String NAME = "Metrowerks CodeWarrior";
 
     MetrowerksCwCompilerDescriptor() {
-        super(ID, NAME, new MetrowerksCwCompilerParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new MetrowerksCwCompilerParser();
     }
 }

@@ -12,6 +12,11 @@ class Pep8Descriptor extends ParserDescriptor {
     private static final String NAME = "Pep8";
 
     Pep8Descriptor() {
-        super(ID, NAME, new Pep8Parser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new Pep8Parser();
     }
 }

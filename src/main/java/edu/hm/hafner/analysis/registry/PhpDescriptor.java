@@ -12,6 +12,11 @@ class PhpDescriptor extends ParserDescriptor {
     private static final String NAME = "PHP Runtime";
 
     PhpDescriptor() {
-        super(ID, NAME, new PhpParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new PhpParser();
     }
 }

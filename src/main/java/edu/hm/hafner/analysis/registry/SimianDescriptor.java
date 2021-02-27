@@ -12,6 +12,11 @@ class SimianDescriptor extends ParserDescriptor {
     private static final String NAME = "Simian";
 
     SimianDescriptor() {
-        super(ID, NAME, new SimianParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new SimianParser();
     }
 }

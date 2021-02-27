@@ -12,6 +12,11 @@ class CppLintDescriptor extends ParserDescriptor {
     private static final String NAME = "CppLint";
 
     CppLintDescriptor() {
-        super(ID, NAME, new CppLintParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new CppLintParser();
     }
 }

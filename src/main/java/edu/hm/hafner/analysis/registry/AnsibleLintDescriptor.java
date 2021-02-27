@@ -12,6 +12,11 @@ class AnsibleLintDescriptor extends ParserDescriptor {
     private static final String NAME = "Ansible Lint";
 
     AnsibleLintDescriptor() {
-        super(ID, NAME, new AnsibleLintParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new AnsibleLintParser();
     }
 }

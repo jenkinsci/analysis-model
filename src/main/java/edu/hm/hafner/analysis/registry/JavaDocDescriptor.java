@@ -12,6 +12,11 @@ class JavaDocDescriptor extends ParserDescriptor {
     private static final String NAME = "JavaDoc";
 
     JavaDocDescriptor() {
-        super(ID, NAME, new JavaDocParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new JavaDocParser();
     }
 }

@@ -12,6 +12,11 @@ class CodeAnalysisDescriptor extends ParserDescriptor {
     private static final String NAME = "Code Analysis";
 
     CodeAnalysisDescriptor() {
-        super(ID, NAME, new CodeAnalysisParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new CodeAnalysisParser();
     }
 }

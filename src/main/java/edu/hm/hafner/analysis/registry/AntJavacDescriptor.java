@@ -12,6 +12,11 @@ class AntJavacDescriptor extends ParserDescriptor {
     private static final String NAME = "Ant Javac";
 
     AntJavacDescriptor() {
-        super(ID, NAME, new AntJavacParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new AntJavacParser();
     }
 }

@@ -12,6 +12,11 @@ class TiCcsDescriptor extends ParserDescriptor {
     private static final String NAME = "Texas Instruments Code Composer Studio";
 
     TiCcsDescriptor() {
-        super(ID, NAME, new TiCcsParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new TiCcsParser();
     }
 }

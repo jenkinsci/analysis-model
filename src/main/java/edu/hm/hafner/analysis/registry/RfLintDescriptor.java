@@ -12,6 +12,11 @@ class RfLintDescriptor extends ParserDescriptor {
     private static final String NAME = "Robot Framework Lint";
 
     RfLintDescriptor() {
-        super(ID, NAME, new RfLintParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new RfLintParser();
     }
 }

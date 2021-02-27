@@ -12,6 +12,11 @@ class StyleCopDescriptor extends ParserDescriptor {
     private static final String NAME = "StyleCop";
 
     StyleCopDescriptor() {
-        super(ID, NAME, new StyleCopParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new StyleCopParser();
     }
 }

@@ -12,6 +12,11 @@ class PreFastDescriptor extends ParserDescriptor {
     private static final String NAME = "PREfast";
 
     PreFastDescriptor() {
-        super(ID, NAME, new PreFastParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new PreFastParser();
     }
 }

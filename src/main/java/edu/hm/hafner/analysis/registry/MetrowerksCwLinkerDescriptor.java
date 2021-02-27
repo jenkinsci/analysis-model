@@ -12,6 +12,11 @@ class MetrowerksCwLinkerDescriptor extends ParserDescriptor {
     private static final String NAME = "MetrowerksCwLinker";
 
     MetrowerksCwLinkerDescriptor() {
-        super(ID, NAME, new MetrowerksCwLinkerParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new MetrowerksCwLinkerParser();
     }
 }

@@ -12,6 +12,11 @@ class GradleErrorProneDescriptor extends ParserDescriptor {
     private static final String NAME = "GradleErrorProne";
 
     GradleErrorProneDescriptor() {
-        super(ID, NAME, new ErrorProneParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new ErrorProneParser();
     }
 }

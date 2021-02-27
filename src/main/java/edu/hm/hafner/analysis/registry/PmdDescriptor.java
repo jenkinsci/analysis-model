@@ -12,7 +12,12 @@ class PmdDescriptor extends ParserDescriptor {
     private static final String NAME = "PMD";
 
     PmdDescriptor() {
-        super(ID, NAME, new PmdParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new PmdParser())
     }
 
     /**

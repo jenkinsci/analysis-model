@@ -12,6 +12,11 @@ class PyLintDescriptor extends ParserDescriptor {
     private static final String NAME = "Pylint";
 
     PyLintDescriptor() {
-        super(ID, NAME, new PyLintParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new PyLintParser();
     }
 }

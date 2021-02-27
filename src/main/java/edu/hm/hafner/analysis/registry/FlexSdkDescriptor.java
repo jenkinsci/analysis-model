@@ -12,6 +12,11 @@ class FlexSdkDescriptor extends ParserDescriptor {
     private static final String NAME = "Flex SDK Compiler";
 
     FlexSdkDescriptor() {
-        super(ID, NAME, new FlexSdkParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new FlexSdkParser();
     }
 }

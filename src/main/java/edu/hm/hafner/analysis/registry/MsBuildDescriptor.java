@@ -12,6 +12,11 @@ class MsBuildDescriptor extends ParserDescriptor {
     private static final String NAME = "MSBuild";
 
     MsBuildDescriptor() {
-        super(ID, NAME, new MsBuildParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new MsBuildParser();
     }
 }

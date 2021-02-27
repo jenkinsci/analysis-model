@@ -12,6 +12,11 @@ class GccDescriptor extends ParserDescriptor {
     private static final String NAME = "Gcc";
 
     GccDescriptor() {
-        super(ID, NAME, new GccParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new GccParser();
     }
 }

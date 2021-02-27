@@ -12,6 +12,11 @@ class InvalidsDescriptor extends ParserDescriptor {
     private static final String NAME = "Oracle Invalids";
 
     InvalidsDescriptor() {
-        super(ID, NAME, new InvalidsParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new InvalidsParser();
     }
 }

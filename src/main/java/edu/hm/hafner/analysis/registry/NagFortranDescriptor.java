@@ -12,6 +12,11 @@ class NagFortranDescriptor extends ParserDescriptor {
     private static final String NAME = "NAG Fortran Compiler";
 
     NagFortranDescriptor() {
-        super(ID, NAME, new NagFortranParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new NagFortranParser();
     }
 }

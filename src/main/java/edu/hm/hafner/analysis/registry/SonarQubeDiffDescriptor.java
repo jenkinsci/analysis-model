@@ -12,6 +12,11 @@ class SonarQubeDiffDescriptor extends ParserDescriptor {
     private static final String NAME = "SonarQubeDiff";
 
     SonarQubeDiffDescriptor() {
-        super(ID, NAME, new SonarQubeDiffParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new SonarQubeDiffParser();
     }
 }

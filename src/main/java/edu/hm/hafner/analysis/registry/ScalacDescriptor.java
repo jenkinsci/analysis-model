@@ -12,6 +12,11 @@ class ScalacDescriptor extends ParserDescriptor {
     private static final String NAME = "Scala Compiler";
 
     ScalacDescriptor() {
-        super(ID, NAME, new ScalacParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new ScalacParser();
     }
 }

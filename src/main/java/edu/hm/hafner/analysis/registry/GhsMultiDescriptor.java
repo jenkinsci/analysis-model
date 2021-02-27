@@ -12,6 +12,11 @@ class GhsMultiDescriptor extends ParserDescriptor {
     private static final String NAME = "GHS Multi Compiler";
 
     GhsMultiDescriptor() {
-        super(ID, NAME, new GhsMultiParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new GhsMultiParser();
     }
 }

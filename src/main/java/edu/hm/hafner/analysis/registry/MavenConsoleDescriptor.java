@@ -12,6 +12,11 @@ class MavenConsoleDescriptor extends ParserDescriptor {
     private static final String NAME = "Maven";
 
     MavenConsoleDescriptor() {
-        super(ID, NAME, new MavenConsoleParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new MavenConsoleParser();
     }
 }

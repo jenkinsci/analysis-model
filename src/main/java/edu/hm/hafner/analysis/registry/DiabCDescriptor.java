@@ -12,6 +12,11 @@ class DiabCDescriptor extends ParserDescriptor {
     private static final String NAME = "Wind River Diab Compiler (C/C++)";
 
     DiabCDescriptor() {
-        super(ID, NAME, new DiabCParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new DiabCParser();
     }
 }

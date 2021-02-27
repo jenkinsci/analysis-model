@@ -12,6 +12,11 @@ class EclipseDescriptor extends ParserDescriptor {
     private static final String NAME = "Eclipse ECJ";
 
     EclipseDescriptor() {
-        super(ID, NAME, new EclipseParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new EclipseParser();
     }
 }

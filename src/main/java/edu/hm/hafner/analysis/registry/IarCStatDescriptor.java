@@ -12,6 +12,11 @@ class IarCStatDescriptor extends ParserDescriptor {
     private static final String NAME = "IAR C-STAT";
 
     IarCStatDescriptor() {
-        super(ID, NAME, new IarCstatParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new IarCstatParser();
     }
 }

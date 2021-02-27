@@ -12,6 +12,11 @@ class Gcc4CompilerDescriptor extends ParserDescriptor {
     private static final String NAME = "GNU C Compiler (gcc)";
 
     Gcc4CompilerDescriptor() {
-        super(ID, NAME, new Gcc4CompilerParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new Gcc4CompilerParser();
     }
 }

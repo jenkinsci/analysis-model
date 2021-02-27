@@ -12,6 +12,11 @@ class AcuCobolDescriptor extends ParserDescriptor {
     private static final String NAME = "AcuCobol";
 
     AcuCobolDescriptor() {
-        super(ID, NAME, new AcuCobolParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new AcuCobolParser();
     }
 }

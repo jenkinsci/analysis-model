@@ -12,6 +12,11 @@ class RoboCopyDescriptor extends ParserDescriptor {
     private static final String NAME = "Robocopy";
 
     RoboCopyDescriptor() {
-        super(ID, NAME, new RobocopyParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new RobocopyParser();
     }
 }

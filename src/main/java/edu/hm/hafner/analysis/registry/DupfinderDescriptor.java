@@ -12,6 +12,11 @@ class DupfinderDescriptor extends ParserDescriptor {
     private static final String NAME = "Resharper dupFinder";
 
     DupfinderDescriptor() {
-        super(ID, NAME, new DupFinderParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new DupFinderParser();
     }
 }

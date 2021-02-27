@@ -12,6 +12,11 @@ class JcreportDescriptor extends ParserDescriptor {
     private static final String NAME = "JCReport";
 
     JcreportDescriptor() {
-        super(ID, NAME, new JcReportParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new JcReportParser();
     }
 }

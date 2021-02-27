@@ -12,7 +12,12 @@ class CheckstyleDescriptor extends ParserDescriptor {
     private static final String NAME = "CheckStyle";
 
     CheckstyleDescriptor() {
-        super(ID, NAME, new CheckStyleParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new CheckStyleParser())
     }
 
     /**

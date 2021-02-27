@@ -12,6 +12,11 @@ class LintDescriptor extends ParserDescriptor {
     private static final String NAME = "Lint";
 
     LintDescriptor() {
-        super(ID, NAME, new LintParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new LintParser();
     }
 }

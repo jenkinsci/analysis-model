@@ -12,6 +12,11 @@ class PuppetLintDescriptor extends ParserDescriptor {
     private static final String NAME = "Puppet-Lint";
 
     PuppetLintDescriptor() {
-        super(ID, NAME, new PuppetLintParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new PuppetLintParser();
     }
 }

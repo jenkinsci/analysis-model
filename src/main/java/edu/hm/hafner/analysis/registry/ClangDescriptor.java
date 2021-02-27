@@ -12,6 +12,11 @@ class ClangDescriptor extends ParserDescriptor {
     private static final String NAME = "Clang";
 
     ClangDescriptor() {
-        super(ID, NAME, new ClangParser());
+        super(ID, NAME);
+    }
+
+    @Override
+    public edu.hm.hafner.analysis.IssueParser createParser() {
+        return new ClangParser();
     }
 }
