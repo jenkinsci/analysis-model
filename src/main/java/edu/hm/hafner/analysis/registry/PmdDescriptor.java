@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 
 /**
@@ -16,27 +17,15 @@ class PmdDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
-        return new PmdParser())
+    public IssueParser createParser() {
+        return new PmdParser();
     }
 
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
     @Override
     public String getPattern() {
         return "**/pmd.xml";
     }
 
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
     @Override
     public String getUrl() {
         return "https://pmd.github.io";

@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ErlcParser;
 
 /**
- * A Descriptor for the Erlc parser.
+ * A descriptor for the Erlang Compiler (erlc).
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class ErlcDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new ErlcParser();
     }
 }

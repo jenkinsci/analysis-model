@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.PhpParser;
 
 /**
- * A Descriptor for the Php parser.
+ * A descriptor for PHP runtime errors and warnings.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class PhpDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new PhpParser();
     }
 }

@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.GnatParser;
 
 /**
- * A Descriptor for the Gnat parser.
+ * A descriptor for the Ada Compiler (gnat).
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class GnatDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new GnatParser();
     }
 }

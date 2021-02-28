@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.YuiCompressorParser;
 
 /**
- * A Descriptor for the Yui Compressor parser.
+ * A descriptor for the Yui Compressor parser.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class YuiCompressorDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new YuiCompressorParser();
     }
 }

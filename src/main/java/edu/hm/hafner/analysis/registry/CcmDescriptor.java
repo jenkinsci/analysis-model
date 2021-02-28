@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ccm.CcmParser;
 
 /**
- * A Descriptor for the Ccm warnings.
+ * A descriptor for the CCM.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class CcmDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new CcmParser();
     }
 }

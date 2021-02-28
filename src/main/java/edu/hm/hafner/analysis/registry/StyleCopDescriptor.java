@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.StyleCopParser;
 
 /**
- * A Descriptor for the Style Cop parser.
+ * A descriptor for StyleCop.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class StyleCopDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new StyleCopParser();
     }
 }

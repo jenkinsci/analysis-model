@@ -1,14 +1,15 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.XlcCompilerParser;
 
 /**
- * A Descriptor for the Xlc Compiler parser.
+ * A descriptor for the IBM XLC Compiler.
  *
  * @author Lorenz Munsch
  */
 class XlcCompilerDescriptor extends ParserDescriptor {
-    private static final String ID = "xlc-compiler";
+    private static final String ID = "xlc";
     private static final String NAME = "IBM XLC Compiler";
 
     XlcCompilerDescriptor() {
@@ -16,7 +17,7 @@ class XlcCompilerDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new XlcCompilerParser();
     }
 }

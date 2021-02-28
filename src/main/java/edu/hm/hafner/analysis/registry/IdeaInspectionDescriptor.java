@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.IdeaInspectionParser;
 
 /**
- * A Descriptor for the Idea Inspection parser.
+ * A descriptor for the IntelliJ IDEA Inspections.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,12 @@ class IdeaInspectionDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new IdeaInspectionParser();
+    }
+
+    @Override
+    public String getUrl() {
+        return "https://www.jetbrains.com/help/idea/code-inspection.html";
     }
 }

@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.DrMemoryParser;
 
 /**
- * A Descriptor for the Dr Memory parser.
+ * A descriptor for the Dr. Memory errors.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class DrMemoryDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new DrMemoryParser();
     }
 }

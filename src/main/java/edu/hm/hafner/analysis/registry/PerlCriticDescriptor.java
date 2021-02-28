@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.PerlCriticParser;
 
 /**
- * A Descriptor for the Perl Critic parser.
+ * A descriptor for Perl::Critic.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class PerlCriticDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new PerlCriticParser();
     }
 }

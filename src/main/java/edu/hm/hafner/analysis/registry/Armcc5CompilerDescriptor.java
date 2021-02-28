@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.Armcc5CompilerParser;
 
 /**
- * A Descriptor for the Armcc5Compiler warnings.
+ * A descriptor for the ArmCc 5 compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,8 +17,7 @@ class Armcc5CompilerDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
-        return   new Armcc5CompilerParser())
+    public IssueParser createParser() {
+        return new Armcc5CompilerParser();
     }
-
 }

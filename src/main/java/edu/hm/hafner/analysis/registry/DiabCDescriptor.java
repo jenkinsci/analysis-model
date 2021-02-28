@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.DiabCParser;
 
 /**
- * A Descriptor for the Diab C parser.
+ * A descriptor for the Wind River Diab Compiler (C/C++).
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class DiabCDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new DiabCParser();
     }
 }

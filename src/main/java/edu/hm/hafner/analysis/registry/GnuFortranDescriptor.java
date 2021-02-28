@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.GnuFortranParser;
 
 /**
- * A Descriptor for the Gnu Fortran parser.
+ * A descriptor for the Gnu Fortran Compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class GnuFortranDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new GnuFortranParser();
     }
 }

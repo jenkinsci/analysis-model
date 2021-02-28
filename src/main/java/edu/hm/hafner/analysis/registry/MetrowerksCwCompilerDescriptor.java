@@ -1,22 +1,23 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser;
 
 /**
- * A Descriptor for the Metrowerks Cw Comnpiler parser.
+ * A descriptor for the Metrowerks CodeWarrior compiler.
  *
  * @author Lorenz Munsch
  */
 class MetrowerksCwCompilerDescriptor extends ParserDescriptor {
     private static final String ID = "metrowerks";
-    private static final String NAME = "Metrowerks CodeWarrior";
+    private static final String NAME = "Metrowerks CodeWarrior Compiler";
 
     MetrowerksCwCompilerDescriptor() {
         super(ID, NAME);
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new MetrowerksCwCompilerParser();
     }
 }

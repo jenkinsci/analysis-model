@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CadenceIncisiveParser;
 
 /**
- * A Descriptor for the CadenceIncisive warnings.
+ * A descriptor for the Cadence Incisive Enterprise Simulator.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class CadenceIncisiveDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new CadenceIncisiveParser();
     }
 }

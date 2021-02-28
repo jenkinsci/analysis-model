@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.TiCcsParser;
 
 /**
- * A Descriptor for the TiCcs parser.
+ * A descriptor for the Texas Instruments Code Composer Studio.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class TiCcsDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new TiCcsParser();
     }
 }

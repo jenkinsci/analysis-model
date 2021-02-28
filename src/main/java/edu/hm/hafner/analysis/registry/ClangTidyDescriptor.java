@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ClangTidyParser;
 
 /**
- * A Descriptor for the Clang tidy parser.
+ * A descriptor for the Clang-Tidy compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class ClangTidyDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new ClangTidyParser();
     }
 }

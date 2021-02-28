@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.NagFortranParser;
 
 /**
- * A Descriptor for the Nag Fortran parser.
+ * A descriptor for the NagFortran Compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class NagFortranDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new NagFortranParser();
     }
 }

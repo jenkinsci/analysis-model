@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 
 /**
- * A Descriptor for the Checkstyle warnings.
+ * A descriptor for the CheckStyle warnings.
  *
  * @author Lorenz Munsch
  */
@@ -16,30 +17,17 @@ class CheckstyleDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
-        return new CheckStyleParser())
+    public IssueParser createParser() {
+        return new CheckStyleParser();
     }
 
-    /**
-     *
-     * Defines the default resultfile name and extension.
-     *
-     * @return the name of the resultfile
-     */
     @Override
     public String getPattern() {
         return "**/checkstyle-result.xml";
     }
 
-    /**
-     *
-     * Determines the checker URL.
-     *
-     * @return the checker URL or empty String
-     */
     @Override
     public String getUrl() {
         return "https://checkstyle.org";
     }
-
 }

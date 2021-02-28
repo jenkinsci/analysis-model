@@ -1,22 +1,23 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.P4Parser;
 
 /**
- * A Descriptor for the P4 parser.
+ * A descriptor for the Perforce tool.
  *
  * @author Lorenz Munsch
  */
-class P4Descriptor extends ParserDescriptor {
+class PerforceDescriptor extends ParserDescriptor {
     private static final String ID = "p4";
-    private static final String NAME = "P4";
+    private static final String NAME = "Perforce";
 
-    P4Descriptor() {
+    PerforceDescriptor() {
         super(ID, NAME);
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new P4Parser();
     }
 }

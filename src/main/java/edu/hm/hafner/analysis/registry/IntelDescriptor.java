@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.IntelParser;
 
 /**
- * A Descriptor for the Intel parser.
+ * A descriptor for Intel compilers.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class IntelDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new IntelParser();
     }
 }

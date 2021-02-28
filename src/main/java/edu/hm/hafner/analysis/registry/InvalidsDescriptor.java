@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.InvalidsParser;
 
 /**
- * A Descriptor for the Invalids parser.
+ * A descriptor for the Invalids parser.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class InvalidsDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new InvalidsParser();
     }
 }

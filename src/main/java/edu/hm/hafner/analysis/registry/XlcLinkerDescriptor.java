@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.XlcLinkerParser;
 
 /**
- * A Descriptor for the Xlc Linker parser.
+ * A descriptor for the IBM XLC Linker.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class XlcLinkerDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new XlcLinkerParser();
     }
 }

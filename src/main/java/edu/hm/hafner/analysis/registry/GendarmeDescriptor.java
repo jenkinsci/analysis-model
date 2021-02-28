@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
 
 /**
- * A Descriptor for the Gendarme warnings.
+ * A descriptor for Gendarme violations.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class GendarmeDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new GendarmeParser();
     }
 }

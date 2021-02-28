@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.AcuCobolParser;
 
 /**
- * A Descriptor for the AcuCobol warnings.
+ * A descriptor for the AcuCobol Compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class AcuCobolDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new AcuCobolParser();
     }
 }

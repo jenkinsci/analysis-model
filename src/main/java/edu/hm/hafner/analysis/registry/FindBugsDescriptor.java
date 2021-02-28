@@ -1,10 +1,11 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.FindBugsParser;
 import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 
 /**
- * A Descriptor for the Find Bugs parser.
+ * A descriptor for the Find Bugs parser.
  *
  * @author Lorenz Munsch
  */
@@ -17,8 +18,8 @@ class FindBugsDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
-        return new FindBugsParser(PriorityProperty.RANK))
+    public IssueParser createParser() {
+        return new FindBugsParser(PriorityProperty.RANK);
     }
 
     @Override

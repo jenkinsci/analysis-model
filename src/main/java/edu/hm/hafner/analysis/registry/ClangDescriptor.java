@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ClangParser;
 
 /**
- * A Descriptor for the Clang parser.
+ * A descriptor for the Clang parser.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class ClangDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new ClangParser();
     }
 }

@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
 
 /**
- * A Descriptor for the Eclipse  parser.
+ * A descriptor for the Eclipse compiler (text format).
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,13 @@ class EclipseDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new EclipseParser();
+    }
+
+    @Override
+    public String getHelp() {
+        return "<p><p>Create an output file that contains Eclipse ECJ output in text format.</p>"
+                + "<p>Specify any file extension except &quot;.xml&quot; to the -log argument:</p><p><code>java -jar ecj.jar -log &lt;logfile&gt;.log &lt;other arguments&gt;</code></p></p>";
     }
 }

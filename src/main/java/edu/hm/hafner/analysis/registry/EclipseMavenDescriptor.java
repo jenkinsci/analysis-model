@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.EclipseMavenParser;
 
 /**
- * A Descriptor for the Eclipse Maven parser.
+ * A descriptor for the Eclipse compiler (in Maven).
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class EclipseMavenDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new EclipseMavenParser();
     }
 }

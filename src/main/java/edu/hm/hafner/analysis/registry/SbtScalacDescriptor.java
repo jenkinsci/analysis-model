@@ -1,22 +1,23 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.SbtScalacParser;
 
 /**
- * A Descriptor for the Sbt Scalac parser.
+ * A descriptor for Scala (with sbt).
  *
  * @author Lorenz Munsch
  */
 class SbtScalacDescriptor extends ParserDescriptor {
-    private static final String ID = "sbt-scalac";
-    private static final String NAME = "SbtScalac";
+    private static final String ID = "sbt";
+    private static final String NAME = "SBT Scala";
 
     SbtScalacDescriptor() {
         super(ID, NAME);
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new SbtScalacParser();
     }
 }

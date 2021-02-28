@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.BuckminsterParser;
 
 /**
- * A Descriptor for the Buckminster warnings.
+ * A descriptor for the Buckminster compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class BuckminsterDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new BuckminsterParser();
     }
 }

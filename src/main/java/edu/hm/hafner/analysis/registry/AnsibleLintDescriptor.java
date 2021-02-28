@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.AnsibleLintParser;
 
 /**
- * A Descriptor for the AnsibleLint warnings.
+ * A descriptor for Ansible Lint.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,12 @@ class AnsibleLintDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new AnsibleLintParser();
+    }
+
+    @Override
+    public String getHelp() {
+        return "Use the flag -p.";
     }
 }

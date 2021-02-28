@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.SunCParser;
 
 /**
- * A Descriptor for the Sun C parser.
+ * A descriptor for the the SUN Studio C++ compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class SunCDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new SunCParser();
     }
 }

@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.fxcop.FxCopParser;
 
 /**
- * A Descriptor for the Fxcop warnings.
+ * A descriptor for FxCop.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class FxcopDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new FxCopParser();
     }
 }

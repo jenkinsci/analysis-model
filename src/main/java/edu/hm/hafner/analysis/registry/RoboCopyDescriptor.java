@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.RobocopyParser;
 
 /**
- * A Descriptor for the Robo Copy parser.
+ * A descriptor for the Robocopy.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class RoboCopyDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new RobocopyParser();
     }
 }

@@ -1,22 +1,23 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CppLintParser;
 
 /**
- * A Descriptor for the Cpp Lint parser.
+ * A descriptor for C++ Lint.
  *
  * @author Lorenz Munsch
  */
 class CppLintDescriptor extends ParserDescriptor {
     private static final String ID = "cpplint";
-    private static final String NAME = "CppLint";
+    private static final String NAME = "C++ Lint";
 
     CppLintDescriptor() {
         super(ID, NAME);
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new CppLintParser();
     }
 }

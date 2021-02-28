@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.MavenConsoleParser;
 
 /**
- * A Descriptor for the Maven Console parser.
+ * A descriptor for the Maven Console parser.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class MavenConsoleDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new MavenConsoleParser();
     }
 }

@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.GoLintParser;
 
 /**
- * A Descriptor for the Go Lint parser.
+ * A descriptor for Go Lint.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class GoLintDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new GoLintParser();
     }
 }

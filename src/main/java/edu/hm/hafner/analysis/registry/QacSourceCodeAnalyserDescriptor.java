@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.QacSourceCodeAnalyserParser;
 
 /**
- * A Descriptor for the Qac Source Code Analyser parser.
+ * A descriptor for the PRQA QA-C Sourcecode Analyser.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class QacSourceCodeAnalyserDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new QacSourceCodeAnalyserParser();
     }
 }

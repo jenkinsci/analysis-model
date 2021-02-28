@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CodeAnalysisParser;
 
 /**
- * A Descriptor for the Code Analysis parser.
+ * A descriptor for the Code Analysis compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class CodeAnalysisDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new CodeAnalysisParser();
     }
 }

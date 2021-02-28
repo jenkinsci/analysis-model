@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.TaglistParser;
 
 /**
- * A Descriptor for the Tag List parser.
+ * A descriptor for the Taglist Maven Plugin.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,17 @@ class TaglistDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new TaglistParser();
+    }
+
+    @Override
+    public String getPattern() {
+        return "**/taglist.xml";
+    }
+
+    @Override
+    public String getUrl() {
+        return "https://www.mojohaus.org/taglist-maven-plugin";
     }
 }

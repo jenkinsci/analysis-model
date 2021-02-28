@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.violations.AndroidLintParserAdapter;
 
 /**
- * A Descriptor for the AndroidLint warnings.
+ * A descriptor for Android Lint.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class AndroidLintDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new AndroidLintParserAdapter();
     }
 }

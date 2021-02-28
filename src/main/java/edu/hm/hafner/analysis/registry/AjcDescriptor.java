@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.AjcParser;
 
 /**
- * A Descriptor for the Ajc warnings.
+ * A descriptor for the AspectJ (ajc) Compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class AjcDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new AjcParser();
     }
 }

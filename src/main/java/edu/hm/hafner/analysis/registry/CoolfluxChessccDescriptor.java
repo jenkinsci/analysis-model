@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CoolfluxChessccParser;
 
 /**
- * A Descriptor for the Coold Flux Chesscc parser.
+ * A descriptor for the Coolflux DSP Compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class CoolfluxChessccDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new CoolfluxChessccParser();
     }
 }

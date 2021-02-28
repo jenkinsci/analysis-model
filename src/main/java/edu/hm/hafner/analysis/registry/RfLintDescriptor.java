@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.RfLintParser;
 
 /**
- * A Descriptor for the Rf Lint parser.
+ * A descriptor for RfLint.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class RfLintDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new RfLintParser();
     }
 }

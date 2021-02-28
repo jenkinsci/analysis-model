@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
 
 /**
- * A Descriptor for the Jcreport warnings.
+ * A descriptor for the JcReport compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class JcreportDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new JcReportParser();
     }
 }

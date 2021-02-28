@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.IarParser;
 
 /**
- * A Descriptor for the Iar parser.
+ * A descriptor for the IAR C/C++ compiler.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,13 @@ class IarDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new IarParser();
+    }
+
+    @Override
+    public String getHelp() {
+        return "The IAR compilers need to be started with option <strong>--no_wrap_diagnostics</strong>. "
+                + "Then the IAR compilers will create single-line warnings.";
     }
 }

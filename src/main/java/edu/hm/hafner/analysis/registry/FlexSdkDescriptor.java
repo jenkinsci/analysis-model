@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.FlexSdkParser;
 
 /**
- * A Descriptor for the Flex SDK parser.
+ * A descriptor for FLEX SDK.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class FlexSdkDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new FlexSdkParser();
     }
 }

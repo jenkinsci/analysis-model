@@ -1,10 +1,11 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.FindBugsParser;
 import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 
 /**
- * A Descriptor for the SpotBugs parser.
+ * A descriptor for SpotBugs.
  *
  * @author Lorenz Munsch
  */
@@ -17,12 +18,17 @@ class SpotBugsDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
-        return new FindBugsParser(PriorityProperty.RANK))
+    public IssueParser createParser() {
+        return new FindBugsParser(PriorityProperty.RANK);
     }
 
     @Override
     public String getPattern() {
         return "**/spotbugsXml.xml";
+    }
+
+    @Override
+    public String getUrl() {
+        return "https://spotbugs.github.io";
     }
 }

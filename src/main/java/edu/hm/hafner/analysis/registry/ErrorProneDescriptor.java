@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ErrorProneParser;
 
 /**
- * A Descriptor for the Error Prone parser.
+ * A descriptor for Error Prone.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,12 @@ class ErrorProneDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new ErrorProneParser();
+    }
+
+    @Override
+    public String getUrl() {
+        return "https://errorprone.info";
     }
 }

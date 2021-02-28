@@ -1,9 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.TnsdlParser;
 
 /**
- * A Descriptor for the Tnsdl parser.
+ * A descriptor for the TNSDL Translator.
  *
  * @author Lorenz Munsch
  */
@@ -16,7 +17,7 @@ class TnsdlDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public edu.hm.hafner.analysis.IssueParser createParser() {
+    public IssueParser createParser() {
         return new TnsdlParser();
     }
 }
