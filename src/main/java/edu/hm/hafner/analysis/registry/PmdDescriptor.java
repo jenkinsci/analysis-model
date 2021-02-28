@@ -1,7 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.pmd.PmdMessages;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
+import edu.hm.hafner.util.Deferred;
 
 /**
  * A descriptor for the Pmd warnings.
@@ -11,6 +14,8 @@ import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 class PmdDescriptor extends ParserDescriptor {
     private static final String ID = "pmd";
     private static final String NAME = "PMD";
+
+    private final Deferred<PmdMessages> messages = new Deferred<>(PmdMessages::new);
 
     PmdDescriptor() {
         super(ID, NAME);
@@ -29,5 +34,10 @@ class PmdDescriptor extends ParserDescriptor {
     @Override
     public String getUrl() {
         return "https://pmd.github.io";
+    }
+
+    @Override
+    public String getDescription(final Issue issue) {
+        return messages.get().getMessage(issue.getCategory(), issue.getType());
     }
 }
