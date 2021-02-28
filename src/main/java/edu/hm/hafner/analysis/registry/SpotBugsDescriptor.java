@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Locale;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsMessages;
@@ -41,6 +39,6 @@ class SpotBugsDescriptor extends ParserDescriptor {
 
     @Override
     public String getDescription(final Issue issue) {
-        return messages.get().getMessage(issue.getType(), Locale.ENGLISH);
+        return messages.get().getMessage(issue.getType());
     }
 }

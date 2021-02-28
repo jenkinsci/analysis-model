@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser.findbugs;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -51,35 +50,24 @@ class FindBugsMessagesTest {
     void shouldMapMessagesToTypes() {
         FindBugsMessages messages = new FindBugsMessages();
         String expectedMessage = "A value that could be null is stored into a field that has been annotated as @Nonnull.";
-        assertThat(messages.getMessage(NP_STORE_INTO_NONNULL_FIELD, Locale.ENGLISH))
+        assertThat(messages.getMessage(NP_STORE_INTO_NONNULL_FIELD))
                 .contains(expectedMessage);
-        assertThat(messages.getMessage(NP_STORE_INTO_NONNULL_FIELD, Locale.GERMAN))
-                .contains(expectedMessage); // there is no German translation
 
-        assertThat(messages.getShortMessage(NP_STORE_INTO_NONNULL_FIELD, Locale.ENGLISH))
+        assertThat(messages.getShortMessage(NP_STORE_INTO_NONNULL_FIELD))
                 .isEqualTo("Store of null value into field annotated @Nonnull");
 
-        assertThat(messages.getMessage("NMCS_NEEDLESS_MEMBER_COLLECTION_SYNCHRONIZATION", Locale.ENGLISH))
+        assertThat(messages.getMessage("NMCS_NEEDLESS_MEMBER_COLLECTION_SYNCHRONIZATION"))
                 .contains("This class defines a private collection member as synchronized. It appears");
-        assertThat(messages.getShortMessage("NMCS_NEEDLESS_MEMBER_COLLECTION_SYNCHRONIZATION", Locale.ENGLISH))
+        assertThat(messages.getShortMessage("NMCS_NEEDLESS_MEMBER_COLLECTION_SYNCHRONIZATION"))
                 .isEqualTo("Class defines unneeded synchronization on member collection");
-    }
-
-    @Test
-    void shouldProvideLocalizedMessagesForFrench() {
-        FindBugsMessages messages = new FindBugsMessages();
-        assertThat(messages.getShortMessage(NP_STORE_INTO_NONNULL_FIELD, Locale.FRANCE))
-                .contains("Stocke une valeur null dans");
-        assertThat(messages.getMessage(NP_STORE_INTO_NONNULL_FIELD, Locale.FRANCE))
-                .contains("Une valeur qui pourrait");
     }
 
     @Test
     void issue55707() {
         FindBugsMessages messages = new FindBugsMessages();
-        assertThat(messages.getShortMessage(PATH_TRAVERSAL_IN, Locale.ENGLISH))
+        assertThat(messages.getShortMessage(PATH_TRAVERSAL_IN))
                 .isEqualTo("Potential Path Traversal (file read)");
-        assertThat(messages.getMessage(PATH_TRAVERSAL_IN, Locale.ENGLISH))
+        assertThat(messages.getMessage(PATH_TRAVERSAL_IN))
                 .contains("A file is opened to read its content. The filename comes from an <b>input</b> parameter.");
     }
 

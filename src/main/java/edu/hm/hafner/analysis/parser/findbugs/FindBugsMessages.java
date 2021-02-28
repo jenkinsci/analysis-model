@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,11 +24,7 @@ public final class FindBugsMessages {
 
     /** Maps a key to HTML description. */
     private final Map<String, String> messages = new HashMap<>();
-    private final Map<String, String> jaMessages = new HashMap<>();
-    private final Map<String, String> frMessages = new HashMap<>();
     private final Map<String, String> shortMessages = new HashMap<>();
-    private final Map<String, String> jaShortMessages = new HashMap<>();
-    private final Map<String, String> frShortMessages = new HashMap<>();
 
     /**
      * Loads the available rules into a map.
@@ -41,8 +36,6 @@ public final class FindBugsMessages {
             loadMessages("messages.xml", messages, shortMessages);
             loadMessages("fb-contrib-messages.xml", messages, shortMessages);
             loadMessages("find-sec-bugs-messages.xml", messages, shortMessages);
-            loadMessages("messages_fr.xml", frMessages, frShortMessages);
-            loadMessages("messages_ja.xml", jaMessages, jaShortMessages);
         }
         catch (Exception ignored) {
             // ignore failures
@@ -94,14 +87,10 @@ public final class FindBugsMessages {
      *
      * @param name
      *         name of the bug
-     * @param locale
-     *         the locale of the user
-     *
      * @return a HTML description
      */
-    public String getMessage(final String name, final Locale locale) {
-        String localizedMessage = getLocalizedMessage(name, locale, messages, jaMessages, frMessages);
-        return StringUtils.defaultIfEmpty(localizedMessage, NO_MESSAGE_FOUND);
+    public String getMessage(final String name) {
+        return StringUtils.defaultIfEmpty(messages.get(name), NO_MESSAGE_FOUND);
     }
 
     /**
@@ -109,30 +98,10 @@ public final class FindBugsMessages {
      *
      * @param name
      *         name of the bug
-     * @param locale
-     *         the locale of the user
-     *
      * @return a HTML description for the specified bug.
      */
-    public String getShortMessage(final String name, final Locale locale) {
-        String localizedMessage = getLocalizedMessage(name, locale, shortMessages, jaShortMessages, frShortMessages);
-        return StringUtils.defaultIfEmpty(localizedMessage, NO_MESSAGE_FOUND);
-    }
-
-    private String getLocalizedMessage(final String name, final Locale locale,
-            final Map<String, String> en, final Map<String, String> ja, final Map<String, String> fr) {
-        String country = locale.getLanguage();
-        String localizedMessage;
-        if ("ja".equalsIgnoreCase(country)) {
-            localizedMessage = ja.get(name);
-        }
-        else if ("fr".equalsIgnoreCase(country)) {
-            localizedMessage = fr.get(name);
-        }
-        else {
-            localizedMessage = en.get(name);
-        }
-        return localizedMessage;
+    public String getShortMessage(final String name) {
+        return StringUtils.defaultIfEmpty(shortMessages.get(name), NO_MESSAGE_FOUND);
     }
 
     /**
