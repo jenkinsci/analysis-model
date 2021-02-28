@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.registry;
 
 import java.util.Arrays;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
@@ -21,7 +20,8 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  */
 @SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.ExcessivePublicCount", "PMD.CyclomaticComplexity", "PMD.GodClass", "ClassDataAbstractionCoupling", "ClassFanOutComplexity"})
 public class ParsersTest extends ResourceTest {
-    private static final String CODE_FRAGMENT = "<pre><code>#\n"
+    private static final String CODE_FRAGMENT = "<pre><code>\n"
+            + "    #\n"
             + "\n"
             + "    ERROR HANDLING: N/A\n"
             + "    #\n"
@@ -52,7 +52,7 @@ public class ParsersTest extends ResourceTest {
             + "    shift input parameter (twice) to leave only files to copy\n"
             + "    *******************************************************************************\n"
             + "\n"
-            + "files&#61;&#34;&#34;\n"
+            + "files=&quot;&quot;\n"
             + "shift\n"
             + "shift\n"
             + "\n"
@@ -61,8 +61,10 @@ public class ParsersTest extends ResourceTest {
             + "\n"
             + "for i in $*\n"
             + "do\n"
-            + "files&#61;&#34;$files $directory/$i&#34;\n"
-            + "done</code></pre>";
+            + "files=&quot;$files $directory/$i&quot;\n"
+            + "done\n"
+            + "</code>\n"
+            + "</pre>\n";
 
     /** Verifies that a broken file does not fail. */
     @Test
@@ -273,7 +275,10 @@ public class ParsersTest extends ResourceTest {
         String dupfinder = "dupfinder";
         Report report = shouldFindIssuesOfTool(2, dupfinder, "dupfinder.xml");
         assertThatDescriptionOfIssueIsSet(dupfinder, report.get(0),
-                "<pre><code>if (items &#61;&#61; null) throw new ArgumentNullException(&#34;items&#34;);</code></pre>");
+                "<pre><code>\n"
+                        + "    if (items == null) throw new ArgumentNullException(&quot;items&quot;);\n"
+                        + "</code>\n"
+                        + "</pre>\n");
     }
 
     /** Runs the Armcc parser on output files that contain 3 + 3 issues. */
@@ -328,7 +333,7 @@ public class ParsersTest extends ResourceTest {
         ParserDescriptor descriptor = parserRegistry.get(tool);
 
         assertThat(issue).hasDescription("");
-        Assertions.assertThat(descriptor.getDescription(issue)).contains(expectedDescription);
+        assertThat(descriptor.getDescription(issue)).contains(expectedDescription);
     }
 
     /** Runs the FindBugs parser on an output file that contains 2 issues. */

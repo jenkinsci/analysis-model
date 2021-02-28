@@ -91,6 +91,6 @@ public abstract class ParserDescriptor {
      * @return the description
      */
     public String getDescription(final Issue issue) {
-        return StringUtils.EMPTY;
+        return issue.getDescription();
     }
 }
