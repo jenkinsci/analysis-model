@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.PyLintParser;
 import edu.hm.hafner.analysis.parser.violations.PyDocStyleAdapter;
 
 /**
@@ -9,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.PyDocStyleAdapter;
  *
  * @author Lorenz Munsch
  */
-class PyDocDescriptor extends ParserDescriptor {
+class PyDocStyleDescriptor extends ParserDescriptor {
     private static final String ID = "pydocstyle";
     private static final String NAME = "PyDocStyle";
 
-    PyDocDescriptor() {
+    PyDocStyleDescriptor() {
         super(ID, NAME);
     }
 

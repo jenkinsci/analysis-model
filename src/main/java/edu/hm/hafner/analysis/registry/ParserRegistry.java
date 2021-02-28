@@ -110,7 +110,7 @@ public class ParserRegistry {
             new ProtoLintDescriptor(),
             new PuppetLintDescriptor(),
             new PvsStudioDescriptor(),
-            new PyDocDescriptor(),
+            new PyDocStyleDescriptor(),
             new PyLintDescriptor(),
             new QacSourceCodeAnalyserDescriptor(),
             new QtTranslationDescriptor(),
@@ -137,6 +137,7 @@ public class ParserRegistry {
             new XlcCompilerDescriptor(),
             new YamlLintDescriptor(),
             new XlcLinkerDescriptor(),
+            new XmlLintDescriptor(),
             new YuiCompressorDescriptor(),
             new ZptLintDescriptor()
     };

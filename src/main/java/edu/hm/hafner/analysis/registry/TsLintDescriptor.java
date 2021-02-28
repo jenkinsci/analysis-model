@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  */
 class TsLintDescriptor extends ParserDescriptor {
     private static final String ID = "tslint";
-    private static final String NAME = "TSLint";
+    private static final String NAME = "TSLint  ";
 
     TsLintDescriptor() {
         super(ID, NAME);

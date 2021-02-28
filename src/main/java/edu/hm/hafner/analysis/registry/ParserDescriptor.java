@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.registry;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 
 /**
@@ -77,6 +78,19 @@ public abstract class ParserDescriptor {
      * @return the help
      */
     public String getUrl() {
+        return StringUtils.EMPTY;
+    }
+
+    /**
+     * Returns a detailed description of the specified issue. If there is no additional description is available,
+     * then an empty String is returned.
+     *
+     * @param issue
+     *         the issue to get the description for
+     *
+     * @return the description
+     */
+    public String getDescription(final Issue issue) {
         return StringUtils.EMPTY;
     }
 }
