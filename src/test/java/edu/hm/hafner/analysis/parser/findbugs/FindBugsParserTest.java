@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser;
+package edu.hm.hafner.analysis.parser.findbugs;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,11 +16,11 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
-import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
+import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.XmlBugInstance;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
+import static edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -28,17 +28,14 @@ import static org.mockito.Mockito.*;
  */
 @SuppressWarnings("NullAway")
 class FindBugsParserTest {
-    private static final String PREFIX = "findbugs/";
-
     private static final String SECOND_WARNING_HASH = "f32497e4bd8c80ef6228f10bd3363f52";
     private static final String FIRST_WARNING_HASH = "4d839755cabf60eacc6438ac77ac5104";
-    /** File in native format. */
     private static final String FINDBUGS_NATIVE_XML = "findbugs-native.xml";
 
     private Report parseFile(final String fileName, final PriorityProperty priorityProperty) {
         ReaderFactory readerFactory = mock(ReaderFactory.class);
         when(readerFactory.create()).thenAnswer(
-                mock -> new InputStreamReader(read(PREFIX + fileName), StandardCharsets.UTF_8));
+                mock -> new InputStreamReader(read("" + fileName), StandardCharsets.UTF_8));
         return new FindBugsParser(priorityProperty).parse(readerFactory,
                 Collections.emptyList(), new IssueBuilder());
     }
@@ -148,7 +145,7 @@ class FindBugsParserTest {
      */
     @Test
     void testMessageMapping() throws Exception {
-        try (Reader stream = new InputStreamReader(read(PREFIX + FINDBUGS_NATIVE_XML), StandardCharsets.UTF_8)) {
+        try (Reader stream = new InputStreamReader(read("" + FINDBUGS_NATIVE_XML), StandardCharsets.UTF_8)) {
             Map<String, String> mapping = new HashMap<>();
             for (XmlBugInstance bug : new FindBugsParser(CONFIDENCE).preParse(stream)) {
                 mapping.put(bug.getInstanceHash(), bug.getMessage());

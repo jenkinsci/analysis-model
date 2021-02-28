@@ -1,8 +1,13 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.Locale;
+
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.FindBugsParser;
-import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.analysis.parser.findbugs.FindBugsMessages;
+import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser;
+import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.util.Deferred;
 
 /**
  * A descriptor for the Find Bugs parser.
@@ -12,6 +17,8 @@ import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 class FindBugsDescriptor extends ParserDescriptor {
     private static final String ID = "findbugs";
     private static final String NAME = "FindBugs";
+
+    private final Deferred<FindBugsMessages> messages = new Deferred<>(FindBugsMessages::new);
 
     FindBugsDescriptor() {
         super(ID, NAME);
@@ -25,5 +32,10 @@ class FindBugsDescriptor extends ParserDescriptor {
     @Override
     public String getPattern() {
         return "**/findbugsXml.xml";
+    }
+
+    @Override
+    public String getDescription(final Issue issue) {
+        return messages.get().getMessage(issue.getType(), Locale.ENGLISH);
     }
 }

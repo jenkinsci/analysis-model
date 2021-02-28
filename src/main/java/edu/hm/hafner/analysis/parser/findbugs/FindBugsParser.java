@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser; // NOPMD
+package edu.hm.hafner.analysis.parser.findbugs; // NOPMD
 
 import java.io.IOException;
 import java.io.Reader;
@@ -33,7 +33,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
 
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
+import static edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty.*;
 
 /**
  * A parser for the native FindBugs XML files.
