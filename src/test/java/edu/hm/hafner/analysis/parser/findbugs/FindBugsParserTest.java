@@ -145,7 +145,7 @@ class FindBugsParserTest {
      */
     @Test
     void testMessageMapping() throws Exception {
-        try (Reader stream = new InputStreamReader(read("" + FINDBUGS_NATIVE_XML), StandardCharsets.UTF_8)) {
+        try (Reader stream = new InputStreamReader(read(FINDBUGS_NATIVE_XML), StandardCharsets.UTF_8)) {
             Map<String, String> mapping = new HashMap<>();
             for (XmlBugInstance bug : new FindBugsParser(CONFIDENCE).preParse(stream)) {
                 mapping.put(bug.getInstanceHash(), bug.getMessage());

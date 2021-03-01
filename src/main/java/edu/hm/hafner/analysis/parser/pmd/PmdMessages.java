@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser.pmd;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,9 +18,6 @@ import static j2html.TagCreator.*;
  * @author Ullrich Hafner
  */
 public class PmdMessages {
-    private static final String ERROR_MESSAGE = "Installation problem: can't access PMD messages.";
-    private static final Logger LOGGER = Logger.getLogger(PmdMessages.class.getName());
-
     private final Map<String, RuleSet> rules = new HashMap<>();
 
     /**

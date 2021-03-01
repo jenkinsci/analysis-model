@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.StringWriter;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -53,8 +54,14 @@ public class TopicRule extends NodeCreateRule {
      */
     private String extractNodeContent(final Element subsection) throws TransformerException {
         StringWriter content = new StringWriter();
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        TransformerFactory factory = TransformerFactory.newInstance();
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "all");
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "all");
+
+        Transformer transformer = factory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+
         transformer.transform(new DOMSource(subsection), new StreamResult(content));
         String text = content.toString();
         String prefixRemoved = StringUtils.substringAfter(text, ">");

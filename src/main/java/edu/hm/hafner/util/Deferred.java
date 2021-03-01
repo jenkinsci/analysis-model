@@ -2,6 +2,8 @@ package edu.hm.hafner.util;
 
 import java.util.function.Supplier;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * Deferred element wrapper of a singleton instance. Creates a constant instance when it is accessed the first time.
  *
@@ -12,6 +14,7 @@ public final class Deferred<T> {
     private final Supplier<T> supplier;
 
     @SuppressWarnings("PMD.AvoidUsingVolatile")
+    @CheckForNull
     private volatile T object;
 
     /**
