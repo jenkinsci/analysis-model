@@ -1,6 +1,9 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.Collection;
+
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.SbtScalacParser;
 import edu.hm.hafner.analysis.parser.ScalacParser;
 
 /**
@@ -8,7 +11,7 @@ import edu.hm.hafner.analysis.parser.ScalacParser;
  *
  * @author Lorenz Munsch
  */
-class ScalaDescriptor extends ParserDescriptor {
+class ScalaDescriptor extends CompositeParserDescriptor {
     private static final String ID = "scala";
     private static final String NAME = "Scala Compiler";
 
@@ -17,7 +20,7 @@ class ScalaDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser() {
-        return new ScalacParser();
+    protected Collection<? extends IssueParser> createParsers() {
+        return asList(new ScalacParser(), new SbtScalacParser());
     }
 }

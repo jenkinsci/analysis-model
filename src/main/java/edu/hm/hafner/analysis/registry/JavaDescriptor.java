@@ -1,6 +1,9 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.Collection;
+
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.AntJavacParser;
 import edu.hm.hafner.analysis.parser.JavacParser;
 
 /**
@@ -8,16 +11,16 @@ import edu.hm.hafner.analysis.parser.JavacParser;
  *
  * @author Lorenz Munsch
  */
-class JavacDescriptor extends ParserDescriptor {
+class JavaDescriptor extends CompositeParserDescriptor {
     private static final String ID = "java";
     private static final String NAME = "Java Compiler";
 
-    JavacDescriptor() {
+    JavaDescriptor() {
         super(ID, NAME);
     }
 
     @Override
-    public IssueParser createParser() {
-        return new JavacParser();
+    protected Collection<? extends IssueParser> createParsers() {
+        return asList(new JavacParser(), new AntJavacParser());
     }
 }

@@ -19,7 +19,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Ullrich Hafner
  */
 @SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.ExcessivePublicCount", "PMD.CyclomaticComplexity", "PMD.GodClass", "ClassDataAbstractionCoupling", "ClassFanOutComplexity"})
-public class ParsersTest extends ResourceTest {
+class ParsersTest extends ResourceTest {
     private static final String CODE_FRAGMENT = "<pre><code>\n"
             + "    #\n"
             + "\n"
@@ -136,8 +136,7 @@ public class ParsersTest extends ResourceTest {
     /** Runs the SonarQube parsers on two files that contains 6 and 31 issues. */
     @Test
     public void shouldFindAllSonarQubeIssues() {
-        shouldFindIssuesOfTool(32, "sonar", "sonarqube-api.json");
-        shouldFindIssuesOfTool(6, "sonar-diff", "sonarqube-differential.json");
+        shouldFindIssuesOfTool(32 + 6, "sonar", "sonarqube-api.json", "sonarqube-differential.json");
     }
 
     /** Runs the TagList parser on an output file that contains 6 issues. */
@@ -191,9 +190,6 @@ public class ParsersTest extends ResourceTest {
     /** Runs the ErrorProne parser on output files that contain 9 + 2 issues. */
     @Test
     public void shouldFindAllErrorProneIssues() {
-        shouldFindIssuesOfTool(9, "error-prone", "errorprone-maven.log");
-        shouldFindIssuesOfTool(2, "gradle-error-prone", "gradle-error-prone.log");
-        // FIXME: multiple
         shouldFindIssuesOfTool(9 + 2, "error-prone", "errorprone-maven.log", "gradle-error-prone.log");
     }
 
@@ -284,8 +280,7 @@ public class ParsersTest extends ResourceTest {
     /** Runs the Armcc parser on output files that contain 3 + 3 issues. */
     @Test
     public void shouldFindAllArmccIssues() {
-        shouldFindIssuesOfTool(3, "armcc", "armcc.txt");
-        shouldFindIssuesOfTool(3, "armcc5", "armcc5.txt");
+        shouldFindIssuesOfTool(3 + 3, "armcc", "armcc.txt", "armcc5.txt");
     }
 
     /** Runs the Buckminster parser on an output file that contains 3 issues. */
@@ -587,8 +582,7 @@ public class ParsersTest extends ResourceTest {
     /** Runs the Gcc4Compiler and Gcc4Linker parsers on separate output file that contains 14 + 7 issues. */
     @Test
     public void shouldFindAllGcc4Issues() {
-        shouldFindIssuesOfTool(14, "gcc", "gcc4.txt");
-        shouldFindIssuesOfTool(7, "gcc-linker", "gcc4ld.txt");
+        shouldFindIssuesOfTool(16 + 7 - 1, "gcc", "gcc4.txt", "gcc4ld.txt");
     }
 
     /** Runs the Maven console parser on output files that contain 4 + 3 issues. */
@@ -600,9 +594,7 @@ public class ParsersTest extends ResourceTest {
     /** Runs the MetrowerksCWCompiler parser on two output files that contains 5 + 3 issues. */
     @Test
     public void shouldFindAllMetrowerksCWCompilerIssues() {
-        shouldFindIssuesOfTool(5, "metrowerks", "MetrowerksCWCompiler.txt");
-        shouldFindIssuesOfTool(3, "metrowerks-linker", "MetrowerksCWLinker.txt");
-        // FIXME:
+        shouldFindIssuesOfTool(5 + 3, "metrowerks", "MetrowerksCWCompiler.txt", "MetrowerksCWLinker.txt");
     }
 
     /** Runs the AcuCobol parser on an output file that contains 4 issues. */
@@ -660,10 +652,13 @@ public class ParsersTest extends ResourceTest {
     /** Runs the Eclipse parser on an output file that contains 8 issues. */
     @Test
     public void shouldFindAllEclipseIssues() {
-        shouldFindIssuesOfTool(8, "eclipse", "eclipse.txt");
-        shouldFindIssuesOfTool(6, "eclipse-xml", "eclipse-withinfo.xml");
-        // FIXME: multiple
-        shouldFindIssuesOfTool(8 + 6, "eclipse-xml", "eclipse-withinfo.xml", "eclipse.txt");
+        String eclipse = "eclipse";
+        shouldFindIssuesOfTool(8, eclipse, "eclipse.txt");
+
+        // FIXME: fails if offline
+        shouldFindIssuesOfTool(6, eclipse, "eclipse-withinfo.xml");
+
+        shouldFindIssuesOfTool(8 + 6, eclipse, "eclipse-withinfo.xml", "eclipse.txt");
     }
 
     /** Runs the PyLint parser on output files that contains 6 + 19 issues. */
@@ -675,7 +670,7 @@ public class ParsersTest extends ResourceTest {
         assertThatDescriptionOfIssueIsSet(pylint, report.get(1),
                 "Used when the name doesn't match the regular expression associated to its type(constant, variable, class...).");
         assertThatDescriptionOfIssueIsSet(pylint, report.get(7),
-                "Used when a wrong number of spaces is used around an operator, bracket orblock opener.");
+                "Used when an imported module or variable is not used.");
     }
 
     /**
@@ -707,8 +702,7 @@ public class ParsersTest extends ResourceTest {
     /** Runs the Scala and SbtScala parser on separate output files: the build should report 2+3 issues. */
     @Test
     public void shouldFindAllScalaIssues() {
-        shouldFindIssuesOfTool(2, "scala", "scalac.txt");
-        shouldFindIssuesOfTool(3, "scala-sbt", "sbtScalac.txt");
+        shouldFindIssuesOfTool(2 + 5, "scala", "scalac.txt", "sbtScalac.txt");
     }
 
     /** Runs the Sphinx build parser on an output file: the build should report 6 issues. */

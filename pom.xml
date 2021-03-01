@@ -75,6 +75,7 @@
     <slf4j.version>1.7.30</slf4j.version>
     <violations-lib.version>1.142</violations-lib.version>
     <json.version>20201115</json.version>
+    <json-smart.version>2.3</json-smart.version>
     <pmd.version>6.31.0</pmd.version>
 
     <incrementals-plugin.version>1.2</incrementals-plugin.version>
@@ -200,6 +201,11 @@
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>${json.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.minidev</groupId>
+      <artifactId>json-smart</artifactId>
+      <version>${json-smart.version}</version>
     </dependency>
 
     <!-- Test Dependencies -->

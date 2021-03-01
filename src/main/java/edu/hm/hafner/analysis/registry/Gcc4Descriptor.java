@@ -1,23 +1,26 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.Collection;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.Gcc4CompilerParser;
+import edu.hm.hafner.analysis.parser.Gcc4LinkerParser;
 
 /**
  * A descriptor for the GNU C Compiler (gcc).
  *
  * @author Lorenz Munsch
  */
-class Gcc4CompilerDescriptor extends ParserDescriptor {
+class Gcc4Descriptor extends CompositeParserDescriptor {
     private static final String ID = "gcc";
     private static final String NAME = "GNU C Compiler (gcc)";
 
-    Gcc4CompilerDescriptor() {
+    Gcc4Descriptor() {
         super(ID, NAME);
     }
 
     @Override
-    public IssueParser createParser() {
-        return new Gcc4CompilerParser();
+    protected Collection<? extends IssueParser> createParsers() {
+        return asList(new Gcc4CompilerParser(), new Gcc4LinkerParser());
     }
 }

@@ -1,14 +1,17 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.Collection;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ErrorProneParser;
+import edu.hm.hafner.analysis.parser.GradleErrorProneParser;
 
 /**
  * A descriptor for Error Prone.
  *
  * @author Lorenz Munsch
  */
-class ErrorProneDescriptor extends ParserDescriptor {
+class ErrorProneDescriptor extends CompositeParserDescriptor {
     private static final String ID = "error-prone";
     private static final String NAME = "ErrorProne";
 
@@ -17,8 +20,8 @@ class ErrorProneDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser() {
-        return new ErrorProneParser();
+    protected Collection<? extends IssueParser> createParsers() {
+        return asList(new ErrorProneParser(), new GradleErrorProneParser());
     }
 
     @Override

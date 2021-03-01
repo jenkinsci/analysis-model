@@ -16,6 +16,7 @@ skinparam component {
 [Parsers] --> [Model]
 [Registry] --> [Parsers]
 [Registry] --> [Model]
+[Registry] --> [Utilities]
 [Parsers] --> [Utilities]
 [Parsers] --> [Assertions]
 [Model] --> [Utilities]

@@ -1,6 +1,9 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.Collection;
+
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.SonarQubeDiffParser;
 import edu.hm.hafner.analysis.parser.SonarQubeIssuesParser;
 
 /**
@@ -8,17 +11,17 @@ import edu.hm.hafner.analysis.parser.SonarQubeIssuesParser;
  *
  * @author Lorenz Munsch
  */
-class SonarQubeIssueDescriptor extends ParserDescriptor {
+class SonarQubeDescriptor extends CompositeParserDescriptor {
     private static final String ID = "sonar";
     private static final String NAME = "SonarQube Issues";
 
-    SonarQubeIssueDescriptor() {
+    SonarQubeDescriptor() {
         super(ID, NAME);
     }
 
     @Override
-    public IssueParser createParser() {
-        return new SonarQubeIssuesParser();
+    protected Collection<? extends IssueParser> createParsers() {
+        return asList(new SonarQubeIssuesParser(), new SonarQubeDiffParser());
     }
 
     @Override
