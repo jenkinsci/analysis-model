@@ -33,12 +33,11 @@ public final class Deferred<T> {
      * @return the instance
      */
     public T get() {
-        if (object == null) {
-            object = supplier.get();
+        T tmp = object;
+        if (tmp == null) {
+            tmp = supplier.get();
         }
-        if (object == null) {
-            throw new IllegalStateException("No value set");
-        }
-        return object;
+        object = tmp;
+        return tmp;
     }
 }
