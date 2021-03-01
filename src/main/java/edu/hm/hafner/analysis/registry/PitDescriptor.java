@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.analysis.parser.violations.PitAdapter;
 
 /**
- * A descriptor for PIT (mutation testing)
+ * A descriptor for PIT (mutation testing).
  *
  * @author Lorenz Munsch
  */
@@ -24,6 +23,6 @@ class PitDescriptor extends ParserDescriptor {
 
     @Override
     public String getUrl() {
-        return "http://pitest.org";
+        return "https://pitest.org";
     }
 }

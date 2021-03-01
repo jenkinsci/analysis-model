@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.checkstyle;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -15,9 +16,10 @@ public class Rule {
     static final String UNDEFINED_DESCRIPTION = StringUtils.EMPTY;
     /** The name of the subsection that defines a description in the docbook files. */
     private static final String DESCRIPTION_SUBSECTION_NAME = "Description";
-    /** The name of this rule. */
+
+    @CheckForNull
     private String name;
-    /** The description of this rule. */
+    @CheckForNull
     private String description;
 
     /**
@@ -33,7 +35,7 @@ public class Rule {
      * @param name
      *         the name of the rule
      */
-    public Rule(final String name) {
+    public Rule(@CheckForNull final String name) {
         this.name = name;
         description = UNDEFINED_DESCRIPTION;
     }
@@ -44,7 +46,7 @@ public class Rule {
      * @return the name
      */
     public String getName() {
-        return name;
+        return StringUtils.defaultString(name);
     }
 
     /**
@@ -53,7 +55,7 @@ public class Rule {
      * @param name
      *         the name
      */
-    public void setName(final String name) {
+    public void setName(@CheckForNull final String name) {
         this.name = name;
     }
 

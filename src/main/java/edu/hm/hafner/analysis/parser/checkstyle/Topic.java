@@ -1,5 +1,9 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
+import org.apache.commons.lang3.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * Java Bean class representing a DocBook subsection.
  *
@@ -7,9 +11,9 @@ package edu.hm.hafner.analysis.parser.checkstyle;
  */
 @SuppressWarnings("PMD.DataClass")
 public class Topic {
-    /** The name of this topic. */
+    @CheckForNull
     private String name;
-    /** The value of this topic. */
+    @CheckForNull
     private String value;
 
     /**
@@ -18,7 +22,7 @@ public class Topic {
      * @return the name
      */
     public String getName() {
-        return name;
+        return StringUtils.defaultString(name);
     }
 
     /**
@@ -27,7 +31,7 @@ public class Topic {
      * @param name
      *         the name
      */
-    public void setName(final String name) {
+    public void setName(@CheckForNull final String name) {
         this.name = name;
     }
 
@@ -37,7 +41,7 @@ public class Topic {
      * @return the value
      */
     public String getValue() {
-        return value;
+        return StringUtils.defaultString(value);
     }
 
     /**
@@ -46,7 +50,7 @@ public class Topic {
      * @param value
      *         the value
      */
-    public void setValue(final String value) {
+    public void setValue(@CheckForNull final String value) {
         this.value = value;
     }
 }
