@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.StringWriter;
-import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -15,6 +14,8 @@ import org.apache.commons.digester3.NodeCreateRule;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Digester rule to parse the actual content of a DocBook subsection node. Does not interpret XML elements that are
@@ -52,16 +53,11 @@ public class TopicRule extends NodeCreateRule {
      * @throws TransformerException
      *         in case of an error
      */
+    @SuppressFBWarnings("SECURITY")
     private String extractNodeContent(final Element subsection) throws TransformerException {
         StringWriter content = new StringWriter();
-        TransformerFactory factory = TransformerFactory.newInstance();
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "all");
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "all");
-
-        Transformer transformer = factory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-
         transformer.transform(new DOMSource(subsection), new StreamResult(content));
         String text = content.toString();
         String prefixRemoved = StringUtils.substringAfter(text, ">");

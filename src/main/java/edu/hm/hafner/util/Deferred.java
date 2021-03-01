@@ -36,6 +36,9 @@ public final class Deferred<T> {
         if (object == null) {
             object = supplier.get();
         }
+        if (object == null) {
+            throw new IllegalStateException("No value set");
+        }
         return object;
     }
 }

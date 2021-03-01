@@ -35,7 +35,7 @@ class FindBugsParserTest {
     private Report parseFile(final String fileName, final PriorityProperty priorityProperty) {
         ReaderFactory readerFactory = mock(ReaderFactory.class);
         when(readerFactory.create()).thenAnswer(
-                mock -> new InputStreamReader(read("" + fileName), StandardCharsets.UTF_8));
+                mock -> new InputStreamReader(read(fileName), StandardCharsets.UTF_8));
         return new FindBugsParser(priorityProperty).parse(readerFactory,
                 Collections.emptyList(), new IssueBuilder());
     }
