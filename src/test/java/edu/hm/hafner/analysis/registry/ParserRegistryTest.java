@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,8 @@ class ParserRegistryTest {
 
         assertThat(parserRegistry).hasIds(SPOTBUGS, CHECKSTYLE, PMD).hasNames("SpotBugs", "CheckStyle", "PMD");
         assertThat(parserRegistry.get(SPOTBUGS)).hasId(SPOTBUGS).hasName("SpotBugs");
-        assertThat(parserRegistry.getAllDescriptors()).filteredOn(d-> "spotbugs".equals(d.getId())).hasSize(1);
+        List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();
+        assertThat(descriptors).filteredOn(d-> "spotbugs".equals(d.getId())).hasSize(1);
+        descriptors.forEach(d-> assertThat(d.createParser()).isNotNull());
     }
 }

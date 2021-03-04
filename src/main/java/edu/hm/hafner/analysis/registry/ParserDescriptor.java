@@ -82,6 +82,15 @@ public abstract class ParserDescriptor {
     }
 
     /**
+     * Returns an optional URL to the icon or logo of the static analysis tool.
+     *
+     * @return the help
+     */
+    public String getIconUrl() {
+        return StringUtils.EMPTY;
+    }
+
+    /**
      * Returns a detailed description of the specified issue. If there is no additional description is available,
      * then an empty String is returned.
      *

@@ -11,13 +11,13 @@ import edu.hm.hafner.util.Deferred;
  *
  * @author Lorenz Munsch
  */
-class CheckstyleDescriptor extends ParserDescriptor {
+class CheckStyleDescriptor extends ParserDescriptor {
     private static final String ID = "checkstyle";
     private static final String NAME = "CheckStyle";
 
     private final Deferred<CheckStyleRules> messages = new Deferred<>(CheckStyleRules::new);
 
-    CheckstyleDescriptor() {
+    CheckStyleDescriptor() {
         super(ID, NAME);
     }
 
@@ -34,6 +34,11 @@ class CheckstyleDescriptor extends ParserDescriptor {
     @Override
     public String getUrl() {
         return "https://checkstyle.org";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/checkstyle/checkstyle/blob/master/src/site/resources/images/checkstyle_logo_small_64.png";
     }
 
     @Override

@@ -38,6 +38,11 @@ class SpotBugsDescriptor extends ParserDescriptor {
     }
 
     @Override
+    public String getIconUrl() {
+        return "https://github.com/spotbugs/spotbugs.github.io/blob/master/images/logos/spotbugs_icon_only_zoom_256px.png";
+    }
+
+    @Override
     public String getDescription(final Issue issue) {
         return messages.get().getMessage(issue.getType());
     }
