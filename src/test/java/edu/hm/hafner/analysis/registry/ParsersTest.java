@@ -68,7 +68,7 @@ class ParsersTest extends ResourceTest {
 
     /** Verifies that a broken file does not fail. */
     @Test
-    public void shouldSilentlyIgnoreWrongFile() {
+    void shouldSilentlyIgnoreWrongFile() {
         assertThatExceptionOfType(ParsingException.class).isThrownBy(() ->
                 findIssuesOfTool(0, "checkstyle", "CargoCheck.json"));
     }
@@ -78,7 +78,7 @@ class ParsersTest extends ResourceTest {
      * issues.
      */
     @Test
-    public void shouldFindAllIssuesForCheckStyleAlias() {
+    void shouldFindAllIssuesForCheckStyleAlias() {
         for (String tool : Arrays.asList("detekt", "eslint", "ktlint", "php-code-sniffer",
                 "swiftlint", "tslint")) {
             findIssuesOfTool(4, tool, "checkstyle.xml");
@@ -87,121 +87,121 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the Iar parser on an output file that contains 8 issues. */
     @Test
-    public void shouldFindAllCmakeIssues() {
+    void shouldFindAllCmakeIssues() {
         findIssuesOfTool(8, "cmake", "cmake.txt");
     }
 
     /** Runs the Iar parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllCargoIssues() {
+    void shouldFindAllCargoIssues() {
         findIssuesOfTool(2, "cargo", "CargoCheck.json");
     }
 
     /** Runs the Iar parser on an output file that contains 262 issues. */
     @Test
-    public void shouldFindAllIssuesForPmdAlias() {
+    void shouldFindAllIssuesForPmdAlias() {
         findIssuesOfTool(262, "infer", "pmd-6.xml");
     }
 
     /** Runs the Iar parser on an output file that contains 262 issues. */
     @Test
-    public void shouldFindAllIssuesForMsBuildAlias() {
+    void shouldFindAllIssuesForMsBuildAlias() {
         findIssuesOfTool(8, "pclint", "msbuild.txt");
     }
 
     /** Runs the Iar parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllYamlLintIssues() {
+    void shouldFindAllYamlLintIssues() {
         findIssuesOfTool(4, "yamllint", "yamllint.txt");
     }
 
     /** Runs the Iar parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllIarIssues() {
+    void shouldFindAllIarIssues() {
         findIssuesOfTool(6, "iar", "iar.txt");
     }
 
     /** Runs the IbLinter parser on an output file that contains 1 issue. */
     @Test
-    public void shouldFindAllIbLinterIssues() {
+    void shouldFindAllIbLinterIssues() {
         findIssuesOfTool(1, "iblinter", "iblinter.xml");
     }
 
     /** Runs the IarCStat parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllIarCStatIssues() {
+    void shouldFindAllIarCStatIssues() {
         findIssuesOfTool(6, "iar-cstat", "iar-cstat.txt");
     }
 
     /** Runs the SonarQube parsers on two files that contains 6 and 31 issues. */
     @Test
-    public void shouldFindAllSonarQubeIssues() {
+    void shouldFindAllSonarQubeIssues() {
         findIssuesOfTool(32 + 6, "sonar", "sonarqube-api.json", "sonarqube-differential.json");
     }
 
     /** Runs the TagList parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllTagListIssues() {
+    void shouldFindAllTagListIssues() {
         findIssuesOfTool(4, "taglist", "taglist.xml");
     }
 
     /** Runs the Ccm parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllCcmIssues() {
+    void shouldFindAllCcmIssues() {
         findIssuesOfTool(6, "ccm", "ccm.xml");
     }
 
     /** Runs the ruboCop parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllRuboCopIssues() {
+    void shouldFindAllRuboCopIssues() {
         findIssuesOfTool(3, "rubocop", "rubocop.log");
     }
 
     /** Runs the flawfinder parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllFlawfinderIssues() {
+    void shouldFindAllFlawfinderIssues() {
         findIssuesOfTool(3, "flawfinder", "flawfinder.log");
     }
 
     /** Runs the Android Lint parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllAndroidLintIssues() {
+    void shouldFindAllAndroidLintIssues() {
         findIssuesOfTool(2, "android-lint", "android-lint.xml");
     }
 
     /** Runs the CodeNarc parser on an output file that contains 11 issues. */
     @Test
-    public void shouldFindAllCodeNArcIssues() {
+    void shouldFindAllCodeNArcIssues() {
         findIssuesOfTool(11, "codenarc", "codeNarc.xml");
     }
 
     /** Runs the Cppcheck parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllCppCheckIssues() {
+    void shouldFindAllCppCheckIssues() {
         findIssuesOfTool(3, "cppcheck", "cppcheck.xml");
     }
 
     /** Runs the DocFx parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllDocFXIssues() {
+    void shouldFindAllDocFXIssues() {
         findIssuesOfTool(3, "docfx", "docfx.json");
     }
 
     /** Runs the ErrorProne parser on output files that contain 9 + 2 issues. */
     @Test
-    public void shouldFindAllErrorProneIssues() {
+    void shouldFindAllErrorProneIssues() {
         findIssuesOfTool(9 + 2, "error-prone", "errorprone-maven.log", "gradle-error-prone.log");
     }
 
     /** Runs the Flake8 parser on an output file that contains 12 issues. */
     @Test
-    public void shouldFindAllFlake8Issues() {
+    void shouldFindAllFlake8Issues() {
         findIssuesOfTool(12, "flake8", "flake8.txt");
     }
 
     /** Runs the JSHint parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllJsHintIssues() {
+    void shouldFindAllJsHintIssues() {
         findIssuesOfTool(6, "js-hint", "jshint.xml");
     }
 
@@ -209,7 +209,7 @@ class ParsersTest extends ResourceTest {
      * Runs the JUnit parser on an output file that contains 2 and 1 issues.
      */
     @Test
-    public void shouldFindAllJUnitIssues() {
+    void shouldFindAllJUnitIssues() {
         findIssuesOfTool(2, "junit", "junit.xml");
 
         findIssuesOfTool(1, "junit", "TEST-org.jenkinsci.plugins.jvctb.perform.JvctbPerformerTest.xml");
@@ -217,43 +217,43 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the Klocwork parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllKlocWorkIssues() {
+    void shouldFindAllKlocWorkIssues() {
         findIssuesOfTool(2, "klocwork", "klocwork.xml");
     }
 
     /** Runs the MyPy parser on an output file that contains 5 issues. */
     @Test
-    public void shouldFindAllMyPyIssues() {
+    void shouldFindAllMyPyIssues() {
         findIssuesOfTool(5, "mypy", "mypy.txt");
     }
 
     /** Runs the PIT parser on an output file that contains 25 issues. */
     @Test
-    public void shouldFindAllPitIssues() {
+    void shouldFindAllPitIssues() {
         findIssuesOfTool(2, "pit", "pit.xml");
     }
 
     /** Runs the PyDocStyle parser on an output file that contains 33 issues. */
     @Test
-    public void shouldFindAllPyDocStyleIssues() {
+    void shouldFindAllPyDocStyleIssues() {
         findIssuesOfTool(33, "pydocstyle", "pydocstyle.txt");
     }
 
     /** Runs the XML Lint parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllXmlLintStyleIssues() {
+    void shouldFindAllXmlLintStyleIssues() {
         findIssuesOfTool(3, "xmllint", "xmllint.txt");
     }
 
     /** Runs the zptlint parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllZptLintStyleIssues() {
+    void shouldFindAllZptLintStyleIssues() {
         findIssuesOfTool(2, "zptlint", "zptlint.log");
     }
 
     /** Runs the CPD parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllCpdIssues() {
+    void shouldFindAllCpdIssues() {
         String cpd = "cpd";
         Report report = findIssuesOfTool(2, cpd, "cpd.xml");
         assertThatDescriptionOfIssueIsSet(cpd, report.get(0), CODE_FRAGMENT);
@@ -261,13 +261,13 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the Simian parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllSimianIssues() {
+    void shouldFindAllSimianIssues() {
         findIssuesOfTool(4, "simian", "simian.xml");
     }
 
     /** Runs the DupFinder parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllDupFinderIssues() {
+    void shouldFindAllDupFinderIssues() {
         String dupfinder = "dupfinder";
         Report report = findIssuesOfTool(2, dupfinder, "dupfinder.xml");
         assertThatDescriptionOfIssueIsSet(dupfinder, report.get(0),
@@ -279,31 +279,31 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the Armcc parser on output files that contain 3 + 3 issues. */
     @Test
-    public void shouldFindAllArmccIssues() {
+    void shouldFindAllArmccIssues() {
         findIssuesOfTool(3 + 3, "armcc", "armcc.txt", "armcc5.txt");
     }
 
     /** Runs the Buckminster parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllBuckminsterIssues() {
+    void shouldFindAllBuckminsterIssues() {
         findIssuesOfTool(3, "buckminster", "buckminster.txt");
     }
 
     /** Runs the Cadence parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllCadenceIssues() {
+    void shouldFindAllCadenceIssues() {
         findIssuesOfTool(3, "cadence", "CadenceIncisive.txt");
     }
 
     /** Runs the Mentor parser on an output file that contains 12 issues. */
     @Test
-    public void shouldFindAllMentorGraphicsIssues() {
+    void shouldFindAllMentorGraphicsIssues() {
         findIssuesOfTool(12, "modelsim", "MentorGraphics.log");
     }
 
     /** Runs the PMD parser on an output file that contains 262 issues (PMD 6.1.0). */
     @Test
-    public void shouldFindAllPmdIssues() {
+    void shouldFindAllPmdIssues() {
         String pmd = "pmd";
         Report report = findIssuesOfTool(262, pmd, "pmd-6.xml");
         assertThatDescriptionOfIssueIsSet(pmd, report.get(0),
@@ -312,7 +312,7 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the CheckStyle parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllCheckStyleIssues() {
+    void shouldFindAllCheckStyleIssues() {
         String checkstyle = "checkstyle";
         Report report = findIssuesOfTool(4, checkstyle, "checkstyle.xml");
 
@@ -333,7 +333,7 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the FindBugs parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllFindBugsIssues() {
+    void shouldFindAllFindBugsIssues() {
         String findbugs = "findbugs";
         Report report = findIssuesOfTool(2, findbugs, "findbugs-native.xml");
 
@@ -366,7 +366,7 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the SpotBugs parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllSpotBugsIssues() {
+    void shouldFindAllSpotBugsIssues() {
         String expectedDescription =
                 "<p>This code calls a method and ignores the return value. However our analysis shows that\n"
                         + "the method (including its implementations in subclasses if any) does not produce any effect\n"
@@ -388,7 +388,7 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the SpotBugs parser on an output file that contains 2 issues. */
     @Test
-    public void shouldProvideMessagesAndDescriptionForSecurityIssuesWithSpotBugs() {
+    void shouldProvideMessagesAndDescriptionForSecurityIssuesWithSpotBugs() {
         String expectedDescription =
                 "<p>A file is opened to read its content. The filename comes from an <b>input</b> parameter.\n"
                         + "If an unfiltered parameter is passed to this file API, files from an arbitrary filesystem location could be read.</p>\n"
@@ -405,133 +405,133 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the Clang-Analyzer parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllClangAnalyzerIssues() {
+    void shouldFindAllClangAnalyzerIssues() {
         findIssuesOfTool(3, "clang-analyzer", "ClangAnalyzer.txt");
     }
 
     /** Runs the Clang-Tidy parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllClangTidyIssues() {
+    void shouldFindAllClangTidyIssues() {
         findIssuesOfTool(7, "clang-tidy", "ClangTidy.txt");
     }
 
     /** Runs the Clang parser on an output file that contains 9 issues. */
     @Test
-    public void shouldFindAllClangIssues() {
+    void shouldFindAllClangIssues() {
         findIssuesOfTool(9, "clang", "apple-llvm-clang.txt");
     }
 
     /** Runs the Coolflux parser on an output file that contains 1 issues. */
     @Test
-    public void shouldFindAllCoolfluxIssues() {
+    void shouldFindAllCoolfluxIssues() {
         findIssuesOfTool(1, "coolflux", "coolfluxchesscc.txt");
     }
 
     /** Runs the CppLint parser on an output file that contains 1031 issues. */
     @Test
-    public void shouldFindAllCppLintIssues() {
+    void shouldFindAllCppLintIssues() {
         findIssuesOfTool(1031, "cpplint", "cpplint.txt");
     }
 
     /** Runs the CodeAnalysis parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllCodeAnalysisIssues() {
+    void shouldFindAllCodeAnalysisIssues() {
         findIssuesOfTool(3, "code-analysis", "codeanalysis.txt");
     }
 
     /** Runs the DScanner parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllDScannerIssues() {
+    void shouldFindAllDScannerIssues() {
         findIssuesOfTool(4, "dscanner", "dscanner-report.json");
     }
 
     /** Runs the GoLint parser on an output file that contains 7 issues. */
     @Test
-    public void shouldFindAllGoLintIssues() {
+    void shouldFindAllGoLintIssues() {
         findIssuesOfTool(7, "golint", "golint.txt");
     }
 
     /** Runs the GoVet parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllGoVetIssues() {
+    void shouldFindAllGoVetIssues() {
         findIssuesOfTool(2, "go-vet", "govet.txt");
     }
 
     /** Runs the SunC parser on an output file that contains 8 issues. */
     @Test
-    public void shouldFindAllSunCIssues() {
+    void shouldFindAllSunCIssues() {
         findIssuesOfTool(8, "sunc", "sunc.txt");
     }
 
     /** Runs the JcReport parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllJcReportIssues() {
+    void shouldFindAllJcReportIssues() {
         findIssuesOfTool(6, "jc-report", "jcreport.xml");
     }
 
     /** Runs the StyleCop parser on an output file that contains 5 issues. */
     @Test
-    public void shouldFindAllStyleCopIssues() {
+    void shouldFindAllStyleCopIssues() {
         findIssuesOfTool(5, "stylecop", "stylecop.xml");
     }
 
     /** Runs the Tasking VX parser on an output file that contains 8 issues. */
     @Test
-    public void shouldFindAllTaskingVxIssues() {
+    void shouldFindAllTaskingVxIssues() {
         findIssuesOfTool(8, "tasking-vx", "tasking-vx.txt");
     }
 
     /** Runs the tnsdl translator parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllTnsdlIssues() {
+    void shouldFindAllTnsdlIssues() {
         findIssuesOfTool(4, "tnsdl", "tnsdl.txt");
     }
 
     /** Runs the Texas Instruments Code Composer Studio parser on an output file that contains 10 issues. */
     @Test
-    public void shouldFindAllTiCssIssues() {
+    void shouldFindAllTiCssIssues() {
         findIssuesOfTool(10, "code-composer", "ticcs.txt");
     }
 
     /** Runs the IBM XLC compiler and linker parser on an output file that contains 1 + 1 issues. */
     @Test
-    public void shouldFindAllXlcIssues() {
+    void shouldFindAllXlcIssues() {
         findIssuesOfTool(1, "xlc", "xlc.txt");
     }
 
     /** Runs the YIU compressor parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllYuiCompressorIssues() {
+    void shouldFindAllYuiCompressorIssues() {
         findIssuesOfTool(4, "yui", "yui.txt");
     }
 
     /** Runs the Erlc parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllErlcIssues() {
+    void shouldFindAllErlcIssues() {
         findIssuesOfTool(2, "erlc", "erlc.txt");
     }
 
     /** Runs the FlexSdk parser on an output file that contains 5 issues. */
     @Test
-    public void shouldFindAllFlexSDKIssues() {
+    void shouldFindAllFlexSDKIssues() {
         findIssuesOfTool(5, "flex", "flexsdk.txt");
     }
 
     /** Runs the FxCop parser on an output file that contains 2 issues. */
     @Test
-    public void shouldFindAllFxcopSDKIssues() {
+    void shouldFindAllFxcopSDKIssues() {
         findIssuesOfTool(2, "fxcop", "fxcop.xml");
     }
 
     /** Runs the Gendarme parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllGendarmeIssues() {
+    void shouldFindAllGendarmeIssues() {
         findIssuesOfTool(3, "gendarme", "Gendarme.xml");
     }
 
     /** Runs the GhsMulti parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllGhsMultiIssues() {
+    void shouldFindAllGhsMultiIssues() {
         findIssuesOfTool(6, "ghs-multi", "ghsmulti.txt");
     }
 
@@ -539,79 +539,79 @@ class ParsersTest extends ResourceTest {
      * Runs the Gnat parser on an output file that contains 9 issues.
      */
     @Test
-    public void shouldFindAllGnatIssues() {
+    void shouldFindAllGnatIssues() {
         findIssuesOfTool(9, "gnat", "gnat.txt");
     }
 
     /** Runs the GnuFortran parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllGnuFortranIssues() {
+    void shouldFindAllGnuFortranIssues() {
         findIssuesOfTool(4, "fortran", "GnuFortran.txt");
     }
 
     /** Runs the MsBuild parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllMsBuildIssues() {
+    void shouldFindAllMsBuildIssues() {
         findIssuesOfTool(8, "msbuild", "msbuild.txt");
     }
 
     /** Runs the NagFortran parser on an output file that contains 10 issues. */
     @Test
-    public void shouldFindAllNagFortranIssues() {
+    void shouldFindAllNagFortranIssues() {
         findIssuesOfTool(14, "nag-fortran", "NagFortran.txt");
     }
 
     /** Runs the Perforce parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllP4Issues() {
+    void shouldFindAllP4Issues() {
         findIssuesOfTool(4, "p4", "perforce.txt");
     }
 
     /** Runs the Pep8 parser on an output file: the build should report 8 issues. */
     @Test
-    public void shouldFindAllPep8Issues() {
+    void shouldFindAllPep8Issues() {
         findIssuesOfTool(8, "pep8", "pep8Test.txt");
     }
 
     /** Runs the Gcc3Compiler parser on an output file that contains 8 issues. */
     @Test
-    public void shouldFindAllGcc3CompilerIssues() {
+    void shouldFindAllGcc3CompilerIssues() {
         findIssuesOfTool(8, "gcc3", "gcc.txt");
     }
 
     /** Runs the Gcc4Compiler and Gcc4Linker parsers on separate output file that contains 14 + 7 issues. */
     @Test
-    public void shouldFindAllGcc4Issues() {
+    void shouldFindAllGcc4Issues() {
         findIssuesOfTool(16 + 7 - 1, "gcc", "gcc4.txt", "gcc4ld.txt");
     }
 
     /** Runs the Maven console parser on output files that contain 4 + 3 issues. */
     @Test
-    public void shouldFindAllMavenConsoleIssues() {
+    void shouldFindAllMavenConsoleIssues() {
         findIssuesOfTool(5 + 3, "maven-warnings", "maven-console.txt", "issue13969.txt");
     }
 
     /** Runs the MetrowerksCWCompiler parser on two output files that contains 5 + 3 issues. */
     @Test
-    public void shouldFindAllMetrowerksCWCompilerIssues() {
+    void shouldFindAllMetrowerksCWCompilerIssues() {
         findIssuesOfTool(5 + 3, "metrowerks", "MetrowerksCWCompiler.txt", "MetrowerksCWLinker.txt");
     }
 
     /** Runs the AcuCobol parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllAcuCobolIssues() {
+    void shouldFindAllAcuCobolIssues() {
         findIssuesOfTool(4, "acu-cobol", "acu.txt");
     }
 
     /** Runs the Ajc parser on an output file that contains 9 issues. */
     @Test
-    public void shouldFindAllAjcIssues() {
+    void shouldFindAllAjcIssues() {
         findIssuesOfTool(9, "aspectj", "ajc.txt");
     }
 
     /** Runs the AnsibleLint parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllAnsibleLintIssues() {
+    void shouldFindAllAnsibleLintIssues() {
         findIssuesOfTool(5, "ansiblelint", "ansibleLint.txt");
     }
 
@@ -619,13 +619,13 @@ class ParsersTest extends ResourceTest {
      * Runs the Perl::Critic parser on an output file that contains 105 issues.
      */
     @Test
-    public void shouldFindAllPerlCriticIssues() {
+    void shouldFindAllPerlCriticIssues() {
         findIssuesOfTool(105, "perl-critic", "perlcritic.txt");
     }
 
     /** Runs the Php parser on an output file that contains 5 issues. */
     @Test
-    public void shouldFindAllPhpIssues() {
+    void shouldFindAllPhpIssues() {
         findIssuesOfTool(5, "php", "php.txt");
     }
 
@@ -633,25 +633,25 @@ class ParsersTest extends ResourceTest {
      * Runs the PHPStan scanner on an output file that contains 14 issues.
      */
     @Test
-    public void shouldFindAllPhpStanIssues() {
+    void shouldFindAllPhpStanIssues() {
         findIssuesOfTool(11, "phpstan", "phpstan.xml");
     }
 
     /** Runs the Microsoft PreFast parser on an output file that contains 11 issues. */
     @Test
-    public void shouldFindAllPREfastIssues() {
+    void shouldFindAllPREfastIssues() {
         findIssuesOfTool(11, "prefast", "PREfast.xml");
     }
 
     /** Runs the Puppet Lint parser on an output file that contains 5 issues. */
     @Test
-    public void shouldFindAllPuppetLintIssues() {
+    void shouldFindAllPuppetLintIssues() {
         findIssuesOfTool(5, "puppetlint", "puppet-lint.txt");
     }
 
     /** Runs the Eclipse parser on an output file that contains 8 issues. */
     @Test
-    public void shouldFindAllEclipseIssues() {
+    void shouldFindAllEclipseIssues() {
         String eclipse = "eclipse";
         findIssuesOfTool(8, eclipse, "eclipse.txt");
 
@@ -663,7 +663,7 @@ class ParsersTest extends ResourceTest {
 
     /** Runs the PyLint parser on output files that contains 6 + 19 issues. */
     @Test
-    public void shouldFindAllPyLintParserIssues() {
+    void shouldFindAllPyLintParserIssues() {
         String pylint = "pylint";
         Report report = findIssuesOfTool(9 + 22, pylint, "pyLint.txt", "pylint_parseable.txt");
 
@@ -677,61 +677,61 @@ class ParsersTest extends ResourceTest {
      * Runs the QacSourceCodeAnalyser parser on an output file that contains 9 issues.
      */
     @Test
-    public void shouldFindAllQACSourceCodeAnalyserIssues() {
+    void shouldFindAllQACSourceCodeAnalyserIssues() {
         findIssuesOfTool(9, "qac", "QACSourceCodeAnalyser.txt");
     }
 
     /** Runs the Resharper parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllResharperInspectCodeIssues() {
+    void shouldFindAllResharperInspectCodeIssues() {
         findIssuesOfTool(3, "resharper", "ResharperInspectCode.xml");
     }
 
     /** Runs the RfLint parser on an output file that contains 6 issues. */
     @Test
-    public void shouldFindAllRfLintIssues() {
+    void shouldFindAllRfLintIssues() {
         findIssuesOfTool(25, "rflint", "rflint.txt");
     }
 
     /** Runs the Robocopy parser on an output file: the build should report 3 issues. */
     @Test
-    public void shouldFindAllRobocopyIssues() {
+    void shouldFindAllRobocopyIssues() {
         findIssuesOfTool(3, "robocopy", "robocopy.txt");
     }
 
     /** Runs the Scala and SbtScala parser on separate output files: the build should report 2+3 issues. */
     @Test
-    public void shouldFindAllScalaIssues() {
+    void shouldFindAllScalaIssues() {
         findIssuesOfTool(2 + 5, "scala", "scalac.txt", "sbtScalac.txt");
     }
 
     /** Runs the Sphinx build parser on an output file: the build should report 6 issues. */
     @Test
-    public void shouldFindAllSphinxIssues() {
+    void shouldFindAllSphinxIssues() {
         findIssuesOfTool(7, "sphinx", "sphinxbuild.txt");
     }
 
     /** Runs the Idea Inspection parser on an output file that contains 1 issues. */
     @Test
-    public void shouldFindAllIdeaInspectionIssues() {
+    void shouldFindAllIdeaInspectionIssues() {
         findIssuesOfTool(1, "idea", "IdeaInspectionExample.xml");
     }
 
     /** Runs the Intel parser on an output file that contains 7 issues. */
     @Test
-    public void shouldFindAllIntelIssues() {
+    void shouldFindAllIntelIssues() {
         findIssuesOfTool(9, "intel", "intelc.txt");
     }
 
     /** Runs the Oracle Invalids parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllInvalidsIssues() {
+    void shouldFindAllInvalidsIssues() {
         findIssuesOfTool(3, "invalids", "invalids.txt");
     }
 
     /** Runs the Java parser on several output files that contain 2 + 1 + 1 + 1 + 2 issues. */
     @Test
-    public void shouldFindAllJavaIssues() {
+    void shouldFindAllJavaIssues() {
         findIssuesOfTool(2 + 1 + 1 + 1 + 2, "java", "javac.txt", "gradle.java.log",
                 "gradle.another.java.log",
                 "ant-javac.txt", "hpi.txt");
@@ -741,7 +741,7 @@ class ParsersTest extends ResourceTest {
      * Runs the Kotlin parser on several output files that contain 1 issues.
      */
     @Test
-    public void shouldFindAllKotlinIssues() {
+    void shouldFindAllKotlinIssues() {
         findIssuesOfTool(1, "kotlin", "kotlin.txt");
     }
 
@@ -749,85 +749,85 @@ class ParsersTest extends ResourceTest {
      * Runs the CssLint parser on an output file that contains 51 issues.
      */
     @Test
-    public void shouldFindAllCssLintIssues() {
+    void shouldFindAllCssLintIssues() {
         findIssuesOfTool(51, "csslint", "csslint.xml");
     }
 
     /** Runs the DiabC parser on an output file that contains 12 issues. */
     @Test
-    public void shouldFindAllDiabCIssues() {
+    void shouldFindAllDiabCIssues() {
         findIssuesOfTool(12, "diabc", "diabc.txt");
     }
 
     /** Runs the Doxygen parser on an output file that contains 18 issues. */
     @Test
-    public void shouldFindAllDoxygenIssues() {
+    void shouldFindAllDoxygenIssues() {
         findIssuesOfTool(19, "doxygen", "doxygen.txt");
     }
 
     /** Runs the Dr. Memory parser on an output file that contains 8 issues. */
     @Test
-    public void shouldFindAllDrMemoryIssues() {
+    void shouldFindAllDrMemoryIssues() {
         findIssuesOfTool(8, "dr-memory", "drmemory.txt");
     }
 
     /** Runs the PVS-Studio parser on an output file that contains 33 issues. */
     @Test
-    public void shouldFindAllPVSStudioIssues() {
+    void shouldFindAllPVSStudioIssues() {
         findIssuesOfTool(33, "pvs-studio", "TestReport.plog");
     }
 
     /** Runs the JavaC parser on an output file of the Eclipse compiler: the build should report no issues. */
     @Test
-    public void shouldFindNoJavacIssuesInEclipseOutput() {
+    void shouldFindNoJavacIssuesInEclipseOutput() {
         findIssuesOfTool(0, "java", "eclipse.txt");
     }
 
     /** Runs the ProtoLint parser on an output file that contains 10 issues. */
     @Test
-    public void shouldFindAllProtoLintIssues() {
+    void shouldFindAllProtoLintIssues() {
         findIssuesOfTool(2591, "protolint", "protolint.txt");
     }
 
     /** Runs the HadoLint parser on an output file that contains 5 issues. */
     @Test
-    public void shouldFindAllHadoLintIssues() {
+    void shouldFindAllHadoLintIssues() {
         findIssuesOfTool(5, "hadolint", "hadolint.json");
     }
 
     /** Runs the DockerLint parser on an output file that contains 3 issues. */
     @Test
-    public void shouldFindAllDockerLintIssues() {
+    void shouldFindAllDockerLintIssues() {
         findIssuesOfTool(7, "dockerlint", "dockerlint.json");
     }
 
     /** Runs the Clair parser on an output file that contains 112 issues. */
     @Test
-    public void shouldFindAllClairIssues() {
+    void shouldFindAllClairIssues() {
         findIssuesOfTool(112, "clair", "clair.json");
     }
 
     /** Runs the OTDockerLint parser on an output file that contains 5 issues. */
     @Test
-    public void shouldFindAllOTDockerLintIssues() {
+    void shouldFindAllOTDockerLintIssues() {
         findIssuesOfTool(3, "ot-docker-linter", "ot-docker-linter.json");
     }
 
     /** Runs the Brakeman parser on an output file that contains 32 issues. */
     @Test
-    public void shouldFindAllBrakemanIssues() {
+    void shouldFindAllBrakemanIssues() {
         findIssuesOfTool(32, "brakeman", "brakeman.json");
     }
 
     /** Runs the trivy parser on an output file that contains 4 issues. */
     @Test
-    public void shouldFindAllTrivyIssues() {
+    void shouldFindAllTrivyIssues() {
         findIssuesOfTool(4, "trivy", "trivy_result.json");
     }
 
     /** Runs the qt translation parser on an output file that contains 5 issues. */
     @Test
-    public void shouldFindAllQtTranslationIssues() {
+    void shouldFindAllQtTranslationIssues() {
         findIssuesOfTool(4, "qt-translation", "qttranslation.ts");
     }
 
