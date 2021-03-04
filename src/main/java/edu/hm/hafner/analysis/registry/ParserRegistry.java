@@ -250,6 +250,6 @@ public class ParserRegistry {
         if (url.isEmpty()) {
             return "-";
         }
-        return String.format("<img src=\"%s\" alt=\"%s\" width=\"64\" height=\"64\">", descriptor.getName(), url);
+        return String.format("<img src=\"%s\" alt=\"%s\" width=\"64\" height=\"64\">", url, descriptor.getName());
     }
 }
