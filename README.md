@@ -7,16 +7,26 @@
 [![Codacy](https://api.codacy.com/project/badge/Grade/1b96405c72db49eeb0d67486f77f8f75)](https://app.codacy.com/app/uhafner/analysis-model?utm_source=github.com&utm_medium=referral&utm_content=jenkinsci/analysis-model&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/jenkinsci/analysis-model/branch/master/graph/badge.svg)](https://codecov.io/gh/jenkinsci/analysis-model)
 
-This project is a library to read static analysis reports into a Java object model. 
-Currently, it is used only by [Jenkins' warnings next generation plug-in](https://github.com/jenkinsci/warnings-ng-plugin). 
-Since this library has no dependencies to the Jenkins project it might be used by other static analysis visualization 
-tools as well in the future.
+This library provides a Java object model to read, aggregate, filter, and query static analysis reports. 
+It is used by [Jenkins' warnings next generation plug-in](https://github.com/jenkinsci/warnings-ng-plugin) to visualize
+the warnings of individual builds. Additionally, this library is used by a 
+[GitHub action](https://github.com/uhafner/autograding-github-action) to autograde student software projects based
+on a given set of metrics (unit tests, code and mutation coverage, static analysis warnings). 
 
-This library consists basically of two separate parts:
+This library consists basically of three separate parts:
+
 1. A model to manage a set of issues of static code analysis runs. This includes the possibility to track issues in
  different source code versions using a fingerprinting algorithm. 
-2. Parsers for numerous static analysis tools (including several compilers), see the 
- [parser source folder](src/main/java/edu/hm/hafner/analysis/parser) for a complete list of supported formats.
+2. Parsers for more than hundred [report formats](SUPPORTED-FORMATS.md). Among the problems this library can detect:
+   * messages from your build tool (Maven, Gradle, MSBuild, make, etc.)
+   * errors from your compiler (C, C#, Java, etc.)
+   * warnings from a static analysis tool (CheckStyle, StyleCop, SpotBugs, etc.)
+   * duplications from a copy-and-paste detector (CPD, Simian, etc.)
+   * vulnerabilities
+   * open tasks in comments of your source files
+3. Additional descriptions for a selected set of static analysis tools that provide details for individual violations 
+   (including code samples, solutions, or quick fixes). 
+
 
 All source code is licensed under the MIT license. 
 

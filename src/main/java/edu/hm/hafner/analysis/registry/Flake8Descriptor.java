@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.FlawfinderParser;
-import edu.hm.hafner.analysis.parser.FlexSdkParser;
 import edu.hm.hafner.analysis.parser.violations.Flake8Adapter;
 
 /**
@@ -12,7 +10,7 @@ import edu.hm.hafner.analysis.parser.violations.Flake8Adapter;
  */
 class Flake8Descriptor extends ParserDescriptor {
     private static final String ID = "flake8";
-    private static final String NAME = "Flex SDK Compiler";
+    private static final String NAME = "Flake8";
 
     Flake8Descriptor() {
         super(ID, NAME);
@@ -26,5 +24,10 @@ class Flake8Descriptor extends ParserDescriptor {
     @Override
     public String getHelp() {
         return "<p>Run flake8 as <code>flake8 --format=pylint</code></p>";
+    }
+
+    @Override
+    public String getUrl() {
+        return "https://flake8.pycqa.org/";
     }
 }

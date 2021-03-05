@@ -37,6 +37,11 @@ class PmdDescriptor extends ParserDescriptor {
     }
 
     @Override
+    public String getIconUrl() {
+        return "https://github.com/pmd/pmd/blob/master/docs/images/logo/pmd_logo_small.png";
+    }
+
+    @Override
     public String getDescription(final Issue issue) {
         return messages.get().getMessage(issue.getCategory(), issue.getType());
     }

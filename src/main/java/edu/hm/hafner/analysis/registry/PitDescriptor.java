@@ -22,7 +22,17 @@ class PitDescriptor extends ParserDescriptor {
     }
 
     @Override
+    public String getPattern() {
+        return "**/mutations.xml";
+    }
+
+    @Override
     public String getUrl() {
         return "https://pitest.org";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://pitest.org/images/pit-black-150x152.png";
     }
 }

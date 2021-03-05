@@ -15,6 +15,13 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContent;
+
+import static j2html.TagCreator.*;
+
 /**
  * Provides a {@link ParserRegistry} that returns a map for all available Parsers.
  *
@@ -64,7 +71,6 @@ public class ParserRegistry {
             new FlexSdkDescriptor(),
             new FxcopDescriptor(),
             new Gcc4Descriptor(),
-            new Gcc4LinkerDescriptor(),
             new GccDescriptor(),
             new GendarmeDescriptor(),
             new GhsMultiDescriptor(),
@@ -207,49 +213,46 @@ public class ParserRegistry {
                     LocalDateTime.now());
             file.println("# Supported Report Formats\n"
                     + "\n"
-                    + "Jenkins' Warnings Next Generation Plugin supports the following report formats. \n"
-                    + "If your tool is supported, but has no custom icon yet, please file a pull request for the\n"
-                    + "[Warnings Next Generation Plugin](https://github.com/jenkinsci/warnings-ng-plugin/pulls).\n"
+                    + "The static analysis model supports the following report formats up to now.\n"
+                    + "If your tool is supported, but some properties are missing (icon, URL, etc.), please file a\n"
+                    + "[pull request](https://github.com/jenkinsci/analysis-model/pulls).\n"
                     + "\n"
                     + "If your tool is not yet supported you can\n"
-                    + "1. define a new Groovy based parser in the user interface\n"
-                    + "2. export the issues of your tool to the native XML format (or any other format)\n"
-                    + "3. provide a parser within a new small plugin. \n"
-                    + "\n"
-                    + "If the parser is useful for \n"
-                    + "other teams as well please share it and provide pull requests for the \n"
-                    + "[Warnings Next Generation Plug-in](https://github.com/jenkinsci/warnings-ng-plugin/pulls) and \n"
-                    + "the [Analysis Parsers Library](https://github.com/jenkinsci/analysis-model/). \n");
-            file.print("| Number | ID | Symbol | Icons | Name | Default Pattern |\n");
-            file.print("| --- | --- | --- | --- | --- | --- |\n");
+                    + "1. export the issues of your tool to the native XML or JSON format (or any other format).\n"
+                    + "2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.\n"
+                    + "\n");
 
-            for (int i = 0; i < descriptors.size(); i++) {
-                ParserDescriptor descriptor = descriptors.get(i);
-                file.printf("| %d | %s | %s() | %s | %s | %s |%n",
-                        i,
-                        descriptor.getId(),
-                        "-",
-                        getIcon(descriptor),
-                        getName(descriptor),
-                        descriptor.getPattern());
-            }
+            List<ContainerTag> lines = descriptors.stream().map(descriptor -> tr().with(
+                    td(descriptor.getId()),
+                    td(getIcon(descriptor)),
+                    td(getName(descriptor)),
+                    td(StringUtils.defaultIfBlank(descriptor.getPattern(), "-")))).collect(Collectors.toList());
+            file.println(table().with(thead().with(tr().with(
+                    th("ID"),
+                    th("Icons"),
+                    th("Name"),
+                    th("Default Pattern"))),
+                    tbody().with(lines)).renderFormatted());
         }
     }
 
-    private static String getName(final ParserDescriptor descriptor) {
+    private static DomContent getName(final ParserDescriptor descriptor) {
         String name = descriptor.getName();
         String url = descriptor.getUrl();
         if (url.isEmpty()) {
-            return name;
+            return text(name);
         }
-        return String.format("[%s](%s)", name, url);
+        return a(name).withHref(url);
     }
 
-    private static String getIcon(final ParserDescriptor descriptor) {
+    private static DomContent getIcon(final ParserDescriptor descriptor) {
         String url = descriptor.getIconUrl();
         if (url.isEmpty()) {
-            return "-";
+            return text("-");
         }
-        return String.format("<img src=\"%s\" alt=\"%s\" width=\"64\" height=\"64\">", url, descriptor.getName());
+        return img().withSrc(url)
+                .withAlt(descriptor.getName())
+                .attr("height", "64")
+                .attr("width", 64);
     }
 }

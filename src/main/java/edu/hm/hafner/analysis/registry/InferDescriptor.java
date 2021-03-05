@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.IdeaInspectionParser;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 
 /**
@@ -11,7 +10,7 @@ import edu.hm.hafner.analysis.parser.pmd.PmdParser;
  */
 class InferDescriptor extends ParserDescriptor {
     private static final String ID = "infer";
-    private static final String NAME = "IntelliJ IDEA Inspections";
+    private static final String NAME = "Infer";
 
     InferDescriptor() {
         super(ID, NAME);
@@ -29,6 +28,11 @@ class InferDescriptor extends ParserDescriptor {
 
     @Override
     public String getUrl() {
-        return "http://fbinfer.com";
+        return "https://fbinfer.com";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/facebook/infer/blob/master/website/static/img/logo.png";
     }
 }
