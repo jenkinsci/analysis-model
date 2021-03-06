@@ -29,6 +29,8 @@ import static j2html.TagCreator.*;
  */
 @SuppressWarnings({"checkstyle:ClassDataAbstractionCoupling", "checkstyle:ClassFanOutComplexity"})
 public class ParserRegistry {
+    private static final String BULB_EMOJI = ":bulb:";
+
     private static final ParserDescriptor[] ALL_DESCRIPTORS = {
             new AcuCobolDescriptor(),
             new AjcDescriptor(),
@@ -69,6 +71,8 @@ public class ParserRegistry {
             new Flake8Descriptor(),
             new FlawfinderDescriptor(),
             new FlexSdkDescriptor(),
+            new FlowDescriptor(),
+            new FoodCriticDescriptor(),
             new FxcopDescriptor(),
             new Gcc4Descriptor(),
             new GccDescriptor(),
@@ -101,6 +105,7 @@ public class ParserRegistry {
             new MsBuildDescriptor(),
             new MyPyDescriptor(),
             new NagFortranDescriptor(),
+            new NativeFormatDescriptor(),
             new OtDockerLintDescriptor(),
             new PcLintDescriptor(),
             new Pep8Descriptor(),
@@ -143,7 +148,6 @@ public class ParserRegistry {
             new YuiCompressorDescriptor(),
             new ZptLintDescriptor()
     };
-    public static final String BULB_EMOJI = ":bulb:";
 
     private final Map<String, ParserDescriptor> descriptors;
 
@@ -215,13 +219,14 @@ public class ParserRegistry {
                     LocalDateTime.now());
             file.println("# Supported Report Formats\n"
                     + "\n"
-                    + "The static analysis model supports the following report formats up to now.\n"
-                    + "If your tool is supported, but some properties are missing (icon, URL, etc.), please file a\n"
-                    + "[pull request](https://github.com/jenkinsci/analysis-model/pulls).\n"
+                    + "The static analysis model supports the following report formats.\n"
                     + "\n"
                     + "If your tool is not yet supported you can\n"
                     + "1. export the issues of your tool to the native XML or JSON format (or any other format).\n"
                     + "2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.\n"
+                    + "\n"
+                    + "If your tool is supported, but some properties are missing (icon, URL, etc.), please file a\n"
+                    + "[pull request](https://github.com/jenkinsci/analysis-model/pulls).\n"
                     + "\n");
 
             List<ContainerTag> lines = descriptors.stream()

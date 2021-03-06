@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -34,5 +36,10 @@ class ParserRegistryTest {
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();
         assertThat(descriptors).filteredOn(d-> "spotbugs".equals(d.getId())).hasSize(1);
         descriptors.forEach(d-> assertThat(d.createParser()).isNotNull());
+    }
+
+    @Test
+    void shouldCreateSupportedFormats() throws FileNotFoundException, UnsupportedEncodingException {
+        ParserRegistry.main(new String[0]);
     }
 }
