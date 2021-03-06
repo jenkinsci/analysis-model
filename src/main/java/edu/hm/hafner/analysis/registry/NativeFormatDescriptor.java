@@ -2,13 +2,15 @@ package edu.hm.hafner.analysis.registry;
 
 import java.util.Collection;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.JsonLogParser;
 import edu.hm.hafner.analysis.parser.JsonParser;
 import edu.hm.hafner.analysis.parser.XmlParser;
 
 /**
- * A descriptor for the Maven Console parser.
+ * A descriptor for the native format of the analysis model. This format is a 1:1 mapping of the properties of the
+ * {@link Issue} bean.
  *
  * @author Lorenz Munsch
  */
