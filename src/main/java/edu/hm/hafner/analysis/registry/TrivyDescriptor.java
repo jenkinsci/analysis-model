@@ -3,6 +3,8 @@ package edu.hm.hafner.analysis.registry;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.TrivyParser;
 
+import static j2html.TagCreator.*;
+
 /**
  * A descriptor for Aquasec Trivy.
  *
@@ -23,9 +25,11 @@ class TrivyDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return "Reads trivy json data. "
-                + "Use commandline <code>trivy image -f json -o results.json 'image'</code>"
-                + "See <a href='https://github.com/aquasecurity/trivy'>" + "tivy on Github</a> for usage details.";
+        return join(text("Use commandline"),
+                code("trivy image -f json -o results.json 'image'"),
+                text(", see"),
+                a("tivy on Github").withHref("https://github.com/aquasecurity/trivy"),
+                text("for usage details.")).render();
     }
 
     @Override

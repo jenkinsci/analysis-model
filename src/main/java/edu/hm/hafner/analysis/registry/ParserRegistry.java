@@ -143,6 +143,7 @@ public class ParserRegistry {
             new YuiCompressorDescriptor(),
             new ZptLintDescriptor()
     };
+    public static final String BULB_EMOJI = ":bulb:";
 
     private final Map<String, ParserDescriptor> descriptors;
 
@@ -199,7 +200,8 @@ public class ParserRegistry {
     }
 
     /**
-     * Utility to create a report with all available descriptors.
+     * Utility to create a report with all available descriptors. The report will be stored in the file
+     * "SUPPORTED-FORMATS.md" in the top level directory.
      *
      * @param unused
      *         not used
@@ -222,11 +224,10 @@ public class ParserRegistry {
                     + "2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.\n"
                     + "\n");
 
-            List<ContainerTag> lines = descriptors.stream().map(descriptor -> tr().with(
-                    td(descriptor.getId()),
-                    td(getIcon(descriptor)),
-                    td(getName(descriptor)),
-                    td(StringUtils.defaultIfBlank(descriptor.getPattern(), "-")))).collect(Collectors.toList());
+            List<ContainerTag> lines = descriptors.stream()
+                    .map(ParserRegistry::getTableRows)
+                    .flatMap(List::stream)
+                    .collect(Collectors.toList());
             file.println(table().with(thead().with(tr().with(
                     th("ID"),
                     th("Icons"),
@@ -234,6 +235,21 @@ public class ParserRegistry {
                     th("Default Pattern"))),
                     tbody().with(lines)).renderFormatted());
         }
+    }
+
+    private static List<ContainerTag> getTableRows(final ParserDescriptor descriptor) {
+        List<ContainerTag> rows = new ArrayList<>();
+        rows.add(tr().with(
+                td(descriptor.getId()),
+                td(getIcon(descriptor)),
+                td(getName(descriptor)),
+                td(StringUtils.defaultIfBlank(descriptor.getPattern(), "-"))));
+        if (descriptor.hasHelp()) {
+            rows.add(tr().with(td()
+                    .attr("colspan", "4")
+                    .with(join(BULB_EMOJI, rawHtml(descriptor.getHelp())))));
+        }
+        return rows;
     }
 
     private static DomContent getName(final ParserDescriptor descriptor) {

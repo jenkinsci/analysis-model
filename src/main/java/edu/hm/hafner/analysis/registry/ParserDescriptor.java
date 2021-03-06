@@ -63,13 +63,23 @@ public abstract class ParserDescriptor {
     }
 
     /**
-     * Returns an optional help text that can provide useful hints on how to configure the static analysis tool so
-     * that the report files could be parsed by Jenkins. This help can be a plain text message or an HTML snippet.
+     * Returns an optional help text that can provide useful hints on how to configure the static analysis tool so that
+     * the report files could be parsed by Jenkins. This help can be a plain text message or an HTML snippet.
      *
      * @return the help
      */
     public String getHelp() {
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * Returns whether an optional help text is available for this parser.
+     *
+     * @return {@code true} if there is a help text available
+     * @see #getHelp()
+     */
+    public final boolean hasHelp() {
+        return StringUtils.isNotBlank(getHelp());
     }
 
     /**
@@ -82,6 +92,16 @@ public abstract class ParserDescriptor {
     }
 
     /**
+     * Returns whether the URL for the parser is set.
+     *
+     * @return {@code true} if there is a URL available
+     * @see #getUrl()
+     */
+    public final boolean hasUrl() {
+        return StringUtils.isNotBlank(getUrl());
+    }
+
+    /**
      * Returns an optional URL to the icon or logo of the static analysis tool.
      *
      * @return the help
@@ -91,8 +111,8 @@ public abstract class ParserDescriptor {
     }
 
     /**
-     * Returns a detailed description of the specified issue. If there is no additional description is available,
-     * then an empty String is returned.
+     * Returns a detailed description of the specified issue. If there is no additional description is available, then
+     * an empty String is returned.
      *
      * @param issue
      *         the issue to get the description for

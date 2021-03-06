@@ -3,6 +3,8 @@ package edu.hm.hafner.analysis.registry;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.PuppetLintParser;
 
+import static j2html.TagCreator.*;
+
 /**
  * A descriptor for the Puppet Lint.
  *
@@ -23,17 +25,15 @@ class PuppetLintDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return "  <p>\n"
-                + "    To be able to grab puppet-lint output, you will need a recent enough version that supports\n"
-                + "    the <code>--log-format flag</code>.<br/>\n"
-                + "    When running puppet-lint, make sure you use the following log format:\n"
-                + "  </p>\n"
-                + "  <pre>\n"
-                + "    <code>%{path}:%{line}:%{check}:%{KIND}:%{message}</code>\n"
-                + "  </pre>\n"
-                + "  <p>Complete example:</p>\n"
-                + "  <pre>\n"
-                + "      <code>find . -iname *.pp -exec puppet-lint --log-format \"%{path}:%{line}:%{check}:%{KIND}:%{message}\" {} \\;</code>\n"
-                + "  </pre>\n";
+        return join(text("You will need a recent enough version that supports"),
+                code("--log-format flag"),
+                text(". When running puppet-lint, make sure you use the log format"),
+                code("%{path}:%{line}:%{check}:%{KIND}:%{message}"),
+                text("."),
+                br(),
+                text("Complete example:"),
+                br(),
+                code("find . -iname *.pp -exec puppet-lint --log-format \"%{path}:%{line}:%{check}:%{KIND}:%{message}\" {} \\;"))
+                .render();
     }
 }
