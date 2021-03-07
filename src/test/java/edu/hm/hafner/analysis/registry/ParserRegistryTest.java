@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -39,7 +38,7 @@ class ParserRegistryTest {
     }
 
     @Test
-    void shouldCreateSupportedFormats() throws FileNotFoundException, UnsupportedEncodingException {
+    void shouldCreateSupportedFormats() throws IOException {
         ParserRegistry.main(new String[0]);
     }
 }

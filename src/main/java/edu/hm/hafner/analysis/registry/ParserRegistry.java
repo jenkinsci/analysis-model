@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -209,8 +208,11 @@ public class ParserRegistry {
      *
      * @param unused
      *         not used
+     *
+     * @throws IOException
+     *         of the file `SUPPORTED-FORMATS.md` cannot be written locally
      */
-    public static void main(final String[] unused) throws FileNotFoundException, UnsupportedEncodingException {
+    public static void main(final String[] unused) throws IOException {
         List<ParserDescriptor> descriptors = new ParserRegistry().getAllDescriptors();
         descriptors.sort(Comparator.comparing(ParserDescriptor::getName));
 
