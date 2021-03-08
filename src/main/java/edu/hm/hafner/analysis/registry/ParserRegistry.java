@@ -177,6 +177,18 @@ public class ParserRegistry {
     }
 
     /**
+     * Returns whether a parser with the specified ID exists.
+     *
+     * @param id
+     *         the ID to check
+     *
+     * @return {@code true} if the parser exists, {@code false} otherwise
+     */
+    public boolean contains(final String id) {
+        return descriptors.containsKey(id);
+    }
+
+    /**
      * Returns the {@link ParserDescriptor} with the specified ID.
      *
      * @param id
@@ -187,7 +199,7 @@ public class ParserRegistry {
      *         if no such parser exists
      */
     public ParserDescriptor get(final String id) {
-        if (descriptors.containsKey(id)) {
+        if (contains(id)) {
             return descriptors.get(id);
         }
         throw new NoSuchElementException("No such parser registered: " + id);

@@ -32,6 +32,8 @@ class ParserRegistryTest {
 
         assertThat(parserRegistry).hasIds(SPOTBUGS, CHECKSTYLE, PMD).hasNames("SpotBugs", "CheckStyle", "PMD");
         assertThat(parserRegistry.get(SPOTBUGS)).hasId(SPOTBUGS).hasName("SpotBugs");
+        assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
+        assertThat(parserRegistry.contains("nothing")).isFalse();
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();
         assertThat(descriptors).filteredOn(d-> "spotbugs".equals(d.getId())).hasSize(1);
         descriptors.forEach(d-> assertThat(d.createParser()).isNotNull());
