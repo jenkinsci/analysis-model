@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
 import java.io.Serializable;
-import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,6 +8,7 @@ import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.dry.cpd.CpdParser;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import j2html.tags.UnescapedText;
 
