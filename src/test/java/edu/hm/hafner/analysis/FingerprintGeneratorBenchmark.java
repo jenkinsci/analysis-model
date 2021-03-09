@@ -91,7 +91,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
             IssueBuilder builder = new IssueBuilder();
             builder.setFileName(AFFECTED_FILE_NAME);
             for (int i = 0; i < number; i++) {
-                builder.setLineStart((random.nextInt()) * 26);
+                builder.setLineStart(random.nextInt() * 26);
                 report.add(builder.setPackageName(Integer.toString(i)).build());
             }
             return report;

@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import java.io.Serializable;
+import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -43,10 +44,10 @@ class CpdDescriptor extends ParserDescriptor {
 
     @Override
     public String getDescription(final Issue issue) {
-        return getDuplicateCode(issue, issue.getAdditionalProperties());
+        return getDuplicateCode(issue.getAdditionalProperties());
     }
 
-    static String getDuplicateCode(final Issue issue, final Serializable properties) {
+    static String getDuplicateCode(@CheckForNull final Serializable properties) {
         if (properties instanceof DuplicationGroup) {
             return pre().with(new UnescapedText(getCodeFragment((DuplicationGroup) properties))).renderFormatted();
         }

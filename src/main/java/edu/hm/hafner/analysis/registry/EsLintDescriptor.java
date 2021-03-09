@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.ErrorProneParser;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 
 /**

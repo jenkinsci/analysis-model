@@ -26,6 +26,6 @@ class DupfinderDescriptor extends ParserDescriptor {
 
     @Override
     public String getDescription(final Issue issue) {
-        return getDuplicateCode(issue, issue.getAdditionalProperties());
+        return getDuplicateCode(issue.getAdditionalProperties());
     }
 }

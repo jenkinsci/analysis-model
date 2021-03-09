@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.SecureDigester;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -119,8 +120,11 @@ public final class FindBugsMessages {
      * @author Ullrich Hafner
      */
     public static class Pattern {
+        @CheckForNull
         private String type;
+        @CheckForNull
         private String description;
+        @CheckForNull
         private String shortDescription;
 
         /**
@@ -129,7 +133,7 @@ public final class FindBugsMessages {
          * @return the type
          */
         public String getType() {
-            return type;
+            return StringUtils.defaultString(type);
         }
 
         /**
@@ -138,7 +142,7 @@ public final class FindBugsMessages {
          * @param type
          *         the value to set
          */
-        public void setType(final String type) {
+        public void setType(@CheckForNull final String type) {
             this.type = type;
         }
 
@@ -148,7 +152,7 @@ public final class FindBugsMessages {
          * @return the description
          */
         public String getDescription() {
-            return description;
+            return StringUtils.defaultString(description);
         }
 
         /**
@@ -157,7 +161,7 @@ public final class FindBugsMessages {
          * @param description
          *         the value to set
          */
-        public void setDescription(final String description) {
+        public void setDescription(@CheckForNull final String description) {
             this.description = description;
         }
 
@@ -167,7 +171,7 @@ public final class FindBugsMessages {
          * @return the shortDescription
          */
         public String getShortDescription() {
-            return shortDescription;
+            return StringUtils.defaultString(shortDescription);
         }
 
         /**
@@ -176,7 +180,7 @@ public final class FindBugsMessages {
          * @param shortDescription
          *         the value to set
          */
-        public void setShortDescription(final String shortDescription) {
+        public void setShortDescription(@CheckForNull final String shortDescription) {
             this.shortDescription = shortDescription;
         }
     }

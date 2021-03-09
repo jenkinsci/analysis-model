@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CMakeParser;
-import edu.hm.hafner.analysis.parser.CodeAnalysisParser;
 
 /**
  * A descriptor for CMake.

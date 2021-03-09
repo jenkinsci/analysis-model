@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ClangAnalyzerPlistParser;
-import edu.hm.hafner.analysis.parser.ClangParser;
 
 /**
  * A descriptor for the Clang parser.

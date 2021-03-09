@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.dry.cpd.CpdParser;
 import edu.hm.hafner.analysis.parser.violations.CppCheckAdapter;
 
 /**
