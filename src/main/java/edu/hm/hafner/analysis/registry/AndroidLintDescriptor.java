@@ -20,4 +20,9 @@ class AndroidLintDescriptor extends ParserDescriptor {
     public IssueParser createParser() {
         return new AndroidLintParserAdapter();
     }
+
+    @Override
+    public String getHelp() {
+        return "Use the flag -p.";
+    }
 }

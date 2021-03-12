@@ -20,4 +20,14 @@ class PhpCodeSnifferDescriptor extends ParserDescriptor {
     public IssueParser createParser() {
         return new CheckStyleParser();
     }
+
+    @Override
+    public String getHelp() {
+        return "Use option --report=checkstyle.";
+    }
+
+    @Override
+    public String getUrl() {
+        return "https://github.com/squizlabs/PHP_CodeSniffer";
+    }
 }

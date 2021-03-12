@@ -20,4 +20,14 @@ class KtLintDescriptor extends ParserDescriptor {
     public IssueParser createParser() {
         return new CheckStyleParser();
     }
+
+    @Override
+    public String getHelp() {
+        return "Use option --reporter=checkstyle.";
+    }
+
+    @Override
+    public String getUrl() {
+        return "https://ktlint.github.io";
+    }
 }
