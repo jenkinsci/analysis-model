@@ -564,7 +564,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the Perforce parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllP4Issues() {
-        findIssuesOfTool(4, "p4", "perforce.txt");
+        findIssuesOfTool(4, "perforce", "perforce.txt");
     }
 
     /** Runs the Pep8 parser on an output file: the build should report 8 issues. */
