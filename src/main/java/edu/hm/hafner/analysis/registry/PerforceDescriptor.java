@@ -9,8 +9,8 @@ import edu.hm.hafner.analysis.parser.P4Parser;
  * @author Lorenz Munsch
  */
 class PerforceDescriptor extends ParserDescriptor {
-    private static final String ID = "p4";
-    private static final String NAME = "Perforce";
+    private static final String ID = "perforce";
+    private static final String NAME = "Perforce Compiler";
 
     PerforceDescriptor() {
         super(ID, NAME);
