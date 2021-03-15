@@ -12,7 +12,7 @@ import edu.hm.hafner.util.Deferred;
  *
  * @author Lorenz Munsch
  */
-class FindBugsDescriptor extends ParserDescriptor {
+public class FindBugsDescriptor extends ParserDescriptor {
     private static final String ID = "findbugs";
     private static final String NAME = "FindBugs";
 
