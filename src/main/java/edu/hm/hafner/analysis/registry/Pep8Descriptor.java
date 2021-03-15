@@ -17,7 +17,7 @@ class Pep8Descriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser() {
+    public IssueParser createParser(final Option... options) {
         return new Pep8Parser();
     }
 }

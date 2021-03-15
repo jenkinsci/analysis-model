@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="36" tokens="158">
+<file line="76" path="/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwareMavenReporter.java"/>
+<file line="69" path="/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwarePublisher.java"/>
+<codefragment>
+<![CDATA[
+    public HealthAwarePublisher(final String threshold, final String healthy, final String unHealthy,
+            final String height, final String pluginName) {
+        super();
+        this.threshold = threshold;
+        this.healthy = healthy;
+        this.unHealthy = unHealthy;
+        this.height = height;
+        this.pluginName = "[" + pluginName + "] ";
+
+        if (!StringUtils.isEmpty(healthy) && !StringUtils.isEmpty(unHealthy)) {
+            try {
+                healthyAnnotations = Integer.valueOf(healthy);
+                unHealthyAnnotations = Integer.valueOf(unHealthy);
+                if (healthyAnnotations >= 0 && unHealthyAnnotations > healthyAnnotations) {
+                    healthyReportEnabled = true;
+                }
+            }
+            catch (NumberFormatException exception) {
+                // nothing to do, we use the default value
+            }
+        }
+    }
+
+    @Override
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>

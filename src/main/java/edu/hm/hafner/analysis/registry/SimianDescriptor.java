@@ -1,17 +1,14 @@
 package edu.hm.hafner.analysis.registry;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.dry.simian.SimianParser;
-
-import static edu.hm.hafner.analysis.registry.CpdDescriptor.*;
 
 /**
  * A descriptor for the Simian duplication scanner.
  *
  * @author Lorenz Munsch
  */
-class SimianDescriptor extends ParserDescriptor {
+class SimianDescriptor extends DryDescriptor {
     private static final String ID = "simian";
     private static final String NAME = "Simian";
 
@@ -20,12 +17,7 @@ class SimianDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser() {
-        return new SimianParser();
-    }
-
-    @Override
-    public String getDescription(final Issue issue) {
-        return getDuplicateCode(issue.getAdditionalProperties());
+    public IssueParser createParser(final Option... options) {
+        return new SimianParser(getHighThreshold(options), getNormalThreshold(options));
     }
 }

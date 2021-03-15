@@ -17,7 +17,7 @@ class FoodCriticDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser() {
+    public IssueParser createParser(final Option... options) {
         return new FoodcriticParser();
     }
 

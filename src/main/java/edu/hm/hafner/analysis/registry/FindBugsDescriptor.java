@@ -16,14 +16,27 @@ class FindBugsDescriptor extends ParserDescriptor {
     private static final String ID = "findbugs";
     private static final String NAME = "FindBugs";
 
+    /** Key to define minimum number of duplicate lines for high priority warnings. */
+    public static final String PRIORITY_OPTION_KEY = "SPOT_BUGS_CONFIDENCE";
+
     private final Deferred<FindBugsMessages> messages = new Deferred<>(FindBugsMessages::new);
 
     FindBugsDescriptor() {
         super(ID, NAME);
     }
 
+    FindBugsDescriptor(final String id, final String name) {
+        super(id, name);
+    }
+
     @Override
-    public IssueParser createParser() {
+    public IssueParser createParser(final Option... options) {
+        for (Option option : options) {
+            if (PRIORITY_OPTION_KEY.equals(option.getKey())
+                    && "CONFIDENCE".equals(option.getValue())) {
+                return new FindBugsParser(PriorityProperty.CONFIDENCE);
+            }
+        }
         return new FindBugsParser(PriorityProperty.RANK);
     }
 

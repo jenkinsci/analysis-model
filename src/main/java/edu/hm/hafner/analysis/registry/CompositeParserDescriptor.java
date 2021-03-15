@@ -30,7 +30,7 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public final IssueParser createParser() {
+    public final IssueParser createParser(final Option... options) {
         return new CompositeParser(createParsers());
     }
 

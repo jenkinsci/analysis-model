@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
+
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
@@ -48,9 +50,13 @@ public abstract class ParserDescriptor {
     /**
      * Creates a new {@link IssueParser} instance.
      *
+     * @param options
+     *         options to configure the parser - may customize the new parser instance (if supported by the selected
+     *         tool)
+     *
      * @return the parser
      */
-    public abstract IssueParser createParser();
+    public abstract IssueParser createParser(Option... options);
 
     /**
      * Returns the default filename pattern for this tool. Override if your parser typically works on a specific file.
@@ -121,5 +127,24 @@ public abstract class ParserDescriptor {
      */
     public String getDescription(final Issue issue) {
         return issue.getDescription();
+    }
+
+    /**
+     * A parser configuration option. Basically an immutable key and value pair.
+     */
+    public static class Option extends SimpleImmutableEntry<String, String> {
+        private static final long serialVersionUID = 7376822311558465523L;
+
+        /**
+         * Creates an entry representing a mapping from the specified key to the specified value.
+         *
+         * @param key
+         *         the key represented by this entry
+         * @param value
+         *         the value represented by this entry
+         */
+        public Option(final String key, final String value) {
+            super(key, value);
+        }
     }
 }
