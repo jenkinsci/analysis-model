@@ -8,7 +8,7 @@ import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
 import edu.hm.hafner.util.Deferred;
 
 /**
- * A descriptor for the Find Bugs parser.
+ * A descriptor for the FindBugs parser.
  *
  * @author Lorenz Munsch
  */
@@ -33,7 +33,7 @@ class FindBugsDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         for (Option option : options) {
             if (PRIORITY_OPTION_KEY.equals(option.getKey())
-                    && "CONFIDENCE".equals(option.getValue())) {
+                    && PriorityProperty.CONFIDENCE.name().equals(option.getValue())) {
                 return new FindBugsParser(PriorityProperty.CONFIDENCE);
             }
         }
