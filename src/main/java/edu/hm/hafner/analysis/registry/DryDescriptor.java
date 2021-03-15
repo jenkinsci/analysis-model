@@ -21,7 +21,7 @@ public abstract class DryDescriptor extends ParserDescriptor {
     /** Key to define minimum number of duplicate lines for high priority warnings. */
     public static final String HIGH_OPTION_KEY = "DRY-HIGH-THRESHOLD";
     /** Key to define minimum number of duplicate lines for normal priority warnings. */
-    public static final String NORMAL_OPTION_KEY = "DRY-HIGH-THRESHOLD";
+    public static final String NORMAL_OPTION_KEY = "DRY-NORMAL-THRESHOLD";
 
     DryDescriptor(final String id, final String name) {
         super(id, name);
