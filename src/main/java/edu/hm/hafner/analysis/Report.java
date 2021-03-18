@@ -702,7 +702,15 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     @FormatMethod
     public void logInfo(final String format, final Object... args) {
-        infoMessages.add(String.format(format, args));
+        infoMessages.add(formatIfNeeded(format, args));
+    }
+
+    private String formatIfNeeded(final String format, final Object... args) {
+        String result = format;
+        if (args.length > 0) {
+            result = String.format(format, args);
+        }
+        return result;
     }
 
     /**
@@ -719,7 +727,7 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     @FormatMethod
     public void logError(final String format, final Object... args) {
-        errorMessages.add(String.format(format, args));
+        errorMessages.add(formatIfNeeded(format, args));
     }
 
     /**

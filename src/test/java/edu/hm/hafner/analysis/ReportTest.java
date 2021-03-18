@@ -828,6 +828,14 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(other).hasDuplicatesSize(6);
     }
 
+    @Test
+    void shouldNotThrowOnLoggingEncodedURLs() {
+        Report report = new Report();
+
+        assertThatCode(() -> report.logInfo("localhost:9090/path%20with%20spaces"))
+                .doesNotThrowAnyException();
+    }
+
     /**
      * Serializes an issues to a file. Use this method in case the issue properties have been changed and the
      * readResolve method has been adapted accordingly so that the old serialization still can be read.
