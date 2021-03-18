@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.util.LookaheadStream;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Parses a report file line by line for issues using a pre-defined regular expression. If the regular expression
@@ -17,8 +16,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 public abstract class RegexpLineParser extends LookaheadParser {
     private static final long serialVersionUID = 434000822024807289L;
-    @CheckForNull
-    private LookaheadStream temporaryLookahead;
 
     private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805
 
@@ -40,8 +37,6 @@ public abstract class RegexpLineParser extends LookaheadParser {
     @Override
     protected final Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) throws ParsingException {
-        temporaryLookahead = lookahead;
-
         return createIssue(matcher, builder);
     }
 
@@ -59,15 +54,4 @@ public abstract class RegexpLineParser extends LookaheadParser {
      *         Signals that during parsing a non recoverable error has been occurred
      */
     protected abstract Optional<Issue> createIssue(Matcher matcher, IssueBuilder builder);
-
-    /**
-     * Returns the number of the current line in the parsed file.
-     *
-     * @return the current line
-     * @deprecated use {@link LookaheadParser} as base class to obtain the current line
-     */
-    @Deprecated
-    protected int getCurrentLine() {
-        return temporaryLookahead == null ? 0 : temporaryLookahead.getLine();
-    }
 }
