@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
-
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -10,10 +8,10 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
- * Tests the class {@link SphinxBuildLinkcheckParser}.
+ * Tests the class {@link SphinxBuildLinkCheckParser}.
  */
-class SphinxBuildLinkcheckParserTest extends AbstractParserTest {
-    SphinxBuildLinkcheckParserTest() {
+class SphinxBuildLinkCheckParserTest extends AbstractParserTest {
+    SphinxBuildLinkCheckParserTest() {
         super("sphinxbuildlinkcheck.txt");
     }
 
@@ -72,8 +70,8 @@ class SphinxBuildLinkcheckParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected SphinxBuildLinkcheckParser createParser() {
-        return new SphinxBuildLinkcheckParser();
+    protected SphinxBuildLinkCheckParser createParser() {
+        return new SphinxBuildLinkCheckParser();
     }
 }
 

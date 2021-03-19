@@ -705,10 +705,10 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(2 + 5, "scala", "scalac.txt", "sbtScalac.txt");
     }
 
-    /** Runs the Sphinx build parser on an output file: the build should report 6 issues. */
+    /** Runs the Sphinx build parser on 2 output files: the build should report 7 + 6 issues. */
     @Test
     void shouldFindAllSphinxIssues() {
-        findIssuesOfTool(7, "sphinx", "sphinxbuild.txt");
+        findIssuesOfTool(7 + 6, "sphinx", "sphinxbuild.txt", "sphinxbuildlinkcheck.txt");
     }
 
     /** Runs the Idea Inspection parser on an output file that contains 1 issues. */

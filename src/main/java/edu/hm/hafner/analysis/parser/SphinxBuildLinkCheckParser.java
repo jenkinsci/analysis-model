@@ -5,8 +5,9 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
@@ -15,20 +16,21 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Davide Mancusi
  */
-public class SphinxBuildLinkcheckParser extends RegexpLineParser {
+public class SphinxBuildLinkCheckParser extends LookaheadParser {
     private static final long serialVersionUID = 1L;
 
-    private static final String SPHINX_BUILD_LINKCHECK_WARNING_PATTERN = "^(.*):(\\d+|None|): \\[(.*?)\\] (.*)";
+    private static final String SPHINX_BUILD_LINK_CHECK_WARNING_PATTERN = "^(.*):(\\d+|None|): \\[(.*?)\\] (.*)";
 
     /**
-     * Creates a new instance of {@link SphinxBuildLinkcheckParser}.
+     * Creates a new instance of {@link SphinxBuildLinkCheckParser}.
      */
-    public SphinxBuildLinkcheckParser() {
-        super(SPHINX_BUILD_LINKCHECK_WARNING_PATTERN);
+    public SphinxBuildLinkCheckParser() {
+        super(SPHINX_BUILD_LINK_CHECK_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
 

@@ -1,0 +1,6 @@
+modules/javert/mpl.rst:451: [broken] https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure: Anchor 'matplotlib.figure.Figure' not found
+modules/javert/mpl.rst:451: [broken] https://matplotlib.org/api/_as_gen/matplotlib.pyplot.errorbar.html#matplotlib.pyplot.errorbar: Ancre 'matplotlib.pyplot.errorbar' non trouvée
+devs/documentation.rst:9: [redirected with Found] https://www.sphinx-doc.org/en/stable/ to https://www.sphinx-doc.org/en/master/
+modules/eponine/tripoli4/common.rst:52: [redirected permanently] https://docs.scipy.org/doc/numpy/user/basics.rec.html to https://numpy.org/doc/stable/user/basics.rec.html
+modules/eponine/tripoli4/common.rst:221: [redirected with See Other] https://docs.scipy.org/doc/numpy/user/basics.rec.html to https://numpy.org/doc/stable/user/basics.rec.html
+modules/eponine/tripoli4/common.rst:224: [redirected temporarily] https://docs.scipy.org/doc/numpy/user/basics.rec.html to https://numpy.org/doc/stable/user/basics.rec.html
