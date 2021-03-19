@@ -3,17 +3,19 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static edu.hm.hafner.analysis.Categories.guessCategory;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.util.LookaheadStream;
+
+import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for the golint tool in the Go toolchain.
  *
  * @author Ryan Cox
  */
-public class GoLintParser extends RegexpLineParser {
+public class GoLintParser extends LookaheadParser {
     private static final long serialVersionUID = -5895416507693444713L;
 
     // conn.go:360:3: should replace c.writeSeq += 1 with c.writeSeq++
@@ -27,7 +29,8 @@ public class GoLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategory(message);
 

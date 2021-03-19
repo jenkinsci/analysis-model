@@ -8,15 +8,16 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the gcc compiler warnings.
  *
  * @author Greg Roth
  */
-public class GccParser extends RegexpLineParser {
+public class GccParser extends LookaheadParser {
     private static final long serialVersionUID = 2020182274225690532L;
 
     static final String GCC_ERROR = "GCC error";
@@ -33,7 +34,8 @@ public class GccParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
             return builder.setFileName(matcher.group(8))
                     .setLineStart(0)

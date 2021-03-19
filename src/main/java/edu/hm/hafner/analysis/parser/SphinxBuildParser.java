@@ -5,8 +5,9 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
@@ -15,7 +16,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Robert Williams
  */
-public class SphinxBuildParser extends RegexpLineParser {
+public class SphinxBuildParser extends LookaheadParser {
     private static final long serialVersionUID = 1483050615340274588L;
 
     private static final String SPHINX_BUILD_WARNING_PATTERN = "^([a-zA-Z]:\\\\.*?|/.*?|[^\\/].*?):(?:.* of .*:)?(\\d+|None|): (ERROR|WARNING): (.*)";
@@ -28,7 +29,8 @@ public class SphinxBuildParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String message = matcher.group(4);
         String category = guessCategoryIfEmpty(matcher.group(3), message);
 

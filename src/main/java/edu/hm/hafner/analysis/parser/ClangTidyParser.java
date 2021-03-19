@@ -7,15 +7,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the clang-tidy static analysis warnings.
  *
  * @author Ryan Schaefer
  */
-public class ClangTidyParser extends RegexpLineParser {
+public class ClangTidyParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283182L;
     private static final String CLANG_TIDY_WARNING_PATTERN =
             "([^\\s]+):(\\d+):(\\d+): (warning|error): (.*?) \\[([^\\s]*?)\\]$";
@@ -28,7 +29,8 @@ public class ClangTidyParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         Severity priority;
         if (matcher.group(4).contains("error")) {
             priority = Severity.WARNING_HIGH;

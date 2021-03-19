@@ -5,7 +5,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for Microsoft PREfast (aka Code Analysis for C/C++) XML files.
@@ -13,7 +14,7 @@ import edu.hm.hafner.analysis.RegexpLineParser;
  * @author Charles Chan
  * @see <a href="http://msdn.microsoft.com/en-us/library/ms173498.aspx" ></a>
  */
-public class PreFastParser extends RegexpLineParser {
+public class PreFastParser extends LookaheadParser {
     private static final long serialVersionUID = 1409381677034028504L;
 
     /*
@@ -66,7 +67,8 @@ public class PreFastParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(3))

@@ -7,15 +7,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for gcc 4.x linker warnings.
  *
  * @author Frederic Chateau
  */
-public class Gcc4LinkerParser extends RegexpLineParser {
+public class Gcc4LinkerParser extends LookaheadParser {
     private static final long serialVersionUID = -2792019431810134790L;
 
     /** A GCC error. */
@@ -32,7 +33,8 @@ public class Gcc4LinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         Severity priority;
 
         String message;
