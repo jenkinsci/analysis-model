@@ -74,7 +74,7 @@
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>1.7.30</slf4j.version>
     <violations-lib.version>1.142</violations-lib.version>
-    <json.version>20201115</json.version>
+    <json.version>20210307</json.version>
     <json-smart.version>2.3</json-smart.version>
     <pmd.version>6.31.0</pmd.version>
     <spotbugs.version>4.2.1</spotbugs.version>
