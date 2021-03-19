@@ -28,6 +28,8 @@ public abstract class LookaheadParser extends IssueParser {
     private static final String CMAKE_PREFIX = "-- Build files have";
     private static final Pattern CMAKE_PATH = Pattern.compile(CMAKE_PREFIX + " been written to: (?<dir>.*)");
 
+    private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805
+
     private final Pattern pattern;
 
     /**
@@ -113,7 +115,7 @@ public abstract class LookaheadParser extends IssueParser {
      *         line does not contain a warning.
      */
     protected boolean isLineInteresting(final String line) {
-        return true;
+        return line.length() < MAX_LINE_LENGTH; // skip long lines, see JENKINS-55805
     }
 
     /**

@@ -1,0 +1,30 @@
+package edu.hm.hafner.analysis.registry;
+
+/**
+ * A descriptor for SpotBugs.
+ *
+ * @author Lorenz Munsch
+ */
+class SpotBugsDescriptor extends FindBugsDescriptor {
+    private static final String ID = "spotbugs";
+    private static final String NAME = "SpotBugs";
+
+    SpotBugsDescriptor() {
+        super(ID, NAME);
+    }
+
+    @Override
+    public String getPattern() {
+        return "**/spotbugsXml.xml";
+    }
+
+    @Override
+    public String getUrl() {
+        return "https://spotbugs.github.io";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/spotbugs/spotbugs.github.io/blob/master/images/logos/spotbugs_icon_only_zoom_256px.png";
+    }
+}

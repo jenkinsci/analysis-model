@@ -5,8 +5,9 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the IAR C/C++ compiler warnings. Note, that since release 4.1 this parser requires that IAR compilers
@@ -16,7 +17,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Ullrich Hafner
  * @author Jon Ware
  */
-public class IarParser extends RegexpLineParser {
+public class IarParser extends LookaheadParser {
     private static final long serialVersionUID = 7695540852439013425L;
 
     static final String IAR_WARNING_PATTERN = ANT_TASK
@@ -35,7 +36,8 @@ public class IarParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setSeverity(mapPriority(matcher))
                 .setMessage(normalizeWhitespaceInMessage(matcher.group(5)))
                 .setFileName(matcher.group(1))

@@ -7,8 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
@@ -17,7 +18,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Ullrich Hafner
  */
-public class AntJavacParser extends RegexpLineParser {
+public class AntJavacParser extends LookaheadParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*"
@@ -43,7 +44,8 @@ public class AntJavacParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         builder.setSeverity(mapSeverity(matcher.group(3)));
         if (StringUtils.isNotBlank(matcher.group(8))) {
             return builder.setFileName(matcher.group(8))

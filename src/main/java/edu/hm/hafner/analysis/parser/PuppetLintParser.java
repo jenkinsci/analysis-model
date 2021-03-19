@@ -8,15 +8,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for puppet-lint checks warnings.
  *
  * @author Jan Vansteenkiste
  */
-public class PuppetLintParser extends RegexpLineParser {
+public class PuppetLintParser extends LookaheadParser {
     private static final long serialVersionUID = 7492869677427430346L;
 
     private static final String SEPARATOR = "::";
@@ -33,7 +34,8 @@ public class PuppetLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(3))

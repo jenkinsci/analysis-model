@@ -36,7 +36,7 @@ class JSLintParserTest extends AbstractParserTest {
 
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(JSLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
+                    .hasCategory(LintParser.JSLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
                     .hasLineStart(3)
                     .hasLineEnd(3)
                     .hasMessage("'window' is not defined.")
@@ -44,7 +44,6 @@ class JSLintParserTest extends AbstractParserTest {
                     .hasColumnStart(5);
 
         }
-
     }
 
     /**
@@ -77,13 +76,12 @@ class JSLintParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasCategory(JSLintXmlSaxParser.CATEGORY_PARSING)
+                .hasCategory(LintParser.JSLintXmlSaxParser.CATEGORY_PARSING)
                 .hasLineStart(10)
                 .hasLineEnd(10)
                 .hasMessage("Expected 'Version' to have an indentation at 5 instead at 3.")
                 .hasFileName(EXPECTED_FILE_NAME)
                 .hasColumnStart(3);
-
     }
 
     @Override

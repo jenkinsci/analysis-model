@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations>
+  <mutation detected='true' status='KILLED' numberOfTestsRun='1'>
+    <sourceFile>Issues.java</sourceFile>
+    <mutatedClass>edu.hm.hafner.analysis.Report</mutatedClass>
+    <mutatedMethod>&#60;init&#62;</mutatedMethod>
+    <methodDescription>(Ljava/util/Collection;)V</methodDescription>
+    <lineNumber>98</lineNumber>
+    <mutator>org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator</mutator>
+    <index>61</index>
+    <block>4</block>
+    <killingTest>edu.hm.hafner.analysis.IssuesTest.shouldGroupIssuesByProperty()</killingTest>
+    <description>removed call to edu/hm/hafner/analysis/Issues::add</description>
+  </mutation>
+  <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
+    <sourceFile>Issues.java</sourceFile>
+    <mutatedClass>edu.hm.hafner.analysis.Report</mutatedClass>
+    <mutatedMethod>&#60;init&#62;</mutatedMethod>
+    <methodDescription>(Ljava/util/stream/Stream;)V</methodDescription>
+    <lineNumber>110</lineNumber>
+    <mutator>org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator</mutator>
+    <index>48</index>
+    <block>6</block>
+    <killingTest/>
+    <description>removed call to java/util/stream/Stream::forEach</description>
+  </mutation>
+  <mutation detected='false' status='SURVIVED' numberOfTestsRun='29'>
+    <sourceFile>Issues.java</sourceFile>
+    <mutatedClass>edu.hm.hafner.analysis.Report</mutatedClass>
+    <mutatedMethod>copyProperties</mutatedMethod>
+    <methodDescription>(Ledu/hm/hafner/analysis/Issues;Ledu/hm/hafner/analysis/Issues;)V</methodDescription>
+    <lineNumber>503</lineNumber>
+    <mutator>org.pitest.mutationtest.engine.gregor.mutators.MathMutator</mutator>
+    <index>8</index>
+    <block>67</block>
+    <killingTest/>
+    <description>Replaced integer addition with subtraction</description>
+  </mutation>
+</mutations>

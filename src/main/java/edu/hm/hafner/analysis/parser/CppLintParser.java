@@ -5,16 +5,18 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import static edu.hm.hafner.util.IntegerParser.parseInt;
+import edu.hm.hafner.util.LookaheadStream;
+
+import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
  * A parser for C++ Lint compiler warnings.
  *
  * @author Ullrich Hafner
  */
-public class CppLintParser extends RegexpLineParser {
+public class CppLintParser extends LookaheadParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String PATTERN = "^\\s*(.*)\\s*[(:](\\d+)\\)?:\\s*(.*)\\s*\\[(.*)\\] \\[(.*)\\]$";
@@ -29,7 +31,8 @@ public class CppLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         Severity priority = mapPriority(matcher.group(5));
 
         return builder.setFileName(matcher.group(1))

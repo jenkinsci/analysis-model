@@ -5,16 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
-
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the scalac compiler warnings. You should use -feature and -deprecation compiler opts.
  *
  * @author Alexey Kislin
  */
-public class ScalacParser extends RegexpLineParser {
+public class ScalacParser extends LookaheadParser {
     private static final long serialVersionUID = -4034552404001800574L;
 
     private static final String SCALAC_WARNING_PATTERN = "^(\\[WARNING\\]|\\[ERROR\\])\\s*(.*):(\\d+):\\s*([a-z]*)"
@@ -28,7 +28,8 @@ public class ScalacParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setFileName(matcher.group(2))
                 .setLineStart(matcher.group(3))
                 .setCategory(matcher.group(4))
