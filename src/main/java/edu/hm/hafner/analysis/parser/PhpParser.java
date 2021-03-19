@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for PHP runtime errors and warnings.
  *
  * @author Shimi Kiviti
  */
-public class PhpParser extends RegexpLineParser {
+public class PhpParser extends LookaheadParser {
     private static final long serialVersionUID = -5154327854315791181L;
 
     private static final String PHP_WARNING_PATTERN = "^.*(PHP Warning|PHP Notice|PHP Fatal error|PHP Parse error)"
@@ -32,7 +33,8 @@ public class PhpParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String category = matcher.group(1);
         builder.setCategory(category).setSeverity(mapPriority(category));
 

@@ -6,15 +6,11 @@ import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.binder.DigesterLoader;
 import org.xml.sax.XMLReader;
 
-import com.tngtech.archunit.base.DescribedPredicate;
-import com.tngtech.archunit.core.domain.JavaCall;
-import com.tngtech.archunit.core.domain.properties.CanBeAnnotated;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 import edu.hm.hafner.util.ArchitectureRules;
-import edu.hm.hafner.util.VisibleForTesting;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 
@@ -24,7 +20,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("hideutilityclassconstructor")
-@AnalyzeClasses(packages = "edu.hm.hafner..")
+@AnalyzeClasses(packages = "edu.hm.hafner")
 class ArchitectureTest {
     /** Digester must not be used directly, rather use a SecureDigester instance. */
     @ArchTest
@@ -37,6 +33,12 @@ class ArchitectureTest {
 
     @ArchTest
     static final ArchRule NO_PUBLIC_TEST_CLASSES = ArchitectureRules.NO_PUBLIC_TEST_CLASSES;
+
+    @ArchTest
+    static final ArchRule NO_PUBLIC_TEST_METHODS = ArchitectureRules.NO_PUBLIC_TEST_METHODS;
+
+    @ArchTest
+    static final ArchRule NO_PUBLIC_ARCHITECTURE_TESTS = ArchitectureRules.NO_PUBLIC_ARCHITECTURE_TESTS;
 
     @ArchTest
     static final ArchRule NO_TEST_API_CALLED = ArchitectureRules.NO_TEST_API_CALLED;
@@ -52,29 +54,4 @@ class ArchitectureTest {
 
     @ArchTest
     static final ArchRule READ_RESOLVE_SHOULD_BE_PROTECTED = ArchitectureRules.READ_RESOLVE_SHOULD_BE_PROTECTED;
-
-    /**
-     * Matches if a call from outside the defining class uses a method or constructor annotated with {@link
-     * VisibleForTesting}. There are two exceptions:
-     * <ul>
-     * <li>The method is called on the same class</li>
-     * <li>The method is called in a method also annotated with {@link VisibleForTesting}</li>
-     * </ul>
-     */
-    private static class AccessRestrictedToTests extends DescribedPredicate<JavaCall<?>> {
-        AccessRestrictedToTests() {
-            super("access is restricted to tests");
-        }
-
-        @Override
-        public boolean apply(final JavaCall<?> input) {
-            return isVisibleForTesting(input.getTarget())
-                    && !input.getOriginOwner().equals(input.getTargetOwner())
-                    && !isVisibleForTesting(input.getOrigin());
-        }
-
-        private boolean isVisibleForTesting(final CanBeAnnotated target) {
-            return target.isAnnotatedWith(VisibleForTesting.class);
-        }
-    }
 }

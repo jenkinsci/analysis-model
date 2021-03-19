@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the erlc compiler warnings.
  *
  * @author Stefan Brausch
  */
-public class ErlcParser extends RegexpLineParser {
+public class ErlcParser extends LookaheadParser {
     private static final long serialVersionUID = 8986478184830773892L;
 
     private static final String ERLC_WARNING_PATTERN = "^(.+\\.(?:erl|yrl|mib|bin|rel|asn1|idl)):(\\d*): ([wW]arning:"
@@ -27,7 +28,8 @@ public class ErlcParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         Severity priority;
         String category;
         String categoryMatch = matcher.group(3);

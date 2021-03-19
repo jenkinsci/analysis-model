@@ -7,15 +7,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the CodeAnalysis compiler warnings.
  *
  * @author Rafal Jasica
  */
-public class CodeAnalysisParser extends RegexpLineParser {
+public class CodeAnalysisParser extends LookaheadParser {
     private static final long serialVersionUID = -125874563249851L;
 
     private static final String WARNING_PATTERN = ANT_TASK + "((MSBUILD)|((.+)\\((\\d+)\\)))"
@@ -31,7 +32,8 @@ public class CodeAnalysisParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return builder.setFileName(matcher.group(11))
                     .setLineStart(0)

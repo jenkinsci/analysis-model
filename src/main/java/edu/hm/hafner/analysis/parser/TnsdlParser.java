@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the tnsdl translator warnings.
  *
  * @author Shaohua Wen
  */
-public class TnsdlParser extends RegexpLineParser {
+public class TnsdlParser extends LookaheadParser {
     private static final long serialVersionUID = -7740789998865369930L;
 
     private static final String TNSDL_WARNING_PATTERN = "^tnsdl((.*)?):\\(.*\\) (.*) \\((.*)\\):(.*)$";
@@ -31,7 +32,8 @@ public class TnsdlParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setFileName(matcher.group(3))
                 .setLineStart(matcher.group(4))
                 .setMessage(matcher.group(5))

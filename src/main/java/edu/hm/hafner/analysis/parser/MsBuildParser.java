@@ -8,15 +8,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the MSBuild/PcLint compiler warnings.
  *
  * @author Ullrich Hafner
  */
-public class MsBuildParser extends RegexpLineParser {
+public class MsBuildParser extends LookaheadParser {
     private static final long serialVersionUID = -2141974437420906595L;
 
     private static final String MS_BUILD_WARNING_PATTERN
@@ -34,7 +35,8 @@ public class MsBuildParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         builder.setFileName(determineFileName(matcher));
 
         if (StringUtils.isNotBlank(matcher.group(2))) {

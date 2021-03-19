@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for TASKING VX compiler warnings.
  *
  * @author Sven Lübke
  */
-public class TaskingVxCompilerParser extends RegexpLineParser {
+public class TaskingVxCompilerParser extends LookaheadParser {
     private static final long serialVersionUID = -5225265084645449716L;
 
     /** Pattern of TASKING VX compiler warnings. */
@@ -28,7 +29,8 @@ public class TaskingVxCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String type = matcher.group(1);
         Severity priority;
         String category;

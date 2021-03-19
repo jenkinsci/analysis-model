@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for Robocopy.
  *
  * @author Adrian Deccico
  */
-public class RobocopyParser extends RegexpLineParser {
+public class RobocopyParser extends LookaheadParser {
     private static final long serialVersionUID = -671744745118772873L;
 
     private static final String ROBOCOPY_WARNING_PATTERN = "^(.*)(EXTRA File|New File|same)\\s*(\\d*)\\s*(.*)$";
@@ -26,7 +27,8 @@ public class RobocopyParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String file = matcher.group(4).split("\\s{11}", -1)[0];
         return builder.setFileName(file)
                 .setLineStart(0)

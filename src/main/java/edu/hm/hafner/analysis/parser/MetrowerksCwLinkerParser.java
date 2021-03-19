@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for Metrowerks Codewarrior 4.x linker warnings.
  *
  * @author Sven Lübke
  */
-public class MetrowerksCwLinkerParser extends RegexpLineParser {
+public class MetrowerksCwLinkerParser extends LookaheadParser {
     private static final long serialVersionUID = 5993528761040876178L;
 
     /** Pattern of MW CodeWarrior linker warnings. */
@@ -27,7 +28,8 @@ public class MetrowerksCwLinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String message = matcher.group(2);
         String messageCategory = matcher.group(1);
 

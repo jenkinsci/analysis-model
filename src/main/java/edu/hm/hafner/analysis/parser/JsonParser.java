@@ -10,12 +10,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 
 /**
- * Parser report in JSON format as exported by the "Jenkins Warnings Next Generation Plugin".
+ * Parser that reads the 1:1 JSON mapping of the properties of the {@link Issue} bean.
  *
  * @author Jeremie Bresson
  */

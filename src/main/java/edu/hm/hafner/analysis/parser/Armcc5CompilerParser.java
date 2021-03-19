@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for armcc5 compiler warnings.
  *
  * @author Dmytro Kutianskyi
  */
-public class Armcc5CompilerParser extends RegexpLineParser {
+public class Armcc5CompilerParser extends LookaheadParser {
     private static final long serialVersionUID = -2677728927938443701L;
 
     private static final String ARMCC5_WARNING_PATTERN = "^(.+)\\((\\d+)\\): (warning|error):  #(.+): (.+)$";
@@ -31,7 +32,8 @@ public class Armcc5CompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String type = matcher.group(3);
         Severity priority;
 

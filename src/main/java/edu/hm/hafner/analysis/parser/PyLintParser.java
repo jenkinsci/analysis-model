@@ -7,15 +7,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the PyLint compiler warnings.
  *
  * @author Björn Pedersen
  */
-public class PyLintParser extends RegexpLineParser {
+public class PyLintParser extends LookaheadParser {
     private static final long serialVersionUID = 4464053085862883240L;
 
     // the default pattern matches "--output-format=parseable" output.
@@ -37,7 +38,8 @@ public class PyLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String category = matcher.group("category");
         builder.setSeverity(mapPriority(category));
         builder.setCategory(mapCategory(category));

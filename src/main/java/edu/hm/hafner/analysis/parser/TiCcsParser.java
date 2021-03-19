@@ -7,15 +7,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the Texas Instruments Code Composer Studio compiler warnings.
  *
  * @author Jan Linnenkohl
  */
-public class TiCcsParser extends RegexpLineParser {
+public class TiCcsParser extends LookaheadParser {
     private static final long serialVersionUID = -8253481365175984661L;
 
     private static final String TI_CCS_WARNING_PATTERN = "^((\"(.*)\",\\s*)(line\\s*(\\d+)(\\s*\\(.*\\))?:)?\\s*)?"
@@ -29,7 +30,8 @@ public class TiCcsParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String lineNumber = matcher.group(5);
         if (StringUtils.isBlank(lineNumber)) {
             lineNumber = matcher.group(10);

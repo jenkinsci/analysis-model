@@ -7,15 +7,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for messages from the Intel C and Fortran compilers.
  *
  * @author Vangelis Livadiotis
  */
-public class IntelParser extends RegexpLineParser {
+public class IntelParser extends LookaheadParser {
     private static final long serialVersionUID = 8409744276858003050L;
     private static final String INTEL_PATTERN = "^(\\d+>)?(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*("
             + "(?:message|remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";
@@ -33,7 +34,8 @@ public class IntelParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String category = StringUtils.capitalize(matcher.group(5));
 
         Severity priority;

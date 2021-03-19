@@ -6,15 +6,16 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the Clang compiler warnings.
  *
  * @author Neil Davis
  */
-public class ClangParser extends RegexpLineParser {
+public class ClangParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283182L;
 
     private static final String CLANG_WARNING_PATTERN = "^\\s*(?:\\d+%)?([^%]*?):(\\d+):(?:(\\d+):)?" + "(?:"
@@ -29,7 +30,8 @@ public class ClangParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String message = matcher.group(5);
         if (IGNORE_FORMAT.matcher(message).matches()) {
             return Optional.empty();

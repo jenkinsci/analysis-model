@@ -5,8 +5,9 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.util.IntegerParser.*;
 
@@ -15,7 +16,7 @@ import static edu.hm.hafner.util.IntegerParser.*;
  *
  * @author Emanuele Zattin
  */
-public class ArmccCompilerParser extends RegexpLineParser {
+public class ArmccCompilerParser extends LookaheadParser {
     private static final long serialVersionUID = -2677728927938443703L;
 
     private static final String ARMCC_WARNING_PATTERN = "^\"(.+)\", line (\\d+): ([A-Z][a-z]+):\\D*(\\d+)\\D*?:\\s+(.+)$";
@@ -28,7 +29,8 @@ public class ArmccCompilerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String type = matcher.group(3);
         int errorCode = parseInt(matcher.group(4));
         Severity priority;

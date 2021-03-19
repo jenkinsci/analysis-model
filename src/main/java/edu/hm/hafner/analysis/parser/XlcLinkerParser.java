@@ -6,15 +6,16 @@ import java.util.regex.Pattern;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for IBM xlC linker warnings.
  *
  * @author Andrew Gvozdev
  */
-public class XlcLinkerParser extends RegexpLineParser {
+public class XlcLinkerParser extends LookaheadParser {
     private static final long serialVersionUID = 211259620936831096L;
     private static final String XLC_LINKER_WARNING_PATTERN = ANT_TASK + "ld: ([0-9]+-[0-9]+)*\\s*(.*)$";
 
@@ -37,7 +38,8 @@ public class XlcLinkerParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String line = matcher.group(0);
         builder.setFileName("").setLineStart(0);
 
