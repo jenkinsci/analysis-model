@@ -25,7 +25,7 @@ jobs:
       - name: Compile, Test and Analysis
         run: mvn -V -ntp clean verify -Dmaven.test.failure.ignore=true
       - name: Autograding
-        uses: uhafner/autograding-github-action@v1.6.0
+        uses: uhafner/autograding-github-action@v1.7.0
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_SHA: ${{github.event.pull_request.head.sha}}
