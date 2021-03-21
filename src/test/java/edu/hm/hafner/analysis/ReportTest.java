@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -13,14 +15,20 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.collections.impl.block.factory.Predicates;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
+import edu.hm.hafner.analysis.Report.IssuePrinter;
+import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Arrays.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for {@link Report}.
@@ -59,6 +67,12 @@ class ReportTest extends SerializableTest<Report> {
     private static final String NO_NAME = "";
     private static final int VALUE = 1234;
     private static final String KEY = "key";
+
+    @BeforeAll
+    static void beforeAll() {
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
+    }
 
     @Test
     void shouldProvideOriginMappings() {
@@ -284,7 +298,7 @@ class ReportTest extends SerializableTest<Report> {
 
         assertThat(report.getSeverities())
                 .containsExactlyInAnyOrder(Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
-        
+
         report.add(new IssueBuilder().setSeverity(Severity.ERROR).build());
         assertThat(report.getSeverities()).containsExactlyInAnyOrder(
                 Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW, Severity.ERROR);
@@ -424,7 +438,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(inConstructor.getInfoMessages()).containsExactly("1 info", "2 info", "3 info");
         assertThat(inConstructor.getErrorMessages()).containsExactly("1 error", "2 error", "3 error");
     }
-    
+
     @Test
     void shouldBeEmptyWhenCreated() {
         Report report = new Report();
@@ -652,7 +666,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.get(1)).isSameAs(NORMAL_1);
         assertThat(report.get(2)).isSameAs(NORMAL_2);
     }
-    
+
     @Test @SuppressFBWarnings("RV")
     void shouldThrowExceptionOnWrongIndex() {
         Report report = new Report();
@@ -725,7 +739,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
-            final Function<Report, Set<String>> propertyGetter, final String propertyName, 
+            final Function<Report, Set<String>> propertyGetter, final String propertyName,
             final Function<String, Predicate<Issue>> predicate) {
         Report report = new Report();
 
@@ -826,6 +840,43 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report).isNotEqualTo(other); // there should be duplicates
         assertThat(report).hasDuplicatesSize(0);
         assertThat(other).hasDuplicatesSize(6);
+    }
+
+    @Test
+    void shouldPrintAllIssues() {
+        Report report = readCheckStyleReport();
+
+        IssuePrinter printer = mock(IssuePrinter.class);
+        report.print(printer);
+
+        for (Issue issue : report) {
+            verify(printer).print(issue);
+        }
+    }
+
+    @Test
+    void shouldPrintAllIssuesToPrintStream() {
+        Report report = readCheckStyleReport();
+
+        try (PrintStream printStream = mock(PrintStream.class)) {
+            report.print(new StandardOutputPrinter(printStream));
+
+            for (Issue issue : report) {
+                verify(printStream).println(issue.toString());
+            }
+        }
+    }
+
+    private Report readCheckStyleReport() {
+        Report report = new CheckStyleParser().parse(read("parser/checkstyle/all-severities.xml"));
+        report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build());
+        assertThat(report).hasSize(4);
+        assertThat(report.getSeverities()).hasSize(4);
+        return report;
+    }
+
+    private ReaderFactory read(final String fileName) {
+        return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
     }
 
     /**

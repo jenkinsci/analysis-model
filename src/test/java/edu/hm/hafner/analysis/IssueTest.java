@@ -12,6 +12,8 @@ import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
 
@@ -176,7 +178,8 @@ class IssueTest extends SerializableTest<Issue> {
                 .setFileName("../../component/app/_src/file.c")
                 .build();
 
-        assertThat(issue.getAbsolutePath()).isEqualTo("/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
+        assertThat(issue.getAbsolutePath()).isEqualTo(
+                "/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
     }
 
     @Test
@@ -359,6 +362,20 @@ class IssueTest extends SerializableTest<Issue> {
                     .contains(TYPE)
                     .contains(MESSAGE);
         }
+    }
+
+    @Test
+    void shouldObeyEqualsContract() {
+        LineRangeList filled = new LineRangeList(15);
+        filled.add(new LineRange(15));
+
+        EqualsVerifier.simple()
+                .withPrefabValues(TreeString.class,
+                        TREE_STRING_BUILDER.intern("One"),
+                        TREE_STRING_BUILDER.intern("Two"))
+                .withPrefabValues(LineRangeList.class, new LineRangeList(10), filled)
+                .forClass(Issue.class)
+                .withIgnoredFields("id", "reference", "pathName", "fingerprint").verify();
     }
 
     @Override

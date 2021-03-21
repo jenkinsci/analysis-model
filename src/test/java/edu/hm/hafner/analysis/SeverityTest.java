@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
@@ -49,7 +51,7 @@ class SeverityTest {
     }
 
     @Test
-    void shouldReturnLinkToConstants() { 
+    void shouldReturnLinkToConstants() {
         assertThat(Severity.valueOf("error")).isSameAs(Severity.ERROR);
         assertThat(Severity.valueOf("high")).isSameAs(Severity.WARNING_HIGH);
         assertThat(Severity.valueOf("normal")).isSameAs(Severity.WARNING_NORMAL);
@@ -86,5 +88,10 @@ class SeverityTest {
         for (Severity valid : Severity.getPredefinedValues()) {
             assertThat(Severity.valueOf(valid.getName(), Severity.ERROR)).isSameAs(valid);
         }
+    }
+
+    @Test
+    void shouldObeyEqualsContract() {
+        EqualsVerifier.simple().forClass(Severity.class).verify();
     }
 }
