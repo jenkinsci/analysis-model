@@ -13,7 +13,7 @@ import edu.hm.hafner.analysis.parser.GradleErrorProneParser;
  */
 class ErrorProneDescriptor extends CompositeParserDescriptor {
     private static final String ID = "error-prone";
-    private static final String NAME = "ErrorProne";
+    private static final String NAME = "Error Prone";
 
     ErrorProneDescriptor() {
         super(ID, NAME);
