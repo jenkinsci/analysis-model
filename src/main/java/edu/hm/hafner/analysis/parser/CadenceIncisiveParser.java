@@ -12,8 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.util.IntegerParser.*;
 
@@ -22,7 +23,7 @@ import static edu.hm.hafner.util.IntegerParser.*;
  *
  * @author Andrew 'Necromant' Andrianov
  */
-public class CadenceIncisiveParser extends RegexpLineParser {
+public class CadenceIncisiveParser extends LookaheadParser {
     private static final long serialVersionUID = -3251791089328958452L;
 
     private static final String SLASH = "/";
@@ -41,7 +42,8 @@ public class CadenceIncisiveParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String tool;
         String type;
         String category;

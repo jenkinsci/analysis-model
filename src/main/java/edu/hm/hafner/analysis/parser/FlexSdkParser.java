@@ -5,14 +5,15 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for Flex SDK compiler warnings.
  *
  * @author Vivien Tintillier
  */
-public class FlexSdkParser extends RegexpLineParser {
+public class FlexSdkParser extends LookaheadParser {
     private static final long serialVersionUID = -185055018399324311L;
 
     private static final String FLEX_SDK_WARNING_PATTERN = "^\\s*(?:\\[.*\\])?\\s*(.*\\.as|.*\\.mxml)\\((\\d*)\\)"
@@ -31,7 +32,8 @@ public class FlexSdkParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setMessage(matcher.group(3))

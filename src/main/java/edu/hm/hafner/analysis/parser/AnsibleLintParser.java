@@ -5,17 +5,18 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for Ansible Lint warnings.
- * 
+ *
  * The parser expects the Ansible Lint output to be in a "parseable output in the format of pep8".
  * Pass the argument {@code -p} to Ansible Lint to get a compatible output.
  *
  * @author Ce Qi
  */
-public class AnsibleLintParser extends RegexpLineParser {
+public class AnsibleLintParser extends LookaheadParser {
     private static final long serialVersionUID = 8481090596321427484L;
 
     private static final String ANSIBLE_LINT_WARNING_PATTERN = "(.*)\\:([0-9]*)\\:\\s*\\[(.*)\\]\\s(.*)";
@@ -33,7 +34,8 @@ public class AnsibleLintParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(3))

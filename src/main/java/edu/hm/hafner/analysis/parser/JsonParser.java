@@ -10,19 +10,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 
 /**
- * Parser report in JSON format as exported by the "Jenkins Warnings Next Generation Plugin".
+ * Parser that reads the 1:1 JSON mapping of the properties of the {@link Issue} bean.
  *
  * @author Jeremie Bresson
  */
 public class JsonParser extends JsonBaseParser {
     private static final long serialVersionUID = -6494117943149352139L;
     private static final String ISSUES = "issues";
+    private static final boolean SEQUENTIAL = false;
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
@@ -38,7 +40,7 @@ public class JsonParser extends JsonBaseParser {
             Report report = new Report();
             if (jsonReport.has(ISSUES)) {
                 JSONArray issues = jsonReport.getJSONArray(ISSUES);
-                StreamSupport.stream(issues.spliterator(), false)
+                StreamSupport.stream(issues.spliterator(), SEQUENTIAL)
                         .filter(o -> o instanceof JSONObject)
                         .map(o -> convertToIssue((JSONObject) o, builder))
                         .filter(Optional::isPresent)

@@ -5,16 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for PRQA QA-C Sourcecode Analyser warnings.
  *
  * @author Sven Lübke
  */
-public class QacSourceCodeAnalyserParser extends RegexpLineParser {
+public class QacSourceCodeAnalyserParser extends LookaheadParser {
     private static final long serialVersionUID = -8104046102312005968L;
 
     /** Pattern of QA-C Sourcecode Analyser warnings. */
@@ -28,7 +28,8 @@ public class QacSourceCodeAnalyserParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         Severity priority;
         String category;
         if (equalsIgnoreCase(matcher.group(4), "err")) {

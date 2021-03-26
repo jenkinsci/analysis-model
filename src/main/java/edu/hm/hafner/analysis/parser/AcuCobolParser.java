@@ -5,7 +5,8 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
@@ -14,7 +15,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author jerryshea
  */
-public class AcuCobolParser extends RegexpLineParser {
+public class AcuCobolParser extends LookaheadParser {
     private static final long serialVersionUID = -894639209290549425L;
 
     private static final String ACU_COBOL_WARNING_PATTERN = "^\\s*(\\[.*\\])?\\s*?(.*), line ([0-9]*): Warning: (.*)$";
@@ -32,7 +33,8 @@ public class AcuCobolParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setFileName(matcher.group(2))
                 .setLineStart(matcher.group(3))
                 .setCategory(guessCategory(matcher.group(4)))

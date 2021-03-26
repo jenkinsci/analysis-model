@@ -1,0 +1,52 @@
+package edu.hm.hafner.analysis.registry;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.findbugs.FindBugsMessages;
+import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser;
+import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.util.Deferred;
+
+/**
+ * A descriptor for the FindBugs parser.
+ *
+ * @author Lorenz Munsch
+ */
+public class FindBugsDescriptor extends ParserDescriptor {
+    private static final String ID = "findbugs";
+    private static final String NAME = "FindBugs";
+
+    /** Key to define minimum number of duplicate lines for high priority warnings. */
+    public static final String PRIORITY_OPTION_KEY = "SPOT_BUGS_CONFIDENCE";
+
+    private final Deferred<FindBugsMessages> messages = new Deferred<>(FindBugsMessages::new);
+
+    FindBugsDescriptor() {
+        super(ID, NAME);
+    }
+
+    FindBugsDescriptor(final String id, final String name) {
+        super(id, name);
+    }
+
+    @Override
+    public IssueParser createParser(final Option... options) {
+        for (Option option : options) {
+            if (PRIORITY_OPTION_KEY.equals(option.getKey())
+                    && PriorityProperty.CONFIDENCE.name().equals(option.getValue())) {
+                return new FindBugsParser(PriorityProperty.CONFIDENCE);
+            }
+        }
+        return new FindBugsParser(PriorityProperty.RANK);
+    }
+
+    @Override
+    public String getPattern() {
+        return "**/findbugsXml.xml";
+    }
+
+    @Override
+    public String getDescription(final Issue issue) {
+        return messages.get().getMessage(issue.getType());
+    }
+}

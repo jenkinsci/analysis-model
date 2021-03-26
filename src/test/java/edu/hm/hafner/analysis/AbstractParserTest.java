@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.ResourceTest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -158,17 +159,24 @@ public abstract class AbstractParserTest extends ResourceTest {
         return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
     }
 
-    /** A reader factory that provides the String content. */
-    private static class StringReaderFactory extends ReaderFactory {
+    /** A reader factory that provides the String content (UTF_8 encoded). */
+    public static class StringReaderFactory extends ReaderFactory {
         private final String content;
 
-        StringReaderFactory(final String content) {
+        /**
+         * Creates a new {@link ReaderFactory} that reads the specific {@link String} instance.
+         *
+         * @param content
+         *         the content to read
+         */
+        public StringReaderFactory(final String content) {
             super(StandardCharsets.UTF_8);
 
             this.content = content;
         }
 
         @Override
+        @SuppressFBWarnings("NM")
         public String getFileName() {
             return "String";
         }

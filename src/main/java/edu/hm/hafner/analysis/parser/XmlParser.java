@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
@@ -21,7 +22,7 @@ import edu.hm.hafner.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * A general parser for XML-Files.
+ * Parser that reads the 1:1 XML mapping of the properties of the {@link Issue} bean.
  *
  * @author Raphael Furch
  */
@@ -68,13 +69,12 @@ public class XmlParser extends IssuePropertiesParser {
         return readerFactory.getFileName().endsWith(".xml");
     }
 
-    @Override
+    @Override @SuppressFBWarnings("XPATH_INJECTION")
     public Report parse(final ReaderFactory readerFactory) {
         try {
             Document doc = readerFactory.readDocument();
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath path = xPathFactory.newXPath();
-            @SuppressFBWarnings("XPATH_INJECTION")
             NodeList issues = (NodeList) path.evaluate(getXmlIssueRoot(), doc, XPathConstants.NODESET);
 
             IssueBuilder issueBuilder = new IssueBuilder();

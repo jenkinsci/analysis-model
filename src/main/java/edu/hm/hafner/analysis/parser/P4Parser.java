@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for Perforce execution.
  *
  * @author Adrian Deccico
  */
-public class P4Parser extends RegexpLineParser {
+public class P4Parser extends LookaheadParser {
     private static final long serialVersionUID = -8106854254745366432L;
 
     private static final String ALREADY_OPENED = "already opened for edit";
@@ -35,7 +36,8 @@ public class P4Parser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String category = matcher.group(2).trim();
         Severity p = mapPriority(category);
         return builder.setFileName(matcher.group(1).trim()).setLineStart(0).setCategory(category).setMessage(

@@ -255,10 +255,9 @@ public class Issue implements Serializable {
             final TreeString message, final String description,
             @CheckForNull final String origin, @CheckForNull final String reference,
             @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties) {
-        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type, packageName,
-                moduleName,
-                severity, message, description, origin, reference, fingerprint, additionalProperties,
-                UUID.randomUUID());
+        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+                packageName, moduleName, severity, message, description, origin, reference,
+                fingerprint, additionalProperties, UUID.randomUUID());
     }
 
     /**

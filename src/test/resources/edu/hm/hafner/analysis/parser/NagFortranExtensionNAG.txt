@@ -1,0 +1,3 @@
+nagfor file.f90 > not_a_message_line
+Extension(NAG): msgs71.f90, line 8: FORALL statement detected at 42@<end-of-statement>
+[NAG Fortran Compiler - not a message line]

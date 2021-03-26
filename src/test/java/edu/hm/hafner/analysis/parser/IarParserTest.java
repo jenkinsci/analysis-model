@@ -50,7 +50,7 @@ class IarParserTest extends AbstractParserTest {
                 .hasFileName(
                         "D:/continuousIntegration/modifiedcomps/forcedproduct/MHSM-Cascade/Cascade-Config/config/src/RDR_Config.c");
         softly.assertThat(report.get(2))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasCategory("Pe1696")
                 .hasLineStart(17)
                 .hasLineEnd(17)
@@ -64,7 +64,7 @@ class IarParserTest extends AbstractParserTest {
                 .hasMessage("variable \"pgMsgEnv\" was declared but never referenced")
                 .hasFileName("C:/dev/bsc/daqtask.c");
         softly.assertThat(report.get(4))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasCategory("Pe1696")
                 .hasLineStart(0)
                 .hasLineEnd(0)
@@ -127,7 +127,7 @@ class IarParserTest extends AbstractParserTest {
                     .hasMessage("function \"memcpy\" declared implicitly")
                     .hasFileName("external/specific/wiced/WICED/platform/MCU/RTOS_STM32F4xx/platform_dct_external.c");
             softly.assertThat(warnings.get(3))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasCategory("Pe018")
                     .hasLineStart(633)
                     .hasLineEnd(633)

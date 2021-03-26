@@ -2,6 +2,8 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -103,5 +105,10 @@ class LineRangeListTest {
         range.add(new LineRange(4, 5));
         assertThat(range).containsExactly(new LineRange(0, 1), new LineRange(2, 3), new LineRange(4, 5));
         return range;
+    }
+
+    @Test
+    void shouldObeyEqualsContract() {
+        EqualsVerifier.simple().forClass(LineRange.class).verify();
     }
 }

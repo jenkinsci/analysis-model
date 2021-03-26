@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Report;
@@ -64,7 +65,11 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_HIGH);
     }
 
-    /** Verifies that the parser finds multiple locations (line ranges) for a given warning. */
+    /**
+     * Verifies that the parser finds multiple locations (line ranges) for a given warning.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55733">Issue 55733</a>
+     */
     @Test
     void shouldFindMultipleLocations() {
         Report report = parse("issue55733.xml");
@@ -86,7 +91,11 @@ class CppCheckAdapterTest extends AbstractParserTest {
         assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(335)));
     }
 
-    /** Verifies that the parser finds multiple locations (line ranges) for a given warning with the same error ID. */
+    /**
+     * Verifies that the parser finds multiple locations (line ranges) for a given warning with the same error ID.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55733">Issue 55733</a>
+     */
     @Test
     void shouldFindMultipleLocationsWithSameId() {
         Report report = parse("issue55733-multiple-tags-with-same-id.xml");
@@ -106,6 +115,39 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasMessage("Variable 'that' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
         assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(51)));
+    }
+
+    /**
+     * Verifies that the parser finds errors without location.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-64519">Issue 64519</a>
+     */
+    @Test
+    void shouldFindErrorWithoutLocation() {
+        Report report = parse("issue64519.xml");
+
+        assertThat(report).hasSize(1);
+        Issue issue = report.get(0);
+
+        assertThat(issue).hasFileName("-")
+                .hasMessage("Cppcheck cannot find all the include files (use --check-config for details). Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project's include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config.");
+    }
+
+    /**
+     * Verifies that the CppCheck adapter skips duplicate warnings.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-61939">Issue 61939</a>
+     */
+    @Test
+    void shouldSkipDuplicatesJenkins61939() {
+        Report first = parse("cpp-check-1.xml");
+        assertThat(first).hasSize(2);
+        Report second = parse("cpp-check-2.xml");
+        assertThat(second).hasSize(3);
+
+        Report aggregation = new Report();
+        aggregation.addAll(first, second);
+        assertThat(second).hasSize(3);
     }
 
     @Override

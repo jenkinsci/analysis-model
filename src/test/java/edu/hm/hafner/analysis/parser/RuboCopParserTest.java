@@ -22,7 +22,7 @@ class RuboCopParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(2);
+        softly.assertThat(report).hasSize(3);
         softly.assertThat(report.get(0))
                 .hasFileName("config.ru")
                 .hasLineStart(1)
@@ -37,5 +37,12 @@ class RuboCopParserTest extends AbstractParserTest {
                 .hasMessage("Prefer single-quoted strings when you don't need string interpolation or special symbols.")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasColumnStart(7);
+        softly.assertThat(report.get(2))
+                .hasFileName("lib/tasks/generate_version.rake")
+                .hasLineStart(21)
+                .hasCategory("Layout/SpaceBeforeBlockBraces")
+                .hasMessage("Space missing to the left of {.")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasColumnStart(24);
     }
 }

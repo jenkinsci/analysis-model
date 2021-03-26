@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the flawfinder warnings.
  *
  * @author Dom Postorivo
  */
-public class FlawfinderParser extends RegexpLineParser {
+public class FlawfinderParser extends LookaheadParser {
     private static final long serialVersionUID = 8088991846076174837L;
 
     private static final String FLAWFINDER_WARNING_PATTERN =
@@ -30,7 +31,8 @@ public class FlawfinderParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String message = matcher.group("message");
         String category = matcher.group("category");
         int severity = Integer.parseInt(matcher.group("severity"));

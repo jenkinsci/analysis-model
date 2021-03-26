@@ -5,15 +5,16 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the Coolflux DSP Compiler warnings.
  *
  * @author Vangelis Livadiotis
  */
-public class CoolfluxChessccParser extends RegexpLineParser {
+public class CoolfluxChessccParser extends LookaheadParser {
     private static final long serialVersionUID = 4742509996511002391L;
 
     private static final String CHESSCC_PATTERN = "^.*?Warning in \"([^\"]+)\", line (\\d+),.*?:\\s*(.*)$";
@@ -31,7 +32,8 @@ public class CoolfluxChessccParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setMessage(matcher.group(3))

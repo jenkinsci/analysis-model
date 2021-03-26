@@ -1,0 +1,3 @@
+nagfor file.f90 > not_a_message_line
+Extension(F2018): msgs71.f90, line 5: NON_RECURSIVE attribute detected at <end-of-statement>@NON_RECURSIVE
+[NAG Fortran Compiler - not a message line]

@@ -1,19 +1,20 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
-import edu.hm.hafner.analysis.Severity;
-
 import java.util.Optional;
 import java.util.regex.Matcher;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the IAR CSTAT warnings.
  *
  * @author Lorenz Aebi
  */
-public class IarCstatParser extends RegexpLineParser {
+public class IarCstatParser extends LookaheadParser {
     private static final long serialVersionUID = 7695540852439013425L;
 
     private static final String IAR_WARNING_PATTERN = ANT_TASK
@@ -32,7 +33,8 @@ public class IarCstatParser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         return builder.setSeverity(mapSeverity(matcher.group(3)))
                 .setMessage(normalizeWhitespaceInMessage(matcher.group(5)))
                 .setFileName(matcher.group(1))

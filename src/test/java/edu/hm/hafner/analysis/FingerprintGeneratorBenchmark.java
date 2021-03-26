@@ -2,12 +2,15 @@ package edu.hm.hafner.analysis;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * JMH Benchmarking of the {@link FingerprintGenerator}.
@@ -51,9 +54,10 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
         // TODO: Add some meaningful content into the file to fingerprint
         private static final String AFFECTED_FILE_NAME = "fingerprint.txt";
 
-        private Report singleIssueReport;
-        private FullTextFingerprint fingerprint;
-        private Report multipleIssuesReport;
+        private Report singleIssueReport = new Report();
+        private FullTextFingerprint fingerprint = new FullTextFingerprint();
+        private Report multipleIssuesReport = new Report();
+        private Random random;
 
         public Report getSingleIssueReport() {
             return singleIssueReport;
@@ -78,14 +82,16 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
             multipleIssuesReport = createMultipleIssues(10);
 
             fingerprint = new FullTextFingerprint();
+            random = new Random();
         }
 
+        @SuppressFBWarnings("PREDICTABLE_RANDOM")
         private Report createMultipleIssues(final int number) {
             Report report = new Report();
             IssueBuilder builder = new IssueBuilder();
             builder.setFileName(AFFECTED_FILE_NAME);
             for (int i = 0; i < number; i++) {
-                builder.setLineStart((int) (Math.random() * 26));
+                builder.setLineStart(random.nextInt() * 26);
                 report.add(builder.setPackageName(Integer.toString(i)).build());
             }
             return report;

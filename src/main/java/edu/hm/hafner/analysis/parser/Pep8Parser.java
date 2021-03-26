@@ -5,8 +5,9 @@ import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.RegexpLineParser;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
@@ -16,7 +17,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Marvin Schütz
  */
-public class Pep8Parser extends RegexpLineParser {
+public class Pep8Parser extends LookaheadParser {
     private static final long serialVersionUID = -8444940209330966997L;
 
     private static final String PEP8_WARNING_PATTERN = "(.*):(\\d+):(\\d+): (\\D\\d*) (.*)";
@@ -29,7 +30,8 @@ public class Pep8Parser extends RegexpLineParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
         String message = matcher.group(5);
         String category = guessCategoryIfEmpty(matcher.group(4), message);
 
