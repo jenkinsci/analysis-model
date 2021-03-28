@@ -36,7 +36,7 @@ public class ClangAnalyzerPlistParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try {
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
             Document doc = readerFactory.readDocument();
 
             XPathFactory xPathFactory = XPathFactory.newInstance();
@@ -53,15 +53,13 @@ public class ClangAnalyzerPlistParser extends IssueParser {
             XPathExpression diagLocationColPath = compileDiagLocationPath(xPath, "col");
             XPathExpression diagLocationFilePath = compileDiagLocationPath(xPath, "file");
 
-            IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
             List<String> files = getFilesList(doc, filesPath);
 
             NodeList diagnostics = (NodeList) diagnosticsPath.evaluate(doc, XPathConstants.NODESET);
             for (Element diag : XmlElementUtil.nodeListToList(diagnostics)) {
-                issueBuilder
-                        .setFileName(getFileName(files, diag, diagLocationFilePath))
+                issueBuilder.setFileName(getFileName(files, diag, diagLocationFilePath))
                         .guessSeverity("Warning")
                         .setMessage(extractField(diag, diagDescriptionPath))
                         .setLineStart(extractIntField(diag, diagLocationLinePath))
@@ -69,7 +67,7 @@ public class ClangAnalyzerPlistParser extends IssueParser {
                         .setCategory(extractField(diag, diagCategoryPath))
                         .setType(extractField(diag, diagTypePath));
 
-                report.add(issueBuilder.build());
+                report.add(issueBuilder.buildAndClean());
             }
 
             return report;

@@ -84,24 +84,26 @@ public class CcmParser extends IssueParser {
     }
 
     private Report convert(final Ccm collection) {
-        Report report = new Report();
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Report report = new Report();
 
-        for (Metric metric : collection.getMetrics()) {
-            Severity priority = calculateMetricPriority(metric);
+            for (Metric metric : collection.getMetrics()) {
+                Severity priority = calculateMetricPriority(metric);
 
-            String complexity = String.format("%s has a complexity of %d", metric.getUnit(), metric.getComplexity());
+                String complexity = String.format("%s has a complexity of %d", metric.getUnit(),
+                        metric.getComplexity());
 
-            IssueBuilder builder = new IssueBuilder();
-            builder.setSeverity(priority)
-                    .setMessage(complexity)
-                    .setCategory(metric.getClassification())
-                    .setLineStart(metric.getStartLineNumber())
-                    .setLineEnd(metric.getEndLineNumber())
-                    .setFileName(metric.getFile());
-            report.add(builder.build());
+                issueBuilder.setSeverity(priority)
+                        .setMessage(complexity)
+                        .setCategory(metric.getClassification())
+                        .setLineStart(metric.getStartLineNumber())
+                        .setLineEnd(metric.getEndLineNumber())
+                        .setFileName(metric.getFile());
+                report.add(issueBuilder.buildAndClean());
+            }
+
+            return report;
         }
-
-        return report;
     }
 
     private Severity calculateMetricPriority(final Metric metric) {

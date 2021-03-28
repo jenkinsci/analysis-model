@@ -71,9 +71,9 @@ public class CargoCheckParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         Report report = new Report();
 
-        try (Stream<String> lines = readerFactory.readStream()) {
+        try (Stream<String> lines = readerFactory.readStream(); IssueBuilder issueBuilder = new IssueBuilder()) {
             lines.map(line -> (JSONObject) new JSONTokener(line).nextValue())
-                    .map(this::extractIssue)
+                    .map(object -> extractIssue(object, issueBuilder))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .forEach(report::add);
@@ -87,10 +87,12 @@ public class CargoCheckParser extends IssueParser {
      *
      * @param object
      *         A cargo event that may contain a compiler message.
+     * @param issueBuilder
+     *         the issue builder to use
      *
      * @return a built {@link Issue} object if any was present.
      */
-    private Optional<Issue> extractIssue(final JSONObject object) {
+    private Optional<Issue> extractIssue(final JSONObject object, final IssueBuilder issueBuilder) {
         String reason = object.getString(REASON);
 
         if (!ANALYSIS_MESSAGE_REASON.equals(reason)) {
@@ -109,7 +111,7 @@ public class CargoCheckParser extends IssueParser {
         Severity severity = Severity.guessFromString(message.getString(MESSAGE_LEVEL));
 
         return parseDetails(message)
-                .map(details -> new IssueBuilder()
+                .map(details -> issueBuilder
                         .setFileName(details.fileName)
                         .setLineStart(details.lineStart)
                         .setLineEnd(details.lineEnd)
@@ -118,7 +120,7 @@ public class CargoCheckParser extends IssueParser {
                         .setCategory(category)
                         .setMessage(renderedMessage)
                         .setSeverity(severity)
-                        .build());
+                        .buildAndClean());
     }
 
     private Optional<CompilerMessageDetails> parseDetails(final JSONObject message) {

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -231,6 +232,11 @@ public class QtTranslationParser extends IssueParser {
                             .getLineNumber());
             }
             builder.setCategory(translationType);
+        }
+
+        @Override
+        public void endDocument() throws SAXException {
+            builder.close();
         }
     }
 }

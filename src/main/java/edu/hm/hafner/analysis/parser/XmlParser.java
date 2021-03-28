@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.UUID;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -71,19 +70,16 @@ public class XmlParser extends IssuePropertiesParser {
 
     @Override @SuppressFBWarnings("XPATH_INJECTION")
     public Report parse(final ReaderFactory readerFactory) {
-        try {
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
             Document doc = readerFactory.readDocument();
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath path = xPathFactory.newXPath();
             NodeList issues = (NodeList) path.evaluate(getXmlIssueRoot(), doc, XPathConstants.NODESET);
 
-            IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
             for (Element issue : XmlElementUtil.nodeListToList(issues)) {
-                issueBuilder
-                        .setId(uuidTryParse(path.evaluate(ID, issue)))
-                        .setFileName(path.evaluate(FILE_NAME, issue))
+                issueBuilder.setFileName(path.evaluate(FILE_NAME, issue))
                         .setLineStart(path.evaluate(LINE_START, issue))
                         .setLineEnd(path.evaluate(LINE_END, issue))
                         .setColumnStart(path.evaluate(COLUMN_START, issue))
@@ -98,11 +94,10 @@ public class XmlParser extends IssuePropertiesParser {
                         .setPackageName(path.evaluate(PACKAGE_NAME, issue))
                         .setModuleName(path.evaluate(MODULE_NAME, issue))
                         .setOrigin(path.evaluate(ORIGIN, issue))
-                        .setReference(path.evaluate(REFERENCE, issue))
                         .setFingerprint(path.evaluate(FINGERPRINT, issue))
                         .setAdditionalProperties(path.evaluate(ADDITIONAL_PROPERTIES, issue));
 
-                report.add(issueBuilder.build());
+                report.add(issueBuilder.buildAndClean());
             }
             return report;
         }
@@ -146,23 +141,6 @@ public class XmlParser extends IssuePropertiesParser {
             }
         }
         return ranges;
-    }
-
-    /**
-     * Try to parse a string to a uuid.
-     *
-     * @param uuidString
-     *         string to parse.
-     *
-     * @return parsed string or a new uuid.
-     */
-    private UUID uuidTryParse(final String uuidString) {
-        try {
-            return UUID.fromString(uuidString);
-        }
-        catch (IllegalArgumentException ex) {
-            return UUID.randomUUID();
-        }
     }
 }
 

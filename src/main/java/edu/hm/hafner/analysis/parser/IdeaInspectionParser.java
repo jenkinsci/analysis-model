@@ -36,17 +36,19 @@ public class IdeaInspectionParser extends IssueParser {
 
     private Report parseProblems(final List<Element> elements) {
         Report problems = new Report();
-        for (Element element : elements) {
-            String file = getChildValue(element, "file");
-            Optional<Element> problemClass = XmlElementUtil.getFirstChildElementByName(element, "problem_class");
-            if (problemClass.isPresent()) {
-                Element problem = problemClass.get();
-                IssueBuilder builder = new IssueBuilder().setFileName(stripPathPrefix(file))
-                        .setLineStart(Integer.parseInt(getChildValue(element, "line")))
-                        .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
-                        .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
-                        .setSeverity(getPriority(problem.getAttribute("severity")));
-                problems.add(builder.build());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            for (Element element : elements) {
+                String file = getChildValue(element, "file");
+                Optional<Element> problemClass = XmlElementUtil.getFirstChildElementByName(element, "problem_class");
+                if (problemClass.isPresent()) {
+                    Element problem = problemClass.get();
+                    issueBuilder.setFileName(stripPathPrefix(file))
+                            .setLineStart(Integer.parseInt(getChildValue(element, "line")))
+                            .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
+                            .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
+                            .setSeverity(getPriority(problem.getAttribute("severity")));
+                    problems.add(issueBuilder.buildAndClean());
+                }
             }
         }
         return problems;

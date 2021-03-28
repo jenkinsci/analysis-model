@@ -92,35 +92,39 @@ public class PmdParser extends IssueParser {
     }
 
     private Report convertIssues(final Pmd pmdIssues) {
-        Report report = new Report();
-        for (File file : pmdIssues.getFiles()) {
-            for (Violation warning : file.getViolations()) {
-                IssueBuilder builder = new IssueBuilder().setSeverity(mapPriority(warning))
-                        .setMessage(createMessage(warning))
-                        .setCategory(warning.getRuleset())
-                        .setType(warning.getRule())
-                        .setLineStart(warning.getBeginline())
-                        .setLineEnd(warning.getEndline())
-                        .setPackageName(warning.getPackage())
-                        .setFileName(file.getName())
-                        .setColumnStart(warning.getBegincolumn())
-                        .setColumnEnd(warning.getEndcolumn());
-                report.add(builder.build());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Report report = new Report();
+            for (File file : pmdIssues.getFiles()) {
+                for (Violation warning : file.getViolations()) {
+                    issueBuilder.setSeverity(mapPriority(warning))
+                            .setMessage(createMessage(warning))
+                            .setCategory(warning.getRuleset())
+                            .setType(warning.getRule())
+                            .setLineStart(warning.getBeginline())
+                            .setLineEnd(warning.getEndline())
+                            .setPackageName(warning.getPackage())
+                            .setFileName(file.getName())
+                            .setColumnStart(warning.getBegincolumn())
+                            .setColumnEnd(warning.getEndcolumn());
+                    report.add(issueBuilder.buildAndClean());
+                }
             }
+            return report;
         }
-        return report;
     }
 
     private Report convertErrors(final Pmd pmdIssues) {
-        Report report = new Report();
-        for (PmdError error : pmdIssues.getErrors()) {
-            IssueBuilder builder = new IssueBuilder().setSeverity(Severity.ERROR)
-                    .setMessage(error.getMsg())
-                    .setDescription(error.getDescription())
-                    .setFileName(error.getFilename());
-            report.add(builder.build());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Report report = new Report();
+            for (PmdError error : pmdIssues.getErrors()) {
+                issueBuilder.setSeverity(Severity.ERROR)
+                        .setMessage(error.getMsg())
+                        .setDescription(error.getDescription())
+                        .setFileName(error.getFilename());
+                report.add(issueBuilder.buildAndClean());
+            }
+            return report;
         }
-        return report;
     }
 
     private Severity mapPriority(final Violation warning) {

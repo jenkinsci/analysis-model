@@ -135,7 +135,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
                 .setCategory(CATEGORY_SONAR_QUBE)
                 .setMessage(parseMessage(issue))
                 .setSeverity(parsePriority(issue))
-                .build();
+                .buildAndClean();
     }
 
     /**

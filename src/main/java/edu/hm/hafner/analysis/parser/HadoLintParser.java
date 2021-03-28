@@ -17,6 +17,8 @@ import edu.hm.hafner.analysis.Severity;
  * @author Andreas Mandel
  */
 public class HadoLintParser extends JsonIssueParser {
+    private static final long serialVersionUID = 1618503559862246224L;
+
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (Object issue : jsonReport) {
@@ -26,26 +28,26 @@ public class HadoLintParser extends JsonIssueParser {
         }
     }
 
-    Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
+    Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         if (jsonIssue.has("code")) {
-            builder.setCategory(jsonIssue.getString("code"));
+            issueBuilder.setCategory(jsonIssue.getString("code"));
         }
         if (jsonIssue.has("level")) {
-            builder.setSeverity(toSeverity(jsonIssue.getString("level")));
+            issueBuilder.setSeverity(toSeverity(jsonIssue.getString("level")));
         }
         if (jsonIssue.has("line")) {
-            builder.setLineStart(jsonIssue.getInt("line"));
+            issueBuilder.setLineStart(jsonIssue.getInt("line"));
         }
         if (jsonIssue.has("column")) {
-            builder.setColumnStart(jsonIssue.getInt("column"));
+            issueBuilder.setColumnStart(jsonIssue.getInt("column"));
         }
         if (jsonIssue.has("message")) {
-            builder.setMessage(jsonIssue.getString("message"));
+            issueBuilder.setMessage(jsonIssue.getString("message"));
         }
         if (jsonIssue.has("file")) {
-            builder.setFileName(jsonIssue.getString("file"));
+            issueBuilder.setFileName(jsonIssue.getString("file"));
         }
-        return builder.build();
+        return issueBuilder.buildAndClean();
     }
 
     private Severity toSeverity(final String level) {

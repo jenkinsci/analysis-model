@@ -63,26 +63,26 @@ public class CheckStyleParser extends IssueParser {
      * @return a maven module of the annotations API
      */
     private Report convert(final CheckStyle collection) {
-        Report report = new Report();
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Report report = new Report();
 
-        for (File file : collection.getFiles()) {
-            if (isValidWarning(file)) {
-                for (Error error : file.getErrors()) {
-                    IssueBuilder builder = new IssueBuilder();
-
-                    builder.guessSeverity(error.getSeverity());
-                    String source = error.getSource();
-                    builder.setType(getType(source));
-                    builder.setCategory(getCategory(source));
-                    builder.setMessage(error.getMessage());
-                    builder.setLineStart(error.getLine());
-                    builder.setFileName(file.getName());
-                    builder.setColumnStart(error.getColumn());
-                    report.add(builder.build());
+            for (File file : collection.getFiles()) {
+                if (isValidWarning(file)) {
+                    for (Error error : file.getErrors()) {
+                        issueBuilder.guessSeverity(error.getSeverity());
+                        String source = error.getSource();
+                        issueBuilder.setType(getType(source));
+                        issueBuilder.setCategory(getCategory(source));
+                        issueBuilder.setMessage(error.getMessage());
+                        issueBuilder.setLineStart(error.getLine());
+                        issueBuilder.setFileName(file.getName());
+                        issueBuilder.setColumnStart(error.getColumn());
+                        report.add(issueBuilder.buildAndClean());
+                    }
                 }
             }
+            return report;
         }
-        return report;
     }
 
     @CheckForNull

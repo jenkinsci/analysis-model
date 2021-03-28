@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -39,11 +40,13 @@ public class LintParser extends IssueParser {
         static final String CATEGORY_PARSING = "Parsing";
         static final String CATEGORY_UNDEFINED_VARIABLE = "Undefined Variable";
         static final String CATEGORY_FORMATTING = "Formatting";
+        private final IssueBuilder issueBuilder;
 
         JSLintXmlSaxParser(final Report report) {
             super();
 
             this.report = report;
+            issueBuilder = new IssueBuilder();
         }
 
         @Override
@@ -88,14 +91,14 @@ public class LintParser extends IssueParser {
                 category = CATEGORY_FORMATTING;
             }
 
-            IssueBuilder builder = new IssueBuilder().setFileName(fileName)
+            issueBuilder.setFileName(fileName)
                     .setLineStart(attributes.getValue("line"))
                     .setColumnStart(extractFrom(attributes, "column", "char"))
                     .setCategory(category)
                     .setMessage(message)
                     .setSeverity(priority);
 
-            report.add(builder.build());
+            report.add(issueBuilder.buildAndClean());
         }
 
         private String extractFrom(final Attributes atts, final String first, final String second) {
@@ -108,6 +111,11 @@ public class LintParser extends IssueParser {
 
         private boolean isLintDerivate(final String key) {
             return key != null && key.contains("lint");
+        }
+
+        @Override
+        public void endDocument() throws SAXException {
+            issueBuilder.close();
         }
     }
 }

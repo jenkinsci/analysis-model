@@ -52,10 +52,8 @@ public class DockerLintParser extends JsonIssueParser {
         builder.setSeverity(toSeverity(jsonIssue.optString("level")));
         builder.setLineStart(jsonIssue.optInt("line", -1));
         builder.setCategory(jsonIssue.optString("label", null));
-        // Lazy
-        builder.setFileName("Dockerfile");
-        // not reading "lineContent" & "instruction" & "count" & "regex"
-        return builder.build();
+        builder.setFileName("Dockerfile"); // simpler than reading "lineContent" & "instruction" & "count" & "regex"
+        return builder.buildAndClean();
     }
 
     private String collapseReferenceUrl(final Object refUrl) {

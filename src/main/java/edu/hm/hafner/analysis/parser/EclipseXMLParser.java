@@ -21,7 +21,7 @@ import edu.hm.hafner.util.XmlElementUtil;
 
 /**
  * Parser for Eclipse Compiler output in XML format.
- * 
+ *
  * @author Jason Faust
  */
 public class EclipseXMLParser extends IssueParser {
@@ -52,7 +52,7 @@ public class EclipseXMLParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try {
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
             Document doc = readerFactory.readDocument();
 
             XPathFactory xPathFactory = XPathFactory.newInstance();
@@ -61,7 +61,6 @@ public class EclipseXMLParser extends IssueParser {
             XPathExpression fileNamePath = xPath.compile("./@path");
             XPathExpression problemsPath = xPath.compile("problems/problem");
 
-            IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
             NodeList sources = (NodeList)sourcePath.evaluate(doc, XPathConstants.NODESET);
@@ -71,7 +70,6 @@ public class EclipseXMLParser extends IssueParser {
 
                 NodeList problems = (NodeList)problemsPath.evaluate(source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
-
                     issueBuilder.guessSeverity(extractSeverity(problem))
                             .setLineStart(extractLineStart(problem))
                             .setMessage(extractMessage(problem))
@@ -91,7 +89,7 @@ public class EclipseXMLParser extends IssueParser {
 
     /**
      * These categories were taken from the ECJ source code. From January 15th, 2020, Ver. 3.20.
-     * 
+     *
      * @param categoryId
      *     eclipse generated category id.
      * @return decoded category, or empty string.

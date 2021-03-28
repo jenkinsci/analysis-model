@@ -57,17 +57,18 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @return the report
      */
     Report convertToReport(final Set<Violation> violations) {
-        IssueBuilder builder = new IssueBuilder();
-        Report report = new Report();
-        for (Violation violation : violations) {
-            if (isValid(violation)) {
-                report.add(convertToIssue(violation, builder));
-            }
-        }
-        postProcess(report, violations);
-        builder.dedup();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = new Report();
 
-        return report;
+            for (Violation violation : violations) {
+                if (isValid(violation)) {
+                    report.add(convertToIssue(violation, builder));
+                }
+            }
+            postProcess(report, violations);
+
+            return report;
+        }
     }
 
     /**
@@ -109,7 +110,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
         updateIssueBuilder(violation, builder);
         extractAdditionalProperties(builder, violation);
 
-        return builder.build();
+        return builder.buildAndClean();
     }
 
     /**

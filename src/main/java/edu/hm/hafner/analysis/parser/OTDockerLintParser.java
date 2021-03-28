@@ -1,17 +1,9 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Reader;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -23,7 +15,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Abhishek Dubey
  */
-public class OTDockerLintParser extends IssueParser {
+public class OTDockerLintParser extends JsonIssueParser {
     private static final long serialVersionUID = 42L;
 
     @Override
@@ -32,46 +24,37 @@ public class OTDockerLintParser extends IssueParser {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (Reader reader = readerFactory.create()) {
-            JSONArray jsonReport = (JSONArray) new JSONTokener(reader).nextValue();
-
-            Report report = new Report();
-            for (Object issue : jsonReport) {
-                if (issue instanceof JSONObject) {
-                    report.add(convertToIssue((JSONObject) issue));
-                }
+    protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
+        for (Object entry : jsonReport) {
+            if (entry instanceof JSONObject) {
+                parseJsonObject(report, (JSONObject) entry, issueBuilder);
             }
-            return report;
-        }
-        catch (IOException | JSONException | ClassCastException e) {
-            throw new ParsingException(e);
         }
     }
 
-    Issue convertToIssue(final JSONObject jsonIssue) {
-        IssueBuilder builder = new IssueBuilder();
+    @Override
+    protected void parseJsonObject(final Report report, final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         if (jsonIssue.has("code")) {
-            builder.setCategory(jsonIssue.getString("code"));
+            issueBuilder.setCategory(jsonIssue.getString("code"));
         }
         if (jsonIssue.has("severity")) {
-            builder.setSeverity(Severity.guessFromString(jsonIssue.getString("severity")));
+            issueBuilder.setSeverity(Severity.guessFromString(jsonIssue.getString("severity")));
         }
         if (jsonIssue.has("line")) {
-            builder.setLineStart(jsonIssue.getInt("line_number"));
+            issueBuilder.setLineStart(jsonIssue.getInt("line_number"));
         }
         if (jsonIssue.has("line")) {
-            builder.setModuleName(jsonIssue.getString("line"));
+            issueBuilder.setModuleName(jsonIssue.getString("line"));
         }
         if (jsonIssue.has("description")) {
-            builder.setDescription(jsonIssue.getString("description"));
+            issueBuilder.setDescription(jsonIssue.getString("description"));
         }
         if (jsonIssue.has("message")) {
-            builder.setMessage(jsonIssue.getString("message"));
+            issueBuilder.setMessage(jsonIssue.getString("message"));
         }
         if (jsonIssue.has("file")) {
-            builder.setFileName(jsonIssue.getString("file"));
+            issueBuilder.setFileName(jsonIssue.getString("file"));
         }
-        return builder.build();
+        report.add(issueBuilder.buildAndClean());
     }
 }

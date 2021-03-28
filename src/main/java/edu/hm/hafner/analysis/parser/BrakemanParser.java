@@ -20,8 +20,7 @@ public class BrakemanParser extends JsonIssueParser {
     private static final long serialVersionUID = 1374428573878091300L;
 
     @Override
-    protected void parseJsonObject(final Report report, final JSONObject jsonReport,
-            final IssueBuilder issueBuilder) {
+    protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         JSONArray warnings = jsonReport.getJSONArray("warnings");
         for (Object warning : warnings) {
             report.add(convertToIssue((JSONObject) warning, issueBuilder));
@@ -55,7 +54,7 @@ public class BrakemanParser extends JsonIssueParser {
             .setFileName(fileName)
             .setLineStart(line)
             .setFingerprint(fingerprint)
-            .build();
+            .buildAndClean();
     }
 
     private Severity getSeverity(final String confidence) {

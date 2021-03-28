@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Locale;
-import java.io.IOException;
-import java.io.Reader;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -42,12 +38,12 @@ public class ClairParser extends JsonIssueParser {
         appendIfNotEmpty(jsonIssue, message, "description", "");
         appendIfNotEmpty(jsonIssue, message, "fixedby", "Fixed by ");
         appendIfNotEmpty(jsonIssue, message, "link", "see ");
-        return issueBuilder
-                .setMessage(message.toString())
+        return issueBuilder.setMessage(message.toString())
                 .setCategory(optStringIgnoreCase(jsonIssue, "vulnerability"))
                 .setSeverity(toSeverity(optStringIgnoreCase(jsonIssue, "severity")))
                 .setType(optStringIgnoreCase(jsonIssue, "namespace"))
-                .setFileName(image).build();
+                .setFileName(image)
+                .buildAndClean();
     }
 
     private void appendIfNotEmpty(final JSONObject issue, final StringBuilder message, final String key,

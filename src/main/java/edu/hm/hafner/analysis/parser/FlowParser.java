@@ -101,7 +101,7 @@ public class FlowParser extends JsonIssueParser {
                 .setColumnStart(parseLocFromMessage(message, MESSAGE_COLUMN_START))
                 .setColumnEnd(parseLocFromMessage(message, MESSAGE_COLUMN_END))
                 .setMessage(parseMessageFromMessage(message))
-                .build();
+                .buildAndClean();
     }
 
     /**

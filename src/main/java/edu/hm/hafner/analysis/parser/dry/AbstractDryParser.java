@@ -74,13 +74,14 @@ public abstract class AbstractDryParser<T> extends IssueParser {
         List<T> duplications = new ArrayList<>();
         digester.push(duplications);
 
-        try (Reader reader = readerFactory.create()) {
+        try (Reader reader = readerFactory.create(); IssueBuilder issueBuilder = new IssueBuilder()) {
             Object result = digester.parse(reader);
             if (result != duplications) { // NOPMD
                 throw new ParsingException("Input stream is not a valid duplications file.");
             }
 
-            return convertDuplicationsToIssues(duplications, new IssueBuilder().setMessage("Found duplicated code."));
+            issueBuilder.setMessage("Found duplicated code.");
+            return convertDuplicationsToIssues(duplications, issueBuilder);
         }
         catch (IOException | SAXException exception) {
             throw new ParsingException(exception);

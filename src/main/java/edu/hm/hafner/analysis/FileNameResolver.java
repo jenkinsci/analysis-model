@@ -47,12 +47,12 @@ public class FileNameResolver {
                 .filter(entry -> PATH_UTIL.exists(entry.getValue(), sourceDirectoryPrefix))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        IssueBuilder builder = new IssueBuilder();
-        report.stream()
-                .filter(issue -> pathMapping.containsKey(issue.getFileName()))
-                .forEach(issue -> issue.setFileName(sourceDirectoryPrefix, builder.internFileName(pathMapping.get(issue.getFileName()))));
-        builder.dedup();
-
+        try (IssueBuilder builder = new IssueBuilder()) {
+            report.stream()
+                    .filter(issue -> pathMapping.containsKey(issue.getFileName()))
+                    .forEach(issue -> issue.setFileName(sourceDirectoryPrefix,
+                            builder.internFileName(pathMapping.get(issue.getFileName()))));
+        }
         report.logInfo("-> resolved paths in source directory (%d found, %d not found)",
                 pathMapping.size(), filesToProcess.size() - pathMapping.size());
     }

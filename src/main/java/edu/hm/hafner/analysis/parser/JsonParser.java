@@ -33,10 +33,9 @@ public class JsonParser extends JsonBaseParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (Reader reader = readerFactory.create()) {
+        try (Reader reader = readerFactory.create(); IssueBuilder builder = new IssueBuilder()) {
             JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
-            IssueBuilder builder = new IssueBuilder();
             Report report = new Report();
             if (jsonReport.has(ISSUES)) {
                 JSONArray issues = jsonReport.getJSONArray(ISSUES);
@@ -47,7 +46,6 @@ public class JsonParser extends JsonBaseParser {
                         .map(Optional::get)
                         .forEach(report::add);
             }
-            builder.dedup();
             return report;
         }
         catch (IOException | JSONException e) {

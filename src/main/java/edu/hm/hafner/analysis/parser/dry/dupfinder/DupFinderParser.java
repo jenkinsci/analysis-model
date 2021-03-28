@@ -75,12 +75,12 @@ public class DupFinderParser extends AbstractDryParser<Duplicate> {
                 group.setCodeFragment(fragment.getText());
                 Range lineRange = fragment.getLineRange();
                 int count = lineRange.getEnd() - lineRange.getStart() + 1;
-                IssueBuilder builder = issueBuilder.setSeverity(getPriority(count))
+                issueBuilder.setSeverity(getPriority(count))
                         .setLineStart(lineRange.getStart())
                         .setLineEnd(lineRange.getEnd())
                         .setFileName(fragment.getFileName())
                         .setAdditionalProperties(group);
-                Issue issue = builder.build();
+                Issue issue = issueBuilder.buildAndClean();
                 group.add(issue);
                 report.add(issue);
             }

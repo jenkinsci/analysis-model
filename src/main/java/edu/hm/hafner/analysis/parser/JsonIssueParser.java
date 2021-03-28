@@ -25,9 +25,8 @@ public abstract class JsonIssueParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         Report report = new Report();
-        try (Reader reader = readerFactory.create()) {
+        try (Reader reader = readerFactory.create(); IssueBuilder issueBuilder = new IssueBuilder()) {
             Object parsedValue = new JSONTokener(reader).nextValue();
-            IssueBuilder issueBuilder = new IssueBuilder();
             if (parsedValue instanceof JSONObject) {
                 JSONObject jsonReport = (JSONObject) parsedValue;
 
@@ -41,7 +40,6 @@ public abstract class JsonIssueParser extends IssueParser {
             else {
                 throw new ParsingException("Cannot process parsed JSON object " + parsedValue);
             }
-            issueBuilder.dedup();
         }
         catch (IOException | JSONException | ClassCastException e) {
             throw new ParsingException(e);

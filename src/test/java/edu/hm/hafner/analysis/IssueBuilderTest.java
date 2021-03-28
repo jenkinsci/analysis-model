@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -191,9 +190,12 @@ class IssueBuilderTest {
                 .build();
 
         assertThatIssueIsEqualToFilled(issue);
+        assertThatIssueIsEqualToFilled(builder.build()); // same result because builder is not cleaned
+        assertThatIssueIsEqualToFilled(builder.buildAndClean());
 
-        Optional<Issue> optional = builder.buildOptional();
-        assertThat(optional).contains(issue);
+        IssueBuilder emptyBuilder = new IssueBuilder();
+        emptyBuilder.setOrigin(ORIGIN);
+        assertThat(builder.build()).isEqualTo(emptyBuilder.build());
     }
 
     private void assertThatIssueIsEqualToFilled(final Issue issue) {

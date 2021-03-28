@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +40,6 @@ class XmlParserTest extends AbstractParserTest {
         Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())
-                .hasId(UUID.fromString("63d61b1f-0cac-4e31-8bb9-f390ed1acfe8"))
                 .hasFileName("file-name")
                 .hasLineStart(1)
                 .hasLineEnd(2)
@@ -55,7 +53,6 @@ class XmlParserTest extends AbstractParserTest {
                 .hasPackageName("package-name")
                 .hasModuleName("module-name")
                 .hasOrigin("origin")
-                .hasReference("reference")
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
                 .hasOnlyLineRanges(new LineRange(5, 6));
@@ -76,7 +73,6 @@ class XmlParserTest extends AbstractParserTest {
             softly.assertThat(report)
                     .hasSize(2);
             softly.assertThat(iterator.next())
-                    .hasId(UUID.fromString("c3b984a3-7f67-4332-953b-27d3943f232c"))
                     .hasFileName("file-name")
                     .hasLineStart(1)
                     .hasLineEnd(2)
@@ -90,13 +86,11 @@ class XmlParserTest extends AbstractParserTest {
                     .hasPackageName("package-name")
                     .hasModuleName("module-name")
                     .hasOrigin("origin")
-                    .hasReference("reference")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
                     .hasOnlyLineRanges(new LineRange(5, 6));
 
             softly.assertThat(iterator.next())
-                    .hasId(UUID.fromString("fbf2fee0-292f-4991-bd06-d8c5b13ace93"))
                     .hasFileName("file-name")
                     .hasLineStart(5)
                     .hasLineEnd(6)
@@ -110,7 +104,6 @@ class XmlParserTest extends AbstractParserTest {
                     .hasPackageName("package-name")
                     .hasModuleName("module-name")
                     .hasOrigin("origin")
-                    .hasReference("reference")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
                     .hasOnlyLineRanges(new LineRange(42, 43), new LineRange(44, 45));
