@@ -35,7 +35,8 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
     }
 
     /**
-     * Deserialize an Issue from a JSON object.
+     * Deserialize an Issue from a JSON object. Properties that are not part of equals like {@code reference} or
+     * {@code directory} will be skipped.
      *
      * @param jsonIssue
      *         the issue as JSON object
@@ -61,10 +62,7 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
         if (jsonIssue.has(DESCRIPTION)) {
             builder.setDescription(jsonIssue.getString(DESCRIPTION));
         }
-        if (jsonIssue.has(DIRECTORY)) {
-            builder.setDirectory(jsonIssue.getString(DIRECTORY));
-        }
-        if (jsonIssue.has(FINGERPRINT)) {
+        if (jsonIssue.has(FINGERPRINT)) { // even though not part of equals it makes sense to read if available
             builder.setFingerprint(jsonIssue.getString(FINGERPRINT));
         }
         if (jsonIssue.has(FILE_NAME)) {
@@ -95,9 +93,6 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
         }
         if (jsonIssue.has(PACKAGE_NAME)) {
             builder.setPackageName(jsonIssue.getString(PACKAGE_NAME));
-        }
-        if (jsonIssue.has(REFERENCE)) {
-            builder.setReference(jsonIssue.getString(REFERENCE));
         }
         if (jsonIssue.has(SEVERITY)) {
             builder.setSeverity(Severity.valueOf(jsonIssue.getString(SEVERITY)));
