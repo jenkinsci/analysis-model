@@ -16,26 +16,27 @@ class ModuleResolverTest {
     @Test
     @SuppressFBWarnings("DMI")
     void shouldAssignModuleName() {
-        Report report = new Report();
-        IssueBuilder builder = new IssueBuilder();
-        String fileName = "/file/with/warnings.txt";
-        builder.setFileName(fileName);
-        Issue noModule = builder.build();
-        report.add(noModule);
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = new Report();
+            String fileName = "/file/with/warnings.txt";
+            builder.setFileName(fileName);
+            Issue noModule = builder.build();
+            report.add(noModule);
 
-        builder.setModuleName("module2");
-        Issue withModule = builder.build();
-        report.add(withModule);
+            builder.setModuleName("module2");
+            Issue withModule = builder.build();
+            report.add(withModule);
 
-        ModuleDetector detector = mock(ModuleDetector.class);
-        when(detector.guessModuleName(fileName)).thenReturn("module1");
+            ModuleDetector detector = mock(ModuleDetector.class);
+            when(detector.guessModuleName(fileName)).thenReturn("module1");
 
-        ModuleResolver resolver = new ModuleResolver();
-        resolver.run(report, detector);
+            ModuleResolver resolver = new ModuleResolver();
+            resolver.run(report, detector);
 
-        assertThat(report.get(0)).hasModuleName("module1");
-        assertThat(report.get(1)).hasModuleName("module2");
+            assertThat(report.get(0)).hasModuleName("module1");
+            assertThat(report.get(1)).hasModuleName("module2");
 
-        assertThat(report.getInfoMessages()).contains("-> resolved module names for 1 issues");
+            assertThat(report.getInfoMessages()).contains("-> resolved module names for 1 issues");
+        }
     }
 }

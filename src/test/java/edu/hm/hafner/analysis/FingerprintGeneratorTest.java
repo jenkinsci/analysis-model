@@ -29,10 +29,13 @@ class FingerprintGeneratorTest extends ResourceTest {
     void shouldSkipFingerprintingIfEncodingIsWrong() throws IOException {
         FingerprintGenerator generator = new FingerprintGenerator();
 
-        IssueBuilder builder = new IssueBuilder().setFileName(AFFECTED_FILE_NAME);
-        Report report = createIssues();
-        report.add(builder.build());
-            
+        Report report;
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            issueBuilder.setFileName(AFFECTED_FILE_NAME);
+            report = createIssues();
+            report.add(issueBuilder.build());
+        }
+
         FileSystem fileSystem = mock(FileSystem.class);
         when(fileSystem.readLinesFromFile(anyString(), any()))
                     .thenThrow(new UncheckedIOException(new MalformedInputException(1)));
@@ -46,20 +49,22 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @Test
     void shouldNotChangeIssuesWithFingerPrint() {
-        FingerprintGenerator generator = new FingerprintGenerator();
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            FingerprintGenerator generator = new FingerprintGenerator();
 
-        IssueBuilder builder = new IssueBuilder().setFileName(AFFECTED_FILE_NAME);
-        Report report = createIssues();
-        report.add(builder.build());
-        assertThat(report.get(0).hasFingerprint()).isFalse();
-        
-        String alreadySet = "already-set";
-        report.add(builder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
-        generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
-                report, CHARSET_AFFECTED_FILE);
+            issueBuilder.setFileName(AFFECTED_FILE_NAME);
+            Report report = createIssues();
+            report.add(issueBuilder.build());
+            assertThat(report.get(0).hasFingerprint()).isFalse();
 
-        assertThat(report.get(0).hasFingerprint()).isTrue();
-        assertThat(report.get(1).getFingerprint()).isEqualTo(alreadySet);
+            String alreadySet = "already-set";
+            report.add(issueBuilder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
+            generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
+                    report, CHARSET_AFFECTED_FILE);
+
+            assertThat(report.get(0).hasFingerprint()).isTrue();
+            assertThat(report.get(1).getFingerprint()).isEqualTo(alreadySet);
+        }
     }
 
     @Test
@@ -126,8 +131,11 @@ class FingerprintGeneratorTest extends ResourceTest {
     @ParameterizedTest(name = "[{index}] Illegal filename")
     @ValueSource(strings = {"/does/not/exist", "!<>$&/&(", "\0 Null-Byte"})
     void shouldUseFallbackFingerprintOnError(final String fileName) {
-        Report report = new Report();
-        report.add(new IssueBuilder().setFileName(fileName).build());
+        Report report;
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            report = new Report();
+            report.add(issueBuilder.setFileName(fileName).build());
+        }
 
         FingerprintGenerator generator = new FingerprintGenerator();
         generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);

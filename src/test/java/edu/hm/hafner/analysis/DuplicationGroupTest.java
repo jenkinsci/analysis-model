@@ -35,9 +35,10 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
     protected DuplicationGroup createSerializable() {
         DuplicationGroup group = new DuplicationGroup();
 
-        IssueBuilder builder = new IssueBuilder();
-        group.add(builder.setAdditionalProperties(group).setFileName("1").build());
-        group.add(builder.setAdditionalProperties(group).setFileName("2").build());
+        try (IssueBuilder builder = new IssueBuilder()) {
+            group.add(builder.setAdditionalProperties(group).setFileName("1").build());
+            group.add(builder.setAdditionalProperties(group).setFileName("2").build());
+        }
 
         return group;
     }
@@ -82,18 +83,19 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
 
     @Test
     void shouldReferenceAllDuplications() {
-        DuplicationGroup group = new DuplicationGroup(CODE_FRAGMENT);
+        try (IssueBuilder builder = new IssueBuilder()) {
+            DuplicationGroup group = new DuplicationGroup(CODE_FRAGMENT);
 
-        assertThat(group.getDuplications()).isEmpty();
+            assertThat(group.getDuplications()).isEmpty();
 
-        IssueBuilder builder = new IssueBuilder();
-        Issue first = builder.setAdditionalProperties(group).build();
-        Issue second = builder.setAdditionalProperties(group).build();
+            Issue first = builder.setAdditionalProperties(group).build();
+            Issue second = builder.setAdditionalProperties(group).build();
 
-        group.add(first);
-        group.add(second);
+            group.add(first);
+            group.add(second);
 
-        assertThat(group.getDuplications()).containsExactly(first, second);
-        assertThat(first.getAdditionalProperties()).isEqualTo(second.getAdditionalProperties());
+            assertThat(group.getDuplications()).containsExactly(first, second);
+            assertThat(first.getAdditionalProperties()).isEqualTo(second.getAdditionalProperties());
+        }
     }
 }

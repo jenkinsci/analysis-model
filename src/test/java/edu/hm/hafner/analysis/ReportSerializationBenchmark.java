@@ -46,16 +46,17 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
     }
 
     private static Report createReportWith(final int number) {
-        Report report = new Report();
-        IssueBuilder builder = new IssueBuilder();
-        builder.setFileName(AFFECTED_FILE_NAME);
-        builder.setLineStart(5);
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report;
+            report = new Report();
+            builder.setFileName(AFFECTED_FILE_NAME);
+            builder.setLineStart(5);
 
-        for (int i = 0; i < number; i++) {
-            report.add(builder.setPackageName(Integer.toString(i)).build());
+            for (int i = 0; i < number; i++) {
+                report.add(builder.setPackageName(Integer.toString(i)).build());
+            }
+            return report;
         }
-
-        return report;
     }
 
     /**

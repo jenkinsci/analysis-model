@@ -29,9 +29,9 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
      * @return issue instance
      */
     Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
-        IssueBuilder builder = new IssueBuilder();
-
-        return convertToIssue(jsonIssue, builder);
+        try (IssueBuilder builder = new IssueBuilder()) {
+            return convertToIssue(jsonIssue, builder);
+        }
     }
 
     /**

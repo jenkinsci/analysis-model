@@ -515,6 +515,7 @@ public class IssueBuilder implements AutoCloseable {
         return Optional.of(buildAndClean());
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     private void clean() {
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
 
