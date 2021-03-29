@@ -114,15 +114,15 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     }
 
     /**
-     * Converts the specified violation to a corresponding {@link IssueBuilder} instance.
+     * Converts the specified violation to a corresponding {@link Issue} instance by setting the properties in the
+     * provided {@link IssueBuilder}.
      *
      * @param violation
      *         the violation
-     *
      * @param builder
-     * @return corresponding {@link IssueBuilder} instance
+     *         the issue builder to change
      */
-    IssueBuilder updateIssueBuilder(final Violation violation, final IssueBuilder builder) {
+    void updateIssueBuilder(final Violation violation, final IssueBuilder builder) {
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
                 .setFileName(violation.getFile())
                 .setMessage(violation.getMessage())
@@ -131,7 +131,6 @@ public abstract class AbstractViolationAdapter extends IssueParser {
                 .setColumnStart(violation.getColumn())
                 .setType(violation.getRule())
                 .setCategory(violation.getCategory());
-        return builder;
     }
 
     /**

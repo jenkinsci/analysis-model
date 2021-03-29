@@ -29,13 +29,13 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
 
     @Override
     Report convertToReport(final Set<Violation> violations) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
             Map<String, List<Violation>> violationsPerGroup =
                     new LinkedHashSet<>(violations).stream().collect(Collectors.groupingBy(Violation::getGroup));
 
             Report report = new Report();
             for (List<Violation> group : violationsPerGroup.values()) {
-                IssueBuilder issueBuilder = updateIssueBuilder(group.get(0), builder);
+                updateIssueBuilder(group.get(0), issueBuilder);
                 LineRangeList lineRanges = new LineRangeList();
                 for (int i = 1; i < group.size(); i++) {
                     Violation violation = group.get(i);

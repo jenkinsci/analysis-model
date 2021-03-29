@@ -34,44 +34,45 @@ class IssueBuilderTest {
     @SuppressFBWarnings("DMI")
     @Test
     void shouldCreateAbsolutePath() {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
 
-        builder.setFileName(RELATIVE_FILE);
+            builder.setFileName(RELATIVE_FILE);
 
-        assertThat(builder.build())
-                .hasFileName(RELATIVE_FILE)
-                .hasBaseName(RELATIVE_FILE)
-                .hasFolder(UNDEFINED)
-                .hasPath(UNDEFINED);
+            assertThat(builder.build())
+                    .hasFileName(RELATIVE_FILE)
+                    .hasBaseName(RELATIVE_FILE)
+                    .hasFolder(UNDEFINED)
+                    .hasPath(UNDEFINED);
 
-        builder.setDirectory("/tmp");
-        builder.setFileName(RELATIVE_FILE);
+            builder.setDirectory("/tmp");
+            builder.setFileName(RELATIVE_FILE);
 
-        assertThat(builder.build())
-                .hasFileName("/tmp/" + RELATIVE_FILE)
-                .hasBaseName(RELATIVE_FILE)
-                .hasFolder("tmp");
+            assertThat(builder.build())
+                    .hasFileName("/tmp/" + RELATIVE_FILE)
+                    .hasBaseName(RELATIVE_FILE)
+                    .hasFolder("tmp");
 
-        builder.setFileName("/tmp/absolute.txt");
-        assertThat(builder.build()).hasFileName("/tmp/absolute.txt");
+            builder.setFileName("/tmp/absolute.txt");
+            assertThat(builder.build()).hasFileName("/tmp/absolute.txt");
 
-        builder.setFileName("C:\\tmp\\absolute.txt");
-        assertThat(builder.build()).hasFileName("C:/tmp/absolute.txt");
+            builder.setFileName("C:\\tmp\\absolute.txt");
+            assertThat(builder.build()).hasFileName("C:/tmp/absolute.txt");
 
-        builder.setFileName(null);
-        assertThat(builder.build())
-                .hasFileName(UNDEFINED)
-                .hasBaseName(UNDEFINED)
-                .hasFolder(UNDEFINED);
+            builder.setFileName(null);
+            assertThat(builder.build())
+                    .hasFileName(UNDEFINED)
+                    .hasBaseName(UNDEFINED)
+                    .hasFolder(UNDEFINED);
 
-        builder.setPathName("/path/to/source");
-        builder.setDirectory("");
-        builder.setFileName(RELATIVE_FILE);
-        assertThat(builder.build())
-                .hasFileName(RELATIVE_FILE)
-                .hasBaseName(RELATIVE_FILE)
-                .hasFolder(UNDEFINED)
-                .hasPath("/path/to/source");
+            builder.setPathName("/path/to/source");
+            builder.setDirectory("");
+            builder.setFileName(RELATIVE_FILE);
+            assertThat(builder.build())
+                    .hasFileName(RELATIVE_FILE)
+                    .hasBaseName(RELATIVE_FILE)
+                    .hasFolder(UNDEFINED)
+                    .hasPath("/path/to/source");
+        }
     }
 
     @ParameterizedTest(name = "{index} => Full Path: {0} - Expected Base Name: file.txt")
@@ -83,16 +84,18 @@ class IssueBuilderTest {
             "C:\\file.txt"
     })
     void shouldGetBaseName(final String fullPath) {
-        IssueBuilder issueBuilder = new IssueBuilder();
-
-        assertThat(issueBuilder.setFileName(fullPath).build()).hasBaseName("file.txt");
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            assertThat(issueBuilder.setFileName(fullPath).build()).hasBaseName("file.txt");
+        }
     }
 
     @Test
     void shouldCreateDefaultIssueIfNothingSpecified() {
-        Issue issue = new IssueBuilder().build();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue issue = builder.build();
 
-        assertThat(issue).isEqualTo(DEFAULT_ISSUE);
+            assertThat(issue).isEqualTo(DEFAULT_ISSUE);
+        }
     }
 
     @ParameterizedTest(name = "{index} => Input: [{0} - {1}] - Expected Output: [{2} - {3}]")
@@ -110,10 +113,10 @@ class IssueBuilderTest {
             "-1, -1, 0, 0"})
     void shouldHaveValidLineRange(
             final int start, final int end, final int expectedStart, final int expectedEnd) {
-        IssueBuilder builder = new IssueBuilder();
-
-        builder.setLineStart(start).setLineEnd(end);
-        assertThat(builder.build()).hasLineStart(expectedStart).hasLineEnd(expectedEnd);
+        try (IssueBuilder builder = new IssueBuilder()) {
+            builder.setLineStart(start).setLineEnd(end);
+            assertThat(builder.build()).hasLineStart(expectedStart).hasLineEnd(expectedEnd);
+        }
     }
 
     @ParameterizedTest(name = "{index} => Input: [{0} - {1}] - Expected Output: [{2} - {3}]")
@@ -131,71 +134,73 @@ class IssueBuilderTest {
             "-1, -1, 0, 0"})
     void shouldHaveValidColumnRange(
             final int start, final int end, final int expectedStart, final int expectedEnd) {
-        IssueBuilder builder = new IssueBuilder();
-
-        builder.setColumnStart(start).setColumnEnd(end);
-        assertThat(builder.build()).hasColumnStart(expectedStart).hasColumnEnd(expectedEnd);
+        try (IssueBuilder builder = new IssueBuilder()) {
+            builder.setColumnStart(start).setColumnEnd(end);
+            assertThat(builder.build()).hasColumnStart(expectedStart).hasColumnEnd(expectedEnd);
+        }
     }
 
     @Test
     void shouldMapStringNumbers() {
-        IssueBuilder builder = new IssueBuilder();
-
-        assertThat(builder.setLineStart("nix").build()).hasLineStart(0);
-        assertThat(builder.setLineStart("-1").build()).hasLineStart(0);
-        assertThat(builder.setLineStart("0").build()).hasLineStart(0);
-        assertThat(builder.setLineStart("1").build()).hasLineStart(1);
-
-        builder = new IssueBuilder();
-        assertThat(builder.setLineEnd("nix").build()).hasLineEnd(0);
-        assertThat(builder.setLineEnd("-1").build()).hasLineEnd(0);
-        assertThat(builder.setLineEnd("0").build()).hasLineEnd(0);
-        assertThat(builder.setLineEnd("1").build()).hasLineEnd(1);
-
-        builder = new IssueBuilder();
-        assertThat(builder.setColumnStart("nix").build()).hasColumnStart(0);
-        assertThat(builder.setColumnStart("-1").build()).hasColumnStart(0);
-        assertThat(builder.setColumnStart("0").build()).hasColumnStart(0);
-        assertThat(builder.setColumnStart("1").build()).hasColumnStart(1);
-
-        builder = new IssueBuilder();
-        assertThat(builder.setColumnEnd("nix").build()).hasColumnEnd(0);
-        assertThat(builder.setColumnEnd("-1").build()).hasColumnEnd(0);
-        assertThat(builder.setColumnEnd("0").build()).hasColumnEnd(0);
-        assertThat(builder.setColumnEnd("1").build()).hasColumnEnd(1);
+        try (IssueBuilder builder = new IssueBuilder()) {
+            assertThat(builder.setLineStart("nix").build()).hasLineStart(0);
+            assertThat(builder.setLineStart("-1").build()).hasLineStart(0);
+            assertThat(builder.setLineStart("0").build()).hasLineStart(0);
+            assertThat(builder.setLineStart("1").build()).hasLineStart(1);
+        }
+        try (IssueBuilder builder = new IssueBuilder()) {
+            assertThat(builder.setLineEnd("nix").build()).hasLineEnd(0);
+            assertThat(builder.setLineEnd("-1").build()).hasLineEnd(0);
+            assertThat(builder.setLineEnd("0").build()).hasLineEnd(0);
+            assertThat(builder.setLineEnd("1").build()).hasLineEnd(1);
+        }
+        try (IssueBuilder builder = new IssueBuilder()) {
+            assertThat(builder.setColumnStart("nix").build()).hasColumnStart(0);
+            assertThat(builder.setColumnStart("-1").build()).hasColumnStart(0);
+            assertThat(builder.setColumnStart("0").build()).hasColumnStart(0);
+            assertThat(builder.setColumnStart("1").build()).hasColumnStart(1);
+        }
+        try (IssueBuilder builder = new IssueBuilder()) {
+            assertThat(builder.setColumnEnd("nix").build()).hasColumnEnd(0);
+            assertThat(builder.setColumnEnd("-1").build()).hasColumnEnd(0);
+            assertThat(builder.setColumnEnd("0").build()).hasColumnEnd(0);
+            assertThat(builder.setColumnEnd("1").build()).hasColumnEnd(1);
+        }
     }
 
     @Test
     @SuppressFBWarnings("DMI")
     void shouldCreateIssueWithAllPropertiesInitialized() {
-        IssueBuilder builder = new IssueBuilder();
-        Issue issue = builder
-                .setFileName(FILE_NAME)
-                .setLineStart(LINE_START)
-                .setLineEnd(LINE_END)
-                .setColumnStart(COLUMN_START)
-                .setColumnEnd(COLUMN_END)
-                .setCategory(CATEGORY)
-                .setType(TYPE)
-                .setPackageName(PACKAGE_NAME)
-                .setModuleName(MODULE_NAME)
-                .setSeverity(SEVERITY)
-                .setMessage(MESSAGE)
-                .setDescription(DESCRIPTION)
-                .setOrigin(ORIGIN)
-                .setLineRanges(LINE_RANGES)
-                .setReference(REFERENCE)
-                .setFingerprint(FINGERPRINT)
-                .setAdditionalProperties(ADDITIONAL_PROPERTIES)
-                .build();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue issue = builder
+                    .setFileName(FILE_NAME)
+                    .setLineStart(LINE_START)
+                    .setLineEnd(LINE_END)
+                    .setColumnStart(COLUMN_START)
+                    .setColumnEnd(COLUMN_END)
+                    .setCategory(CATEGORY)
+                    .setType(TYPE)
+                    .setPackageName(PACKAGE_NAME)
+                    .setModuleName(MODULE_NAME)
+                    .setSeverity(SEVERITY)
+                    .setMessage(MESSAGE)
+                    .setDescription(DESCRIPTION)
+                    .setOrigin(ORIGIN)
+                    .setLineRanges(LINE_RANGES)
+                    .setReference(REFERENCE)
+                    .setFingerprint(FINGERPRINT)
+                    .setAdditionalProperties(ADDITIONAL_PROPERTIES)
+                    .build();
 
-        assertThatIssueIsEqualToFilled(issue);
-        assertThatIssueIsEqualToFilled(builder.build()); // same result because builder is not cleaned
-        assertThatIssueIsEqualToFilled(builder.buildAndClean());
+            assertThatIssueIsEqualToFilled(issue);
+            assertThatIssueIsEqualToFilled(builder.build()); // same result because builder is not cleaned
+            assertThatIssueIsEqualToFilled(builder.buildAndClean());
 
-        IssueBuilder emptyBuilder = new IssueBuilder();
-        emptyBuilder.setOrigin(ORIGIN);
-        assertThat(builder.build()).isEqualTo(emptyBuilder.build());
+            try (IssueBuilder emptyBuilder = new IssueBuilder()) {
+                emptyBuilder.setOrigin(ORIGIN);
+                assertThat(builder.build()).isEqualTo(emptyBuilder.build());
+            }
+        }
     }
 
     private void assertThatIssueIsEqualToFilled(final Issue issue) {
@@ -206,105 +211,108 @@ class IssueBuilderTest {
 
     @Test
     void shouldCopyAllPropertiesOfAnIssue() {
-        Issue copy = new IssueBuilder()
-                .copy(FILLED_ISSUE)
-                .build();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue copy = builder.copy(FILLED_ISSUE).build();
 
-        assertThat(copy).isNotSameAs(FILLED_ISSUE);
-        assertThatIssueIsEqualToFilled(copy);
+            assertThat(copy).isNotSameAs(FILLED_ISSUE);
+            assertThatIssueIsEqualToFilled(copy);
+        }
     }
 
     @Test
     void shouldCreateNewInstanceOnEveryCall() {
-        IssueBuilder builder = new IssueBuilder().copy(FILLED_ISSUE);
-        Issue issue1 = builder.build();
-        Issue issue2 = builder.build();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            builder.copy(FILLED_ISSUE);
+            Issue issue1 = builder.build();
+            Issue issue2 = builder.build();
 
-        assertThat(issue1).isNotSameAs(issue2);
-        assertThat(issue1).isEqualTo(issue2);
+            assertThat(issue1).isNotSameAs(issue2);
+            assertThat(issue1).isEqualTo(issue2);
+        }
     }
 
     @Test
     void shouldCollectLineRanges() {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
 
-        builder.setLineStart(1).setLineEnd(2);
-        LineRangeList lineRanges = new LineRangeList();
-        lineRanges.add(new LineRange(3, 4));
-        lineRanges.add(new LineRange(5, 6));
-        builder.setLineRanges(lineRanges);
+            builder.setLineStart(1).setLineEnd(2);
+            LineRangeList lineRanges = new LineRangeList();
+            lineRanges.add(new LineRange(3, 4));
+            lineRanges.add(new LineRange(5, 6));
+            builder.setLineRanges(lineRanges);
 
-        Issue issue = builder.build();
-        assertThat(issue).hasLineStart(1).hasLineEnd(2);
-        assertThat(issue).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
+            Issue issue = builder.build();
+            assertThat(issue).hasLineStart(1).hasLineEnd(2);
+            assertThat(issue).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
 
-        IssueBuilder copy = new IssueBuilder();
-        copy.copy(issue);
-
-        assertThat(copy.build()).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
+            try (IssueBuilder copy = new IssueBuilder()) {
+                copy.copy(issue);
+                assertThat(copy.build()).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
+            }
+        }
     }
 
     @Test
     void shouldUseProvidedId() {
-        UUID id = UUID.randomUUID();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            UUID id = UUID.randomUUID();
+            builder.setId(id);
 
-        IssueBuilder builder = new IssueBuilder();
-        builder.setId(id);
+            assertThat(builder.build()).hasId(id);
+            assertThat(builder.build().getId()).isNotEqualTo(id); // new random ID
 
-        assertThat(builder.build()).hasId(id);
-        assertThat(builder.build().getId()).isNotEqualTo(id); // new random ID
-
-        builder.setId(id);
-        assertThat(builder.build()).hasId(id);
+            builder.setId(id);
+            assertThat(builder.build()).hasId(id);
+        }
     }
 
     @Test
     void testFileNameBackslashConversion() {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue issue = builder.setFileName(FILE_NAME_WITH_BACKSLASHES).build();
 
-        Issue issue = builder.setFileName(FILE_NAME_WITH_BACKSLASHES).build();
-
-        assertThat(issue).hasFileName(FILE_NAME);
+            assertThat(issue).hasFileName(FILE_NAME);
+        }
     }
 
     @Test
     void shouldCacheFileName() {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue issue = builder.setFileName("fileName").build();
+            Issue anotherIssue = builder.setFileName("fileName").build();
 
-        Issue issue = builder.setFileName("fileName").build();
-        Issue anotherIssue = builder.setFileName("fileName").build();
-
-        assertThat(issue.getFileNameTreeString()).isSameAs(anotherIssue.getFileNameTreeString());
+            assertThat(issue.getFileNameTreeString()).isSameAs(anotherIssue.getFileNameTreeString());
+        }
     }
 
     @Test
     void shouldCachePackageName() {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue issue = builder.setPackageName("packageName").build();
+            Issue anotherIssue = builder.setFileName("packageName").build();
 
-        Issue issue = builder.setPackageName("packageName").build();
-        Issue anotherIssue = builder.setFileName("packageName").build();
-
-        assertThat(issue.getPackageNameTreeString()).isSameAs(anotherIssue.getPackageNameTreeString());
+            assertThat(issue.getPackageNameTreeString()).isSameAs(anotherIssue.getPackageNameTreeString());
+        }
     }
 
     @Test
     void shouldCacheMessage() {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue issue = builder.setMessage("message").build();
+            Issue anotherIssue = builder.setMessage("message").build();
 
-        Issue issue = builder.setMessage("message").build();
-        Issue anotherIssue = builder.setMessage("message").build();
-
-        assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+            assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+        }
     }
 
     @Test
     void testMessageDescriptionStripped() {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue issue = builder.setMessage("    message  ").setDescription("    description  ").build();
+            Issue anotherIssue = builder.setMessage("message").setDescription("description").build();
 
-        Issue issue = builder.setMessage("    message  ").setDescription("    description  ").build();
-        Issue anotherIssue = builder.setMessage("message").setDescription("description").build();
-
-        assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
-        assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
+            assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+            assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
+        }
     }
 }

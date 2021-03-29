@@ -757,26 +757,26 @@ class ReportTest extends SerializableTest<Report> {
     private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
             final Function<Report, Set<String>> propertyGetter, final String propertyName,
             final Function<String, Predicate<Issue>> predicate) {
-        Report report = new Report();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = new Report();
 
-        IssueBuilder builder = new IssueBuilder();
-
-        for (int i = 1; i < 4; i++) {
-            for (int j = i; j < 4; j++) {
-                Issue build = builderSetter.apply(builder, "name " + i).setMessage(i + " " + j).build();
-                report.add(build);
+            for (int i = 1; i < 4; i++) {
+                for (int j = i; j < 4; j++) {
+                    Issue build = builderSetter.apply(builder, "name " + i).setMessage(i + " " + j).build();
+                    report.add(build);
+                }
             }
+            assertThat(report).hasSize(6);
+
+            Set<String> properties = propertyGetter.apply(report);
+
+            assertThat(properties).as("Wrong values for property " + propertyName)
+                    .containsExactlyInAnyOrder("name 1", "name 2", "name 3");
+
+            assertThat(report.filter(predicate.apply("name 1"))).hasSize(3);
+            assertThat(report.filter(predicate.apply("name 2"))).hasSize(2);
+            assertThat(report.filter(predicate.apply("name 3"))).hasSize(1);
         }
-        assertThat(report).hasSize(6);
-
-        Set<String> properties = propertyGetter.apply(report);
-
-        assertThat(properties).as("Wrong values for property " + propertyName)
-                .containsExactlyInAnyOrder("name 1", "name 2", "name 3");
-
-        assertThat(report.filter(predicate.apply("name 1"))).hasSize(3);
-        assertThat(report.filter(predicate.apply("name 2"))).hasSize(2);
-        assertThat(report.filter(predicate.apply("name 3"))).hasSize(1);
     }
 
     @Test
@@ -826,15 +826,16 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldWriteLongMessages() {
-        Report report = new Report();
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = new Report();
 
-        report.add(builder.setMessage(createLongMessage()).build());
+            report.add(builder.setMessage(createLongMessage()).build());
 
-        byte[] bytes = toByteArray(report);
-        Report restored = restore(bytes);
+            byte[] bytes = toByteArray(report);
+            Report restored = restore(bytes);
 
-        assertThat(report).isEqualTo(restored);
+            assertThat(report).isEqualTo(restored);
+        }
     }
 
     private String createLongMessage() {

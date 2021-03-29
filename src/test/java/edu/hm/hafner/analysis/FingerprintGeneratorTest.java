@@ -153,13 +153,14 @@ class FingerprintGeneratorTest extends ResourceTest {
     }
 
     private Report createTwoIssues() {
-        Report report = createIssues();
-        IssueBuilder builder = new IssueBuilder();
-        builder.setFileName(AFFECTED_FILE_NAME);
-        builder.setLineStart(5);
-        report.add(builder.setPackageName("a").build());
-        report.add(builder.setPackageName("b").build());
-        return report;
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = createIssues();
+            builder.setFileName(AFFECTED_FILE_NAME);
+            builder.setLineStart(5);
+            report.add(builder.setPackageName("a").build());
+            report.add(builder.setPackageName("b").build());
+            return report;
+        }
     }
 
     private Report createIssues() {
