@@ -11,8 +11,6 @@ import org.json.JSONTokener;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -22,7 +20,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author PCTao
  */
-public class FlowParser extends IssueParser {
+public class FlowParser extends JsonIssueParser {
     private static final long serialVersionUID = 2379734578953758L;
 
     /** Determines whether the flow report has been passed or not. */
@@ -57,28 +55,19 @@ public class FlowParser extends IssueParser {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (Reader reader = readerFactory.create()) {
-            JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
-
-            if (!jsonReport.getBoolean(FLOW_PASSED)) {
-                return extractIssues(jsonReport.optJSONArray(ISSUES));
-            }
-
-            return new Report();
-        }
-        catch (IOException | JSONException e) {
-            throw new ParsingException(e);
+    protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
+        if (!jsonReport.getBoolean(FLOW_PASSED)) {
+            extractIssues(jsonReport.optJSONArray(ISSUES), report, issueBuilder);
         }
     }
 
-    private Report extractIssues(final JSONArray elements) {
-        Report report = new Report();
+    private Report extractIssues(final JSONArray elements, final Report report,
+            final IssueBuilder issueBuilder) {
         for (Object object : elements) {
             if (object instanceof JSONObject) {
                 JSONObject issue = (JSONObject) object;
                 findFirstMessage(issue).ifPresent(
-                        jsonObject -> report.add(createIssueFromJsonObject(issue, jsonObject)));
+                        jsonObject -> report.add(createIssueFromJsonObject(issue, jsonObject, issueBuilder)));
             }
         }
         return report;
@@ -101,8 +90,9 @@ public class FlowParser extends IssueParser {
         return Optional.ofNullable(message.optJSONObject(0));
     }
 
-    private Issue createIssueFromJsonObject(final JSONObject issue, final JSONObject message) {
-        return new IssueBuilder()
+    private Issue createIssueFromJsonObject(final JSONObject issue, final JSONObject message,
+            final IssueBuilder issueBuilder) {
+        return issueBuilder
                 .setFileName(parseFileNameFromMessage(message))
                 .setType(parseType(issue))
                 .setSeverity(parseSeverity(issue))
@@ -111,7 +101,7 @@ public class FlowParser extends IssueParser {
                 .setColumnStart(parseLocFromMessage(message, MESSAGE_COLUMN_START))
                 .setColumnEnd(parseLocFromMessage(message, MESSAGE_COLUMN_END))
                 .setMessage(parseMessageFromMessage(message))
-                .build();
+                .buildAndClean();
     }
 
     /**

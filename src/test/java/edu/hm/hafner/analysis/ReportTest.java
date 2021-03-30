@@ -148,9 +148,9 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.hasTypes()).isFalse();
         assertThat(report.hasSeverities()).isFalse();
 
-        IssueBuilder builder = new IssueBuilder();
-
-        report.add(builder.build()); // add the first issue
+        try (IssueBuilder builder = new IssueBuilder()) {
+            report.add(builder.build()); // add the first issue
+        }
         assertThat(report.hasTools()).isFalse();
         assertThat(report.hasModules()).isFalse();
         assertThat(report.hasPackages()).isFalse();
@@ -171,124 +171,140 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifySeverity(final Report report) {
-        Issue additional = new IssueBuilder().setSeverity(Severity.WARNING_HIGH).build();
-        report.add(additional);
-        assertThat(report.hasTools()).isFalse();
-        assertThat(report.hasModules()).isFalse();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasFolders()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isTrue();
-        report.remove(additional.getId());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue additional;
+            additional = issueBuilder.setSeverity(Severity.WARNING_HIGH).build();
+            report.add(additional);
+            assertThat(report.hasTools()).isFalse();
+            assertThat(report.hasModules()).isFalse();
+            assertThat(report.hasPackages()).isFalse();
+            assertThat(report.hasFiles()).isFalse();
+            assertThat(report.hasFolders()).isFalse();
+            assertThat(report.hasCategories()).isFalse();
+            assertThat(report.hasTypes()).isFalse();
+            assertThat(report.hasSeverities()).isTrue();
+            report.remove(additional.getId());
+        }
     }
 
     private void verifyType(final Report report) {
-        Issue additional = new IssueBuilder().setType("type").build();
-        report.add(additional);
-        assertThat(report.hasTools()).isFalse();
-        assertThat(report.hasModules()).isFalse();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasFolders()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isTrue();
-        assertThat(report.hasSeverities()).isFalse();
-        report.remove(additional.getId());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue additional = issueBuilder.setType("type").build();
+            report.add(additional);
+            assertThat(report.hasTools()).isFalse();
+            assertThat(report.hasModules()).isFalse();
+            assertThat(report.hasPackages()).isFalse();
+            assertThat(report.hasFiles()).isFalse();
+            assertThat(report.hasFolders()).isFalse();
+            assertThat(report.hasCategories()).isFalse();
+            assertThat(report.hasTypes()).isTrue();
+            assertThat(report.hasSeverities()).isFalse();
+            report.remove(additional.getId());
+        }
     }
 
     private void verifyCategory(final Report report) {
-        Issue additional = new IssueBuilder().setCategory("category").build();
-        report.add(additional);
-        assertThat(report.hasTools()).isFalse();
-        assertThat(report.hasModules()).isFalse();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasFolders()).isFalse();
-        assertThat(report.hasCategories()).isTrue();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.remove(additional.getId());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue additional = issueBuilder.setCategory("category").build();
+            report.add(additional);
+            assertThat(report.hasTools()).isFalse();
+            assertThat(report.hasModules()).isFalse();
+            assertThat(report.hasPackages()).isFalse();
+            assertThat(report.hasFiles()).isFalse();
+            assertThat(report.hasFolders()).isFalse();
+            assertThat(report.hasCategories()).isTrue();
+            assertThat(report.hasTypes()).isFalse();
+            assertThat(report.hasSeverities()).isFalse();
+            report.remove(additional.getId());
+        }
     }
 
     private void verifyFile(final Report report) {
-        Issue additional = new IssueBuilder().setFileName("file").build();
-        report.add(additional);
-        assertThat(report.hasTools()).isFalse();
-        assertThat(report.hasModules()).isFalse();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isTrue();
-        assertThat(report.hasFolders()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.remove(additional.getId());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue additional = issueBuilder.setFileName("file").build();
+            report.add(additional);
+            assertThat(report.hasTools()).isFalse();
+            assertThat(report.hasModules()).isFalse();
+            assertThat(report.hasPackages()).isFalse();
+            assertThat(report.hasFiles()).isTrue();
+            assertThat(report.hasFolders()).isFalse();
+            assertThat(report.hasCategories()).isFalse();
+            assertThat(report.hasTypes()).isFalse();
+            assertThat(report.hasSeverities()).isFalse();
+            report.remove(additional.getId());
+        }
     }
 
     @SuppressFBWarnings("DMI")
     private void verifyFolder(final Report report) {
-        IssueBuilder builder = new IssueBuilder();
-        Issue additional = builder.setFileName("/tmp/file.txt").build();
-        report.add(additional);
-        assertThat(report.hasTools()).isFalse();
-        assertThat(report.hasModules()).isFalse();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isTrue();
-        assertThat(report.hasFolders()).isTrue();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Issue additional = builder.setFileName("/tmp/file.txt").build();
+            report.add(additional);
+            assertThat(report.hasTools()).isFalse();
+            assertThat(report.hasModules()).isFalse();
+            assertThat(report.hasPackages()).isFalse();
+            assertThat(report.hasFiles()).isTrue();
+            assertThat(report.hasFolders()).isTrue();
+            assertThat(report.hasCategories()).isFalse();
+            assertThat(report.hasTypes()).isFalse();
+            assertThat(report.hasSeverities()).isFalse();
 
-        Issue withPackageName = builder.setPackageName("something").build();
-        report.add(withPackageName);
-        assertThat(report.hasPackages()).isTrue();
-        assertThat(report.hasFolders()).isFalse();
+            Issue withPackageName = builder.setPackageName("something").build();
+            report.add(withPackageName);
+            assertThat(report.hasPackages()).isTrue();
+            assertThat(report.hasFolders()).isFalse();
 
-        report.remove(withPackageName.getId());
-        report.remove(additional.getId());
+            report.remove(withPackageName.getId());
+            report.remove(additional.getId());
+        }
     }
 
     private void verifyPackage(final Report report) {
-        Issue additional = new IssueBuilder().setPackageName("package").build();
-        report.add(additional);
-        assertThat(report.hasTools()).isFalse();
-        assertThat(report.hasModules()).isFalse();
-        assertThat(report.hasPackages()).isTrue();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasFolders()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.remove(additional.getId());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue additional = issueBuilder.setPackageName("package").build();
+            report.add(additional);
+            assertThat(report.hasTools()).isFalse();
+            assertThat(report.hasModules()).isFalse();
+            assertThat(report.hasPackages()).isTrue();
+            assertThat(report.hasFiles()).isFalse();
+            assertThat(report.hasFolders()).isFalse();
+            assertThat(report.hasCategories()).isFalse();
+            assertThat(report.hasTypes()).isFalse();
+            assertThat(report.hasSeverities()).isFalse();
+            report.remove(additional.getId());
+        }
     }
 
     private void verifyModule(final Report report) {
-        Issue additional = new IssueBuilder().setModuleName("module").build();
-        report.add(additional);
-        assertThat(report.hasTools()).isFalse();
-        assertThat(report.hasModules()).isTrue();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasFolders()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.remove(additional.getId());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue additional = issueBuilder.setModuleName("module").build();
+            report.add(additional);
+            assertThat(report.hasTools()).isFalse();
+            assertThat(report.hasModules()).isTrue();
+            assertThat(report.hasPackages()).isFalse();
+            assertThat(report.hasFiles()).isFalse();
+            assertThat(report.hasFolders()).isFalse();
+            assertThat(report.hasCategories()).isFalse();
+            assertThat(report.hasTypes()).isFalse();
+            assertThat(report.hasSeverities()).isFalse();
+            report.remove(additional.getId());
+        }
     }
 
     private void verifyOrigin(final Report report) {
-        Issue additional = new IssueBuilder().setOrigin("origin").build();
-        report.add(additional);
-        assertThat(report.hasTools()).isTrue();
-        assertThat(report.hasModules()).isFalse();
-        assertThat(report.hasPackages()).isFalse();
-        assertThat(report.hasFiles()).isFalse();
-        assertThat(report.hasFolders()).isFalse();
-        assertThat(report.hasCategories()).isFalse();
-        assertThat(report.hasTypes()).isFalse();
-        assertThat(report.hasSeverities()).isFalse();
-        report.remove(additional.getId());
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue additional = issueBuilder.setOrigin("origin").build();
+            report.add(additional);
+            assertThat(report.hasTools()).isTrue();
+            assertThat(report.hasModules()).isFalse();
+            assertThat(report.hasPackages()).isFalse();
+            assertThat(report.hasFiles()).isFalse();
+            assertThat(report.hasFolders()).isFalse();
+            assertThat(report.hasCategories()).isFalse();
+            assertThat(report.hasTypes()).isFalse();
+            assertThat(report.hasSeverities()).isFalse();
+            report.remove(additional.getId());
+        }
     }
 
     @Test
@@ -741,26 +757,26 @@ class ReportTest extends SerializableTest<Report> {
     private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
             final Function<Report, Set<String>> propertyGetter, final String propertyName,
             final Function<String, Predicate<Issue>> predicate) {
-        Report report = new Report();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = new Report();
 
-        IssueBuilder builder = new IssueBuilder();
-
-        for (int i = 1; i < 4; i++) {
-            for (int j = i; j < 4; j++) {
-                Issue build = builderSetter.apply(builder, "name " + i).setMessage(i + " " + j).build();
-                report.add(build);
+            for (int i = 1; i < 4; i++) {
+                for (int j = i; j < 4; j++) {
+                    Issue build = builderSetter.apply(builder, "name " + i).setMessage(i + " " + j).build();
+                    report.add(build);
+                }
             }
+            assertThat(report).hasSize(6);
+
+            Set<String> properties = propertyGetter.apply(report);
+
+            assertThat(properties).as("Wrong values for property " + propertyName)
+                    .containsExactlyInAnyOrder("name 1", "name 2", "name 3");
+
+            assertThat(report.filter(predicate.apply("name 1"))).hasSize(3);
+            assertThat(report.filter(predicate.apply("name 2"))).hasSize(2);
+            assertThat(report.filter(predicate.apply("name 3"))).hasSize(1);
         }
-        assertThat(report).hasSize(6);
-
-        Set<String> properties = propertyGetter.apply(report);
-
-        assertThat(properties).as("Wrong values for property " + propertyName)
-                .containsExactlyInAnyOrder("name 1", "name 2", "name 3");
-
-        assertThat(report.filter(predicate.apply("name 1"))).hasSize(3);
-        assertThat(report.filter(predicate.apply("name 2"))).hasSize(2);
-        assertThat(report.filter(predicate.apply("name 3"))).hasSize(1);
     }
 
     @Test
@@ -810,15 +826,16 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldWriteLongMessages() {
-        Report report = new Report();
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = new Report();
 
-        report.add(builder.setMessage(createLongMessage()).build());
+            report.add(builder.setMessage(createLongMessage()).build());
 
-        byte[] bytes = toByteArray(report);
-        Report restored = restore(bytes);
+            byte[] bytes = toByteArray(report);
+            Report restored = restore(bytes);
 
-        assertThat(report).isEqualTo(restored);
+            assertThat(report).isEqualTo(restored);
+        }
     }
 
     private String createLongMessage() {

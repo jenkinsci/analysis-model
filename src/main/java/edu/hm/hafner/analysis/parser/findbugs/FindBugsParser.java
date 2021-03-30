@@ -81,12 +81,15 @@ public class FindBugsParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Collection<String> sources = new ArrayList<>();
-        String moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");
-        sources.add(moduleRoot + "/src/main/java");
-        sources.add(moduleRoot + "/src/test/java");
-        sources.add(moduleRoot + "/src");
-        return parse(readerFactory, sources, new IssueBuilder());
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Collection<String> sources = new ArrayList<>();
+            String moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");
+            sources.add(moduleRoot + "/src/main/java");
+            sources.add(moduleRoot + "/src/test/java");
+            sources.add(moduleRoot + "/src");
+
+            return parse(readerFactory, sources, builder);
+        }
     }
 
     @VisibleForTesting

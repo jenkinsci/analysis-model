@@ -46,7 +46,7 @@ public class RfLintParser extends IssueParser {
         private final Severity severityLevel;
 
         RfLintSeverity(final Severity level) {
-            this.severityLevel = level;
+            severityLevel = level;
         }
 
         RfLintSeverity(final RfLintSeverity e) {
@@ -54,7 +54,7 @@ public class RfLintParser extends IssueParser {
         }
 
         public Severity getSeverityLevel() {
-            return this.severityLevel;
+            return severityLevel;
         }
 
         /**
@@ -91,7 +91,7 @@ public class RfLintParser extends IssueParser {
         }
 
         public String getName() {
-            return this.name;
+            return name;
         }
     }
 
@@ -126,7 +126,7 @@ public class RfLintParser extends IssueParser {
         }
 
         public RfLintCategory getCategory() {
-            return this.category;
+            return category;
         }
 
         /**
@@ -156,7 +156,7 @@ public class RfLintParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) {
-        try (Stream<String> lines = readerFactory.readStream()) {
+        try (Stream<String> lines = readerFactory.readStream(); IssueBuilder builder = new IssueBuilder()) {
             Report warnings = new Report();
             lines.forEach(line -> {
                 Matcher fileMatcher = FILE_PATTERN.matcher(line);
@@ -165,7 +165,7 @@ public class RfLintParser extends IssueParser {
                 }
                 Matcher matcher = WARNING_PATTERN.matcher(line);
                 if (matcher.find()) {
-                    warnings.add(createIssue(matcher, new IssueBuilder()));
+                    warnings.add(createIssue(matcher, builder));
                 }
                 if (Thread.interrupted()) {
                     throw new ParsingCanceledException();
@@ -191,6 +191,6 @@ public class RfLintParser extends IssueParser {
                 .setType(ruleName)
                 .setMessage(message)
                 .setSeverity(priority)
-                .build();
+                .buildAndClean();
     }
 }

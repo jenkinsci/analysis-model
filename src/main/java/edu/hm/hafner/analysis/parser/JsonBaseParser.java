@@ -28,9 +28,25 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
      *
      * @return issue instance
      */
-    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
     Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            return convertToIssue(jsonIssue, builder);
+        }
+    }
+
+    /**
+     * Deserialize an Issue from a JSON object. Properties that are not part of equals like {@code reference} or
+     * {@code directory} will be skipped.
+     *
+     * @param jsonIssue
+     *         the issue as JSON object
+     * @param builder
+     *         the issue builder to use
+     *
+     * @return issue instance
+     */
+    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
+    Optional<Issue> convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
         if (jsonIssue.has(ADDITIONAL_PROPERTIES)) {
             builder.setAdditionalProperties(jsonIssue.getString(ADDITIONAL_PROPERTIES));
         }
@@ -46,10 +62,7 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
         if (jsonIssue.has(DESCRIPTION)) {
             builder.setDescription(jsonIssue.getString(DESCRIPTION));
         }
-        if (jsonIssue.has(DIRECTORY)) {
-            builder.setDirectory(jsonIssue.getString(DIRECTORY));
-        }
-        if (jsonIssue.has(FINGERPRINT)) {
+        if (jsonIssue.has(FINGERPRINT)) { // even though not part of equals it makes sense to read if available
             builder.setFingerprint(jsonIssue.getString(FINGERPRINT));
         }
         if (jsonIssue.has(FILE_NAME)) {
@@ -80,9 +93,6 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
         }
         if (jsonIssue.has(PACKAGE_NAME)) {
             builder.setPackageName(jsonIssue.getString(PACKAGE_NAME));
-        }
-        if (jsonIssue.has(REFERENCE)) {
-            builder.setReference(jsonIssue.getString(REFERENCE));
         }
         if (jsonIssue.has(SEVERITY)) {
             builder.setSeverity(Severity.valueOf(jsonIssue.getString(SEVERITY)));

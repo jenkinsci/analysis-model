@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
@@ -32,7 +33,7 @@ public class JsonParser extends JsonBaseParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (Reader reader = readerFactory.create()) {
+        try (Reader reader = readerFactory.create(); IssueBuilder builder = new IssueBuilder()) {
             JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
             Report report = new Report();
@@ -40,7 +41,7 @@ public class JsonParser extends JsonBaseParser {
                 JSONArray issues = jsonReport.getJSONArray(ISSUES);
                 StreamSupport.stream(issues.spliterator(), SEQUENTIAL)
                         .filter(o -> o instanceof JSONObject)
-                        .map(o -> convertToIssue((JSONObject) o))
+                        .map(o -> convertToIssue((JSONObject) o, builder))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .forEach(report::add);

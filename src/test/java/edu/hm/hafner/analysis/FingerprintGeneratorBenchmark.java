@@ -88,11 +88,12 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
         @SuppressFBWarnings("PREDICTABLE_RANDOM")
         private Report createMultipleIssues(final int number) {
             Report report = new Report();
-            IssueBuilder builder = new IssueBuilder();
-            builder.setFileName(AFFECTED_FILE_NAME);
-            for (int i = 0; i < number; i++) {
-                builder.setLineStart(random.nextInt() * 26);
-                report.add(builder.setPackageName(Integer.toString(i)).build());
+            try (IssueBuilder builder = new IssueBuilder()) {
+                builder.setFileName(AFFECTED_FILE_NAME);
+                for (int i = 0; i < number; i++) {
+                    builder.setLineStart(random.nextInt() * 26);
+                    report.add(builder.setPackageName(Integer.toString(i)).build());
+                }
             }
             return report;
         }

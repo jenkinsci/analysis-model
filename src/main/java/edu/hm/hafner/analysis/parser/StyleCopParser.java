@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.XmlElementUtil;
+
 import static java.lang.Integer.*;
 
 /**
@@ -40,18 +41,20 @@ public class StyleCopParser extends IssueParser {
     }
 
     private Report parseViolations(final List<Element> elements) {
-        Report report = new Report();
-        for (Element element : elements) {
-            IssueBuilder builder = new IssueBuilder().setFileName(getString(element, "Source"))
-                    .setLineStart(getLineNumber(element))
-                    .setCategory(getCategory(element))
-                    .setType(getString(element, "Rule"))
-                    .setMessage(element.getTextContent())
-                    .setSeverity(Severity.WARNING_NORMAL);
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Report report = new Report();
+            for (Element element : elements) {
+                issueBuilder.setFileName(getString(element, "Source"))
+                        .setLineStart(getLineNumber(element))
+                        .setCategory(getCategory(element))
+                        .setType(getString(element, "Rule"))
+                        .setMessage(element.getTextContent())
+                        .setSeverity(Severity.WARNING_NORMAL);
 
-            report.add(builder.build());
+                report.add(issueBuilder.buildAndClean());
+            }
+            return report;
         }
-        return report;
     }
 
     /**

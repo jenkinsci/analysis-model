@@ -29,7 +29,7 @@ import static edu.hm.hafner.util.IntegerParser.*;
  * @author Ullrich Hafner
  */
 @SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
-public class IssueBuilder {
+public class IssueBuilder implements AutoCloseable {
     private static final String EMPTY = StringUtils.EMPTY;
     private static final String UNDEFINED = "-";
     private static final TreeString UNDEFINED_TREE_STRING = TreeString.valueOf(UNDEFINED);
@@ -475,7 +475,8 @@ public class IssueBuilder {
     }
 
     /**
-     * Creates a new {@link Issue} based on the specified properties.
+     * Creates a new {@link Issue} based on the specified properties. After building the issue, this
+     * {@link IssueBuilder} creates a new ID, but all other {@link Issue} properties will remain unchanged.
      *
      * @return the created issue
      */
@@ -486,6 +487,57 @@ public class IssueBuilder {
                 additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
+    }
+
+    /**
+     * Creates a new {@link Issue} based on the specified properties. After building the issue, this
+     * {@link IssueBuilder} will be reset to its defaults.
+     *
+     * @return the created issue
+     */
+    public Issue buildAndClean() {
+        Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
+                category, type, packageName, moduleName, severity,
+                message, description, origin, reference, fingerprint,
+                additionalProperties, id);
+        clean();
+        return issue;
+    }
+
+    /**
+     * Creates a new {@link Issue} based on the specified properties. The returned issue is wrapped in an {@link
+     * Optional}. After building the issue, this {@link IssueBuilder} will be reset to its defaults.
+     *
+     * @return the created issue
+     * @see #buildAndClean()
+     */
+    public Optional<Issue> buildOptional() {
+        return Optional.of(buildAndClean());
+    }
+
+    @SuppressWarnings("PMD.NullAssignment")
+    private void clean() {
+        id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
+
+        lineStart = 0;
+        lineEnd = 0;
+        columnStart = 0;
+        columnEnd = 0;
+
+        lineRanges = new LineRangeList();
+
+        fileName = UNDEFINED_TREE_STRING;
+        packageName = UNDEFINED_TREE_STRING;
+
+        category = null;
+        type = null;
+        severity = null;
+
+        message = EMPTY_TREE_STRING;
+        description = EMPTY;
+
+        moduleName = null;
+        additionalProperties = null;
     }
 
     private static String normalizeFileName(@CheckForNull final String platformFileName) {
@@ -506,12 +558,12 @@ public class IssueBuilder {
     }
 
     /**
-     * Creates a new {@link Issue} based on the specified properties. The returned issue is wrapped in an {@link
-     * Optional}.
-     *
-     * @return the created issue
+     * Reduce the memory print of internal string instances.
      */
-    public Optional<Issue> buildOptional() {
-        return Optional.of(build());
+    @Override
+    public void close() {
+        fileNameBuilder.dedup();
+        packageNameBuilder.dedup();
+        messageBuilder.dedup();
     }
 }

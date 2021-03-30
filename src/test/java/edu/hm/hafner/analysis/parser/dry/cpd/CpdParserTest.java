@@ -93,8 +93,8 @@ class CpdParserTest extends AbstractParserTest {
 
         Serializable additionalProperties = publisherSecond.getAdditionalProperties();
         softly.assertThat(additionalProperties).isEqualTo(reporterSecond.getAdditionalProperties());
-        softly.assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
-        softly.assertThat(((DuplicationGroup) additionalProperties).getCodeFragment()).isNotEmpty();
+        softly.assertThat(additionalProperties).isInstanceOfSatisfying(DuplicationGroup.class,
+                duplicationGroup -> assertThat(duplicationGroup.getCodeFragment()).isNotEmpty());
     }
 
     @Test

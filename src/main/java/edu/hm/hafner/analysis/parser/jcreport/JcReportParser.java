@@ -22,26 +22,28 @@ public class JcReportParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory reader) {
-        edu.hm.hafner.analysis.parser.jcreport.Report report = createReport(reader);
-        Report warnings = new Report();
-        for (int i = 0; i < report.getFiles().size(); i++) {
-            File file = report.getFiles().get(i);
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            edu.hm.hafner.analysis.parser.jcreport.Report report = createReport(reader);
+            Report warnings = new Report();
+            for (int i = 0; i < report.getFiles().size(); i++) {
+                File file = report.getFiles().get(i);
 
-            for (int j = 0; j < file.getItems().size(); j++) {
-                Item item = file.getItems().get(j);
-                IssueBuilder builder = new IssueBuilder().setFileName(file.getName())
-                        .setLineStart(item.getLine())
-                        .setColumnStart(item.getColumn())
-                        .setColumnEnd(item.getEndcolumn())
-                        .setCategory(item.getFindingtype())
-                        .setPackageName(file.getPackageName())
-                        .setMessage(item.getMessage())
-                        .guessSeverity(item.getSeverity());
+                for (int j = 0; j < file.getItems().size(); j++) {
+                    Item item = file.getItems().get(j);
+                    issueBuilder.setFileName(file.getName())
+                            .setLineStart(item.getLine())
+                            .setColumnStart(item.getColumn())
+                            .setColumnEnd(item.getEndcolumn())
+                            .setCategory(item.getFindingtype())
+                            .setPackageName(file.getPackageName())
+                            .setMessage(item.getMessage())
+                            .guessSeverity(item.getSeverity());
 
-                warnings.add(builder.build());
+                    warnings.add(issueBuilder.buildAndClean());
+                }
             }
+            return warnings;
         }
-        return warnings;
     }
 
     /**

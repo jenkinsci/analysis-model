@@ -69,24 +69,25 @@ public class IssueDifferenceBenchmark extends AbstractBenchmark {
         }
 
         private Issue createIssue(final String message, final String fingerprint) {
-            IssueBuilder builder = new IssueBuilder();
-            builder.setFileName("file-name")
-                    .setLineStart(1)
-                    .setLineEnd(2)
-                    .setColumnStart(3)
-                    .setColumnEnd(4)
-                    .setCategory("category")
-                    .setType("type")
-                    .setPackageName("package-name")
-                    .setModuleName("module-name")
-                    .setSeverity(Severity.WARNING_HIGH)
-                    .setMessage(message)
-                    .setDescription("description")
-                    .setOrigin("origin")
-                    .setLineRanges(new LineRangeList(singletonList(new LineRange(5, 6))))
-                    .setFingerprint(fingerprint)
-                    .setReference(REFERENCE_BUILD);
-            return builder.build();
+            try (IssueBuilder builder = new IssueBuilder()) {
+                builder.setFileName("file-name")
+                        .setLineStart(1)
+                        .setLineEnd(2)
+                        .setColumnStart(3)
+                        .setColumnEnd(4)
+                        .setCategory("category")
+                        .setType("type")
+                        .setPackageName("package-name")
+                        .setModuleName("module-name")
+                        .setSeverity(Severity.WARNING_HIGH)
+                        .setMessage(message)
+                        .setDescription("description")
+                        .setOrigin("origin")
+                        .setLineRanges(new LineRangeList(singletonList(new LineRange(5, 6))))
+                        .setFingerprint(fingerprint)
+                        .setReference(REFERENCE_BUILD);
+                return builder.build();
+            }
         }
     }
 }

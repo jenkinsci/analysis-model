@@ -48,32 +48,35 @@ public class GendarmeParser extends IssueParser {
     }
 
     private Report parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
-        Report warnings = new Report();
-        for (Element ruleElement : ruleElements) {
-            String ruleName = ruleElement.getAttribute("Name");
-            String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
-            List<Element> targetElements = XmlElementUtil.getChildElementsByName(ruleElement, "target");
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
 
-            GendarmeRule rule = rules.get(ruleName);
-            if (rule != null) {
-                for (Element targetElement : targetElements) {
-                    Element defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
-                    String source = defectElement.getAttribute("Source");
+            Report warnings = new Report();
+            for (Element ruleElement : ruleElements) {
+                String ruleName = ruleElement.getAttribute("Name");
+                String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
+                List<Element> targetElements = XmlElementUtil.getChildElementsByName(ruleElement, "target");
 
-                    String fileName = extractFileNameMatch(rule, source, 1);
-                    Severity priority = extractPriority(defectElement);
-                    int line = parseInt(extractFileNameMatch(rule, source, 2));
+                GendarmeRule rule = rules.get(ruleName);
+                if (rule != null) {
+                    for (Element targetElement : targetElements) {
+                        Element defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
+                        String source = defectElement.getAttribute("Source");
 
-                    IssueBuilder builder = new IssueBuilder().setFileName(fileName)
-                            .setLineStart(line)
-                            .setCategory(rule.getName())
-                            .setMessage(problem)
-                            .setSeverity(priority);
-                    warnings.add(builder.build());
+                        String fileName = extractFileNameMatch(rule, source, 1);
+                        Severity priority = extractPriority(defectElement);
+                        int line = parseInt(extractFileNameMatch(rule, source, 2));
+
+                        issueBuilder.setFileName(fileName)
+                                .setLineStart(line)
+                                .setCategory(rule.getName())
+                                .setMessage(problem)
+                                .setSeverity(priority);
+                        warnings.add(issueBuilder.buildAndClean());
+                    }
                 }
             }
+            return warnings;
         }
-        return warnings;
     }
 
     private Severity extractPriority(final Element defectElement) {

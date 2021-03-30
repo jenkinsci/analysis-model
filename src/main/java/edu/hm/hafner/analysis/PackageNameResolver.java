@@ -43,10 +43,10 @@ public class PackageNameResolver {
                 .filter(issue -> !issue.hasPackageName())
                 .map(Issue::getAbsolutePath)
                 .collect(Collectors.toSet());
-        
+
         if (filesWithoutPackageName.isEmpty()) {
             report.logInfo("-> all affected files already have a valid package name");
-        
+
             return;
         }
 
@@ -54,12 +54,13 @@ public class PackageNameResolver {
                 .collect(Collectors.toMap(identity(),
                         fileName -> packageDetectors.detectPackageName(fileName, charset)));
 
-        IssueBuilder builder = new IssueBuilder();
-        report.stream().forEach(issue -> {
-            if (!issue.hasPackageName()) {
-                issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getAbsolutePath())));
-            }
-        });
+        try (IssueBuilder builder = new IssueBuilder()) {
+            report.stream().forEach(issue -> {
+                if (!issue.hasPackageName()) {
+                    issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getAbsolutePath())));
+                }
+            });
+        }
         report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());
     }
 }

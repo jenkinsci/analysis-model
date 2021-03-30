@@ -20,7 +20,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 /**
  * Parser for Taglist Maven Plugin output. During parse, class names are converted into assumed file system names, so
  * {@code package.name.class} becomes {@code package/name/class.java}.
- * 
+ *
  * @author Jason Faust
  * @see <a href= "https://www.mojohaus.org/taglist-maven-plugin/">https://www.mojohaus.org/taglist-maven-plugin/</a>
  */
@@ -29,11 +29,10 @@ public class TaglistParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try {
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xPath = xPathFactory.newXPath();
 
-            IssueBuilder issueBuilder = new IssueBuilder();
             Report report = new Report();
 
             Document document = readerFactory.readDocument();

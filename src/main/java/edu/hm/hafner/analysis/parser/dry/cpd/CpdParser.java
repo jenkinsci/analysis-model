@@ -60,12 +60,12 @@ public class CpdParser extends AbstractDryParser<Duplication> {
         for (Duplication duplication : duplications) {
             DuplicationGroup group = new DuplicationGroup(duplication.getCodeFragment());
             for (SourceFile file : duplication.getFiles()) {
-                IssueBuilder builder = issueBuilder.setSeverity(getPriority(duplication.getLines()))
+                issueBuilder.setSeverity(getPriority(duplication.getLines()))
                         .setLineStart(file.getLine())
                         .setLineEnd(file.getLine() + duplication.getLines() - 1)
                         .setFileName(file.getPath())
                         .setAdditionalProperties(group);
-                Issue issue = builder.build();
+                Issue issue = issueBuilder.build();
                 group.add(issue);
                 report.add(issue);
             }

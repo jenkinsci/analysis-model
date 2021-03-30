@@ -57,23 +57,24 @@ public abstract class LookaheadParser extends IssueParser {
     }
 
     private void parse(final Report report, final LookaheadStream lookahead) {
-        IssueBuilder builder = new IssueBuilder();
-        while (lookahead.hasNext()) {
-            String line = lookahead.next();
-            if (line.contains(ENTERING_DIRECTORY)) {
-                extractAndStoreDirectory(builder, line, MAKE_PATH);
-            }
-            else if (line.contains(CMAKE_PREFIX)) {
-                extractAndStoreDirectory(builder, line, CMAKE_PATH);
-            }
-            else if (isLineInteresting(line)) {
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.find()) {
-                    createIssue(matcher, lookahead, builder).ifPresent(report::add);
+        try (IssueBuilder builder = new IssueBuilder()) {
+            while (lookahead.hasNext()) {
+                String line = lookahead.next();
+                if (line.contains(ENTERING_DIRECTORY)) {
+                    extractAndStoreDirectory(builder, line, MAKE_PATH);
                 }
-            }
-            if (Thread.interrupted()) {
-                throw new ParsingCanceledException();
+                else if (line.contains(CMAKE_PREFIX)) {
+                    extractAndStoreDirectory(builder, line, CMAKE_PATH);
+                }
+                else if (isLineInteresting(line)) {
+                    Matcher matcher = pattern.matcher(line);
+                    if (matcher.find()) {
+                        createIssue(matcher, lookahead, builder).ifPresent(report::add);
+                    }
+                }
+                if (Thread.interrupted()) {
+                    throw new ParsingCanceledException();
+                }
             }
         }
     }

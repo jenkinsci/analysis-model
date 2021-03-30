@@ -79,9 +79,9 @@ class FileNameResolverTest {
     void shouldSetPath() {
         Report report = new Report();
 
-        IssueBuilder builder = new IssueBuilder();
-
-        report.add(builder.setFileName(RELATIVE_FILE).build());
+        try (IssueBuilder builder = new IssueBuilder()) {
+            report.add(builder.setFileName(RELATIVE_FILE).build());
+        }
 
         resolvePaths(report, RESOURCE_FOLDER_PATH);
 
@@ -100,9 +100,9 @@ class FileNameResolverTest {
     void shouldNotSetPath() {
         Report report = new Report();
 
-        IssueBuilder builder = new IssueBuilder();
-
-        report.add(builder.setFileName("not here").build());
+        try (IssueBuilder builder = new IssueBuilder()) {
+            report.add(builder.setFileName("not here").build());
+        }
 
         resolvePaths(report, RESOURCE_FOLDER_PATH);
 
@@ -121,22 +121,22 @@ class FileNameResolverTest {
     void shouldNotTouchAbsolutePathOrEmptyPath() {
         Report report = new Report();
 
-        IssueBuilder builder = new IssueBuilder();
-
-        report.add(builder.setFileName("").build());
-        report.add(builder.setFileName("skip").build());
-        report.add(builder.setFileName(RELATIVE_FILE).build());
-        report.add(builder.setDirectory(RESOURCE_FOLDER_STRING)
-                .setFileName("relative.txt").build());
-        report.add(builder.setDirectory(RESOURCE_FOLDER_STRING)
-                .setFileName(normalize("../../hafner/analysis/normalized.txt"))
-                .build());
-        report.add(builder.setDirectory(RESOURCE_FOLDER_STRING)
-                .setFileName("not-existing.txt")
-                .build());
-        report.add(builder.setDirectory("/")
-                .setFileName("not-existing-parent.txt")
-                .build());
+        try (IssueBuilder builder = new IssueBuilder()) {
+            report.add(builder.setFileName("").build());
+            report.add(builder.setFileName("skip").build());
+            report.add(builder.setFileName(RELATIVE_FILE).build());
+            report.add(builder.setDirectory(RESOURCE_FOLDER_STRING)
+                    .setFileName("relative.txt").build());
+            report.add(builder.setDirectory(RESOURCE_FOLDER_STRING)
+                    .setFileName(normalize("../../hafner/analysis/normalized.txt"))
+                    .build());
+            report.add(builder.setDirectory(RESOURCE_FOLDER_STRING)
+                    .setFileName("not-existing.txt")
+                    .build());
+            report.add(builder.setDirectory("/")
+                    .setFileName("not-existing-parent.txt")
+                    .build());
+        }
 
         resolvePaths(report, RESOURCE_FOLDER_PATH, "skip"::equals);
 
@@ -169,30 +169,32 @@ class FileNameResolverTest {
     @ValueSource(strings = {"../analysis/relative.txt", "./relative.txt", "../../hafner/analysis/relative.txt"})
     @DisplayName("Should normalize different relative paths to the same file (file name is relative)")
     void shouldResolveRelativePath(final String fileName) {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report;
+            report = createIssuesSingleton(fileName, builder.setOrigin(ID));
+            resolvePaths(report, RESOURCE_FOLDER_PATH);
 
-        Report report = createIssuesSingleton(fileName, builder.setOrigin(ID));
-
-        resolvePaths(report, RESOURCE_FOLDER_PATH);
-
-        assertThatFileResolvesToRelativeFile(report, fileName);
+            assertThatFileResolvesToRelativeFile(report, fileName);
+        }
     }
 
     @ParameterizedTest(name = "[{index}] Relative filename = {0}")
     @ValueSource(strings = {"../analysis/relative.txt", "./relative.txt", "../../hafner/analysis/relative.txt"})
     @DisplayName("Should normalize different relative paths to the same file (file name is absolute)")
     void shouldNormalizePaths(final String fileName) {
-        Report report = new Report();
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Report report = new Report();
+            Issue issue;
+            issue = issueBuilder
+                    .setDirectory(RESOURCE_FOLDER_STRING)
+                    .setFileName(normalize(fileName))
+                    .build();
+            report.add(issue);
 
-        Issue issue = new IssueBuilder()
-                .setDirectory(RESOURCE_FOLDER_STRING)
-                .setFileName(normalize(fileName))
-                .build();
-        report.add(issue);
+            resolvePaths(report, Paths.get(RESOURCE_FOLDER));
 
-        resolvePaths(report, Paths.get(RESOURCE_FOLDER));
-
-        assertThatFileResolvesToRelativeFile(report, fileName);
+            assertThatFileResolvesToRelativeFile(report, fileName);
+        }
     }
 
     private void assertThatFileResolvesToRelativeFile(final Report report, final String fileName) {
@@ -206,23 +208,25 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should replace relative issue path with absolute path in relative path of workspace")
     void shouldResolveRelativePathInWorkspaceSubFolder() {
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report;
 
-        String fileName = "child.txt";
-        Report report = createIssuesSingleton(fileName, builder.setOrigin(ID));
+            String fileName = "child.txt";
+            report = createIssuesSingleton(fileName, builder.setOrigin(ID));
 
-        resolvePaths(report, RESOURCE_FOLDER_PATH);
+            resolvePaths(report, RESOURCE_FOLDER_PATH);
 
-        assertThatOneFileIsUnresolved(report);
+            assertThatOneFileIsUnresolved(report);
 
-        report = createIssuesSingleton(fileName, builder.setOrigin(ID));
+            report = createIssuesSingleton(fileName, builder.setOrigin(ID));
 
-        resolvePaths(report, RESOURCE_FOLDER_PATH.resolve("child"));
+            resolvePaths(report, RESOURCE_FOLDER_PATH.resolve("child"));
 
-        assertThat(report.get(0).getFileName()).isEqualTo("child.txt");
-        assertThat(report.getErrorMessages()).isEmpty();
-        assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).contains("1 found");
+            assertThat(report.get(0).getFileName()).isEqualTo("child.txt");
+            assertThat(report.getErrorMessages()).isEmpty();
+            assertThat(report.getInfoMessages()).hasSize(1);
+            assertThat(report.getInfoMessages().get(0)).contains("1 found");
+        }
     }
 
     private void assertThatOneFileIsUnresolved(final Report report) {

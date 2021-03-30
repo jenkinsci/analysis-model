@@ -36,46 +36,46 @@ public class AjcParser extends IssueParser {
     }
 
     private Report parse(final Stream<String> lines) {
-        Report warnings = new Report();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report warnings = new Report();
 
-        States state = States.START;
+            States state = States.START;
 
-        IssueBuilder builder = new IssueBuilder();
+            Iterator<String> lineIterator = lines.iterator();
+            while (lineIterator.hasNext()) {
+                String line = lineIterator.next();
+                // clean up any ESC characters (e.g. terminal colors)
+                line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
 
-        Iterator<String> lineIterator = lines.iterator();
-        while (lineIterator.hasNext()) {
-            String line = lineIterator.next();
-            // clean up any ESC characters (e.g. terminal colors)
-            line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
+                switch (state) {
+                    case START:
+                        if (line.startsWith("[INFO] Showing AJC message detail for messages of types")) {
+                            state = States.PARSING;
+                        }
+                        break;
+                    case PARSING:
+                        if (line.startsWith(WARNING_TAG)) {
+                            line = line.substring(WARNING_TAG.length());
+                            state = States.WAITING_FOR_END;
 
-            switch (state) {
-                case START:
-                    if (line.startsWith("[INFO] Showing AJC message detail for messages of types")) {
-                        state = States.PARSING;
-                    }
-                    break;
-                case PARSING:
-                    if (line.startsWith(WARNING_TAG)) {
-                        line = line.substring(WARNING_TAG.length());
-                        state = States.WAITING_FOR_END;
+                            fillMessageAndCategory(builder, line);
+                        }
+                        break;
+                    case WAITING_FOR_END:
+                        if (line.startsWith("\t")) {
+                            fillFileName(builder, line);
+                        }
+                        else if ("".equals(line)) {
+                            state = States.PARSING;
 
-                        fillMessageAndCategory(builder, line);
-                    }
-                    break;
-                case WAITING_FOR_END:
-                    if (line.startsWith("\t")) {
-                        fillFileName(builder, line);
-                    }
-                    else if ("".equals(line)) {
-                        state = States.PARSING;
-
-                        warnings.add(builder.build());
-                    }
-                    break;
+                            warnings.add(builder.buildAndClean());
+                        }
+                        break;
+                }
             }
-        }
 
-        return warnings;
+            return warnings;
+        }
     }
 
     private void fillFileName(final IssueBuilder builder, final String line) {

@@ -1,20 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.text.MessageFormat;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingCanceledException;
-import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -29,7 +21,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Thomas Fürer - tfuerer.javanet@gmail.com
  */
-public class TrivyParser extends IssueParser {
+public class TrivyParser extends JsonIssueParser {
     private static final String VALUE_NOT_SET = "-";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_CRITICAL = "critcal";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_HIGH = "high";
@@ -38,37 +30,26 @@ public class TrivyParser extends IssueParser {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        final Report report = new Report();
-
-        try (Reader reader = readerFactory.create()) {
-            final JSONArray jsonReport = (JSONArray)new JSONTokener(reader).nextValue();
-
-            for (int i = 0; i < jsonReport.length(); i++) {
-                final JSONObject component = (JSONObject)jsonReport.get(i);
-                if (!component.isNull("Vulnerabilities")) {
-                    final JSONArray vulnerabilities = component.getJSONArray("Vulnerabilities");
-                    for (Object vulnerability : vulnerabilities) {
-                        report.add(convertToIssue((JSONObject) vulnerability));
-                    }
+    protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
+        for (int i = 0; i < jsonReport.length(); i++) {
+            JSONObject component = (JSONObject) jsonReport.get(i);
+            if (!component.isNull("Vulnerabilities")) {
+                JSONArray vulnerabilities = component.getJSONArray("Vulnerabilities");
+                for (Object vulnerability : vulnerabilities) {
+                    report.add(convertToIssue((JSONObject) vulnerability, issueBuilder));
                 }
             }
         }
-        catch (IOException | JSONException | ClassCastException e) {
-            throw new ParsingException(e);
-        }
-
-        return report;
     }
 
-    private Issue convertToIssue(final JSONObject vulnerability) {
-        return new IssueBuilder().setFileName(vulnerability.optString("PkgName", VALUE_NOT_SET))
+    private Issue convertToIssue(final JSONObject vulnerability, final IssueBuilder issueBuilder) {
+        return issueBuilder.setFileName(vulnerability.optString("PkgName", VALUE_NOT_SET))
                 .setCategory(vulnerability.optString("SeveritySource", VALUE_NOT_SET))
                 .setSeverity(mapSeverity(vulnerability.optString("Severity", "UNKNOWN")))
                 .setType(vulnerability.optString("VulnerabilityID", VALUE_NOT_SET))
                 .setMessage(vulnerability.optString("Title", "UNKNOWN"))
                 .setDescription(formatDescription(vulnerability))
-                .build();
+                .buildAndClean();
     }
 
     @SuppressFBWarnings("IMPROPER_UNICODE")
@@ -89,14 +70,14 @@ public class TrivyParser extends IssueParser {
     }
 
     private String formatDescription(final JSONObject vulnerability) {
-        return new StringBuilder().append(MessageFormat.format(
+        return MessageFormat.format(
                 "<p><div><b>File</b>: {0}</div><div><b>Installed Version:</b> {1}</div><div><b>Fixed Version:</b> {2}</div><div><b>Severity:</b> {3}</div>",
-                vulnerability.optString("PkgName", VALUE_NOT_SET), vulnerability.optString("InstalledVersion", VALUE_NOT_SET),
+                vulnerability.optString("PkgName", VALUE_NOT_SET),
+                vulnerability.optString("InstalledVersion", VALUE_NOT_SET),
                 vulnerability.optString("FixedVersion", "still open"),
-                vulnerability.optString("Severity", "UNKOWN")))
-                .append("<p>")
-                .append(vulnerability.optString("Description", ""))
-                .append("</p>")
-                .toString();
+                vulnerability.optString("Severity", "UNKOWN"))
+                + "<p>"
+                + vulnerability.optString("Description", "")
+                + "</p>";
     }
 }

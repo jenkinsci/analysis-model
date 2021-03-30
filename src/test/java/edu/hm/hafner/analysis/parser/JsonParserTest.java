@@ -27,7 +27,7 @@ class JsonParserTest extends AbstractParserTest {
         assertThat(report.getErrorMessages()).isEmpty();
 
         softly.assertThat(report.get(0))
-                .hasFileName("directory/test-file.txt")
+                .hasFileName("test-file.txt")
                 .hasOnlyLineRanges(new LineRange(110, 111), new LineRange(120, 121))
                 .hasCategory("category")
                 .hasDescription("description")
@@ -37,7 +37,6 @@ class JsonParserTest extends AbstractParserTest {
                 .hasPackageName("packageName")
                 .hasModuleName("moduleName")
                 .hasOrigin("origin")
-                .hasReference("reference")
                 .hasFingerprint("9CED6585900DD3CFB97B914A3CEB0E79")
                 .hasAdditionalProperties("additionalProperties")
                 .hasId(UUID.fromString("e7011244-2dab-4a54-a27b-2d0697f8f813"));

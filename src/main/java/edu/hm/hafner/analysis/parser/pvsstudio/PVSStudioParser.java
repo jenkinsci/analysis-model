@@ -4,7 +4,6 @@ import java.util.List;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
-
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
@@ -36,26 +35,27 @@ public class PVSStudioParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        List<PlogMessage> plogMessages = PlogMessage.getMessagesFromReport(readerFactory);
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            List<PlogMessage> plogMessages = PlogMessage.getMessagesFromReport(readerFactory);
 
-        Report report = new Report();
+            Report report = new Report();
 
-        for (PlogMessage plogMessage : plogMessages) {
-            IssueBuilder builder = new IssueBuilder();
-            builder.setFileName(plogMessage.getFilePath());
+            for (PlogMessage plogMessage : plogMessages) {
+                issueBuilder.setFileName(plogMessage.getFilePath());
 
-            builder.setSeverity(getSeverity(plogMessage.getLevel()));
-            builder.setMessage(plogMessage.toString());
-            builder.setCategory(plogMessage.getType());
+                issueBuilder.setSeverity(getSeverity(plogMessage.getLevel()));
+                issueBuilder.setMessage(plogMessage.toString());
+                issueBuilder.setCategory(plogMessage.getType());
 
-            builder.setType(AnalyzerType.fromErrorCode(plogMessage.getType()).getMessage());
+                issueBuilder.setType(AnalyzerType.fromErrorCode(plogMessage.getType()).getMessage());
 
-            builder.setLineStart(plogMessage.getLine());
+                issueBuilder.setLineStart(plogMessage.getLine());
 
-            report.add(builder.build());
+                report.add(issueBuilder.buildAndClean());
+            }
+
+            return report;
         }
-
-        return report;
     }
 }
 
