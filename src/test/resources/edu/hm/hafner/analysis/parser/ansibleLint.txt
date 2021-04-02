@@ -4,3 +4,8 @@
 /workspace/roles/roll_forward_target/tasks/main.yml:12: [EANSIBLE0013] Use shell only when shell functionality is required
 
 /workspace/roles/some_role/tasks/main.yml:9: [E301] Commands should not change things if nothing needs doing
+
+/workspace/db_restore.yml:8: package-latest Package installs should not use latest
+/workspace/system.yml:20: risky-file-permissions File permissions unset or incorrect
+/workspace/upgrade.yml:38: no-handler Tasks that run when changed should likely be handlers
+/workspace/templates.yml:11: risky-file-permissions File permissions unset or incorrect
