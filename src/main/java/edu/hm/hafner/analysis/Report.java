@@ -16,15 +16,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -55,22 +54,28 @@ import static java.util.stream.Collectors.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CyclomaticComplexity"})
+@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CyclomaticComplexity", "checkstyle:ClassFanOutComplexity"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
-    private static final long serialVersionUID = 3L; // release 8.0.0
+    private static final long serialVersionUID = 4L; // release 10.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
-    private static final boolean SEQUENTIAL = false;
+
+    private String id;
+    private String name;
+    private String sourceFile;
+
+    private List<Report> subReports = new ArrayList<>(); // almost final
 
     private Set<Issue> elements = new LinkedHashSet<>();
     private List<String> infoMessages = new ArrayList<>();
     private List<String> errorMessages = new ArrayList<>();
     private Map<String, Integer> countersByKey = new HashMap<>();
 
-    private Set<String> fileNames = new HashSet<>();
-    private Map<String, String> namesByOrigin = new HashMap<>();
+    private Set<String> fileNames = new HashSet<>(); // FIXME: remove?
+
+    private Map<String, String> namesByOrigin = new HashMap<>(); // TODO: check: origin should be superfluous
 
     private int duplicatesSize = 0;
 
@@ -78,7 +83,60 @@ public class Report implements Iterable<Issue>, Serializable {
      * Creates an empty {@link Report}.
      */
     public Report() {
-        // no elements to add
+        this(DEFAULT_ID, DEFAULT_ID, DEFAULT_ID);
+    }
+
+    /**
+     * Creates an empty {@link Report} with the specified ID and name.
+     *
+     * @param id
+     *         the ID of the report
+     * @param name
+     *         a human readable name for the report
+     */
+    public Report(final String id, final String name) {
+        this(id, name, DEFAULT_ID);
+    }
+
+    /**
+     * Creates an empty {@link Report} with the specified ID and name. Link the report with the specified source file
+     * that is the origin of the issues.
+     *
+     * @param id
+     *         the ID of the report
+     * @param name
+     *         a human readable name for the report
+     * @param sourceFile
+     *         the specified source file * that is the origin of the issues.
+     */
+    public Report(final String id, final String name, final String sourceFile) {
+        this.id = id;
+        this.name = name;
+        this.sourceFile = sourceFile;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public String getSourceFile() {
+        return sourceFile;
+    }
+
+    public void setSourceFile(final String sourceFile) {
+        this.sourceFile = sourceFile;
     }
 
     /**
@@ -93,11 +151,11 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     @SuppressWarnings("ConstructorLeaksThis")
     public Report(final Report... reports) {
+        this();
+
         Ensure.that(reports).isNotEmpty("No reports given.");
 
-        for (Report other : reports) {
-            copyIssuesAndProperties(other, this);
-        }
+        subReports.addAll(Arrays.asList(reports));
     }
 
     /**
@@ -111,12 +169,12 @@ public class Report implements Iterable<Issue>, Serializable {
      * @see #copyIssuesAndProperties(Report, Report)
      */
     @SuppressWarnings("ConstructorLeaksThis")
-    public Report(final Collection<Report> reports) {
+    public Report(final Collection<? extends Report> reports) {
+        this();
+
         Ensure.that(reports).isNotEmpty("No reports given.");
 
-        for (Report other : reports) {
-            copyIssuesAndProperties(other, this);
-        }
+        subReports.addAll(reports);
     }
 
     /**
@@ -190,9 +248,8 @@ public class Report implements Iterable<Issue>, Serializable {
     public Report addAll(final Report... reports) {
         Ensure.that(reports).isNotEmpty("No reports given.");
 
-        for (Report other : reports) {
-            copyIssuesAndProperties(other, this);
-        }
+        subReports.addAll(Arrays.asList(reports));
+
         return this;
     }
 
@@ -213,7 +270,12 @@ public class Report implements Iterable<Issue>, Serializable {
         if (fileNames == null) {
             fileNames = new HashSet<>();
         }
-
+        if (subReports == null) { // release 10.0.0
+            subReports = new ArrayList<>();
+            id = DEFAULT_ID;
+            name = DEFAULT_ID;
+            sourceFile = DEFAULT_ID;
+        }
         return this;
     }
 
@@ -249,13 +311,34 @@ public class Report implements Iterable<Issue>, Serializable {
      *         if there is no such issue found
      */
     Issue remove(final UUID issueId) {
-        for (Issue element : elements) {
-            if (element.getId().equals(issueId)) {
-                elements.remove(element);
-                return element;
+        Optional<Issue> issue = removeIfContained(issueId);
+        if (issue.isPresent()) {
+            return issue.get();
+        }
+        throw new NoSuchElementException("No removed found with id %s.", issueId);
+    }
+
+    private Optional<Issue> removeIfContained(final UUID issueId) {
+        Optional<Issue> issue = find(issueId);
+        issue.ifPresent(value -> elements.remove(value));
+        if (issue.isPresent()) {
+            return issue;
+        }
+
+        for (Report subReport : subReports) {
+            issue = subReport.removeIfContained(issueId);
+            if (issue.isPresent()) {
+                return issue;
             }
         }
-        throw new NoSuchElementException("No issue found with id %s.", issueId);
+
+        return Optional.empty();
+    }
+
+    private Optional<Issue> find(final UUID issueId) {
+        return elements.stream()
+                .filter(issue -> issue.getId().equals(issueId))
+                .findAny();
     }
 
     /**
@@ -269,12 +352,9 @@ public class Report implements Iterable<Issue>, Serializable {
      *         if there is no such issue found
      */
     public Issue findById(final UUID issueId) {
-        for (Issue issue : elements) {
-            if (issue.getId().equals(issueId)) {
-                return issue;
-            }
-        }
-        throw new NoSuchElementException("No issue found with id %s.", issueId);
+        return stream().filter(issue -> issue.getId().equals(issueId))
+                .findAny()
+                .orElseThrow(() -> new NoSuchElementException("No issue found with id %s.", issueId));
     }
 
     /**
@@ -299,27 +379,39 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public Report filter(final Predicate<? super Issue> criterion) {
         Report filtered = copyEmptyInstance();
-        filtered.addAll(filterElements(criterion).collect(toList()));
+        filtered.addAll(elements.stream().filter(criterion).collect(toList()));
+        for (Report subReport : subReports) {
+            filtered.addAll(subReport.filter(criterion));
+        }
         return filtered;
     }
 
     private Stream<Issue> filterElements(final Predicate<? super Issue> criterion) {
-        return elements.stream().filter(criterion);
+        return stream().filter(criterion);
     }
 
     @NonNull
     @Override
     public Iterator<Issue> iterator() {
-        return Lists.immutable.withAll(elements).iterator();
+        return stream().iterator();
     }
 
     /**
-     * Creates a new sequential {@code Stream} of {@link Issue} instances from a {@code Spliterator}.
+     * Creates a new sequential {@code Stream} of {@link Issue} instances.
      *
-     * @return a new sequential {@code Stream}
+     * @return a new {@code Stream}
      */
     public Stream<Issue> stream() {
-        return StreamSupport.stream(Spliterators.spliterator(iterator(), 0L, Spliterator.NONNULL), SEQUENTIAL);
+        return Stream.concat(elements.stream(), subReports.stream().flatMap(Report::stream));
+    }
+
+    /**
+     * Returns the issues in this report. This will include the issues of any sub-reports.
+     *
+     * @return all issues in this report
+     */
+    public Collection<Issue> get() {
+        return stream().collect(Collectors.toList());
     }
 
     /**
@@ -328,7 +420,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return total number of issues
      */
     public int size() {
-        return elements.size();
+        return elements.size() + subReports.stream().mapToInt(Report::size).sum();
     }
 
     /**
@@ -367,7 +459,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return total number of duplicates
      */
     public int getDuplicatesSize() {
-        return duplicatesSize;
+        return duplicatesSize + subReports.stream().mapToInt(Report::getDuplicatesSize).sum();
     }
 
     /**
@@ -391,7 +483,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return total number of issues
      */
     public int getSizeOf(final Severity severity) {
-        return elements.stream().filter(issue -> issue.getSeverity().equals(severity)).mapToInt(e -> 1).sum();
+        return stream().filter(issue -> issue.getSeverity().equals(severity)).mapToInt(e -> 1).sum();
     }
 
     /**
@@ -406,9 +498,9 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public Issue get(final int index) {
         if (index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException("No such index " + index + " in " + toString());
+            throw new IndexOutOfBoundsException("No such index " + index + " in " + this);
         }
-        Iterator<Issue> all = elements.iterator();
+        Iterator<Issue> all = iterator();
         for (int i = 0; i < index; i++) {
             all.next(); // skip this element
         }
@@ -606,7 +698,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @see #getFiles()
      */
     public <T> Set<T> getProperties(final Function<? super Issue, T> propertiesMapper) {
-        return elements.stream().map(propertiesMapper).collect(toSet());
+        return stream().map(propertiesMapper).collect(toSet());
     }
 
     /**
@@ -621,7 +713,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @see #getProperties(Function)
      */
     public <T> Map<T, Integer> getPropertyCount(final Function<? super Issue, T> propertiesMapper) {
-        return elements.stream().collect(groupingBy(propertiesMapper, reducing(0, issue -> 1, Integer::sum)));
+        return stream().collect(groupingBy(propertiesMapper, reducing(0, issue -> 1, Integer::sum)));
     }
 
     /**
@@ -635,7 +727,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @see #getProperties(Function)
      */
     public Map<String, Report> groupByProperty(final String propertyName) {
-        Map<String, List<Issue>> issues = elements.stream()
+        Map<String, List<Issue>> issues = stream()
                 .collect(groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
@@ -661,10 +753,16 @@ public class Report implements Iterable<Issue>, Serializable {
 
     private void copyIssuesAndProperties(final Report source, final Report destination) {
         destination.addAll(source.elements);
+        for (Report subReport : subReports) {
+            destination.addAll(subReport.copy());
+        }
         copyProperties(source, destination);
     }
 
     private void copyProperties(final Report source, final Report destination) {
+        destination.id = source.id;
+        destination.name = source.name;
+        destination.sourceFile = source.sourceFile;
         destination.duplicatesSize += source.duplicatesSize;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
@@ -748,7 +846,10 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the info messages
      */
     public ImmutableList<String> getInfoMessages() {
-        return Lists.immutable.ofAll(infoMessages);
+        return Lists.immutable.ofAll(Stream.concat(
+                infoMessages.stream(),
+                subReports.stream().map(subReport -> subReport.infoMessages).flatMap(Collection::stream))
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -757,7 +858,10 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the error messages
      */
     public ImmutableList<String> getErrorMessages() {
-        return Lists.immutable.ofAll(errorMessages);
+        return Lists.immutable.ofAll(Stream.concat(
+                errorMessages.stream(),
+                subReports.stream().map(subReport -> subReport.errorMessages).flatMap(Collection::stream))
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -783,20 +887,40 @@ public class Report implements Iterable<Issue>, Serializable {
         if (duplicatesSize != report.duplicatesSize) {
             return false;
         }
+        if (!id.equals(report.id)) {
+            return false;
+        }
+        if (!name.equals(report.name)) {
+            return false;
+        }
+        if (!sourceFile.equals(report.sourceFile)) {
+            return false;
+        }
+        if (!subReports.equals(report.subReports)) {
+            return false;
+        }
         if (!elements.equals(report.elements)) {
             return false;
         }
         if (!infoMessages.equals(report.infoMessages)) {
             return false;
         }
-        return errorMessages.equals(report.errorMessages);
+        if (!errorMessages.equals(report.errorMessages)) {
+            return false;
+        }
+        return countersByKey.equals(report.countersByKey);
     }
 
     @Override
     public int hashCode() {
-        int result = elements.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + sourceFile.hashCode();
+        result = 31 * result + subReports.hashCode();
+        result = 31 * result + elements.hashCode();
         result = 31 * result + infoMessages.hashCode();
         result = 31 * result + errorMessages.hashCode();
+        result = 31 * result + countersByKey.hashCode();
         result = 31 * result + duplicatesSize;
         return result;
     }
@@ -812,6 +936,15 @@ public class Report implements Iterable<Issue>, Serializable {
         output.writeObject(namesByOrigin);
 
         output.writeInt(duplicatesSize);
+
+        output.writeUTF(id);
+        output.writeUTF(name);
+        output.writeUTF(sourceFile);
+        output.writeInt(subReports.size());
+        for (Report subReport : subReports) {
+            output.writeObject(subReport);
+        }
+
     }
 
     private void writeIssues(final ObjectOutputStream output) throws IOException {
@@ -855,6 +988,17 @@ public class Report implements Iterable<Issue>, Serializable {
         namesByOrigin = (Map<String, String>) input.readObject();
 
         duplicatesSize = input.readInt();
+
+        id = input.readUTF();
+        name = input.readUTF();
+        sourceFile = input.readUTF();
+        subReports = new ArrayList<>();
+
+        int subReportCount = input.readInt();
+        for (int i = 0; i < subReportCount; i++) {
+            Report subReport = (Report) input.readObject();
+            subReports.add(subReport);
+        }
     }
 
     @SuppressFBWarnings("OBJECT_DESERIALIZATION")
@@ -879,13 +1023,13 @@ public class Report implements Iterable<Issue>, Serializable {
             String reference = input.readUTF();
             String fingerprint = input.readUTF();
             Serializable additionalProperties = (Serializable) input.readObject();
-            UUID id = (UUID) input.readObject();
+            UUID uuid = (UUID) input.readObject();
 
             Issue issue = new Issue(path, fileName,
                     lineStart, lineEnd, columnStart, columnEnd,
                     lineRanges, category, type, packageName, moduleName,
                     severity, message, description,
-                    origin, reference, fingerprint, additionalProperties, id);
+                    origin, reference, fingerprint, additionalProperties, uuid);
 
             elements.add(issue);
         }
@@ -910,7 +1054,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @param origin
      *         the origin to get the human readable name for
      *
-     * @return the name, or an empty string ifg noi such name has been set
+     * @return the name, or an empty string if no such name has been set
      */
     public String getNameOfOrigin(final String origin) {
         return namesByOrigin.getOrDefault(origin, StringUtils.EMPTY);
@@ -921,11 +1065,11 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @param origin
      *         the origin to define a name for
-     * @param name
+     * @param displayName
      *         the human readable name
      */
-    public void setNameOfOrigin(final String origin, final String name) {
-        namesByOrigin.put(origin, name);
+    public void setNameOfOrigin(final String origin, final String displayName) {
+        namesByOrigin.put(origin, displayName);
     }
 
     /**
@@ -949,7 +1093,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the value of the specified counter, or 0 if the counter has not been set or is undefined
      */
     public int getCounter(final String key) {
-        return countersByKey.getOrDefault(key, 0);
+        return countersByKey.getOrDefault(key, 0) + subReports.stream().mapToInt(r -> r.getCounter(key)).sum();
     }
 
     /**

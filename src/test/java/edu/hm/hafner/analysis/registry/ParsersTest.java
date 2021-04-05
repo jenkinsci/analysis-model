@@ -579,10 +579,10 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(8, "gcc3", "gcc.txt");
     }
 
-    /** Runs the Gcc4Compiler and Gcc4Linker parsers on separate output file that contains 14 + 7 issues. */
+    /** Runs the Gcc4Compiler and Gcc4Linker parsers on separate output file that contains 16 + 7 issues. */
     @Test
     void shouldFindAllGcc4Issues() {
-        findIssuesOfTool(16 + 7 - 1, "gcc", "gcc4.txt", "gcc4ld.txt");
+        findIssuesOfTool(16 + 7, "gcc", "gcc4.txt", "gcc4ld.txt");
     }
 
     /** Runs the Maven console parser on output files that contain 4 + 3 issues. */
