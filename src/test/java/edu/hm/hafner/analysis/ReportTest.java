@@ -986,7 +986,11 @@ class ReportTest extends SerializableTest<Report> {
         return ReportTest.class;
     }
 
-    private static class ReportWriter {
+    static final class ReportWriter {
+        private ReportWriter() {
+            // prevents instantiation
+        }
+
         /**
          * Serializes an issues to a file. Use this method in case the issue properties have been changed and the
          * readResolve method has been adapted accordingly so that the old serialization still can be read.
