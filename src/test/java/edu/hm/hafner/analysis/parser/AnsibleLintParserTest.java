@@ -20,7 +20,7 @@ class AnsibleLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(5);
+        assertThat(report).hasSize(9);
 
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
@@ -58,6 +58,34 @@ class AnsibleLintParserTest extends AbstractParserTest {
                 .hasLineEnd(9)
                 .hasMessage("Commands should not change things if nothing needs doing")
                 .hasFileName("/workspace/roles/some_role/tasks/main.yml");
+        softly.assertThat(iterator.next())
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("package-latest")
+                .hasLineStart(8)
+                .hasLineEnd(8)
+                .hasMessage("Package installs should not use latest")
+                .hasFileName("/workspace/db_restore.yml");
+        softly.assertThat(iterator.next())
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("risky-file-permissions")
+                .hasLineStart(20)
+                .hasLineEnd(20)
+                .hasMessage("File permissions unset or incorrect")
+                .hasFileName("/workspace/system.yml");
+        softly.assertThat(iterator.next())
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("no-handler")
+                .hasLineStart(38)
+                .hasLineEnd(38)
+                .hasMessage("Tasks that run when changed should likely be handlers")
+                .hasFileName("/workspace/upgrade.yml");
+        softly.assertThat(iterator.next())
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("risky-file-permissions")
+                .hasLineStart(11)
+                .hasLineEnd(11)
+                .hasMessage("File permissions unset or incorrect")
+                .hasFileName("/workspace/templates.yml");
     }
 
     @Override
