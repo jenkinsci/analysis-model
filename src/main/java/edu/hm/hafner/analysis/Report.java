@@ -40,7 +40,6 @@ import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import static java.util.stream.Collectors.*;
 
 /**
  * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e. it models the
@@ -366,7 +365,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the found issues
      */
     public Set<Issue> findByProperty(final Predicate<? super Issue> criterion) {
-        return filterElements(criterion).collect(toSet());
+        return filterElements(criterion).collect(Collectors.toSet());
     }
 
     /**
@@ -379,7 +378,7 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public Report filter(final Predicate<? super Issue> criterion) {
         Report filtered = copyEmptyInstance();
-        filtered.addAll(elements.stream().filter(criterion).collect(toList()));
+        filtered.addAll(elements.stream().filter(criterion).collect(Collectors.toList()));
         for (Report subReport : subReports) {
             filtered.addAll(subReport.filter(criterion));
         }
@@ -698,7 +697,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @see #getFiles()
      */
     public <T> Set<T> getProperties(final Function<? super Issue, T> propertiesMapper) {
-        return stream().map(propertiesMapper).collect(toSet());
+        return stream().map(propertiesMapper).collect(Collectors.toSet());
     }
 
     /**
@@ -713,7 +712,8 @@ public class Report implements Iterable<Issue>, Serializable {
      * @see #getProperties(Function)
      */
     public <T> Map<T, Integer> getPropertyCount(final Function<? super Issue, T> propertiesMapper) {
-        return stream().collect(groupingBy(propertiesMapper, reducing(0, issue -> 1, Integer::sum)));
+        return stream().collect(
+                Collectors.groupingBy(propertiesMapper, Collectors.reducing(0, issue -> 1, Integer::sum)));
     }
 
     /**
@@ -728,10 +728,10 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public Map<String, Report> groupByProperty(final String propertyName) {
         Map<String, List<Issue>> issues = stream()
-                .collect(groupingBy(Issue.getPropertyValueGetter(propertyName)));
+                .collect(Collectors.groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
-                .collect(toMap(
+                .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         e -> {
                             Report report = new Report();
@@ -770,7 +770,7 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.fileNames.addAll(source.fileNames);
         destination.countersByKey = Stream.concat(
                 destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
-                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
     }
 
     /**
@@ -873,7 +873,7 @@ public class Report implements Iterable<Issue>, Serializable {
         return !errorMessages.isEmpty();
     }
 
-    @Override
+    @Override @SuppressWarnings("PMD.NPathComplexity")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
