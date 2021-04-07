@@ -40,7 +40,6 @@ import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-
 /**
  * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e. it models the
  * mathematical <i>set</i> abstraction. This report provides a <i>total ordering</i> on its elements. I.e., the issues
@@ -122,6 +121,23 @@ public class Report implements Iterable<Issue>, Serializable {
         this.id = id;
     }
 
+    /**
+     * Returns the effective ID of this report. This ID is the unique ID of all containing sub-reports. If this ID is
+     * not unique, then the {@link #DEFAULT_ID} will be returned.
+     *
+     * @return the effective ID of all sub-reports
+     */
+    public String getEffectiveId() {
+        Set<String> ids = subReports.stream().map(Report::getEffectiveId).collect(Collectors.toSet());
+        ids.add(getId());
+        ids.remove(DEFAULT_ID);
+
+        if (ids.size() == 1) {
+            return ids.iterator().next();
+        }
+        return getId();
+    }
+
     public String getName() {
         return name;
     }
@@ -130,12 +146,45 @@ public class Report implements Iterable<Issue>, Serializable {
         this.name = name;
     }
 
+    /**
+     * Returns the effective ID of this report. This ID is the unique ID of all containing sub-reports. If this ID is
+     * not unique, then the {@link #DEFAULT_ID} will be returned.
+     *
+     * @return the effective ID of all sub-reports
+     */
+    public String getEffectiveName() {
+        Set<String> names = subReports.stream().map(Report::getEffectiveName).collect(Collectors.toSet());
+        names.add(getName());
+        names.remove(DEFAULT_ID);
+
+        if (names.size() == 1) {
+            return names.iterator().next();
+        }
+        return getName();
+    }
+
     public String getSourceFile() {
         return sourceFile;
     }
 
     public void setSourceFile(final String sourceFile) {
         this.sourceFile = sourceFile;
+    }
+
+    /**
+     * Returns the effective ID of this report. This ID is the unique ID of all containing sub-reports. If this ID is
+     * not unique, then the {@link #DEFAULT_ID} will be returned.
+     *
+     * @return the effective ID of all sub-reports
+     */
+    public Set<String> getSourceFiles() {
+        Set<String> files = subReports.stream()
+                .map(Report::getSourceFiles)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+        files.add(getSourceFile());
+        files.remove(DEFAULT_ID);
+        return files;
     }
 
     /**
@@ -873,7 +922,8 @@ public class Report implements Iterable<Issue>, Serializable {
         return !errorMessages.isEmpty();
     }
 
-    @Override @SuppressWarnings("PMD.NPathComplexity")
+    @Override
+    @SuppressWarnings("PMD.NPathComplexity")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;

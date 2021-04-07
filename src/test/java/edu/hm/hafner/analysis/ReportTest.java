@@ -99,7 +99,8 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
     }
 
-    @Test @Disabled("TODO: remove?")
+    @Test
+    @Disabled("TODO: remove?")
     void shouldMergeOriginMappings() {
         Report first = new Report();
 
@@ -123,7 +124,8 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(third.getNameOfOrigin("second")).isEqualTo("second name");
     }
 
-    @Test @Disabled("TODO: remove?")
+    @Test
+    @Disabled("TODO: remove?")
     void shouldStoreFileNames() {
         Report report = new Report();
 
@@ -371,7 +373,8 @@ class ReportTest extends SerializableTest<Report> {
     /**
      * Ensures that each method that creates a copy of another issue instance also copies the corresponding properties.
      */
-    @Test @Disabled("TODO: remove?")
+    @Test
+    @Disabled("TODO: remove?")
     void shouldCopyProperties() {
         Report expected = new Report(ID, NAME, SOURCE_FILE);
         expected.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
@@ -836,7 +839,8 @@ class ReportTest extends SerializableTest<Report> {
      * Verifies that saved serialized format (from a previous release) still can be resolved with the current
      * implementation of {@link Issue}.
      */
-    @Test @Disabled("TODO: recreate file for 10.0.0")
+    @Test
+    @Disabled("TODO: recreate file for 10.0.0")
     void shouldReadIssueFromOldSerialization() {
         byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
@@ -922,21 +926,38 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldAddSubReports() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report checkStyle = new Report("checkstyle", "CheckStyle");
-            Issue checkstyleWarning = builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean();
+            Report checkStyle = new Report("checkstyle", "CheckStyle", "checkstyle.xml");
+            Issue checkstyleWarning = builder.setFileName("A.java")
+                    .setCategory("Style")
+                    .setLineStart(1)
+                    .buildAndClean();
             checkStyle.add(checkstyleWarning);
             checkStyle.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
 
-            assertThat(checkStyle).hasSize(1).hasDuplicatesSize(1).hasId("checkstyle").hasName("CheckStyle");
+            assertThat(checkStyle).hasSize(1)
+                    .hasDuplicatesSize(1)
+                    .hasId("checkstyle")
+                    .hasEffectiveId("checkstyle")
+                    .hasName("CheckStyle")
+                    .hasEffectiveName("CheckStyle")
+                    .hasSourceFile("checkstyle.xml")
+                    .hasOnlySourceFiles("checkstyle.xml");
             assertThat(checkStyle.get(0)).isSameAs(checkstyleWarning);
             assertThat(checkStyle.findById(checkstyleWarning.getId())).isSameAs(checkstyleWarning);
 
-            Report spotBugs = new Report("spotbugs", "SpotBugs");
+            Report spotBugs = new Report("spotbugs", "SpotBugs", "spotbugs.xml");
             Issue spotBugsWarning = builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean();
             spotBugs.add(spotBugsWarning);
             spotBugs.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
 
-            assertThat(spotBugs).hasSize(1).hasDuplicatesSize(1).hasId("spotbugs").hasName("SpotBugs");
+            assertThat(spotBugs).hasSize(1)
+                    .hasDuplicatesSize(1)
+                    .hasId("spotbugs")
+                    .hasEffectiveId("spotbugs")
+                    .hasName("SpotBugs")
+                    .hasEffectiveName("SpotBugs")
+                    .hasSourceFile("spotbugs.xml")
+                    .hasOnlySourceFiles("spotbugs.xml");
             assertThat(spotBugs.get(0)).isSameAs(spotBugsWarning);
             assertThat(spotBugs.findById(spotBugsWarning.getId())).isSameAs(spotBugsWarning);
 
@@ -970,7 +991,13 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyContainer(final Report container, final Issue checkstyleWarning, final Issue spotBugsWarning) {
-        assertThat(container).hasSize(2).hasDuplicatesSize(2).hasId("container").hasName("Aggregation");
+        assertThat(container).hasSize(2)
+                .hasDuplicatesSize(2)
+                .hasId("container")
+                .hasEffectiveId("container")
+                .hasName("Aggregation")
+                .hasEffectiveName("Aggregation")
+                .hasSourceFile("-").hasOnlySourceFiles("checkstyle.xml", "spotbugs.xml");
 
         assertThat(container.get(0)).isSameAs(checkstyleWarning);
         assertThat(container.get(1)).isSameAs(spotBugsWarning);
