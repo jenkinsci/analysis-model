@@ -327,6 +327,7 @@ public class Report implements Iterable<Issue>, Serializable {
             name = DEFAULT_ID;
             originReportFile = DEFAULT_ID;
         }
+        namesByOrigin = null;
         return this;
     }
 
@@ -878,10 +879,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the info messages
      */
     public List<String> getInfoMessages() {
-        return Stream.concat(
-                infoMessages.stream(),
-                subReports.stream().map(Report::getInfoMessages).flatMap(Collection::stream))
-                .collect(Collectors.toList());
+        return mergeMessages(infoMessages, Report::getInfoMessages);
     }
 
     /**
@@ -890,9 +888,14 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the error messages
      */
     public List<String> getErrorMessages() {
+        return mergeMessages(errorMessages, Report::getErrorMessages);
+    }
+
+    private List<String> mergeMessages(final List<String> thisMessages,
+            final Function<Report, List<String>> sumMessages) {
         return Stream.concat(
-                errorMessages.stream(),
-                subReports.stream().map(Report::getErrorMessages).flatMap(Collection::stream))
+                subReports.stream().map(sumMessages).flatMap(Collection::stream),
+                thisMessages.stream())
                 .collect(Collectors.toList());
     }
 

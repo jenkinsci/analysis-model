@@ -66,7 +66,6 @@ class ReportTest extends SerializableTest<Report> {
             .setFileName("file-3")
             .setSeverity(Severity.WARNING_LOW)
             .build();
-    private static final String NO_NAME = "";
     private static final int VALUE = 1234;
     private static final String KEY = "key";
 
