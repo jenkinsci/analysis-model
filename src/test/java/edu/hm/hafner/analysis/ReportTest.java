@@ -25,6 +25,7 @@ import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
+import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.SerializableTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -74,74 +75,15 @@ class ReportTest extends SerializableTest<Report> {
     private static final String NAME = "name";
     private static final String UNDEFINED = Report.DEFAULT_ID;
     private static final String SOURCE_FILE = "report.xml";
+    private static final String CHECKSTYLE_ID = "checkstyle";
+    private static final String CHECKSTYLE_NAME = "CheckStyle";
+    private static final String SPOTBUGS_ID = "spotbugs";
+    private static final String SPOTBUGS_NAME = "SpotBugs";
 
     @BeforeAll
     static void beforeAll() {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
-    }
-
-    @Test
-    void shouldProvideOriginMappings() {
-        Report report = new Report();
-
-        assertThat(report.getNameOfOrigin("id")).isEqualTo(NO_NAME);
-
-        report.setNameOfOrigin("id", "name");
-        assertThat(report.getNameOfOrigin("id")).isEqualTo("name");
-
-        report.setNameOfOrigin("second", "another name");
-        assertThat(report.getNameOfOrigin("id")).isEqualTo("name");
-        assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
-
-        report.setNameOfOrigin("id", "changed");
-        assertThat(report.getNameOfOrigin("id")).isEqualTo("changed");
-        assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
-    }
-
-    @Test
-    @Disabled("TODO: remove?")
-    void shouldMergeOriginMappings() {
-        Report first = new Report();
-
-        first.setNameOfOrigin("first", "first name");
-        assertThat(first.getNameOfOrigin("first")).isEqualTo("first name");
-
-        Report second = new Report();
-
-        second.setNameOfOrigin("second", "second name");
-        assertThat(second.getNameOfOrigin("second")).isEqualTo("second name");
-
-        assertThat(first.getNameOfOrigin("second")).isEqualTo(NO_NAME);
-        assertThat(second.getNameOfOrigin("first")).isEqualTo(NO_NAME);
-
-        first.addAll(second);
-        assertThat(first.getNameOfOrigin("first")).isEqualTo("first name");
-        assertThat(first.getNameOfOrigin("second")).isEqualTo("second name");
-
-        Report third = first.copyEmptyInstance();
-        assertThat(third.getNameOfOrigin("first")).isEqualTo("first name");
-        assertThat(third.getNameOfOrigin("second")).isEqualTo("second name");
-    }
-
-    @Test
-    @Disabled("TODO: remove?")
-    void shouldStoreFileNames() {
-        Report report = new Report();
-
-        assertThat(report).hasNoFileNames();
-
-        report.addFileName("one");
-
-        report.addFileName("one");
-        assertThat(report).hasFileNames("one");
-
-        report.addFileName("two");
-        assertThat(report).hasFileNames("one", "two");
-
-        Report copy = new Report();
-        copy.addAll(report);
-        assertThat(copy).hasFileNames("one", "two");
     }
 
     @Test
@@ -905,10 +847,12 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private Report readCheckStyleReport() {
-        Report report = new CheckStyleParser().parse(read("parser/checkstyle/all-severities.xml"));
+        String fileName = "parser/checkstyle/all-severities.xml";
+        Report report = new CheckStyleParser().parseFile(read(fileName));
         report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build());
         assertThat(report).hasSize(4);
         assertThat(report.getSeverities()).hasSize(4);
+        assertThat(report).hasOriginReportFile(new PathUtil().getAbsolutePath(getResourceAsFile(fileName)));
         return report;
     }
 
@@ -918,15 +862,24 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldCreateReportWithOptions() {
-        assertThat(new Report()).hasId(UNDEFINED).hasName(UNDEFINED).hasSourceFile(UNDEFINED);
-        assertThat(new Report(ID, NAME)).hasId(ID).hasName(NAME).hasSourceFile(UNDEFINED);
-        assertThat(new Report(ID, NAME, SOURCE_FILE)).hasId(ID).hasName(NAME).hasSourceFile(SOURCE_FILE);
+        assertThat(new Report()).hasId(UNDEFINED)
+                .hasName(UNDEFINED)
+                .hasOriginReportFile(UNDEFINED)
+                .hasNoOriginReportFiles();
+        assertThat(new Report(ID, NAME)).hasId(ID)
+                .hasName(NAME)
+                .hasOriginReportFile(UNDEFINED)
+                .hasNoOriginReportFiles();
+        assertThat(new Report(ID, NAME, SOURCE_FILE)).hasId(ID)
+                .hasName(NAME)
+                .hasOriginReportFile(SOURCE_FILE)
+                .hasOnlyOriginReportFiles(SOURCE_FILE);
     }
 
     @Test
     void shouldAddSubReports() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report checkStyle = new Report("checkstyle", "CheckStyle", "checkstyle.xml");
+            Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
             Issue checkstyleWarning = builder.setFileName("A.java")
                     .setCategory("Style")
                     .setLineStart(1)
@@ -936,28 +889,28 @@ class ReportTest extends SerializableTest<Report> {
 
             assertThat(checkStyle).hasSize(1)
                     .hasDuplicatesSize(1)
-                    .hasId("checkstyle")
-                    .hasEffectiveId("checkstyle")
-                    .hasName("CheckStyle")
-                    .hasEffectiveName("CheckStyle")
-                    .hasSourceFile("checkstyle.xml")
-                    .hasOnlySourceFiles("checkstyle.xml");
+                    .hasId(CHECKSTYLE_ID)
+                    .hasEffectiveId(CHECKSTYLE_ID)
+                    .hasName(CHECKSTYLE_NAME)
+                    .hasEffectiveName(CHECKSTYLE_NAME)
+                    .hasOriginReportFile("checkstyle.xml")
+                    .hasOnlyOriginReportFiles("checkstyle.xml");
             assertThat(checkStyle.get(0)).isSameAs(checkstyleWarning);
             assertThat(checkStyle.findById(checkstyleWarning.getId())).isSameAs(checkstyleWarning);
 
-            Report spotBugs = new Report("spotbugs", "SpotBugs", "spotbugs.xml");
+            Report spotBugs = new Report(SPOTBUGS_ID, SPOTBUGS_NAME, "spotbugs.xml");
             Issue spotBugsWarning = builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean();
             spotBugs.add(spotBugsWarning);
             spotBugs.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
 
             assertThat(spotBugs).hasSize(1)
                     .hasDuplicatesSize(1)
-                    .hasId("spotbugs")
-                    .hasEffectiveId("spotbugs")
-                    .hasName("SpotBugs")
-                    .hasEffectiveName("SpotBugs")
-                    .hasSourceFile("spotbugs.xml")
-                    .hasOnlySourceFiles("spotbugs.xml");
+                    .hasId(SPOTBUGS_ID)
+                    .hasEffectiveId(SPOTBUGS_ID)
+                    .hasName(SPOTBUGS_NAME)
+                    .hasEffectiveName(SPOTBUGS_NAME)
+                    .hasOriginReportFile("spotbugs.xml")
+                    .hasOnlyOriginReportFiles("spotbugs.xml");
             assertThat(spotBugs.get(0)).isSameAs(spotBugsWarning);
             assertThat(spotBugs.findById(spotBugsWarning.getId())).isSameAs(spotBugsWarning);
 
@@ -967,16 +920,19 @@ class ReportTest extends SerializableTest<Report> {
             container.addAll(checkStyle, spotBugs);
             verifyContainer(container, checkstyleWarning, spotBugsWarning);
 
-            assertThat(checkStyle).hasId("checkstyle").hasName("CheckStyle");
-            assertThat(spotBugs).hasId("spotbugs").hasName("SpotBugs");
+            assertThat(checkStyle).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME);
+            assertThat(spotBugs).hasId(SPOTBUGS_ID).hasName(SPOTBUGS_NAME);
 
             IssueFilterBuilder filterBuilder = new IssueFilterBuilder();
             Predicate<Issue> predicate = filterBuilder.setIncludeCategoryFilter("Style").build();
 
-            assertThat(checkStyle.filter(predicate)).hasSize(1).hasId("checkstyle").hasName("CheckStyle");
+            assertThat(checkStyle.filter(predicate)).hasSize(1).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME);
 
             Report filtered = container.filter(predicate);
             verifyContainer(filtered, checkstyleWarning, spotBugsWarning);
+
+            Report copy = container.copy();
+            verifyContainer(copy, checkstyleWarning, spotBugsWarning);
 
             checkStyle.setId("nothing");
             checkStyle.setName("Nothing");
@@ -984,9 +940,6 @@ class ReportTest extends SerializableTest<Report> {
             spotBugs.setId("nothing");
             spotBugs.setName("Nothing");
             assertThat(spotBugs).hasId("nothing").hasName("Nothing");
-
-            Report copy = container.copy();
-            verifyContainer(copy, checkstyleWarning, spotBugsWarning);
         }
     }
 
@@ -997,12 +950,16 @@ class ReportTest extends SerializableTest<Report> {
                 .hasEffectiveId("container")
                 .hasName("Aggregation")
                 .hasEffectiveName("Aggregation")
-                .hasSourceFile("-").hasOnlySourceFiles("checkstyle.xml", "spotbugs.xml");
+                .hasOriginReportFile("-")
+                .hasOnlyOriginReportFiles("checkstyle.xml", "spotbugs.xml");
 
         assertThat(container.get(0)).isSameAs(checkstyleWarning);
         assertThat(container.get(1)).isSameAs(spotBugsWarning);
         assertThat(container).hasOnlySeverities(Severity.WARNING_NORMAL);
         assertThat(container.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(2);
+        assertThat(container.getNameOfOrigin(CHECKSTYLE_ID)).isEqualTo(CHECKSTYLE_NAME);
+        assertThat(container.getNameOfOrigin(SPOTBUGS_ID)).isEqualTo(SPOTBUGS_NAME);
+        assertThat(container.getNameOfOrigin("container")).isEqualTo("Aggregation");
 
         assertThat(container.findById(checkstyleWarning.getId())).isSameAs(checkstyleWarning);
         assertThat(container.findById(spotBugsWarning.getId())).isSameAs(spotBugsWarning);

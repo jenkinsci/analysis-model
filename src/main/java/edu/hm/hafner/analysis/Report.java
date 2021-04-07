@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.factory.Lists;
@@ -34,9 +33,11 @@ import com.google.errorprone.annotations.FormatMethod;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.NoSuchElementException;
+import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -62,7 +63,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     private String id;
     private String name;
-    private String sourceFile;
+    private String originReportFile;
 
     private List<Report> subReports = new ArrayList<>(); // almost final
 
@@ -73,7 +74,8 @@ public class Report implements Iterable<Issue>, Serializable {
 
     private Set<String> fileNames = new HashSet<>(); // FIXME: remove?
 
-    private Map<String, String> namesByOrigin = new HashMap<>(); // TODO: check: origin should be superfluous
+    @CheckForNull
+    private transient Map<String, String> namesByOrigin; // Not needed anymore since  10.0.0
 
     private int duplicatesSize = 0;
 
@@ -104,13 +106,13 @@ public class Report implements Iterable<Issue>, Serializable {
      *         the ID of the report
      * @param name
      *         a human readable name for the report
-     * @param sourceFile
+     * @param originReportFile
      *         the specified source file * that is the origin of the issues.
      */
-    public Report(final String id, final String name, final String sourceFile) {
+    public Report(final String id, final String name, final String originReportFile) {
         this.id = id;
         this.name = name;
-        this.sourceFile = sourceFile;
+        this.originReportFile = originReportFile;
     }
 
     public String getId() {
@@ -163,26 +165,32 @@ public class Report implements Iterable<Issue>, Serializable {
         return getName();
     }
 
-    public String getSourceFile() {
-        return sourceFile;
+    public String getOriginReportFile() {
+        return originReportFile;
     }
 
-    public void setSourceFile(final String sourceFile) {
-        this.sourceFile = sourceFile;
+    /*
+     * Stores the name of the report file that is the origin of the contained issues.
+     *
+     * @param fileName
+     *         the report file name to add
+     */
+    public void setOriginReportFile(final String originReportFile) {
+        this.originReportFile = new PathUtil().getAbsolutePath(originReportFile);
     }
 
     /**
-     * Returns the effective ID of this report. This ID is the unique ID of all containing sub-reports. If this ID is
-     * not unique, then the {@link #DEFAULT_ID} will be returned.
+     * Returns the names of all report files that are the origin for the issues of this {@link Report} (and all
+     * contained sub-reports).
      *
-     * @return the effective ID of all sub-reports
+     * @return the names of all report files
      */
-    public Set<String> getSourceFiles() {
+    public Set<String> getOriginReportFiles() {
         Set<String> files = subReports.stream()
-                .map(Report::getSourceFiles)
+                .map(Report::getOriginReportFiles)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
-        files.add(getSourceFile());
+        files.add(getOriginReportFile());
         files.remove(DEFAULT_ID);
         return files;
     }
@@ -309,9 +317,6 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
     protected Object readResolve() {
-        if (namesByOrigin == null) {
-            namesByOrigin = new HashMap<>();
-        }
         if (countersByKey == null) {
             countersByKey = new HashMap<>();
         }
@@ -322,29 +327,9 @@ public class Report implements Iterable<Issue>, Serializable {
             subReports = new ArrayList<>();
             id = DEFAULT_ID;
             name = DEFAULT_ID;
-            sourceFile = DEFAULT_ID;
+            originReportFile = DEFAULT_ID;
         }
         return this;
-    }
-
-    /**
-     * Adds the specified file name to the set of file names in this report. The file name identifies the file that has
-     * been processed to obtain all the issues of this report.
-     *
-     * @param fileName
-     *         the report file name to add
-     */
-    public void addFileName(final String fileName) {
-        fileNames.add(fileName);
-    }
-
-    /**
-     * Returns all files that have been processed to obtain all the issues of this report.
-     *
-     * @return the file names
-     */
-    public Set<String> getFileNames() {
-        return fileNames;
     }
 
     /**
@@ -557,7 +542,8 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("%d issues", size());
+        return String.format("%s (%s): %d issues (%d duplicates)", getEffectiveName(), getEffectiveId(),
+                size(), getDuplicatesSize());
     }
 
     /**
@@ -811,11 +797,10 @@ public class Report implements Iterable<Issue>, Serializable {
     private void copyProperties(final Report source, final Report destination) {
         destination.id = source.id;
         destination.name = source.name;
-        destination.sourceFile = source.sourceFile;
+        destination.originReportFile = source.originReportFile;
         destination.duplicatesSize += source.duplicatesSize;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
-        destination.namesByOrigin.putAll(source.namesByOrigin);
         destination.fileNames.addAll(source.fileNames);
         destination.countersByKey = Stream.concat(
                 destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
@@ -943,7 +928,7 @@ public class Report implements Iterable<Issue>, Serializable {
         if (!name.equals(report.name)) {
             return false;
         }
-        if (!sourceFile.equals(report.sourceFile)) {
+        if (!originReportFile.equals(report.originReportFile)) {
             return false;
         }
         if (!subReports.equals(report.subReports)) {
@@ -965,7 +950,7 @@ public class Report implements Iterable<Issue>, Serializable {
     public int hashCode() {
         int result = id.hashCode();
         result = 31 * result + name.hashCode();
-        result = 31 * result + sourceFile.hashCode();
+        result = 31 * result + originReportFile.hashCode();
         result = 31 * result + subReports.hashCode();
         result = 31 * result + elements.hashCode();
         result = 31 * result + infoMessages.hashCode();
@@ -983,13 +968,12 @@ public class Report implements Iterable<Issue>, Serializable {
         output.writeObject(errorMessages);
         output.writeObject(fileNames);
         output.writeObject(countersByKey);
-        output.writeObject(namesByOrigin);
 
         output.writeInt(duplicatesSize);
 
         output.writeUTF(id);
         output.writeUTF(name);
-        output.writeUTF(sourceFile);
+        output.writeUTF(originReportFile);
         output.writeInt(subReports.size());
         for (Report subReport : subReports) {
             output.writeObject(subReport);
@@ -1035,13 +1019,12 @@ public class Report implements Iterable<Issue>, Serializable {
         errorMessages = (List<String>) input.readObject();
         fileNames = (Set<String>) input.readObject();
         countersByKey = (Map<String, Integer>) input.readObject();
-        namesByOrigin = (Map<String, String>) input.readObject();
 
         duplicatesSize = input.readInt();
 
         id = input.readUTF();
         name = input.readUTF();
-        sourceFile = input.readUTF();
+        originReportFile = input.readUTF();
         subReports = new ArrayList<>();
 
         int subReportCount = input.readInt();
@@ -1107,19 +1090,16 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the name, or an empty string if no such name has been set
      */
     public String getNameOfOrigin(final String origin) {
-        return namesByOrigin.getOrDefault(origin, StringUtils.EMPTY);
-    }
-
-    /**
-     * Provides a human readable name for the specified {@code origin} of this report.
-     *
-     * @param origin
-     *         the origin to define a name for
-     * @param displayName
-     *         the human readable name
-     */
-    public void setNameOfOrigin(final String origin, final String displayName) {
-        namesByOrigin.put(origin, displayName);
+        if (getId().equals(origin)) {
+            return getName();
+        }
+        for (Report subReport : subReports) {
+            String nameOfSubReport = subReport.getNameOfOrigin(origin);
+            if (!DEFAULT_ID.equals(nameOfSubReport)) {
+                return nameOfSubReport;
+            }
+        }
+        return DEFAULT_ID;
     }
 
     /**
