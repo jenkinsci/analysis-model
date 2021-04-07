@@ -2,12 +2,14 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.collections.api.set.ImmutableSet;
-import org.eclipse.collections.impl.factory.Sets;
 
 import com.google.errorprone.annotations.Immutable;
 
@@ -35,8 +37,8 @@ public class Severity implements Serializable {
     /** A warning with priority low. Mapping of warning priorities is determined by the corresponding tool. */
     public static final Severity WARNING_LOW = new Severity("LOW");
 
-    private static final ImmutableSet<Severity> ALL_SEVERITIES
-            = Sets.immutable.of(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW);
+    private static final Set<Severity> ALL_SEVERITIES = Collections.unmodifiableSet(new HashSet<>(
+                    Arrays.asList(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW)));
 
     /**
      * Creates a new {@link Severity} with the specified name. If the name is the same as the name of one of the
@@ -136,7 +138,7 @@ public class Severity implements Serializable {
      *
      * @return all predefined severities
      */
-    public static ImmutableSet<Severity> getPredefinedValues() {
+    public static Set<Severity> getPredefinedValues() {
         return ALL_SEVERITIES;
     }
 

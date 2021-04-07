@@ -14,7 +14,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import org.eclipse.collections.impl.block.factory.Predicates;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -344,7 +343,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(empty.getCounter("other")).isZero();
         assertThat(empty.hasCounter("other")).isFalse();
 
-        Report filtered = expected.filter(Predicates.alwaysTrue());
+        Report filtered = expected.filter(issue -> true);
         assertThat(filtered).isEqualTo(expected);
         assertThatAllIssuesHaveBeenAdded(filtered);
     }
@@ -886,6 +885,8 @@ class ReportTest extends SerializableTest<Report> {
                     .buildAndClean();
             checkStyle.add(checkstyleWarning);
             checkStyle.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
+            checkStyle.logInfo("Info message from %s", CHECKSTYLE_NAME);
+            checkStyle.logError("Error message from %s", CHECKSTYLE_NAME);
 
             assertThat(checkStyle).hasSize(1)
                     .hasDuplicatesSize(1)
@@ -913,6 +914,8 @@ class ReportTest extends SerializableTest<Report> {
                     .hasOnlyOriginReportFiles("spotbugs.xml");
             assertThat(spotBugs.get(0)).isSameAs(spotBugsWarning);
             assertThat(spotBugs.findById(spotBugsWarning.getId())).isSameAs(spotBugsWarning);
+            spotBugs.logInfo("Info message from %s", SPOTBUGS_NAME);
+            spotBugs.logError("Error message from %s", SPOTBUGS_NAME);
 
             Report container = new Report();
             container.setId("container");
@@ -934,6 +937,9 @@ class ReportTest extends SerializableTest<Report> {
             Report copy = container.copy();
             verifyContainer(copy, checkstyleWarning, spotBugsWarning);
 
+            Report copyOfCopy = copy.copy();
+            verifyContainer(copyOfCopy, checkstyleWarning, spotBugsWarning);
+
             checkStyle.setId("nothing");
             checkStyle.setName("Nothing");
             assertThat(checkStyle).hasId("nothing").hasName("Nothing");
@@ -952,6 +958,10 @@ class ReportTest extends SerializableTest<Report> {
                 .hasEffectiveName("Aggregation")
                 .hasOriginReportFile("-")
                 .hasOnlyOriginReportFiles("checkstyle.xml", "spotbugs.xml");
+        assertThat(container.getInfoMessages()).contains(
+                "Info message from CheckStyle", "Info message from SpotBugs");
+        assertThat(container.getErrorMessages()).contains(
+                "Error message from CheckStyle", "Error message from SpotBugs");
 
         assertThat(container.get(0)).isSameAs(checkstyleWarning);
         assertThat(container.get(1)).isSameAs(spotBugsWarning);

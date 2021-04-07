@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.eclipse.collections.api.list.ImmutableList;
-import org.eclipse.collections.impl.factory.Lists;
 
 import com.google.errorprone.annotations.FormatMethod;
 
@@ -879,11 +877,11 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @return the info messages
      */
-    public ImmutableList<String> getInfoMessages() {
-        return Lists.immutable.ofAll(Stream.concat(
+    public List<String> getInfoMessages() {
+        return Stream.concat(
                 infoMessages.stream(),
-                subReports.stream().map(subReport -> subReport.infoMessages).flatMap(Collection::stream))
-                .collect(Collectors.toList()));
+                subReports.stream().map(Report::getInfoMessages).flatMap(Collection::stream))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -891,11 +889,11 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @return the error messages
      */
-    public ImmutableList<String> getErrorMessages() {
-        return Lists.immutable.ofAll(Stream.concat(
+    public List<String> getErrorMessages() {
+        return Stream.concat(
                 errorMessages.stream(),
-                subReports.stream().map(subReport -> subReport.errorMessages).flatMap(Collection::stream))
-                .collect(Collectors.toList()));
+                subReports.stream().map(Report::getErrorMessages).flatMap(Collection::stream))
+                .collect(Collectors.toList());
     }
 
     /**
