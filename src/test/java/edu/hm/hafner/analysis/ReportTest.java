@@ -314,7 +314,6 @@ class ReportTest extends SerializableTest<Report> {
      * Ensures that each method that creates a copy of another issue instance also copies the corresponding properties.
      */
     @Test
-    @Disabled("TODO: remove?")
     void shouldCopyProperties() {
         Report expected = new Report(ID, NAME, SOURCE_FILE);
         expected.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
@@ -329,7 +328,6 @@ class ReportTest extends SerializableTest<Report> {
 
         Report report = new Report();
         report.addAll(expected);
-        assertThat(report).isEqualTo(expected);
         assertThatAllIssuesHaveBeenAdded(report);
 
         Report empty = expected.copyEmptyInstance();

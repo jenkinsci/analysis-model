@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.google.errorprone.annotations.FormatMethod;
@@ -327,7 +328,6 @@ public class Report implements Iterable<Issue>, Serializable {
             name = DEFAULT_ID;
             originReportFile = DEFAULT_ID;
         }
-        namesByOrigin = null;
         return this;
     }
 
@@ -1094,10 +1094,37 @@ public class Report implements Iterable<Issue>, Serializable {
         if (getId().equals(origin)) {
             return getName();
         }
+
+        String originName = getNameFromSubReports(origin);
+        if (DEFAULT_ID.equals(originName)) {
+            return resolveNameFromOldSerialization(origin);
+        }
+        return originName;
+    }
+
+    private String getNameFromSubReports(final String origin) {
         for (Report subReport : subReports) {
             String nameOfSubReport = subReport.getNameOfOrigin(origin);
             if (!DEFAULT_ID.equals(nameOfSubReport)) {
                 return nameOfSubReport;
+            }
+        }
+        return DEFAULT_ID;
+    }
+
+    /**
+     * Fallback to get the origin name from a serialization of a report < 10.0.0.
+     *
+     * @param origin
+     *         the origin key
+     *
+     * @return the name or {@link #DEFAULT_ID}
+     */
+    private String resolveNameFromOldSerialization(final String origin) {
+        if (namesByOrigin != null) {
+            String nameInOldReportSerialization = namesByOrigin.get(origin);
+            if (StringUtils.isNoneBlank(nameInOldReportSerialization)) {
+                return nameInOldReportSerialization;
             }
         }
         return DEFAULT_ID;
