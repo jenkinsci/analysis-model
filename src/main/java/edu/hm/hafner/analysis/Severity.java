@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class Severity implements Serializable {
     /** A warning with priority low. Mapping of warning priorities is determined by the corresponding tool. */
     public static final Severity WARNING_LOW = new Severity("LOW");
 
-    private static final Set<Severity> ALL_SEVERITIES = Collections.unmodifiableSet(new HashSet<>(
+    private static final Set<Severity> ALL_SEVERITIES = Collections.unmodifiableSet(new LinkedHashSet<>(
                     Arrays.asList(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW)));
 
     /**
