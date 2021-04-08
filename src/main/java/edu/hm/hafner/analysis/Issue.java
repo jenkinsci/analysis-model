@@ -256,8 +256,9 @@ public class Issue implements Serializable {
             final TreeString packageName, @CheckForNull final String moduleName,
             @CheckForNull final Severity severity,
             final TreeString message, final String description,
-            @CheckForNull final String origin, final String originName, @CheckForNull final String reference,
-            @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties) {
+            @CheckForNull final String origin, @CheckForNull final String originName, @CheckForNull
+            final String reference, @CheckForNull final String fingerprint,
+            @CheckForNull final Serializable additionalProperties) {
         this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
                 packageName, moduleName, severity, message, description, origin, originName, reference,
                 fingerprint, additionalProperties, UUID.randomUUID());
@@ -315,8 +316,9 @@ public class Issue implements Serializable {
             @CheckForNull final String type, final TreeString packageName,
             @CheckForNull final String moduleName, @CheckForNull final Severity severity,
             final TreeString message, final String description,
-            @CheckForNull final String origin, final String originName, @CheckForNull final String reference,
-            @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties,
+            @CheckForNull final String origin, @CheckForNull final String originName,
+            @CheckForNull final String reference, @CheckForNull final String fingerprint,
+            @CheckForNull final Serializable additionalProperties,
             final UUID id) {
 
         this.pathName = normalizeFileName(pathName);
@@ -765,13 +767,13 @@ public class Issue implements Serializable {
     /**
      * Sets the ID and the name of the tool that did report this issue.
      *
-     * @param id
+     * @param originId
      *         the ID of the origin
      * @param name
      *         the name of the origin
      */
-    public void setOrigin(final String id, final String name) {
-        setOrigin(id);
+    public void setOrigin(final String originId, final String name) {
+        setOrigin(originId);
 
         Ensure.that(name).isNotBlank("Issue origin name '%s' must be not blank (%s)", name, toString());
 

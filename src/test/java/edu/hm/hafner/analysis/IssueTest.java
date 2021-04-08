@@ -271,13 +271,13 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasFingerprint(fingerprint);
         }
 
-        String ORIGIN_NAME = "new-origin-name";
-        issue.setOrigin(origin, ORIGIN_NAME);
+        String originName = "new-origin-name";
+        issue.setOrigin(origin, originName);
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasOrigin(origin)
-                    .hasOriginName(ORIGIN_NAME)
+                    .hasOriginName(originName)
                     .hasReference(reference)
                     .hasModuleName(moduleName)
                     .hasPackageName(packageName)
