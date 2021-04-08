@@ -118,6 +118,10 @@ public class Report implements Iterable<Issue>, Serializable {
         return id;
     }
 
+    private boolean hasId() {
+        return !DEFAULT_ID.equals(id) && StringUtils.isNoneBlank(id);
+    }
+
     public void setId(final String id) {
         this.id = id;
     }
@@ -242,12 +246,16 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return this
      */
     public Report add(final Issue issue) {
+        if (hasId() && !issue.hasOrigin()) {
+            issue.setOrigin(id, name);
+        }
         if (elements.contains(issue)) {
             duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
         }
         else {
             elements.add(issue);
         }
+
         return this;
     }
 
@@ -999,6 +1007,7 @@ public class Report implements Iterable<Issue>, Serializable {
             writeLongString(output, issue.getMessage());
             writeLongString(output, issue.getDescription());
             output.writeUTF(issue.getOrigin());
+            output.writeUTF(issue.getOriginName());
             output.writeUTF(issue.getReference());
             output.writeUTF(issue.getFingerprint());
             output.writeObject(issue.getAdditionalProperties());
@@ -1054,6 +1063,7 @@ public class Report implements Iterable<Issue>, Serializable {
             TreeString message = builder.intern(readLongString(input));
             String description = readLongString(input);
             String origin = input.readUTF();
+            String originName = input.readUTF();
             String reference = input.readUTF();
             String fingerprint = input.readUTF();
             Serializable additionalProperties = (Serializable) input.readObject();
@@ -1063,7 +1073,7 @@ public class Report implements Iterable<Issue>, Serializable {
                     lineStart, lineEnd, columnStart, columnEnd,
                     lineRanges, category, type, packageName, moduleName,
                     severity, message, description,
-                    origin, reference, fingerprint, additionalProperties, uuid);
+                    origin, originName, reference, fingerprint, additionalProperties, uuid);
 
             elements.add(issue);
         }

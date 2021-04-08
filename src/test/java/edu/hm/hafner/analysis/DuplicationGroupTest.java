@@ -5,6 +5,10 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.util.SerializableTest;
+import edu.hm.hafner.util.TreeString;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -97,5 +101,14 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
             assertThat(group.getDuplications()).containsExactly(first, second);
             assertThat(first.getAdditionalProperties()).isEqualTo(second.getAdditionalProperties());
         }
+    }
+
+    @Test
+    void shouldObeyEqualsContract() {
+        EqualsVerifier
+                .forClass(DuplicationGroup.class)
+                .withOnlyTheseFields("codeFragment").suppress(Warning.NONFINAL_FIELDS)
+                .withPrefabValues(TreeString.class, TreeString.valueOf("One"), TreeString.valueOf("Two"))
+                .verify();
     }
 }

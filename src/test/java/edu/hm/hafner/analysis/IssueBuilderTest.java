@@ -23,11 +23,11 @@ class IssueBuilderTest {
     private static final String FILE_NAME = "C:/users/tester/file-name";
     static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
     private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
-            null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null);
+            null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(PATH_NAME, TreeString.valueOf(FILE_NAME), LINE_START,
             LINE_END, COLUMN_START, COLUMN_END,
             LINE_RANGES, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
-            TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, REFERENCE,
+            TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
 
@@ -186,6 +186,7 @@ class IssueBuilderTest {
                     .setMessage(MESSAGE)
                     .setDescription(DESCRIPTION)
                     .setOrigin(ORIGIN)
+                    .setOriginName(ORIGIN_NAME)
                     .setLineRanges(LINE_RANGES)
                     .setReference(REFERENCE)
                     .setFingerprint(FINGERPRINT)
@@ -193,11 +194,13 @@ class IssueBuilderTest {
                     .build();
 
             assertThatIssueIsEqualToFilled(issue);
+            assertThatIssueIsEqualToFilled(builder.copy(issue).build());
             assertThatIssueIsEqualToFilled(builder.build()); // same result because builder is not cleaned
             assertThatIssueIsEqualToFilled(builder.buildAndClean());
 
             try (IssueBuilder emptyBuilder = new IssueBuilder()) {
                 emptyBuilder.setOrigin(ORIGIN);
+                emptyBuilder.setOriginName(ORIGIN_NAME);
                 assertThat(builder.build()).isEqualTo(emptyBuilder.build());
             }
         }

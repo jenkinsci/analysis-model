@@ -51,6 +51,7 @@ class IssueTest extends SerializableTest<Issue> {
     static final TreeString UNDEFINED_TS = TREE_STRING_BUILDER.intern(UNDEFINED);
     static final String FINGERPRINT = "fingerprint";
     static final String ORIGIN = "origin";
+    static final String ORIGIN_NAME = "Origin";
     static final String REFERENCE = "reference";
     static final String ADDITIONAL_PROPERTIES = "additional";
     static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRange(5, 6)));
@@ -107,7 +108,8 @@ class IssueTest extends SerializableTest<Issue> {
             final String additionalProperties) {
         return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type,
                 packageName,
-                moduleName, priority, message, description, origin, reference, fingerprint, additionalProperties,
+                moduleName, priority, message, description, origin, ORIGIN_NAME, reference, fingerprint,
+                additionalProperties,
                 UUID.randomUUID());
     }
 
@@ -115,7 +117,8 @@ class IssueTest extends SerializableTest<Issue> {
     void shouldSplitFileNameElements() {
         Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+                UUID.randomUUID());
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
@@ -137,12 +140,14 @@ class IssueTest extends SerializableTest<Issue> {
 
         Issue other = new Issue(PATH_NAME, newName, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+                UUID.randomUUID());
         assertThat(issue).as("Equals should not consider pathName in computation").isEqualTo(other);
 
         Issue emptyPath = new Issue("", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+                UUID.randomUUID());
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(emptyPath)
@@ -157,7 +162,8 @@ class IssueTest extends SerializableTest<Issue> {
     void shouldConvertWindowsNames() {
         Issue issue = new Issue("C:\\Windows", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+                UUID.randomUUID());
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
@@ -186,7 +192,8 @@ class IssueTest extends SerializableTest<Issue> {
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
         Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+                UUID.randomUUID());
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
     }
@@ -255,6 +262,22 @@ class IssueTest extends SerializableTest<Issue> {
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasOrigin(origin)
+                    .hasReference(reference)
+                    .hasModuleName(moduleName)
+                    .hasPackageName(packageName)
+                    .hasFileName(fileName.toString())
+                    .hasPath(pathName)
+                    .hasAbsolutePath(pathName + "/" + fileName)
+                    .hasFingerprint(fingerprint);
+        }
+
+        String ORIGIN_NAME = "new-origin-name";
+        issue.setOrigin(origin, ORIGIN_NAME);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasOrigin(origin)
+                    .hasOriginName(ORIGIN_NAME)
                     .hasReference(reference)
                     .hasModuleName(moduleName)
                     .hasPackageName(packageName)
@@ -394,17 +417,23 @@ class IssueTest extends SerializableTest<Issue> {
         assertThatSerializableCanBeRestoredFrom(restored);
     }
 
-    /**
-     * Serializes an issue to a file. Use this method in case the issue properties have been changed and the readResolve
-     * method has been adapted accordingly so that the old serialization still can be read.
-     *
-     * @param args
-     *         not used
-     *
-     * @throws IOException
-     *         if the file could not be written
-     */
-    public static void main(final String... args) throws IOException {
-        new IssueTest().createSerializationFile();
+    static final class IssueWriter {
+        private IssueWriter() {
+            // prevents instantiation
+        }
+
+        /**
+         * Serializes an {@link Issue} to a file. Use this method in case the issue properties have been changed and the
+         * readResolve method has been adapted accordingly so that the old serialization still can be read.
+         *
+         * @param args
+         *         not used
+         *
+         * @throws IOException
+         *         if the file could not be written
+         */
+        public static void main(final String... args) throws IOException {
+            new IssueTest().createSerializationFile();
+        }
     }
 }

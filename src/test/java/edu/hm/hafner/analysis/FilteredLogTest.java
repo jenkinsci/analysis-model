@@ -23,6 +23,16 @@ class FilteredLogTest {
     }
 
     @Test
+    void shouldLogInfoMessages() {
+        Report report = new Report();
+        FilteredLog filteredLog = new FilteredLog(report, TITLE, 5);
+
+        assertThat(report.getInfoMessages()).isEmpty();
+        filteredLog.logInfo("Hello %s", "World!");
+        assertThat(report.getInfoMessages()).containsExactly("Hello World!");
+    }
+
+    @Test
     void shouldLogAllErrors() {
         Report report = new Report();
         FilteredLog filteredLog = new FilteredLog(report, TITLE, 5);
@@ -69,6 +79,6 @@ class FilteredLogTest {
 
         assertThat(report.getErrorMessages()).contains(TITLE,
                 "Message", "java.lang.IllegalArgumentException: Cause",
-                "\tat edu.hm.hafner.analysis.FilteredLogTest.shouldLogExceptions(FilteredLogTest.java:67)");
+                "\tat edu.hm.hafner.analysis.FilteredLogTest.shouldLogExceptions(FilteredLogTest.java:77)");
     }
 }

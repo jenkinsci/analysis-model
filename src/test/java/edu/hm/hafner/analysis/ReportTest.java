@@ -15,7 +15,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -505,6 +504,8 @@ class ReportTest extends SerializableTest<Report> {
                     .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat(report.getFiles())
                     .containsExactly("file-1", "file-2", "file-3");
+            softly.assertThat(report.getAbsolutePaths())
+                    .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat((Iterable<Issue>) report)
                     .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
             softly.assertThat(report.isNotEmpty()).isTrue();
@@ -778,7 +779,6 @@ class ReportTest extends SerializableTest<Report> {
      * implementation of {@link Issue}.
      */
     @Test
-    @Disabled("TODO: recreate file for 10.0.0")
     void shouldReadIssueFromOldSerialization() {
         byte[] restored = readAllBytes(SERIALIZATION_NAME);
 
@@ -983,8 +983,8 @@ class ReportTest extends SerializableTest<Report> {
         }
 
         /**
-         * Serializes an issues to a file. Use this method in case the issue properties have been changed and the
-         * readResolve method has been adapted accordingly so that the old serialization still can be read.
+         * Serializes a {@link Report} to a file. Use this method in case the report properties have been changed and
+         * the readResolve method has been adapted accordingly so that the old serialization still can be read.
          *
          * @param args
          *         not used

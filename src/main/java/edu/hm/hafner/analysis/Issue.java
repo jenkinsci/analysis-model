@@ -176,6 +176,7 @@ public class Issue implements Serializable {
 
     private String reference;       // mutable, not part of equals
     private String origin;          // mutable
+    private String originName;      // mutable
 
     private String moduleName;      // mutable
     private TreeString packageName; // mutable
@@ -200,7 +201,7 @@ public class Issue implements Serializable {
                 copy.getColumnStart(),
                 copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
                 copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
-                copy.getDescription(), copy.getOrigin(), copy.getReference(), copy.getFingerprint(),
+                copy.getDescription(), copy.getOrigin(), copy.getOriginName(), copy.getReference(), copy.getFingerprint(),
                 copy.getAdditionalProperties(), copy.getId());
     }
 
@@ -238,6 +239,8 @@ public class Issue implements Serializable {
      *         the description for this issue
      * @param origin
      *         the ID of the tool that did report this issue
+     * @param originName
+     *         the name of the tool that did report this issue
      * @param reference
      *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
      * @param fingerprint
@@ -253,10 +256,10 @@ public class Issue implements Serializable {
             final TreeString packageName, @CheckForNull final String moduleName,
             @CheckForNull final Severity severity,
             final TreeString message, final String description,
-            @CheckForNull final String origin, @CheckForNull final String reference,
+            @CheckForNull final String origin, final String originName, @CheckForNull final String reference,
             @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties) {
         this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, severity, message, description, origin, reference,
+                packageName, moduleName, severity, message, description, origin, originName, reference,
                 fingerprint, additionalProperties, UUID.randomUUID());
     }
 
@@ -293,6 +296,8 @@ public class Issue implements Serializable {
      *         the description for this issue
      * @param origin
      *         the ID of the tool that did report this issue
+     * @param originName
+     *         the name of the tool that did report this issue
      * @param reference
      *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
      * @param fingerprint
@@ -310,7 +315,7 @@ public class Issue implements Serializable {
             @CheckForNull final String type, final TreeString packageName,
             @CheckForNull final String moduleName, @CheckForNull final Severity severity,
             final TreeString message, final String description,
-            @CheckForNull final String origin, @CheckForNull final String reference,
+            @CheckForNull final String origin, final String originName, @CheckForNull final String reference,
             @CheckForNull final String fingerprint, @CheckForNull final Serializable additionalProperties,
             final UUID id) {
 
@@ -353,6 +358,7 @@ public class Issue implements Serializable {
         this.description = description.intern();
 
         this.origin = stripToEmpty(origin);
+        this.originName = stripToEmpty(originName);
         this.reference = stripToEmpty(reference);
 
         this.fingerprint = defaultString(fingerprint);
@@ -385,7 +391,12 @@ public class Issue implements Serializable {
         else {
             description = description.intern();
         }
-
+        if (originName == null) { // new in version 10.0.0
+            originName = StringUtils.EMPTY;
+        }
+        else {
+            originName = originName.intern();
+        }
         return this;
     }
 
@@ -720,10 +731,23 @@ public class Issue implements Serializable {
     /**
      * Returns the ID of the tool that did report this issue.
      *
-     * @return the origin
+     * @return the ID of the origin
      */
     public String getOrigin() {
         return origin;
+    }
+
+    boolean hasOrigin() {
+        return StringUtils.isNoneBlank(origin);
+    }
+
+    /**
+     * Returns the name of the tool that did report this issue.
+     *
+     * @return the name of the origin
+     */
+    public String getOriginName() {
+        return originName;
     }
 
     /**
@@ -733,9 +757,25 @@ public class Issue implements Serializable {
      *         the origin
      */
     public void setOrigin(final String origin) {
-        Ensure.that(origin).isNotBlank("Issue origin '%s' must be not blank (%s)", id, toString());
+        Ensure.that(origin).isNotBlank("Issue origin IF '%s' must be not blank (%s)", id, toString());
 
         this.origin = origin.intern();
+    }
+
+    /**
+     * Sets the ID and the name of the tool that did report this issue.
+     *
+     * @param id
+     *         the ID of the origin
+     * @param name
+     *         the name of the origin
+     */
+    public void setOrigin(final String id, final String name) {
+        setOrigin(id);
+
+        Ensure.that(name).isNotBlank("Issue origin name '%s' must be not blank (%s)", name, toString());
+
+        this.originName = name.intern();
     }
 
     /**
@@ -853,6 +893,9 @@ public class Issue implements Serializable {
         if (!origin.equals(issue.origin)) {
             return false;
         }
+        if (!originName.equals(issue.originName)) {
+            return false;
+        }
         if (!moduleName.equals(issue.moduleName)) {
             return false;
         }
@@ -876,6 +919,7 @@ public class Issue implements Serializable {
         result = 31 * result + description.hashCode();
         result = 31 * result + (additionalProperties == null ? 0 : additionalProperties.hashCode());
         result = 31 * result + origin.hashCode();
+        result = 31 * result + originName.hashCode();
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();
         result = 31 * result + fileName.hashCode();
@@ -886,4 +930,5 @@ public class Issue implements Serializable {
     public String toString() {
         return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
     }
+
 }
