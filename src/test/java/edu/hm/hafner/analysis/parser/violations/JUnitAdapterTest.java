@@ -125,4 +125,21 @@ class JUnitAdapterTest extends AbstractParserTest {
         assertThat(report.getCounter(PASSED_TESTS)).as("Passed tests").isEqualTo(1);
         assertThat(report).hasSize(2);
     }
+
+    @Test
+    void shouldParseExceptions() {
+        shouldParseExceptions("TEST-edu.hm.hafner.analysis.parser.SonarQubeDiffParserTest.xml");
+        shouldParseExceptions("TEST-edu.hm.hafner.analysis.parser.SonarQubeIssuesParserTest.xml");
+    }
+
+    private void shouldParseExceptions(final String fileName) {
+        Report report = parse(fileName);
+
+        assertThat(report.getCounter(TOTAL_TESTS)).as("Total tests").isEqualTo(5);
+        assertThat(report.getCounter(SKIPPED_TESTS)).as("Skipped tests").isEqualTo(0);
+        assertThat(report.getCounter(FAILED_TESTS)).as("Failed tests").isEqualTo(1);
+        assertThat(report.getCounter(PASSED_TESTS)).as("Passed tests").isEqualTo(4);
+
+        assertThat(report).hasSize(2);
+    }
 }
