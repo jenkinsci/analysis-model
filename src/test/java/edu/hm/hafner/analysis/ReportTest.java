@@ -25,7 +25,10 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.SerializableTest;
+import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Arrays.*;
@@ -970,6 +973,16 @@ class ReportTest extends SerializableTest<Report> {
 
         assertThat(container.findById(checkstyleWarning.getId())).isSameAs(checkstyleWarning);
         assertThat(container.findById(spotBugsWarning.getId())).isSameAs(spotBugsWarning);
+    }
+
+    @Test
+    void shouldObeyEqualsContract() {
+        EqualsVerifier.simple()
+                .forClass(Report.class)
+                .withPrefabValues(Report.class, new Report("left", "Left"), new Report("right", "Right"))
+                .withPrefabValues(TreeString.class, TreeString.valueOf("One"), TreeString.valueOf("Two"))
+                .withPrefabValues(LineRangeList.class, new LineRangeList(new LineRange(2, 2)), new LineRangeList(new LineRange(1, 1)))
+                .verify();
     }
 
     @Override

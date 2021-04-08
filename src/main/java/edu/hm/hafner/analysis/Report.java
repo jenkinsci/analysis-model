@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -71,9 +70,9 @@ public class Report implements Iterable<Issue>, Serializable {
     private List<String> errorMessages = new ArrayList<>();
     private Map<String, Integer> countersByKey = new HashMap<>();
 
-    private Set<String> fileNames = new HashSet<>(); // FIXME: remove?
-
-    @CheckForNull
+    @CheckForNull @SuppressWarnings("all")
+    private transient Set<String> fileNames; // Not needed anymore since  10.0.0
+    @CheckForNull @SuppressWarnings("all")
     private transient Map<String, String> namesByOrigin; // Not needed anymore since  10.0.0
 
     private int duplicatesSize = 0;
@@ -326,9 +325,6 @@ public class Report implements Iterable<Issue>, Serializable {
     protected Object readResolve() {
         if (countersByKey == null) {
             countersByKey = new HashMap<>();
-        }
-        if (fileNames == null) {
-            fileNames = new HashSet<>();
         }
         if (subReports == null) { // release 10.0.0
             subReports = new ArrayList<>();
@@ -808,7 +804,6 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.duplicatesSize += source.duplicatesSize;
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
-        destination.fileNames.addAll(source.fileNames);
         destination.countersByKey = Stream.concat(
                 destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
@@ -975,7 +970,6 @@ public class Report implements Iterable<Issue>, Serializable {
 
         output.writeObject(infoMessages);
         output.writeObject(errorMessages);
-        output.writeObject(fileNames);
         output.writeObject(countersByKey);
 
         output.writeInt(duplicatesSize);
@@ -1027,7 +1021,6 @@ public class Report implements Iterable<Issue>, Serializable {
 
         infoMessages = (List<String>) input.readObject();
         errorMessages = (List<String>) input.readObject();
-        fileNames = (Set<String>) input.readObject();
         countersByKey = (Map<String, Integer>) input.readObject();
 
         duplicatesSize = input.readInt();
@@ -1105,36 +1098,10 @@ public class Report implements Iterable<Issue>, Serializable {
             return getName();
         }
 
-        String originName = getNameFromSubReports(origin);
-        if (DEFAULT_ID.equals(originName)) {
-            return resolveNameFromOldSerialization(origin);
-        }
-        return originName;
-    }
-
-    private String getNameFromSubReports(final String origin) {
         for (Report subReport : subReports) {
             String nameOfSubReport = subReport.getNameOfOrigin(origin);
             if (!DEFAULT_ID.equals(nameOfSubReport)) {
                 return nameOfSubReport;
-            }
-        }
-        return DEFAULT_ID;
-    }
-
-    /**
-     * Fallback to get the origin name from a serialization of a report < 10.0.0.
-     *
-     * @param origin
-     *         the origin key
-     *
-     * @return the name or {@link #DEFAULT_ID}
-     */
-    private String resolveNameFromOldSerialization(final String origin) {
-        if (namesByOrigin != null) {
-            String nameInOldReportSerialization = namesByOrigin.get(origin);
-            if (StringUtils.isNoneBlank(nameInOldReportSerialization)) {
-                return nameInOldReportSerialization;
             }
         }
         return DEFAULT_ID;
