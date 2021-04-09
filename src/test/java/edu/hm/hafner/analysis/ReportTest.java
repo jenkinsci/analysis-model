@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -876,6 +877,26 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
+    void shouldSetOrigin() {
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = new Report();
+            Issue checkstyleWarning = builder.setFileName("A.java")
+                    .setCategory("Style")
+                    .setLineStart(1)
+                    .buildAndClean();
+            report.add(checkstyleWarning);
+
+            assertThat(checkstyleWarning).hasOrigin("");
+            assertThat(checkstyleWarning).hasOriginName("");
+
+            report.setOrigin("origin", "Name");
+
+            assertThat(checkstyleWarning).hasOrigin("origin");
+            assertThat(checkstyleWarning).hasOriginName("Name");
+        }
+    }
+
+    @Test
     void shouldAddSubReports() {
         try (IssueBuilder builder = new IssueBuilder()) {
             Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
@@ -918,8 +939,7 @@ class ReportTest extends SerializableTest<Report> {
             spotBugs.logError("Error message from %s", SPOTBUGS_NAME);
 
             Report container = new Report();
-            container.setId("container");
-            container.setName("Aggregation");
+            container.setOrigin("container", "Aggregation");
             container.addAll(checkStyle, spotBugs);
             verifyContainer(container, checkstyleWarning, spotBugsWarning);
 
@@ -940,12 +960,18 @@ class ReportTest extends SerializableTest<Report> {
             Report copyOfCopy = copy.copy();
             verifyContainer(copyOfCopy, checkstyleWarning, spotBugsWarning);
 
-            checkStyle.setId("nothing");
-            checkStyle.setName("Nothing");
+            assertThat(container.stream().map(Issue::getOrigin).collect(Collectors.toSet()))
+                    .containsOnly(CHECKSTYLE_ID, SPOTBUGS_ID);
+            assertThat(container.stream().map(Issue::getOriginName).collect(Collectors.toSet()))
+                    .containsOnly(CHECKSTYLE_NAME, SPOTBUGS_NAME);
+            checkStyle.setOrigin("nothing", "Nothing");
+            spotBugs.setOrigin("nothing", "Nothing");
             assertThat(checkStyle).hasId("nothing").hasName("Nothing");
-            spotBugs.setId("nothing");
-            spotBugs.setName("Nothing");
             assertThat(spotBugs).hasId("nothing").hasName("Nothing");
+            assertThat(container.stream().map(Issue::getOrigin).collect(Collectors.toSet()))
+                    .containsOnly("nothing");
+            assertThat(container.stream().map(Issue::getOriginName).collect(Collectors.toSet()))
+                    .containsOnly("Nothing");
         }
     }
 

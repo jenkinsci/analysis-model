@@ -759,7 +759,7 @@ public class Issue implements Serializable {
      *         the origin
      */
     public void setOrigin(final String origin) {
-        Ensure.that(origin).isNotBlank("Issue origin IF '%s' must be not blank (%s)", id, toString());
+        Ensure.that(origin).isNotBlank("Issue origin ID '%s' must be not blank (%s)", id, toString());
 
         this.origin = origin.intern();
     }

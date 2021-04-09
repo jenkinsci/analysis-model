@@ -121,9 +121,6 @@ public class Report implements Iterable<Issue>, Serializable {
         return !DEFAULT_ID.equals(id) && StringUtils.isNoneBlank(id);
     }
 
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     /**
      * Returns the effective ID of this report. This ID is the unique ID of all containing sub-reports. If this ID is
@@ -146,8 +143,23 @@ public class Report implements Iterable<Issue>, Serializable {
         return name;
     }
 
-    public void setName(final String name) {
-        this.name = name;
+    /**
+     * Sets the origin of all issues in this report. Calling this method will associate all containing issues and
+     * issues in sub-reports using the specified ID and name.
+     *
+     * @param originId
+     *         the ID of the report
+     * @param originName
+     *         a human readable name for the report
+     */
+    public void setOrigin(final String originId, final String originName) {
+        Ensure.that(originId).isNotBlank("Issue origin ID '%s' must be not blank (%s)", originId, toString());
+        Ensure.that(originName).isNotBlank("Issue origin name '%s' must be not blank (%s)", originName, toString());
+
+        id = originId;
+        name = originName;
+
+        stream().forEach(issue -> issue.setOrigin(originId, originName));
     }
 
     /**
