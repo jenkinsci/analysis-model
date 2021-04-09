@@ -140,6 +140,6 @@ class JUnitAdapterTest extends AbstractParserTest {
         assertThat(report.getCounter(FAILED_TESTS)).as("Failed tests").isEqualTo(1);
         assertThat(report.getCounter(PASSED_TESTS)).as("Passed tests").isEqualTo(4);
 
-        assertThat(report).hasSize(2);
+        assertThat(report).hasSize(1);
     }
 }
