@@ -943,8 +943,8 @@ class ReportTest extends SerializableTest<Report> {
             container.addAll(checkStyle, spotBugs);
             verifyContainer(container, checkstyleWarning, spotBugsWarning);
 
-            assertThat(checkStyle).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME);
-            assertThat(spotBugs).hasId(SPOTBUGS_ID).hasName(SPOTBUGS_NAME);
+            assertThat(checkStyle).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME).hasErrors();
+            assertThat(spotBugs).hasId(SPOTBUGS_ID).hasName(SPOTBUGS_NAME).hasErrors();
 
             IssueFilterBuilder filterBuilder = new IssueFilterBuilder();
             Predicate<Issue> predicate = filterBuilder.setIncludeCategoryFilter("Style").build();
@@ -988,6 +988,7 @@ class ReportTest extends SerializableTest<Report> {
                 "Info message from CheckStyle", "Info message from SpotBugs");
         assertThat(container.getErrorMessages()).contains(
                 "Error message from CheckStyle", "Error message from SpotBugs");
+        assertThat(container).hasErrors();
 
         assertThat(container.get(0)).isSameAs(checkstyleWarning);
         assertThat(container.get(1)).isSameAs(spotBugsWarning);

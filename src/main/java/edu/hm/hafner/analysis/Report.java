@@ -920,7 +920,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return {@code true} if there are error messages, {@code false} otherwise
      */
     public boolean hasErrors() {
-        return !errorMessages.isEmpty();
+        return !getErrorMessages().isEmpty();
     }
 
     @Override
