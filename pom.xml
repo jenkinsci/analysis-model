@@ -61,7 +61,7 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.library.version>2.2.0</codingstyle.library.version>
+    <codingstyle.library.version>2.3.0</codingstyle.library.version>
     <codingstyle.config.version>${codingstyle.library.version}</codingstyle.config.version>
 
     <jmh.version>1.29</jmh.version>
@@ -72,7 +72,7 @@
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>1.7.30</slf4j.version>
-    <violations-lib.version>1.143</violations-lib.version>
+    <violations-lib.version>1.144.4</violations-lib.version>
     <json.version>20210307</json.version>
     <json-smart.version>2.4.2</json-smart.version>
     <pmd.version>6.33.0</pmd.version>
