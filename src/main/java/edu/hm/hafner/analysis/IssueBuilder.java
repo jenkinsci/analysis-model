@@ -69,6 +69,8 @@ public class IssueBuilder implements AutoCloseable {
     @CheckForNull
     private String origin;
     @CheckForNull
+    private String originName;
+    @CheckForNull
     private String reference;
     @CheckForNull
     private String fingerprint;
@@ -359,6 +361,19 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
+     * Sets the name of the tool that did report this issue.
+     *
+     * @param originName
+     *         the ID of the originating tool
+     *
+     * @return this
+     */
+    public IssueBuilder setOriginName(@CheckForNull final String originName) {
+        this.originName = originName;
+        return this;
+    }
+
+    /**
      * Sets a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
      *
      * @param reference
@@ -468,6 +483,7 @@ public class IssueBuilder implements AutoCloseable {
         packageName = copy.getPackageNameTreeString();
         moduleName = copy.getModuleName();
         origin = copy.getOrigin();
+        originName = copy.getOriginName();
         reference = copy.getReference();
         fingerprint = copy.getFingerprint();
         additionalProperties = copy.getAdditionalProperties();
@@ -482,9 +498,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     public Issue build() {
         Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, packageName, moduleName, severity,
-                message, description, origin, reference, fingerprint,
-                additionalProperties, id);
+                category, type, packageName, moduleName, severity, message, description,
+                origin, originName, reference, fingerprint, additionalProperties, id);
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }
@@ -497,9 +512,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     public Issue buildAndClean() {
         Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, packageName, moduleName, severity,
-                message, description, origin, reference, fingerprint,
-                additionalProperties, id);
+                category, type, packageName, moduleName, severity, message, description,
+                origin, originName, reference, fingerprint, additionalProperties, id);
         clean();
         return issue;
     }

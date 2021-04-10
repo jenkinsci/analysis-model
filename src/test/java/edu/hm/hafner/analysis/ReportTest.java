@@ -13,18 +13,23 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import org.eclipse.collections.impl.block.factory.Predicates;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
+import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
+import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.SerializableTest;
+import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Arrays.*;
@@ -36,7 +41,7 @@ import static org.mockito.Mockito.*;
  * @author Marcel Binder
  * @author Ullrich Hafner
  */
-@SuppressWarnings("PMD.GodClass")
+@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports"})
 class ReportTest extends SerializableTest<Report> {
     private static final String SERIALIZATION_NAME = "report.ser";
 
@@ -64,75 +69,22 @@ class ReportTest extends SerializableTest<Report> {
             .setFileName("file-3")
             .setSeverity(Severity.WARNING_LOW)
             .build();
-    private static final String NO_NAME = "";
     private static final int VALUE = 1234;
     private static final String KEY = "key";
+
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String UNDEFINED = Report.DEFAULT_ID;
+    private static final String SOURCE_FILE = "report.xml";
+    private static final String CHECKSTYLE_ID = "checkstyle";
+    private static final String CHECKSTYLE_NAME = "CheckStyle";
+    private static final String SPOTBUGS_ID = "spotbugs";
+    private static final String SPOTBUGS_NAME = "SpotBugs";
 
     @BeforeAll
     static void beforeAll() {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
-    }
-
-    @Test
-    void shouldProvideOriginMappings() {
-        Report report = new Report();
-
-        assertThat(report.getNameOfOrigin("id")).isEqualTo(NO_NAME);
-
-        report.setNameOfOrigin("id", "name");
-        assertThat(report.getNameOfOrigin("id")).isEqualTo("name");
-
-        report.setNameOfOrigin("second", "another name");
-        assertThat(report.getNameOfOrigin("id")).isEqualTo("name");
-        assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
-
-        report.setNameOfOrigin("id", "changed");
-        assertThat(report.getNameOfOrigin("id")).isEqualTo("changed");
-        assertThat(report.getNameOfOrigin("second")).isEqualTo("another name");
-    }
-
-    @Test
-    void shouldMergeOriginMappings() {
-        Report first = new Report();
-
-        first.setNameOfOrigin("first", "first name");
-        assertThat(first.getNameOfOrigin("first")).isEqualTo("first name");
-
-        Report second = new Report();
-
-        second.setNameOfOrigin("second", "second name");
-        assertThat(second.getNameOfOrigin("second")).isEqualTo("second name");
-
-        assertThat(first.getNameOfOrigin("second")).isEqualTo(NO_NAME);
-        assertThat(second.getNameOfOrigin("first")).isEqualTo(NO_NAME);
-
-        first.addAll(second);
-        assertThat(first.getNameOfOrigin("first")).isEqualTo("first name");
-        assertThat(first.getNameOfOrigin("second")).isEqualTo("second name");
-
-        Report third = first.copyEmptyInstance();
-        assertThat(third.getNameOfOrigin("first")).isEqualTo("first name");
-        assertThat(third.getNameOfOrigin("second")).isEqualTo("second name");
-    }
-
-    @Test
-    void shouldStoreFileNames() {
-        Report report = new Report();
-
-        assertThat(report).hasNoFileNames();
-
-        report.addFileName("one");
-
-        report.addFileName("one");
-        assertThat(report).hasFileNames("one");
-
-        report.addFileName("two");
-        assertThat(report).hasFileNames("one", "two");
-
-        Report copy = new Report();
-        copy.addAll(report);
-        assertThat(copy).hasFileNames("one", "two");
     }
 
     @Test
@@ -366,7 +318,7 @@ class ReportTest extends SerializableTest<Report> {
      */
     @Test
     void shouldCopyProperties() {
-        Report expected = new Report();
+        Report expected = new Report(ID, NAME, SOURCE_FILE);
         expected.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
         expected.logInfo("Hello");
         expected.logInfo("World!");
@@ -379,7 +331,6 @@ class ReportTest extends SerializableTest<Report> {
 
         Report report = new Report();
         report.addAll(expected);
-        assertThat(report).isEqualTo(expected);
         assertThatAllIssuesHaveBeenAdded(report);
 
         Report empty = expected.copyEmptyInstance();
@@ -392,7 +343,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(empty.getCounter("other")).isZero();
         assertThat(empty.hasCounter("other")).isFalse();
 
-        Report filtered = expected.filter(Predicates.alwaysTrue());
+        Report filtered = expected.filter(issue -> true);
         assertThat(filtered).isEqualTo(expected);
         assertThatAllIssuesHaveBeenAdded(filtered);
     }
@@ -520,9 +471,9 @@ class ReportTest extends SerializableTest<Report> {
 
         Report fromEmpty = new Report();
 
-        fromEmpty.addAll(report);
+        fromEmpty.addAll(report.get());
         assertThatAllIssuesHaveBeenAdded(fromEmpty);
-        fromEmpty.addAll(report);
+        fromEmpty.addAll(report.get());
         assertThat(fromEmpty).hasSize(6)
                 .hasDuplicatesSize(6);
         assertThatReportHasSeverities(report, 0, 1, 2, 3);
@@ -556,6 +507,8 @@ class ReportTest extends SerializableTest<Report> {
             softly.assertThat(report.getFiles())
                     .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat(report.getFiles())
+                    .containsExactly("file-1", "file-2", "file-3");
+            softly.assertThat(report.getAbsolutePaths())
                     .containsExactly("file-1", "file-2", "file-3");
             softly.assertThat((Iterable<Issue>) report)
                     .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
@@ -683,7 +636,8 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.get(2)).isSameAs(NORMAL_2);
     }
 
-    @Test @SuppressFBWarnings("RV")
+    @Test
+    @SuppressFBWarnings("RV")
     void shouldThrowExceptionOnWrongIndex() {
         Report report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
@@ -810,6 +764,17 @@ class ReportTest extends SerializableTest<Report> {
         report.logInfo("info2");
         report.logError("error1");
         report.logError("error2");
+
+        Report subReport = new Report(ID, NAME, SOURCE_FILE);
+        subReport.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        subReport.setCounter("subreport", 10); // FIXME: addition?
+        subReport.logInfo("sub.info1");
+        subReport.logInfo("sub.info2");
+        subReport.logError("sub.error1");
+        subReport.logError("sub.error2");
+
+        report.addAll(subReport);
+
         return report;
     }
 
@@ -852,11 +817,8 @@ class ReportTest extends SerializableTest<Report> {
 
         Report other = new Report();
         other.addAll(report);
-        other.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
 
         assertThat(report).isNotEqualTo(other); // there should be duplicates
-        assertThat(report).hasDuplicatesSize(0);
-        assertThat(other).hasDuplicatesSize(6);
     }
 
     @Test
@@ -885,10 +847,12 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private Report readCheckStyleReport() {
-        Report report = new CheckStyleParser().parse(read("parser/checkstyle/all-severities.xml"));
+        String fileName = "parser/checkstyle/all-severities.xml";
+        Report report = new CheckStyleParser().parseFile(read(fileName));
         report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build());
         assertThat(report).hasSize(4);
         assertThat(report.getSeverities()).hasSize(4);
+        assertThat(report).hasOriginReportFile(new PathUtil().getAbsolutePath(getResourceAsFile(fileName)));
         return report;
     }
 
@@ -896,22 +860,180 @@ class ReportTest extends SerializableTest<Report> {
         return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
     }
 
-    /**
-     * Serializes an issues to a file. Use this method in case the issue properties have been changed and the
-     * readResolve method has been adapted accordingly so that the old serialization still can be read.
-     *
-     * @param args
-     *         not used
-     *
-     * @throws IOException
-     *         if the file could not be written
-     */
-    public static void main(final String... args) throws IOException {
-        new ReportTest().createSerializationFile();
+    @Test
+    void shouldCreateReportWithOptions() {
+        assertThat(new Report()).hasId(UNDEFINED)
+                .hasName(UNDEFINED)
+                .hasOriginReportFile(UNDEFINED)
+                .hasNoOriginReportFiles();
+        assertThat(new Report(ID, NAME)).hasId(ID)
+                .hasName(NAME)
+                .hasOriginReportFile(UNDEFINED)
+                .hasNoOriginReportFiles();
+        assertThat(new Report(ID, NAME, SOURCE_FILE)).hasId(ID)
+                .hasName(NAME)
+                .hasOriginReportFile(SOURCE_FILE)
+                .hasOnlyOriginReportFiles(SOURCE_FILE);
+    }
+
+    @Test
+    void shouldSetOrigin() {
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report report = new Report();
+            Issue checkstyleWarning = builder.setFileName("A.java")
+                    .setCategory("Style")
+                    .setLineStart(1)
+                    .buildAndClean();
+            report.add(checkstyleWarning);
+
+            assertThat(checkstyleWarning).hasOrigin("");
+            assertThat(checkstyleWarning).hasOriginName("");
+
+            report.setOrigin("origin", "Name");
+
+            assertThat(checkstyleWarning).hasOrigin("origin");
+            assertThat(checkstyleWarning).hasOriginName("Name");
+        }
+    }
+
+    @Test
+    void shouldAddSubReports() {
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
+            Issue checkstyleWarning = builder.setFileName("A.java")
+                    .setCategory("Style")
+                    .setLineStart(1)
+                    .buildAndClean();
+            checkStyle.add(checkstyleWarning);
+            checkStyle.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
+            checkStyle.logInfo("Info message from %s", CHECKSTYLE_NAME);
+            checkStyle.logError("Error message from %s", CHECKSTYLE_NAME);
+
+            assertThat(checkStyle).hasSize(1)
+                    .hasDuplicatesSize(1)
+                    .hasId(CHECKSTYLE_ID)
+                    .hasEffectiveId(CHECKSTYLE_ID)
+                    .hasName(CHECKSTYLE_NAME)
+                    .hasEffectiveName(CHECKSTYLE_NAME)
+                    .hasOriginReportFile("checkstyle.xml")
+                    .hasOnlyOriginReportFiles("checkstyle.xml");
+            assertThat(checkStyle.get(0)).isSameAs(checkstyleWarning);
+            assertThat(checkStyle.findById(checkstyleWarning.getId())).isSameAs(checkstyleWarning);
+
+            Report spotBugs = new Report(SPOTBUGS_ID, SPOTBUGS_NAME, "spotbugs.xml");
+            Issue spotBugsWarning = builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean();
+            spotBugs.add(spotBugsWarning);
+            spotBugs.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
+
+            assertThat(spotBugs).hasSize(1)
+                    .hasDuplicatesSize(1)
+                    .hasId(SPOTBUGS_ID)
+                    .hasEffectiveId(SPOTBUGS_ID)
+                    .hasName(SPOTBUGS_NAME)
+                    .hasEffectiveName(SPOTBUGS_NAME)
+                    .hasOriginReportFile("spotbugs.xml")
+                    .hasOnlyOriginReportFiles("spotbugs.xml");
+            assertThat(spotBugs.get(0)).isSameAs(spotBugsWarning);
+            assertThat(spotBugs.findById(spotBugsWarning.getId())).isSameAs(spotBugsWarning);
+            spotBugs.logInfo("Info message from %s", SPOTBUGS_NAME);
+            spotBugs.logError("Error message from %s", SPOTBUGS_NAME);
+
+            Report container = new Report();
+            container.setOrigin("container", "Aggregation");
+            container.addAll(checkStyle, spotBugs);
+            verifyContainer(container, checkstyleWarning, spotBugsWarning);
+
+            assertThat(checkStyle).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME).hasErrors();
+            assertThat(spotBugs).hasId(SPOTBUGS_ID).hasName(SPOTBUGS_NAME).hasErrors();
+
+            IssueFilterBuilder filterBuilder = new IssueFilterBuilder();
+            Predicate<Issue> predicate = filterBuilder.setIncludeCategoryFilter("Style").build();
+
+            assertThat(checkStyle.filter(predicate)).hasSize(1).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME);
+
+            Report filtered = container.filter(predicate);
+            verifyContainer(filtered, checkstyleWarning, spotBugsWarning);
+
+            Report copy = container.copy();
+            verifyContainer(copy, checkstyleWarning, spotBugsWarning);
+
+            Report copyOfCopy = copy.copy();
+            verifyContainer(copyOfCopy, checkstyleWarning, spotBugsWarning);
+
+            assertThat(container.stream().map(Issue::getOrigin).collect(Collectors.toSet()))
+                    .containsOnly(CHECKSTYLE_ID, SPOTBUGS_ID);
+            assertThat(container.stream().map(Issue::getOriginName).collect(Collectors.toSet()))
+                    .containsOnly(CHECKSTYLE_NAME, SPOTBUGS_NAME);
+            checkStyle.setOrigin("nothing", "Nothing");
+            spotBugs.setOrigin("nothing", "Nothing");
+            assertThat(checkStyle).hasId("nothing").hasName("Nothing");
+            assertThat(spotBugs).hasId("nothing").hasName("Nothing");
+            assertThat(container.stream().map(Issue::getOrigin).collect(Collectors.toSet()))
+                    .containsOnly("nothing");
+            assertThat(container.stream().map(Issue::getOriginName).collect(Collectors.toSet()))
+                    .containsOnly("Nothing");
+        }
+    }
+
+    private void verifyContainer(final Report container, final Issue checkstyleWarning, final Issue spotBugsWarning) {
+        assertThat(container).hasSize(2)
+                .hasDuplicatesSize(2)
+                .hasId("container")
+                .hasEffectiveId("container")
+                .hasName("Aggregation")
+                .hasEffectiveName("Aggregation")
+                .hasOriginReportFile("-")
+                .hasOnlyOriginReportFiles("checkstyle.xml", "spotbugs.xml");
+        assertThat(container.getInfoMessages()).contains(
+                "Info message from CheckStyle", "Info message from SpotBugs");
+        assertThat(container.getErrorMessages()).contains(
+                "Error message from CheckStyle", "Error message from SpotBugs");
+        assertThat(container).hasErrors();
+
+        assertThat(container.get(0)).isSameAs(checkstyleWarning);
+        assertThat(container.get(1)).isSameAs(spotBugsWarning);
+        assertThat(container).hasOnlySeverities(Severity.WARNING_NORMAL);
+        assertThat(container.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(2);
+        assertThat(container.getNameOfOrigin(CHECKSTYLE_ID)).isEqualTo(CHECKSTYLE_NAME);
+        assertThat(container.getNameOfOrigin(SPOTBUGS_ID)).isEqualTo(SPOTBUGS_NAME);
+        assertThat(container.getNameOfOrigin("container")).isEqualTo("Aggregation");
+
+        assertThat(container.findById(checkstyleWarning.getId())).isSameAs(checkstyleWarning);
+        assertThat(container.findById(spotBugsWarning.getId())).isSameAs(spotBugsWarning);
+    }
+
+    @Test
+    void shouldObeyEqualsContract() {
+        EqualsVerifier.simple()
+                .forClass(Report.class)
+                .withPrefabValues(Report.class, new Report("left", "Left"), new Report("right", "Right"))
+                .withPrefabValues(TreeString.class, TreeString.valueOf("One"), TreeString.valueOf("Two"))
+                .withPrefabValues(LineRangeList.class, new LineRangeList(new LineRange(2, 2)), new LineRangeList(new LineRange(1, 1)))
+                .verify();
     }
 
     @Override
     protected Class<?> getTestResourceClass() {
         return ReportTest.class;
+    }
+
+    static final class ReportWriter {
+        private ReportWriter() {
+            // prevents instantiation
+        }
+
+        /**
+         * Serializes a {@link Report} to a file. Use this method in case the report properties have been changed and
+         * the readResolve method has been adapted accordingly so that the old serialization still can be read.
+         *
+         * @param args
+         *         not used
+         *
+         * @throws IOException
+         *         if the file could not be written
+         */
+        public static void main(final String... args) throws IOException {
+            new ReportTest().createSerializationFile();
+        }
     }
 }

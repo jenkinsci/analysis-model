@@ -89,7 +89,7 @@ class JUnitAdapterTest extends AbstractParserTest {
         assertThat(report.getCounter(SKIPPED_TESTS)).isEqualTo(0);
         assertThat(report.getCounter(PASSED_TESTS)).isEqualTo(0);
         assertThat(report.getCounter(FAILED_TESTS)).isEqualTo(1);
-        assertThat(report).hasFileNames(new PathUtil().getAbsolutePath(getResourceAsFile(ASSIGNMENT)));
+        assertThat(report).hasOriginReportFile(new PathUtil().getAbsolutePath(getResourceAsFile(ASSIGNMENT)));
     }
 
     /**
