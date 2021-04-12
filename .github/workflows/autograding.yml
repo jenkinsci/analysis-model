@@ -32,6 +32,16 @@ jobs:
           CONFIG: >
             {
               "analysis": {
+                "tools": [
+                  {
+                    "id": "checkstyle",
+                    "pattern": "target/checkstyle-result.xml"
+                  },
+                  {
+                    "id": "spotbugs",
+                    "pattern": "target/spotbugsXml.xml"
+                  }
+                ],
                 "maxScore": 100,
                 "errorImpact": -5,
                 "highImpact": -2,
