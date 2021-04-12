@@ -38,6 +38,10 @@ jobs:
                     "pattern": "target/checkstyle-result.xml"
                   },
                   {
+                    "id": "pmd",
+                    "pattern": "target/pmd.xml"
+                  },
+                  {
                     "id": "spotbugs",
                     "pattern": "target/spotbugsXml.xml"
                   }
