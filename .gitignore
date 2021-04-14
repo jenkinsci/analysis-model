@@ -3,6 +3,7 @@ target
 *.iml
 .classpath
 pom.xml.versionsBackup
+dependency-reduced-pom.xml
 .DS_Store
 pom.xml.releaseBackup
 release.properties
