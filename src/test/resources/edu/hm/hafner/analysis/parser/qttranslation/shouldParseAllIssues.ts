@@ -19,6 +19,10 @@
       <translation type="unfinished"></translation>
     </message>
     <message>
+      <source>Close</source>
+      <translation type="unfinished">Schließen</translation>
+    </message>
+    <message>
       <source>Exit</source>
       <translation type="vanished">Beenden</translation>
     </message>
@@ -38,7 +42,7 @@
     </message>
     <message numerus="yes">
       <source>%n Error(s)</source>
-      <translation>
+      <translation type="unfinished">
         <numerusform>%n Fehler</numerusform>
         <numerusform>%n Fehler</numerusform>
       </translation>

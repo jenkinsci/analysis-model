@@ -28,16 +28,19 @@ public class QtTranslationParser extends IssueParser {
 
     static final String TRANSLATION_TYPE_OBSOLETE = "obsolete";
     static final String TRANSLATION_TYPE_UNFINISHED = "unfinished";
+    static final String TRANSLATION_TYPE_UNFINISHED_NOT_EMPTY = "unfinished_not_empty";
     static final String TRANSLATION_TYPE_VANISHED = "vanished";
 
     static final String TRANSLATION_TYPE_OBSOLETE_MESSAGE =
-            "This translation can be removed as the source doesn't exists anymore.";
+            "This translation can be removed because the source no longer exists.";
     static final String TRANSLATION_TYPE_UNFINISHED_MESSAGE =
-            "This source string misses a translation.";
+            "This source string is missing a translation.";
+    static final String TRANSLATION_TYPE_UNFINISHED_NOT_EMPTY_MESSAGE =
+            "This source string contains a translation, but is still marked as unfinished.";
     static final String TRANSLATION_TYPE_VANISHED_MESSAGE =
-            "The source string can not be found within the sources. "
-                    + "Remove this translation if it is not used anymore or improve your call to \"tr()\", "
-                    + "so \"lupdate\" can find it.";
+            "The source string cannot be found within the sources. "
+                    + "Remove this translation if it is no longer used, or improve your call to \"tr()\" "
+                    + "so that \"lupdate\" can find it.";
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
@@ -53,12 +56,15 @@ public class QtTranslationParser extends IssueParser {
         private static final String CONTEXT = "context";
         private static final String CONTEXT_NAME = "name";
         private static final String MESSAGE = "message";
+        private static final String MESSAGE_NUMERUS_ATTRIBUTE = "numerus";
+        private static final String MESSAGE_NUMERUS_ENABLED_VALUE = "yes";
+        private static final String NUMERUSFORM = "numerusform";
         private static final String ROOT = "TS";
         private static final String SOURCE = "source";
         private static final String TRANSLATION = "translation";
         private static final String TRANSLATION_ATTR_TYPE = "type";
 
-        // Locator will be initialized within setDocumentLocator which will be called by SAXParser.
+        // The locator will be initialized within setDocumentLocator, which will be called by SAXParser.
         @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
         @SuppressWarnings("NullAway")
         private Locator documentLocator;
@@ -69,8 +75,10 @@ public class QtTranslationParser extends IssueParser {
         private final Map<String, String> expectedElementTypeParents = new HashMap<>();
         private String contextName = "";
         private String sourceValue = "";
+        private String translationType = "";
+        private boolean hasTranslatedString = false;
         private boolean translationTagFound = false;
-        private boolean emitIssue = false;
+        private boolean messageIsNumerus = false;
         private int lastColumnNumber;
 
         /**
@@ -88,6 +96,7 @@ public class QtTranslationParser extends IssueParser {
             expectedElementTypeParents.put(CONTEXT, ROOT);
             expectedElementTypeParents.put(CONTEXT_NAME, CONTEXT);
             expectedElementTypeParents.put(MESSAGE, CONTEXT);
+            expectedElementTypeParents.put(NUMERUSFORM, TRANSLATION);
             expectedElementTypeParents.put(TRANSLATION, MESSAGE);
             expectedElementTypeParents.put(SOURCE, MESSAGE);
 
@@ -118,15 +127,27 @@ public class QtTranslationParser extends IssueParser {
                     throwParsingExceptionBecauseOfDuplicatedOccurrence(translationTagFound, key);
                     translationTagFound = true;
 
-                    String translationType = atts.getValue(TRANSLATION_ATTR_TYPE);
+                    translationType = atts.getValue(TRANSLATION_ATTR_TYPE);
                     if (translationType != null) {
-                        applyTranslationType(translationType);
-                        emitIssue = true;
+                        applyTranslationType();
                     }
                     break;
                 case MESSAGE:
                     builder.setLineStart(documentLocator.getLineNumber());
                     builder.setColumnStart(lastColumnNumber);
+
+                    messageIsNumerus = MESSAGE_NUMERUS_ENABLED_VALUE.equals(atts.getValue(MESSAGE_NUMERUS_ATTRIBUTE));
+                    break;
+                case NUMERUSFORM:
+                    if (!messageIsNumerus) {
+                        throw new ParsingException(
+                                "Element type \"%s\" is allowed only if the attribute \"%s\" within the parent element \"%s\" is set to \"%s\" (line %d).",
+                                NUMERUSFORM,
+                                MESSAGE_NUMERUS_ATTRIBUTE,
+                                MESSAGE,
+                                MESSAGE_NUMERUS_ENABLED_VALUE,
+                                documentLocator.getLineNumber());
+                    }
                     break;
                 default:
                     break;
@@ -153,14 +174,24 @@ public class QtTranslationParser extends IssueParser {
             throwParsingExceptionBecauseOfMissingElementType(sourceValue.isEmpty(), SOURCE);
             throwParsingExceptionBecauseOfMissingElementType(!translationTagFound, TRANSLATION);
 
-            if (emitIssue) {
+            if (translationType != null) {
+                // In case the translation type is "unfinished" and we found a translation,
+                // change the type to TRANSLATION_TYPE_UNFINISHED_NOT_EMPTY.
+                // This case is not handled within {@link #applyTranslationType(String)}
+                // because it is not an official state within a translation file of Qt.
+                if (TRANSLATION_TYPE_UNFINISHED.equals(translationType) && hasTranslatedString) {
+                    builder.setSeverity(Severity.WARNING_LOW);
+                    builder.setMessage(TRANSLATION_TYPE_UNFINISHED_NOT_EMPTY_MESSAGE);
+                    builder.setCategory(TRANSLATION_TYPE_UNFINISHED_NOT_EMPTY);
+                }
+
                 builder.setLineEnd(documentLocator.getLineNumber());
                 builder.setColumnEnd(documentLocator.getColumnNumber());
 
                 report.add(builder.build());
             }
             // prepare for next message block
-            emitIssue = false;
+            hasTranslatedString = false;
             translationTagFound = false;
             sourceValue = "";
         }
@@ -174,32 +205,45 @@ public class QtTranslationParser extends IssueParser {
             if (SOURCE.equals(elementTypeStack.getFirst())) {
                 sourceValue = new String(ch, start, length);
             }
+            if (TRANSLATION.equals(elementTypeStack.getFirst())) {
+                // In case the message is numerus, the decision is made by a separate element.
+                // Keep the value to true if it is already set.
+                hasTranslatedString |= !messageIsNumerus;
+            }
+            if (NUMERUSFORM.equals(elementTypeStack.getFirst())) {
+                hasTranslatedString = true;
+            }
         }
 
         private void verifyElementTypeRelation(final String element) {
-            String parent =  expectedElementTypeParents.getOrDefault(element, "");
+            String parent = expectedElementTypeParents.getOrDefault(element, "");
             if (parent == null) {
                 if (!elementTypeStack.isEmpty()) {
-                    throw new ParsingException("Element type \"%s\" does not expects to be a root element (Line %d).", element,
-                            documentLocator
-                            .getLineNumber());
+                    throw new ParsingException("Element type \"%s\" does not expect to be a root element (line %d).",
+                            element,
+                            documentLocator.getLineNumber());
                 }
                 return;
             }
 
             if (!parent.isEmpty() && !elementTypeStack.getFirst().equals(parent)) {
-                throw new ParsingException("Element type \"%s\" expects to be a child element of element type \"%s\" (Line %d).", element, parent,
-                        documentLocator
-                        .getLineNumber());
+                throw new ParsingException(
+                        "Element type \"%s\" expects to be a child element of element type \"%s\" (line %d).",
+                        element,
+                        parent,
+                        documentLocator.getLineNumber());
             }
         }
 
         @SuppressWarnings("NullAway")
-        private void throwParsingExceptionBecauseOfDuplicatedOccurrence(final boolean shouldThrow, final String element) {
+        private void throwParsingExceptionBecauseOfDuplicatedOccurrence(final boolean shouldThrow,
+                final String element) {
             if (shouldThrow) {
                 throw new ParsingException(
-                        "Element type \"%s\" can be only used once within element type \"%s\" (Line %d).", element,
-                        expectedElementTypeParents.get(element), documentLocator.getLineNumber());
+                        "Element type \"%s\" can be used only once within element type \"%s\" (line %d).",
+                        element,
+                        expectedElementTypeParents.get(element),
+                        documentLocator.getLineNumber());
             }
         }
 
@@ -207,12 +251,14 @@ public class QtTranslationParser extends IssueParser {
         private void throwParsingExceptionBecauseOfMissingElementType(final boolean shouldThrow, final String element) {
             if (shouldThrow) {
                 throw new ParsingException(
-                        "Missing or empty element type \"%s\" within element type \"%s\" (Line %d).", element,
-                        expectedElementTypeParents.get(element), documentLocator.getLineNumber());
+                        "Missing or empty element type \"%s\" within element type \"%s\" (line %d).",
+                        element,
+                        expectedElementTypeParents.get(element),
+                        documentLocator.getLineNumber());
             }
         }
 
-        private void applyTranslationType(final String translationType) {
+        private void applyTranslationType() {
             switch (translationType) {
                 case TRANSLATION_TYPE_OBSOLETE:
                     builder.setSeverity(Severity.WARNING_NORMAL);
@@ -227,9 +273,9 @@ public class QtTranslationParser extends IssueParser {
                     builder.setMessage(TRANSLATION_TYPE_VANISHED_MESSAGE);
                     break;
                 default:
-                    throw new ParsingException("Unknown translation state \"%s\" (Line %d).", translationType,
-                            documentLocator
-                            .getLineNumber());
+                    throw new ParsingException("Unknown translation state \"%s\" (line %d).",
+                            translationType,
+                            documentLocator.getLineNumber());
             }
             builder.setCategory(translationType);
         }
