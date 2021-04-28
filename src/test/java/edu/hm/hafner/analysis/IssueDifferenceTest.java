@@ -1,6 +1,11 @@
 package edu.hm.hafner.analysis;
 
+import java.nio.charset.StandardCharsets;
+
 import org.junit.jupiter.api.Test;
+
+import edu.hm.hafner.analysis.registry.ParserRegistry;
+import edu.hm.hafner.util.ResourceTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Collections.*;
@@ -10,7 +15,7 @@ import static java.util.Collections.*;
  *
  * @author Artem Polovyi
  */
-class IssueDifferenceTest {
+class IssueDifferenceTest extends ResourceTest {
     private static final String REFERENCE_BUILD = "100";
     private static final String CURRENT_BUILD = "2";
 
@@ -188,5 +193,37 @@ class IssueDifferenceTest {
                     .setReference(REFERENCE_BUILD);
             return builder.build();
         }
+    }
+
+    /**
+     * Verifies that an aggregation of duplicate issues will be retained in the outstanding issues property.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-65482">Issue 65482</a>
+     */
+    @Test
+    void shouldHandleAggregatedResults() {
+        Report firstAxis = readSpotBugsWarnings();
+        assertThat(firstAxis).hasSize(2);
+
+        Report secondAxis = readSpotBugsWarnings();
+        assertThat(secondAxis).hasSize(2);
+
+        Report aggregation = new Report();
+        aggregation.addAll(firstAxis, secondAxis);
+        assertThat(aggregation).hasSize(4);
+
+        Report reference = new Report();
+        reference.addAll(firstAxis, secondAxis);
+
+        IssueDifference issueDifference = createDifference(reference, aggregation);
+        assertThat(issueDifference).hasNoFixedIssues().hasNoNewIssues();
+        assertThat(issueDifference.getOutstandingIssues()).hasSize(4);
+    }
+
+    private Report readSpotBugsWarnings() {
+        return new ParserRegistry().get("spotbugs")
+                .createParser()
+                .parse(new FileReaderFactory(getResourceAsFile("parser/findbugs/spotbugsXml.xml"),
+                        StandardCharsets.UTF_8));
     }
 }
