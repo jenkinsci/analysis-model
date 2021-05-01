@@ -210,14 +210,14 @@ class IssueDifferenceTest extends ResourceTest {
 
         Report aggregation = new Report();
         aggregation.addAll(firstAxis, secondAxis);
-        assertThat(aggregation).hasSize(4);
+        assertThat(aggregation).hasSize(2);
 
         Report reference = new Report();
         reference.addAll(firstAxis, secondAxis);
 
         IssueDifference issueDifference = createDifference(reference, aggregation);
         assertThat(issueDifference).hasNoFixedIssues().hasNoNewIssues();
-        assertThat(issueDifference.getOutstandingIssues()).hasSize(4);
+        assertThat(issueDifference.getOutstandingIssues()).hasSize(2);
     }
 
     private Report readSpotBugsWarnings() {

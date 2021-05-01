@@ -260,7 +260,7 @@ public class Report implements Iterable<Issue>, Serializable {
         if (hasId() && !issue.hasOrigin()) {
             issue.setOrigin(id, name);
         }
-        if (elements.contains(issue)) {
+        if (contains(issue)) {
             duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
         }
         else {
@@ -322,10 +322,29 @@ public class Report implements Iterable<Issue>, Serializable {
     public Report addAll(final Report... reports) {
         Ensure.that(reports).isNotEmpty("No reports given.");
 
-        subReports.addAll(Arrays.asList(reports));
+        for (Report report : reports) {
+            Report copyWithoutDuplicates = report.copyEmptyInstance();
+            for (Issue issue : report) {
+                if (contains(issue)) {
+                    duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
+                }
+                else {
+                    copyWithoutDuplicates.add(issue);
+                }
+            }
+            subReports.add(copyWithoutDuplicates);
+        }
 
         return this;
     }
+
+    private boolean contains(final Issue issue) {
+        if (elements.contains(issue)) {
+            return true;
+        }
+        return subReports.stream().map(r -> r.contains(issue)).reduce(Boolean::logicalOr).orElse(false);
+    }
+
 
     /**
      * Called after de-serialization to improve the memory usage and to initialize fields that have been introduced

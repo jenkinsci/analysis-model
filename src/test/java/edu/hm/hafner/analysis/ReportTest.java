@@ -757,8 +757,8 @@ class ReportTest extends SerializableTest<Report> {
 
     @Override
     protected Report createSerializable() {
-        Report report = new Report().addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
-        report.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3); // 6 duplicates
+        Report report = new Report(ID, NAME, SOURCE_FILE).addAll(HIGH, NORMAL_1, NORMAL_2);
+        report.addAll(HIGH, NORMAL_1, NORMAL_2); // 6 duplicates
         report.setCounter(KEY, VALUE);
         report.logInfo("info1");
         report.logInfo("info2");
@@ -766,7 +766,8 @@ class ReportTest extends SerializableTest<Report> {
         report.logError("error2");
 
         Report subReport = new Report(ID, NAME, SOURCE_FILE);
-        subReport.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
+        subReport.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
+        subReport.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
         subReport.setCounter("subreport", 10); // FIXME: addition?
         subReport.logInfo("sub.info1");
         subReport.logInfo("sub.info2");
