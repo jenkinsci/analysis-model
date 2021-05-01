@@ -2,9 +2,8 @@ package edu.hm.hafner.analysis;
 
 import java.util.regex.Pattern;
 
+import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
 import edu.hm.hafner.util.VisibleForTesting;
-
-import static edu.hm.hafner.analysis.PackageDetectors.*;
 
 /**
  * Detects the package name of a Java file.
