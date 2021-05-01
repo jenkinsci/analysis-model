@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
 import edu.hm.hafner.util.VisibleForTesting;
 
-import static edu.hm.hafner.analysis.PackageDetectors.*;
 import static java.util.function.Function.*;
 
 /**

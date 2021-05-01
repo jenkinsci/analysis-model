@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.io.Serializable;
@@ -80,7 +79,7 @@ public abstract class AbstractParserTest extends ResourceTest {
     }
 
     /**
-     * Ensures that the parser under test could be serialized. This test will fail with an {@link
+     * Ensures that the parser under test could be serialized. This test will fail with an {@code
      * NotSerializableException} if the parser does not correctly implement the {@link Serializable} interface.
      */
     @Test

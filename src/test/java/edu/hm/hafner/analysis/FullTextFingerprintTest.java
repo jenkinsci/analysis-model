@@ -1,16 +1,15 @@
 package edu.hm.hafner.analysis;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.NoSuchFileException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
-
 import edu.hm.hafner.util.ResourceTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link FullTextFingerprint}.
@@ -64,17 +63,17 @@ class FullTextFingerprintTest extends ResourceTest {
 
         FullTextFingerprint code = new FullTextFingerprint();
 
-        String fingerprint = code.createFingerprint(10, getTextLinesAsStream(affectedFile), getCharset());
+        String fingerprint = code.createFingerprint(10, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8);
         assertThat(fingerprint).isEqualTo("C10CFE4EC75F0C7F54980D432624D1C9");
-        
+
         for (int line = 0; line < 34; line++) {
             if (line == 10 || line == 20) {
                 assertThat(fingerprint).isEqualTo(
-                        code.createFingerprint(line, getTextLinesAsStream(affectedFile), getCharset()));
+                        code.createFingerprint(line, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8));
             }
             else {
                 assertThat(fingerprint).isNotEqualTo(
-                        code.createFingerprint(line, getTextLinesAsStream(affectedFile), getCharset()));
+                        code.createFingerprint(line, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8));
             }
         }
     }
@@ -84,11 +83,7 @@ class FullTextFingerprintTest extends ResourceTest {
         FullTextFingerprint fingerprint = new FullTextFingerprint();
 
         assertThatExceptionOfType(NoSuchFileException.class)
-                .isThrownBy(() -> fingerprint.compute("/does/not/exist", 1, getCharset()));
-    }
-
-    private Charset getCharset() {
-        return Charset.forName("UTF-8");
+                .isThrownBy(() -> fingerprint.compute("/does/not/exist", 1, StandardCharsets.UTF_8));
     }
 
     private Iterator<String> asIterator(final String affectedFile) {
