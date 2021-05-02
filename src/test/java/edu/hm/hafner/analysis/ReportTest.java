@@ -41,7 +41,7 @@ import static org.mockito.Mockito.*;
  * @author Marcel Binder
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports"})
+@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports", "PMD.ExcessiveClassLength"})
 class ReportTest extends SerializableTest<Report> {
     private static final String SERIALIZATION_NAME = "report.ser";
 
