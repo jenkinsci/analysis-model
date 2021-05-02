@@ -38,7 +38,7 @@ public abstract class JsonIssueParser extends IssueParser {
                 parseJsonArray(report, jsonReport, issueBuilder);
             }
             else {
-                throw new ParsingException("Cannot process parsed JSON object " + parsedValue);
+                throw new ParsingException("Cannot process parsed JSON object '%s'", parsedValue);
             }
         }
         catch (IOException | JSONException | ClassCastException e) {
