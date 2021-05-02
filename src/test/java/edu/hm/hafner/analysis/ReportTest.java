@@ -41,7 +41,7 @@ import static org.mockito.Mockito.*;
  * @author Marcel Binder
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports"})
+@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports", "PMD.ExcessiveClassLength"})
 class ReportTest extends SerializableTest<Report> {
     private static final String SERIALIZATION_NAME = "report.ser";
 
@@ -895,6 +895,31 @@ class ReportTest extends SerializableTest<Report> {
             assertThat(checkstyleWarning).hasOrigin("origin");
             assertThat(checkstyleWarning).hasOriginName("Name");
         }
+    }
+
+    @Test
+    void shouldCopyMessagesRecursively() {
+        Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
+        checkStyle.logInfo("Info message from %s", CHECKSTYLE_NAME);
+        checkStyle.logError("Error message from %s", CHECKSTYLE_NAME);
+
+        Report spotBugs = new Report(SPOTBUGS_ID, SPOTBUGS_NAME, "spotbugs.xml");
+        spotBugs.logInfo("Info message from %s", SPOTBUGS_NAME);
+        spotBugs.logError("Error message from %s", SPOTBUGS_NAME);
+
+        Report wrappedCheckStyle = new Report();
+        wrappedCheckStyle.addAll(checkStyle);
+
+        Report wrappedSpotBugs = new Report();
+        wrappedSpotBugs.addAll(spotBugs);
+
+        Report aggregated = new Report();
+        aggregated.addAll(wrappedCheckStyle, wrappedSpotBugs);
+
+        assertThat(aggregated.getInfoMessages()).contains(
+                "Info message from CheckStyle", "Info message from SpotBugs");
+        assertThat(aggregated.getErrorMessages()).contains(
+                "Error message from CheckStyle", "Error message from SpotBugs");
     }
 
     @Test

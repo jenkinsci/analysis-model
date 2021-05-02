@@ -821,20 +821,20 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     private void copyIssuesAndProperties(final Report source, final Report destination) {
+        copyProperties(source, destination);
         destination.addAll(source.elements);
         for (Report subReport : subReports) {
             destination.addAll(subReport.copy());
         }
-        copyProperties(source, destination);
     }
 
     private void copyProperties(final Report source, final Report destination) {
-        destination.id = source.id;
-        destination.name = source.name;
-        destination.originReportFile = source.originReportFile;
-        destination.duplicatesSize += source.duplicatesSize;
-        destination.infoMessages.addAll(source.infoMessages);
-        destination.errorMessages.addAll(source.errorMessages);
+        destination.id = source.getId();
+        destination.name = source.getName();
+        destination.originReportFile = source.getOriginReportFile();
+        destination.duplicatesSize += source.duplicatesSize; // not recursively
+        destination.infoMessages.addAll(source.getInfoMessages());
+        destination.errorMessages.addAll(source.getErrorMessages());
         destination.countersByKey = Stream.concat(
                 destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
