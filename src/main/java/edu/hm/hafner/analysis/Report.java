@@ -1242,15 +1242,19 @@ public class Report implements Iterable<Issue>, Serializable {
             Collection<Predicate<Issue>> filters = new ArrayList<>();
             for (String pattern : patterns) {
                 filters.add(issueToFilter -> Pattern.compile(pattern, Pattern.DOTALL)
-                        .matcher(propertyToFilter.apply(issueToFilter)).find() == (type == FilterType.INCLUDE));
+                        .matcher(propertyToFilter.apply(issueToFilter)).find() == isIncludeFilter(type));
             }
 
-            if (type == FilterType.INCLUDE) {
+            if (isIncludeFilter(type)) {
                 includeFilters.addAll(filters);
             }
             else {
                 excludeFilters.addAll(filters);
             }
+        }
+
+        private boolean isIncludeFilter(final FilterType type) {
+            return type == FilterType.INCLUDE;
         }
 
         /**
