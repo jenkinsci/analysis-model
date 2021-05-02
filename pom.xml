@@ -53,7 +53,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>10.2.0</revision>
+    <revision>10.1.1</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
@@ -81,16 +81,6 @@
     <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
 
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.8.6</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
 
@@ -210,6 +200,10 @@
         <exclusion>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-lang3</artifactId>
+        </exclusion>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
         </exclusion>
       </exclusions>
     </dependency>
