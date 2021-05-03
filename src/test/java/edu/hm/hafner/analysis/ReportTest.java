@@ -934,6 +934,20 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
+    void shouldStoreEitherInTopLevelOrSubReports() {
+        Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
+        checkStyle.add(HIGH);
+
+        Report wrappedCheckStyle = new Report();
+        wrappedCheckStyle.addAll(checkStyle);
+        wrappedCheckStyle.add(LOW_2_A);
+
+        assertThatIllegalArgumentException().isThrownBy(
+                () -> new Report().addAll(wrappedCheckStyle)
+        );
+    }
+
+    @Test
     void shouldAddSubReports() {
         try (IssueBuilder builder = new IssueBuilder()) {
             Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
