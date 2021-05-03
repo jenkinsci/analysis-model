@@ -909,12 +909,23 @@ class ReportTest extends SerializableTest<Report> {
 
         Report wrappedCheckStyle = new Report();
         wrappedCheckStyle.addAll(checkStyle);
+        assertThat(wrappedCheckStyle.getNameOfOrigin(CHECKSTYLE_ID)).isEqualTo(CHECKSTYLE_NAME);
+        assertThat(wrappedCheckStyle.getEffectiveId()).isEqualTo(CHECKSTYLE_ID);
+        assertThat(wrappedCheckStyle.getEffectiveName()).isEqualTo(CHECKSTYLE_NAME);
 
         Report wrappedSpotBugs = new Report();
         wrappedSpotBugs.addAll(spotBugs);
+        assertThat(wrappedSpotBugs.getNameOfOrigin(SPOTBUGS_ID)).isEqualTo(SPOTBUGS_NAME);
+        assertThat(wrappedSpotBugs.getEffectiveId()).isEqualTo(SPOTBUGS_ID);
+        assertThat(wrappedSpotBugs.getEffectiveName()).isEqualTo(SPOTBUGS_NAME);
 
         Report aggregated = new Report();
         aggregated.addAll(wrappedCheckStyle, wrappedSpotBugs);
+        assertThat(aggregated.getEffectiveId()).isEqualTo(Report.DEFAULT_ID);
+        assertThat(aggregated.getEffectiveName()).isEqualTo(Report.DEFAULT_ID);
+
+        assertThat(aggregated.getNameOfOrigin(CHECKSTYLE_ID)).isEqualTo(CHECKSTYLE_NAME);
+        assertThat(aggregated.getNameOfOrigin(SPOTBUGS_ID)).isEqualTo(SPOTBUGS_NAME);
 
         assertThat(aggregated.getInfoMessages()).contains(
                 "Info message from CheckStyle", "Info message from SpotBugs");
