@@ -121,7 +121,6 @@ public class Report implements Iterable<Issue>, Serializable {
         return !DEFAULT_ID.equals(id) && StringUtils.isNoneBlank(id);
     }
 
-
     /**
      * Returns the effective ID of this report. This ID is the unique ID of all containing sub-reports. If this ID is
      * not unique, then the {@link #DEFAULT_ID} will be returned.
@@ -322,7 +321,21 @@ public class Report implements Iterable<Issue>, Serializable {
     public Report addAll(final Report... reports) {
         Ensure.that(reports).isNotEmpty("No reports given.");
 
+        List<Report> reportsToAdd = new ArrayList<>();
         for (Report report : reports) {
+            if (!report.elements.isEmpty() && !report.subReports.isEmpty()) {
+                throw new IllegalArgumentException(
+                        "Reports should either contain issues as top-level elements or as leaf elements but not both.");
+            }
+            if (report.subReports.isEmpty()) {
+                reportsToAdd.add(report);
+            }
+            else {
+                reportsToAdd.addAll(report.subReports);
+            }
+        }
+
+        for (Report report : reportsToAdd) {
             Report copyWithoutDuplicates = report.copyEmptyInstance();
             for (Issue issue : report) {
                 if (contains(issue)) {

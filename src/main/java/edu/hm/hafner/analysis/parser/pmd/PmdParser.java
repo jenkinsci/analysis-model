@@ -30,7 +30,7 @@ public class PmdParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         Report issues = parseIssues(readerFactory);
-        issues.addAll(parseErrors(readerFactory));
+        parseErrors(readerFactory).stream().forEach(issues::add);
         return issues;
     }
 
