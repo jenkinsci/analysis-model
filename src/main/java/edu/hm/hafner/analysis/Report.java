@@ -323,11 +323,11 @@ public class Report implements Iterable<Issue>, Serializable {
 
         List<Report> reportsToAdd = new ArrayList<>();
         for (Report report : reports) {
-            if (report.elements.size() > 0 && report.subReports.size() > 0) {
+            if (!report.elements.isEmpty() && !report.subReports.isEmpty()) {
                 throw new IllegalArgumentException(
                         "Reports should either contain issues as top-level elements or as leaf elements but not both.");
             }
-            if (report.subReports.size() == 0) {
+            if (report.subReports.isEmpty()) {
                 reportsToAdd.add(report);
             }
             else {
