@@ -158,7 +158,8 @@ public class Report implements Iterable<Issue>, Serializable {
         id = originId;
         name = originName;
 
-        stream().forEach(issue -> issue.setOrigin(originId, originName));
+        subReports.forEach(report -> report.setOrigin(originId, originName));
+        elements.forEach(issue -> issue.setOrigin(originId, originName));
     }
 
     /**
@@ -358,6 +359,10 @@ public class Report implements Iterable<Issue>, Serializable {
         return subReports.stream().map(r -> r.contains(issue)).reduce(Boolean::logicalOr).orElse(false);
     }
 
+    @VisibleForTesting
+    List<Report> getSubReports() {
+        return subReports;
+    }
 
     /**
      * Called after de-serialization to improve the memory usage and to initialize fields that have been introduced
