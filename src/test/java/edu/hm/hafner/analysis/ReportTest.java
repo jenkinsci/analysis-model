@@ -934,17 +934,20 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
-    void shouldStoreEitherInTopLevelOrSubReports() {
-        Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
-        checkStyle.add(HIGH);
+    void shouldCopyIdRecursively() {
+        Report first = new Report();
+        Report second = new Report();
 
-        Report wrappedCheckStyle = new Report();
-        wrappedCheckStyle.addAll(checkStyle);
-        wrappedCheckStyle.add(LOW_2_A);
+        Report aggregated = new Report();
+        aggregated.addAll(first, second);
+        aggregated.setOrigin(ID, NAME);
 
-        assertThatIllegalArgumentException().isThrownBy(
-                () -> new Report().addAll(wrappedCheckStyle)
-        );
+        assertThat(aggregated).hasId(ID);
+        assertThat(aggregated).hasName(NAME);
+        assertThat(aggregated.getSubReports()).hasSize(2).allSatisfy(report -> {
+            assertThat(report).hasId(ID);
+            assertThat(report).hasName(NAME);
+        });
     }
 
     @Test
