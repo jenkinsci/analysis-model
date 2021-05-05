@@ -333,6 +333,8 @@ public class Report implements Iterable<Issue>, Serializable {
             }
             else {
                 reportsToAdd.addAll(report.subReports);
+                infoMessages.addAll(report.getInfoMessages());
+                errorMessages.addAll(report.getErrorMessages());
             }
         }
 
