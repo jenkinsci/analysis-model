@@ -912,25 +912,39 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(wrappedCheckStyle.getNameOfOrigin(CHECKSTYLE_ID)).isEqualTo(CHECKSTYLE_NAME);
         assertThat(wrappedCheckStyle.getEffectiveId()).isEqualTo(CHECKSTYLE_ID);
         assertThat(wrappedCheckStyle.getEffectiveName()).isEqualTo(CHECKSTYLE_NAME);
+        wrappedCheckStyle.logInfo("Info (Wrapped) message from %s", CHECKSTYLE_NAME);
+        wrappedCheckStyle.logError("Error (Wrapped) message from %s", CHECKSTYLE_NAME);
 
         Report wrappedSpotBugs = new Report();
         wrappedSpotBugs.addAll(spotBugs);
         assertThat(wrappedSpotBugs.getNameOfOrigin(SPOTBUGS_ID)).isEqualTo(SPOTBUGS_NAME);
         assertThat(wrappedSpotBugs.getEffectiveId()).isEqualTo(SPOTBUGS_ID);
         assertThat(wrappedSpotBugs.getEffectiveName()).isEqualTo(SPOTBUGS_NAME);
+        wrappedSpotBugs.logInfo("Info (Wrapped) message from %s", SPOTBUGS_NAME);
+        wrappedSpotBugs.logError("Error (Wrapped) message from %s", SPOTBUGS_NAME);
 
         Report aggregated = new Report();
         aggregated.addAll(wrappedCheckStyle, wrappedSpotBugs);
         assertThat(aggregated.getEffectiveId()).isEqualTo(Report.DEFAULT_ID);
         assertThat(aggregated.getEffectiveName()).isEqualTo(Report.DEFAULT_ID);
+        aggregated.logInfo("Info (Aggregated) message");
+        aggregated.logError("Error (Aggregated) message");
 
         assertThat(aggregated.getNameOfOrigin(CHECKSTYLE_ID)).isEqualTo(CHECKSTYLE_NAME);
         assertThat(aggregated.getNameOfOrigin(SPOTBUGS_ID)).isEqualTo(SPOTBUGS_NAME);
 
         assertThat(aggregated.getInfoMessages()).contains(
-                "Info message from CheckStyle", "Info message from SpotBugs");
+                "Info message from CheckStyle",
+                "Info message from SpotBugs",
+                "Info (Wrapped) message from CheckStyle",
+                "Info (Wrapped) message from SpotBugs",
+                "Info (Aggregated) message");
         assertThat(aggregated.getErrorMessages()).contains(
-                "Error message from CheckStyle", "Error message from SpotBugs");
+                "Error message from CheckStyle",
+                "Error message from SpotBugs",
+                "Error (Wrapped) message from CheckStyle",
+                "Error (Wrapped) message from SpotBugs",
+                "Error (Aggregated) message");
     }
 
     @Test
