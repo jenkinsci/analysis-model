@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  */
 class PhpCodeSnifferDescriptor extends ParserDescriptor {
     private static final String ID = "php-code-sniffer";
-    private static final String NAME = "PHP Runtime";
+    private static final String NAME = "PHP_CodeSniffer";
 
     PhpCodeSnifferDescriptor() {
         super(ID, NAME);
