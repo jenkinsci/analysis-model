@@ -367,6 +367,26 @@
       <plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
+        <configuration>
+          <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
+          <versionFormat>[0-9.]*</versionFormat>
+          <analysisConfiguration>
+            <revapi.semver.ignore>
+              <enabled>true</enabled>
+            </revapi.semver.ignore>
+            <revapi.differences>
+              <justification>Shaded artefacts are not part of the public API</justification>
+              <criticality>allowed</criticality>
+              <differences combine.children="append">
+                <item>
+                  <regex>true</regex>
+                  <classQualifiedName>shaded.*</classQualifiedName>
+                  <code>.*</code>
+                </item>
+              </differences>
+            </revapi.differences>
+          </analysisConfiguration>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
