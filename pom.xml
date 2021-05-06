@@ -73,7 +73,7 @@
     <slf4j.version>1.7.30</slf4j.version>
     <violations-lib.version>1.144.4</violations-lib.version>
     <json.version>20210307</json.version>
-    <json-smart.version>2.4.2</json-smart.version>
+    <json-smart.version>2.4.7</json-smart.version>
     <pmd.version>6.34.0</pmd.version>
     <spotbugs.version>4.2.3</spotbugs.version>
 
@@ -367,6 +367,26 @@
       <plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
+        <configuration>
+          <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
+          <versionFormat>[0-9.]*</versionFormat>
+          <analysisConfiguration>
+            <revapi.semver.ignore>
+              <enabled>true</enabled>
+            </revapi.semver.ignore>
+            <revapi.differences>
+              <justification>Shaded artefacts are not part of the public API</justification>
+              <criticality>allowed</criticality>
+              <differences combine.children="append">
+                <item>
+                  <regex>true</regex>
+                  <classQualifiedName>shaded.*</classQualifiedName>
+                  <code>.*</code>
+                </item>
+              </differences>
+            </revapi.differences>
+          </analysisConfiguration>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
