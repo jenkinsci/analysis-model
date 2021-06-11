@@ -92,7 +92,7 @@ class QtTranslationParserTest extends AbstractParserTest {
     }
 
     @Test
-    protected void shouldParseAllIssuesSingleLine() {
+    void shouldParseAllIssuesSingleLine() {
         String relativeFileName = "qttranslation/shouldParseAllIssuesSingleLine.ts";
         Report report = parse(relativeFileName);
         String fileName = new FileReaderFactory(getResourceAsFile(relativeFileName)).getFileName();
@@ -211,7 +211,7 @@ class QtTranslationParserTest extends AbstractParserTest {
     }
 
     @Test
-    protected void multilineTranslation() {
+    void multilineTranslation() {
         String relativeFileName = "qttranslation/multilineTranslation.ts";
         Report report = parse(relativeFileName);
         String fileName = new FileReaderFactory(getResourceAsFile(relativeFileName)).getFileName();

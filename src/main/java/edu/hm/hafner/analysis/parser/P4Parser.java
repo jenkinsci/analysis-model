@@ -46,7 +46,7 @@ public class P4Parser extends LookaheadParser {
     }
 
     private Severity mapPriority(final String category) {
-        if (category.contains(ALREADY_OPENED) || category.equals(NOTHING_CHANGED)) {
+        if (category.contains(ALREADY_OPENED) || NOTHING_CHANGED.equals(category)) {
             return Severity.WARNING_LOW;
         }
         return Severity.WARNING_NORMAL;
