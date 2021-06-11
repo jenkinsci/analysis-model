@@ -1,7 +1,6 @@
 # Static Analysis Model and Parsers Library
 
 [![Join the chat at https://gitter.im/jenkinsci/warnings-plugin](https://badges.gitter.im/jenkinsci/warnings-plugin.svg)](https://gitter.im/jenkinsci/warnings-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![ChangeLog](https://img.shields.io/github/release/jenkinsci/analysis-model.svg?label=changelog)](https://github.com/jenkinsci/analysis-model/releases/latest)
 [![Jenkins](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/badge/icon?subject=Jenkins%20CI)](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/)
 [![CI on all platforms](https://github.com/jenkinsci/analysis-model/workflows/GitHub%20CI/badge.svg?branch=master)](https://github.com/jenkinsci/analysis-model/actions)
 [![Codacy](https://api.codacy.com/project/badge/Grade/1b96405c72db49eeb0d67486f77f8f75)](https://app.codacy.com/app/uhafner/analysis-model?utm_source=github.com&utm_medium=referral&utm_content=jenkinsci/analysis-model&utm_campaign=Badge_Grade_Dashboard)
