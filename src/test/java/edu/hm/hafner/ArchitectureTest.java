@@ -35,7 +35,7 @@ class ArchitectureTest {
     static final ArchRule NO_PUBLIC_TEST_CLASSES = ArchitectureRules.NO_PUBLIC_TEST_CLASSES;
 
     @ArchTest
-    static final ArchRule NO_PUBLIC_TEST_METHODS = ArchitectureRules.NO_PUBLIC_TEST_METHODS;
+    static final ArchRule ONLY_PACKAGE_PRIVATE_TEST_METHODS = ArchitectureRules.ONLY_PACKAGE_PRIVATE_TEST_METHODS;
 
     @ArchTest
     static final ArchRule NO_PUBLIC_ARCHITECTURE_TESTS = ArchitectureRules.NO_PUBLIC_ARCHITECTURE_TESTS;
