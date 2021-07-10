@@ -1,8 +1,6 @@
 # Contributing to the Static Analysis Model and Parsers Library
 
-This page provides information about contributing code to the Static Analysis Model and Parsers Library. This
-library is part of Jenkins' [Warnings Next Generation Plugin](https://github.com/jenkinsci/warnings-ng-plugin). 
-Since it has no dependencies to Jenkins it might be used for other projects as well in the future. 
+This document provides information about contributing code to the Static Analysis Model and Parsers Library. 
 
 ## Beginner Topics
 
