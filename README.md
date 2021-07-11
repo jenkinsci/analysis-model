@@ -15,7 +15,7 @@ This library consists basically of three separate parts:
 
 1. A model to manage a set of issues of static code analysis runs. This includes the possibility to track issues in
  different source code versions using a fingerprinting algorithm. 
-2. Parsers for more than hundred [report formats](SUPPORTED-FORMATS.md). Among the problems this library can detect:
+2. Parsers for more than a hundred [report formats](SUPPORTED-FORMATS.md). Among the problems this library can detect:
    * messages from your build tool (Maven, Gradle, MSBuild, make, etc.)
    * errors from your compiler (C, C#, Java, etc.)
    * warnings from a static analysis tool (CheckStyle, StyleCop, SpotBugs, etc.)
@@ -24,7 +24,6 @@ This library consists basically of three separate parts:
    * open tasks in comments of your source files
 3. Additional descriptions for a selected set of static analysis tools that provide details for individual violations 
    (including code samples, solutions, or quick fixes). 
-
 
 All source code is licensed under the MIT license. 
 
