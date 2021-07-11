@@ -2,7 +2,7 @@ node {
     def mvnHome = tool 'mvn-default'
 
     stage ('Checkout') {
-        git branch:'master', url: 'https://github.com/jenkinsci/analysis-model.git', credentialsId: 'github-app'
+        checkout scm
     }
 
     stage ('Git mining') {
