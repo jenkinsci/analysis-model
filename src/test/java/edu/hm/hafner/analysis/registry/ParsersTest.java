@@ -85,31 +85,31 @@ class ParsersTest extends ResourceTest {
         }
     }
 
-    /** Runs the Iar parser on an output file that contains 8 issues. */
+    /** Runs the Cmake parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllCmakeIssues() {
         findIssuesOfTool(8, "cmake", "cmake.txt");
     }
 
-    /** Runs the Iar parser on an output file that contains 2 issues. */
+    /** Runs the Cargo parser on an output file that contains 2 issues. */
     @Test
     void shouldFindAllCargoIssues() {
         findIssuesOfTool(2, "cargo", "CargoCheck.json");
     }
 
-    /** Runs the Iar parser on an output file that contains 262 issues. */
+    /** Runs the Pmd parser on an output file that contains 262 issues. */
     @Test
     void shouldFindAllIssuesForPmdAlias() {
         findIssuesOfTool(262, "infer", "pmd-6.xml");
     }
 
-    /** Runs the Iar parser on an output file that contains 262 issues. */
+    /** Runs the MSBuild parser on an output file that contains 262 issues. */
     @Test
     void shouldFindAllIssuesForMsBuildAlias() {
         findIssuesOfTool(8, "pclint", "msbuild.txt");
     }
 
-    /** Runs the Iar parser on an output file that contains 4 issues. */
+    /** Runs the YamlLint parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllYamlLintIssues() {
         findIssuesOfTool(4, "yamllint", "yamllint.txt");
