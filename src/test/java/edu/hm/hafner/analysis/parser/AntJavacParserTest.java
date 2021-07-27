@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.time.Duration;
 
