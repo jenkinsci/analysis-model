@@ -98,10 +98,6 @@ public class CadenceIncisiveParser extends LookaheadParser {
         if (fileName == null) {
             return Optional.empty();
         }
-        if (fileName.startsWith(SLASH)) {
-            return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                    .setMessage(message).setSeverity(priority).buildOptional();
-        }
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
                 .setMessage(message).setSeverity(priority).buildOptional();
     }

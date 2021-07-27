@@ -196,12 +196,10 @@ class AntJavacParserTest extends AbstractParserTest {
     /**
      * Parses a warning log with 1 warnings that are generated on Japanese environment.
      *
-     * @throws UnsupportedEncodingException
-     *         if the encoding is not found
      * @see <a href="http://fisheye.jenkins-ci.org/changelog/Hudson?cs=16376">Commit log on changeset 16376</a>
      */
     @Test
-    void parseJapaneseWarnings() throws UnsupportedEncodingException {
+    void parseJapaneseWarnings() {
         // force to use windows-31j - the default encoding on Windows Japanese.
         Report warnings = createParser().parse(
                 new FileReaderFactory(getResourceAsFile("ant-javac-japanese.txt"),
