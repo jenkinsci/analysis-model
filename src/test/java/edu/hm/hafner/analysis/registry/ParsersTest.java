@@ -831,6 +831,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(4, "qt-translation", "qttranslation.ts");
     }
 
+    /** Runs the oelint-adv parser on an output file that contains 8 issues. */
+    @Test
+    void shouldFindAllOELintAdvIssues() {
+        findIssuesOfTool(8, "oelint-adv", "oelint-adv.txt");
+    }
+
     private Report findIssuesOfTool(final int expectedSizeOfIssues, final String tool, final String... fileNames) {
         ParserRegistry registry = new ParserRegistry();
         ParserDescriptor descriptor = registry.get(tool);
