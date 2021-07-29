@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
  * Tests the class {@link OELintAdvParser}.
  */
 class OELintAdvParserTest extends AbstractParserTest {
-    public OELintAdvParserTest() {
+    OELintAdvParserTest() {
         super("oelint-adv.txt");
     }
 
