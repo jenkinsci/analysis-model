@@ -78,7 +78,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     public LineRangeList(final LineRange... initialElements) {
         this(initialElements.length * 4); // guess
 
-        this.addAll(Arrays.asList(initialElements));
+        addAll(Arrays.asList(initialElements));
     }
 
     @Override
