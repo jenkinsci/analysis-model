@@ -18,4 +18,9 @@ class OELintAdvDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         return new OELintAdvParser();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://github.com/priv-kweihmann/oelint-adv";
+    }
 }
