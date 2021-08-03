@@ -26,7 +26,6 @@ import static edu.hm.hafner.util.IntegerParser.*;
 public class CadenceIncisiveParser extends LookaheadParser {
     private static final long serialVersionUID = -3251791089328958452L;
 
-    private static final String SLASH = "/";
     private static final String CADENCE_MESSAGE_PATTERN = "(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+): (.*) "
             + "\\[File:(.*), Line:(.*)\\]." //ncelab vhdl warning
             + ")|(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+) \\((.*),([0-9]+)\\|([0-9]+)\\): (.*)$" //Warning/error with filename
@@ -97,10 +96,6 @@ public class CadenceIncisiveParser extends LookaheadParser {
         // Filename should never be null here, unless someone updates from the code above fail
         if (fileName == null) {
             return Optional.empty();
-        }
-        if (fileName.startsWith(SLASH)) {
-            return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                    .setMessage(message).setSeverity(priority).buildOptional();
         }
         return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
                 .setMessage(message).setSeverity(priority).buildOptional();

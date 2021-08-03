@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -77,9 +78,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     public LineRangeList(final LineRange... initialElements) {
         this(initialElements.length * 4); // guess
 
-        for (LineRange element : initialElements) {
-            add(element);
-        }
+        addAll(Arrays.asList(initialElements));
     }
 
     @Override
