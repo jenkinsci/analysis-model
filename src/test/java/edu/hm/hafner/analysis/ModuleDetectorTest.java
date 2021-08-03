@@ -54,7 +54,7 @@ class ModuleDetectorTest extends ResourceTest {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + ModuleDetector.OSGI_BUNDLE});
             when(stub.open(anyString())).thenReturn(read(MANIFEST));
         });
-        
+
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "something.txt")))
@@ -467,12 +467,7 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     private InputStream createEmptyStream() {
-        try {
-            return IOUtils.toInputStream("", "UTF-8");
-        }
-        catch (IOException e) {
-            throw new AssertionError(e);
-        }
+        return IOUtils.toInputStream("", "UTF-8");
     }
 
     private FileSystem createFileSystemStub(final Stub stub) {
