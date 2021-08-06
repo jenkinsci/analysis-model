@@ -28,6 +28,6 @@ class DetektDescriptor extends ParserDescriptor {
 
     @Override
     public String getUrl() {
-        return "https://arturbosch.github.io/detekt/";
+        return "https://detekt.github.io/detekt";
     }
 }
