@@ -23,6 +23,6 @@ class DoxygenDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return "Use commandline <code>( cat Doxyfile; echo WARN_FORMAT='$file:$line: $text' ) | doxygen</code>";
+        return "Use commandline <code>( cat Doxyfile; echo WARN_FORMAT='$file:$line: $text' ) | doxygen -</code>";
     }
 }
