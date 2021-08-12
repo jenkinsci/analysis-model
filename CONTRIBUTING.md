@@ -1,8 +1,6 @@
 # Contributing to the Static Analysis Model and Parsers Library
 
-This page provides information about contributing code to the Static Analysis Model and Parsers Library. This
-library is part of Jenkins' [Warnings Next Generation Plugin](https://github.com/jenkinsci/warnings-ng-plugin). 
-Since it has no dependencies to Jenkins it might be used for other projects as well in the future. 
+This document provides information about contributing code to the Static Analysis Model and Parsers Library. 
 
 ## Beginner Topics
 
@@ -67,18 +65,8 @@ We consider all contributions as MIT unless it's explicitly stated otherwise.
 MIT-incompatible code contributions will be rejected.
 Contributions under MIT-compatible licenses may be also rejected if they are not ultimately necessary.
 
-We do not require pull request submitters to sign the 
-[contributor agreement](https://wiki.jenkins.io/display/JENKINS/Copyright+on+source+code)
-as long as the code is licensed under MIT and merged by one of the contributors with the signed agreement.
-
 ## Continuous Integration
 
 The Jenkins project has a Continuous Integration server... powered by Jenkins, of course.
 The CI job for this project is located at [ci.jenkins.io](https://ci.jenkins.io/job/Plugins/job/analysis-model/).
-
-# Links
-
-* [Jenkins Contribution Landing Page](https://jenkins.io/paricipate/)
-* [Jenkins IRC Channel](https://jenkins.io/chat/)
-* [Beginners Guide To Contributing](https://wiki.jenkins.io/display/JENKINS/Beginners+Guide+to+Contributing)
 

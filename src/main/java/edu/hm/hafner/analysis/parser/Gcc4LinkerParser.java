@@ -8,8 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import static edu.hm.hafner.analysis.Severity.*;
 
 /**
  * A parser for gcc 4.x linker warnings.
@@ -35,36 +36,27 @@ public class Gcc4LinkerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        Severity priority;
-
-        String message;
         if (StringUtils.isNotBlank(matcher.group(7))) {
-            // link error in ld
-            if (StringUtils.equalsIgnoreCase(matcher.group(6), "warning")) {
-                priority = Severity.WARNING_NORMAL;
-            }
-            else {
-                priority = Severity.WARNING_HIGH;
-            }
-            message = matcher.group(7);
+            parseLdError(matcher, builder);
         }
         else {
             // link error
             if (StringUtils.isNotBlank(matcher.group(3))) {
                 // error of type "undefined reference..."
-                message = matcher.group(3);
-                priority = Severity.WARNING_HIGH;
+                builder.setMessage(matcher.group(3));
+                builder.setSeverity(WARNING_HIGH);
             }
             else {
                 // generic linker error with reference to the binary section and
                 // offset
                 if (StringUtils.equalsIgnoreCase(matcher.group(4), "warning")) {
-                    priority = Severity.WARNING_NORMAL;
+                    builder.setSeverity(WARNING_NORMAL);
                 }
                 else {
-                    priority = Severity.WARNING_HIGH;
+                    builder.setSeverity(WARNING_HIGH);
                 }
-                message = matcher.group(5);
+                String message = matcher.group(5);
+                builder.setMessage(message);
                 if (StringUtils.endsWith(message, ":")) {
                     return Optional.empty();
                 }
@@ -74,9 +66,17 @@ public class Gcc4LinkerParser extends LookaheadParser {
         return builder.setFileName(StringUtils.defaultString(matcher.group(1)))
                 .setLineStart(matcher.group(2))
                 .setCategory(WARNING_CATEGORY)
-                .setMessage(message)
-                .setSeverity(priority)
                 .buildOptional();
+    }
+
+    private void parseLdError(final Matcher matcher, final IssueBuilder builder) {
+        if (StringUtils.equalsIgnoreCase(matcher.group(6), "warning")) {
+            builder.setSeverity(WARNING_NORMAL);
+        }
+        else {
+            builder.setSeverity(WARNING_HIGH);
+        }
+        builder.setMessage(matcher.group(7));
     }
 }
 

@@ -7,7 +7,6 @@ node {
 
     stage ('Git mining') {
         discoverGitReferenceBuild()
-        mineRepository()
         gitDiffStat()
     }
 

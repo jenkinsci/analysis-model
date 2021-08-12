@@ -17,7 +17,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  */
 @BenchmarkMode(Mode.AverageTime)
 @Fork(value = 1, warmups = 3)
-@SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
+@SuppressWarnings({"PMD.AbstractClassWithoutAbstractMethod", "PMD.JUnit5TestShouldBePackagePrivate"})
 public abstract class AbstractBenchmark {
     /**
      * BenchmarkRunner - runs all benchmark tests in the concrete test class.

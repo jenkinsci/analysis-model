@@ -118,14 +118,14 @@ public class Severity implements Serializable {
     public static Collection<Severity> collectSeveritiesFrom(final Severity minimumSeverity) {
         List<Severity> priorities = new ArrayList<>();
         priorities.add(Severity.ERROR);
-        if (minimumSeverity.equals(WARNING_HIGH)) {
+        if (WARNING_HIGH.equals(minimumSeverity)) {
             priorities.add(WARNING_HIGH);
         }
-        else if (minimumSeverity.equals(WARNING_NORMAL)) {
+        else if (WARNING_NORMAL.equals(minimumSeverity)) {
             priorities.add(WARNING_HIGH);
             priorities.add(WARNING_NORMAL);
         }
-        else if (minimumSeverity.equals(WARNING_LOW)) {
+        else if (WARNING_LOW.equals(minimumSeverity)) {
             priorities.add(WARNING_HIGH);
             priorities.add(WARNING_NORMAL);
             priorities.add(WARNING_LOW);
