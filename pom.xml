@@ -75,7 +75,7 @@
     <json.version>20210307</json.version>
     <json-smart.version>2.4.7</json-smart.version>
     <pmd.version>6.37.0</pmd.version>
-    <spotbugs.version>4.3.0</spotbugs.version>
+    <spotbugs.version>4.4.0</spotbugs.version>
 
     <incrementals-plugin.version>1.2</incrementals-plugin.version>
     <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
