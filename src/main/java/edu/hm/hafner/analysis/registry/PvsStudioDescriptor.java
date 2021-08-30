@@ -28,6 +28,6 @@ class PvsStudioDescriptor extends ParserDescriptor {
 
     @Override
     public String getUrl() {
-        return "https://www.viva64.com/en/pvs-studio/";
+        return "https://pvs-studio.com/en/pvs-studio/";
     }
 }

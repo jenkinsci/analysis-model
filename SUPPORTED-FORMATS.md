@@ -1409,7 +1409,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
             <td>
-                <a href="https://www.viva64.com/en/pvs-studio/">
+                <a href="https://pvs-studio.com/en/pvs-studio/">
                     PVS-Studio
                 </a>
             </td>

@@ -49,7 +49,7 @@ class PVSStudioParserTest extends AbstractParserTest {
     }
 
     private String getFormedMessage(final String type, final String messageFromFile) {
-        return "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/" + type.toLowerCase(Locale.ENGLISH) + "/\">"
+        return "<a target=\"_blank\" href=\"https://pvs-studio.com/en/docs/warnings/" + type.toLowerCase(Locale.ENGLISH) + "/\">"
                 + type + "</a> " + messageFromFile;
     }
 

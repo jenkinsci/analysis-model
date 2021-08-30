@@ -100,7 +100,7 @@ class PlogMessage {
             return;
         }
 
-        msg.message = "<a target=\"_blank\" href=\"https://www.viva64.com/en/w/"
+        msg.message = "<a target=\"_blank\" href=\"https://pvs-studio.com/en/docs/warnings/"
                 + msg.errorCode.toLowerCase(Locale.ENGLISH) + "/\">"
                 + msg.errorCode + "</a> "
                 + eElement.getElementsByTagName("Message").item(0).getTextContent();
