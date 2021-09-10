@@ -16,82 +16,82 @@ import static edu.hm.hafner.analysis.IssueParser.*;
 final class AnalyzerType {
     /**
      * Diagnosis of 64-bit errors (Viva64, C++).
-     * https://www.viva64.com/en/w/#64CPP
+     * https://pvs-studio.com/en/docs/warnings/#64CPP
      */
     private static final int VIVA64_CCPP_ERRORCODE_BEGIN = 100;
     /**
      * Diagnosis of 64-bit errors (Viva64, C++).
-     * https://www.viva64.com/en/w/#64CPP
+     * https://pvs-studio.com/en/docs/warnings/#64CPP
      */
     private static final int VIVA64_CCPP_ERRORCODE_END = 499;
     /**
      * General Analysis (C++).
-     * https://www.viva64.com/en/w/#GeneralAnalysisCPP
+     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP
      */
     private static final int GENERAL_CCPP_LOW_ERRORCODE_BEGIN = 500;
     /**
      * General Analysis (C++).
-     * https://www.viva64.com/en/w/#GeneralAnalysisCPP
+     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP
      */
     private static final int GENERAL_CCPP_LOW_ERRORCODE_END = 799;
     /**
      * Diagnosis of micro-optimizations (C++).
-     * https://www.viva64.com/en/w/#MicroOptimizationsCPP
+     * https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP
      */
     private static final int OPTIMIZATION_CCPP_ERRORCODE_BEGIN = 800;
     /**
      * Diagnosis of micro-optimizations (C++).
-     * https://www.viva64.com/en/w/#MicroOptimizationsCPP
+     * https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP
      */
     private static final int OPTIMIZATION_CCPP_ERRORCODE_END = 999;
     /**
      * General Analysis (C++).
-     * https://www.viva64.com/en/w/
+     * https://pvs-studio.com/en/docs/warnings/
      */
     private static final int GENERAL_CCPP_HIGH_ERRORCODE_BEGIN = 1000;
     /**
      * General Analysis (C++).
-     * https://www.viva64.com/en/w/
+     * https://pvs-studio.com/en/docs/warnings/
      */
     private static final int GENERAL_CCPP_HIGH_ERRORCODE_END = 1999;
     /**
      * Customers Specific Requests (C++).
-     * https://www.viva64.com/en/w/#CustomersSpecificRequestsCPP
+     * https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP
      */
     private static final int CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN = 2000;
     /**
      * Customers Specific Requests (C++).
-     * https://www.viva64.com/en/w/#CustomersSpecificRequestsCPP
+     * https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP
      */
     private static final int CUSTOMERSPECIFIC_CCPP_ERRORCODE_END = 2499;
     /**
      * MISRA errors.
-     * https://www.viva64.com/en/w/#MISRA
+     * https://pvs-studio.com/en/docs/warnings/#MISRA
      */
     private static final int MISRA_CCPP_ERRORCODE_BEGIN = 2500;
     /**
      * MISRA errors.
-     * https://www.viva64.com/en/w/#MISRA
+     * https://pvs-studio.com/en/docs/warnings/#MISRA
      */
     private static final int MISRA_CCPP_ERRORCODE_END = 2999;
     /**
      * General Analysis (C#).
-     * https://www.viva64.com/en/w/#GeneralAnalysisCS
+     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS
      */
     private static final int GENERAL_CS_ERRORCODE_BEGIN = 3000;
     /**
      * General Analysis (C#).
-     * https://www.viva64.com/en/w/#GeneralAnalysisCS
+     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS
      */
     private static final int GENERAL_CS_ERRORCODE_END = 3499;
     /**
      * General Analysis (Java).
-     * https://www.viva64.com/en/w/#GeneralAnalysisJAVA
+     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA
      */
     private static final int GENERAL_JAVA_ERRORCODE_BEGIN = 6000;
     /**
      * General Analysis (Java).
-     * https://www.viva64.com/en/w/#GeneralAnalysisJAVA
+     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA
      */
     private static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
