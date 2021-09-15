@@ -28,7 +28,7 @@
     boolean publishingIncrementals = false
     boolean archivedArtifacts = false
     Map tasks = [failFast: failFast]
-    getConfigurations(params).each { config ->
+    configurations.each { config ->
         String label = config.platform
         String jdk = config.jdk
         String jenkinsVersion = config.jenkins
