@@ -1,3 +1,6 @@
+    def configurations = [
+      [ platform: "linux", jdk: "11" ]
+    ]
     def buildNumber = BUILD_NUMBER as int; if (buildNumber > 1) milestone(buildNumber - 1); milestone(buildNumber) // JENKINS-43353 / JENKINS-58625
 
     // Faster build and reduces IO needs
@@ -153,6 +156,7 @@
                                 folders = env.JOB_NAME.split("/")
                                 if (folders.length > 1) {
                                     discoverGitReferenceBuild(scm: folders[1])
+                                    gitDiffStat(scm: folders[1])
                                 }
 
                                 echo "Recording static analysis results on '${stageIdentifier}'"
