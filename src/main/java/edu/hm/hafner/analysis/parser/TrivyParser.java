@@ -33,7 +33,7 @@ public class TrivyParser extends JsonIssueParser {
      * Used with schema version 2 starting with trivy 0.20.0.
      */
     @Override
-    protected void parseJsonObject(Report report, JSONObject jsonReport, IssueBuilder issueBuilder) {
+    protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         parseResults(report, jsonReport.optJSONArray("Results"), issueBuilder);
     }
 
