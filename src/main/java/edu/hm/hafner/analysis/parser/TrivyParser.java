@@ -30,7 +30,7 @@ public class TrivyParser extends JsonIssueParser {
     private static final long serialVersionUID = 1L;
 
     /**
-     * used with schema version 2 starting with trivy 0.20.0
+     * Used with schema version 2 starting with trivy 0.20.0.
      */
     @Override
     protected void parseJsonObject(Report report, JSONObject jsonReport, IssueBuilder issueBuilder) {
@@ -38,7 +38,7 @@ public class TrivyParser extends JsonIssueParser {
     }
 
     /**
-     * used with older schema before trivy 0.20.0
+     * Used with older schema before trivy 0.20.0.
      */
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
