@@ -29,14 +29,29 @@ public class TrivyParser extends JsonIssueParser {
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_LOW = "low";
     private static final long serialVersionUID = 1L;
 
+    /**
+     * used with schema version 2 starting with trivy 0.20.0
+     */
+    @Override
+    protected void parseJsonObject(Report report, JSONObject jsonReport, IssueBuilder issueBuilder) {
+        parseResults(report, jsonReport.optJSONArray("Results"), issueBuilder);
+    }
+
+    /**
+     * used with older schema before trivy 0.20.0
+     */
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
+        parseResults(report, jsonReport, issueBuilder);
+    }
+
+    private void parseResults(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
-            JSONObject component = (JSONObject) jsonReport.get(i);
+            JSONObject component = (JSONObject)jsonReport.get(i);
             if (!component.isNull("Vulnerabilities")) {
                 JSONArray vulnerabilities = component.getJSONArray("Vulnerabilities");
                 for (Object vulnerability : vulnerabilities) {
-                    report.add(convertToIssue((JSONObject) vulnerability, issueBuilder));
+                    report.add(convertToIssue((JSONObject)vulnerability, issueBuilder));
                 }
             }
         }
@@ -74,10 +89,7 @@ public class TrivyParser extends JsonIssueParser {
                 "<p><div><b>File</b>: {0}</div><div><b>Installed Version:</b> {1}</div><div><b>Fixed Version:</b> {2}</div><div><b>Severity:</b> {3}</div>",
                 vulnerability.optString("PkgName", VALUE_NOT_SET),
                 vulnerability.optString("InstalledVersion", VALUE_NOT_SET),
-                vulnerability.optString("FixedVersion", "still open"),
-                vulnerability.optString("Severity", "UNKOWN"))
-                + "<p>"
-                + vulnerability.optString("Description", "")
-                + "</p>";
+                vulnerability.optString("FixedVersion", "still open"), vulnerability.optString("Severity", "UNKOWN"))
+                + "<p>" + vulnerability.optString("Description", "") + "</p>";
     }
 }
