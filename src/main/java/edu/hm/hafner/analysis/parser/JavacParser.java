@@ -68,7 +68,8 @@ public class JavacParser extends LookaheadParser {
         String message = matcher.group(6);
         String category = guessCategoryIfEmpty(matcher.group(5), message);
 
-        return builder.setFileName(matcher.group(2))
+        // get rid of leading / from windows compiler output JENKINS-66738
+        return builder.setFileName(matcher.group(2).replaceAll("^/([a-zA-Z]):","$1:"))
                 .setLineStart(matcher.group(3))
                 .setColumnStart(matcher.group(4))
                 .setCategory(category)
