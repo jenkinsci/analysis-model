@@ -6,6 +6,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.InvalidPathException;
+import java.nio.file.NoSuchFileException;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -49,7 +50,7 @@ public class FingerprintGenerator {
                 return 1;
             }
         }
-        catch (FileNotFoundException exception) {
+        catch (FileNotFoundException | NoSuchFileException exception) {
             log.logError("- '%s' file not found", absolutePath);
         }
         catch (IOException | InvalidPathException | UncheckedIOException exception) {
