@@ -68,16 +68,16 @@ class JavacParserTest extends AbstractParserTest {
         
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(1))
-            .hasSeverity(Severity.WARNING_NORMAL)
-            .hasCategory("")
-            .hasLineStart(12)
-            .hasLineEnd(12)
-            .hasMessage(
-                    "found raw type: java.util.ArrayList")
-            .hasFileName(
-                    "C:/Users/user1/JENKINS-66738/src/main/java/simple/HelloWorld.java")
-            .hasColumnStart(42);
-        }        
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("")
+                .hasLineStart(12)
+                .hasLineEnd(12)
+                .hasMessage(
+                        "found raw type: java.util.ArrayList")
+                .hasFileName(
+                        "C:/Users/user1/JENKINS-66738/src/main/java/simple/HelloWorld.java")
+                .hasColumnStart(42);
+        }
     }
 
     /**
