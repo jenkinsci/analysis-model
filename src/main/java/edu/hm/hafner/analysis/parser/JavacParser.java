@@ -40,6 +40,8 @@ public class JavacParser extends LookaheadParser {
     private static final String SEVERITY_ERROR = "ERROR";
     private static final String SEVERITY_ERROR_SHORT = "e:";
 
+    private static final Object MAVEN_COMPILER_PLUGIN = "maven-compiler-plugin";
+
     private String goal = "javac";
 
     /**
@@ -52,7 +54,7 @@ public class JavacParser extends LookaheadParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         Matcher goalMatcher = MavenConsoleParser.MAVEN_PLUGIN_START.matcher(line);
-        if (goalMatcher.find() && "maven-compiler-plugin".equals(goalMatcher.group("id"))) {
+        if (goalMatcher.find() && MAVEN_COMPILER_PLUGIN.equals(goalMatcher.group("id"))) {
             // remember the maven-compiler-plugin and goal to use as issue type
             goal = String.format("%s:%s", goalMatcher.group("id"), goalMatcher.group("goal"));
         }
