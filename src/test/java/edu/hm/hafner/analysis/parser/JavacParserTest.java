@@ -57,6 +57,31 @@ class JavacParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parses a warning log with two warning generated on windows.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-66737">Issue 66738</a>
+     */
+    @Test
+    void issue66738() {
+        Report report = parse("issue66738.txt");
+        assertThat(report).hasSize(2);
+        
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(report.get(1))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasCategory("")
+                    .hasLineStart(12)
+                    .hasLineEnd(12)
+                    .hasType("maven-compiler-plugin:compile")
+                    .hasMessage(
+                            "found raw type: java.util.ArrayList")
+                    .hasFileName(
+                            "C:/Users/user1/JENKINS-66738/src/main/java/simple/HelloWorld.java")
+                    .hasColumnStart(42);
+        }
+    }
+
+    /**
      * Parses a warning log with two false positives.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-55805">Issue 55805</a>
