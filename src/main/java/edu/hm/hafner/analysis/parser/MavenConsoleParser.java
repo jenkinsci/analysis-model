@@ -27,6 +27,9 @@ public class MavenConsoleParser extends LookaheadParser {
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
 
+    /**
+     * Regular expression to parse the start of maven plugin in console
+     */
     protected static final Pattern MAVEN_PLUGIN_START = Pattern.compile(
             "\\[INFO\\] --- (?<id>\\S+):(?<version>\\S+):(?<goal>\\S+)\\s.*");
     

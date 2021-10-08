@@ -52,10 +52,9 @@ public class JavacParser extends LookaheadParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         Matcher goalMatcher = MavenConsoleParser.MAVEN_PLUGIN_START.matcher(line);
-        if (goalMatcher.find()) { // remember the maven-compiler-plugin and goal to use as issue type
-            if ("maven-compiler-plugin".equals(goalMatcher.group("id"))) {
-                goal = String.format("%s:%s", goalMatcher.group("id"), goalMatcher.group("goal"));
-            }
+        if (goalMatcher.find() && "maven-compiler-plugin".equals(goalMatcher.group("id"))) {
+            // remember the maven-compiler-plugin and goal to use as issue type
+            goal = String.format("%s:%s", goalMatcher.group("id"), goalMatcher.group("goal"));
         }
 
         return line.contains("[") || line.contains("w:") || line.contains("e:");
