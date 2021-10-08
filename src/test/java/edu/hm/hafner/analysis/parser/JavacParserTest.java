@@ -72,6 +72,7 @@ class JavacParserTest extends AbstractParserTest {
                     .hasCategory("")
                     .hasLineStart(12)
                     .hasLineEnd(12)
+                    .hasType("maven-compiler-plugin:compile")
                     .hasMessage(
                             "found raw type: java.util.ArrayList")
                     .hasFileName(

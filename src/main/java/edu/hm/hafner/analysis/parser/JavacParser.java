@@ -1,7 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
+import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
+
 import java.util.Optional;
 import java.util.regex.Matcher;
+
+import org.apache.commons.lang3.RegExUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -9,8 +13,6 @@ import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
-import static edu.hm.hafner.analysis.Categories.*;
 
 /**
  * A parser for the javac compiler warnings.
@@ -38,6 +40,8 @@ public class JavacParser extends LookaheadParser {
     private static final String SEVERITY_ERROR = "ERROR";
     private static final String SEVERITY_ERROR_SHORT = "e:";
 
+    private String goal = "javac";
+
     /**
      * Creates a new instance of {@link JavacParser}.
      */
@@ -47,6 +51,13 @@ public class JavacParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
+        Matcher goalMatcher = MavenConsoleParser.MAVEN_PLUGIN_START.matcher(line);
+        if (goalMatcher.find()) { // remember the maven-compiler-plugin and goal to use as issue type
+            if ("maven-compiler-plugin".equals(goalMatcher.group("id"))) {
+                goal = String.format("%s:%s", goalMatcher.group("id"), goalMatcher.group("goal"));
+            }
+        }
+
         return line.contains("[") || line.contains("w:") || line.contains("e:");
     }
 
@@ -69,8 +80,9 @@ public class JavacParser extends LookaheadParser {
         String category = guessCategoryIfEmpty(matcher.group(5), message);
 
         // get rid of leading / from windows compiler output JENKINS-66738
-        return builder.setFileName(matcher.group(2).replaceAll("^/([a-zA-Z]):", "$1:"))
+        return builder.setFileName(RegExUtils.replaceAll(matcher.group(2), "^/([a-zA-Z]):", "$1:"))
                 .setLineStart(matcher.group(3))
+                .setType(goal)
                 .setColumnStart(matcher.group(4))
                 .setCategory(category)
                 .setMessage(message)
