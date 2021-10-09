@@ -6,6 +6,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.google.errorprone.annotations.FormatMethod;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Filters the log of a {@link Report} instance so that only a limited number of errors will be reported. If the number
  * of errors exceeds this limit, then subsequent error messages will be skipped.
@@ -42,6 +44,7 @@ public class FilteredLog {
      * @param maxLines
      *         the maximum number of lines to log
      */
+    @SuppressFBWarnings(value = "EI")
     public FilteredLog(final Report report, final String title, final int maxLines) {
         delegate = report;
         this.title = title;

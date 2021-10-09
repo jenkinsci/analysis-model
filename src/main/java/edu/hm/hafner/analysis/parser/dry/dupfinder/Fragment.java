@@ -9,6 +9,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Rafal Jasica
  */
 @SuppressWarnings("PMD.DataClass")
+@SuppressFBWarnings("EI")
 public class Fragment {
     @CheckForNull
     private String fileName;
@@ -89,7 +90,6 @@ public class Fragment {
     public Range getOffsetRange() {
         return offsetRange;
     }
-
 
     /**
      * Sets the offset range to the specified value.

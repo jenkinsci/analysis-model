@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This is the Report-Class. It is mandatory to create Warnings. It represents the outer-most node within the
  * report.xml.
@@ -11,6 +13,7 @@ import java.util.List;
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
 @SuppressWarnings("PMD.DataClass")
+@SuppressFBWarnings(value = "EI")
 public class Report {
     private List<File> files = new ArrayList<>();
 
