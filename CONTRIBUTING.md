@@ -6,7 +6,7 @@ This document provides information about contributing code to the Static Analysi
 
 If you don't have a specific problem or task in mind, i.e.,  you simply want to participate in this open source project 
 I would suggest to have a look at the 
-[open issues in our issues tracker](https://issues.jenkins-ci.org/issues/?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20component%20%3D%20analysis-model%20AND%20labels%20in%20(help-wanted%2C%20newbie-friendly)%20order%20by%20updated%20DESC). 
+[open issues in our issues tracker](https://issues.jenkins.io/issues/?filter=-1&jql=resolution%20%3D%20Unresolved%20AND%20component%20%3D%20analysis-model%20AND%20labels%20in%20(help-wanted%2C%20newbie-friendly)%20order%20by%20updated%20DESC). 
 I marked several newbie friendly issues with the labels `newbie-friendly` and `help-wanted`. These are a good starting
 point to get in touch with this library.
 
@@ -49,7 +49,7 @@ It is a good practice is to create branches instead of pushing to master.
 2. In GitHub Web UI click the **New Pull Request** button.
 3. Select `analysis-model` as **base fork** and `master` as **base**, then click **Create Pull Request**.
 4. Fill in the Pull Request description. It should reflect the changes, the reason behind the changes, and if available a
-reference to the Jenkins ticket in our [issue tracker](https://issues.jenkins-ci.org/).
+reference to the Jenkins ticket in our [issue tracker](https://issues.jenkins.io/).
 5. Click **Create Pull Request**.
 6. Wait for CI results, reviews. 
 7. Process the feedback (see previous step). If there are changes required, commit them in your local branch and push them

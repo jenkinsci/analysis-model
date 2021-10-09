@@ -1,0 +1,48 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< ca.gc.cbsa.devcenter:simple >---------------------
+[INFO] Building Sample Simple Maven Java project 1.0.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ simple ---
+[INFO] Deleting C:\Users\mxj037\JENKINS-66738\target
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.1.0:clean (flatten.clean) @ simple ---
+[INFO] Deleting C:\Users\mxj037\JENKINS-66738\.flattened-pom.xml
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M3:display-info (display-info) @ simple ---
+[INFO] Maven Version: 3.8.1
+[INFO] JDK Version: 1.8.0_212 normalized as: 1.8.0-212
+[INFO] OS Info: Arch: amd64 Family: windows Name: windows 10 Version: 10.0
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M3:enforce (enforce-cbsa-top-rules) @ simple ---
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:display-ancestors (default) @ simple ---
+[INFO] Ancestor POMs: ca.gc.cbsa.poms:cbsa-parent:1.0.2155
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.5:prepare-agent (agent-for-ut) @ simple ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] argLine set to empty
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ simple ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\mxj037\JENKINS-66738\src\main\resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.1.0:flatten (flatten) @ simple ---
+[INFO] Generating flattened POM of project ca.gc.cbsa.devcenter:simple:jar:1.0.0-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ simple ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 1 source file to C:\Users\mxj037\JENKINS-66738\target\classes
+[WARNING] bootstrap class path not set in conjunction with -source 1.6
+[WARNING] /C:/Users/mxj037/JENKINS-66738/src/main/java/simple/HelloWorld.java:[12,24] found raw type: java.util.List
+  missing type arguments for generic class java.util.List<E>
+[WARNING] /C:/Users/user1/JENKINS-66738/src/main/java/simple/HelloWorld.java:[12,42] found raw type: java.util.ArrayList
+  missing type arguments for generic class java.util.ArrayList<E>
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.183 s
+[INFO] Finished at: 2021-10-06T19:45:13-04:00
+[INFO] ------------------------------------------------------------------------
