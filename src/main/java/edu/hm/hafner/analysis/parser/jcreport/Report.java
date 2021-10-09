@@ -13,7 +13,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
 @SuppressWarnings("PMD.DataClass")
-@SuppressFBWarnings(value = "EI")
+@SuppressFBWarnings("EI")
 public class Report {
     private List<File> files = new ArrayList<>();
 
