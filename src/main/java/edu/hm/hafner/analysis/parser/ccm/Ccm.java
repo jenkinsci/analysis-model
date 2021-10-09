@@ -35,7 +35,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0
  */
 @SuppressWarnings("all")
-@SuppressFBWarnings(value = "EI")
+@SuppressFBWarnings("EI")
 public class Ccm {
     /**
      * List of metrics present in the XML file.

@@ -44,7 +44,7 @@ public class FilteredLog {
      * @param maxLines
      *         the maximum number of lines to log
      */
-    @SuppressFBWarnings(value = "EI")
+    @SuppressFBWarnings(value = "EI", justification = "Report is used as a delegate")
     public FilteredLog(final Report report, final String title, final int maxLines) {
         delegate = report;
         this.title = title;
