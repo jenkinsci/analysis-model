@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Computes old, new, and fixed issues based on the reports of two consecutive static analysis runs for the same
  * software artifact.
@@ -124,6 +126,7 @@ public class IssueDifference {
      *
      * @return the outstanding issues
      */
+    @SuppressFBWarnings("EI")
     public Report getOutstandingIssues() {
         return outstandingIssues;
     }
@@ -134,6 +137,7 @@ public class IssueDifference {
      *
      * @return the new issues
      */
+    @SuppressFBWarnings("EI")
     public Report getNewIssues() {
         return newIssues;
     }
@@ -144,6 +148,7 @@ public class IssueDifference {
      *
      * @return the fixed issues
      */
+    @SuppressFBWarnings("EI")
     public Report getFixedIssues() {
         return fixedIssues;
     }

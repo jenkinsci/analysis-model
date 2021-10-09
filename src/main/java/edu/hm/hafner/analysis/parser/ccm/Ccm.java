@@ -26,6 +26,8 @@ package edu.hm.hafner.analysis.parser.ccm;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Entity used by {@link CcmParser} to represent the root node of CCM results file.
  *
@@ -33,6 +35,7 @@ import java.util.List;
  * @since 1.0
  */
 @SuppressWarnings("all")
+@SuppressFBWarnings("EI")
 public class Ccm {
     /**
      * List of metrics present in the XML file.
