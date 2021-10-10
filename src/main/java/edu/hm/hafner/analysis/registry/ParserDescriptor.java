@@ -39,9 +39,9 @@ public abstract class ParserDescriptor {
     }
 
     /**
-     * Returns a human readable name of the parser. Note that this property is not yet localizable.
+     * Returns a human-readable name of the parser. Note that this property is not yet localizable.
      *
-     * @return the human readable name
+     * @return the human-readable name
      */
     public String getName() {
         return name;

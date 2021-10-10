@@ -2,6 +2,8 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * A line range in a source file is defined by its first and last line.
  *
@@ -65,7 +67,7 @@ public class LineRange implements Serializable {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(@CheckForNull final Object obj) {
         if (this == obj) {
             return true;
         }

@@ -70,9 +70,9 @@ public class Report implements Iterable<Issue>, Serializable {
     private List<String> errorMessages = new ArrayList<>();
     private Map<String, Integer> countersByKey = new HashMap<>();
 
-    @CheckForNull @SuppressWarnings("all")
+    @CheckForNull @SuppressWarnings({"all", "UnusedVariable"})
     private transient Set<String> fileNames; // Not needed anymore since  10.0.0
-    @CheckForNull @SuppressWarnings("all")
+    @CheckForNull @SuppressWarnings({"all", "UnusedVariable"})
     private transient Map<String, String> namesByOrigin; // Not needed anymore since  10.0.0
 
     private int duplicatesSize = 0;
@@ -90,7 +90,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @param id
      *         the ID of the report
      * @param name
-     *         a human readable name for the report
+     *         a human-readable name for the report
      */
     public Report(final String id, final String name) {
         this(id, name, DEFAULT_ID);
@@ -103,7 +103,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @param id
      *         the ID of the report
      * @param name
-     *         a human readable name for the report
+     *         a human-readable name for the report
      * @param originReportFile
      *         the specified source file * that is the origin of the issues.
      */
@@ -111,6 +111,45 @@ public class Report implements Iterable<Issue>, Serializable {
         this.id = id;
         this.name = name;
         this.originReportFile = originReportFile;
+    }
+
+
+    /**
+     * Creates a new {@link Report} that is an aggregation of the specified {@link Report reports}. The created report
+     * will contain the issues of all specified reports, in the same order. The properties of the specified reports will
+     * also be copied.
+     *
+     * @param reports
+     *         the reports to append
+     *
+     * @see #copyIssuesAndProperties(Report, Report)
+     */
+    @SuppressWarnings("ConstructorLeaksThis")
+    public Report(final Report... reports) {
+        this();
+
+        Ensure.that(reports).isNotEmpty("No reports given.");
+
+        subReports.addAll(Arrays.asList(reports));
+    }
+
+    /**
+     * Creates a new {@link Report} that is an aggregation of the specified {@link Report reports}. The created report
+     * will contain the issues of all specified reports, in the same order. The properties of the specified reports will
+     * also be copied.
+     *
+     * @param reports
+     *         the initial set of issues
+     *
+     * @see #copyIssuesAndProperties(Report, Report)
+     */
+    @SuppressWarnings("ConstructorLeaksThis")
+    public Report(final Collection<? extends Report> reports) {
+        this();
+
+        Ensure.that(reports).isNotEmpty("No reports given.");
+
+        subReports.addAll(reports);
     }
 
     public String getId() {
@@ -149,7 +188,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @param originId
      *         the ID of the report
      * @param originName
-     *         a human readable name for the report
+     *         a human-readable name for the report
      */
     public void setOrigin(final String originId, final String originName) {
         Ensure.that(originId).isNotBlank("Issue origin ID '%s' must be not blank (%s)", originId, toString());
@@ -207,44 +246,6 @@ public class Report implements Iterable<Issue>, Serializable {
         files.add(getOriginReportFile());
         files.remove(DEFAULT_ID);
         return files;
-    }
-
-    /**
-     * Creates a new {@link Report} that is an aggregation of the specified {@link Report reports}. The created report
-     * will contain the issues of all specified reports, in the same order. The properties of the specified reports will
-     * also be copied.
-     *
-     * @param reports
-     *         the reports to append
-     *
-     * @see #copyIssuesAndProperties(Report, Report)
-     */
-    @SuppressWarnings("ConstructorLeaksThis")
-    public Report(final Report... reports) {
-        this();
-
-        Ensure.that(reports).isNotEmpty("No reports given.");
-
-        subReports.addAll(Arrays.asList(reports));
-    }
-
-    /**
-     * Creates a new {@link Report} that is an aggregation of the specified {@link Report reports}. The created report
-     * will contain the issues of all specified reports, in the same order. The properties of the specified reports will
-     * also be copied.
-     *
-     * @param reports
-     *         the initial set of issues
-     *
-     * @see #copyIssuesAndProperties(Report, Report)
-     */
-    @SuppressWarnings("ConstructorLeaksThis")
-    public Report(final Collection<? extends Report> reports) {
-        this();
-
-        Ensure.that(reports).isNotEmpty("No reports given.");
-
-        subReports.addAll(reports);
     }
 
     /**
@@ -502,6 +503,27 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns the issue with the specified index.
+     *
+     * @param index
+     *         the index
+     *
+     * @return the issue at the specified index
+     * @throws IndexOutOfBoundsException
+     *         if there is no element for the given index
+     */
+    public Issue get(final int index) {
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException("No such index " + index + " in " + this);
+        }
+        Iterator<Issue> all = iterator();
+        for (int i = 0; i < index; i++) {
+            all.next(); // skip this element
+        }
+        return all.next();
+    }
+
+    /**
      * Returns the number of issues in this container.
      *
      * @return total number of issues
@@ -571,27 +593,6 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public int getSizeOf(final Severity severity) {
         return stream().filter(issue -> issue.getSeverity().equals(severity)).mapToInt(e -> 1).sum();
-    }
-
-    /**
-     * Returns the issue with the specified index.
-     *
-     * @param index
-     *         the index
-     *
-     * @return the issue at the specified index
-     * @throws IndexOutOfBoundsException
-     *         if there is no element for the given index
-     */
-    public Issue get(final int index) {
-        if (index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException("No such index " + index + " in " + this);
-        }
-        Iterator<Issue> all = iterator();
-        for (int i = 0; i < index; i++) {
-            all.next(); // skip this element
-        }
-        return all.next();
     }
 
     @Override
@@ -964,7 +965,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
-    public boolean equals(final Object o) {
+    public boolean equals(@CheckForNull final Object o) {
         if (this == o) {
             return true;
         }
@@ -1089,6 +1090,7 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     @SuppressFBWarnings("OBJECT_DESERIALIZATION")
+    @SuppressWarnings("BanSerializableRead")
     private void readIssues(final ObjectInputStream input, final int size) throws IOException, ClassNotFoundException {
         final TreeStringBuilder builder = new TreeStringBuilder();
         for (int i = 0; i < size; i++) {
@@ -1137,10 +1139,10 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns a human readable name for the specified {@code origin} of this report.
+     * Returns a human-readable name for the specified {@code origin} of this report.
      *
      * @param origin
-     *         the origin to get the human readable name for
+     *         the origin to get the human-readable name for
      *
      * @return the name, or an empty string if no such name has been set
      */
@@ -1216,6 +1218,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Creates a new printer that prints to the "standard" output stream.
          */
+        @SuppressWarnings("SystemOut")
         public StandardOutputPrinter() {
             this(System.out);
         }

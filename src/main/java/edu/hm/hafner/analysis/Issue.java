@@ -848,7 +848,7 @@ public class Issue implements Serializable {
 
     @SuppressWarnings("all")
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(@CheckForNull final Object o) {
         if (this == o) {
             return true;
         }
