@@ -16,6 +16,7 @@ import com.google.errorprone.annotations.Immutable;
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.StringContainsUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Severity of an issue. The predefined set of severities consists of an error and 3 warnings with priorities high,
@@ -138,6 +139,7 @@ public class Severity implements Serializable {
      *
      * @return all predefined severities
      */
+    @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "False positive: https://github.com/spotbugs/spotbugs/issues/1747")
     public static Set<Severity> getPredefinedValues() {
         return ALL_SEVERITIES;
     }
