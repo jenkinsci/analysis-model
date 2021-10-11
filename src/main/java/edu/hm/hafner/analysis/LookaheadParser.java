@@ -71,7 +71,9 @@ public abstract class LookaheadParser extends IssueParser {
                     builder.setDirectory(RecursiveMakeDirectories.peek());
                 }
                 else if (line.contains(LEAVING_DIRECTORY)) {
-                    RecursiveMakeDirectories.pop();
+                    if(!RecursiveMakeDirectories.isEmpty()) {
+                        RecursiveMakeDirectories.pop();
+                    }
                     if(!RecursiveMakeDirectories.isEmpty()) {
                         builder.setDirectory(RecursiveMakeDirectories.peek());
                     }
