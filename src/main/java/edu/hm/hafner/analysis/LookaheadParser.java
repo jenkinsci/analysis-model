@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import java.util.Stack;
 
 import edu.hm.hafner.util.LookaheadStream;
 
@@ -23,6 +24,7 @@ public abstract class LookaheadParser extends IssueParser {
     protected static final String ANT_TASK = "^(?:.*\\[[^]]*\\])?\\s*";
 
     private static final String ENTERING_DIRECTORY = "Entering directory";
+    private static final String LEAVING_DIRECTORY = "Leaving directory";
     private static final Pattern MAKE_PATH
             = Pattern.compile(".*make(?:\\[\\d+])?: " + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
     private static final String CMAKE_PREFIX = "-- Build files have";
@@ -31,6 +33,8 @@ public abstract class LookaheadParser extends IssueParser {
     private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805
 
     private final Pattern pattern;
+
+    private Stack<String> RecursiveMakeDirectories;
 
     /**
      * Creates a new instance of {@link LookaheadParser}.
@@ -42,6 +46,7 @@ public abstract class LookaheadParser extends IssueParser {
         super();
 
         this.pattern = Pattern.compile(pattern);
+        this.RecursiveMakeDirectories = new Stack<String>();
     }
 
     @Override
@@ -61,10 +66,18 @@ public abstract class LookaheadParser extends IssueParser {
             while (lookahead.hasNext()) {
                 String line = lookahead.next();
                 if (line.contains(ENTERING_DIRECTORY)) {
-                    extractAndStoreDirectory(builder, line, MAKE_PATH);
+                    final String directory = extractDirectory(line, MAKE_PATH);
+                    RecursiveMakeDirectories.push(directory);
+                    builder.setDirectory(RecursiveMakeDirectories.peek());
+                }
+                else if (line.contains(LEAVING_DIRECTORY)) {
+                    RecursiveMakeDirectories.pop();
+                    if(!RecursiveMakeDirectories.isEmpty()) {
+                        builder.setDirectory(RecursiveMakeDirectories.peek());
+                    }
                 }
                 else if (line.contains(CMAKE_PREFIX)) {
-                    extractAndStoreDirectory(builder, line, CMAKE_PATH);
+                    builder.setDirectory(extractDirectory(line, CMAKE_PATH));
                 }
                 else if (isLineInteresting(line)) {
                     Matcher matcher = pattern.matcher(line);
@@ -79,11 +92,29 @@ public abstract class LookaheadParser extends IssueParser {
         }
     }
 
-    private void extractAndStoreDirectory(final IssueBuilder builder, final String line, final Pattern makePath) {
+    /**
+     * Extracts a directory from a line using a specified pattern which contains a capture group named 'dir'.
+     *
+     * @param line
+     *         the line to parse using makePath
+     * @param makePath
+     *         {@link Pattern} which includes a capture group name 'dir'
+     *
+     * @return A path extracted from the input line
+     * @throws IllegalArgumentException
+     *         If the {@link Pattern} does not contain a capture group named 'dir'
+     * @throws ParsingException
+     *         If the {@link Pattern} fails to match the input line
+     */
+    private String extractDirectory(final String line, final Pattern makePath) throws ParsingException {
+        if(!makePath.toString().contains("<dir>")){
+            throw new IllegalArgumentException(makePath.toString() + " does not contain a capture group named 'dir'");
+        }
         Matcher makeLineMatcher = makePath.matcher(line);
         if (makeLineMatcher.matches()) {
-            builder.setDirectory(makeLineMatcher.group("dir"));
+            return makeLineMatcher.group("dir");
         }
+        throw new ParsingException("Unable to change directory using: " + makePath.toString() + " to match " + line);
     }
 
     /**
