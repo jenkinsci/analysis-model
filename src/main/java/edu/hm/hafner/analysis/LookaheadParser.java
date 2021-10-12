@@ -34,7 +34,7 @@ public abstract class LookaheadParser extends IssueParser {
 
     private final Pattern pattern;
 
-    private Stack<String> RecursiveMakeDirectories;
+    private Stack<String> recursiveMakeDirectories;
 
     /**
      * Creates a new instance of {@link LookaheadParser}.
@@ -46,7 +46,7 @@ public abstract class LookaheadParser extends IssueParser {
         super();
 
         this.pattern = Pattern.compile(pattern);
-        this.RecursiveMakeDirectories = new Stack<String>();
+        this.recursiveMakeDirectories = new Stack<String>();
     }
 
     @Override
@@ -67,15 +67,15 @@ public abstract class LookaheadParser extends IssueParser {
                 String line = lookahead.next();
                 if (line.contains(ENTERING_DIRECTORY)) {
                     final String directory = extractDirectory(line, MAKE_PATH);
-                    RecursiveMakeDirectories.push(directory);
-                    builder.setDirectory(RecursiveMakeDirectories.peek());
+                    recursiveMakeDirectories.push(directory);
+                    builder.setDirectory(recursiveMakeDirectories.peek());
                 }
                 else if (line.contains(LEAVING_DIRECTORY)) {
-                    if(!RecursiveMakeDirectories.isEmpty()) {
-                        RecursiveMakeDirectories.pop();
+                    if (!recursiveMakeDirectories.isEmpty()) {
+                        recursiveMakeDirectories.pop();
                     }
-                    if(!RecursiveMakeDirectories.isEmpty()) {
-                        builder.setDirectory(RecursiveMakeDirectories.peek());
+                    if (!recursiveMakeDirectories.isEmpty()) {
+                        builder.setDirectory(recursiveMakeDirectories.peek());
                     }
                 }
                 else if (line.contains(CMAKE_PREFIX)) {
@@ -109,7 +109,7 @@ public abstract class LookaheadParser extends IssueParser {
      *         If the {@link Pattern} fails to match the input line
      */
     private String extractDirectory(final String line, final Pattern makePath) throws ParsingException {
-        if(!makePath.toString().contains("<dir>")){
+        if (!makePath.toString().contains("<dir>")) {
             throw new IllegalArgumentException(makePath.toString() + " does not contain a capture group named 'dir'");
         }
         Matcher makeLineMatcher = makePath.matcher(line);
