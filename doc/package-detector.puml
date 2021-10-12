@@ -1,0 +1,86 @@
+@startuml
+
+skinparam class {
+  BackgroundColor #4AD386
+  BorderColor #a0a0a0
+  BackgroundColor<<Main>> gold
+  BorderColor black
+  ArrowColor black
+  FontName  Arial Unicode MS
+  FontSize 20
+}
+
+skinparam classFontSize 24
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 20
+
+skinparam ArrowColor black
+skinparam ArrowThickness 2
+
+hide circle
+
+class PackageNameResolver {
+    +run(report: Report, charset: Charset)
+}
+
+class PackageDetectors {
+    +detectPackageName(fileName: String, charset: Charset): String
+}
+
+abstract class AbstractPackageDetector {
+    +detectPackageName(fileName: String, charset: Charset): String
+    ~{abstract}accepts(fileName: String): boolean
+    ~{abstract}getPattern(): Pattern
+}
+
+class JavaPackageDetector {
+    +accepts(fileName: String): boolean
+    ~getPattern(): Pattern
+}
+
+class CSharpNamespaceDetector {
+    +accepts(fileName: String): boolean
+    ~getPattern(): Pattern
+}
+
+class KotlinPackageDetector {
+    +accepts(fileName: String): boolean
+    ~getPattern(): Pattern
+}
+
+class Issue {
+    -id: UUID
+    -message: String
+    -lineStart: Integer
+    -severity: Severity
+    [...]
+    getId(): UUID
+    getMessage(): String
+    getSeverity(): Severity
+    getLineStart(): Integer
+    {method} [...]
+}
+
+class Report {
+    -duplicatesSize: Integer
+    +add(issue: Issue)
+    +size(): Integer
+    +isEmpty(): Boolean
+    +getDuplicatesSize(): Integer
+    +filter(criterion: Predicate): Report
+    {method} [...]
+}
+
+Report o-down- Issue: issues
+
+AbstractPackageDetector <|-up- JavaPackageDetector
+AbstractPackageDetector <|-up- CSharpNamespaceDetector
+AbstractPackageDetector <|-up- KotlinPackageDetector
+
+PackageDetectors ..> JavaPackageDetector: <<create>>
+PackageDetectors ..> KotlinPackageDetector: <<create>>
+PackageDetectors ..> CSharpNamespaceDetector: <<create>>
+
+PackageNameResolver ..> PackageDetectors: <<create>>
+PackageNameResolver ...> Report: <<use>>
+@enduml
