@@ -1,0 +1,112 @@
+@startuml
+' FRAGEN:
+' Tests für den Builder schreiben?
+' Copy() nötig?
+
+
+
+actor actor
+activate actor
+
+create ":JavacParser" as JavacParser
+actor -->> JavacParser: new
+
+create "report:Report" as Report
+actor -->> Report: new
+
+actor -> JavacParser: parse (Report, LookaheadStream)
+activate JavacParser
+create "builder:IssueBuilder" as IssueBuilder
+JavacParser -->> IssueBuilder: new
+
+loop lookahead.hasNext()
+    JavacParser -> JavacParser: createIssue(Matcher, LookaheadStream, builder)
+    alt
+        activate JavacParser
+
+        ''' Optionale Setter
+        alt
+            JavacParser -> IssueBuilder: setSeverity(Severity.ERROR)
+            activate IssueBuilder
+            deactivate IssueBuilder
+        else
+            JavacParser -> IssueBuilder: setSeverity(Severity.WARNING_NORMAL)
+            activate IssueBuilder
+            deactivate IssueBuilder
+        end
+        '''Setter
+        JavacParser -> IssueBuilder: setFileName()
+        activate IssueBuilder
+        deactivate IssueBuilder
+        JavacParser -> IssueBuilder: setLineStart()
+        activate IssueBuilder
+        deactivate IssueBuilder
+        JavacParser -> IssueBuilder: setColumnStart()
+        activate IssueBuilder
+        deactivate IssueBuilder
+        JavacParser -> IssueBuilder: setCategory()
+        activate IssueBuilder
+        deactivate IssueBuilder
+        JavacParser -> IssueBuilder: setCategory()
+        activate IssueBuilder
+        deactivate IssueBuilder
+        JavacParser -> IssueBuilder: setMessage()
+        activate IssueBuilder
+        deactivate IssueBuilder
+
+        '''build
+        JavacParser -> IssueBuilder: buildOptional()
+        activate IssueBuilder
+        IssueBuilder -> IssueBuilder: build()
+        activate IssueBuilder
+        create ":Issue" as Issue
+        IssueBuilder -->> Issue: **new** (pathName, fileName, lineStart, lineEnd, \n columnStart, columnEnd, lineRanges, \n category, type, packageName, moduleName, severity, \nmessage, description, origin,\n reference, fingerprint, additionalProperties, id)
+
+        '''Issue Konstruktor
+        activate Issue
+
+        note over Issue: Funktionen zur Bearbeitung \nder Übergabeparameter
+
+        '''Rückgabe
+        return Issue
+        return Issue
+
+
+        IssueBuilder -> Optional: of(Issue)
+        activate Optional
+
+        create ":Optional<Issue>" as Optiona
+        Optional -->> Optiona: new (Issue)
+        activate Optiona
+
+
+        return Optional<Issue>
+        return Optional<Issue>
+        return Optional<Issue>
+        return Optional<Issue>
+
+    else
+        JavacParser -[hidden]> JavacParser
+        activate JavacParser
+        JavacParser -> Optional: empty()
+        activate Optional
+
+        create ":Optional<null>" as Option
+        Optional -->> Option: new ()
+        activate Option
+
+        return Optional<null>
+        return Optional<null>
+        return Optional<null>
+
+    JavacParser -> Report:add (Optional<Issue>)
+    activate Report
+    return report
+
+    end
+    activate JavacParser
+    deactivate JavacParser
+    deactivate JavacParser
+end
+
+@enduml

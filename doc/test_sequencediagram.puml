@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor actor
+activate actor
+actor -> LineRangeTest: shouldBeSerializable()
+activate LineRangeTest
+LineRangeTest -> SerializableTest: shouldBeSerializable()
+activate SerializableTest
+
+
+SerializableTest -> LineRangeTest: createSerializable()
+activate LineRangeTest
+
+' Builder Aufruf
+create LineRangeBuilder
+LineRangeTest -->> LineRangeBuilder: new()
+LineRangeTest --> LineRangeBuilder: createLineRange()
+activate LineRangeBuilder
+
+' LineRangeKonstruktor Aufruf
+create "lineRangeInstance:LineRange" as obj
+LineRangeBuilder -->> obj: new(0, 0)
+
+LineRangeBuilder --> LineRangeTest: lineRangeInstance
+deactivate LineRangeBuilder
+' Ende des Builder Aufrufs
+
+LineRangeTest --> SerializableTest: lineRangeInstance
+deactivate LineRangeTest
+SerializableTest -> SerializableTest: toByteArray(serializedInstance)
+activate SerializableTest
+SerializableTest --> SerializableTest: serializedInstance
+deactivate SerializableTest
+SerializableTest -> SerializableTest: assertThatSerializableCanBeRestoredFrom(serializedInstance)
+activate SerializableTest
+SerializableTest --> SerializableTest
+deactivate SerializableTest
+SerializableTest --> LineRangeTest
+LineRangeTest --> actor
+deactivate LineRangeTest
+deactivate actor
+
+
+@enduml
