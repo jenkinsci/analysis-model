@@ -34,7 +34,7 @@ public abstract class LookaheadParser extends IssueParser {
 
     private final Pattern pattern;
 
-    private Stack<String> recursiveMakeDirectories;
+    private final Stack<String> recursiveMakeDirectories;
 
     /**
      * Creates a new instance of {@link LookaheadParser}.
@@ -46,7 +46,7 @@ public abstract class LookaheadParser extends IssueParser {
         super();
 
         this.pattern = Pattern.compile(pattern);
-        this.recursiveMakeDirectories = new Stack<String>();
+        this.recursiveMakeDirectories = new Stack<>();
     }
 
     @Override
@@ -65,23 +65,8 @@ public abstract class LookaheadParser extends IssueParser {
         try (IssueBuilder builder = new IssueBuilder()) {
             while (lookahead.hasNext()) {
                 String line = lookahead.next();
-                if (line.contains(ENTERING_DIRECTORY)) {
-                    final String directory = extractDirectory(line, MAKE_PATH);
-                    recursiveMakeDirectories.push(directory);
-                    builder.setDirectory(recursiveMakeDirectories.peek());
-                }
-                else if (line.contains(LEAVING_DIRECTORY)) {
-                    if (!recursiveMakeDirectories.isEmpty()) {
-                        recursiveMakeDirectories.pop();
-                    }
-                    if (!recursiveMakeDirectories.isEmpty()) {
-                        builder.setDirectory(recursiveMakeDirectories.peek());
-                    }
-                }
-                else if (line.contains(CMAKE_PREFIX)) {
-                    builder.setDirectory(extractDirectory(line, CMAKE_PATH));
-                }
-                else if (isLineInteresting(line)) {
+                handleDirectoryChanges(builder, line);
+                if (isLineInteresting(line)) {
                     Matcher matcher = pattern.matcher(line);
                     if (matcher.find()) {
                         createIssue(matcher, lookahead, builder).ifPresent(report::add);
@@ -91,6 +76,31 @@ public abstract class LookaheadParser extends IssueParser {
                     throw new ParsingCanceledException();
                 }
             }
+        }
+    }
+
+    /**
+     * Uses Make and CMake output to track directory structure as the compiler moves between source locations.
+     *
+     * @param builder
+     *         {@link IssueBuilder} to set directory for
+     * @param line
+     *         the line to parse
+     */
+    private void handleDirectoryChanges(final IssueBuilder builder, final String line) {
+        if (line.contains(ENTERING_DIRECTORY)) {
+            final String directory = extractDirectory(line, MAKE_PATH);
+            recursiveMakeDirectories.push(directory);
+            builder.setDirectory(recursiveMakeDirectories.peek());
+        }
+        else if (line.contains(LEAVING_DIRECTORY) && !recursiveMakeDirectories.isEmpty()) {
+            recursiveMakeDirectories.pop();
+            if (!recursiveMakeDirectories.isEmpty()) {
+                builder.setDirectory(recursiveMakeDirectories.peek());
+            }
+        }
+        else if (line.contains(CMAKE_PREFIX)) {
+            builder.setDirectory(extractDirectory(line, CMAKE_PATH));
         }
     }
 
