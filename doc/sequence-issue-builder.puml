@@ -1,9 +1,4 @@
 @startuml
-' FRAGEN:
-' Tests für den Builder schreiben?
-' Copy() nötig?
-
-
 
 actor actor
 activate actor
