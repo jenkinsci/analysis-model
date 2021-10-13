@@ -1,0 +1,54 @@
+@startuml
+
+class LineRangeTest {
+    # createSerializable(): LineRange
+}
+
+class Serializable{
+
+}
+
+class LineRange implements Serializable {
+    -{static} serialVersionUID = -4124143085672930110L
+    - start: int
+    - end: int
+
+    +{static} LineRange(line: int)
+    +{static} LineRange(start: int, end: int)
+    + getStart(): int
+    + getEnd(): int
+    + equals(obj: Object): boolean
+    + hashCode(): int
+    + toString(): String
+}
+
+class SerializableTest<T extends Serializable> extends ResourceTest {
+
+    +{static} SerializableTest()
+    #{abstract} createSerializable(): T
+    ~ shouldBeSerializable()
+    # assertThatSerializableCanBeRestoredFrom(serializedInstance: byte[])
+    # restore(serializedInstance: byte[]): T
+    # toByteArray(object: Serializable): byte[]
+    # createSerializationFile()
+}
+
+class LineRangeBuilder {
+    - start: int
+    - end: int
+
+    + setStart(newStart: int): LineRangeBuilder
+    + setEnd(newEnd: int): LineRangeBuilder
+    + setLine(line: int): LineRangeBuilder
+    + copy(range: LineRange): LineRangeBuilder
+    + createLineRange(): LineRange
+}
+
+LineRangeTest -right|> SerializableTest: <<bind>> T -> LineRangeTest
+
+LineRangeTest ..> LineRangeBuilder: <<create>>
+
+LineRangeBuilder ..> LineRange: <<create>>
+
+SerializableTest ..> Serializable: <<use>>
+@enduml
