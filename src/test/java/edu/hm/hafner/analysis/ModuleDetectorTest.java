@@ -111,12 +111,7 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     private InputStream createEmptyStream() {
-        try {
-            return IOUtils.toInputStream("", "UTF-8");
-        }
-        catch (IOException e) {
-            throw new AssertionError(e);
-        }
+        return IOUtils.toInputStream("", "UTF-8");
     }
 
     private FileSystem createFileSystemStub(final Stub stub) {
