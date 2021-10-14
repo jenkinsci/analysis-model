@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.io.FileNotFoundException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
