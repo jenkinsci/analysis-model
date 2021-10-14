@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.InvalidPathException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -39,7 +39,7 @@ public class GradleModuleDetector extends AbstractModuleDetector {
     }
 
     @Override
-    public void collectProjects(final Map<String, String> mapping, final ArrayList<String> projects) {
+    public void collectProjects(final Map<String, String> mapping, final List<String> projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(BUILD_GRADLE) || fileName.endsWith(BUILD_GRADLE_KTS)) {
                 addMapping(mapping, fileName, BUILD_GRADLE, parseGradle(fileName));
@@ -76,7 +76,7 @@ public class GradleModuleDetector extends AbstractModuleDetector {
         String name = null;
 
         try (InputStream input = getFactory().open(settingsFile);
-             Scanner scan = new Scanner(input, "UTF-8")) {
+                Scanner scan = new Scanner(input, "UTF-8")) {
             while (scan.hasNextLine()) {
                 String line = scan.findInLine(RE_GRADLE_SET_PROJECT_NAME);
 

@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,11 +19,10 @@ abstract class AbstractModuleDetector {
 
     /**
      * Collects all projects of a specific type.
-     *
-     * @param mapping the mapping of path prefixes to module names
+     *  @param mapping the mapping of path prefixes to module names
      * @param projects the projects of a specific type
      */
-    abstract void collectProjects(Map<String, String> mapping, ArrayList<String> projects);
+    abstract void collectProjects(Map<String, String> mapping, List<String> projects);
 
     /**
      * Returns the names of all project files in the following structure:

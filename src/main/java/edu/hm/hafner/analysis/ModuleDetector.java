@@ -70,7 +70,7 @@ public class ModuleDetector {
     private Map<String, String> createFilesToModuleMapping(final Path workspace) {
         Map<String, String> mapping = new HashMap<>();
 
-        ArrayList<String> projects = find(workspace);
+        List<String> projects = find(workspace);
 
         for (AbstractModuleDetector moduleDetector : moduleDetectors) {
             moduleDetector.collectProjects(mapping, projects);
@@ -107,7 +107,7 @@ public class ModuleDetector {
      *
      * @return the found files (as absolute paths)
      */
-    private ArrayList<String> find(final Path path) {
+    private List<String> find(final Path path) {
         ArrayList<String> absoluteFileNames = new ArrayList<>();
 
         for (AbstractModuleDetector moduleDetector : moduleDetectors) {

@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.InvalidPathException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.jar.Attributes;
@@ -35,7 +35,7 @@ public class OsgiModuleDetector extends AbstractModuleDetector {
     }
 
     @Override
-    public void collectProjects(final Map<String, String> mapping, final ArrayList<String> projects) {
+    public void collectProjects(final Map<String, String> mapping, final List<String> projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(OSGI_BUNDLE)) {
                 addMapping(mapping, fileName, OSGI_BUNDLE, parseManifest(fileName));

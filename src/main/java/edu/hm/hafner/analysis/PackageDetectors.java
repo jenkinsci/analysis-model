@@ -25,7 +25,7 @@ class PackageDetectors {
     private final List<AbstractPackageDetector> detectors;
 
     @VisibleForTesting
-    PackageDetectors(final ArrayList<AbstractPackageDetector> detectors) {
+    PackageDetectors(final List<AbstractPackageDetector> detectors) {
         this.detectors = detectors;
     }
 

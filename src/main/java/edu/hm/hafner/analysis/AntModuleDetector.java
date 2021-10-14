@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.InvalidPathException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +27,7 @@ public class AntModuleDetector extends AbstractModuleDetector {
     }
 
     @Override
-    void collectProjects(final Map<String, String> mapping, final ArrayList<String> projects) {
+    void collectProjects(final Map<String, String> mapping, final List<String> projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(ANT_PROJECT)) {
                 addMapping(mapping, fileName, ANT_PROJECT, parseBuildXml(fileName));

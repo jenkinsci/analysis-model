@@ -8,8 +8,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import edu.hm.hafner.util.VisibleForTesting;
-
 import static edu.hm.hafner.analysis.PackageDetectors.*;
+
 import static java.util.function.Function.*;
 
 /**
@@ -61,12 +61,13 @@ public class PackageNameResolver {
                 .collect(Collectors.toMap(identity(),
                         fileName -> packageDetectors.detectPackageName(fileName, charset)));
 
-        IssueBuilder builder = new IssueBuilder();
-        report.stream().forEach(issue -> {
-            if (!issue.hasPackageName()) {
-                issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getAbsolutePath())));
-            }
-        });
+        try (IssueBuilder builder = new IssueBuilder()) {
+            report.stream().forEach(issue -> {
+                if (!issue.hasPackageName()) {
+                    issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getAbsolutePath())));
+                }
+            });
+        }
         report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());
     }
 }
