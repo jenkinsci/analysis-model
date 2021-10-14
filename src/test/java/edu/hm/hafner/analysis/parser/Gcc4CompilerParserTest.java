@@ -260,6 +260,30 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parser should make relative paths absolute correctly if make/cmake is used recursively.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-66835">Issue 66835</a>
+     */
+    @Test
+    void issue66835() {
+        Report warnings = createParser().parse(createReaderFactory("issue66835.makefile.log"));
+
+        assertThat(warnings).hasSize(3);
+
+        assertThat(warnings.get(0))
+                .hasFileName(
+                        "/path/to/workspace/libraries/this-library-workspace/sublibrary/src/FirstProblemFile.cpp");
+
+        assertThat(warnings.get(1))
+                .hasFileName(
+                        "/path/to/workspace/libraries/this-library-workspace/sublibrary/inc/Library/ProblemFile.h");
+
+        assertThat(warnings.get(2))
+                .hasFileName(
+                        "/path/to/workspace/libraries/this-library-workspace/sublibrary/src/OtherProblemFile.cpp");
+    }
+
+    /**
      * Parser should make relative paths absolute if cmake/ninja is used.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>

@@ -1,0 +1,28 @@
+make[1]: Entering directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build'
+../src/FirstProblemFile.cpp: In static member function ‘static OurNamespace::OurClass* OurNamespace::::OurClass::OurFunction(FILE*,  OurNamespace::OurTimeStamp,  OurNamespace::OurFormat, uint32_t, uint32_t, uint32_t, uint32_t)’:
+../src/FirstProblemFile.cpp:107:10: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result [-Wunused-result]
+     fread( pBuffer->Data(), pBuffer->Size(), 1, _fp );
+     ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/bin/mkdir -p /path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library
+cd /path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library && /usr/bin/cmake -Wno-dev /path/to/workspace/libraries/this-library-workspace/sublibrary/build/../externals/third-party-library && make third-party-library
+-- Build files have been written to: /path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library
+make[2]: Entering directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[3]: Entering directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[4]: Entering directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[5]: Entering directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[5]: Leaving directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[5]: Entering directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[5]: Leaving directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[4]: Leaving directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[3]: Leaving directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+make[2]: Leaving directory '/path/to/workspace/libraries/this-library-workspace/sublibrary/build/third-party-library'
+In file included from ../src/ProblemFile.cpp:14:0:
+../inc/Library/ProblemFile.h: In instantiation of ‘OurNamespace::OurTemplate<T>::TemplateFunction(std::__cxx11::string, std::__cxx11::string) [with T = OurNamespace::OurClass; std::__cxx11::string = std::__cxx11::basic_string<char>]’:
+../src/ProblemFile.cpp:64:49:   required from here
+../inc/Library/ProblemFile.h:246:16: warning: format ‘%llX’ expects argument of type ‘long long unsigned int’, but argument 3 has type ‘uint64_t {aka long unsigned int}’ [-Wformat=]
+         sprintf( buff, "_%08llX_", this->id() );
+         ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../src/OtherProblemFile.cpp: In static member function ‘static OurNamespace::OurClass* OurNamespace::::OurClass::OurFunction(FILE*,  OurNamespace::OurTimeStamp,  OurNamespace::OurFormat, uint32_t, uint32_t, uint32_t, uint32_t)’:
+../src/OtherProblemFile.cpp:107:10: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’, declared with attribute warn_unused_result [-Wunused-result]
+     fread( pBuffer->Data(), pBuffer->Size(), 1, _fp );
+     ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
