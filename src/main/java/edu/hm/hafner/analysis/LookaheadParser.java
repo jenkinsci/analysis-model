@@ -80,6 +80,34 @@ public abstract class LookaheadParser extends IssueParser {
     }
 
     /**
+     * When changing directories using Make output, save new directory to our stack for later use, then return it for
+     * use now
+     * @param line
+     *         the line to parse
+     * *
+     * @return The new directory to change to
+     */
+    private String newMakeDirectory(final String line) {
+        recursiveMakeDirectories.push(extractDirectory(line, MAKE_PATH));
+        return recursiveMakeDirectories.peek();
+    }
+
+    /**
+     * When changing directories using Make output, set our stack to the last directory seen, and return that directory
+     *
+     * @return The last directory seen, or an empty String if we have returned to the beginning
+     */
+    private String lastMakeDirectory() {
+        if (!recursiveMakeDirectories.empty()) {
+            recursiveMakeDirectories.pop();
+            if (!recursiveMakeDirectories.empty()) {
+                return recursiveMakeDirectories.peek();
+            }
+        }
+        return "";
+    }
+
+    /**
      * Uses Make and CMake output to track directory structure as the compiler moves between source locations.
      *
      * @param builder
@@ -89,15 +117,10 @@ public abstract class LookaheadParser extends IssueParser {
      */
     private void handleDirectoryChanges(final IssueBuilder builder, final String line) {
         if (line.contains(ENTERING_DIRECTORY)) {
-            final String directory = extractDirectory(line, MAKE_PATH);
-            recursiveMakeDirectories.push(directory);
-            builder.setDirectory(recursiveMakeDirectories.peek());
+            builder.setDirectory(newMakeDirectory(line));
         }
-        else if (line.contains(LEAVING_DIRECTORY) && !recursiveMakeDirectories.isEmpty()) {
-            recursiveMakeDirectories.pop();
-            if (!recursiveMakeDirectories.isEmpty()) {
-                builder.setDirectory(recursiveMakeDirectories.peek());
-            }
+        else if (line.contains(LEAVING_DIRECTORY) ) {
+            builder.setDirectory(lastMakeDirectory());
         }
         else if (line.contains(CMAKE_PREFIX)) {
             builder.setDirectory(extractDirectory(line, CMAKE_PATH));
@@ -120,13 +143,15 @@ public abstract class LookaheadParser extends IssueParser {
      */
     private String extractDirectory(final String line, final Pattern makePath) throws ParsingException {
         if (!makePath.toString().contains("<dir>")) {
-            throw new IllegalArgumentException(makePath.toString() + " does not contain a capture group named 'dir'");
+            throw new IllegalArgumentException(
+                    String.format("%s does not contain a capture group named 'dir'", makePath.toString()));
         }
         Matcher makeLineMatcher = makePath.matcher(line);
         if (makeLineMatcher.matches()) {
             return makeLineMatcher.group("dir");
         }
-        throw new ParsingException("Unable to change directory using: " + makePath.toString() + " to match " + line);
+        throw new ParsingException(
+                String.format("Unable to change directory using: %s to match %s", makePath.toString(), line));
     }
 
     /**
