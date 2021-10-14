@@ -152,7 +152,7 @@ public abstract class LookaheadParser extends IssueParser {
             return makeLineMatcher.group("dir");
         }
         throw new ParsingException(
-                String.format("Unable to change directory using: %s to match %s", makePath.toString(), line));
+                "Unable to change directory using: %s to match %s", makePath.toString(), line);
     }
 
     /**
