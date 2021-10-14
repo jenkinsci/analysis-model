@@ -81,7 +81,8 @@ public abstract class LookaheadParser extends IssueParser {
 
     /**
      * When changing directories using Make output, save new directory to our stack for later use, then return it for
-     * use now
+     * use now.
+     *
      * @param line
      *         the line to parse
      * *
@@ -93,7 +94,7 @@ public abstract class LookaheadParser extends IssueParser {
     }
 
     /**
-     * When changing directories using Make output, set our stack to the last directory seen, and return that directory
+     * When changing directories using Make output, set our stack to the last directory seen, and return that directory.
      *
      * @return The last directory seen, or an empty String if we have returned to the beginning
      */
@@ -119,7 +120,7 @@ public abstract class LookaheadParser extends IssueParser {
         if (line.contains(ENTERING_DIRECTORY)) {
             builder.setDirectory(newMakeDirectory(line));
         }
-        else if (line.contains(LEAVING_DIRECTORY) ) {
+        else if (line.contains(LEAVING_DIRECTORY)) {
             builder.setDirectory(lastMakeDirectory());
         }
         else if (line.contains(CMAKE_PREFIX)) {
