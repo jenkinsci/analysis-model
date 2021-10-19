@@ -284,7 +284,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parser should ignore Entering directory and Leaving directory if not from make.
+     * Parser should not throw errors when Entering directory and Leaving directory if not from make.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-66923">Issue 66923</a>
      */
