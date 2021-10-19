@@ -284,6 +284,19 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parser should ignore Entering directory and Leaving directory if not from make or cmake.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-66923">Issue 66923</a>
+     */
+    @Test
+    void issue66923() {
+        Report warnings = createParser().parse(createReaderFactory("issue66923.txt"));
+
+        assertThat(warnings).hasSize(0);
+        assertThat(warnings).doesNotHaveErrors();
+    }
+
+    /**
      * Parser should make relative paths absolute if cmake/ninja is used.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>

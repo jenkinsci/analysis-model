@@ -1,0 +1,4 @@
+ninja: Entering directory `bin/example_project'
+ninja: Leaving directory `bin/example_project'
+Waf: Entering directory `/home/jenkins/workspace/ndn-cxx/OS/Ubuntu-20.04/build'
+Waf: Leaving directory `/home/jenkins/workspace/ndn-cxx/OS/Ubuntu-20.04/build'
