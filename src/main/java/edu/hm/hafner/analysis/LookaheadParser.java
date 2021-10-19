@@ -25,8 +25,8 @@ public abstract class LookaheadParser extends IssueParser {
 
     private static final String ENTERING_DIRECTORY = "Entering directory";
     private static final String LEAVING_DIRECTORY = "Leaving directory";
-    private static final Pattern MAKE_PATH
-            = Pattern.compile(".*make(?:\\[\\d+])?: " + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
+    private static final Pattern ENTERING_DIRECTORY_PATH
+            = Pattern.compile(".*" + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
     private static final String CMAKE_PREFIX = "-- Build files have";
     private static final Pattern CMAKE_PATH = Pattern.compile(CMAKE_PREFIX + " been written to: (?<dir>.*)");
 
@@ -34,7 +34,7 @@ public abstract class LookaheadParser extends IssueParser {
 
     private final Pattern pattern;
 
-    private final Stack<String> recursiveMakeDirectories;
+    private final Stack<String> recursiveDirectories;
 
     /**
      * Creates a new instance of {@link LookaheadParser}.
@@ -46,7 +46,7 @@ public abstract class LookaheadParser extends IssueParser {
         super();
 
         this.pattern = Pattern.compile(pattern);
-        this.recursiveMakeDirectories = new Stack<>();
+        this.recursiveDirectories = new Stack<>();
     }
 
     @Override
@@ -80,36 +80,38 @@ public abstract class LookaheadParser extends IssueParser {
     }
 
     /**
-     * When changing directories using Make output, save new directory to our stack for later use, then return it for
-     * use now.
+     * When changing directories using 'Entering directory' output, save new directory to our stack for later use, then
+     * return it for use now.
      *
      * @param line
      *         the line to parse
      * *
      * @return The new directory to change to
      */
-    private String newMakeDirectory(final String line) {
-        recursiveMakeDirectories.push(extractDirectory(line, MAKE_PATH));
-        return recursiveMakeDirectories.peek();
+    private String enterDirectory(final String line) {
+        recursiveDirectories.push(extractDirectory(line, ENTERING_DIRECTORY_PATH));
+        return recursiveDirectories.peek();
     }
 
     /**
-     * When changing directories using Make output, set our stack to the last directory seen, and return that directory.
+     * When changing directories using 'Leaving directory' output, set our stack to the last directory seen, and return
+     * that directory.
      *
      * @return The last directory seen, or an empty String if we have returned to the beginning
      */
-    private String lastMakeDirectory() {
-        if (!recursiveMakeDirectories.empty()) {
-            recursiveMakeDirectories.pop();
-            if (!recursiveMakeDirectories.empty()) {
-                return recursiveMakeDirectories.peek();
+    private String leaveDirectory() {
+        if (!recursiveDirectories.empty()) {
+            recursiveDirectories.pop();
+            if (!recursiveDirectories.empty()) {
+                return recursiveDirectories.peek();
             }
         }
         return "";
     }
 
     /**
-     * Uses Make and CMake output to track directory structure as the compiler moves between source locations.
+     * Uses Make-like ("Entering directory" and "Leaving directory") and CMake-like ("Build files have been written to")
+     * output to track directory structure as the compiler moves between source locations.
      *
      * @param builder
      *         {@link IssueBuilder} to set directory for
@@ -118,10 +120,10 @@ public abstract class LookaheadParser extends IssueParser {
      */
     private void handleDirectoryChanges(final IssueBuilder builder, final String line) {
         if (line.contains(ENTERING_DIRECTORY)) {
-            builder.setDirectory(newMakeDirectory(line));
+            builder.setDirectory(enterDirectory(line));
         }
         else if (line.contains(LEAVING_DIRECTORY)) {
-            builder.setDirectory(lastMakeDirectory());
+            builder.setDirectory(leaveDirectory());
         }
         else if (line.contains(CMAKE_PREFIX)) {
             builder.setDirectory(extractDirectory(line, CMAKE_PATH));
