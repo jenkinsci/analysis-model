@@ -12,7 +12,7 @@
   </parent>
 
   <artifactId>analysis-model</artifactId>
-  <version>10.5.3</version>
+  <version>${revision}${changelist}</version>
 
   <packaging>jar</packaging>
 
@@ -26,7 +26,7 @@
     <connection>scm:git:git://github.com/jenkinsci/analysis-model.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/analysis-model.git</developerConnection>
     <url>https://github.com/jenkinsci/analysis-model</url>
-    <tag>v10.5.3</tag>
+    <tag>${scmTag}</tag>
   </scm>
 
   <licenses>
@@ -53,7 +53,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>10.5.3</revision>
+    <revision>10.6.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
