@@ -1,0 +1,124 @@
+@startuml
+
+skinparam class {
+  BackgroundColor #4AD386
+  BorderColor #a0a0a0
+  BackgroundColor<<Main>> gold
+  BorderColor black
+  ArrowColor black
+  FontName  Arial Unicode MS
+  FontSize 20
+}
+
+skinparam classFontSize 24
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 20
+
+skinparam ArrowColor black
+skinparam ArrowThickness 2
+
+hide circle
+
+'Aufgabe 4
+abstract IssueParser {
+    [...]
+    {method} [...]
+}
+
+class ParserRegistry {
+    -ALL_DESCRIPTORS: ParserDescriptor[]
+    [...]
+    +getIds(): Set<String>
+    +getNames(): Set<String>
+    +contains(id: String): Boolean
+    +get(id: String): ParserDescriptor
+    +getAllDescriptors(): List<ParserDescriptor>
+    +main(unused: String[])
+    {method} [...]
+}
+abstract ParserDescriptor {
+    -id: String
+    -name: String
+    {abstract} +createParser(options: Option...): IssueParser
+    +getPattern(): String
+    +getHelp(): String
+    +hasHelp(): Boolean
+    +getUrl(): String
+    +hasUrl(): Boolean
+    +getIconUrl(): String
+    +getDescription(issue: Issue): String
+    {method} [...]
+}
+ParserDescriptor ..> IssueParser
+
+ParserRegistry ..> CheckStyleDescriptor : <<create>>
+class CheckStyleDescriptor extends ParserDescriptor {
+    [...]
+    +createParser(options: Option...): IssueParser
+    {method} [...]
+}
+ParserRegistry ..> DockerLintDescriptor : <<create>>
+class DockerLintDescriptor extends ParserDescriptor {
+    [...]
+    +createParser(options: Option...): IssueParser
+    {method} [...]
+}
+ParserRegistry ..> MavenConsoleDescriptor : <<create>>
+class MavenConsoleDescriptor extends ParserDescriptor {
+    [...]
+    +createParser(options: Option...): IssueParser
+    {method} [...]
+}
+
+abstract CompositeParserDescriptor extends ParserDescriptor {
+    +createParser(options: Option...): IssueParser
+    {abstract} #createParsers(): Collection<? extends IssueParser>
+    #asList(parser: IssueParser...): Collection<? extends IssueParser>
+    {method} [...]
+}
+ParserRegistry ..> SonarQubeDescriptor : <<create>>
+class SonarQubeDescriptor extends CompositeParserDescriptor {
+    [...]
+    #createParsers(): Collection<? extends IssueParser>
+    {method} [...]
+}
+ParserRegistry ..> JavaDescriptor : <<create>>
+class JavaDescriptor extends CompositeParserDescriptor {
+    [...]
+    #createParsers(): Collection<? extends IssueParser>
+    {method} [...]
+}
+ParserRegistry ..> EclipseDescriptor : <<create>>
+class EclipseDescriptor extends CompositeParserDescriptor {
+    [...]
+    #createParsers(): Collection<? extends IssueParser>
+    {method} [...]
+}
+
+abstract DryDescriptor extends ParserDescriptor {
+    [...]
+    ~getHighThreshold(options: Option...): Integer
+    ~getNormalThreshold(options: Option...): Integer
+    +getDescription(issue: Issue): String
+    {method} [...]
+}
+ParserRegistry ..> SimianDescriptor : <<create>>
+class SimianDescriptor extends DryDescriptor {
+    [...]
+    +createParser(options: Option...): IssueParser
+    {method} [...]
+}
+ParserRegistry ..> DupfinderDescriptor : <<create>>
+class DupfinderDescriptor extends DryDescriptor {
+    [...]
+    +createParser(options: Option...): IssueParser
+    {method} [...]
+}
+ParserRegistry ..> CpdDescriptor : <<create>>
+class CpdDescriptor extends DryDescriptor {
+    [...]
+    +createParser(options: Option...): IssueParser
+    {method} [...]
+}
+
+@enduml
