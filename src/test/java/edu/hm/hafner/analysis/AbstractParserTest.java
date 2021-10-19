@@ -95,6 +95,23 @@ public abstract class AbstractParserTest extends ResourceTest {
     }
 
     /**
+     * Ensures that the parser under test can handle empty files. This test will fail if the parser does not throw a
+     * {@link ParsingException} or does not return an empty report.
+     */
+    @Test
+    void shouldHandleEmptyFile() {
+        boolean passed;
+        try {
+            Report report = parseStringContent("");
+            passed = report.isEmpty();
+        }
+        catch (ParsingException e) {
+            passed = true;
+        }
+        assertThat(passed).isTrue();
+    }
+
+    /**
      * Parses the specified file and returns the found issues.
      *
      * @param fileName

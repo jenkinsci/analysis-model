@@ -1,0 +1,187 @@
+@startuml
+
+skinparam class {
+  BackgroundColor #4AD386
+  BorderColor #a0a0a0
+  BackgroundColor<<Main>> gold
+  BorderColor black
+  ArrowColor black
+  FontName  Arial Unicode MS
+  FontSize 20
+}
+
+skinparam classFontSize 24
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 20
+
+skinparam ArrowColor black
+skinparam ArrowThickness 2
+
+hide circle
+
+'Aufgabe 3
+class Report {
+    [...]
+    {method} [...]
+}
+
+interface Serializable <<interface>>
+abstract IssueParser implements Serializable  {
+    [...]
+    {abstract} +parse(readerFactory: ReaderFactory): Report
+    +parseFile(readerFactory: ReaderFactory): Report
+    +accepts(readerFactory: ReaderFactory): Boolean
+    #isXmlFile(readerFactory: ReaderFactory): Boolean
+    {method} [...]
+}
+IssueParser ..> Report
+class CheckStyleParser extends IssueParser {
+    [...]
+    +parse(readerFactory: ReaderFactory): Report
+    {method} [...]
+}
+class DockerLintParser extends IssueParser {
+    [...]
+    +accepts(readerFactory: ReaderFactory): Boolean
+    +parse(readerFactory: ReaderFactory): Report
+    {method} [...]
+}
+class LintParser extends IssueParser {
+    [...]
+    +parse(readerFactory: ReaderFactory): Report
+}
+
+abstract AbstractDryParser<T> extends IssueParser {
+    -highThreshold: Integer
+    -normalThreshold: Integer
+    [...]
+    #getPriority(lines: Integer): Severity
+    +parse(readerFactory: ReaderFactory): Report
+    {abstract} #configureParser(digester: Digester)
+    {abstract} #convertDuplicationsToIssues(duplications: List<T>, issueBuilder: IssueBuilder): Report
+    {method} [...]
+}
+class CpdParser extends AbstractDryParser {
+    [...]
+    #configureParser(digester: Digester)
+    #convertDuplicationsToIssues(duplications: List<T>, issueBuilder: IssueBuilder): Report
+    {method} [...]
+}
+class DupFinderParser extends AbstractDryParser {
+    [...]
+    #configureParser(digester: Digester)
+    #convertDuplicationsToIssues(duplications: List<T>, issueBuilder: IssueBuilder): Report
+    {method} [...]
+}
+class SimianParser extends AbstractDryParser {
+    [...]
+    #configureParser(digester: Digester)
+    #convertDuplicationsToIssues(duplications: List<T>, issueBuilder: IssueBuilder): Report
+    {method} [...]
+}
+
+abstract IssuePropertiesParser extends IssueParser {
+    ~ADDITIONAL_PROPERTIES: String
+    ~CATEGORY: String
+    ~DESCRIPTION: String
+    [...]
+}
+class XmlParser extends IssuePropertiesParser {
+    [...]
+    +accepts(readerFactory: ReaderFactory): Boolean
+    +parse(readerFactory: ReaderFactory): Report
+    {method} [...]
+}
+abstract JsonBaseParser extends IssuePropertiesParser {
+    [...]
+    ~convertToIssue(jsonIssue: JSONObject): Optional<Issue>
+    {method} [...]
+}
+class JsonLogParser extends JsonBaseParser {
+    [...]
+    +accepts(readerFactory: ReaderFactory): Boolean
+    +parse(readerFactory: ReaderFactory): Report
+    {method} [...]
+}
+class JsonParser extends JsonBaseParser {
+    [...]
+    +accepts(readerFactory: ReaderFactory): Boolean
+    +parse(readerFactory: ReaderFactory): Report
+}
+
+abstract LookaheadParser extends IssueParser {
+    #ANT_TASK: String
+    [...]
+    +parse(readerFactory: ReaderFactory): Report
+    {abstract} #createIssue(matcher: Matcher, lookahead: LookaheadStream, builder: IssueBuilder): Optional<Issue>
+    #isLineInteresting(line: String): Boolean
+    #postProcess(report: Report): Report
+    {method} [...]
+}
+class JavacParser extends LookaheadParser {
+    [...]
+    #isLineInteresting(line: String): Boolean
+    #createIssue(matcher: Matcher, lookahead: LookaheadStream, builder: IssueBuilder): Optional<Issue>
+    {method} [...]
+}
+class MavenConsoleParser extends LookaheadParser {
+    [...]
+    #isLineInteresting(line: String): Boolean
+    #createIssue(matcher: Matcher, lookahead: LookaheadStream, builder: IssueBuilder): Optional<Issue>
+    {method} [...]
+}
+class GradleErrorProneParser extends LookaheadParser {
+    [...]
+    #createIssue(matcher: Matcher, lookahead: LookaheadStream, builder: IssueBuilder): Optional<Issue>
+    {method} [...]
+}
+
+abstract SonarQubeParser extends IssueParser {
+    [...]
+    +accepts(readerFactory: ReaderFactory): Boolean
+    {abstract} ~accepts(object: JSONObject): Boolean
+    +parse(readerFactory: ReaderFactory): Report
+    ~filterIssue(object: JSONObject): Boolean
+    {abstract} ~getModulePath(component: JSONObject, issue: JSONObject): String
+    {abstract} ~parseStart(issue: JSONObject): Integer
+    {abstract} ~parseEnd(issue: JSONObject): Integer
+    {method} [...]
+}
+class SonarQubeIssuesParser extends SonarQubeParser {
+    [...]
+    ~accepts(object: JSONObject): Boolean
+    ~getModulePath(component: JSONObject, issue: JSONObject): String
+    ~parseStart(issue: JSONObject): Integer
+    ~parseEnd(issue: JSONObject): Integer
+}
+class SonarQubeDiffParser extends SonarQubeParser {
+    [...]
+    ~accepts(object: JSONObject): Boolean
+    ~filterIssue(object: JSONObject): Boolean
+    ~getModulePath(component: JSONObject, issue: JSONObject): String
+    ~parseStart(issue: JSONObject): Integer
+    ~parseEnd(issue: JSONObject): Integer
+}
+
+abstract AbstractViolationAdapter extends IssueParser {
+    [...]
+    +parse(readerFactory: ReaderFactory): Report
+    {abstract} ~createParser(): ViolationsParser
+    {method} [...]
+}
+class JUnitAdapter extends AbstractViolationAdapter {
+    [...]
+    ~createParser(): JUnitParser
+    +parse(readerFactory: ReaderFactory): Report
+    {method} [...]
+}
+class YamlLintAdapter extends AbstractViolationAdapter {
+    [...]
+    ~createParser(): YAMLlintParser
+}
+class XmlLintAdapter extends AbstractViolationAdapter {
+    [...]
+    ~createParser(): XMLLintParser
+}
+
+@enduml
