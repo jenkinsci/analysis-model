@@ -23,10 +23,11 @@ public abstract class LookaheadParser extends IssueParser {
     /** Pattern identifying an ant task debug output prefix. */
     protected static final String ANT_TASK = "^(?:.*\\[[^]]*\\])?\\s*";
 
+    private static final String MAKE_PREFIX = "make";
     private static final String ENTERING_DIRECTORY = "Entering directory";
     private static final String LEAVING_DIRECTORY = "Leaving directory";
     private static final Pattern MAKE_PATH
-            = Pattern.compile(".*make(?:\\[\\d+])?: " + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
+            = Pattern.compile(".*" + MAKE_PREFIX  + "(?:\\[\\d+])?: " + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
     private static final String CMAKE_PREFIX = "-- Build files have";
     private static final Pattern CMAKE_PATH = Pattern.compile(CMAKE_PREFIX + " been written to: (?<dir>.*)");
 
@@ -117,11 +118,13 @@ public abstract class LookaheadParser extends IssueParser {
      *         the line to parse
      */
     private void handleDirectoryChanges(final IssueBuilder builder, final String line) {
-        if (line.contains(ENTERING_DIRECTORY)) {
-            builder.setDirectory(newMakeDirectory(line));
-        }
-        else if (line.contains(LEAVING_DIRECTORY)) {
-            builder.setDirectory(lastMakeDirectory());
+        if (line.contains(MAKE_PREFIX)) {
+            if (line.contains(ENTERING_DIRECTORY)) {
+                builder.setDirectory(newMakeDirectory(line));
+            }
+            else if (line.contains(LEAVING_DIRECTORY)) {
+                builder.setDirectory(lastMakeDirectory());
+            }
         }
         else if (line.contains(CMAKE_PREFIX)) {
             builder.setDirectory(extractDirectory(line, CMAKE_PATH));
