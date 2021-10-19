@@ -23,7 +23,6 @@ public abstract class LookaheadParser extends IssueParser {
     /** Pattern identifying an ant task debug output prefix. */
     protected static final String ANT_TASK = "^(?:.*\\[[^]]*\\])?\\s*";
 
-    private static final String MAKE_PREFIX = "make";
     private static final String ENTERING_DIRECTORY = "Entering directory";
     private static final String LEAVING_DIRECTORY = "Leaving directory";
     private static final Pattern ENTERING_DIRECTORY_PATH
