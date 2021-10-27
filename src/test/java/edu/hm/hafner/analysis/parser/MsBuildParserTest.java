@@ -824,11 +824,7 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue66950() {
         Report report = parse("issue66950.txt");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
-            Iterator<Issue> iterator = report.iterator();
-            softly.assertThat(report).hasSize(0);
-            softly.assertThat(report).doesNotHaveErrors();
-        }
+        assertThat(report).isEmpty().doesNotHaveErrors();
     }
 
     @Override
