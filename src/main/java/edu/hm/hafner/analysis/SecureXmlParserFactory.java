@@ -57,6 +57,8 @@ public class SecureXmlParserFactory {
             factory.setXIncludeAware(false);
             factory.setExpandEntityReferences(false);
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             for (String enabledProperty : ENABLED_PROPERTIES) {
                 try {
                     factory.setFeature(enabledProperty, true);
@@ -91,7 +93,10 @@ public class SecureXmlParserFactory {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             configureSaxParserFactory(factory);
 
-            return factory.newSAXParser();
+            SAXParser parser = factory.newSAXParser();
+            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            return parser;
         }
         catch (ParserConfigurationException | SAXException exception) {
             throw new IllegalArgumentException("Can't create instance of SAXParser", exception);

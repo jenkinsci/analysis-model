@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.StringWriter;
+
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -56,7 +58,10 @@ public class TopicRule extends NodeCreateRule {
     @SuppressFBWarnings("SECURITY")
     private String extractNodeContent(final Element subsection) throws TransformerException {
         StringWriter content = new StringWriter();
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.transform(new DOMSource(subsection), new StreamResult(content));
         String text = content.toString();
