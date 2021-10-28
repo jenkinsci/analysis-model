@@ -117,7 +117,7 @@ public class SecureXmlParserFactory {
         }
     }
     
-    private void secureParser(SAXParser parser) {
+    private void secureParser(final SAXParser parser) {
         try {
             parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         }
