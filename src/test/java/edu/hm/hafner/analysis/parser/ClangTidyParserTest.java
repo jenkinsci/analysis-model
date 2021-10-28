@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -91,4 +93,9 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
+    @Test
+    void issue56915() {
+        Report warnings = parse("issue56915.txt");
+        assertThat(warnings).hasSize(3);
+    }
 }

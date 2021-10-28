@@ -1,0 +1,30 @@
+3612 warnings and 1 error generated.
+Error while processing C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\src\Module\Handler.cpp.
+10595 warnings and 3 errors generated.
+Error while processing C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\src\Module\Module.cpp.
+14178 warnings and 4 errors generated.
+Error while processing C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\include\Module\Handler.hpp.
+14350 warnings and 5 errors generated.
+Error while processing C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\include\Module\Interface.hpp.
+17308 warnings and 6 errors generated.
+Error while processing C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\include\Module\Store.hpp.
+20266 warnings and 7 errors generated.
+Error while processing C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\include\Module\StoreInterface.hpp.
+23224 warnings and 8 errors generated.
+Error while processing C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\include\Module\Module.hpp.
+error: macro name must be an identifier [clang-diagnostic-error]
+error: macro name must be an identifier [clang-diagnostic-error]
+C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\src\Module\Module.cpp:157:3: error: unknown type name 'ed25519_key' [clang-diagnostic-error]
+  ed25519_key verifyKey { };
+  ^
+C:\Jenkins\workspace\bugfix%2FCSS3---5d488adf\test\Module\..\..\src\Module\Module.cpp:181:8: warning: use of a signed integer operand with a binary bitwise operator [hicpp-signed-bitwise]
+  if (((_buffer.at(*curPos) >> 5u) & 1u) == 1u) {  // Bit 5 indicates if primitive or constructed, see. e.g. https://stackoverflow.com/a/7778206
+       ^
+error: macro name must be an identifier [clang-diagnostic-error]
+error: macro name must be an identifier [clang-diagnostic-error]
+error: macro name must be an identifier [clang-diagnostic-error]
+error: macro name must be an identifier [clang-diagnostic-error]
+error: macro name must be an identifier [clang-diagnostic-error]
+Suppressed 23223 warnings (23223 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+Found compiler error(s).

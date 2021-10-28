@@ -19,7 +19,7 @@ import edu.hm.hafner.util.LookaheadStream;
 public class ClangTidyParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283182L;
     private static final String CLANG_TIDY_WARNING_PATTERN =
-            "([^\\s]+):(\\d+):(\\d+): (warning|error): (.*?) \\[([^\\s]*?)\\]$";
+            "(([^\\s]+):(\\d+):(\\d+): |)(warning|error): (.*?) \\[([^\\s]*?)\\]$";
 
     /**
      * Creates a new instance of {@link ClangTidyParser}.
@@ -32,7 +32,7 @@ public class ClangTidyParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
         Severity priority;
-        if (matcher.group(4).contains("error")) {
+        if (matcher.group(5).contains("error")) {
             priority = Severity.WARNING_HIGH;
         }
         else {
