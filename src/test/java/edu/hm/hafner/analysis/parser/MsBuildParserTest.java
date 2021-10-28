@@ -814,6 +814,19 @@ class MsBuildParserTest extends AbstractParserTest {
         assertThat(warnings).isEmpty();
     }
 
+    /**
+     * Parser should not stop processing when parsing CMake output that contains text before
+     * '-- Build files have been written to'.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse//JENKINS-66950">Issue 66950</a>
+     */
+    @Test
+    void issue66950() {
+        Report report = parse("issue66950.txt");
+
+        assertThat(report).isEmpty().doesNotHaveErrors();
+    }
+
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(8);

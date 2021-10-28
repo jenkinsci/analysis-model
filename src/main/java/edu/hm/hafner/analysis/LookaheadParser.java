@@ -28,7 +28,7 @@ public abstract class LookaheadParser extends IssueParser {
     private static final Pattern ENTERING_DIRECTORY_PATH
             = Pattern.compile(".*" + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
     private static final String CMAKE_PREFIX = "-- Build files have";
-    private static final Pattern CMAKE_PATH = Pattern.compile(CMAKE_PREFIX + " been written to: (?<dir>.*)");
+    private static final Pattern CMAKE_PATH = Pattern.compile(".*" + CMAKE_PREFIX + " been written to: (?<dir>.*)");
 
     private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805
 
