@@ -59,39 +59,42 @@ public class SecureXmlParserFactory {
             factory.setXIncludeAware(false);
             factory.setExpandEntityReferences(false);
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            try {
-                factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            }
-            catch (IllegalArgumentException e) {
-                // ignore and continue
-            }
-            try {
-                factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-            }
-            catch (IllegalArgumentException e) {
-                // ignore and continue
-            }
+            secureFactory(factory);
             for (String enabledProperty : ENABLED_PROPERTIES) {
-                try {
-                    factory.setFeature(enabledProperty, true);
-                }
-                catch (ParserConfigurationException ignored) {
-                    // ignore and continue
-                }
+                setFeature(factory, enabledProperty, true);
             }
             for (String disabledProperty : DISABLED_PROPERTIES) {
-                try {
-                    factory.setFeature(disabledProperty, false);
-                }
-                catch (ParserConfigurationException ignored) {
-                    // ignore and continue
-                }
+                setFeature(factory, disabledProperty, false);
             }
 
             return factory.newDocumentBuilder();
         }
         catch (ParserConfigurationException exception) {
             throw new IllegalArgumentException("Can't create instance of DocumentBuilder", exception);
+        }
+    }
+
+    private void setFeature(DocumentBuilderFactory factory, String enabledProperty, boolean status) {
+        try {
+            factory.setFeature(enabledProperty, status);
+        }
+        catch (ParserConfigurationException ignored) {
+            // ignore and continue
+        }
+    }
+
+    private void secureFactory(DocumentBuilderFactory factory) {
+        try {
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        }
+        catch (IllegalArgumentException e) {
+            // ignore and continue
+        }
+        try {
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        }
+        catch (IllegalArgumentException e) {
+            // ignore and continue
         }
     }
 
@@ -106,22 +109,26 @@ public class SecureXmlParserFactory {
             configureSaxParserFactory(factory);
 
             SAXParser parser = factory.newSAXParser();
-            try {
-                parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            }
-            catch (SAXNotRecognizedException | SAXNotSupportedException e) {
-                // ignore and continue
-            }
-            try {
-                parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-            }
-            catch (SAXNotRecognizedException | SAXNotSupportedException e) {
-                // ignore and continue
-            }
+            secureParser(parser);
             return parser;
         }
         catch (ParserConfigurationException | SAXException exception) {
             throw new IllegalArgumentException("Can't create instance of SAXParser", exception);
+        }
+    }
+    
+    private void secureParser(SAXParser parser) {
+        try {
+            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        }
+        catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+            // ignore and continue
+        }
+        try {
+            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        }
+        catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+            // ignore and continue
         }
     }
 

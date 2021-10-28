@@ -59,6 +59,20 @@ public class TopicRule extends NodeCreateRule {
     private String extractNodeContent(final Element subsection) throws TransformerException {
         StringWriter content = new StringWriter();
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        secureFactory(transformerFactory);
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.transform(new DOMSource(subsection), new StreamResult(content));
+        String text = content.toString();
+        String prefixRemoved = StringUtils.substringAfter(text, ">");
+        String suffixRemoved = StringUtils.substringBeforeLast(prefixRemoved, "<");
+
+        String endSourceRemoved = StringUtils.replace(suffixRemoved, "</source>", "</code></pre>");
+
+        return StringUtils.replace(endSourceRemoved, "<source>", "<pre><code>");
+    }
+
+    private void secureFactory(TransformerFactory transformerFactory) {
         try {
             transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         }
@@ -71,15 +85,5 @@ public class TopicRule extends NodeCreateRule {
         catch (IllegalArgumentException e) {
             // ignore and continue
         }
-        Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.transform(new DOMSource(subsection), new StreamResult(content));
-        String text = content.toString();
-        String prefixRemoved = StringUtils.substringAfter(text, ">");
-        String suffixRemoved = StringUtils.substringBeforeLast(prefixRemoved, "<");
-
-        String endSourceRemoved = StringUtils.replace(suffixRemoved, "</source>", "</code></pre>");
-
-        return StringUtils.replace(endSourceRemoved, "<source>", "<pre><code>");
     }
 }
