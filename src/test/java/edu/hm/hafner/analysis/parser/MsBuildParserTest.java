@@ -307,24 +307,11 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue20154() {
         Report warnings = parse("issue20154.txt");
 
-        assertThat(warnings).hasSize(3).hasDuplicatesSize(5);
-        assertThatReportHasSeverities(warnings, 0, 0, 3, 0);
+        assertThat(warnings).hasSize(2).hasDuplicatesSize(2);
+        assertThatReportHasSeverities(warnings, 0, 0, 2, 0);
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
-                    .hasCategory("CA2210")
-                    .hasType("Microsoft.Design")
-                    .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("Sign 'SampleCodeAnalysis.exe' with a strong name key.")
-                    .hasDescription("")
-                    .hasFileName("-")
-                    .hasPackageName("-")
-                    .hasLineStart(0)
-                    .hasLineStart(0)
-                    .hasColumnStart(0)
-                    .hasColumnEnd(0);
-
-            softly.assertThat(warnings.get(1))
                     .hasFileName("I:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
@@ -338,7 +325,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
 
-            softly.assertThat(warnings.get(2))
+            softly.assertThat(warnings.get(1))
                     .hasFileName("I:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
@@ -611,8 +598,8 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue4932() {
         Report warnings = parse("issue4932.txt");
 
-        assertThat(warnings).hasSize(2);
-        assertThatReportHasSeverities(warnings, 2, 0, 0, 0);
+        assertThat(warnings).hasSize(1);
+        assertThatReportHasSeverities(warnings, 1, 0, 0, 0);
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
@@ -620,18 +607,6 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasCategory("LNK2001")
                     .hasSeverity(Severity.ERROR)
                     .hasMessage("unresolved external symbol \"public:")
-                    .hasDescription("")
-                    .hasPackageName("-")
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasColumnStart(0)
-                    .hasColumnEnd(0);
-
-            softly.assertThat(warnings.get(1))
-                    .hasFileName("Release/Navineo.exe")
-                    .hasCategory("LNK1120")
-                    .hasSeverity(Severity.ERROR)
-                    .hasMessage("1 unresolved externals")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(0)

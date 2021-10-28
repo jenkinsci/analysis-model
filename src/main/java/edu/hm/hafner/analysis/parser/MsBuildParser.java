@@ -28,6 +28,9 @@ public class MsBuildParser extends LookaheadParser {
             + "\\s*:\\s(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*(.*?)(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
             + "|(.*)\\s*:.*error\\s*(LNK[0-9]+):\\s*(.*)))$";
 
+    private static final String MS_BUILD_IGNORE_TOOLS_PATTERN
+            = "(?!.exe)(\\.[^.]+)$";
+
     /**
      * Creates a new instance of {@link MsBuildParser}.
      */
@@ -38,19 +41,15 @@ public class MsBuildParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        //builder.setFileName(determineFileName(matcher));
-
-        //-------
         String fileName = determineFileName(matcher);
 
-        Pattern fileExtensionPattern = Pattern.compile("(?!.exe)(\\.[^.]+)$");
+        Pattern fileExtensionPattern = Pattern.compile(MS_BUILD_IGNORE_TOOLS_PATTERN);
         Matcher fileExtensionMatcher = fileExtensionPattern.matcher(fileName);
         if (!fileExtensionMatcher.find()) {
             return Optional.empty();
         }
 
         builder.setFileName(fileName);
-        //-------
 
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return builder.setLineStart(0)
