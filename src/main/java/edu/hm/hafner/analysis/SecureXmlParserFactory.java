@@ -74,7 +74,7 @@ public class SecureXmlParserFactory {
         }
     }
 
-    private void setFeature(DocumentBuilderFactory factory, String enabledProperty, boolean status) {
+    private void setFeature(final DocumentBuilderFactory factory, final String enabledProperty, final boolean status) {
         try {
             factory.setFeature(enabledProperty, status);
         }
@@ -83,7 +83,7 @@ public class SecureXmlParserFactory {
         }
     }
 
-    private void secureFactory(DocumentBuilderFactory factory) {
+    private void secureFactory(final DocumentBuilderFactory factory) {
         try {
             factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         }

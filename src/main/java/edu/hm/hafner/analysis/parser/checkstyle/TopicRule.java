@@ -72,7 +72,7 @@ public class TopicRule extends NodeCreateRule {
         return StringUtils.replace(endSourceRemoved, "<source>", "<pre><code>");
     }
 
-    private void secureFactory(TransformerFactory transformerFactory) {
+    private void secureFactory(final TransformerFactory transformerFactory) {
         try {
             transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         }
