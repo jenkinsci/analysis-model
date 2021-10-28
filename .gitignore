@@ -8,3 +8,5 @@ dependency-reduced-pom.xml
 pom.xml.releaseBackup
 release.properties
 /package-lock.json
+.project
+.settings
