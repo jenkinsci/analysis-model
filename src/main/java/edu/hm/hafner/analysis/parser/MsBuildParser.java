@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +38,19 @@ public class MsBuildParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        builder.setFileName(determineFileName(matcher));
+        //builder.setFileName(determineFileName(matcher));
+
+        //-------
+        String fileName = determineFileName(matcher);
+
+        Pattern fileExtensionPattern = Pattern.compile("(?!.exe)(\\.[^.]+)$");
+        Matcher fileExtensionMatcher = fileExtensionPattern.matcher(fileName);
+        if (!fileExtensionMatcher.find()) {
+            return Optional.empty();
+        }
+
+        builder.setFileName(fileName);
+        //-------
 
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return builder.setLineStart(0)

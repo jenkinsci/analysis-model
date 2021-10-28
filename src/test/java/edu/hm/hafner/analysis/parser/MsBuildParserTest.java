@@ -50,6 +50,18 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parse a file with false positive message.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
+     */
+    @Test
+    void issue56613() {
+        MsBuildParser parser = new MsBuildParser();
+        Report warnings = parser.parseFile(createReaderFactory("issue56613.txt"));
+        assertThat(warnings).isEmpty();
+    }
+
+    /**
      * Parses a file with false positive message.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-42823">Issue 42823</a>
