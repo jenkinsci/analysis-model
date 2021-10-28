@@ -59,8 +59,18 @@ public class TopicRule extends NodeCreateRule {
     private String extractNodeContent(final Element subsection) throws TransformerException {
         StringWriter content = new StringWriter();
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        try {
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        }
+        catch (IllegalArgumentException e) {
+            // ignore and continue
+        }
+        try {
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        }
+        catch (IllegalArgumentException e) {
+            // ignore and continue
+        }
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.transform(new DOMSource(subsection), new StreamResult(content));

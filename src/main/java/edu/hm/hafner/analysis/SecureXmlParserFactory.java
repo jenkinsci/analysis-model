@@ -17,6 +17,8 @@ import org.apache.commons.io.input.ReaderInputStream;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -57,8 +59,18 @@ public class SecureXmlParserFactory {
             factory.setXIncludeAware(false);
             factory.setExpandEntityReferences(false);
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            try {
+                factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            }
+            catch (IllegalArgumentException e) {
+                // ignore and continue
+            }
+            try {
+                factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            }
+            catch (IllegalArgumentException e) {
+                // ignore and continue
+            }
             for (String enabledProperty : ENABLED_PROPERTIES) {
                 try {
                     factory.setFeature(enabledProperty, true);
@@ -94,8 +106,18 @@ public class SecureXmlParserFactory {
             configureSaxParserFactory(factory);
 
             SAXParser parser = factory.newSAXParser();
-            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            try {
+                parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            }
+            catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+                // ignore and continue
+            }
+            try {
+                parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            }
+            catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+                // ignore and continue
+            }
             return parser;
         }
         catch (ParserConfigurationException | SAXException exception) {
