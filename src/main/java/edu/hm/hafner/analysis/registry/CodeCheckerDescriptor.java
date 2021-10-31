@@ -8,7 +8,7 @@ import edu.hm.hafner.analysis.parser.CodeCheckerParser;
  *
  */
 class CodeCheckerDescriptor extends ParserDescriptor {
-    private static final String ID = "codechecker";
+    private static final String ID = "CodeChecker";
     private static final String NAME = "CodeChecker";
 
     CodeCheckerDescriptor() {
