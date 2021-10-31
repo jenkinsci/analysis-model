@@ -49,6 +49,7 @@ public class ParserRegistry {
             new ClangTidyDescriptor(),
             new CmakeDescriptor(),
             new CodeAnalysisDescriptor(),
+            new CodeCheckerDescriptor(),
             new CodeNarcDescriptor(),
             new CoolfluxChessccDescriptor(),
             new CpdDescriptor(),
