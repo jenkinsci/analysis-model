@@ -80,7 +80,7 @@ class MavenConsoleParserTest extends AbstractParserTest {
     }
 
     /**
-     * Pars>nored because they are blank.
+     * Parses a file with three warnings, two of them will be ignored because they are blank.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-16826">Issue 16826</a>
      */
