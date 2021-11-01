@@ -23,7 +23,7 @@ import static j2html.TagCreator.*;
  */
 public class MavenConsoleParser extends LookaheadParser {
     private static final long serialVersionUID = 1737791073711198075L;
-    
+
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
 
@@ -32,14 +32,14 @@ public class MavenConsoleParser extends LookaheadParser {
      */
     protected static final Pattern MAVEN_PLUGIN_START = Pattern.compile(
             "\\[INFO\\] --- (?<id>\\S+):(?<version>\\S+):(?<goal>\\S+)\\s.*");
-    
+
     private static final Pattern MAVEN_MODULE_START = Pattern.compile(
             "-+< (?<id>\\S+) >-+"
     );
 
     /**
      * Pattern for identifying warning or error maven logs.
-     *  <pre>{@code
+     * <pre>{@code
      * Pattern:
      * (.*\s\s|)           -> Capture group 1 matches either empty string (e.g. [WARNING] some log) or some text
      *                        followed by exactly two spaces (e.g. 22:07:27  [WARNING] some log)
@@ -72,7 +72,7 @@ public class MavenConsoleParser extends LookaheadParser {
         if (goalMatcher.find()) {
             goal = String.format("%s:%s", goalMatcher.group("id"), goalMatcher.group("goal"));
         }
-        
+
         Matcher moduleMatcher = MAVEN_MODULE_START.matcher(line);
         if (moduleMatcher.find()) {
             module = moduleMatcher.group("id");
@@ -82,7 +82,8 @@ public class MavenConsoleParser extends LookaheadParser {
     }
 
     private boolean isValidGoal() {
-        return !goal.contains("maven-compiler-plugin"); // will be captured by another parser already
+        return !(goal.contains("maven-compiler-plugin") ||
+                goal.contains("maven-javadoc-plugin")); // will be captured by another parser already
     }
 
     @Override

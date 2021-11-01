@@ -1,0 +1,65 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------< edu.hm.hafner:analysis-model >--------------------
+[INFO] Building Static Analysis Model and Parsers 2.0.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ analysis-model ---
+[INFO] Deleting /Users/hafner/Development/git/analysis-model/target
+[INFO]
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ analysis-model ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 6 resources
+[INFO] skip non existing resourceDirectory /Users/hafner/Development/git/analysis-model/src/main/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ analysis-model ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 161 source files to /Users/hafner/Development/git/analysis-model/target/classes
+[WARNING] /Users/hafner/Development/git/analysis-model/src/main/java/edu/hm/hafner/analysis/parser/DrMemoryParser.java:[13,30] edu.hm.hafner.analysis.RegexpDocumentParser in edu.hm.hafner.analysis has been deprecated
+[WARNING] /Users/hafner/Development/git/analysis-model/src/main/java/edu/hm/hafner/analysis/Report.java:[82,44] [ConstructorLeaksThis] Constructors should not pass the 'this' reference out in method invocations, since the object may not be fully constructed.
+    (see https://errorprone.info/bugpattern/ConstructorLeaksThis)
+[INFO]
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ analysis-model ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 263 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ analysis-model ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 125 source files to /Users/hafner/Development/git/analysis-model/target/test-classes
+[WARNING] /Users/hafner/Development/git/analysis-model/src/test/java/edu/hm/hafner/util/EnsureTest.java:[31,25] [NullAway] passing @Nullable parameter 'null' where @NonNull is required
+    (see http://t.uber.com/nullaway )
+[INFO]
+[INFO] --- maven-surefire-plugin:2.22.1:test (default-test) @ analysis-model ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running edu.hm.hafner.analysis.LineRangeListTest
+[INFO] Building jar: /Users/hafner/Development/git/analysis-model/target/analysis-model-2.0.0-SNAPSHOT-javadoc.jar
+[INFO]
+[INFO] --- maven-jar-plugin:3.1.0:test-jar (default) @ analysis-model ---
+[INFO] Building jar: /Users/hafner/Development/git/analysis-model/target/analysis-model-2.0.0-SNAPSHOT-tests.jar
+[INFO]
+[INFO] --- maven-pmd-plugin:3.11.0:pmd (run-pmd) @ analysis-model ---
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[INFO]
+[INFO] --- maven-pmd-plugin:3.11.0:cpd (run-pmd) @ analysis-model ---
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[INFO]
+[INFO] --- maven-checkstyle-plugin:3.0.0:checkstyle (run-checkstyle) @ analysis-model ---
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[INFO]
+[INFO] --- maven-javadoc-plugin:3.3.1:jar (attach-javadocs) @ analysis-model ---
+[WARNING] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.123 s - in edu.hm.hafner.analysis.parser.EclipseParserTest
+[WARNING] Running edu.hm.hafner.analysis.parser.GradleErrorProneParserTest
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s - in edu.hm.hafner.analysis.parser.GradleErrorProneParserTest
+[WARNING] Running edu.hm.hafner.analysis.parser.ProtoLintParserTest
+[WARNING] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.101 s - in edu.hm.hafner.analysis.parser.ProtoLintParserTest
+[WARNING] Running edu.hm.hafner.analysis.parser.OELintAdvParserTest
+[WARNING] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s - in edu.hm.hafner.analysis.parser.OELintAdvParserTest
