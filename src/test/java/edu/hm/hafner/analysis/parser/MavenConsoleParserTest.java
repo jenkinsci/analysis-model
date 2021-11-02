@@ -49,6 +49,17 @@ class MavenConsoleParserTest extends AbstractParserTest {
         assertThatDescriptionIs(warnings, 2, XREF_LINK_DISABLED);
     }
 
+    /**
+     * Ignore `maven-javadoc-plugin` warnings.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-64284">Issue 64284</a>
+     */
+    @Test
+    void issue64284() {
+        Report warnings = parse("issue64284.log");
+        assertThat(warnings).hasSize(3);
+    }
+
     private void assertThatDescriptionIs(final Report warnings, final int index, final String... messages) {
         assertThat(warnings.get(index).getDescription()).isEqualTo(
                 pre().with(code().withText(String.join("\n", messages))).render());
