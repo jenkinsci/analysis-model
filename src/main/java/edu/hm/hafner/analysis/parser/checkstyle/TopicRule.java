@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.StringWriter;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -16,6 +15,7 @@ import org.apache.commons.digester3.NodeCreateRule;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import static edu.hm.hafner.analysis.SecureXmlParserFactory.secureFactory;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -58,9 +58,7 @@ public class TopicRule extends NodeCreateRule {
     @SuppressFBWarnings("SECURITY")
     private String extractNodeContent(final Element subsection) throws TransformerException {
         StringWriter content = new StringWriter();
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        secureFactory(transformerFactory);
-        Transformer transformer = transformerFactory.newTransformer();
+        Transformer transformer = secureFactory(TransformerFactory.newInstance()).newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.transform(new DOMSource(subsection), new StreamResult(content));
         String text = content.toString();
@@ -72,18 +70,4 @@ public class TopicRule extends NodeCreateRule {
         return StringUtils.replace(endSourceRemoved, "<source>", "<pre><code>");
     }
 
-    private void secureFactory(final TransformerFactory transformerFactory) {
-        try {
-            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        }
-        catch (IllegalArgumentException e) {
-            // ignore and continue
-        }
-        try {
-            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
-        }
-        catch (IllegalArgumentException e) {
-            // ignore and continue
-        }
-    }
 }

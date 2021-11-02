@@ -3,6 +3,8 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import static javax.xml.XMLConstants.*;
+
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,6 +14,7 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.TransformerFactory;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.w3c.dom.Document;
@@ -36,7 +39,7 @@ import static org.apache.xerces.impl.Constants.*;
 public class SecureXmlParserFactory {
     private static final String[] ENABLED_PROPERTIES = {
 //            XERCES_FEATURE_PREFIX + DISALLOW_DOCTYPE_DECL_FEATURE,   - If this feature is activated we cannot parse any XML documents that use a DOCTYPE anymore
-            XMLConstants.FEATURE_SECURE_PROCESSING
+            FEATURE_SECURE_PROCESSING
     };
     private static final String[] DISABLED_PROPERTIES = {
             SAX_FEATURE_PREFIX + EXTERNAL_GENERAL_ENTITIES_FEATURE,
@@ -46,6 +49,12 @@ public class SecureXmlParserFactory {
             XERCES_FEATURE_PREFIX + CREATE_ENTITY_REF_NODES_FEATURE,
             XERCES_FEATURE_PREFIX + LOAD_DTD_GRAMMAR_FEATURE,
             XERCES_FEATURE_PREFIX + LOAD_EXTERNAL_DTD_FEATURE
+    };
+    private static final String[] SECURITY_PROPERTIES = {
+            ACCESS_EXTERNAL_DTD, ACCESS_EXTERNAL_SCHEMA
+    };
+    private static final String[] SECURITY_TRANSFORMER_ATTRIBUTES = {
+            ACCESS_EXTERNAL_DTD, ACCESS_EXTERNAL_STYLESHEET
     };
 
     /**
@@ -58,14 +67,9 @@ public class SecureXmlParserFactory {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setXIncludeAware(false);
             factory.setExpandEntityReferences(false);
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            factory.setFeature(FEATURE_SECURE_PROCESSING, true);
             secureFactory(factory);
-            for (String enabledProperty : ENABLED_PROPERTIES) {
-                setFeature(factory, enabledProperty, true);
-            }
-            for (String disabledProperty : DISABLED_PROPERTIES) {
-                setFeature(factory, disabledProperty, false);
-            }
+            setFeatures(factory);
 
             return factory.newDocumentBuilder();
         }
@@ -74,30 +78,53 @@ public class SecureXmlParserFactory {
         }
     }
 
-    private void setFeature(final DocumentBuilderFactory factory, final String enabledProperty, final boolean status) {
-        try {
-            factory.setFeature(enabledProperty, status);
+    private void setFeatures(final DocumentBuilderFactory factory) {
+        for (String enabledProperty : ENABLED_PROPERTIES) {
+            try {
+                factory.setFeature(enabledProperty, true);
+            }
+            catch (ParserConfigurationException ignored) {
+                // ignore and continue
+            }
         }
-        catch (ParserConfigurationException ignored) {
-            // ignore and continue
+        for (String disabledProperty : DISABLED_PROPERTIES) {
+            try {
+                factory.setFeature(disabledProperty, false);
+            }
+            catch (ParserConfigurationException ignored) {
+                // ignore and continue
+            }
         }
     }
 
     private void secureFactory(final DocumentBuilderFactory factory) {
-        try {
-            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        }
-        catch (IllegalArgumentException e) {
-            // ignore and continue
-        }
-        try {
-            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-        }
-        catch (IllegalArgumentException e) {
-            // ignore and continue
+        for (String securityAttribute: SECURITY_PROPERTIES) {
+            try {
+                factory.setAttribute(securityAttribute, "");
+            }
+            catch (IllegalArgumentException e) {
+                // ignore and continue
+            }
         }
     }
 
+    /**
+     * Secure the {@link TransformerFactory} so that it does not resolve external entities/stylesheets.
+     * 
+     * @param transformerFactory the factory to secure
+     * @return the secured factory to permit a fluent interface
+     */
+    public static TransformerFactory secureFactory(final TransformerFactory transformerFactory) {
+        for (String securityAttribute: SECURITY_TRANSFORMER_ATTRIBUTES) {
+            try {
+                transformerFactory.setAttribute(securityAttribute, "");
+            }
+            catch (IllegalArgumentException e) {
+                // ignore and continue
+            }
+        }
+        return transformerFactory;
+    }
     /**
      * Creates a new instance of a {@link SAXParser} that does not resolve external entities.
      *
@@ -117,18 +144,19 @@ public class SecureXmlParserFactory {
         }
     }
     
+    /**
+     * Secure the {@link SAXParser} so that it does not resolve external entities.
+     * 
+     * @param parser the parser to secure
+     */
     private void secureParser(final SAXParser parser) {
-        try {
-            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        }
-        catch (SAXNotRecognizedException | SAXNotSupportedException e) {
-            // ignore and continue
-        }
-        try {
-            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-        }
-        catch (SAXNotRecognizedException | SAXNotSupportedException e) {
-            // ignore and continue
+        for (String securityAttribute: SECURITY_PROPERTIES) {
+            try {
+                parser.setProperty(securityAttribute, "");
+            }
+            catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+                // ignore and continue
+            }
         }
     }
 
