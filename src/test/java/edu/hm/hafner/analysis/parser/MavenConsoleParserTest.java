@@ -50,7 +50,7 @@ class MavenConsoleParserTest extends AbstractParserTest {
     }
 
     /**
-     * Ignore `maven-javadoc-plugin` warnings
+     * Ignore `maven-javadoc-plugin` warnings.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-64284">Issue 64284</a>
      */
