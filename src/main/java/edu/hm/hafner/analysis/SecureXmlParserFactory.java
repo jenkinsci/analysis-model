@@ -256,6 +256,7 @@ public class SecureXmlParserFactory {
      *
      * @return the created {@link Transformer}
      */
+    @SuppressFBWarnings(value = "XXE_DTD_TRANSFORM_FACTORY, XXE_XSLT_TRANSFORM_FACTORY", justification = "The transformer is secured in the called method")
     public Transformer createTransformer() {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
