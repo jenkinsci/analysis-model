@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -40,7 +39,7 @@ import static org.apache.xerces.impl.Constants.*;
 public class SecureXmlParserFactory {
     private static final String[] ENABLED_PROPERTIES = {
 //            XERCES_FEATURE_PREFIX + DISALLOW_DOCTYPE_DECL_FEATURE,   - If this feature is activated we cannot parse any XML documents that use a DOCTYPE anymore
-            XMLConstants.FEATURE_SECURE_PROCESSING
+            FEATURE_SECURE_PROCESSING
     };
     private static final String[] DISABLED_PROPERTIES = {
             SAX_FEATURE_PREFIX + EXTERNAL_GENERAL_ENTITIES_FEATURE,
@@ -52,9 +51,9 @@ public class SecureXmlParserFactory {
             XERCES_FEATURE_PREFIX + LOAD_EXTERNAL_DTD_FEATURE
     };
     private static final String[] DISABLED_ATTRIBUTES = {
-            XMLConstants.ACCESS_EXTERNAL_DTD,
-            XMLConstants.ACCESS_EXTERNAL_SCHEMA,
-            XMLConstants.ACCESS_EXTERNAL_STYLESHEET
+            ACCESS_EXTERNAL_DTD,
+            ACCESS_EXTERNAL_SCHEMA,
+            ACCESS_EXTERNAL_STYLESHEET
     };
     private static final String CLEAR_ATTRIBUTE = "";
     private static final String SUPPORTING_EXTERNAL_ENTITIES = "javax.xml.stream.isSupportingExternalEntities";
