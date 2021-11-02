@@ -39,13 +39,13 @@ public class ClangTidyParser extends LookaheadParser {
             priority = Severity.WARNING_NORMAL;
         }
 
-        return builder.setFileName(matcher.group(1))
+        return builder.setFileName(matcher.group(2))
                 .setSeverity(priority)
-                .setLineStart(matcher.group(2))
-                .setColumnStart(matcher.group(3))
-                .setType(StringUtils.capitalize(matcher.group(4)))
-                .setCategory(matcher.group(6))
-                .setMessage(matcher.group(5))
+                .setLineStart(matcher.group(3))
+                .setColumnStart(matcher.group(4))
+                .setType(StringUtils.capitalize(matcher.group(5)))
+                .setCategory(matcher.group(7))
+                .setMessage(matcher.group(6))
                 .buildOptional();
     }
 }

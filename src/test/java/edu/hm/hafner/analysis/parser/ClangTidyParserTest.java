@@ -28,7 +28,7 @@ class ClangTidyParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report annotation, final SoftAssertions softly) {
-        assertThat(annotation).hasSize(7);
+        assertThat(annotation).hasSize(8);
 
         softly.assertThat(annotation.get(0))
                 .hasLineStart(1)
@@ -90,6 +90,12 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasMessage("implicit conversion turns string literal into bool: 'const char [28]' to 'bool'")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-string-conversion")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        softly.assertThat(annotation.get(7))
+                .hasMessage("/path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused")
+                .hasType(WARNING_TYPE)
+                .hasCategory("clang-diagnostic-unused-command-line-argument")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
