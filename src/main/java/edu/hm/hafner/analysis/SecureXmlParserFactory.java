@@ -3,8 +3,6 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import static javax.xml.XMLConstants.*;
-
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,6 +12,8 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 
 import org.apache.commons.io.input.ReaderInputStream;
@@ -26,6 +26,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import static javax.xml.XMLConstants.*;
 import static org.apache.xerces.impl.Constants.*;
 
 /**
@@ -33,13 +34,13 @@ import static org.apache.xerces.impl.Constants.*;
  * containing a reference to an external entity is processed by a weakly configured XML parser.
  *
  * @author Ullrich Hafner
- * @see <a href="https://owasp.org/www-project-cheat-sheets/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html">XML
- *         External Entity Prevention Cheat Sheet</a>
+ * @see <a href="https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html">XML External Entity Prevention Cheat Sheet</a>
+ * @see <a href="https://rules.sonarsource.com/java/RSPEC-2755">XML parsers should not be vulnerable to XXE attacks</a>
  */
 public class SecureXmlParserFactory {
     private static final String[] ENABLED_PROPERTIES = {
 //            XERCES_FEATURE_PREFIX + DISALLOW_DOCTYPE_DECL_FEATURE,   - If this feature is activated we cannot parse any XML documents that use a DOCTYPE anymore
-            FEATURE_SECURE_PROCESSING
+            XMLConstants.FEATURE_SECURE_PROCESSING
     };
     private static final String[] DISABLED_PROPERTIES = {
             SAX_FEATURE_PREFIX + EXTERNAL_GENERAL_ENTITIES_FEATURE,
@@ -50,12 +51,13 @@ public class SecureXmlParserFactory {
             XERCES_FEATURE_PREFIX + LOAD_DTD_GRAMMAR_FEATURE,
             XERCES_FEATURE_PREFIX + LOAD_EXTERNAL_DTD_FEATURE
     };
-    private static final String[] SECURITY_PROPERTIES = {
-            ACCESS_EXTERNAL_DTD, ACCESS_EXTERNAL_SCHEMA
+    private static final String[] DISABLED_ATTRIBUTES = {
+            XMLConstants.ACCESS_EXTERNAL_DTD,
+            XMLConstants.ACCESS_EXTERNAL_SCHEMA,
+            XMLConstants.ACCESS_EXTERNAL_STYLESHEET
     };
-    private static final String[] SECURITY_TRANSFORMER_ATTRIBUTES = {
-            ACCESS_EXTERNAL_DTD, ACCESS_EXTERNAL_STYLESHEET
-    };
+    private static final String CLEAR_ATTRIBUTE = "";
+    private static final String SUPPORTING_EXTERNAL_ENTITIES = "javax.xml.stream.isSupportingExternalEntities";
 
     /**
      * Creates a new instance of a {@link DocumentBuilder} that does not resolve external entities.
@@ -68,8 +70,8 @@ public class SecureXmlParserFactory {
             factory.setXIncludeAware(false);
             factory.setExpandEntityReferences(false);
             factory.setFeature(FEATURE_SECURE_PROCESSING, true);
-            secureFactory(factory);
             setFeatures(factory);
+            clearAttributes(factory);
 
             return factory.newDocumentBuilder();
         }
@@ -80,27 +82,26 @@ public class SecureXmlParserFactory {
 
     private void setFeatures(final DocumentBuilderFactory factory) {
         for (String enabledProperty : ENABLED_PROPERTIES) {
-            try {
-                factory.setFeature(enabledProperty, true);
-            }
-            catch (ParserConfigurationException ignored) {
-                // ignore and continue
-            }
+            setFeature(factory, enabledProperty, true);
         }
         for (String disabledProperty : DISABLED_PROPERTIES) {
-            try {
-                factory.setFeature(disabledProperty, false);
-            }
-            catch (ParserConfigurationException ignored) {
-                // ignore and continue
-            }
+            setFeature(factory, disabledProperty, false);
         }
     }
 
-    private void secureFactory(final DocumentBuilderFactory factory) {
-        for (String securityAttribute: SECURITY_PROPERTIES) {
+    private void setFeature(final DocumentBuilderFactory factory, final String enabledProperty, final boolean value) {
+        try {
+            factory.setFeature(enabledProperty, value);
+        }
+        catch (ParserConfigurationException ignored) {
+            // ignore and continue
+        }
+    }
+
+    private void clearAttributes(final DocumentBuilderFactory factory) {
+        for (String securityAttribute: DISABLED_ATTRIBUTES) {
             try {
-                factory.setAttribute(securityAttribute, "");
+                factory.setAttribute(securityAttribute, CLEAR_ATTRIBUTE);
             }
             catch (IllegalArgumentException e) {
                 // ignore and continue
@@ -108,22 +109,15 @@ public class SecureXmlParserFactory {
         }
     }
 
-    /**
-     * Secure the {@link TransformerFactory} so that it does not resolve external entities/stylesheets.
-     * 
-     * @param transformerFactory the factory to secure
-     * @return the secured factory to permit a fluent interface
-     */
-    public static TransformerFactory secureFactory(final TransformerFactory transformerFactory) {
-        for (String securityAttribute: SECURITY_TRANSFORMER_ATTRIBUTES) {
+    private void clearAttributes(final TransformerFactory transformerFactory) {
+        for (String securityAttribute: DISABLED_ATTRIBUTES) {
             try {
-                transformerFactory.setAttribute(securityAttribute, "");
+                transformerFactory.setAttribute(securityAttribute, CLEAR_ATTRIBUTE);
             }
             catch (IllegalArgumentException e) {
                 // ignore and continue
             }
         }
-        return transformerFactory;
     }
     /**
      * Creates a new instance of a {@link SAXParser} that does not resolve external entities.
@@ -143,16 +137,16 @@ public class SecureXmlParserFactory {
             throw new IllegalArgumentException("Can't create instance of SAXParser", exception);
         }
     }
-    
+
     /**
      * Secure the {@link SAXParser} so that it does not resolve external entities.
-     * 
+     *
      * @param parser the parser to secure
      */
     private void secureParser(final SAXParser parser) {
-        for (String securityAttribute: SECURITY_PROPERTIES) {
+        for (String securityAttribute: DISABLED_ATTRIBUTES) {
             try {
-                parser.setProperty(securityAttribute, "");
+                parser.setProperty(securityAttribute, CLEAR_ATTRIBUTE);
             }
             catch (SAXNotRecognizedException | SAXNotSupportedException e) {
                 // ignore and continue
@@ -200,7 +194,7 @@ public class SecureXmlParserFactory {
         try {
             XMLInputFactory factory = XMLInputFactory.newInstance();
             factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-            factory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
+            factory.setProperty(SUPPORTING_EXTERNAL_ENTITIES, false);
             return factory.createXMLStreamReader(reader);
         }
         catch (XMLStreamException exception) {
@@ -256,5 +250,23 @@ public class SecureXmlParserFactory {
 
     private InputSource createInputSource(final Reader reader, final Charset charset) {
         return new InputSource(new ReaderInputStream(reader, charset));
+    }
+
+    /**
+     * Creates a {@link Transformer} that does not resolve external entities and stylesheets.
+     *
+     * @return the created {@link Transformer}
+     */
+    public Transformer createTransformer() {
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+            clearAttributes(transformerFactory);
+
+            return transformerFactory.newTransformer();
+        }
+        catch (TransformerConfigurationException exception) {
+            throw new ParsingException(exception);
+        }
     }
 }

@@ -394,6 +394,10 @@
                   <classQualifiedName>shaded.*</classQualifiedName>
                   <code>.*</code>
                 </item>
+                <item>
+                  <package>javax.xml.transform</package>
+                  <code>java.class.externalClassExposedInAPI</code>
+                </item>
               </differences>
             </revapi.differences>
           </analysisConfiguration>

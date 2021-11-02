@@ -1,12 +1,10 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.StringWriter;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -15,8 +13,8 @@ import org.apache.commons.digester3.NodeCreateRule;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import static edu.hm.hafner.analysis.SecureXmlParserFactory.secureFactory;
 
+import edu.hm.hafner.analysis.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -58,7 +56,8 @@ public class TopicRule extends NodeCreateRule {
     @SuppressFBWarnings("SECURITY")
     private String extractNodeContent(final Element subsection) throws TransformerException {
         StringWriter content = new StringWriter();
-        Transformer transformer = secureFactory(TransformerFactory.newInstance()).newTransformer();
+
+        Transformer transformer = new SecureXmlParserFactory().createTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.transform(new DOMSource(subsection), new StreamResult(content));
         String text = content.toString();
