@@ -409,10 +409,10 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "clang-analyzer", "ClangAnalyzer.txt");
     }
 
-    /** Runs the Clang-Tidy parser on an output file that contains 6 issues. */
+    /** Runs the Clang-Tidy parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllClangTidyIssues() {
-        findIssuesOfTool(7, "clang-tidy", "ClangTidy.txt");
+        findIssuesOfTool(8, "clang-tidy", "ClangTidy.txt");
     }
 
     /** Runs the Clang parser on an output file that contains 9 issues. */
