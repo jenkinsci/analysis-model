@@ -82,8 +82,8 @@ public class MavenConsoleParser extends LookaheadParser {
     }
 
     private boolean isValidGoal() {
-        return !(goal.contains("maven-compiler-plugin") ||
-                goal.contains("maven-javadoc-plugin")); // will be captured by another parser already
+        return !(goal.contains("maven-compiler-plugin")
+                || goal.contains("maven-javadoc-plugin")); // will be captured by another parser already
     }
 
     @Override
