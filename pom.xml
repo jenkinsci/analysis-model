@@ -53,7 +53,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>10.6.0</revision>
+    <revision>10.7.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
@@ -74,7 +74,7 @@
     <violations-lib.version>1.145.4</violations-lib.version>
     <json.version>20210307</json.version>
     <json-smart.version>2.4.7</json-smart.version>
-    <pmd.version>6.39.0</pmd.version>
+    <pmd.version>6.40.0</pmd.version>
     <spotbugs.version>4.4.2</spotbugs.version>
 
     <incrementals-plugin.version>1.2</incrementals-plugin.version>
@@ -393,6 +393,10 @@
                   <regex>true</regex>
                   <classQualifiedName>shaded.*</classQualifiedName>
                   <code>.*</code>
+                </item>
+                <item>
+                  <package>javax.xml.transform</package>
+                  <code>java.class.externalClassExposedInAPI</code>
                 </item>
               </differences>
             </revapi.differences>
