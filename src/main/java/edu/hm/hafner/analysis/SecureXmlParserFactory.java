@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -12,15 +11,21 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import static javax.xml.XMLConstants.*;
 import static org.apache.xerces.impl.Constants.*;
 
 /**
@@ -28,13 +33,13 @@ import static org.apache.xerces.impl.Constants.*;
  * containing a reference to an external entity is processed by a weakly configured XML parser.
  *
  * @author Ullrich Hafner
- * @see <a href="https://owasp.org/www-project-cheat-sheets/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html">XML
- *         External Entity Prevention Cheat Sheet</a>
+ * @see <a href="https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html">XML External Entity Prevention Cheat Sheet</a>
+ * @see <a href="https://rules.sonarsource.com/java/RSPEC-2755">XML parsers should not be vulnerable to XXE attacks</a>
  */
 public class SecureXmlParserFactory {
     private static final String[] ENABLED_PROPERTIES = {
 //            XERCES_FEATURE_PREFIX + DISALLOW_DOCTYPE_DECL_FEATURE,   - If this feature is activated we cannot parse any XML documents that use a DOCTYPE anymore
-            XMLConstants.FEATURE_SECURE_PROCESSING
+            FEATURE_SECURE_PROCESSING
     };
     private static final String[] DISABLED_PROPERTIES = {
             SAX_FEATURE_PREFIX + EXTERNAL_GENERAL_ENTITIES_FEATURE,
@@ -45,6 +50,13 @@ public class SecureXmlParserFactory {
             XERCES_FEATURE_PREFIX + LOAD_DTD_GRAMMAR_FEATURE,
             XERCES_FEATURE_PREFIX + LOAD_EXTERNAL_DTD_FEATURE
     };
+    private static final String[] DISABLED_ATTRIBUTES = {
+            ACCESS_EXTERNAL_DTD,
+            ACCESS_EXTERNAL_SCHEMA,
+            ACCESS_EXTERNAL_STYLESHEET
+    };
+    private static final String CLEAR_ATTRIBUTE = "";
+    private static final String SUPPORTING_EXTERNAL_ENTITIES = "javax.xml.stream.isSupportingExternalEntities";
 
     /**
      * Creates a new instance of a {@link DocumentBuilder} that does not resolve external entities.
@@ -56,23 +68,9 @@ public class SecureXmlParserFactory {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setXIncludeAware(false);
             factory.setExpandEntityReferences(false);
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            for (String enabledProperty : ENABLED_PROPERTIES) {
-                try {
-                    factory.setFeature(enabledProperty, true);
-                }
-                catch (ParserConfigurationException ignored) {
-                    // ignore and continue
-                }
-            }
-            for (String disabledProperty : DISABLED_PROPERTIES) {
-                try {
-                    factory.setFeature(disabledProperty, false);
-                }
-                catch (ParserConfigurationException ignored) {
-                    // ignore and continue
-                }
-            }
+            factory.setFeature(FEATURE_SECURE_PROCESSING, true);
+            setFeatures(factory);
+            clearAttributes(factory);
 
             return factory.newDocumentBuilder();
         }
@@ -81,6 +79,45 @@ public class SecureXmlParserFactory {
         }
     }
 
+    private void setFeatures(final DocumentBuilderFactory factory) {
+        for (String enabledProperty : ENABLED_PROPERTIES) {
+            setFeature(factory, enabledProperty, true);
+        }
+        for (String disabledProperty : DISABLED_PROPERTIES) {
+            setFeature(factory, disabledProperty, false);
+        }
+    }
+
+    private void setFeature(final DocumentBuilderFactory factory, final String enabledProperty, final boolean value) {
+        try {
+            factory.setFeature(enabledProperty, value);
+        }
+        catch (ParserConfigurationException ignored) {
+            // ignore and continue
+        }
+    }
+
+    private void clearAttributes(final DocumentBuilderFactory factory) {
+        for (String securityAttribute: DISABLED_ATTRIBUTES) {
+            try {
+                factory.setAttribute(securityAttribute, CLEAR_ATTRIBUTE);
+            }
+            catch (IllegalArgumentException e) {
+                // ignore and continue
+            }
+        }
+    }
+
+    private void clearAttributes(final TransformerFactory transformerFactory) {
+        for (String securityAttribute: DISABLED_ATTRIBUTES) {
+            try {
+                transformerFactory.setAttribute(securityAttribute, CLEAR_ATTRIBUTE);
+            }
+            catch (IllegalArgumentException e) {
+                // ignore and continue
+            }
+        }
+    }
     /**
      * Creates a new instance of a {@link SAXParser} that does not resolve external entities.
      *
@@ -91,10 +128,28 @@ public class SecureXmlParserFactory {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             configureSaxParserFactory(factory);
 
-            return factory.newSAXParser();
+            SAXParser parser = factory.newSAXParser();
+            secureParser(parser);
+            return parser;
         }
         catch (ParserConfigurationException | SAXException exception) {
             throw new IllegalArgumentException("Can't create instance of SAXParser", exception);
+        }
+    }
+
+    /**
+     * Secure the {@link SAXParser} so that it does not resolve external entities.
+     *
+     * @param parser the parser to secure
+     */
+    private void secureParser(final SAXParser parser) {
+        for (String securityAttribute: DISABLED_ATTRIBUTES) {
+            try {
+                parser.setProperty(securityAttribute, CLEAR_ATTRIBUTE);
+            }
+            catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+                // ignore and continue
+            }
         }
     }
 
@@ -138,7 +193,7 @@ public class SecureXmlParserFactory {
         try {
             XMLInputFactory factory = XMLInputFactory.newInstance();
             factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-            factory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
+            factory.setProperty(SUPPORTING_EXTERNAL_ENTITIES, false);
             return factory.createXMLStreamReader(reader);
         }
         catch (XMLStreamException exception) {
@@ -194,5 +249,24 @@ public class SecureXmlParserFactory {
 
     private InputSource createInputSource(final Reader reader, final Charset charset) {
         return new InputSource(new ReaderInputStream(reader, charset));
+    }
+
+    /**
+     * Creates a {@link Transformer} that does not resolve external entities and stylesheets.
+     *
+     * @return the created {@link Transformer}
+     */
+    @SuppressFBWarnings(value = {"XXE_DTD_TRANSFORM_FACTORY", "XXE_XSLT_TRANSFORM_FACTORY"}, justification = "The transformer is secured in the called method")
+    public Transformer createTransformer() {
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+            clearAttributes(transformerFactory);
+
+            return transformerFactory.newTransformer();
+        }
+        catch (TransformerConfigurationException exception) {
+            throw new ParsingException(exception);
+        }
     }
 }
