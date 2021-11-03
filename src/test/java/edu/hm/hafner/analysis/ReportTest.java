@@ -945,6 +945,7 @@ class ReportTest extends SerializableTest<Report> {
                 "Error (Wrapped) message from CheckStyle",
                 "Error (Wrapped) message from SpotBugs",
                 "Error (Aggregated) message");
+        assertThat(aggregated).hasOriginReportFiles("checkstyle.xml", "spotbugs.xml");
     }
 
     @Test
