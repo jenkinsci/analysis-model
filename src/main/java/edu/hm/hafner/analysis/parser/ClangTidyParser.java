@@ -19,7 +19,7 @@ import edu.hm.hafner.util.LookaheadStream;
 public class ClangTidyParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283182L;
     private static final String CLANG_TIDY_WARNING_PATTERN =
-            "([^\\s]+):(\\d+):(\\d+): (warning|error): (.*?) \\[([^\\s]*?)\\]$";
+            "(([^\\s]+):(\\d+):(\\d+): |)(warning|error): (.*?) \\[([^\\s]*?)\\]$";
 
     /**
      * Creates a new instance of {@link ClangTidyParser}.
@@ -32,20 +32,20 @@ public class ClangTidyParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
         Severity priority;
-        if (matcher.group(4).contains("error")) {
+        if (matcher.group(5).contains("error")) {
             priority = Severity.WARNING_HIGH;
         }
         else {
             priority = Severity.WARNING_NORMAL;
         }
 
-        return builder.setFileName(matcher.group(1))
+        return builder.setFileName(matcher.group(2))
                 .setSeverity(priority)
-                .setLineStart(matcher.group(2))
-                .setColumnStart(matcher.group(3))
-                .setType(StringUtils.capitalize(matcher.group(4)))
-                .setCategory(matcher.group(6))
-                .setMessage(matcher.group(5))
+                .setLineStart(matcher.group(3))
+                .setColumnStart(matcher.group(4))
+                .setType(StringUtils.capitalize(matcher.group(5)))
+                .setCategory(matcher.group(7))
+                .setMessage(matcher.group(6))
                 .buildOptional();
     }
 }

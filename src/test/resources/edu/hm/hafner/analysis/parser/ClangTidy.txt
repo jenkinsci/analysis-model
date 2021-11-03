@@ -82,9 +82,6 @@ Enabled checks:
 # Okay File - No warnings created
 clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project /path/to/project/src/tests/main.cpp
 
-# Warnings to not match
-warning: /path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused [clang-diagnostic-unused-command-line-argument]
-
 # Relative File
 clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project src/../src/main.cpp:1:8: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
     case 6: return static_cast<int>(phase); break;
@@ -114,3 +111,7 @@ clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project /path/to/project
 # Bracket Test
 /var/lib/jenkins/workspace/job/user/project.cpp:50:57: warning: implicit conversion turns string literal into bool: 'const char [28]' to 'bool' [clang-diagnostic-string-conversion]
         case DISP_AUTO_N:                       ASSERT(!"You should not use this one"); break;
+
+# Warnings to not match
+warning: /path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused [clang-diagnostic-unused-command-line-argument]
+

@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -26,7 +28,7 @@ class ClangTidyParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report annotation, final SoftAssertions softly) {
-        assertThat(annotation).hasSize(7);
+        assertThat(annotation).hasSize(8);
 
         softly.assertThat(annotation.get(0))
                 .hasLineStart(1)
@@ -89,6 +91,17 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-string-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
+
+        softly.assertThat(annotation.get(7))
+                .hasMessage("/path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused")
+                .hasType(WARNING_TYPE)
+                .hasCategory("clang-diagnostic-unused-command-line-argument")
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
+    @Test
+    void issue56915() {
+        Report warnings = parse("issue56915.txt");
+        assertThat(warnings).hasSize(3);
+    }
 }
