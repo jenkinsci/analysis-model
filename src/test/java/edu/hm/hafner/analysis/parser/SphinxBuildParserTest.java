@@ -38,7 +38,17 @@ class SphinxBuildParserTest extends AbstractParserTest {
         Report warnings = parse("issue63216.txt");
 
         assertThat(warnings).hasSize(1);
-        assertThat(warnings.getAbsolutePaths()).containsExactly("/src/be/doc/_sub/_classTest/05_test.rst");
+        assertThat(warnings).hasOnlyAbsolutePaths("/src/be/doc/_sub/_classTest/05_test.rst");
+        assertThat(warnings).hasId("-");
+        assertThat(warnings).hasName("-");
+        assertThat(warnings.get(0))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory(SPHINX_BUILD_WARNING)
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("document isn't included in any toctree")
+                .hasFileName("/src/be/doc/_sub/_classTest/05_test.rst");
+
     }
 
     @Override
