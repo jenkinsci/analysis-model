@@ -4,7 +4,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CodeCheckerParser;
 
 /**
- * A descriptor for the Clang-Tidy compiler.
+ * A descriptor for the Codechecker parser.
  *
  */
 class CodeCheckerDescriptor extends ParserDescriptor {
