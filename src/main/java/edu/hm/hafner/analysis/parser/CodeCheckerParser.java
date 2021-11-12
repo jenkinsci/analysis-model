@@ -41,7 +41,7 @@ public class CodeCheckerParser extends LookaheadParser {
         else if (matcher.group(1).contains("HIGH")) {
             priority = Severity.WARNING_HIGH;
         }
-        else if (matcher.group(1).contains("MEDIUM")){
+        else if (matcher.group(1).contains("MEDIUM")) {
             priority = Severity.WARNING_NORMAL;
         }
         else {
