@@ -22,10 +22,10 @@ class CodeCheckerParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Report annotation, final SoftAssertions softly) {
-        assertThat(annotation).hasSize(3);
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+        assertThat(report).hasSize(3);
 
-        softly.assertThat(annotation.get(0))
+        softly.assertThat(report.get(0))
                 .hasLineStart(17)
                 .hasColumnStart(8)
                 .hasFileName("/path/to/projrct/csv2xlslib.Test/parsecmdTest.cpp")
@@ -34,7 +34,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasCategory("cppcoreguidelines-special-member-functions")
                 .hasSeverity(Severity.WARNING_LOW);
 
-        softly.assertThat(annotation.get(1))
+        softly.assertThat(report.get(1))
                 .hasLineStart(425)
                 .hasColumnStart(33)
                 .hasFileName("/path/to/projrct/extern/lib/workbook.cpp")
@@ -43,7 +43,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasCategory("core.CallAndMessage")
                 .hasSeverity(Severity.WARNING_HIGH);
 
-        softly.assertThat(annotation.get(2))
+        softly.assertThat(report.get(2))
                 .hasLineStart(212)
                 .hasColumnStart(12)
                 .hasFileName("/path/to/projrct/extern/lib/HPSF.cpp")
@@ -56,9 +56,9 @@ class CodeCheckerParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseWindowsPaths(){
-        Report annotation = parse("CodeChecker_with_windows_paths.txt");
-        assertThat(annotation).hasSize(5);
-        assertThat(annotation.get(0))
+        Report report = parse("CodeChecker_with_windows_paths.txt");
+        assertThat(report).hasSize(5);
+        assertThat(report.get(0))
                 .hasLineStart(15)
                 .hasColumnStart(22)
                 .hasFileName("C:/path/to/project/cmake-build-debug/_deps/checked_cmd-src/Tests/ArgumentsTest.cpp")
@@ -67,7 +67,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasCategory("clang-diagnostic-deprecated-declarations")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        assertThat(annotation.get(1))
+        assertThat(report.get(1))
                 .hasLineStart(283)
                 .hasColumnStart(22)
                 .hasFileName("C:/Program Files (x86)/path/to/toolchain/include/abcddef")
@@ -76,7 +76,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasCategory("clang-diagnostic-error")
                 .hasSeverity(Severity.ERROR);
 
-        assertThat(annotation.get(2))
+        assertThat(report.get(2))
                 .hasLineStart(17)
                 .hasColumnStart(8)
                 .hasFileName("C:/path/to/project/csv2xlslib.Test/parsecmdTest.cpp")
@@ -85,7 +85,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasCategory("cppcoreguidelines-special-member-functions")
                 .hasSeverity(Severity.WARNING_LOW);
 
-        assertThat(annotation.get(3))
+        assertThat(report.get(3))
                 .hasLineStart(49)
                 .hasColumnStart(8)
                 .hasFileName("C:/path/to/project/csv2xlslib.Test/parseCsvStreamTest.cpp")
@@ -94,7 +94,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasCategory("cppcoreguidelines-special-member-functions")
                 .hasSeverity(Severity.WARNING_LOW);
 
-        assertThat(annotation.get(4))
+        assertThat(report.get(4))
                 .hasLineStart(924)
                 .hasColumnStart(49)
                 .hasFileName("C:/path/to/project/extern/lib/formula_expr.cpp")
