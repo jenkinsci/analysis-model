@@ -12,7 +12,7 @@ import edu.hm.hafner.util.LookaheadStream;
 import static edu.hm.hafner.util.IntegerParser.*;
 
 /**
- * A parser for C++ Lint compiler warnings.
+ * A parser for Cpplint static code checker warnings.
  *
  * @author Ullrich Hafner
  */

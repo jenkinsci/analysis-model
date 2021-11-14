@@ -187,7 +187,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
             <td>
-                C++ Lint
+                Cpplint
             </td>
             <td>
                 -
