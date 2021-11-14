@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -7,11 +9,11 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
-class CodeCheckerParserWithWindowsPathsTest extends AbstractParserTest {
+class CodeCheckerParserTest extends AbstractParserTest {
     private static final String WARNING_TYPE = "Warning";
 
-    CodeCheckerParserWithWindowsPathsTest() {
-        super("CodeChecker_with_windows_paths.txt");
+    CodeCheckerParserTest() {
+        super("CodeChecker_with_linux_paths.txt");
     }
 
     @Override
@@ -21,9 +23,42 @@ class CodeCheckerParserWithWindowsPathsTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report annotation, final SoftAssertions softly) {
-        assertThat(annotation).hasSize(5);
+        assertThat(annotation).hasSize(3);
 
         softly.assertThat(annotation.get(0))
+                .hasLineStart(17)
+                .hasColumnStart(8)
+                .hasFileName("/path/to/projrct/csv2xlslib.Test/parsecmdTest.cpp")
+                .hasMessage("class 'TheFixture' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator")
+                .hasType(WARNING_TYPE)
+                .hasCategory("cppcoreguidelines-special-member-functions")
+                .hasSeverity(Severity.WARNING_LOW);
+
+        softly.assertThat(annotation.get(1))
+                .hasLineStart(425)
+                .hasColumnStart(33)
+                .hasFileName("/path/to/projrct/extern/lib/workbook.cpp")
+                .hasMessage("Called C++ object pointer is null")
+                .hasType(WARNING_TYPE)
+                .hasCategory("core.CallAndMessage")
+                .hasSeverity(Severity.WARNING_HIGH);
+
+        softly.assertThat(annotation.get(2))
+                .hasLineStart(212)
+                .hasColumnStart(12)
+                .hasFileName("/path/to/projrct/extern/lib/HPSF.cpp")
+                .hasMessage("'signed char' to 'int' conversion; consider casting to 'unsigned char' first.")
+                .hasType(WARNING_TYPE)
+                .hasCategory("bugprone-signed-char-misuse")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+    }
+
+    @Test
+    void shouldParseWindowsPaths(){
+        Report annotation = parse("CodeChecker_with_windows_paths.txt");
+        assertThat(annotation).hasSize(5);
+        assertThat(annotation.get(0))
                 .hasLineStart(15)
                 .hasColumnStart(22)
                 .hasFileName("C:/path/to/project/cmake-build-debug/_deps/checked_cmd-src/Tests/ArgumentsTest.cpp")
@@ -32,7 +67,7 @@ class CodeCheckerParserWithWindowsPathsTest extends AbstractParserTest {
                 .hasCategory("clang-diagnostic-deprecated-declarations")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        softly.assertThat(annotation.get(1))
+        assertThat(annotation.get(1))
                 .hasLineStart(283)
                 .hasColumnStart(22)
                 .hasFileName("C:/Program Files (x86)/path/to/toolchain/include/abcddef")
@@ -41,7 +76,7 @@ class CodeCheckerParserWithWindowsPathsTest extends AbstractParserTest {
                 .hasCategory("clang-diagnostic-error")
                 .hasSeverity(Severity.ERROR);
 
-        softly.assertThat(annotation.get(2))
+        assertThat(annotation.get(2))
                 .hasLineStart(17)
                 .hasColumnStart(8)
                 .hasFileName("C:/path/to/project/csv2xlslib.Test/parsecmdTest.cpp")
@@ -50,7 +85,7 @@ class CodeCheckerParserWithWindowsPathsTest extends AbstractParserTest {
                 .hasCategory("cppcoreguidelines-special-member-functions")
                 .hasSeverity(Severity.WARNING_LOW);
 
-        softly.assertThat(annotation.get(3))
+        assertThat(annotation.get(3))
                 .hasLineStart(49)
                 .hasColumnStart(8)
                 .hasFileName("C:/path/to/project/csv2xlslib.Test/parseCsvStreamTest.cpp")
@@ -59,7 +94,7 @@ class CodeCheckerParserWithWindowsPathsTest extends AbstractParserTest {
                 .hasCategory("cppcoreguidelines-special-member-functions")
                 .hasSeverity(Severity.WARNING_LOW);
 
-        softly.assertThat(annotation.get(4))
+        assertThat(annotation.get(4))
                 .hasLineStart(924)
                 .hasColumnStart(49)
                 .hasFileName("C:/path/to/project/extern/lib/formula_expr.cpp")
@@ -69,5 +104,4 @@ class CodeCheckerParserWithWindowsPathsTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_HIGH);
 
     }
-
 }
