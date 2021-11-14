@@ -1,0 +1,86 @@
+Found no defects in conversionTest.cpp
+Found no defects in convertCsv.cpp
+Found no defects in convertCsvTest.cpp
+Found no defects in csv2xls.cpp
+Found no defects in csv2xlslibTest.cpp
+Found no defects in csv2xls_compound_types.cpp
+Found no defects in OutputDoc.cpp
+Found no defects in OutputFileNameTest.cpp
+Found no defects in overnew.cpp
+Found no defects in parsecmd.cpp
+Found no defects in parseCsvFile.cpp
+Found no defects in parseCsvStream.cpp
+Found no defects in readBuffer.cpp
+Found no defects in ReadCellTest.cpp
+Found no defects in TestMain.cpp
+Found no defects in version.cpp
+[MEDIUM] C:\path\to\project\cmake-build-debug\_deps\checked_cmd-src\Tests\ArgumentsTest.cpp:15:22: 'strncpy' is deprecated: This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [clang-diagnostic-deprecated-declarations]
+                std::strncpy(result.back().get(), item.c_str(), item.size()+1);
+                     ^
+
+Found 1 defect(s) in ArgumentsTest.cpp
+
+[CRITICAL] C:\Program Files (x86)\path\to\toolchain\include\abcddef:283:22: 'auto' return without trailing return type; deduced return types are a C++14 extension [clang-diagnostic-error]
+_NODISCARD constexpr auto _Unfancy(_Ptrty _Ptr) noexcept { // converts from a fancy pointer to a plain pointer
+                     ^
+
+Found 1 defect(s) in xstddef
+
+[LOW] C:\path\to\project\csv2xlslib.Test\parsecmdTest.cpp:17:8: class 'TheFixture' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+struct TheFixture
+       ^
+
+Found 1 defect(s) in parsecmdTest.cpp
+
+[LOW] C:\path\to\project\csv2xlslib.Test\parseCsvStreamTest.cpp:49:8: class 'Given_an_input_file_with_headline' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+struct Given_an_input_file_with_headline
+       ^
+
+Found 2 defect(s) in parseCsvStreamTest.cpp
+
+[HIGH] C:\path\to\project\extern\lib\formula_expr.cpp:924:49: suspicious usage of 'sizeof(A*)'; pointer to aggregate [bugprone-sizeof-expression]
+    arg_arr = (expression_node_t **)calloc(count, sizeof(arg_arr[0]));
+                                                  ^
+
+
+Found 246 defect(s) in doctest.h
+
+
+----==== Summary ====----
+-------------------------------------
+Filename               | Report count
+-------------------------------------
+doctest.h              |          246
+doctest.h              |           18
+xutility               |           18
+doctest_fwd.h          |           11
+doctest.cpp            |            8
+clara.hpp              |            5
+Helpers.h              |            3
+OutputDoc.hpp          |            3
+formula_expr.cpp       |            3
+HPSF.cpp               |            2
+XlsWorkBook.cpp        |            2
+XlsWorkBook.hpp        |            2
+extformat.cpp          |            2
+parseCsvStreamTest.cpp |            2
+winnt.h                |            2
+ArgumentsTest.cpp      |            1
+catch.hpp              |            1
+filesystem             |            1
+parsecmdTest.cpp       |            1
+stdio.h                |            1
+xlsys.h                |            1
+xstddef                |            1
+-------------------------------------
+-----------------------
+Severity | Report count
+-----------------------
+MEDIUM   |          254
+LOW      |           36
+HIGH     |           24
+CRITICAL |           20
+-----------------------
+----=================----
+Total number of reports: 334
+----=================----
