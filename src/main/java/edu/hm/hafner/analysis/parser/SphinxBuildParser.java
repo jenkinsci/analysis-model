@@ -19,7 +19,7 @@ import static edu.hm.hafner.analysis.Categories.*;
 public class SphinxBuildParser extends LookaheadParser {
     private static final long serialVersionUID = 1483050615340274588L;
 
-    private static final String SPHINX_BUILD_WARNING_PATTERN = "^([a-zA-Z]:\\\\.*?|/.*?|[^\\/].*?):(?:.* of .*:)?(\\d+|None|): (ERROR|WARNING): (.*)";
+    private static final String SPHINX_BUILD_WARNING_PATTERN = "^([a-zA-Z]:\\\\.*?|/.*?|[^\\/].*?):(?:|(?:.* of .*:)?(\\d+|None|):) (ERROR|WARNING): (.*)";
 
     /**
      * Creates a new instance of {@link SphinxBuildParser}.

@@ -33,6 +33,24 @@ class SphinxBuildParserTest extends AbstractParserTest {
         assertThat(warnings.getFiles()).containsExactly("C:/path/to/prj/foo/legacy.py");
     }
 
+    @Test
+    void issue63216() {
+        Report warnings = parse("issue63216.txt");
+
+        assertThat(warnings).hasSize(1);
+        assertThat(warnings).hasOnlyAbsolutePaths("/src/be/doc/_sub/_classTest/05_test.rst");
+        assertThat(warnings).hasId("-");
+        assertThat(warnings).hasName("-");
+        assertThat(warnings.get(0))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory(SPHINX_BUILD_WARNING)
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("document isn't included in any toctree")
+                .hasFileName("/src/be/doc/_sub/_classTest/05_test.rst");
+
+    }
+
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(7);
