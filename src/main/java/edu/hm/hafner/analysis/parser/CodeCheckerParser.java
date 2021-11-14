@@ -45,19 +45,10 @@ public class CodeCheckerParser extends LookaheadParser {
     }
 
     private Severity getSeverity(final String severityText) {
-        Severity severity;
-        if (severityText.contains("CRITICAL")) {
-            severity = Severity.ERROR;
-        }
-        else if (severityText.contains("HIGH")) {
-            severity = Severity.WARNING_HIGH;
-        }
-        else if (severityText.contains("MEDIUM")) {
-            severity = Severity.WARNING_NORMAL;
-        }
-        else {
-            severity = Severity.WARNING_LOW;
-        }
-        return severity;
+        if (severityText.contains("CRITICAL")) { return Severity.ERROR;         }
+        if (severityText.contains("HIGH"    )) { return Severity.WARNING_HIGH;  }
+        if (severityText.contains("MEDIUM"  )) { return Severity.WARNING_NORMAL;}
+
+        return  Severity.WARNING_LOW;
     }
 }
