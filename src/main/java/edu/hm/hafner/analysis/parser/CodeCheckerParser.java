@@ -53,7 +53,6 @@ public class CodeCheckerParser extends LookaheadParser {
                 .setColumnStart(matcher.group(4))
                 .setCategory(matcher.group(6))
                 .setMessage(matcher.group(5))
-                .setType("Warning")
                 .buildOptional();
     }
 }
