@@ -22,7 +22,7 @@ import edu.hm.hafner.util.LookaheadStream;
 public class CodeCheckerParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283582L;
     private static final String CODE_CHECKER_DEFECT_PATTERN =
-            "^\\[(CRITICAL|HIGH|MEDIUM|LOW)\\] (.+):(\\d+):(\\d+): (.*?) \\[([^\\s]*?)\\]$";
+            "^\\[(?<severity>CRITICAL|HIGH|MEDIUM|LOW)\\] (?<path>.+):(?<line>\\d+):(?<column>\\d+): (?<message>.*?) \\[(?<category>[^\\s]*?)\\]$";
 
     /**
      * Creates a new instance of {@link CodeCheckerParser}.
@@ -35,24 +35,24 @@ public class CodeCheckerParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
         Severity priority;
-        if (matcher.group(1).contains("CRITICAL")) {
+        if (matcher.group("severity").contains("CRITICAL")) {
             priority = Severity.ERROR;
         }
-        else if (matcher.group(1).contains("HIGH")) {
+        else if (matcher.group("severity").contains("HIGH")) {
             priority = Severity.WARNING_HIGH;
         }
-        else if (matcher.group(1).contains("MEDIUM")) {
+        else if (matcher.group("severity").contains("MEDIUM")) {
             priority = Severity.WARNING_NORMAL;
         }
         else {
             priority = Severity.WARNING_LOW;
         }
-        return builder.setFileName(matcher.group(2))
+        return builder.setFileName(matcher.group("path"))
                 .setSeverity(priority)
-                .setLineStart(matcher.group(3))
-                .setColumnStart(matcher.group(4))
-                .setCategory(matcher.group(6))
-                .setMessage(matcher.group(5))
+                .setLineStart(matcher.group("line"))
+                .setColumnStart(matcher.group("column"))
+                .setCategory(matcher.group("category"))
+                .setMessage(matcher.group("message"))
                 .buildOptional();
     }
 }
