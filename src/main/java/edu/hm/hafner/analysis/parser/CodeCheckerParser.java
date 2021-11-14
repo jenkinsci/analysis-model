@@ -34,25 +34,30 @@ public class CodeCheckerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        Severity priority;
-        if (matcher.group("severity").contains("CRITICAL")) {
-            priority = Severity.ERROR;
-        }
-        else if (matcher.group("severity").contains("HIGH")) {
-            priority = Severity.WARNING_HIGH;
-        }
-        else if (matcher.group("severity").contains("MEDIUM")) {
-            priority = Severity.WARNING_NORMAL;
-        }
-        else {
-            priority = Severity.WARNING_LOW;
-        }
+        Severity severity = getSeverity(matcher.group("severity"));
         return builder.setFileName(matcher.group("path"))
-                .setSeverity(priority)
+                .setSeverity(severity)
                 .setLineStart(matcher.group("line"))
                 .setColumnStart(matcher.group("column"))
                 .setCategory(matcher.group("category"))
                 .setMessage(matcher.group("message"))
                 .buildOptional();
+    }
+
+    private Severity getSeverity(final String severityText) {
+        Severity severity;
+        if (severityText.contains("CRITICAL")) {
+            severity = Severity.ERROR;
+        }
+        else if (severityText.contains("HIGH")) {
+            severity = Severity.WARNING_HIGH;
+        }
+        else if (severityText.contains("MEDIUM")) {
+            severity = Severity.WARNING_NORMAL;
+        }
+        else {
+            severity = Severity.WARNING_LOW;
+        }
+        return severity;
     }
 }
