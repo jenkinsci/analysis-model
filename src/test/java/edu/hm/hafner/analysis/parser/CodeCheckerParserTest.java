@@ -10,7 +10,6 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 class CodeCheckerParserTest extends AbstractParserTest {
-    private static final String WARNING_TYPE = "Warning";
 
     CodeCheckerParserTest() {
         super("CodeChecker_with_linux_paths.txt");
