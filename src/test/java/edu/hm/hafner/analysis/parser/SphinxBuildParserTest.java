@@ -39,8 +39,6 @@ class SphinxBuildParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(1);
         assertThat(warnings).hasOnlyAbsolutePaths("/src/be/doc/_sub/_classTest/05_test.rst");
-        assertThat(warnings).hasId("-");
-        assertThat(warnings).hasName("-");
         assertThat(warnings.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory(SPHINX_BUILD_WARNING)
@@ -48,7 +46,6 @@ class SphinxBuildParserTest extends AbstractParserTest {
                 .hasLineEnd(0)
                 .hasMessage("document isn't included in any toctree")
                 .hasFileName("/src/be/doc/_sub/_classTest/05_test.rst");
-
     }
 
     @Override
