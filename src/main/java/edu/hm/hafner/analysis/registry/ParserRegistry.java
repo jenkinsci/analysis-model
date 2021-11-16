@@ -109,6 +109,7 @@ public class ParserRegistry {
             new NativeFormatDescriptor(),
             new OELintAdvDescriptor(),
             new OtDockerLintDescriptor(),
+            new OwaspDependencyCheckDescriptor(),
             new PcLintDescriptor(),
             new Pep8Descriptor(),
             new PerforceDescriptor(),
@@ -251,10 +252,10 @@ public class ParserRegistry {
                     .flatMap(List::stream)
                     .collect(Collectors.toList());
             file.println(table().with(thead().with(tr().with(
-                    th("ID"),
-                    th("Icons"),
-                    th("Name"),
-                    th("Default Pattern"))),
+                            th("ID"),
+                            th("Icons"),
+                            th("Name"),
+                            th("Default Pattern"))),
                     tbody().with(lines)).renderFormatted());
         }
     }
