@@ -109,6 +109,7 @@ public class ParserRegistry {
             new NativeFormatDescriptor(),
             new OELintAdvDescriptor(),
             new OtDockerLintDescriptor(),
+            new OwaspDependencyCheckDescriptor(),
             new PcLintDescriptor(),
             new Pep8Descriptor(),
             new PerforceDescriptor(),
