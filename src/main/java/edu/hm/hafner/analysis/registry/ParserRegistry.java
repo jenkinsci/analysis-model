@@ -252,10 +252,10 @@ public class ParserRegistry {
                     .flatMap(List::stream)
                     .collect(Collectors.toList());
             file.println(table().with(thead().with(tr().with(
-                            th("ID"),
-                            th("Icons"),
-                            th("Name"),
-                            th("Default Pattern"))),
+                    th("ID"),
+                    th("Icons"),
+                    th("Name"),
+                    th("Default Pattern"))),
                     tbody().with(lines)).renderFormatted());
         }
     }

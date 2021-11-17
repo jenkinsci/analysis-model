@@ -181,6 +181,20 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
+                cpplint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                Cpplint
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td>
                 ccm
             </td>
             <td>
@@ -426,20 +440,6 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 Coolflux DSP Compiler
-            </td>
-            <td>
-                -
-            </td>
-        </tr>
-        <tr>
-            <td>
-                cpplint
-            </td>
-            <td>
-                -
-            </td>
-            <td>
-                Cpplint
             </td>
             <td>
                 -

@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import static java.lang.String.*;
 
 /**
  * OWASP dependency check JSON report parser.
@@ -19,9 +17,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public class OwaspDependencyCheckParser extends JsonIssueParser {
     private static final long serialVersionUID = -1369431674771459756L;
 
-    private static final String SUPPORTED_SCHEMA_VERSION = "1.1";
+    private static final String NDIST_NVD_DETAIL_URL_TEMPLATE = "https://nvd.nist.gov/vuln/detail/%1$s";
+    private static final String LINK_TEMPLATE = format("<a href=\"%1$s\">%1$s</a>", NDIST_NVD_DETAIL_URL_TEMPLATE);
 
-    private static final String SCHEMA_VERSION = "reportSchema";
     private static final String DEPENDENCIES = "dependencies";
     private static final String VULNERABILITIES = "vulnerabilities";
     private static final String SEVERITY = "severity";
@@ -32,37 +30,15 @@ public class OwaspDependencyCheckParser extends JsonIssueParser {
     private static final String ATTACK_VECTOR = "attackVector";
     private static final String DESCRIPTION = "description";
 
-    private final Map<String, Severity> severityMap = new HashMap<>();
-
-    /**
-     * Create instance.
-     */
-    public OwaspDependencyCheckParser() {
-        super();
-        severityMap.put("LOW", Severity.WARNING_LOW);
-        severityMap.put("MEDIUM", Severity.WARNING_NORMAL);
-        severityMap.put("HIGH", Severity.WARNING_HIGH);
-        severityMap.put("CRITICAL", Severity.ERROR);
-    }
-
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        final String schemaVersion = jsonReport.getString(SCHEMA_VERSION);
-        if (!SUPPORTED_SCHEMA_VERSION.equals(schemaVersion)) {
-            throw new ParsingException("unsupported report schema version: %s", schemaVersion);
-        }
-        if (jsonReport.has(DEPENDENCIES)) {
-            extractIssues(report, jsonReport.getJSONArray(DEPENDENCIES), issueBuilder);
-        }
-    }
-
-    private void extractIssues(final Report report, final JSONArray dependencies, final IssueBuilder issueBuilder) {
+        final JSONArray dependencies = jsonReport.getJSONArray(DEPENDENCIES);
         for (int i = 0; i < dependencies.length(); i++) {
             final JSONObject dependency = dependencies.getJSONObject(i);
             if (!dependency.has(VULNERABILITIES)) {
                 continue;
             }
-            issueBuilder.setPackageName(dependency.getString("fileName"));
+            issueBuilder.setFileName(dependency.getString("fileName"));
             final JSONArray vulnerabilities = dependency.getJSONArray(VULNERABILITIES);
             for (int j = 0; j < vulnerabilities.length(); j++) {
                 final JSONObject vulnerability = vulnerabilities.getJSONObject(j);
@@ -72,11 +48,13 @@ public class OwaspDependencyCheckParser extends JsonIssueParser {
     }
 
     private Issue createIssueFromVulnerability(final JSONObject vulnerability, final IssueBuilder issueBuilder) {
+        final String name = vulnerability.getString(NAME);
         return issueBuilder
-                .setSeverity(severityMap.getOrDefault(vulnerability.getString(SEVERITY), Severity.WARNING_HIGH))
+                .setSeverity(mapSeverity(vulnerability.getString(SEVERITY)))
                 .setCategory(determineCategory(vulnerability))
-                .setMessage(vulnerability.getString(NAME))
-                .setDescription(vulnerability.getString(DESCRIPTION))
+                .setType(name)
+                .setMessage(vulnerability.getString(DESCRIPTION))
+                .setDescription(format(LINK_TEMPLATE, name))
                 .build();
     }
 
@@ -94,5 +72,19 @@ public class OwaspDependencyCheckParser extends JsonIssueParser {
             return cvssv2.optString(ACCESS_VECTOR, null);
         }
         return null;
+    }
+
+    private Severity mapSeverity(final String severity) {
+        switch (severity) {
+            case "LOW":
+                return Severity.WARNING_LOW;
+            case "MEDIUM":
+                return Severity.WARNING_NORMAL;
+            case "CRITICAL":
+                return Severity.ERROR;
+            case "HIGH":
+            default:
+                return Severity.WARNING_HIGH;
+        }
     }
 }
