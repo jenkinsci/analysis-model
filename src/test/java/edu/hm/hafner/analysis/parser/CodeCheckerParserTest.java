@@ -28,7 +28,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasLineStart(17)
                 .hasColumnStart(8)
                 .hasFileName("/path/to/projrct/csv2xlslib.Test/parsecmdTest.cpp")
-                .hasMessage("_______^\nclass 'TheFixture' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator")
+                .hasMessage("_______^\n    class 'TheFixture' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator")
                 .hasCategory("cppcoreguidelines-special-member-functions")
                 .hasSeverity(Severity.WARNING_LOW);
 
@@ -36,7 +36,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasLineStart(425)
                 .hasColumnStart(33)
                 .hasFileName("/path/to/projrct/extern/lib/workbook.cpp")
-                .hasMessage("________________________________^\nCalled C++ object pointer is null")
+                .hasMessage("________________________________^\n    Called C++ object pointer is null")
                 .hasCategory("core.CallAndMessage")
                 .hasSeverity(Severity.WARNING_HIGH);
 
@@ -44,7 +44,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasLineStart(212)
                 .hasColumnStart(12)
                 .hasFileName("/path/to/projrct/extern/lib/HPSF.cpp")
-                .hasMessage("___________^\n'signed char' to 'int' conversion; consider casting to 'unsigned char' first.")
+                .hasMessage("___________^\n    'signed char' to 'int' conversion; consider casting to 'unsigned char' first.")
                 .hasCategory("bugprone-signed-char-misuse")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -58,7 +58,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasLineStart(15)
                 .hasColumnStart(22)
                 .hasFileName("C:/path/to/project/cmake-build-debug/_deps/checked_cmd-src/Tests/ArgumentsTest.cpp")
-                .hasMessage("_____________________^\n'strncpy' is deprecated: This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.")
+                .hasMessage("_____________________^\n    'strncpy' is deprecated: This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.")
                 .hasCategory("clang-diagnostic-deprecated-declarations")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -66,7 +66,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasLineStart(283)
                 .hasColumnStart(22)
                 .hasFileName("C:/Program Files (x86)/path/to/toolchain/include/abcddef")
-                .hasMessage("_____________________^\n'auto' return without trailing return type; deduced return types are a C++14 extension")
+                .hasMessage("_____________________^\n    'auto' return without trailing return type; deduced return types are a C++14 extension")
                 .hasCategory("clang-diagnostic-error")
                 .hasSeverity(Severity.ERROR);
 
@@ -74,7 +74,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasLineStart(17)
                 .hasColumnStart(8)
                 .hasFileName("C:/path/to/project/csv2xlslib.Test/parsecmdTest.cpp")
-                .hasMessage("_______^\nclass 'TheFixture' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator")
+                .hasMessage("_______^\n    class 'TheFixture' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator")
                 .hasCategory("cppcoreguidelines-special-member-functions")
                 .hasSeverity(Severity.WARNING_LOW);
 
@@ -82,7 +82,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasLineStart(49)
                 .hasColumnStart(8)
                 .hasFileName("C:/path/to/project/csv2xlslib.Test/parseCsvStreamTest.cpp")
-                .hasMessage("_______^\nclass 'Given_an_input_file_with_headline' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator")
+                .hasMessage("_______^\n    class 'Given_an_input_file_with_headline' defines a default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator")
                 .hasCategory("cppcoreguidelines-special-member-functions")
                 .hasSeverity(Severity.WARNING_LOW);
 
@@ -90,7 +90,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasLineStart(924)
                 .hasColumnStart(49)
                 .hasFileName("C:/path/to/project/extern/lib/formula_expr.cpp")
-                .hasMessage("________________________________________________^\nsuspicious usage of 'sizeof(A*)'; pointer to aggregate")
+                .hasMessage("________________________________________________^\n    suspicious usage of 'sizeof(A*)'; pointer to aggregate")
                 .hasCategory("bugprone-sizeof-expression")
                 .hasSeverity(Severity.WARNING_HIGH);
 
