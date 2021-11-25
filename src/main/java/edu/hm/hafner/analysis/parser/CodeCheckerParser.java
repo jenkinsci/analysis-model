@@ -40,10 +40,19 @@ public class CodeCheckerParser extends LookaheadParser {
                 .setLineStart(matcher.group("line"))
                 .setColumnStart(matcher.group("column"))
                 .setCategory(matcher.group("category"))
-                .setMessage(matcher.group("message"))
+                .setMessage(createLineWithPointerToColumn(Integer.parseInt(matcher.group("column"))) + matcher.group("message"))
                 .buildOptional();
     }
-
+    private String addSpaces(final int column) {
+        String result = "";
+        for (int i = 0; i < column - 1; i++) {
+            result = result.concat("_");
+        }
+        return result;
+    }
+    private String createLineWithPointerToColumn(final int column) {
+        return addSpaces(column) + "^\n";
+    }
     private Severity getSeverity(final String severityText) {
         
         if (severityText.contains("CRITICAL")) {
