@@ -43,7 +43,7 @@ public class CodeCheckerParser extends LookaheadParser {
                 .setMessage(createLineWithPointerToColumn(Integer.parseInt(matcher.group("column"))) + matcher.group("message"))
                 .buildOptional();
     }
-    private String addSpaces(final int column) {
+    private String addUnderscores(final int column) {
         String result = "";
         for (int i = 0; i < column - 1; i++) {
             result = result.concat("_");
@@ -51,7 +51,7 @@ public class CodeCheckerParser extends LookaheadParser {
         return result;
     }
     private String createLineWithPointerToColumn(final int column) {
-        return addSpaces(column) + "^\n";
+        return addUnderscores(column) + "^\n    ";
     }
     private Severity getSeverity(final String severityText) {
         
