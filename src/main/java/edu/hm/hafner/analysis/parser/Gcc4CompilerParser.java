@@ -20,7 +20,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String GCC_WARNING_PATTERN =
-            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
+            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror|.*[Nn]ote): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
 
     /**
@@ -40,7 +40,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("arning") || line.contains("rror");
+        return line.contains("arning") || line.contains("rror") || line.contains("ote");
     }
 
     @Override
@@ -81,6 +81,6 @@ public class Gcc4CompilerParser extends LookaheadParser {
         if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
             return false;
         }
-        return !StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make");
+        return !StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "ote", "make");
     }
 }

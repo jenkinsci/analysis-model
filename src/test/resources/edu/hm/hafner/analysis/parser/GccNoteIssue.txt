@@ -1,0 +1,7 @@
+tt.cpp: In function 'void bar()':
+tt.cpp:2:19: error: invalid conversion from 'int' to 'A*' [-fpermissive]
+ void bar() { foo(1); }
+                   ^
+tt.cpp:1:6: note: initializing argument 1 of 'void foo(A*)'
+ void foo(struct A *);
+      ^~~

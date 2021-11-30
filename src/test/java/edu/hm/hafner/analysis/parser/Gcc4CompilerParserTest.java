@@ -32,6 +32,29 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         return new Gcc4CompilerParser();
     }
 
+    @Test
+    void shouldIncludeNote() {
+        Report report = parse("GccNoteIssue.txt");
+
+        assertThat(report).hasSize(2);
+
+        assertThat(report.get(0))
+                .hasLineStart(2)
+                .hasColumnStart(19)
+                .hasFileName("tt.cpp")
+                .hasMessage("invalid conversion from 'int' to 'A*' [-fpermissive]\n"
+                        + " void bar() { foo(1); }\n"
+                        + "                   ^");
+
+        assertThat(report.get(1))
+                .hasLineStart(1)
+                .hasColumnStart(6)
+                .hasFileName("tt.cpp")
+                .hasMessage("initializing argument 1 of 'void foo(A*)'\n"
+                        + " void foo(struct A *);\n"
+                        + "      ^~~");
+    }
+
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(14);

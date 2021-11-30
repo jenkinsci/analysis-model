@@ -23,7 +23,7 @@ public class MsBuildParser extends LookaheadParser {
     private static final String MS_BUILD_WARNING_PATTERN
             = "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])|"
             + ANT_TASK + "(?:(?:\\s*(?:\\d+|\\d+:\\d+)>)?(?:(?:(?:(.*?)\\((\\d*)(?:,(\\d+))?[a-zA-Z]*?\\)|.*LINK)\\s*:|"
-            + "(.*):)\\s*([A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*([A-Za-z0-9\\-_]+)?"
+            + "(.*):)\\s*([A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]?\\s*:?\\s*([A-Za-z0-9\\-_]+)?"
             + "\\s*:\\s(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*(.*?)(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
             + "|(.*)\\s*:.*error\\s*(LNK[0-9]+):\\s*(.*)))$";
 

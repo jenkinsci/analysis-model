@@ -20,6 +20,26 @@ class MsBuildParserTest extends AbstractParserTest {
         super("msbuild.txt");
     }
 
+
+    @Test
+    void shouldIncludeNote() {
+        Report report = parse("MSBuildNoteIssue.txt");
+
+        assertThat(report).hasSize(2);
+
+        assertThat(report.get(0))
+                .hasLineStart(2)
+                .hasCategory("C2664")
+                .hasFileName("tt.cpp")
+                .hasMessage("'void foo(A *)': cannot convert argument 1 from 'int' to 'A *'");
+
+        assertThat(report.get(1))
+                .hasLineStart(2)
+                .hasCategory("")
+                .hasFileName("tt.cpp")
+                .hasMessage("Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast");
+    }
+
     /**
      * Parses a file with ANSI colors.
      *

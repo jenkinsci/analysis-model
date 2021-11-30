@@ -1,0 +1,2 @@
+tt.cpp(2): error C2664: 'void foo(A *)': cannot convert argument 1 from 'int' to 'A *'
+tt.cpp(2): note: Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
