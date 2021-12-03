@@ -1,0 +1,17 @@
+{
+  "SchemaVersion": 2,
+  "ArtifactName": "/tmp/tmp.1F2RFo3ny4",
+  "ArtifactType": "filesystem",
+  "Metadata": {
+    "ImageConfig": {
+      "architecture": "",
+      "created": "0001-01-01T00:00:00Z",
+      "os": "",
+      "rootfs": {
+        "type": "",
+        "diff_ids": null
+      },
+      "config": {}
+    }
+  }
+}
