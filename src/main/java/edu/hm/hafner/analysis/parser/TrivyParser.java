@@ -34,7 +34,10 @@ public class TrivyParser extends JsonIssueParser {
      */
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        parseResults(report, jsonReport.optJSONArray("Results"), issueBuilder);
+        JSONArray results = jsonReport.optJSONArray("Results");
+        if (results != null) {
+            parseResults(report, results, issueBuilder);
+        }
     }
 
     /**
