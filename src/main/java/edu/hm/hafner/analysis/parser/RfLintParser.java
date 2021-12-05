@@ -158,20 +158,22 @@ public class RfLintParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) {
         try (Stream<String> lines = readerFactory.readStream(); IssueBuilder builder = new IssueBuilder()) {
             Report warnings = new Report();
-            lines.forEach(line -> {
-                Matcher fileMatcher = FILE_PATTERN.matcher(line);
-                if (fileMatcher.find()) {
-                    fileName = fileMatcher.group(1);
-                }
-                Matcher matcher = WARNING_PATTERN.matcher(line);
-                if (matcher.find()) {
-                    warnings.add(createIssue(matcher, builder));
-                }
-                if (Thread.interrupted()) {
-                    throw new ParsingCanceledException();
-                }
-            });
+            lines.forEach(line -> parseLine(builder, warnings, line));
             return warnings;
+        }
+    }
+
+    private void parseLine(final IssueBuilder builder, final Report warnings, final String line) {
+        Matcher fileMatcher = FILE_PATTERN.matcher(line);
+        if (fileMatcher.find()) {
+            fileName = fileMatcher.group(1);
+        }
+        Matcher matcher = WARNING_PATTERN.matcher(line);
+        if (matcher.find()) {
+            warnings.add(createIssue(matcher, builder));
+        }
+        if (Thread.interrupted()) {
+            throw new ParsingCanceledException();
         }
     }
 
