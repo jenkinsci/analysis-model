@@ -23,10 +23,12 @@ import static edu.hm.hafner.analysis.Categories.*;
 /**
  * A parser for <a href="http://robotframework.org/">Robot Framework</a>. Parses output from <a
  * href="https://github.com/boakley/robotframework-lint">robotframework-lint</a>.
- * To generate rflint file use: <pre>
+ * To generate rflint file use:
+ * {@code
+ * <pre>
  *     cmd$ pip install robotframework-lint
  *     cmd$ rflint path/to/test.robot
- * </pre>
+ * </pre>}
  *
  * @author traitanit
  * @author Bassam Khouri
