@@ -11,10 +11,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A parser for clair scanner json output.
- * <p>
- * See <a href='https://github.com/arminc/clair-scanner'>clair-scanner</a> for project details.
  *
  * @author Andreas Mandel
+ * @see <a href="https://github.com/arminc/clair-scanner">clair-scanner</a>
  */
 public class ClairParser extends JsonIssueParser {
     private static final long serialVersionUID = 371390072777545322L;

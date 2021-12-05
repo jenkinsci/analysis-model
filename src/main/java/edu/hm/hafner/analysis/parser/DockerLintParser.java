@@ -10,12 +10,19 @@ import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for dockerlint json output.
+ *
  * <p>
- * See <a href='https://github.com/projectatomic/dockerfile_lint'>dockerlint</a> for project details. Possible usage via
- * docker is: {@code  docker run -it --rm -v $PWD:/root/ \ projectatomic/dockerfile-lint \ dockerfile_lint -j -f
- * Dockerfile}.
+ * Possible usage via docker is:
+ * </p>
+ * {@code
+ * <pre>
+ *     docker run -it --rm -v $PWD:/root/ \
+ *              projectatomic/dockerfile-lint \
+ *              dockerfile_lint -j -f Dockerfile.
+ * </pre>}
  *
  * @author Andreas Mandel
+ * @see <a href="https://github.com/projectatomic/dockerfile_lint">dockerlint</a>
  */
 public class DockerLintParser extends JsonIssueParser {
     private static final long serialVersionUID = -4077698163775928314L;

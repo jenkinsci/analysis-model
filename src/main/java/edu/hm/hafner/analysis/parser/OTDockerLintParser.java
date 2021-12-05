@@ -10,10 +10,9 @@ import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for ot-docker-linter json output.
- * <p>
- * See <a href='https://github.com/opstree/OT-Dockerlinter'>ot-docker-linter</a> for project details.
  *
  * @author Abhishek Dubey
+ * @see <a href="https://github.com/opstree/OT-Dockerlinter">ot-docker-linter</a>
  */
 public class OTDockerLintParser extends JsonIssueParser {
     private static final long serialVersionUID = 42L;

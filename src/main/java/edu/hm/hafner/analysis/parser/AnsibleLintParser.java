@@ -11,8 +11,10 @@ import edu.hm.hafner.util.LookaheadStream;
 /**
  * A parser for Ansible Lint warnings.
  *
+ * <p>
  * The parser expects the Ansible Lint output to be in a "parseable output in the format of pep8".
  * Pass the argument {@code -p} to Ansible Lint to get a compatible output.
+ * </p>
  *
  * @author Ce Qi
  */

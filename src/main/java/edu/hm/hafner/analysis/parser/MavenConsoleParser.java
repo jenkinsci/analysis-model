@@ -39,6 +39,7 @@ public class MavenConsoleParser extends LookaheadParser {
 
     /**
      * Pattern for identifying warning or error maven logs.
+     *
      * <pre>{@code
      * Pattern:
      * (.*\s\s|)           -> Capture group 1 matches either empty string (e.g. [WARNING] some log) or some text
@@ -47,8 +48,10 @@ public class MavenConsoleParser extends LookaheadParser {
      * \s*                 -> matches zero or more spaces
      * (.*)                -> Capture group 3 matches zero or more characters except line breaks, represents the actual error message
      * }</pre>
+     *
      * <p>
      * Typical maven logs:
+     * </p>
      * <pre>{@code
      * 1) 22:07:27  [WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
      * 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is missing
