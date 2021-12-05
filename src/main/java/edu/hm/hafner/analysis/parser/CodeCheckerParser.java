@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
@@ -11,13 +10,13 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
- * A parser for the clang-tidy static analysis warnings parsed by Codechecker.
+ * A parser for the clang-tidy static analysis warnings parsed by Codechecker. Codechecker parses the {@code *.plist}
+ * files and converts it into plain text file.
  *
- * Codechecker parses the *.plist files and converts it into plain text file.
- *
- * Better for human readers and for using grep and diff
- * It also puts the human-readable Severity at the start of a line.
- *
+ * <p>
+ * Better for human readers and for using grep and diff. It also puts the human-readable Severity at the start of a
+ * line.
+ * </p>
  */
 public class CodeCheckerParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283582L;
@@ -45,7 +44,7 @@ public class CodeCheckerParser extends LookaheadParser {
     }
 
     private Severity getSeverity(final String severityText) {
-        
+
         if (severityText.contains("CRITICAL")) {
             return Severity.ERROR;
         }
@@ -55,6 +54,6 @@ public class CodeCheckerParser extends LookaheadParser {
         if (severityText.contains("MEDIUM")) {
             return Severity.WARNING_NORMAL;
         }
-        return  Severity.WARNING_LOW;
+        return Severity.WARNING_LOW;
     }
 }

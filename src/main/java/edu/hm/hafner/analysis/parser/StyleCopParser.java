@@ -18,7 +18,7 @@ import edu.hm.hafner.util.XmlElementUtil;
 import static java.lang.Integer.*;
 
 /**
- * Parses a StyleCop (http://code.msdn.microsoft.com/sourceanalysis/) xml report file.
+ * Parses a StyleCop XML report files.
  *
  * @author Sebastian Seidl
  */
@@ -63,7 +63,7 @@ public class StyleCopParser extends IssueParser {
      * @param element
      *         The Element which represents the violation
      *
-     * @return Category of violation
+     * @return category of violation
      */
     private String getCategory(final Element element) {
         String ruleNameSpace = getString(element, "RuleNamespace");
@@ -77,7 +77,7 @@ public class StyleCopParser extends IssueParser {
         }
     }
 
-    /***
+    /**
      * Returns the value for the named attribute if it exists.
      *
      * @param element
@@ -95,7 +95,7 @@ public class StyleCopParser extends IssueParser {
         }
     }
 
-    /***
+    /**
      * Returns the LineNumber for the given violation.
      *
      * @param violation

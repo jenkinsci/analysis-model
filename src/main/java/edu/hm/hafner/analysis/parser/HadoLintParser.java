@@ -10,11 +10,17 @@ import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for hadolint json output.
+ *
  * <p>
- * See <a href='https://github.com/hadolint/hadolint'>hadolint</a> for project details. Possible usage via docker is:
- * {@code docker run --rm -i hadolint/hadolint hadolint -f json - < Dockerfile | jq}.
+ * Possible usage via docker is:
+ * </p>
+ * {@code
+ * <pre>
+ *     docker run --rm -i hadolint/hadolint hadolint -f json - < Dockerfile | jq.
+ * </pre>}
  *
  * @author Andreas Mandel
+ * @see <a href="https://github.com/hadolint/hadolint">hadolint</a>
  */
 public class HadoLintParser extends JsonIssueParser {
     private static final long serialVersionUID = 1618503559862246224L;

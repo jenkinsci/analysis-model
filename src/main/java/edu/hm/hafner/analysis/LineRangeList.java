@@ -15,15 +15,19 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * {@link List} of {@link LineRange} that stores values more efficiently at runtime.
+ *
  * <p>
  * This class thinks of {@link LineRange} as two integers (start and end-start), hence a list of {@link LineRange}
  * becomes a list of integers. The class then stores those integers in {@code byte[]}. Each number is packed to UTF-8
  * like variable length format. To store a long value N, we first split into 7 bit chunk, and store each 7 bit chunk as
  * a byte, in the little endian order. The last byte gets its 8th bit set to indicate that that's the last byte. Thus in
  * this format, 0x0 gets stored as 0x80, 0x1234 gets stored as {0x34,0xA4(0x24|0x80)}.
+ * </p>
+ *
  * <p>
  * This variable length mode stores data most efficiently, since most line numbers are small. Access characteristic gets
  * close to that of {@link LinkedList}, since we can only traverse this packed byte[] from the start or from the end.
+ * </p>
  *
  * @author Kohsuke Kawaguchi
  */

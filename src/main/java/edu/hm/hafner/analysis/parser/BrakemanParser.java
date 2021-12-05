@@ -11,10 +11,9 @@ import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for Brakeman JSON output.
- * <p>
- * See <a href='https://brakemanscanner.org'>Brakeman</a> for project details.
  *
  * @author Justin Collins
+ * @see <a href="https://brakemanscanner.org">Brakeman</a>
  */
 public class BrakemanParser extends JsonIssueParser {
     private static final long serialVersionUID = 1374428573878091300L;
