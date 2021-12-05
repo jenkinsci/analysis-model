@@ -398,6 +398,14 @@
                   <package>javax.xml.transform</package>
                   <code>java.class.externalClassExposedInAPI</code>
                 </item>
+                <item>
+                  <!-- No part of codingstyle library -->
+                  <regex>true</regex>
+                  <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
+                  <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
+                  <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
+                  <code>.*</code>
+                </item>
               </differences>
             </revapi.differences>
           </analysisConfiguration>
