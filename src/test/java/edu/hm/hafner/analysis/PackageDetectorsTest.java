@@ -3,6 +3,8 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -28,7 +30,14 @@ class PackageDetectorsTest extends ResourceTest {
         try (InputStream stream = asInputStream(fileName)) {
             FileSystem fileSystem = mock(FileSystem.class);
             when(fileSystem.openFile(fileName)).thenReturn(stream);
-            assertThat(new PackageDetectors(fileSystem).detectPackageName(fileName, StandardCharsets.UTF_8))
+
+            ArrayList<AbstractPackageDetector> detectors =  new ArrayList<>(Arrays.asList(
+                    new JavaPackageDetector(fileSystem),
+                    new CSharpNamespaceDetector(fileSystem),
+                    new KotlinPackageDetector(fileSystem)
+            ));
+
+            assertThat(new PackageDetectors(detectors).detectPackageName(fileName, StandardCharsets.UTF_8))
                     .isEqualTo(expectedPackage);
         }
     }
