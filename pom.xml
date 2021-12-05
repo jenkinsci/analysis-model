@@ -404,6 +404,7 @@
                   <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
                   <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
                   <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
+                  <code>.*</code>
                 </item>
               </differences>
             </revapi.differences>
