@@ -11,7 +11,6 @@ import edu.hm.hafner.util.LookaheadStream;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
-
 /**
  * A parser for the Pep8 compiler warnings.
  *

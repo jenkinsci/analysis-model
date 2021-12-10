@@ -81,7 +81,6 @@ public class File {
         return level;
     }
 
-
     /**
      * Setter for level-Field.
      *

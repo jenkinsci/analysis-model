@@ -118,6 +118,7 @@ public class SecureXmlParserFactory {
             }
         }
     }
+
     /**
      * Creates a new instance of a {@link SAXParser} that does not resolve external entities.
      *

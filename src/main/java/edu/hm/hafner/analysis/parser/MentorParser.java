@@ -54,9 +54,8 @@ public class MentorParser extends LookaheadParser {
     private static final Pattern TIME_FILE_PATTERN = Pattern.compile(
             "# {4}Time: (?<simtime>\\d* \\ws)(?: {2}Iteration: \\d+)? {2}\\w*: (?<module>.\\S*)(?: File: (?<filename>\\S+))?(?: Line: (?<line>\\d+))?.*");
 
-    
     /**
-     * Construct a parser for MentorGraphics Modelsim/Questa logs.
+     * Creates a parser for MentorGraphics Modelsim/Questa logs.
      */
     public MentorParser() {
         super(MSG_REGEX);

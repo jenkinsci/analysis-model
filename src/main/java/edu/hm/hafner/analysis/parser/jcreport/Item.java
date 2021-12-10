@@ -158,7 +158,6 @@ public class Item {
         return endline;
     }
 
-
     /**
      * Setter for endline-Field.
      *

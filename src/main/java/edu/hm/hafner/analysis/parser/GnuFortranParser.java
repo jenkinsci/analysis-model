@@ -95,7 +95,6 @@ public class GnuFortranParser extends LookaheadParser {
         }
         lookahead.next();
 
-
         // Get the category (warning, error, ...) and message and trim location references.
         String category = MESSAGE_TRIM_PATTERN.matcher(messageMatcher.group(1)).replaceAll("");
         String message = MESSAGE_TRIM_PATTERN.matcher(messageMatcher.group(2)).replaceAll("");

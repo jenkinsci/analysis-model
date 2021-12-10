@@ -71,7 +71,6 @@ public class Fragment {
         return lineRange;
     }
 
-
     /**
      * Sets the line range to the specified value.
      *
