@@ -46,8 +46,6 @@ class ResharperInspectCodeAdapterTest extends AbstractParserTest {
                 .hasFileName("ResharperDemo/Program.cs")
                 .hasType("CSharpErrors")
                 .hasSeverity(Severity.WARNING_HIGH);
-
-
     }
 
     @Override
