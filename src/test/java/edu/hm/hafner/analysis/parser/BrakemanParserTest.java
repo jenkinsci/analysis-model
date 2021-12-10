@@ -17,10 +17,9 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 /**
  * Tests the class {@link BrakemanParser}.
  *
- * @author Justin Collins 
+ * @author Justin Collins
  */
 class BrakemanParserTest extends AbstractParserTest {
-
     BrakemanParserTest() {
         super("brakeman.json");
     }
@@ -37,7 +36,6 @@ class BrakemanParserTest extends AbstractParserTest {
                 .hasFileName("app/views/widget/haml_test.html.haml")
                 .hasFingerprint("01ff71dc776c03921089d8559dabd1a75480411ec7f1de7f2886659085c26045")
                 .hasLineStart(6);
-
 
         softly.assertThat(report.get(20)).hasSeverity(Severity.WARNING_NORMAL);
 

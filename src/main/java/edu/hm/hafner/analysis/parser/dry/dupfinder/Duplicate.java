@@ -35,8 +35,6 @@ public class Duplicate {
         this.cost = cost;
     }
 
-
-
     /**
      * Adds a new file to this duplication.
      *

@@ -233,7 +233,6 @@ class ModuleDetectorTest extends ResourceTest {
                 .isEqualTo(StringUtils.EMPTY);
     }
 
-
     @Test
     void shouldEnsureThatGradleSettingsHasPrecedenceOverRootBuild() {
         FileSystem factory = createFileSystemStub(stub -> {
