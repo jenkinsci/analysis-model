@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>2.11.0</version>
+    <version>2.13.1</version>
     <relativePath />
   </parent>
 
@@ -60,7 +60,7 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <codingstyle.library.version>2.12.0</codingstyle.library.version>
+    <codingstyle.library.version>2.13.0</codingstyle.library.version>
     <codingstyle.config.version>${codingstyle.library.version}</codingstyle.config.version>
 
     <jmh.version>1.33</jmh.version>
@@ -75,7 +75,7 @@
     <json.version>20210307</json.version>
     <json-smart.version>2.4.7</json-smart.version>
     <pmd.version>6.41.0</pmd.version>
-    <spotbugs.version>4.5.0</spotbugs.version>
+    <spotbugs.version>4.5.1</spotbugs.version>
 
     <incrementals-plugin.version>1.2</incrementals-plugin.version>
     <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
@@ -397,6 +397,14 @@
                 <item>
                   <package>javax.xml.transform</package>
                   <code>java.class.externalClassExposedInAPI</code>
+                </item>
+                <item>
+                  <!-- No part of codingstyle library -->
+                  <regex>true</regex>
+                  <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
+                  <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
+                  <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
+                  <code>.*</code>
                 </item>
               </differences>
             </revapi.differences>
