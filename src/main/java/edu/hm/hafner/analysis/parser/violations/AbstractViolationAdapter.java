@@ -11,6 +11,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import se.bjurr.violations.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.SEVERITY;
@@ -126,15 +127,31 @@ public abstract class AbstractViolationAdapter extends IssueParser {
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
                 .setFileName(violation.getFile())
                 .setMessage(violation.getMessage())
-                .setLineStart(violation.getStartLine())
-                .setLineEnd(violation.getEndLine())
-                .setColumnStart(violation.getColumn())
+                .setLineStart(toValidInt(violation.getStartLine()))
+                .setLineEnd(toValidInt(violation.getEndLine()))
+                .setColumnStart(toValidInt(violation.getColumn()))
+                .setColumnEnd(toValidInt(violation.getEndColumn()))
                 .setType(violation.getRule())
                 .setCategory(violation.getCategory());
     }
 
     /**
-     * Sub-classes may add additional {@link IssueBuilder} properties based on the content of the specified {@link
+     * Creates a default Integer representation for undefined input parameters.
+     *
+     * @param integer
+     *         the integer to check
+     *
+     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
+     */
+    private int toValidInt(@CheckForNull final Integer integer) {
+        if (integer == null) {
+            return 0;
+        }
+        return Math.max(integer, 0);
+    }
+
+    /**
+     * Subclasses may add additional {@link IssueBuilder} properties based on the content of the specified {@link
      * Violation}. This default implementation is empty.
      *
      * @param builder
