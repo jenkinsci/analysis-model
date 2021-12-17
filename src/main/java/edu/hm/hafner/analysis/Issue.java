@@ -415,7 +415,7 @@ public class Issue implements Serializable {
      * @param integer
      *         the integer to check
      *
-     * @return the valid string or a default string if the specified string is not valid
+     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
      */
     private int defaultInteger(final int integer) {
         return Math.max(integer, 0);

@@ -127,10 +127,10 @@ public abstract class AbstractViolationAdapter extends IssueParser {
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
                 .setFileName(violation.getFile())
                 .setMessage(violation.getMessage())
-                .setLineStart(defaultInteger(violation.getStartLine()))
-                .setLineEnd(defaultInteger(violation.getEndLine()))
-                .setColumnStart(defaultInteger(violation.getColumn()))
-                .setColumnEnd(defaultInteger(violation.getEndColumn()))
+                .setLineStart(toValidInt(violation.getStartLine()))
+                .setLineEnd(toValidInt(violation.getEndLine()))
+                .setColumnStart(toValidInt(violation.getColumn()))
+                .setColumnEnd(toValidInt(violation.getEndColumn()))
                 .setType(violation.getRule())
                 .setCategory(violation.getCategory());
     }
@@ -141,9 +141,9 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @param integer
      *         the integer to check
      *
-     * @return the valid string or a default string if the specified string is not valid
+     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
      */
-    private int defaultInteger(@CheckForNull final Integer integer) {
+    private int toValidInt(@CheckForNull final Integer integer) {
         if (integer == null) {
             return 0;
         }
