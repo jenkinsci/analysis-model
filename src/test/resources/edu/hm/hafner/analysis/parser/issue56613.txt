@@ -1,0 +1,5 @@
+EXEC : warning : Project file C:\J\ws\project@2\src\website\ cannot be found. [C:\J\ws\project@2\ci.msbuildproj]
+16:43:02 \\INTRANET\Releases\SmartTranslator\ConsoleTranslator.exe: Warning ST: Could not translate string 'Expand f&olders larger than:'.
+17:19:23 NMAKE : fatal error U1077: '.\Tests.exe' : return code '0x1'
+17:19:23 NMAKE : fatal error U1077: '"C:\Program Files (x86)\Utils\NMAKE.EXE"' : return code '0x2'
+16:55:11 rs: error 002: Renaming the File  was not possible. Message: The process cannot access the file '...' because it is being used by another process.
