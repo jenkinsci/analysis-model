@@ -28,8 +28,7 @@ public class MsBuildParser extends LookaheadParser {
             + "\\s*:\\s(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*(.*?)(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
             + "|(.*)\\s*:.*error\\s*(LNK[0-9]+):\\s*(.*)))$";
 
-    private static final String MS_BUILD_IGNORE_TOOLS_PATTERN
-            = "(?!.exe)(\\.[^.]+)$";
+    private final Pattern ignoredToolsPattern = Pattern.compile("(?!.exe)(\\.[^.]+)$");
 
     /**
      * Creates a new instance of {@link MsBuildParser}.
@@ -43,8 +42,7 @@ public class MsBuildParser extends LookaheadParser {
             final IssueBuilder builder) {
         String fileName = determineFileName(matcher);
 
-        Pattern fileExtensionPattern = Pattern.compile(MS_BUILD_IGNORE_TOOLS_PATTERN);
-        Matcher fileExtensionMatcher = fileExtensionPattern.matcher(fileName);
+        Matcher fileExtensionMatcher = ignoredToolsPattern.matcher(fileName);
         if (!fileExtensionMatcher.find()) {
             return Optional.empty();
         }

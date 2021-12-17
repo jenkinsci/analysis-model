@@ -56,8 +56,7 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue56613() {
-        parse("issue56613.txt");
-        assertThat(warnings).isEmpty();
+        assertThat(parse("issue56613.txt")).isEmpty();
     }
 
     /**
