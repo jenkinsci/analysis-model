@@ -56,8 +56,7 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue56613() {
-        MsBuildParser parser = new MsBuildParser();
-        Report warnings = parser.parseFile(createReaderFactory("issue56613.txt"));
+        parse("issue56613.txt");
         assertThat(warnings).isEmpty();
     }
 
