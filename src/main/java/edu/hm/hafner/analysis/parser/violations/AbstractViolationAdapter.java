@@ -129,6 +129,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
                 .setLineStart(violation.getStartLine())
                 .setLineEnd(violation.getEndLine())
                 .setColumnStart(violation.getColumn())
+                .setColumnEnd(violation.getEndColumn())
                 .setType(violation.getRule())
                 .setCategory(violation.getCategory());
     }
