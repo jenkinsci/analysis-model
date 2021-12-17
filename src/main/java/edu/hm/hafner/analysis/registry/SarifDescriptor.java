@@ -22,11 +22,6 @@ class SarifDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public String getPattern() {
-        return "**/sonar-report.json";
-    }
-
-    @Override
     public String getUrl() {
         return "https://github.com/oasis-tcs/sarif-spec";
     }
