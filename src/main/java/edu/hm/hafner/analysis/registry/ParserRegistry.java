@@ -131,6 +131,7 @@ public class ParserRegistry {
             new RfLintDescriptor(),
             new RoboCopyDescriptor(),
             new RuboCopDescriptor(),
+            new SarifDescriptor(),
             new ScalaDescriptor(),
             new SimianDescriptor(),
             new SonarQubeDescriptor(),
