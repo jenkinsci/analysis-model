@@ -20,4 +20,9 @@ class CppLintDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         return new CppLintParser();
     }
+
+    @Override
+    public String getHelp() {
+        return "You need to use the Eclipse format with the option <code>--output=eclipse</code>";
+    }
 }
