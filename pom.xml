@@ -499,7 +499,7 @@
               <dependency>
                 <groupId>io.jenkins.tools.incrementals</groupId>
                 <artifactId>incrementals-enforcer-rules</artifactId>
-                <version>1.2</version>
+                <version>1.3</version>
               </dependency>
             </dependencies>
           </plugin>
