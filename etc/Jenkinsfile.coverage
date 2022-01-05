@@ -17,8 +17,10 @@ node('java11-agent') {
         recordIssues tool: errorProne(), healthy: 1, unhealthy: 20
 
         junit testResults: '**/target/*-reports/TEST-*.xml'
-        publishCoverage adapters: [jacocoAdapter('**/*/jacoco.xml')], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
-
+        publishCoverage adapters: [jacocoAdapter('**/*/jacoco.xml')],
+            sourceFileResolver: sourceFiles('STORE_ALL_BUILD'),
+            sourceEncoding: 'UTF-8',
+            sourceDirectories: [[path: 'src/main/java']]
         recordIssues tools: [checkStyle(pattern: 'target/checkstyle-result.xml'),
             spotBugs(pattern: 'target/spotbugsXml.xml'),
             pmdParser(pattern: 'target/pmd.xml'),
