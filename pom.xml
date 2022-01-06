@@ -380,7 +380,7 @@
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
           <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
-          <versionFormat>[0-9.]*</versionFormat>
+          <versionFormat>[-0-9._]*</versionFormat>
           <analysisConfiguration>
             <revapi.semver.ignore>
               <enabled>true</enabled>
