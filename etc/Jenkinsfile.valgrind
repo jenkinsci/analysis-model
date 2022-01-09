@@ -1,0 +1,9 @@
+node('java11-agent') {
+    stage ('Checkout') {
+        checkout scm
+    }
+
+    stage ('Build, Test, and Static Analysis') {
+        recordIssues tool: analysisParser(analysisModelId: 'valgrind', pattern: '**/valgrind.xml')
+    }
+}
