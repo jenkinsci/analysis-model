@@ -85,6 +85,18 @@ class ParsersTest extends ResourceTest {
         }
     }
 
+    /** Runs the Dart parser on an output file that contains 8 issues. */
+    @Test
+    void shouldFindAllDartIssues() {
+        findIssuesOfTool(6, "dart", "dart.log");
+    }
+
+    /** Runs the Dart parser on an output file that contains 8 issues. */
+    @Test
+    void shouldFindAllSarifIssues() {
+        findIssuesOfTool(2, "sarif", "sarif.json");
+    }
+
     /** Runs the Cmake parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllCmakeIssues() {
