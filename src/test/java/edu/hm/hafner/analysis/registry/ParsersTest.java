@@ -85,13 +85,13 @@ class ParsersTest extends ResourceTest {
         }
     }
 
-    /** Runs the Dart parser on an output file that contains 8 issues. */
+    /** Runs the Dart analysis parser on an output file that contains 6 issues. */
     @Test
     void shouldFindAllDartIssues() {
         findIssuesOfTool(6, "dart", "dart.log");
     }
 
-    /** Runs the Dart parser on an output file that contains 8 issues. */
+    /** Runs the SARIF parser on an output file that contains 2 issues. */
     @Test
     void shouldFindAllSarifIssues() {
         findIssuesOfTool(2, "sarif", "sarif.json");
