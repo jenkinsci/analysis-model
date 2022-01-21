@@ -487,10 +487,10 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(5, "stylecop", "stylecop.xml");
     }
 
-    /** Runs the Tasking VX parser on an output file that contains 8 issues. */
+    /** Runs the Tasking VX parser on an output file that contains 10 issues. */
     @Test
     void shouldFindAllTaskingVxIssues() {
-        findIssuesOfTool(8, "tasking-vx", "tasking-vx.txt");
+        findIssuesOfTool(10, "tasking-vx", "tasking-vx.txt");
     }
 
     /** Runs the tnsdl translator parser on an output file that contains 4 issues. */

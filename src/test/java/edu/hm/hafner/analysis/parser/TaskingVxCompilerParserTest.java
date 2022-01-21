@@ -24,7 +24,7 @@ class TaskingVxCompilerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report warnings, final SoftAssertions softly) {
-        softly.assertThat(warnings).hasSize(8);
+        softly.assertThat(warnings).hasSize(10);
 
         softly.assertThat(warnings.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -75,6 +75,20 @@ class TaskingVxCompilerParserTest extends AbstractParserTest {
                 .hasLineEnd(42)
                 .hasMessage("start of current function definition")
                 .hasFileName("BswM_UserCallouts.c");
+        softly.assertThat(warnings.get(8))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasCategory(ERROR_CATEGORY)
+                .hasLineStart(242)
+                .hasLineEnd(242)
+                .hasMessage("invalid conversion from \"struct const *\" to \"signed int *\"")
+                .hasFileName("C:/Projects/a/b/c/BRBL.c");
+        softly.assertThat(warnings.get(9))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory(WARNING_CATEGORY)
+                .hasLineStart(242)
+                .hasLineEnd(242)
+                .hasMessage("conversion of integer to pointer at assignment")
+                .hasFileName("C:/Projects/a/b/c/BRBL.c");
     }
 }
 
