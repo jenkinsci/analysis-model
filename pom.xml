@@ -53,7 +53,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>10.10.0</revision>
+    <revision>10.9.1</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
@@ -308,6 +308,36 @@
     </resources>
 
     <plugins>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>${maven-pitest-plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>${pitest-junit5-plugin.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <outputFormats>XML,HTML</outputFormats>
+          <excludedMethods>
+            <param>*equals</param>
+            <param>*hashCode</param>
+            <param>*toString</param>
+          </excludedMethods>
+          <targetTests>
+            <param>*Test*</param>
+          </targetTests>
+          <excludedTestClasses>
+            <param>*Assert</param>
+            <param>*Assertions</param>
+            <param>*ArchitectureTest</param>
+            <param>*ITest</param>
+            <param>*jmh_generated*</param>
+          </excludedTestClasses>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
