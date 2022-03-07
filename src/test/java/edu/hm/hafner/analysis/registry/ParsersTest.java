@@ -544,7 +544,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the GhsMulti parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllGhsMultiIssues() {
-        findIssuesOfTool(6, "ghs-multi", "ghsmulti.txt");
+        findIssuesOfTool(7, "ghs-multi", "ghsmulti.txt");
     }
 
     /**
