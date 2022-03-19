@@ -12,7 +12,7 @@
           "ruleId": "",
           "ruleIndex": -1,
           "kind": "FAIL",
-          "level": "NONE",
+          "level": "note",
           "message": {
             "text": "asdasd",
             "arguments": []
@@ -57,7 +57,7 @@
           "ruleId": "Cyclomatic complexity",
           "ruleIndex": -1,
           "kind": "FAIL",
-          "level": "ERROR",
+          "level": "error",
           "message": {
             "text": "asdasd",
             "arguments": []

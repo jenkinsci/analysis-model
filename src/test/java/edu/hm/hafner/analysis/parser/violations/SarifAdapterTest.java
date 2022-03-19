@@ -1,9 +1,13 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link SarifAdapter}.
@@ -24,6 +28,22 @@ class SarifAdapterTest extends AbstractParserTest {
                 .hasLineStart(123)
                 .hasType("Cyclomatic complexity")
                 .hasSeverity(Severity.WARNING_HIGH);
+        softly.assertThat(report.get(1))
+                .hasMessage("asdasd asdasd")
+                .hasFileName("/whatever/path.c")
+                .hasLineStart(123)
+                .hasType("-")
+                .hasSeverity(Severity.WARNING_LOW);
+    }
+
+    @Test
+    void shouldReportDifferentSeverities() {
+        Report report = parse("security-scan.sarif");
+
+        assertThat(report).hasSize(51);
+        assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(3);
+        assertThat(report.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(45);
+        assertThat(report.getSizeOf(Severity.WARNING_LOW)).isEqualTo(3);
     }
 
     @Override
