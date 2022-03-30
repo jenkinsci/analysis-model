@@ -17,7 +17,7 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           check-latest: true
-        cache: 'maven'
+          cache: 'maven'
       - name: Compile, Test and Analysis
         run: mvn -V -ntp clean verify -Dmaven.test.failure.ignore=true
       - name: Autograding
