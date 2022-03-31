@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Parser for Aqua Scanner CLI (scannercli) tool.
@@ -49,8 +50,8 @@ public class AquaScannerParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject resource, final JSONObject vulnerability,
             final IssueBuilder issueBuilder) {
-        final String fileName = resource.isNull("path") ? resource.optString("name", VALUE_NOT_SET) :
-                resource.getString("path");
+        final String fileName = resource.isNull("path") ? resource.optString("name", VALUE_NOT_SET)
+                : resource.getString("path");
         return issueBuilder
                 .setFileName(fileName)
                 .setSeverity(mapSeverity(vulnerability.optString("aqua_severity", "UNKNOWN")))
@@ -59,6 +60,7 @@ public class AquaScannerParser extends JsonIssueParser {
                 .buildAndClean();
     }
 
+    @SuppressFBWarnings("IMPROPER_UNICODE")
     private Severity mapSeverity(final String string) {
         if (AQUA_VULNERABILITY_LEVEL_TAG_LOW.equalsIgnoreCase(string)
                 || AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE.equalsIgnoreCase(string)) {

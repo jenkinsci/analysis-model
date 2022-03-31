@@ -21,7 +21,7 @@ class AquaScannerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(9);
+        softly.assertThat(report).hasSize(14);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -31,6 +31,26 @@ class AquaScannerParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
                 .hasMessage("CVE-1111-1234");
+        softly.assertThat(report.get(9))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasMessage("CVE-1112-1234");
+        softly.assertThat(report.get(10))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasMessage("CVE-1113-1234");
+        softly.assertThat(report.get(11))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasMessage("CVE-1114-1234");
+        softly.assertThat(report.get(12))
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasMessage("CVE-1115-1234");
+        softly.assertThat(report.get(13))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasMessage("CVE-1116-1234");
     }
 
     @Test
