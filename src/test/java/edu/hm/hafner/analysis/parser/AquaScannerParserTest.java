@@ -15,6 +15,9 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * Tests the class {@link AquaScannerParser}.
  */
 class AquaScannerParserTest extends AbstractParserTest {
+
+    private static final String EXPECTED_FILENAME = "/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class";
+
     AquaScannerParserTest() {
         super("aqua_scanner_result.json");
     }
@@ -29,27 +32,27 @@ class AquaScannerParserTest extends AbstractParserTest {
                 .hasMessage("CVE-2022-0530");
         softly.assertThat(report.get(8))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1111-1234");
         softly.assertThat(report.get(9))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1112-1234");
         softly.assertThat(report.get(10))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1113-1234");
         softly.assertThat(report.get(11))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1114-1234");
         softly.assertThat(report.get(12))
                 .hasSeverity(Severity.WARNING_LOW)
-                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1115-1234");
         softly.assertThat(report.get(13))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasFileName("/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class")
+                .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1116-1234");
     }
 

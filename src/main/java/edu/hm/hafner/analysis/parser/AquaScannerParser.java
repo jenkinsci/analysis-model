@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.text.MessageFormat;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,7 +7,8 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import static edu.hm.hafner.util.StringContainsUtils.*;
 
 /**
  * Parser for Aqua Scanner CLI (scannercli) tool.
@@ -37,12 +36,17 @@ public class AquaScannerParser extends JsonIssueParser {
 
     private void parseResources(final Report report, final JSONArray resources, final IssueBuilder issueBuilder) {
         for (int i = 0; i < resources.length(); i++) {
-            JSONObject resourceWrapper = (JSONObject) resources.get(i);
-            if (!resourceWrapper.isNull("vulnerabilities") && !resourceWrapper.isNull("resource")) {
-                JSONObject resource = resourceWrapper.getJSONObject("resource");
-                JSONArray vulnerabilities = resourceWrapper.getJSONArray("vulnerabilities");
-                for (Object vulnerability : vulnerabilities) {
-                    report.add(convertToIssue(resource, (JSONObject) vulnerability, issueBuilder));
+            final Object item = resources.get(i);
+            if (item instanceof JSONObject) {
+                final JSONObject resourceWrapper = (JSONObject) item;
+                if (!resourceWrapper.isNull("vulnerabilities") && !resourceWrapper.isNull("resource")) {
+                    final JSONObject resource = resourceWrapper.getJSONObject("resource");
+                    final JSONArray vulnerabilities = resourceWrapper.getJSONArray("vulnerabilities");
+                    for (Object vulnerability : vulnerabilities) {
+                        if (vulnerability instanceof JSONObject) {
+                            report.add(convertToIssue(resource, (JSONObject) vulnerability, issueBuilder));
+                        }
+                    }
                 }
             }
         }
@@ -50,8 +54,7 @@ public class AquaScannerParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject resource, final JSONObject vulnerability,
             final IssueBuilder issueBuilder) {
-        final String fileName = resource.isNull("path") ? resource.optString("name", VALUE_NOT_SET)
-                : resource.getString("path");
+        final String fileName = resource.optString("path", resource.optString("name", VALUE_NOT_SET));
         return issueBuilder
                 .setFileName(fileName)
                 .setSeverity(mapSeverity(vulnerability.optString("aqua_severity", "UNKNOWN")))
@@ -60,19 +63,15 @@ public class AquaScannerParser extends JsonIssueParser {
                 .buildAndClean();
     }
 
-    @SuppressFBWarnings("IMPROPER_UNICODE")
     private Severity mapSeverity(final String string) {
-        if (AQUA_VULNERABILITY_LEVEL_TAG_LOW.equalsIgnoreCase(string)
-                || AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE.equalsIgnoreCase(string)) {
+        if (containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW, AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
             return Severity.WARNING_LOW;
         }
-        else if (AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM.equalsIgnoreCase(string)) {
+        else if (containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
             return Severity.WARNING_NORMAL;
         }
-        else if (AQUA_VULNERABILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string)
-                || AQUA_VULNERABILITY_LEVEL_TAG_CRITICAL.equalsIgnoreCase(string)
-                || AQUA_VULNERABILITY_LEVEL_TAG_MALWARE.equalsIgnoreCase(string)
-                || AQUA_VULNERABILITY_LEVEL_TAG_SENSITIVE.equalsIgnoreCase(string)) {
+        else if (containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH, AQUA_VULNERABILITY_LEVEL_TAG_CRITICAL,
+                AQUA_VULNERABILITY_LEVEL_TAG_MALWARE, AQUA_VULNERABILITY_LEVEL_TAG_SENSITIVE)) {
             return Severity.WARNING_HIGH;
         }
         else {
@@ -82,8 +81,8 @@ public class AquaScannerParser extends JsonIssueParser {
 
     private String formatDescription(final String fileName, final JSONObject resource,
             final JSONObject vulnerability) {
-        return MessageFormat.format(
-                "<p><div><b>Resource</b>: {0}</div><div><b>Installed Version:</b> {1}</div><div><b>Aqua Severity:</b> {2}</div>",
+        return String.format(
+                "<p><div><b>Resource</b>: %s</div><div><b>Installed Version:</b> %s</div><div><b>Aqua Severity:</b> %s</div>",
                 fileName,
                 resource.optString("version", VALUE_NOT_SET),
                 vulnerability.optString("aqua_severity", "UNKOWN"))
