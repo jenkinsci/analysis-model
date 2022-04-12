@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 import static edu.hm.hafner.util.StringContainsUtils.*;
+import static j2html.TagCreator.*;
 
 /**
  * Parser for Aqua Scanner CLI (scannercli) tool.
@@ -41,13 +42,18 @@ public class AquaScannerParser extends JsonIssueParser {
                 final JSONObject resourceWrapper = (JSONObject) item;
                 if (!resourceWrapper.isNull("vulnerabilities") && !resourceWrapper.isNull("resource")) {
                     final JSONObject resource = resourceWrapper.getJSONObject("resource");
-                    final JSONArray vulnerabilities = resourceWrapper.getJSONArray("vulnerabilities");
-                    for (Object vulnerability : vulnerabilities) {
-                        if (vulnerability instanceof JSONObject) {
-                            report.add(convertToIssue(resource, (JSONObject) vulnerability, issueBuilder));
-                        }
-                    }
+                    parseVulnerabilities(report, issueBuilder, resourceWrapper, resource);
                 }
+            }
+        }
+    }
+
+    private void parseVulnerabilities(final Report report, final IssueBuilder issueBuilder,
+            final JSONObject resourceWrapper, final JSONObject resource) {
+        final JSONArray vulnerabilities = resourceWrapper.getJSONArray("vulnerabilities");
+        for (Object vulnerability : vulnerabilities) {
+            if (vulnerability instanceof JSONObject) {
+                report.add(convertToIssue(resource, (JSONObject) vulnerability, issueBuilder));
             }
         }
     }
@@ -79,13 +85,14 @@ public class AquaScannerParser extends JsonIssueParser {
         }
     }
 
-    private String formatDescription(final String fileName, final JSONObject resource,
-            final JSONObject vulnerability) {
-        return String.format(
-                "<p><div><b>Resource</b>: %s</div><div><b>Installed Version:</b> %s</div><div><b>Aqua Severity:</b> %s</div>",
-                fileName,
-                resource.optString("version", VALUE_NOT_SET),
-                vulnerability.optString("aqua_severity", "UNKOWN"))
-                + "<p>" + vulnerability.optString("description", "") + "</p>";
+    private String formatDescription(final String fileName, final JSONObject resource, final JSONObject vulnerability) {
+        final String version = resource.optString("version", VALUE_NOT_SET);
+        final String severity = vulnerability.optString("aqua_severity", "UNKOWN");
+        final String description = vulnerability.optString("description", "");
+        return join(div(b("Resource: "), text(fileName)),
+                div(b("Installed Version: "), text(version)),
+                div(b("Aqua Severity: "), text(severity)),
+                p(text(description))).render();
     }
+
 }
