@@ -380,38 +380,88 @@
       <plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
+        <version>${revapi-maven-plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.revapi</groupId>
+            <artifactId>revapi-java</artifactId>
+            <version>${revapi-java.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.revapi</groupId>
+            <artifactId>revapi-reporter-json</artifactId>
+            <version>0.4.5</version>
+          </dependency>
+        </dependencies>
         <configuration>
           <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
-          <versionFormat>[0-9.]*</versionFormat>
+          <checkDependencies>true</checkDependencies>
+          <newVersion>${project.version}</newVersion>
+          <failOnUnresolvedArtifacts>true</failOnUnresolvedArtifacts>
           <analysisConfiguration>
-            <revapi.semver.ignore>
+            <revapi.reporter.json>
+              <minSeverity>POTENTIALLY_BREAKING</minSeverity>
+              <minCriticality>documented</minCriticality>
+              <output>revapi-result.json</output>
+              <indent>false</indent>
+              <append>false</append>
+              <keepEmptyFile>true</keepEmptyFile>
+            </revapi.reporter.json>
+            <revapi.versions>
               <enabled>true</enabled>
-            </revapi.semver.ignore>
+            </revapi.versions>
             <revapi.differences>
-              <justification>Shaded artefacts are not part of the public API</justification>
-              <criticality>allowed</criticality>
-              <differences combine.children="append">
-                <item>
-                  <regex>true</regex>
-                  <classQualifiedName>shaded.*</classQualifiedName>
-                  <code>.*</code>
-                </item>
-                <item>
-                  <package>javax.xml.transform</package>
-                  <code>java.class.externalClassExposedInAPI</code>
-                </item>
-                <item>
-                  <!-- No part of codingstyle library -->
-                  <regex>true</regex>
-                  <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
-                  <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
-                  <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
-                  <code>.*</code>
-                </item>
-              </differences>
+              <item>
+                <regex>true</regex>
+                <code>java.class.nonPublicPartOfAPI</code>
+                <classQualifiedName>org.jvnet.hudson.*</classQualifiedName>
+                <justification>Not relevant</justification>
+              </item>
+              <item>
+                <regex>true</regex>
+                <code>java.class.nonPublicPartOfAPI</code>
+                <classQualifiedName>net.sf.json.*</classQualifiedName>
+                <justification>Not relevant</justification>
+              </item>
+              <item>
+                <regex>true</regex>
+                <code>java.class.nonPublicPartOfAPI</code>
+                <classQualifiedName>org.jvnet.hudson.*</classQualifiedName>
+                <justification>Not relevant</justification>
+              </item>
+              <item>
+                <regex>true</regex>
+                <code>java.class.nonPublicPartOfAPI</code>
+                <classQualifiedName>net.sf.json.*</classQualifiedName>
+                <justification>Not relevant</justification>
+              </item>
+              <item>
+                <code>java.annotation.removed</code>
+                <annotation>@edu.umd.cs.findbugs.annotations.Nullable</annotation>
+                <justification>Annotation should be save to change.</justification>
+              </item>
+              <item>
+                <code>java.annotation.added</code>
+                <annotation>@edu.umd.cs.findbugs.annotations.CheckForNull</annotation>
+                <justification>Annotation should be save to change.</justification>
+              </item>
+              <item>
+                <code>java.annotation.added</code>
+                <annotation>@edu.hm.hafner.util.Generated</annotation>
+                <justification>Annotation should be save to change.</justification>
+              </item>
             </revapi.differences>
           </analysisConfiguration>
         </configuration>
+        <executions>
+          <execution>
+            <id>run-revapi</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
