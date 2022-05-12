@@ -397,6 +397,10 @@
                   <code>.*</code>
                 </item>
                 <item>
+                  <class>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</class>
+                  <code>java.method.exception.checkedAdded</code>
+                </item>
+                <item>
                   <package>javax.xml.transform</package>
                   <code>java.class.externalClassExposedInAPI</code>
                 </item>
