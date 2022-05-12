@@ -115,3 +115,5 @@ clang-tidy-5.0 -header-filter=src/,include/ -p=/path/to/project /path/to/project
 # Warnings to not match
 warning: /path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused [clang-diagnostic-unused-command-line-argument]
 
+# Path with spaces
+/path with space/to/project/src/path_with_space.cpp:24:5: warning: single-argument constructors must be marked explicit to avoid unintentional implicit conversions [google-explicit-constructor]

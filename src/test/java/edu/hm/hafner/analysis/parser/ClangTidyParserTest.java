@@ -28,7 +28,7 @@ class ClangTidyParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report annotation, final SoftAssertions softly) {
-        assertThat(annotation).hasSize(8);
+        assertThat(annotation).hasSize(9);
 
         softly.assertThat(annotation.get(0))
                 .hasLineStart(1)
@@ -96,6 +96,14 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasMessage("/path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-unused-command-line-argument")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        softly.assertThat(annotation.get(8))
+                .hasLineStart(24)
+                .hasColumnStart(5)
+                .hasFileName("/path with space/to/project/src/path_with_space.cpp")
+                .hasType(WARNING_TYPE)
+                .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
