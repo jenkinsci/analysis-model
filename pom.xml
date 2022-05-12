@@ -398,7 +398,8 @@
                 </item>
                 <item>
                   <class>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</class>
-                  <code>java.method.exception.checkedAdded</code>
+                  <regex>true</regex>
+                  <code>.*</code>
                 </item>
                 <item>
                   <package>javax.xml.transform</package>
