@@ -70,7 +70,7 @@
     <violations-lib.version>1.149.0</violations-lib.version>
     <json.version>20220320</json.version>
     <json-smart.version>2.4.8</json-smart.version>
-    <pmd.version>6.45.0</pmd.version>
+    <pmd.version>6.46.0</pmd.version>
     <spotbugs.version>4.7.0</spotbugs.version>
 
     <incrementals-plugin.version>1.3</incrementals-plugin.version>
