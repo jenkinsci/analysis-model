@@ -104,6 +104,7 @@ public class ParserRegistry {
             new KtLintDescriptor(),
             new MavenConsoleDescriptor(),
             new MentorGraphicsDescriptor(),
+            new BluePearlSoftwareDescriptor(),
             new MetrowerksCodeWarriorDescriptor(),
             new MsBuildDescriptor(),
             new MyPyDescriptor(),
