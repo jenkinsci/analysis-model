@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.parser.RevApiParser;
+
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
 
@@ -32,6 +34,7 @@ public class ParserRegistry {
     private static final String BULB_EMOJI = ":bulb:";
 
     private static final ParserDescriptor[] ALL_DESCRIPTORS = {
+            new RevApiDescriptor(),
             new AcuCobolDescriptor(),
             new AjcDescriptor(),
             new AndroidLintDescriptor(),

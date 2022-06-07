@@ -53,7 +53,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>10.10.0</revision>
+    <revision>10.12.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
@@ -394,15 +394,15 @@
           </dependency>
         </dependencies>
         <configuration>
-          <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
+          <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
           <checkDependencies>true</checkDependencies>
           <newVersion>${project.version}</newVersion>
           <failOnUnresolvedArtifacts>true</failOnUnresolvedArtifacts>
           <analysisConfiguration>
             <revapi.reporter.json>
-              <minSeverity>POTENTIALLY_BREAKING</minSeverity>
-              <minCriticality>documented</minCriticality>
-              <output>revapi-result.json</output>
+              <minSeverity>EQUIVALENT</minSeverity>
+              <minCriticality>allowed</minCriticality>
+              <output>target/revapi-result.json</output>
               <indent>false</indent>
               <append>false</append>
               <keepEmptyFile>true</keepEmptyFile>
@@ -457,6 +457,7 @@
           <execution>
             <id>run-revapi</id>
             <goals>
+              <goal>check</goal>
               <goal>report</goal>
             </goals>
             <phase>verify</phase>
