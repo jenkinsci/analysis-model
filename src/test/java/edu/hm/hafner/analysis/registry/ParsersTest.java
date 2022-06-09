@@ -313,7 +313,7 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(12, "modelsim", "MentorGraphics.log");
     }
 
-    /** Runs the BluePearl an output file that contains 21 issues. */
+    /** Runs the BluePearl an output file that contains 7 issues. */
     @Test
     void shouldFindAllBluePearlIssues() {
         findIssuesOfTool(7, "bluepearl", "bluepearl.log");
