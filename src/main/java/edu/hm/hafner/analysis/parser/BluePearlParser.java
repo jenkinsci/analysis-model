@@ -47,15 +47,13 @@ public class BluePearlParser extends LookaheadParser {
         if (line.startsWith("--BPS-0730")) {
             return false;
         } 
-        else 
-        {
-            Pattern fileAndLineNo = Pattern.compile ("[a-zA-Z-0-9._]+\\(\\d+\\)");
+        else {
+            Pattern fileAndLineNo = Pattern.compile("[a-zA-Z-0-9._]+\\(\\d+\\)");
             Matcher m = fileAndLineNo.matcher(line);
             if (m.find()) {
                 return line.startsWith("W-") || line.startsWith("E-") || line.startsWith("F-");
-             } 
-            else 
-            {
+            } 
+            else {
                 return false;
             }
         }
