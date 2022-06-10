@@ -50,7 +50,6 @@ class BluePearlParserTest extends AbstractParserTest {
                 .hasMessage(
                         "Module: 'top_adapter_bram' Signal 'top_adapter_bram.bram1_dout' is used but has no driver(s).")
                 .hasFileName("top_adapter_bram.v")
-
                 .hasSeverity(Severity.WARNING_LOW);
 
         softly.assertThat(report.get(4))
