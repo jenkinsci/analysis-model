@@ -60,7 +60,6 @@ class BluePearlParserTest extends AbstractParserTest {
                 .hasFileName("C:/lajfakjfka/top_adapter_bram.v")
                 .hasSeverity(Severity.WARNING_LOW);
 
-
         softly.assertThat(report.get(5))
                 .hasLineStart(42)
                 .hasMessage(
@@ -74,7 +73,5 @@ class BluePearlParserTest extends AbstractParserTest {
                         "Module: 'top_adapter_bram' Signal 'top_adapter_bram.output_dout' is used but has no driver(s).")
                 .hasFileName("top_adapter_bram.v")
                 .hasSeverity(Severity.WARNING_LOW);
-
-
     }
 }
