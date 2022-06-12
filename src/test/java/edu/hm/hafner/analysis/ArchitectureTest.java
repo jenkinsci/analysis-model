@@ -1,4 +1,4 @@
-package edu.hm.hafner;
+package edu.hm.hafner.analysis;
 
 import javax.xml.parsers.SAXParser;
 
@@ -20,7 +20,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("hideutilityclassconstructor")
-@AnalyzeClasses(packages = "edu.hm.hafner")
+@AnalyzeClasses(packages = "edu.hm.hafner.analysis")
 class ArchitectureTest {
     /** Digester must not be used directly, rather use a SecureDigester instance. */
     @ArchTest
@@ -35,10 +35,13 @@ class ArchitectureTest {
     static final ArchRule NO_PUBLIC_TEST_CLASSES = ArchitectureRules.NO_PUBLIC_TEST_CLASSES;
 
     @ArchTest
+    static final ArchRule NO_EXCEPTIONS_WITH_NO_ARG_CONSTRUCTOR = ArchitectureRules.NO_EXCEPTIONS_WITH_NO_ARG_CONSTRUCTOR;
+
+    @ArchTest
     static final ArchRule ONLY_PACKAGE_PRIVATE_TEST_METHODS = ArchitectureRules.ONLY_PACKAGE_PRIVATE_TEST_METHODS;
 
     @ArchTest
-    static final ArchRule NO_PUBLIC_ARCHITECTURE_TESTS = ArchitectureRules.NO_PUBLIC_ARCHITECTURE_TESTS;
+    static final ArchRule NO_PUBLIC_ARCHITECTURE_TESTS = ArchitectureRules.ONLY_PACKAGE_PRIVATE_ARCHITECTURE_TESTS;
 
     @ArchTest
     static final ArchRule NO_TEST_API_CALLED = ArchitectureRules.NO_TEST_API_CALLED;
