@@ -21,7 +21,7 @@ import edu.hm.hafner.util.LookaheadStream;
 public class AnsibleLintParser extends LookaheadParser {
     private static final long serialVersionUID = 8481090596321427484L;
 
-    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(.*)\\:([0-9]*)\\:\\s*\\[?([a-zA-Z0-9\\-]+)\\]?\\s(.*)";
+    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(.*)\\:([0-9]*)\\:\\s*\\[?([a-zA-Z0-9\\-]+)\\]?:?\\s(.*)";
 
     /**
      * Creates a new instance of {@link AnsibleLintParser}.
