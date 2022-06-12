@@ -624,7 +624,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the AnsibleLint parser on an output file that contains 9 issues. */
     @Test
     void shouldFindAllAnsibleLintIssues() {
-        findIssuesOfTool(9, "ansiblelint", "ansibleLint.txt");
+        findIssuesOfTool(10, "ansiblelint", "ansibleLint.txt");
     }
 
     /**
