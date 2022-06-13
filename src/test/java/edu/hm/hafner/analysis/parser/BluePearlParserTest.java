@@ -8,7 +8,7 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 /**
  * Tests the class {@link BluePearlParser}.
  *
- * @author Andrew 'Necromant' Andrianov
+ * @author Simon Matthews
  */
 class BluePearlParserTest extends AbstractParserTest {
     BluePearlParserTest() {
