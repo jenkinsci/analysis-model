@@ -22,7 +22,7 @@ class BluePearlParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(7);
+        softly.assertThat(report).hasSize(8);
 
         softly.assertThat(report.get(0))
                 .hasLineStart(51)
@@ -71,6 +71,13 @@ class BluePearlParserTest extends AbstractParserTest {
                 .hasMessage(
                         "Module: 'top_adapter_bram' Signal 'top_adapter_bram.output_dout' is used but has no driver(s).")
                 .hasFileName("top_adapter_bram.v")
+                .hasSeverity(Severity.WARNING_LOW);
+
+        softly.assertThat(report.get(7))
+                .hasLineStart(32)
+                .hasMessage(
+                        "actual bit length 1 differs from formal bit length 4 for port 'bram02_addr'")
+                .hasFileName("top_adapter_bram2.v")
                 .hasSeverity(Severity.WARNING_LOW);
     }
 }

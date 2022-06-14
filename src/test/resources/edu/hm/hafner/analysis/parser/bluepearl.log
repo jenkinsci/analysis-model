@@ -473,6 +473,7 @@ Time to generate Missing Modules/Objects report: 0.27 seconds
 --BPS-0730: Status: Running Connection Analysis Phase Seven on Net (207 of 207).
 --BPS-0730: Status: Running Connection Analysis Phase Eight on Net (1 of 207).
 W-BPS-0802: top_adapter_bram.v(22): Module: 'top_adapter_bram' Signal 'top_adapter_bram.output_dout' is used but has no driver(s).
+F-VERI-1330: top_adapter_bram2.v(32): actual bit length 1 differs from formal bit length 4 for port 'bram02_addr'
 --BPS-0730: Status: Running Connection Analysis Phase Eight on Net (207 of 207).
 --BPS-0730: Status: Running Connection Analysis Phase Nine on Net (1 of 207).
 --BPS-0730: Status: Running Connection Analysis Phase Nine on Net (207 of 207).
