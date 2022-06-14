@@ -313,10 +313,10 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(12, "modelsim", "MentorGraphics.log");
     }
 
-    /** Runs the BluePearl an output file that contains 7 issues. */
+    /** Runs the BluePearl an output file that contains 8 issues. */
     @Test
     void shouldFindAllBluePearlIssues() {
-        findIssuesOfTool(7, "bluepearl", "bluepearl.log");
+        findIssuesOfTool(8, "bluepearl", "bluepearl.log");
     }
 
     /** Runs the PMD parser on an output file that contains 262 issues (PMD 6.1.0). */
