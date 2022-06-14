@@ -20,7 +20,7 @@ class AnsibleLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(9);
+        assertThat(report).hasSize(10);
 
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
@@ -86,6 +86,14 @@ class AnsibleLintParserTest extends AbstractParserTest {
                 .hasLineEnd(11)
                 .hasMessage("File permissions unset or incorrect")
                 .hasFileName("/workspace/templates.yml");
+
+        softly.assertThat(iterator.next())
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("no-changed-when")
+                .hasLineStart(41)
+                .hasLineEnd(41)
+                .hasMessage("Commands should not change things if nothing needs doing.")
+                .hasFileName("/workspace/roles/create_service/tasks/main.yml");
     }
 
     @Override

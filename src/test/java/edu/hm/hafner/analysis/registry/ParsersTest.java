@@ -424,7 +424,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the Clang-Tidy parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllClangTidyIssues() {
-        findIssuesOfTool(8, "clang-tidy", "ClangTidy.txt");
+        findIssuesOfTool(9, "clang-tidy", "ClangTidy.txt");
     }
 
     /** Runs the Clang parser on an output file that contains 9 issues. */
@@ -624,7 +624,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the AnsibleLint parser on an output file that contains 9 issues. */
     @Test
     void shouldFindAllAnsibleLintIssues() {
-        findIssuesOfTool(9, "ansiblelint", "ansibleLint.txt");
+        findIssuesOfTool(10, "ansiblelint", "ansibleLint.txt");
     }
 
     /**

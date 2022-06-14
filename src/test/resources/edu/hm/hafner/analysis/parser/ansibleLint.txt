@@ -9,3 +9,5 @@
 /workspace/system.yml:20: risky-file-permissions File permissions unset or incorrect
 /workspace/upgrade.yml:38: no-handler Tasks that run when changed should likely be handlers
 /workspace/templates.yml:11: risky-file-permissions File permissions unset or incorrect
+
+/workspace/roles/create_service/tasks/main.yml:41: no-changed-when: Commands should not change things if nothing needs doing.

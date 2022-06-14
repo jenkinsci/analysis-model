@@ -38,6 +38,7 @@ public class ParserRegistry {
             new AjcDescriptor(),
             new AndroidLintDescriptor(),
             new AnsibleLintDescriptor(),
+            new AquaScannerDescriptor(),
             new ArmccCompilerDescriptor(),
             new BrakemanDescriptor(),
             new BuckminsterDescriptor(),
