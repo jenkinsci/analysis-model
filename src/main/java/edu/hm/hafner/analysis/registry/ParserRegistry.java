@@ -34,7 +34,6 @@ public class ParserRegistry {
     private static final String BULB_EMOJI = ":bulb:";
 
     private static final ParserDescriptor[] ALL_DESCRIPTORS = {
-            new RevApiDescriptor(),
             new AcuCobolDescriptor(),
             new AjcDescriptor(),
             new AndroidLintDescriptor(),
@@ -132,6 +131,7 @@ public class ParserRegistry {
             new QacSourceCodeAnalyserDescriptor(),
             new QtTranslationDescriptor(),
             new ResharperDescriptor(),
+            new RevApiDescriptor(),
             new RfLintDescriptor(),
             new RoboCopyDescriptor(),
             new RuboCopDescriptor(),

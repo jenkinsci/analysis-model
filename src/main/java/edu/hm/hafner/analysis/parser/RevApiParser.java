@@ -15,14 +15,12 @@ public class RevApiParser extends JsonIssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        throw new RuntimeException();
-       // return super.parse(readerFactory);
+        return super.parse(readerFactory);
     }
 
     @Override
     public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        throw new RuntimeException();
-       // return super.parseFile(readerFactory);
+        return super.parseFile(readerFactory);
     }
 
 
