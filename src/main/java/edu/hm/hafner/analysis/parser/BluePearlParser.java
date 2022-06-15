@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.hm.hafner.analysis.Severity;
-
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Parser for BluePearl Software Visual Verification Suite.
@@ -35,13 +35,13 @@ public class BluePearlParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
                                           final IssueBuilder builder) {
 
-        switch (matcher.group("severity")) {
-            case "W": builder.setSeverity(Severity.WARNING_NORMAL);
-                break;
-            case "E": builder.setSeverity(Severity.ERROR);
-                break;
-            case "F": builder.setSeverity(Severity.ERROR);
-                break;
+		String priority = matcher.group("severity");
+        if (equalsIgnoreCase(priority, "F")) {
+            builder.setSeverity(Severity.ERROR);
+		} else if (equalsIgnoreCase(priority, "E")) {
+            builder.setSeverity(Severity.ERROR);
+        } else {
+            builder.setSeverity(Severity.WARNING_NORMAL);
         }
         builder.setMessage(matcher.group("messageString"));
         builder.setFileName(matcher.group("filename"));
