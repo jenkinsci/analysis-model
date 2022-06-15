@@ -2,14 +2,11 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.hm.hafner.analysis.Severity;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Parser for BluePearl Software Visual Verification Suite.
@@ -34,13 +31,14 @@ public class BluePearlParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
                                           final IssueBuilder builder) {
-
-		String priority = matcher.group("severity");
+        String priority = matcher.group("severity");
         if (equalsIgnoreCase(priority, "F")) {
             builder.setSeverity(Severity.ERROR);
-		} else if (equalsIgnoreCase(priority, "E")) {
+        } 
+        else if (equalsIgnoreCase(priority, "E")) {
             builder.setSeverity(Severity.ERROR);
-        } else {
+        } 
+        else {
             builder.setSeverity(Severity.WARNING_NORMAL);
         }
         builder.setMessage(matcher.group("messageString"));
