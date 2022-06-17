@@ -28,6 +28,6 @@ class FlowDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://github.com/facebook/flow/blob/master/website/favicon.svg";
+        return "https://raw.githubusercontent.com/facebook/flow/main/website/favicon.svg";
     }
 }
