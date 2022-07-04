@@ -53,7 +53,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>10.12.0</revision>
+    <revision>10.13.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
@@ -398,6 +398,15 @@
           <checkDependencies>true</checkDependencies>
           <newVersion>${project.version}</newVersion>
           <failOnUnresolvedArtifacts>true</failOnUnresolvedArtifacts>
+          <pipelineConfiguration>
+            <transformBlocks>
+              <block>
+                <item>manually-vetted</item>
+                <item>revapi.versions</item>
+                <item>revapi.semver.ignore</item>
+              </block>
+            </transformBlocks>
+          </pipelineConfiguration>
           <analysisConfiguration>
             <revapi.reporter.json>
               <minSeverity>EQUIVALENT</minSeverity>
@@ -407,36 +416,12 @@
               <append>false</append>
               <keepEmptyFile>true</keepEmptyFile>
             </revapi.reporter.json>
-            <revapi.versions>
-              <enabled>true</enabled>
-            </revapi.versions>
-            <revapi.differences>
+            <revapi.differences id="manually-vetted">
               <justification>Shaded artefacts are not part of the public API</justification>
               <criticality>allowed</criticality>
-              <differences combine.children="append">
-                <item>
-                  <regex>true</regex>
-                  <classQualifiedName>shaded.*</classQualifiedName>
-                  <code>.*</code>
-                </item>
-                <item>
-                  <class>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</class>
-                  <regex>true</regex>
-                  <code>.*</code>
-                </item>
-                <item>
-                  <package>javax.xml.transform</package>
-                  <code>java.class.externalClassExposedInAPI</code>
-                </item>
-                <item>
-                  <!-- No part of codingstyle library -->
-                  <regex>true</regex>
-                  <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
-                  <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
-                  <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
-                  <code>.*</code>
-                </item>
-              </differences>
+              <attachments>
+                <vetted>ok</vetted>
+              </attachments>
               <item>
                 <regex>true</regex>
                 <code>java.class.nonPublicPartOfAPI</code>
@@ -476,7 +461,43 @@
                 <annotation>@edu.hm.hafner.util.Generated</annotation>
                 <justification>Annotation should be save to change.</justification>
               </item>
+              <differences combine.children="append">
+                <item>
+                  <regex>true</regex>
+                  <classQualifiedName>shaded.*</classQualifiedName>
+                  <code>.*</code>
+                </item>
+                <item>
+                  <class>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</class>
+                  <regex>true</regex>
+                  <code>.*</code>
+                </item>
+                <item>
+                  <package>javax.xml.transform</package>
+                  <code>java.class.externalClassExposedInAPI</code>
+                </item>
+                <item>
+                  <!-- No part of codingstyle library -->
+                  <regex>true</regex>
+                  <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
+                  <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
+                  <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
+                  <code>.*</code>
+                </item>
+              </differences>
             </revapi.differences>
+            <revapi.versions>
+              <versionIncreaseAllows>
+                <major>
+                    <severity>BREAKING</severity>
+                  <item>
+                    <attachments>
+                      <vetted>ok</vetted>
+                    </attachments>
+                  </item>
+                </major>
+              </versionIncreaseAllows>
+            </revapi.versions>
           </analysisConfiguration>
         </configuration>
         <executions>
@@ -484,7 +505,6 @@
             <id>run-revapi</id>
             <goals>
               <goal>check</goal>
-              <goal>report</goal>
             </goals>
             <phase>verify</phase>
           </execution>

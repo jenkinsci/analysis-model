@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.RevApiParser;
 
@@ -12,6 +13,7 @@ public class RevApiDescriptor extends ParserDescriptor {
     private static final String ID = "revapi";
     private static final String NAME = "Revapi";
 
+
     RevApiDescriptor() {
         super(ID, NAME);
     }
@@ -22,7 +24,12 @@ public class RevApiDescriptor extends ParserDescriptor {
     }
 
     @Override
+    public String getDescription(final Issue issue) {
+        return super.getDescription(issue);
+    }
+
+    @Override
     public String getPattern() {
-        return "**/revapi-result.json";
+        return "**/target/revapi-result.json";
     }
 }
