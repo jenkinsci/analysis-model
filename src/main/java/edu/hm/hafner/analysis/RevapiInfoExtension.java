@@ -56,7 +56,6 @@ public class RevapiInfoExtension implements Serializable {
      * @param severities of the issue
      */
     public void setSeverities(@CheckForNull final Map<String, String> severities) {
-
         if (severities != null && !severities.isEmpty()) {
             for (String severity : severities.keySet()) {
                 this.severities.put(severity, severities.get(severity));
