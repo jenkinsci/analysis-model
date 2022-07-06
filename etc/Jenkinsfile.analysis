@@ -24,6 +24,7 @@ node('java11-agent') {
             spotBugs(pattern: 'target/spotbugsXml.xml'),
             pmdParser(pattern: 'target/pmd.xml'),
             cpd(pattern: 'target/cpd.xml'),
+            revapi(pattern: 'target/revapi-result.json'),
             taskScanner(highTags:'FIXME', normalTags:'TODO', includePattern: '**/*.java', excludePattern: 'target/**/*')]
     }
 
