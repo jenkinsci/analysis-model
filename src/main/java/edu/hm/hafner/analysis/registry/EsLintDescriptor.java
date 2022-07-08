@@ -4,13 +4,13 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 
 /**
- * A descriptor for for ESlint. Delegates to {@link CheckStyleParser}.
+ * A descriptor for ESLint. Delegates to {@link CheckStyleParser}.
  *
  * @author Lorenz Munsch
  */
 class EsLintDescriptor extends ParserDescriptor {
     private static final String ID = "eslint";
-    private static final String NAME = "ESlint";
+    private static final String NAME = "ESLint";
 
     EsLintDescriptor() {
         super(ID, NAME);
@@ -29,5 +29,10 @@ class EsLintDescriptor extends ParserDescriptor {
     @Override
     public String getUrl() {
         return "https://eslint.org";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/eslint/eslint/blob/main/docs/src/static/icon.svg";
     }
 }
