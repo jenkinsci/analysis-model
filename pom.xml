@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>2.16.0</version>
-    <relativePath />
+    <version>2.28.0</version>
+    <relativePath/>
   </parent>
 
   <artifactId>analysis-model</artifactId>
@@ -17,9 +18,10 @@
   <packaging>jar</packaging>
 
   <name>Static Analysis Model and Parsers</name>
-  <description>This 'analysis-model' project is a library to read static analysis reports into a Java object model.
-    Currently it is used only by Jenkins' warnings plug-in. Since this library has no dependencies to the Jenkins
-    project it might be used by other static analysis visualization tools as well in the future.
+  <description>This library provides a Java object model to read, aggregate, filter, and query static analysis reports.
+    It is used by Jenkins' warnings next generation plug-in to visualize the warnings of individual builds.
+    Additionally, this library is used by a GitHub action to autograde student software projects based on a given set of
+    metrics (unit tests, code and mutation coverage, static analysis warnings).
   </description>
 
   <scm>
