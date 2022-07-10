@@ -15,8 +15,8 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  *
  * @author Ullrich Hafner
  */
-@BenchmarkMode(Mode.AverageTime)
-@Fork(value = 1, warmups = 3)
+@BenchmarkMode(Mode.All)
+@Fork(value = 2, warmups = 2)
 @SuppressWarnings({"PMD.AbstractClassWithoutAbstractMethod", "PMD.JUnit5TestShouldBePackagePrivate"})
 public abstract class AbstractBenchmark {
     /**
