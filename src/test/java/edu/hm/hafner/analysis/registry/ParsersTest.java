@@ -80,7 +80,7 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllIssuesForCheckStyleAlias() {
         for (String tool : Arrays.asList("detekt", "eslint", "ktlint", "php-code-sniffer",
-                "swiftlint", "tslint")) {
+                "swiftlint", "stylelint", "tslint")) {
             findIssuesOfTool(4, tool, "checkstyle.xml");
         }
     }
