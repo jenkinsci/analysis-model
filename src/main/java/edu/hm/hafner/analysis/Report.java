@@ -272,9 +272,9 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Appends all of the specified issues to the end of this report, preserving the order of the array elements.
+     * Appends all the specified issues to the end of this report, preserving the order of the array elements.
      * Duplicates will be skipped (the number of skipped elements is available using the method {@link
-     * #getDuplicatesSize()}.
+     * #getDuplicatesSize()}).
      *
      * @param issue
      *         the first issue to append

@@ -18,8 +18,8 @@ import edu.hm.hafner.util.LookaheadStream;
  */
 public class ClangTidyParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283182L;
-    private static final String CLANG_TIDY_WARNING_PATTERN =
-            "(([^\\s]+):(\\d+):(\\d+): |)(warning|error): (.*?) \\[([^\\s]*?)\\]$";
+    private static final String CLANG_TIDY_WARNING_PATTERN = "(?:clang-tidy\\S* (?:-\\S+ )*|)"
+            + "((.+):(\\d+):(\\d+): |)(warning|error): (.*?) \\[([^\\s]*?)\\]$";
 
     /**
      * Creates a new instance of {@link ClangTidyParser}.

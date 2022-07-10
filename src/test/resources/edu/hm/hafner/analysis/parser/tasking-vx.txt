@@ -6,3 +6,5 @@ ctc W536: ["C:\Projects\a\b\c\d\e\f\g\TcpIp_Tcp.c" 860/41] unused static functio
 ctc E208: ["C:\Projects\a\b\c\DmaLib.h" 380/1] syntax error - token ";" inserted before "{"
 ctc I805: ["BswM_UserCallouts.c" 42/1] start of current function definition
 ctc F104: protection error: No license key found for product code SW160800
+c166 E241: ["C:\Projects\a\b\c\BRBL.c" 242/48] invalid conversion from "struct const *" to "signed int *"
+c166 W524: ["C:\Projects\a\b\c\BRBL.c" 242/36] conversion of integer to pointer at assignment

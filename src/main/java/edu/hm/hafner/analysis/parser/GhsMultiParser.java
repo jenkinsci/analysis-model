@@ -43,17 +43,25 @@ public class GhsMultiParser extends LookaheadParser {
         String type = StringUtils.capitalize(matcher.group("severity"));
         String messageStart = matcher.group("message");
 
-        String message = extractMessage(messageStart, lookahead);
+        String message;
+
+        /*
+         * If a column is set in the issue, there will be no cursor ('^')
+         * And the MESSAGE_END_REGEX will never be matched until the next issue
+         */
+        if (StringUtils.isNotBlank(matcher.group("column"))) {
+            builder.setColumnStart(matcher.group("column"));
+            message = messageStart;
+        }
+        else {
+            message = extractMessage(messageStart, lookahead);
+        }
 
         builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))
                 .setCategory(matcher.group("category"))
                 .setMessage(message)
                 .setSeverity(Severity.guessFromString(type));
-
-        if (StringUtils.isNotBlank(matcher.group("column"))) {
-            builder.setColumnStart(matcher.group("column"));
-        }
 
         return builder.buildOptional();
     }

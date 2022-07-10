@@ -18,7 +18,7 @@ public class TaskingVxCompilerParser extends LookaheadParser {
     private static final long serialVersionUID = -5225265084645449716L;
 
     /** Pattern of TASKING VX compiler warnings. */
-    private static final String TASKING_VX_COMPILER_WARNING_PATTERN = "^[a-z]+? (I|W|E|F)(\\d+): (?:\\[\"(.*?)\" (\\d+)"
+    private static final String TASKING_VX_COMPILER_WARNING_PATTERN = "^[a-z0-9]+? (I|W|E|F)(\\d+): (?:\\[\"(.*?)\" (\\d+)"
             + "\\/(\\d+)\\] )?(.*)$";
 
     /**

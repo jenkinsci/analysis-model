@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -35,8 +36,8 @@ public class TopicRule extends NodeCreateRule {
     }
 
     @Override
-    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-    public void end(final String namespace, final String name) throws Exception {
+    public void end(final String namespace, final String name)
+            throws TransformerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Element subsection = getDigester().pop();
         String description = extractNodeContent(subsection);
 

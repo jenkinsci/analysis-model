@@ -46,7 +46,7 @@ public class FullTextFingerprint {
     FullTextFingerprint(final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         try {
-            digest = MessageDigest.getInstance("MD5");
+            digest = MessageDigest.getInstance("MD5"); // lgtm [java/weak-cryptographic-algorithm]
         }
         catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException(e);

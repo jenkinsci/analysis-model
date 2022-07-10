@@ -80,9 +80,21 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllIssuesForCheckStyleAlias() {
         for (String tool : Arrays.asList("detekt", "eslint", "ktlint", "php-code-sniffer",
-                "swiftlint", "tslint")) {
+                "swiftlint", "stylelint", "tslint")) {
             findIssuesOfTool(4, tool, "checkstyle.xml");
         }
+    }
+
+    /** Runs the Dart analysis parser on an output file that contains 6 issues. */
+    @Test
+    void shouldFindAllDartIssues() {
+        findIssuesOfTool(6, "dart", "dart.log");
+    }
+
+    /** Runs the SARIF parser on an output file that contains 2 issues. */
+    @Test
+    void shouldFindAllSarifIssues() {
+        findIssuesOfTool(2, "sarif", "sarif.json");
     }
 
     /** Runs the Cmake parser on an output file that contains 8 issues. */
@@ -301,6 +313,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(12, "modelsim", "MentorGraphics.log");
     }
 
+    /** Runs the BluePearl an output file that contains 8 issues. */
+    @Test
+    void shouldFindAllBluePearlIssues() {
+        findIssuesOfTool(12, "bluepearl", "bluepearl.log");
+    }
+
     /** Runs the PMD parser on an output file that contains 262 issues (PMD 6.1.0). */
     @Test
     void shouldFindAllPmdIssues() {
@@ -412,7 +430,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the Clang-Tidy parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllClangTidyIssues() {
-        findIssuesOfTool(8, "clang-tidy", "ClangTidy.txt");
+        findIssuesOfTool(9, "clang-tidy", "ClangTidy.txt");
     }
 
     /** Runs the Clang parser on an output file that contains 9 issues. */
@@ -475,10 +493,10 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(5, "stylecop", "stylecop.xml");
     }
 
-    /** Runs the Tasking VX parser on an output file that contains 8 issues. */
+    /** Runs the Tasking VX parser on an output file that contains 10 issues. */
     @Test
     void shouldFindAllTaskingVxIssues() {
-        findIssuesOfTool(8, "tasking-vx", "tasking-vx.txt");
+        findIssuesOfTool(10, "tasking-vx", "tasking-vx.txt");
     }
 
     /** Runs the tnsdl translator parser on an output file that contains 4 issues. */
@@ -532,7 +550,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the GhsMulti parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllGhsMultiIssues() {
-        findIssuesOfTool(6, "ghs-multi", "ghsmulti.txt");
+        findIssuesOfTool(7, "ghs-multi", "ghsmulti.txt");
     }
 
     /**
@@ -612,7 +630,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the AnsibleLint parser on an output file that contains 9 issues. */
     @Test
     void shouldFindAllAnsibleLintIssues() {
-        findIssuesOfTool(9, "ansiblelint", "ansibleLint.txt");
+        findIssuesOfTool(10, "ansiblelint", "ansibleLint.txt");
     }
 
     /**

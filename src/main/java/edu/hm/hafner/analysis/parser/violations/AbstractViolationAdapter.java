@@ -164,7 +164,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     }
 
     /**
-     * Computes the {@link Severity} from the specified {@link SEVERITY}. Sub-classes may override and use any of the
+     * Computes the {@link Severity} from the specified {@link SEVERITY}. Subclasses may override and use any of the
      * properties of the provided violation.
      *
      * @param severity

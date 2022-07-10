@@ -19,7 +19,7 @@ class GhsMultiParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(6);
+        softly.assertThat(report).hasSize(7);
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.ERROR)
                 .hasCategory("#5")
@@ -53,17 +53,24 @@ class GhsMultiParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(4))
                 .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("#11-D")
+                .hasLineStart(639)
+                .hasColumnStart(10)
+                .hasMessage("unrecognized preprocessing directive")
+                .hasFileName("D:/workspace/TEST/mytest.c");
+
+        softly.assertThat(report.get(5))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("#177-D")
                 .hasLineStart(23)
                 .hasMessage("variable \"myvar\" was declared but never referenced\n  static const uint32 myvar")
                 .hasFileName("D:/workspace/TEST/mytest.c");
 
-        softly.assertThat(report.get(5))
+        softly.assertThat(report.get(6))
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasCategory("#11-D")
-                .hasLineStart(639)
-                .hasColumnStart(10)
-                .hasMessage("unrecognized preprocessing directive")
+                .hasCategory("#42-D")
+                .hasLineStart(42)
+                .hasMessage("warning at the end of the file")
                 .hasFileName("D:/workspace/TEST/mytest.c");
 
     }

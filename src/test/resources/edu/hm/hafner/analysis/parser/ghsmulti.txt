@@ -23,8 +23,10 @@ Compiling TestCase_1601.cpp because TestCase_1601.o does not exist
 Integrating TestExec1601 because it does not exist
 Done
 
+"D:/workspace/TEST/mytest.c", line 639 (col. 10): warning #11-D: unrecognized preprocessing directive
+
 "D:/workspace/TEST/mytest.c", line 23: warning #177-D: variable "myvar" was declared but never referenced
   static const uint32 myvar
                       ^
 
-"D:/workspace/TEST/mytest.c", line 639 (col. 10): warning #11-D: unrecognized preprocessing directive
+"D:/workspace/TEST/mytest.c", line 42: warning #42-D: warning at the end of the file

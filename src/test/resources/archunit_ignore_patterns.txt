@@ -1,1 +1,7 @@
 // empty up to now, see https://www.archunit.org/userguide/html/000_Index.html#_ignoring_violations
+
+// ParsingCanceledException musst be called without context
+.*edu.hm.hafner.analysis.ParsingCanceledException.*
+
+// Assertions.assertTimeoutPreemptively from JUnit 5 is ok to use
+.*org.junit.jupiter.api.Assertions.assertTimeoutPreemptively.*

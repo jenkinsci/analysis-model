@@ -33,6 +33,6 @@ class InferDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://github.com/facebook/infer/blob/master/website/static/img/logo.png";
+        return "https://github.com/facebook/infer/blob/main/website/static/img/logo.png";
     }
 }
