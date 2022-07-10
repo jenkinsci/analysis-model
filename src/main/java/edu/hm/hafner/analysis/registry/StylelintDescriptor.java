@@ -24,7 +24,7 @@ class StylelintDescriptor extends ParserDescriptor {
     @Override
     public String getHelp() {
         return "Requires <a href='https://www.npmjs.com/package/stylelint-checkstyle-reporter'>stylelint-checkstyle-reporter</a>."
-                + "<br/>Use --custom-formatter node_modules/stylelint-checkstyle-reporter/index.js -o stylelint-warnings.xml";
+                + "<br/>Use <code>--custom-formatter node_modules/stylelint-checkstyle-reporter/index.js -o stylelint-warnings.xml</code>";
     }
 
     @Override
