@@ -141,6 +141,7 @@ public class ParserRegistry {
             new SphinxBuildDescriptor(),
             new SpotBugsDescriptor(),
             new StyleCopDescriptor(),
+            new StylelintDescriptor(),
             new SunCDescriptor(),
             new SwiftLintDescriptor(),
             new TaglistDescriptor(),
