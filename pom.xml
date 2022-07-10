@@ -382,32 +382,31 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
-          <failBuildOnProblemsFound>true</failBuildOnProblemsFound>
-          <versionFormat>[-0-9._]*</versionFormat>
           <analysisConfiguration>
-            <revapi.semver.ignore>
-              <enabled>true</enabled>
-            </revapi.semver.ignore>
-            <revapi.differences>
+            <revapi.differences id="manually-vetted">
               <justification>Shaded artefacts are not part of the public API</justification>
               <criticality>allowed</criticality>
               <differences combine.children="append">
                 <item>
+                  <ignore>true</ignore>
                   <regex>true</regex>
                   <classQualifiedName>shaded.*</classQualifiedName>
                   <code>.*</code>
                 </item>
                 <item>
+                  <ignore>true</ignore>
                   <class>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</class>
                   <regex>true</regex>
                   <code>.*</code>
                 </item>
                 <item>
+                  <ignore>true</ignore>
                   <package>javax.xml.transform</package>
                   <code>java.class.externalClassExposedInAPI</code>
                 </item>
                 <item>
                   <!-- No part of codingstyle library -->
+                  <ignore>true</ignore>
                   <regex>true</regex>
                   <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
                   <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
