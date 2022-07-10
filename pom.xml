@@ -8,11 +8,11 @@
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
     <version>2.29.0</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <artifactId>analysis-model</artifactId>
-  <version>${revision}${changelist}</version>
+  <version>10.13.0</version>
 
   <packaging>jar</packaging>
 
@@ -27,7 +27,7 @@
     <connection>scm:git:git://github.com/jenkinsci/analysis-model.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/analysis-model.git</developerConnection>
     <url>https://github.com/jenkinsci/analysis-model</url>
-    <tag>${scmTag}</tag>
+    <tag>v10.13.0</tag>
   </scm>
 
   <licenses>
