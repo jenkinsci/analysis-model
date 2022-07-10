@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Alexander Brandes
  */
-class StylelintDescriptor extends ParserDescriptor {
+class StyleLintDescriptor extends ParserDescriptor {
     private static final String ID = "stylelint";
     private static final String NAME = "Stylelint";
 
-    StylelintDescriptor() {
+    StyleLintDescriptor() {
         super(ID, NAME);
     }
 
