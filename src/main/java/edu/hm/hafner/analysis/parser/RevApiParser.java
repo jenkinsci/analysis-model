@@ -53,12 +53,8 @@ public class RevApiParser extends JsonIssueParser {
             }
         }
         group.setSeverities(allSeverities);
-        if (newChange instanceof JSONObject && !((JSONObject) newChange).isNull("new")) {
-            group.setNewFile(StringUtils.defaultString(((JSONObject) newChange).getString("new")));
-        }
-        if (oldChange instanceof JSONObject && !((JSONObject) oldChange).isNull("old")) {
-            group.setOldFile(StringUtils.defaultString(((JSONObject) oldChange).getString("old")));
-        }
+        group.setNewFile(newChange.toString());
+        group.setOldFile(oldChange.toString());
         return group;
     }
 

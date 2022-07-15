@@ -11,6 +11,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * Stores the additional information of a parsed issue.
  * (Severities, issueName, oldFile, newFile)
  */
+@SuppressWarnings("PMD.DataClass")
 public class RevapiInfoExtension implements Serializable {
 
     private static final long serialVersionUID = 6058160289391492934L;
