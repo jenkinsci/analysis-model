@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 
-
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
@@ -18,7 +17,7 @@ import edu.hm.hafner.analysis.RevapiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
 
 /**
- *  Parser for Tool (Revapi) Reports
+ *  Parser for Tool (Revapi) Reports.
  */
 public class RevApiParser extends JsonIssueParser {
 
@@ -41,7 +40,6 @@ public class RevApiParser extends JsonIssueParser {
         builder.setAdditionalProperties(convertToGroup(jsonIssue));
         return builder.build();
     }
-
 
     private RevapiInfoExtension convertToGroup(final JSONObject jsonIssue) {
         RevapiInfoExtension group = new RevapiInfoExtension(jsonIssue.getString("name"));
@@ -82,9 +80,10 @@ public class RevApiParser extends JsonIssueParser {
                 allSeverities.add(toSeverity(((JSONObject) severity).getString("severity")));
             }
         }
-        if (allSeverities.contains(Severity.WARNING_HIGH)) {
+        if (allSeverities.contains(Severity.WARNING_HIGH)){
             return Severity.WARNING_HIGH;
-        } else if (allSeverities.contains(Severity.WARNING_LOW)){
+        }
+        else if (allSeverities.contains(Severity.WARNING_LOW)){
             return Severity.WARNING_LOW;
         }
         return Severity.WARNING_NORMAL;
@@ -101,7 +100,6 @@ public class RevApiParser extends JsonIssueParser {
                 return Severity.WARNING_NORMAL;
         }
     }
-
 
     private String getDescription(final JSONObject jsonIssue) {
         StringBuilder severityDescription = new StringBuilder();

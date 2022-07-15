@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.parser.RevApiParser;
-
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
 

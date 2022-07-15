@@ -13,7 +13,6 @@ public class RevApiDescriptor extends ParserDescriptor {
     private static final String ID = "revapi";
     private static final String NAME = "Revapi";
 
-
     RevApiDescriptor() {
         super(ID, NAME);
     }
@@ -21,11 +20,6 @@ public class RevApiDescriptor extends ParserDescriptor {
     @Override
     public IssueParser createParser(final Option... options) {
         return new RevApiParser();
-    }
-
-    @Override
-    public String getDescription(final Issue issue) {
-        return super.getDescription(issue);
     }
 
     @Override

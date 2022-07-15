@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -21,6 +22,9 @@ public class RevapiInfoExtension implements Serializable {
     private String oldFile = StringUtils.EMPTY;
     private String newFile = StringUtils.EMPTY;
 
+    /**
+     * @param code of the parsed issue
+     */
     public RevapiInfoExtension(@CheckForNull final String code) {
         setCode(code);
     }
@@ -30,7 +34,7 @@ public class RevapiInfoExtension implements Serializable {
      * @param name of the issue
      */
     public void setCode(@CheckForNull final String name) {
-        if (StringUtils.isBlank(this.issueName)) {
+        if (StringUtils.isBlank(this.issueName)){
             this.issueName = StringUtils.defaultString(name);
         }
     }
@@ -57,9 +61,7 @@ public class RevapiInfoExtension implements Serializable {
      */
     public void setSeverities(@CheckForNull final Map<String, String> severities) {
         if (severities != null && !severities.isEmpty()) {
-            for (String severity : severities.keySet()) {
-                this.severities.put(severity, severities.get(severity));
-            }
+            this.severities.putAll(severities);
         }
     }
 
@@ -68,7 +70,7 @@ public class RevapiInfoExtension implements Serializable {
      * @param newFile in which the change occurred
      */
     public void setNewFile(@CheckForNull final String newFile) {
-            this.newFile = StringUtils.defaultString(newFile);
+        this.newFile = StringUtils.defaultString(newFile);
     }
 
     /**
@@ -76,7 +78,7 @@ public class RevapiInfoExtension implements Serializable {
      * @param oldFile in which the change occurred
      */
     public void setOldFile(@CheckForNull final String oldFile) {
-            this.oldFile = StringUtils.defaultString(oldFile);
+        this.oldFile = StringUtils.defaultString(oldFile);
     }
 
 }
