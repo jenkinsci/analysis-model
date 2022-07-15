@@ -80,10 +80,10 @@ public class RevApiParser extends JsonIssueParser {
                 allSeverities.add(toSeverity(((JSONObject) severity).getString("severity")));
             }
         }
-        if (allSeverities.contains(Severity.WARNING_HIGH)){
+        if (allSeverities.contains(Severity.WARNING_HIGH)) {
             return Severity.WARNING_HIGH;
         }
-        else if (allSeverities.contains(Severity.WARNING_LOW)){
+        else if (allSeverities.contains(Severity.WARNING_LOW)) {
             return Severity.WARNING_LOW;
         }
         return Severity.WARNING_NORMAL;

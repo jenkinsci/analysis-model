@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -23,6 +22,7 @@ public class RevapiInfoExtension implements Serializable {
     private String newFile = StringUtils.EMPTY;
 
     /**
+     * Creates an object to hold additional revapi issue information.
      * @param code of the parsed issue
      */
     public RevapiInfoExtension(@CheckForNull final String code) {
@@ -34,12 +34,12 @@ public class RevapiInfoExtension implements Serializable {
      * @param name of the issue
      */
     public void setCode(@CheckForNull final String name) {
-        if (StringUtils.isBlank(this.issueName)){
+        if (StringUtils.isBlank(this.issueName)) {
             this.issueName = StringUtils.defaultString(name);
         }
     }
 
-    public Map<String, String> getSeverities(){
+    public Map<String, String> getSeverities() {
         return this.severities;
     }
 
