@@ -244,7 +244,7 @@ public class Issue implements Serializable {
      * @param reference
      *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
      * @param fingerprint
-     *         the finger print for this issue
+     *         the fingerprint for this issue
      * @param additionalProperties
      *         additional properties from the statical analysis tool
      */
@@ -302,7 +302,7 @@ public class Issue implements Serializable {
      * @param reference
      *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
      * @param fingerprint
-     *         the finger print for this issue
+     *         the fingerprint for this issue
      * @param additionalProperties
      *         additional properties from the statical analysis tool
      * @param id

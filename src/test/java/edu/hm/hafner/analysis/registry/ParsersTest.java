@@ -80,7 +80,7 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllIssuesForCheckStyleAlias() {
         for (String tool : Arrays.asList("detekt", "eslint", "ktlint", "php-code-sniffer",
-                "swiftlint", "tslint")) {
+                "swiftlint", "stylelint", "tslint")) {
             findIssuesOfTool(4, tool, "checkstyle.xml");
         }
     }
@@ -311,6 +311,12 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllMentorGraphicsIssues() {
         findIssuesOfTool(12, "modelsim", "MentorGraphics.log");
+    }
+
+    /** Runs the BluePearl an output file that contains 8 issues. */
+    @Test
+    void shouldFindAllBluePearlIssues() {
+        findIssuesOfTool(12, "bluepearl", "bluepearl.log");
     }
 
     /** Runs the PMD parser on an output file that contains 262 issues (PMD 6.1.0). */
