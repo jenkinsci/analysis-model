@@ -395,21 +395,17 @@
         </dependencies>
         <configuration>
           <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
-          <checkDependencies>true</checkDependencies>
-          <newVersion>${project.version}</newVersion>
-          <failOnUnresolvedArtifacts>true</failOnUnresolvedArtifacts>
           <pipelineConfiguration>
             <transformBlocks>
               <block>
                 <item>manually-vetted</item>
                 <item>revapi.versions</item>
-                <item>revapi.semver.ignore</item>
               </block>
             </transformBlocks>
           </pipelineConfiguration>
           <analysisConfiguration>
             <revapi.reporter.json>
-              <minSeverity>EQUIVALENT</minSeverity>
+              <minSeverity>NON_BREAKING</minSeverity>
               <minCriticality>allowed</minCriticality>
               <output>target/revapi-result.json</output>
               <indent>false</indent>
@@ -417,50 +413,9 @@
               <keepEmptyFile>true</keepEmptyFile>
             </revapi.reporter.json>
             <revapi.differences id="manually-vetted">
-              <justification>Shaded artefacts are not part of the public API</justification>
-              <criticality>allowed</criticality>
               <attachments>
                 <vetted>ok</vetted>
               </attachments>
-              <item>
-                <regex>true</regex>
-                <code>java.class.nonPublicPartOfAPI</code>
-                <classQualifiedName>org.jvnet.hudson.*</classQualifiedName>
-                <justification>Not relevant</justification>
-              </item>
-              <item>
-                <regex>true</regex>
-                <code>java.class.nonPublicPartOfAPI</code>
-                <classQualifiedName>net.sf.json.*</classQualifiedName>
-                <justification>Not relevant</justification>
-              </item>
-              <item>
-                <regex>true</regex>
-                <code>java.class.nonPublicPartOfAPI</code>
-                <classQualifiedName>org.jvnet.hudson.*</classQualifiedName>
-                <justification>Not relevant</justification>
-              </item>
-              <item>
-                <regex>true</regex>
-                <code>java.class.nonPublicPartOfAPI</code>
-                <classQualifiedName>net.sf.json.*</classQualifiedName>
-                <justification>Not relevant</justification>
-              </item>
-              <item>
-                <code>java.annotation.removed</code>
-                <annotation>@edu.umd.cs.findbugs.annotations.Nullable</annotation>
-                <justification>Annotation should be save to change.</justification>
-              </item>
-              <item>
-                <code>java.annotation.added</code>
-                <annotation>@edu.umd.cs.findbugs.annotations.CheckForNull</annotation>
-                <justification>Annotation should be save to change.</justification>
-              </item>
-              <item>
-                <code>java.annotation.added</code>
-                <annotation>@edu.hm.hafner.util.Generated</annotation>
-                <justification>Annotation should be save to change.</justification>
-              </item>
               <differences combine.children="append">
                 <item>
                   <regex>true</regex>
@@ -486,18 +441,6 @@
                 </item>
               </differences>
             </revapi.differences>
-            <revapi.versions>
-              <versionIncreaseAllows>
-                <major>
-                    <severity>BREAKING</severity>
-                  <item>
-                    <attachments>
-                      <vetted>ok</vetted>
-                    </attachments>
-                  </item>
-                </major>
-              </versionIncreaseAllows>
-            </revapi.versions>
           </analysisConfiguration>
         </configuration>
         <executions>
