@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.parser;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 
 import org.json.JSONObject;
@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.RevapiInfoExtension;
+import edu.hm.hafner.analysis.RevApiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
 
 /**
@@ -41,8 +41,7 @@ public class RevApiParser extends JsonIssueParser {
         return builder.build();
     }
 
-    private RevapiInfoExtension convertToGroup(final JSONObject jsonIssue) {
-        RevapiInfoExtension group = new RevapiInfoExtension(jsonIssue.getString("name"));
+    private RevApiInfoExtension convertToGroup(final JSONObject jsonIssue) {
         Object newChange = jsonIssue.get("new");
         Object oldChange = jsonIssue.get("old");
         Map<String, String> allSeverities = new HashMap<>();
@@ -52,15 +51,11 @@ public class RevApiParser extends JsonIssueParser {
                 allSeverities.put(((JSONObject) severity).getString("compatibility"), ((JSONObject) severity).getString("severity"));
             }
         }
-        group.setSeverities(allSeverities);
-        group.setNewFile(newChange.toString());
-        group.setOldFile(oldChange.toString());
-        return group;
+        return new RevApiInfoExtension(jsonIssue.getString("name"), oldChange.toString(), newChange.toString(), allSeverities);
     }
 
     private void addAttachments(final JSONArray attachments, final IssueBuilder builder) {
         String packageName = attachments.getJSONObject(0).getString("value");
-        //String classQualifiedName = attachments.getJSONObject(1).getString("value");
         String classSimpleName = attachments.getJSONObject(2).getString("value");
         String elementKind = attachments.getJSONObject(3).getString("value");
 
@@ -70,7 +65,7 @@ public class RevApiParser extends JsonIssueParser {
     }
 
     private Severity evaluateSeverity(final JSONArray classification) {
-        List<Severity> allSeverities = new ArrayList<>();
+        List<Severity> allSeverities = new ArrayList<Severity>();
         for  (Object severity : classification) {
             if (severity instanceof JSONObject) {
                 allSeverities.add(toSeverity(((JSONObject) severity).getString("severity")));

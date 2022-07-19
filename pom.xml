@@ -381,20 +381,9 @@
       <plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
-        <version>${revapi-maven-plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.revapi</groupId>
-            <artifactId>revapi-java</artifactId>
-            <version>${revapi-java.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.revapi</groupId>
-            <artifactId>revapi-reporter-json</artifactId>
-            <version>0.4.5</version>
-          </dependency>
-        </dependencies>
         <configuration>
+          <justification>Shaded artefacts are not part of the public API</justification>
+          <criticality>allowed</criticality>
           <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
           <pipelineConfiguration>
             <transformBlocks>
