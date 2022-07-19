@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.RevapiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
 
 /**
- *  Parser for Tool (Revapi) Reports.
+ *  Parser for Revapi reports.
  */
 public class RevApiParser extends JsonIssueParser {
 
