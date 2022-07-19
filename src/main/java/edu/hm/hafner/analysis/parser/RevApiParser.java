@@ -70,7 +70,7 @@ public class RevApiParser extends JsonIssueParser {
     }
 
     private Severity evaluateSeverity(final JSONArray classification) {
-        ArrayList<Severity> allSeverities = new ArrayList<>();
+        List<Severity> allSeverities = new ArrayList<>();
         for  (Object severity : classification) {
             if (severity instanceof JSONObject) {
                 allSeverities.add(toSeverity(((JSONObject) severity).getString("severity")));
