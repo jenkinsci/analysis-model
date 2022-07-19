@@ -23,7 +23,7 @@ public class RevapiInfoExtension implements Serializable {
     private String newFile = StringUtils.EMPTY;
 
     /**
-     * Creates an object to hold additional revapi issue information.
+     * Creates an object to hold additional Revapi issue information.
      * @param code of the parsed issue
      */
     public RevapiInfoExtension(@CheckForNull final String code) {
