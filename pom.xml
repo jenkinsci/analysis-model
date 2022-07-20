@@ -382,8 +382,6 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
-          <justification>Shaded artefacts are not part of the public API</justification>
-          <criticality>allowed</criticality>
           <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
           <pipelineConfiguration>
             <transformBlocks>
@@ -394,6 +392,8 @@
             </transformBlocks>
           </pipelineConfiguration>
           <analysisConfiguration>
+            <justification>Shaded artefacts are not part of the public API</justification>
+            <criticality>allowed</criticality>
             <revapi.reporter.json>
               <minSeverity>EQUIVALENT</minSeverity>
               <minCriticality>allowed</minCriticality>

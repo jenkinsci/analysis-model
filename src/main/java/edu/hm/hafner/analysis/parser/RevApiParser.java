@@ -28,12 +28,13 @@ public class RevApiParser extends JsonIssueParser {
         for (Object issue : jsonReport) {
             if (issue instanceof JSONObject) {
                 report.add(convertToIssue((JSONObject) issue, issueBuilder));
+            } else {
+                report.logError("RevApi issues no instance of JSON");
             }
         }
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
-        builder.setCategory(jsonIssue.getString("code"));
         builder.setSeverity(evaluateSeverity(jsonIssue.getJSONArray("classification")));
         builder.setDescription(getDescription(jsonIssue));
         addAttachments(jsonIssue.getJSONArray("attachments"), builder);
@@ -51,17 +52,16 @@ public class RevApiParser extends JsonIssueParser {
                 allSeverities.put(((JSONObject) severity).getString("compatibility"), ((JSONObject) severity).getString("severity"));
             }
         }
-        return new RevApiInfoExtension(jsonIssue.getString("name"), oldChange.toString(), newChange.toString(), allSeverities);
+        return new RevApiInfoExtension(jsonIssue.getString("code"), oldChange.toString(), newChange.toString(), allSeverities);
     }
 
     private void addAttachments(final JSONArray attachments, final IssueBuilder builder) {
         String packageName = attachments.getJSONObject(0).getString("value");
         String classSimpleName = attachments.getJSONObject(2).getString("value");
         String elementKind = attachments.getJSONObject(3).getString("value");
-
         builder.setFileName(classSimpleName);
         builder.setPackageName(packageName);
-        builder.setType(elementKind);
+        builder.setCategory(elementKind);
     }
 
     private Severity evaluateSeverity(final JSONArray classification) {

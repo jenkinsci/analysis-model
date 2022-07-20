@@ -21,8 +21,7 @@ public final class RevApiInfoExtension implements Serializable {
     private final String newFile;
 
     /**
-     *
-     * Creates an object to hold additional Revapi issue information.
+     * Creates an object to hold additional RevApi issue information.
      * @param code of the parsed issue
      * @param oldFile the oldFile where something was changed
      * @param newFile the newFile where something was changed
