@@ -25,6 +25,7 @@ public class RevApiDescriptor extends ParserDescriptor {
     public String getPattern() {
         return "**/target/revapi-result.json";
     }
+
     @Override
     public String getUrl() {
         return "https://revapi.org/revapi-site/main/index.html";

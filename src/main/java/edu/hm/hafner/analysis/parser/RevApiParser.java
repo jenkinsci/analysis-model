@@ -65,7 +65,7 @@ public class RevApiParser extends JsonIssueParser {
     }
 
     private Severity evaluateSeverity(final JSONArray classification) {
-        List<Severity> allSeverities = new ArrayList<Severity>();
+        List<Severity> allSeverities = new ArrayList<>();
         for  (Object severity : classification) {
             if (severity instanceof JSONObject) {
                 allSeverities.add(toSeverity(((JSONObject) severity).getString("severity")));
@@ -74,10 +74,10 @@ public class RevApiParser extends JsonIssueParser {
         if (allSeverities.contains(Severity.WARNING_HIGH)) {
             return Severity.WARNING_HIGH;
         }
-        else if (allSeverities.contains(Severity.WARNING_LOW)) {
-            return Severity.WARNING_LOW;
+        else if (allSeverities.contains(Severity.WARNING_NORMAL)) {
+            return Severity.WARNING_NORMAL;
         }
-        return Severity.WARNING_NORMAL;
+        return Severity.WARNING_LOW;
     }
 
     private Severity toSeverity(final String level) {

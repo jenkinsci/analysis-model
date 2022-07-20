@@ -1,11 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.jupiter.api.Test;
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.RevApiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
@@ -14,17 +9,10 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.parser.RevApiParser;
 
 
 class RevApiParserTest extends AbstractParserTest {
 
-    /**
-     * Creates a new instance of {@link AbstractParserTest}.
-     *
-     * @param fileWithIssuesName
-     *         the file that should contain some issues
-     */
     RevApiParserTest() {
         super("revapi_report.json");
     }
@@ -93,7 +81,7 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasIssueName("Incompatible with the current version: method removed");
 
         softly.assertThat(report.get(4))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasType("hasFlags")
                 .hasCategory("java.method.removed")
                 .hasPackageName("shaded.org.objectweb.asm")
@@ -108,7 +96,7 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasIssueName("Incompatible with the current version: method removed");
 
         softly.assertThat(report.get(5))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasType("V19")
                 .hasCategory("java.field.removedWithConstant")
                 .hasPackageName("shaded.org.objectweb.asm")

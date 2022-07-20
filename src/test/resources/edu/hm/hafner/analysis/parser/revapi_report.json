@@ -102,9 +102,9 @@
     "criticality":"error",
     "justification":null,
     "classification":[
-      {"compatibility":"OTHER","severity":"BREAKING"},
-      {"compatibility":"SOURCE","severity":"BREAKING"},
-      {"compatibility":"BINARY","severity":"BREAKING"}],
+      {"compatibility":"OTHER","severity":"NON_BREAKING"},
+      {"compatibility":"SOURCE","severity":"NON_BREAKING"},
+      {"compatibility":"BINARY","severity":"NON_BREAKING"}],
     "attachments":[
       {"name":"package","value":"shaded.org.objectweb.asm"},
       {"name":"classQualifiedName","value":"shaded.org.objectweb.asm.ClassWriter"},
@@ -127,10 +127,10 @@
     "criticality":"error",
     "justification":null,
     "classification":[
-      {"compatibility":"OTHER","severity":"BREAKING"},
-      {"compatibility":"SOURCE","severity":"BREAKING"},
+      {"compatibility":"OTHER","severity":"POTENTIALLY_BREAKING"},
+      {"compatibility":"SOURCE","severity":"POTENTIALLY_BREAKING"},
       {"compatibility":"SEMANTIC","severity":"POTENTIALLY_BREAKING"},
-      {"compatibility":"BINARY","severity":"NON_BREAKING"}],
+      {"compatibility":"BINARY","severity":"POTENTIALLY_BREAKING"}],
     "attachments":[
       {"name":"package","value":"shaded.org.objectweb.asm"},
       {"name":"classQualifiedName","value":"shaded.org.objectweb.asm.Opcodes"},
