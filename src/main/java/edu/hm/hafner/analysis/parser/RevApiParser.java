@@ -28,7 +28,8 @@ public class RevApiParser extends JsonIssueParser {
         for (Object issue : jsonReport) {
             if (issue instanceof JSONObject) {
                 report.add(convertToIssue((JSONObject) issue, issueBuilder));
-            } else {
+            }
+            else {
                 report.logError("RevApi issues no instance of JSON");
             }
         }

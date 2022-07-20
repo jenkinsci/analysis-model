@@ -36,6 +36,8 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasIssueName("java.class.removed")
                 .hasSeverities(want));
 
+        want.replace("SOURCE", "BREAKING", "NON_BREAKING");
+        want.replace("BINARY", "BREAKING", "NON_BREAKING");
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("class")
@@ -45,11 +47,10 @@ class RevApiParserTest extends AbstractParserTest {
             softly.assertThat(i)
                     .hasNewFile("class edu.hm.hafner.analysis.parser.RevApiParser")
                     .hasOldFile("null")
-                    .hasIssueName("java.class.added");
+                    .hasIssueName("java.class.added")
+                    .hasSeverities(want);
             Map<String, String> sut = i.getSeverities();
-            softly.assertThat(sut.get("OTHER").equals("BREAKING")).isTrue();
-            softly.assertThat(sut.get("SOURCE").equals("NON_BREAKING")).isTrue();
-            softly.assertThat(sut.get("BINARY").equals("NON_BREAKING")).isTrue();
+            softly.assertThat(sut.equals(want)).isTrue();
         });
 
         softly.assertThat(report.get(2))
@@ -57,65 +58,53 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasCategory("class")
                 .hasPackageName("edu.hm.hafner.analysis.registry")
                 .hasFileName("RevApiDescriptor");
-        softly.assertThat(report.get(2).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> {
-            softly.assertThat(i)
-                    .hasNewFile("class edu.hm.hafner.analysis.registry.RevApiDescriptor")
-                    .hasOldFile("null")
-                    .hasIssueName("java.class.added");
-            Map<String, String> sut = i.getSeverities();
-            softly.assertThat(sut.get("OTHER").equals("BREAKING")).isTrue();
-            softly.assertThat(sut.get("SOURCE").equals("NON_BREAKING")).isTrue();
-            softly.assertThat(sut.get("BINARY").equals("NON_BREAKING")).isTrue();
-        });
+        softly.assertThat(report.get(2).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+                .hasNewFile("class edu.hm.hafner.analysis.registry.RevApiDescriptor")
+                .hasOldFile("null")
+                .hasIssueName("java.class.added")
+                .hasSeverities(want));
 
+        want.replace("SOURCE", "NON_BREAKING", "BREAKING");
+        want.replace("BINARY", "NON_BREAKING", "BREAKING");
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("size")
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("ByteVector");
-        softly.assertThat(report.get(3).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> {
-            softly.assertThat(i)
-                    .hasNewFile("null")
-                    .hasOldFile("method int shaded.org.objectweb.asm.ByteVector::size()")
-                    .hasIssueName("java.method.removed");
-            Map<String, String> sut = i.getSeverities();
-            softly.assertThat(sut.get("OTHER").equals("BREAKING")).isTrue();
-            softly.assertThat(sut.get("SOURCE").equals("BREAKING")).isTrue();
-            softly.assertThat(sut.get("BINARY").equals("BREAKING")).isTrue();
-        });
+        softly.assertThat(report.get(3).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+                .hasNewFile("null")
+                .hasOldFile("method int shaded.org.objectweb.asm.ByteVector::size()")
+                .hasIssueName("java.method.removed")
+                .hasSeverities(want));
 
+        want.replace("SOURCE", "BREAKING", "NON_BREAKING");
+        want.replace("BINARY", "BREAKING", "NON_BREAKING");
+        want.replace("OTHER", "BREAKING", "NON_BREAKING");
         softly.assertThat(report.get(4))
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("hasFlags")
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("ClassWriter");
-        softly.assertThat(report.get(4).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> {
-            softly.assertThat(i)
-                    .hasNewFile("null")
-                    .hasOldFile("method boolean shaded.org.objectweb.asm.ClassWriter::hasFlags(int)")
-                    .hasIssueName("java.method.removed");
-            Map<String, String> sut = i.getSeverities();
-            softly.assertThat(sut.get("OTHER").equals("NON_BREAKING")).isTrue();
-            softly.assertThat(sut.get("SOURCE").equals("NON_BREAKING")).isTrue();
-            softly.assertThat(sut.get("BINARY").equals("NON_BREAKING")).isTrue();
-        });
+        softly.assertThat(report.get(4).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+                .hasNewFile("null")
+                .hasOldFile("method boolean shaded.org.objectweb.asm.ClassWriter::hasFlags(int)")
+                .hasIssueName("java.method.removed")
+                .hasSeverities(want));
 
+        want.replace("SOURCE", "NON_BREAKING", "POTENTIALLY_BREAKING");
+        want.replace("BINARY", "NON_BREAKING", "POTENTIALLY_BREAKING");
+        want.replace("OTHER", "NON_BREAKING", "POTENTIALLY_BREAKING");
+        want.put("SEMANTIC", "POTENTIALLY_BREAKING");
         softly.assertThat(report.get(5))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("V19")
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("Opcodes");
-        softly.assertThat(report.get(5).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> {
-            softly.assertThat(i)
-                            .hasNewFile("null")
-                            .hasOldFile("field shaded.org.objectweb.asm.Opcodes.V19")
-                            .hasIssueName("java.field.removedWithConstant");
-            Map<String, String> sut = i.getSeverities();
-            softly.assertThat(sut.get("OTHER").equals("POTENTIALLY_BREAKING")).isTrue();
-            softly.assertThat(sut.get("SOURCE").equals("POTENTIALLY_BREAKING")).isTrue();
-            softly.assertThat(sut.get("BINARY").equals("POTENTIALLY_BREAKING")).isTrue();
-            softly.assertThat(sut.get("SEMANTIC").equals("POTENTIALLY_BREAKING")).isTrue();
-        });
+        softly.assertThat(report.get(5).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+                .hasNewFile("null")
+                .hasOldFile("field shaded.org.objectweb.asm.Opcodes.V19")
+                .hasIssueName("java.field.removedWithConstant")
+                .hasSeverities(want));
     }
 
     @Override
