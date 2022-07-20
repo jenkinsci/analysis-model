@@ -30,7 +30,7 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasCategory("class")
                 .hasPackageName("edu.hm.hafner.analysis.parser")
                 .hasFileName("AquaScannerParser");
-        softly.assertThat(report.get(0).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+        softly.assertThat(report.get(0).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
                 .hasNewFile("null")
                 .hasOldFile("class edu.hm.hafner.analysis.parser.AquaScannerParser")
                 .hasIssueName("java.class.removed")
@@ -43,7 +43,7 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasCategory("class")
                 .hasPackageName("edu.hm.hafner.analysis.parser")
                 .hasFileName("RevApiParser");
-        softly.assertThat(report.get(1).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> {
+        softly.assertThat(report.get(1).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, i -> {
             softly.assertThat(i)
                     .hasNewFile("class edu.hm.hafner.analysis.parser.RevApiParser")
                     .hasOldFile("null")
@@ -58,7 +58,7 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasCategory("class")
                 .hasPackageName("edu.hm.hafner.analysis.registry")
                 .hasFileName("RevApiDescriptor");
-        softly.assertThat(report.get(2).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+        softly.assertThat(report.get(2).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
                 .hasNewFile("class edu.hm.hafner.analysis.registry.RevApiDescriptor")
                 .hasOldFile("null")
                 .hasIssueName("java.class.added")
@@ -71,7 +71,7 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasCategory("size")
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("ByteVector");
-        softly.assertThat(report.get(3).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+        softly.assertThat(report.get(3).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
                 .hasNewFile("null")
                 .hasOldFile("method int shaded.org.objectweb.asm.ByteVector::size()")
                 .hasIssueName("java.method.removed")
@@ -85,7 +85,7 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasCategory("hasFlags")
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("ClassWriter");
-        softly.assertThat(report.get(4).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+        softly.assertThat(report.get(4).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
                 .hasNewFile("null")
                 .hasOldFile("method boolean shaded.org.objectweb.asm.ClassWriter::hasFlags(int)")
                 .hasIssueName("java.method.removed")
@@ -100,7 +100,7 @@ class RevApiParserTest extends AbstractParserTest {
                 .hasCategory("V19")
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("Opcodes");
-        softly.assertThat(report.get(5).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, (i) -> softly.assertThat(i)
+        softly.assertThat(report.get(5).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
                 .hasNewFile("null")
                 .hasOldFile("field shaded.org.objectweb.asm.Opcodes.V19")
                 .hasIssueName("java.field.removedWithConstant")
