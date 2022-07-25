@@ -35,8 +35,8 @@ public final class RevApiInfoExtension implements Serializable {
     public RevApiInfoExtension(@CheckForNull final String code, @CheckForNull final String oldFile,
             @CheckForNull final String newFile, final Map<String, String> severities) {
         this.issueName = StringUtils.defaultString(code, "-");
-        this.oldFile = oldFile;
-        this.newFile = newFile;
+        this.oldFile = StringUtils.defaultString(oldFile);
+        this.newFile = StringUtils.defaultString(newFile);
         if (severities != null && !severities.isEmpty()) {
             this.severities.putAll(severities);
         }
