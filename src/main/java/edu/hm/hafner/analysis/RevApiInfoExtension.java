@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Stores the additional information of a parsed issue.
- * (Severities, issueName, oldFile, newFile)
+ * Stores the additional information of a parsed issue. (Severities, issueName, oldFile, newFile)
  */
 @SuppressWarnings("PMD.DataClass")
 public final class RevApiInfoExtension implements Serializable {
@@ -22,15 +22,21 @@ public final class RevApiInfoExtension implements Serializable {
 
     /**
      * Creates an object to hold additional RevApi issue information.
-     * @param code of the parsed issue
-     * @param oldFile the oldFile where something was changed
-     * @param newFile the newFile where something was changed
-     * @param severities the severities of Binary and source
+     *
+     * @param code
+     *         of the parsed issue
+     * @param oldFile
+     *         the oldFile where something was changed
+     * @param newFile
+     *         the newFile where something was changed
+     * @param severities
+     *         the severities of Binary and source
      */
-    public RevApiInfoExtension(@CheckForNull final String code, @CheckForNull final String oldFile, @CheckForNull final String newFile, @CheckForNull final Map<String, String> severities) {
-        this.issueName = StringUtils.defaultString(code);
-        this.oldFile = StringUtils.defaultString(oldFile);
-        this.newFile = StringUtils.defaultString(newFile);
+    public RevApiInfoExtension(@CheckForNull final String code, @CheckForNull final String oldFile,
+            @CheckForNull final String newFile, final Map<String, String> severities) {
+        this.issueName = StringUtils.defaultString(code, "-");
+        this.oldFile = oldFile;
+        this.newFile = newFile;
         if (severities != null && !severities.isEmpty()) {
             this.severities.putAll(severities);
         }

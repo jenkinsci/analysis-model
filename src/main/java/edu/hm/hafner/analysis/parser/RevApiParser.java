@@ -44,8 +44,8 @@ public class RevApiParser extends JsonIssueParser {
     }
 
     private RevApiInfoExtension convertToGroup(final JSONObject jsonIssue) {
-        Object newChange = jsonIssue.get("new");
-        Object oldChange = jsonIssue.get("old");
+        Object newChange = "null".equals(jsonIssue.get("new").toString()) ? "-" : jsonIssue.get("new");
+        Object oldChange = "null".equals(jsonIssue.get("old").toString()) ? "-" : jsonIssue.get("old");
         Map<String, String> allSeverities = new HashMap<>();
         JSONArray severities = jsonIssue.getJSONArray("classification");
         for (Object severity : severities) {
