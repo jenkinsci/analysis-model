@@ -383,43 +383,40 @@
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
           <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
-          <pipelineConfiguration>
-            <transformBlocks>
-              <block>
-                <item>manually-vetted</item>
-                <item>revapi.versions</item>
-              </block>
-            </transformBlocks>
-          </pipelineConfiguration>
           <analysisConfiguration>
-            <justification>Shaded artefacts are not part of the public API</justification>
-            <criticality>allowed</criticality>
-            <revapi.reporter.json>
-              <minSeverity>EQUIVALENT</minSeverity>
-              <minCriticality>allowed</minCriticality>
-              <output>target/revapi-result.json</output>
-              <indent>false</indent>
-              <append>false</append>
-              <keepEmptyFile>true</keepEmptyFile>
-            </revapi.reporter.json>
             <revapi.differences id="manually-vetted">
               <attachments>
                 <vetted>ok</vetted>
               </attachments>
               <differences combine.children="append">
+                <item>
+                  <ignore>true</ignore>
+                  <regex>true</regex>
+                  <classQualifiedName>shaded.*</classQualifiedName>
+                  <code>.*</code>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <package>javax.xml.transform</package>
+                  <code>java.class.externalClassExposedInAPI</code>
+                </item>
               </differences>
+              <filter.classes>
+                <item>
+                  <regex>true</regex>
+                  <exclude>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</exclude>
+                </item>
+                <item>
+                  <!-- No part of codingstyle library -->
+                  <regex>true</regex>
+                  <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
+                  <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
+                  <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
+                </item>
+              </filter.classes>
             </revapi.differences>
           </analysisConfiguration>
         </configuration>
-        <executions>
-          <execution>
-            <id>run-revapi</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>verify</phase>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
