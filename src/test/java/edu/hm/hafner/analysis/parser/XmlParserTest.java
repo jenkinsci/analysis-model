@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.LineRange;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -107,12 +106,6 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasAdditionalProperties("")
                     .hasOnlyLineRanges(new LineRange(42, 43), new LineRange(44, 45));
         }
-    }
-
-    @Test
-    void shouldThrowParserException() {
-        assertThatThrownBy(() -> createParser().parse(createReaderFactory(ISSUES_EXCEPTION_FILE)))
-                .isInstanceOf(ParsingException.class);
     }
 
     @Test
