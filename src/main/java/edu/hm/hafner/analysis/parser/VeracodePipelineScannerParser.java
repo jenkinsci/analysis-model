@@ -57,7 +57,6 @@ public class VeracodePipelineScannerParser extends JsonIssueParser {
 
     /**
      * Retrieve source file values in a null safe manner.
-     *
      * Veracode has nested json objects representing a source file ( files -> source_file -> values) for which we need
      * to do null checking.
      *
@@ -86,7 +85,6 @@ public class VeracodePipelineScannerParser extends JsonIssueParser {
 
     /**
      * Map veracode severity to analysis-model severity.
-     *
      * See <a href="https://docs.veracode.com/r/review_severity_exploitability">Veracode severity table</a> for details
      * on scoring.
      *
