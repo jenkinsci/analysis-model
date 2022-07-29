@@ -151,6 +151,7 @@ public class ParserRegistry {
             new TnsdlDescriptor(),
             new TrivyDescriptor(),
             new TsLintDescriptor(),
+            new VeracodePipelineScannerDescriptor(),
             new XlcDescriptor(),
             new YamlLintDescriptor(),
             new XmlLintDescriptor(),
