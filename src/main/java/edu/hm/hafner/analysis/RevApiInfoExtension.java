@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,11 +10,10 @@ import org.apache.commons.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Stores the additional information of a parsed issue. (Severities, issueName, oldFile, newFile)
+ * Stores additional information of the Revapi analysis (severities, issue name, old file, and new file).
  */
 @SuppressWarnings("PMD.DataClass")
 public final class RevApiInfoExtension implements Serializable {
-
     private static final long serialVersionUID = 6058160289391492934L;
     private final Map<String, String> severities = new HashMap<>();
     private final String issueName;
@@ -21,7 +21,7 @@ public final class RevApiInfoExtension implements Serializable {
     private final String newFile;
 
     /**
-     * Creates an object to hold additional RevApi issue information.
+     * Creates an object to store additional information of the Revapi analysis.
      *
      * @param code
      *         of the parsed issue
@@ -32,18 +32,16 @@ public final class RevApiInfoExtension implements Serializable {
      * @param severities
      *         the severities of Binary and source
      */
-    public RevApiInfoExtension(@CheckForNull final String code, @CheckForNull final String oldFile,
-            @CheckForNull final String newFile, final Map<String, String> severities) {
+    public RevApiInfoExtension(@CheckForNull final String code, final String oldFile,
+            final String newFile, final Map<String, String> severities) {
         this.issueName = StringUtils.defaultString(code, "-");
-        this.oldFile = StringUtils.defaultString(oldFile);
-        this.newFile = StringUtils.defaultString(newFile);
-        if (severities != null && !severities.isEmpty()) {
-            this.severities.putAll(severities);
-        }
+        this.oldFile = oldFile;
+        this.newFile = newFile;
+        this.severities.putAll(severities);
     }
 
     public Map<String, String> getSeverities() {
-        return this.severities;
+        return Collections.unmodifiableMap(severities);
     }
 
     public String getIssueName() {
