@@ -8,7 +8,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
-import static edu.hm.hafner.util.StringContainsUtils.*;
 import static j2html.TagCreator.*;
 
 /**
@@ -57,8 +56,21 @@ public class VeracodePipelineScannerParser extends JsonIssueParser {
     }
 
     /**
+     * Retrieve source file values in a null safe manner.
+     * <p>
      * Veracode has nested json objects representing a source file ( files -> source_file -> values) for which we need
      * to do null checking.
+     *
+     * @param finding
+     *         contains top level vulnerability information.
+     * @param key
+     *         used to retrieve values from nested source file.
+     * @param altValue
+     *         in case there is a missing source file.
+     * @param <T>
+     *         type of the return value.
+     *
+     * @return field value of the source file.
      */
     private <T> T getSourceFileField(final JSONObject finding, final String key, T altValue) {
         final JSONObject files = finding.optJSONObject("files");
@@ -73,8 +85,15 @@ public class VeracodePipelineScannerParser extends JsonIssueParser {
     }
 
     /**
+     * Map veracode severity to analysis-model severity.
+     * <p>
      * See <a href="https://docs.veracode.com/r/review_severity_exploitability">Veracode severity table</a> for details
      * on scoring.
+     *
+     * @param severity
+     *         as an integer from 0 to 5 (inclusive).
+     *
+     * @return {@link Severity}
      */
     private Severity mapSeverity(final int severity) {
         if (severity <= VERACODE_LOW_THRESHOLD) {
