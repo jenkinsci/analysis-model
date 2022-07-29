@@ -75,7 +75,10 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return the issues in the default file
      */
     protected Report parseDefaultFile() {
-        return createParser().parse(getDefaultFileFactory());
+        IssueParser parser = createParser();
+        ReaderFactory factory = getDefaultFileFactory();
+        assertThat(parser.accepts(factory)).isTrue();
+        return parser.parse(factory);
     }
 
     /**

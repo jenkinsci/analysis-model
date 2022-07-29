@@ -2,11 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.UUID;
 
-import org.junit.jupiter.api.Test;
-
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.LineRange;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -16,7 +12,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 /**
  * Tests the class {@link JsonParser}.
  */
-class JsonParserTest extends AbstractParserTest {
+class JsonParserTest extends StructuredFileParserTest {
     JsonParserTest() {
         super("issues.json");
     }
@@ -67,19 +63,6 @@ class JsonParserTest extends AbstractParserTest {
                 .hasFileName("file.xml")
                 .hasOnlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
                 .hasSeverity(Severity.WARNING_NORMAL);
-    }
-
-    @Test
-    void shouldNotAcceptTextFiles() {
-        assertThat(createParser().accepts(createReaderFactory("gcc.txt"))).isFalse();
-    }
-
-    @Test
-    void shouldThrowParserException() {
-        assertThatThrownBy(() -> createParser().parse(createReaderFactory("issues-invalid.json")))
-                .isInstanceOf(ParsingException.class);
-        assertThatThrownBy(() -> createParser().parse(createReaderFactory("issues-broken.json")))
-                .isInstanceOf(ParsingException.class);
     }
 
     @Override

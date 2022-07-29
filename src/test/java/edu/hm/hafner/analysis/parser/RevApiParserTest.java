@@ -3,19 +3,13 @@ package edu.hm.hafner.analysis.parser;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.RevApiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static org.assertj.core.api.Assertions.*;
-
-class RevApiParserTest extends AbstractParserTest {
+class RevApiParserTest extends StructuredFileParserTest {
     RevApiParserTest() {
         super("revapi_report.json");
     }
@@ -114,19 +108,6 @@ class RevApiParserTest extends AbstractParserTest {
                         .hasOldFile("field shaded.org.objectweb.asm.Opcodes.V19")
                         .hasIssueName("java.field.removedWithConstant")
                         .hasSeverities(expectedSeverities));
-    }
-
-    @Test
-    void shouldNotAcceptTextFiles() {
-        assertThat(createParser().accepts(createReaderFactory("gcc.txt"))).isFalse();
-    }
-
-    @Test
-    void shouldThrowParserException() {
-        assertThatThrownBy(() -> createParser().parse(createReaderFactory("issues-invalid.json")))
-                .isInstanceOf(ParsingException.class);
-        assertThatThrownBy(() -> createParser().parse(createReaderFactory("issues-broken.json")))
-                .isInstanceOf(ParsingException.class);
     }
 
     @Override
