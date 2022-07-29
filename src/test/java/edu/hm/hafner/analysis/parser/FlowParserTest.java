@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -13,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Tests the class {@link FlowParser}.
  */
-class FlowParserTest extends AbstractParserTest {
+class FlowParserTest extends StructuredFileParserTest {
     private static final String CATEGORY = DEFAULT_CATEGORY;
     private static final String FILENAME = "flow.json";
 
@@ -42,14 +41,7 @@ class FlowParserTest extends AbstractParserTest {
     }
 
     @Test
-    void shouldNotAcceptXmlAndOtherJsonFiles() {
-        assertThat(createParser().accepts(createReaderFactory("xmlParserDefault.xml"))).isFalse();
-        assertThat(createParser().accepts(createReaderFactory("issues.json"))).isFalse();
-    }
-
-    @Test
     void shouldAcceptJsonFile() {
         assertThat(createParser().accepts(createReaderFactory(FILENAME))).isTrue();
     }
-
 }

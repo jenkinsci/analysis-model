@@ -382,10 +382,12 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
+          <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
           <analysisConfiguration>
             <revapi.differences id="manually-vetted">
-              <justification>Shaded artefacts are not part of the public API</justification>
-              <criticality>allowed</criticality>
+              <attachments>
+                <vetted>ok</vetted>
+              </attachments>
               <differences combine.children="append">
                 <item>
                   <ignore>true</ignore>
@@ -395,25 +397,23 @@
                 </item>
                 <item>
                   <ignore>true</ignore>
-                  <class>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</class>
-                  <regex>true</regex>
-                  <code>.*</code>
-                </item>
-                <item>
-                  <ignore>true</ignore>
                   <package>javax.xml.transform</package>
                   <code>java.class.externalClassExposedInAPI</code>
                 </item>
+              </differences>
+              <filter.classes>
+                <item>
+                  <regex>true</regex>
+                  <exclude>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</exclude>
+                </item>
                 <item>
                   <!-- No part of codingstyle library -->
-                  <ignore>true</ignore>
                   <regex>true</regex>
                   <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
                   <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
                   <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
-                  <code>.*</code>
                 </item>
-              </differences>
+              </filter.classes>
             </revapi.differences>
           </analysisConfiguration>
         </configuration>

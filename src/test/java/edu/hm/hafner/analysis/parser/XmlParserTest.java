@@ -4,10 +4,8 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.LineRange;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -19,11 +17,10 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Raphael Furch
  */
-class XmlParserTest extends AbstractParserTest {
+class XmlParserTest extends StructuredFileParserTest {
     private static final String ISSUES_DEFAULT_FILE = "xmlParserDefault.xml";
     private static final String ISSUES_CUSTOM_PATH_FILE = "xmlParserCustomPath.xml";
     private static final String ISSUES_INCOMPATIBLE_VALUE = "xmlParserIncompatibleValues.xml";
-    private static final String ISSUES_EXCEPTION_FILE = "xmlParserException.xml";
     private static final String CUSTOM_PATH = "/analysisReport/elements/issue";
 
     /**
@@ -111,14 +108,7 @@ class XmlParserTest extends AbstractParserTest {
     }
 
     @Test
-    void shouldThrowParserException() {
-        assertThatThrownBy(() -> createParser().parse(createReaderFactory(ISSUES_EXCEPTION_FILE)))
-                .isInstanceOf(ParsingException.class);
-    }
-
-    @Test
-    void shouldNotAcceptTextFiles() {
-        assertThat(createParser().accepts(createReaderFactory("gcc.txt"))).isFalse();
+    void shouldAcceptSampleFile() {
         assertThat(createParser().accepts(createReaderFactory(ISSUES_DEFAULT_FILE))).isTrue();
     }
 
