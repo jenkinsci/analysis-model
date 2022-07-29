@@ -57,7 +57,7 @@ public class VeracodePipelineScannerParser extends JsonIssueParser {
 
     /**
      * Retrieve source file values in a null safe manner.
-     * <p>
+     *
      * Veracode has nested json objects representing a source file ( files -> source_file -> values) for which we need
      * to do null checking.
      *
@@ -72,7 +72,7 @@ public class VeracodePipelineScannerParser extends JsonIssueParser {
      *
      * @return field value of the source file.
      */
-    private <T> T getSourceFileField(final JSONObject finding, final String key, T altValue) {
+    private <T> T getSourceFileField(final JSONObject finding, final String key, final T altValue) {
         final JSONObject files = finding.optJSONObject("files");
         if (files != null) {
             final JSONObject sourceFile = files.optJSONObject("source_file");
@@ -86,7 +86,7 @@ public class VeracodePipelineScannerParser extends JsonIssueParser {
 
     /**
      * Map veracode severity to analysis-model severity.
-     * <p>
+     *
      * See <a href="https://docs.veracode.com/r/review_severity_exploitability">Veracode severity table</a> for details
      * on scoring.
      *
