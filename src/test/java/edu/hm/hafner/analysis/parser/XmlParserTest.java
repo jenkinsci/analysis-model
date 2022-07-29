@@ -21,7 +21,6 @@ class XmlParserTest extends StructuredFileParserTest {
     private static final String ISSUES_DEFAULT_FILE = "xmlParserDefault.xml";
     private static final String ISSUES_CUSTOM_PATH_FILE = "xmlParserCustomPath.xml";
     private static final String ISSUES_INCOMPATIBLE_VALUE = "xmlParserIncompatibleValues.xml";
-    private static final String ISSUES_EXCEPTION_FILE = "xmlParserException.xml";
     private static final String CUSTOM_PATH = "/analysisReport/elements/issue";
 
     /**
