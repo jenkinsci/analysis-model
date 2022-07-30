@@ -31,4 +31,14 @@ class AquaScannerDescriptor extends ParserDescriptor {
                 a("Aqua Scanner CLI").withHref("https://support.aquasec.com/support/solutions/articles/16000120206"),
                 text("for usage details.")).render();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://support.aquasec.com/support/solutions/articles/16000120206";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/aquasecurity/aqua-operator/raw/master/images/logo.svg";
+    }
 }
