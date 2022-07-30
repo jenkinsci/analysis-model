@@ -31,4 +31,14 @@ class VeracodePipelineScannerDescriptor extends ParserDescriptor {
                 a("Veracode Pipeline Scanner").withHref("https://docs.veracode.com/r/c_about_pipeline_scan"),
                 text("for usage details.")).render();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://docs.veracode.com/r/c_about_pipeline_scan";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/jenkinsci/veracode-scan-plugin/blob/master/src/main/webapp/icons/veracode-48x48.png";
+    }
 }

@@ -2,9 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -12,9 +10,9 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
- * Tests the class {@link AquaScannerParser}.
+ * Tests the class {@link VeracodePipelineScannerParserTest}.
  */
-class VeracodePipelineScannerParserTest extends AbstractParserTest {
+class VeracodePipelineScannerParserTest extends StructuredFileParserTest {
 
     VeracodePipelineScannerParserTest() {
         super("veracode_pipeline_scanner_result.json");
@@ -61,11 +59,6 @@ class VeracodePipelineScannerParserTest extends AbstractParserTest {
         Report report = parse("issue67296.json");
 
         assertThat(report).isEmpty();
-    }
-
-    @Test
-    void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Override
