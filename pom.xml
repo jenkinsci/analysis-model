@@ -385,9 +385,6 @@
           <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
           <analysisConfiguration>
             <revapi.differences id="manually-vetted">
-              <attachments>
-                <vetted>ok</vetted>
-              </attachments>
               <differences combine.children="append">
                 <item>
                   <ignore>true</ignore>
@@ -403,15 +400,7 @@
               </differences>
               <filter.classes>
                 <item>
-                  <regex>true</regex>
                   <exclude>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</exclude>
-                </item>
-                <item>
-                  <!-- No part of codingstyle library -->
-                  <regex>true</regex>
-                  <classQualifiedName>edu.hm.hafner.util.LookaheadStream</classQualifiedName>
-                  <oldArchive>edu.hm.hafner:analysis-model:jar.*</oldArchive>
-                  <newArchive>edu.hm.hafner:codingstyle:jar.*</newArchive>
                 </item>
               </filter.classes>
             </revapi.differences>
