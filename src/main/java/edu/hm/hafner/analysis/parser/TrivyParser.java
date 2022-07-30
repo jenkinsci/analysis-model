@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.text.MessageFormat;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
