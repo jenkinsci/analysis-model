@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.VeracodePipelineScannerParser;
+import edu.hm.hafner.analysis.parser.VeraCodePipelineScannerParser;
 
 import static j2html.TagCreator.*;
 
@@ -10,17 +10,17 @@ import static j2html.TagCreator.*;
  *
  * @author Juri Duval
  */
-class VeracodePipelineScannerDescriptor extends ParserDescriptor {
+class VeraCodePipelineScannerDescriptor extends ParserDescriptor {
     private static final String ID = "veracode-pipeline-scanner";
     private static final String NAME = "Veracode Pipeline Scanner";
 
-    VeracodePipelineScannerDescriptor() {
+    VeraCodePipelineScannerDescriptor() {
         super(ID, NAME);
     }
 
     @Override
     public IssueParser createParser(final Option... options) {
-        return new VeracodePipelineScannerParser();
+        return new VeraCodePipelineScannerParser();
     }
 
     @Override

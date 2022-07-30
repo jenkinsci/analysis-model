@@ -10,11 +10,11 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
- * Tests the class {@link VeracodePipelineScannerParserTest}.
+ * Tests the class {@link VeraCodePipelineScannerParserTest}.
  */
-class VeracodePipelineScannerParserTest extends StructuredFileParserTest {
+class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
 
-    VeracodePipelineScannerParserTest() {
+    VeraCodePipelineScannerParserTest() {
         super("veracode_pipeline_scanner_result.json");
     }
 
@@ -63,6 +63,6 @@ class VeracodePipelineScannerParserTest extends StructuredFileParserTest {
 
     @Override
     protected IssueParser createParser() {
-        return new VeracodePipelineScannerParser();
+        return new VeraCodePipelineScannerParser();
     }
 }

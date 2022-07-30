@@ -15,7 +15,7 @@ import static j2html.TagCreator.*;
  *
  * @author Juri Duval
  */
-public class VeracodePipelineScannerParser extends JsonIssueParser {
+public class VeraCodePipelineScannerParser extends JsonIssueParser {
     private static final String VALUE_NOT_SET = "-";
     private static final int VERACODE_LOW_THRESHOLD = 2;
     private static final int VERACODE_HIGH_THRESHOLD = 4;
