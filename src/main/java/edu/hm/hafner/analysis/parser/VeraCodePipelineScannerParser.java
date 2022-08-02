@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -45,14 +46,25 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
         final int severity = finding.getInt("severity");
         final String title = finding.getString("title");
         final String issueType = finding.getString("issue_type");
+        final String scope = getSourceFileField(finding, "scope", VALUE_NOT_SET);
+        final String packageName = getPackageName(scope);
         return issueBuilder
                 .setFileName(fileName)
                 .setLineStart(line)
                 .setSeverity(mapSeverity(severity))
                 .setMessage(title)
+                .setPackageName(packageName)
                 .setType(issueType)
                 .setDescription(formatDescription(fileName, finding))
                 .buildAndClean();
+    }
+
+    private String getPackageName(final String scope) {
+        if (scope.contains(".")) {
+            return StringUtils.substringBeforeLast(scope, ".");
+        } else {
+            return VALUE_NOT_SET;
+        }
     }
 
     /**
@@ -115,7 +127,7 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
                 div(b("CWE Id: "), text(cweId)),
                 div(b("Flaw Details: "), text(flawLink)),
                 div(b("Severity: "), text(severity)),
-                p(displayHtml)).render();
+                p(rawHtml(displayHtml))).render();
     }
 
 }
