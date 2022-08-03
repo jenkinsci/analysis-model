@@ -62,7 +62,8 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     private String getPackageName(final String scope) {
         if (scope.contains(".")) {
             return StringUtils.substringBeforeLast(scope, ".");
-        } else {
+        }
+        else {
             return VALUE_NOT_SET;
         }
     }
