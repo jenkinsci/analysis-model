@@ -10,6 +10,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 import static j2html.TagCreator.*;
+import static org.apache.commons.lang3.StringUtils.startsWith;
+import static org.apache.commons.lang3.StringUtils.endsWith;
 
 /**
  * Parser for Veracode Pipeline Scanner (pipeline-scan) tool.
@@ -41,7 +43,8 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject finding, final IssueBuilder issueBuilder) {
-        final String fileName = getSourceFileField(finding, "file", VALUE_NOT_SET);
+        final String rawFileName = getSourceFileField(finding, "file", VALUE_NOT_SET);
+        final String enrichedFileName = getEnrichedFileName(rawFileName);
         final int line = getSourceFileField(finding, "line", 0);
         final int severity = finding.getInt("severity");
         final String title = finding.getString("title");
@@ -49,14 +52,34 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
         final String scope = getSourceFileField(finding, "scope", VALUE_NOT_SET);
         final String packageName = getPackageName(scope);
         return issueBuilder
-                .setFileName(fileName)
+                .setFileName(enrichedFileName)
                 .setLineStart(line)
                 .setSeverity(mapSeverity(severity))
                 .setMessage(title)
                 .setPackageName(packageName)
                 .setType(issueType)
-                .setDescription(formatDescription(fileName, finding))
+                .setDescription(formatDescription(enrichedFileName, finding))
                 .buildAndClean();
+    }
+
+    /**
+     * Prepends .java files with src/main/java so that they can be correctly linked to source code files in Jenkins UI.
+     * Otherwise, files are returned as is.
+     * The solution does not cater for all scenarios but should be sufficient for most common use case (Java project
+     * with Maven folder structure).
+     *
+     * @param rawFileName
+     *         file name reported by Veracode
+     *
+     * @return original file name or a java file name prepended with src/main/java
+     */
+    private String getEnrichedFileName(final String rawFileName) {
+        if (endsWith(rawFileName, ".java") && !startsWith(rawFileName, "src/main/java/")) {
+            return "src/main/java/" + rawFileName;
+        }
+        else {
+            return rawFileName;
+        }
     }
 
     private String getPackageName(final String scope) {

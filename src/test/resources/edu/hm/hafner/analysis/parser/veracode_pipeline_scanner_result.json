@@ -93,6 +93,47 @@
       "cwe_id": "201",
       "display_text": "No files present",
       "flaw_details_link": "http://localhost/details/5"
+    },
+    {
+      "title": "child_process.spawn",
+      "issue_id": 1012,
+      "gob": "B",
+      "severity": 5,
+      "issue_type_id": "taint",
+      "issue_type": "Improper Neutralization of Special Elements used in an OS Command (\u0027OS Command Injection\u0027)",
+      "cwe_id": "78",
+      "display_text": "\u003cspan\u003eThis call to child_process.spawn() contains a command injection flaw.  The argument to the function is constructed using untrusted input.  If an attacker is allowed to specify all or part of the command, it may be possible to execute commands on the server with the privileges of the executing process.  The level of exposure depends on the effectiveness of input validation routines, if any. \u003c/span\u003e \u003cspan\u003eValidate all untrusted input to ensure that it conforms to the expected format, using centralized data validation routines when possible.  When using blocklists, be sure that the sanitizing routine performs a sufficient number of iterations to remove all instances of disallowed characters.  Most APIs that execute system commands also have a \"safe\" version of the method that takes an array of strings as input rather than a single string, which protects against some forms of command injection.\u003c/span\u003e \u003cspan\u003eReferences: \u003ca href\u003d\"https://cwe.mitre.org/data/definitions/78.html\"\u003eCWE\u003c/a\u003e \u003ca href\u003d\"https://www.owasp.org/index.php/Command_Injection\"\u003eOWASP\u003c/a\u003e \u003ca href\u003d\"https://webappsec.pbworks.com/OS-Commanding\"\u003eWASC\u003c/a\u003e\u003c/span\u003e",
+      "files": {
+        "source_file": {
+          "file": "lib/optimizer/Optimizer.js",
+          "line": 24,
+          "function_name": "!func",
+          "qualified_function_name": "!main.spawnProcess.!func",
+          "function_prototype": "!js_object !func(!js_object, ...)",
+          "scope": "^::!main::spawnProcess"
+        }
+      }
+    },
+    {
+      "title": "org.slf4j.Logger.info",
+      "issue_id": 1000,
+      "gob": "B",
+      "severity": 4,
+      "issue_type_id": "taint",
+      "issue_type": "Improper Output Neutralization for Logs",
+      "cwe_id": "117",
+      "display_text": "\u003cspan\u003eThis call to org.slf4j.Logger.info() could result in a log forging attack.  Writing untrusted data into a log file allows an attacker to forge log entries or inject malicious content into log files.  Corrupted log files can be used to cover an attacker\u0027s tracks or as a delivery mechanism for an attack on a log viewing or processing utility.  For example, if a web administrator uses a browser-based utility to review logs, a cross-site scripting attack might be possible. The second argument to info() contains tainted data from the variables (new Object\\[...\\]). The tainted data originated from an earlier call to AnnotationVirtualController.vc_annotation_entry.\u003c/span\u003e \u003cspan\u003eAvoid directly embedding user input in log files when possible.  Sanitize untrusted data used to construct log entries by using a safe logging mechanism such as the OWASP ESAPI Logger, which will automatically remove unexpected carriage returns and line feeds and can be configured to use HTML entity encoding for non-alphanumeric data.  Alternatively, some of the XSS escaping functions from the OWASP Java Encoder project will also sanitize CRLF sequences.  Only create a custom blocklist when absolutely necessary.  Always validate untrusted input to ensure that it conforms to the expected format, using centralized data validation routines when possible.\u003c/span\u003e \u003cspan\u003eReferences: \u003ca href\u003d\"https://cwe.mitre.org/data/definitions/117.html\"\u003eCWE\u003c/a\u003e \u003ca href\u003d\"https://owasp.org/www-community/attacks/Log_Injection\"\u003eOWASP\u003c/a\u003e \u003ca href\u003d\"https://docs.veracode.com/r/review_cleansers?tocId\u003dnYnZqAenFFZmB75MQrZwuA\"\u003eSupported Cleansers\u003c/a\u003e\u003c/span\u003e",
+      "files": {
+        "source_file": {
+          "file": "src/main/java/com/othersample/LoggingFilter.java",
+          "line": 55,
+          "function_name": "preMatchingFilter",
+          "qualified_function_name": "com.sample.LoggingFilter.preMatchingFilter",
+          "function_prototype": "void preMatchingFilter(javax.ws.rs.container.ContainerRequestContext)",
+          "scope": "com.othersample.LoggingFilter"
+        }
+      },
+      "flaw_details_link": "http://localhost/details/1"
     }
   ],
   "pipeline_scan": "22.7.0-0",

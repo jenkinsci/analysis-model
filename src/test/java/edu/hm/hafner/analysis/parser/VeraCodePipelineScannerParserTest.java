@@ -20,12 +20,12 @@ class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(5);
+        softly.assertThat(report).hasSize(7);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("org.slf4j.Logger.info")
-                .hasFileName("com/sample/LoggingFilter.java")
+                .hasFileName("src/main/java/com/sample/LoggingFilter.java")
                 .hasPackageName("com.sample")
                 .hasType("Improper Output Neutralization for Logs")
                 .hasLineStart(28);
@@ -57,6 +57,20 @@ class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
                 .hasPackageName("-")
                 .hasType("No files present")
                 .hasLineStart(0);
+        softly.assertThat(report.get(5))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasMessage("child_process.spawn")
+                .hasFileName("lib/optimizer/Optimizer.js")
+                .hasPackageName("-")
+                .hasType("Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')")
+                .hasLineStart(24);
+        softly.assertThat(report.get(6))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasMessage("org.slf4j.Logger.info")
+                .hasFileName("src/main/java/com/othersample/LoggingFilter.java")
+                .hasPackageName("com.othersample")
+                .hasType("Improper Output Neutralization for Logs")
+                .hasLineStart(55);
     }
 
     @Test
