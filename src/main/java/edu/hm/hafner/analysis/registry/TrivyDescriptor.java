@@ -36,4 +36,9 @@ class TrivyDescriptor extends ParserDescriptor {
     public String getUrl() {
         return "https://github.com/aquasecurity/trivy";
     }
+
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/aquasecurity/trivy/blob/main/docs/imgs/logo.png?raw=true";
+    }
 }
