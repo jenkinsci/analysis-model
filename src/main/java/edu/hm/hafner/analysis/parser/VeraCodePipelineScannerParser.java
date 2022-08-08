@@ -49,15 +49,17 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
         final int severity = finding.getInt("severity");
         final String title = finding.getString("title");
         final String issueType = finding.getString("issue_type");
+        final String issueTypeId = finding.getString("issue_type_id");
         final String scope = getSourceFileField(finding, "scope", VALUE_NOT_SET);
         final String packageName = getPackageName(scope);
         return issueBuilder
                 .setFileName(enrichedFileName)
                 .setLineStart(line)
                 .setSeverity(mapSeverity(severity))
-                .setMessage(title)
+                .setMessage(issueType)
                 .setPackageName(packageName)
-                .setType(issueType)
+                .setType(title)
+                .setCategory(issueTypeId)
                 .setDescription(formatDescription(enrichedFileName, finding))
                 .buildAndClean();
     }
