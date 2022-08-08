@@ -20,7 +20,7 @@ class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(7);
+        softly.assertThat(report).hasSize(8);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_HIGH)
@@ -75,6 +75,14 @@ class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
                 .hasType("org.slf4j.Logger.info")
                 .hasCategory("taint")
                 .hasFileName("src/main/java/com/othersample/LoggingFilter.java")
+                .hasPackageName("com.othersample")
+                .hasMessage("Improper Output Neutralization for Logs")
+                .hasLineStart(55);
+       softly.assertThat(report.get(7))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasType("org.slf4j.Logger.info")
+                .hasCategory("taint")
+                .hasFileName("src/main/kotlin/com/othersample/LoggingFilterV2.kt")
                 .hasPackageName("com.othersample")
                 .hasMessage("Improper Output Neutralization for Logs")
                 .hasLineStart(55);

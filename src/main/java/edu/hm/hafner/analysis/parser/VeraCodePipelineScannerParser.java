@@ -67,7 +67,7 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     /**
      * Prepends .java files with src/main/java so that they can be correctly linked to source code files in Jenkins UI.
      * Otherwise, files are returned as is.
-     * The solution does not cater for all scenarios but should be sufficient for most common use case (Java project
+     * The solution does not cater for all scenarios but should be sufficient for most common use case (Java/Kotlin project
      * with Maven folder structure).
      *
      * @param rawFileName
@@ -78,6 +78,9 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     private String getEnrichedFileName(final String rawFileName) {
         if (endsWith(rawFileName, ".java") && !startsWith(rawFileName, "src/main/java/")) {
             return "src/main/java/" + rawFileName;
+        }
+        else if (endsWith(rawFileName, ".kt") && !startsWith(rawFileName, "src/main/kotlin/")) {
+            return "src/main/kotlin/" + rawFileName;
         }
         else {
             return rawFileName;
