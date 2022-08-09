@@ -20,38 +20,72 @@ class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(5);
+        softly.assertThat(report).hasSize(8);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasMessage("org.slf4j.Logger.info")
-                .hasFileName("com/sample/LoggingFilter.java")
-                .hasType("Improper Output Neutralization for Logs")
+                .hasType("org.slf4j.Logger.info")
+                .hasCategory("taint")
+                .hasFileName("src/main/java/com/sample/LoggingFilter.java")
+                .hasPackageName("com.sample")
+                .hasMessage("Improper Output Neutralization for Logs")
                 .hasLineStart(28);
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("set")
+                .hasType("set")
+                .hasCategory("crypto")
                 .hasFileName("react/dist/esm/data.js")
-                .hasType("Use of Hard-coded Password")
+                .hasPackageName("-")
+                .hasMessage("Use of Hard-coded Password")
                 .hasLineStart(25);
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_LOW)
-                .hasMessage("management:endpoint:health:show-details:")
+                .hasType("management:endpoint:health:show-details:")
+                .hasCategory("crypto")
                 .hasFileName("BOOT-INF/classes/application.yml")
-                .hasType("Information Exposure Through Sent Data")
+                .hasPackageName("application")
+                .hasMessage("Information Exposure Through Sent Data")
                 .hasLineStart(1);
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_LOW)
-                .hasMessage("nosourcefile")
+                .hasType("nosourcefile")
+                .hasCategory("other")
                 .hasFileName("-")
-                .hasType("No source_file present")
+                .hasPackageName("-")
+                .hasMessage("No source_file present")
                 .hasLineStart(0);
         softly.assertThat(report.get(4))
                 .hasSeverity(Severity.WARNING_LOW)
-                .hasMessage("nofiles")
+                .hasType("nofiles")
+                .hasCategory("other")
                 .hasFileName("-")
-                .hasType("No files present")
+                .hasPackageName("-")
+                .hasMessage("No files present")
                 .hasLineStart(0);
+        softly.assertThat(report.get(5))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasType("child_process.spawn")
+                .hasCategory("taint")
+                .hasFileName("lib/optimizer/Optimizer.js")
+                .hasPackageName("-")
+                .hasMessage("Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')")
+                .hasLineStart(24);
+        softly.assertThat(report.get(6))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasType("org.slf4j.Logger.info")
+                .hasCategory("taint")
+                .hasFileName("src/main/java/com/othersample/LoggingFilter.java")
+                .hasPackageName("com.othersample")
+                .hasMessage("Improper Output Neutralization for Logs")
+                .hasLineStart(55);
+        softly.assertThat(report.get(7))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasType("org.slf4j.Logger.info")
+                .hasCategory("taint")
+                .hasFileName("src/main/kotlin/com/othersample/LoggingFilterV2.kt")
+                .hasPackageName("com.othersample")
+                .hasMessage("Improper Output Neutralization for Logs")
+                .hasLineStart(55);
     }
 
     @Test

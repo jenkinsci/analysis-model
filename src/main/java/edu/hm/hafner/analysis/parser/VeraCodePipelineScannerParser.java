@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,6 +10,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 import static j2html.TagCreator.*;
+import static org.apache.commons.lang3.StringUtils.startsWith;
+import static org.apache.commons.lang3.StringUtils.endsWith;
 
 /**
  * Parser for Veracode Pipeline Scanner (pipeline-scan) tool.
@@ -40,19 +43,57 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject finding, final IssueBuilder issueBuilder) {
-        final String fileName = getSourceFileField(finding, "file", VALUE_NOT_SET);
+        final String rawFileName = getSourceFileField(finding, "file", VALUE_NOT_SET);
+        final String enrichedFileName = getEnrichedFileName(rawFileName);
         final int line = getSourceFileField(finding, "line", 0);
         final int severity = finding.getInt("severity");
         final String title = finding.getString("title");
         final String issueType = finding.getString("issue_type");
+        final String issueTypeId = finding.getString("issue_type_id");
+        final String scope = getSourceFileField(finding, "scope", VALUE_NOT_SET);
+        final String packageName = getPackageName(scope);
         return issueBuilder
-                .setFileName(fileName)
+                .setFileName(enrichedFileName)
                 .setLineStart(line)
                 .setSeverity(mapSeverity(severity))
-                .setMessage(title)
-                .setType(issueType)
-                .setDescription(formatDescription(fileName, finding))
+                .setMessage(issueType)
+                .setPackageName(packageName)
+                .setType(title)
+                .setCategory(issueTypeId)
+                .setDescription(formatDescription(enrichedFileName, finding))
                 .buildAndClean();
+    }
+
+    /**
+     * Prepends .java files with src/main/java so that they can be correctly linked to source code files in Jenkins UI.
+     * Otherwise, files are returned as is.
+     * The solution does not cater for all scenarios but should be sufficient for most common use case (Java/Kotlin project
+     * with Maven folder structure).
+     *
+     * @param rawFileName
+     *         file name reported by Veracode
+     *
+     * @return original file name or a java file name prepended with src/main/java
+     */
+    private String getEnrichedFileName(final String rawFileName) {
+        if (endsWith(rawFileName, ".java") && !startsWith(rawFileName, "src/main/java/")) {
+            return "src/main/java/" + rawFileName;
+        }
+        else if (endsWith(rawFileName, ".kt") && !startsWith(rawFileName, "src/main/kotlin/")) {
+            return "src/main/kotlin/" + rawFileName;
+        }
+        else {
+            return rawFileName;
+        }
+    }
+
+    private String getPackageName(final String scope) {
+        if (scope.contains(".")) {
+            return StringUtils.substringBeforeLast(scope, ".");
+        }
+        else {
+            return VALUE_NOT_SET;
+        }
     }
 
     /**
@@ -115,7 +156,7 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
                 div(b("CWE Id: "), text(cweId)),
                 div(b("Flaw Details: "), text(flawLink)),
                 div(b("Severity: "), text(severity)),
-                p(displayHtml)).render();
+                p(rawHtml(displayHtml))).render();
     }
 
 }
