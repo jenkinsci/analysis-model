@@ -78,7 +78,7 @@ class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
                 .hasPackageName("com.othersample")
                 .hasMessage("Improper Output Neutralization for Logs")
                 .hasLineStart(55);
-       softly.assertThat(report.get(7))
+        softly.assertThat(report.get(7))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasType("org.slf4j.Logger.info")
                 .hasCategory("taint")
