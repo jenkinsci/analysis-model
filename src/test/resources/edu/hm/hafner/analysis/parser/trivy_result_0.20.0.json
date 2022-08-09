@@ -147,7 +147,7 @@
           "LastModifiedDate": "2020-10-20T12:15:00Z"
         },
         {
-          "VulnerabilityID": "CVE-2020-9999",
+          "VulnerabilityID": "CVE-2020-5555",
           "PkgName": "generatedSample",
           "InstalledVersion": "32:9.11.13-6.el8_2.1",
           "FixedVersion": "32:9.11.20-5.el8",
