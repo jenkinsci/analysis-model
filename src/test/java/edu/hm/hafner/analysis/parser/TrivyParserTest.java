@@ -51,6 +51,26 @@ class TrivyParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldMapCorrectly() {
+        Report report = parse("trivy_result_0.20.0.json");
+
+        assertThat(report).hasSize(4);
+
+        assertThat(report.get(0))
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasType("CVE-2017-6519");
+        assertThat(report.get(1))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasType("CVE-2020-8619");
+        assertThat(report.get(2))
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasType("CVE-2020-5555");
+        assertThat(report.get(3))
+                .hasSeverity(Severity.ERROR)
+                .hasType("CVE-2020-9999");
+    }
+
+    @Test
     void brokenInput() {
         assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }

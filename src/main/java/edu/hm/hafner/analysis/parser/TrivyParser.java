@@ -23,7 +23,6 @@ import static j2html.TagCreator.*;
  */
 public class TrivyParser extends JsonIssueParser {
     private static final String VALUE_NOT_SET = "-";
-    private static final String TRIVY_VULNERABILITY_LEVEL_TAG_CRITICAL = "critcal";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_HIGH = "high";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_LOW = "low";
@@ -78,12 +77,11 @@ public class TrivyParser extends JsonIssueParser {
         else if (TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM.equalsIgnoreCase(string)) {
             return Severity.WARNING_NORMAL;
         }
-        else if (TRIVY_VULNERABILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string)
-                || TRIVY_VULNERABILITY_LEVEL_TAG_CRITICAL.equalsIgnoreCase(string)) {
+        else if (TRIVY_VULNERABILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string)) {
             return Severity.WARNING_HIGH;
         }
         else {
-            return Severity.WARNING_HIGH;
+            return Severity.ERROR;
         }
     }
 

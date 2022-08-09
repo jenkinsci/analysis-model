@@ -23,4 +23,15 @@ public class OwaspDependencyCheckDescriptor extends ParserDescriptor {
     public String getPattern() {
         return "**/dependency-check-report.json";
     }
+
+    @Override
+    public String getUrl() {
+        return "https://github.com/jeremylong/DependencyCheck";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://raw.githubusercontent.com/jeremylong/DependencyCheck/main/src/site/resources/images/logo.svg";
+    }
+
 }
