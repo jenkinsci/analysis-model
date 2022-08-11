@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - main
   pull_request:
 
 jobs:
@@ -12,17 +13,18 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
+        jdk: [11, 17]
 
     runs-on: ${{ matrix.platform }}
-    name: on ${{ matrix.platform }}
+    name: on ${{ matrix.platform }} with JDK ${{ matrix.jdk }}
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 11
+    - name: Set up JDK ${{ matrix.jdk }}
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
-        java-version: '11'
+        java-version: '${{ matrix.jdk }}'
         check-latest: true
         cache: 'maven'
     - name: Build with Maven
