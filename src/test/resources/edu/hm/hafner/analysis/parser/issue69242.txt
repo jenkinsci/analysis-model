@@ -1,0 +1,2 @@
+Entering directory /tmp/testDir806422480360626789
+Leaving directory /tmp/testDir806422480360626789

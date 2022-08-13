@@ -297,6 +297,20 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parser should not throw errors when Entering directory and Leaving directory, if path does not start and end with
+     * ' or `
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-69242">Issue 69242</a>
+     */
+    @Test
+    void issue69242() {
+        Report warnings = createParser().parse(createReaderFactory("issue69242.txt"));
+
+        assertThat(warnings).hasSize(0);
+        assertThat(warnings).doesNotHaveErrors();
+    }
+
+    /**
      * Parser should make relative paths absolute if cmake/ninja is used.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>

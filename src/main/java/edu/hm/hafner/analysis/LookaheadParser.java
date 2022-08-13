@@ -26,7 +26,7 @@ public abstract class LookaheadParser extends IssueParser {
     private static final String ENTERING_DIRECTORY = "Entering directory";
     private static final String LEAVING_DIRECTORY = "Leaving directory";
     private static final Pattern ENTERING_DIRECTORY_PATH
-            = Pattern.compile(".*" + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
+            = Pattern.compile(".*" + ENTERING_DIRECTORY + " (?<dir>.*)");
     private static final String CMAKE_PREFIX = "-- Build files have";
     private static final Pattern CMAKE_PATH = Pattern.compile(".*" + CMAKE_PREFIX + " been written to: (?<dir>.*)");
 
@@ -151,7 +151,13 @@ public abstract class LookaheadParser extends IssueParser {
         }
         Matcher makeLineMatcher = makePath.matcher(line);
         if (makeLineMatcher.matches()) {
-            return makeLineMatcher.group("dir");
+            StringBuilder dir = new StringBuilder(makeLineMatcher.group("dir"));
+            if ((dir.charAt(0) == '\'' || dir.charAt(0) == '`') &&
+                    (dir.charAt(dir.length() - 1) == '\'' || dir.charAt(dir.length() - 1) == '`')) {
+                dir.deleteCharAt(0);
+                dir.deleteCharAt(dir.length() - 1);
+            }
+            return dir.toString();
         }
         throw new ParsingException(
                 "Unable to change directory using: %s to match %s", makePath.toString(), line);
