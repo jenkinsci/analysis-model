@@ -211,7 +211,7 @@ public abstract class LookaheadParser extends IssueParser {
      *
      * @return directory path without leading or trailing hyphen
      */
-    protected String removeHyphen(final String dir) {
+    private String removeHyphen(final String dir) {
         String path = dir;
         path = StringUtils.stripStart(path, "'`");
         path = StringUtils.stripEnd(path, "'`");
