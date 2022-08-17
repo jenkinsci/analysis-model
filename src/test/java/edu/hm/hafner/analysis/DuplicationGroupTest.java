@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
  */
 class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
     /**
-     * Serializes an code duplication to a file. Use this method in case the properties have been changed and the
+     * Serializes a code duplication to a file. Use this method in case the properties have been changed and the
      * readResolve method has been adapted accordingly so that the old serialization still can be read.
      *
      * @param args
@@ -105,10 +105,19 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
 
     @Test
     void shouldObeyEqualsContract() {
-        EqualsVerifier
-                .forClass(DuplicationGroup.class)
-                .withOnlyTheseFields("codeFragment").suppress(Warning.NONFINAL_FIELDS)
-                .withPrefabValues(TreeString.class, TreeString.valueOf("One"), TreeString.valueOf("Two"))
-                .verify();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            LineRangeList red = new LineRangeList();
+            red.add(new LineRange(1));
+            LineRangeList blue = new LineRangeList();
+            blue.add(new LineRange(2));
+            EqualsVerifier
+                    .forClass(DuplicationGroup.class)
+                    .withOnlyTheseFields("codeFragment")
+                    .withPrefabValues(LineRangeList.class, red, blue)
+                    .withPrefabValues(Issue.class, builder.setFileName("red").build(), builder.setFileName("blue").build())
+                    .withPrefabValues(TreeString.class, TreeString.valueOf("red"), TreeString.valueOf("blue"))
+                    .suppress(Warning.NONFINAL_FIELDS)
+                    .verify();
+        }
     }
 }
