@@ -1,2 +1,14 @@
-Entering directory /tmp/testDir806422480360626789
-Leaving directory /tmp/testDir806422480360626789
+[Build on CentOS 7] make[2]: Entering directory /path/to/workspace/daos-stack-org_daos_PR-13-centos7/_build.external/pmix/src/util/keyval
+[Build on CentOS 7]   LEX      keyval_lex.c
+[Build on CentOS 7]   CC       keyval_lex.lo
+[Build on CentOS 7] keyval_lex.c: In function ‘pmix_util_keyval_yylex’:
+[Build on CentOS 7] keyval_lex.c:947:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+[Build on CentOS 7]     for ( yyl = 0; yyl < pmix_util_keyval_yyleng; ++yyl )
+[Build on CentOS 7]                        ^
+[Build on CentOS 7] keyval_lex.c: In function ‘pmix_util_keyval_yy_scan_bytes’:
+[Build on CentOS 7] keyval_lex.c:1790:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+[Build on CentOS 7]   for ( i = 0; i < _yybytes_len; ++i )
+[Build on CentOS 7]                  ^
+[Build on CentOS 7]   CCLD     libpmixutilkeyval.la
+[Build on CentOS 7] make[2]: Leaving directory /path/to/workspace/daos-stack-org_daos_PR-13-centos7/_build.external/pmix/src/util/keyval
+[Build on CentOS 7] Making all in mca/base

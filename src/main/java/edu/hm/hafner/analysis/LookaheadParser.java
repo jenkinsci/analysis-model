@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.Stack;
 
+import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -151,13 +152,7 @@ public abstract class LookaheadParser extends IssueParser {
         }
         Matcher makeLineMatcher = makePath.matcher(line);
         if (makeLineMatcher.matches()) {
-            StringBuilder dir = new StringBuilder(makeLineMatcher.group("dir"));
-            if ((dir.charAt(0) == '\'' || dir.charAt(0) == '`') &&
-                    (dir.charAt(dir.length() - 1) == '\'' || dir.charAt(dir.length() - 1) == '`')) {
-                dir.deleteCharAt(0);
-                dir.deleteCharAt(dir.length() - 1);
-            }
-            return dir.toString();
+            return removeHyphen(makeLineMatcher.group("dir"));
         }
         throw new ParsingException(
                 "Unable to change directory using: %s to match %s", makePath.toString(), line);
@@ -206,5 +201,19 @@ public abstract class LookaheadParser extends IssueParser {
      */
     protected Report postProcess(final Report report) {
         return report;
+    }
+
+    /**
+     * Remove Hyphen from directory path if it starts and end with hyphen.
+     *
+     * @param dir
+     *          directory path to inspect
+     *
+     * @return directory path without leading or trailing hyphen
+     */
+    protected String removeHyphen(String dir) {
+        dir = StringUtils.stripStart(dir, "'`");
+        dir = StringUtils.stripEnd(dir, "'`");
+        return dir;
     }
 }
