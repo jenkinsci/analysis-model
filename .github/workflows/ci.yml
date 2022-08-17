@@ -19,15 +19,15 @@ jobs:
     name: on ${{ matrix.platform }} with JDK ${{ matrix.jdk }}
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '${{ matrix.jdk }}'
-          check-latest: true
-          cache: 'maven'
-      - name: Build with Maven
-        env:
-          BROWSER: chrome-container
-        run: mvn -V -ntp clean verify --file pom.xml '-Djenkins.test.timeout=5000' '-Dgpg.skip'
+    - uses: actions/checkout@v3
+    - name: Set up JDK ${{ matrix.jdk }}
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '${{ matrix.jdk }}'
+        check-latest: true
+        cache: 'maven'
+    - name: Build with Maven
+      env:
+        BROWSER: chrome-container
+      run: mvn -V -ntp clean verify --file pom.xml '-Djenkins.test.timeout=5000' '-Dgpg.skip'
