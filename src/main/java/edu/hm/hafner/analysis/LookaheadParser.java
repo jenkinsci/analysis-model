@@ -204,7 +204,7 @@ public abstract class LookaheadParser extends IssueParser {
     }
 
     /**
-     * Remove Hyphen from directory path if it starts and end with hyphen.
+     * Remove Hyphen from directory path if it starts or ends with hyphen.
      *
      * @param dir
      *          directory path to inspect
