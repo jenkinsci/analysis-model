@@ -30,6 +30,7 @@ public abstract class LookaheadParser extends IssueParser {
             = Pattern.compile(".*" + ENTERING_DIRECTORY + " (?<dir>.*)");
     private static final String CMAKE_PREFIX = "-- Build files have";
     private static final Pattern CMAKE_PATH = Pattern.compile(".*" + CMAKE_PREFIX + " been written to: (?<dir>.*)");
+    private static final String HYPHEN = "'`";
 
     private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805
 
@@ -207,14 +208,14 @@ public abstract class LookaheadParser extends IssueParser {
      * Remove Hyphen from directory path if it starts or ends with hyphen.
      *
      * @param dir
-     *          directory path to inspect
+     *         directory path to inspect
      *
      * @return directory path without leading or trailing hyphen
      */
     private String removeHyphen(final String dir) {
         String path = dir;
-        path = StringUtils.stripStart(path, "'`");
-        path = StringUtils.stripEnd(path, "'`");
+        path = StringUtils.stripStart(path, HYPHEN);
+        path = StringUtils.stripEnd(path, HYPHEN);
         return path;
     }
 }
