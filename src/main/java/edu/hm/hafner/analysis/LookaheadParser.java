@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.Stack;
 
+import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -26,9 +27,10 @@ public abstract class LookaheadParser extends IssueParser {
     private static final String ENTERING_DIRECTORY = "Entering directory";
     private static final String LEAVING_DIRECTORY = "Leaving directory";
     private static final Pattern ENTERING_DIRECTORY_PATH
-            = Pattern.compile(".*" + ENTERING_DIRECTORY + " [`'](?<dir>.*)['`]");
+            = Pattern.compile(".*" + ENTERING_DIRECTORY + " (?<dir>.*)");
     private static final String CMAKE_PREFIX = "-- Build files have";
     private static final Pattern CMAKE_PATH = Pattern.compile(".*" + CMAKE_PREFIX + " been written to: (?<dir>.*)");
+    private static final String HYPHEN = "'`";
 
     private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805
 
@@ -151,7 +153,7 @@ public abstract class LookaheadParser extends IssueParser {
         }
         Matcher makeLineMatcher = makePath.matcher(line);
         if (makeLineMatcher.matches()) {
-            return makeLineMatcher.group("dir");
+            return removeHyphen(makeLineMatcher.group("dir"));
         }
         throw new ParsingException(
                 "Unable to change directory using: %s to match %s", makePath.toString(), line);
@@ -200,5 +202,20 @@ public abstract class LookaheadParser extends IssueParser {
      */
     protected Report postProcess(final Report report) {
         return report;
+    }
+
+    /**
+     * Remove Hyphen from directory path if it starts or ends with hyphen.
+     *
+     * @param dir
+     *         directory path to inspect
+     *
+     * @return directory path without leading or trailing hyphen
+     */
+    private String removeHyphen(final String dir) {
+        String path = dir;
+        path = StringUtils.stripStart(path, HYPHEN);
+        path = StringUtils.stripEnd(path, HYPHEN);
+        return path;
     }
 }

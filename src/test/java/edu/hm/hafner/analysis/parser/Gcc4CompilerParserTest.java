@@ -297,6 +297,22 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parser should not throw errors when path does not start and end with hyphen.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-69242">Issue 69242</a>
+     */
+    @Test
+    void issue69242() {
+        Report warnings = createParser().parse(createReaderFactory("issue69242.txt"));
+
+        assertThat(warnings).hasSize(2);
+        assertThat(warnings).doesNotHaveErrors();
+        assertThat(warnings.get(0))
+                .hasFileName(
+                        "/path/to/workspace/daos-stack-org_daos_PR-13-centos7/_build.external/pmix/src/util/keyval/keyval_lex.c");
+    }
+
+    /**
      * Parser should make relative paths absolute if cmake/ninja is used.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56020">Issue 56020</a>
