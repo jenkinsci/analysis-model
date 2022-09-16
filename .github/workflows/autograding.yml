@@ -19,7 +19,7 @@ jobs:
           check-latest: true
           cache: 'maven'
       - name: Compile, Test and Analysis
-        run: mvn -V -ntp clean verify -Dmaven.test.failure.ignore=true
+        run: mvn -V --color always -ntp clean verify -Dmaven.test.failure.ignore=true
       - name: Autograding
         uses: uhafner/autograding-github-action@v1.7.0
         with:
