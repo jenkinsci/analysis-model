@@ -19,7 +19,7 @@ jobs:
           check-latest: true
           cache: 'maven'
       - name: Compile, Test and Analysis
-        run: mvn -V --color always -ntp clean verify -Dmaven.test.failure.ignore=true
+        run: mvn -V --color always -ntp clean verify -Dmaven.test.failure.ignore=true | tee maven.log
       - name: Autograding
         uses: uhafner/autograding-github-action@v1.7.0
         with:
@@ -30,16 +30,28 @@ jobs:
               "analysis": {
                 "tools": [
                   {
+                    "id": "error-prone",
+                    "pattern": "**/*.log"
+                  },
+                  {
+                    "id": "java",
+                    "pattern": "**/*.log"
+                  },
+                  {
+                    "id": "javadoc-warnings",
+                    "pattern": "**/*.log"
+                  },
+                  {
                     "id": "checkstyle",
-                    "pattern": "target/checkstyle-result.xml"
+                    "pattern": "**/checkstyle-result.xml"
                   },
                   {
                     "id": "pmd",
-                    "pattern": "target/pmd.xml"
+                    "pattern": "**/pmd.xml"
                   },
                   {
                     "id": "spotbugs",
-                    "pattern": "target/spotbugsXml.xml"
+                    "pattern": "**/spotbugsXml.xml"
                   }
                 ],
                 "maxScore": 100,
