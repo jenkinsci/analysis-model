@@ -31,27 +31,27 @@ jobs:
                 "tools": [
                   {
                     "id": "error-prone",
-                    "pattern": "**/*.log"
+                    "pattern": "./*.log"
                   },
                   {
                     "id": "java",
-                    "pattern": "**/*.log"
+                    "pattern": "./*.log"
                   },
                   {
                     "id": "javadoc-warnings",
-                    "pattern": "**/*.log"
+                    "pattern": "./*.log"
                   },
                   {
                     "id": "checkstyle",
-                    "pattern": "**/checkstyle-result.xml"
+                    "pattern": "./target/checkstyle-result.xml"
                   },
                   {
                     "id": "pmd",
-                    "pattern": "**/pmd.xml"
+                    "pattern": "./target/pmd.xml"
                   },
                   {
                     "id": "spotbugs",
-                    "pattern": "**/spotbugsXml.xml"
+                    "pattern": "./target/spotbugsXml.xml"
                   }
                 ],
                 "maxScore": 100,
