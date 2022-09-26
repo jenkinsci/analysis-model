@@ -91,13 +91,13 @@ public class RevApiParser extends JsonIssueParser {
 
     private Severity toSeverity(final String level) {
         switch (level) {
-            case "NON_BREAKING":
-                return Severity.WARNING_LOW;
             case "BREAKING":
                 return Severity.WARNING_HIGH;
             case "POTENTIALLY_BREAKING":
-            default:
                 return Severity.WARNING_NORMAL;
+            //case "EQUIVALENT" & "NON_BREAKING"
+            default:
+                return Severity.WARNING_LOW;
         }
     }
 
