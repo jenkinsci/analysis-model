@@ -64,7 +64,7 @@
     <jmh.version>1.35</jmh.version>
     <commons.io.version>2.11.0</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
-    <commons.text.version>1.9</commons.text.version>
+    <commons.text.version>1.10.0</commons.text.version>
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.3</slf4j.version>
