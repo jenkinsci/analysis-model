@@ -58,6 +58,19 @@ class ErrorProneParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldFindAllNewWarnings() {
+        Report report = parse("maven-error-prone.log");
+
+        assertThat(report).hasSize(37);
+        assertThat(report.get(0))
+                .hasFileName("/Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment04.java")
+                .hasLineStart(1)
+                .hasType("DefaultPackage")
+                .hasMessage("Java classes shouldn't use default package.")
+                .hasDescription("<p><a href=\"https://errorprone.info/bugpattern/DefaultPackage\">See ErrorProne documentation.</a></p>");
+    }
+
+    @Test
     void shouldSkipJavacWarnings() {
         Report report = parse("javac.log");
 

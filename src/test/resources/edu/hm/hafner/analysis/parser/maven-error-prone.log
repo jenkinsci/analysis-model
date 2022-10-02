@@ -1,0 +1,87 @@
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ karalight-assignment ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 17 source files to /Users/hafner/git/hochschule/karalight-assignment/target/classes
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment04.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment12.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment07.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment15.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment11.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment08.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment02.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment00.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment13.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment05.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment09.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment06.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment10.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment16.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment03.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment14.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/main/java/Assignment01.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[INFO]
+[INFO] --- maven-resources-plugin:3.3.0:testResources (default-testResources) @ karalight-assignment ---
+[INFO] Copying 49 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ karalight-assignment ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 18 source files to /Users/hafner/git/hochschule/karalight-assignment/target/test-classes
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment09Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/AbstractKaraTest.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment00Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment16Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment16Test.java:[4] [RemoveUnusedImports] Unused imports: de.i8k.karalight.world.World
+    (see https://errorprone.info/bugpattern/RemoveUnusedImports)
+  Did you mean to remove this line?
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment03Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment10Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment13Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment04Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment08Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment14Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment11Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment01Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment05Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment07Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment02Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment15Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment12Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment12Test.java:[1] [RemoveUnusedImports] Unused imports: de.i8k.karalight.Kara, de.i8k.karalight.test.TestKaraController
+    (see https://errorprone.info/bugpattern/RemoveUnusedImports)
+  Did you mean to remove this line?
+[WARNING] /Users/hafner/git/hochschule/karalight-assignment/src/test/java/Assignment06Test.java:[1] [DefaultPackage] Java classes shouldn't use default package
+    (see https://errorprone.info/bugpattern/DefaultPackage)
+[INFO]

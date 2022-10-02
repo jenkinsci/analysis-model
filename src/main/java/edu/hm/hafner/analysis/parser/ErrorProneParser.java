@@ -28,7 +28,7 @@ public class ErrorProneParser extends LookaheadParser {
             = "^(?:\\[\\p{Alnum}*\\]\\s+)?"
             + "\\[(?<severity>WARNING|ERROR)\\]\\s+"
             + "(?<file>.+):"
-            + "\\[(?<line>\\d+),(?<column>\\d+)\\]\\s+"
+            + "\\[(?<line>\\d+)(?:,(?<column>\\d+))?\\]\\s+"
             + "\\[(?<type>\\w+)\\]\\s+"
             + "(?<message>.*)";
     private static final String SEE_ERROR_PRONE_DOCUMENTATION = "See ErrorProne documentation.";
@@ -95,6 +95,6 @@ public class ErrorProneParser extends LookaheadParser {
             }
         }
 
-        return description.toString() + url.toString();
+        return description.toString() + url;
     }
 }
