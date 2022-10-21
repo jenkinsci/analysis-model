@@ -21,7 +21,7 @@ import edu.hm.hafner.util.LookaheadStream;
 public class AnsibleLintParser extends LookaheadParser {
     private static final long serialVersionUID = 8481090596321427484L;
 
-    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(.*)\\:([0-9]*)\\:\\s*\\[?([a-zA-Z0-9\\-]+)\\]?:?\\s(.*)";
+    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(?<file>.*)\\:(?<lineno>[0-9]*)\\:\\s*(\\[(?<cat>[a-zA-Z0-9\\-\\[\\]]+)\\]|(?<newcat>[^\\[][a-zA-Z0-9\\[\\]\\-]+)):?\\s(?<msg>.*)";
 
     /**
      * Creates a new instance of {@link AnsibleLintParser}.
@@ -38,10 +38,23 @@ public class AnsibleLintParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        return builder.setFileName(matcher.group(1))
-                .setLineStart(matcher.group(2))
-                .setCategory(matcher.group(3))
-                .setMessage(matcher.group(4))
+
+        final String cat;
+
+        /* Ansible-lint has changed the style of parseable output. This requires
+         * to distinguish between rule names in square brackets and rule names
+         * containing square brackets. */
+        if (matcher.group("cat") != null) {
+            cat = matcher.group("cat");
+        }
+        else {
+            cat = matcher.group("newcat");
+        }
+
+        return builder.setFileName(matcher.group("file"))
+                .setLineStart(matcher.group("lineno"))
+                .setCategory(cat)
+                .setMessage(matcher.group("msg"))
                 .buildOptional();
     }
 }
