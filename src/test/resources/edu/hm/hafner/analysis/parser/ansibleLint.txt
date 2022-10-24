@@ -11,3 +11,6 @@
 /workspace/templates.yml:11: risky-file-permissions File permissions unset or incorrect
 
 /workspace/roles/create_service/tasks/main.yml:41: no-changed-when: Commands should not change things if nothing needs doing.
+
+roles/apache2/tasks/main.yml:79: fqcn[action]: Use FQCN for module actions, such `<namespace>.<collection>.apache2_conf`. (warning)
+roles/bitbucket_srv/tasks/main.yml:45: literal-compare: Don't compare to literal True/False.
