@@ -25,4 +25,9 @@ class AnsibleLintDescriptor extends ParserDescriptor {
     public String getHelp() {
         return "Use the flag -p.";
     }
+
+    @Override
+    public String getIconUrl() {
+        return "https://raw.githubusercontent.com/benc-uk/icon-collection/master/logos/ansible.svg";
+    }
 }
