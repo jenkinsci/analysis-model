@@ -20,7 +20,7 @@ class AnsibleLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(10);
+        assertThat(report).hasSize(12);
 
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
@@ -94,6 +94,21 @@ class AnsibleLintParserTest extends AbstractParserTest {
                 .hasLineEnd(41)
                 .hasMessage("Commands should not change things if nothing needs doing.")
                 .hasFileName("/workspace/roles/create_service/tasks/main.yml");
+
+        softly.assertThat(iterator.next())
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("fqcn[action]")
+                .hasLineStart(79)
+                .hasLineEnd(79)
+                .hasMessage("Use FQCN for module actions, such `<namespace>.<collection>.apache2_conf`. (warning)")
+                .hasFileName("roles/apache2/tasks/main.yml");
+        softly.assertThat(iterator.next())
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("literal-compare")
+                .hasLineStart(45)
+                .hasLineEnd(45)
+                .hasMessage("Don't compare to literal True/False.")
+                .hasFileName("roles/bitbucket_srv/tasks/main.yml");
     }
 
     @Override
