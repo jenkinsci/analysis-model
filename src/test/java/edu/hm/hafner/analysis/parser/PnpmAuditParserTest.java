@@ -9,15 +9,15 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the class {@link PnpmAuditParser}.
  *
  * @author Fabian Kaupp - kauppfbi@gmail.com
  */
-public class PnpmAuditParserTest extends AbstractParserTest {
+class PnpmAuditParserTest extends AbstractParserTest {
 
     /**
      * Creates a new instance of {@link AbstractParserTest}
