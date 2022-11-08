@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static j2html.TagCreator.*;
 
@@ -61,9 +62,9 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private String mapType(final JSONObject vulnerability) {
-       final String cve = (String) vulnerability.optJSONArray("cves").opt(0);
+        final String cve = (String) vulnerability.optJSONArray("cves").opt(0);
 
-       return cve != null ? cve : VALUE_NOT_SET;
+        return cve != null ? cve : VALUE_NOT_SET;
     }
 
     private String formatCategory(final JSONObject vulnerability) {
@@ -77,6 +78,7 @@ public class PnpmAuditParser extends JsonIssueParser {
         return VALUE_NOT_SET;
     }
 
+    @SuppressFBWarnings("IMPROPER_UNICODE")
     private Severity mapSeverity(final String string) {
         if (PNPM_VULNERABILITY_SEVERITY_INFO.equalsIgnoreCase(string)) {
             return Severity.WARNING_LOW;
