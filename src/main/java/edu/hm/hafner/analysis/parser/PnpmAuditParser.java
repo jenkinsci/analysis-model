@@ -15,7 +15,7 @@ import static j2html.TagCreator.*;
  * Parser for reports of pnpm audit scans.
  * </p>
  * <p>
- * <strong>Usage: </strong>pnpm audit --json > pnpm-audit.json
+ * <strong>Usage: </strong>pnpm audit --json &gt; pnpm-audit.json
  * </p>
  *
  * @author Fabian Kaupp - kauppfbi@gmail.com
