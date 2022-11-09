@@ -19,9 +19,6 @@ import static org.assertj.core.api.Assertions.*;
  */
 class PnpmAuditParserTest extends AbstractParserTest {
 
-    /**
-     * Creates a new instance of {@link AbstractParserTest}
-     */
     protected PnpmAuditParserTest() {
         super("pnpm-audit.json");
     }

@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.parser.PnpmAuditParser;
 import static j2html.TagCreator.*;
 
 /**
- * A descriptor for pnpm audit
+ * A descriptor for pnpm audit.
  *
  * @author Fabian Kaupp - kauppfbi@gmail.com
  */
