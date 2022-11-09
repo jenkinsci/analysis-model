@@ -1,5 +1,9 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,6 +12,8 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import j2html.tags.ContainerTag;
 
 import static j2html.TagCreator.*;
 
@@ -102,24 +108,55 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private String formatDescription(final JSONObject vulnerability) {
-        final String moduleName = vulnerability.optString("module_name", VALUE_NOT_SET);
-        final JSONArray findings = vulnerability.optJSONArray("findings");
-        final JSONObject firstFinding = (JSONObject) findings.opt(0);
-        final String installedVersion = firstFinding.optString("version");
-        final String vulnerableVersions = vulnerability.optString("vulnerable_versions", VALUE_NOT_SET);
-        final String patchedVersions = vulnerability.optString("patched_versions", VALUE_NOT_SET);
-        final String severity = vulnerability.optString("severity", VALUE_NOT_SET);
-        final String overview = vulnerability.optString("overview", VALUE_NOT_SET);
-        final String references = vulnerability.optString("references", VALUE_NOT_SET);
+        final List<ContainerTag> vulnerabilityTags = new ArrayList<>();
 
-        return join(p(
-                div(b("Module: "), text(moduleName)),
-                div(b("Installed Version: "), text(installedVersion)),
-                div(b("Vulnerable Versions: "), text(vulnerableVersions)),
-                div(b("Patched Versions: "), text(patchedVersions)),
-                div(b("Severity: "), text(severity)),
-                p(text(overview)),
-                div(b("References: "), text(references)))
-        ).render();
+        vulnerabilityTags.add(getValueAsContainerTag(vulnerability, "module_name", "Module"));
+
+        final JSONArray findings = vulnerability.optJSONArray("findings");
+        if (findings != null && !findings.isEmpty()) {
+            final JSONObject firstFinding = (JSONObject) findings.opt(0);
+            final String installedVersion = firstFinding.optString("version");
+
+            vulnerabilityTags.add(getValueAsContainerTag(installedVersion, "Installed Version"));
+        }
+
+        vulnerabilityTags.add(getValueAsContainerTag(vulnerability, "vulnerable_versions", "Vulnerable Versions"));
+        vulnerabilityTags.add(getValueAsContainerTag(vulnerability, "patched_versions", "Patched Versions"));
+        vulnerabilityTags.add(getValueAsContainerTag(vulnerability, "severity", "Severity"));
+        vulnerabilityTags.add(getValueAsContainerTag(vulnerability, "overview"));
+        vulnerabilityTags.add(getValueAsContainerTag(vulnerability, "references", "References"));
+
+        vulnerabilityTags.removeIf(Objects::isNull);
+
+        return join(p(join(vulnerabilityTags.toArray()))).render();
+    }
+
+    private ContainerTag getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue) {
+        final String value = vulnerability.optString(tagOfValue);
+
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+
+        return p(text(value));
+    }
+
+    private ContainerTag getValueAsContainerTag(final String value, final String label) {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+
+        return div(b(label + ": "), text(value));
+    }
+
+    private ContainerTag getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue,
+            final String label) {
+        final String value = vulnerability.optString(tagOfValue);
+
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+
+        return div(b(label + ": "), text(value));
     }
 }

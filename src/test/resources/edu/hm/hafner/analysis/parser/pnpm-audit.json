@@ -278,17 +278,10 @@
       "url": "https://github.com/advisories/GHSA-gqgv-6jq5-jjj9"
     },
     "1069948": {
-      "findings": [
-        {
-          "version": "0.1.0",
-          "paths": [
-            ".>express>send"
-          ]
-        }
-      ],
+      "findings": [],
       "metadata": null,
       "vulnerable_versions": "<0.8.4",
-      "module_name": "send",
+      "module_name": null,
       "severity": "low",
       "github_advisory_id": "GHSA-xwg4-93c6-3h42",
       "cves": [

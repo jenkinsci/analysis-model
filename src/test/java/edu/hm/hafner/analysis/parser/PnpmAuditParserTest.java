@@ -65,6 +65,14 @@ class PnpmAuditParserTest extends AbstractParserTest {
         assertThat(report.get(12))
                 .hasModuleName("fresh")
                 .hasType("Uncategorized");
+
+        // read specific issue description, which was prepared for test purposes
+        String description = report.get(5).getDescription();
+        assertThat(description).doesNotContain("Module");
+        assertThat(description).doesNotContain("Installed Version");
+        assertThat(description).contains("Patched Versions");
+        assertThat(description).contains("Vulnerable Versions");
+
     }
 
     @Test
