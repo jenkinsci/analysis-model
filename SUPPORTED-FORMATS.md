@@ -1475,22 +1475,6 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
-                pnpm-audit
-            </td>
-            <td>
-                <img src="https://pnpm.io/assets/images/pnpm-standard-79c9dbb2e99b8525ae55174580061e1b.svg" alt="pnpm" height="64" width="64">
-            </td>
-            <td>
-                <a href="https://pnpm.io/cli/audit">
-                    pnpm audit
-                </a>
-            </td>
-            <td>
-                -
-            </td>
-        </tr>
-        <tr>
-            <td>
                 prefast
             </td>
             <td>
