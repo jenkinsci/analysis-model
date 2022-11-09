@@ -11,6 +11,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import j2html.tags.ContainerTag;
@@ -131,6 +132,7 @@ public class PnpmAuditParser extends JsonIssueParser {
         return join(p(join(vulnerabilityTags.toArray()))).render();
     }
 
+    @Nullable
     private ContainerTag getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue) {
         final String value = vulnerability.optString(tagOfValue);
 
@@ -141,6 +143,7 @@ public class PnpmAuditParser extends JsonIssueParser {
         return p(text(value));
     }
 
+    @Nullable
     private ContainerTag getValueAsContainerTag(final String value, final String label) {
         if (value == null || value.isEmpty()) {
             return null;
@@ -149,6 +152,7 @@ public class PnpmAuditParser extends JsonIssueParser {
         return div(b(label + ": "), text(value));
     }
 
+    @Nullable
     private ContainerTag getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue,
             final String label) {
         final String value = vulnerability.optString(tagOfValue);
