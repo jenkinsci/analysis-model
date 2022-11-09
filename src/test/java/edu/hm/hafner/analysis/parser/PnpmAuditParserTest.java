@@ -59,6 +59,12 @@ class PnpmAuditParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasType("CVE-2016-1000236")
                 .hasModuleName("cookie-signature");
+        assertThat(report.get(11))
+                .hasModuleName("express")
+                .hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(12))
+                .hasModuleName("fresh")
+                .hasType("Uncategorized");
     }
 
     @Test

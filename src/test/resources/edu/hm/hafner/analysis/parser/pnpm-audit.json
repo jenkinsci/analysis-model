@@ -599,7 +599,7 @@
       "metadata": null,
       "vulnerable_versions": "<3.11.0",
       "module_name": "express",
-      "severity": "moderate",
+      "severity": null,
       "github_advisory_id": "GHSA-gpvr-g6gh-9mc2",
       "cves": [
         "CVE-2014-6393"
@@ -679,9 +679,7 @@
       "module_name": "fresh",
       "severity": "high",
       "github_advisory_id": "GHSA-9qj9-36jm-prpv",
-      "cves": [
-        "CVE-2017-16119"
-      ],
+      "cves": null,
       "access": "public",
       "patched_versions": ">=0.5.2",
       "cvss": {

@@ -24,6 +24,7 @@ import static j2html.TagCreator.*;
 public class PnpmAuditParser extends JsonIssueParser {
 
     private static final String VALUE_NOT_SET = "-";
+    private static final String UNCATEGORIZED = "Uncategorized";
 
     private static final String PNPM_VULNERABILITY_SEVERITY_INFO = "info";
     private static final String PNPM_VULNERABILITY_SEVERITY_LOW = "low";
@@ -62,9 +63,9 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private String mapType(final JSONObject vulnerability) {
-        final String cve = (String) vulnerability.optJSONArray("cves").opt(0);
+        final JSONArray cves = vulnerability.optJSONArray("cves");
 
-        return cve != null ? cve : VALUE_NOT_SET;
+        return cves != null && !cves.isNull(0) ? (String) cves.opt(0) : UNCATEGORIZED;
     }
 
     private String formatCategory(final JSONObject vulnerability) {
@@ -96,7 +97,7 @@ public class PnpmAuditParser extends JsonIssueParser {
             return Severity.ERROR;
         }
         else {
-            return Severity.ERROR;
+            return Severity.WARNING_NORMAL;
         }
     }
 
