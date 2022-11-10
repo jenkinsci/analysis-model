@@ -1,0 +1,713 @@
+{
+  "actions": [
+    {
+      "action": "review",
+      "module": "ssri",
+      "resolves": [
+        {
+          "id": 1068080,
+          "path": ".>webpack>uglifyjs-webpack-plugin>cacache>ssri",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "serialize-javascript",
+      "resolves": [
+        {
+          "id": 1069320,
+          "path": ".>webpack>uglifyjs-webpack-plugin>serialize-javascript",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 1082941,
+          "path": ".>webpack>uglifyjs-webpack-plugin>serialize-javascript",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "qs",
+      "resolves": [
+        {
+          "id": 1069415,
+          "path": ".>express>qs",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 1069949,
+          "path": ".>express>qs",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 1083107,
+          "path": ".>express>qs",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "send",
+      "resolves": [
+        {
+          "id": 1069948,
+          "path": ".>express>send",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 1069962,
+          "path": ".>express>send",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "glob-parent",
+      "resolves": [
+        {
+          "id": 1081884,
+          "path": ".>webpack>watchpack>watchpack-chokidar2>chokidar>glob-parent",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "cookie-signature",
+      "resolves": [
+        {
+          "id": 1081910,
+          "path": ".>express>cookie-signature",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "mime",
+      "resolves": [
+        {
+          "id": 1082039,
+          "path": ".>express>send>mime",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "connect",
+      "resolves": [
+        {
+          "id": 1082848,
+          "path": ".>express>connect",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "express",
+      "resolves": [
+        {
+          "id": 1083105,
+          "path": ".>express",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "fresh",
+      "resolves": [
+        {
+          "id": 1083147,
+          "path": ".>express>fresh",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    }
+  ],
+  "advisories": {
+    "1068080": {
+      "findings": [
+        {
+          "version": "5.3.0",
+          "paths": [
+            ".>webpack>uglifyjs-webpack-plugin>cacache>ssri"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": ">=5.2.2 <6.0.2",
+      "module_name": "ssri",
+      "severity": "high",
+      "github_advisory_id": "GHSA-vx3p-948g-6vhq",
+      "cves": [
+        "CVE-2021-27290"
+      ],
+      "access": "public",
+      "patched_versions": ">=6.0.2",
+      "cvss": {
+        "score": 7.5,
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "updated": "2022-03-11T21:28:07.000Z",
+      "recommendation": "Upgrade to version 6.0.2 or later",
+      "cwe": [
+        "CWE-400"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1068080,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2021-27290\n- https://github.com/npm/ssri/commit/76e223317d971f19e4db8191865bdad5edee40d2\n- https://doyensec.com/resources/Doyensec_Advisory_ssri_redos.pdf\n- https://github.com/yetingli/SaveResults/blob/main/pdf/ssri-redos.pdf\n- https://github.com/npm/ssri/commit/b30dfdb00bb94ddc49a25a85a18fb27afafdfbb1\n- https://www.npmjs.com/package/ssri\n- https://github.com/npm/ssri/pull/20#issuecomment-842677644\n- https://npmjs.com\n- https://www.oracle.com/security-alerts/cpuoct2021.html\n- https://cert-portal.siemens.com/productcert/pdf/ssa-389290.pdf\n- https://github.com/advisories/GHSA-vx3p-948g-6vhq",
+      "created": "2021-03-19T21:24:36.000Z",
+      "reported_by": null,
+      "title": "Regular Expression Denial of Service (ReDoS)",
+      "npm_advisory_id": null,
+      "overview": "npm `ssri` 5.2.2-6.0.1 and 7.0.0-8.0.0, processes SRIs using a regular expression which is vulnerable to a denial of service. Malicious SRIs could take an extremely long time to process, leading to denial of service. This issue only affects consumers using the strict option.",
+      "url": "https://github.com/advisories/GHSA-vx3p-948g-6vhq"
+    },
+    "1069320": {
+      "findings": [
+        {
+          "version": "1.9.1",
+          "paths": [
+            ".>webpack>uglifyjs-webpack-plugin>serialize-javascript"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<3.1.0",
+      "module_name": "serialize-javascript",
+      "severity": "high",
+      "github_advisory_id": "GHSA-hxcc-f52p-wc94",
+      "cves": [
+        "CVE-2020-7660"
+      ],
+      "access": "public",
+      "patched_versions": ">=3.1.0",
+      "cvss": {
+        "score": 8.1,
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "updated": "2021-09-23T18:51:00.000Z",
+      "recommendation": "Upgrade to version 3.1.0 or later",
+      "cwe": [
+        "CWE-502"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1069320,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2020-7660\n- https://github.com/yahoo/serialize-javascript/commit/f21a6fb3ace2353413761e79717b2d210ba6ccbd\n- https://github.com/advisories/GHSA-hxcc-f52p-wc94",
+      "created": "2020-08-11T17:21:13.000Z",
+      "reported_by": null,
+      "title": "Insecure serialization leading to RCE in serialize-javascript",
+      "npm_advisory_id": null,
+      "overview": "serialize-javascript prior to 3.1.0 allows remote attackers to inject arbitrary code via the function \"deleteFunctions\" within \"index.js\". \n\nAn object such as `{\"foo\": /1\"/, \"bar\": \"a\\\"@__R-<UID>-0__@\"}` was serialized as `{\"foo\": /1\"/, \"bar\": \"a\\/1\"/}`, which allows an attacker to escape the `bar` key. This requires the attacker to control the values of both `foo` and `bar` and guess the value of `<UID>`. The UID has a keyspace of approximately 4 billion making it a realistic network attack.",
+      "url": "https://github.com/advisories/GHSA-hxcc-f52p-wc94"
+    },
+    "1069415": {
+      "findings": [
+        {
+          "version": "0.6.1",
+          "paths": [
+            ".>express>qs"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<6.0.4",
+      "module_name": "qs",
+      "severity": "high",
+      "github_advisory_id": "GHSA-gqgv-6jq5-jjj9",
+      "cves": [
+        "CVE-2017-1000048"
+      ],
+      "access": "public",
+      "patched_versions": ">=6.0.4",
+      "cvss": {
+        "score": 7.5,
+        "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "updated": "2021-08-25T21:03:57.000Z",
+      "recommendation": "Upgrade to version 6.0.4 or later",
+      "cwe": [
+        "CWE-20"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1069415,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2017-1000048\n- https://github.com/ljharb/qs/issues/200\n- https://github.com/ljharb/qs/commit/beade029171b8cef9cee0d03ebe577e2dd84976d\n- https://access.redhat.com/errata/RHSA-2017:2672\n- https://snyk.io/vuln/npm:qs:20170213\n- https://www.npmjs.com/advisories/1469\n- https://github.com/advisories/GHSA-gqgv-6jq5-jjj9",
+      "created": "2020-04-30T17:16:47.000Z",
+      "reported_by": null,
+      "title": "Prototype Pollution Protection Bypass in qs",
+      "npm_advisory_id": null,
+      "overview": "Affected version of `qs` are vulnerable to Prototype Pollution because it is possible to bypass the protection. The `qs.parse` function fails to properly prevent an object's prototype to be altered when parsing arbitrary input. Input containing `[` or `]` may bypass the prototype pollution protection and alter the Object prototype. This allows attackers to override properties that will exist in all objects, which may lead to Denial of Service or Remote Code Execution in specific circumstances.\n\n\n## Recommendation\n\nUpgrade to 6.0.4, 6.1.2, 6.2.3, 6.3.2 or later.",
+      "url": "https://github.com/advisories/GHSA-gqgv-6jq5-jjj9"
+    },
+    "1069948": {
+      "findings": [],
+      "metadata": null,
+      "vulnerable_versions": "<0.8.4",
+      "module_name": null,
+      "severity": "low",
+      "github_advisory_id": "GHSA-xwg4-93c6-3h42",
+      "cves": [
+        "CVE-2014-6394"
+      ],
+      "access": "public",
+      "patched_versions": ">=0.8.4",
+      "cvss": {
+        "score": 0,
+        "vectorString": null
+      },
+      "updated": "2021-09-22T17:58:57.000Z",
+      "recommendation": "Upgrade to version 0.8.4 or later",
+      "cwe": [
+        "CWE-22"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1069948,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2014-6394\n- https://github.com/visionmedia/send/pull/59\n- https://github.com/visionmedia/send/commit/9c6ca9b2c0b880afd3ff91ce0d211213c5fa5f9a\n- https://github.com/advisories/GHSA-xwg4-93c6-3h42\n- https://www.npmjs.com/advisories/32\n- https://bugzilla.redhat.com/show_bug.cgi?id=1146063\n- https://exchange.xforce.ibmcloud.com/vulnerabilities/96727\n- https://nodesecurity.io/advisories/send-directory-traversal\n- https://support.apple.com/HT205217\n- http://lists.apple.com/archives/security-announce/2015/Sep/msg00002.html\n- http://lists.fedoraproject.org/pipermail/package-announce/2014-October/139938.html\n- http://lists.fedoraproject.org/pipermail/package-announce/2014-October/140020.html\n- http://lists.fedoraproject.org/pipermail/package-announce/2014-September/139415.html\n- http://secunia.com/advisories/62170\n- http://www-01.ibm.com/support/docview.wss?uid=swg21687263\n- http://www.openwall.com/lists/oss-security/2014/09/24/1\n- http://www.openwall.com/lists/oss-security/2014/09/30/10\n- http://www.securityfocus.com/bid/70100",
+      "created": "2017-10-24T18:33:36.000Z",
+      "reported_by": null,
+      "title": "Directory Traversal in send",
+      "npm_advisory_id": null,
+      "overview": "Versions 0.8.3 and earlier of `send` are affected by a directory traversal vulnerability. When relying on the root option to restrict file access it may be possible for an application consumer to escape out of the restricted directory and access files in a similarly named directory. \n\nFor example, `static(_dirname + '/public')` would allow access to `_dirname + '/public-restricted'`.\n\n\n## Recommendation\n\nUpdate to version 0.8.4 or later.",
+      "url": "https://github.com/advisories/GHSA-xwg4-93c6-3h42"
+    },
+    "1069949": {
+      "findings": [
+        {
+          "version": "0.6.1",
+          "paths": [
+            ".>express>qs"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<1.0.0",
+      "module_name": "qs",
+      "severity": "high",
+      "github_advisory_id": "GHSA-jjv7-qpx3-h62q",
+      "cves": [
+        "CVE-2014-7191"
+      ],
+      "access": "public",
+      "patched_versions": ">=1.0.0",
+      "cvss": {
+        "score": 0,
+        "vectorString": null
+      },
+      "updated": "2021-09-14T19:46:49.000Z",
+      "recommendation": "Upgrade to version 1.0.0 or later",
+      "cwe": [],
+      "found_by": null,
+      "deleted": null,
+      "id": 1069949,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2014-7191\n- https://github.com/visionmedia/node-querystring/issues/104\n- https://github.com/advisories/GHSA-jjv7-qpx3-h62q\n- https://www.npmjs.com/advisories/29\n- https://github.com/raymondfeng/node-querystring/commit/43a604b7847e56bba49d0ce3e222fe89569354d8\n- https://access.redhat.com/errata/RHSA-2016:1380\n- https://exchange.xforce.ibmcloud.com/vulnerabilities/96729\n- https://nodesecurity.io/advisories/qs_dos_memory_exhaustion\n- http://secunia.com/advisories/60026\n- http://secunia.com/advisories/62170\n- http://www-01.ibm.com/support/docview.wss?uid=swg21685987\n- http://www-01.ibm.com/support/docview.wss?uid=swg21687263\n- http://www-01.ibm.com/support/docview.wss?uid=swg21687928",
+      "created": "2017-10-24T18:33:36.000Z",
+      "reported_by": null,
+      "title": "Denial-of-Service Memory Exhaustion in qs",
+      "npm_advisory_id": null,
+      "overview": "Versions prior to 1.0 of `qs` are affected by a denial of service condition. This condition is triggered by parsing a crafted string that deserializes into very large sparse arrays, resulting in the process running out of memory and eventually crashing.\n\n\n## Recommendation\n\nUpdate to version 1.0.0 or later.",
+      "url": "https://github.com/advisories/GHSA-jjv7-qpx3-h62q"
+    },
+    "1069962": {
+      "findings": [
+        {
+          "version": "0.1.0",
+          "paths": [
+            ".>express>send"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<0.11.1",
+      "module_name": "send",
+      "severity": "moderate",
+      "github_advisory_id": "GHSA-jgqf-hwc5-hh37",
+      "cves": [
+        "CVE-2015-8859"
+      ],
+      "access": "public",
+      "patched_versions": ">=0.11.1",
+      "cvss": {
+        "score": 5.3,
+        "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "updated": "2021-09-14T19:42:51.000Z",
+      "recommendation": "Upgrade to version 0.11.1 or later",
+      "cwe": [
+        "CWE-200"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1069962,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2015-8859\n- https://github.com/pillarjs/send/pull/70\n- https://github.com/advisories/GHSA-jgqf-hwc5-hh37\n- https://github.com/expressjs/serve-static/blob/master/HISTORY.md#181--2015-01-20\n- https://www.npmjs.com/advisories/56\n- https://nodesecurity.io/advisories/56\n- http://www.openwall.com/lists/oss-security/2016/04/20/11\n- http://www.securityfocus.com/bid/96435",
+      "created": "2017-10-24T18:33:36.000Z",
+      "reported_by": null,
+      "title": "Root Path Disclosure in send",
+      "npm_advisory_id": null,
+      "overview": "Versions of `send` prior to 0.11.2 are affected by an information leakage vulnerability which may allow an attacker to enumerate paths on the server filesystem.\n\n\n\n## Recommendation\n\nUpdate to version 0.11.1 or later.",
+      "url": "https://github.com/advisories/GHSA-jgqf-hwc5-hh37"
+    },
+    "1081884": {
+      "findings": [
+        {
+          "version": "3.1.0",
+          "paths": [
+            ".>webpack>watchpack>watchpack-chokidar2>chokidar>glob-parent"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<5.1.2",
+      "module_name": "glob-parent",
+      "severity": "high",
+      "github_advisory_id": "GHSA-ww39-953v-wcq6",
+      "cves": [
+        "CVE-2020-28469"
+      ],
+      "access": "public",
+      "patched_versions": ">=5.1.2",
+      "cvss": {
+        "score": 7.5,
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "updated": "2022-08-02T21:17:47.000Z",
+      "recommendation": "Upgrade to version 5.1.2 or later",
+      "cwe": [
+        "CWE-400"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1081884,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2020-28469\n- https://github.com/gulpjs/glob-parent/pull/36\n- https://github.com/gulpjs/glob-parent/blob/6ce8d11f2f1ed8e80a9526b1dc8cf3aa71f43474/index.js%23L9\n- https://github.com/gulpjs/glob-parent/releases/tag/v5.1.2\n- https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWERGITHUBES128-1059093\n- https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1059092\n- https://snyk.io/vuln/SNYK-JS-GLOBPARENT-1016905\n- https://www.oracle.com/security-alerts/cpujan2022.html\n- https://github.com/advisories/GHSA-ww39-953v-wcq6",
+      "created": "2021-06-07T21:56:34.000Z",
+      "reported_by": null,
+      "title": "glob-parent before 5.1.2 vulnerable to Regular Expression Denial of Service in enclosure regex",
+      "npm_advisory_id": null,
+      "overview": "This affects the package glob-parent before 5.1.2. The enclosure regex used to check for strings ending in enclosure containing path separator.",
+      "url": "https://github.com/advisories/GHSA-ww39-953v-wcq6"
+    },
+    "1081910": {
+      "findings": [
+        {
+          "version": "1.0.1",
+          "paths": [
+            ".>express>cookie-signature"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<1.0.4",
+      "module_name": "cookie-signature",
+      "severity": "moderate",
+      "github_advisory_id": "GHSA-92vm-wfm5-mxvv",
+      "cves": [
+        "CVE-2016-1000236"
+      ],
+      "access": "public",
+      "patched_versions": ">=1.0.4",
+      "cvss": {
+        "score": 4.4,
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "updated": "2022-08-03T21:36:59.000Z",
+      "recommendation": "Upgrade to version 1.0.4 or later",
+      "cwe": [
+        "CWE-362"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1081910,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2016-1000236\n- https://github.com/tj/node-cookie-signature/commit/2c4df6b6cee540f30876198cd0b5bebf28528c07\n- https://github.com/tj/node-cookie-signature/commit/4cc5e21e7f59a4ea0b51cd5e9634772d48fab590\n- https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=838618\n- https://bugzilla.redhat.com/show_bug.cgi?id=1371409\n- https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-1000236\n- https://security-tracker.debian.org/tracker/CVE-2016-1000236\n- https://travis-ci.com/nodejs/security-wg/builds/76423102\n- https://www.mail-archive.com/secure-testing-team@lists.alioth.debian.org/msg06583.html\n- https://github.com/tj/node-cookie-signature/commit/39791081692e9e14aa62855369e1c7f80fbfd50e\n- https://www.npmjs.com/advisories/134\n- https://github.com/advisories/GHSA-92vm-wfm5-mxvv",
+      "created": "2020-01-06T18:44:10.000Z",
+      "reported_by": null,
+      "title": "cookie-signature Timing Attack",
+      "npm_advisory_id": null,
+      "overview": "Affected versions of `cookie-signature` are vulnerable to timing attacks as a result of using a fail-early comparison instead of a constant-time comparison. \n\nTiming attacks remove the exponential increase in entropy gained from increased secret length, by providing per-character feedback on the correctness of a guess via miniscule timing differences.\n\nUnder favorable network conditions, an attacker can exploit this to guess the secret in no more than `charset*length` guesses, instead of `charset^length` guesses required were the timing attack not present. \n\n\n\n## Recommendation\n\nUpdate to 1.0.4 or later.",
+      "url": "https://github.com/advisories/GHSA-92vm-wfm5-mxvv"
+    },
+    "1082039": {
+      "findings": [
+        {
+          "version": "1.2.6",
+          "paths": [
+            ".>express>send>mime"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<1.4.1",
+      "module_name": "mime",
+      "severity": "moderate",
+      "github_advisory_id": "GHSA-wrvr-8mpx-r7pp",
+      "cves": [
+        "CVE-2017-16138"
+      ],
+      "access": "public",
+      "patched_versions": ">=1.4.1",
+      "cvss": {
+        "score": 0,
+        "vectorString": null
+      },
+      "updated": "2022-08-11T21:27:46.000Z",
+      "recommendation": "Upgrade to version 1.4.1 or later",
+      "cwe": [
+        "CWE-400"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1082039,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2017-16138\n- https://github.com/broofa/node-mime/issues/167\n- https://github.com/advisories/GHSA-wrvr-8mpx-r7pp\n- https://www.npmjs.com/advisories/535\n- https://nodesecurity.io/advisories/535",
+      "created": "2018-07-20T16:20:52.000Z",
+      "reported_by": null,
+      "title": "mime Regular Expression Denial of Service when mime lookup performed on untrusted user input",
+      "npm_advisory_id": null,
+      "overview": "Affected versions of `mime` are vulnerable to regular expression denial of service when a mime lookup is performed on untrusted user input.\n\n\n## Recommendation\n\nUpdate to version 2.0.3 or later.",
+      "url": "https://github.com/advisories/GHSA-wrvr-8mpx-r7pp"
+    },
+    "1082848": {
+      "findings": [
+        {
+          "version": "2.7.7",
+          "paths": [
+            ".>express>connect"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<=2.8.0",
+      "module_name": "connect",
+      "severity": "low",
+      "github_advisory_id": "GHSA-3fw8-66wf-pr7m",
+      "cves": [
+        "CVE-2013-7370"
+      ],
+      "access": "public",
+      "patched_versions": ">=2.8.1",
+      "cvss": {
+        "score": 0,
+        "vectorString": null
+      },
+      "updated": "2022-08-13T03:06:01.000Z",
+      "recommendation": "Upgrade to version 2.8.1 or later",
+      "cwe": [
+        "CWE-79"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1082848,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2013-7370\n- https://github.com/senchalabs/connect/issues/831\n- https://github.com/senchalabs/connect/commit/126187c4e12162e231b87350740045e5bb06e93a\n- https://github.com/senchalabs/connect/commit/277e5aad6a95d00f55571a9a0e11f2fa190d8135\n- https://access.redhat.com/security/cve/cve-2013-7370\n- https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2013-7370\n- https://bugzilla.suse.com/show_bug.cgi?id=CVE-2013-7370\n- https://nodesecurity.io/advisories/methodOverride_Middleware_Reflected_Cross-Site_Scripting\n- https://security-tracker.debian.org/tracker/CVE-2013-7370\n- https://www.npmjs.com/advisories/3\n- http://www.openwall.com/lists/oss-security/2014/04/21/2\n- http://www.openwall.com/lists/oss-security/2014/05/13/1\n- https://github.com/advisories/GHSA-3fw8-66wf-pr7m",
+      "created": "2020-08-31T22:41:27.000Z",
+      "reported_by": null,
+      "title": "methodOverride Middleware Reflected Cross-Site Scripting in connect",
+      "npm_advisory_id": null,
+      "overview": "Connect is a stack of middleware that is executed in order in each request.\n\nThe \"methodOverride\" middleware allows the http post to override the method of the request with the value of the \"_method\" post key or with the header \"x-http-method-override\".\n\nBecause the user post input was not checked, req.method could contain any kind of value. Because the req.method did not match any common method VERB, connect answered with a 404 page containing the \"Cannot `[method]` `[url]`\" content. The method was not properly encoded for output in the browser.\n\n\n###Example:\n```\n~ curl \"localhost:3000\" -d \"_method=<script src=http://nodesecurity.io/xss.js></script>\"\nCannot <SCRIPT SRC=HTTP://NODESECURITY.IO/XSS.JS></SCRIPT> /\n```\n\n## Recommendation\n\nUpdate to the newest version of Connect or disable methodOverride. It is not possible to avoid the vulnerability if you have enabled this middleware in the top of your stack.",
+      "url": "https://github.com/advisories/GHSA-3fw8-66wf-pr7m"
+    },
+    "1082941": {
+      "findings": [
+        {
+          "version": "1.9.1",
+          "paths": [
+            ".>webpack>uglifyjs-webpack-plugin>serialize-javascript"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<2.1.1",
+      "module_name": "serialize-javascript",
+      "severity": "moderate",
+      "github_advisory_id": "GHSA-h9rv-jmmf-4pgx",
+      "cves": [
+        "CVE-2019-16769"
+      ],
+      "access": "public",
+      "patched_versions": ">=2.1.1",
+      "cvss": {
+        "score": 4.2,
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:L"
+      },
+      "updated": "2022-08-13T03:05:45.000Z",
+      "recommendation": "Upgrade to version 2.1.1 or later",
+      "cwe": [
+        "CWE-79"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1082941,
+      "references": "- https://github.com/yahoo/serialize-javascript/security/advisories/GHSA-h9rv-jmmf-4pgx\n- https://nvd.nist.gov/vuln/detail/CVE-2019-16769\n- https://github.com/advisories/GHSA-h9rv-jmmf-4pgx\n- https://www.npmjs.com/advisories/1426",
+      "created": "2019-12-05T18:44:37.000Z",
+      "reported_by": null,
+      "title": "Cross-Site Scripting in serialize-javascript",
+      "npm_advisory_id": null,
+      "overview": "Versions of `serialize-javascript` prior to 2.1.1 are vulnerable to Cross-Site Scripting (XSS). The package fails to sanitize serialized regular expressions. This vulnerability does not affect Node.js applications.\n\n\n## Recommendation\n\nUpgrade to version 2.1.1 or later.",
+      "url": "https://github.com/advisories/GHSA-h9rv-jmmf-4pgx"
+    },
+    "1083105": {
+      "findings": [
+        {
+          "version": "3.2.1",
+          "paths": [
+            ".>express"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<3.11.0",
+      "module_name": "express",
+      "severity": null,
+      "github_advisory_id": "GHSA-gpvr-g6gh-9mc2",
+      "cves": [
+        "CVE-2014-6393"
+      ],
+      "access": "public",
+      "patched_versions": ">=3.11.0",
+      "cvss": {
+        "score": 6.1,
+        "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "updated": "2022-08-13T03:05:45.000Z",
+      "recommendation": "Upgrade to version 3.11.0 or later",
+      "cwe": [
+        "CWE-79"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1083105,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2014-6393\n- https://github.com/advisories/GHSA-gpvr-g6gh-9mc2\n- https://www.npmjs.com/advisories/8\n- https://bugzilla.redhat.com/show_bug.cgi?id=1203190\n- https://nodesecurity.io/advisories/express-no-charset-in-content-type-header",
+      "created": "2018-10-23T17:22:54.000Z",
+      "reported_by": null,
+      "title": "No Charset in Content-Type Header in express",
+      "npm_advisory_id": null,
+      "overview": "Vulnerable versions of express do not specify a charset field in the content-type header while displaying 400 level response messages. The lack of enforcing user's browser to set correct charset, could be leveraged by an attacker to perform a cross-site scripting attack, using non-standard encodings, like UTF-7.\n\n\n## Recommendation\n\nFor express 3.x, update express to version 3.11 or later.\nFor express 4.x, update express to version 4.5 or later. ",
+      "url": "https://github.com/advisories/GHSA-gpvr-g6gh-9mc2"
+    },
+    "1083107": {
+      "findings": [
+        {
+          "version": "0.6.1",
+          "paths": [
+            ".>express>qs"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<1.0.0",
+      "module_name": "qs",
+      "severity": "high",
+      "github_advisory_id": "GHSA-f9cm-p3w6-xvr3",
+      "cves": [
+        "CVE-2014-10064"
+      ],
+      "access": "public",
+      "patched_versions": ">=1.0.0",
+      "cvss": {
+        "score": 0,
+        "vectorString": null
+      },
+      "updated": "2022-08-13T03:05:28.000Z",
+      "recommendation": "Upgrade to version 1.0.0 or later",
+      "cwe": [
+        "CWE-400"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1083107,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2014-10064\n- https://github.com/advisories/GHSA-f9cm-p3w6-xvr3\n- https://www.npmjs.com/advisories/28\n- https://nodesecurity.io/advisories/28",
+      "created": "2018-10-09T00:38:48.000Z",
+      "reported_by": null,
+      "title": "Denial-of-Service Extended Event Loop Blocking in qs",
+      "npm_advisory_id": null,
+      "overview": "Versions prior to 1.0.0 of `qs` are affected by a denial of service vulnerability that results from excessive recursion in parsing a deeply nested JSON string.\n\n\n\n\n## Recommendation\n\nUpdate to version 1.0.0 or later",
+      "url": "https://github.com/advisories/GHSA-f9cm-p3w6-xvr3"
+    },
+    "1083147": {
+      "findings": [
+        {
+          "version": "0.1.0",
+          "paths": [
+            ".>express>fresh"
+          ]
+        }
+      ],
+      "metadata": null,
+      "vulnerable_versions": "<0.5.2",
+      "module_name": "fresh",
+      "severity": "high",
+      "github_advisory_id": "GHSA-9qj9-36jm-prpv",
+      "cves": null,
+      "access": "public",
+      "patched_versions": ">=0.5.2",
+      "cvss": {
+        "score": 0,
+        "vectorString": null
+      },
+      "updated": "2022-08-13T03:05:41.000Z",
+      "recommendation": "Upgrade to version 0.5.2 or later",
+      "cwe": [
+        "CWE-400"
+      ],
+      "found_by": null,
+      "deleted": null,
+      "id": 1083147,
+      "references": "- https://nvd.nist.gov/vuln/detail/CVE-2017-16119\n- https://github.com/advisories/GHSA-9qj9-36jm-prpv\n- https://www.npmjs.com/advisories/526\n- https://nodesecurity.io/advisories/526",
+      "created": "2018-07-24T20:16:57.000Z",
+      "reported_by": null,
+      "title": "Regular Expression Denial of Service in fresh",
+      "npm_advisory_id": null,
+      "overview": "Affected versions of `fresh` are vulnerable to regular expression denial of service when parsing specially crafted user input.\n\n\n## Recommendation\n\nUpdate to version 0.5.2 or later.",
+      "url": "https://github.com/advisories/GHSA-9qj9-36jm-prpv"
+    }
+  },
+  "muted": [],
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 2,
+      "moderate": 5,
+      "high": 7,
+      "critical": 0
+    },
+    "dependencies": 306,
+    "devDependencies": 0,
+    "optionalDependencies": 0,
+    "totalDependencies": 306
+  }
+}

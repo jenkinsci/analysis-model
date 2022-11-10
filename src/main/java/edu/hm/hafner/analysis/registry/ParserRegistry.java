@@ -122,6 +122,7 @@ public class ParserRegistry {
             new PhpStanDescriptor(),
             new PitDescriptor(),
             new PmdDescriptor(),
+            new PnpmAuditDescriptor(),
             new PreFastDescriptor(),
             new ProtoLintDescriptor(),
             new PuppetLintDescriptor(),
