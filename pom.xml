@@ -61,7 +61,7 @@
     <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
-    <jmh.version>1.35</jmh.version>
+    <jmh.version>1.36</jmh.version>
     <commons.io.version>2.11.0</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
     <commons.text.version>1.10.0</commons.text.version>
