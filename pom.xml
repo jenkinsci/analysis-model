@@ -24,7 +24,7 @@
   </description>
 
   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/analysis-model.git</connection>
+    <connection>scm:git:https://github.com/jenkinsci/analysis-model.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/analysis-model.git</developerConnection>
     <url>https://github.com/jenkinsci/analysis-model</url>
     <tag>${scmTag}</tag>
