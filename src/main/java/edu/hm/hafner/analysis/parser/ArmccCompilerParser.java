@@ -19,7 +19,7 @@ import static edu.hm.hafner.util.IntegerParser.*;
 public class ArmccCompilerParser extends LookaheadParser {
     private static final long serialVersionUID = -2677728927938443703L;
 
-    private static final String ARMCC_WARNING_PATTERN = "^\"(.+)\", line (\\d+): ([A-Z][a-z]+):\\D*(\\d+)\\D*?:\\s+(.+)$";
+    private static final String ARMCC_WARNING_PATTERN = "^\"(.+)\", line (\\d+): ([A-Z]|[a-z]+):\\D*(\\d+)\\D*?:\\s+(.+)$";
 
     /**
      * Creates a new instance of {@link ArmccCompilerParser}.
