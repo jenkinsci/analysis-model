@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.regex.Matcher;
 
 import edu.hm.hafner.analysis.Issue;
@@ -35,27 +34,22 @@ public class PolyspaceParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-
-
-        int lineNumber = 0;
-        int colNumber = 0;
+        int lineNumber;
+        int colNumber;
         String cwe = matcher.group(13);
-        if(cwe.contains("CWE")){
+        if (cwe.contains("CWE")) {
             lineNumber = parseInt(matcher.group(15));
             colNumber = parseInt(matcher.group(16));
         }
-        else{
+        else {
             lineNumber = parseInt(matcher.group(14));
             colNumber = parseInt(matcher.group(15));
         }
 
-
-        String ID = matcher.group(1);
         return builder.setFileName(matcher.group(9))
-                //.setId(UUID.fromString(ID))
                 .setCategory(matcher.group(3))
                 .setDescription(matcher.group(2))
-                .setMessage("Check: "+matcher.group(6)+" "+matcher.group(7))
+                .setMessage("Check: " + matcher.group(6) + " " + matcher.group(7))
                 .setModuleName(matcher.group(8))
                 .setColumnStart(colNumber)
                 .setLineStart(lineNumber)
@@ -73,19 +67,19 @@ public class PolyspaceParser extends LookaheadParser {
                 priority = Severity.WARNING_HIGH;
             }
             else {
-                if (equalsIgnoreCase(matcher.group(4), "Red")){
+                if (equalsIgnoreCase(matcher.group(4), "Red")) {
                     priority = Severity.WARNING_HIGH;
                 }
-                else if (equalsIgnoreCase(matcher.group(4), "Orange")){
+                else if (equalsIgnoreCase(matcher.group(4), "Orange")) {
                     priority = Severity.WARNING_NORMAL;
                 }
-                else if (equalsIgnoreCase(matcher.group(4), "Gray")){
+                else if (equalsIgnoreCase(matcher.group(4), "Gray")) {
                     priority = Severity.WARNING_LOW;
                 }
-                else if (equalsIgnoreCase(matcher.group(4), "Green")){
+                else if (equalsIgnoreCase(matcher.group(4), "Green")) {
                     priority = Severity.WARNING_LOW;
                 }
-                else if (equalsIgnoreCase(matcher.group(4), "Not Applicable")){
+                else if (equalsIgnoreCase(matcher.group(4), "Not Applicable")) {
                     priority = Severity.WARNING_NORMAL;
                 }
             }
@@ -100,8 +94,9 @@ public class PolyspaceParser extends LookaheadParser {
         else if (equalsIgnoreCase(matcher.group(11), "Low")) {
             priority = Severity.WARNING_LOW;
         }
+        else {
+            priority = Severity.WARNING_NORMAL;
+        }
         return priority;
     }
-
-
 }

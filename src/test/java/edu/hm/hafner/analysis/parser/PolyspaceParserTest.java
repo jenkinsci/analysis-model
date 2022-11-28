@@ -1,9 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -45,7 +43,7 @@ class PolyspaceParserTest extends AbstractParserTest {
                         "Check: Qualifier removed in conversion Impact: Low")
                 .hasCategory("Programming")
                 .hasSeverity(Severity.WARNING_HIGH);
-        softly.assertThat(report.get(5  ))
+        softly.assertThat(report.get(5))
                 .hasLineStart(512)
                 .hasDescription("MISRA C:2012")
                 .hasMessage(
