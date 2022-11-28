@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
