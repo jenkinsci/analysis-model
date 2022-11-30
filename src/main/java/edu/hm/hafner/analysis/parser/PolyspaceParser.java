@@ -25,9 +25,7 @@ public class PolyspaceParser extends IssueParser {
     /**
      * Creates a new instance of {@link PolyspaceParser}.
      */
-    public PolyspaceParser() {
-        super();
-    }
+    public PolyspaceParser() { }
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
@@ -51,7 +49,7 @@ public class PolyspaceParser extends IssueParser {
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
                 //System.out.println(line);
-                /** Checks whether "CWE" field is found, which defines the difference between
+                /* Checks whether "CWE" field is found, which defines the difference between
                  a BugFinder file and a CodeProver report */
                 if (line.contains("CWE")) {
                     // BugFinder result file has 16 columns
@@ -86,19 +84,19 @@ public class PolyspaceParser extends IssueParser {
 
         Severity priority = Severity.WARNING_NORMAL;
 
-        if ((equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[1], "Defect"))
-                || (equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Red"))
-                || (equalsIgnoreCase(arrOfStr[10], "High"))) {
+        if (equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[1], "Defect")
+                || equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Red")
+                || equalsIgnoreCase(arrOfStr[10], "High")) {
             priority = Severity.WARNING_HIGH;
         }
-        else if ((equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Orange"))
-                || (equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Not Applicable"))
+        else if (equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Orange")
+                || equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Not Applicable")
                 || (equalsIgnoreCase(arrOfStr[10], "Medium"))) {
             priority = Severity.WARNING_NORMAL;
         }
-        else if ((equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Gray"))
-                || (equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Green"))
-                || (equalsIgnoreCase(arrOfStr[10], "Low"))) {
+        else if (equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Gray")
+                || equalsIgnoreCase(arrOfStr[10], "Unset") && containsAnyIgnoreCase(arrOfStr[3], "Green")
+                || equalsIgnoreCase(arrOfStr[10], "Low")) {
             priority = Severity.WARNING_LOW;
         }
         return priority;
