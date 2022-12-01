@@ -30,9 +30,7 @@ public class PolyspaceDescriptor extends ParserDescriptor {
     @Override
     public String getHelp() {
         return "Reads reports of Polyspace Static Analysis Tool by MathWorks. "
-                + "Used for BugFinder and CodeProver result files.<br/>"
-                + "Bugfinder: <a href='https://www.mathworks.com/help/bugfinder/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_1'> </a>"
-                + "CodeProver: <a href='https://www.mathworks.com/help/codeprover/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_2'> </a>"
+                + "Used for <a href='https://www.mathworks.com/help/bugfinder/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_1'>BugFinder</a> and  <a href='https://www.mathworks.com/help/codeprover/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_2'>CodeProver</a> result files.<br/>"
                 + "Report can be generated with command: "
                 + "polyspace-results-export -format csv -results-dir <RESULTS> -output-name <CSVFILE> -key <KEY>";
     }
