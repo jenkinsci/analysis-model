@@ -10,7 +10,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A parser for Polyspace Bug Finder and Code Prover results.
@@ -21,14 +20,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class PolyspaceParser extends IssueParser {
 
     private static final long serialVersionUID = -1251248150596418714L;
-    private static final int severityIndex = 10;
-    private static final int colorIndex = 3;
-    private static final int familyIndex = 1;
+    static final int severityIndex = 10;
+    static final int colorIndex = 3;
+    static final int familyIndex = 1;
 
     /**
      * Creates a new instance of {@link PolyspaceParser}.
      */
-    public PolyspaceParser() { }
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
@@ -90,16 +88,16 @@ public class PolyspaceParser extends IssueParser {
 
         if (equalsIgnoreCase(attributes[severityIndex], "Unset")) {
 
-            if (equalsIgnoreCase(attributes[familyIndex], "Defect") ||
-                    equalsIgnoreCase(attributes[colorIndex], "Red")) {
+            if (equalsIgnoreCase(attributes[familyIndex], "Defect")
+                    || equalsIgnoreCase(attributes[colorIndex], "Red")) {
                 priority = Severity.WARNING_HIGH;
             }
-            else if (equalsIgnoreCase(attributes[colorIndex], "Orange") ||
-                    equalsIgnoreCase(attributes[colorIndex], "Not Applicable")) {
+            else if (equalsIgnoreCase(attributes[colorIndex], "Orange")
+                    || equalsIgnoreCase(attributes[colorIndex], "Not Applicable")) {
                 priority = Severity.WARNING_NORMAL;
             }
-            else if (equalsIgnoreCase(attributes[colorIndex], "Gray") ||
-                    equalsIgnoreCase(attributes[colorIndex], "Green")) {
+            else if (equalsIgnoreCase(attributes[colorIndex], "Gray")
+                    || equalsIgnoreCase(attributes[colorIndex], "Green")) {
                 priority = Severity.WARNING_LOW;
             }
         }
