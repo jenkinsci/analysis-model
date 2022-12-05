@@ -20,9 +20,9 @@ import edu.hm.hafner.analysis.Severity;
 public class PolyspaceParser extends IssueParser {
 
     private static final long serialVersionUID = -1251248150596418714L;
-    static final int severityIndex = 10;
-    static final int colorIndex = 3;
-    static final int familyIndex = 1;
+    static final int SEVERITY_INDEX = 10;
+    static final int COLOR_INDEX = 3;
+    static final int FAMILY_INDEX = 1;
 
     /**
      * Creates a new instance of {@link PolyspaceParser}.
@@ -81,33 +81,33 @@ public class PolyspaceParser extends IssueParser {
         }
     }
 
-    @SuppressWarnings(value = "PMD.UseVarargs")
+    @SuppressWarnings({"PMD.UseVarargs", "PMD.CyclomaticComplexity" })
     private Severity mapPriority(final String[] attributes) {
 
         Severity priority = Severity.WARNING_NORMAL;
 
-        if (equalsIgnoreCase(attributes[severityIndex], "Unset")) {
+        if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Unset")) {
 
-            if (equalsIgnoreCase(attributes[familyIndex], "Defect")
-                    || equalsIgnoreCase(attributes[colorIndex], "Red")) {
+            if (equalsIgnoreCase(attributes[FAMILY_INDEX], "Defect")
+                    || equalsIgnoreCase(attributes[COLOR_INDEX], "Red")) {
                 priority = Severity.WARNING_HIGH;
             }
-            else if (equalsIgnoreCase(attributes[colorIndex], "Orange")
-                    || equalsIgnoreCase(attributes[colorIndex], "Not Applicable")) {
+            else if (equalsIgnoreCase(attributes[COLOR_INDEX], "Orange")
+                    || equalsIgnoreCase(attributes[COLOR_INDEX], "Not Applicable")) {
                 priority = Severity.WARNING_NORMAL;
             }
-            else if (equalsIgnoreCase(attributes[colorIndex], "Gray")
-                    || equalsIgnoreCase(attributes[colorIndex], "Green")) {
+            else if (equalsIgnoreCase(attributes[COLOR_INDEX], "Gray")
+                    || equalsIgnoreCase(attributes[COLOR_INDEX], "Green")) {
                 priority = Severity.WARNING_LOW;
             }
         }
-        else if (equalsIgnoreCase(attributes[severityIndex], "High")) {
+        else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "High")) {
             priority = Severity.WARNING_HIGH;
         }
-        else if (equalsIgnoreCase(attributes[severityIndex], "Medium")) {
+        else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Medium")) {
             priority = Severity.WARNING_NORMAL;
         }
-        else if (equalsIgnoreCase(attributes[severityIndex], "Low")) {
+        else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Low")) {
             priority = Severity.WARNING_LOW;
         }
         return priority;
