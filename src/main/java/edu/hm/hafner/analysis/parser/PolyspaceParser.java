@@ -49,7 +49,6 @@ public class PolyspaceParser extends IssueParser {
 
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
-                //System.out.println(line);
                 /* Checks whether "CWE" field is found, which defines the difference between
                  a BugFinder file and a CodeProver report */
                 if (line.contains("CWE")) {
