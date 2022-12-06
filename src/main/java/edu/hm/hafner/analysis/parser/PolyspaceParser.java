@@ -30,7 +30,7 @@ public class PolyspaceParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
-        try (Stream<String> lines = reader.readStream()) {
+        try (Stream<String> lines = reader.readStream().skip(1)) {
             return parse(lines);
         }
         catch (UncheckedIOException e) {
@@ -66,16 +66,20 @@ public class PolyspaceParser extends IssueParser {
                 }
 
                 String[] attributes = line.split("\\t", limit);
-                builder.setFileName(attributes[8]);
-                builder.setCategory(attributes[2]);
-                builder.setDescription(attributes[1]);
-                builder.setMessage("Check: " + attributes[5] + " " + attributes[6]);
-                builder.setModuleName(attributes[7]);
-                builder.setColumnStart(attributes[colNumber]);
-                builder.setLineStart(attributes[lineNumber]);
-                builder.setSeverity(mapPriority(attributes));
+                if(equalsIgnoreCase(attributes[9],"Unreviewed") || equalsIgnoreCase(attributes[9],"To investigate")
+                        || equalsIgnoreCase(attributes[9],"To fix") || equalsIgnoreCase(attributes[9],"Other")) {
+                    builder.setFileName(attributes[8]);
+                    builder.setCategory(attributes[2]);
+                    builder.setDescription(attributes[1]);
+                    builder.setMessage("Check: " + attributes[5] + " " + attributes[6]);
+                    builder.setModuleName(attributes[7]);
+                    builder.setColumnStart(attributes[colNumber]);
+                    builder.setLineStart(attributes[lineNumber]);
+                    builder.setSeverity(mapPriority(attributes));
+                    builder.setAdditionalProperties(attributes[0]);
 
-                report.add(builder.build());
+                    report.add(builder.build());
+                }
             }
             return report;
         }
