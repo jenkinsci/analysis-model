@@ -1,3 +1,4 @@
+ID	Family	Group	Color	New	Check	Information	Function	File	Status	Severity	Comment	CWE ID	Key	Line	Col
 3547	Defect	memory	Red	yes	Null pointer	Impact: High	calculate()	D:\Jenkins\workspace\example.c	Unreviewed	Unset		CWE-476 CWE-690	123456789	222	49
 1320	Defect	Programming	Red	yes	Qualifier removed in conversion	Impact: Low		D:\example/test.c	Unreviewed	Unset		CWE-704	123456789	276	5
 184	Custom Rule	4 Structs	Not Applicable	yes	4.3 All struct fields must follow the specified pattern.		File()	D:\sample.h	Unreviewed	Unset		123456789	631	16

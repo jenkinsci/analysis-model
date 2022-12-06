@@ -66,8 +66,8 @@ public class PolyspaceParser extends IssueParser {
                 }
 
                 String[] attributes = line.split("\\t", limit);
-                if(equalsIgnoreCase(attributes[9],"Unreviewed") || equalsIgnoreCase(attributes[9],"To investigate")
-                        || equalsIgnoreCase(attributes[9],"To fix") || equalsIgnoreCase(attributes[9],"Other")) {
+                if (equalsIgnoreCase(attributes[9], "Unreviewed") || equalsIgnoreCase(attributes[9], "To investigate")
+                        || equalsIgnoreCase(attributes[9], "To fix") || equalsIgnoreCase(attributes[9], "Other")) {
                     builder.setFileName(attributes[8]);
                     builder.setCategory(attributes[2]);
                     builder.setDescription(attributes[1]);
