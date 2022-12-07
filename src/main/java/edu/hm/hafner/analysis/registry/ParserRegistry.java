@@ -123,6 +123,7 @@ public class ParserRegistry {
             new PitDescriptor(),
             new PmdDescriptor(),
             new PnpmAuditDescriptor(),
+            new PolyspaceDescriptor(),
             new PreFastDescriptor(),
             new ProtoLintDescriptor(),
             new PuppetLintDescriptor(),
