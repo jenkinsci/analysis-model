@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.UncheckedIOException;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
@@ -33,7 +32,7 @@ public class PolyspaceParser extends IssueParser {
         try (Stream<String> lines = reader.readStream().skip(1)) {
             return parse(lines);
         }
-        catch (UncheckedIOException e) {
+        catch (Exception e) {
             throw new ParsingException(e);
         }
     }
@@ -49,7 +48,6 @@ public class PolyspaceParser extends IssueParser {
 
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
-                //System.out.println(line);
                 /* Checks whether "CWE" field is found, which defines the difference between
                  a BugFinder file and a CodeProver report */
                 if (line.contains("CWE")) {

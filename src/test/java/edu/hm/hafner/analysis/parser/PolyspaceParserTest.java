@@ -42,6 +42,12 @@ class PolyspaceParserTest extends AbstractParserTest {
                         "Check: Qualifier removed in conversion Impact: Low")
                 .hasCategory("Programming")
                 .hasSeverity(Severity.WARNING_HIGH);
+        softly.assertThat(report.get(2))
+                .hasSeverity(Severity.WARNING_HIGH);
+        softly.assertThat(report.get(3))
+                .hasSeverity(Severity.WARNING_NORMAL);
+        softly.assertThat(report.get(4))
+                .hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(report.get(5))
                 .hasLineStart(512)
                 .hasDescription("MISRA C:2012")
