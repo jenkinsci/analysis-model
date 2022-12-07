@@ -20,12 +20,13 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Eva Habeeb
  */
-public class SimulinkCheckParser extends IssuePropertiesParser{
+public class SimulinkCheckParser extends IssuePropertiesParser {
 
     private static final long serialVersionUID = -8099258658775128275L;
 
     @Override
-    public Report parse(ReaderFactory readerFactory) throws ParsingException {
+    @SuppressWarnings({"CheckStyle.JavaNCSSCheck", "PMD.NcssCount", "PMD.CyclomaticComplexity", "PMD.CognitiveComplexity", "PMD.NPathComplexity" })
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         String name = readerFactory.getFileName();
         File file = new File(name);
 
