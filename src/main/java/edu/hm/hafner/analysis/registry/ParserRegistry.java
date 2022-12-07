@@ -139,6 +139,7 @@ public class ParserRegistry {
             new SarifDescriptor(),
             new ScalaDescriptor(),
             new SimianDescriptor(),
+            new SimulinkCheckDescriptor(),
             new SonarQubeDescriptor(),
             new SphinxBuildDescriptor(),
             new SpotBugsDescriptor(),
