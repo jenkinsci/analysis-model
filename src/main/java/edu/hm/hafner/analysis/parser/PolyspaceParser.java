@@ -32,9 +32,6 @@ public class PolyspaceParser extends IssueParser {
         try (Stream<String> lines = reader.readStream().skip(1)) {
             return parse(lines);
         }
-        catch (Exception e) {
-            throw new ParsingException(e);
-        }
     }
 
     private Report parse(final Stream<String> lines) {
