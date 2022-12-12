@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - main
   pull_request:
 
 jobs:
@@ -20,6 +21,8 @@ jobs:
           cache: 'maven'
       - name: Compile, Test and Analysis
         run: mvn -V --color always -ntp clean verify -Dmaven.test.failure.ignore=true | tee maven.log
+      - name: Mutation Coverage
+        run: mvn -V --color always -ntp org.pitest:pitest-maven:mutationCoverage
       - name: Autograding
         uses: uhafner/autograding-github-action@v1.7.0
         with:
@@ -31,27 +34,27 @@ jobs:
                 "tools": [
                   {
                     "id": "error-prone",
-                    "pattern": "./*.log"
+                    "pattern": "**/*.log"
                   },
                   {
                     "id": "java",
-                    "pattern": "./*.log"
+                    "pattern": "**/*.log"
                   },
                   {
                     "id": "javadoc-warnings",
-                    "pattern": "./*.log"
+                    "pattern": "**/*.log"
                   },
                   {
                     "id": "checkstyle",
-                    "pattern": "./target/checkstyle-result.xml"
+                    "pattern": "**/checkstyle-result.xml"
                   },
                   {
                     "id": "pmd",
-                    "pattern": "./target/pmd.xml"
+                    "pattern": "**/pmd.xml"
                   },
                   {
                     "id": "spotbugs",
-                    "pattern": "./target/spotbugsXml.xml"
+                    "pattern": "**/spotbugsXml.xml"
                   }
                 ],
                 "maxScore": 100,
@@ -70,5 +73,12 @@ jobs:
                 "maxScore": 100,
                 "coveredPercentageImpact": 0,
                 "missedPercentageImpact": -1
+              },
+              "pit": {
+                "maxScore": 100,
+                "detectedImpact": 0,
+                "undetectedImpact": -1,
+                "detectedPercentageImpact": 0,
+                "undetectedPercentageImpact": 0
               }
             }
