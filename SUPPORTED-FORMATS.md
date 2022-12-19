@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2022-12-07T13:35:51.789915100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2022-12-19T11:55:44.743879100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1529,6 +1529,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                PolyspaceParse
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.mathworks.com/products/polyspace.html">
+                    Polyspace Tool
+                </a>
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Reads reports of Polyspace Static Analysis Tool by MathWorks. Used for <a href='https://www.mathworks.com/help/bugfinder/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_1'>BugFinder</a> and  <a href='https://www.mathworks.com/help/codeprover/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_2'>CodeProver</a> result files.<br/>Report can be generated with command: polyspace-results-export -format csv -results-dir <RESULTS> -output-name <CSVFILE> -key <KEY>
             </td>
         </tr>
         <tr>
