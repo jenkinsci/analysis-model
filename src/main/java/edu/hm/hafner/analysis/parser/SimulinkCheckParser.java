@@ -19,13 +19,13 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Eva Habeeb
  */
-public class SimulinkCheckParser extends IssuePropertiesParser{
+public class SimulinkCheckParser extends IssuePropertiesParser {
 
     private static final long serialVersionUID = -8099258658775128275L;
 
     @Override
     @SuppressWarnings({"PMD.NcssCount", "PMD.CyclomaticComplexity", "PMD.CognitiveComplexity", "PMD.NPathComplexity" })
-    public Report parse(ReaderFactory readerFactory) throws ParsingException {
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         String name = readerFactory.getFileName();
         File file = new File(name);
 
@@ -51,7 +51,11 @@ public class SimulinkCheckParser extends IssuePropertiesParser{
             throw new ParsingException(e);
         }
     }
-    public void parseIssue(Report report, Document document, IssueBuilder issueBuilder, String system, String check) {
+
+    /**
+     * Handles parsing.
+     */
+    public void parseIssue(final Report report, final Document document, final IssueBuilder issueBuilder, final String system, final String check) {
         Elements heading;
         String issueTxt;
         String headingElement;
@@ -93,21 +97,25 @@ public class SimulinkCheckParser extends IssuePropertiesParser{
             report.add(issueBuilder.build());
         }
     }
-    public void setSeverity(String check, IssueBuilder issueBuilder ) {
 
-        if (check.equalsIgnoreCase("div.WarningCheck")) {
+    /**
+     * Handles setting severity of issues.
+     */
+    public void setSeverity(final String check, final IssueBuilder issueBuilder) {
+
+        if ("div.WarningCheck".equals(check)) {
             issueBuilder.setSeverity(Severity.WARNING_NORMAL);
             issueBuilder.setCategory("Warning");
         }
-        else if (check.equalsIgnoreCase("div.FailedCheck")) {
+        else if ("div.FailedCheck".equals(check)) {
             issueBuilder.setSeverity(Severity.ERROR);
             issueBuilder.setCategory("Failed");
         }
-        else if (check.equalsIgnoreCase("div.NotRunCheck")) {
+        else if ("div.NotRunCheck".equals(check)) {
             issueBuilder.setSeverity(Severity.WARNING_HIGH);
             issueBuilder.setCategory("Not Run");
         }
-        else if (check.equalsIgnoreCase("div.IncompleteCheck")) {
+        else if ("div.IncompleteCheck".equals(check)) {
             issueBuilder.setSeverity(Severity.WARNING_LOW);
             issueBuilder.setCategory("Incomplete");
         }
