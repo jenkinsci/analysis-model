@@ -54,6 +54,12 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
 
     /**
      * Handles parsing.
+     * @param report the report object
+     * @param document parsed html document
+     * @param issueBuilder issueBuilder object
+     * @param system name of the system
+     * @param check category of the check
+     *
      */
     public void parseIssue(final Report report, final Document document, final IssueBuilder issueBuilder, final String system, final String check) {
         Elements heading;
@@ -100,6 +106,8 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
 
     /**
      * Handles setting severity of issues.
+     * @param check category of the check
+     * @param issueBuilder issueBuilder object
      */
     public void setSeverity(final String check, final IssueBuilder issueBuilder) {
 
