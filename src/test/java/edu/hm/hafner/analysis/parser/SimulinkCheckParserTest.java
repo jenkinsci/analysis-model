@@ -18,43 +18,41 @@ class SimulinkCheckParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(1494);
-
-        softly.assertThat(report.get(0))
-                .hasCategory("Warning")
-                .hasDescription("Define the names to avoid")
-                .hasSeverity(Severity.WARNING_NORMAL);
+        softly.assertThat(report).hasSize(12);
         softly.assertThat(report.get(1))
-                .hasModuleName("SW01-1996.UseOfCase");
-        softly.assertThat(report.get(68))
-                .hasModuleName("SW01-125.runVisualizationChecks");
+                .hasCategory("Warning")
+                .hasDescription("Identify Environment Controller blocks to be replaced with Variant Source blocks")
+                .hasSeverity(Severity.WARNING_NORMAL);
+        softly.assertThat(report.get(2))
+                .hasModuleName("SW01-181.NamesToAvoid");
+        softly.assertThat(report.get(0))
+                .hasModuleName("SW01-125.IntegerWordLengths");
 
-        softly.assertThat(report.get(500))
+        softly.assertThat(report.get(6))
                 .hasCategory("Not Run")
-                .hasDescription("Check model mask parameters")
+                .hasDescription("Check for equality and inequality operations on floating-point values")
                 .hasSeverity(Severity.WARNING_HIGH);
-        softly.assertThat(report.get(333))
-                .hasModuleName("SW01-181.LUTRangeCheckCode");
-        softly.assertThat(report.get(439))
-                .hasModuleName("SW01-441.runClockChecks");
+        softly.assertThat(report.get(8))
+                .hasModuleName("SW01-181.UseOfCase");
+        softly.assertThat(report.get(7))
+                .hasModuleName("SW01-441.checkParameterUnits");
 
-        softly.assertThat(report.get(302))
+        softly.assertThat(report.get(3))
                 .hasCategory("Failed")
-                .hasDescription("Check model for Stateflow messages")
+                .hasDescription("Check Data Store Memory blocks")
                 .hasSeverity(Severity.ERROR);
-        softly.assertThat(report.get(305))
-                .hasModuleName("SW02-142.MaskParamInfCheck");
-        softly.assertThat(report.get(307))
-                .hasModuleName("SW02-061.EventBlockCheck");
+        softly.assertThat(report.get(4))
+                .hasModuleName("SW02-142.SFMessagesCheck");
+        softly.assertThat(report.get(5))
+                .hasModuleName("SW01-181.Comments");
 
-        softly.assertThat(report.get(1490))
+        softly.assertThat(report.get(10))
                 .hasCategory("Incomplete")
-                .hasDescription("Identify blocks generating inefficient algorithms")
+                .hasDescription("Check if model uses custom code")
                 .hasSeverity(Severity.WARNING_LOW);
-        softly.assertThat(report.get(1491))
-                .hasModuleName("SW02-493.CodeGenSettings");
-        softly.assertThat(report.get(429))
-                .hasModuleName("SW02-430.runHDLRecipChecks");
-
+        softly.assertThat(report.get(11))
+                .hasModuleName("SW01-181.NestedComments");
+        softly.assertThat(report.get(9))
+                .hasModuleName("SW02-430.CompareFloatEquality");
     }
 }

@@ -24,7 +24,6 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
     private static final long serialVersionUID = -8099258658775128275L;
 
     @Override
-    @SuppressWarnings({"PMD.NcssCount", "PMD.CyclomaticComplexity", "PMD.CognitiveComplexity", "PMD.NPathComplexity" })
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         String name = readerFactory.getFileName();
         File file = new File(name);
@@ -52,42 +51,34 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
         }
     }
 
-    /**
-     * Handles parsing.
-     * @param report the report object
-     * @param document parsed html document
-     * @param issueBuilder issueBuilder object
-     * @param system name of the system
-     * @param check category of the check
-     *
-     */
-    public void parseIssue(final Report report, final Document document, final IssueBuilder issueBuilder, final String system, final String check) {
-        Elements heading;
-        String issueTxt;
-        String headingElement;
-        String[] headingSplit;
-        int strLen;
-        String module;
+    //@SuppressWarnings({"PMD.NcssCount", "PMD.CyclomaticComplexity", "PMD.CognitiveComplexity", "PMD.NPathComplexity" })
+    private void parseIssue(final Report report, final Document document, final IssueBuilder issueBuilder, final String system, final String check) {
 
         Elements issueElements = document.select(check);
         for (Element w : issueElements) {
+            Elements heading;
             heading = w.select("span.CheckHeading");
+            String issueTxt;
             issueTxt = heading.text();
             setSeverity(check, issueBuilder);
 
+            String headingElement;
             headingElement = heading.first().id();
+            String[] headingSplit;
             headingSplit = headingElement.split("\\.");
+            int strLen;
             strLen = headingSplit.length;
+            String module;
 
-            if (issueTxt.contains("SW")) {
+            if (issueTxt.contains("SW0")) {
                 String[] fileName = issueTxt.split(":", 2);
                 module = headingSplit[strLen - 1];
                 issueBuilder.setModuleName(fileName[0] + "." + module);
                 issueBuilder.setDescription(fileName[1]);
             }
-            else if (w.parent().id().contains("SW")) {
+            else if (w.parent().id().contains("SW0")) {
                 String parentTxt = w.parent().id();
-                int i = parentTxt.indexOf("SW");
+                int i = parentTxt.indexOf("SW0");
                 parentTxt = parentTxt.substring(i);
                 module = headingSplit[strLen - 1];
                 issueBuilder.setModuleName(parentTxt + "." + module);
@@ -109,7 +100,7 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
      * @param check category of the check
      * @param issueBuilder issueBuilder object
      */
-    public void setSeverity(final String check, final IssueBuilder issueBuilder) {
+    private void setSeverity(final String check, final IssueBuilder issueBuilder) {
 
         if ("div.WarningCheck".equals(check)) {
             issueBuilder.setSeverity(Severity.WARNING_NORMAL);
