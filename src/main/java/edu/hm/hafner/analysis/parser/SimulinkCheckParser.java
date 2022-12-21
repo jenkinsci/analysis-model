@@ -51,7 +51,6 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
         }
     }
 
-    //@SuppressWarnings({"PMD.NcssCount", "PMD.CyclomaticComplexity", "PMD.CognitiveComplexity", "PMD.NPathComplexity" })
     private void parseIssue(final Report report, final Document document, final IssueBuilder issueBuilder, final String system, final String check) {
 
         Elements issueElements = document.select(check);
@@ -95,11 +94,6 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
         }
     }
 
-    /**
-     * Handles setting severity of issues.
-     * @param check category of the check
-     * @param issueBuilder issueBuilder object
-     */
     private void setSeverity(final String check, final IssueBuilder issueBuilder) {
 
         if ("div.WarningCheck".equals(check)) {
