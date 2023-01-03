@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.errorprone.annotations.Immutable;
 
 import edu.hm.hafner.util.Ensure;
-import edu.hm.hafner.util.StringContainsUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -96,10 +95,10 @@ public class Severity implements Serializable {
      * @return mapped level.
      */
     public static Severity guessFromString(@CheckForNull final String severity) {
-        if (StringContainsUtils.containsAnyIgnoreCase(severity, "error", "severe", "critical", "fatal")) {
+        if (StringUtils.containsAnyIgnoreCase(severity, "error", "severe", "critical", "fatal")) {
             return Severity.ERROR;
         }
-        if (StringContainsUtils.containsAnyIgnoreCase(severity, "info", "note")) {
+        if (StringUtils.containsAnyIgnoreCase(severity, "info", "note")) {
             return Severity.WARNING_LOW;
         }
         if (StringUtils.containsIgnoreCase(severity, "warning")) {
