@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import edu.hm.hafner.util.IntegerParser;
+import edu.hm.hafner.analysis.util.IntegerParser;
 
 import static edu.hm.hafner.analysis.IssueParser.*;
 

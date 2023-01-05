@@ -1,4 +1,4 @@
-package edu.hm.hafner.util;
+package edu.hm.hafner.analysis.util;
 
 import java.util.function.Supplier;
 

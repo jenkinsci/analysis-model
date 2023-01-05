@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.util.XmlElementUtil;
+import edu.hm.hafner.analysis.util.XmlElementUtil;
 
 /**
  * Parser for Eclipse Compiler output in XML format.

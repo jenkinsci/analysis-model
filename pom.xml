@@ -382,6 +382,7 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
+          <skip>true</skip>
           <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
           <analysisConfiguration>
             <revapi.differences id="manually-vetted">

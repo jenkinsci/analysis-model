@@ -17,7 +17,7 @@ import static com.tngtech.archunit.library.plantuml.rules.PlantUmlArchCondition.
  * @author Ullrich Hafner
  */
 @SuppressWarnings("hideutilityclassconstructor")
-@AnalyzeClasses(packages = "edu.hm.hafner..", importOptions = DoNotIncludeTests.class)
+@AnalyzeClasses(packages = "edu.hm.hafner.analysis", importOptions = DoNotIncludeTests.class)
 class PackageArchitectureTest {
     private static final URL PACKAGE_DESIGN = PackageArchitectureTest.class.getResource("/design.puml");
 
