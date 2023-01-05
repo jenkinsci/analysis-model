@@ -779,6 +779,11 @@ class ReportTest extends SerializableTest<Report> {
         return report;
     }
 
+    @Override
+    protected void assertThatRestoredInstanceEqualsOriginalInstance(final Report original, final Report restored) {
+        assertThat(original).isEqualTo(restored);
+    }
+
     /**
      * Verifies that saved serialized format (from a previous release) still can be resolved with the current
      * implementation of {@link Issue}.
