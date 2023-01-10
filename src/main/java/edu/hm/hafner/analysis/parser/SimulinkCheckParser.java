@@ -34,7 +34,7 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
     static final String INCOMPLETE = "div.IncompleteCheck";
 
     @SuppressWarnings({"PMD.AvoidCatchingNPE", "PMD.CloseResource"})
-    @SuppressFBWarnings(value= "DCN_NULLPOINTER_EXCEPTION", justification="throws parsing exception")
+    @SuppressFBWarnings(value = "DCN_NULLPOINTER_EXCEPTION", justification = "throws parsing exception")
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
