@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+
 class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     private static final String EXPECTED_GRADLE_MODULE_ROOT = "root-project";
     private static final String EXPECTED_GRADLE_MODULE_A = "a-module";
@@ -126,7 +126,6 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
         assertThat(detector.guessModuleName(PREFIX + "build/reports/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
     }
-
 
     @Test
     void shouldEnsureThatGradleSettingsHasPrecedenceOverRootBuild() {
