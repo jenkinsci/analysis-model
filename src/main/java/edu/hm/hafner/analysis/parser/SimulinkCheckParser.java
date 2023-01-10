@@ -32,13 +32,13 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
     static final String NOTRUN = "div.NotRunCheck";
     static final String INCOMPLETE = "div.IncompleteCheck";
 
-    @SuppressWarnings("PMD.AvoidCatchingNPE")
+    @SuppressWarnings({"PMD.AvoidCatchingNPE", "DCN_NULLPOINTER_EXCEPTION"})
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Reader reader = readerFactory.create();
-        InputStream targetStream = new ReaderInputStream(reader, readerFactory.getCharset());
-
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Reader reader = readerFactory.create();
+            InputStream targetStream = new ReaderInputStream(reader, readerFactory.getCharset());
+
             //Create a safe-list with allowed tags and attributes to prevent XSS attacks
             Safelist safelist = new Safelist();
             safelist = safelist.basic().addTags("div");
