@@ -32,6 +32,7 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
     static final String NOTRUN = "div.NotRunCheck";
     static final String INCOMPLETE = "div.IncompleteCheck";
 
+    @SuppressWarnings("PMD.AvoidCatchingNPE")
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         Reader reader = readerFactory.create();
@@ -41,8 +42,8 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
             //Create a safe-list with allowed tags and attributes to prevent XSS attacks
             Safelist safelist = new Safelist();
             safelist = safelist.basic().addTags("div");
-            safelist = safelist.addAttributes("div","class","id");
-            safelist = safelist.addAttributes("span","class","id");
+            safelist = safelist.addAttributes("div", "class", "id");
+            safelist = safelist.addAttributes("span", "class", "id");
 
             //Parse html document using Jsoup
             Document dirtyDoc = Jsoup.parse(targetStream, String.valueOf(readerFactory.getCharset()), "");
@@ -62,13 +63,12 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
             //Select Incomplete items from the whole html document
             parseIssue(report, document, issueBuilder, system, INCOMPLETE);
 
+            reader.close();
+            targetStream.close();
             return report;
         }
-        catch (IOException e) {
+        catch (IOException | NullPointerException e) {
             throw new ParsingException(e);
-        }
-        catch (NullPointerException p) {
-            throw new ParsingException(p);
         }
     }
 
