@@ -32,7 +32,7 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
     static final String NOTRUN = "div.NotRunCheck";
     static final String INCOMPLETE = "div.IncompleteCheck";
 
-    @SuppressWarnings({"PMD.AvoidCatchingNPE", "DCN_NULLPOINTER_EXCEPTION"})
+    @SuppressWarnings({"PMD.AvoidCatchingNPE", "SpotBugs.DCN_NULLPOINTER_EXCEPTION"})
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
@@ -47,6 +47,8 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
 
             //Parse html document using Jsoup
             Document dirtyDoc = Jsoup.parse(targetStream, String.valueOf(readerFactory.getCharset()), "");
+            reader.close();
+            targetStream.close();
             //Clean the parsed HTML document
             Document document = new Cleaner(safelist).clean(dirtyDoc);
 
@@ -63,8 +65,6 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
             //Select Incomplete items from the whole html document
             parseIssue(report, document, issueBuilder, system, INCOMPLETE);
 
-            reader.close();
-            targetStream.close();
             return report;
         }
         catch (IOException | NullPointerException e) {
