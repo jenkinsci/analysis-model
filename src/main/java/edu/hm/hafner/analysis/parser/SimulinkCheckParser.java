@@ -17,6 +17,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A parser for Simulink Check tool by Mathworks results.
@@ -32,7 +33,8 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
     static final String NOTRUN = "div.NotRunCheck";
     static final String INCOMPLETE = "div.IncompleteCheck";
 
-    @SuppressWarnings({"PMD.AvoidCatchingNPE", "SpotBugs.DCN_NULLPOINTER_EXCEPTION"})
+    @SuppressWarnings({"PMD.AvoidCatchingNPE", "PMD.CloseResource"})
+    @SuppressFBWarnings(value= "DCN_NULLPOINTER_EXCEPTION", justification="throws parsing exception")
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
