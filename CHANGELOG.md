@@ -237,9 +237,6 @@ from the maven-compiler-plugin since these are already picked up by the Java par
 : Fixed PyLint parser: detect human readable categories. 
 - [JENKINS-55358](https://issues.jenkins.io/browse/JENKINS-55358): Improved parser to support ECJ reports of ant. 
 - [JENKINS-55368](https://issues.jenkins.io/browse/JENKINS-55368): Fixed parser to remove console notes. 
-### Deprecated
-- [edu.hm.hafner.analysis.FastRegexpLineParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/FastRegexpLineParser.java)
-- [edu.hm.hafner.analysis.RegexpDocumentParser](https://github.com/jenkinsci/analysis-model/blob/master/src/main/java/edu/hm/hafner/analysis/RegexpDocumentParser.java)
 
 ## [1.1.0](https://github.com/jenkinsci/analysis-model/compare/analysis-model-1.0.0...analysis-model-1.1.0) - 2018-12-20
 
