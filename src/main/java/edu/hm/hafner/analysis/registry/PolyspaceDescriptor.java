@@ -10,7 +10,7 @@ import edu.hm.hafner.analysis.parser.PolyspaceParser;
  */
 
 public class PolyspaceDescriptor extends ParserDescriptor {
-    private static final String ID = "PolyspaceParse";
+    private static final String ID = "polyspace-parser";
     private static final String NAME = "Polyspace Tool";
 
     PolyspaceDescriptor() {
