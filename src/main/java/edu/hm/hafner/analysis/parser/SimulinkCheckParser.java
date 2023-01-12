@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Safelist;
 import org.jsoup.select.Elements;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -17,7 +16,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A parser for Simulink Check tool by Mathworks results.
@@ -33,26 +31,15 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
     static final String NOTRUN = "div.NotRunCheck";
     static final String INCOMPLETE = "div.IncompleteCheck";
 
-    @SuppressWarnings({"PMD.AvoidCatchingNPE", "PMD.CloseResource"})
-    @SuppressFBWarnings(value = "DCN_NULLPOINTER_EXCEPTION", justification = "throws parsing exception")
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Reader reader = readerFactory.create();
-            InputStream targetStream = new ReaderInputStream(reader, readerFactory.getCharset());
-
-            //Create a safe-list with allowed tags and attributes to prevent XSS attacks
-            Safelist safelist = new Safelist();
-            safelist = safelist.basic().addTags("div");
-            safelist = safelist.addAttributes("div", "class", "id");
-            safelist = safelist.addAttributes("span", "class", "id");
-
+        try (
+                IssueBuilder issueBuilder = new IssueBuilder();
+                Reader reader = readerFactory.create();
+                InputStream targetStream = new ReaderInputStream(reader, readerFactory.getCharset());
+        ) {
             //Parse html document using Jsoup
-            Document dirtyDoc = Jsoup.parse(targetStream, String.valueOf(readerFactory.getCharset()), "");
-            reader.close();
-            targetStream.close();
-            //Clean the parsed HTML document
-            Document document = new Cleaner(safelist).clean(dirtyDoc);
+            Document document = Jsoup.parse(targetStream, String.valueOf(readerFactory.getCharset()), "");
 
             Elements systemElement = document.select("div.ReportContent");
             String system = systemElement.first().id();
@@ -67,9 +54,10 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
             //Select Incomplete items from the whole html document
             parseIssue(report, document, issueBuilder, system, INCOMPLETE);
 
+            if (report.isEmpty()) throw new Exception("Empty File");
             return report;
         }
-        catch (IOException | NullPointerException e) {
+        catch (Exception e) {
             throw new ParsingException(e);
         }
     }
@@ -87,16 +75,18 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
             int strLen;
             strLen = headingSplit.length;
             String module;
+            Pattern pattern = Pattern.compile("^(SW[0-9]*-[0-9]*)([^\\w]*)(.*)");
+            Matcher matcher = pattern.matcher(issueTxt);
+            boolean matches = matcher.matches();
 
-            if (issueTxt.contains("SW0")) {
-                String[] fileName = issueTxt.split(":", 2);
+            if (matches) {
                 module = headingSplit[strLen - 1];
-                issueBuilder.setModuleName(fileName[0] + "." + module);
-                issueBuilder.setDescription(fileName[1]);
+                issueBuilder.setModuleName(matcher.group(1) + "." + module);
+                issueBuilder.setDescription(matcher.group(3));
             }
-            else if (w.parent().id().contains("SW0")) {
+            else if (w.parent().id().contains("SW")) {
                 String parentTxt = w.parent().id();
-                int i = parentTxt.indexOf("SW0");
+                int i = parentTxt.indexOf("SW");
                 parentTxt = parentTxt.substring(i);
                 module = headingSplit[strLen - 1];
                 issueBuilder.setModuleName(parentTxt + "." + module);

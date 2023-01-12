@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2022-12-19T11:55:44.743879100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-01-12T17:20:36.664702100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1806,7 +1806,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
-                SimulinkCheckParse
+                simulink-check-parser
             </td>
             <td>
                 -
@@ -1822,7 +1822,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td colspan="4">
-                :bulb: Reads and Parses HTML reports of Simulink Check Tool by MathWorks. Report can be generated with command: ModelAdvisor.summaryReport(ModelAdvisor.run(<SYSTEMS>,<CONFIG>,<FILENAME>,<ARGS>))
+                :bulb: Reads and Parses HTML reports of Simulink Check Tool by MathWorks. Report can be generated with command: <code>ModelAdvisor.summaryReport(ModelAdvisor.run(<SYSTEMS>, <CONFIG>, <FILENAME>, <ARGS>))</code>
             </td>
         </tr>
         <tr>
