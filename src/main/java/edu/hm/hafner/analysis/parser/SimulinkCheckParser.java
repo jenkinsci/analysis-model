@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.regex.Matcher;
@@ -54,10 +55,12 @@ public class SimulinkCheckParser extends IssuePropertiesParser {
             //Select Incomplete items from the whole html document
             parseIssue(report, document, issueBuilder, system, INCOMPLETE);
 
-            if (report.isEmpty()) throw new Exception("Empty File");
+            if (report.isEmpty()) {
+                throw new RuntimeException("Empty File");
+            }
             return report;
         }
-        catch (Exception e) {
+        catch (IOException | RuntimeException e) {
             throw new ParsingException(e);
         }
     }
