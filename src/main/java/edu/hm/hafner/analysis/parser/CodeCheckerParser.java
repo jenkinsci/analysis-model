@@ -21,7 +21,7 @@ import edu.hm.hafner.util.LookaheadStream;
 public class CodeCheckerParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283582L;
     private static final String CODE_CHECKER_DEFECT_PATTERN =
-            "^\\[(?<severity>UNSPECIFIED|CRITICAL|HIGH|MEDIUM|LOW)\\] (?<path>.+):(?<line>\\d+):(?<column>\\d+): (?<message>.*?) \\[(?<category>[^\\s]*?)\\]$";
+            "^\\[(?<severity>UNSPECIFIED|STYLE|CRITICAL|HIGH|MEDIUM|LOW)\\] (?<path>.+):(?<line>\\d+):(?<column>\\d+): (?<message>.*?) \\[(?<category>[^\\s]*?)\\]$";
 
     /**
      * Creates a new instance of {@link CodeCheckerParser}.
