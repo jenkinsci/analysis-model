@@ -61,7 +61,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasColumnStart(25)
                 .hasFileName("/path/to/projrct/extern/lib/control.c")
                 .hasMessage("misra violation (use --rule-texts=<file> to get proper output)")
-                .hasCategory("cppcheck-misra-c2012-15.5")
+                .hasCategory("cppcheck-misra-c2012-11.3")
                 .hasSeverity(Severity.WARNING_LOW);
 
     }
