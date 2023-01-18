@@ -24,6 +24,16 @@ Found 1 defect(s) in workbook.cpp
 
 Found 1 defect(s) in HPSF.cpp
 
+[UNSPECIFIED] /path/to/projrct/extern/lib/dem.c:1778:7: misra violation (use --rule-texts=<file> to get proper output) [cppcheck-misra-c2012-15.5]
+      return E_NOT_OK;
+      ^
+
+[STYLE] /path/to/projrct/extern/lib/control.c:96:25: misra violation (use --rule-texts=<file> to get proper output) [cppcheck-misra-c2012-11.3]
+         "CommunicationControl: %s (%d) is not supported\n",
+
+Found 2 defect(s) in dem.c
+
+
 Found 485 defect(s) in formula.cpp
 
 

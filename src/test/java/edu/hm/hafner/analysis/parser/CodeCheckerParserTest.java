@@ -48,6 +48,22 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasCategory("bugprone-signed-char-misuse")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
+        softly.assertThat(report.get(3))
+                .hasLineStart(1778)
+                .hasColumnStart(7)
+                .hasFileName("/path/to/projrct/extern/lib/dem.c")
+                .hasMessage("misra violation (use --rule-texts=<file> to get proper output)")
+                .hasCategory("cppcheck-misra-c2012-15.5")
+                .hasSeverity(Severity.WARNING_LOW);
+
+        softly.assertThat(report.get(4))
+                .hasLineStart(96)
+                .hasColumnStart(25)
+                .hasFileName("/path/to/projrct/extern/lib/control.c")
+                .hasMessage("misra violation (use --rule-texts=<file> to get proper output)")
+                .hasCategory("cppcheck-misra-c2012-15.5")
+                .hasSeverity(Severity.WARNING_LOW);
+
     }
 
     @Test
