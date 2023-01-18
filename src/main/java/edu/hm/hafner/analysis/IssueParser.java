@@ -13,8 +13,31 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("checkstyle:JavadocVariable")
 public abstract class IssueParser implements Serializable {
     private static final long serialVersionUID = 200992696185460268L;
+
+    protected static final String ADDITIONAL_PROPERTIES = "additionalProperties";
+    protected static final String CATEGORY = "category";
+    protected static final String COLUMN_END = "columnEnd";
+    protected static final String COLUMN_START = "columnStart";
+    protected static final String DESCRIPTION = "description";
+    protected static final String DIRECTORY = "directory";
+    protected static final String FILE_NAME = "fileName";
+    protected static final String FINGERPRINT = "fingerprint";
+    protected static final String ID = "id";
+    protected static final String LINE_END = "lineEnd";
+    protected static final String LINE_RANGES = "lineRanges";
+    protected static final String LINE_RANGE_END = "end";
+    protected static final String LINE_RANGE_START = "start";
+    protected static final String LINE_START = "lineStart";
+    protected static final String MESSAGE = "message";
+    protected static final String MODULE_NAME = "moduleName";
+    protected static final String ORIGIN = "origin";
+    protected static final String PACKAGE_NAME = "packageName";
+    protected static final String REFERENCE = "reference";
+    protected static final String SEVERITY = "severity";
+    protected static final String TYPE = "type";
 
     /**
      * Parses the specified file for issues.
@@ -24,12 +47,11 @@ public abstract class IssueParser implements Serializable {
      *
      * @return the issues
      * @throws ParsingException
-     *         Signals that during parsing a non recoverable error has been occurred
+     *         Signals that during parsing a non-recoverable error has been occurred
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
-    public abstract Report parse(ReaderFactory readerFactory)
-            throws ParsingException, ParsingCanceledException;
+    public abstract Report parse(ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException;
 
     /**
      * Parses the specified file for issues. Invokes the parser using {@link #parse(ReaderFactory)} and sets the file
@@ -40,7 +62,7 @@ public abstract class IssueParser implements Serializable {
      *
      * @return the issues
      * @throws ParsingException
-     *         Signals that during parsing a non recoverable error has been occurred
+     *         Signals that during parsing a non-recoverable error has been occurred
      * @throws ParsingCanceledException
      *         Signals that the parsing has been aborted by the user
      */
@@ -90,11 +112,11 @@ public abstract class IssueParser implements Serializable {
      * references are considered equal. The comparison is <strong>case insensitive</strong>.</p>
      *
      * <pre>
-     * StringUtils.equalsIgnoreCase(null, null)   = true
-     * StringUtils.equalsIgnoreCase(null, "abc")  = false
-     * StringUtils.equalsIgnoreCase("abc", null)  = false
-     * StringUtils.equalsIgnoreCase("abc", "abc") = true
-     * StringUtils.equalsIgnoreCase("abc", "ABC") = true
+     * equalsIgnoreCase(null, null)   = true
+     * equalsIgnoreCase(null, "abc")  = false
+     * equalsIgnoreCase("abc", null)  = false
+     * equalsIgnoreCase("abc", "abc") = true
+     * equalsIgnoreCase("abc", "ABC") = true
      * </pre>
      *
      * @param a

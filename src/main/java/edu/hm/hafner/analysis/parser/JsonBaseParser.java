@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Severity;
@@ -17,7 +18,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Jeremie Bresson
  */
-abstract class JsonBaseParser extends IssuePropertiesParser {
+abstract class JsonBaseParser extends IssueParser {
     private static final long serialVersionUID = -2318844382394973833L;
 
     /**
