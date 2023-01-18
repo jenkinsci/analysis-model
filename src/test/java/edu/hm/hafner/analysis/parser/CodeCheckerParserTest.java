@@ -22,7 +22,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(3);
+        assertThat(report).hasSize(5);
 
         softly.assertThat(report.get(0))
                 .hasLineStart(17)
