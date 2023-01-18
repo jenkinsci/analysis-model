@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-01-12T17:20:36.664702100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-01-18T12:11:04.893335 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1533,7 +1533,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
-                PolyspaceParse
+                polyspace-parser
             </td>
             <td>
                 -
