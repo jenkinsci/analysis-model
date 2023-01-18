@@ -6,7 +6,6 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 class SimulinkCheckParserTest extends AbstractParserTest {
-
     SimulinkCheckParserTest() {
         super("Simulink.html");
     }
