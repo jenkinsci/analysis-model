@@ -13,6 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
@@ -23,7 +24,7 @@ import edu.hm.hafner.analysis.Severity;
  *
  * @author Eva Habeeb
  */
-public class SimulinkCheckParser extends IssuePropertiesParser {
+public class SimulinkCheckParser extends IssueParser {
     private static final long serialVersionUID = -8099258658775128275L;
     private static final String WARNING = "div.WarningCheck";
     private static final String FAILED = "div.FailedCheck";
