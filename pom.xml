@@ -68,7 +68,7 @@
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.6</slf4j.version>
-    <violations-lib.version>1.156.0</violations-lib.version>
+    <violations-lib.version>1.156.1</violations-lib.version>
     <json.version>20220924</json.version>
     <json-smart.version>2.4.8</json-smart.version>
     <pmd.version>6.53.0</pmd.version>
