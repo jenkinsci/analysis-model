@@ -311,4 +311,11 @@ class JavaDocParserTest extends AbstractParserTest {
     void issue55805() {
         assertTimeoutPreemptively(Duration.ofSeconds(1), () -> parse("issue55805.txt"));
     }
+
+    @Test
+    void shouldParseJavaDocsWarningsWithMavenSourcePlugin(){
+        Report warnings = parse("tracker_issue63346.log");
+        assertThat(warnings).hasSize(2);
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
+    }
 }

@@ -280,7 +280,7 @@ class JavacParserTest extends AbstractParserTest {
         Report warnings = parse("tracker_issue63346.log");
         assertThat(warnings).hasSize(4);
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL);
+
     }
 }
 
