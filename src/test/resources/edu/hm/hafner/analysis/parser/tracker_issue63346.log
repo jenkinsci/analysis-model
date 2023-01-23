@@ -1,9 +1,14 @@
 20:57:03  [INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ analysis-model ---
+20:57:03 [WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:88: warning: no comment
+20:57:03 [INFO] Changes detected - recompiling the module!
+20:57:03 [INFO] Compiling 14 source files to C:\Jenkins\workspace\Plugins_ldap-plugin_PR-48\target\test-classes
 20:57:03  [INFO] Changes detected - recompiling the module!
 20:57:03  [INFO] Compiling 210 source files to /home/jenkins/workspace/Plugins_analysis-model_master/target/test-classes
 20:57:45  [WARNING] [options] bootstrap class path not set in conjunction with -source 8
 ... Insert some warnings here that match both parsers ...
 20:59:32  [INFO] --- maven-javadoc-plugin:3.4.0:jar (attach-javadocs) @ analysis-model ---
+20:59:32 [WARNING] Javadoc Warnings
+20:59:32 [WARNING] Loading source files for package foo.app...
 20:59:37  [INFO] No previous run data found, generating javadoc.
 20:59:45  [INFO] Building jar: /home/jenkins/workspace/Plugins_analysis-model_master/target/analysis-model-10.23.0-rc4948.f52d79122c41-javadoc.jar
 ... Insert some warnings here that match both parsers ...
