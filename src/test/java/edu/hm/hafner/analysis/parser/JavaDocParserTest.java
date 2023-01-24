@@ -315,15 +315,10 @@ class JavaDocParserTest extends AbstractParserTest {
     @Test
     void shouldParseJavaDocsWarningsWithMavenSourcePlugin() {
         Report warnings = parse("issue63346.log");
-        assertThat(warnings).hasSize(3);
+        assertThat(warnings).hasSize(1);
 
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(warnings.get(0)).hasLineStart(83);
-        assertThat(warnings.get(0)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
-
-        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(warnings.get(1)).hasLineStart(85);
-        assertThat(warnings.get(1)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
-
+        assertThat(warnings.get(0)).hasLineStart(135);
+        assertThat(warnings.get(0)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/FilteredLog.java");
     }
 }

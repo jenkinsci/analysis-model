@@ -281,12 +281,25 @@ class JavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(4);
 
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(warnings.get(0)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
-        assertThat(warnings.get(0)).hasLineStart(38);
+        assertThat(warnings.get(0)).hasLineStart(216);
+        assertThat(warnings.get(0)).hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
 
-        assertThat(warnings.get(1)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
-        assertThat(warnings.get(1)).hasLineStart(85);
-        assertThat(warnings.get(1)).hasLineEnd(85);
+        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(warnings.get(1)).hasLineStart(372);
+        assertThat(warnings.get(1)).hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
+
+
+        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(warnings.get(2)).hasLineStart(407);
+        assertThat(warnings.get(2)).hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
+
+
+        assertThat(warnings.get(3)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(warnings.get(3)).hasLineStart(194);
+        assertThat(warnings.get(3)).hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/generated-test-sources/assertj-assertions/io/jenkins/plugins/analysis/core/assertions/Assertions.java");
+
+
+
     }
 }
 

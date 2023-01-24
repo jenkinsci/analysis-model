@@ -228,7 +228,15 @@ class AntJavacParserTest extends AbstractParserTest {
     @Test
     void shouldParseJavaWarningsInMavenCompilerPlugin() {
         Report warnings = parse("issue63346.log");
-        assertThat(warnings).hasSize(0);
+        assertThat(warnings).hasSize(2);
+
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(warnings.get(0)).hasLineStart(49);
+        assertThat(warnings.get(0)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/LookaheadStream.java");
+
+        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(warnings.get(1)).hasLineStart(70);
+        assertThat(warnings.get(1)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/ResourceExtractor.java");
     }
 }
 
