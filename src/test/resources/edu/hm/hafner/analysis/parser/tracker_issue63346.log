@@ -6,7 +6,6 @@
 [INFO] Compiling 210 source files to /home/jenkins/workspace/Plugins_analysis-model_master/target/test-classes
 [WARNING] /home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java:[3,54] com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release
 [WARNING] /home/jenkins/workspace/Plugins_ldap-plugin_PR-48/src/main/java/hudson/security/LDAPSecurityRealm.java:[448]: warning: no @param for rootDN
-[WARNING] bootstrap class path not set in conjunction with -source 8
 [INFO] --- maven-javadoc-plugin:3.4.0:jar (attach-javadocs) @ analysis-model ---
 [INFO] No previous run data found, generating javadoc.
 [INFO] Building jar: /home/jenkins/workspace/Plugins_analysis-model_master/target/analysis-model-10.23.0-rc4948.f52d79122c41-javadoc.jar
