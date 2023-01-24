@@ -277,7 +277,7 @@ class JavacParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseJavaWarningsInMavenCompilerPlugin() {
-        Report warnings = parse("tracker_issue63346.log");
+        Report warnings = parse("issue63346.log");
         assertThat(warnings).hasSize(4);
 
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
