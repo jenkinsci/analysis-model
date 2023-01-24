@@ -313,9 +313,9 @@ class JavaDocParserTest extends AbstractParserTest {
     }
 
     @Test
-    void shouldParseJavaDocsWarningsWithMavenSourcePlugin(){
+    void shouldParseJavaDocsWarningsWithMavenSourcePlugin() {
         Report warnings = parse("tracker_issue63346.log");
-        assertThat(warnings).hasSize(2);
+        assertThat(warnings).hasSize(3);
 
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
         assertThat(warnings.get(0)).hasLineStart(83);

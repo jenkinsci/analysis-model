@@ -65,7 +65,7 @@ class JavacParserTest extends AbstractParserTest {
     void issue66738() {
         Report report = parse("issue66738.txt");
         assertThat(report).hasSize(2);
-        
+
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -275,6 +275,18 @@ class JavacParserTest extends AbstractParserTest {
         }
     }
 
+    @Test
+    void shouldParseJavaWarningsInMavenCompilerPlugin() {
+        Report warnings = parse("tracker_issue63346.log");
+        assertThat(warnings).hasSize(4);
 
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(warnings.get(0)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
+        assertThat(warnings.get(0)).hasLineStart(38);
+
+        assertThat(warnings.get(1)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
+        assertThat(warnings.get(1)).hasLineStart(85);
+        assertThat(warnings.get(1)).hasLineEnd(85);
+    }
 }
 
