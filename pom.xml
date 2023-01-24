@@ -58,7 +58,6 @@
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
-    <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
     <jmh.version>1.36</jmh.version>
@@ -525,7 +524,7 @@
       <distributionManagement>
         <repository>
           <id>incrementals</id>
-          <url>${incrementals.url}</url>
+          <url>https://repo.jenkins-ci.org/incrementals/</url>
         </repository>
       </distributionManagement>
       <build>
