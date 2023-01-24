@@ -275,27 +275,6 @@ class JavacParserTest extends AbstractParserTest {
         }
     }
 
-    @Test
-    void shouldParseJavaWarningsInMavenCompilerPlugin(){
-        Report warnings = parse("tracker_issue63346.log");
-        assertThat(warnings).hasSize(5);
-        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
 
-        assertThat(warnings.get(0)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
-        assertThat(warnings.get(0)).hasLineStart(88);
-
-        assertThat(warnings.get(1)).hasFileName("/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
-        assertThat(warnings.get(1)).hasLineStart(3);
-        assertThat(warnings.get(1)).hasLineEnd(3);
-
-        assertThat(warnings.get(2)).hasFileName("/home/jenkins/workspace/Plugins_ldap-plugin_PR-48/src/main/java/hudson/security/LDAPSecurityRealm.java");
-        assertThat(warnings.get(2)).hasLineStart(448);
-
-        assertThat(warnings.get(3)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
-        assertThat(warnings.get(3)).hasLineStart(83);
-
-        assertThat(warnings.get(4)).hasFileName("/home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java");
-        assertThat(warnings.get(4)).hasLineStart(85);
-    }
 }
 

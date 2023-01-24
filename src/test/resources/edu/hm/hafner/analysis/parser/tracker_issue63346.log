@@ -9,7 +9,9 @@
 [INFO] --- maven-javadoc-plugin:3.4.0:jar (attach-javadocs) @ analysis-model ---
 [INFO] No previous run data found, generating javadoc.
 [INFO] Building jar: /home/jenkins/workspace/Plugins_analysis-model_master/target/analysis-model-10.23.0-rc4948.f52d79122c41-javadoc.jar
-[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:[83]: warning: no comment
-[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:[85]: warning: no comment
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/ApplicationSettings.html...
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:38: warning: no comment
+[WARNING] public static class ServiceDetails
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
 [INFO]
 [INFO] --- maven-source-plugin:3.2.1:jar-no-fork (attach-sources) @ analysis-model ---
