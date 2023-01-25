@@ -21,7 +21,7 @@ import edu.hm.hafner.analysis.Severity;
 public class EmbeddedEngineerParser extends IssueParser {
 
     private static final long serialVersionUID = -1251248150731418714L;
-    static String file;
+    private static String file;
 
     /**
      * Creates a new instance of {@link EmbeddedEngineerParser}.
@@ -71,7 +71,8 @@ public class EmbeddedEngineerParser extends IssueParser {
             return report;
         }
     }
-    private String setCategory(String line){
+
+    private String setCategory(final String line) {
         String cat = " ";
         if (line.contains("Complex type")) {
             cat = "Complex type definition without referenced element";
@@ -84,7 +85,8 @@ public class EmbeddedEngineerParser extends IssueParser {
         }
         return cat;
     }
-    private Severity mapPriority(String line){
+
+    private Severity mapPriority(final String line) {
         Severity priority = Severity.WARNING_NORMAL;
         if (line.contains("Complex type")) {
             priority = Severity.WARNING_NORMAL;
