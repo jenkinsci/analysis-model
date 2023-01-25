@@ -175,10 +175,10 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @return the {@link Severity}
      */
     Severity convertSeverity(final SEVERITY severity, final Violation violation) {
-        if (severity == SEVERITY.ERROR) {
+        if (severity == se.bjurr.violations.lib.model.SEVERITY.ERROR) {
             return Severity.WARNING_HIGH;
         }
-        if (severity == SEVERITY.WARN) {
+        if (severity == se.bjurr.violations.lib.model.SEVERITY.WARN) {
             return Severity.WARNING_NORMAL;
         }
         return Severity.WARNING_LOW;

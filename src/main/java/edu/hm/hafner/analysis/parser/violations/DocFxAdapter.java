@@ -20,6 +20,6 @@ public class DocFxAdapter extends AbstractViolationAdapter {
     @Override
     boolean isValid(final Violation violation) {
         SEVERITY severity = violation.getSeverity();
-        return severity != SEVERITY.INFO;
+        return severity != se.bjurr.violations.lib.model.SEVERITY.INFO;
     }
 }
