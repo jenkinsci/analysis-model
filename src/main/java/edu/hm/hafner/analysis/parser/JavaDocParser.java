@@ -34,11 +34,15 @@ public class JavaDocParser extends LookaheadParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         return super.isLineInteresting(line)
-                && (line.contains("javadoc") || line.contains(" @") || hasErrorPrefixAndErrorInMessage(line));
+                && (line.contains("javadoc") || line.contains(" @") || hasErrorPrefixAndErrorInMessage(line) || hasWarningsPrefixAndWarningInMessage(line));
     }
 
     private boolean hasErrorPrefixAndErrorInMessage(final String line) {
         return line.contains("error") && line.contains("ERROR");
+    }
+
+    private boolean hasWarningsPrefixAndWarningInMessage(final String line) {
+        return line.contains("warning") && line.contains("WARNING");
     }
 
     @Override

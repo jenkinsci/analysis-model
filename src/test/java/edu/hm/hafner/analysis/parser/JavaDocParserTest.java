@@ -320,5 +320,13 @@ class JavaDocParserTest extends AbstractParserTest {
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
         assertThat(warnings.get(0)).hasLineStart(135);
         assertThat(warnings.get(0)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/FilteredLog.java");
+
+        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(warnings.get(1)).hasLineStart(49);
+        assertThat(warnings.get(1)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/LookaheadStream.java");
+
+        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(warnings.get(2)).hasLineStart(70);
+        assertThat(warnings.get(2)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/ResourceExtractor.java");
     }
 }
