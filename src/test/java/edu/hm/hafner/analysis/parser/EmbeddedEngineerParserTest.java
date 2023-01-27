@@ -11,9 +11,6 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
  *  @author Eva Habeeb
  */
 class EmbeddedEngineerParserTest extends AbstractParserTest {
-    /**
-     * Creates a new instance of {@link EmbeddedEngineerParserTest}.
-     */
     protected EmbeddedEngineerParserTest() {
         super("ea.log");
     }
