@@ -19,7 +19,6 @@ import edu.hm.hafner.analysis.Severity;
  * @author Eva Habeeb
  */
 public class EmbeddedEngineerParser extends IssueParser {
-
     private static final long serialVersionUID = -1251248150731418714L;
     private static String file;
 
