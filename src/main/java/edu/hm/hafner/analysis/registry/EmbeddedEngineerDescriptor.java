@@ -8,7 +8,6 @@ import edu.hm.hafner.analysis.parser.EmbeddedEngineerParser;
  *
  * @author Eva Habeeb
  */
-
 public class EmbeddedEngineerDescriptor extends ParserDescriptor {
 
     private static final String ID = "embedded-engineer-parser";
