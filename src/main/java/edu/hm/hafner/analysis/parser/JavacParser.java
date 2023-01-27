@@ -19,7 +19,7 @@ import edu.hm.hafner.util.LookaheadStream;
  *
  * @author Ullrich Hafner
  */
-public class JavacParser extends LookaheadParser {
+public class JavacParser extends AbstractMavenLogParser {
     private static final long serialVersionUID = 7199325311690082782L;
 
     private static final String ERRORPRONE_URL_PATTERN = "\\s+\\(see https?://\\S+\\s*\\)";

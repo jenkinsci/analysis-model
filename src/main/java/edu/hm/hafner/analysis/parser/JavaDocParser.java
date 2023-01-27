@@ -17,7 +17,7 @@ import edu.hm.hafner.util.LookaheadStream;
  *
  * @author Ullrich Hafner
  */
-public class JavaDocParser extends LookaheadParser {
+public class JavaDocParser extends AbstractMavenLogParser {
     private static final long serialVersionUID = 7127568148333474921L;
     private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit"
             + " code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";

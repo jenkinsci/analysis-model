@@ -21,7 +21,7 @@ import static j2html.TagCreator.*;
  *
  * @author Ullrich Hafner
  */
-public class MavenConsoleParser extends LookaheadParser {
+public class MavenConsoleParser extends AbstractMavenLogParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String WARNING = "WARNING";

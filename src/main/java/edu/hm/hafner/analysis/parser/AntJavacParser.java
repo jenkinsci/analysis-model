@@ -18,14 +18,12 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Ullrich Hafner
  */
-public class AntJavacParser extends LookaheadParser {
+public class AntJavacParser extends AbstractMavenLogParser {
     private static final long serialVersionUID = 1737791073711198075L;
-
-    AbstractMavenLogParser abstractMavenLogParser = new AbstractMavenLogParser();
 
     private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*"
             + "(warning|error|\u8b66\u544a)\\s*:\\s*(?:\\[(\\w*)\\])?\\s*(.*)$"
-            + "|^\\s*\\[.*\\]\\s*warning.*\\]\\s*(.*\"("
+                + "|^\\s*\\[.*\\]\\s*warning.*\\]\\s*(.*\"("
             + ".*)\".*)$" + "|^(.*class)\\s*:\\s*warning\\s*:\\s*(.*)$";
     // \u8b66\u544a is Japanese l10n
 
@@ -38,7 +36,7 @@ public class AntJavacParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return super.isLineInteresting(line) && abstractMavenLogParser.isLineInteresting(line) && containsWarningPrefix(line) && !line.contains("@");
+        return super.isLineInteresting(line) && super.isLineInteresting(line) && containsWarningPrefix(line) && !line.contains("@");
     }
 
     private boolean containsWarningPrefix(final String line) {
