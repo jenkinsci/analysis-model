@@ -22,9 +22,6 @@ public class EmbeddedEngineerParser extends IssueParser {
     private static final long serialVersionUID = -1251248150731418714L;
     private static String file;
 
-    /**
-     * Creates a new instance of {@link EmbeddedEngineerParser}.
-     */
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
