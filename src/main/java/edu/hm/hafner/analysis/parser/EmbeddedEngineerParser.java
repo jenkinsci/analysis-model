@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 /**
- * A parser for the EmbeddedEngineer EA Code Generator tool log files .
+ * A parser for the EmbeddedEngineer EA Code Generator tool log files.
  *
  * @author Eva Habeeb
  */
