@@ -21,5 +21,4 @@ public class EmbeddedEngineerDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         return new EmbeddedEngineerParser();
     }
-
 }
