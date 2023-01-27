@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
@@ -23,7 +22,7 @@ public class AntJavacParser extends AbstractMavenLogParser {
 
     private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*"
             + "(warning|error|\u8b66\u544a)\\s*:\\s*(?:\\[(\\w*)\\])?\\s*(.*)$"
-                + "|^\\s*\\[.*\\]\\s*warning.*\\]\\s*(.*\"("
+            + "|^\\s*\\[.*\\]\\s*warning.*\\]\\s*(.*\"("
             + ".*)\".*)$" + "|^(.*class)\\s*:\\s*warning\\s*:\\s*(.*)$";
     // \u8b66\u544a is Japanese l10n
 
@@ -36,7 +35,7 @@ public class AntJavacParser extends AbstractMavenLogParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return super.isLineInteresting(line) && super.isLineInteresting(line) && containsWarningPrefix(line) && !line.contains("@");
+        return super.isLineInteresting(line) && !hasGoalOrModule() && containsWarningPrefix(line) && !line.contains("@");
     }
 
     private boolean containsWarningPrefix(final String line) {

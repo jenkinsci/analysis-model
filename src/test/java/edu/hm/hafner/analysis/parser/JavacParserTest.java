@@ -288,18 +288,13 @@ class JavacParserTest extends AbstractParserTest {
         assertThat(warnings.get(1)).hasLineStart(372);
         assertThat(warnings.get(1)).hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
 
-
         assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL);
         assertThat(warnings.get(2)).hasLineStart(407);
         assertThat(warnings.get(2)).hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
 
-
         assertThat(warnings.get(3)).hasSeverity(Severity.WARNING_NORMAL);
         assertThat(warnings.get(3)).hasLineStart(194);
         assertThat(warnings.get(3)).hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/generated-test-sources/assertj-assertions/io/jenkins/plugins/analysis/core/assertions/Assertions.java");
-
-
-
     }
 }
 

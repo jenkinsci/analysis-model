@@ -1,12 +1,13 @@
 package edu.hm.hafner.analysis;
 
 import java.util.Optional;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-import java.util.Stack;
 
 import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -68,6 +69,7 @@ public abstract class LookaheadParser extends IssueParser {
             while (lookahead.hasNext()) {
                 String line = lookahead.next();
                 handleDirectoryChanges(builder, line);
+                preprocessLine(line);
                 if (isLineInteresting(line)) {
                     Matcher matcher = pattern.matcher(line);
                     if (matcher.find()) {
@@ -79,6 +81,17 @@ public abstract class LookaheadParser extends IssueParser {
                 }
             }
         }
+    }
+
+    /**
+     * Preprocesses the specified line. This method is called before the line is checked for a match. Subclasses may
+     * override this empty default implementation.
+     *
+     * @param line
+     *         the line to preprocess
+     */
+    protected void preprocessLine(final String line) {
+        // empty default implementation does nothing
     }
 
     /**
@@ -149,7 +162,7 @@ public abstract class LookaheadParser extends IssueParser {
     private String extractDirectory(final String line, final Pattern makePath) throws ParsingException {
         if (!makePath.toString().contains("<dir>")) {
             throw new IllegalArgumentException(
-                    String.format("%s does not contain a capture group named 'dir'", makePath.toString()));
+                    String.format("%s does not contain a capture group named 'dir'", makePath));
         }
         Matcher makeLineMatcher = makePath.matcher(line);
         if (makeLineMatcher.matches()) {

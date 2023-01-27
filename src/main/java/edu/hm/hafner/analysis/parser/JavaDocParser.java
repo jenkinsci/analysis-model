@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
@@ -34,7 +33,15 @@ public class JavaDocParser extends AbstractMavenLogParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         return super.isLineInteresting(line)
-                && (line.contains("javadoc") || line.contains(" @") || hasErrorPrefixAndErrorInMessage(line) || hasWarningsPrefixAndWarningInMessage(line));
+                && !getGoal().equals(MAVEN_COMPILER_PLUGIN)
+                && lineContainsKeywords(line);
+    }
+
+    private boolean lineContainsKeywords(final String line) {
+        return line.contains("javadoc")
+                || line.contains(" @")
+                || hasErrorPrefixAndErrorInMessage(line)
+                || hasWarningsPrefixAndWarningInMessage(line);
     }
 
     private boolean hasErrorPrefixAndErrorInMessage(final String line) {
