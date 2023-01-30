@@ -224,5 +224,11 @@ class AntJavacParserTest extends AbstractParserTest {
     protected AntJavacParser createParser() {
         return new AntJavacParser();
     }
+
+    @Test
+    void shouldNotParseJavaCompilerAndJavaDocWarnings() {
+        Report warnings = parse("issue63346.log");
+        assertThat(warnings).hasSize(0);
+    }
 }
 
