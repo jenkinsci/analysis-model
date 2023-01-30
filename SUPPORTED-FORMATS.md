@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-01-25T15:20:49.307506400 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-01-30T17:41:54.630590300 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -654,7 +654,9 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
             <td>
-                Embedded Engineer Tool
+                <a href="https://www.lieberlieber.com/embedded-engineer/">
+                    Embedded Engineer Tool
+                </a>
             </td>
             <td>
                 -
