@@ -39,8 +39,7 @@ public class JavacParser extends AbstractMavenLogParser {
 
     private static final String SEVERITY_ERROR = "ERROR";
     private static final String SEVERITY_ERROR_SHORT = "e:";
-
-    private static final String defaultGoal = "javac";
+    private static final String DEFAULT_GOAL = "javac";
 
     /**
      * Creates a new instance of {@link JavacParser}.
@@ -75,7 +74,7 @@ public class JavacParser extends AbstractMavenLogParser {
         // get rid of leading / from windows compiler output JENKINS-66738
         return builder.setFileName(RegExUtils.replaceAll(matcher.group(2), "^/([a-zA-Z]):", "$1:"))
                 .setLineStart(matcher.group(3))
-                .setType(StringUtils.defaultString(getGoal(), defaultGoal))
+                .setType(StringUtils.defaultString(getGoal(), DEFAULT_GOAL))
                 .setColumnStart(matcher.group(4))
                 .setCategory(category)
                 .setMessage(message)
