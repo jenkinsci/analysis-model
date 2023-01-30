@@ -20,4 +20,9 @@ public class EmbeddedEngineerDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         return new EmbeddedEngineerParser();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://www.lieberlieber.com/embedded-engineer/";
+    }
 }

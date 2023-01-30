@@ -20,8 +20,9 @@ import edu.hm.hafner.analysis.Severity;
  */
 public class EmbeddedEngineerParser extends IssueParser {
     private static final long serialVersionUID = -1251248150731418714L;
-    private static String file;
-
+    private static final String HEADER_PATTERN = "^Starting code generation for\\s(?<file>[^)]*)\\)";
+    private static final String WARNING_PATTERN = "^(Warning:)\\s(?<description>[^\\']*)\\'(?<module>[^\\']*)\\'\\s"
+            + "(?<details>\\(?[^\\(]*)\\((?<serial>[^)]*)\\)";
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
@@ -37,29 +38,34 @@ public class EmbeddedEngineerParser extends IssueParser {
         try (IssueBuilder builder = new IssueBuilder()) {
             Report report = new Report();
             Iterator<String> lineIterator = lines.iterator();
+            Pattern header_pattern = Pattern.compile(HEADER_PATTERN);
+            Pattern warning_pattern = Pattern.compile(WARNING_PATTERN);
+            String file = "";
 
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
-                Pattern pattern1 = Pattern.compile("^Starting code generation for\\s([^)]*)\\)");
-                Matcher matcher1 = pattern1.matcher(line);
-                boolean matches = matcher1.matches();
-
+                Matcher matcher = header_pattern.matcher(line);
+                boolean matches = matcher.matches();
                 if (matches) {
-                    file = matcher1.group(1) + ")";
+                    file = matcher.group("file") + ")";
+                    break;
                 }
-                Pattern pattern2 = Pattern.compile("^(Warning:)\\s([^\\']*)\\'([^\\']*)\\'\\s(\\(?[^\\(]*)\\(([^)]*)\\)");
-                Matcher matcher2 = pattern2.matcher(line);
-                matches = matcher2.matches();
+            }
 
-                String category = setCategory(line);
-                Severity priority = mapPriority(line);
+            while (lineIterator.hasNext()) {
+                String line = lineIterator.next();
+                Matcher matcher = warning_pattern.matcher(line);
+                boolean matches = matcher.matches();
 
                 if (matches) {
-                    String description = matcher2.group(2) + "'" + matcher2.group(3) + "' " + matcher2.group(4) + "(" + matcher2.group(5) + ")";
+                    String category = setCategory(line);
+                    Severity priority = mapPriority(line);
+                    String description = matcher.group("description") + "'" + matcher.group("module")
+                            + "' " + matcher.group("details") + "(" + matcher.group("serial") + ")";
                     builder.setDescription(description);
                     builder.setCategory(category);
                     builder.setFileName(file);
-                    builder.setModuleName(matcher2.group(3));
+                    builder.setModuleName(matcher.group("module"));
                     builder.setSeverity(priority);
                     report.add(builder.build());
                 }
@@ -69,30 +75,28 @@ public class EmbeddedEngineerParser extends IssueParser {
     }
 
     private String setCategory(final String line) {
-        String cat = " ";
         if (line.contains("Complex type")) {
-            cat = "Complex type definition without referenced element";
+            return "Complex type definition without referenced element";
         }
         else if (line.contains("skipped")) {
-            cat = "Code generation skipped";
+            return "Code generation skipped";
         }
         else if (line.contains("failed")) {
-            cat = "Code generation failed";
+            return "Code generation failed";
         }
-        return cat;
+        return "No Category";
     }
 
     private Severity mapPriority(final String line) {
-        Severity priority = Severity.WARNING_NORMAL;
         if (line.contains("Complex type")) {
-            priority = Severity.WARNING_NORMAL;
+            return Severity.WARNING_NORMAL;
         }
         else if (line.contains("skipped")) {
-            priority = Severity.WARNING_NORMAL;
+            return Severity.WARNING_NORMAL;
         }
         else if (line.contains("failed")) {
-            priority = Severity.WARNING_HIGH;
+            return Severity.WARNING_HIGH;
         }
-        return priority;
+        return Severity.WARNING_NORMAL;
     }
 }
