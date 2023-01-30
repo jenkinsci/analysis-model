@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-01-30T05:59:13.969365400 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-01-30T23:12:15.436229 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -329,7 +329,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 checkstyle
             </td>
             <td>
-                <img src="https://github.com/checkstyle/checkstyle/blob/master/src/site/resources/images/checkstyle_logo_small_64.png" alt="CheckStyle" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/site/resources/images/checkstyle_logo_small_64.png" alt="CheckStyle" height="64" width="64">
             </td>
             <td>
                 <a href="https://checkstyle.org">
@@ -611,7 +611,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 eslint
             </td>
             <td>
-                <img src="https://github.com/eslint/eslint/blob/main/docs/src/static/icon.svg" alt="ESLint" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/eslint/eslint/main/docs/src/static/icon.svg" alt="ESLint" height="64" width="64">
             </td>
             <td>
                 <a href="https://eslint.org">
@@ -751,7 +751,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 flow
             </td>
             <td>
-                <img src="https://raw.githubusercontent.com/facebook/flow/main/website/favicon.svg" alt="Flow" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/facebook/flow/main/website/static/img/logo.svg" alt="Flow" height="64" width="64">
             </td>
             <td>
                 <a href="https://flow.org/">
@@ -767,7 +767,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 foodcritic
             </td>
             <td>
-                <img src="https://github.com/Foodcritic/foodcritic-site/blob/master/source/images/foodcritic.png" alt="Foodcritic" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/Foodcritic/foodcritic-site/master/source/images/foodcritic.png" alt="Foodcritic" height="64" width="64">
             </td>
             <td>
                 <a href="http://www.foodcritic.io/">
@@ -990,7 +990,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 infer
             </td>
             <td>
-                <img src="https://github.com/facebook/infer/blob/main/website/static/img/logo.png" alt="Infer" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/facebook/infer/main/website/static/img/logo.png" alt="Infer" height="64" width="64">
             </td>
             <td>
                 <a href="https://fbinfer.com">
@@ -1462,7 +1462,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 pmd
             </td>
             <td>
-                <img src="https://github.com/pmd/pmd/blob/master/docs/images/logo/pmd_logo_small.png" alt="PMD" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/pmd/pmd/master/docs/images/logo/pmd_logo_small.png" alt="PMD" height="64" width="64">
             </td>
             <td>
                 <a href="https://pmd.github.io">
@@ -1858,7 +1858,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 spotbugs
             </td>
             <td>
-                <img src="https://github.com/spotbugs/spotbugs.github.io/blob/master/images/logos/spotbugs_icon_only_zoom_256px.png" alt="SpotBugs" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/spotbugs/spotbugs.github.io/master/images/logos/spotbugs_icon_only_zoom_256px.png" alt="SpotBugs" height="64" width="64">
             </td>
             <td>
                 <a href="https://spotbugs.github.io">
@@ -1993,7 +1993,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 veracode-pipeline-scanner
             </td>
             <td>
-                <img src="https://github.com/jenkinsci/veracode-scan-plugin/blob/master/src/main/webapp/icons/veracode-48x48.png" alt="Veracode Pipeline Scanner" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/jenkinsci/veracode-scan-plugin/master/src/main/webapp/icons/veracode-48x48.png" alt="Veracode Pipeline Scanner" height="64" width="64">
             </td>
             <td>
                 <a href="https://docs.veracode.com/r/c_about_pipeline_scan">
