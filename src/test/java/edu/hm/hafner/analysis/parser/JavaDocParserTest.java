@@ -78,7 +78,7 @@ class JavaDocParserTest extends AbstractParserTest {
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("malformed HTML")
@@ -86,7 +86,7 @@ class JavaDocParserTest extends AbstractParserTest {
                             "/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
 
             softly.assertThat(warnings.get(1))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("bad use of '>'")
@@ -94,7 +94,7 @@ class JavaDocParserTest extends AbstractParserTest {
                             "/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
 
             softly.assertThat(warnings.get(2))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("unexpected end tag: </a>")
@@ -151,7 +151,7 @@ class JavaDocParserTest extends AbstractParserTest {
                             "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(4))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(25)
                     .hasLineEnd(25)
                     .hasMessage("bad use of '>'")
@@ -159,7 +159,7 @@ class JavaDocParserTest extends AbstractParserTest {
                             "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottle.java");
 
             softly.assertThat(warnings.get(5))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("malformed HTML")
@@ -167,7 +167,7 @@ class JavaDocParserTest extends AbstractParserTest {
                             "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java");
 
             softly.assertThat(warnings.get(6))
-                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("bad use of '>'")

@@ -78,7 +78,7 @@ public class JavaDocParser extends AbstractMavenLogParser {
             priority = Severity.WARNING_NORMAL;
         }
         else {
-            priority = Severity.WARNING_HIGH;
+            priority = Severity.ERROR;
         }
         return priority;
     }
