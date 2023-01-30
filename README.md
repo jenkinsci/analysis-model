@@ -3,9 +3,8 @@
 [![Join the chat at https://gitter.im/jenkinsci/warnings-plugin](https://badges.gitter.im/jenkinsci/warnings-plugin.svg)](https://gitter.im/jenkinsci/warnings-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Jenkins](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/badge/icon?subject=Jenkins%20CI)](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/)
 [![CI on all platforms](https://github.com/jenkinsci/analysis-model/workflows/GitHub%20CI/badge.svg?branch=master)](https://github.com/jenkinsci/analysis-model/actions)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/jenkinsci/analysis-model.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jenkinsci/analysis-model/alerts/)
-[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/jenkinsci/analysis-model.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jenkinsci/analysis-model/context:java)
 [![codecov](https://codecov.io/gh/jenkinsci/analysis-model/branch/master/graph/badge.svg)](https://codecov.io/gh/jenkinsci/analysis-model)
+[![CodeQL](https://github.com/jenkinsci/analysis-model/workflows/CodeQL/badge.svg?branch=master)](https://github.com/jenkinsci/analysis-model/actions/workflows/codeql.yml)
 
 This library provides a Java object model to read, aggregate, filter, and query static analysis reports. 
 It is used by [Jenkins' warnings next generation plug-in](https://github.com/jenkinsci/warnings-ng-plugin) to visualize
