@@ -38,7 +38,7 @@ class CheckStyleDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://github.com/checkstyle/checkstyle/blob/master/src/site/resources/images/checkstyle_logo_small_64.png";
+        return "https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/site/resources/images/checkstyle_logo_small_64.png";
     }
 
     @Override
