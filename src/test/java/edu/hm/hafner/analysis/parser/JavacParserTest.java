@@ -37,10 +37,8 @@ class JavacParserTest extends AbstractParserTest {
                 .hasCategory(Categories.DEPRECATION)
                 .hasLineStart(40)
                 .hasLineEnd(40)
-                .hasMessage(
-                        "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                .hasFileName(
-                        "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
+                .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
                 .hasColumnStart(36);
     }
 
@@ -65,7 +63,7 @@ class JavacParserTest extends AbstractParserTest {
     void issue66738() {
         Report report = parse("issue66738.txt");
         assertThat(report).hasSize(2);
-        
+
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -73,10 +71,8 @@ class JavacParserTest extends AbstractParserTest {
                     .hasLineStart(12)
                     .hasLineEnd(12)
                     .hasType("maven-compiler-plugin:compile")
-                    .hasMessage(
-                            "found raw type: java.util.ArrayList")
-                    .hasFileName(
-                            "C:/Users/user1/JENKINS-66738/src/main/java/simple/HelloWorld.java")
+                    .hasMessage("found raw type: java.util.ArrayList")
+                    .hasFileName("C:/Users/user1/JENKINS-66738/src/main/java/simple/HelloWorld.java")
                     .hasColumnStart(42);
         }
     }
@@ -186,8 +182,7 @@ class JavacParserTest extends AbstractParserTest {
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
                     .hasLineEnd(14)
-                    .hasMessage(
-                            "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
+                    .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
                     .hasFileName("D:/path/to/my/Class.java");
         }
     }
@@ -207,19 +202,15 @@ class JavacParserTest extends AbstractParserTest {
                     .hasCategory(Categories.DEPRECATION)
                     .hasLineStart(12)
                     .hasLineEnd(12)
-                    .hasMessage(
-                            "org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated")
-                    .hasFileName(
-                            "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+                    .hasMessage("org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated")
+                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.DEPRECATION)
                     .hasLineStart(40)
                     .hasLineEnd(40)
-                    .hasMessage(
-                            "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                    .hasFileName(
-                            "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+                    .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
         }
     }
 
@@ -268,11 +259,31 @@ class JavacParserTest extends AbstractParserTest {
                     .hasCategory(Categories.PROPRIETARY_API)
                     .hasLineStart(lineNumber)
                     .hasLineEnd(lineNumber)
-                    .hasMessage(
-                            "com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release")
-                    .hasFileName(
-                            "/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
+                    .hasMessage("com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release")
+                    .hasFileName("/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
         }
+    }
+
+    @Test
+    void shouldParseJavaWarningsInMavenCompilerPlugin() {
+        Report warnings = parse("issue63346.log");
+        assertThat(warnings).hasSize(4);
+
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(216)
+                .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
+
+        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(372)
+                .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
+
+        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(407)
+                .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
+
+        assertThat(warnings.get(3)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(194)
+                .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/generated-test-sources/assertj-assertions/io/jenkins/plugins/analysis/core/assertions/Assertions.java");
     }
 }
 

@@ -1,0 +1,51 @@
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ warnings-ng ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 275 source files to /home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/classes
+[WARNING] /home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java:[216,27] [deprecation] SYSTEM in ACL has been deprecated
+[WARNING] /home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java:[372,31] [deprecation] SYSTEM in ACL has been deprecated
+[WARNING] /home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java:[407,31] [deprecation] SYSTEM in ACL has been deprecated
+[INFO]
+[INFO] --- access-modifier-checker:1.27:enforce (default-enforce) @ warnings-ng ---
+[INFO]
+[INFO] --- maven-hpi-plugin:3.35:insert-test (default-insert-test) @ warnings-ng ---
+[INFO]
+[INFO] --- assertj-assertions-generator-maven-plugin:2.2.0:generate-assertions (default) @ warnings-ng ---
+[INFO]
+[INFO] --- gmavenplus-plugin:2.1.0:generateTestStubs (test-in-groovy) @ warnings-ng ---
+[INFO] No sources specified for stub generation. Skipping.
+[INFO] Generated 0 stubs.
+[INFO]
+[INFO] --- maven-antrun-plugin:3.1.0:run (createTempDir) @ warnings-ng ---
+[INFO] Executing tasks
+[INFO]     [mkdir] Created dir: /home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/tmp
+[INFO] Executed tasks
+[INFO]
+[INFO] --- maven-resources-plugin:3.3.0:testResources (default-testResources) @ warnings-ng ---
+[INFO] Copying 335 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ warnings-ng ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 479 source files to /home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/test-classes
+[WARNING] /home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/generated-test-sources/assertj-assertions/io/jenkins/plugins/analysis/core/assertions/Assertions.java:[194,123] [deprecation] FilesScanner in io.jenkins.plugins.analysis.core.model has been deprecated
+[INFO]
+[INFO] --- maven-hpi-plugin:3.35:test-hpl (default-test-hpl) @ warnings-ng ---
+[INFO] Generating /home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/test-classes/the.hpl
+[WARNING] Error resolving project artifact: org.connectbot.jbcrypt:jbcrypt:pom:1.0.0 was not found in https://repo.jenkins-ci.org/releases/ during a previous attempt. This failure was cached in the local repository and resolution is not reattempted until the update interval of maven.jenkins-ci.org has elapsed or updates are forced for project org.connectbot.jbcrypt:jbcrypt:jar:1.0.0
+[INFO]
+[INFO] --- maven-javadoc-plugin:3.4.1:javadoc (default-cli) @ codingstyle ---
+[INFO] Configuration changed, re-generating javadoc.
+[WARNING] Javadoc Warnings
+[WARNING] /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/FilteredLog.java:135: warning: no @return
+[WARNING] public int size() {
+[WARNING] ^
+[WARNING] /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/LookaheadStream.java:49: warning: no comment
+[WARNING] public String getFileName() {
+[WARNING] ^
+[WARNING] /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/ResourceExtractor.java:70: warning: no comment
+[WARNING] public String getResourcePath() {
+[WARNING] ^
+[WARNING] 3 warnings
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[

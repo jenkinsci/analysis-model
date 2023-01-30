@@ -39,6 +39,6 @@ class VeraCodePipelineScannerDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://github.com/jenkinsci/veracode-scan-plugin/blob/master/src/main/webapp/icons/veracode-48x48.png";
+        return "https://raw.githubusercontent.com/jenkinsci/veracode-scan-plugin/master/src/main/webapp/icons/veracode-48x48.png";
     }
 }

@@ -33,6 +33,6 @@ class EsLintDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://github.com/eslint/eslint/blob/main/docs/src/static/icon.svg";
+        return "https://raw.githubusercontent.com/eslint/eslint/main/docs/src/static/icon.svg";
     }
 }
