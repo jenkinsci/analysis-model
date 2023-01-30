@@ -68,19 +68,8 @@ public class JavaDocParser extends AbstractMavenLogParser {
         return builder.setFileName(StringUtils.defaultIfEmpty(matcher.group(1), " - "))
                 .setLineStart(matcher.group(2))
                 .setMessage(message)
-                .setSeverity(mapPriority(type))
+                .setSeverity(Severity.guessFromString(type))
                 .buildOptional();
-    }
-
-    private Severity mapPriority(final String type) {
-        Severity priority;
-        if ("warning".equals(type)) {
-            priority = Severity.WARNING_NORMAL;
-        }
-        else {
-            priority = Severity.ERROR;
-        }
-        return priority;
     }
 }
 

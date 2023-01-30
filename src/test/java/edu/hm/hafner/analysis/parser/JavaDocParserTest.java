@@ -34,10 +34,8 @@ class JavaDocParserTest extends AbstractParserTest {
                 .hasCategory(JAVA_DOC_LINK)
                 .hasLineStart(116)
                 .hasLineEnd(116)
-                .hasMessage(
-                        "Tag @link: can't find removeSpecChangeListener(ChangeListener, String) in chenomx.ccma.common.graph.module.GraphListenerRegistry")
-                .hasFileName(
-                        "/home/builder/hudson/workspace/Homer/oddjob/src/chenomx/ccma/common/graph/module/GraphListenerRegistry.java");
+                .hasMessage("Tag @link: can't find removeSpecChangeListener(ChangeListener, String) in chenomx.ccma.common.graph.module.GraphListenerRegistry")
+                .hasFileName("/home/builder/hudson/workspace/Homer/oddjob/src/chenomx/ccma/common/graph/module/GraphListenerRegistry.java");
     }
 
     @Override
@@ -82,24 +80,21 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("malformed HTML")
-                    .hasFileName(
-                            "/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
+                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
 
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("bad use of '>'")
-                    .hasFileName(
-                            "/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
+                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
 
             softly.assertThat(warnings.get(2))
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(79)
                     .hasLineEnd(79)
                     .hasMessage("unexpected end tag: </a>")
-                    .hasFileName(
-                            "/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
+                    .hasFileName("/home/jeans/ideaWork/cache2k-internal/cache2k/api/src/main/java/org/cache2k/processor/MutableCacheEntry.java");
         }
     }
 
@@ -120,8 +115,7 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasLineStart(683)
                     .hasLineEnd(683)
                     .hasMessage("no description for @param")
-                    .hasFileName(
-                            "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/Apps.java");
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/Apps.java");
 
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -129,8 +123,7 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasLineStart(85)
                     .hasLineEnd(85)
                     .hasMessage("no description for @param")
-                    .hasFileName(
-                            "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(2))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -138,8 +131,7 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasLineStart(86)
                     .hasLineEnd(86)
                     .hasMessage("no description for @param")
-                    .hasFileName(
-                            "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(3))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -147,32 +139,28 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasLineStart(190)
                     .hasLineEnd(190)
                     .hasMessage("no description for @param")
-                    .hasFileName(
-                            "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/apps/AppsLaunchFrame.java");
 
             softly.assertThat(warnings.get(4))
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(25)
                     .hasLineEnd(25)
                     .hasMessage("bad use of '>'")
-                    .hasFileName(
-                            "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottle.java");
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottle.java");
 
             softly.assertThat(warnings.get(5))
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("malformed HTML")
-                    .hasFileName(
-                            "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java");
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java");
 
             softly.assertThat(warnings.get(6))
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(26)
                     .hasLineEnd(26)
                     .hasMessage("bad use of '>'")
-                    .hasFileName(
-                            "/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java");
+                    .hasFileName("/var/lib/jenkins/jobs/Development/jobs/JavaDoc check/workspace/java/src/jmri/jmrit/withrottle/MultiThrottleController.java");
         }
     }
 
@@ -201,8 +189,7 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasLineStart(94)
                     .hasLineEnd(94)
                     .hasMessage("@param argument \"<code>CoreAccountNumberTO</code>\" is not a parameter")
-                    .hasFileName(
-                            "/home/hudson-farm/.hudson/jobs/farm-toplevel/workspace/farm-toplevel/service-module/src/main/java/com/rackspace/farm/service/service/CoreAccountServiceImpl.java");
+                    .hasFileName("/home/hudson-farm/.hudson/jobs/farm-toplevel/workspace/farm-toplevel/service-module/src/main/java/com/rackspace/farm/service/service/CoreAccountServiceImpl.java");
         }
     }
 
@@ -235,8 +222,7 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasCategory("JavaDoc @sys")
                     .hasLineStart(0)
                     .hasLineEnd(0)
-                    .hasMessage(
-                            "Text of tag @sys.prop in class ch.post.pf.mw.service.common.alarm.AlarmingService is too long!")
+                    .hasMessage("Text of tag @sys.prop in class ch.post.pf.mw.service.common.alarm.AlarmingService is too long!")
                     .hasFileName("-");
 
             softly.assertThat(iterator.next())
@@ -276,8 +262,7 @@ class JavaDocParserTest extends AbstractParserTest {
                     .hasCategory("JavaDoc @return")
                     .hasLineStart(517)
                     .hasLineEnd(517)
-                    .hasMessage(
-                            "Tag @return cannot be used in field documentation. It can only be used in the following types of documentation: method.")
+                    .hasMessage("Tag @return cannot be used in field documentation. It can only be used in the following types of documentation: method.")
                     .hasFileName("/u01/src/code/com/abc/CodedRouteFormat.java");
 
             softly.assertThat(iterator.next())
@@ -317,16 +302,16 @@ class JavaDocParserTest extends AbstractParserTest {
         Report warnings = parse("issue63346.log");
         assertThat(warnings).hasSize(3);
 
-        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(warnings.get(0)).hasLineStart(135);
-        assertThat(warnings.get(0)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/FilteredLog.java");
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(135)
+                .hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/FilteredLog.java");
 
-        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(warnings.get(1)).hasLineStart(49);
-        assertThat(warnings.get(1)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/LookaheadStream.java");
+        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(49)
+                .hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/LookaheadStream.java");
 
-        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(warnings.get(2)).hasLineStart(70);
-        assertThat(warnings.get(2)).hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/ResourceExtractor.java");
+        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(70)
+                .hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/ResourceExtractor.java");
     }
 }
