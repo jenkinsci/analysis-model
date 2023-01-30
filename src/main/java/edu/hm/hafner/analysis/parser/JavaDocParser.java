@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
@@ -17,7 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  *
  * @author Ullrich Hafner
  */
-public class JavaDocParser extends LookaheadParser {
+public class JavaDocParser extends AbstractMavenLogParser {
     private static final long serialVersionUID = 7127568148333474921L;
     private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit"
             + " code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";
@@ -34,11 +33,23 @@ public class JavaDocParser extends LookaheadParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         return super.isLineInteresting(line)
-                && (line.contains("javadoc") || line.contains(" @") || hasErrorPrefixAndErrorInMessage(line));
+                && !getGoal().equals(MAVEN_COMPILER_PLUGIN)
+                && lineContainsKeywords(line);
+    }
+
+    private boolean lineContainsKeywords(final String line) {
+        return line.contains("javadoc")
+                || line.contains(" @")
+                || hasErrorPrefixAndErrorInMessage(line)
+                || hasWarningsPrefixAndWarningInMessage(line);
     }
 
     private boolean hasErrorPrefixAndErrorInMessage(final String line) {
         return line.contains("error") && line.contains("ERROR");
+    }
+
+    private boolean hasWarningsPrefixAndWarningInMessage(final String line) {
+        return line.contains("warning") && line.contains("WARNING");
     }
 
     @Override
@@ -57,19 +68,8 @@ public class JavaDocParser extends LookaheadParser {
         return builder.setFileName(StringUtils.defaultIfEmpty(matcher.group(1), " - "))
                 .setLineStart(matcher.group(2))
                 .setMessage(message)
-                .setSeverity(mapPriority(type))
+                .setSeverity(Severity.guessFromString(type))
                 .buildOptional();
-    }
-
-    private Severity mapPriority(final String type) {
-        Severity priority;
-        if ("warning".equals(type)) {
-            priority = Severity.WARNING_NORMAL;
-        }
-        else {
-            priority = Severity.WARNING_HIGH;
-        }
-        return priority;
     }
 }
 
