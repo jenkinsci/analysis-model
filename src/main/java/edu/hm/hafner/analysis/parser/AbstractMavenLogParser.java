@@ -14,6 +14,8 @@ import edu.hm.hafner.analysis.LookaheadParser;
  * @author Jagruti Tiwari
  */
 public abstract class AbstractMavenLogParser extends LookaheadParser {
+    private static final long serialVersionUID = -3768790896172545192L;
+
     /** Regular expression to parse the start of maven plugin in console. */
     private static final Pattern MAVEN_PLUGIN_START = Pattern.compile(
             "\\[INFO\\] --- (?<id>\\S+):(?<version>\\S+):(?<goal>\\S+)\\s.*");
@@ -21,7 +23,6 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
             "-+< (?<id>\\S+) >-+"
     );
     static final Object MAVEN_COMPILER_PLUGIN = "maven-compiler-plugin";
-
     private String goal = StringUtils.EMPTY;
     private String module = StringUtils.EMPTY;
 

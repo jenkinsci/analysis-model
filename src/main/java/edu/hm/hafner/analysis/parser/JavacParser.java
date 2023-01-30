@@ -40,7 +40,7 @@ public class JavacParser extends AbstractMavenLogParser {
     private static final String SEVERITY_ERROR = "ERROR";
     private static final String SEVERITY_ERROR_SHORT = "e:";
 
-    private final String defaultGoal = "javac";
+    private static final String defaultGoal = "javac";
 
     /**
      * Creates a new instance of {@link JavacParser}.
