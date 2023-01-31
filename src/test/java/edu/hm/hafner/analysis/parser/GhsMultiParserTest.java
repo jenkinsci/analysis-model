@@ -105,10 +105,16 @@ class GhsMultiParserTest extends AbstractParserTest {
                 .hasCategory("#1729-D")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
+    @Test
+    void issue66130() {
+        Report warnings = parse("issue66130.log");
+        assertThat(warnings).hasSize(2);
+    }
 
     @Override
     protected GhsMultiParser createParser() {
         return new GhsMultiParser();
     }
+
 }
 
