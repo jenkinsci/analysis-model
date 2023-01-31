@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -20,9 +22,11 @@ import edu.hm.hafner.analysis.Severity;
  */
 public class EmbeddedEngineerParser extends IssueParser {
     private static final long serialVersionUID = -1251248150731418714L;
-    private static final String HEADER_PATTERN = "^Starting code generation for\\s(?<file>[^)]*)\\)";
-    private static final String WARNING_PATTERN = "^(Warning:)\\s(?<description>[^\\']*)\\'(?<module>[^\\']*)\\'\\s"
-            + "(?<details>\\(?[^\\(]*)\\((?<serial>[^)]*)\\)";
+    private static final Pattern HEADER_PATTERN = Pattern.compile(
+            "^Starting code generation for\\s(?<file>.*\\))");
+    private static final Pattern WARNING_PATTERN = Pattern.compile(
+            "^(Warning:)\\s(?<description>[^']*)'(?<module>[^']*)'\\s"
+                    + "(?<details>\\(?[^(]*)\\((?<serial>[^)]*)\\)");
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
@@ -36,32 +40,23 @@ public class EmbeddedEngineerParser extends IssueParser {
 
     private Report parse(final Stream<String> lines) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report = new Report();
             Iterator<String> lineIterator = lines.iterator();
-            Pattern headerPattern = Pattern.compile(HEADER_PATTERN);
-            Pattern warningPattern = Pattern.compile(WARNING_PATTERN);
-            String file = "";
 
+            String file = parseFileName(lineIterator);
+
+            Report report = new Report();
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
-                Matcher matcher = headerPattern.matcher(line);
-                boolean matches = matcher.matches();
-                if (matches) {
-                    file = matcher.group("file") + ")";
-                    break;
-                }
-            }
 
-            while (lineIterator.hasNext()) {
-                String line = lineIterator.next();
-                Matcher matcher = warningPattern.matcher(line);
-                boolean matches = matcher.matches();
-
-                if (matches) {
+                Matcher matcher = WARNING_PATTERN.matcher(line);
+                if (matcher.matches()) {
                     String category = setCategory(line);
                     Severity priority = mapPriority(line);
-                    String description = matcher.group("description") + "'" + matcher.group("module")
-                            + "' " + matcher.group("details") + "(" + matcher.group("serial") + ")";
+                    String description = String.format("%s'%s' %s(%s)",
+                            matcher.group("description"),
+                            matcher.group("module"),
+                            matcher.group("details"),
+                            matcher.group("serial"));
                     builder.setDescription(description);
                     builder.setCategory(category);
                     builder.setFileName(file);
@@ -72,6 +67,17 @@ public class EmbeddedEngineerParser extends IssueParser {
             }
             return report;
         }
+    }
+
+    private String parseFileName(final Iterator<String> lineIterator) {
+        while (lineIterator.hasNext()) {
+            String line = lineIterator.next();
+            Matcher matcher = HEADER_PATTERN.matcher(line);
+            if (matcher.matches()) {
+                return matcher.group("file");
+            }
+        }
+        return StringUtils.EMPTY;
     }
 
     private String setCategory(final String line) {

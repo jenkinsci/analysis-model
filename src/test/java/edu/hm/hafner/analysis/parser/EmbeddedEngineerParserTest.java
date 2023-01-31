@@ -38,7 +38,6 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
         softly.assertThat(report.get(5))
                 .hasCategory("No Category")
                 .hasSeverity(Severity.WARNING_NORMAL);
-
     }
 }
 

@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.parser.EmbeddedEngineerParser;
  * @author Eva Habeeb
  */
 public class EmbeddedEngineerDescriptor extends ParserDescriptor {
-    private static final String ID = "embedded-engineer-parser";
+    private static final String ID = "embedded-engineer";
     private static final String NAME = "Embedded Engineer Tool";
 
     EmbeddedEngineerDescriptor() {
