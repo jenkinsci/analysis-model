@@ -68,6 +68,7 @@ public class ParserRegistry {
             new DScannerDescriptor(),
             new DupfinderDescriptor(),
             new EclipseDescriptor(),
+            new EmbeddedEngineerDescriptor(),
             new ErlcDescriptor(),
             new ErrorProneDescriptor(),
             new EsLintDescriptor(),
