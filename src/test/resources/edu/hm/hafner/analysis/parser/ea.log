@@ -11,3 +11,4 @@ Warning: Complex type definition without referenced element found 'sample_func' 
 Warning: Complex type definition without referenced element found 'id_reset_45' (return_status_t) ({A55-4b86-A9B7-71A12345B873})
 Warning: Code generation for 'Module1' skipped because the class is empty. ({BC8A57E7-8BA3-eeff4578})
 Warning: Code generation for element 'Module1' failed. Could not start code generation ({ffeee99-9BD1-12345678})
+Warning: Code generation for element 'Module1' passed. Could not start code generation ({ffeee99-9BD1-12345678})

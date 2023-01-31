@@ -20,8 +20,8 @@ import edu.hm.hafner.analysis.Severity;
  */
 public class EmbeddedEngineerParser extends IssueParser {
     private static final long serialVersionUID = -1251248150731418714L;
-    private static final String HEADER_PATTERN = "^Starting code generation for\\s(?<file>[^)]*)\\)";
-    private static final String WARNING_PATTERN = "^(Warning:)\\s(?<description>[^\\']*)\\'(?<module>[^\\']*)\\'\\s"
+    private static final String headerPattern = "^Starting code generation for\\s(?<file>[^)]*)\\)";
+    private static final String warningPattern = "^(Warning:)\\s(?<description>[^\\']*)\\'(?<module>[^\\']*)\\'\\s"
             + "(?<details>\\(?[^\\(]*)\\((?<serial>[^)]*)\\)";
 
     @Override
@@ -38,8 +38,8 @@ public class EmbeddedEngineerParser extends IssueParser {
         try (IssueBuilder builder = new IssueBuilder()) {
             Report report = new Report();
             Iterator<String> lineIterator = lines.iterator();
-            Pattern header_pattern = Pattern.compile(HEADER_PATTERN);
-            Pattern warning_pattern = Pattern.compile(WARNING_PATTERN);
+            Pattern header_pattern = Pattern.compile(headerPattern);
+            Pattern warning_pattern = Pattern.compile(warningPattern);
             String file = "";
 
             while (lineIterator.hasNext()) {
