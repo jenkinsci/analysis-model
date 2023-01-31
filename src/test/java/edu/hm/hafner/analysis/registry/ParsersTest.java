@@ -85,6 +85,12 @@ class ParsersTest extends ResourceTest {
         }
     }
 
+    /** Runs the Semgrep analysis parser on an output file that contains 1 issue. */
+    @Test
+    void shouldFindAllSemgrepIssues() {
+        findIssuesOfTool(1, "semgrep", "violations/semgrep-report.json");
+    }
+
     /** Runs the Dart analysis parser on an output file that contains 6 issues. */
     @Test
     void shouldFindAllDartIssues() {
