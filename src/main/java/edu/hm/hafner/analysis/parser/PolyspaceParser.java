@@ -73,8 +73,8 @@ public class PolyspaceParser extends IssueParser {
                     builder.setDescription(attributes[1]);
                     builder.setMessage("Check: " + attributes[5] + " " + attributes[6]);
                     builder.setModuleName(attributes[7]);
-                    builder.setColumnStart(Integer.valueOf(attributes[colNumber]));
-                    builder.setLineStart(Integer.valueOf(attributes[lineNumber]));
+                    builder.setColumnStart(Integer.parseInt(attributes[colNumber]));
+                    builder.setLineStart(Integer.parseInt(attributes[lineNumber]));
                     builder.setSeverity(mapPriority(attributes));
                     builder.setAdditionalProperties(attributes[0]);
 
