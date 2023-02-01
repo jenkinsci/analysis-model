@@ -31,7 +31,7 @@ public class PolyspaceParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
-        try (Stream<String> lines = reader.readStream().skip(1)) {
+        try (Stream<String> lines = reader.readStream()) {
             return parse(lines);
         }
     }
@@ -44,18 +44,23 @@ public class PolyspaceParser extends IssueParser {
             Report report = new Report();
             Iterator<String> lineIterator = lines.iterator();
 
+            String header = "";
+            if (lineIterator.hasNext()) {
+                header = lineIterator.next();
+            }
+
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
                 /* Checks whether "CWE" field is found, which defines the difference between
                  a BugFinder file and a CodeProver report */
-                if (line.contains("CWE")) {
+                if (header.contains("CWE ID")) {
                     // BugFinder result file has 16 columns
                     limit = 16;
                     lineNumber = 14;
                     colNumber = 15;
                 }
                 else {
-                    // CodePRover file has 15 columns
+                    // CodeProver file has 15 columns
                     limit = 15;
                     lineNumber = 13;
                     colNumber = 14;
@@ -68,8 +73,8 @@ public class PolyspaceParser extends IssueParser {
                     builder.setDescription(attributes[1]);
                     builder.setMessage("Check: " + attributes[5] + " " + attributes[6]);
                     builder.setModuleName(attributes[7]);
-                    builder.setColumnStart(attributes[colNumber]);
-                    builder.setLineStart(attributes[lineNumber]);
+                    builder.setColumnStart(Integer.valueOf(attributes[colNumber]));
+                    builder.setLineStart(Integer.valueOf(attributes[lineNumber]));
                     builder.setSeverity(mapPriority(attributes));
                     builder.setAdditionalProperties(attributes[0]);
 
