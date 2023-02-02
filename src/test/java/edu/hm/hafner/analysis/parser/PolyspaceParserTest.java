@@ -6,6 +6,7 @@ import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
@@ -14,10 +15,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *  @author Eva Habeeb
  */
 class PolyspaceParserTest extends AbstractParserTest {
-    /**
-     * Creates a new instance of {@link PolyspaceParserTest}.
-     */
-    protected PolyspaceParserTest() {
+    PolyspaceParserTest() {
         super("polyspace.csv");
     }
 
