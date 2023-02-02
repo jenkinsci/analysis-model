@@ -3,6 +3,8 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -83,11 +85,10 @@ public class PolyspaceParser extends IssueParser {
     }
 
     private String readHeader(final Iterator<String> lineIterator) {
-        String header = "";
         if (lineIterator.hasNext()) {
-            header = lineIterator.next();
+            return lineIterator.next();
         }
-        return header;
+        return StringUtils.EMPTY;
     }
 
     @SuppressWarnings({"PMD.UseVarargs", "PMD.CyclomaticComplexity" })
