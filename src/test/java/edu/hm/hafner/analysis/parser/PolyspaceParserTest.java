@@ -1,9 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link PolyspaceParser}.
@@ -32,6 +35,7 @@ class PolyspaceParserTest extends AbstractParserTest {
                 .hasMessage("Check: Null pointer Impact: High")
                 .hasModuleName("calculate()")
                 .hasCategory("memory")
+                .hasColumnStart(49)
                 .hasDescription("Defect")
                 .hasSeverity(Severity.WARNING_HIGH);
         softly.assertThat(report.get(1))
@@ -52,6 +56,43 @@ class PolyspaceParserTest extends AbstractParserTest {
                 .hasMessage("Check: 11.1 Conversions shall not be performed between a pointer to a function and any other type. Category: Required")
                 .hasModuleName("tester()")
                 .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void polyspace_cp_test() {
+        Report warnings = parse("polyspace_cp.csv");
+        assertThat(warnings).hasSize(4);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0)).hasLineStart(30)
+                    .hasFileName("D:/workspace/math.c")
+                    .hasCategory("Data flow")
+                    .hasDescription("Run-time Check")
+                    .hasMessage("Check: Unreachable code")
+                    .hasModuleName("xinitialize()")
+                    .hasColumnStart(4)
+                    .hasSeverity(Severity.WARNING_HIGH);
+            softly.assertThat(warnings.get(1)).hasLineStart(34)
+                    .hasFileName("D:/sample.h")
+                    .hasCategory("Data flow")
+                    .hasDescription("Run-time Check")
+                    .hasModuleName("method_a()")
+                    .hasColumnStart(4)
+                    .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(warnings.get(2)).hasLineStart(66)
+                    .hasDescription("Run-time Check")
+                    .hasModuleName("errorCheck()")
+                    .hasColumnStart(4)
+                    .hasSeverity(Severity.WARNING_HIGH);
+            softly.assertThat(warnings.get(3)).hasLineStart(217)
+                    .hasDescription("MISRA C:2012")
+                    .hasMessage("Check: 10.1 Operands shall not be of an inappropriate essential type. Category: Required")
+                    .hasFileName("/file/SERVICE.c")
+                    .hasModuleName("a_message()")
+                    .hasColumnStart(27)
+                    .hasCategory("10 The essential type model")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
     }
 }
 
