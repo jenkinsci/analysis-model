@@ -3,8 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
