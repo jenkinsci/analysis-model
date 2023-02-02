@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.IntegerParser;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -43,11 +44,7 @@ public class PolyspaceParser extends IssueParser {
             int limit;
             Report report = new Report();
             Iterator<String> lineIterator = lines.iterator();
-
-            String header = "";
-            if (lineIterator.hasNext()) {
-                header = lineIterator.next();
-            }
+            String header = readHeader(lineIterator);
 
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
@@ -73,8 +70,8 @@ public class PolyspaceParser extends IssueParser {
                     builder.setDescription(attributes[1]);
                     builder.setMessage("Check: " + attributes[5] + " " + attributes[6]);
                     builder.setModuleName(attributes[7]);
-                    builder.setColumnStart(Integer.parseInt(attributes[colNumber]));
-                    builder.setLineStart(Integer.parseInt(attributes[lineNumber]));
+                    builder.setColumnStart(IntegerParser.parseInt(attributes[colNumber]));
+                    builder.setLineStart(IntegerParser.parseInt(attributes[lineNumber]));
                     builder.setSeverity(mapPriority(attributes));
                     builder.setAdditionalProperties(attributes[0]);
 
@@ -83,6 +80,14 @@ public class PolyspaceParser extends IssueParser {
             }
             return report;
         }
+    }
+
+    private String readHeader(final Iterator<String> lineIterator) {
+        String header = "";
+        if (lineIterator.hasNext()) {
+            header = lineIterator.next();
+        }
+        return header;
     }
 
     @SuppressWarnings({"PMD.UseVarargs", "PMD.CyclomaticComplexity" })
