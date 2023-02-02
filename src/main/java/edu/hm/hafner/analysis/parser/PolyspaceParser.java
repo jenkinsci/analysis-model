@@ -88,7 +88,7 @@ public class PolyspaceParser extends IssueParser {
         if (lineIterator.hasNext()) {
             return lineIterator.next();
         }
-        return StringUtils.EMPTY;
+        return EMPTY;
     }
 
     @SuppressWarnings({"PMD.UseVarargs", "PMD.CyclomaticComplexity" })
