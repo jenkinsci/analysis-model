@@ -59,7 +59,7 @@ class PolyspaceParserTest extends AbstractParserTest {
     }
 
     @Test
-    void polyspace_cp_test() {
+    void polyspaceCPTest() {
         Report warnings = parse("polyspace_cp.csv");
         assertThat(warnings).hasSize(4);
 
