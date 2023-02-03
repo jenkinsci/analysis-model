@@ -108,7 +108,18 @@ class GhsMultiParserTest extends AbstractParserTest {
     @Test
     void issue66130() {
         Report warnings = parse("issue66130.log");
-        assertThat(warnings).hasSize(2);
+        assertThat(warnings).hasSize(1);
+
+//        assertThat(warnings.get(0)).hasMessage("extra \";\" ignored\n"
+//                        + "\"D:\\jenkins\\src\\MyFile.cpp\", line 42 *(col. 58)*: warning #381-D: extra \";\" ignored")
+//                .hasFileName("D:/jenkins/src/MyFile.cpp")
+//                .hasCategory("#381-D");
+
+        assertThat(warnings.get(0)).hasMessage("extra \";\" ignored\n"
+                        + "\"D:\\jenkins\\src\\MyColTest.cpp\", line 42 *(col. 58)*: warning #382-D: extra \";\" ignored")
+                .hasFileName("D:/jenkins/src/MyColTest.cpp")
+                .hasCategory("#382-D");
+
     }
 
     @Override

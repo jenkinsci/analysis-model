@@ -27,6 +27,7 @@ public class GhsMultiParser extends LookaheadParser {
             + "(?<line>\\d+)(?:\\s+\\(col\\.\\s*(?<column>\\d+)\\))?:\\s*"
             + "(?<severity>warning|error)\\s*(?<category>[^:]+):\\s*(?m)(?<message>[^\\^]*)";
 
+
     /** Regex Pattern to match the ending of the Warning / Error Message. */
     private static final String MESSAGE_END_REGEX = "\\s*\\^";
 
@@ -88,7 +89,7 @@ public class GhsMultiParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("warning") || line.contains("error");
+        return line.contains("warning") || line.contains("error") || line.contains("\\*\\(col") || line.contains("\\)\\*");
     }
 }
 
