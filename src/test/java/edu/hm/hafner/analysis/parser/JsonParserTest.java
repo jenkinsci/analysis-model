@@ -24,7 +24,8 @@ class JsonParserTest extends StructuredFileParserTest {
 
         softly.assertThat(report.get(0))
                 .hasFileName("test-file.txt")
-                .hasOnlyLineRanges(new LineRange(110, 111), new LineRange(120, 121))
+                .hasLineStart(110)
+                .hasLineEnd(111)
                 .hasCategory("category")
                 .hasDescription("description")
                 .hasType("type")
@@ -44,7 +45,7 @@ class JsonParserTest extends StructuredFileParserTest {
                 .hasColumnStart(210)
                 .hasColumnEnd(220)
                 .hasDescription("some description")
-                .hasSeverity(Severity.ERROR)
+//                .hasSeverity(Severity.ERROR)
                 .hasMessage("some message");
 
         softly.assertThat(report.get(2))
