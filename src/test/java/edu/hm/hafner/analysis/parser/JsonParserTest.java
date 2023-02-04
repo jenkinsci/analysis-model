@@ -45,7 +45,7 @@ class JsonParserTest extends StructuredFileParserTest {
                 .hasColumnStart(210)
                 .hasColumnEnd(220)
                 .hasDescription("some description")
-//                .hasSeverity(Severity.ERROR)
+                .hasSeverity(Severity.ERROR)
                 .hasMessage("some message");
 
         softly.assertThat(report.get(2))
