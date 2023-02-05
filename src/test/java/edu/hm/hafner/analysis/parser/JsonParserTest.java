@@ -24,6 +24,7 @@ class JsonParserTest extends StructuredFileParserTest {
 
         softly.assertThat(report.get(0))
                 .hasFileName("test-file.txt")
+                .hasOnlyLineRanges(new LineRange(110, 111), new LineRange(120, 121))
                 .hasLineStart(110)
                 .hasLineEnd(111)
                 .hasCategory("category")
