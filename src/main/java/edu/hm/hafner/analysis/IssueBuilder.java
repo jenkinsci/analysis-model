@@ -497,6 +497,12 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue build() {
+        if (lineRanges != null && lineRanges.size()>1) {
+            LineRange firstRange = lineRanges.get(0);
+            if (firstRange.getStart() == lineStart && firstRange.getEnd() == lineEnd) {
+                lineRanges.remove(0);
+            }
+        }
         Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
                 category, type, packageName, moduleName, severity, message, description,
                 origin, originName, reference, fingerprint, additionalProperties, id);
@@ -511,6 +517,12 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue buildAndClean() {
+        if (lineRanges != null && lineRanges.size()>1) {
+            LineRange firstRange = lineRanges.get(0);
+            if (firstRange.getStart() == lineStart && firstRange.getEnd() == lineEnd) {
+                lineRanges.remove(0);
+            }
+        }
         Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
                 category, type, packageName, moduleName, severity, message, description,
                 origin, originName, reference, fingerprint, additionalProperties, id);
