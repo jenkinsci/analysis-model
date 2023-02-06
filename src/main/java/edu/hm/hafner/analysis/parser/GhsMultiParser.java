@@ -89,7 +89,7 @@ public class GhsMultiParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("warning") || line.contains("error") || line.contains("\\*\\(col") || line.contains("\\)\\*");
+        return line.contains("warning") || line.contains("error");
     }
 }
 
