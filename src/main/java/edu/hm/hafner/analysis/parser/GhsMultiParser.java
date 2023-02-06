@@ -23,11 +23,14 @@ public class GhsMultiParser extends LookaheadParser {
      * Regex Pattern to match start of Warning / Error. Groups are used to identify FileName, StartLine, Type, Category,
      * Start of message.
      */
-    private static final String GHS_MULTI_WARNING_PATTERN = "\"(?<file>.*)\"\\,\\s*line\\s*"
-            + "(?<line>\\d+)(?:\\s+\\(col\\.\\s*(?<column>\\d+)\\))?:\\s*"
-            + "(?<severity>warning|error)\\s*(?<category>[^:]+):\\s*(?m)(?<message>[^\\^]*)";
+    private static final String GHS_MULTI_WARNING_PATTERN = "\"(?<file>.*)\"\\,"
+            + "\\s*line\\s*(?<line>\\d+)"
+            + "(?:\\s+\\*?\\(col\\.\\s*(?<column>\\d+)\\)\\*?)?:\\s*"
+            + "(?<severity>warning|error)"
+            + "\\s*(?<category>[^:]+):"
+            + "\\s*(?m)(?<message>[^\\^]*)";
 
-    /** Regex Pattern to match the ending of the Warning / Error Message. */
+    /** Regex Pattern to match the ending of the warning or error message. */
     private static final String MESSAGE_END_REGEX = "\\s*\\^";
 
     /**

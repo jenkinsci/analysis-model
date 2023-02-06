@@ -24,24 +24,21 @@ class GhsMultiParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.ERROR)
                 .hasCategory("#5")
                 .hasLineStart(2)
-                .hasMessage(
-                        "cannot open source input file \"file.h\": No such file or directory\n    #include <file.h>")
+                .hasMessage("cannot open source input file \"file.h\": No such file or directory\n    #include <file.h>")
                 .hasFileName("./maindir/tests/TestCase_0101.cpp");
 
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("#546-D")
                 .hasLineStart(37)
-                .hasMessage(
-                        "transfer of control bypasses initialization of:\n            variable \"CF_TRY_FLAG\" (declared at line 42)\n            variable \"CF_EXCEPTION_NOT_CAUGHT\" (declared at line 42)\n        CF_TRY_CHECK_EX(ex2);")
+                .hasMessage("transfer of control bypasses initialization of:\n            variable \"CF_TRY_FLAG\" (declared at line 42)\n            variable \"CF_EXCEPTION_NOT_CAUGHT\" (declared at line 42)\n        CF_TRY_CHECK_EX(ex2);")
                 .hasFileName("./maindir/tests/TestCase_0101.cpp");
 
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("#177-D")
                 .hasLineStart(29)
-                .hasMessage(
-                        "label\n          \"CF_TRY_LABELex1\" was declared but never referenced\n     CF_TRY_EX(ex1)")
+                .hasMessage("label\n          \"CF_TRY_LABELex1\" was declared but never referenced\n     CF_TRY_EX(ex1)")
                 .hasFileName("./maindir/tests/TestCase_0101.cpp");
 
         softly.assertThat(report.get(3))
@@ -88,8 +85,7 @@ class GhsMultiParserTest extends AbstractParserTest {
 
         assertThat(warnings.get(0))
                 .hasLineStart(19)
-                .hasMessage(
-                        "[2019-08-28T08:44:26.749Z]           operands of logical && or || must be primary expressions\n"
+                .hasMessage("[2019-08-28T08:44:26.749Z]           operands of logical && or || must be primary expressions\n"
                                 + "\n"
                                 + "[2019-08-28T08:44:26.749Z]   #if !defined(_STDARG_H) && !defined(_STDIO_H) && !defined(_GHS_WCHAR_H)")
                 .hasFileName("C:/Path/To/bar.h")
@@ -97,8 +93,7 @@ class GhsMultiParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
         assertThat(warnings.get(1))
                 .hasLineStart(491)
-                .hasMessage(
-                        "[2019-08-28T08:44:28.122Z]           operands of logical && or || must be primary expressions\n"
+                .hasMessage("[2019-08-28T08:44:28.122Z]           operands of logical && or || must be primary expressions\n"
                                 + "\n"
                                 + "[2019-08-28T08:44:28.122Z]                       if(t_deltaInterval != t_u4Interval && t_deltaInterval != 0)")
                 .hasFileName("../../../../Sources/Foo/Bar/Test.c")
@@ -106,9 +101,26 @@ class GhsMultiParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
+    @Test
+    void issue66130() {
+        Report warnings = parse("issue66130.log");
+        assertThat(warnings).hasSize(2);
+
+        assertThat(warnings.get(0)).hasMessage("extra \";\" ignored\nSome Description")
+                .hasLineStart(42)
+                .hasColumnStart(0)
+                .hasCategory("#381-D");
+
+        assertThat(warnings.get(1)).hasMessage("extra \";\" ignored")
+                .hasLineStart(42)
+                .hasColumnStart(58)
+                .hasCategory("#382-D");
+    }
+
     @Override
     protected GhsMultiParser createParser() {
         return new GhsMultiParser();
     }
+
 }
 
