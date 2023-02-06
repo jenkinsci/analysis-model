@@ -25,6 +25,6 @@ class SpotBugsDescriptor extends FindBugsDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://github.com/spotbugs/spotbugs.github.io/blob/master/images/logos/spotbugs_icon_only_zoom_256px.png";
+        return "https://raw.githubusercontent.com/spotbugs/spotbugs.github.io/master/images/logos/spotbugs_icon_only_zoom_256px.png";
     }
 }

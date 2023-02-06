@@ -54,11 +54,10 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>10.23.0</revision>
+    <revision>10.24.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
-    <incrementals.url>https://repo.jenkins-ci.org/incrementals/</incrementals.url>
 
     <!-- Project Dependencies Configuration -->
     <jmh.version>1.36</jmh.version>
@@ -68,10 +67,10 @@
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.6</slf4j.version>
-    <violations-lib.version>1.156.0</violations-lib.version>
+    <violations-lib.version>1.156.1</violations-lib.version>
     <json.version>20220924</json.version>
     <json-smart.version>2.4.8</json-smart.version>
-    <pmd.version>6.53.0</pmd.version>
+    <pmd.version>6.54.0</pmd.version>
     <spotbugs.version>4.7.3</spotbugs.version>
 
     <incrementals-plugin.version>1.4</incrementals-plugin.version>
@@ -525,7 +524,7 @@
       <distributionManagement>
         <repository>
           <id>incrementals</id>
-          <url>${incrementals.url}</url>
+          <url>https://repo.jenkins-ci.org/incrementals/</url>
         </repository>
       </distributionManagement>
       <build>

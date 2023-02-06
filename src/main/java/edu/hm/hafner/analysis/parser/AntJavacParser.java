@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
@@ -18,7 +17,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  *
  * @author Ullrich Hafner
  */
-public class AntJavacParser extends LookaheadParser {
+public class AntJavacParser extends AbstractMavenLogParser {
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*"
@@ -36,7 +35,7 @@ public class AntJavacParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return super.isLineInteresting(line) && containsWarningPrefix(line) && !line.contains("@");
+        return super.isLineInteresting(line) && !hasGoalOrModule() && containsWarningPrefix(line) && !line.contains("@");
     }
 
     private boolean containsWarningPrefix(final String line) {
