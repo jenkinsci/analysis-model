@@ -913,6 +913,12 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasColumnEnd(3);
     }
 
+    @Test
+    protected void shouldParseBothErrorAndWarnings(){
+        Report report = parse("issue63580.log");
+        assertThat(report).hasSize(5);
+    }
+
     @Override
     protected MsBuildParser createParser() {
         return new MsBuildParser();

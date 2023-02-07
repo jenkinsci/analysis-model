@@ -26,7 +26,7 @@ public class MsBuildParser extends LookaheadParser {
             + ANT_TASK + "(?:(?:\\s*(?:\\d+|\\d+:\\d+)>)?(?:(?:(?:(.*?)\\((\\d*)(?:,(\\d+))?[a-zA-Z]*?\\)|.*LINK)\\s*:|"
             + "(.*):)\\s*([A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*([A-Za-z0-9\\-_]+)?"
             + "\\s*:\\s(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*(.*?)(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
-            + "|(.*)\\s*:.*error\\s*(LNK[0-9]+):\\s*(.*)))$";
+            + "|(.*)\\s*:.*error|\\s*warning\\s*(LNK[0-9]+):\\s*(.*)))$";
 
     private final Pattern ignoredToolsPattern = Pattern.compile("(?!.exe)(\\.[^.]+)$");
 

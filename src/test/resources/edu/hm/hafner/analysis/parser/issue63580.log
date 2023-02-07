@@ -1,0 +1,15 @@
+Some Description
+^
+LINK : warning LNK4217: symbol 'XYZ' defined in 'abc.obj' is imported by 'def.obj' in function 'FGH'
+Some Description
+^
+LINK : warning LNK4217: symbol 'PQR' defined in 'pqr.obj' is imported by 'def.obj' in function 'PQR'
+Some Description
+^
+LINK : warning LNK4286: symbol 'XYZ' defined in 'abc.obj' is imported by 'def.obj'
+Some Description
+^
+LINK : fatal error LNK1181: cannot open input file 'TestLib.lib'
+Some Description
+^
+LINK : error LNK9427: cannot open input file 'Test.lib'
