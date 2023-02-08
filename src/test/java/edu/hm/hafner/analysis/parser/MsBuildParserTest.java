@@ -917,6 +917,17 @@ class MsBuildParserTest extends AbstractParserTest {
     protected void shouldParseBothErrorAndWarnings(){
         Report report = parse("issue63580.log");
         assertThat(report).hasSize(5);
+
+        assertThat(report.get(0))
+                .hasFileName("TestLib.lib")
+                .hasSeverity(Severity.ERROR)
+                .hasMessage("cannot open input file 'TestLib.lib'");
+
+        assertThat(report.get(1))
+                .hasFileName("Test.lib")
+                .hasSeverity(Severity.ERROR)
+                .hasMessage("cannot open input file 'Test.lib'");
+
     }
 
     @Override
