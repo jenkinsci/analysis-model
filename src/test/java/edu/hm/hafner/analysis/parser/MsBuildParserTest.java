@@ -914,7 +914,7 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     @Test
-    protected void shouldParseBothErrorAndWarnings(){
+    void shouldParseBothErrorAndWarnings(){
         Report report = parse("issue63580.log");
         assertThat(report).hasSize(5);
 

@@ -20,13 +20,48 @@ import edu.hm.hafner.util.LookaheadStream;
  */
 public class MsBuildParser extends LookaheadParser {
     private static final long serialVersionUID = -2141974437420906595L;
-        private static final String MS_BUILD_WARNING_PATTERN
-            = "(?:^(?:.*)Command line warning (?<a1>[A-Za-z0-9]+):\\s*(?<a2>.*)\\s*\\[(?<a3>.*)\\])|"
-            + ANT_TASK + "(?:(?:\\s*(?:\\d+|\\d+:\\d+)>)?(?:(?:(?:(?<a4>.*?)\\((?<a5>\\d*)(?:,(?<a6>\\d+))?[a-zA-Z]*?\\)|.*LINK)\\s*:|"
-            + "(?<a7>.*):)\\s*(?<a8>[A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*(?<a9>[A-Za-z0-9\\-_]+)?"
-            + "\\s*:\\s(?:\\s*(?<a10>[A-Za-z0-9.]+)\\s*:)?\\s*(?<a11>.*?)(?: \\[(?<a12>[^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
-            //+ "|(?<a13>.*)\\s*:.*(?<severity>(error|warning))\\s*:\\s*(?<a15>LNK[0-9]+):\\s*(?<a16>.*)))$";
-                + "|(?<a13>.*)\\s*:.*(?<severity>:error|warning)\\s*(<a15>LNK[0-9]+):\\s*(<a16>.*)))$";
+//        private static final String MS_BUILD_WARNING_PATTERN
+//            = "(?:^(?:.*)Command line warning (?<a1>[A-Za-z0-9]+):\\s*(?<a2>.*)\\s*\\[(?<a3>.*)\\])|"
+//            + ANT_TASK + "(?:(?:\\s*(?:\\d+|\\d+:\\d+)>)?(?:(?:(?:(?<a4>.*?)\\((?<a5>\\d*)(?:,(?<a6>\\d+))?[a-zA-Z]*?\\)|.*LINK)\\s*:|"
+//            + "(?<a7>.*):)\\s*(?<a8>[A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*(?<a9>[A-Za-z0-9\\-_]+)?"
+//            + "\\s*:\\s(?:\\s*(?<a10>[A-Za-z0-9.]+)\\s*:)?\\s*(?<a11>.*?)(?: \\[(?<a12>[^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
+//            //+ "|(?<a13>.*)\\s*:.*(?<severity>(error|warning))\\s*:\\s*(?<a15>LNK[0-9]+):\\s*(?<a16>.*)))$";
+//                + "|(?<a13>.*)\\s*:.*(?<severity>:error|warning)\\s*(<a15>LNK[0-9]+):\\s*(<a16>.*)))$";
+
+    private static final String MS_BUILD_WARNING_PATTERN
+            = "(?x)" // ignore whitespace, allow comments
+            + "(?:^(?:.*)Command line warning (?<categoryCL>[A-Za-z0-9]+):\\s*"
+            + "(?<messageCL>.*)\\s*"
+            + "\\[(?<fileNameCL>.*)\\]"
+            + ")"
+            + "|"
+            + ANT_TASK //  This line is LookaheadParser.ANT_TASK.
+            + "(?:"
+            + "(?:\\s*(?:\\d+|\\d+:\\d+)>)?"
+            + "(?:"
+            + "(?:"
+            + "(?:"
+            + "(?<fileNameForPos>.*?)\\((?<lineStart>\\d*)(?:,(?<columnStart>\\d+))?[a-zA-Z]*?\\)"
+            + "|"
+            + ".*LINK"
+            + ")\\s*:"
+            + "|"
+            + "(?<fileNameNoPos>.*):"
+            + ")\\s*"
+            + "(?<severity>[A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))"
+            + "[^A-Za-z0-9]\\s*:?\\s*"
+            + "(?<category>[A-Za-z0-9\\-_]+)?"
+            + "\\s*:\\s"
+            + "(?:\\s*(?<type>[A-Za-z0-9.]+)\\s*:)?\\s*"
+            + "(?<message>.*?)"
+            + "(?: \\[(?<projectDir>[^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
+            + "|"
+            + "(?<typeLNK>.*)\\s*:.*"
+            + "(?<severityLNK>error|warning)\\s*"
+            + "(?<categoryLNK>LNK[0-9]+):\\s*"
+            + "(?<messageLNK>.*)"
+            + ")"
+            + ")$";
 
     private final Pattern ignoredToolsPattern = Pattern.compile("(?!.exe)(\\.[^.]+)$");
 
@@ -49,13 +84,12 @@ public class MsBuildParser extends LookaheadParser {
 
         builder.setFileName(fileName);
 
-        if (StringUtils.isNotEmpty(matcher.group("severity"))){
-            return builder.setLineStart(matcher.group(5))
-                    .setColumnStart(matcher.group(6))
-                    .setCategory(matcher.group(9))
-                    .setType(matcher.group(10))
-                    .setMessage(matcher.group(11))
-                    .setSeverity(Severity.guessFromString(matcher.group(8)))
+        if (StringUtils.isNotBlank(matcher.group(" "))) {
+            return builder.setLineStart(0)
+                    .setCategory(matcher.group("categoryLNK"))
+                    .setType(matcher.group("typeLNK"))
+                    .setMessage(matcher.group("messageLNK"))
+                    .setSeverity(Severity.guessFromString(matcher.group("severityLNK"))) // not group("severity")
                     .buildOptional();
         }
 
