@@ -84,7 +84,7 @@ public class MsBuildParser extends LookaheadParser {
 
         builder.setFileName(fileName);
 
-        if (StringUtils.isNotBlank(matcher.group(" "))) {
+        if (StringUtils.isNotBlank(matcher.group("typeLNK"))) {
             return builder.setLineStart(0)
                     .setCategory(matcher.group("categoryLNK"))
                     .setType(matcher.group("typeLNK"))
