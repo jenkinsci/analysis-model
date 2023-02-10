@@ -78,11 +78,6 @@ abstract class JsonBaseParser extends IssuePropertiesParser {
             JSONArray jsonRanges = jsonIssue.getJSONArray(LINE_RANGES);
             LineRangeList lineRanges = convertToLineRangeList(jsonRanges);
             builder.setLineRanges(lineRanges);
-            if (!lineRanges.isEmpty()) {
-                LineRange firstRange = lineRanges.get(0);
-                builder.setLineStart(firstRange.getStart());
-                builder.setLineEnd(firstRange.getEnd());
-            }
         }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));
