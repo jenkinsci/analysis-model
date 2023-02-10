@@ -82,6 +82,11 @@
   <dependencies>
     <!-- Project Dependencies -->
     <dependency>
+      <groupId>edu.hm.hafner</groupId>
+      <artifactId>codingstyle</artifactId>
+      <version>${codingstyle.library.version}</version>
+    </dependency>
+    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons.io.version}</version>
@@ -582,30 +587,6 @@
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <?m2e execute onConfiguration,onIncremental?>
-                <id>extract-codingstyle</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>unpack</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>edu.hm.hafner</groupId>
-                      <artifactId>codingstyle</artifactId>
-                    </artifactItem>
-                  </artifactItems>
-                  <includes>pmd-configuration.xml,checkstyle-configuration.xml,spotbugs-exclusion-filter.xml</includes>
-                  <outputDirectory>${project.build.directory}/codingstyle</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
     </profile>
