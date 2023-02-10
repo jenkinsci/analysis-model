@@ -27,7 +27,9 @@ class JsonLogParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasFileName("file.txt")
-                .hasOnlyLineRanges(new LineRange(10, 11), new LineRange(20, 21))
+                .hasOnlyLineRanges(new LineRange(20, 21))
+                .hasLineStart(10)
+                .hasLineEnd(11)
                 .hasCategory("c")
                 .hasDescription("d")
                 .hasType("t")
@@ -52,7 +54,9 @@ class JsonLogParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(2))
                 .hasFileName("test.txt")
-                .hasOnlyLineRanges(new LineRange(10, 10), new LineRange(220, 220))
+                .hasOnlyLineRanges(new LineRange(220, 220))
+                .hasLineStart(10)
+                .hasLineEnd(10)
                 .hasDescription("an \"important\" description")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("an \"important\" message");
@@ -64,7 +68,9 @@ class JsonLogParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(4))
                 .hasFileName("file.xml")
-                .hasOnlyLineRanges(new LineRange(11, 12), new LineRange(21, 22))
+                .hasOnlyLineRanges(new LineRange(21, 22))
+                .hasLineStart(11)
+                .hasLineEnd(12)
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 
