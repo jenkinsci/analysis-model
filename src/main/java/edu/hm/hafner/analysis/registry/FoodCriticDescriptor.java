@@ -28,6 +28,6 @@ class FoodCriticDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://github.com/Foodcritic/foodcritic-site/blob/master/source/images/foodcritic.png";
+        return "https://raw.githubusercontent.com/Foodcritic/foodcritic-site/master/source/images/foodcritic.png";
     }
 }

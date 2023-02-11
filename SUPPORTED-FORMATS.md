@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2022-12-07T14:58:15.456107 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-01-31T16:04:29.723221 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -329,7 +329,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 checkstyle
             </td>
             <td>
-                <img src="https://github.com/checkstyle/checkstyle/blob/master/src/site/resources/images/checkstyle_logo_small_64.png" alt="CheckStyle" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/site/resources/images/checkstyle_logo_small_64.png" alt="CheckStyle" height="64" width="64">
             </td>
             <td>
                 <a href="https://checkstyle.org">
@@ -611,7 +611,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 eslint
             </td>
             <td>
-                <img src="https://github.com/eslint/eslint/blob/main/docs/src/static/icon.svg" alt="ESLint" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/eslint/eslint/main/docs/src/static/icon.svg" alt="ESLint" height="64" width="64">
             </td>
             <td>
                 <a href="https://eslint.org">
@@ -644,6 +644,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         <tr>
             <td colspan="4">
                 :bulb: <p><p>Create an output file that contains Eclipse ECJ output, in either XML or text format.</p><p>To log in XML format, specify &quot;.xml&quot; as the file extension to the -log argument:</p><p><code>java -jar ecj.jar -log &lt;logfile&gt;.xml &lt;other arguments&gt;</code></p><p>To log in text format, specify any file extension except &quot;.xml&quot; to the -log argument:</p><p><code>java -jar ecj.jar -log &lt;logfile&gt;.log &lt;other arguments&gt;</code></p></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                embedded-engineer
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.lieberlieber.com/embedded-engineer/">
+                    Embedded Engineer Tool
+                </a>
+            </td>
+            <td>
+                -
             </td>
         </tr>
         <tr>
@@ -751,7 +767,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 flow
             </td>
             <td>
-                <img src="https://raw.githubusercontent.com/facebook/flow/main/website/favicon.svg" alt="Flow" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/facebook/flow/main/website/static/img/logo.svg" alt="Flow" height="64" width="64">
             </td>
             <td>
                 <a href="https://flow.org/">
@@ -767,7 +783,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 foodcritic
             </td>
             <td>
-                <img src="https://github.com/Foodcritic/foodcritic-site/blob/master/source/images/foodcritic.png" alt="Foodcritic" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/Foodcritic/foodcritic-site/master/source/images/foodcritic.png" alt="Foodcritic" height="64" width="64">
             </td>
             <td>
                 <a href="http://www.foodcritic.io/">
@@ -990,7 +1006,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 infer
             </td>
             <td>
-                <img src="https://github.com/facebook/infer/blob/main/website/static/img/logo.png" alt="Infer" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/facebook/infer/main/website/static/img/logo.png" alt="Infer" height="64" width="64">
             </td>
             <td>
                 <a href="https://fbinfer.com">
@@ -1462,7 +1478,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 pmd
             </td>
             <td>
-                <img src="https://github.com/pmd/pmd/blob/master/docs/images/logo/pmd_logo_small.png" alt="PMD" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/pmd/pmd/master/docs/images/logo/pmd_logo_small.png" alt="PMD" height="64" width="64">
             </td>
             <td>
                 <a href="https://pmd.github.io">
@@ -1533,7 +1549,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
-                PolyspaceParse
+                polyspace-parser
             </td>
             <td>
                 -
@@ -1792,6 +1808,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
+                semgrep
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/returntocorp/semgrep/develop/semgrep.svg" alt="Semgrep" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://semgrep.dev/">
+                    Semgrep
+                </a>
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use <code>--json</code>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 simian
             </td>
             <td>
@@ -1802,6 +1839,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                simulink-check-parser
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.mathworks.com/products/simulink-check.html">
+                    Simulink Check Tool
+                </a>
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Reads and Parses HTML reports of Simulink Check Tool by MathWorks. Report can be generated with command: <code>ModelAdvisor.summaryReport(ModelAdvisor.run(<SYSTEMS>, <CONFIG>, <FILENAME>, <ARGS>))</code>
             </td>
         </tr>
         <tr>
@@ -1837,7 +1895,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 spotbugs
             </td>
             <td>
-                <img src="https://github.com/spotbugs/spotbugs.github.io/blob/master/images/logos/spotbugs_icon_only_zoom_256px.png" alt="SpotBugs" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/spotbugs/spotbugs.github.io/master/images/logos/spotbugs_icon_only_zoom_256px.png" alt="SpotBugs" height="64" width="64">
             </td>
             <td>
                 <a href="https://spotbugs.github.io">
@@ -1972,7 +2030,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 veracode-pipeline-scanner
             </td>
             <td>
-                <img src="https://github.com/jenkinsci/veracode-scan-plugin/blob/master/src/main/webapp/icons/veracode-48x48.png" alt="Veracode Pipeline Scanner" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/jenkinsci/veracode-scan-plugin/master/src/main/webapp/icons/veracode-48x48.png" alt="Veracode Pipeline Scanner" height="64" width="64">
             </td>
             <td>
                 <a href="https://docs.veracode.com/r/c_about_pipeline_scan">

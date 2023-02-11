@@ -1,0 +1,289 @@
+{
+  "errors": [],
+  "paths": {
+    "_comment": "<add --verbose for a list of skipped paths>",
+    "scanned": [
+      ".github/workflows/gradle-ci.yml",
+      ".gitignore",
+      "CHANGELOG.md",
+      "ISSUE_TEMPLATE",
+      "LICENSE",
+      "README.md",
+      "build.gradle",
+      "gradle/wrapper/gradle-wrapper.jar",
+      "gradle/wrapper/gradle-wrapper.properties",
+      "gradle.properties",
+      "gradlew",
+      "gradlew.bat",
+      "semgrep.json",
+      "semgrep.json~",
+      "src/gen/java/.gitkeep",
+      "src/main/java/se/bjurr/violations/lib/FilteringViolationsLogger.java",
+      "src/main/java/se/bjurr/violations/lib/ORDERED_BY.java",
+      "src/main/java/se/bjurr/violations/lib/ViolationsApi.java",
+      "src/main/java/se/bjurr/violations/lib/ViolationsLogger.java",
+      "src/main/java/se/bjurr/violations/lib/model/SEVERITY.java",
+      "src/main/java/se/bjurr/violations/lib/model/Violation.java",
+      "src/main/java/se/bjurr/violations/lib/model/codeclimate/CodeClimate.java",
+      "src/main/java/se/bjurr/violations/lib/model/codeclimate/CodeClimateCategory.java",
+      "src/main/java/se/bjurr/violations/lib/model/codeclimate/CodeClimateLines.java",
+      "src/main/java/se/bjurr/violations/lib/model/codeclimate/CodeClimateLocation.java",
+      "src/main/java/se/bjurr/violations/lib/model/codeclimate/CodeClimatePosition.java",
+      "src/main/java/se/bjurr/violations/lib/model/codeclimate/CodeClimatePositions.java",
+      "src/main/java/se/bjurr/violations/lib/model/codeclimate/CodeClimateSeverity.java",
+      "src/main/java/se/bjurr/violations/lib/model/codeclimate/CodeClimateTransformer.java",
+      "src/main/java/se/bjurr/violations/lib/model/sarif/SarifTransformer.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/AndroidLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/CLangParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/CPDParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/CPPCheckParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/CSSLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/CheckStyleParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/CodeClimateParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/CodeNarcParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/CppLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/DocFXParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/FindbugsParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/Flake8Parser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/FxCopParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/GHSParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/GendarmeParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/GenericParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/GoLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/GoogleErrorProneParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/IARParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/JCReportParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/JSLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/JUnitParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/JacocoParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/JacocoParserSettings.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/KlocworkParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/KotlinGradleParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/KotlinMavenParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/LintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/MSBuildLogParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/MSCPPParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/MachineParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/MyPyParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/PCLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/PMDParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/PerlCriticParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/PiTestParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/ProtoLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/PyDocStyleParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/PyLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/ResharperParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/SarifParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/SbtScalacParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/SemgrepParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/SimianParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/SonarParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/StyleCopParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/ValgrindParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/ViolationsParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/XMLLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/XUnitParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/YAMLlintParser.java",
+      "src/main/java/se/bjurr/violations/lib/parsers/ZPTLintParser.java",
+      "src/main/java/se/bjurr/violations/lib/reports/Parser.java",
+      "src/main/java/se/bjurr/violations/lib/reports/Reporter.java",
+      "src/main/java/se/bjurr/violations/lib/reports/ReportsFinder.java",
+      "src/main/java/se/bjurr/violations/lib/reports/ViolationsFinder.java",
+      "src/main/java/se/bjurr/violations/lib/util/Filtering.java",
+      "src/main/java/se/bjurr/violations/lib/util/PatchParserUtil.java",
+      "src/main/java/se/bjurr/violations/lib/util/StringUtils.java",
+      "src/main/java/se/bjurr/violations/lib/util/Utils.java",
+      "src/main/java/se/bjurr/violations/lib/util/ViolationParserUtils.java",
+      "src/main/resources/findbugs/fsb-messages.xml",
+      "src/main/resources/findbugs/messages.xml",
+      "src/main/resources/json/sarif-schema.json"
+    ]
+  },
+  "results": [
+    {
+      "check_id": "java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+      "end": {
+        "col": 86,
+        "line": 33,
+        "offset": 1340
+      },
+      "extra": {
+        "dataflow_trace": {
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "end": {
+                  "col": 86,
+                  "line": 33,
+                  "offset": 1340
+                },
+                "path": "src/main/java/se/bjurr/violations/lib/parsers/JUnitParser.java",
+                "start": {
+                  "col": 24,
+                  "line": 33,
+                  "offset": 1278
+                }
+              },
+              "c.createStatement().executeQuery(\"SELECT * FROM \" + tableName)"
+            ]
+          ],
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "end": {
+                  "col": 85,
+                  "line": 33,
+                  "offset": 1339
+                },
+                "path": "src/main/java/se/bjurr/violations/lib/parsers/JUnitParser.java",
+                "start": {
+                  "col": 76,
+                  "line": 33,
+                  "offset": 1330
+                }
+              },
+              "tableName"
+            ]
+          ]
+        },
+        "fingerprint": "334e2d3966cb97a0d595f97908004965f37f26b6abcb3dc8b10b96af553a04bf02cda8ae91381802eceb0907df707dcea761bf8d232cca1a3d4928b374e313bf_0",
+        "is_ignored": false,
+        "lines": "        ResultSet rs = c.createStatement().executeQuery(\"SELECT * FROM \" + tableName);",
+        "message": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'.",
+        "metadata": {
+          "asvs": {
+            "control_id": "5.3.5 Injection",
+            "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v53-output-encoding-and-injection-prevention-requirements",
+            "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+            "version": "4"
+          },
+          "category": "security",
+          "confidence": "MEDIUM",
+          "cwe": [
+            "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+          ],
+          "cwe2021-top25": true,
+          "cwe2022-top25": true,
+          "impact": "MEDIUM",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "likelihood": "HIGH",
+          "owasp": [
+            "A01:2017 - Injection",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
+            "https://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html#create_ps",
+            "https://software-security.sans.org/developer-how-to/fix-sql-injection-in-java-using-prepared-callable-statement"
+          ],
+          "semgrep.dev": {
+            "rule": {
+              "rule_id": "QrUzxR",
+              "url": "https://semgrep.dev/playground/r/3ZTx0L/java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+              "version_id": "3ZTx0L"
+            }
+          },
+          "shortlink": "https://sg.run/OPXp",
+          "source": "https://semgrep.dev/r/java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+          "source-rule-url": "https://find-sec-bugs.github.io/bugs.htm#SQL_INJECTION",
+          "subcategory": [
+            "vuln"
+          ],
+          "technology": [
+            "java"
+          ]
+        },
+        "metavars": {
+          "$ANNOT": {
+            "abstract_content": "void",
+            "end": {
+              "col": 16,
+              "line": 30,
+              "offset": 1133
+            },
+            "start": {
+              "col": 12,
+              "line": 30,
+              "offset": 1129
+            }
+          },
+          "$C": {
+            "abstract_content": "c",
+            "end": {
+              "col": 25,
+              "line": 33,
+              "offset": 1279
+            },
+            "propagated_value": {
+              "svalue_abstract_content": "null",
+              "svalue_end": {
+                "col": 28,
+                "line": 31,
+                "offset": 1212
+              },
+              "svalue_start": {
+                "col": 24,
+                "line": 31,
+                "offset": 1208
+              }
+            },
+            "start": {
+              "col": 24,
+              "line": 33,
+              "offset": 1278
+            }
+          },
+          "$FUNC": {
+            "abstract_content": "selectAll",
+            "end": {
+              "col": 26,
+              "line": 30,
+              "offset": 1143
+            },
+            "start": {
+              "col": 17,
+              "line": 30,
+              "offset": 1134
+            }
+          },
+          "$INPUT": {
+            "abstract_content": "tableName",
+            "end": {
+              "col": 85,
+              "line": 33,
+              "offset": 1339
+            },
+            "start": {
+              "col": 76,
+              "line": 33,
+              "offset": 1330
+            }
+          },
+          "$SQLFUNC": {
+            "abstract_content": "executeQuery",
+            "end": {
+              "col": 56,
+              "line": 33,
+              "offset": 1310
+            },
+            "start": {
+              "col": 44,
+              "line": 33,
+              "offset": 1298
+            }
+          }
+        },
+        "severity": "ERROR"
+      },
+      "path": "src/main/java/se/bjurr/violations/lib/parsers/JUnitParser.java",
+      "start": {
+        "col": 24,
+        "line": 33,
+        "offset": 1278
+      }
+    }
+  ],
+  "version": "1.4.0"
+}

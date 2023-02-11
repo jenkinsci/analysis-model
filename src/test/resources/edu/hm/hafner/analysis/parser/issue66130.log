@@ -1,0 +1,6 @@
+"D:\jenkins\src\MyFile.cpp", line 42: warning #381-D: extra ";" ignored
+Some Description
+^
+"D:\jenkins\src\MyColTest.cpp", line 42 *(col. 58)*: warning #382-D: extra ";" ignored
+This Description is not relevant
+^
