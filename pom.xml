@@ -73,7 +73,7 @@
     <pmd.version>6.54.0</pmd.version>
     <spotbugs.version>4.7.3</spotbugs.version>
 
-    <incrementals-plugin.version>1.4</incrementals-plugin.version>
+    <incrementals-plugin.version>1.5</incrementals-plugin.version>
     <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
 
   </properties>
