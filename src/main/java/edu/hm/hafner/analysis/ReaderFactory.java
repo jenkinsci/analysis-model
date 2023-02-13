@@ -16,6 +16,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
+import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -144,7 +145,7 @@ public abstract class ReaderFactory {
             SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
             return parserFactory.readDocument(reader, getCharset());
         }
-        catch (IOException exception) {
+        catch (IOException | SecureXmlParserFactory.ParsingException exception) {
             throw new ParsingException(exception);
         }
     }
@@ -171,7 +172,7 @@ public abstract class ReaderFactory {
         try (Reader reader = create()) {
             new SecureXmlParserFactory().parse(reader, getCharset(), handler);
         }
-        catch (IOException exception) {
+        catch (IOException | SecureXmlParserFactory.ParsingException exception) {
             throw new ParsingException(exception);
         }
     }

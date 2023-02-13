@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
@@ -22,7 +23,6 @@ public abstract class IssueParser implements Serializable {
     protected static final String COLUMN_END = "columnEnd";
     protected static final String COLUMN_START = "columnStart";
     protected static final String DESCRIPTION = "description";
-    protected static final String DIRECTORY = "directory";
     protected static final String FILE_NAME = "fileName";
     protected static final String FINGERPRINT = "fingerprint";
     protected static final String ID = "id";
@@ -35,7 +35,6 @@ public abstract class IssueParser implements Serializable {
     protected static final String MODULE_NAME = "moduleName";
     protected static final String ORIGIN = "origin";
     protected static final String PACKAGE_NAME = "packageName";
-    protected static final String REFERENCE = "reference";
     protected static final String SEVERITY = "severity";
     protected static final String TYPE = "type";
 
@@ -99,7 +98,7 @@ public abstract class IssueParser implements Serializable {
         try (Stream<String> lines = readerFactory.readStream()) {
             return lines.limit(10).anyMatch(line -> line.contains("<?xml"));
         }
-        catch (ParsingException ignored) {
+        catch (ParsingException | SecureXmlParserFactory.ParsingException ignored) {
             return false;
         }
     }

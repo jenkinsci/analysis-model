@@ -5,6 +5,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.digester3.Digester;
 import org.xml.sax.InputSource;
 
+import edu.hm.hafner.util.SecureXmlParserFactory;
+
 /**
  * A secure {@link Digester} implementation that does not resolve external entities.
  *
