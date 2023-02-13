@@ -497,7 +497,7 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue build() {
-        lineRangeChecks();
+        cleanupLineRanges();
         Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
                 category, type, packageName, moduleName, severity, message, description,
                 origin, originName, reference, fingerprint, additionalProperties, id);
@@ -512,7 +512,7 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue buildAndClean() {
-        lineRangeChecks();
+        cleanupLineRanges();
         Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
                 category, type, packageName, moduleName, severity, message, description,
                 origin, originName, reference, fingerprint, additionalProperties, id);
@@ -524,7 +524,7 @@ public class IssueBuilder implements AutoCloseable {
      * Sets lineStart and lineEnd if they are not set, and then removes the first element of
      * lineRanges if its start and end are the same as lineStart and lineEnd.
      */
-    public void lineRangeChecks() {
+    public void cleanupLineRanges() {
         if (lineRanges != null && lineRanges.size() > 1) {
             LineRange firstRange = lineRanges.get(0);
             if (lineStart == 0) {
