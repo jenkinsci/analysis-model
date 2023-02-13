@@ -10,6 +10,7 @@ import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.util.IntegerParser.*;
 
@@ -524,6 +525,7 @@ public class IssueBuilder implements AutoCloseable {
      * Sets lineStart and lineEnd if they are not set, and then removes the first element of
      * lineRanges if its start and end are the same as lineStart and lineEnd.
      */
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "False positive, `lineRanges != null` avoids a NullPointerException")
     public void cleanupLineRanges() {
         if (lineRanges != null && lineRanges.size() > 1) {
             LineRange firstRange = lineRanges.get(0);
