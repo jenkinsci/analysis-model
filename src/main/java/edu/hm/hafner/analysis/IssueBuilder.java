@@ -29,7 +29,7 @@ import static edu.hm.hafner.util.IntegerParser.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
+@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields", "PMD.GodClass"})
 public class IssueBuilder implements AutoCloseable {
     private static final String EMPTY = StringUtils.EMPTY;
     private static final String UNDEFINED = "-";
@@ -498,10 +498,7 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue build() {
-        cleanupLineRanges();
-        Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, packageName, moduleName, severity, message, description,
-                origin, originName, reference, fingerprint, additionalProperties, id);
+        Issue issue = buildWithConstructor();
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }
@@ -513,12 +510,17 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue buildAndClean() {
-        cleanupLineRanges();
-        Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, packageName, moduleName, severity, message, description,
-                origin, originName, reference, fingerprint, additionalProperties, id);
+        Issue issue = buildWithConstructor();
         clean();
         return issue;
+    }
+
+    private Issue buildWithConstructor() {
+        cleanupLineRanges();
+
+        return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
+                category, type, packageName, moduleName, severity, message, description,
+                origin, originName, reference, fingerprint, additionalProperties, id);
     }
 
     /**
@@ -526,16 +528,15 @@ public class IssueBuilder implements AutoCloseable {
      * lineRanges if its start and end are the same as lineStart and lineEnd.
      */
     @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "False positive, `lineRanges != null` avoids a NullPointerException")
-    public void cleanupLineRanges() {
-        if (lineRanges != null && lineRanges.size() > 1) {
+    private void cleanupLineRanges() {
+        if (lineRanges != null && !lineRanges.isEmpty()) {
             LineRange firstRange = lineRanges.get(0);
             if (lineStart == 0) {
-                setLineStart(firstRange.getStart());
+                this.lineStart = firstRange.getStart();
+                this.lineEnd = firstRange.getEnd();
             }
-            if (lineEnd == 0) {
-                setLineEnd(firstRange.getEnd());
-            }
-            if (firstRange.getStart() == lineStart && firstRange.getEnd() == lineEnd) {
+            if (firstRange.getStart() == lineStart
+                    && firstRange.getEnd() == lineEnd) {
                 lineRanges.remove(0);
             }
         }

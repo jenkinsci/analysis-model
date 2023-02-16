@@ -237,7 +237,6 @@ class IssueBuilderTest {
     @Test
     void shouldCollectLineRanges() {
         try (IssueBuilder builder = new IssueBuilder()) {
-
             builder.setLineStart(1).setLineEnd(2);
             LineRangeList lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(3, 4));
@@ -252,6 +251,61 @@ class IssueBuilderTest {
                 copy.copy(issue);
                 assertThat(copy.build()).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
             }
+        }
+    }
+
+    @Test
+    void shouldMoveLineRangeToAttributes() {
+        try (IssueBuilder builder = new IssueBuilder()) {
+            LineRangeList lineRanges = new LineRangeList();
+            lineRanges.add(new LineRange(1, 2));
+            builder.setLineRanges(lineRanges);
+
+            Issue issue = builder.build();
+            assertThat(issue).hasLineStart(1).hasLineEnd(2);
+            assertThat(issue).hasNoLineRanges();
+        }
+    }
+
+    @Test
+    void shouldMoveLineRangeToAttributesEvenIfLineEndIsSet() {
+        try (IssueBuilder builder = new IssueBuilder()) {
+            builder.setLineEnd(2);
+            LineRangeList lineRanges = new LineRangeList();
+            lineRanges.add(new LineRange(1, 2));
+            builder.setLineRanges(lineRanges);
+
+            Issue issue = builder.build();
+            assertThat(issue).hasLineStart(1).hasLineEnd(2);
+            assertThat(issue).hasNoLineRanges();
+        }
+    }
+
+    @Test
+    void shouldCleanupLineRanges() {
+        try (IssueBuilder builder = new IssueBuilder()) {
+            builder.setLineStart(1).setLineEnd(2);
+            LineRangeList lineRanges = new LineRangeList();
+            lineRanges.add(new LineRange(1, 2));
+            builder.setLineRanges(lineRanges);
+
+            Issue issue = builder.build();
+            assertThat(issue).hasLineStart(1).hasLineEnd(2);
+            assertThat(issue).hasNoLineRanges();
+        }
+    }
+
+    @Test
+    void shouldNotCleanupDifferentLineRanges() {
+        try (IssueBuilder builder = new IssueBuilder()) {
+            builder.setLineStart(1).setLineEnd(2);
+            LineRangeList lineRanges = new LineRangeList();
+            lineRanges.add(new LineRange(1, 3));
+            builder.setLineRanges(lineRanges);
+
+            Issue issue = builder.build();
+            assertThat(issue).hasLineStart(1).hasLineEnd(2);
+            assertThat(issue).hasOnlyLineRanges(new LineRange(1, 3));
         }
     }
 
