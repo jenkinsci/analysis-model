@@ -121,8 +121,8 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasSize(1);
             softly.assertThat(iterator.next())
                     .hasFileName("-")
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
+                    .hasLineStart(1)
+                    .hasLineEnd(2)
                     .hasColumnStart(0)
                     .hasColumnEnd(0)
                     .hasCategory("")
@@ -136,7 +136,7 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasReference("")
                     .hasFingerprint("-")
                     .hasAdditionalProperties("")
-                    .hasOnlyLineRanges(new LineRange(1, 2));
+                    .hasNoLineRanges();
         }
     }
 }
