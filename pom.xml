@@ -73,7 +73,7 @@
     <pmd.version>6.54.0</pmd.version>
     <spotbugs.version>4.7.3</spotbugs.version>
 
-    <incrementals-plugin.version>1.5</incrementals-plugin.version>
+    <incrementals-plugin.version>1.6</incrementals-plugin.version>
     <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
 
   </properties>
@@ -84,7 +84,7 @@
       <!-- jsoup HTML parser library @ https://jsoup.org/ -->
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
-      <version>1.15.3</version>
+      <version>1.15.4</version>
     </dependency>
     <dependency>
       <groupId>edu.hm.hafner</groupId>
@@ -506,7 +506,7 @@
               <dependency>
                 <groupId>io.jenkins.tools.incrementals</groupId>
                 <artifactId>incrementals-enforcer-rules</artifactId>
-                <version>1.5</version>
+                <version>1.6</version>
               </dependency>
             </dependencies>
           </plugin>

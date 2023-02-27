@@ -10,6 +10,7 @@ import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
@@ -28,7 +29,7 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields"})
+@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields", "PMD.GodClass"})
 public class IssueBuilder implements AutoCloseable {
     private static final String EMPTY = StringUtils.EMPTY;
     private static final String UNDEFINED = "-";
@@ -497,9 +498,7 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, packageName, moduleName, severity, message, description,
-                origin, originName, reference, fingerprint, additionalProperties, id);
+        Issue issue = buildWithConstructor();
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }
@@ -511,11 +510,36 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue buildAndClean() {
-        Issue issue = new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, packageName, moduleName, severity, message, description,
-                origin, originName, reference, fingerprint, additionalProperties, id);
+        Issue issue = buildWithConstructor();
         clean();
         return issue;
+    }
+
+    private Issue buildWithConstructor() {
+        cleanupLineRanges();
+
+        return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
+                category, type, packageName, moduleName, severity, message, description,
+                origin, originName, reference, fingerprint, additionalProperties, id);
+    }
+
+    /**
+     * Sets lineStart and lineEnd if they are not set, and then removes the first element of
+     * lineRanges if its start and end are the same as lineStart and lineEnd.
+     */
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "False positive, `lineRanges != null` avoids a NullPointerException")
+    private void cleanupLineRanges() {
+        if (lineRanges != null && !lineRanges.isEmpty()) {
+            LineRange firstRange = lineRanges.get(0);
+            if (lineStart == 0) {
+                this.lineStart = firstRange.getStart();
+                this.lineEnd = firstRange.getEnd();
+            }
+            if (firstRange.getStart() == lineStart
+                    && firstRange.getEnd() == lineEnd) {
+                lineRanges.remove(0);
+            }
+        }
     }
 
     /**
