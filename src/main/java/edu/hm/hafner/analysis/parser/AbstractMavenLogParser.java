@@ -22,7 +22,7 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
     private static final Pattern MAVEN_MODULE_START = Pattern.compile(
             "-+< (?<id>\\S+) >-+"
     );
-    static final String MAVEN_COMPILER_PLUGIN = "maven-compiler-plugin";
+    static final String MAVEN_COMPILER_PLUGIN = "compiler";
     private String goal = StringUtils.EMPTY;
     private String module = StringUtils.EMPTY;
 

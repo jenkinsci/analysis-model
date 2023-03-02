@@ -84,7 +84,7 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
     }
 
     private boolean isValidGoal() {
-        return !(goal.contains("maven-compiler-plugin")
+        return !(goal.contains("compiler")
                 || goal.contains("maven-javadoc-plugin")); // will be captured by another parser already
     }
 
