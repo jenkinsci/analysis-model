@@ -1,59 +1,41 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.UncheckedIOException;
-import java.util.Iterator;
+import java.util.Optional;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for Simulink Code Generator tool log files.
  *
  * @author Eva Habeeb
  */
-public class CodeGeneratorParser extends IssueParser {
+public class CodeGeneratorParser extends LookaheadParser {
     private static final long serialVersionUID = -1251248150731418714L;
-    private static final Pattern WARNING_PATTERN = Pattern.compile("^(Warning:)(.*)");
+    private static final String WARNING_PATTERN = "^(Warning:)(.*)";
+
+    /**
+     * Creates a new instance of {@link CodeGeneratorParser}.
+     */
+    public CodeGeneratorParser() {
+        super(WARNING_PATTERN);
+    }
 
     @Override
-    public Report parse(final ReaderFactory reader) throws ParsingException {
-        try (Stream<String> lines = reader.readStream()) {
-            return parse(lines);
-        }
-        catch (UncheckedIOException e) {
-            throw new ParsingException(e);
-        }
+    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
+            final IssueBuilder builder) {
+        builder.setCategory(getCategory(matcher.group(2)));
+        builder.setMessage(matcher.group(2));
+        builder.setSeverity(Severity.WARNING_NORMAL);
+
+        return builder.buildOptional();
     }
 
-    private Report parse(final Stream<String> lines) {
-        try (IssueBuilder builder = new IssueBuilder()) {
-            Report report = new Report();
-            Iterator<String> lineIterator = lines.iterator();
-
-            while (lineIterator.hasNext()) {
-                String line = lineIterator.next();
-                Matcher matcher = WARNING_PATTERN.matcher(line);
-
-                if (matcher.matches()) {
-                    String category = setCategory(line);
-                    builder.setCategory(category);
-                    builder.setDescription(matcher.group(2));
-                    builder.setSeverity(Severity.WARNING_NORMAL);
-                    report.add(builder.build());
-                }
-            }
-            return report;
-        }
-    }
-
-    private String setCategory(final String line) {
+    private String getCategory(final String line) {
         if (line.contains("no longer available in the Configuration Parameters")) {
             return "Configuration Parameters Unavailable";
         }

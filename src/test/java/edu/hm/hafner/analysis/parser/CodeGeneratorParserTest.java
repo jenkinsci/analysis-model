@@ -24,7 +24,7 @@ class CodeGeneratorParserTest extends AbstractParserTest {
         softly.assertThat(report).hasSize(8);
         softly.assertThat(report.get(0))
                 .hasCategory("Configuration Parameters Unavailable")
-                .hasDescription("'A_123 interface' is no longer available in the Configuration Parameters dialog box and will be removed in a future release. Set 'GenerateASAP2' to 'off' by using thecommand line. To generate ASAP2 files, use the <a href=\"matlab:helpview(fullfile(docroot,'rtw','helptargets.map'),'export_asap2_cdf')\">\"Generate Calibration Files\"</a> tool instead.");
+                .hasMessage("'A_123 interface' is no longer available in the Configuration Parameters dialog box and will be removed in a future release. Set 'GenerateASAP2' to 'off' by using thecommand line. To generate ASAP2 files, use the <a href=\"matlab:helpview(fullfile(docroot,'rtw','helptargets.map'),'export_asap2_cdf')\">\"Generate Calibration Files\"</a> tool instead.");
         softly.assertThat(report.get(1))
                 .hasCategory("Multiword Aliases not Supported by Code Generation");
         softly.assertThat(report.get(2))
