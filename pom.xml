@@ -63,12 +63,14 @@
     <jmh.version>1.36</jmh.version>
     <commons.io.version>2.11.0</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
+    <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons.text.version>1.10.0</commons.text.version>
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.6</slf4j.version>
     <violations-lib.version>1.156.1</violations-lib.version>
-    <json.version>20220924</json.version>
+    <jsoup.version>1.15.4</jsoup.version>
+    <json.version>20230227</json.version>
     <json-smart.version>2.4.8</json-smart.version>
     <pmd.version>6.54.0</pmd.version>
     <spotbugs.version>4.7.3</spotbugs.version>
@@ -81,10 +83,9 @@
   <dependencies>
     <!-- Project Dependencies -->
     <dependency>
-      <!-- jsoup HTML parser library @ https://jsoup.org/ -->
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
-      <version>1.15.4</version>
+      <version>${jsoup.version}</version>
     </dependency>
     <dependency>
       <groupId>edu.hm.hafner</groupId>
@@ -105,7 +106,16 @@
           <groupId>asm</groupId>
           <artifactId>asm</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>commons-beanutils</groupId>
+          <artifactId>commons-beanutils</artifactId>
+        </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>${commons-beanutils.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
