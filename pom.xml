@@ -17,11 +17,6 @@
   <packaging>jar</packaging>
 
   <name>Static Analysis Model and Parsers</name>
-  <description>This library provides a Java object model to read, aggregate, filter, and query static analysis reports.
-    It is used by Jenkins' warnings next generation plug-in to visualize the warnings of individual builds.
-    Additionally, this library is used by a GitHub action to autograde student software projects based on a given set of
-    metrics (unit tests, code and mutation coverage, static analysis warnings).
-  </description>
 
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/analysis-model.git</connection>
