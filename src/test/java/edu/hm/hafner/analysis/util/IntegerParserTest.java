@@ -1,10 +1,10 @@
-package edu.hm.hafner.util;
+package edu.hm.hafner.analysis.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static edu.hm.hafner.util.IntegerParser.parseInt;
+import static edu.hm.hafner.analysis.util.IntegerParser.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**

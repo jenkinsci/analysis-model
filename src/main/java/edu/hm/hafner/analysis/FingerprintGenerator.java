@@ -10,6 +10,7 @@ import java.nio.file.NoSuchFileException;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.VisibleForTesting;
 
 /**
@@ -29,13 +30,15 @@ public class FingerprintGenerator {
      *         the character set to use when reading the source files
      */
     public void run(final FullTextFingerprint algorithm, final Report report, final Charset charset) {
-        FilteredLog log = new FilteredLog(report, "Can't create fingerprints for some files:");
+        FilteredLog log = new FilteredLog("Can't create fingerprints for some files:");
         int sum = 0;
         for (Issue issue : report) {
             if (!issue.hasFingerprint()) {
                 sum += computeFingerprint(issue, algorithm, charset, log);
             }
         }
+        log.getInfoMessages().forEach(report::logInfo);
+        log.getErrorMessages().forEach(report::logError);
         report.logInfo("-> created fingerprints for %d issues (skipped %d issues)", sum, report.size() - sum);
         log.logSummary();
     }

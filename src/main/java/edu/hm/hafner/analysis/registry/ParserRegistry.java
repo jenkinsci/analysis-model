@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.registry;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -17,13 +18,15 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.IssueParser;
+
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
 
 import static j2html.TagCreator.*;
 
 /**
- * Provides a {@link ParserRegistry} that returns a map for all available Parsers.
+ * Provides a registry for all available {@link IssueParser parsers}.
  *
  * @author Lorenz Munsch
  */
@@ -245,7 +248,7 @@ public class ParserRegistry {
         List<ParserDescriptor> descriptors = new ParserRegistry().getAllDescriptors();
         descriptors.sort(Comparator.comparing(ParserDescriptor::getName));
 
-        try (PrintWriter file = new PrintWriter("SUPPORTED-FORMATS.md", "UTF-8")) {
+        try (PrintWriter file = new PrintWriter("SUPPORTED-FORMATS.md", StandardCharsets.UTF_8)) {
             file.printf("<!--- DO NOT EDIT -- Generated at %s - Run the `main` method of `%s` to regenerate after changing parsers -- DO NOT EDIT --->%n",
                     LocalDateTime.now(ZoneId.of("Europe/Berlin")),
                     ParserRegistry.class.getSimpleName());

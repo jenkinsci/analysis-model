@@ -19,9 +19,9 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.util.XmlElementUtil;
+import edu.hm.hafner.analysis.util.XmlElementUtil;
 
-import static edu.hm.hafner.util.IntegerParser.*;
+import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
 /**
  * Parses Gendarme violations.

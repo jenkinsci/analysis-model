@@ -790,7 +790,9 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Sets a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
+     * Sets a reference to the execution of the static analysis tool (build ID, timestamp, etc.). This property should
+     * not be set by parsers as it is overwritten by the {@link IssueDifference differencing engine} while computing new
+     * and fixed issues.
      *
      * @param reference
      *         the reference
@@ -800,7 +802,7 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the finger print for this issue. Used to decide if two issues are equal even if the equals method returns
+     * Returns the fingerprint for this issue. Used to decide if two issues are equal even if the equals method returns
      * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
      * analyzing the content of the affected file.
      * <p>
@@ -815,7 +817,7 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Sets the finger print for this issue to the given value.
+     * Sets the fingerprint for this issue to the given value.
      *
      * @param fingerprint
      *         the fingerprint to set

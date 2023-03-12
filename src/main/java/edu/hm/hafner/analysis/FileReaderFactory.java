@@ -17,6 +17,7 @@ import org.apache.commons.io.input.BOMInputStream;
 
 import com.google.errorprone.annotations.MustBeClosed;
 
+import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**

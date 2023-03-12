@@ -4,7 +4,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleRules;
-import edu.hm.hafner.util.Deferred;
+import edu.hm.hafner.analysis.util.Deferred;
 
 /**
  * A descriptor for the CheckStyle warnings.

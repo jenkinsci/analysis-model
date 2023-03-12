@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.util.IntegerParser;
+import edu.hm.hafner.analysis.util.IntegerParser;
 
 import static org.apache.commons.lang3.StringUtils.*;
 

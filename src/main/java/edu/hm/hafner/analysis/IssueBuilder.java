@@ -12,7 +12,7 @@ import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import static edu.hm.hafner.util.IntegerParser.*;
+import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will

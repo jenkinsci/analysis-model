@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>2.29.0</version>
+    <version>3.10.0</version>
     <relativePath />
   </parent>
 
@@ -54,7 +54,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>10.24.0</revision>
+    <revision>11.0.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>${project.groupId}.analysis.model</module.name>
@@ -63,11 +63,13 @@
     <jmh.version>1.36</jmh.version>
     <commons.io.version>2.11.0</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
+    <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons.text.version>1.10.0</commons.text.version>
     <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.6</slf4j.version>
     <violations-lib.version>1.156.2</violations-lib.version>
+    <jsoup.version>1.15.4</jsoup.version>
     <json.version>20230227</json.version>
     <json-smart.version>2.4.9</json-smart.version>
     <pmd.version>6.55.0</pmd.version>
@@ -81,10 +83,14 @@
   <dependencies>
     <!-- Project Dependencies -->
     <dependency>
-      <!-- jsoup HTML parser library @ https://jsoup.org/ -->
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
-      <version>1.15.4</version>
+      <version>${jsoup.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.hm.hafner</groupId>
+      <artifactId>codingstyle</artifactId>
+      <version>${codingstyle.library.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
@@ -100,7 +106,16 @@
           <groupId>asm</groupId>
           <artifactId>asm</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>commons-beanutils</groupId>
+          <artifactId>commons-beanutils</artifactId>
+        </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>${commons-beanutils.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -387,6 +402,7 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
+          <skip>true</skip>
           <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
           <analysisConfiguration>
             <revapi.differences id="manually-vetted">
@@ -586,30 +602,6 @@
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <?m2e execute onConfiguration,onIncremental?>
-                <id>extract-codingstyle</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>unpack</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>edu.hm.hafner</groupId>
-                      <artifactId>codingstyle</artifactId>
-                    </artifactItem>
-                  </artifactItems>
-                  <includes>pmd-configuration.xml,checkstyle-configuration.xml,spotbugs-exclusion-filter.xml</includes>
-                  <outputDirectory>${project.build.directory}/codingstyle</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
     </profile>

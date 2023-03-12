@@ -11,13 +11,14 @@ import org.w3c.dom.NodeList;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.util.XmlElementUtil;
+import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -25,7 +26,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Raphael Furch
  */
-public class XmlParser extends IssuePropertiesParser {
+public class XmlParser extends IssueParser {
     private static final long serialVersionUID = -8099458358775144575L;
 
     private static final String LINE_RANGES_PATH = "lineRanges/lineRange";

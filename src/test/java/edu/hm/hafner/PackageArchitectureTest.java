@@ -8,8 +8,8 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
-import static com.tngtech.archunit.library.plantuml.PlantUmlArchCondition.Configurations.*;
-import static com.tngtech.archunit.library.plantuml.PlantUmlArchCondition.*;
+import static com.tngtech.archunit.library.plantuml.rules.PlantUmlArchCondition.Configuration.*;
+import static com.tngtech.archunit.library.plantuml.rules.PlantUmlArchCondition.*;
 
 /**
  * Checks the package architecture of this plugin.
@@ -17,7 +17,7 @@ import static com.tngtech.archunit.library.plantuml.PlantUmlArchCondition.*;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("hideutilityclassconstructor")
-@AnalyzeClasses(packages = "edu.hm.hafner..", importOptions = DoNotIncludeTests.class)
+@AnalyzeClasses(packages = "edu.hm.hafner.analysis", importOptions = DoNotIncludeTests.class)
 class PackageArchitectureTest {
     private static final URL PACKAGE_DESIGN = PackageArchitectureTest.class.getResource("/design.puml");
 
