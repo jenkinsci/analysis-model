@@ -37,10 +37,9 @@ public class FingerprintGenerator {
                 sum += computeFingerprint(issue, algorithm, charset, log);
             }
         }
-        log.getInfoMessages().forEach(report::logInfo);
-        log.getErrorMessages().forEach(report::logError);
-        report.logInfo("-> created fingerprints for %d issues (skipped %d issues)", sum, report.size() - sum);
         log.logSummary();
+        report.mergeLogMessages(log);
+        report.logInfo("-> created fingerprints for %d issues (skipped %d issues)", sum, report.size() - sum);
     }
 
     private int computeFingerprint(final Issue issue, final FullTextFingerprint algorithm, final Charset charset,

@@ -31,6 +31,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.google.errorprone.annotations.FormatMethod;
 
 import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
@@ -872,6 +873,17 @@ public class Report implements Iterable<Issue>, Serializable {
         Report empty = new Report();
         copyProperties(this, empty);
         return empty;
+    }
+
+    /**
+     * Merge all log messages from the specified log into the log of this report.
+     *
+     * @param log
+     *         the log messages to merge
+     */
+    public void mergeLogMessages(final FilteredLog log) {
+        infoMessages.addAll(log.getInfoMessages());
+        errorMessages.addAll(log.getErrorMessages());
     }
 
     /**
