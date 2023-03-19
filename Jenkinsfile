@@ -149,7 +149,7 @@ def params = [
                       junit('**/target/surefire-reports/**/*.xml,**/target/failsafe-reports/**/*.xml,**/target/invoker-reports/**/*.xml')
                       if (first) {
                         discoverReferenceBuild()
-                        recordCoverage(tools: [[parser: 'JACOCO']]
+                        recordCoverage(tools: [[parser: 'JACOCO']],
                                 sourceCodeRetention: 'MODIFIED',
                                 qualityGates: [
                                     [threshold: -0.5, metric: 'LINE', baseline: 'MODIFIED_LINES', unstable: true],
