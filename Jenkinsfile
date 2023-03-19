@@ -149,7 +149,11 @@ def params = [
                       junit('**/target/surefire-reports/**/*.xml,**/target/failsafe-reports/**/*.xml,**/target/invoker-reports/**/*.xml')
                       if (first) {
                         discoverReferenceBuild()
-                        publishCoverage calculateDiffForChangeRequests: true, adapters: [jacocoAdapter('**/target/site/jacoco/jacoco.xml')]
+                        recordCoverage(tools: [[parser: 'JACOCO']]
+                                sourceCodeRetention: 'MODIFIED',
+                                qualityGates: [
+                                    [threshold: -0.5, metric: 'LINE', baseline: 'MODIFIED_LINES', unstable: true],
+                                    [threshold: -0.5, metric: 'BRANCH', baseline: 'MODIFIED_LINES', unstable: true]])
                       }
                     }
                   }
