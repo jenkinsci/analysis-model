@@ -7,7 +7,8 @@ def params = [
     failFast: false,
     configurations: configurations,
     checkstyle: [qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]],
-    pmd: [qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]]]
+    pmd: [qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]]],
+    jacoco: [sourceCodeRetention: 'MODIFIED']
 
   properties([
     disableConcurrentBuilds(abortPrevious: true),
@@ -149,11 +150,13 @@ def params = [
                       junit('**/target/surefire-reports/**/*.xml,**/target/failsafe-reports/**/*.xml,**/target/invoker-reports/**/*.xml')
                       if (first) {
                         discoverReferenceBuild()
-                        recordCoverage(tools: [[parser: 'JACOCO']],
-                                sourceCodeRetention: 'MODIFIED',
-                                qualityGates: [
-                                    [threshold: -0.5, metric: 'LINE', baseline: 'MODIFIED_LINES', unstable: true],
-                                    [threshold: -0.5, metric: 'BRANCH', baseline: 'MODIFIED_LINES', unstable: true]])
+                        // Default configuration for JaCoCo can be overwritten using a `jacoco` parameter (map).
+                        // Configuration see: https://www.jenkins.io/doc/pipeline/steps/code-coverage-api/#recordcoverage-record-code-coverage-results
+                        Map jacocoArguments = [tools: [[parser: 'JACOCO']]]
+                        if (params?.jacoco) {
+                          jacocoArguments.putAll(params.jacoco as Map)
+                        }
+                        recordCoverage jacocoArguments
                       }
                     }
                   }
