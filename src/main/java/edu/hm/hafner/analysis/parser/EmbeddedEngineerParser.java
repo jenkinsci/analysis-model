@@ -52,8 +52,8 @@ public class EmbeddedEngineerParser extends IssueParser {
                 Matcher warningMatcher = WARNING_PATTERN.matcher(line);
 
                 if (matcher.matches() || warningMatcher.matches()) {
-                    String group = "";
-                    String description = "";
+                    String group;
+                    String description;
                     if (matcher.matches()) {
                         group = matcher.group("severity");
                         description = String.format("%s'%s' %s%s",
@@ -69,7 +69,7 @@ public class EmbeddedEngineerParser extends IssueParser {
                         builder.setCategory(warningMatcher.group("category"));
                         description = String.format("%s %s",
                                 warningMatcher.group("category"),
-                                warningMatcher.group("description") );
+                                warningMatcher.group("description"));
                     }
                     Severity priority = mapPriority(line, group);
                     builder.setDescription(description);
