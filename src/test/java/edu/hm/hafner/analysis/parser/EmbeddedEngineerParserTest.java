@@ -39,7 +39,7 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
                 .hasCategory("No Category")
                 .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(report.get(6))
-                .hasCategory("LiliumValidation")
+                .hasCategory("SampleValidation")
                 .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(report.get(7))
                 .hasCategory("Error loading plugins from")
