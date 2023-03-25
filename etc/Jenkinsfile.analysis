@@ -18,9 +18,8 @@ node('java-agent') {
         recordIssues tool: errorProne(), healthy: 1, unhealthy: 20
 
         junit testResults: '**/target/*-reports/TEST-*.xml'
-        recordCoverage tools: [[parser: 'PIT', pattern: 'target/pit-reports/mutations.xml']],
-            sourceCodeRetention: 'EVERY_BUILD',
-            qualityGates: [ [threshold: 60.0, metric: 'LINE', baseline: 'PROJECT', unstable: true]]
+        recordCoverage tools: [[parser: 'JACOCO']], sourceCodeRetention: 'EVERY_BUILD',
+            qualityGates: [ [threshold: 90.0, metric: 'LINE', baseline: 'PROJECT', criticality: 'UNSTABLE']]
         recordIssues tools: [checkStyle(pattern: 'target/checkstyle-result.xml'),
             spotBugs(pattern: 'target/spotbugsXml.xml'),
             pmdParser(pattern: 'target/pmd.xml'),
