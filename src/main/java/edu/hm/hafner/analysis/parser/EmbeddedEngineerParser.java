@@ -23,10 +23,12 @@ import edu.hm.hafner.analysis.Severity;
 public class EmbeddedEngineerParser extends IssueParser {
     private static final long serialVersionUID = -1251248150731418714L;
     private static final Pattern HEADER_PATTERN = Pattern.compile(
-            "^Starting code generation for\\s(?<file>.*\\))");
+            "^([^\\(Start)]*)(Starting code generation for)\\s(?<file>.*\\})");
+    private static final Pattern SPECIAL_WARNING_PATTERN = Pattern.compile(
+            "^\\[([^\\]]*)\\]\\s(?<severity>Warn)\\s-\\s(?<description>[^']*)'(?<module>[^']*)"
+                    + "'\\s(?<details>\\(?[^{]*)(?<serial>[^)]*\\})");
     private static final Pattern WARNING_PATTERN = Pattern.compile(
-            "^(Warning:)\\s(?<description>[^']*)'(?<module>[^']*)'\\s"
-                    + "(?<details>\\(?[^(]*)\\((?<serial>[^)]*)\\)");
+            "^\\[([^\\]]*)\\]\\s(?<severity>Error|Warn)\\s-\\s(?<category>.+):\\s(?<description>.+)");
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
@@ -41,26 +43,37 @@ public class EmbeddedEngineerParser extends IssueParser {
     private Report parse(final Stream<String> lines) {
         try (IssueBuilder builder = new IssueBuilder()) {
             Iterator<String> lineIterator = lines.iterator();
-
             String file = parseFileName(lineIterator);
-
             Report report = new Report();
+
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
+                Matcher matcher = SPECIAL_WARNING_PATTERN.matcher(line);
+                Matcher warningMatcher = WARNING_PATTERN.matcher(line);
 
-                Matcher matcher = WARNING_PATTERN.matcher(line);
-                if (matcher.matches()) {
-                    String category = setCategory(line);
-                    Severity priority = mapPriority(line);
-                    String description = String.format("%s'%s' %s(%s)",
-                            matcher.group("description"),
-                            matcher.group("module"),
-                            matcher.group("details"),
-                            matcher.group("serial"));
+                if (matcher.matches() || warningMatcher.matches()) {
+                    String group;
+                    String description;
+                    if (matcher.matches()) {
+                        group = matcher.group("severity");
+                        description = String.format("%s'%s' %s%s",
+                                matcher.group("description"),
+                                matcher.group("module"),
+                                matcher.group("details"),
+                                matcher.group("serial"));
+                        builder.setCategory(setCategory(line));
+                        builder.setModuleName(matcher.group("module"));
+                    }
+                    else {
+                        group = warningMatcher.group("severity");
+                        builder.setCategory(warningMatcher.group("category"));
+                        description = String.format("%s %s",
+                                warningMatcher.group("category"),
+                                warningMatcher.group("description"));
+                    }
+                    Severity priority = mapPriority(line, group);
                     builder.setDescription(description);
-                    builder.setCategory(category);
                     builder.setFileName(file);
-                    builder.setModuleName(matcher.group("module"));
                     builder.setSeverity(priority);
                     report.add(builder.build());
                 }
@@ -93,15 +106,18 @@ public class EmbeddedEngineerParser extends IssueParser {
         return "No Category";
     }
 
-    private Severity mapPriority(final String line) {
-        if (line.contains("Complex type")) {
+    private Severity mapPriority(final String line, final String group) {
+        if (line.contains("Complex type") && group.contains("Warn")) {
             return Severity.WARNING_NORMAL;
         }
-        else if (line.contains("skipped")) {
+        else if (line.contains("skipped") && group.contains("Warn")) {
             return Severity.WARNING_NORMAL;
         }
-        else if (line.contains("failed")) {
+        else if (line.contains("failed") && group.contains("Warn")) {
             return Severity.WARNING_HIGH;
+        }
+        else if (group.contains("Error")) {
+            return Severity.ERROR;
         }
         return Severity.WARNING_NORMAL;
     }
