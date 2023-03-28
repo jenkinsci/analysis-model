@@ -8,7 +8,7 @@ def params = [
     configurations: configurations,
     checkstyle: [qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]],
     pmd: [qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]],
-    jacoco: [sourceCodeRetention: 'LAST_BUILD']
+    jacoco: [sourceCodeRetention: 'MODIFIED']
     ]
 
   properties([
