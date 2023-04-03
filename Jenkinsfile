@@ -149,7 +149,7 @@ def params = [
                   mavenOptions += 'clean install'
                   def pit = params.containsKey('pit') ? params.pit : false
                   if (pit && first) {
-                    mavenOptions += ' org.pitest:pitest-maven:mutationCoverage'
+                    mavenOptions += '-Ppit'
                   }
                   try {
                     infra.runMaven(mavenOptions, jdk, null, addToolEnv, useArtifactCachingProxy)
@@ -160,16 +160,17 @@ def params = [
                         discoverReferenceBuild()
                         // Default configuration for JaCoCo can be overwritten using a `jacoco` parameter (map).
                         // Configuration see: https://www.jenkins.io/doc/pipeline/steps/code-coverage-api/#recordcoverage-record-code-coverage-results
-                        Map jacocoArguments = [tools: [[parser: 'JACOCO']]]
+                        Map jacocoArguments = [tools: [[parser: 'JACOCO', pattern: '**/jacoco/jacoco.xml']]]
                         if (params?.jacoco) {
                           jacocoArguments.putAll(params.jacoco as Map)
                         }
                         recordCoverage jacocoArguments
                         if (pit) {
                           recordCoverage(
-                                tools: [[parser: 'PIT']],
+                                tools: [[parser: 'PIT', pattern: '**/pit-reports/mutations.xml']],
                                 id: 'pit',
-                                name: 'Mutation Coverage')
+                                name: 'Mutation Coverage',
+                                checksName: 'Mutation Coverage')
                         }
                       }
                     }

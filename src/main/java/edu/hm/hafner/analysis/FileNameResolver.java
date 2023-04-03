@@ -65,5 +65,4 @@ public class FileNameResolver {
             final Predicate<String> skipFileNamePredicate) {
         return !"-".equals(fileName) && !skipFileNamePredicate.test(fileName);
     }
-
 }
