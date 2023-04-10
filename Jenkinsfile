@@ -12,8 +12,8 @@ def params = [
     ]
 
   properties([
-    disableConcurrentBuilds(abortPrevious: true),
-    buildDiscarder(logRotator(numToKeepStr: '5')),
+          disableConcurrentBuilds(abortPrevious: true),
+          buildDiscarder(logRotator(numToKeepStr: '5')),
   ])
 
   def repo = params.containsKey('repo') ? params.repo : null
@@ -88,7 +88,7 @@ def params = [
                 infra.checkoutSCM(repo)
                 isMaven = !fileExists('gradlew')
                 incrementals = fileExists('.mvn/extensions.xml') &&
-                    readFile('.mvn/extensions.xml').contains('git-changelist-maven-extension')
+                        readFile('.mvn/extensions.xml').contains('git-changelist-maven-extension')
                 final String gitUnavailableMessage = '[buildPlugin] Git CLI may not be available'
                 withEnv(["GITUNAVAILABLEMESSAGE=${gitUnavailableMessage}"]) {
                   if (incrementals) {
@@ -120,12 +120,12 @@ def params = [
                 if (isMaven) {
                   m2repo = "${pwd tmp: true}/m2repo"
                   List<String> mavenOptions = [
-                    '--update-snapshots',
-                    "-Dmaven.repo.local=$m2repo",
-                    '-Dmaven.test.failure.ignore',
-                    '-Dspotbugs.failOnError=false',
-                    '-Dcheckstyle.failOnViolation=false',
-                    '-Dcheckstyle.failsOnError=false',
+                          '--update-snapshots',
+                          "-Dmaven.repo.local=$m2repo",
+                          '-Dmaven.test.failure.ignore',
+                          '-Dspotbugs.failOnError=false',
+                          '-Dcheckstyle.failOnViolation=false',
+                          '-Dcheckstyle.failsOnError=false',
                   ]
                   // jacoco had file locking issues on Windows, so only running on linux
                   if (isUnix()) {
@@ -147,8 +147,9 @@ def params = [
                     mavenOptions += '-DskipTests'
                   }
                   mavenOptions += 'clean install'
-                  def pit = params.containsKey('pit') ? params.pit : false
-                  if (pit && first) {
+                  def pit = params?.pit as Map ?: [:]
+                  def runWithPit = pit.containsKey('skip') && pit.get('skip') == true // use same convention as in tests.skip
+                  if (runWithPit && first) {
                     mavenOptions += '-Ppit'
                   }
                   try {
@@ -160,17 +161,16 @@ def params = [
                         discoverReferenceBuild()
                         // Default configuration for JaCoCo can be overwritten using a `jacoco` parameter (map).
                         // Configuration see: https://www.jenkins.io/doc/pipeline/steps/code-coverage-api/#recordcoverage-record-code-coverage-results
-                        Map jacocoArguments = [tools: [[parser: 'JACOCO', pattern: '**/jacoco/jacoco.xml']]]
+                        Map jacocoArguments = [tools: [[parser: 'JACOCO', pattern: '**/jacoco/jacoco.xml']], sourceCodeRetention: 'MODIFIED']
                         if (params?.jacoco) {
                           jacocoArguments.putAll(params.jacoco as Map)
                         }
                         recordCoverage jacocoArguments
                         if (pit) {
-                          recordCoverage(
-                                tools: [[parser: 'PIT', pattern: '**/pit-reports/mutations.xml']],
-                                id: 'pit',
-                                name: 'Mutation Coverage',
-                                checksName: 'Mutation Coverage')
+                          Map pitArguments = [tools: [[parser: 'PIT', pattern: '**/pit-reports/mutations.xml']], id: 'pit', name: 'Mutation Coverage']
+                          pitArguments.putAll(pit)
+                          pitArguments.remove('skip')
+                          recordCoverage(pitArguments)
                         }
                       }
                     }
@@ -178,9 +178,9 @@ def params = [
                 } else {
                   infra.publishDeprecationCheck('Replace buildPlugin with buildPluginWithGradle', 'Gradle mode for buildPlugin() is deprecated, please use buildPluginWithGradle()')
                   List<String> gradleOptions = [
-                    '--no-daemon',
-                    'cleanTest',
-                    'build',
+                          '--no-daemon',
+                          'cleanTest',
+                          'build',
                   ]
                   if (skipTests) {
                     gradleOptions += '--exclude-task test'
@@ -213,70 +213,70 @@ def params = [
                   echo "Recording static analysis results on '${stageIdentifier}'"
 
                   recordIssues(
-                      enabledForFailure: true,
-                      tool: mavenConsole(),
-                      skipBlames: true,
-                      trendChartType: 'TOOLS_ONLY'
-                      )
+                          enabledForFailure: true,
+                          tool: mavenConsole(),
+                          skipBlames: true,
+                          trendChartType: 'TOOLS_ONLY'
+                  )
                   recordIssues(
-                      enabledForFailure: true,
-                      tools: [java(), javaDoc()],
-                      filters: [excludeFile('.*Assert.java')],
-                      sourceCodeEncoding: 'UTF-8',
-                      skipBlames: true,
-                      trendChartType: 'TOOLS_ONLY'
-                      )
+                          enabledForFailure: true,
+                          tools: [java(), javaDoc()],
+                          filters: [excludeFile('.*Assert.java')],
+                          sourceCodeEncoding: 'UTF-8',
+                          skipBlames: true,
+                          trendChartType: 'TOOLS_ONLY'
+                  )
 
                   // Default configuration for SpotBugs can be overwritten using a `spotbugs`, `checkstyle', etc. parameter (map).
                   // Configuration see: https://github.com/jenkinsci/warnings-ng-plugin/blob/master/doc/Documentation.md#configuration
                   Map spotbugsArguments = [tool: spotBugs(pattern: '**/target/spotbugsXml.xml,**/target/findbugsXml.xml'),
-                    sourceCodeEncoding: 'UTF-8',
-                    skipBlames: true,
-                    trendChartType: 'TOOLS_ONLY',
-                    qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]]
+                                           sourceCodeEncoding: 'UTF-8',
+                                           skipBlames: true,
+                                           trendChartType: 'TOOLS_ONLY',
+                                           qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]]
                   if (params?.spotbugs) {
                     spotbugsArguments.putAll(params.spotbugs as Map)
                   }
                   recordIssues spotbugsArguments
 
                   Map checkstyleArguments = [tool: checkStyle(pattern: '**/target/checkstyle-result.xml'),
-                    sourceCodeEncoding: 'UTF-8',
-                    skipBlames: true,
-                    trendChartType: 'TOOLS_ONLY',
-                    qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]]
+                                             sourceCodeEncoding: 'UTF-8',
+                                             skipBlames: true,
+                                             trendChartType: 'TOOLS_ONLY',
+                                             qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]]
                   if (params?.checkstyle) {
                     checkstyleArguments.putAll(params.checkstyle as Map)
                   }
                   recordIssues checkstyleArguments
 
                   Map pmdArguments = [tool: pmdParser(pattern: '**/target/pmd.xml'),
-                    sourceCodeEncoding: 'UTF-8',
-                    skipBlames: true,
-                    trendChartType: 'NONE']
+                                      sourceCodeEncoding: 'UTF-8',
+                                      skipBlames: true,
+                                      trendChartType: 'NONE']
                   if (params?.pmd) {
                     pmdArguments.putAll(params.pmd as Map)
                   }
                   recordIssues pmdArguments
 
                   Map cpdArguments = [tool: cpd(pattern: '**/target/cpd.xml'),
-                    sourceCodeEncoding: 'UTF-8',
-                    skipBlames: true,
-                    trendChartType: 'NONE']
+                                      sourceCodeEncoding: 'UTF-8',
+                                      skipBlames: true,
+                                      trendChartType: 'NONE']
                   if (params?.cpd) {
                     cpdArguments.putAll(params.cpd as Map)
                   }
                   recordIssues cpdArguments
 
                   recordIssues(
-                      enabledForFailure: true, tool: taskScanner(
-                      includePattern:'**/*.java',
-                      excludePattern:'**/target/**',
-                      highTags:'FIXME',
-                      normalTags:'TODO'),
-                      sourceCodeEncoding: 'UTF-8',
-                      skipBlames: true,
-                      trendChartType: 'NONE'
-                      )
+                          enabledForFailure: true, tool: taskScanner(
+                          includePattern:'**/*.java',
+                          excludePattern:'**/target/**',
+                          highTags:'FIXME',
+                          normalTags:'TODO'),
+                          sourceCodeEncoding: 'UTF-8',
+                          skipBlames: true,
+                          trendChartType: 'NONE'
+                  )
                   if (failFast && currentBuild.result == 'UNSTABLE') {
                     error 'Static analysis quality gates not passed; halting early'
                   }
@@ -290,8 +290,10 @@ def params = [
                    */
                   if (incrementals && platform != 'windows' && currentBuild.currentResult == 'SUCCESS') {
                     launchable.install()
-                    launchable('verify')
-                    launchable('record commit')
+                    withCredentials([string(credentialsId: 'launchable-jenkins-bom', variable: 'LAUNCHABLE_TOKEN')]) {
+                      launchable('verify')
+                      launchable('record commit')
+                    }
                   }
                 } else {
                   echo "Skipping static analysis results for ${stageIdentifier}"
@@ -302,8 +304,8 @@ def params = [
                     dir(m2repo) {
                       fingerprint '**/*-rc*.*/*-rc*.*' // includes any incrementals consumed
                       archiveArtifacts artifacts: "**/*$changelist/*$changelist*",
-                      excludes: '**/*.lastUpdated',
-                      allowEmptyArchive: true // in case we forgot to reincrementalify
+                              excludes: '**/*.lastUpdated',
+                              allowEmptyArchive: true // in case we forgot to reincrementalify
                     }
                     publishingIncrementals = true
                   } else {
@@ -379,9 +381,9 @@ List<Map<String, String>> getConfigurations(Map params) {
     for (jdk in jdkVersions) {
       for (jenkins in jenkinsVersions) {
         ret << [
-          'platform': p,
-          'jdk': jdk,
-          'jenkins': jenkins,
+                'platform': p,
+                'jdk': jdk,
+                'jenkins': jenkins,
         ]
       }
     }
