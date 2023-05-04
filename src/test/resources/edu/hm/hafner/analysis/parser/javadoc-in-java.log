@@ -1,0 +1,110 @@
+[INFO] --- maven-javadoc-plugin:3.3.1:jar (default-cli) @ foo-app ---
+[INFO] No previous run data found, generating javadoc.
+[WARNING] Javadoc Warnings
+[WARNING] Loading source files for package foo.app...
+[WARNING] Constructing Javadoc information...
+[WARNING] Building index for all the packages and classes...
+[WARNING] Standard Doclet version 17.0.1+12-LTS
+[WARNING] Building tree for all the packages and classes...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/ApplicationSettings.html...
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:38: warning: no comment
+[WARNING] public static class ServiceDetails
+[WARNING] ^
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/ApplicationSettings.ServiceDetails.html...
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:83: warning: no comment
+[WARNING] public enum Stage
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:88: warning: no comment
+[WARNING] public enum VersionCheck
+[WARNING] ^
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/ApplicationSettings.ServiceDetails.Stage.html...
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/ApplicationSettings.java:85: warning: no comment
+[WARNING] AN, EW, TE, TI, VP, VP2, PA, BT, PR, M1B, ED, MA
+[WARNING] ^
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/ApplicationSettings.ServiceDetails.VersionCheck.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/Application.html...
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/Application.java:14: warning: no comment
+[WARNING] public static void main(String... args)
+[WARNING] ^
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/AppController.html...
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/AppController.java:36: warning: no comment
+[WARNING] public AppController(final ApplicationSettings settings, final StatusResolver resolver)
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/AppController.java:43: warning: no comment
+[WARNING] public Mono<Rendering> index()
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/AppController.java:109: warning: no comment
+[WARNING] public Mono<ResponseEntity<StatusData>> serviceStatus(@PathVariable String mandant, @PathVariable String stage, @PathVariable String serviceId)
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/AppController.java:56: warning: no comment
+[WARNING] public Mono<Rendering> stages(@PathVariable String mandant)
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/AppController.java:82: warning: no comment
+[WARNING] public Mono<Rendering> status(@PathVariable String mandant, @PathVariable String stage)
+[WARNING] ^
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/StatusData.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/StatusResolver.html...
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/StatusResolver.java:35: warning: no comment
+[WARNING] public List<StatusData> getServiceResults(@NonNull final List<ApplicationSettings.ServiceDetails> services)
+[WARNING] ^
+[WARNING] /home/jenkins/workspace/foo-job/foo-app/src/main/java/foo/app/StatusResolver.java:40: warning: no comment
+[WARNING] public StatusData resolveStatus(final ApplicationSettings.ServiceDetails service)
+[WARNING] ^
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/WebConfig.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/package-summary.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/package-tree.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/WebConfig.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/StatusResolver.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/StatusData.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/AppController.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/Application.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/ApplicationSettings.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/ApplicationSettings.ServiceDetails.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/ApplicationSettings.ServiceDetails.VersionCheck.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/class-use/ApplicationSettings.ServiceDetails.Stage.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/foo/app/package-use.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/overview-tree.html...
+[WARNING] Building index for all classes...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/allclasses-index.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/allpackages-index.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/index-all.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/index.html...
+[WARNING] Generating /home/jenkins/workspace/foo-job/foo-app/target/apidocs/help-doc.html...
+[WARNING] 23 warnings
+[INFO] Building jar: /home/jenkins/workspace/foo-job/foo-app/target/foo-app-2.3.6-SNAPSHOT-javadoc.jar
+
+Fake: from javac
+[WARNING] /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/Ensure.java:[107,64] [AvoidObjectArrays] Avoid accepting a Object[]; consider an Iterable<Object> instead

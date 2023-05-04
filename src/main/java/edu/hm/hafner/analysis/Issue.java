@@ -932,7 +932,7 @@ public class Issue implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s(%d,%d): %s: %s: %s", fileName, lineStart, columnStart, type, category, message);
+        return String.format("%s(%d,%d): %s: %s: %s", getBaseName(), lineStart, columnStart, type, category, message);
     }
 
 }

@@ -33,7 +33,7 @@ public class JavaDocParser extends AbstractMavenLogParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         return super.isLineInteresting(line)
-                && !getGoal().equals(MAVEN_COMPILER_PLUGIN)
+                && !hasGoals(MAVEN_COMPILER_PLUGIN)
                 && lineContainsKeywords(line);
     }
 

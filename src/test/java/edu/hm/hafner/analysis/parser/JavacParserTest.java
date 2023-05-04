@@ -28,6 +28,20 @@ class JavacParserTest extends AbstractParserTest {
         return new JavacParser();
     }
 
+    @Test
+    void issue70658RemovePrefixAndSuffixFromMavenPlugins() {
+        Report warnings = parse("maven.3.9.1.log");
+
+        assertThat(warnings).hasSize(1);
+    }
+
+    @Test
+    void issue67521IgnoreJavaDocWarnings() {
+        Report warnings = parse("javadoc-in-java.log");
+
+        assertThat(warnings).isEmpty();
+    }
+
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(2);

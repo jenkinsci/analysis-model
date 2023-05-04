@@ -43,11 +43,30 @@ class JavaDocParserTest extends AbstractParserTest {
         return new JavaDocParser();
     }
 
+    @Test
+    void issue67521IgnoreJavaDocWarnings() {
+        Report warnings = parse("javadoc-in-java.log");
+
+        assertThat(warnings).hasSize(12);
+    }
+
+    @Test
+    void issue70658RemovePrefixAndSuffixFromMavenPlugins() {
+        Report warnings = parse("maven.3.9.1.log");
+        assertThat(warnings).hasSize(1);
+
+        assertThat(warnings.get(0))
+                .hasFileName("/Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/Ensure.java")
+                .hasLineStart(57)
+                .hasMessage("@param \"value\" has already been specified")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
     /**
      * Parses a warning log with JavaDoc 1.8 warnings.
      */
     @Test
-    void shouldHaveACategory() {
+    void shouldHaveCategory() {
         Report warnings = parse("javadoc-category.txt");
 
         assertThat(warnings).hasSize(4);

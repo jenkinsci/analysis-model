@@ -22,7 +22,11 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
     private static final Pattern MAVEN_MODULE_START = Pattern.compile(
             "-+< (?<id>\\S+) >-+"
     );
-    static final String MAVEN_COMPILER_PLUGIN = "maven-compiler-plugin";
+    private static final String MAVEN_PLUGIN_PREFIX = "maven-";
+    private static final String MAVEN_PLUGIN_SUFFIX = "-plugin";
+    static final String MAVEN_COMPILER_PLUGIN = MAVEN_PLUGIN_PREFIX + "compiler" + MAVEN_PLUGIN_SUFFIX;
+    static final String MAVEN_JAVADOC_PLUGIN = MAVEN_PLUGIN_PREFIX + "javadoc" + MAVEN_PLUGIN_SUFFIX;
+    static final String MAVEN_ENFORCER_PLUGIN = MAVEN_PLUGIN_PREFIX + "enforcer" + MAVEN_PLUGIN_SUFFIX;
     private String goal = StringUtils.EMPTY;
     private String module = StringUtils.EMPTY;
 
@@ -60,5 +64,18 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
 
     boolean hasGoalOrModule() {
         return StringUtils.isNotBlank(goal) || StringUtils.isNotBlank(module);
+    }
+
+    protected boolean hasGoals(final String... goals) {
+        for (String searchGoal : goals) {
+            if (goal.contains(searchGoal)) {
+                return true;
+            }
+            if (goal.contains(StringUtils.removeEnd(
+                    StringUtils.removeStart(searchGoal, MAVEN_PLUGIN_PREFIX), MAVEN_PLUGIN_SUFFIX))) {
+                return true;
+            }
+        }
+        return false;
     }
 }
