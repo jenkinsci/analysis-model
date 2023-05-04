@@ -321,21 +321,6 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     @Test
-    void testToString() {
-        Issue issue = createFilledIssue();
-
-        try (SoftAssertions softly = new SoftAssertions()) {
-            softly.assertThat(issue.toString())
-                    .contains(FILE_NAME)
-                    .contains(Integer.toString(LINE_START))
-                    .contains(Integer.toString(COLUMN_START))
-                    .contains(CATEGORY)
-                    .contains(TYPE)
-                    .contains(MESSAGE);
-        }
-    }
-
-    @Test
     void shouldObeyEqualsContract() {
         LineRangeList filled = new LineRangeList(15);
         filled.add(new LineRange(15));

@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,16 +26,6 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
     private static final String ERROR = "ERROR";
 
     /**
-     * Regular expression to parse the start of maven plugin in console.
-     */
-    protected static final Pattern MAVEN_PLUGIN_START = Pattern.compile(
-            "\\[INFO\\] --- (?<id>\\S+):(?<version>\\S+):(?<goal>\\S+)\\s.*");
-
-    private static final Pattern MAVEN_MODULE_START = Pattern.compile(
-            "-+< (?<id>\\S+) >-+"
-    );
-
-    /**
      * Pattern for identifying warning or error maven logs.
      *
      * <pre>{@code
@@ -58,9 +47,6 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
      */
     private static final String PATTERN = "^(?<timestamp>.*\\s|)\\[(?<severity>WARNING|ERROR)\\]\\s*(?<message>.*)$";
 
-    private String goal = StringUtils.EMPTY;
-    private String module = StringUtils.EMPTY;
-
     /**
      * Creates a new instance of {@link MavenConsoleParser}.
      */
@@ -70,22 +56,11 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        Matcher goalMatcher = MAVEN_PLUGIN_START.matcher(line);
-        if (goalMatcher.find()) {
-            goal = String.format("%s:%s", goalMatcher.group("id"), goalMatcher.group("goal"));
-        }
-
-        Matcher moduleMatcher = MAVEN_MODULE_START.matcher(line);
-        if (moduleMatcher.find()) {
-            module = moduleMatcher.group("id");
-        }
-
         return isValidGoal() && (line.contains(WARNING) || line.contains(ERROR));
     }
 
     private boolean isValidGoal() {
-        return !(goal.contains("maven-compiler-plugin")
-                || goal.contains("maven-javadoc-plugin")); // will be captured by another parser already
+        return !hasGoals(MAVEN_COMPILER_PLUGIN, MAVEN_JAVADOC_PLUGIN); // will be captured by another parser already
     }
 
     @Override
@@ -96,7 +71,7 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
 
         StringBuilder message = new StringBuilder(matcher.group("message"));
 
-        if (goal.startsWith("maven-enforcer-plugin")) {
+        if (hasGoals(MAVEN_ENFORCER_PLUGIN)) {
             String timestamp = matcher.group("timestamp");
             int length = StringUtils.length(timestamp);
 
@@ -120,8 +95,8 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
             }
         }
         return builder.setDescription(pre().with(code().withText(message.toString())).render())
-                .setType(goal)
-                .setModuleName(module)
+                .setType(getGoal())
+                .setModuleName(getModule())
                 .setLineEnd(lookahead.getLine())
                 .setFileName(lookahead.getFileName())
                 .buildOptional();
