@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-05-05T08:04:29.259473 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-05-05T12:05:52.316441 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -322,6 +322,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         <tr>
             <td colspan="4">
                 :bulb: Use commandline <code>cargo check --message-format json</code>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                clippy
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/rust-lang/rust-clippy">
+                    Cargo Clippy
+                </a>
+            </td>
+            <td>
+                -
             </td>
         </tr>
         <tr>
