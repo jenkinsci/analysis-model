@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,9 +46,6 @@ public class CargoClippyParser extends LookaheadParser {
     /** RegEx to determine if the current issue continues to the next line. */
     private static final String CARGO_CLIPP_CONTEXT_CONTINUES = "^(\\s+|help\\:|[0-9]+).+";
 
-    /** The regular expression pattern to pull out the clippy recommendation message. */
-    private static final Pattern CARGO_CLIPPY_MSG_PATTERN = Pattern.compile("^.+help:(?<message>.+)");
-
     /** Creates a new instance of {@link CargoClippyParser}. */
     public CargoClippyParser() {
         super(CARGO_CLIPPY_REGEX_STRING);
@@ -72,13 +65,11 @@ public class CargoClippyParser extends LookaheadParser {
                 .setSeverity(defaultSeverity)
                 .setCategory(description.getCategory())
                 .setColumnStart(description.getColumnStart())
+                .setColumnEnd(description.getColumnEnd())
                 .setDescription(description.getHelp())
                 .setType(description.getLevel())
                 .setMessage(description.getSummary());
 
-        if (description.getColumnEnd() != 0) {
-            builder.setColumnEnd(description.getColumnEnd());
-        }
         return builder.buildOptional();
     }
 
@@ -130,39 +121,8 @@ public class CargoClippyParser extends LookaheadParser {
                     + fileInformation.getColumnStart());
         }
 
-        fileInformation.setRecommendation(sanitizeRecommendation(description.toString()));
+        fileInformation.setRecommendation(description.toString());
         return fileInformation;
-    }
-
-    private String sanitizeRecommendation(final String recommendation) {
-        final Matcher matcher = CARGO_CLIPPY_MSG_PATTERN.matcher(recommendation);
-
-        if (!matcher.matches()) {
-            return recommendation;
-        }
-
-        final String unsanitizedMessage = matcher.group("message").trim();
-        final ArrayList<String> messageParts = new ArrayList<>(Arrays.asList(unsanitizedMessage.split("\\s+")));
-        StringBuilder message = new StringBuilder();
-
-        for (final String value : messageParts) {
-            if (value.startsWith("http")) {
-                try {
-                    URL url = new URL(value);
-                    message.append(pre().with(code().withText(url.toString())).render());
-                    message.append(" ");
-                }
-                catch (MalformedURLException ex) {
-                    message.append(value);
-                    break;
-                }
-            }
-            else {
-                message.append(value);
-            }
-        }
-
-        return message.toString();
     }
 
     /** Class to return the additional content of a cargo-clippy message. */
