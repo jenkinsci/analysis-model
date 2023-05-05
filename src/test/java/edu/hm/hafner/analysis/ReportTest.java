@@ -24,6 +24,7 @@ import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
+import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
@@ -41,7 +42,7 @@ import static org.mockito.Mockito.*;
  * @author Marcel Binder
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports", "PMD.ExcessiveClassLength"})
+@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports", "PMD.ExcessiveClassLength", "checkstyle:ClassDataAbstractionCoupling"})
 class ReportTest extends SerializableTest<Report> {
     private static final String SERIALIZATION_NAME = "report.ser";
 
@@ -85,6 +86,26 @@ class ReportTest extends SerializableTest<Report> {
     static void beforeAll() {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
+    }
+
+    @Test
+    void shouldMergeLog() {
+        var issues = new Report();
+
+        issues.logInfo("info");
+        issues.logError("error");
+
+        assertThat(issues).hasOnlyInfoMessages("info");
+        assertThat(issues).hasOnlyErrorMessages("error");
+
+        var log = new FilteredLog("title");
+        log.logInfo("filtered info");
+        log.logError("filtered error");
+
+        issues.mergeLogMessages(log);
+
+        assertThat(issues).hasOnlyInfoMessages("info", "filtered info");
+        assertThat(issues).hasOnlyErrorMessages("error", "title", "filtered error");
     }
 
     @Test
@@ -777,6 +798,11 @@ class ReportTest extends SerializableTest<Report> {
         report.addAll(subReport);
 
         return report;
+    }
+
+    @Override
+    protected void assertThatRestoredInstanceEqualsOriginalInstance(final Report original, final Report restored) {
+        assertThat(original).isEqualTo(restored);
     }
 
     /**

@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -30,7 +31,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.google.errorprone.annotations.FormatMethod;
 
 import edu.hm.hafner.util.Ensure;
-import edu.hm.hafner.util.NoSuchElementException;
+import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
@@ -403,7 +404,7 @@ public class Report implements Iterable<Issue>, Serializable {
         if (issue.isPresent()) {
             return issue.get();
         }
-        throw new NoSuchElementException("No removed found with id %s.", issueId);
+        throw new NoSuchElementException(String.format("No removed found with id %s.", issueId));
     }
 
     private Optional<Issue> removeIfContained(final UUID issueId) {
@@ -442,7 +443,8 @@ public class Report implements Iterable<Issue>, Serializable {
     public Issue findById(final UUID issueId) {
         return stream().filter(issue -> issue.getId().equals(issueId))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException("No issue found with id %s.", issueId));
+                .orElseThrow(() -> new NoSuchElementException(
+                        String.format("No issue found with id %s.", issueId)));
     }
 
     /**
@@ -871,6 +873,17 @@ public class Report implements Iterable<Issue>, Serializable {
         Report empty = new Report();
         copyProperties(this, empty);
         return empty;
+    }
+
+    /**
+     * Merge all log messages from the specified log into the log of this report.
+     *
+     * @param log
+     *         the log messages to merge
+     */
+    public void mergeLogMessages(final FilteredLog log) {
+        infoMessages.addAll(log.getInfoMessages());
+        errorMessages.addAll(log.getErrorMessages());
     }
 
     /**

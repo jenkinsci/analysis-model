@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.util.IntegerParser;
+import edu.hm.hafner.analysis.util.IntegerParser;
 
 import static edu.hm.hafner.analysis.IssueParser.*;
 

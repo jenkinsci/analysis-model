@@ -5,7 +5,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsMessages;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
-import edu.hm.hafner.util.Deferred;
+import edu.hm.hafner.analysis.util.Deferred;
 
 /**
  * A descriptor for the FindBugs parser.

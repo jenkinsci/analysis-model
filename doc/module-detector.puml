@@ -1,0 +1,77 @@
+@startuml
+skinparam class {
+  BackgroundColor #4AD386
+  BorderColor #a0a0a0
+  BackgroundColor<<Main>> gold
+  BorderColor black
+  ArrowColor black
+  FontName  Arial Unicode MS
+  FontSize 20
+}
+
+skinparam classFontSize 24
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 20
+
+skinparam ArrowColor black
+skinparam ArrowThickness 2
+
+hide circle
+
+class ModuleResolver {
+    +run(report: Report, detector: ModuleDetector) {
+}
+
+class ModuleDetector {
+    +guessModuleName(originalFileName: String): String
+}
+
+abstract class AbstractModuleDetector {
+    {abstract}+collectProjects(mapping: Map<String, String>, projects: String): void
+    {abstract}+getPathPrefix(): String
+    {abstract}+getFileName(): String
+    {abstract}+getProjectFileName(): String
+}
+
+class MavenModuleDetector {
+    +collectProjects(mapping: Map<String, String>, projects: String): void
+    +getPathPrefix(): String
+    +getFileName(): String
+    +getProjectFileName(): String
+}
+
+class AntModuleDetector {
+    +collectProjects(mapping: Map<String, String>, projects: String): void
+    +getPathPrefix(): String
+    +getFileName(): String
+    +getProjectFileName(): String
+}
+
+class GradleModuleDetector {
+    +collectProjects(mapping: Map<String, String>, projects: String): void
+    +getPathPrefix(): String
+    +getFileName(): String
+    +getProjectFileName(): String
+}
+
+class OsgiModuleDetector {
+    +collectProjects(mapping: Map<String, String>, projects: String): void
+    +getPathPrefix(): String
+    +getFileName(): String
+    +getProjectFileName(): String
+}
+
+MavenModuleDetector -up-|> AbstractModuleDetector
+AntModuleDetector -up-|> AbstractModuleDetector
+GradleModuleDetector -up-|> AbstractModuleDetector
+OsgiModuleDetector -up-|> AbstractModuleDetector
+
+ModuleDetector o-- AbstractModuleDetector : moduleDetectors
+
+ModuleDetector ..> MavenModuleDetector: <<create>>
+ModuleDetector ..> AntModuleDetector: <<create>>
+ModuleDetector ..> GradleModuleDetector: <<create>>
+ModuleDetector ..> OsgiModuleDetector: <<create>>
+
+ModuleResolver ..> ModuleDetector: <<use>>
+@enduml

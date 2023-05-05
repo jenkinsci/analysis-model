@@ -36,6 +36,7 @@ class IdeaInspectionParserTest extends AbstractParserTest {
                 .hasCategory("Unused method parameters")
                 .hasLineStart(42)
                 .hasLineEnd(42)
+                .hasModuleName("tests")
                 .hasMessage(
                         "Parameter <code>intentionallyUnusedString</code> is not used  in either this method or any of its derived methods")
                 .hasFileName("$PROJECT_DIR$/src/main/java/org/lopashev/Test.java");

@@ -1,0 +1,62 @@
+[INFO] Scanning for projects...
+[INFO] Inspecting build with total of 1 modules...
+[INFO] Installing Nexus Staging features:
+[INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
+[WARNING] The requested profile "no-ui-tests-on-mac" could not be activated because it does not exist.
+[WARNING] The requested profile "ui-tests-locally" could not be activated because it does not exist.
+[INFO]
+[INFO] ---------------------< edu.hm.hafner:codingstyle >----------------------
+[INFO] Building Java coding style 3.16.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- compiler:3.11.0:compile (default-compile) @ codingstyle ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 13 source files with javac [forked debug release 11 module-path] to target/classes
+[WARNING] /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/Ensure.java:[107,64] [AvoidObjectArrays] Avoid accepting a Object[]; consider an Iterable<Object> instead
+    (see https://errorprone.info/bugpattern/AvoidObjectArrays)
+[WARNING] /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/Ensure.java:[359,56] [AvoidObjectArrays] Avoid accepting a Object[]; consider an Iterable<Object> instead
+[INFO]
+[INFO] --- assertj:2.2.0:generate-assertions (default) @ codingstyle ---
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ codingstyle ---
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO]
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ codingstyle ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 32 source files with javac [forked debug release 11 module-path] to target/test-classes
+[WARNING] /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/test/java/edu/hm/hafner/util/ArchitectureRulesTest.java:[156,13] [DoNotCallSuggester] Methods that always throw an exception should be annotated with @DoNotCall to prevent calls at compilation time vs. at runtime (note that adding @DoNotCall will break any existing callers of this API).
+    (see https://errorprone.info/bugpattern/DoNotCallSuggester)
+  Did you mean '@DoNotCall("Always throws java.lang.IllegalArgumentException") @Test'?
+[INFO]
+[INFO] --- javadoc:3.5.0:javadoc (default-cli) @ codingstyle ---
+[INFO] Configuration changed, re-generating javadoc.
+[WARNING] Javadoc Warnings
+[WARNING] /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/src/main/java/edu/hm/hafner/util/Ensure.java:57: warning: @param "value" has already been specified
+[WARNING] * @param value
+[WARNING] ^
+[WARNING] 1 warning
+[[INFO] >>> source:3.2.1:jar (attach-sources) > generate-sources @ codingstyle >>>
+[INFO]
+[INFO] --- enforcer:3.3.0:enforce (enforce-java) @ codingstyle ---
+[INFO] --- revapi:0.15.0:check (run-revapi) @ codingstyle ---
+Downloading from repo.jenkins-ci.org: https://repo.jenkins-ci.org/public/edu/hm/hafner/codingstyle/maven-metadata.xml
+Progress (1): 0.5/2.5 kB
+Progress (1): 1.9/2.5 kB
+Progress (1): 2.5 kB
+
+Downloaded from repo.jenkins-ci.org: https://repo.jenkins-ci.org/public/edu/hm/hafner/codingstyle/maven-metadata.xml (2.5 kB at 2.3 kB/s)
+[INFO] Comparing [edu.hm.hafner:codingstyle:jar:3.15.0] against [edu.hm.hafner:codingstyle:jar:3.16.0-SNAPSHOT] (including their transitive dependencies).
+[INFO] API checks completed without failures.
+[INFO]
+[INFO] --- jacoco:0.8.9:report (report) @ codingstyle ---
+[INFO] Loading execution data file /Users/hafner/git/warnings-ng-plugin-devenv/codingstyle/target/jacoco.exec
+[INFO] Analyzed bundle 'Java coding style' with 21 classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  40.152 s
+[INFO] Finished at: 2023-05-04T12:34:26+02:00
+[INFO] ------------------------------------------------------------------------
+[WARNING] The requested profile "no-ui-tests-on-mac" could not be activated because it does not exist.
+[WARNING] The requested profile "ui-tests-locally" could not be activated because it does not exist.

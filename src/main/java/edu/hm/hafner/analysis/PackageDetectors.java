@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.errorprone.annotations.MustBeClosed;
@@ -22,13 +21,11 @@ class PackageDetectors {
     /** If no package could be assigned this value is used as package name. */
     static final String UNDEFINED_PACKAGE = "-";
 
-    private final List<AbstractPackageDetector> detectors = new ArrayList<>();
+    private final List<AbstractPackageDetector> detectors;
 
     @VisibleForTesting
-    PackageDetectors(final FileSystem fileSystem) {
-        detectors.add(new JavaPackageDetector(fileSystem));
-        detectors.add(new CSharpNamespaceDetector(fileSystem));
-        detectors.add(new KotlinPackageDetector(fileSystem));
+    PackageDetectors(final List<AbstractPackageDetector> detectors) {
+        this.detectors = detectors;
     }
 
     /**

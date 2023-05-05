@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
-import static edu.hm.hafner.util.IntegerParser.*;
+import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
 /**
  * A parser for armcc compiler warnings.

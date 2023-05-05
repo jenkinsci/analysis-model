@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 
-import edu.hm.hafner.util.XmlElementUtil;
+import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**

@@ -26,6 +26,13 @@ class MavenConsoleParserTest extends AbstractParserTest {
     }
 
     @Test
+    void issue70658RemovePrefixAndSuffixFromMavenPlugins() {
+        Report warnings = parse("maven.3.9.1.log");
+
+        assertThat(warnings).hasSize(2);
+    }
+
+    @Test
     void shouldAssignTypesFromGoals() {
         Report warnings = parse("maven-goals.log");
 

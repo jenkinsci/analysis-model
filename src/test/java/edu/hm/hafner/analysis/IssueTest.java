@@ -9,7 +9,6 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -56,62 +55,6 @@ class IssueTest extends SerializableTest<Issue> {
     static final String ADDITIONAL_PROPERTIES = "additional";
     static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRange(5, 6)));
     private static final String WINDOWS_PATH = "C:/Windows";
-
-    /**
-     * Creates a new subject under test (i.e. a sub-type of {@link Issue}) using the specified properties.
-     *
-     * @param pathName
-     *         the path that contains the affected file
-     * @param fileName
-     *         the name of the file that contains this issue
-     * @param lineStart
-     *         the first line of this issue (lines start at 1; 0 indicates the whole file)
-     * @param lineEnd
-     *         the last line of this issue (lines start at 1)
-     * @param columnStart
-     *         the first column of this issue (columns start at 1, 0 indicates the whole line)
-     * @param columnEnd
-     *         the last column of this issue (columns start at 1)
-     * @param category
-     *         the category of this issue (depends on the available categories of the static analysis tool)
-     * @param type
-     *         the type of this issue (depends on the available types of the static analysis tool)
-     * @param packageName
-     *         the name of the package (or name space) that contains this issue
-     * @param moduleName
-     *         the name of the moduleName (or project) that contains this issue
-     * @param priority
-     *         the priority of this issue
-     * @param message
-     *         the detail message of this issue
-     * @param description
-     *         the description for this issue
-     * @param origin
-     *         the ID of the tool that did report this issue
-     * @param reference
-     *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
-     * @param fingerprint
-     *         the finger print for this issue
-     * @param additionalProperties
-     *         additional properties from the statical analysis tool
-     *
-     * @return the subject under test
-     */
-    @SuppressWarnings("ParameterNumber")
-    protected Issue createIssue(final String pathName, final TreeString fileName,
-            final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @CheckForNull final String category, @CheckForNull final String type,
-            final TreeString packageName, @CheckForNull final String moduleName,
-            @CheckForNull final Severity priority, final TreeString message,
-            final String description, @CheckForNull final String origin,
-            @CheckForNull final String reference, @CheckForNull final String fingerprint,
-            final String additionalProperties) {
-        return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, LINE_RANGES, category, type,
-                packageName,
-                moduleName, priority, message, description, origin, ORIGIN_NAME, reference, fingerprint,
-                additionalProperties,
-                UUID.randomUUID());
-    }
 
     @Test
     void shouldSplitFileNameElements() {
@@ -291,17 +234,18 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     @SuppressWarnings("NullAway")
     void testDefaultIssueNullStringsNegativeIntegers() {
-        Issue issue = createIssue(null, UNDEFINED_TS, 0, 0, 0, 0,
-                null, null, UNDEFINED_TS, null,
-                SEVERITY, EMPTY_TS, EMPTY, null, null, null, null);
+        Issue issue = new Issue(null, UNDEFINED_TS, 0, 0, 0, 0, LINE_RANGES, null, null,
+                UNDEFINED_TS, null, SEVERITY, EMPTY_TS, EMPTY, null, ORIGIN_NAME, null, null,
+                null, UUID.randomUUID());
 
         assertIsDefaultIssue(issue);
     }
 
     @Test
     void testDefaultIssueEmptyStringsNegativeIntegers() {
-        Issue issue = createIssue(EMPTY, UNDEFINED_TS, -1, -1, -1, -1,
-                EMPTY, EMPTY, UNDEFINED_TS, EMPTY, SEVERITY, EMPTY_TS, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+        Issue issue = new Issue(EMPTY, UNDEFINED_TS, -1, -1, -1, -1, LINE_RANGES, EMPTY, EMPTY,
+                UNDEFINED_TS, EMPTY, SEVERITY, EMPTY_TS, EMPTY, EMPTY, ORIGIN_NAME, EMPTY, EMPTY,
+                EMPTY, UUID.randomUUID());
 
         assertIsDefaultIssue(issue);
     }
@@ -330,9 +274,10 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
-        Issue issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0, CATEGORY, TYPE,
-                PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
-                ADDITIONAL_PROPERTIES);
+        Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0, LINE_RANGES, CATEGORY, TYPE,
+                PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
+                FINGERPRINT,
+                ADDITIONAL_PROPERTIES, UUID.randomUUID());
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(issue)
@@ -345,10 +290,11 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void testNullPriorityDefaultsToNormal() {
-        Issue issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY,
-                TYPE,
-                PACKAGE_NAME_TS, MODULE_NAME, null, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT,
-                ADDITIONAL_PROPERTIES);
+        Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, LINE_RANGES,
+                CATEGORY, TYPE,
+                PACKAGE_NAME_TS, MODULE_NAME, null, MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
+                FINGERPRINT,
+                ADDITIONAL_PROPERTIES, UUID.randomUUID());
 
         assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
     }
@@ -367,24 +313,11 @@ class IssueTest extends SerializableTest<Issue> {
      * @return a correctly filled issue
      */
     protected Issue createFilledIssue() {
-        return createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, CATEGORY, TYPE,
-                PACKAGE_NAME_TS,
-                MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES);
-    }
-
-    @Test
-    void testToString() {
-        Issue issue = createFilledIssue();
-
-        try (SoftAssertions softly = new SoftAssertions()) {
-            softly.assertThat(issue.toString())
-                    .contains(FILE_NAME)
-                    .contains(Integer.toString(LINE_START))
-                    .contains(Integer.toString(COLUMN_START))
-                    .contains(CATEGORY)
-                    .contains(TYPE)
-                    .contains(MESSAGE);
-        }
+        return new Issue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, LINE_RANGES, CATEGORY,
+                TYPE,
+                PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
+                FINGERPRINT,
+                ADDITIONAL_PROPERTIES, UUID.randomUUID());
     }
 
     @Test
@@ -404,6 +337,11 @@ class IssueTest extends SerializableTest<Issue> {
     @Override
     protected Issue createSerializable() {
         return createFilledIssue();
+    }
+
+    @Override
+    protected void assertThatRestoredInstanceEqualsOriginalInstance(final Issue original, final Issue restored) {
+        assertThat(original).isEqualTo(restored);
     }
 
     /**

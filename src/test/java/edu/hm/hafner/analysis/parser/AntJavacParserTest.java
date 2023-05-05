@@ -23,6 +23,13 @@ class AntJavacParserTest extends AbstractParserTest {
         super("ant-javac.txt");
     }
 
+    @Test
+    void issue67521IgnoreJavaDocWarnings() {
+        Report warnings = parse("javadoc-in-java.log");
+
+        assertThat(warnings).isEmpty();
+    }
+
     /**
      * Parses a warning log with a very long line that will take several seconds to parse.
      *

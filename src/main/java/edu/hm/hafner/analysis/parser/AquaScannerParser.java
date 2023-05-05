@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,7 +9,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
-import static edu.hm.hafner.util.StringContainsUtils.*;
 import static j2html.TagCreator.*;
 
 /**
@@ -70,13 +70,13 @@ public class AquaScannerParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final String string) {
-        if (containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW, AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
+        if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW, AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
             return Severity.WARNING_LOW;
         }
-        else if (containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
+        else if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
             return Severity.WARNING_NORMAL;
         }
-        else if (containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH, AQUA_VULNERABILITY_LEVEL_TAG_CRITICAL,
+        else if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH, AQUA_VULNERABILITY_LEVEL_TAG_CRITICAL,
                 AQUA_VULNERABILITY_LEVEL_TAG_MALWARE, AQUA_VULNERABILITY_LEVEL_TAG_SENSITIVE)) {
             return Severity.WARNING_HIGH;
         }

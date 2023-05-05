@@ -4,12 +4,13 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-import edu.hm.hafner.util.StringContainsUtils;
 
 /**
  * A parser for gcc 4.x compiler warnings.
@@ -81,6 +82,6 @@ public class Gcc4CompilerParser extends LookaheadParser {
         if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
             return false;
         }
-        return !StringContainsUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make");
+        return !StringUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make");
     }
 }

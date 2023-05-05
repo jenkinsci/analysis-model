@@ -18,6 +18,8 @@ import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.ViolationsParser;
 
+import static se.bjurr.violations.lib.model.SEVERITY.*;
+
 /**
  * Adapter for {@link ViolationsParser} instances. Converts the results of a {@link ViolationsParser} into a static
  * analysis {@link Report}.
@@ -175,10 +177,10 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @return the {@link Severity}
      */
     Severity convertSeverity(final SEVERITY severity, final Violation violation) {
-        if (severity == SEVERITY.ERROR) {
+        if (severity == ERROR) {
             return Severity.WARNING_HIGH;
         }
-        if (severity == SEVERITY.WARN) {
+        if (severity == WARN) {
             return Severity.WARNING_NORMAL;
         }
         return Severity.WARNING_LOW;

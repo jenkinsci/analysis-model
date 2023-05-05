@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.util.XmlElementUtil;
+import edu.hm.hafner.analysis.util.XmlElementUtil;
 
 /**
  * A parser for IntelliJ IDEA inspections.
@@ -46,6 +46,7 @@ public class IdeaInspectionParser extends IssueParser {
                             .setLineStart(Integer.parseInt(getChildValue(element, "line")))
                             .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
                             .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
+                            .setModuleName(StringEscapeUtils.unescapeXml(getChildValue(element, "module")))
                             .setSeverity(getPriority(problem.getAttribute("severity")));
                     problems.add(issueBuilder.buildAndClean());
                 }

@@ -47,6 +47,12 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
         return group;
     }
 
+    @Override
+    protected void assertThatRestoredInstanceEqualsOriginalInstance(
+            final DuplicationGroup original, final DuplicationGroup restored) {
+        assertThat(original).isEqualTo(restored);
+    }
+
     /**
      * Verifies that saved serialized format (from a previous release) still can be resolved with the current
      * implementation of {@link DuplicationGroup}.

@@ -426,6 +426,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
+                code-generator
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.mathworks.com/help/stats/code-generation.html">
+                    Code Generator Tool
+                </a>
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td>
                 code-checker
             </td>
             <td>

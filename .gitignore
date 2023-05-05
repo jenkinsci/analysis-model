@@ -1,10 +1,13 @@
+node
 node_modules
 target
 *.iml
 .classpath
+.project
+.settings
 pom.xml.versionsBackup
-dependency-reduced-pom.xml
-.DS_Store
 pom.xml.releaseBackup
 release.properties
+.DS_Store
+.idea
 /package-lock.json

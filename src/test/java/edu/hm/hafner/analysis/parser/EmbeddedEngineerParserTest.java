@@ -22,13 +22,13 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(6);
+        softly.assertThat(report).hasSize(8);
         softly.assertThat(report.get(0))
                 .hasModuleName("index_module")
-                .hasDescription("Complex type definition without referenced element found 'index_module' (uint8_t) ({98CF1FE6-EC9C-43f1-e476-40EFCD63cA8D})")
+                .hasDescription("Complex type definition without referenced element found 'index_module' (uint8_t); {98CF1FE6-EC9C-43f1-e476-40EFCD63cA8D}")
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Complex type definition without referenced element")
-                .hasFileName("'01_first_sw' ({F3878EC2-1234-92713-8710-03561AD6E297})");
+                .hasFileName("'01_first_sw'; {EF31393-1234-5678-8710-03561AD6E297}");
         softly.assertThat(report.get(3))
                 .hasCategory("Code generation skipped")
                 .hasSeverity(Severity.WARNING_NORMAL);
@@ -38,6 +38,13 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
         softly.assertThat(report.get(5))
                 .hasCategory("No Category")
                 .hasSeverity(Severity.WARNING_NORMAL);
+        softly.assertThat(report.get(6))
+                .hasCategory("SampleValidation")
+                .hasSeverity(Severity.WARNING_NORMAL);
+        softly.assertThat(report.get(7))
+                .hasCategory("Error loading plugins from")
+                .hasDescription("Error loading plugins from C:\\file1\\idc\\sample_ext.x64.dll")
+                .hasSeverity(Severity.ERROR);
     }
 }
 

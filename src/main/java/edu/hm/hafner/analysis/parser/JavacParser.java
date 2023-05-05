@@ -22,7 +22,7 @@ import static edu.hm.hafner.analysis.Categories.*;
 public class JavacParser extends AbstractMavenLogParser {
     private static final long serialVersionUID = 7199325311690082782L;
 
-    private static final String ERRORPRONE_URL_PATTERN = "\\s+\\(see https?://\\S+\\s*\\)";
+    private static final String ERROR_PRONE_URL_PATTERN = "\\s+\\(see https?://\\S+\\s*\\)";
 
     private static final String JAVAC_WARNING_PATTERN
             = "^(?:\\S+\\s+)?"                // optional preceding arbitrary number of characters that are not a
@@ -50,13 +50,14 @@ public class JavacParser extends AbstractMavenLogParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("[") || line.contains("w:") || line.contains("e:");
+        return (line.contains("[") || line.contains("w:") || line.contains("e:"))
+                && !hasGoals(MAVEN_JAVADOC_PLUGIN);
     }
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) throws ParsingException {
-        if (lookahead.hasNext(ERRORPRONE_URL_PATTERN)) {
+        if (lookahead.hasNext(ERROR_PRONE_URL_PATTERN)) {
             return Optional.empty();
         }
 

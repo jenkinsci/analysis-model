@@ -4,7 +4,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.PyLintParser;
 import edu.hm.hafner.analysis.parser.pylint.PyLintDescriptions;
-import edu.hm.hafner.util.Deferred;
+import edu.hm.hafner.analysis.util.Deferred;
 
 /**
  * A descriptor for the PyLint.
