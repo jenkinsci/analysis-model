@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.cargo;
+package edu.hm.hafner.analysis.parser;
 
 import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,7 +12,6 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
  * @author Mike Delaney
  */
 class CargoClippyParserTest extends AbstractParserTest {
-
     CargoClippyParserTest() {
         super("cargo-clippy-2018.txt");
     }
@@ -28,6 +27,9 @@ class CargoClippyParserTest extends AbstractParserTest {
         softly.assertThat(report.get(0))
                 .hasFileName("build.rs")
                 .hasMessage("the borrowed expression implements the required traits")
+                .hasDescription("for further information visit <a href=\""
+                        + "https://rust-lang.github.io/rust-clippy/master/index.html#needless_borrow"
+                        + "\">cargo clippy documentation</a>")
                 .hasCategory("clippy::needless_borrow")
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(9)
@@ -38,6 +40,9 @@ class CargoClippyParserTest extends AbstractParserTest {
                 .hasFileName("src/fs.rs")
                 .hasMessage("using `clone` on a double-reference; this will copy the reference of type `&str`"
                         + " instead of cloning the inner type")
+                .hasDescription("for further information visit <a href=\""
+                        + "https://rust-lang.github.io/rust-clippy/master/index.html#clone_double_ref"
+                        + "\">cargo clippy documentation</a>")
                 .hasCategory("clippy::clone_double_ref")
                 .hasLineStart(11)
                 .hasColumnStart(31)
@@ -47,6 +52,9 @@ class CargoClippyParserTest extends AbstractParserTest {
         softly.assertThat(report.get(EXPECTED_ISSUE_COUNT - 1))
                 .hasFileName("src/main.rs")
                 .hasMessage("use of `unwrap_or` followed by a function call")
+                .hasDescription("for further information visit <a href=\""
+                        + "https://rust-lang.github.io/rust-clippy/master/index.html#or_fun_call"
+                        + "\">cargo clippy documentation</a>")
                 .hasCategory("clippy::or_fun_call")
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(76)
