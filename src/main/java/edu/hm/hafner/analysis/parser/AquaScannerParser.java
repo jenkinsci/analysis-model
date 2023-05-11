@@ -18,9 +18,6 @@ import static j2html.TagCreator.*;
  */
 public class AquaScannerParser extends JsonIssueParser {
     private static final String VALUE_NOT_SET = "-";
-    private static final String AQUA_VULNERABILITY_LEVEL_TAG_SENSITIVE = "sensitive";
-    private static final String AQUA_VULNERABILITY_LEVEL_TAG_MALWARE = "malware";
-    private static final String AQUA_VULNERABILITY_LEVEL_TAG_CRITICAL = "critical";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_HIGH = "high";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_LOW = "low";
@@ -76,12 +73,11 @@ public class AquaScannerParser extends JsonIssueParser {
         else if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
             return Severity.WARNING_NORMAL;
         }
-        else if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH, AQUA_VULNERABILITY_LEVEL_TAG_CRITICAL,
-                AQUA_VULNERABILITY_LEVEL_TAG_MALWARE, AQUA_VULNERABILITY_LEVEL_TAG_SENSITIVE)) {
+        else if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH)) {
             return Severity.WARNING_HIGH;
         }
         else {
-            return Severity.WARNING_HIGH;
+            return Severity.ERROR;
         }
     }
 
