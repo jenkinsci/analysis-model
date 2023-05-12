@@ -1,0 +1,187 @@
+warning: the borrowed expression implements the required traits
+  --> build.rs:9:15
+   |
+9  |           .args(&[
+   |  _______________^
+10 | |           "describe",
+11 | |           "--match=NeVeRmAtCh",
+12 | |           "--always",
+13 | |           "--abbrev=12",
+14 | |           "--dirty",
+15 | |         ])
+   | |_________^
+   |
+   = note: `#[warn(clippy::needless_borrow)]` on by default
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#needless_borrow
+help: change this to
+   |
+9  ~         .args([
+10 +           "describe",
+11 +           "--match=NeVeRmAtCh",
+12 +           "--always",
+13 +           "--abbrev=12",
+14 +           "--dirty",
+15 ~         ])
+   |
+
+warning: `gitlab-checks` (build script) generated 1 warning
+warning: constants have by default a `'static` lifetime
+  --> src/main.rs:15:18
+   |
+15 | const APP_NAME: &'static str = env!("CARGO_BIN_NAME");
+   |                 -^^^^^^^---- help: consider removing `'static`: `&str`
+   |
+   = note: `#[warn(clippy::redundant_static_lifetimes)]` on by default
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+ error: using `clone` on a double-reference; this will copy the reference of type `&str` instead of cloning the inner type
+   --> src/fs.rs:11:31
+    |
+ 11 |   return parts.last().map(|v| v.clone().to_string()).unwrap();
+    |                               ^^^^^^^^^
+    |
+    = note: `#[deny(clippy::clone_double_ref)]` on by default
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#clone_double_ref
+ help: try dereferencing it
+    |
+ 11 |   return parts.last().map(|v| &(*v).clone().to_string()).unwrap();
+    |                               ~~~~~~~~~~~~~
+ help: or try being explicit if you are sure, that you want to clone a reference
+    |
+ 11 |   return parts.last().map(|v| <&str>::clone(v).to_string()).unwrap();
+    |                               ~~~~~~~~~~~~~~~~
+
+warning: constants have by default a `'static` lifetime
+  --> src/main.rs:19:21
+   |
+19 | const APP_VERSION: &'static str = env!("CARGO_PKG_VERSION");
+   |                    -^^^^^^^---- help: consider removing `'static`: `&str`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: constants have by default a `'static` lifetime
+  --> src/main.rs:23:22
+   |
+23 | const APP_REVISION: &'static str = env!("REVISION");
+   |                     -^^^^^^^---- help: consider removing `'static`: `&str`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: constants have by default a `'static` lifetime
+  --> src/main.rs:27:22
+   |
+27 | const EMPTY_COMMIT: &'static str = "0000000000000000000000000000000000000000";
+   |                     -^^^^^^^---- help: consider removing `'static`: `&str`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: constants have by default a `'static` lifetime
+ --> src/checks/json_syntax.rs:8:24
+  |
+8 | const JSON_EXTENSION: &'static [&'static str] = &["json"];
+  |                       -^^^^^^^--------------- help: consider removing `'static`: `&[&'static str]`
+  |
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: constants have by default a `'static` lifetime
+ --> src/checks/json_syntax.rs:8:34
+  |
+8 | const JSON_EXTENSION: &'static [&'static str] = &["json"];
+  |                                 -^^^^^^^---- help: consider removing `'static`: `&str`
+  |
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: constants have by default a `'static` lifetime
+ --> src/checks/toml_syntax.rs:8:24
+  |
+8 | const TOML_EXTENSION: &'static [&'static str] = &["toml"];
+  |                       -^^^^^^^--------------- help: consider removing `'static`: `&[&'static str]`
+  |
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: constants have by default a `'static` lifetime
+ --> src/checks/toml_syntax.rs:8:34
+  |
+8 | const TOML_EXTENSION: &'static [&'static str] = &["toml"];
+  |                                 -^^^^^^^---- help: consider removing `'static`: `&str`
+  |
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: constants have by default a `'static` lifetime
+ --> src/checks/yaml_syntax.rs:8:24
+  |
+8 | const YAML_EXTENSION: &'static [&'static str] = &["yaml", "yml"];
+  |                       -^^^^^^^--------------- help: consider removing `'static`: `&[&'static str]`
+  |
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: constants have by default a `'static` lifetime
+ --> src/checks/yaml_syntax.rs:8:34
+  |
+8 | const YAML_EXTENSION: &'static [&'static str] = &["yaml", "yml"];
+  |                                 -^^^^^^^---- help: consider removing `'static`: `&str`
+  |
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes
+
+warning: unneeded `return` statement
+  --> src/config.rs:36:5
+   |
+36 |     return config;
+   |     ^^^^^^^^^^^^^^ help: remove `return`: `config`
+   |
+   = note: `#[warn(clippy::needless_return)]` on by default
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#needless_return
+
+warning: unneeded late initialization
+  --> src/config.rs:20:5
+   |
+20 |     let config: Config;
+   |     ^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(clippy::needless_late_init)]` on by default
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#needless_late_init
+help: declare `config` here
+   |
+22 |     let config: Config = if utils::file_exists(filename) {
+   |     ++++++++++++++++++++
+help: remove the assignments from the branches
+   |
+24 ~       serde_yaml::from_reader(f).expect("Could not read values.")
+25 |     }
+26 |     else {
+27 ~       Config {
+28 |         identity: GitIdentity {
+ ...
+32 |         ignores: HashMap::new()
+33 ~       }
+   |
+help: add a semicolon after the `if` expression
+   |
+34 |     };
+   |      +
+
+warning: unneeded `return` statement
+  --> src/utils.rs:12:3
+   |
+12 |   return b;
+   |   ^^^^^^^^^ help: remove `return`: `b`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#needless_return
+
+warning: single-character string constant used as pattern
+  --> src/main.rs:61:30
+   |
+61 |   let refs = opts.name.split("/");
+   |                              ^^^ help: try using a `char` instead: `'/'`
+   |
+   = note: `#[warn(clippy::single_char_pattern)]` on by default
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#single_char_pattern
+
+warning: use of `unwrap_or` followed by a function call
+  --> src/main.rs:76:53
+   |
+76 |   let project: String = env::var("GL_PROJECT_PATH").unwrap_or("NO_SUCH_VAR".to_string());
+   |                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try this: `unwrap_or_else(|_| "NO_SUCH_VAR".to_string())`
+   |
+   = note: `#[warn(clippy::or_fun_call)]` on by default
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#or_fun_call

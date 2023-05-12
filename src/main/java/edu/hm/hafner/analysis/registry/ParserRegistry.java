@@ -46,6 +46,7 @@ public class ParserRegistry {
             new BuckminsterDescriptor(),
             new CadenceIncisiveDescriptor(),
             new CargoDescriptor(),
+            new CargoClippyDescriptor(),
             new CcmDescriptor(),
             new CheckStyleDescriptor(),
             new ClairDescriptor(),
