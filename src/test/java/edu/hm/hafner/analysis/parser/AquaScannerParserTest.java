@@ -35,15 +35,15 @@ class AquaScannerParserTest extends AbstractParserTest {
                 .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1111-1234");
         softly.assertThat(report.get(9))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1112-1234");
         softly.assertThat(report.get(10))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1113-1234");
         softly.assertThat(report.get(11))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1114-1234");
         softly.assertThat(report.get(12))
@@ -51,7 +51,7 @@ class AquaScannerParserTest extends AbstractParserTest {
                 .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1115-1234");
         softly.assertThat(report.get(13))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasFileName(EXPECTED_FILENAME)
                 .hasMessage("CVE-1116-1234");
     }
