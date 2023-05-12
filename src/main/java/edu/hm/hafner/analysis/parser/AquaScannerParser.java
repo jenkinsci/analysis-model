@@ -70,10 +70,10 @@ public class AquaScannerParser extends JsonIssueParser {
         if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW, AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
             return Severity.WARNING_LOW;
         }
-        else if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
+        else if (StringUtils.equalsIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
             return Severity.WARNING_NORMAL;
         }
-        else if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH)) {
+        else if (StringUtils.equalsIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH)) {
             return Severity.WARNING_HIGH;
         }
         else {
