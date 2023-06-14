@@ -13,9 +13,6 @@ import org.xml.sax.SAXException;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
-/**
- * Tests the class {@link JavacParser}.
- */
 class ReaderTest {
     @Test
     void shouldThrowIoException() throws IOException, ParserConfigurationException, SAXException {
