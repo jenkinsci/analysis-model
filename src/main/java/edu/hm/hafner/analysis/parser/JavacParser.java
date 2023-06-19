@@ -29,13 +29,17 @@ public class JavacParser extends AbstractMavenLogParser {
                                               // whitespace followed by whitespace. This can be used for timestamps.
             + "(?:(?:\\[(WARNING|ERROR)\\]|w:|e:)\\s+)" // optional [WARNING] or [ERROR] or w: or e:
             + "([^\\[\\(]*):\\s*"             // group 1: filename
+            + "("                             // group 2: enclose matching group
+            + "("                             // enclose java and kotlin < 1.8 style
             + "[\\[\\(]"                      // [ or (
-            + "(\\d+)[.,;]*"                  // group 2: line number
-            + "\\s?(\\d+)?"                   // group 3: optional column
+            + "(\\d+)[.,;]*"                  // line number
+            + "\\s?(\\d+)?"                   // optional column
             + "[\\]\\)]\\s*"                  // ] or )
-            + ":?"                            // optional :
-            + "(?:\\[(\\w+)\\])?"             // group 4: optional category
-            + "\\s*(.*)$";                    // group 5: message
+            + ")"                             // close java and old kotlin style
+            + "|(\\d+:\\d+)"                  // match kotlin 1.8 style line number : column number
+            + ")"                             // close matching group
+            + "(?:\\[(\\w+)\\])?"             // group 3: optional category
+            + "\\s*(.*)$";                    // group 4: message
 
     private static final String SEVERITY_ERROR = "ERROR";
     private static final String SEVERITY_ERROR_SHORT = "e:";
