@@ -299,5 +299,16 @@ class JavacParserTest extends AbstractParserTest {
                 .hasLineStart(194)
                 .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/generated-test-sources/assertj-assertions/io/jenkins/plugins/analysis/core/assertions/Assertions.java");
     }
+
+     /**
+     * Parses a warning log written by Gradle containing 2 Kotlin warnings.
+     * One in kotlin 1.8 style and the other one in the old style.
+     */
+    @Test
+    void kotlin18WarningStyle() {
+        Report warnings = parse("kotlin-1_8.txt");
+
+        assertThat(warnings).hasSize(2);
+    }
 }
 
