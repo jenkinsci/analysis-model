@@ -31,7 +31,7 @@ import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 @Fork(value = 1, warmups = 3)
 public class ParserBenchmark extends AbstractBenchmark {
     /**
-     * Benchmarking for parsing an xml file with a {@link CheckStyleParser}.
+     * Benchmarking for parsing an XML file with a {@link CheckStyleParser}.
      *
      * @param state
      *         a {@link BenchmarkState} object containing the FileReaderFactory object
