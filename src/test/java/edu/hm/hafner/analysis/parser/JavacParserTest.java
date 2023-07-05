@@ -309,6 +309,13 @@ class JavacParserTest extends AbstractParserTest {
         Report warnings = parse("kotlin-1_8.txt");
 
         assertThat(warnings).hasSize(2);
+
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(214)
+                .hasColumnStart(35);
+        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(424)
+                .hasColumnStart(29);
     }
 }
 
