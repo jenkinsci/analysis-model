@@ -6,3 +6,8 @@ registerResGeneratingTask is deprecated, use registerGeneratedFolders(FileCollec
 app: 'annotationProcessor' dependencies won't be recognized as kapt annotation processors. Please change the configuration name to 'kapt' for these artifacts: 'com.android.databinding:compiler:3.0.1'.
 w: /project/app/src/main/java/ui/Activity.kt: (214, 35): Unchecked cast: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */
 w: /project/app/src/main/java/ui/Activity.kt:424:29 Unchecked cast: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */
+e: /project/app/src/main/java/ui/Activity.kt:425:29 deprecated: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */
+w: /project/app/src/main/java/ui/Activity.kt:424:29 Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */
+w: /project/app/src/main/java/ui/Activity.kt:123:456 Unchecked cast: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */
+w: c:\project\app\src\main\java\ui\Activity.kt:426:29 Unchecked cast: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */
+w: file:///project/src/main/java/com/app/ui/model/Activity.kt:8:27 'PackageStats' is deprecated. Deprecated in Java
