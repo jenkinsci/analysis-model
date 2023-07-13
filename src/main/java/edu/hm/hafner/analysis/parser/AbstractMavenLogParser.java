@@ -26,6 +26,7 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
     private static final String MAVEN_PLUGIN_SUFFIX = "-plugin";
     static final String MAVEN_COMPILER_PLUGIN = MAVEN_PLUGIN_PREFIX + "compiler" + MAVEN_PLUGIN_SUFFIX;
     static final String MAVEN_JAVADOC_PLUGIN = MAVEN_PLUGIN_PREFIX + "javadoc" + MAVEN_PLUGIN_SUFFIX;
+    static final String MAVEN_HPI_PLUGIN = MAVEN_PLUGIN_PREFIX + "hpi" + MAVEN_PLUGIN_SUFFIX;
     static final String MAVEN_ENFORCER_PLUGIN = MAVEN_PLUGIN_PREFIX + "enforcer" + MAVEN_PLUGIN_SUFFIX;
     private String goal = StringUtils.EMPTY;
     private String module = StringUtils.EMPTY;
