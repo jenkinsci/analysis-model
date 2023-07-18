@@ -28,11 +28,8 @@ class PyLintDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return "<p>Create a ./pylintrc that contains:"
-                + "<p><code>msg-template={path}:{module}:{line}: [{msg_id}({symbol}), {obj}] {msg}</code></p>"
-                + "</p>"
-                + "<p>Start pylint using the command:"
-                + "<p><code>pylint --rcfile=./pylintrc CODE > pylint.log</code></p>"
+        return "<p>Start Pylint using this custom message template (can also be configured via a pylintrc configuration file):"
+                + "<p><code>pylint --msg-template='{path}:{line}: [{msg_id}, {obj}] {msg} ({symbol})' modules_or_packages > pylint.log</code></p>"
                 + "</p>";
     }
 
