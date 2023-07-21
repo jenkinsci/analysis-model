@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-05-05T12:05:52.316441 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-07-20T18:42:19.715720048 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1665,7 +1665,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td colspan="4">
-                :bulb: <p>Create a./pylintrc that contains:<p><code>msg-template={path}:{module}:{line}: [{msg_id}({symbol}), {obj}] {msg}</code></p></p><p>Start pylint using the command:<p><code>pylint --rcfile=./pylintrc CODE > pylint.log</code></p></p>
+                :bulb: <p>Start Pylint using this custom message template (can also be configured via a pylintrc configuration file):<p><code>pylint --msg-template='{path}:{line}: [{msg_id}, {obj}] {msg} ({symbol})' modules_or_packages > pylint.log</code></p></p>
             </td>
         </tr>
         <tr>
