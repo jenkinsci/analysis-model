@@ -43,11 +43,13 @@ public class IdeaInspectionParser extends IssueParser {
                 if (problemClass.isPresent()) {
                     Element problem = problemClass.get();
                     issueBuilder.setFileName(stripPathPrefix(file))
-                            .setLineStart(Integer.parseInt(getChildValue(element, "line")))
                             .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
                             .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
                             .setModuleName(StringEscapeUtils.unescapeXml(getChildValue(element, "module")))
                             .setSeverity(getPriority(problem.getAttribute("severity")));
+                        if(!getChildValue(element, "line").equals("-")){
+                            issueBuilder.setLineStart(Integer.parseInt(getChildValue(element, "line")));
+                        }
                     problems.add(issueBuilder.buildAndClean());
                 }
             }
