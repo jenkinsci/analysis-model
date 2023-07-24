@@ -48,7 +48,7 @@ public class IdeaInspectionParser extends IssueParser {
                             .setModuleName(StringEscapeUtils.unescapeXml(getChildValue(element, "module")))
                             .setSeverity(getPriority(problem.getAttribute("severity")));
                         if(!getChildValue(element, "line").equals("-")){
-                            issueBuilder.setLineStart(Integer.parseInt(getChildValue(element, "line")));//
+                            issueBuilder.setLineStart(Integer.parseInt(getChildValue(element, "line")));
                         }
                     problems.add(issueBuilder.buildAndClean());
                 }
