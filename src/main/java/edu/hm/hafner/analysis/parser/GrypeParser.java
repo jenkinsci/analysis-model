@@ -52,8 +52,8 @@ public class GrypeParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final String severity) {
-        String normSev = Normalizer.normalize(severity.toUpperCase(Locale.ENGLISH), Normalizer.Form.NFC);
-        switch (normSev) {
+        String normSev = Normalizer.normalize(severity, Normalizer.Form.NFC);
+        switch (normSev.toUpperCase(Locale.ENGLISH)) {
             case "LOW":
                 return Severity.WARNING_LOW;
             case "MEDIUM":
