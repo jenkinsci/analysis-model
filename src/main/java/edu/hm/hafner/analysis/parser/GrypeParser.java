@@ -4,14 +4,15 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import java.util.Locale;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static java.lang.String.*;
-
 /**
- * JSON report parser for grype (https://plugins.jenkins.io/grypescanner/ / https://github.com/anchore/grype).
+ * JSON report parser for grype (https://plugins.jenkins.io/grypescanner/ /
+ * https://github.com/anchore/grype).
  */
 public class GrypeParser extends JsonIssueParser {
     private static final long serialVersionUID = -1369431674771459756L;
@@ -50,7 +51,7 @@ public class GrypeParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final String severity) {
-        switch (severity.toUpperCase()) {
+        switch (severity.toUpperCase(Locale.ENGLISH)) {
             case "LOW":
                 return Severity.WARNING_LOW;
             case "MEDIUM":
