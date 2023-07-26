@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-07-02T18:56:49.380384255 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-07-26T22:16:33.317596 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -951,7 +951,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 </a>
             </td>
             <td>
-                /tmp/1.json
+                **/grype-report.json
             </td>
         </tr>
         <tr>
