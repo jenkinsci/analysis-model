@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -35,15 +36,8 @@ public class FlawfinderParser extends LookaheadParser {
             final IssueBuilder builder) {
         String message = matcher.group("message");
         String category = matcher.group("category");
-        int severity = Integer.parseInt(matcher.group("severity"));
-        Severity priority = Severity.WARNING_LOW;
 
-        if (severity >= FLAWFINDER_HIGH_THRESHOLD) {
-            priority = Severity.WARNING_HIGH;
-        }
-        else if (severity >= FLAWFINDER_NORMAL_THRESHOLD) {
-            priority = Severity.WARNING_NORMAL;
-        }
+        var priority = extractPriority(IntegerParser.parseInt(matcher.group("severity")));
 
         return builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))
@@ -51,5 +45,15 @@ public class FlawfinderParser extends LookaheadParser {
                 .setMessage(message)
                 .setSeverity(priority)
                 .buildOptional();
+    }
+
+    private Severity extractPriority(final int severity) {
+        if (severity >= FLAWFINDER_HIGH_THRESHOLD) {
+            return Severity.WARNING_HIGH;
+        }
+        else if (severity >= FLAWFINDER_NORMAL_THRESHOLD) {
+            return Severity.WARNING_NORMAL;
+        }
+        return Severity.WARNING_LOW;
     }
 }

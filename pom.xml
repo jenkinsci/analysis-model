@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -54,7 +53,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>11.4.0</revision>
+    <revision>11.5.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>edu.hm.hafner.analysis.model</module.name>
@@ -71,7 +70,7 @@
     <violations-lib.version>1.156.5</violations-lib.version>
     <jsoup.version>1.16.1</jsoup.version>
     <json.version>20230618</json.version>
-    <json-smart.version>2.4.11</json-smart.version>
+    <json-smart.version>2.5.0</json-smart.version>
     <pmd.version>6.55.0</pmd.version>
     <spotbugs.version>4.7.3</spotbugs.version>
 
@@ -476,6 +475,15 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <parallel>all</parallel>
+          <useUnlimitedThreads>true</useUnlimitedThreads>
+          <forkCount>1C</forkCount>
+        </configuration>
       </plugin>
     </plugins>
   </build>

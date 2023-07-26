@@ -299,5 +299,48 @@ class JavacParserTest extends AbstractParserTest {
                 .hasLineStart(194)
                 .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/generated-test-sources/assertj-assertions/io/jenkins/plugins/analysis/core/assertions/Assertions.java");
     }
+
+     /**
+     * Parses a warning log written by Gradle containing 2 Kotlin warnings.
+     * One in kotlin 1.8 style and the other one in the old style.
+     */
+    @Test
+    void kotlin18WarningStyle() {
+        Report warnings = parse("kotlin-1_8.txt");
+
+        assertThat(warnings).hasSize(7);
+
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(214)
+                .hasColumnStart(35)
+                .hasFileName("/project/app/src/main/java/ui/Activity.kt");
+        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(424)
+                .hasColumnStart(29)
+                .hasFileName("/project/app/src/main/java/ui/Activity.kt");
+        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(425)
+                .hasColumnStart(29)
+                .hasFileName("/project/app/src/main/java/ui/Activity.kt")
+                .hasCategory("Deprecation")
+                .hasMessage("deprecated: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
+        assertThat(warnings.get(3)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(424)
+                .hasColumnStart(29)
+                .hasFileName("/project/app/src/main/java/ui/Activity.kt");
+        assertThat(warnings.get(4)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(123)
+                .hasColumnStart(456);
+        assertThat(warnings.get(5)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(426)
+                .hasColumnStart(29)
+                .hasMessage("Unchecked cast: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
+        assertThat(warnings.get(6)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(8)
+                .hasColumnStart(27)
+                .hasCategory("Deprecation")
+                .hasFileName("file:///project/src/main/java/com/app/ui/model/Activity.kt")
+                .hasMessage("'PackageStats' is deprecated. Deprecated in Java");
+    }
 }
 
