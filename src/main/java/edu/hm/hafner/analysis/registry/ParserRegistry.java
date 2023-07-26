@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.registry;
 
-import j2html.tags.ContainerTag;
-import j2html.tags.DomContent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +20,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.IssueParser;
 
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContent;
+
 import static j2html.TagCreator.*;
 
 /**
@@ -29,7 +30,7 @@ import static j2html.TagCreator.*;
  *
  * @author Lorenz Munsch
  */
-@SuppressWarnings({ "checkstyle:ClassDataAbstractionCoupling", "checkstyle:ClassFanOutComplexity" })
+@SuppressWarnings({"checkstyle:ClassDataAbstractionCoupling", "checkstyle:ClassFanOutComplexity"})
 public class ParserRegistry {
     private static final String BULB_EMOJI = ":bulb:";
 
@@ -91,7 +92,7 @@ public class ParserRegistry {
             new GnuFortranDescriptor(),
             new GoLintDescriptor(),
             new GoVetDescriptor(),
-            new GrypeDescriptor(),
+	    new GrypeDescriptor(),
             new HadoLintDescriptor(),
             new IarCstatDescriptor(),
             new IarDescriptor(),
@@ -201,7 +202,7 @@ public class ParserRegistry {
      * Returns whether a parser with the specified ID exists.
      *
      * @param id
-     *           the ID to check
+     *         the ID to check
      *
      * @return {@code true} if the parser exists, {@code false} otherwise
      */
@@ -213,11 +214,11 @@ public class ParserRegistry {
      * Returns the {@link ParserDescriptor} with the specified ID.
      *
      * @param id
-     *           the ID of the parser
+     *         the ID of the parser
      *
      * @return the requested descriptor
      * @throws NoSuchElementException
-     *                                if no such parser exists
+     *         if no such parser exists
      */
     public ParserDescriptor get(final String id) {
         if (descriptors.containsKey(id)) {
@@ -236,24 +237,21 @@ public class ParserRegistry {
     }
 
     /**
-     * Utility to create a report with all available descriptors. The report will be
-     * stored in the file
+     * Utility to create a report with all available descriptors. The report will be stored in the file
      * "SUPPORTED-FORMATS.md" in the top level directory.
      *
      * @param unused
-     *               not used
+     *         not used
      *
      * @throws IOException
-     *                     of the file `SUPPORTED-FORMATS.md` cannot be written
-     *                     locally
+     *         of the file `SUPPORTED-FORMATS.md` cannot be written locally
      */
     public static void main(final String[] unused) throws IOException {
         List<ParserDescriptor> descriptors = new ParserRegistry().getAllDescriptors();
         descriptors.sort(Comparator.comparing(ParserDescriptor::getName));
 
         try (PrintWriter file = new PrintWriter("SUPPORTED-FORMATS.md", StandardCharsets.UTF_8)) {
-            file.printf(
-                    "<!--- DO NOT EDIT -- Generated at %s - Run the `main` method of `%s` to regenerate after changing parsers -- DO NOT EDIT --->%n",
+            file.printf("<!--- DO NOT EDIT -- Generated at %s - Run the `main` method of `%s` to regenerate after changing parsers -- DO NOT EDIT --->%n",
                     LocalDateTime.now(ZoneId.of("Europe/Berlin")),
                     ParserRegistry.class.getSimpleName());
             file.println("# Supported Report Formats\n"
