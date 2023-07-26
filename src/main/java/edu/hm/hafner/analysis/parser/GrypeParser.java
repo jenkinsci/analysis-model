@@ -5,6 +5,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
+import java.text.Normalizer;
 import java.util.Locale;
 
 import org.json.JSONArray;
@@ -51,7 +52,8 @@ public class GrypeParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final String severity) {
-        switch (severity.toUpperCase(Locale.ENGLISH)) {
+        String normSev = Normalizer.normalize(severity.toUpperCase(Locale.ENGLISH), Normalizer.Form.NFC);
+        switch (normSev) {
             case "LOW":
                 return Severity.WARNING_LOW;
             case "MEDIUM":
