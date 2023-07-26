@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.List;
 import java.util.Optional;
 
+import edu.hm.hafner.analysis.util.IntegerParser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.w3c.dom.Document;
@@ -43,13 +44,11 @@ public class IdeaInspectionParser extends IssueParser {
                 if (problemClass.isPresent()) {
                     Element problem = problemClass.get();
                     issueBuilder.setFileName(stripPathPrefix(file))
+                            .setLineStart(IntegerParser.parseInt(getChildValue(element, "line")))
                             .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
                             .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
                             .setModuleName(StringEscapeUtils.unescapeXml(getChildValue(element, "module")))
                             .setSeverity(getPriority(problem.getAttribute("severity")));
-                        if(!getChildValue(element, "line").equals("-")){
-                            issueBuilder.setLineStart(Integer.parseInt(getChildValue(element, "line")));
-                        }
                     problems.add(issueBuilder.buildAndClean());
                 }
             }
