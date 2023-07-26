@@ -135,9 +135,8 @@ public class XmlParser extends IssueParser {
                         ranges.add(new LineRange(start, end));
                     }
                     catch (NumberFormatException e) {
-                        // Invalid value in xml.
+                        // Ignore invalid values in xml
                     }
-
                 }
             }
         }

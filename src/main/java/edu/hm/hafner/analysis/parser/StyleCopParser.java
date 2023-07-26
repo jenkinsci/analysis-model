@@ -13,9 +13,8 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
-
-import static java.lang.Integer.*;
 
 /**
  * Parses a StyleCop XML report files.
@@ -105,7 +104,7 @@ public class StyleCopParser extends IssueParser {
      */
     private int getLineNumber(final Element violation) {
         if (violation.hasAttribute("LineNumber")) {
-            return parseInt(violation.getAttribute("LineNumber"));
+            return IntegerParser.parseInt(violation.getAttribute("LineNumber"));
         }
         else {
             return 0;
