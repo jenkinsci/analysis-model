@@ -5,3 +5,8 @@
 
 // Assertions.assertTimeoutPreemptively from JUnit 5 is ok to use
 .*org.junit.jupiter.api.Assertions.assertTimeoutPreemptively.*
+
+// Here Integer.parseInt is ok to use since the exception is caught
+.*edu.hm.hafner.analysis.parser.XmlParser.readLineRanges.*
+.*edu.hm.hafner.analysis.registry.DryDescriptor.convertThreshold.*
+.*edu.hm.hafner.analysis.util.IntegerParser.parseInt.*

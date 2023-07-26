@@ -50,7 +50,7 @@ class IdeaInspectionParserTest extends AbstractParserTest {
     @Test
     void issue56235() {
         Report warnings = parse("issue56235.xml");
-        assertThat(warnings).hasSize(6);
+        assertThat(warnings).hasSize(7);
 
         Iterator<Issue> iterator = warnings.iterator();
 
@@ -101,6 +101,14 @@ class IdeaInspectionParserTest extends AbstractParserTest {
                             "Method invocation <code>getCodeFragment</code> may produce <code>NullPointerException</code>")
                     .hasFileName(
                             "$PROJECT_DIR$/src/test/java/edu/hm/hafner/analysis/parser/dry/cpd/CpdParserTest.java");
+            softly.assertThat(iterator.next())
+                    .hasSeverity(Severity.WARNING_LOW)
+                    .hasCategory("@NotNull/@Nullable problems")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasMessage(
+                            "Not 'edu.umd.cs.findbugs.annotations.Nullable' but 'org.jetbrains.annotations.Nullable' would be used for code generation.")
+                    .hasFileName("$PROJECT_DIR$/src/main/java/edu/hm/hafner/analysis/IssueBuilder.java");
         }
     }
 }

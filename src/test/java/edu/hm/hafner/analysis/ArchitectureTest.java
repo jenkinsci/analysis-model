@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.analysis; //NOPMD - suppressed TooManyStaticImports
 
 import javax.xml.parsers.SAXParser;
 
@@ -12,6 +12,10 @@ import com.tngtech.archunit.lang.ArchRule;
 
 import edu.hm.hafner.util.ArchitectureRules;
 
+import static com.tngtech.archunit.core.domain.JavaAccess.Predicates.*;
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.*;
+import static com.tngtech.archunit.core.domain.properties.HasName.Predicates.*;
+import static com.tngtech.archunit.lang.conditions.ArchPredicates.*;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 
 /**
@@ -22,6 +26,12 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 @SuppressWarnings("hideutilityclassconstructor")
 @AnalyzeClasses(packages = "edu.hm.hafner.analysis")
 class ArchitectureTest {
+    /** Replace all calls of {@link Integer#parseInt(String)} with IntegerParser alternative. */
+    @ArchTest
+    static final ArchRule NO_INTEGER_PARSE_INT =
+            noClasses().should().callCodeUnitWhere(targetOwner(is(type(Integer.class))).and(target(name("parseInt"))))
+                    .because("only save IntegerParser.parseInt should be used to parse integer values");
+
     /** Digester must not be used directly, rather use a SecureDigester instance. */
     @ArchTest
     static final ArchRule NO_DIGESTER_CONSTRUCTOR_CALLED =

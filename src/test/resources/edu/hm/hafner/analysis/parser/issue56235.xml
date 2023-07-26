@@ -58,4 +58,12 @@
         <problem_class severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Constant conditions &amp; exceptions</problem_class>
         <description>Method invocation &lt;code&gt;getCodeFragment&lt;/code&gt; may produce &lt;code&gt;NullPointerException&lt;/code&gt;</description>
     </problem>
+    <problem>
+        <file>file://$PROJECT_DIR$/src/main/java/edu/hm/hafner/analysis/IssueBuilder.java</file>
+        <module>analysis-model</module>
+        <package>edu.hm.hafner.analysis</package>
+        <entry_point TYPE="field" FQNAME="edu.hm.hafner.analysis.IssueBuilder moduleName" />
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">@NotNull/@Nullable problems</problem_class>
+        <description>Not 'edu.umd.cs.findbugs.annotations.Nullable' but 'org.jetbrains.annotations.Nullable' would be used for code generation.</description>
+    </problem>
 </problems>
