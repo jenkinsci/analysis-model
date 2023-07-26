@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -92,6 +94,7 @@ public class ParserRegistry {
             new GnuFortranDescriptor(),
             new GoLintDescriptor(),
             new GoVetDescriptor(),
+            new GrypeDescriptor(),
             new HadoLintDescriptor(),
             new IarCstatDescriptor(),
             new IarDescriptor(),
