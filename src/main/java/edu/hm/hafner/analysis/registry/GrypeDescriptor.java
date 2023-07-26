@@ -21,7 +21,7 @@ public class GrypeDescriptor extends ParserDescriptor {
 
     @Override
     public String getPattern() {
-	return "**/grype-report.json";
+    return "**/grype-report.json";
     }
 
     @Override
