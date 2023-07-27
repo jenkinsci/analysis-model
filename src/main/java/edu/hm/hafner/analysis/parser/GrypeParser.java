@@ -5,7 +5,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
-import java.text.Normalizer;
 import java.util.Locale;
 
 import org.json.JSONArray;
