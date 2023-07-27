@@ -18,9 +18,12 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Severity of an issue. The predefined set of severities consists of an error and 3 warnings with priorities high,
- * normal, or low. Additional severities can be created if this set of severities is not sufficient. Note that new
- * instances are not cached by this class so that there might exist several severity instances with the same name.
+ * Severity of an issue. The predefined set of severities consists of an error
+ * and 3 warnings with priorities high,
+ * normal, or low. Additional severities can be created if this set of
+ * severities is not sufficient. Note that new
+ * instances are not cached by this class so that there might exist several
+ * severity instances with the same name.
  *
  * @author Ullrich Hafner
  */
@@ -30,22 +33,32 @@ public class Severity implements Serializable {
 
     /** An error, e.g. a compile error. */
     public static final Severity ERROR = new Severity("ERROR");
-    /** A warning with priority high. Mapping of warning priorities is determined by the corresponding tool. */
+    /**
+     * A warning with priority high. Mapping of warning priorities is determined by
+     * the corresponding tool.
+     */
     public static final Severity WARNING_HIGH = new Severity("HIGH");
-    /** A warning with priority normal. Mapping of warning priorities is determined by the corresponding tool. */
+    /**
+     * A warning with priority normal. Mapping of warning priorities is determined
+     * by the corresponding tool.
+     */
     public static final Severity WARNING_NORMAL = new Severity("NORMAL");
-    /** A warning with priority low. Mapping of warning priorities is determined by the corresponding tool. */
+    /**
+     * A warning with priority low. Mapping of warning priorities is determined by
+     * the corresponding tool.
+     */
     public static final Severity WARNING_LOW = new Severity("LOW");
 
     private static final Set<Severity> ALL_SEVERITIES = Collections.unmodifiableSet(new LinkedHashSet<>(
-                    Arrays.asList(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW)));
+            Arrays.asList(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW)));
 
     /**
-     * Creates a new {@link Severity} with the specified name. If the name is the same as the name of one of the
+     * Creates a new {@link Severity} with the specified name. If the name is the
+     * same as the name of one of the
      * predefined severities, then this existing severity is returned.
      *
      * @param name
-     *         the name of the severity
+     *             the name of the severity
      *
      * @return the severity
      */
@@ -66,13 +79,15 @@ public class Severity implements Serializable {
     }
 
     /**
-     * Converts a String severity to one of the predefined severities. If the provided String does not match then the default
+     * Converts a String severity to one of the predefined severities. If the
+     * provided String does not match then the default
      * severity will be returned.
      *
      * @param severity
-     *         priority as a String
+     *                     priority as a String
      * @param defaultValue
-     *         default severity, if the specified String is {@code null} or is not a valid {@link Severity} name
+     *                     default severity, if the specified String is {@code null}
+     *                     or is not a valid {@link Severity} name
      *
      * @return enumeration value
      */
@@ -86,11 +101,12 @@ public class Severity implements Serializable {
     }
 
     /**
-     * Converts a String severity to one of the predefined severities. If the provided String does not match (even
+     * Converts a String severity to one of the predefined severities. If the
+     * provided String does not match (even
      * partly) then the default severity will be returned.
      *
      * @param severity
-     *         the severity string
+     *                 the severity string
      *
      * @return mapped level.
      */
@@ -98,20 +114,24 @@ public class Severity implements Serializable {
         if (StringUtils.containsAnyIgnoreCase(severity, "error", "severe", "critical", "fatal")) {
             return Severity.ERROR;
         }
-        if (StringUtils.containsAnyIgnoreCase(severity, "info", "note")) {
+        if (StringUtils.containsAnyIgnoreCase(severity, "info", "note", "low")) {
             return Severity.WARNING_LOW;
         }
-        if (StringUtils.containsIgnoreCase(severity, "warning")) {
+        if (StringUtils.containsAnyIgnoreCase(severity, "warning", "medium")) {
             return Severity.WARNING_NORMAL;
+        }
+        if (StringUtils.containsIgnoreCase(severity, "high")) {
+            return Severity.WARNING_HIGH;
         }
         return Severity.WARNING_LOW;
     }
 
     /**
-     * Gets the severities starting from the specified severity to {@link Severity#ERROR}.
+     * Gets the severities starting from the specified severity to
+     * {@link Severity#ERROR}.
      *
      * @param minimumSeverity
-     *         the minimum priority
+     *                        the minimum priority
      *
      * @return the priorities starting from the specified priority
      */
@@ -120,12 +140,10 @@ public class Severity implements Serializable {
         priorities.add(Severity.ERROR);
         if (WARNING_HIGH.equals(minimumSeverity)) {
             priorities.add(WARNING_HIGH);
-        }
-        else if (WARNING_NORMAL.equals(minimumSeverity)) {
+        } else if (WARNING_NORMAL.equals(minimumSeverity)) {
             priorities.add(WARNING_HIGH);
             priorities.add(WARNING_NORMAL);
-        }
-        else if (WARNING_LOW.equals(minimumSeverity)) {
+        } else if (WARNING_LOW.equals(minimumSeverity)) {
             priorities.add(WARNING_HIGH);
             priorities.add(WARNING_NORMAL);
             priorities.add(WARNING_LOW);
@@ -149,7 +167,7 @@ public class Severity implements Serializable {
      * Creates a new {@link Severity} with the specified name.
      *
      * @param name
-     *         the name of the severity
+     *             the name of the severity
      */
     public Severity(final String name) {
         Ensure.that(name).isNotBlank();
@@ -175,9 +193,10 @@ public class Severity implements Serializable {
      * Checks if this instance has a name that is equal to the specified name.
      *
      * @param severityName
-     *         the name to check
+     *                     the name to check
      *
-     * @return {@code true} if this instance has the same name, {@code false} otherwise
+     * @return {@code true} if this instance has the same name, {@code false}
+     *         otherwise
      */
     public boolean equalsIgnoreCase(final String severityName) {
         return IssueParser.equalsIgnoreCase(getName(), severityName);

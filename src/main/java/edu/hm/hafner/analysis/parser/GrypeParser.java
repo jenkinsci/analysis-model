@@ -1,14 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.p;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
-import java.util.Locale;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * JSON report parser for grype (https://plugins.jenkins.io/grypescanner/ /
@@ -32,36 +33,29 @@ public class GrypeParser extends JsonIssueParser {
         final JSONArray matches = jsonReport.getJSONArray(MATCHES_TAG);
         for (int i = 0; i < matches.length(); i++) {
             final JSONObject match = matches.getJSONObject(i);
-            if (!match.has(VULNERABILIY_TAG)) {
-                continue;
+            if (match.has(VULNERABILIY_TAG)) {
+                Issue issue = getIssue(issueBuilder, match);
+                report.add(issue);
             }
-            JSONObject vuln = match.getJSONObject(VULNERABILIY_TAG);
-            String fileName = match.getJSONObject(ARTIFACT_TAG).getJSONArray(LOCATIONS_TAG).getJSONObject(0)
-                    .getString(PATH_TAG);
-            Issue issue = issueBuilder.setFileName(fileName)
-                    .setCategory(vuln.getString(SEVERITY_TAG))
-                    .setSeverity(mapSeverity(vuln.getString(SEVERITY_TAG)))
-                    .setType(vuln.getString(ID_TAG))
-                    .setMessage(vuln.getString(DESCRIPTION_TAG))
-                    .setOriginName("Grype")
-                    .setPathName(fileName)
-                    .setDescription(vuln.getString(DATA_SOURCE_TAG)).build();
-            report.add(issue);
         }
     }
 
-    private Severity mapSeverity(final String severity) {
-        switch (severity.toUpperCase(Locale.ENGLISH)) {
-            case "LOW":
-                return Severity.WARNING_LOW;
-            case "MEDIUM":
-                return Severity.WARNING_NORMAL;
-            case "CRITICAL":
-                return Severity.ERROR;
-            case "HIGH":
-                return Severity.WARNING_HIGH;
-            default:
-                return new Severity(severity);
-        }
+    private Issue getIssue(final IssueBuilder issueBuilder, final JSONObject match) {
+        JSONObject vuln = match.getJSONObject(VULNERABILIY_TAG);
+        String fileName = match.getJSONObject(ARTIFACT_TAG).getJSONArray(LOCATIONS_TAG).getJSONObject(0)
+                .getString(PATH_TAG);
+
+        Issue issue = issueBuilder.setFileName(fileName)
+                .setCategory(vuln.getString(SEVERITY_TAG))
+                .setSeverity(Severity.guessFromString(vuln.getString(SEVERITY_TAG)))
+                .setType(vuln.getString(ID_TAG))
+                .setMessage(vuln.getString(DESCRIPTION_TAG))
+                .setOriginName("Grype")
+                .setPathName(fileName)
+                .setDescription(p().with(a()
+                        .withHref(vuln.getString(DATA_SOURCE_TAG))
+                        .withText(vuln.getString(DATA_SOURCE_TAG))).render())
+                .build();
+        return issue;
     }
 }
