@@ -45,7 +45,7 @@ public class GrypeParser extends JsonIssueParser {
         String fileName = match.getJSONObject(ARTIFACT_TAG).getJSONArray(LOCATIONS_TAG).getJSONObject(0)
                 .getString(PATH_TAG);
 
-        Issue issue = issueBuilder.setFileName(fileName)
+        return issueBuilder.setFileName(fileName)
                 .setCategory(vuln.getString(SEVERITY_TAG))
                 .setSeverity(Severity.guessFromString(vuln.getString(SEVERITY_TAG)))
                 .setType(vuln.getString(ID_TAG))
@@ -56,6 +56,5 @@ public class GrypeParser extends JsonIssueParser {
                         .withHref(vuln.getString(DATA_SOURCE_TAG))
                         .withText(vuln.getString(DATA_SOURCE_TAG))).render())
                 .build();
-        return issue;
     }
 }
