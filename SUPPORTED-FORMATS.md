@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-07-26T22:22:13.878391 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-07-30T22:54:43.181363 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -940,14 +940,14 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
-                grypescanner
+                grype
             </td>
             <td>
-                <img src="https://user-images.githubusercontent.com/5199289/136855393-d0a9eef9-ccf1-4e2b-9d7c-7aad16a567e5.png" alt="Grype scanner" height="64" width="64">
+                <img src="https://user-images.githubusercontent.com/5199289/136855393-d0a9eef9-ccf1-4e2b-9d7c-7aad16a567e5.png" alt="Grype" height="64" width="64">
             </td>
             <td>
                 <a href="https://github.com/anchore/grype">
-                    Grype scanner
+                    Grype
                 </a>
             </td>
             <td>
