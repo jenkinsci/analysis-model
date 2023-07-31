@@ -23,7 +23,6 @@ class CrossCoreEmbeddedStudioParserTest extends AbstractParserTest {
         // check all warnings were caught
         softly.assertThat(report).hasSize(6);
 
-
         // test in details the first warning
         softly.assertThat(report.get(0))
                 .hasFileName("src/dummy_1.c")
@@ -34,11 +33,10 @@ class CrossCoreEmbeddedStudioParserTest extends AbstractParserTest {
 
         // test in details the last warning, that has column (but not parsed)
         softly.assertThat(report.get(5))
-            .hasFileName("src/dummy_5.c")
-            .hasLineStart(125)
-            .hasSeverity(Severity.WARNING_NORMAL)
-            .hasCategory("cc1462")
-            .hasMessage("call to dummy_btc has not been inlined");
-
+                .hasFileName("src/dummy_5.c")
+                .hasLineStart(125)
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("cc1462")
+                .hasMessage("call to dummy_btc has not been inlined");
     }
 }

@@ -4,7 +4,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CrossCoreEmbeddedStudioParser;
 
 /**
- * A descriptor for CrossCore Embedded Studio from Analog Devices
+ * A descriptor for CrossCore Embedded Studio from Analog Devices.
  */
 public class CrossCoreEmbeddedStudioDescriptor extends ParserDescriptor {
     private static final String ID = "crosscore-embedded-studio";
