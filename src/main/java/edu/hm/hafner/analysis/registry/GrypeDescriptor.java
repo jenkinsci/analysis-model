@@ -7,8 +7,8 @@ import edu.hm.hafner.analysis.parser.GrypeParser;
  * Descriptor for Grype report parser.
  */
 public class GrypeDescriptor extends ParserDescriptor {
-    private static final String ID = "grypescanner";
-    private static final String NAME = "Grype scanner";
+    private static final String ID = "grype";
+    private static final String NAME = "Grype";
 
     GrypeDescriptor() {
         super(ID, NAME);
