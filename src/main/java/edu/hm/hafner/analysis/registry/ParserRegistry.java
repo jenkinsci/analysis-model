@@ -62,6 +62,7 @@ public class ParserRegistry {
             new CpdDescriptor(),
             new CppCheckDescriptor(),
             new CppLintDescriptor(),
+            new CrossCoreEmbeddedStudioDescriptor(),
             new CssLintDescriptor(),
             new DartAnalyzeDescriptor(),
             new DetektDescriptor(),
