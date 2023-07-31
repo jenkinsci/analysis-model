@@ -38,10 +38,6 @@ public class CrossCoreEmbeddedStudioParser extends LookaheadParser {
         super(CCES_WARNING_PATTERN);
     }
 
-    CrossCoreEmbeddedStudioParser(final String pattern) {
-        super(pattern);
-    }
-
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
