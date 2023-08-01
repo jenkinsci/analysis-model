@@ -98,11 +98,14 @@ public class Severity implements Serializable {
         if (StringUtils.containsAnyIgnoreCase(severity, "error", "severe", "critical", "fatal")) {
             return Severity.ERROR;
         }
-        if (StringUtils.containsAnyIgnoreCase(severity, "info", "note")) {
+        if (StringUtils.containsAnyIgnoreCase(severity, "info", "note", "low")) {
             return Severity.WARNING_LOW;
         }
-        if (StringUtils.containsIgnoreCase(severity, "warning")) {
+        if (StringUtils.containsAnyIgnoreCase(severity, "warning", "medium")) {
             return Severity.WARNING_NORMAL;
+        }
+        if (StringUtils.containsIgnoreCase(severity, "high")) {
+            return Severity.WARNING_HIGH;
         }
         return Severity.WARNING_LOW;
     }

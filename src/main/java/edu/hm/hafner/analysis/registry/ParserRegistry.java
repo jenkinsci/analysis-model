@@ -93,6 +93,7 @@ public class ParserRegistry {
             new GnuFortranDescriptor(),
             new GoLintDescriptor(),
             new GoVetDescriptor(),
+            new GrypeDescriptor(),
             new HadoLintDescriptor(),
             new IarCstatDescriptor(),
             new IarDescriptor(),

@@ -956,6 +956,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
+                grype
+            </td>
+            <td>
+                <img src="https://user-images.githubusercontent.com/5199289/136855393-d0a9eef9-ccf1-4e2b-9d7c-7aad16a567e5.png" alt="Grype" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/anchore/grype">
+                    Grype
+                </a>
+            </td>
+            <td>
+                **/grype-report.json
+            </td>
+        </tr>
+        <tr>
+            <td>
                 hadolint
             </td>
             <td>
