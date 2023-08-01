@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-07-30T22:54:43.181363 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-08-01T11:30:25.603198 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -515,6 +515,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         <tr>
             <td colspan="4">
                 :bulb: You need to use the Eclipse format with the option <code>--output=eclipse</code>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                crosscore-embedded-studio
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/software/adswt-cces.html">
+                    CrossCore Embedded Studio (CCES)
+                </a>
+            </td>
+            <td>
+                -
             </td>
         </tr>
         <tr>
