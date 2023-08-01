@@ -13,7 +13,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * A parser for the CrossCoreEmbeddedStudio (CCES) log files.
  */
 public class CrossCoreEmbeddedStudioParser extends LookaheadParser {
-    private static final long serialVersionUID = 5490211629355204910L;
+    private static final long serialVersionUID = 1L;
 
     /* Regex to match the CCES warnings.
      *
