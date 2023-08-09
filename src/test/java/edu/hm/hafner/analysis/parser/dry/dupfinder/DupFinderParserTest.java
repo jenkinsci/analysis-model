@@ -62,11 +62,17 @@ class DupFinderParserTest extends AbstractParserTest {
         assertThat(publisher)
                 .hasLineStart(PUBLISHER_LINE).hasLineEnd(PUBLISHER_LINE + 11)
                 .hasFileName(PUBLISHER)
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasMessage("Found duplicated code.")
+                .hasCategory("Code Duplication")
+                .hasType("DupFinder");
         assertThat(reporter)
                 .hasLineStart(REPORTER_LINE).hasLineEnd(REPORTER_LINE + 11)
                 .hasFileName(REPORTER)
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasMessage("Found duplicated code.")
+                .hasCategory("Code Duplication")
+                .hasType("DupFinder");
 
         assertThat(Objects.requireNonNull(publisher.getAdditionalProperties()))
                 .isEqualTo(Objects.requireNonNull(reporter.getAdditionalProperties()));
