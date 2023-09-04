@@ -84,12 +84,16 @@ class CpdParserTest extends AbstractParserTest {
                 .hasLineStart(274).hasLineEnd(274 + 95 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasMessage("Found duplicated code.");
+                .hasMessage("Found duplicated code.")
+                .hasCategory("Code Duplication")
+                .hasType("CPD");
         softly.assertThat(publisherSecond)
                 .hasLineStart(202).hasLineEnd(202 + 95 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasMessage("Found duplicated code.");
+                .hasMessage("Found duplicated code.")
+                .hasCategory("Code Duplication")
+                .hasType("CPD");
 
         Serializable additionalProperties = publisherSecond.getAdditionalProperties();
         softly.assertThat(additionalProperties).isEqualTo(reporterSecond.getAdditionalProperties());

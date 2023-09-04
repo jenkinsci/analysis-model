@@ -35,14 +35,20 @@ class SimianParserTest extends AbstractParserTest {
         softly.assertThat(firstIssue)
                 .hasLineStart(93).hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasMessage("Found duplicated code.")
+                .hasCategory("Code Duplication")
+                .hasType("Simian");
         softly.assertThat(firstIssue.getDescription()).isEmpty();
 
         Issue secondIssue = report.get(1);
         softly.assertThat(secondIssue)
                 .hasLineStart(76).hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
-                .hasSeverity(Severity.WARNING_LOW);
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasMessage("Found duplicated code.")
+                .hasCategory("Code Duplication")
+                .hasType("Simian");
         softly.assertThat(secondIssue.getDescription()).isEmpty();
     }
 

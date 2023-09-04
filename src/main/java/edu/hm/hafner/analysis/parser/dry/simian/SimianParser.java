@@ -63,8 +63,9 @@ public class SimianParser extends AbstractDryParser<Set> {
                         .setLineStart(file.getStartLineNumber())
                         .setLineEnd(file.getEndLineNumber())
                         .setFileName(file.getSourceFile())
-                        .setAdditionalProperties(group);
-                Issue issue = issueBuilder.buildAndClean();
+                        .setAdditionalProperties(group)
+                        .setType("Simian");
+                Issue issue = issueBuilder.build();
                 group.add(issue);
                 report.add(issue);
             }

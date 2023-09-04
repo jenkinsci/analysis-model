@@ -80,7 +80,8 @@ public abstract class AbstractDryParser<T> extends IssueParser {
                 throw new ParsingException("Input stream is not a valid duplications file.");
             }
 
-            issueBuilder.setMessage("Found duplicated code.");
+            issueBuilder.setMessage("Found duplicated code.")
+                        .setCategory("Code Duplication");
             return convertDuplicationsToIssues(duplications, issueBuilder);
         }
         catch (IOException | SAXException exception) {

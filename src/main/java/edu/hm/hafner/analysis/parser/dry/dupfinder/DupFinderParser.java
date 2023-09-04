@@ -79,8 +79,9 @@ public class DupFinderParser extends AbstractDryParser<Duplicate> {
                         .setLineStart(lineRange.getStart())
                         .setLineEnd(lineRange.getEnd())
                         .setFileName(fragment.getFileName())
+                        .setType("DupFinder")
                         .setAdditionalProperties(group);
-                Issue issue = issueBuilder.buildAndClean();
+                Issue issue = issueBuilder.build();
                 group.add(issue);
                 report.add(issue);
             }

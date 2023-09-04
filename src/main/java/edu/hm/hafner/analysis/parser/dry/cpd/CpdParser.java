@@ -64,6 +64,7 @@ public class CpdParser extends AbstractDryParser<Duplication> {
                         .setLineStart(file.getLine())
                         .setLineEnd(file.getLine() + duplication.getLines() - 1)
                         .setFileName(file.getPath())
+                        .setType("CPD")
                         .setAdditionalProperties(group);
                 Issue issue = issueBuilder.build();
                 group.add(issue);
