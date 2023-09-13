@@ -5,6 +5,7 @@ def configurations = [
 
 def params = [
     failFast: false,
+    forkCount: '1C',
     configurations: configurations,
     checkstyle: [qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]],
     pmd: [qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]],
