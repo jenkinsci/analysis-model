@@ -48,6 +48,9 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
         if (goalMatcher.find()) {
             goal = String.format("%s:%s", goalMatcher.group("id"), goalMatcher.group("goal"));
         }
+        else if (line.contains("[INFO] BUILD ")) {
+            goal = StringUtils.EMPTY; // reset goal after build
+        }
 
         Matcher moduleMatcher = MAVEN_MODULE_START.matcher(line);
         if (moduleMatcher.find()) {

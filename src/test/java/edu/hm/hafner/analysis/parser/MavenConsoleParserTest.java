@@ -27,9 +27,11 @@ class MavenConsoleParserTest extends AbstractParserTest {
 
     @Test
     void issue72011MavenEnforcerExceptionWhenEmpty() {
-        Report warnings = parse("issue72011.txt");
+        var report = parse("issue72011.txt");
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0)).hasModuleName("-");
 
-        assertThat(warnings).isEmpty();
+        assertThat(parse("enforcer-empty.txt")).hasSize(1);
     }
 
     @Test

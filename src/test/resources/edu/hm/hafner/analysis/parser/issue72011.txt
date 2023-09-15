@@ -1,4 +1,3 @@
-[2023-09-13T11:34:06.033Z] [INFO]
 [2023-09-13T11:34:06.033Z] [INFO] --- maven-enforcer-plugin:3.0.0-M3:enforce (enforce-maven) @ tframe-tgate-root ---
 [2023-09-13T11:34:06.033Z] [INFO] Downloading from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-api/3.0.0-M3/enforcer-api-3.0.0-M3.pom
 [2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-api/3.0.0-M3/enforcer-api-3.0.0-M3.pom (2.8 kB at 123 kB/s)
@@ -13,3 +12,16 @@
 [2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-rules/3.0.0-M3/enforcer-rules-3.0.0-M3.jar (107 kB at 5.1 MB/s)
 [2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/commons-codec/commons-codec/1.12/commons-codec-1.12.jar (340 kB at 12 MB/s)
 [2023-09-13T11:34:06.033Z] [INFO] ------------------------------------------------------------------------
+[2023-09-13T11:34:06.033Z] [INFO] Reactor Summary:
+[2023-09-13T11:34:06.033Z] [INFO]
+[2023-09-13T11:34:06.033Z] [INFO] webapi ............................................. SUCCESS [ 17.201 s]
+[2023-09-13T11:34:06.033Z] [INFO] oauth2 ............................................. SUCCESS [23:15 min]
+[2023-09-13T11:34:06.033Z] [INFO] tframe-tgate-root 23.09.19-SNAPSHOT ................ SUCCESS [  0.149 s]
+[2023-09-13T11:34:06.033Z] [INFO] ------------------------------------------------------------------------
+[2023-09-13T11:34:06.033Z] [INFO] BUILD SUCCESS
+[2023-09-13T11:34:06.033Z] [INFO] ------------------------------------------------------------------------
+[2023-09-13T11:34:06.033Z] [INFO] Total time: 23:34 min
+[2023-09-13T11:34:06.033Z] [INFO] Finished at: 2023-09-13T11:34:06Z
+[2023-09-13T11:34:06.033Z] [INFO] ------------------------------------------------------------------------
+[2023-09-13T11:34:06.033Z] [WARNING] The requested profile "with-jacoco" could not be activated because it does not exist.
+[Pipeline] }
