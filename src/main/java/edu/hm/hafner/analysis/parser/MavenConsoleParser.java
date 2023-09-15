@@ -76,7 +76,7 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
             int length = StringUtils.length(timestamp);
 
             String continuation = "^(?:.*\\s|)\\[(INFO|WARNING|ERROR)";
-            while (!lookahead.hasNext(continuation)) {
+            while (lookahead.hasNext() && !lookahead.hasNext(continuation)) {
                 message.append('\n');
                 message.append(StringUtils.substring(lookahead.next(), length));
             }

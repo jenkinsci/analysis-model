@@ -1,0 +1,2 @@
+[2023-09-13T11:34:06.033Z] [INFO] --- maven-enforcer-plugin:3.0.0-M3:enforce (enforce-maven) @ tframe-tgate-root ---
+[2023-09-13T11:34:06.033Z] [WARNING] Downloading from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-api/3.0.0-M3/enforcer-api-3.0.0-M3.pom
