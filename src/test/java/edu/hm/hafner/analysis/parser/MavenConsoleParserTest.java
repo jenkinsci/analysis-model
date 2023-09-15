@@ -26,6 +26,13 @@ class MavenConsoleParserTest extends AbstractParserTest {
     }
 
     @Test
+    void issue72011MavenEnforcerExceptionWhenEmpty() {
+        Report warnings = parse("issue72011.txt");
+
+        assertThat(warnings).isEmpty();
+    }
+
+    @Test
     void issue70658RemovePrefixAndSuffixFromMavenPlugins() {
         Report warnings = parse("maven.3.9.1.log");
 

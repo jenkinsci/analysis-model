@@ -1,0 +1,15 @@
+[2023-09-13T11:34:06.033Z] [INFO]
+[2023-09-13T11:34:06.033Z] [INFO] --- maven-enforcer-plugin:3.0.0-M3:enforce (enforce-maven) @ tframe-tgate-root ---
+[2023-09-13T11:34:06.033Z] [INFO] Downloading from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-api/3.0.0-M3/enforcer-api-3.0.0-M3.pom
+[2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-api/3.0.0-M3/enforcer-api-3.0.0-M3.pom (2.8 kB at 123 kB/s)
+[2023-09-13T11:34:06.033Z] [INFO] Downloading from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-rules/3.0.0-M3/enforcer-rules-3.0.0-M3.pom
+[2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-rules/3.0.0-M3/enforcer-rules-3.0.0-M3.pom (4.1 kB at 295 kB/s)
+[2023-09-13T11:34:06.033Z] [INFO] Downloading from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/commons-codec/commons-codec/1.12/commons-codec-1.12.pom
+[2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/commons-codec/commons-codec/1.12/commons-codec-1.12.pom (14 kB at 1.2 MB/s)
+[2023-09-13T11:34:06.033Z] [INFO] Downloading from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-api/3.0.0-M3/enforcer-api-3.0.0-M3.jar
+[2023-09-13T11:34:06.033Z] [INFO] Downloading from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/commons-codec/commons-codec/1.12/commons-codec-1.12.jar
+[2023-09-13T11:34:06.033Z] [INFO] Downloading from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-rules/3.0.0-M3/enforcer-rules-3.0.0-M3.jar
+[2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-api/3.0.0-M3/enforcer-api-3.0.0-M3.jar (12 kB at 585 kB/s)
+[2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/org/apache/maven/enforcer/enforcer-rules/3.0.0-M3/enforcer-rules-3.0.0-M3.jar (107 kB at 5.1 MB/s)
+[2023-09-13T11:34:06.033Z] [INFO] Downloaded from magenta-mirror: https://bin.t-mobile.at/artifactory/maven/commons-codec/commons-codec/1.12/commons-codec-1.12.jar (340 kB at 12 MB/s)
+[2023-09-13T11:34:06.033Z] [INFO] ------------------------------------------------------------------------
