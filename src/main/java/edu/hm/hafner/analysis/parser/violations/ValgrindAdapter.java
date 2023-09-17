@@ -87,35 +87,37 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
     }
 
     private Tag maybeGenerateStackTracesHtml(@CheckForNull final String stacksJson, final String message, @CheckForNull final JSONArray auxWhats) {
-        ContainerTag stackTraces = null;
-
-        if (StringUtils.isNotBlank(stacksJson)) {
-            final JSONArray stacks = new JSONArray(new JSONTokener(stacksJson));
-
-            if (!stacks.isEmpty()) {
-                stackTraces = div();
-
-                stackTraces.with(generateStackTraceHtml("Primary Stack Trace", message, stacks.getJSONArray(0)));
-
-                for (int stackIndex = 1; stackIndex < stacks.length(); ++stackIndex) {
-                    String msg = null;
-
-                    if (auxWhats != null && auxWhats.length() >= stackIndex) {
-                        msg = auxWhats.getString(stackIndex - 1);
-                    }
-
-                    String title = "Auxiliary Stack Trace";
-
-                    if (stacks.length() > NUMBERED_STACK_THRESHOLD) {
-                        title += " #" + stackIndex;
-                    }
-
-                    stackTraces.with(generateStackTraceHtml(title, msg, stacks.getJSONArray(stackIndex)));
-                }
-            }
+        if (StringUtils.isBlank(stacksJson)) {
+            return iff(false, null);
         }
 
-        return stackTraces;
+        final JSONArray stacks = new JSONArray(new JSONTokener(stacksJson));
+
+        if (!stacks.isEmpty()) {
+            ContainerTag stackTraces = div();
+
+            stackTraces.with(generateStackTraceHtml("Primary Stack Trace", message, stacks.getJSONArray(0)));
+
+            for (int stackIndex = 1; stackIndex < stacks.length(); ++stackIndex) {
+                String msg = null;
+
+                if (auxWhats != null && auxWhats.length() >= stackIndex) {
+                    msg = auxWhats.getString(stackIndex - 1);
+                }
+
+                String title = "Auxiliary Stack Trace";
+
+                if (stacks.length() > NUMBERED_STACK_THRESHOLD) {
+                    title += " #" + stackIndex;
+                }
+
+                stackTraces.with(generateStackTraceHtml(title, msg, stacks.getJSONArray(stackIndex)));
+            }
+
+            return stackTraces;
+        }
+
+        return iff(false, null);
     }
 
     private Tag generateStackTraceHtml(final String title, @CheckForNull final String message, final JSONArray frames) {
@@ -162,7 +164,6 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
     }
 
     private Tag maybeGenerateStackFrameFileTableRowHtml(final JSONObject frame) throws JSONException {
-        Tag row = null;
         final String file = frame.optString("file");
 
         if (StringUtils.isNotBlank(file)) {
@@ -180,10 +181,10 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
                 fileBuilder.append(':').append(line);
             }
 
-            row = maybeGenerateTableRowHtml("File", fileBuilder.toString());
+            return maybeGenerateTableRowHtml("File", fileBuilder.toString());
         }
 
-        return row;
+        return iff(false, null);
     }
 
     @CheckForNull

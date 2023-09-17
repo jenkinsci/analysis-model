@@ -61,12 +61,12 @@ class ValgrindAdapterTest extends AbstractParserTest {
         report.forEach(
                 issue -> {
                     final String description = issue.getDescription();
-
-                    if (!issue.getFileName().equals(Violation.NO_FILE)) {
+                    if (Violation.NO_FILE.equals(issue.getFileName())) {
+                        assertThat(!description.contains("Primary Stack Trace"));
+                    }
+                    else {
                         assertThat(description.contains("Primary Stack Trace"));
                         assertThat(description.contains("&lt;insert_a_suppression_name_here&gt;"));
-                    } else {
-                        assertThat(!description.contains("Primary Stack Trace"));
                     }
                 }
         );
