@@ -253,7 +253,6 @@
         <ip>0x40550FD</ip>
         <obj>/lib/ld-musl-x86_64.so.1</obj>
         <fn>__syscall_cp_c</fn>
-        <dir>/home/buildozer/aports/main/musl/src/1.2.4/src/thread</dir>
         <file>pthread_cancel.c</file>
         <line>33</line>
       </frame>
@@ -383,7 +382,6 @@
         <fn>make_spaghetti(int)</fn>
         <dir>/workspace/awful project</dir>
         <file>spaghetti.cpp</file>
-        <line>6</line>
       </frame>
       <frame>
         <ip>0x1091F2</ip>
@@ -497,4 +495,3 @@
   </suppcounts>
 
 </valgrindoutput>
-

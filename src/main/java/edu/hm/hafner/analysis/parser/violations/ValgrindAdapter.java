@@ -3,7 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +14,10 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import j2html.tags.ContainerTag;
+import j2html.tags.Tag;
+import static j2html.TagCreator.*;
 
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.ValgrindParser;
@@ -26,6 +30,7 @@ import se.bjurr.violations.lib.parsers.ValgrindParser;
 public class ValgrindAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = -6117336551972081612L;
     private static final int NUMBERED_STACK_THRESHOLD = 2;
+    private static final int NO_LINE = -1;
 
     @Override
     ValgrindParser createParser() {
@@ -40,7 +45,6 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
             for (Violation violation: violations) {
                 updateIssueBuilder(violation, issueBuilder);
                 issueBuilder.setCategory("valgrind:" + violation.getReporter());
-                issueBuilder.setMessage(violation.getMessage());
                 issueBuilder.setDescription(generateDescriptionHtml(violation));
                 report.add(issueBuilder.buildAndClean());
             }
@@ -50,145 +54,141 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
     }
 
     private String generateDescriptionHtml(final Violation violation) {
-        final StringBuilder description = new StringBuilder(1024);
-
         final Map<String, String> specifics = violation.getSpecifics();
         final JSONArray auxWhats = getAuxWhatsArray(specifics);
 
-        appendGeneralTable(description, violation.getSource(), violation.getGroup(), specifics.get("tid"), specifics.get("threadname"), auxWhats);
-        maybeAppendStackTraces(description, specifics.get("stacks"), violation.getMessage(), auxWhats);
-        maybeAppendSuppression(description, specifics.get("suppression"));
-
-        return description.toString();
+        return
+                j2html.tags.DomContentJoiner.join(
+                        "",
+                        false,
+                        generateGeneralTableHtml(violation.getSource(), violation.getGroup(), specifics.get("tid"), specifics.get("threadname"), auxWhats),
+                        maybeGenerateStackTracesHtml(specifics.get("stacks"), violation.getMessage(), auxWhats),
+                        maybeGenerateSuppressionHtml(specifics.get("suppression"))
+                ).render();
     }
 
-    private void appendGeneralTable(final StringBuilder html, final String executable, final String uniqueId, @CheckForNull final String threadId, @CheckForNull final String threadName, @CheckForNull final JSONArray auxWhats) {
-        html.append("<table>");
-
-        maybeAppendTableRow(html, "Executable", executable);
-        maybeAppendTableRow(html, "Unique Id", uniqueId);
-        maybeAppendTableRow(html, "Thread Id", threadId);
-        maybeAppendTableRow(html, "Thread Name", threadName);
+    private Tag generateGeneralTableHtml(final String executable, final String uniqueId, @CheckForNull final String threadId, @CheckForNull final String threadName, @CheckForNull final JSONArray auxWhats) {
+        ContainerTag generalTable =
+                table(
+                        attrs(".table.table-striped"),
+                        maybeGenerateTableRowHtml("Executable", executable),
+                        maybeGenerateTableRowHtml("Unique Id", uniqueId),
+                        maybeGenerateTableRowHtml("Thread Id", threadId),
+                        maybeGenerateTableRowHtml("Thread Name", threadName)
+                );
 
         if (auxWhats != null && !auxWhats.isEmpty()) {
             for (int auxwhatIndex = 0; auxwhatIndex < auxWhats.length(); ++auxwhatIndex) {
-                maybeAppendTableRow(html, "Auxiliary", auxWhats.getString(auxwhatIndex));
+                generalTable.with(maybeGenerateTableRowHtml("Auxiliary", auxWhats.getString(auxwhatIndex)));
             }
         }
 
-        html.append("</table>");
+        return generalTable;
     }
 
-    private void maybeAppendStackTraces(final StringBuilder html, @CheckForNull final String stacksJson, final String message, @CheckForNull final JSONArray auxWhats) {
-        if (stacksJson == null || stacksJson.isEmpty()) {
-            return;
-        }
+    private Tag maybeGenerateStackTracesHtml(@CheckForNull final String stacksJson, final String message, @CheckForNull final JSONArray auxWhats) {
+        ContainerTag stackTraces = null;
 
-        final JSONArray stacks = new JSONArray(new JSONTokener(stacksJson));
+        if (StringUtils.isNotBlank(stacksJson)) {
+            final JSONArray stacks = new JSONArray(new JSONTokener(stacksJson));
 
-        if (!stacks.isEmpty()) {
-            appendStackTrace(html, "Primary Stack Trace", message, stacks.getJSONArray(0));
+            if (!stacks.isEmpty()) {
+                stackTraces = div();
 
-            for (int stackIndex = 1; stackIndex < stacks.length(); ++stackIndex) {
-                String msg = null;
+                stackTraces.with(generateStackTraceHtml("Primary Stack Trace", message, stacks.getJSONArray(0)));
 
-                if (auxWhats != null && auxWhats.length() >= stackIndex) {
-                    msg = auxWhats.getString(stackIndex - 1);
+                for (int stackIndex = 1; stackIndex < stacks.length(); ++stackIndex) {
+                    String msg = null;
+
+                    if (auxWhats != null && auxWhats.length() >= stackIndex) {
+                        msg = auxWhats.getString(stackIndex - 1);
+                    }
+
+                    String title = "Auxiliary Stack Trace";
+
+                    if (stacks.length() > NUMBERED_STACK_THRESHOLD) {
+                        title += " #" + stackIndex;
+                    }
+
+                    stackTraces.with(generateStackTraceHtml(title, msg, stacks.getJSONArray(stackIndex)));
                 }
-
-                String title = "Auxiliary Stack Trace";
-
-                if (stacks.length() > NUMBERED_STACK_THRESHOLD) {
-                    title = "Auxiliary Stack Trace #" + stackIndex;
-                }
-
-                appendStackTrace(html, title, msg, stacks.getJSONArray(stackIndex));
             }
         }
+
+        return stackTraces;
     }
 
-    private void appendStackTrace(final StringBuilder html, final String title, @CheckForNull final String message, final JSONArray frames) {
-        html
-                .append("<br><h5>")
-                .append(title)
-                .append("</h5>");
-
-        if (message != null && !message.isEmpty()) {
-            html
-                    .append("<p>")
-                    .append(message)
-                    .append("</p>");
-        }
+    private Tag generateStackTraceHtml(final String title, @CheckForNull final String message, final JSONArray frames) {
+        ContainerTag stackTraceContainer =
+                div(
+                        br(),
+                        h4(title),
+                        iff(StringUtils.isNotBlank(message), p(message))
+                );
 
         for (int frameIndex = 0; frameIndex < frames.length(); ++frameIndex) {
             final JSONObject frame = frames.getJSONObject(frameIndex);
 
             if (frameIndex > 0) {
-                html.append("<br>");
+                stackTraceContainer.with(br());
             }
 
-            appendStackFrame(html, frame);
+            stackTraceContainer.with(generateStackFrameHtml(frame));
         }
+
+        return stackTraceContainer;
     }
 
-    private void appendStackFrame(final StringBuilder html, final JSONObject frame) {
-        html.append("<table>");
-        maybeAppendTableRow(html, "Object", frame.optString("obj"));
-        maybeAppendTableRow(html, "Function", frame.optString("fn"));
-        maybeAppendStackFrameFileTableRow(html, frame);
-        html.append("</table>");
+    private Tag generateStackFrameHtml(final JSONObject frame) {
+        return
+                table(
+                        attrs(".table.table-striped"),
+                        maybeGenerateTableRowHtml("Object", frame.optString("obj")),
+                        maybeGenerateTableRowHtml("Function", frame.optString("fn")),
+                        maybeGenerateStackFrameFileTableRowHtml(frame)
+                );
     }
 
-    private void maybeAppendSuppression(final StringBuilder html, @CheckForNull final String suppression) {
-        if (suppression != null && !suppression.isEmpty()) {
-            html
-                    .append("<p>Suppression</p><table><tr><td><pre>")
-                    .append(StringEscapeUtils.escapeHtml4(suppression))
-                    .append("</pre></td></tr></table>");
-        }
+    private Tag maybeGenerateSuppressionHtml(@CheckForNull final String suppression) {
+        return
+                iff(
+                        StringUtils.isNotBlank(suppression),
+                        div(br(), h4("Suppression"), table(attrs(".table.table-striped"), tr(td(pre(suppression)))))
+                );
     }
 
-    private void maybeAppendTableRow(final StringBuilder html, final String name, @CheckForNull final String value) {
-        if (value != null && !value.isEmpty()) {
-            html
-                    .append("<tr><td>")
-                    .append(name)
-                    .append("</td><td>")
-                    .append(value)
-                    .append("</td></tr>");
-        }
+    private Tag maybeGenerateTableRowHtml(final String name, @CheckForNull final String value) {
+        return iff(StringUtils.isNotBlank(value), tr(td(text(name), td(text(value)))));
     }
 
-    private void maybeAppendStackFrameFileTableRow(final StringBuilder html, final JSONObject frame) throws JSONException {
-        String dir = frame.optString("dir");
+    private Tag maybeGenerateStackFrameFileTableRowHtml(final JSONObject frame) throws JSONException {
+        Tag row = null;
         final String file = frame.optString("file");
-        final int line = frame.optInt("line", -1);
 
-        if (!file.isEmpty()) {
-            html.append("<tr><td>File</td><td>");
+        if (StringUtils.isNotBlank(file)) {
+            final String dir = frame.optString("dir");
+            final int line = frame.optInt("line", NO_LINE);
+            final StringBuilder fileBuilder = new StringBuilder(256);
 
-            if (!dir.isEmpty()) {
-                html.append(dir).append('/');
+            if (StringUtils.isNotBlank(dir)) {
+                fileBuilder.append(dir).append('/');
             }
 
-            html.append(file);
+            fileBuilder.append(file);
 
-            if (line != -1) {
-                html.append(':').append(line);
+            if (line != NO_LINE) {
+                fileBuilder.append(':').append(line);
             }
 
-            html.append("</td></tr>");
+            row = maybeGenerateTableRowHtml("File", fileBuilder.toString());
         }
+
+        return row;
     }
 
     @CheckForNull
     private JSONArray getAuxWhatsArray(final Map<String, String> specifics) {
         final String auxWhatsJson = specifics.get("auxwhats");
-
-        if (auxWhatsJson != null && !auxWhatsJson.isEmpty()) {
-            return new JSONArray(new JSONTokener(auxWhatsJson));
-        }
-
-        return null;
+        return StringUtils.isNotBlank(auxWhatsJson) ? new JSONArray(new JSONTokener(auxWhatsJson)) : null;
     }
 }

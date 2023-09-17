@@ -7,6 +7,8 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 
 import se.bjurr.violations.lib.model.Violation;
 
+import static org.assertj.core.api.Assertions.*;
+
 /**
  * Tests the class {@link ValgrindAdapter}.
  *
@@ -53,8 +55,21 @@ class ValgrindAdapterTest extends AbstractParserTest {
                 .hasMessage("Some type of error without a stack trace")
                 .hasFileName(Violation.NO_FILE)
                 .hasType("Not_A_Real_Error")
-                .hasLineStart(0)
+                .hasLineStart(Violation.NO_LINE)
                 .hasSeverity(Severity.WARNING_HIGH);
+
+        report.forEach(
+                issue -> {
+                    final String description = issue.getDescription();
+
+                    if (!issue.getFileName().equals(Violation.NO_FILE)) {
+                        assertThat(description.contains("Primary Stack Trace"));
+                        assertThat(description.contains("&lt;insert_a_suppression_name_here&gt;"));
+                    } else {
+                        assertThat(!description.contains("Primary Stack Trace"));
+                    }
+                }
+        );
     }
 
     @Override
