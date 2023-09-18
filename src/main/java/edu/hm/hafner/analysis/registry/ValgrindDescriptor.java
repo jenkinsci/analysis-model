@@ -5,6 +5,7 @@ import edu.hm.hafner.analysis.parser.violations.ValgrindAdapter;
 
 /**
  * A descriptor for Valgrind.
+ * See https://valgrind.org for more information about Valgrind.
  */
 public class ValgrindDescriptor extends ParserDescriptor {
     private static final String ID = "valgrind";

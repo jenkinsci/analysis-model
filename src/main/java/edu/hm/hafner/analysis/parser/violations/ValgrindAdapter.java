@@ -16,7 +16,6 @@ import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import j2html.tags.ContainerTag;
-import j2html.tags.Tag;
 import static j2html.TagCreator.*;
 
 import se.bjurr.violations.lib.model.Violation;
@@ -67,7 +66,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
                 ).render();
     }
 
-    private Tag generateGeneralTableHtml(final String executable, final String uniqueId, @CheckForNull final String threadId, @CheckForNull final String threadName, @CheckForNull final JSONArray auxWhats) {
+    private ContainerTag generateGeneralTableHtml(final String executable, final String uniqueId, @CheckForNull final String threadId, @CheckForNull final String threadName, @CheckForNull final JSONArray auxWhats) {
         ContainerTag generalTable =
                 table(
                         attrs(".table.table-striped"),
@@ -86,9 +85,9 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
         return generalTable;
     }
 
-    private Tag maybeGenerateStackTracesHtml(@CheckForNull final String stacksJson, final String message, @CheckForNull final JSONArray auxWhats) {
+    private @CheckForNull ContainerTag maybeGenerateStackTracesHtml(@CheckForNull final String stacksJson, final String message, @CheckForNull final JSONArray auxWhats) {
         if (StringUtils.isBlank(stacksJson)) {
-            return iff(false, null);
+            return null;
         }
 
         final JSONArray stacks = new JSONArray(new JSONTokener(stacksJson));
@@ -117,10 +116,10 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
             return stackTraces;
         }
 
-        return iff(false, null);
+        return null;
     }
 
-    private Tag generateStackTraceHtml(final String title, @CheckForNull final String message, final JSONArray frames) {
+    private ContainerTag generateStackTraceHtml(final String title, @CheckForNull final String message, final JSONArray frames) {
         ContainerTag stackTraceContainer =
                 div(
                         br(),
@@ -141,29 +140,28 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
         return stackTraceContainer;
     }
 
-    private Tag generateStackFrameHtml(final JSONObject frame) {
+    private ContainerTag generateStackFrameHtml(final JSONObject frame) {
         return
                 table(
-                        attrs(".table.table-striped"),
                         maybeGenerateTableRowHtml("Object", frame.optString("obj")),
                         maybeGenerateTableRowHtml("Function", frame.optString("fn")),
                         maybeGenerateStackFrameFileTableRowHtml(frame)
                 );
     }
 
-    private Tag maybeGenerateSuppressionHtml(@CheckForNull final String suppression) {
+    private ContainerTag maybeGenerateSuppressionHtml(@CheckForNull final String suppression) {
         return
                 iff(
                         StringUtils.isNotBlank(suppression),
-                        div(br(), h4("Suppression"), table(attrs(".table.table-striped"), tr(td(pre(suppression)))))
+                        div(br(), h4("Suppression"), table(tr(td(pre(suppression)))))
                 );
     }
 
-    private Tag maybeGenerateTableRowHtml(final String name, @CheckForNull final String value) {
+    private ContainerTag maybeGenerateTableRowHtml(final String name, @CheckForNull final String value) {
         return iff(StringUtils.isNotBlank(value), tr(td(text(name), td(text(value)))));
     }
 
-    private Tag maybeGenerateStackFrameFileTableRowHtml(final JSONObject frame) throws JSONException {
+    private @CheckForNull ContainerTag maybeGenerateStackFrameFileTableRowHtml(final JSONObject frame) throws JSONException {
         final String file = frame.optString("file");
 
         if (StringUtils.isNotBlank(file)) {
@@ -184,7 +182,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
             return maybeGenerateTableRowHtml("File", fileBuilder.toString());
         }
 
-        return iff(false, null);
+        return null;
     }
 
     @CheckForNull
