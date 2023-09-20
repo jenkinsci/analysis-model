@@ -2091,6 +2091,25 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
+                valgrind
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                Valgrind
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use option --xml=yes
+            </td>
+        </tr>
+        <tr>
+            <td>
                 veracode-pipeline-scanner
             </td>
             <td>

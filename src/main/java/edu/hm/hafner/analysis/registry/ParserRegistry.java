@@ -163,6 +163,7 @@ public class ParserRegistry {
             new TnsdlDescriptor(),
             new TrivyDescriptor(),
             new TsLintDescriptor(),
+            new ValgrindDescriptor(),
             new VeraCodePipelineScannerDescriptor(),
             new XlcDescriptor(),
             new YamlLintDescriptor(),
