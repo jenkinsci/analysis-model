@@ -31,8 +31,12 @@ public class ValgrindDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public String getUrl() { return "https://valgrind.org"; }
+    public String getUrl() {
+        return "https://valgrind.org";
+    }
 
     @Override
-    public String getIconUrl() { return "https://valgrind.org/images/valgrind-link3.png"; }
+    public String getIconUrl() {
+        return "https://valgrind.org/images/valgrind-link3.png";
+    }
 }
