@@ -430,22 +430,49 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a file with warnings of the MS Build tools.
+     * Parses a file with errors of the MS Build tools.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-3582">Issue 3582</a>
      */
     @Test
     void issue3582() {
-        Report warnings = parse("issue3582.txt");
+        Report errors = parse("issue3582.txt");
 
+        assertThat(errors).hasSize(1);
+        assertThatReportHasSeverities(errors, 1, 0, 0, 0);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(errors.get(0))
+                    .hasFileName("TestLib.lib")
+                    .hasCategory("LNK1181")
+                    .hasSeverity(Severity.ERROR)
+                    .hasMessage("cannot open input file 'TestLib.lib'")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
+    }
+
+    /**
+     * Parses a file with warnings of the MS Build tools.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-63580">Issue 63580</a>
+     */
+    @Test
+    void issue63580() {
+        Report warnings = parse("issue63580.txt");
+        
         assertThat(warnings).hasSize(1);
-        assertThatReportHasSeverities(warnings, 1, 0, 0, 0);
+        assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("TestLib.lib")
-                    .hasCategory("LNK1181")
-                    .hasSeverity(Severity.ERROR)
+                    .hasCategory("LNK4217")
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage("cannot open input file 'TestLib.lib'")
                     .hasDescription("")
                     .hasPackageName("-")
