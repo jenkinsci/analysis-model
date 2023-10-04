@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>3.18.0</version>
+    <version>3.28.0</version>
     <relativePath />
   </parent>
 
@@ -379,6 +379,7 @@
             <package>edu.hm.hafner.analysis.registry</package>
           </packages>
           <excludes>
+            <exclude>.*LineRangeList</exclude>
             <exclude>.*SecureDigester</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
             <exclude>edu.hm.hafner.analysis.PackageDetectors.*</exclude>
@@ -556,35 +557,6 @@
           <url>https://repo.jenkins-ci.org/incrementals/</url>
         </repository>
       </distributionManagement>
-      <build>
-        <plugins>
-          <!-- Copied from jenkins-release: -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>${maven-source-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <profile>
       <id>benchmark</id>

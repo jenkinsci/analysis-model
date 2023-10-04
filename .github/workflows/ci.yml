@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
-        jdk: [17]
+        jdk: [17, 21]
         include:
           - platform: ubuntu-latest
             jdk: 11
@@ -28,7 +28,7 @@ jobs:
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: 'zulu'
           java-version: '${{ matrix.jdk }}'
           check-latest: true
           cache: 'maven'
