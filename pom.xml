@@ -379,6 +379,7 @@
             <package>edu.hm.hafner.analysis.registry</package>
           </packages>
           <excludes>
+            <exclude>.*LineRangeList</exclude>
             <exclude>.*SecureDigester</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
             <exclude>edu.hm.hafner.analysis.PackageDetectors.*</exclude>
