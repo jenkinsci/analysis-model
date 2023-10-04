@@ -464,16 +464,16 @@ class MsBuildParserTest extends AbstractParserTest {
     @Test
     void issue63580() {
         Report warnings = parse("issue63580.txt");
-        
+
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
-                    .hasFileName("TestLib.lib")
+                    .hasFileName("def.obj")
                     .hasCategory("LNK4217")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("cannot open input file 'TestLib.lib'")
+                    .hasMessage("symbol 'XYZ' defined in 'abc.obj' is imported by 'def.obj' in function 'FGH'")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(0)

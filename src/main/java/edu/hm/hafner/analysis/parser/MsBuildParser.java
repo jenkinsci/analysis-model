@@ -22,13 +22,22 @@ public class MsBuildParser extends LookaheadParser {
     private static final long serialVersionUID = -2141974437420906595L;
 
     private static final String MS_BUILD_WARNING_PATTERN
-            = "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])|"
-            + ANT_TASK + "(?:(?:\\s*(?:\\d+|\\d+:\\d+)>)?(?:(?:(?:(.*?)\\((\\d*)(?:,(\\d+))?[a-zA-Z]*?\\)|.*LINK)\\s*:|"
-            + "(.*):)\\s*([A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*([A-Za-z0-9\\-_]+)?"
-            + "\\s*:\\s(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*(.*?)(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
-            + "|(.*)\\s*:.*(?:error|warning)\\s*(LNK[0-9]+):\\s*(.*)))$";
+            = "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])"
+            + "|"
+            + ANT_TASK + "(?:"
+            + "(?:\\s*(?:\\d+|\\d+:\\d+)>)?(?:(?:(?:(.*?)\\((\\d*)(?:,(\\d+))?[a-zA-Z]*?\\)|.*LINK)"
+            + "\\s*:|"
+            + "(.*):)\\s*([A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*"
+            + ":?"
+            + "\\s*([A-Za-z0-9\\-_]+)?"
+            + "\\s*:\\s"
+            + "(?:\\s*([A-Za-z0-9.]+)\\s*:)?"
+            + "\\s*(.*?)"
+            + "(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
+            + "))$";
 
-    private final Pattern ignoredToolsPattern = Pattern.compile("(?!.exe)(\\.[^.]+)$");
+    private static final Pattern IGNORED_TOOLS_PATTERN = Pattern.compile("(?!.exe)(\\.[^.]+)$");
+    private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
 
     /**
      * Creates a new instance of {@link MsBuildParser}.
@@ -42,7 +51,7 @@ public class MsBuildParser extends LookaheadParser {
             final IssueBuilder builder) {
         String fileName = determineFileName(matcher);
 
-        Matcher fileExtensionMatcher = ignoredToolsPattern.matcher(fileName);
+        Matcher fileExtensionMatcher = IGNORED_TOOLS_PATTERN.matcher(fileName);
         if (!fileExtensionMatcher.find()) {
             return Optional.empty();
         }
@@ -54,14 +63,6 @@ public class MsBuildParser extends LookaheadParser {
                     .setCategory(matcher.group(1))
                     .setMessage(matcher.group(2))
                     .setSeverity(Severity.WARNING_NORMAL)
-                    .buildOptional();
-        }
-        if (StringUtils.isNotBlank(matcher.group(13))) {
-            return builder.setLineStart(0)
-                    .setCategory(matcher.group(14))
-                    .setType(matcher.group(13))
-                    .setMessage(matcher.group(15))
-                    .setSeverity(Severity.guessFromString(matcher.group(8)))
                     .buildOptional();
         }
         if (StringUtils.isNotEmpty(matcher.group(10))) {
@@ -87,7 +88,7 @@ public class MsBuildParser extends LookaheadParser {
     }
 
     /**
-     * Determines the name of the file that is cause of the warning.
+     * Determines the name of the file that is the cause of the warning.
      *
      * @param matcher
      *         the matcher to get the matches from
@@ -103,11 +104,14 @@ public class MsBuildParser extends LookaheadParser {
         else if (StringUtils.isNotBlank(matcher.group(7))) {
             fileName = matcher.group(7);
         }
-        else if (StringUtils.isNotBlank(matcher.group(13))) {
-            fileName = matcher.group(13);
-        }
         else {
             fileName = matcher.group(4);
+        }
+        if (StringUtils.isBlank(fileName)) {
+            var linker = LINKER_CAUSE.matcher(matcher.group(11));
+            if (linker.matches()) {
+                return linker.group(1);
+            }
         }
         if (StringUtils.isBlank(fileName)) {
             fileName = StringUtils.substringBetween(matcher.group(11), "'");
